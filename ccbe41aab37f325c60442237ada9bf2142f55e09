@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5beeaa9_55fa996e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2020-12-03T00:22:23Z",
+      "side": 1,
+      "message": "Attempting the trybot again (hoping the previous failure was transient).",
+      "revId": "ccbe41aab37f325c60442237ada9bf2142f55e09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
