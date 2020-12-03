@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72c68e39_a066e57c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-03T16:00:47Z",
+      "side": 1,
+      "message": "Minor, we\u0027ve generally been using the more specific \"doc/go1.16:\" prefix to make these changes easier to spot. (If you prefer using just \"doc:\" anyway, that is fine.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "7cfa3df397a051dd8181936062676ae999c50f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

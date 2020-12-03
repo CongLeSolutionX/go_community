@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cd57d0c_25de5bed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-03T16:00:47Z",
+      "side": 1,
+      "message": "Thank you.",
+      "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "178b96a0_9a316371",
@@ -32,6 +49,52 @@
       "side": 1,
       "message": "Oh, never mind, you changed it.",
       "parentUuid": "178b96a0_9a316371",
+      "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e90c181d_cade5fe5",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-03T16:00:47Z",
+      "side": 1,
+      "message": "Remove unintentional space.",
+      "range": {
+        "startLine": 566,
+        "startChar": 22,
+        "endLine": 566,
+        "endChar": 23
+      },
+      "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "602931ae_11fc7dfb",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-03T16:00:47Z",
+      "side": 1,
+      "message": "s/cancelled/canceled/ for consistency with the Go project spelling choice decision (golang.org/wiki/Spelling).",
+      "range": {
+        "startLine": 656,
+        "startChar": 49,
+        "endLine": 656,
+        "endChar": 58
+      },
       "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
