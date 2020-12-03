@@ -147,6 +147,17 @@ func (n *BinaryExpr) SetOp(op Op) {
 	}
 }
 
+// A CallUse records how the result of the call is used:
+type CallUse int
+
+const (
+	_ CallUse = iota
+
+	CallUseExpr // single expression result is used
+	CallUseList // list of results are used
+	CallUseStmt // results not used - call is a statement
+)
+
 // A CallExpr is a function call X(Args).
 type CallExpr struct {
 	miniExpr
@@ -156,6 +167,7 @@ type CallExpr struct {
 	Rargs    Nodes // TODO(rsc): Delete.
 	body     Nodes // TODO(rsc): Delete.
 	DDD      bool
+	Use      CallUse
 	noInline bool
 }
 
