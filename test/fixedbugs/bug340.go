@@ -12,7 +12,11 @@ func main() {
 	var x interface{}
 	switch t := x.(type) {
 	case 0:		// ERROR "type"
+<<<<<<< HEAD   (59b891 [dev.regabi] cmd/compile: handle OCONVNOP better in ssa)
 		t.x = 1
 		x.x = 1 // ERROR "type interface \{\}|reference to undefined field or method"
+=======
+		t.x = 1 // ERROR "type interface \{\}|reference to undefined field or method|interface with no methods"
+>>>>>>> BRANCH (d0c0dc doc/go1.16: document os package changes)
 	}
 }
