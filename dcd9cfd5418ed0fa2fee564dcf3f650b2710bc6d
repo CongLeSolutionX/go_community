@@ -33,6 +33,24 @@
       "message": "Would this be clearer as Field or Method?",
       "revId": "dcd9cfd5418ed0fa2fee564dcf3f650b2710bc6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "346cea9e_7019dc8f",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-03T18:59:39Z",
+      "side": 1,
+      "message": "Yeah, I think so. Renamed CallPartExpr and MethodExpr\u0027s fields to \"Method\" and SelectorExpr to \"Selection\" (since it can be either a field or method).\n\nI originally thought there would be value in having the fields all named the same thing, but I was reluctant to call SelectorExpr\u0027s field either Field or Method, since either could be misleading. But I didn\u0027t really like Obj either. These are definitely better. Thanks for the prodding to think more about it.",
+      "parentUuid": "1910f87d_80252014",
+      "revId": "dcd9cfd5418ed0fa2fee564dcf3f650b2710bc6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
