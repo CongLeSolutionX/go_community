@@ -115,22 +115,12 @@ func convlit1(n ir.Node, t *types.Type, explicit bool, context func() string) ir
 		return n
 	}
 
-	if n.Op() == ir.OLITERAL || n.Op() == ir.ONIL {
-		// Can't always set n.Type directly on OLITERAL nodes.
-		// See discussion on CL 20813.
-		old := n
-		n = ir.Copy(old)
-		if old.Op() == ir.OLITERAL {
-			// Keep untyped constants in their original untyped syntax for error messages.
-			n.(ir.OrigNode).SetOrig(old)
-		}
-	}
-
 	// Nil is technically not a constant, so handle it specially.
 	if n.Type().Kind() == types.TNIL {
 		if n.Op() != ir.ONIL {
 			base.Fatalf("unexpected op: %v (%v)", n, n.Op())
 		}
+		n = ir.Copy(n)
 		if t == nil {
 			base.Errorf("use of untyped nil")
 			n.SetDiag(true)
@@ -158,10 +148,11 @@ func convlit1(n ir.Node, t *types.Type, explicit bool, context func() string) ir
 	case ir.OLITERAL:
 		v := convertVal(n.Val(), t, explicit)
 		if v.Kind() == constant.Unknown {
+			n = ir.NewConstExpr(n.Val(), n)
 			break
 		}
+		n = ir.NewConstExpr(v, n)
 		n.SetType(t)
-		n.SetVal(v)
 		return n
 
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT, ir.OREAL, ir.OIMAG:
@@ -645,12 +636,7 @@ func origConst(n ir.Node, v constant.Value) ir.Node {
 		return n
 	}
 
-	orig := n
-	n = ir.NodAt(orig.Pos(), ir.OLITERAL, nil, nil)
-	n.(ir.OrigNode).SetOrig(orig)
-	n.SetType(orig.Type())
-	n.SetVal(v)
-	return n
+	return ir.NewConstExpr(v, n)
 }
 
 func origBoolConst(n ir.Node, v bool) ir.Node {
