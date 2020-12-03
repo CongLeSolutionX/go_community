@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b3595c_4e76dad1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-03T23:13:43Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1: TryBot-Result-1\n\u003e \n\u003e 1 of 20 TryBots failed:\n\u003e Failed on linux-amd64-race: https://storage.googleapis.com/go-build-log/30c2c644/linux-amd64-race_ce3e32f3.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\nFailure is unrelated.",
+      "revId": "30c2c644dd65cc310941b1d4224969294ec12264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
