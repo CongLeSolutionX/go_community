@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
+	"go/constant"
 )
 
 // A miniStmt is a miniNode with extra fields common to expressions.
@@ -298,6 +299,40 @@ func (n *CompLitExpr) SetOp(op Op) {
 	case OARRAYLIT, OCOMPLIT, OMAPLIT, OSTRUCTLIT, OSLICELIT:
 		n.op = op
 	}
+}
+
+type ConstExpr struct {
+	miniExpr
+	val  constant.Value
+	orig Node
+}
+
+func NewConstExpr(v constant.Value, orig Node) Node {
+	n := &ConstExpr{orig: orig, val: v}
+	n.op = OLITERAL
+	n.pos = orig.Pos()
+	n.SetType(orig.Type())
+	n.SetTypecheck(orig.Typecheck())
+	n.SetDiag(orig.Diag())
+	return n
+}
+
+func (n *ConstExpr) String() string                { return fmt.Sprint(n) }
+func (n *ConstExpr) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
+func (n *ConstExpr) rawCopy() Node                 { c := *n; return &c }
+func (n *ConstExpr) Sym() *types.Sym               { return n.orig.Sym() }
+func (n *ConstExpr) Orig() Node                    { return n.orig }
+func (n *ConstExpr) SetOrig(orig Node)             { n.orig = orig }
+func (n *ConstExpr) Val() constant.Value           { return n.val }
+
+// SetVal sets the constant.Value for the node,
+// which must not have been used with SetOpt.
+func (n *ConstExpr) SetVal(v constant.Value) {
+	if n.op != OLITERAL {
+		panic(n.no("SetVal"))
+	}
+	AssertValidTypeForConst(n.Type(), v)
+	n.val = v
 }
 
 // A ConvExpr is a conversion Type(X).
