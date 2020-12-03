@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb9d484_242d6b06",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T15:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0cf680e_9bcb6e08",
+      "revId": "4a78a2ea21fb41f3ef8a246f1b08a44ce89c5b6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "092409f0_21eecf46",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcc6f382_3d8c47cc",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T15:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "092409f0_21eecf46",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 349,
+        "endChar": 17
+      },
+      "revId": "4a78a2ea21fb41f3ef8a246f1b08a44ce89c5b6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f367dfb_809d9c85",
@@ -54,6 +96,24 @@
       "writtenOn": "2020-12-03T15:52:00Z",
       "side": 1,
       "message": "Really minor but I think I would swap these two sentences.  I think the use case of net/http will make sense to more readers.",
+      "revId": "4a78a2ea21fb41f3ef8a246f1b08a44ce89c5b6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fdce5d7_59a09aad",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T15:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f367dfb_809d9c85",
       "revId": "4a78a2ea21fb41f3ef8a246f1b08a44ce89c5b6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
