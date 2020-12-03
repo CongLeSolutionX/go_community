@@ -69,6 +69,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa58fd34_54f4516d",
+        "filename": "src/cmd/compile/internal/ir/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-12-03T07:02:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "252af88d_a4b8c59e",
+      "revId": "a1ebad9da97ad8e432cbe7f1d8fd243065def4b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6e2387b_6c927422",
@@ -82,6 +100,24 @@
       "writtenOn": "2020-12-03T03:41:05Z",
       "side": 1,
       "message": "Please use n.Func here.\nThe goal is to eventually have direct field accesses,\nwith the fields named after the current getters,\nand the getter right now is n.Func.",
+      "revId": "a1ebad9da97ad8e432cbe7f1d8fd243065def4b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67de31b9_a9d06bd1",
+        "filename": "src/cmd/compile/internal/ir/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2020-12-03T07:02:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6e2387b_6c927422",
       "revId": "a1ebad9da97ad8e432cbe7f1d8fd243065def4b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
