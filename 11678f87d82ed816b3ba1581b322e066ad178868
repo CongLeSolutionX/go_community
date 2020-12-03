@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "178b96a0_9a316371",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-03T15:58:22Z",
+      "side": 1,
+      "message": "This isn\u0027t quite right.\n\nHonestly I don\u0027t think this change needs to be mentioned in the release notes.  It didn\u0027t work before and it doesn\u0027t work now, it just fails with a sensible error.",
+      "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f36bc1d_d50b0bd2",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-03T15:58:22Z",
+      "side": 1,
+      "message": "Previously they didn\u0027t work at all, they just always returned EOPNOTSUP.  So\n\nOn Linux, Setuid, Setgid, and related calls now work as expected, rather than always returning an error.",
+      "revId": "11678f87d82ed816b3ba1581b322e066ad178868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
