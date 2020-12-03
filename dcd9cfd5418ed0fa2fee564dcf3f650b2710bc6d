@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3d1d4bf_72e2b87d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T16:21:25Z",
+      "side": 1,
+      "message": "LGTM. One question below.\n",
+      "revId": "dcd9cfd5418ed0fa2fee564dcf3f650b2710bc6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1910f87d_80252014",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T16:21:25Z",
+      "side": 1,
+      "message": "Would this be clearer as Field or Method?",
+      "revId": "dcd9cfd5418ed0fa2fee564dcf3f650b2710bc6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
