@@ -16,6 +16,23 @@
       "message": "After a discussion, the issue reported in https://github.com/golang/go/issues/42598 is fixed here: \nhttps://go-review.googlesource.com/c/go/+/271987",
       "revId": "35455fff0ebb7dd1b8e698f245a823ef8c711ac9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e4537bc_a8b9321a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-12-03T16:59:34Z",
+      "side": 1,
+      "message": "I\u0027m adding release notes for this change. Is this a good summary? Is there a way this can be more actionable or at least describe the nature of the races it will now detect better?\n\nThe race detector\u0027s model for channel operations now more precisely follows the \u003ca href\u003d\"/ref/mem\"\u003eGo memory model\u003c/a\u003e. As a result, it may report now races that it previously missed.",
+      "revId": "35455fff0ebb7dd1b8e698f245a823ef8c711ac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
