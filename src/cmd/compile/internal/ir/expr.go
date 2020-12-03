@@ -203,13 +203,13 @@ func (n *CallExpr) SetOp(op Op) {
 // A CallPartExpr is a method expression X.Method (uncalled).
 type CallPartExpr struct {
 	miniExpr
-	fn     *Func
-	X      Node
-	Method *Name
+	fn  *Func
+	X   Node
+	Obj *types.Field
 }
 
-func NewCallPartExpr(pos src.XPos, x Node, method *Name, fn *Func) *CallPartExpr {
-	n := &CallPartExpr{fn: fn, X: x, Method: method}
+func NewCallPartExpr(pos src.XPos, x Node, obj *types.Field, fn *Func) *CallPartExpr {
+	n := &CallPartExpr{fn: fn, X: x, Obj: obj}
 	n.op = OCALLPART
 	n.pos = pos
 	n.typ = fn.Type()
@@ -222,9 +222,8 @@ func (n *CallPartExpr) Format(s fmt.State, verb rune) { FmtNode(n, s, verb) }
 func (n *CallPartExpr) rawCopy() Node                 { c := *n; return &c }
 func (n *CallPartExpr) Func() *Func                   { return n.fn }
 func (n *CallPartExpr) Left() Node                    { return n.X }
-func (n *CallPartExpr) Right() Node                   { return n.Method }
+func (n *CallPartExpr) Sym() *types.Sym               { return n.Obj.Sym }
 func (n *CallPartExpr) SetLeft(x Node)                { n.X = x }
-func (n *CallPartExpr) SetRight(x Node)               { n.Method = x.(*Name) }
 
 // A ClosureExpr is a function literal expression.
 type ClosureExpr struct {
@@ -499,6 +498,7 @@ type MethodExpr struct {
 	sym    *types.Sym
 	offset int64
 	class  Class
+	Obj    *types.Field
 }
 
 func NewMethodExpr(pos src.XPos, op Op, x, m Node) *MethodExpr {
@@ -599,6 +599,7 @@ type SelectorExpr struct {
 	X      Node
 	Sel    *types.Sym
 	offset int64
+	Obj    *types.Field
 }
 
 func NewSelectorExpr(pos src.XPos, x Node, sel *types.Sym) *SelectorExpr {
