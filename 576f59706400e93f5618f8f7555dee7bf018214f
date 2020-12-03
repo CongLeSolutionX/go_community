@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66f623b6_5207203a",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-03T20:09:18Z",
+      "side": 1,
+      "message": "Hmm. OK, I can revise accordingly. \"input parameter\" and \"output parameter\" are less ambiguous.",
+      "parentUuid": "21be4e68_55effdba",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "576f59706400e93f5618f8f7555dee7bf018214f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1982d3fa_57afac6a",
         "filename": "src/cmd/compile/internal/gc/abiutils.go",
         "patchSetId": 6
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb692cca_412422c7",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-03T20:09:18Z",
+      "side": 1,
+      "message": "What would be an example of where we\u0027d want to use an out-of-band value? Or a \"not a register\"?\n\nFWIW this way of numbering registers was picked arbitrarily; if folks are more comfortable with something else I am happy to change.",
+      "parentUuid": "1982d3fa_57afac6a",
+      "range": {
+        "startLine": 43,
+        "startChar": 14,
+        "endLine": 43,
+        "endChar": 19
+      },
+      "revId": "576f59706400e93f5618f8f7555dee7bf018214f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a403f5e_cd9f370b",
         "filename": "src/cmd/compile/internal/gc/abiutils.go",
         "patchSetId": 6
@@ -77,6 +125,30 @@
       "writtenOn": "2020-12-03T18:36:15Z",
       "side": 1,
       "message": "This makes me wonder if a ABIParamResultInfo should include a reference to an ABIConfig; that way it is completely self-describing, the method can be String(), and if there\u0027s more than one ABI in play while compiling a given function, that works.",
+      "range": {
+        "startLine": 142,
+        "startChar": 30,
+        "endLine": 142,
+        "endChar": 38
+      },
+      "revId": "576f59706400e93f5618f8f7555dee7bf018214f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e70ead6_a9f8b6e1",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-03T20:09:18Z",
+      "side": 1,
+      "message": "Heh, that was actually the first way I coded it up, then I removed it since I wanted to keep things clean. I\u0027ll look into putting it back.",
+      "parentUuid": "8a403f5e_cd9f370b",
       "range": {
         "startLine": 142,
         "startChar": 30,
