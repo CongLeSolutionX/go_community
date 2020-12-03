@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bf253cd_f8f89b6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-03T17:34:31Z",
+      "side": 1,
+      "message": "Recreated atop latest dev.regabi. Waiting for local all.bash and will submit.\n",
+      "revId": "6e30fc10fc7453f48e4c0e5d726172d0191158bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
