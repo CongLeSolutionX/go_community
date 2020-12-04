@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db398db5_3f0816e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-04T07:21:10Z",
+      "side": 1,
+      "message": "Yes, we\u0027re thinking the same thing. The rationale for these functions is to provide an easier and safer transition path to get there. I\u0027ve gotten a working (albeit hacky) proof-of-concept that passes toolstash -cmp and test/run.go, so I feel reasonably confident that I know how to do this cleanly.\n\nTo use go/ast and go/types as a reference point, there\u0027s a bunch of different comparisons the Go compiler wants to do:\n\n- Do these two ast.Nodes refer to the same source element?\n- Does this ast.Node refer to a particular types.Object?\n- Do these two ast.Nodes refer to the same types.Object?\n- Are these two types.Objects the same thing?\n\nThe problem is right now ir.Node is used to refer both to ast.Nodes and types.Objects, so all of these cases are simple ir.Node equality comparisons. Further, introducing IdentExpr means that most of those cases will no longer do the right thing as ir.Node comparisons.\n\nThere\u0027s no automatic way to rewrite all of these. In most cases, comparing n1.Name() \u003d\u003d n2.Name() is in fact correct, but not always because currently you\u0027d get false positives for non-Names (since the default n.Name() implementation returns nil).\n\nMy plan was to introduce helper functions to eliminate most direct ir.Node equality comparisons. Then make the default n.Name() implementation panic, instead of succeed. Then once we\u0027re at a point where all of the ir.Node equality comparisons are adequately abstracted, we can introduce ir.IdentExpr and change ir.Name so that it\u0027s no longer an ir.Node.",
+      "parentUuid": "e264c1b9_5b477468",
+      "revId": "9e2a77b911438a6a28bfcea0f3d54352b5fad7bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9757f54c_f5439392",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-04T05:26:22Z",
       "side": 1,
       "message": "See https://go-review.googlesource.com/c/go/+/275372/1/src/cmd/compile/internal/gc/inl.go#756 for an alternate rewrite.",
+      "revId": "9e2a77b911438a6a28bfcea0f3d54352b5fad7bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fff252a_9ec07cd2",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-04T07:21:10Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll revert the ast.Inspect parts of this CL. I think the functions will still be useful though.",
+      "parentUuid": "9757f54c_f5439392",
       "revId": "9e2a77b911438a6a28bfcea0f3d54352b5fad7bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
