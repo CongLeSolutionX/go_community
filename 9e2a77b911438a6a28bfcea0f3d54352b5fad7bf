@@ -16,6 +16,23 @@
       "message": "It\u0027s possible I don\u0027t see exactly where you\u0027re going, but I think we might be able to avoid this.\n\nI was thinking that the new IdentExpr you proposed would be the ONAME Node and that *Name would _stop_ being a Node. At that point it seems like *Name comparison is OK?\n",
       "revId": "9e2a77b911438a6a28bfcea0f3d54352b5fad7bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9757f54c_f5439392",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-04T05:26:22Z",
+      "side": 1,
+      "message": "See https://go-review.googlesource.com/c/go/+/275372/1/src/cmd/compile/internal/gc/inl.go#756 for an alternate rewrite.",
+      "revId": "9e2a77b911438a6a28bfcea0f3d54352b5fad7bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
