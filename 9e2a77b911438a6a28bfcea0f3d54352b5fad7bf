@@ -87,6 +87,24 @@
       "parentUuid": "9757f54c_f5439392",
       "revId": "9e2a77b911438a6a28bfcea0f3d54352b5fad7bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a1d4e1f_ebef9576",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-04T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fff252a_9ec07cd2",
+      "revId": "9e2a77b911438a6a28bfcea0f3d54352b5fad7bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
