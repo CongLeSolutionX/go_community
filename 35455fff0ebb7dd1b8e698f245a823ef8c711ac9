@@ -33,6 +33,24 @@
       "message": "I\u0027m adding release notes for this change. Is this a good summary? Is there a way this can be more actionable or at least describe the nature of the races it will now detect better?\n\nThe race detector\u0027s model for channel operations now more precisely follows the \u003ca href\u003d\"/ref/mem\"\u003eGo memory model\u003c/a\u003e. As a result, it may report now races that it previously missed.",
       "revId": "35455fff0ebb7dd1b8e698f245a823ef8c711ac9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f40e5b1_92077cb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35059
+      },
+      "writtenOn": "2020-12-04T09:10:06Z",
+      "side": 1,
+      "message": "It looks good to me; perhaps some small tweaks:\n\nThis release fixes a discrepancy between Go data race detector and the \u003ca href\u003d\"/ref/mem\"\u003eGo memory model\u003c/a\u003e.  The race detector now follows more precisely the channel synchronization rules of the memory model.  As a result, the detector may now report races it previously missed.\n\n\nI don\u0027t have a short explanation for the races it can detect now.  A long explanation can be found here:\nhttps://dfava.github.io/papers/fava2020finding.pdf",
+      "parentUuid": "3e4537bc_a8b9321a",
+      "revId": "35455fff0ebb7dd1b8e698f245a823ef8c711ac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
