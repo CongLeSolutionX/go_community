@@ -17,6 +17,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"log"
 	"os"
@@ -48,7 +49,7 @@ func main() {
 
 	a := new(txtar.Archive)
 	dir = filepath.Clean(dir)
-	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+	filepath.WalkDir(dir, func(path string, info fs.DirEntry, err error) error {
 		if path == dir {
 			return nil
 		}
@@ -59,7 +60,7 @@ func main() {
 			}
 			return nil
 		}
-		if !info.Mode().IsRegular() {
+		if !info.Type().IsRegular() {
 			return nil
 		}
 		data, err := ioutil.ReadFile(path)

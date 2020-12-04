@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -17,16 +18,16 @@ import (
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modload"
-	"cmd/go/internal/work"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
 )
 
 var cmdVendor = &base.Command{
-	UsageLine: "go mod vendor [-v]",
+	UsageLine: "go mod vendor [-e] [-v]",
 	Short:     "make vendored copy of dependencies",
 	Long: `
 Vendor resets the main module's vendor directory to include all packages
@@ -35,20 +36,35 @@ It does not include test code for vendored packages.
 
 The -v flag causes vendor to print the names of vendored
 modules and packages to standard error.
+
+The -e flag causes vendor to attempt to proceed despite errors
+encountered while loading packages.
 	`,
 	Run: runVendor,
 }
 
+var vendorE bool // if true, report errors but proceed anyway
+
 func init() {
 	cmdVendor.Flag.BoolVar(&cfg.BuildV, "v", false, "")
-	work.AddModCommonFlags(cmdVendor)
+	cmdVendor.Flag.BoolVar(&vendorE, "e", false, "")
+	base.AddModCommonFlags(&cmdVendor.Flag)
 }
 
 func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) != 0 {
 		base.Fatalf("go mod vendor: vendor takes no arguments")
 	}
-	pkgs := modload.LoadVendor(ctx)
+	modload.ForceUseModules = true
+	modload.RootMode = modload.NeedRoot
+
+	loadOpts := modload.PackageOpts{
+		Tags:                  imports.AnyTags(),
+		ResolveMissingImports: true,
+		UseVendorAll:          true,
+		AllowErrors:           vendorE,
+	}
+	_, pkgs := modload.LoadPackages(ctx, loadOpts, "all")
 
 	vdir := filepath.Join(modload.ModRoot(), "vendor")
 	if err := os.RemoveAll(vdir); err != nil {
@@ -58,7 +74,7 @@ func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	modpkgs := make(map[module.Version][]string)
 	for _, pkg := range pkgs {
 		m := modload.PackageModule(pkg)
-		if m == modload.Target {
+		if m.Path == "" || m == modload.Target {
 			continue
 		}
 		modpkgs[m] = append(modpkgs[m], pkg)
@@ -76,28 +92,38 @@ func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 		includeAllReplacements = true
 	}
 
+	var vendorMods []module.Version
+	for m := range isExplicit {
+		vendorMods = append(vendorMods, m)
+	}
+	for m := range modpkgs {
+		if !isExplicit[m] {
+			vendorMods = append(vendorMods, m)
+		}
+	}
+	module.Sort(vendorMods)
+
 	var buf bytes.Buffer
-	for _, m := range modload.BuildList()[1:] {
-		if pkgs := modpkgs[m]; len(pkgs) > 0 || isExplicit[m] {
-			line := moduleLine(m, modload.Replacement(m))
-			buf.WriteString(line)
+	for _, m := range vendorMods {
+		line := moduleLine(m, modload.Replacement(m))
+		buf.WriteString(line)
+		if cfg.BuildV {
+			os.Stderr.WriteString(line)
+		}
+		if isExplicit[m] {
+			buf.WriteString("## explicit\n")
 			if cfg.BuildV {
-				os.Stderr.WriteString(line)
+				os.Stderr.WriteString("## explicit\n")
 			}
-			if isExplicit[m] {
-				buf.WriteString("## explicit\n")
-				if cfg.BuildV {
-					os.Stderr.WriteString("## explicit\n")
-				}
+		}
+		pkgs := modpkgs[m]
+		sort.Strings(pkgs)
+		for _, pkg := range pkgs {
+			fmt.Fprintf(&buf, "%s\n", pkg)
+			if cfg.BuildV {
+				fmt.Fprintf(os.Stderr, "%s\n", pkg)
 			}
-			sort.Strings(pkgs)
-			for _, pkg := range pkgs {
-				fmt.Fprintf(&buf, "%s\n", pkg)
-				if cfg.BuildV {
-					fmt.Fprintf(os.Stderr, "%s\n", pkg)
-				}
-				vendorPkg(vdir, pkg)
-			}
+			vendorPkg(vdir, pkg)
 		}
 	}
 
@@ -218,7 +244,7 @@ var metaPrefixes = []string{
 }
 
 // matchMetadata reports whether info is a metadata file.
-func matchMetadata(dir string, info os.FileInfo) bool {
+func matchMetadata(dir string, info fs.FileInfo) bool {
 	name := info.Name()
 	for _, p := range metaPrefixes {
 		if strings.HasPrefix(name, p) {
@@ -229,12 +255,12 @@ func matchMetadata(dir string, info os.FileInfo) bool {
 }
 
 // matchPotentialSourceFile reports whether info may be relevant to a build operation.
-func matchPotentialSourceFile(dir string, info os.FileInfo) bool {
+func matchPotentialSourceFile(dir string, info fs.FileInfo) bool {
 	if strings.HasSuffix(info.Name(), "_test.go") {
 		return false
 	}
 	if strings.HasSuffix(info.Name(), ".go") {
-		f, err := os.Open(filepath.Join(dir, info.Name()))
+		f, err := fsys.Open(filepath.Join(dir, info.Name()))
 		if err != nil {
 			base.Fatalf("go mod vendor: %v", err)
 		}
@@ -255,7 +281,7 @@ func matchPotentialSourceFile(dir string, info os.FileInfo) bool {
 }
 
 // copyDir copies all regular files satisfying match(info) from src to dst.
-func copyDir(dst, src string, match func(dir string, info os.FileInfo) bool) {
+func copyDir(dst, src string, match func(dir string, info fs.FileInfo) bool) {
 	files, err := ioutil.ReadDir(src)
 	if err != nil {
 		base.Fatalf("go mod vendor: %v", err)
