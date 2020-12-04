@@ -97,6 +97,10 @@ stderr 'GOPATH entry cannot start with shell metacharacter'
 ! go env -w GOPATH=./go
 stderr 'GOPATH entry is relative; must be absolute path'
 
+# go env -w rejects invalid GOFUZZCACHE values
+! go env -w GOFUZZCACHE=invalid
+stderr 'GOFUZZCACHE entry is relative; must be absolute path'
+
 # go env -w/-u checks validity of GOOS/ARCH combinations
 env GOOS=
 env GOARCH=

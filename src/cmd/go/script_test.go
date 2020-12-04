@@ -123,6 +123,7 @@ func (ts *testScript) setup() {
 		"CCACHE_DISABLE=1", // ccache breaks with non-existent HOME
 		"GOARCH=" + runtime.GOARCH,
 		"GOCACHE=" + testGOCACHE,
+		"GOFUZZCACHE=" + filepath.Join(ts.workdir, "gofuzzcache"),
 		"GODEBUG=" + os.Getenv("GODEBUG"),
 		"GOEXE=" + cfg.ExeSuffix,
 		"GOEXPSTRING=" + objabi.Expstring()[2:],

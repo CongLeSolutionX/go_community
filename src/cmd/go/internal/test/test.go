@@ -610,6 +610,9 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 	if testProfile() != "" && len(pkgs) != 1 {
 		base.Fatalf("cannot use %s flag with multiple packages", testProfile())
 	}
+	if testFuzz != "" && cfg.GOFUZZCACHE == "" {
+		base.Fatalf("cannot use -fuzz flag without GOFUZZCACHE")
+	}
 	initCoverProfile()
 	defer closeCoverProfile()
 
@@ -1168,7 +1171,11 @@ func (c *runCache) builderRunTest(b *work.Builder, ctx context.Context, a *work.
 		testlogArg = []string{"-test.testlogfile=" + a.Objdir + "testlog.txt"}
 	}
 	panicArg := "-test.paniconexit0"
-	args := str.StringList(execCmd, a.Deps[0].BuiltTarget(), testlogArg, panicArg, testArgs)
+	fuzzArg := []string{}
+	if testFuzz != "" {
+		fuzzArg = []string{"-test.fuzzcachedir=" + filepath.Join(cfg.GOFUZZCACHE, a.Package.ImportPath)}
+	}
+	args := str.StringList(execCmd, a.Deps[0].BuiltTarget(), testlogArg, panicArg, fuzzArg, testArgs)
 
 	if testCoverProfile != "" {
 		// Write coverage to temporary profile, for merging later.

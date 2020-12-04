@@ -72,6 +72,7 @@ func MkEnv() []cfg.EnvVar {
 		{Name: "GOENV", Value: envFile},
 		{Name: "GOEXE", Value: cfg.ExeSuffix},
 		{Name: "GOFLAGS", Value: cfg.Getenv("GOFLAGS")},
+		{Name: "GOFUZZCACHE", Value: cfg.GOFUZZCACHE},
 		{Name: "GOHOSTARCH", Value: runtime.GOARCH},
 		{Name: "GOHOSTOS", Value: runtime.GOOS},
 		{Name: "GOINSECURE", Value: cfg.GOINSECURE},
@@ -402,6 +403,10 @@ func checkEnvWrite(key, val string) error {
 		}
 		if !filepath.IsAbs(val) && val != "" {
 			return fmt.Errorf("GOPATH entry is relative; must be absolute path: %q", val)
+		}
+	case "GOFUZZCACHE":
+		if val != "" && !filepath.IsAbs(val) {
+			return fmt.Errorf("GOFUZZCACHE entry is relative; must be absolute path: %q", val)
 		}
 	}
 
