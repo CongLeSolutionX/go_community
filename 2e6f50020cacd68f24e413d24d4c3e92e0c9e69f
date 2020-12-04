@@ -22,6 +22,30 @@
       },
       "revId": "2e6f50020cacd68f24e413d24d4c3e92e0c9e69f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c30b88d2_697ea4f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2020-12-04T16:55:59Z",
+      "side": 1,
+      "message": "I noticed the issue when I was rebasing and retesting changes to enable cgo.\n\nI\u0027d have to double check, but I suspect that the tests that would have detected the issue required cgo as a prerequisite, so it was not until cgo was enabled that the issues became visible. We could potentially add tests for these build modes without cgo dependencies if we wanted to detect it sooner.",
+      "parentUuid": "59f8b89d_a9d6ada7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "2e6f50020cacd68f24e413d24d4c3e92e0c9e69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
