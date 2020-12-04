@@ -87,6 +87,24 @@
       "parentUuid": "e819537a_372e0134",
       "revId": "4cf7dc0ecf51e54f496b4d8f38f5a6aeb43e3444",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa4d370_6ae185ab",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-04T21:47:53Z",
+      "side": 1,
+      "message": "It seems like everyone was fixated on trying to make \"f :\u003d func() { ... use f ... }\" work somehow. But JS-style named function literals don\u0027t have any of these problems. Within expression context \"func ident(...) { ... use ident ... }\" would only bind \"ident\" within the function literal itself, not into the enclosing scope.\n\nThat is, \"func f(P) (R) { Body }\" as an expression has the same semantics as:\n\n    func() func(P) (R) {\n         var f func(P) (R)\n         f \u003d func(P) (R) { Body }\n         return f\n     }()\n\nThis doesn\u0027t support mutual recursion, but neither do JS named function literals. I think at the point a problem necessitates mutual recursion, you\u0027re not going to mind having to explicitly declare function variables. Or maybe you should be using package-scope functions anyway. (I tend to be pretty liberal in my use of cute language tricks, but I can\u0027t recall ever wanting mutual recursion within function scope.)",
+      "parentUuid": "09f00bff_3afa2808",
+      "revId": "4cf7dc0ecf51e54f496b4d8f38f5a6aeb43e3444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
