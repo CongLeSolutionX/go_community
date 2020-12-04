@@ -265,6 +265,8 @@
 // download cache, including unpacked source code of versioned
 // dependencies.
 //
+// The -fuzzcache flag causes clean to remove values used for fuzz testing.
+//
 // For more about build flags, see 'go help build'.
 //
 // For more about specifying packages, see 'go help packages'.
@@ -1740,6 +1742,8 @@
 // 		Because the entries are space-separated, flag values must
 // 		not contain spaces. Flags listed on the command line
 // 		are applied after this list and therefore override it.
+// 	GOFUZZCACHE
+// 		The directory where the go command will store data for fuzz testing.
 // 	GOINSECURE
 // 		Comma-separated list of glob patterns (in the syntax of Go's path.Match)
 // 		of module path prefixes that should always be fetched in an insecure
