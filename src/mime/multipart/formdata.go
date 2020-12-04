@@ -9,6 +9,7 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
+	"math"
 	"net/textproto"
 	"os"
 )
@@ -41,6 +42,13 @@ func (r *Reader) readForm(maxMemory int64) (_ *Form, err error) {
 
 	// Reserve an additional 10 MB for non-file parts.
 	maxValueBytes := maxMemory + int64(10<<20)
+	if maxValueBytes <= 0 {
+		if maxMemory < 0 {
+			maxValueBytes = 0
+		} else {
+			maxValueBytes = math.MaxInt64
+		}
+	}
 	for {
 		p, err := r.NextPart()
 		if err == io.EOF {
