@@ -33,6 +33,23 @@
       "message": "\u003e Now that I\u0027ve done this, I can see it bumps demangle. Perhaps that\u0027s too heavy.\n\nLast time I checked, demangle is used only by pprof, so there\u0027s no risk to other packages.\n\n\u003e I\u0027m not sure if I should have updated to latest, or just to the commit I wanted with my fix. I chose the former to follow the readme.\n\nIf there\u0027s a difference in how \"stable\" the two points are, we would prefer whichever is more stable. As far as I can tell, the upstream pprof doesn\u0027t have releases, so latest commit should be as stable as any other.\n\nHana, are you okay with making this pprof update now (knowing that it\u0027ll go through testing in Go 1.16 beta 1), or would you prefer we stay with the version that was chosen in CL 260538 for the Go 1.16 release?",
       "revId": "cc2480099eb685b16490d8d14cedbd7d7562ce1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cf6c992_76a222da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-04T21:48:51Z",
+      "side": 1,
+      "message": "I\u0027ve looked over the code, and I\u0027m okay with bringing in this bug fix now. This should have no effect other than on pprof itself, so no risk to stability elsewhere. It\u0027ll go through testing in beta, and if pprof bugs are found, it will be easier for us to pull in potential fixes for them. If regressions are found, we can revert if that\u0027s easier.",
+      "revId": "cc2480099eb685b16490d8d14cedbd7d7562ce1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
