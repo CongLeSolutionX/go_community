@@ -35,9 +35,7 @@ func main() {
 	flags.Parse()
 
 	ctxt := obj.Linknew(architecture.LinkArch)
-	if *flags.PrintOut {
-		ctxt.Debugasm = 1
-	}
+	ctxt.Debugasm = flags.PrintOut
 	ctxt.Flag_dynlink = *flags.Dynlink
 	ctxt.Flag_shared = *flags.Shared || *flags.Dynlink
 	ctxt.IsAsm = true
@@ -76,7 +74,8 @@ func main() {
 	var failedFile string
 	for _, f := range flag.Args() {
 		lexer := lex.NewLexer(f)
-		parser := asm.NewParser(ctxt, architecture, lexer)
+		parser := asm.NewParser(ctxt, architecture, lexer,
+			*flags.CompilingRuntime)
 		ctxt.DiagFunc = func(format string, args ...interface{}) {
 			diag = true
 			log.Printf(format, args...)
