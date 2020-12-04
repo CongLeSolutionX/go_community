@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "151254a3_14ef9aeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-04T15:20:35Z",
+      "side": 1,
+      "message": "New API like this should normally go through the proposal process.  See https://golang.org/s/proposal.  Marking temporary -2 until that has been done.",
+      "revId": "a05fa5baea060963ea8f9d11bddbbe30e0937e7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
