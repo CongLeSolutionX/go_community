@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc65c7a5_ae06c0ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28801
+      },
+      "writtenOn": "2020-12-04T17:38:59Z",
+      "side": 1,
+      "message": "What are the thoughts on keeping the current behavior? And instead adding/ensuring we have documentation on the behavior that a zero or negative value would cause?",
+      "revId": "90aef404654a44dbe52cb745231ebeac991ee5c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
