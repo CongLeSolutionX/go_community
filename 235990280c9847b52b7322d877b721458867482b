@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d693476_757051ba",
+        "filename": "src/cmd/compile/internal/ir/mini.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-04T20:49:01Z",
+      "side": 1,
+      "message": "Ah, I was wondering what the magic incantation was to get this to work with \"go run\".",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 29
+      },
+      "revId": "235990280c9847b52b7322d877b721458867482b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70bee219_4769ee24",
+        "filename": "src/cmd/compile/internal/ir/mknode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-04T20:49:01Z",
+      "side": 1,
+      "message": "nit: This should be PkgName. Though it doesn\u0027t actually affect the generated code any.\n\n(I usually like to lookup the actual types.Type or types.Object I\u0027m interested in and compare that way. Then if I got the name wrong or something unexpectedly change, the program will crash loudly rather than silently misbehave. But probably not worth reworking.)",
+      "range": {
+        "startLine": 147,
+        "startChar": 16,
+        "endLine": 147,
+        "endChar": 20
+      },
+      "revId": "235990280c9847b52b7322d877b721458867482b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fb45c0f_d06a28a5",
+        "filename": "src/cmd/compile/internal/ir/mknode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-04T20:49:01Z",
+      "side": 1,
+      "message": "It might make sense to change these special cases into struct tags, so that they\u0027re more visible to users (e.g., showing up in gopls descriptions). Not urgent though.",
+      "revId": "235990280c9847b52b7322d877b721458867482b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
