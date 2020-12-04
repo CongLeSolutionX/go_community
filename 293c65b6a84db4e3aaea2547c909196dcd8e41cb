@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be5cde2c_efa5d6a1",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-04T16:03:17Z",
+      "side": 1,
+      "message": "Is the idea that after the conversion we rewrite back to n1 \u003d\u003d n2?\nAssuming yes, then this sounds good.",
+      "revId": "293c65b6a84db4e3aaea2547c909196dcd8e41cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
