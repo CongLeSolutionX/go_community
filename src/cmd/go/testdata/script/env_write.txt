@@ -129,6 +129,10 @@ go env -w GOTMPDIR=
 go env GOTMPDIR
 stdout ^$
 
+# go env -w rejects invalid GOFUZZCACHE values
+! go env -w GOFUZZCACHE=invalid
+stderr 'GOFUZZCACHE entry is relative; must be absolute path'
+
 # go env -w rejects relative CC values
 [!windows] go env -w CC=/usr/bin/clang
 go env -w CC=clang

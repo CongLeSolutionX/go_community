@@ -30,12 +30,16 @@ import (
 //
 // seed is a list of seed values added by the fuzz target with testing.F.Add and
 // in testdata.
-// Seed values from GOFUZZCACHE should not be included in this list; this
-// function loads them separately.
+//
+// corpusDir is a directory where files containing values that crash the
+// code being tested may be written.
+//
+// cacheDir is a directory containing additional "interesting" values.
+// The fuzzer may derive new values from these, and may write new values here.
 //
 // If a crash occurs, the function will return an error containing information
 // about the crash, which can be reported to the user.
-func CoordinateFuzzing(parallel int, seed [][]byte, crashDir string) (err error) {
+func CoordinateFuzzing(parallel int, seed [][]byte, corpusDir, cacheDir string) (err error) {
 	if parallel == 0 {
 		parallel = runtime.GOMAXPROCS(0)
 	}
@@ -44,21 +48,21 @@ func CoordinateFuzzing(parallel int, seed [][]byte, crashDir string) (err error)
 	// interrupts.
 	duration := 5 * time.Second
 
-	var corpus corpus
-	var maxSeedLen int
-	if len(seed) == 0 {
+	corpus, err := readCorpusAndCache(seed, corpusDir, cacheDir)
+	if err != nil {
+		return err
+	}
+	var maxEntryLen int
+	if len(corpus.entries) == 0 {
 		corpus.entries = []corpusEntry{{b: []byte{}}}
-		maxSeedLen = 0
+		maxEntryLen = 0
 	} else {
-		corpus.entries = make([]corpusEntry, len(seed))
-		for i, v := range seed {
-			corpus.entries[i].b = v
-			if len(v) > maxSeedLen {
-				maxSeedLen = len(v)
+		for _, e := range corpus.entries {
+			if len(e.b) > maxEntryLen {
+				maxEntryLen = len(e.b)
 			}
 		}
 	}
-	// TODO(jayconrod,katiehockman): read corpus from GOFUZZCACHE.
 
 	// TODO(jayconrod): do we want to support fuzzing different binaries?
 	dir := "" // same as self
@@ -75,7 +79,7 @@ func CoordinateFuzzing(parallel int, seed [][]byte, crashDir string) (err error)
 	}
 
 	newWorker := func() (*worker, error) {
-		mem, err := sharedMemTempFile(maxSeedLen)
+		mem, err := sharedMemTempFile(maxEntryLen)
 		if err != nil {
 			return nil, err
 		}
@@ -140,7 +144,7 @@ func CoordinateFuzzing(parallel int, seed [][]byte, crashDir string) (err error)
 
 		case crasher := <-c.crasherC:
 			// A worker found a crasher. Write it to testdata and return it.
-			fileName, err := writeToCorpus(crasher.b, crashDir)
+			fileName, err := writeToCorpus(crasher.b, corpusDir)
 			if err == nil {
 				err = fmt.Errorf("    Crash written to %s\n%s", fileName, crasher.errMsg)
 			}
@@ -155,6 +159,11 @@ func CoordinateFuzzing(parallel int, seed [][]byte, crashDir string) (err error)
 			// workers to fuzz.
 			// TODO(jayconrod, katiehockman): Prioritize fuzzing these values which expanded coverage
 			corpus.entries = append(corpus.entries, entry)
+			if cacheDir != "" {
+				if _, err := writeToCorpus(entry.b, cacheDir); err != nil {
+					return err
+				}
+			}
 
 		case err := <-c.errC:
 			// A worker encountered a fatal error.
@@ -168,9 +177,8 @@ func CoordinateFuzzing(parallel int, seed [][]byte, crashDir string) (err error)
 		}
 	}
 
-	// TODO(jayconrod,katiehockman): write crashers to testdata and other inputs
-	// to GOFUZZCACHE. If the testdata directory is outside the current module,
-	// always write to GOFUZZCACHE, since the testdata is likely read-only.
+	// TODO(jayconrod,katiehockman): if a crasher can't be written to corpusDir,
+	// write to cacheDir instead.
 }
 
 type corpus struct {
@@ -215,6 +223,29 @@ type coordinator struct {
 	errC chan error
 }
 
+// readCorpusAndCache creates a combined corpus from seed values, values in the
+// corpus directory (in testdata), and values in the cache (GOFUZZCACHE).
+//
+// TODO(jayconrod,katiehockman): if a value in the cache has the wrong type,
+// ignore it instead of reporting an error. Cached values may be used for
+// the same package at a different version or in a different module.
+func readCorpusAndCache(seed [][]byte, corpusDir, cacheDir string) (corpus, error) {
+	var c corpus
+	for _, b := range seed {
+		c.entries = append(c.entries, corpusEntry{b: b})
+	}
+	for _, dir := range []string{corpusDir, cacheDir} {
+		bs, err := ReadCorpus(dir)
+		if err != nil {
+			return corpus{}, err
+		}
+		for _, b := range bs {
+			c.entries = append(c.entries, corpusEntry{b: b})
+		}
+	}
+	return c, nil
+}
+
 // ReadCorpus reads the corpus from the testdata directory in this target's
 // package.
 func ReadCorpus(dir string) ([][]byte, error) {
@@ -226,6 +257,10 @@ func ReadCorpus(dir string) ([][]byte, error) {
 	}
 	var corpus [][]byte
 	for _, file := range files {
+		// TODO(jayconrod,katiehockman): determine when a file is a fuzzing input
+		// based on its name. Names like README.txt and *.tmp12345 (created by
+		// writeToCorpus) should be excluded. We'll want a list of matching patterns
+		// instead of a list of exceptions though.
 		if file.IsDir() {
 			continue
 		}
@@ -238,27 +273,40 @@ func ReadCorpus(dir string) ([][]byte, error) {
 	return corpus, nil
 }
 
-// writeToCorpus writes the given bytes to a new file in testdata. If the
-// directory does not exist, it will create one. It returns the filename that
-// was written, or an error if it failed.
-func writeToCorpus(b []byte, crashDir string) (string, error) {
-	// TODO: Consider not writing a new file if one with those contents already
-	// exists. Perhaps the filename can be compared to those that already exist
-	// if all of the filenames are normalized, or by checking the contents of
-	// all other files.
-	if _, err := ioutil.ReadDir(crashDir); os.IsNotExist(err) {
-		// Make the seed corpus directory since it doesn't exist.
-		err = os.MkdirAll(crashDir, 0777)
-		if err != nil {
-			return "", err
-		}
-	} else if err != nil {
+// writeToCorpus atomically writes the given bytes to a new file in testdata.
+// If the directory does not exist, it will create one. If the file already
+// exists, writeToCorpus will not rewrite it. writeToCorpus returns the
+// file's name, or an error if it failed.
+//
+// writeToCorpus avoids racing other instances of the go command by writing
+// temporary files with random names, then atomically renaming them.
+func writeToCorpus(b []byte, dir string) (name string, err error) {
+	sum := fmt.Sprintf("%x", sha256.Sum256(b))
+	name = filepath.Join(dir, sum)
+	if _, err := os.Stat(name); err == nil {
+		// File with the same SHA-256 already exists. Don't write it again.
+		return name, nil
+	}
+	if err := os.MkdirAll(dir, 0777); err != nil {
 		return "", err
 	}
-	sum := fmt.Sprintf("%x", sha256.Sum256(b))
-	name := filepath.Join(crashDir, sum)
-	err := ioutil.WriteFile(name, b, 0666)
+	tmpFile, err := ioutil.TempFile(dir, sum+".tmp*")
 	if err != nil {
+		return "", err
+	}
+	defer func() {
+		tmpFile.Close()
+		if err != nil {
+			os.Remove(tmpFile.Name())
+		}
+	}()
+	if _, err := tmpFile.Write(b); err != nil {
+		return "", err
+	}
+	if err := tmpFile.Close(); err != nil {
+		return "", err
+	}
+	if err := os.Rename(tmpFile.Name(), name); err != nil {
 		return "", err
 	}
 	return name, nil

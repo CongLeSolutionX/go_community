@@ -252,6 +252,7 @@ var (
 	GOROOTsrc    = filepath.Join(GOROOT, "src")
 	GOROOT_FINAL = findGOROOT_FINAL()
 	GOMODCACHE   = envOr("GOMODCACHE", gopathDir("pkg/mod"))
+	GOFUZZCACHE  = envOr("GOFUZZCACHE", gofuzzcacheDir())
 
 	// Used in envcmd.MkEnv and build ID computations.
 	GOARM    = envOr("GOARM", fmt.Sprint(objabi.GOARM))
@@ -390,4 +391,12 @@ func gopathDir(rel string) string {
 		return ""
 	}
 	return filepath.Join(list[0], rel)
+}
+
+func gofuzzcacheDir() string {
+	dir, err := os.UserCacheDir()
+	if err != nil {
+		return ""
+	}
+	return filepath.Join(dir, "go-fuzz")
 }
