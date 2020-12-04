@@ -508,6 +508,8 @@ General-purpose environment variables:
 		Because the entries are space-separated, flag values must
 		not contain spaces. Flags listed on the command line
 		are applied after this list and therefore override it.
+	GOFUZZCACHE
+		The directory where the go command will store data for fuzz testing.
 	GOINSECURE
 		Comma-separated list of glob patterns (in the syntax of Go's path.Match)
 		of module path prefixes that should always be fetched in an insecure
