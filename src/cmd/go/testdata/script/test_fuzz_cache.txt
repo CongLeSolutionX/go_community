@@ -1,0 +1,59 @@
+[short] skip
+env GOCACHE=$WORK/cache
+
+# Fuzz cache should not exist after a regular test run.
+go test .
+exists $GOCACHE
+! exists $GOCACHE/fuzz
+
+# Testing corpus and seed values should not write the cache.
+go test .
+! exists $GOCACHE/fuzz
+
+# Fuzzing should write interesting values to the cache.
+go test -timeout=100ms -parallel=1 -fuzz=FuzzY .
+go run contains_files.go $GOCACHE/fuzz/example.com/y/FuzzY
+
+# 'go clean -cache' should not delete the cache.
+go clean -cache
+exists $GOCACHE/fuzz
+
+# 'go clean -fuzzcache' should delete the cache.
+go clean -fuzzcache
+! exists $GOCACHE/fuzz
+
+-- go.mod --
+module example.com/y
+
+go 1.16
+-- y_test.go --
+package y
+
+import "testing"
+
+func FuzzY(f *testing.F) {
+	f.Add([]byte("y"))
+	f.Fuzz(func(t *testing.T, b []byte) {})
+}
+-- contains_files.go --
+// +build ignore
+
+package main
+
+import (
+	"fmt"
+	"path/filepath"
+	"io/ioutil"
+	"os"
+)
+
+func main() {
+	infos, err := ioutil.ReadDir(filepath.Clean(os.Args[1]))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	if len(infos) == 0 {
+		os.Exit(1)
+	}
+}
