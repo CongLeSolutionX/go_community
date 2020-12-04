@@ -777,8 +777,7 @@ FindRHS:
 		base.Fatalf("RHS is nil: %v", defn)
 	}
 
-	unsafe, _ := reassigned(n.(*ir.Name))
-	if unsafe {
+	if reassigned(n.(*ir.Name)) {
 		return nil
 	}
 
@@ -791,68 +790,31 @@ FindRHS:
 // useful for -m output documenting the reason for inhibited optimizations.
 // NB: global variables are always considered to be re-assigned.
 // TODO: handle initial declaration not including an assignment and followed by a single assignment?
-func reassigned(n *ir.Name) (bool, ir.Node) {
-	if n.Op() != ir.ONAME {
-		base.Fatalf("reassigned %v", n)
-	}
+func reassigned(v *ir.Name) (found bool) {
 	// no way to reliably check for no-reassignment of globals, assume it can be
-	if n.Curfn == nil {
-		return true, nil
+	if v.Curfn == nil {
+		return true
 	}
-	f := n.Curfn
-	v := reassignVisitor{name: n}
-	a := v.visitList(f.Body())
-	return a != nil, a
-}
 
-type reassignVisitor struct {
-	name ir.Node
-}
-
-func (v *reassignVisitor) visit(n ir.Node) ir.Node {
-	if n == nil {
-		return nil
-	}
-	switch n.Op() {
-	case ir.OAS:
-		if n.Left() == v.name && n != v.name.Name().Defn {
-			return n
-		}
-	case ir.OAS2, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2DOTTYPE:
-		for _, p := range n.List().Slice() {
-			if p == v.name && n != v.name.Name().Defn {
-				return n
+	ir.InspectList(v.Curfn.Body(), func(n ir.Node) bool {
+		if n != v.Defn {
+			switch n.Op() {
+			case ir.OAS:
+				if ir.RefersTo(n.Left(), v) {
+					found = true
+				}
+			case ir.OAS2, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2DOTTYPE:
+				for _, lhs := range n.List().Slice() {
+					if ir.RefersTo(lhs, v) {
+						found = true
+						break
+					}
+				}
 			}
 		}
-	}
-	if a := v.visit(n.Left()); a != nil {
-		return a
-	}
-	if a := v.visit(n.Right()); a != nil {
-		return a
-	}
-	if a := v.visitList(n.List()); a != nil {
-		return a
-	}
-	if a := v.visitList(n.Rlist()); a != nil {
-		return a
-	}
-	if a := v.visitList(n.Init()); a != nil {
-		return a
-	}
-	if a := v.visitList(n.Body()); a != nil {
-		return a
-	}
-	return nil
-}
-
-func (v *reassignVisitor) visitList(l ir.Nodes) ir.Node {
-	for _, n := range l.Slice() {
-		if a := v.visit(n); a != nil {
-			return a
-		}
-	}
-	return nil
+		return !found
+	})
+	return
 }
 
 func inlParam(t *types.Field, as ir.Node, inlvars map[*ir.Name]ir.Node) ir.Node {

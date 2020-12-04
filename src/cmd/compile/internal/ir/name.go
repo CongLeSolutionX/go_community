@@ -296,6 +296,24 @@ func (n *Name) SetVal(v constant.Value) {
 	n.val = v
 }
 
+// RefersTo reports whether expression x refers (directly) to the
+// given variable.
+func RefersTo(x Node, v *Name) bool {
+	if v == nil {
+		base.Fatalf("RefersTo nil")
+	}
+	return x.Op() == ONAME && x.Name() == v
+}
+
+// DeclaredBy reports whether expression x refers (directly) to a
+// variable that was declared by the given statement.
+func DeclaredBy(x, stmt Node) bool {
+	if stmt == nil {
+		base.Fatalf("DeclaredBy nil")
+	}
+	return x.Op() == ONAME && x.Name().Defn == stmt
+}
+
 // The Class of a variable/function describes the "storage class"
 // of a variable or function. During parsing, storage classes are
 // called declaration contexts.

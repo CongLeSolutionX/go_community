@@ -2248,7 +2248,7 @@ func aliased(r ir.Node, all []ir.Node) bool {
 			continue
 		}
 
-		switch l.Class() {
+		switch l := l.Name(); l.Class() {
 		default:
 			base.Fatalf("unexpected class: %v, %v", l, l.Class())
 
@@ -2257,7 +2257,7 @@ func aliased(r ir.Node, all []ir.Node) bool {
 			continue
 
 		case ir.PAUTO, ir.PPARAM, ir.PPARAMOUT:
-			if l.Name().Addrtaken() {
+			if l.Addrtaken() {
 				memwrite = true
 				continue
 			}
@@ -2345,72 +2345,42 @@ func varexpr(n ir.Node) bool {
 }
 
 // is the name l mentioned in r?
-func vmatch2(l ir.Node, r ir.Node) bool {
-	if r == nil {
-		return false
-	}
-	switch r.Op() {
-	// match each right given left
-	case ir.ONAME:
-		return l == r
-
-	case ir.OLITERAL, ir.ONIL:
-		return false
-	}
-
-	if vmatch2(l, r.Left()) {
-		return true
-	}
-	if vmatch2(l, r.Right()) {
-		return true
-	}
-	for _, n := range r.List().Slice() {
-		if vmatch2(l, n) {
-			return true
+func vmatch2(l *ir.Name, r ir.Node) (found bool) {
+	ir.Inspect(r, func(r ir.Node) bool {
+		if ir.RefersTo(r, l) {
+			found = true
 		}
-	}
-	return false
+		return !found
+	})
+	return
 }
 
 // is any name mentioned in l also mentioned in r?
 // called by sinit.go
-func vmatch1(l ir.Node, r ir.Node) bool {
-	// isolate all left sides
-	if l == nil || r == nil {
-		return false
-	}
-	switch l.Op() {
-	case ir.ONAME:
-		switch l.Class() {
-		case ir.PPARAM, ir.PAUTO:
-			break
+func vmatch1(l ir.Node, r ir.Node) (found bool) {
+	ir.Inspect(l, func(l ir.Node) bool {
+		if l.Op() == ir.ONAME {
+			l := l.Name()
 
-		default:
-			// assignment to non-stack variable must be
-			// delayed if right has function calls.
-			if r.HasCall() {
-				return true
+			switch l.Class() {
+			case ir.PPARAM, ir.PAUTO: // TODO(mdempsky): PPARAMOUT?
+				break
+			default:
+				// assignment to non-stack variable must be
+				// delayed if right has function calls.
+				if r.HasCall() {
+					found = true
+					break
+				}
+			}
+
+			if vmatch2(l, r) {
+				found = true
 			}
 		}
-
-		return vmatch2(l, r)
-
-	case ir.OLITERAL, ir.ONIL:
-		return false
-	}
-
-	if vmatch1(l.Left(), r) {
-		return true
-	}
-	if vmatch1(l.Right(), r) {
-		return true
-	}
-	for _, n := range l.List().Slice() {
-		if vmatch1(n, r) {
-			return true
-		}
-	}
-	return false
+		return !found
+	})
+	return
 }
 
 // paramstoheap returns code to allocate memory for heap-escaped parameters
