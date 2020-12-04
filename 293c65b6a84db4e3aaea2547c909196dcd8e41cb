@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4d8a51c_32767b65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-04T16:03:35Z",
+      "side": 1,
+      "message": "LGTM assuming the plan is for SameSource to rewrite back to n1 \u003d\u003d n2 later.\n",
+      "revId": "293c65b6a84db4e3aaea2547c909196dcd8e41cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be5cde2c_efa5d6a1",
