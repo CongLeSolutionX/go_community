@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f24081f6_19733f36",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-04T14:05:07Z",
+      "side": 1,
+      "message": "I am definitely not saying \"this is the way.\" It\u0027s just the way I found, and it seems to work well enough, but I\u0027m happy to revisit once we have more experience. \n\nI looked for canonical answers to this problem and failed to find one that applied. (The Design Patterns book Visitor Pattern - which uses a compiler Node as an example! - is very complicated, and the complexity seems to arise from needing to work around a lack of both function values and a type switch mechanism. \n\nOn the specific issue of the return value, it\u0027s a little less clear, if the result is interface{}, why DoChildren should stop early on a non-nil result. If the result is error, then that\u0027s easy to remember that an error would make it stop. Unless it\u0027s called FindChildren but then that\u0027s weird too.\n\nAnother natural option would be an accumulated boolean result (false means stop), but I wanted to avoid having a boolean here that has different semantics than the boolean in Inspect. If we rewrote all the Inspect calls to Find and deleted Inspect, then maybe dropping to a boolean would make more sense. We can certainly consider that once we understand the problem space a bit better. For now it seems like having a few different mechanisms will help us understand which works best.",
+      "parentUuid": "1ecf12e3_a4440ebf",
+      "revId": "4cf7dc0ecf51e54f496b4d8f38f5a6aeb43e3444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "500e51f1_b9682c05",
         "filename": "src/cmd/compile/internal/ir/visit.go",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-04T07:55:00Z",
       "side": 1,
       "message": "Seeing all these examples reminds me how much I wish Go had named function literals like JS. E.g., `func do(x ir.Node) { ... use do ... }(root)`.",
+      "revId": "4cf7dc0ecf51e54f496b4d8f38f5a6aeb43e3444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e819537a_372e0134",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-04T14:05:07Z",
+      "side": 1,
+      "message": "Indeed.",
+      "parentUuid": "500e51f1_b9682c05",
       "revId": "4cf7dc0ecf51e54f496b4d8f38f5a6aeb43e3444",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
