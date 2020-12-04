@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e264c1b9_5b477468",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-04T05:15:34Z",
+      "side": 1,
+      "message": "It\u0027s possible I don\u0027t see exactly where you\u0027re going, but I think we might be able to avoid this.\n\nI was thinking that the new IdentExpr you proposed would be the ONAME Node and that *Name would _stop_ being a Node. At that point it seems like *Name comparison is OK?\n",
+      "revId": "9e2a77b911438a6a28bfcea0f3d54352b5fad7bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
