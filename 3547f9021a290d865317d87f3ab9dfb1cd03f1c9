@@ -51,6 +51,23 @@
       "message": "Rogue dependencies are firmly outside the threat model of Go programs. Other things a rogue dependency can do include setting crypto/rsa.ErrVerification to nil, or simply upload a private key from disk to an attacker\u0027s server. It\u0027s not a battle we ever played. Is there anything special about this particular vector?",
       "revId": "3547f9021a290d865317d87f3ab9dfb1cd03f1c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4df5257_edee11b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-12-05T11:10:39Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2:\n\u003e \n\u003e What’s special and distinguishing about this vector is that:\n\u003e \n\u003e a) I believe it is within Go’s threat model because it should have stayed an internal detail and this change clearly mitigated that simply\n\u003e \n\u003e b) Unlike all the other examples that can be cited of things that can be broken, the usage of crypto/rand.Reader is pervasive in the standard library and also within most Go programs, moreover meant to be the last line of defence and a good entropy source\n\u003e \n\u003e c) Neglecting such problems defeats the entire purpose of us building high level languages if users now have manually go open up the various sources of random; at that point we’ll be asking them to become kernel and security experts\n\nHow threat models work is that you need to describe an attacker you want to defend against, and what their capabilities are. Here, an attacker that can set rand.Reader but not write a malicious init() that uses unsafe simply does not exist. Again, malicious code in your build is outside the Go threat model. If you build the attacker\u0027s code and run it, you lose. A safe entropy source will not protect you, even if you could make it safe.\n\nUsers are not expected to protect against this in their own code either, because again they would be defending a lost cause.\n\nA different argument would be that overriding rand.Reader happens _accidentally_ and we should do a best-effort attempt at catching that for non-malicious scenarios. That argument can work but needs at least some examples from the wild to back it up.",
+      "revId": "3547f9021a290d865317d87f3ab9dfb1cd03f1c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
