@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c311897_6f64a9fe",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-05T03:11:06Z",
+      "side": 0,
+      "message": "There\u0027s a small merge conflict with CL 274593 to resolve here.",
+      "revId": "358d35455d06b1ebee948efff123842490dcb797",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d39836_cc9f3c28",
+        "filename": "src/cmd/vendor/modules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-05T03:11:06Z",
+      "side": 0,
+      "message": "The vendor/golang.org/x/sys/windows/setupapierrors_windows.go file seems to be missing. Does cd src/cmd \u0026\u0026 go mod vendor add it for you?",
+      "revId": "358d35455d06b1ebee948efff123842490dcb797",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
