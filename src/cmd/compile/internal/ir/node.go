@@ -698,7 +698,7 @@ func NodAt(pos src.XPos, op Op, nleft, nright Node) Node {
 		n := NewCompLitExpr(pos, typ, nil)
 		n.SetOp(op)
 		return n
-	case OAS, OSELRECV:
+	case OAS:
 		n := NewAssignStmt(pos, nleft, nright)
 		n.SetOp(op)
 		return n
