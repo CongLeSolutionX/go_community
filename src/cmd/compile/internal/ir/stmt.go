@@ -125,7 +125,7 @@ func (n *AssignStmt) SetOp(op Op) {
 	switch op {
 	default:
 		panic(n.no("SetOp " + op.String()))
-	case OAS, OSELRECV:
+	case OAS:
 		n.op = op
 	}
 }
