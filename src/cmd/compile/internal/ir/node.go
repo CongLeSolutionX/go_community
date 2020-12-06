@@ -698,12 +698,8 @@ func NodAt(pos src.XPos, op Op, nleft, nright Node) Node {
 			typ = nright.(Ntype)
 		}
 		return NewCompLitExpr(pos, op, typ, nil)
-	case OAS, OSELRECV:
-		n := NewAssignStmt(pos, nleft, nright)
-		if op != OAS {
-			n.SetOp(op)
-		}
-		return n
+	case OAS:
+		return NewAssignStmt(pos, nleft, nright)
 	case OAS2, OAS2DOTTYPE, OAS2FUNC, OAS2MAPR, OAS2RECV, OSELRECV2:
 		n := NewAssignListStmt(pos, op, nil, nil)
 		return n

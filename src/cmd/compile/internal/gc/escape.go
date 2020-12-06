@@ -389,11 +389,6 @@ func (e *Escape) stmt(n ir.Node) {
 			e.stmt(cas.Left())
 			e.block(cas.Body())
 		}
-	case ir.OSELRECV:
-		e.assign(n.Left(), n.Right(), "selrecv", n)
-	case ir.OSELRECV2:
-		e.assign(n.List().First(), n.Rlist().First(), "selrecv", n)
-		e.assign(n.List().Second(), nil, "selrecv", n)
 	case ir.ORECV:
 		// TODO(mdempsky): Consider e.discard(n.Left).
 		e.exprSkipInit(e.discardHole(), n) // already visited n.Ninit
