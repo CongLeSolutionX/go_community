@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cbfd54a_a975367f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2020-12-06T01:42:49Z",
+      "side": 1,
+      "message": "This is the fix for the need to add that weird typecheck call to the addrtaken CL.\n",
+      "revId": "39177e3519167befa77995c05695c2ef39b16ab0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
