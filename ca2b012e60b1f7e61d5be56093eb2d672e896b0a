@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9394bc68_99fbaacd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-07T15:50:03Z",
+      "side": 1,
+      "message": "This is wrong. If a float value doesn\u0027t fit in int64 but does fit in uint64. the conversion should result in the correct uint64 value. Going through int64 is wrong.",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "ca2b012e60b1f7e61d5be56093eb2d672e896b0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08c62de7_4e0aeaf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-07T15:50:03Z",
+      "side": 1,
+      "message": "I don\u0027t think there is anything to be fixed. See the issue.",
+      "revId": "ca2b012e60b1f7e61d5be56093eb2d672e896b0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
