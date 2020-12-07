@@ -570,8 +570,7 @@ func rewriteValueARM64(v *Value) bool {
 		v.Op = OpARM64FCVTZSSW
 		return true
 	case OpCvt32Fto32U:
-		v.Op = OpARM64FCVTZUSW
-		return true
+		return rewriteValueARM64_OpCvt32Fto32U(v)
 	case OpCvt32Fto64:
 		v.Op = OpARM64FCVTZSS
 		return true
@@ -579,8 +578,7 @@ func rewriteValueARM64(v *Value) bool {
 		v.Op = OpARM64FCVTSD
 		return true
 	case OpCvt32Fto64U:
-		v.Op = OpARM64FCVTZUS
-		return true
+		return rewriteValueARM64_OpCvt32Fto64U(v)
 	case OpCvt32Uto32F:
 		v.Op = OpARM64UCVTFWS
 		return true
@@ -600,14 +598,12 @@ func rewriteValueARM64(v *Value) bool {
 		v.Op = OpARM64FCVTDS
 		return true
 	case OpCvt64Fto32U:
-		v.Op = OpARM64FCVTZUDW
-		return true
+		return rewriteValueARM64_OpCvt64Fto32U(v)
 	case OpCvt64Fto64:
 		v.Op = OpARM64FCVTZSD
 		return true
 	case OpCvt64Fto64U:
-		v.Op = OpARM64FCVTZUD
-		return true
+		return rewriteValueARM64_OpCvt64Fto64U(v)
 	case OpCvt64Uto32F:
 		v.Op = OpARM64UCVTFS
 		return true
@@ -21787,6 +21783,66 @@ func rewriteValueARM64_OpCtz8(v *Value) bool {
 		v1.AuxInt = int64ToAuxInt(0x100)
 		v1.AddArg(x)
 		v0.AddArg(v1)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpCvt32Fto32U(v *Value) bool {
+	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (Cvt32Fto32U x)
+	// result: (MOVWUreg (FCVTZSSW <typ.Float32> x))
+	for {
+		x := v_0
+		v.reset(OpARM64MOVWUreg)
+		v0 := b.NewValue0(v.Pos, OpARM64FCVTZSSW, typ.Float32)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpCvt32Fto64U(v *Value) bool {
+	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (Cvt32Fto64U x)
+	// result: (MOVDreg (FCVTZSS <typ.Float32> x))
+	for {
+		x := v_0
+		v.reset(OpARM64MOVDreg)
+		v0 := b.NewValue0(v.Pos, OpARM64FCVTZSS, typ.Float32)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpCvt64Fto32U(v *Value) bool {
+	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (Cvt64Fto32U x)
+	// result: (MOVWUreg (FCVTZSDW <typ.Float64> x))
+	for {
+		x := v_0
+		v.reset(OpARM64MOVWUreg)
+		v0 := b.NewValue0(v.Pos, OpARM64FCVTZSDW, typ.Float64)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpCvt64Fto64U(v *Value) bool {
+	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (Cvt64Fto64U x)
+	// result: (MOVDreg (FCVTZSD <typ.Float64> x))
+	for {
+		x := v_0
+		v.reset(OpARM64MOVDreg)
+		v0 := b.NewValue0(v.Pos, OpARM64FCVTZSD, typ.Float64)
+		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
 	}
