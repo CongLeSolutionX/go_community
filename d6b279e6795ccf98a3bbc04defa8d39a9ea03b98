@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56519a67_dc66f906",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-07T16:21:11Z",
+      "side": 1,
+      "message": "nit: elide \u0027it is\u0027 here, since it is elided from \u0027if valid\u0027\n\n\"if valid, the identifier position...\"",
+      "range": {
+        "startLine": 54,
+        "startChar": 54,
+        "endLine": 54,
+        "endChar": 60
+      },
+      "revId": "d6b279e6795ccf98a3bbc04defa8d39a9ea03b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
