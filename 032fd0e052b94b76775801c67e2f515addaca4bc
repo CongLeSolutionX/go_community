@@ -16,6 +16,23 @@
       "message": "Sorry about that.",
       "revId": "032fd0e052b94b76775801c67e2f515addaca4bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45dceca_453dfe86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-12-07T10:13:26Z",
+      "side": 1,
+      "message": "We could have caught this sooner if the Alpine builder was running and green: https://github.com/golang/go/issues/19938",
+      "revId": "032fd0e052b94b76775801c67e2f515addaca4bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
