@@ -271,6 +271,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d62e2e5_e39e7162",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-07T21:51:32Z",
+      "side": 1,
+      "message": "Looks good.",
+      "parentUuid": "a17d7ea2_b43a8469",
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ea1cfa6_12f422d4",

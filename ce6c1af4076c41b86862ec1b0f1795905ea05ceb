@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cc30753_a49b90bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-07T21:51:32Z",
+      "side": 1,
+      "message": "I think it\u0027s fine as-is. The -modfile flag is the same way.\n\nEventually, I think we\u0027ll want to write some build reference documentation that covers all the commands and flags in detail, plus stuff like environment variables, build constraints, and cgo idiosyncrasies. Let\u0027s not worry about that now though.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "ce6c1af4076c41b86862ec1b0f1795905ea05ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2de8ac93_f59a803c",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-07T21:51:32Z",
+      "side": 1,
+      "message": "\u003ccode\u003ego\u003c/code\u003e \u003ccode\u003erun\u003c/code\u003e and \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003etest\u003c/code\u003e.",
+      "revId": "ce6c1af4076c41b86862ec1b0f1795905ea05ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
