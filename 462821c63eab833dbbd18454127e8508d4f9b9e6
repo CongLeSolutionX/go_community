@@ -286,6 +286,24 @@
       "message": "Make sure to run `./mkalldocs.sh` to update the godoc comments.",
       "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "333fb4a3_822935b9",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-07T20:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ea1cfa6_12f422d4",
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
