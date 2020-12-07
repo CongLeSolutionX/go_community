@@ -819,12 +819,12 @@ func eqstring(s, t ir.Node) (eqlen, eqmem ir.Node) {
 	fn = substArgTypes(fn, types.Types[types.TUINT8], types.Types[types.TUINT8])
 	call := ir.Nod(ir.OCALL, fn, nil)
 	call.PtrList().Append(sptr, tptr, ir.Copy(slen))
-	call = typecheck(call, ctxExpr|ctxMultiOK)
+	call1 := typecheck(call, ctxExpr|ctxMultiOK)
 
 	cmp := ir.Nod(ir.OEQ, slen, tlen)
-	cmp = typecheck(cmp, ctxExpr)
+	cmp1 := typecheck(cmp, ctxExpr)
 	cmp.SetType(types.Types[types.TBOOL])
-	return cmp, call
+	return cmp1, call1
 }
 
 // eqinterface returns the nodes
@@ -857,21 +857,19 @@ func eqinterface(s, t ir.Node) (eqtab, eqdata ir.Node) {
 
 	call := ir.Nod(ir.OCALL, fn, nil)
 	call.PtrList().Append(stab, sdata, tdata)
-	call = typecheck(call, ctxExpr|ctxMultiOK)
+	call1 := typecheck(call, ctxExpr|ctxMultiOK)
 
 	cmp := ir.Nod(ir.OEQ, stab, ttab)
-	cmp = typecheck(cmp, ctxExpr)
-	cmp.SetType(types.Types[types.TBOOL])
-	return cmp, call
+	cmp1 := typecheck(cmp, ctxExpr)
+	cmp1.SetType(types.Types[types.TBOOL])
+	return cmp1, call1
 }
 
 // eqmem returns the node
 // 	memequal(&p.field, &q.field [, size])
 func eqmem(p ir.Node, q ir.Node, field *types.Sym, size int64) ir.Node {
-	nx := ir.Nod(ir.OADDR, nodSym(ir.OXDOT, p, field), nil)
-	ny := ir.Nod(ir.OADDR, nodSym(ir.OXDOT, q, field), nil)
-	nx = typecheck(nx, ctxExpr)
-	ny = typecheck(ny, ctxExpr)
+	nx := typecheck(ir.NewAddrExpr(base.Pos, nodSym(ir.OXDOT, p, field)), ctxExpr)
+	ny := typecheck(ir.NewAddrExpr(base.Pos, nodSym(ir.OXDOT, q, field)), ctxExpr)
 
 	fn, needsize := eqmemfunc(size, nx.Type().Elem())
 	call := ir.Nod(ir.OCALL, fn, nil)

@@ -748,10 +748,7 @@ func safeexpr(n ir.Node, init *ir.Nodes) ir.Node {
 
 func copyexpr(n ir.Node, t *types.Type, init *ir.Nodes) ir.Node {
 	l := temp(t)
-	a := ir.Nod(ir.OAS, l, n)
-	a = typecheck(a, ctxStmt)
-	a = walkexpr(a, init)
-	init.Append(a)
+	appendWalkStmt(init, ir.Nod(ir.OAS, l, n))
 	return l
 }
 
@@ -1169,11 +1166,12 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 		call.PtrList().Set(paramNnames(tfn.Type()))
 		call.SetIsDDD(tfn.Type().IsVariadic())
 		if method.Type.NumResults() > 0 {
-			n := ir.Nod(ir.ORETURN, nil, nil)
-			n.PtrList().Set1(call)
-			call = n
+			ret := ir.Nod(ir.ORETURN, nil, nil)
+			ret.PtrList().Set1(call)
+			fn.PtrBody().Append(ret)
+		} else {
+			fn.PtrBody().Append(call)
 		}
-		fn.PtrBody().Append(call)
 	}
 
 	if false && base.Flag.LowerR != 0 {
