@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0265a7e8_7f945e74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-07T08:48:15Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "4708e006a110e7bf3a24e7b46c49365577c44952",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f61133b_a90cc410",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-07T08:48:15Z",
+      "side": 1,
+      "message": "Use space for consistency.",
+      "range": {
+        "startLine": 532,
+        "startChar": 65,
+        "endLine": 532,
+        "endChar": 74
+      },
+      "revId": "4708e006a110e7bf3a24e7b46c49365577c44952",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eada078_eb67d03f",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-07T08:48:15Z",
+      "side": 1,
+      "message": "Please align these comments.",
+      "range": {
+        "startLine": 595,
+        "startChar": 22,
+        "endLine": 595,
+        "endChar": 23
+      },
+      "revId": "4708e006a110e7bf3a24e7b46c49365577c44952",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
