@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b400e9d_c94fb1c0",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-07T20:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc4a620_443d91c3",
+      "range": {
+        "startLine": 242,
+        "startChar": 32,
+        "endLine": 242,
+        "endChar": 39
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fccffe7_6e91f72c",
@@ -60,6 +84,54 @@
       "writtenOn": "2020-12-02T16:48:30Z",
       "side": 1,
       "message": "s/-i/-overlay/",
+      "range": {
+        "startLine": 245,
+        "startChar": 12,
+        "endLine": 245,
+        "endChar": 14
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "082024fb_5621887c",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-07T20:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fccffe7_6e91f72c",
+      "range": {
+        "startLine": 245,
+        "startChar": 49,
+        "endLine": 245,
+        "endChar": 71
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1984946_4d48ec07",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-07T20:15:20Z",
+      "side": 1,
+      "message": "eek! Done.",
+      "parentUuid": "8d373c36_8b881598",
       "range": {
         "startLine": 245,
         "startChar": 12,
@@ -116,6 +188,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e49547a0_2d068ff5",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-07T20:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b75e3394_fd05171c",
+      "range": {
+        "startLine": 247,
+        "startChar": 61,
+        "endLine": 247,
+        "endChar": 63
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a268d198_58fb5119",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-07T20:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd6e4875_690f5ed2",
+      "range": {
+        "startLine": 247,
+        "startChar": 9,
+        "endLine": 247,
+        "endChar": 51
+      },
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69c4277d_4fa3dcab",
@@ -129,6 +249,24 @@
       "writtenOn": "2020-12-02T16:48:30Z",
       "side": 1,
       "message": "In the first sentence or two, we should briefly explain the purpose of the flag: it helps editors and tools like gopls understand the effects of unsaved changes to source files.\n\nWe may also want to point out limitations (cgo includes).",
+      "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a17d7ea2_b43a8469",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-07T20:15:20Z",
+      "side": 1,
+      "message": "How\u0027s this?",
+      "parentUuid": "69c4277d_4fa3dcab",
       "revId": "462821c63eab833dbbd18454127e8508d4f9b9e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
