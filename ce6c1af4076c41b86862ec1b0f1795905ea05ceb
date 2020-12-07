@@ -39,6 +39,29 @@
       "message": "\u003ccode\u003ego\u003c/code\u003e \u003ccode\u003erun\u003c/code\u003e and \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003etest\u003c/code\u003e.",
       "revId": "ce6c1af4076c41b86862ec1b0f1795905ea05ceb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e18e164_2ea772a4",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-07T21:57:07Z",
+      "side": 1,
+      "message": "I think we should either drop these last couple of sentences, or move them to some kind of non-release-specific documentation and link to that.\n\n(This paragraph is getting a bit long for a release note, and since this functionality is new we don\u0027t need detailed migration instructions here.)",
+      "range": {
+        "startLine": 249,
+        "startChar": 60,
+        "endLine": 256,
+        "endChar": 69
+      },
+      "revId": "ce6c1af4076c41b86862ec1b0f1795905ea05ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
