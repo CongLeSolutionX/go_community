@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac35412d_eff9b22c",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1512,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-12-07T23:10:25Z",
+      "side": 1,
+      "message": "It\u0027s generally better not to treat a nil slice and a zero-length slice as different. Would it be okay to use len(rsrcsyms) \u003d\u003d 0 for all of these nil slice comparisons, or is nil actually a distinguished value here? If it\u0027s the latter, this definitely has to be documented.",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c740fcbe_dc11809c",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1524,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-12-07T23:10:25Z",
+      "side": 1,
+      "message": "for _, rsrcsym :\u003d ...",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a456b4_0a5805ca",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-12-07T23:10:25Z",
+      "side": 1,
+      "message": "Since we\u0027re now fetching the data again in the loop below, this should probably be just ctxt.loader.SymSize(rsrcsyms[i]). This is not *in general* the same as len(data) because symbols are zero-padded up to their SymSize, though I\u0027m guessing the PE loader doesn\u0027t make such symbols. Jeremy?",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66422bd9_2ba22db3",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1531,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-12-07T23:10:25Z",
+      "side": 1,
+      "message": "for _, rsrcsym :\u003d ...",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82b739b1_837144c5",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-12-07T23:10:25Z",
+      "side": 1,
+      "message": "Add a comment explaining what splitResources means. (For example, I really don\u0027t understand the val +\u003d uint32(len(data)) below.)",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87175e3e_ac34f610",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-12-07T23:10:25Z",
+      "side": 1,
+      "message": "This smells wrong... Is this supposed to accumulate the emitted data length?",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5004c540_93bb4610",
+        "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2020-12-07T23:10:25Z",
+      "side": 1,
+      "message": "Use spaces instead of a tab for consistency?",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
