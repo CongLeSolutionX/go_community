@@ -17,6 +17,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"internal/timerpool"
 	"io"
 	"log"
 	"net"
@@ -2324,8 +2325,8 @@ func (pc *persistConn) waitForContinue(continueCh <-chan struct{}) func() bool {
 		return nil
 	}
 	return func() bool {
-		timer := time.NewTimer(pc.t.ExpectContinueTimeout)
-		defer timer.Stop()
+		timer := timerpool.GlobalTimerPool.Get(pc.t.ExpectContinueTimeout)
+		defer timerpool.GlobalTimerPool.Put(timer)
 
 		select {
 		case _, ok := <-continueCh:
@@ -2438,8 +2439,8 @@ func (pc *persistConn) wroteRequest() bool {
 		// but the server has already replied. In this case, we don't
 		// want to wait too long, and we want to return false so this
 		// connection isn't re-used.
-		t := time.NewTimer(maxWriteWaitBeforeConnReuse)
-		defer t.Stop()
+		t := timerpool.GlobalTimerPool.Get(maxWriteWaitBeforeConnReuse)
+		defer timerpool.GlobalTimerPool.Put(t)
 		select {
 		case err := <-pc.writeErrCh:
 			return err == nil
@@ -2618,8 +2619,8 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 				if debugRoundTrip {
 					req.logf("starting timer for %v", d)
 				}
-				timer := time.NewTimer(d)
-				defer timer.Stop() // prevent leaks
+				timer := timerpool.GlobalTimerPool.Get(d)
+				defer timerpool.GlobalTimerPool.Put(timer)
 				respHeaderTimer = timer.C
 			}
 		case <-pcClosed:
