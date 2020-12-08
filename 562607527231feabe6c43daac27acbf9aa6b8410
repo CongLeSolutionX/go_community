@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "338ba032_59888838",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-08T21:50:30Z",
+      "side": 1,
+      "message": "Please fix TryBot failures before merging.",
+      "revId": "562607527231feabe6c43daac27acbf9aa6b8410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75dfcdc8_05a1f2b0",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-08T21:50:30Z",
+      "side": 1,
+      "message": "“The map specifies a mapping” seems a bit redundant.\n\nMaybe: “The file is a JSON struct with a single field, named \u0027Replace\u0027, that maps each disk file path (a string) to its backing file path, so that …”",
+      "range": {
+        "startLine": 130,
+        "startChar": 31,
+        "endLine": 130,
+        "endChar": 58
+      },
+      "revId": "562607527231feabe6c43daac27acbf9aa6b8410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d260fc08_cf60af95",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-08T21:50:30Z",
+      "side": 1,
+      "message": "cgo files included from outside the include path must be …",
+      "range": {
+        "startLine": 135,
+        "startChar": 14,
+        "endLine": 135,
+        "endChar": 72
+      },
+      "revId": "562607527231feabe6c43daac27acbf9aa6b8410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fcd68b7_524bcc78",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-08T21:50:30Z",
+      "side": 1,
+      "message": "s/directoryas/directory as/",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 136,
+        "endChar": 13
+      },
+      "revId": "562607527231feabe6c43daac27acbf9aa6b8410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
