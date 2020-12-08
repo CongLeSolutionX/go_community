@@ -152,6 +152,30 @@
       },
       "revId": "ce6c1af4076c41b86862ec1b0f1795905ea05ceb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cdb13d2_50b45a57",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-08T21:27:57Z",
+      "side": 1,
+      "message": "Okay, moved it to the flag section of go help build. How\u0027s this?",
+      "parentUuid": "b42ed205_1bea28c2",
+      "range": {
+        "startLine": 249,
+        "startChar": 60,
+        "endLine": 256,
+        "endChar": 69
+      },
+      "revId": "ce6c1af4076c41b86862ec1b0f1795905ea05ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
