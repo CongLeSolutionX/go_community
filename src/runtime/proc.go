@@ -1270,8 +1270,25 @@ func mstartm0() {
 func mPark() {
 	g := getg()
 	for {
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(g.m.id)
+			d.s("park")
+			//var pcs [16]uintptr
+			//n := callers(1, pcs[:])
+			//d.traceback(pcs[:n])
+			d.end()
+		}
 		notesleep(&g.m.park)
 		noteclear(&g.m.park)
+		d = dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(g.m.id)
+			d.s("unpark")
+			d.end()
+		}
 		if !mDoFixup() {
 			return
 		}
@@ -2617,6 +2634,15 @@ top:
 
 stop:
 
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("findrunnable: prepare stop")
+		d.end()
+	}
+
 	// We have nothing to do. If we're in the GC mark phase, can
 	// safely scan and blacken objects, and have work to do, run
 	// idle-time marking rather than give up the P.
@@ -2703,6 +2729,15 @@ stop:
 		}
 	}
 
+	d = dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("findrunnable: check runq")
+		d.end()
+	}
+
 	// check all runqueues once again
 	for id, _p_ := range allpSnapshot {
 		if !idlepMaskSnapshot.read(uint32(id)) && !runqempty(_p_) {
@@ -2719,6 +2754,16 @@ stop:
 			}
 			break
 		}
+	}
+
+	d = dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("findrunnable: check timers; mask")
+		d.hex(uint64(atomic.Load(&timerpMaskSnapshot[0])))
+		d.end()
 	}
 
 	// Similar to above, check for timer creation or expiry concurrently with
@@ -2738,9 +2783,29 @@ stop:
 			now = nanotime()
 		}
 		delta = pollUntil - now
+		d = dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("P ?")
+			d.s("findrunnable: pollUntil")
+			d.i64(pollUntil)
+			d.s("delta")
+			d.i64(delta)
+			d.end()
+		}
 		if delta < 0 {
 			delta = 0
 		}
+	}
+
+	d = dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("findrunnable: check GC")
+		d.end()
 	}
 
 	// Check for idle-priority GC work again.
@@ -2791,6 +2856,15 @@ stop:
 		}
 	}
 
+	d = dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("findrunnable: check netpoll")
+		d.end()
+	}
+
 	// poll network
 	if netpollinited() && (atomic.Load(&netpollWaiters) > 0 || pollUntil != 0) && atomic.Xchg64(&sched.lastpoll, 0) != 0 {
 		atomic.Store64(&sched.pollUntil, uint64(pollUntil))
@@ -2804,7 +2878,38 @@ stop:
 			// When using fake time, just poll.
 			delta = 0
 		}
+		var start int64
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("P ?")
+			start = nanotime()
+			d.s("now")
+			d.i64(start)
+			d.s("netpoll delta")
+			d.i64(delta)
+			d.s("pollUntil")
+			d.u64(atomic.Load64(&sched.pollUntil))
+			d.end()
+		}
 		list := netpoll(delta) // block until new work is available
+		d = dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("P ?")
+			d.s("now")
+			end := nanotime()
+			d.i64(end)
+			d.s("netpoll done delta")
+			d.i64(delta)
+			d.s("pollUntil")
+			d.u64(atomic.Load64(&sched.pollUntil))
+			d.s("overrun")
+			d.i64(end-start)
+			d.end()
+		}
 		atomic.Store64(&sched.pollUntil, 0)
 		atomic.Store64(&sched.lastpoll, uint64(nanotime()))
 		if faketime != 0 && list.empty() {
@@ -2837,10 +2942,41 @@ stop:
 		}
 	} else if pollUntil != 0 && netpollinited() {
 		pollerPollUntil := int64(atomic.Load64(&sched.pollUntil))
+		d = dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("P ?")
+			d.s("findrunnable: check netpoll break pollUntil")
+			d.i64(pollUntil)
+			d.s("pollerPollUntil")
+			d.i64(pollerPollUntil)
+			d.s("lastpoll")
+			d.u64(atomic.Load64(&sched.lastpoll))
+			d.end()
+		}
 		if pollerPollUntil == 0 || pollerPollUntil > pollUntil {
+			d = dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("P ?")
+				d.s("findrunnable: netpoll break")
+				d.end()
+			}
 			netpollBreak()
 		}
 	}
+
+	d = dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("findrunnable: stopm")
+		d.end()
+	}
+
 	stopm()
 	goto top
 }
@@ -3051,6 +3187,15 @@ top:
 		gp, inheritTime = findrunnable() // blocks until work is available
 	}
 
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("schedule: found work")
+		d.end()
+	}
+
 	// This thread is going to run a goroutine and is not spinning anymore,
 	// so if it was marked as spinning we need to reset it now and potentially
 	// start a new spinning M.
@@ -3114,10 +3259,41 @@ func dropg() {
 // We pass now in and out to avoid extra calls of nanotime.
 //go:yeswritebarrierrec
 func checkTimers(pp *p, now int64) (rnow, pollUntil int64, ran bool) {
+	//d := dlog()
+	//if d != nil {
+	//	d.s("M")
+	//	d.i64(getg().m.id)
+	//	d.s("P")
+	//	d.i32(pp.id)
+	//	d.s("now")
+	//	d.i64(now)
+	//	d.s("checkTimers")
+	//	d.end()
+	//}
+
 	// If it's not yet time for the first timer, or the first adjusted
 	// timer, then there is nothing to do.
 	next := int64(atomic.Load64(&pp.timer0When))
 	nextAdj := int64(atomic.Load64(&pp.timerModifiedEarliest))
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		d.s("now")
+		now := nanotime()
+		d.i64(now)
+		d.s("checkTimers next")
+		d.i64(next)
+		d.s("wait")
+		d.i64(next-now)
+		d.s("nextAdj")
+		d.i64(nextAdj)
+		d.s("wait")
+		d.i64(nextAdj-now)
+		d.end()
+	}
 	if next == 0 || (nextAdj != 0 && nextAdj < next) {
 		next = nextAdj
 	}

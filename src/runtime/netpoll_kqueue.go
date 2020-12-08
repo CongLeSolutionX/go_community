@@ -83,10 +83,43 @@ func netpollarm(pd *pollDesc, mode int) {
 
 // netpollBreak interrupts a kevent.
 func netpollBreak() {
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("netpollBreak")
+		d.end()
+	}
 	if atomic.Cas(&netpollWakeSig, 0, 1) {
 		for {
+			d := dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("P ?")
+				d.s("netpollBreak: write")
+				d.end()
+			}
 			var b byte
+			start := nanotime()
 			n := write(netpollBreakWr, unsafe.Pointer(&b), 1)
+			end := nanotime()
+			d = dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("P ?")
+				d.s("netpollBreak: write = ")
+				d.i32(n)
+				d.s("start")
+				d.i64(start)
+				d.s("end")
+				d.i64(end)
+				d.s("duration")
+				d.i64(end-start)
+				d.end()
+			}
 			if n == 1 || n == -_EAGAIN {
 				break
 			}
@@ -124,7 +157,38 @@ func netpoll(delay int64) gList {
 	}
 	var events [64]keventt
 retry:
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("now")
+		start := nanotime()
+		d.i64(start)
+		d.s("netpoll enter poll delay")
+		d.i64(delay)
+		d.end()
+	}
+	realStart := nanotime()
 	n := kevent(kq, nil, 0, &events[0], int32(len(events)), tp)
+	end := nanotime()
+	d = dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P ?")
+		d.s("now")
+		d.i64(end)
+		d.s("netpoll exit poll delay")
+		d.i64(delay)
+		d.s("real start")
+		d.i64(realStart)
+		d.s("duration")
+		d.i64(end-realStart)
+		d.s("n")
+		d.i32(n)
+		d.end()
+	}
 	if n < 0 {
 		if n != -_EINTR {
 			println("runtime: kevent on fd", kq, "failed with", -n)
@@ -142,6 +206,17 @@ retry:
 		ev := &events[i]
 
 		if uintptr(ev.ident) == netpollBreakRd {
+			d := dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("P ?")
+				d.s("now")
+				d.i64(nanotime())
+				d.s("netpoll received netpollBreak delay")
+				d.i64(delay)
+				d.end()
+			}
 			if ev.filter != _EVFILT_READ {
 				println("runtime: netpoll: break fd ready for", ev.filter)
 				throw("runtime: netpoll: break fd ready for something unexpected")

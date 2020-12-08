@@ -281,6 +281,27 @@ func doaddtimer(pp *p, t *timer) {
 		netpollGenericInit()
 	}
 
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		now := nanotime()
+		d.s("now")
+		d.i64(now)
+		d.s("doaddtimer  t")
+		d.p(t)
+		d.s("when")
+		d.i64(t.when)
+		d.s("duration")
+		d.i64(t.when-now)
+		var pcs [16]uintptr
+		n := callers(1, pcs[:])
+		d.traceback(pcs[:n])
+		d.end()
+	}
+
 	if t.pp != 0 {
 		throw("doaddtimer: P already set in timer")
 	}
@@ -300,6 +321,19 @@ func doaddtimer(pp *p, t *timer) {
 // Reports whether the timer was removed before it was run.
 func deltimer(t *timer) bool {
 	for {
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("now")
+			d.i64(nanotime())
+			d.s("deltimer t")
+			d.p(t)
+			var pcs [16]uintptr
+			n := callers(1, pcs[:])
+			d.traceback(pcs[:n])
+			d.end()
+		}
 		switch s := atomic.Load(&t.status); s {
 		case timerWaiting, timerModifiedLater:
 			// Prevent preemption while the timer is in timerModifying.
@@ -370,6 +404,18 @@ func dodeltimer(pp *p, i int) {
 	} else {
 		t.pp = 0
 	}
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		d.s("now")
+		d.i64(nanotime())
+		d.s("dodeltimer t")
+		d.p(pp.timers[i])
+		d.end()
+	}
 	last := len(pp.timers) - 1
 	if i != last {
 		pp.timers[i] = pp.timers[last]
@@ -397,6 +443,18 @@ func dodeltimer0(pp *p) {
 		throw("dodeltimer0: wrong P")
 	} else {
 		t.pp = 0
+	}
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		d.s("now")
+		d.i64(nanotime())
+		d.s("dodeltimer0 t")
+		d.p(pp.timers[0])
+		d.end()
 	}
 	last := len(pp.timers) - 1
 	if last > 0 {
@@ -428,6 +486,25 @@ func modtimer(t *timer, when, period int64, f func(interface{}, uintptr), arg in
 	var mp *m
 loop:
 	for {
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("P ?")
+			d.s("now")
+			now := nanotime()
+			d.i64(now)
+			d.s("modtimer    t")
+			d.p(t)
+			d.s("when")
+			d.i64(when)
+			d.s("duration")
+			d.i64(when-now)
+			d.s("status")
+			d.u32(atomic.Load(&t.status))
+			d.end()
+		}
+
 		switch status = atomic.Load(&t.status); status {
 		case timerWaiting, timerModifiedEarlier, timerModifiedLater:
 			// Prevent preemption while the timer is in timerModifying.
@@ -550,6 +627,17 @@ func resettimer(t *timer, when int64) bool {
 // The caller must have locked the timers for pp.
 func cleantimers(pp *p) {
 	gp := getg()
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		d.s("now")
+		d.i64(nanotime())
+		d.s("cleantimers")
+		d.end()
+	}
 	for {
 		if len(pp.timers) == 0 {
 			return
@@ -605,6 +693,18 @@ func cleantimers(pp *p) {
 // is expected to have locked the timers for pp.
 func moveTimers(pp *p, timers []*timer) {
 	for _, t := range timers {
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("P")
+			d.i32(pp.id)
+			d.s("now")
+			d.i64(nanotime())
+			d.s("moveTimer t")
+			d.p(t)
+			d.end()
+		}
 	loop:
 		for {
 			switch s := atomic.Load(&t.status); s {
@@ -653,6 +753,18 @@ func moveTimers(pp *p, timers []*timer) {
 // it also moves timers that have been modified to run later,
 // and removes deleted timers. The caller must have locked the timers for pp.
 func adjusttimers(pp *p, now int64) {
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		d.s("now")
+		d.i64(now)
+		d.s("adjusttimers")
+		d.end()
+	}
+
 	if atomic.Load(&pp.adjustTimers) == 0 {
 		if verifyTimers {
 			verifyTimerHeap(pp)
@@ -759,6 +871,25 @@ func addAdjustedTimers(pp *p, moved []*timer) {
 func nobarrierWakeTime(pp *p) int64 {
 	next := int64(atomic.Load64(&pp.timer0When))
 	nextAdj := int64(atomic.Load64(&pp.timerModifiedEarliest))
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		d.s("now")
+		now := nanotime()
+		d.i64(now)
+		d.s("nobarrierWakeTime next")
+		d.i64(next)
+		d.s("wait")
+		d.i64(next-now)
+		d.s("nextAdj")
+		d.i64(nextAdj)
+		d.s("wait")
+		d.i64(nextAdj-now)
+		d.end()
+	}
 	if next == 0 || (nextAdj != 0 && nextAdj < next) {
 		next = nextAdj
 	}
@@ -854,6 +985,23 @@ func runOneTimer(pp *p, t *timer, now int64) {
 	arg := t.arg
 	seq := t.seq
 
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		d.s("now")
+		d.i64(now)
+		d.s("runOneTimer t")
+		d.p(t)
+		d.s("when")
+		d.i64(t.when)
+		d.s("overrun")
+		d.i64(now-t.when)
+		d.end()
+	}
+
 	if t.period > 0 {
 		// Leave in heap but adjust next time to fire.
 		delta := t.when - now
@@ -905,6 +1053,17 @@ func runOneTimer(pp *p, t *timer, now int64) {
 //
 // The caller must have locked the timers for pp.
 func clearDeletedTimers(pp *p) {
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("P")
+		d.i32(pp.id)
+		d.s("now")
+		d.i64(nanotime())
+		d.s("clearDeletedTimers")
+		d.end()
+	}
 	// We are going to clear all timerModifiedEarlier timers.
 	// Do this now in case new ones show up while we are looping.
 	atomic.Store64(&pp.timerModifiedEarliest, 0)
