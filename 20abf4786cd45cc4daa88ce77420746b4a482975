@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9476c49b_04784a72",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2020-12-08T19:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c775e1_c1c88134",
+      "range": {
+        "startLine": 262,
+        "startChar": 36,
+        "endLine": 262,
+        "endChar": 37
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6e6e2a3_01d8504f",
@@ -64,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "147869a0_76c9833c",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2020-12-08T19:32:31Z",
+      "side": 1,
+      "message": "Removed this and modified the first sentence with \u003ccode\u003e tags. PTAL.",
+      "parentUuid": "f6e6e2a3_01d8504f",
+      "range": {
+        "startLine": 265,
+        "startChar": 42,
+        "endLine": 266,
+        "endChar": 48
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c04b6be8_08dd45e4",
@@ -77,6 +125,30 @@
       "writtenOn": "2020-12-02T23:52:01Z",
       "side": 1,
       "message": "We may want to think more about whether it\u0027s worth it to include last part that offers a solution. A possible concern is that if there are multiple ways to fix this problem, it\u0027s better to avoid making this seem like the only/best way. If this is a valid concern, then only describing the problem this vet check is catching would be a good a fix.\n\nI think it\u0027s okay to keep and revisit in future edit passes as part of work on #40700. Maybe other people will have thoughts on this.",
+      "range": {
+        "startLine": 282,
+        "startChar": 12,
+        "endLine": 282,
+        "endChar": 31
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff932809_b54f6edd",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2020-12-08T19:32:31Z",
+      "side": 1,
+      "message": "This is a valid concern IMO. Transitioning from t.Fatal to t.Error is a relatively safe suggestion. Almost everyone will need to do this part. Saying something about this seems helpful.\n\nThe question is what to do to mimic the early exit they are likely trying to achieve by writing t.Fatal/Skip. This going to be contextually dependent and have multiple solutions.\n\nHappy rewording or dropping the suggestion if we think this will lead users astray.",
+      "parentUuid": "c04b6be8_08dd45e4",
       "range": {
         "startLine": 282,
         "startChar": 12,
