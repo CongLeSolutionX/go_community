@@ -874,10 +874,7 @@ func (o *Order) stmt(n ir.Node) {
 			case ir.OAS2RECV:
 				// case x, ok = <-c
 				recv := r.Rlist().First()
-				recv.SetLeft(o.expr(recv.Left(), nil))
-				if recv.Left().Op() != ir.ONAME {
-					recv.SetLeft(o.copyExpr(recv.Left()))
-				}
+				recv.SetLeft(o.cheapExpr(recv.Left()))
 				init := r.PtrInit().Slice()
 				r.PtrInit().Set(nil)
 
