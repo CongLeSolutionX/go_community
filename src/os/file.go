@@ -626,11 +626,7 @@ func (dir dirFS) Open(name string) (fs.File, error) {
 	if !fs.ValidPath(name) {
 		return nil, &PathError{Op: "open", Path: name, Err: ErrInvalid}
 	}
-	f, err := Open(string(dir) + "/" + name)
-	if err != nil {
-		return nil, err // nil fs.File
-	}
-	return f, nil
+	return Open(string(dir) + "/" + name)
 }
 
 // ReadFile reads the named file and returns the contents.
@@ -686,9 +682,10 @@ func WriteFile(name string, data []byte, perm FileMode) error {
 	if err != nil {
 		return err
 	}
-	_, err = f.Write(data)
-	if err1 := f.Close(); err1 != nil && err == nil {
-		err = err1
+	defer f.Close()
+
+	if _, err = f.Write(data); err != nil {
+		return err
 	}
-	return err
+	return nil
 }
