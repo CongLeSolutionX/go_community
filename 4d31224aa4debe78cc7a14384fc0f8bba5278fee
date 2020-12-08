@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e698516_50d3deb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:35:51Z",
+      "side": 1,
+      "message": "v+1 coming right up.",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac35412d_eff9b22c",
@@ -35,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b1f9e89_ddc55574",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1512,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:35:51Z",
+      "side": 1,
+      "message": "len(rsrcsyms)\u003d\u003d0 is what I meant, so I\u0027ll adjust this to reflect that.",
+      "parentUuid": "ac35412d_eff9b22c",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c740fcbe_dc11809c",
@@ -48,6 +83,24 @@
       "writtenOn": "2020-12-07T23:10:25Z",
       "side": 1,
       "message": "for _, rsrcsym :\u003d ...",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70bdb9f9_641a2abd",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1524,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:35:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c740fcbe_dc11809c",
       "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -87,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e18d31e_f28a6c8b",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:35:51Z",
+      "side": 1,
+      "message": "Good catch. I\u0027ve made this change and tested it and everything comes out working.",
+      "parentUuid": "1b560e2e_c53015b0",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66422bd9_2ba22db3",
@@ -100,6 +171,24 @@
       "writtenOn": "2020-12-07T23:10:25Z",
       "side": 1,
       "message": "for _, rsrcsym :\u003d ...",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71504961_77a837b0",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1531,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:35:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66422bd9_2ba22db3",
       "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -121,6 +210,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcd5c36a_eed2aedf",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:35:51Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "82b739b1_837144c5",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87175e3e_ac34f610",
@@ -134,6 +241,24 @@
       "writtenOn": "2020-12-07T23:10:25Z",
       "side": 1,
       "message": "This smells wrong... Is this supposed to accumulate the emitted data length?",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b916244_ed93f459",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:35:51Z",
+      "side": 1,
+      "message": "Right. In the event that we\u0027re split across sections, we have to add the total length in, so that the relocation offset is accounted for. I\u0027ll add a comment and resubmit.",
+      "parentUuid": "87175e3e_ac34f610",
       "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
