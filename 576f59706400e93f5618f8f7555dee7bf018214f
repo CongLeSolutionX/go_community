@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b8a873_b43dce1a",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-08T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66f623b6_5207203a",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "576f59706400e93f5618f8f7555dee7bf018214f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1982d3fa_57afac6a",
@@ -149,6 +173,30 @@
       "side": 1,
       "message": "Heh, that was actually the first way I coded it up, then I removed it since I wanted to keep things clean. I\u0027ll look into putting it back.",
       "parentUuid": "8a403f5e_cd9f370b",
+      "range": {
+        "startLine": 142,
+        "startChar": 30,
+        "endLine": 142,
+        "endChar": 38
+      },
+      "revId": "576f59706400e93f5618f8f7555dee7bf018214f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0233240e_c3e17f67",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-08T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e70ead6_a9f8b6e1",
       "range": {
         "startLine": 142,
         "startChar": 30,
