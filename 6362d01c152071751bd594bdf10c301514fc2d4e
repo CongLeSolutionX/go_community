@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e870a4d2_b9cc9f96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-08T15:01:58Z",
+      "side": 1,
+      "message": "LG, thanks for the numbers.",
+      "revId": "6362d01c152071751bd594bdf10c301514fc2d4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d1d67fc_1abb3e52",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-08T15:01:58Z",
+      "side": 1,
+      "message": "I believe the improvement for non-linux binaries (because we pushed the wavefront through in 1.16) will be more significant. I don\u0027t know if we want to call it out. As it stands, this is correct, it just masks some our awesomeness. :)",
+      "range": {
+        "startLine": 365,
+        "startChar": 35,
+        "endLine": 365,
+        "endChar": 59
+      },
+      "revId": "6362d01c152071751bd594bdf10c301514fc2d4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
