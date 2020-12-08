@@ -124,12 +124,13 @@ The commands are:
   src can include "stdout" or "stderr" to use the standard output or standard error
   from the most recent exec or go command.
 
-- env [-r] [key=value...]
+- env [-r | -s] [key=value...]
   With no arguments, print the environment to stdout
   (useful for debugging and for verifying initial state).
   Otherwise add the listed key=value pairs to the environment.
   The -r flag causes the values to be escaped using regexp.QuoteMeta
   before being recorded.
+  The -s flag causes the values to be pass through filepath.FromSlash().
 
 - [! | ?] exec program [args...] [&]
   Run the given executable program with the arguments.
