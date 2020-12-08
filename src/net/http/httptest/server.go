@@ -11,6 +11,7 @@ import (
 	"crypto/x509"
 	"flag"
 	"fmt"
+	"internal/timerpool"
 	"log"
 	"net"
 	"net/http"
@@ -276,8 +277,8 @@ func (s *Server) CloseClientConnections() {
 	// bound how long this can wait, since golang.org/issue/14291
 	// isn't fully understood yet. At least this should only be used
 	// in tests.
-	timer := time.NewTimer(5 * time.Second)
-	defer timer.Stop()
+	timer := timerpool.GlobalTimerPool.Get(5 * time.Second)
+	defer timerpool.GlobalTimerPool.Put(timer)
 	for i := 0; i < nconn; i++ {
 		select {
 		case <-ch:
