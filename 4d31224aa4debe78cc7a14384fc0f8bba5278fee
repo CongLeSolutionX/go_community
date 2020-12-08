@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9d65894_02bca255",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-08T14:56:26Z",
+      "side": 1,
+      "message": "From what I understand, this looks like a good start, but I think Austin\u0027s on to something being suspicious of the data length accumulation. Would adding multiple resources to the test case show an error?",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac35412d_eff9b22c",
@@ -48,6 +65,24 @@
       "writtenOn": "2020-12-07T23:10:25Z",
       "side": 1,
       "message": "Since we\u0027re now fetching the data again in the loop below, this should probably be just ctxt.loader.SymSize(rsrcsyms[i]). This is not *in general* the same as len(data) because symbols are zero-padded up to their SymSize, though I\u0027m guessing the PE loader doesn\u0027t make such symbols. Jeremy?",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b560e2e_c53015b0",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-08T14:56:26Z",
+      "side": 1,
+      "message": "As currently written, none of the host object loaders are lazy-loaded, so checking the length of the symbol would work, but it\u0027s not correct. The day could come where the data is also lazy loaded. Better is: ctxt.loader.SymSize(rsrcsyms[i])",
+      "parentUuid": "f8a456b4_0a5805ca",
       "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
