@@ -2444,10 +2444,9 @@ func (b *Builder) compilerExe(envValue string, def string) []string {
 // compilerCmd returns a command line prefix for the given environment
 // variable and using the default command when the variable is empty.
 func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []string {
-	// NOTE: env.go's mkEnv knows that the first three
-	// strings returned are "gcc", "-I", incdir (and cuts them off).
-	a := []string{compiler[0], "-I", incdir}
-	a = append(a, compiler[1:]...)
+	// Retain arg order for #43078
+	a := append([]string(nil), compiler...)
+	a = append(a, "-I", incdir)
 
 	// Definitely want -fPIC but on Windows gcc complains
 	// "-fPIC ignored for target (all code is position independent)"
