@@ -7,6 +7,7 @@ package net
 import (
 	"context"
 	"internal/nettrace"
+	"internal/timerpool"
 	"syscall"
 	"time"
 )
@@ -483,8 +484,8 @@ func (sd *sysDialer) dialParallel(ctx context.Context, primaries, fallbacks addr
 	go startRacer(primaryCtx, true)
 
 	// Start the timer for the fallback racer.
-	fallbackTimer := time.NewTimer(sd.fallbackDelay())
-	defer fallbackTimer.Stop()
+	fallbackTimer := timerpool.GlobalTimerPool.Get(sd.fallbackDelay())
+	defer timerpool.GlobalTimerPool.Put(fallbackTimer)
 
 	for {
 		select {
