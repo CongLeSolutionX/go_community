@@ -33,6 +33,24 @@
       "message": "Hmmm, this is really bizarre. I don\u0027t think we want to change how the assembler frontend parses constants. I don\u0027t think we expect user to write such instructions by hand. Maybe print a warning and move on.\n\nIf these instructions are actually useful in user assembly code, maybe we should introduce a different syntax for them.\n",
       "revId": "eb5788ba6339f902da4874fbb970490b12825038",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d234c61e_be88160d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2020-12-08T07:26:45Z",
+      "side": 1,
+      "message": "I did this change has two reasons.\n1. According to ARM architecture reference manual, the instruction \"MOVK $0, Rd\" and \"MOVK $(0\u003c\u003c16), Rd\" have different operational semantics. So encoding them as the same binary is incorrect.\n2. The inconsistency of assembler and disassembler.\n  e.g. 1700a0f2, the disassmbler decodes it as \"MOVK $(0\u003c\u003c16), R23\", but assembler encodes it as 170080f2.\n\nAnd maybe we can’t force users not to write these instructions by hand.\nThank you.",
+      "parentUuid": "b8b2dd59_fbadb6c3",
+      "revId": "eb5788ba6339f902da4874fbb970490b12825038",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
