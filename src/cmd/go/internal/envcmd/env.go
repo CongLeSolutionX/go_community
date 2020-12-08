@@ -101,13 +101,14 @@ func MkEnv() []cfg.EnvVar {
 		env = append(env, cfg.EnvVar{Name: key, Value: val})
 	}
 
+	// Do not split CC/CXX for #43078
 	cc := cfg.DefaultCC(cfg.Goos, cfg.Goarch)
-	if env := strings.Fields(cfg.Getenv("CC")); len(env) > 0 {
-		cc = env[0]
+	if env := cfg.Getenv("CC"); env != "" {
+		cc = env
 	}
 	cxx := cfg.DefaultCXX(cfg.Goos, cfg.Goarch)
-	if env := strings.Fields(cfg.Getenv("CXX")); len(env) > 0 {
-		cxx = env[0]
+	if env := cfg.Getenv("CXX"); env != "" {
+		cxx = env
 	}
 	env = append(env, cfg.EnvVar{Name: "AR", Value: envOr("AR", "ar")})
 	env = append(env, cfg.EnvVar{Name: "CC", Value: cc})
@@ -165,6 +166,17 @@ func ExtraEnvVarsCostly() []cfg.EnvVar {
 	}
 	cmd := b.GccCmd(".", "")
 
+	// Filter out "gcc", "-I", incdir
+	fmt.Fprintln(os.Stderr, cmd)
+	cmd = cmd[1:]
+	for i, s := range cmd {
+		if s == "-I" {
+			cmd = append(cmd[:i], cmd[i+2:]...)
+			break
+		}
+	}
+	fmt.Fprintln(os.Stderr, cmd)
+
 	return []cfg.EnvVar{
 		// Note: Update the switch in runEnv below when adding to this list.
 		{Name: "CGO_CFLAGS", Value: strings.Join(cflags, " ")},
@@ -173,7 +185,7 @@ func ExtraEnvVarsCostly() []cfg.EnvVar {
 		{Name: "CGO_FFLAGS", Value: strings.Join(fflags, " ")},
 		{Name: "CGO_LDFLAGS", Value: strings.Join(ldflags, " ")},
 		{Name: "PKG_CONFIG", Value: b.PkgconfigCmd()},
-		{Name: "GOGCCFLAGS", Value: strings.Join(cmd[3:], " ")},
+		{Name: "GOGCCFLAGS", Value: strings.Join(cmd, " ")},
 	}
 }
 
