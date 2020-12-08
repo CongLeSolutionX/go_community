@@ -114,6 +114,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ffea1fd5_48bbf856",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-08T22:26:11Z",
+      "side": 1,
+      "message": "Looks good, thanks.",
+      "parentUuid": "147869a0_76c9833c",
+      "range": {
+        "startLine": 265,
+        "startChar": 42,
+        "endLine": 266,
+        "endChar": 48
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c04b6be8_08dd45e4",
         "filename": "doc/go1.16.html",
         "patchSetId": 1
@@ -149,6 +173,30 @@
       "side": 1,
       "message": "This is a valid concern IMO. Transitioning from t.Fatal to t.Error is a relatively safe suggestion. Almost everyone will need to do this part. Saying something about this seems helpful.\n\nThe question is what to do to mimic the early exit they are likely trying to achieve by writing t.Fatal/Skip. This going to be contextually dependent and have multiple solutions.\n\nHappy rewording or dropping the suggestion if we think this will lead users astray.",
       "parentUuid": "c04b6be8_08dd45e4",
+      "range": {
+        "startLine": 282,
+        "startChar": 12,
+        "endLine": 282,
+        "endChar": 31
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "febb6ddf_c761ef8d",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-08T22:26:11Z",
+      "side": 1,
+      "message": "Sounds good, thanks for considering this.",
+      "parentUuid": "ff932809_b54f6edd",
       "range": {
         "startLine": 282,
         "startChar": 12,
