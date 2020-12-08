@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8537196_1a0f54d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-08T22:11:55Z",
+      "side": 1,
+      "message": "Thanks, but this change is not correct, because os.Open returns a *os.File, but fs.File is an interface.  That is why the comment says \"nil fs.File\".  See https://golang.org/doc/faq#nil_error for more about this kind of problem, in that case with the error interface.",
+      "revId": "2426526fcf23c18f45855e37299a5f588086c09d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
