@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79803f09_b213349a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:38:50Z",
+      "side": 1,
+      "message": "I think the linker already rejects multiple resource sections, actually, since before this patch, as just something unsupported. I\u0027ve added a comment to the next version clarifying.",
+      "parentUuid": "d9d65894_02bca255",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac35412d_eff9b22c",
@@ -276,6 +294,24 @@
       "writtenOn": "2020-12-07T23:10:25Z",
       "side": 1,
       "message": "Use spaces instead of a tab for consistency?",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "782bde21_e2679807",
+        "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-08T17:38:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5004c540_93bb4610",
       "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
