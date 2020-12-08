@@ -13,6 +13,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"internal/timerpool"
 	"io"
 	"log"
 	"math/rand"
@@ -2750,8 +2751,8 @@ func (srv *Server) Shutdown(ctx context.Context) error {
 		return interval
 	}
 
-	timer := time.NewTimer(nextPollInterval())
-	defer timer.Stop()
+	timer := timerpool.GlobalTimerPool.Get(nextPollInterval())
+	defer timerpool.GlobalTimerPool.Put(timer)
 	for {
 		if srv.closeIdleConns() && srv.numListeners() == 0 {
 			return lnerr

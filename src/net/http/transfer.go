@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"internal/timerpool"
 	"io"
 	"net/http/httptrace"
 	"net/http/internal"
@@ -212,7 +213,8 @@ func (t *transferWriter) probeRequestBody() {
 		}
 		t.ByteReadCh <- rres
 	}(t.Body)
-	timer := time.NewTimer(200 * time.Millisecond)
+	timer := timerpool.GlobalTimerPool.Get(200 * time.Millisecond)
+	defer timerpool.GlobalTimerPool.Put(timer)
 	select {
 	case rres := <-t.ByteReadCh:
 		timer.Stop()
