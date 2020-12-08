@@ -63,6 +63,7 @@ import (
 	"fmt"
 	"html"
 	"internal/profile"
+	"internal/timerpool"
 	"io"
 	"log"
 	"net/http"
@@ -279,8 +280,8 @@ func (name handler) serveDeltaProfile(w http.ResponseWriter, r *http.Request, p 
 		return
 	}
 
-	t := time.NewTimer(time.Duration(sec) * time.Second)
-	defer t.Stop()
+	t := timerpool.GlobalTimerPool.Get(time.Duration(sec) * time.Second)
+	defer timerpool.GlobalTimerPool.Put(t)
 
 	select {
 	case <-r.Context().Done():

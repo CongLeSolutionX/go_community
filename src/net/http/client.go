@@ -15,6 +15,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"internal/timerpool"
 	"io"
 	"log"
 	"net/url"
@@ -390,19 +391,19 @@ func setRequestCancel(req *Request, rt RoundTripper, deadline time.Time) (stopTi
 		})
 	}
 
-	timer := time.NewTimer(time.Until(deadline))
+	timer := timerpool.GlobalTimerPool.Get(time.Until(deadline))
 	var timedOut atomicBool
 
 	go func() {
 		select {
 		case <-initialReqCancel:
 			doCancel()
-			timer.Stop()
+			timerpool.GlobalTimerPool.Put(timer)
 		case <-timer.C:
 			timedOut.setTrue()
 			doCancel()
 		case <-stopTimerCh:
-			timer.Stop()
+			timerpool.GlobalTimerPool.Put(timer)
 		}
 	}()
 
