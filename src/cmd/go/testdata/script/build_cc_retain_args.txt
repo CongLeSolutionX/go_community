@@ -1,0 +1,63 @@
+# Regression test for https://golang.org/issue/43078:
+#
+# If CC is set like "program arg1 arg2....", the go command should
+# retain the args and the order when invoking CC.
+
+[!cgo] skip
+
+cd $WORK
+go build -ldflags=-X=main.cc=$CC -o $WORK/cc$GOEXE
+env -s CC=$WORK/cc$GOEXE' cc'
+go run $WORK/cctest
+stdout 'Hello, World!'
+
+-- $WORK/cc.go --
+package main
+
+import (
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+)
+
+var cc string
+
+func main() {
+	if cc == "" {
+		cc = "gcc"
+	}
+	
+	if os.Args[1] != "cc" {
+		panic(fmt.Sprintln("expected command to be \"cc cc ...\" but got: ", os.Args))
+	}
+
+	cmd := exec.Command(filepath.Clean(cc), os.Args[2:]...)
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
+	cmd.Env = os.Environ()
+
+	if err := cmd.Run(); err != nil {
+		panic(err)
+	}
+}
+-- $WORK/go.mod --
+module cc
+
+go 1.16
+
+-- $WORK/cctest/main.go --
+package main
+
+/*
+	#include <stdio.h>
+
+	void hello() {
+		printf("Hello, World!");
+	}
+*/
+import "C"
+
+func main() {
+	C.hello()
+}

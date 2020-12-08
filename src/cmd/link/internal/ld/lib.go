@@ -1240,6 +1240,29 @@ func (ctxt *Link) hostlink() {
 
 	var argv []string
 	argv = append(argv, ctxt.extld())
+
+	// clang, unlike GCC, passes -rdynamic to the linker
+	// even when linking with -static, causing a linker
+	// error when using GNU ld. So take out -rdynamic if
+	// we added it. We do it in this order, rather than
+	// only adding -rdynamic later, so that -*extldflags
+	// can override -rdynamic without using -static.
+	checkStatic := func(arg string) {
+		if ctxt.IsELF && arg == "-static" {
+			for i := range argv {
+				if argv[i] == "-rdynamic" {
+					argv[i] = "-static"
+				}
+			}
+		}
+	}
+
+	// Retain arg order for #43078
+	for _, p := range strings.Fields(*flagExtldflags) {
+		argv = append(argv, p)
+		checkStatic(p)
+	}
+
 	argv = append(argv, hostlinkArchArgs(ctxt.Arch)...)
 
 	if *FlagS || debug_s {
@@ -1517,22 +1540,6 @@ func (ctxt *Link) hostlink() {
 		}
 	}
 
-	// clang, unlike GCC, passes -rdynamic to the linker
-	// even when linking with -static, causing a linker
-	// error when using GNU ld. So take out -rdynamic if
-	// we added it. We do it in this order, rather than
-	// only adding -rdynamic later, so that -*extldflags
-	// can override -rdynamic without using -static.
-	checkStatic := func(arg string) {
-		if ctxt.IsELF && arg == "-static" {
-			for i := range argv {
-				if argv[i] == "-rdynamic" {
-					argv[i] = "-static"
-				}
-			}
-		}
-	}
-
 	for _, p := range ldflag {
 		argv = append(argv, p)
 		checkStatic(p)
@@ -1555,10 +1562,6 @@ func (ctxt *Link) hostlink() {
 		}
 	}
 
-	for _, p := range strings.Fields(*flagExtldflags) {
-		argv = append(argv, p)
-		checkStatic(p)
-	}
 	if ctxt.HeadType == objabi.Hwindows {
 		// use gcc linker script to work around gcc bug
 		// (see https://golang.org/issue/20183 for details).

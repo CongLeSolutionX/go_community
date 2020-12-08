@@ -639,9 +639,15 @@ func (ts *testScript) cmdEnv(want simpleStatus, args []string) {
 	}
 
 	conv := func(s string) string { return s }
-	if len(args) > 0 && args[0] == "-r" {
-		conv = regexp.QuoteMeta
-		args = args[1:]
+	if len(args) > 0 {
+		switch args[0] {
+		case "-r":
+			conv = regexp.QuoteMeta
+			args = args[1:]
+		case "-s":
+			conv = func(s string) string { return filepath.FromSlash(s) }
+			args = args[1:]
+		}
 	}
 
 	var out strings.Builder
