@@ -102,13 +102,14 @@ func MkEnv() []cfg.EnvVar {
 		env = append(env, cfg.EnvVar{Name: key, Value: val})
 	}
 
+	// Do not split CC/CXX for #43078
 	cc := cfg.DefaultCC(cfg.Goos, cfg.Goarch)
-	if env := strings.Fields(cfg.Getenv("CC")); len(env) > 0 {
-		cc = env[0]
+	if env := cfg.Getenv("CC"); env != "" {
+		cc = env
 	}
 	cxx := cfg.DefaultCXX(cfg.Goos, cfg.Goarch)
-	if env := strings.Fields(cfg.Getenv("CXX")); len(env) > 0 {
-		cxx = env[0]
+	if env := cfg.Getenv("CXX"); env != "" {
+		cxx = env
 	}
 	env = append(env, cfg.EnvVar{Name: "AR", Value: envOr("AR", "ar")})
 	env = append(env, cfg.EnvVar{Name: "CC", Value: cc})
