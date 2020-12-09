@@ -205,6 +205,30 @@
       },
       "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a197e502_61178098",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2020-12-09T21:49:56Z",
+      "side": 1,
+      "message": "Ian, we both seem to be okay with the current draft but open to suggestions. Thoughts?",
+      "parentUuid": "febb6ddf_c761ef8d",
+      "range": {
+        "startLine": 282,
+        "startChar": 12,
+        "endLine": 282,
+        "endChar": 31
+      },
+      "revId": "20abf4786cd45cc4daa88ce77420746b4a482975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
