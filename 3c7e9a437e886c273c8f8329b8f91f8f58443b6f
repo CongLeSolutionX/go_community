@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4be487cb_94bd85dc",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2447,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-09T07:37:26Z",
+      "side": 1,
+      "message": "This comment explains why the code is the way it is.  Maybe the comment is no longer right; I don\u0027t know.  But if the comment is no longer right, we should remove it.",
+      "revId": "3c7e9a437e886c273c8f8329b8f91f8f58443b6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
