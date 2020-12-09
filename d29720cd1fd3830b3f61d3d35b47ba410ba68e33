@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1aef72f_7b60e9dd",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 27609
+      },
+      "writtenOn": "2020-12-09T22:11:48Z",
+      "side": 1,
+      "message": "If I filter out the entire $CC including -I incdir then TestGoEnv breaks.\nSo is it better this way or should I fix TestGoEnv?",
+      "revId": "d29720cd1fd3830b3f61d3d35b47ba410ba68e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
