@@ -52,6 +52,24 @@
       "parentUuid": "ec494bbb_cbe5f089",
       "revId": "43de0d41db5c0fc10617ff46db9e6f2e80b9b1c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57d576df_bc53cb64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2020-12-09T09:51:40Z",
+      "side": 1,
+      "message": "It might be hard to benchmark the actual use cases in net package cuz those timers used by net package is not intended to be benchmarkable, such as the timers in net/http/transfer.go and net/http/transport.go were created when constructing some structs related to connection or calling timers in a loop.\n\nI deem that a timer pool will help the performance connections in scenarios with a large number of network connections?",
+      "parentUuid": "2026f7c3_fd7eb7f6",
+      "revId": "43de0d41db5c0fc10617ff46db9e6f2e80b9b1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
