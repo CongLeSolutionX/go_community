@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d4fc1d21_3fcb15b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T22:30:46Z",
+      "side": 1,
+      "message": "Not quite. With this change, it still only supports one single resource section, but it can assemble that one single resource section from the various fragments, denoted by the $xx in at the end of the symbol name. Actually, this scheme of having sections fragmented that get merged is generic and not just specific to resources -- C linkers support it for everything -- but the Go linker isn\u0027t trying to be a C linker, and it already special cases .rsrc, so this just adds a tiny bit of logic to the .rsrc handling, without attempting to handle $xx generically.",
+      "parentUuid": "d2a5d7e1_39b333db",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "985a4514_45795c29",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -37,6 +61,23 @@
       "writtenOn": "2020-12-09T10:30:34Z",
       "side": 1,
       "message": "Comments should be clearer now.",
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ef5b47_e8b446c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T22:30:46Z",
+      "side": 1,
+      "message": "v+1 coming right up.",
       "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -64,6 +105,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a05ea98_719bbe9e",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1811,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T22:30:46Z",
+      "side": 1,
+      "message": "Missed that one, thanks. Fixed for v+1.",
+      "parentUuid": "e9abe80a_c31791cd",
+      "range": {
+        "startLine": 1811,
+        "startChar": 6,
+        "endLine": 1811,
+        "endChar": 17
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2addf069_333d6cd2",
@@ -77,6 +142,30 @@
       "writtenOn": "2020-12-09T18:40:51Z",
       "side": 1,
       "message": "This comment needs updating.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 64
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dadb2105_9a9b94bd",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T22:30:46Z",
+      "side": 1,
+      "message": "Fixed, thanks.",
+      "parentUuid": "2addf069_333d6cd2",
       "range": {
         "startLine": 160,
         "startChar": 0,
@@ -112,6 +201,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1303f782_37a5ccfe",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T22:30:46Z",
+      "side": 1,
+      "message": "windows/arm64 does not exist, sadly. There\u0027s only amd64, 386, and arm. Microsoft said they\u0027d contribute an arm64 port after we got our builder story together. We now have a builder, so hopefully the arm64 port will be forthcoming.",
+      "parentUuid": "f5c0fd7f_9df08034",
+      "range": {
+        "startLine": 759,
+        "startChar": 4,
+        "endLine": 759,
+        "endChar": 29
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "873d77fc_1ad66d76",
         "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
         "patchSetId": 9
@@ -123,6 +236,30 @@
       "writtenOn": "2020-12-09T18:40:51Z",
       "side": 1,
       "message": "I looked over the source code for llvm-rc/llvm/cvtres; they only emit a single flavor of relocation. Is this the case for the msvc rc.exe as well? Just curious.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 57
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e3e7d8f_110ad106",
+        "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T22:30:46Z",
+      "side": 1,
+      "message": "From experimenting with rc.exe and cvtres.exe from MSVC, it looks like IMAGE_REL_AMD64_ADDR32NB is always used.",
+      "parentUuid": "873d77fc_1ad66d76",
       "range": {
         "startLine": 39,
         "startChar": 0,
