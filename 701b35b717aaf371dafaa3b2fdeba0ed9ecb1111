@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "326f9645_f1d61367",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-09T14:45:51Z",
+      "side": 1,
+      "message": "This change also needs a regression test.\n\nFollowing the approach in CL 255018, the test could set CC to some script (or Go program) that verifies that its first argument is \"cc\", strips that argument, and then invokes the real compiler with the remaining arguments.",
+      "revId": "701b35b717aaf371dafaa3b2fdeba0ed9ecb1111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "253b5726_c74e7602",
