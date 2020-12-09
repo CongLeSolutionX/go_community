@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2a5d7e1_39b333db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-09T18:40:51Z",
+      "side": 1,
+      "message": "Just to be clear -- the Go linker doesn\u0027t have this sort/merge/rename logic because it only accepts a single resource section, is that correct?",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "985a4514_45795c29",
@@ -14,6 +37,98 @@
       "writtenOn": "2020-12-09T10:30:34Z",
       "side": 1,
       "message": "Comments should be clearer now.",
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9abe80a_c31791cd",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1811,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-09T18:40:51Z",
+      "side": 1,
+      "message": "As I understand it, \"rsrc\" is a slice, in which case it would be more idiomatic to test \"len(rsrc) !\u003d 0\".",
+      "range": {
+        "startLine": 1811,
+        "startChar": 6,
+        "endLine": 1811,
+        "endChar": 17
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2addf069_333d6cd2",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-09T18:40:51Z",
+      "side": 1,
+      "message": "This comment needs updating.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 64
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5c0fd7f_9df08034",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-09T18:40:51Z",
+      "side": 1,
+      "message": "Seems to me that it would be a good idea to run this on Windows/arm64 too, no?",
+      "range": {
+        "startLine": 759,
+        "startChar": 4,
+        "endLine": 759,
+        "endChar": 29
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "873d77fc_1ad66d76",
+        "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-09T18:40:51Z",
+      "side": 1,
+      "message": "I looked over the source code for llvm-rc/llvm/cvtres; they only emit a single flavor of relocation. Is this the case for the msvc rc.exe as well? Just curious.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 57
+      },
       "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
