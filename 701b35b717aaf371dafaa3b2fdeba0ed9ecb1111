@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "253b5726_c74e7602",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-09T14:41:36Z",
+      "side": 1,
+      "message": "This is where we are assuming that the first two args are `-I` and incdir.\n\nWe should probably either remove that assumption, or explicitly validate it (i.e. by panicking if cmd[1] !\u003d \"-I\").",
+      "revId": "701b35b717aaf371dafaa3b2fdeba0ed9ecb1111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "4be487cb_94bd85dc",
       "revId": "3c7e9a437e886c273c8f8329b8f91f8f58443b6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39d880a6_4622466d",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2447,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-09T14:41:36Z",
+      "side": 1,
+      "message": "It looks like env.go does still assume that these flags are in this position.",
+      "parentUuid": "fd44b173_87174df5",
+      "revId": "3c7e9a437e886c273c8f8329b8f91f8f58443b6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
