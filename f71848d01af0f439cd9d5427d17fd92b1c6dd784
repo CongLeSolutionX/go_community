@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e4b6e61_1c9da0fc",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2020-12-09T16:44:09Z",
+      "side": 1,
+      "message": "send-only",
+      "range": {
+        "startLine": 377,
+        "startChar": 24,
+        "endLine": 377,
+        "endChar": 33
+      },
+      "revId": "f71848d01af0f439cd9d5427d17fd92b1c6dd784",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
