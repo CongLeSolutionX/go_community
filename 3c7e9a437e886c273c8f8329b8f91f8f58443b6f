@@ -16,6 +16,24 @@
       "message": "This comment explains why the code is the way it is.  Maybe the comment is no longer right; I don\u0027t know.  But if the comment is no longer right, we should remove it.",
       "revId": "3c7e9a437e886c273c8f8329b8f91f8f58443b6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd44b173_87174df5",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2447,
+      "author": {
+        "id": 27609
+      },
+      "writtenOn": "2020-12-09T08:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be487cb_94bd85dc",
+      "revId": "3c7e9a437e886c273c8f8329b8f91f8f58443b6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
