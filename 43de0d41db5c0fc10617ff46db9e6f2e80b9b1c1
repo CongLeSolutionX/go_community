@@ -34,6 +34,24 @@
       "parentUuid": "2f6116ce_ac01394b",
       "revId": "43de0d41db5c0fc10617ff46db9e6f2e80b9b1c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2026f7c3_fd7eb7f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-09T07:23:25Z",
+      "side": 1,
+      "message": "Thanks, but what we need are benchmarks that use actual net package code.  It\u0027s not surprising that a direct test of the pool shows that the pool is faster, but no user will write code like that.  For example, the net package already has a bunch of benchmarks; does this CL affect any of them?",
+      "parentUuid": "ec494bbb_cbe5f089",
+      "revId": "43de0d41db5c0fc10617ff46db9e6f2e80b9b1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
