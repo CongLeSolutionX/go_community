@@ -281,6 +281,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0371da25_2343683d",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-12-09T09:00:23Z",
+      "side": 1,
+      "message": "I still don\u0027t understand your comment.\n\n```\n// If we\u0027re a split resource, the data begins at an offset given\n// by its length, because the symbols are split between sections, ...\n```\n\n\"the symbols are split between sections\" does not explain for me why \"the data begins at an offset given by its length\". It is not even clear for me what \"its\" refers to here. Does it refer to \"split resource\" or \"data\"? If it refers to \"split resource\", then it is not clear what \"split resource length\" is.\n\nAnd there are two more lines in this sentence. But I already lost the idea.\n\nPlease, split this comment into smaller sentences.",
+      "parentUuid": "3b916244_ed93f459",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5004c540_93bb4610",
