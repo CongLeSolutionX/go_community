@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b821414_e3387782",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T10:21:10Z",
+      "side": 1,
+      "message": "\"GNU Binutils\" is the name of the project. That ends in s. Therefore it\u0027s made possessive by adding an apostrophe to the end.",
+      "parentUuid": "2e98fbd9_f6d21db5",
+      "range": {
+        "startLine": 22,
+        "startChar": 34,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "66f481e3e24949570d7e39966a80f79d2cdf14ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceade996_1e685036",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-09T09:00:23Z",
       "side": 1,
       "message": "s/binutils\u0027/binutil\u0027s/",
+      "range": {
+        "startLine": 23,
+        "startChar": 48,
+        "endLine": 23,
+        "endChar": 57
+      },
+      "revId": "66f481e3e24949570d7e39966a80f79d2cdf14ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb890a02_64e716ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T10:21:10Z",
+      "side": 1,
+      "message": "See prior comment.",
+      "parentUuid": "ceade996_1e685036",
       "range": {
         "startLine": 23,
         "startChar": 48,

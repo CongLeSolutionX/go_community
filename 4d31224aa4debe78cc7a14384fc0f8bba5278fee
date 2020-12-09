@@ -299,6 +299,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3fa13d1_f78285e1",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-09T10:21:10Z",
+      "side": 1,
+      "message": "Ok, will do.",
+      "parentUuid": "0371da25_2343683d",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5004c540_93bb4610",
