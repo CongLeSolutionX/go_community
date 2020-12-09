@@ -225,6 +225,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "eb5b030a_437e5723",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-09T22:43:56Z",
+      "side": 1,
+      "message": "OK, then could this guard be changed to include windows/arm? Right now the test only runs on windows/amd64.",
+      "parentUuid": "1303f782_37a5ccfe",
+      "range": {
+        "startLine": 759,
+        "startChar": 4,
+        "endLine": 759,
+        "endChar": 29
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "873d77fc_1ad66d76",
         "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
         "patchSetId": 9
@@ -260,6 +284,30 @@
       "side": 1,
       "message": "From experimenting with rc.exe and cvtres.exe from MSVC, it looks like IMAGE_REL_AMD64_ADDR32NB is always used.",
       "parentUuid": "873d77fc_1ad66d76",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 57
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebfca439_6f787270",
+        "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-09T22:43:56Z",
+      "side": 1,
+      "message": "Ok, thanks, that is useful to know.",
+      "parentUuid": "6e3e7d8f_110ad106",
       "range": {
         "startLine": 39,
         "startChar": 0,
