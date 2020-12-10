@@ -509,10 +509,7 @@ func mapClear(m ir.Node) ir.Node {
 	fn = substArgTypes(fn, t.Key(), t.Elem())
 	n := mkcall1(fn, nil, nil, typename(t), m)
 
-	n = typecheck(n, ctxStmt)
-	n = walkstmt(n)
-
-	return n
+	return walkstmt(typecheck(n, ctxStmt))
 }
 
 // Lower n into runtime·memclr if possible, for
