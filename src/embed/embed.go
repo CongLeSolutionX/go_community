@@ -121,6 +121,15 @@ import (
 	"time"
 )
 
+// TODO(mdempsky): Documentation and better panic messages in the
+// event of the compiler misbehaving.
+
+func Bytes(patterns ...string) []byte { panic("unreachable") }
+
+func String(patterns ...string) string { panic("unreachable") }
+
+func Files(patterns ...string) FS { panic("unreachable") }
+
 // An FS is a read-only collection of files, usually initialized with a //go:embed directive.
 // When declared without a //go:embed directive, an FS is an empty file system.
 //
