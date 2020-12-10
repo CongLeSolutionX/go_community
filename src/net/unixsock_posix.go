@@ -113,6 +113,22 @@ func (c *UnixConn) readFrom(b []byte) (int, *UnixAddr, error) {
 func (c *UnixConn) readMsg(b, oob []byte) (n, oobn, flags int, addr *UnixAddr, err error) {
 	var sa syscall.Sockaddr
 	n, oobn, flags, sa, err = c.fd.readMsg(b, oob)
+	if oobn > 0 {
+		scms, err := syscall.ParseSocketControlMessage(oob[:oobn])
+		if err != nil {
+			return 0, 0, 0, nil, err
+		}
+
+		for _, scm := range scms {
+			fds, err := syscall.ParseUnixRights(&scm)
+			if err != nil {
+				return 0, 0, 0, nil, err
+			}
+			for _, fd := range fds {
+				syscall.CloseOnExec(fd)
+			}
+		}
+	}
 	switch sa := sa.(type) {
 	case *syscall.SockaddrUnix:
 		if sa.Name != "" {
