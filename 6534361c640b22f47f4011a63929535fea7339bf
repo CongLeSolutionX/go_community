@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c00020c_126c1d2b",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T22:20:13Z",
+      "side": 1,
+      "message": "Dead",
+      "revId": "6534361c640b22f47f4011a63929535fea7339bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
