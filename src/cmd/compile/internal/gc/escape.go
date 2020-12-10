@@ -803,7 +803,7 @@ func (e *Escape) call(ks []EscHole, call, where ir.Node) {
 		base.Fatalf("unexpected call op: %v", call.Op())
 
 	case ir.OCALLFUNC, ir.OCALLMETH, ir.OCALLINTER:
-		fixVariadicCall(call)
+		fixVariadicCall(call.(*ir.CallExpr))
 
 		// Pick out the function callee, if statically known.
 		var fn *ir.Name

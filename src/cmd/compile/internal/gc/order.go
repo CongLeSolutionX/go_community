@@ -483,7 +483,7 @@ func (o *Order) call(n ir.Node) {
 		return
 	}
 
-	fixVariadicCall(n)
+	fixVariadicCall(n.(*ir.CallExpr))
 	n.SetLeft(o.expr(n.Left(), nil))
 	o.exprList(n.List())
 
