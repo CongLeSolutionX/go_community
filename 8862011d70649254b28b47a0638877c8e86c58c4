@@ -39,6 +39,30 @@
       },
       "revId": "8862011d70649254b28b47a0638877c8e86c58c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77ad1980_6b2126b0",
+        "filename": "test/fixedbugs/bug13343.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-10T18:34:36Z",
+      "side": 1,
+      "message": "There is also GC_ERROR.",
+      "parentUuid": "32c79deb_8be96bbf",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "8862011d70649254b28b47a0638877c8e86c58c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
