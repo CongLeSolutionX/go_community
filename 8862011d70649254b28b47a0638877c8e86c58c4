@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c54813dd_abae2687",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T13:57:51Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "8862011d70649254b28b47a0638877c8e86c58c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32c79deb_8be96bbf",
+        "filename": "test/fixedbugs/bug13343.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T13:57:51Z",
+      "side": 1,
+      "message": "Didn\u0027t know this was possible... TIL.",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "8862011d70649254b28b47a0638877c8e86c58c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
