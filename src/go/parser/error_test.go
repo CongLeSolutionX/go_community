@@ -25,7 +25,7 @@ package parser
 import (
 	"go/scanner"
 	"go/token"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -179,10 +179,11 @@ func checkErrors(t *testing.T, filename string, input interface{}, mode Mode, ex
 }
 
 func TestErrors(t *testing.T) {
-	list, err := ioutil.ReadDir(testdata)
+	list, err := os.ReadDir(testdata)
 	if err != nil {
 		t.Fatal(err)
 	}
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 	for _, fi := range list {
 		name := fi.Name()
 		if !fi.IsDir() && !strings.HasPrefix(name, ".") && (strings.HasSuffix(name, ".src") || strings.HasSuffix(name, ".go2")) {
@@ -191,6 +192,12 @@ func TestErrors(t *testing.T) {
 				mode |= ParseTypeParams
 			}
 			checkErrors(t, filepath.Join(testdata, name), nil, mode, true)
+=======
+	for _, d := range list {
+		name := d.Name()
+		if !d.IsDir() && !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".src") {
+			checkErrors(t, filepath.Join(testdata, name), nil)
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
 		}
 	}
 }

@@ -57,7 +57,11 @@ func main() {
 
 	// cannot type-assert non-interfaces
 	f := 2.0
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 	_ = f.(int) // ERROR "non-interface type|not an interface type"
+=======
+	_ = f.(int) // ERROR "non-interface type|only valid for interface types"
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
 
 }
 
@@ -100,6 +104,7 @@ type T2 struct{}
 func (t *T2) M() {}
 func (t *T2) _() {}
 
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 // Check that nothing satisfies an interface with blank methods.
 // Disabled this test as it's not clear we need this behavior.
 // See also issue #42964.
@@ -107,3 +112,9 @@ func (t *T2) _() {}
 var b1 B1 = &T2{} // "incompatible|missing _ method"
 var b2 B2 = &T2{} // "incompatible|missing _ method"
 */
+=======
+// Already reported about the invalid blank interface method above;
+// no need to report about not implementing it.
+var b1 B1 = &T2{}
+var b2 B2 = &T2{}
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)

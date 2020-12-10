@@ -9,9 +9,18 @@
 
 package issue11371
 
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 const a int = 1.1        // ERROR "constant 1.1 truncated to integer|truncated to int"
 const b int = 1e20       // ERROR "overflows int|truncated to int"
 const c int = 1 + 1e-100 // ERROR "constant truncated to integer|truncated to int"
 const d int = 1 - 1e-100 // ERROR "constant truncated to integer|truncated to int"
 const e int = 1.00000001 // ERROR "constant truncated to integer|truncated to int"
 const f int = 0.00000001 // ERROR "constant 1e-08 truncated to integer|truncated to int"
+=======
+const a int = 1.1        // ERROR "constant 1.1 truncated to integer|floating-point constant truncated to integer"
+const b int = 1e20       // ERROR "overflows int|integer constant overflow"
+const c int = 1 + 1e-100 // ERROR "constant truncated to integer"
+const d int = 1 - 1e-100 // ERROR "constant truncated to integer"
+const e int = 1.00000001 // ERROR "constant truncated to integer"
+const f int = 0.00000001 // ERROR "constant 1e-08 truncated to integer|floating-point constant truncated to integer"
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
