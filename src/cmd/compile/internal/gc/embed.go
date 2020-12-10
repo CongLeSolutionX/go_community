@@ -5,15 +5,14 @@
 package gc
 
 import (
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"path"
 	"sort"
-	"strconv"
 	"strings"
 )
 
@@ -40,148 +39,6 @@ func readEmbedCfg(file string) {
 	}
 }
 
-const (
-	embedUnknown = iota
-	embedBytes
-	embedString
-	embedFiles
-)
-
-var numLocalEmbed int
-
-func varEmbed(p *noder, names []*Node, typ *Node, exprs []*Node, embeds []PragmaEmbed) (newExprs []*Node) {
-	haveEmbed := false
-	for _, decl := range p.file.DeclList {
-		imp, ok := decl.(*syntax.ImportDecl)
-		if !ok {
-			// imports always come first
-			break
-		}
-		path, _ := strconv.Unquote(imp.Path.Value)
-		if path == "embed" {
-			haveEmbed = true
-			break
-		}
-	}
-
-	pos := embeds[0].Pos
-	if !haveEmbed {
-		p.yyerrorpos(pos, "invalid go:embed: missing import \"embed\"")
-		return exprs
-	}
-	if embedCfg.Patterns == nil {
-		p.yyerrorpos(pos, "invalid go:embed: build system did not supply embed configuration")
-		return exprs
-	}
-	if len(names) > 1 {
-		p.yyerrorpos(pos, "go:embed cannot apply to multiple vars")
-		return exprs
-	}
-	if len(exprs) > 0 {
-		p.yyerrorpos(pos, "go:embed cannot apply to var with initializer")
-		return exprs
-	}
-	if typ == nil {
-		// Should not happen, since len(exprs) == 0 now.
-		p.yyerrorpos(pos, "go:embed cannot apply to var without type")
-		return exprs
-	}
-
-	kind := embedKindApprox(typ)
-	if kind == embedUnknown {
-		p.yyerrorpos(pos, "go:embed cannot apply to var of type %v", typ)
-		return exprs
-	}
-
-	// Build list of files to store.
-	have := make(map[string]bool)
-	var list []string
-	for _, e := range embeds {
-		for _, pattern := range e.Patterns {
-			files, ok := embedCfg.Patterns[pattern]
-			if !ok {
-				p.yyerrorpos(e.Pos, "invalid go:embed: build system did not map pattern: %s", pattern)
-			}
-			for _, file := range files {
-				if embedCfg.Files[file] == "" {
-					p.yyerrorpos(e.Pos, "invalid go:embed: build system did not map file: %s", file)
-					continue
-				}
-				if !have[file] {
-					have[file] = true
-					list = append(list, file)
-				}
-				if kind == embedFiles {
-					for dir := path.Dir(file); dir != "." && !have[dir]; dir = path.Dir(dir) {
-						have[dir] = true
-						list = append(list, dir+"/")
-					}
-				}
-			}
-		}
-	}
-	sort.Slice(list, func(i, j int) bool {
-		return embedFileLess(list[i], list[j])
-	})
-
-	if kind == embedString || kind == embedBytes {
-		if len(list) > 1 {
-			p.yyerrorpos(pos, "invalid go:embed: multiple files for type %v", typ)
-			return exprs
-		}
-	}
-
-	v := names[0]
-	if dclcontext != PEXTERN {
-		numLocalEmbed++
-		v = newnamel(v.Pos, lookupN("embed.", numLocalEmbed))
-		v.Sym.Def = asTypesNode(v)
-		v.Name.Param.Ntype = typ
-		v.SetClass(PEXTERN)
-		externdcl = append(externdcl, v)
-		exprs = []*Node{v}
-	}
-
-	v.Name.Param.SetEmbedFiles(list)
-	embedlist = append(embedlist, v)
-	return exprs
-}
-
-// embedKindApprox determines the kind of embedding variable, approximately.
-// The match is approximate because we haven't done scope resolution yet and
-// can't tell whether "string" and "byte" really mean "string" and "byte".
-// The result must be confirmed later, after type checking, using embedKind.
-func embedKindApprox(typ *Node) int {
-	if typ.Sym != nil && typ.Sym.Name == "FS" && (typ.Sym.Pkg.Path == "embed" || (typ.Sym.Pkg == localpkg && myimportpath == "embed")) {
-		return embedFiles
-	}
-	// These are not guaranteed to match only string and []byte -
-	// maybe the local package has redefined one of those words.
-	// But it's the best we can do now during the noder.
-	// The stricter check happens later, in initEmbed calling embedKind.
-	if typ.Sym != nil && typ.Sym.Name == "string" && typ.Sym.Pkg == localpkg {
-		return embedString
-	}
-	if typ.Op == OTARRAY && typ.Left == nil && typ.Right.Sym != nil && typ.Right.Sym.Name == "byte" && typ.Right.Sym.Pkg == localpkg {
-		return embedBytes
-	}
-	return embedUnknown
-}
-
-// embedKind determines the kind of embedding variable.
-func embedKind(typ *types.Type) int {
-	if typ.Sym != nil && typ.Sym.Name == "FS" && (typ.Sym.Pkg.Path == "embed" || (typ.Sym.Pkg == localpkg && myimportpath == "embed")) {
-		return embedFiles
-	}
-	if typ == types.Types[TSTRING] {
-		return embedString
-	}
-	if typ.Sym == nil && typ.IsSlice() && typ.Elem() == types.Bytetype {
-		return embedBytes
-	}
-	return embedUnknown
-}
-
 func embedFileNameSplit(name string) (dir, elem string, isDir bool) {
 	if name[len(name)-1] == '/' {
 		isDir = true
@@ -205,35 +62,69 @@ func embedFileLess(x, y string) bool {
 	return xdir < ydir || xdir == ydir && xelem < yelem
 }
 
-func dumpembeds() {
-	for _, v := range embedlist {
-		initEmbed(v)
-	}
-}
-
 // initEmbed emits the init data for a //go:embed variable,
 // which is either a string, a []byte, or an embed.FS.
-func initEmbed(v *Node) {
-	files := v.Name.Param.EmbedFiles()
-	switch kind := embedKind(v.Type); kind {
-	case embedUnknown:
-		yyerrorl(v.Pos, "go:embed cannot apply to var of type %v", v.Type)
+func initEmbed(n *Node, fileSet map[string]bool) *Node {
+	// TODO(mdempsky): We should just construct the
+	// []byte/string/embed.FS value directly, rather than
+	// initializing a static variable.
 
-	case embedString, embedBytes:
-		file := files[0]
-		fsym, size, err := fileStringSym(v.Pos, embedCfg.Files[file], kind == embedString, nil)
-		if err != nil {
-			yyerrorl(v.Pos, "embed %s: %v", file, err)
+	switch n.Op {
+	case OEMBEDBYTES, OEMBEDSTRING:
+		if len(fileSet) != 1 {
+			yyerrorl(n.Pos, "%v patterns matched %v files, want 1", n.Op, len(fileSet))
+			return nil
 		}
+
+		var file string
+		for key := range fileSet {
+			file = key
+			break
+		}
+
+		fsym, size, err := fileStringSym(n.Pos, embedCfg.Files[file], n.Op == OEMBEDSTRING, nil)
+		if err != nil {
+			yyerrorl(n.Pos, "embed %s: %v", file, err)
+			return nil
+		}
+
+		typ := types.Types[TSTRING]
+		if n.Op == OEMBEDBYTES {
+			typ = types.NewSlice(types.Bytetype)
+		}
+
+		v := staticname(typ)
 		sym := v.Sym.Linksym()
 		off := 0
 		off = dsymptr(sym, off, fsym, 0)       // data string
 		off = duintptr(sym, off, uint64(size)) // len
-		if kind == embedBytes {
+		if n.Op == OEMBEDBYTES {
 			duintptr(sym, off, uint64(size)) // cap for slice
 		}
+		return v
 
-	case embedFiles:
+	case OEMBEDFILES:
+		files := make([]string, 0, len(fileSet))
+		dirSet := make(map[string]bool)
+		for file := range fileSet {
+			files = append(files, file)
+
+			for dir := path.Dir(file); dir != "." && !dirSet[dir]; dir = path.Dir(dir) {
+				dirSet[dir] = true
+				files = append(files, dir+"/")
+			}
+		}
+		sort.Slice(files, func(i, j int) bool {
+			return embedFileLess(files[i], files[j])
+		})
+
+		fsType := resolve(oldname(embedpkg.Lookup("FS")))
+		if fsType == nil || fsType.Op != OTYPE {
+			Fatalf("bad embed.FS declaration: %v", fsType)
+		}
+
+		v := staticname(fsType.Type)
+
 		slicedata := Ctxt.Lookup(`"".` + v.Sym.Name + `.files`)
 		off := 0
 		// []files pointed at by Files
@@ -259,7 +150,7 @@ func initEmbed(v *Node) {
 			} else {
 				fsym, size, err := fileStringSym(v.Pos, embedCfg.Files[file], true, hash)
 				if err != nil {
-					yyerrorl(v.Pos, "embed %s: %v", file, err)
+					yyerrorl(n.Pos, "embed %s: %v", file, err)
 				}
 				off = dsymptr(slicedata, off, fsym, 0) // data string
 				off = duintptr(slicedata, off, uint64(size))
@@ -269,5 +160,75 @@ func initEmbed(v *Node) {
 		ggloblsym(slicedata, int32(off), obj.RODATA|obj.LOCAL)
 		sym := v.Sym.Linksym()
 		dsymptr(sym, 0, slicedata, 0)
+
+		return v
 	}
+
+	panic("unreachable")
+}
+
+func typecheckEmbed(n *Node) *Node {
+	typecheckargs(n)
+
+	if n.IsDDD() {
+		yyerror("invalid use of ... in call to %v", n.Op)
+		n.Type = nil
+		return n
+	}
+
+	args := n.List.Slice()
+
+	// Build list of files to store.
+	fileSet := make(map[string]bool)
+	var bad bool
+	for i, arg := range args {
+		setlineno(arg)
+		args[i] = assignconvfn(arg, types.Types[TSTRING], func() string { return fmt.Sprintf("argument to %v", n.Op) })
+		if args[i].Type == nil {
+			bad = true
+			continue
+		}
+
+		orig := args[i].Orig
+		if !Isconst(orig, CTSTR) || orig.Sym != nil {
+			yyerror("arguments to %v must be a string literal", n.Op)
+			bad = true
+			continue
+		}
+
+		pattern := orig.StringVal()
+		files, ok := embedCfg.Patterns[pattern]
+		if !ok {
+			yyerror("invalid %v: build system did not map pattern: %q", n.Op, pattern)
+			bad = true
+			continue
+		}
+		for _, file := range files {
+			if embedCfg.Files[file] == "" {
+				yyerror("invalid %v: build system did not map file: %q", n.Op, file)
+				bad = true
+				continue
+			}
+			fileSet[file] = true
+		}
+	}
+	if bad {
+		n.Type = nil
+		return n
+	}
+
+	vstat := initEmbed(n, fileSet)
+	if vstat == nil {
+		n.Type = nil
+		return n
+	}
+
+	n.Type = vstat.Type
+	n.SetOpt(vstat)
+
+	return n
+}
+
+func walkEmbed(n *Node) *Node {
+	return n.Opt().(*Node)
 }

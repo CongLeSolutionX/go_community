@@ -10,10 +10,9 @@ import (
 	"fmt"
 	"go/ast"
 	"go/parser"
+	"go/token"
 	"io"
 	"strconv"
-	"strings"
-	"unicode"
 	"unicode/utf8"
 )
 
@@ -144,74 +143,6 @@ func (r *importReader) nextByte(skipSpace bool) byte {
 	c := r.peekByte(skipSpace)
 	r.peek = 0
 	return c
-}
-
-var goEmbed = []byte("go:embed")
-
-// findEmbed advances the input reader to the next //go:embed comment.
-// It reports whether it found a comment.
-// (Otherwise it found an error or EOF.)
-func (r *importReader) findEmbed(first bool) bool {
-	// The import block scan stopped after a non-space character,
-	// so the reader is not at the start of a line on the first call.
-	// After that, each //go:embed extraction leaves the reader
-	// at the end of a line.
-	startLine := !first
-	var c byte
-	for r.err == nil && !r.eof {
-		c = r.readByteNoBuf()
-	Reswitch:
-		switch c {
-		default:
-			startLine = false
-
-		case '\n':
-			startLine = true
-
-		case ' ', '\t':
-			// leave startLine alone
-
-		case '/':
-			c = r.readByteNoBuf()
-			switch c {
-			default:
-				startLine = false
-				goto Reswitch
-
-			case '*':
-				var c1 byte
-				for (c != '*' || c1 != '/') && r.err == nil {
-					if r.eof {
-						r.syntaxError()
-					}
-					c, c1 = c1, r.readByteNoBuf()
-				}
-				startLine = false
-
-			case '/':
-				if startLine {
-					// Try to read this as a //go:embed comment.
-					for i := range goEmbed {
-						c = r.readByteNoBuf()
-						if c != goEmbed[i] {
-							goto SkipSlashSlash
-						}
-					}
-					c = r.readByteNoBuf()
-					if c == ' ' || c == '\t' {
-						// Found one!
-						return true
-					}
-				}
-			SkipSlashSlash:
-				for c != '\n' && r.err == nil && !r.eof {
-					c = r.readByteNoBuf()
-				}
-				startLine = true
-			}
-		}
-	}
-	return false
 }
 
 // readKeyword reads the given keyword from the input.
@@ -353,7 +284,7 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 		return nil
 	}
 
-	hasEmbed := false
+	var embedPkgNames map[string]bool
 	for _, decl := range info.parsed.Decls {
 		d, ok := decl.(*ast.GenDecl)
 		if !ok {
@@ -370,7 +301,14 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 				return fmt.Errorf("parser returned invalid quoted string: <%s>", quoted)
 			}
 			if path == "embed" {
-				hasEmbed = true
+				if embedPkgNames == nil {
+					embedPkgNames = make(map[string]bool)
+				}
+				pkgName := "embed"
+				if spec.Name != nil {
+					pkgName = spec.Name.Name
+				}
+				embedPkgNames[pkgName] = true
 			}
 
 			doc := spec.Doc
@@ -389,87 +327,133 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 	// If there were //go:embed comments earlier in the file
 	// (near the package statement or imports), the compiler
 	// will reject them. They can be (and have already been) ignored.
-	if hasEmbed {
-		var line []byte
-		for first := true; r.findEmbed(first); first = false {
-			line = line[:0]
-			for {
-				c := r.readByteNoBuf()
-				if c == '\n' || r.err != nil || r.eof {
-					break
-				}
-				line = append(line, c)
-			}
-			// Add args if line is well-formed.
-			// Ignore badly-formed lines - the compiler will report them when it finds them,
-			// and we can pretend they are not there to help go list succeed with what it knows.
-			args, err := parseGoEmbed(string(line))
-			if err == nil {
-				info.embeds = append(info.embeds, args...)
-			}
+	if len(embedPkgNames) != 0 {
+		for r.err == nil && !r.eof {
+			r.readByte()
 		}
+		info.header = r.buf
+
+		info.parsed, info.parseErr = parser.ParseFile(info.fset, info.name, info.header, parser.ParseComments)
+		if info.parseErr != nil {
+			return nil
+		}
+
+		v := embedVisitor{
+			pkgNames:  embedPkgNames,
+			dotImport: embedPkgNames["."],
+			info:      info,
+		}
+		ast.Walk(&v, info.parsed)
 	}
 
 	return nil
 }
 
-// parseGoEmbed parses the text following "//go:embed" to extract the glob patterns.
-// It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
-// There is a copy of this code in cmd/compile/internal/gc/noder.go as well.
-func parseGoEmbed(args string) ([]string, error) {
-	var list []string
-	for args = strings.TrimSpace(args); args != ""; args = strings.TrimSpace(args) {
-		var path string
-	Switch:
-		switch args[0] {
-		default:
-			i := len(args)
-			for j, c := range args {
-				if unicode.IsSpace(c) {
-					i = j
-					break
-				}
-			}
-			path = args[:i]
-			args = args[i:]
+type embedVisitor struct {
+	info      *fileInfo
+	pkgNames  map[string]bool
+	decls     []string
+	dotImport bool
+}
 
-		case '`':
-			i := strings.Index(args[1:], "`")
-			if i < 0 {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
-			}
-			path = args[1 : 1+i]
-			args = args[1+i+1:]
+func (v *embedVisitor) Visit(n ast.Node) ast.Visitor {
+	switch n := n.(type) {
+	case *ast.CallExpr:
+		v.visitCall(n)
 
-		case '"':
-			i := 1
-			for ; i < len(args); i++ {
-				if args[i] == '\\' {
-					i++
-					continue
-				}
-				if args[i] == '"' {
-					q, err := strconv.Unquote(args[:i+1])
-					if err != nil {
-						return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args[:i+1])
-					}
-					path = q
-					args = args[i+1:]
-					break Switch
-				}
-			}
-			if i >= len(args) {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
-			}
+	case *ast.ValueSpec:
+		for _, name := range n.Names {
+			v.decl(name)
 		}
+	case *ast.TypeSpec:
+		v.decl(n.Name)
 
-		if args != "" {
-			r, _ := utf8.DecodeRuneInString(args)
-			if !unicode.IsSpace(r) {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
-			}
+	case *ast.FuncDecl:
+		return v.push(n.Recv, n.Type.Params, n.Type.Results)
+	case *ast.FuncLit:
+		return v.push(n.Type.Params, n.Type.Results)
+
+	case *ast.SwitchStmt:
+		v := v.push()
+		if id, _ := n.Tag.(*ast.Ident); id != nil {
+			v.decl(id)
 		}
-		list = append(list, path)
+		return v
+
+	case *ast.BlockStmt, *ast.IfStmt, *ast.ForStmt, *ast.CaseClause, *ast.CommClause:
+		return v.push()
 	}
-	return list, nil
+	return v
+}
+
+func (v *embedVisitor) push(lists ...*ast.FieldList) *embedVisitor {
+	c := *v
+
+	for _, list := range lists {
+		if list == nil {
+			continue
+		}
+		for _, field := range list.List {
+			for _, name := range field.Names {
+				c.decl(name)
+			}
+		}
+	}
+
+	return &c
+}
+
+func (v *embedVisitor) decl(id *ast.Ident) {
+	if v.pkgNames[id.Name] || v.dotImport && isEmbedDeclName(id) {
+		v.decls = append(v.decls, id.Name)
+	}
+}
+
+func (v *embedVisitor) isShadowed(id *ast.Ident) bool {
+	for _, decl := range v.decls {
+		if decl == id.Name {
+			return true
+		}
+	}
+	return false
+}
+
+func (v *embedVisitor) visitCall(call *ast.CallExpr) {
+	switch n := call.Fun.(type) {
+	case *ast.Ident:
+		if !v.dotImport {
+			return
+		}
+		if !isEmbedDeclName(n) || v.isShadowed(n) {
+			return
+		}
+	case *ast.SelectorExpr:
+		pkg, ok := n.X.(*ast.Ident)
+		if !ok || !v.pkgNames[pkg.Name] {
+			return
+		}
+		if !isEmbedDeclName(n.Sel) || v.isShadowed(pkg) {
+			return
+		}
+	default:
+		return
+	}
+
+	for _, arg := range call.Args {
+		arg, ok := arg.(*ast.BasicLit)
+		if !ok || arg.Kind != token.STRING {
+			continue
+		}
+		if arg, err := strconv.Unquote(arg.Value); err == nil {
+			v.info.embeds = append(v.info.embeds, arg)
+		}
+	}
+}
+
+func isEmbedDeclName(id *ast.Ident) bool {
+	switch id.Name {
+	case "Bytes", "String", "Files":
+		return true
+	}
+	return false
 }

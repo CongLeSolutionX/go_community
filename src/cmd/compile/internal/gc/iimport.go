@@ -162,6 +162,12 @@ func iimport(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintType)
 			s := pkg.Lookup(p.stringAt(ir.uint64()))
 			off := ir.uint64()
 
+			// We already have a stub declaration, or this
+			// is an intrinsic like OEMBEDBYTES.
+			if s.Def != nil {
+				continue
+			}
+
 			if _, ok := declImporter[s]; ok {
 				continue
 			}
@@ -169,9 +175,6 @@ func iimport(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintType)
 
 			// Create stub declaration. If used, this will
 			// be overwritten by expandDecl.
-			if s.Def != nil {
-				Fatalf("unexpected definition for %v: %v", s, asNode(s.Def))
-			}
 			s.Def = asTypesNode(npos(src.NoXPos, dclname(s)))
 		}
 	}

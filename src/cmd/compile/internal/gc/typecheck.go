@@ -1408,6 +1408,13 @@ func typecheck1(n *Node, top int) (res *Node) {
 		}
 		n.Type = types.Types[TUINTPTR]
 
+	case OEMBEDBYTES, OEMBEDSTRING, OEMBEDFILES:
+		ok |= ctxExpr
+		n = typecheckEmbed(n)
+		if n.Type == nil {
+			return n
+		}
+
 	case OCAP, OLEN:
 		ok |= ctxExpr
 		if !onearg(n, "%v", n.Op) {

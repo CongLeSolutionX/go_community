@@ -1559,6 +1559,9 @@ opswitch:
 		anylit(n, var_, init)
 		n = var_
 
+	case OEMBEDBYTES, OEMBEDSTRING, OEMBEDFILES:
+		n = walkEmbed(n)
+
 	case OSEND:
 		n1 := n.Right
 		n1 = assignconv(n1, n.Left.Type.Elem(), "chan send")

@@ -236,31 +236,103 @@ var readEmbedTests = []struct {
 		nil,
 	},
 	{
-		"package p\nimport \"embed\"\nvar i int\n//go:embed x y z\nvar files embed.FS",
+		`package p
+import "embed"
+var i int
+var files = embed.Files("x", "y", "z")
+`,
 		[]string{"x", "y", "z"},
 	},
 	{
-		"package p\nimport \"embed\"\nvar i int\n//go:embed x \"\\x79\" `z`\nvar files embed.FS",
+		`package p
+import "embed"
+var i int
+var files = embed.Files("x", "\x79", "z")
+`,
 		[]string{"x", "y", "z"},
 	},
 	{
-		"package p\nimport \"embed\"\nvar i int\n//go:embed x y\n//go:embed z\nvar files embed.FS",
+		`package p
+import "embed"
+var i int
+var files = embed.Files(
+	"x", "y",
+	"z",
+)`,
 		[]string{"x", "y", "z"},
 	},
 	{
-		"package p\nimport \"embed\"\nvar i int\n\t //go:embed x y\n\t //go:embed z\n\t var files embed.FS",
+		`package p
+import "embed"
+var i int
+func _() {
+	var files = embed.Files(
+		"x", "y",
+		"z",
+	)
+}`,
 		[]string{"x", "y", "z"},
 	},
 	{
-		"package p\nimport \"embed\"\n//go:embed x y z\nvar files embed.FS",
+		`package p
+import "embed"
+var files = embed.Files("x", "y", "z")
+`,
 		[]string{"x", "y", "z"},
 	},
 	{
-		"package p\n//go:embed x y z\n", // no import, no scan
+		`package p
+var _ = embed.Files("x", "y", "z")
+`, // no import, no scan
 		nil,
 	},
 	{
-		"package p\n//go:embed x y z\nvar files embed.FS", // no import, no scan
+		`package p
+import rename "embed"
+var files = rename.Files("x", "y", "z")
+`, // renamed import
+		[]string{"x", "y", "z"},
+	},
+	{
+		`package p
+import . "embed"
+var files = Files("x", "y", "z")
+`, // dot import
+		[]string{"x", "y", "z"},
+	},
+	{
+		`package p
+import . "embed"
+func _() {
+	var files = Files("x", "y", "z")
+}
+`, // dot import
+		[]string{"x", "y", "z"},
+	},
+	{
+		`package p
+import renamed "embed"
+import embed "notembed"
+var files = embed.Files("x", "y", "z")
+`, // embed is actually notembed (tricksy user)
+		nil,
+	},
+	{
+		`package p
+import "embed"
+func _(embed thing) {
+	var files = embed.Files("x", "y", "z")
+}
+`, // package name shadowed
+		nil,
+	},
+	{
+		`package p
+import . "embed"
+func _(Files func(...string)) {
+	Files("x", "y", "z")
+}
+`, // dot-imported declaration shadowed
 		nil,
 	},
 }
@@ -276,7 +348,7 @@ func TestReadEmbed(t *testing.T) {
 			continue
 		}
 		if !reflect.DeepEqual(info.embeds, tt.out) {
-			t.Errorf("#%d: embeds=%v, want %v", i, info.embeds, tt.out)
+			t.Errorf("#%d: embeds=%v, want %v; src = %v", i, info.embeds, tt.out, tt.in)
 		}
 	}
 }

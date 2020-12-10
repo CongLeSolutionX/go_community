@@ -950,6 +950,11 @@ const (
 	ORETJMP // return to other function
 	OGETG   // runtime.getg() (read g pointer)
 
+	// package embed builtins
+	OEMBEDBYTES  // embed.Bytes(List)
+	OEMBEDSTRING // embed.String(List)
+	OEMBEDFILES  // embed.Files(List)
+
 	OEND
 )
 

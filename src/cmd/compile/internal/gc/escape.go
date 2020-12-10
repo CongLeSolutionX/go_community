@@ -441,7 +441,7 @@ func (e *Escape) exprSkipInit(k EscHole, n *Node) {
 	default:
 		Fatalf("unexpected expr: %v", n)
 
-	case OLITERAL, OGETG, OCLOSUREVAR, OTYPE:
+	case OLITERAL, OGETG, OCLOSUREVAR, OTYPE, OEMBEDBYTES, OEMBEDSTRING, OEMBEDFILES:
 		// nop
 
 	case ONAME:

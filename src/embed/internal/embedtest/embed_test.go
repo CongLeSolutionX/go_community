@@ -11,15 +11,11 @@ import (
 	"testing/fstest"
 )
 
-//go:embed testdata/h*.txt
-//go:embed c*.txt testdata/g*.txt
-var global embed.FS
+var global = embed.Files("testdata/h*.txt", "c*.txt", "testdata/g*.txt")
 
-//go:embed c*txt
-var concurrency string
+var concurrency = embed.String("c*txt")
 
-//go:embed testdata/g*.txt
-var glass []byte
+var glass = embed.Bytes("testdata/g*.txt")
 
 func testFiles(t *testing.T, f embed.FS, name, data string) {
 	t.Helper()
@@ -74,22 +70,18 @@ func TestGlobal(t *testing.T) {
 }
 
 func TestLocal(t *testing.T) {
-	//go:embed testdata/k*.txt
-	var local embed.FS
+	local := embed.Files("testdata/k*.txt")
 	testFiles(t, local, "testdata/ken.txt", "If a program is too slow, it must have a loop.\n")
 
-	//go:embed testdata/k*.txt
-	var s string
+	s := embed.String("testdata/k*.txt")
 	testString(t, s, "local variable s", "If a program is too slow, it must have a loop.\n")
 
-	//go:embed testdata/h*.txt
-	var b []byte
+	b := embed.Bytes("testdata/h*.txt")
 	testString(t, string(b), "local variable b", "hello, world\n")
 }
 
 func TestDir(t *testing.T) {
-	//go:embed testdata
-	var all embed.FS
+	all := embed.Files("testdata")
 
 	testFiles(t, all, "testdata/hello.txt", "hello, world\n")
 	testFiles(t, all, "testdata/i/i18n.txt", "internationalization\n")
@@ -103,11 +95,9 @@ func TestDir(t *testing.T) {
 }
 
 func TestHidden(t *testing.T) {
-	//go:embed testdata
-	var dir embed.FS
+	dir := embed.Files("testdata")
 
-	//go:embed testdata/*
-	var star embed.FS
+	star := embed.Files("testdata/*")
 
 	t.Logf("//go:embed testdata")
 

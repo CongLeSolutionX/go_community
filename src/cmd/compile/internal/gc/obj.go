@@ -127,7 +127,6 @@ func dumpdata() {
 	itabsLen := len(itabs)
 	dumpimportstrings()
 	dumpbasictypes()
-	dumpembeds()
 
 	// Calls to dumpsignats can generate functions,
 	// like method wrappers and hash and equality routines.

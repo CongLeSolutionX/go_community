@@ -11,7 +11,6 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"unicode"
 	"unicode/utf8"
 
 	"cmd/compile/internal/syntax"
@@ -387,20 +386,6 @@ func (p *noder) varDecl(decl *syntax.VarDecl) []*Node {
 	}
 
 	if pragma, ok := decl.Pragma.(*Pragma); ok {
-		if len(pragma.Embeds) > 0 {
-			if !p.importedEmbed {
-				// This check can't be done when building the list pragma.Embeds
-				// because that list is created before the noder starts walking over the file,
-				// so at that point it hasn't seen the imports.
-				// We're left to check now, just before applying the //go:embed lines.
-				for _, e := range pragma.Embeds {
-					p.yyerrorpos(e.Pos, "//go:embed only allowed in Go files that import \"embed\"")
-				}
-			} else {
-				exprs = varEmbed(p, names, typ, exprs, pragma.Embeds)
-			}
-			pragma.Embeds = nil
-		}
 		p.checkUnused(pragma)
 	}
 
@@ -1527,19 +1512,13 @@ var allowedStdPragmas = map[string]bool{
 
 // *Pragma is the value stored in a syntax.Pragma during parsing.
 type Pragma struct {
-	Flag   PragmaFlag  // collected bits
-	Pos    []PragmaPos // position of each individual flag
-	Embeds []PragmaEmbed
+	Flag PragmaFlag  // collected bits
+	Pos  []PragmaPos // position of each individual flag
 }
 
 type PragmaPos struct {
 	Flag PragmaFlag
 	Pos  syntax.Pos
-}
-
-type PragmaEmbed struct {
-	Pos      syntax.Pos
-	Patterns []string
 }
 
 func (p *noder) checkUnused(pragma *Pragma) {
@@ -1548,22 +1527,12 @@ func (p *noder) checkUnused(pragma *Pragma) {
 			p.yyerrorpos(pos.Pos, "misplaced compiler directive")
 		}
 	}
-	if len(pragma.Embeds) > 0 {
-		for _, e := range pragma.Embeds {
-			p.yyerrorpos(e.Pos, "misplaced go:embed directive")
-		}
-	}
 }
 
 func (p *noder) checkUnusedDuringParse(pragma *Pragma) {
 	for _, pos := range pragma.Pos {
 		if pos.Flag&pragma.Flag != 0 {
 			p.error(syntax.Error{Pos: pos.Pos, Msg: "misplaced compiler directive"})
-		}
-	}
-	if len(pragma.Embeds) > 0 {
-		for _, e := range pragma.Embeds {
-			p.error(syntax.Error{Pos: e.Pos, Msg: "misplaced go:embed directive"})
 		}
 	}
 }
@@ -1609,17 +1578,6 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 			target = f[2]
 		}
 		p.linknames = append(p.linknames, linkname{pos, f[1], target})
-
-	case text == "go:embed", strings.HasPrefix(text, "go:embed "):
-		args, err := parseGoEmbed(text[len("go:embed"):])
-		if err != nil {
-			p.error(syntax.Error{Pos: pos, Msg: err.Error()})
-		}
-		if len(args) == 0 {
-			p.error(syntax.Error{Pos: pos, Msg: "usage: //go:embed pattern..."})
-			break
-		}
-		pragma.Embeds = append(pragma.Embeds, PragmaEmbed{pos, args})
 
 	case strings.HasPrefix(text, "go:cgo_import_dynamic "):
 		// This is permitted for general use because Solaris
@@ -1692,65 +1650,4 @@ func mkname(sym *types.Sym) *Node {
 		n.Name.Pack.Name.SetUsed(true)
 	}
 	return n
-}
-
-// parseGoEmbed parses the text following "//go:embed" to extract the glob patterns.
-// It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
-// go/build/read.go also processes these strings and contains similar logic.
-func parseGoEmbed(args string) ([]string, error) {
-	var list []string
-	for args = strings.TrimSpace(args); args != ""; args = strings.TrimSpace(args) {
-		var path string
-	Switch:
-		switch args[0] {
-		default:
-			i := len(args)
-			for j, c := range args {
-				if unicode.IsSpace(c) {
-					i = j
-					break
-				}
-			}
-			path = args[:i]
-			args = args[i:]
-
-		case '`':
-			i := strings.Index(args[1:], "`")
-			if i < 0 {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
-			}
-			path = args[1 : 1+i]
-			args = args[1+i+1:]
-
-		case '"':
-			i := 1
-			for ; i < len(args); i++ {
-				if args[i] == '\\' {
-					i++
-					continue
-				}
-				if args[i] == '"' {
-					q, err := strconv.Unquote(args[:i+1])
-					if err != nil {
-						return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args[:i+1])
-					}
-					path = q
-					args = args[i+1:]
-					break Switch
-				}
-			}
-			if i >= len(args) {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
-			}
-		}
-
-		if args != "" {
-			r, _ := utf8.DecodeRuneInString(args)
-			if !unicode.IsSpace(r) {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
-			}
-		}
-		list = append(list, path)
-	}
-	return list, nil
 }
