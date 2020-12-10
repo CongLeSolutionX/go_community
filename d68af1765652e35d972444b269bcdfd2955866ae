@@ -249,6 +249,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d827c09f_2d1c4d80",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-10T10:10:39Z",
+      "side": 1,
+      "message": "The existing code is limited to windows/amd64, and the objects involved are windows/amd64-specific. But of course the linker can cross compile. There\u0027s a commented out line (not my code) that sets the right environment with a note that says to uncomment the line to enable functionality in a cross compiling environment. I\u0027ll just uncomment that out and remove this check, so that it runs everywhere. Our toolchain cross compiles by default, so no need to be overly cagey with it.",
+      "parentUuid": "eb5b030a_437e5723",
+      "range": {
+        "startLine": 759,
+        "startChar": 4,
+        "endLine": 759,
+        "endChar": 29
+      },
+      "revId": "d68af1765652e35d972444b269bcdfd2955866ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "873d77fc_1ad66d76",
         "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
         "patchSetId": 9
