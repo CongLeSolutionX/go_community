@@ -33,6 +33,23 @@
       "message": "PS except for ssa.go, untouched by human hands in the merge.\nI regenerated builtin.go to resolve that.",
       "revId": "0f86f614111ce358d13d76a62871e84300d0008d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d3bb3fa_9c7d489c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-10T19:38:06Z",
+      "side": 1,
+      "message": "Here\u0027s the diff between your and my merge (CL 277052):\n\n```\ndiff --git a/src/cmd/compile/internal/gc/ssa.go b/src/cmd/compile/internal/gc/ssa.go\nindex f13c45c2a6..73d246c509 100644\n--- a/src/cmd/compile/internal/gc/ssa.go\n+++ b/src/cmd/compile/internal/gc/ssa.go\n@@ -1005,7 +1005,7 @@ func (s *state) instrumentMove(t *types.Type, dst, src *ssa.Value) {\n }\n \n func (s *state) instrument2(t *types.Type, addr, addr2 *ssa.Value, kind instrumentKind) {\n-       if !s.curfn.Func().InstrumentBody() {\n+       if !s.curfn.InstrumentBody() {\n                return\n        }\n \n```\n\nThe Func() is no longer necessary, but it\u0027s harmless, and we\u0027ll probably do another pass to remove all those unnecessary calls later anyway. So looks like we independently came up with identical conflict resolutions, modulo one minor nit. LGTM",
+      "revId": "0f86f614111ce358d13d76a62871e84300d0008d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
