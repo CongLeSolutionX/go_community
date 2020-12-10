@@ -33,6 +33,24 @@
       "message": "Ian, would you like to also look this over before it is submitted?",
       "revId": "2ca5b2502a98d95c664557c9ce535f277d46118e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4e330b1_f97ec836",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-10T23:06:08Z",
+      "side": 1,
+      "message": "Thanks for correcting that. This vet check is indeed only executed when vet is run explicitly, not automatically as part of go test.",
+      "parentUuid": "cab82fef_0af6c561",
+      "revId": "2ca5b2502a98d95c664557c9ce535f277d46118e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
