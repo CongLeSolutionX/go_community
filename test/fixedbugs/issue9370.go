@@ -33,36 +33,36 @@ var (
 var (
 	_ = e == c
 	_ = e != c
-	_ = e >= c // ERROR "invalid operation.*not defined"
+	_ = e >= c // ERROR "invalid operation.*not defined|invalid comparison"
 	_ = c == e
 	_ = c != e
-	_ = c >= e // ERROR "invalid operation.*not defined"
+	_ = c >= e // ERROR "invalid operation.*not defined|invalid comparison"
 
 	_ = i == c
 	_ = i != c
-	_ = i >= c // ERROR "invalid operation.*not defined"
+	_ = i >= c // ERROR "invalid operation.*not defined|invalid comparison"
 	_ = c == i
 	_ = c != i
-	_ = c >= i // ERROR "invalid operation.*not defined"
+	_ = c >= i // ERROR "invalid operation.*not defined|invalid comparison"
 
 	_ = e == n
 	_ = e != n
-	_ = e >= n // ERROR "invalid operation.*not defined"
+	_ = e >= n // ERROR "invalid operation.*not defined|invalid comparison"
 	_ = n == e
 	_ = n != e
-	_ = n >= e // ERROR "invalid operation.*not defined"
+	_ = n >= e // ERROR "invalid operation.*not defined|invalid comparison"
 
 	// i and n are not assignable to each other
-	_ = i == n // ERROR "invalid operation.*mismatched types"
-	_ = i != n // ERROR "invalid operation.*mismatched types"
-	_ = i >= n // ERROR "invalid operation.*mismatched types"
-	_ = n == i // ERROR "invalid operation.*mismatched types"
-	_ = n != i // ERROR "invalid operation.*mismatched types"
-	_ = n >= i // ERROR "invalid operation.*mismatched types"
+	_ = i == n // ERROR "invalid operation.*mismatched types|incompatible types"
+	_ = i != n // ERROR "invalid operation.*mismatched types|incompatible types"
+	_ = i >= n // ERROR "invalid operation.*mismatched types|incompatible types"
+	_ = n == i // ERROR "invalid operation.*mismatched types|incompatible types"
+	_ = n != i // ERROR "invalid operation.*mismatched types|incompatible types"
+	_ = n >= i // ERROR "invalid operation.*mismatched types|incompatible types"
 
 	_ = e == 1
 	_ = e != 1
-	_ = e >= 1 // ERROR "invalid operation.*not defined"
+	_ = e >= 1 // ERROR "invalid operation.*not defined|invalid comparison"
 	_ = 1 == e
 	_ = 1 != e
 	_ = 1 >= e // ERROR "invalid operation.*not defined"
