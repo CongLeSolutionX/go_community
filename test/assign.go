@@ -56,13 +56,21 @@ func main() {
 	{
 		var x = 1
 		{
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 			x, x := 2, 3 // ERROR "x repeated on left side of :=|x redeclared in this block"
+=======
+			x, x := 2, 3 // ERROR ".*x.* repeated on left side of :="
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
 			_ = x
 		}
 		_ = x
 	}
 	{
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 		a, a := 1, 2 // ERROR "a repeated on left side of :=|a redeclared in this block"
+=======
+		a, a := 1, 2 // ERROR ".*a.* repeated on left side of :="
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
 		_ = a
 	}
 }

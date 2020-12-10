@@ -27,7 +27,14 @@ type C struct {
 	B
 }
 
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 var _ = C.F // ERROR "ambiguous selector"
 var _ = C.G // ERROR "ambiguous selector"
 var _ = C.H // ERROR "ambiguous selector"
 var _ = C.I // ERROR "no method I|C.I undefined"
+=======
+var _ = C.F // ERROR "ambiguous"
+var _ = C.G // ERROR "ambiguous"
+var _ = C.H // ERROR "ambiguous"
+var _ = C.I // ERROR "no method .*I.*"
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
