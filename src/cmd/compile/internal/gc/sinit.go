@@ -306,9 +306,9 @@ func (s *InitSchedule) staticassign(l *ir.Name, r ir.Node) bool {
 
 		var itab *ir.AddrExpr
 		if l.Type().IsEmptyInterface() {
-			itab = typename(val.Type()).(*ir.AddrExpr)
+			itab = typename(val.Type())
 		} else {
-			itab = itabname(val.Type(), l.Type()).(*ir.AddrExpr)
+			itab = itabname(val.Type(), l.Type())
 		}
 
 		// Create a copy of l to modify while we emit data.

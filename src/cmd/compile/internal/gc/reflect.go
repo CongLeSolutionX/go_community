@@ -986,7 +986,7 @@ func typenamesym(t *types.Type) *types.Sym {
 	return s
 }
 
-func typename(t *types.Type) ir.Node {
+func typename(t *types.Type) *ir.AddrExpr {
 	s := typenamesym(t)
 	if s.Def == nil {
 		n := ir.NewNameAt(src.NoXPos, s)
@@ -996,13 +996,13 @@ func typename(t *types.Type) ir.Node {
 		s.Def = n
 	}
 
-	n := ir.Nod(ir.OADDR, ir.AsNode(s.Def), nil)
+	n := ir.NewAddrExpr(base.Pos, ir.AsNode(s.Def))
 	n.SetType(types.NewPtr(s.Def.Type()))
 	n.SetTypecheck(1)
 	return n
 }
 
-func itabname(t, itype *types.Type) ir.Node {
+func itabname(t, itype *types.Type) *ir.AddrExpr {
 	if t == nil || (t.IsPtr() && t.Elem() == nil) || t.IsUntyped() || !itype.IsInterface() || itype.IsEmptyInterface() {
 		base.Fatalf("itabname(%v, %v)", t, itype)
 	}
@@ -1016,7 +1016,7 @@ func itabname(t, itype *types.Type) ir.Node {
 		itabs = append(itabs, itabEntry{t: t, itype: itype, lsym: s.Linksym()})
 	}
 
-	n := ir.Nod(ir.OADDR, ir.AsNode(s.Def), nil)
+	n := ir.NewAddrExpr(base.Pos, ir.AsNode(s.Def))
 	n.SetType(types.NewPtr(s.Def.Type()))
 	n.SetTypecheck(1)
 	return n

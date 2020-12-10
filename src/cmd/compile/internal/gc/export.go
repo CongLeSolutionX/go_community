@@ -102,7 +102,7 @@ func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 	n := importsym(ipkg, s, ir.OTYPE)
 	if n.Op() != ir.OTYPE {
 		t := types.NewNamed(n)
-
+		n := n.(*ir.Name)
 		n.SetOp(ir.OTYPE)
 		n.SetPos(pos)
 		n.SetType(t)
@@ -121,20 +121,21 @@ func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op ir.Op, ctxt ir.Class, t *types.Type) ir.Node {
 	n := importsym(ipkg, s, op)
 	if n.Op() != ir.ONONAME {
-		if n.Op() == op && (n.Class() != ctxt || !types.Identical(n.Type(), t)) {
+		if n.Op() == op && (op == ir.ONAME && n.(*ir.Name).Class() != ctxt || !types.Identical(n.Type(), t)) {
 			redeclare(base.Pos, s, fmt.Sprintf("during import %q", ipkg.Path))
 		}
 		return nil
 	}
 
-	n.SetOp(op)
-	n.SetPos(pos)
-	n.SetClass(ctxt)
+	nn := n.(*ir.Name)
+	nn.SetOp(op)
+	nn.SetPos(pos)
+	nn.SetClass(ctxt)
 	if ctxt == ir.PFUNC {
-		n.Sym().SetFunc(true)
+		nn.Sym().SetFunc(true)
 	}
-	n.SetType(t)
-	return n
+	nn.SetType(t)
+	return nn
 }
 
 // importconst declares symbol s as an imported constant with type t and value val.
