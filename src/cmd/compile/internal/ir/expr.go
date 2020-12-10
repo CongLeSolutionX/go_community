@@ -529,32 +529,30 @@ func (n *MakeExpr) SetOp(op Op) {
 // A MethodExpr is a method value X.M (where X is an expression, not a type).
 type MethodExpr struct {
 	miniExpr
-	X       Node
-	M       Node
-	Sym_    *types.Sym
-	Offset_ int64
-	Class_  Class
-	Method  *types.Field
+	X        Node
+	M_Delete Node // TODO(rsc): Delete (breaks toolstash b/c inlining costs go down)
+	FuncName *Name
+	Method   *types.Field
 }
 
-func NewMethodExpr(pos src.XPos, x, m Node) *MethodExpr {
-	n := &MethodExpr{X: x, M: m}
+func NewMethodExpr(pos src.XPos, x Node, method *types.Field) *MethodExpr {
+	n := &MethodExpr{X: x, Method: method}
 	n.pos = pos
 	n.op = OMETHEXPR
-	n.Offset_ = types.BADWIDTH
+	n.M_Delete = NewNameAt(pos, method.Sym) // TODO(rsc): Delete.
 	return n
 }
 
-func (n *MethodExpr) Left() Node          { return n.X }
-func (n *MethodExpr) SetLeft(x Node)      { n.X = x }
-func (n *MethodExpr) Right() Node         { return n.M }
-func (n *MethodExpr) SetRight(y Node)     { n.M = y }
-func (n *MethodExpr) Sym() *types.Sym     { return n.Sym_ }
-func (n *MethodExpr) SetSym(x *types.Sym) { n.Sym_ = x }
-func (n *MethodExpr) Offset() int64       { return n.Offset_ }
-func (n *MethodExpr) SetOffset(x int64)   { n.Offset_ = x }
-func (n *MethodExpr) Class() Class        { return n.Class_ }
-func (n *MethodExpr) SetClass(x Class)    { n.Class_ = x }
+func (n *MethodExpr) Left() Node     { return n.X }
+func (n *MethodExpr) SetLeft(x Node) { n.X = x }
+
+func (n *MethodExpr) Right() Node       { return n.M_Delete }
+func (n *MethodExpr) SetRight(x Node)   { panic("MethodExpr.SetRight") }
+func (n *MethodExpr) Sym() *types.Sym   { return n.FuncName.Sym() }
+func (n *MethodExpr) Offset() int64     { panic("MethodExpr.Offset") }
+func (n *MethodExpr) SetOffset(x int64) { panic("MethodExpr.SetOffset") }
+func (n *MethodExpr) Class() Class      { panic("MethodExpr.Class") }
+func (n *MethodExpr) SetClass(x Class)  { panic("MethodExpr.SetClass") }
 
 // A NilExpr represents the predefined untyped constant nil.
 // (It may be copied and assigned a type, though.)
