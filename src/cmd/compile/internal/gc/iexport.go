@@ -1266,6 +1266,7 @@ func (w *exportWriter) expr(n ir.Node) {
 		// Special case: explicit name of func (*T) method(...) is turned into pkg.(*T).method,
 		// but for export, this should be rendered as (*pkg.T).meth.
 		// These nodes have the special property that they are names with a left OTYPE and a right ONAME.
+		n := n.(*ir.MethodExpr)
 		w.op(ir.OXDOT)
 		w.pos(n.Pos())
 		w.expr(n.Left()) // n.Left.Op == OTYPE
