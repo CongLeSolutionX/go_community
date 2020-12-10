@@ -1,0 +1,244 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06467f9f_b49d2fe6",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 72,
+        "startChar": 3,
+        "endLine": 72,
+        "endChar": 4
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc22bcbd_7444a8f6",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "I don\u0027t see a need for the `which` state variable. You use it to change result writing locations, and I don\u0027t think you need to do that. You can copy out the results (rUsed/[in|out]params) after each phase in this function. That would simplify this code.",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd79d348_4a7d4464",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "indices",
+      "range": {
+        "startLine": 180,
+        "startChar": 42,
+        "endLine": 180,
+        "endChar": 51
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b4acdee_06af21da",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "Both branches need this value, better to eliminate w, and replace with nRegNeeded, or equivalent?",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01e5d5f4_106760aa",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "it",
+      "range": {
+        "startLine": 280,
+        "startChar": 41,
+        "endLine": 280,
+        "endChar": 43
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "113b81a9_55af8dd8",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "feels better placed in the aux test files?",
+      "range": {
+        "startLine": 310,
+        "startChar": 5,
+        "endLine": 310,
+        "endChar": 13
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c86f1105_f711306a",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "Feels like we could put this in an init or even assign it at declaration.",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f45825_acfcb7a1",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "Don\u0027t love the visit nomenclature here and elsewhere. assign? useReg? canRegAllocate? fitsInReg?",
+      "range": {
+        "startLine": 359,
+        "startChar": 26,
+        "endLine": 359,
+        "endChar": 31
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5b5fe3f_e495d085",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "At the least, I think this function should be named doParamResult, but possibly better would be allocateParamOrReturn? allocateVal?",
+      "range": {
+        "startLine": 384,
+        "startChar": 26,
+        "endLine": 384,
+        "endChar": 38
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1319ee5_33b9743e",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "Move this to the beginning of the function, and eliminate the memclr on line 96.",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d75d6770_33769aa2",
+        "filename": "src/cmd/compile/internal/gc/abiutilsaux_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "t.Logf?",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f504499_8cbc4281",
+        "filename": "src/cmd/compile/internal/gc/abiutilsaux_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-10T18:39:35Z",
+      "side": 1,
+      "message": "t.Logf? t.Errorf?",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
