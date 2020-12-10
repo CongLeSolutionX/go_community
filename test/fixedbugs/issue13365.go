@@ -11,15 +11,27 @@ package main
 var t struct{}
 
 func main() {
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 	_ = []int{-1: 0}    // ERROR "index must be non\-negative integer constant|must not be negative"
 	_ = [10]int{-1: 0}  // ERROR "index must be non\-negative integer constant|must not be negative"
 	_ = [...]int{-1: 0} // ERROR "index must be non\-negative integer constant|must not be negative"
+=======
+	_ = []int{-1: 0}    // ERROR "index must be non\-negative integer constant|index expression is negative"
+	_ = [10]int{-1: 0}  // ERROR "index must be non\-negative integer constant|index expression is negative"
+	_ = [...]int{-1: 0} // ERROR "index must be non\-negative integer constant|index expression is negative"
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
 
 	_ = []int{100: 0}
-	_ = [10]int{100: 0} // ERROR "array index 100 out of bounds"
+	_ = [10]int{100: 0} // ERROR "array index 100 out of bounds|out of range"
 	_ = [...]int{100: 0}
 
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 	_ = []int{t}    // ERROR "cannot use .* as (type )?int( in slice literal)?"
 	_ = [10]int{t}  // ERROR "cannot use .* as (type )?int( in array literal)?"
 	_ = [...]int{t} // ERROR "cannot use .* as (type )?int( in array literal)?"
+=======
+	_ = []int{t}    // ERROR "cannot use .* as type int in slice literal|incompatible type"
+	_ = [10]int{t}  // ERROR "cannot use .* as type int in array literal|incompatible type"
+	_ = [...]int{t} // ERROR "cannot use .* as type int in array literal|incompatible type"
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
 }

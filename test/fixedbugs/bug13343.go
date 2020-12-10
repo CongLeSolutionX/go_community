@@ -7,8 +7,13 @@
 package main
 
 var (
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 	a, b = f() // ERROR "initialization loop|depends upon itself|initialization cycle"
 	c    = b
+=======
+	a, b = f() // ERROR "initialization loop|depends upon itself|depend upon each other"
+	c    = b   // GCCGO_ERROR "depends upon itself|depend upon each other"
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
 )
 
 func f() (int, int) {

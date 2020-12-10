@@ -10,7 +10,11 @@
 package main
 
 type I interface {
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 	int // ERROR "interface contains embedded non-interface int|not an interface"
+=======
+	int // ERROR "interface contains embedded non-interface"
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
 }
 
 func New() I {

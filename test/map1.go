@@ -64,5 +64,10 @@ func main() {
 	delete()        // ERROR "missing arguments|not enough arguments"
 	delete(m)       // ERROR "missing second \(key\) argument|not enough arguments"
 	delete(m, 2, 3) // ERROR "too many arguments"
+<<<<<<< HEAD   (ddf449 [dev.typeparams] test: exclude 32bit-specific test that fail)
 	delete(1, m)    // ERROR "first argument to delete must be map|is not a map"
 }
+=======
+	delete(1, m)    // ERROR "first argument to delete must be map|argument 1 must be a map"
+}
+>>>>>>> BRANCH (2a1cf9 [dev.regabi] merge: get recent changes from 1.16dev into reg)
