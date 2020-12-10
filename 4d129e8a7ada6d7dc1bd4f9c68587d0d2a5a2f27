@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a060502e_6889701b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Thanks for the detailed comments.",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06467f9f_b49d2fe6",
@@ -14,6 +31,30 @@
       "writtenOn": "2020-12-10T18:39:35Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 72,
+        "startChar": 3,
+        "endLine": 72,
+        "endChar": 4
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab4f5587_4c23284b",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06467f9f_b49d2fe6",
       "range": {
         "startLine": 72,
         "startChar": 3,
@@ -41,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "579cc481_1fa41e1c",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Yes, I suppose I could get rid of it. At one point it seemed useful to have it around, but you\u0027re right that it\u0027s not strictly needed. I\u0027ll update the patch.",
+      "parentUuid": "cc22bcbd_7444a8f6",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd79d348_4a7d4464",
@@ -54,6 +113,30 @@
       "writtenOn": "2020-12-10T18:39:35Z",
       "side": 1,
       "message": "indices",
+      "range": {
+        "startLine": 180,
+        "startChar": 42,
+        "endLine": 180,
+        "endChar": 51
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95a34939_042e5912",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd79d348_4a7d4464",
       "range": {
         "startLine": 180,
         "startChar": 42,
@@ -81,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a91caea5_2fe0bb4a",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b4acdee_06af21da",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01e5d5f4_106760aa",
@@ -94,6 +195,30 @@
       "writtenOn": "2020-12-10T18:39:35Z",
       "side": 1,
       "message": "it",
+      "range": {
+        "startLine": 280,
+        "startChar": 41,
+        "endLine": 280,
+        "endChar": 43
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32fb02e_a795e9d7",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01e5d5f4_106760aa",
       "range": {
         "startLine": 280,
         "startChar": 41,
@@ -127,6 +252,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14289869_d25d6911",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "113b81a9_55af8dd8",
+      "range": {
+        "startLine": 310,
+        "startChar": 5,
+        "endLine": 310,
+        "endChar": 13
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c86f1105_f711306a",
@@ -146,6 +295,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c729556b_6ce7dc23",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "I don\u0027t think moving it to an init is practical, since it is depending on things set up in initUniverse() and friends.  Not sure what you mean by \"assign it at declaration\"?",
+      "parentUuid": "c86f1105_f711306a",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "25f45825_acfcb7a1",
         "filename": "src/cmd/compile/internal/gc/abiutils.go",
         "patchSetId": 9
@@ -157,6 +324,30 @@
       "writtenOn": "2020-12-10T18:39:35Z",
       "side": 1,
       "message": "Don\u0027t love the visit nomenclature here and elsewhere. assign? useReg? canRegAllocate? fitsInReg?",
+      "range": {
+        "startLine": 359,
+        "startChar": 26,
+        "endLine": 359,
+        "endChar": 31
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9807fc1_b1165c8c",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "I suppose you\u0027re right, \"visit\" is pretty opaque (maybe one step up from \"dothestuff\"). I\u0027ll change to \"regassign\".",
+      "parentUuid": "25f45825_acfcb7a1",
       "range": {
         "startLine": 359,
         "startChar": 26,
@@ -190,6 +381,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b53022b_cbf79eb3",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "I\u0027ve renamed to assignParamOrReturn",
+      "parentUuid": "e5b5fe3f_e495d085",
+      "range": {
+        "startLine": 384,
+        "startChar": 26,
+        "endLine": 384,
+        "endChar": 38
+      },
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1319ee5_33b9743e",
@@ -203,6 +418,24 @@
       "writtenOn": "2020-12-10T18:39:35Z",
       "side": 1,
       "message": "Move this to the beginning of the function, and eliminate the memclr on line 96.",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc59d772_a7b79588",
+        "filename": "src/cmd/compile/internal/gc/abiutils.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1319ee5_33b9743e",
       "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -224,6 +457,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b873cf66_ca5212c4",
+        "filename": "src/cmd/compile/internal/gc/abiutilsaux_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "I\u0027ve collapsed these down to a single t.Errorf call. The output is a little weird (t.Errorf tries to indent) but it gets the point across.",
+      "parentUuid": "d75d6770_33769aa2",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f504499_8cbc4281",
@@ -237,6 +488,24 @@
       "writtenOn": "2020-12-10T18:39:35Z",
       "side": 1,
       "message": "t.Logf? t.Errorf?",
+      "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a2ee756_7a2da430",
+        "filename": "src/cmd/compile/internal/gc/abiutilsaux_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-10T21:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f504499_8cbc4281",
       "revId": "4d129e8a7ada6d7dc1bd4f9c68587d0d2a5a2f27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
