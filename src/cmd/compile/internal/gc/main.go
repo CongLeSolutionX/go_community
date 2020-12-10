@@ -178,6 +178,8 @@ func Main(archInit func(*Arch)) {
 	// pseudo-package, accessed by import "unsafe"
 	unsafepkg = types.NewPkg("unsafe", "unsafe")
 
+	embedpkg = types.NewPkg("embed", "")
+
 	// Pseudo-package that contains the compiler's builtin
 	// declarations for package runtime. These are declared in a
 	// separate package to avoid conflicts with package runtime's

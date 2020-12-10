@@ -50,16 +50,14 @@ package p
 
 import "embed"
 
-//go:embed x*t*t
-var X embed.FS
+var X = embed.Files("x*t*t")
 
 -- x.go2 --
 package p
 
 import "embed"
 
-//go:embed *t
-var X embed.FS
+var X = embed.Files("*t")
 
 -- x.txt --
 hello

@@ -18,20 +18,15 @@ var (
 	bbig2        = bbig
 )
 
-//go:embed testdata/*.txt
-var global embed.FS
+var global embed.FS = embed.Files("testdata/*.txt")
 
-//go:embed c*txt
-var concurrency string
+var concurrency string = embed.String("c*txt")
 
-//go:embed testdata/g*.txt
-var glass []byte
+var glass []byte = embed.Bytes("testdata/g*.txt")
 
-//go:embed testdata/ascii.txt
-var sbig string
+var sbig string = embed.String("testdata/ascii.txt")
 
-//go:embed testdata/ascii.txt
-var bbig []byte
+var bbig []byte = embed.Bytes("testdata/ascii.txt")
 
 func testFiles(t *testing.T, f embed.FS, name, data string) {
 	t.Helper()
@@ -92,15 +87,12 @@ func TestXGlobal(t *testing.T) {
 }
 
 func TestXLocal(t *testing.T) {
-	//go:embed testdata/*o.txt
-	var local embed.FS
+	var local embed.FS = embed.Files("testdata/*o.txt")
 	testFiles(t, local, "testdata/hello.txt", "hello, world\n")
 
-	//go:embed testdata/k*.txt
-	var s string
+	var s string = embed.String("testdata/k*.txt")
 	testString(t, s, "local variable s", "If a program is too slow, it must have a loop.\n")
 
-	//go:embed testdata/h*.txt
-	var b []byte
+	var b []byte = embed.Bytes("testdata/h*.txt")
 	testString(t, string(b), "local variable b", "hello, world\n")
 }

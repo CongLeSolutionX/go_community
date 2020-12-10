@@ -83,6 +83,15 @@ var unsafeFuncs = [...]struct {
 	{"Sizeof", OSIZEOF},
 }
 
+var embedFuncs = [...]struct {
+	name string
+	op   Op
+}{
+	{"Bytes", OEMBEDBYTES},
+	{"String", OEMBEDSTRING},
+	{"Files", OEMBEDFILES},
+}
+
 // initUniverse initializes the universe block.
 func initUniverse() {
 	lexinit()
@@ -119,6 +128,12 @@ func lexinit() {
 
 	for _, s := range &unsafeFuncs {
 		s2 := unsafepkg.Lookup(s.name)
+		s2.Def = asTypesNode(newname(s2))
+		asNode(s2.Def).SetSubOp(s.op)
+	}
+
+	for _, s := range &embedFuncs {
+		s2 := embedpkg.Lookup(s.name)
 		s2.Def = asTypesNode(newname(s2))
 		asNode(s2.Def).SetSubOp(s.op)
 	}

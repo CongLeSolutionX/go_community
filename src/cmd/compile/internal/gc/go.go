@@ -145,6 +145,8 @@ var racepkg *types.Pkg // package runtime/race
 
 var msanpkg *types.Pkg // package runtime/msan
 
+var embedpkg *types.Pkg // package embed
+
 var unsafepkg *types.Pkg // package unsafe
 
 var trackpkg *types.Pkg // fake package for field tracking
