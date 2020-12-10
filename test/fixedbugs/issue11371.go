@@ -10,7 +10,7 @@
 package issue11371
 
 const a int = 1.1        // ERROR "constant 1.1 truncated to integer|truncated to int"
-const b int = 1e20       // ERROR "overflows int|truncated to int"
+const b int = 1e20       // ERROR "overflows int|integer constant overflow|truncated to int"
 const c int = 1 + 1e-100 // ERROR "constant truncated to integer|truncated to int"
 const d int = 1 - 1e-100 // ERROR "constant truncated to integer|truncated to int"
 const e int = 1.00000001 // ERROR "constant truncated to integer|truncated to int"
