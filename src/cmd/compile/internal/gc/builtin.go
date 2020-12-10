@@ -187,16 +187,17 @@ var runtimeDecls = [...]struct {
 	{"racewriterange", funcTag, 121},
 	{"msanread", funcTag, 121},
 	{"msanwrite", funcTag, 121},
-	{"checkptrAlignment", funcTag, 122},
-	{"checkptrArithmetic", funcTag, 124},
-	{"libfuzzerTraceCmp1", funcTag, 126},
-	{"libfuzzerTraceCmp2", funcTag, 128},
-	{"libfuzzerTraceCmp4", funcTag, 129},
-	{"libfuzzerTraceCmp8", funcTag, 130},
-	{"libfuzzerTraceConstCmp1", funcTag, 126},
-	{"libfuzzerTraceConstCmp2", funcTag, 128},
-	{"libfuzzerTraceConstCmp4", funcTag, 129},
-	{"libfuzzerTraceConstCmp8", funcTag, 130},
+	{"msanmove", funcTag, 122},
+	{"checkptrAlignment", funcTag, 123},
+	{"checkptrArithmetic", funcTag, 125},
+	{"libfuzzerTraceCmp1", funcTag, 127},
+	{"libfuzzerTraceCmp2", funcTag, 129},
+	{"libfuzzerTraceCmp4", funcTag, 130},
+	{"libfuzzerTraceCmp8", funcTag, 131},
+	{"libfuzzerTraceConstCmp1", funcTag, 127},
+	{"libfuzzerTraceConstCmp2", funcTag, 129},
+	{"libfuzzerTraceConstCmp4", funcTag, 130},
+	{"libfuzzerTraceConstCmp8", funcTag, 131},
 	{"x86HasPOPCNT", varTag, 6},
 	{"x86HasSSE41", varTag, 6},
 	{"x86HasFMA", varTag, 6},
@@ -205,8 +206,13 @@ var runtimeDecls = [...]struct {
 }
 
 func runtimeTypes() []*types.Type {
+<<<<<<< HEAD   (63bc23 [dev.regabi] cmd/compile: first start towards using Ident)
 	var typs [131]*types.Type
 	typs[0] = types.ByteType
+=======
+	var typs [132]*types.Type
+	typs[0] = types.Bytetype
+>>>>>>> BRANCH (6d2b33 test: match gofrontend error messages)
 	typs[1] = types.NewPtr(typs[0])
 	typs[2] = types.Types[types.TANY]
 	typs[3] = types.NewPtr(typs[2])
@@ -310,6 +316,7 @@ func runtimeTypes() []*types.Type {
 	typs[101] = functype(nil, []*ir.Field{anonfield(typs[1]), anonfield(typs[22]), anonfield(typs[22])}, []*ir.Field{anonfield(typs[7])})
 	typs[102] = functype(nil, []*ir.Field{anonfield(typs[1]), anonfield(typs[15]), anonfield(typs[15]), anonfield(typs[7])}, []*ir.Field{anonfield(typs[7])})
 	typs[103] = types.NewSlice(typs[2])
+<<<<<<< HEAD   (63bc23 [dev.regabi] cmd/compile: first start towards using Ident)
 	typs[104] = functype(nil, []*ir.Field{anonfield(typs[1]), anonfield(typs[103]), anonfield(typs[15])}, []*ir.Field{anonfield(typs[103])})
 	typs[105] = functype(nil, []*ir.Field{anonfield(typs[3]), anonfield(typs[3]), anonfield(typs[5])}, nil)
 	typs[106] = functype(nil, []*ir.Field{anonfield(typs[7]), anonfield(typs[5])}, nil)
@@ -337,5 +344,35 @@ func runtimeTypes() []*types.Type {
 	typs[128] = functype(nil, []*ir.Field{anonfield(typs[127]), anonfield(typs[127])}, nil)
 	typs[129] = functype(nil, []*ir.Field{anonfield(typs[65]), anonfield(typs[65])}, nil)
 	typs[130] = functype(nil, []*ir.Field{anonfield(typs[24]), anonfield(typs[24])}, nil)
+=======
+	typs[104] = functype(nil, []*Node{anonfield(typs[1]), anonfield(typs[103]), anonfield(typs[15])}, []*Node{anonfield(typs[103])})
+	typs[105] = functype(nil, []*Node{anonfield(typs[3]), anonfield(typs[3]), anonfield(typs[5])}, nil)
+	typs[106] = functype(nil, []*Node{anonfield(typs[7]), anonfield(typs[5])}, nil)
+	typs[107] = functype(nil, []*Node{anonfield(typs[3]), anonfield(typs[3]), anonfield(typs[5])}, []*Node{anonfield(typs[6])})
+	typs[108] = functype(nil, []*Node{anonfield(typs[3]), anonfield(typs[3])}, []*Node{anonfield(typs[6])})
+	typs[109] = functype(nil, []*Node{anonfield(typs[7]), anonfield(typs[7])}, []*Node{anonfield(typs[6])})
+	typs[110] = functype(nil, []*Node{anonfield(typs[7]), anonfield(typs[5]), anonfield(typs[5])}, []*Node{anonfield(typs[5])})
+	typs[111] = functype(nil, []*Node{anonfield(typs[7]), anonfield(typs[5])}, []*Node{anonfield(typs[5])})
+	typs[112] = functype(nil, []*Node{anonfield(typs[22]), anonfield(typs[22])}, []*Node{anonfield(typs[22])})
+	typs[113] = functype(nil, []*Node{anonfield(typs[24]), anonfield(typs[24])}, []*Node{anonfield(typs[24])})
+	typs[114] = functype(nil, []*Node{anonfield(typs[20])}, []*Node{anonfield(typs[22])})
+	typs[115] = functype(nil, []*Node{anonfield(typs[20])}, []*Node{anonfield(typs[24])})
+	typs[116] = functype(nil, []*Node{anonfield(typs[20])}, []*Node{anonfield(typs[65])})
+	typs[117] = functype(nil, []*Node{anonfield(typs[22])}, []*Node{anonfield(typs[20])})
+	typs[118] = functype(nil, []*Node{anonfield(typs[24])}, []*Node{anonfield(typs[20])})
+	typs[119] = functype(nil, []*Node{anonfield(typs[65])}, []*Node{anonfield(typs[20])})
+	typs[120] = functype(nil, []*Node{anonfield(typs[26]), anonfield(typs[26])}, []*Node{anonfield(typs[26])})
+	typs[121] = functype(nil, []*Node{anonfield(typs[5]), anonfield(typs[5])}, nil)
+	typs[122] = functype(nil, []*Node{anonfield(typs[5]), anonfield(typs[5]), anonfield(typs[5])}, nil)
+	typs[123] = functype(nil, []*Node{anonfield(typs[7]), anonfield(typs[1]), anonfield(typs[5])}, nil)
+	typs[124] = types.NewSlice(typs[7])
+	typs[125] = functype(nil, []*Node{anonfield(typs[7]), anonfield(typs[124])}, nil)
+	typs[126] = types.Types[TUINT8]
+	typs[127] = functype(nil, []*Node{anonfield(typs[126]), anonfield(typs[126])}, nil)
+	typs[128] = types.Types[TUINT16]
+	typs[129] = functype(nil, []*Node{anonfield(typs[128]), anonfield(typs[128])}, nil)
+	typs[130] = functype(nil, []*Node{anonfield(typs[65]), anonfield(typs[65])}, nil)
+	typs[131] = functype(nil, []*Node{anonfield(typs[24]), anonfield(typs[24])}, nil)
+>>>>>>> BRANCH (6d2b33 test: match gofrontend error messages)
 	return typs[:]
 }
