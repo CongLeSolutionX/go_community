@@ -7,6 +7,7 @@
 package renameio
 
 import (
+	"bytes"
 	"io/fs"
 	"io/ioutil"
 	"os"
@@ -27,7 +28,7 @@ func TestWriteFileModeAppliesUmask(t *testing.T) {
 	defer syscall.Umask(syscall.Umask(umask))
 
 	file := filepath.Join(dir, "testWrite")
-	err = WriteFile(file, []byte("go-build"), mode)
+	err = WriteToFile(file, bytes.NewReader([]byte("go-build")), mode)
 	if err != nil {
 		t.Fatalf("Failed to write file: %v", err)
 	}
