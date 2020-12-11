@@ -19,7 +19,7 @@ import (
 	"strings"
 	"time"
 
-	"cmd/go/internal/renameio"
+	"cmd/go/internal/lockedfile"
 )
 
 // An ActionID is a cache action key, the hash of a complete description of a
@@ -287,16 +287,50 @@ func (c *Cache) used(file string) {
 	os.Chtimes(file, c.now(), c.now())
 }
 
+func hasNullBytes(data []byte) bool {
+	for _, b := range data {
+		if b == '\000' {
+			return true
+		}
+	}
+	return false
+}
+
 // Trim removes old cache entries that are likely not to be reused.
 func (c *Cache) Trim() {
 	now := c.now()
 
+	writeTrimTime := func() {
+		// Ignore errors from here: if we don't write the complete timestamp, the
+		// cache will appear older than it is, and we'll trim it again next time.
+		var b bytes.Buffer
+		fmt.Fprintf(&b, "%d", now.Unix())
+		if err := lockedfile.Write(filepath.Join(c.dir, "trim.txt"), &b, 0666); err != nil {
+			return
+		}
+	}
+
 	// We maintain in dir/trim.txt the time of the last completed cache trim.
 	// If the cache has been trimmed recently enough, do nothing.
 	// This is the common case.
-	data, _ := renameio.ReadFile(filepath.Join(c.dir, "trim.txt"))
+	data, err := lockedfile.Read(filepath.Join(c.dir, "trim.txt"))
+	if err != nil {
+		writeTrimTime()
+		return
+	}
 	t, err := strconv.ParseInt(strings.TrimSpace(string(data)), 10, 64)
-	if err == nil && now.Sub(time.Unix(t, 0)) < trimInterval {
+	if err != nil {
+		writeTrimTime()
+		return
+	}
+	lastTrim := time.Unix(t, 0)
+	if lastTrim.Year() < 2000 || lastTrim.Year() > 2100 {
+		// This is an invalid timestamp, probably from a corrupt file.
+		writeTrimTime()
+		return
+	}
+
+	if now.Sub(lastTrim) < trimInterval {
 		return
 	}
 
@@ -309,9 +343,7 @@ func (c *Cache) Trim() {
 		c.trimSubdir(subdir, cutoff)
 	}
 
-	// Ignore errors from here: if we don't write the complete timestamp, the
-	// cache will appear older than it is, and we'll trim it again next time.
-	renameio.WriteFile(filepath.Join(c.dir, "trim.txt"), []byte(fmt.Sprintf("%d", now.Unix())), 0666)
+	writeTrimTime()
 }
 
 // trimSubdir trims a single cache subdirectory.
