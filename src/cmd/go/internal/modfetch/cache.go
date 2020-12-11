@@ -22,6 +22,7 @@ import (
 	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/par"
 	"cmd/go/internal/renameio"
+	"cmd/go/internal/robustio"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
@@ -309,7 +310,7 @@ func InfoFile(path, version string) (string, error) {
 	}
 
 	// Stat should have populated the disk cache for us.
-	file, _, err := readDiskStat(path, version)
+	file, err := CachePath(module.Version{Path: path, Version: version}, "info")
 	if err != nil {
 		return "", err
 	}
@@ -361,7 +362,7 @@ func GoModFile(path, version string) (string, error) {
 		return "", err
 	}
 	// GoMod should have populated the disk cache for us.
-	file, _, err := readDiskGoMod(path, version)
+	file, err := CachePath(module.Version{Path: path, Version: version}, "mod")
 	if err != nil {
 		return "", err
 	}
@@ -524,7 +525,7 @@ func readDiskCache(path, rev, suffix string) (file string, data []byte, err erro
 	if err != nil {
 		return "", nil, errNotCached
 	}
-	data, err = renameio.ReadFile(file)
+	data, err = robustio.ReadFile(file)
 	if err != nil {
 		return file, nil, errNotCached
 	}
@@ -580,51 +581,58 @@ func rewriteVersionList(dir string) {
 
 	listFile := filepath.Join(dir, "list")
 
-	// We use a separate lockfile here instead of locking listFile itself because
-	// we want to use Rename to write the file atomically. The list may be read by
-	// a GOPROXY HTTP server, and if we crash midway through a rewrite (or if the
-	// HTTP server ignores our locking and serves the file midway through a
-	// rewrite) it's better to serve a stale list than a truncated one.
-	unlock, err := lockedfile.MutexAt(listFile + ".lock").Lock()
-	if err != nil {
-		base.Fatalf("go: can't lock version list lockfile: %v", err)
-	}
-	defer unlock()
-
-	infos, err := os.ReadDir(dir)
-	if err != nil {
-		return
-	}
-	var list []string
-	for _, info := range infos {
-		// We look for *.mod files on the theory that if we can't supply
-		// the .mod file then there's no point in listing that version,
-		// since it's unusable. (We can have *.info without *.mod.)
-		// We don't require *.zip files on the theory that for code only
-		// involved in module graph construction, many *.zip files
-		// will never be requested.
-		name := info.Name()
-		if strings.HasSuffix(name, ".mod") {
-			v := strings.TrimSuffix(name, ".mod")
-			if v != "" && module.CanonicalVersion(v) == v {
-				list = append(list, v)
+	// Lock listfile when writing to it to try to avoid corruption to the file.
+	// Under rare circumstances, for instance, if the system loses power in the
+	// middle of a write it is possible for corrupt data to be written. This is
+	// not a problem for the go command itself, but may be an issue if the the
+	// cache is being served by a GOPROXY HTTP server. This will be corrected
+	// the next time a new version of the module is fetched and the file is rewritten.
+	// TODO(matloob): golang.org/issue/43313 covers adding a go mod verify
+	// command that removes module versions that fail checksums. It should also
+	// remove list files that are detected to be corrupt.
+	skipWrite := errors.New("skip write") // sentinel error to avoid write in Transform
+	err := lockedfile.Transform(listFile, func(old []byte) ([]byte, error) {
+		// TODO(matloob): Is it okay to assume that list is correct?
+		// Since the write of the .mod file is not guaranteed to complete before
+		// this code runs, reading the list of .mod files in the directory
+		// is not sufficient. One alternative is to check if the file is
+		// corrupt, and if it is re-read the directory, and add the new
+		// module to the list.
+		infos, err := os.ReadDir(dir)
+		if err != nil {
+			return nil, err
+		}
+		var list []string
+		for _, info := range infos {
+			// We look for *.mod files on the theory that if we can't supply
+			// the .mod file then there's no point in listing that version,
+			// since it's unusable. (We can have *.info without *.mod.)
+			// We don't require *.zip files on the theory that for code only
+			// involved in module graph construction, many *.zip files
+			// will never be requested.
+			name := info.Name()
+			if strings.HasSuffix(name, ".mod") {
+				v := strings.TrimSuffix(name, ".mod")
+				if v != "" && module.CanonicalVersion(v) == v {
+					list = append(list, v)
+				}
 			}
 		}
-	}
-	SortVersions(list)
+		SortVersions(list)
 
-	var buf bytes.Buffer
-	for _, v := range list {
-		buf.WriteString(v)
-		buf.WriteString("\n")
-	}
-	old, _ := renameio.ReadFile(listFile)
-	if bytes.Equal(buf.Bytes(), old) {
-		return
-	}
+		var buf bytes.Buffer
+		for _, v := range list {
+			buf.WriteString(v)
+			buf.WriteString("\n")
+		}
+		if bytes.Equal(buf.Bytes(), old) {
+			return nil, skipWrite
+		}
 
-	if err := renameio.WriteFile(listFile, buf.Bytes(), 0666); err != nil {
-		base.Fatalf("go: failed to write version list: %v", err)
+		return buf.Bytes(), nil
+	})
+	if err != nil && err != skipWrite {
+		base.Fatalf("go: updating version list: %v", err)
 	}
 }
 
