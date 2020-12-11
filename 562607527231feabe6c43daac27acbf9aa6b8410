@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "96696164_171750ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-11T16:35:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5845d125_7d6e6259",
+      "revId": "562607527231feabe6c43daac27acbf9aa6b8410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "338ba032_59888838",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -76,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bd3bf6c_b93577bd",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-11T16:35:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75dfcdc8_05a1f2b0",
+      "range": {
+        "startLine": 130,
+        "startChar": 31,
+        "endLine": 130,
+        "endChar": 58
+      },
+      "revId": "562607527231feabe6c43daac27acbf9aa6b8410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d260fc08_cf60af95",
@@ -99,6 +141,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c8e2da_e86cdd85",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-11T16:35:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d260fc08_cf60af95",
+      "range": {
+        "startLine": 135,
+        "startChar": 14,
+        "endLine": 135,
+        "endChar": 72
+      },
+      "revId": "562607527231feabe6c43daac27acbf9aa6b8410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fcd68b7_524bcc78",
@@ -112,6 +178,30 @@
       "writtenOn": "2020-12-08T21:50:30Z",
       "side": 1,
       "message": "s/directoryas/directory as/",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 136,
+        "endChar": 13
+      },
+      "revId": "562607527231feabe6c43daac27acbf9aa6b8410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "267ca448_9df4c9f3",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-11T16:35:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fcd68b7_524bcc78",
       "range": {
         "startLine": 136,
         "startChar": 2,
