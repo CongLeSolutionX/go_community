@@ -26,18 +26,58 @@ func unreachable() {
 }
 
 func (check *Checker) qualifier(pkg *Package) string {
-	// Qualify the package unless it's the package being type-checked.
-	if pkg != check.pkg {
-		// If the same package name was used by multiple packages, display the full path.
-		if check.pkgCnt[pkg.name] > 1 {
-			return strconv.Quote(pkg.path)
-		}
-		return pkg.name
+	// If the same package name was used by multiple packages, display the full path.
+	if check.pkgCnt[pkg.name] > 1 {
+		return fullyQualified(pkg)
 	}
-	return ""
+	return pkg.name
+}
+
+func fullyQualified(pkg *Package) string {
+	return strconv.Quote(pkg.path)
+}
+
+// qualifyScope is used to disambiguate package qualifiers within a single
+// logical scope (for example an error message).
+type qualifyScope struct {
+	check     *Checker
+	ambiguous bool                // whether ambiguity has been encountered
+	names     map[string]*Package // package name->package, to detect ambiguities
+}
+
+func (q *qualifyScope) qualifier(pkg *Package) string {
+	if pkg == q.check.pkg {
+		return ""
+	}
+	if q.names == nil {
+		q.names = make(map[string]*Package)
+	}
+	existing, ok := q.names[pkg.name]
+	if !ok {
+		// this is the first time we've seen the package, so there is no ambiguity.
+		q.names[pkg.name] = pkg
+		return q.check.qualifier(pkg)
+	}
+	if existing == nil {
+		// We've already detected ambiguity for this package.
+		return fullyQualified(pkg)
+	}
+	if existing == pkg {
+		// existing != nil && existing == pkg. No ambiguity.
+		return q.check.qualifier(pkg)
+	}
+	// exising != nil && existing != pkg. This is the first time we've detected
+	// ambiguity for this package name.
+	q.ambiguous = true
+	// Setting q.names[pkg.name] to nil forces all subsequent qualifications of
+	// this package name to be considered ambiguous.
+	q.names[pkg.name] = nil
+	return fullyQualified(pkg)
 }
 
 func (check *Checker) sprintf(format string, args ...interface{}) string {
+	formattedArgs := make([]interface{}, len(args))
+	qs := &qualifyScope{check: check}
 	for i, arg := range args {
 		switch a := arg.(type) {
 		case nil:
@@ -45,19 +85,39 @@ func (check *Checker) sprintf(format string, args ...interface{}) string {
 		case operand:
 			panic("internal error: should always pass *operand")
 		case *operand:
-			arg = operandString(a, check.qualifier)
+			arg = operandString(a, qs.qualifier)
 		case token.Pos:
 			arg = check.fset.Position(a).String()
 		case ast.Expr:
 			arg = ExprString(a)
 		case Object:
-			arg = ObjectString(a, check.qualifier)
+			arg = ObjectString(a, qs.qualifier)
 		case Type:
-			arg = TypeString(a, check.qualifier)
+			arg = TypeString(a, qs.qualifier)
 		}
-		args[i] = arg
+		formattedArgs[i] = arg
 	}
-	return fmt.Sprintf(format, args...)
+	// Until formatting all arguments, it is not known whether any packages
+	// referenced by args are mutually ambiguous, so we use a qualifyScope to
+	// identify and record ambiguities. If any ambiguities are encountered we
+	// perform a second pass so that all ambiguous package names are fully
+	// qualified.
+	if qs.ambiguous {
+		for i, arg := range args {
+			switch a := arg.(type) {
+			case *operand:
+				arg = operandString(a, qs.qualifier)
+			case Object:
+				arg = ObjectString(a, qs.qualifier)
+			case Type:
+				arg = TypeString(a, qs.qualifier)
+			default:
+				continue
+			}
+			formattedArgs[i] = arg
+		}
+	}
+	return fmt.Sprintf(format, formattedArgs...)
 }
 
 func (check *Checker) trace(pos token.Pos, format string, args ...interface{}) {
