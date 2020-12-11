@@ -115,6 +115,15 @@ func netpoll(delay int64) gList {
 	} else if delay == 0 {
 		tp = &ts
 	} else {
+		if GOOS == "netbsd" && delay > 10e3 {
+			// netbsd has an undiagnosed kernel issue that
+			// sometimes misses netpollBreak wake-ups, which can
+			// lead to excessive delays servicing timers. Bound the
+			// delay to 10ms max as a workaround.
+			//
+			// See issue 42515.
+			delay = 10e3
+		}
 		ts.setNsec(delay)
 		if ts.tv_sec > 1e6 {
 			// Darwin returns EINVAL if the sleep time is too long.
