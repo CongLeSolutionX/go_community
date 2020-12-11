@@ -173,7 +173,7 @@ Do not send CLs removing the interior tags from such phrases.
   package for details.
 </p>
 
-<h4 id="go-test"><code>go</code> <code>test</code></h4>
+<h4 id="go-test">The <code>test</code> command</h4>
 
 <p><!-- golang.org/issue/29062 -->
   When using <code>go</code> <code>test</code>, a test that
@@ -192,7 +192,7 @@ Do not send CLs removing the interior tags from such phrases.
   are used, tests are not run.
 </p>
 
-<h4 id="go-get"><code>go</code> <code>get</code></h4>
+<h4 id="go-get">The <code>get</code> command</h4>
 
 <p><!-- golang.org/issue/37519 -->
   The <code>go</code> <code>get</code> <code>-insecure</code> flag is
@@ -283,7 +283,7 @@ Do not send CLs removing the interior tags from such phrases.
 
 <h3 id="vet">Vet</h3>
 
-<h4 id="vet-string-int">New warning for invalid testing.T use in
+<h4 id="vet-string-int">New warning for invalid <code>testing.T</code> use in
 goroutines</h4>
 
 <p><!-- CL 235677 -->
@@ -333,7 +333,7 @@ func TestFoo(t *testing.T) {
 </pre>
 
 <p><!-- CL 248686, CL 276372 -->
-  The vet tool now warns about amd64 assembly that clobbers the BP
+  The <code>vet</code> tool now warns about amd64 assembly that clobbers the BP
   register (the frame pointer) without saving and restoring it,
   contrary to the calling convention. Code that doesn't preserve the
   BP register must be modified to either not use BP at all or preserve
@@ -365,7 +365,7 @@ func TestFoo(t *testing.T) {
   summarizing its execution time and memory allocation. This trace can
   be used to find bottlenecks or regressions in Go startup
   performance.
-  The <a href="/pkg/runtime/#hdr-Environment_Variables"><code>GODEBUG</code><
+  The <a href="/pkg/runtime/#hdr-Environment_Variables"><code>GODEBUG</code>
   documentation</a> describes the format.
 </p>
 
