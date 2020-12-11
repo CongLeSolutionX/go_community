@@ -477,7 +477,7 @@ func TestIssue34151(t *testing.T) {
 	}
 
 	bast := mustParse(t, bsrc)
-	conf := Config{Importer: importHelper{a}}
+	conf := Config{Importer: importHelper{pkg: a}}
 	b, err := conf.Check(bast.Name.Name, fset, []*ast.File{bast}, nil)
 	if err != nil {
 		t.Errorf("package %s failed to typecheck: %v", b.Name(), err)
@@ -485,14 +485,18 @@ func TestIssue34151(t *testing.T) {
 }
 
 type importHelper struct {
-	pkg *Package
+	pkg      *Package
+	fallback Importer
 }
 
 func (h importHelper) Import(path string) (*Package, error) {
-	if path != h.pkg.Path() {
+	if path == h.pkg.Path() {
+		return h.pkg, nil
+	}
+	if h.fallback == nil {
 		return nil, fmt.Errorf("got package path %q; want %q", path, h.pkg.Path())
 	}
-	return h.pkg, nil
+	return h.fallback.Import(path)
 }
 
 // TestIssue34921 verifies that we don't update an imported type's underlying
@@ -516,7 +520,7 @@ func TestIssue34921(t *testing.T) {
 	var pkg *Package
 	for _, src := range sources {
 		f := mustParse(t, src)
-		conf := Config{Importer: importHelper{pkg}}
+		conf := Config{Importer: importHelper{pkg: pkg}}
 		res, err := conf.Check(f.Name.Name, fset, []*ast.File{f}, nil)
 		if err != nil {
 			t.Errorf("%q failed to typecheck: %v", src, err)
@@ -548,4 +552,24 @@ func TestIssue43088(t *testing.T) {
 	// These calls must terminate (no endless recursion).
 	Comparable(T1)
 	Comparable(T2)
+}
+
+func TestIssue43124(t *testing.T) {
+	const asrc = `package a; import "text/template"; func F(template.Template) {}`
+	const bsrc = `package b; import ("a"; "html/template"); func g() { a.F(template.Template{}) }`
+
+	a, err := pkgFor("a", asrc, nil)
+	if err != nil {
+		t.Fatalf("package %s failed to typecheck: %v", a.Name(), err)
+	}
+
+	bast := mustParse(t, bsrc)
+	conf := Config{Importer: importHelper{pkg: a, fallback: importer.Default()}}
+	b, err := conf.Check(bast.Name.Name, fset, []*ast.File{bast}, nil)
+	if err == nil {
+		t.Fatalf("package %s had no errors", b.Name())
+	}
+	if !strings.Contains(err.Error(), "text/template") {
+		t.Errorf("type checking error for %v does not disambiguate template: %q", b.Name(), err)
+	}
 }
