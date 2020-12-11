@@ -20,7 +20,8 @@ import (
 	"strings"
 	"time"
 
-	"cmd/go/internal/renameio"
+	"cmd/go/internal/lockedfile"
+	"cmd/go/internal/robustio"
 )
 
 // An ActionID is a cache action key, the hash of a complete description of a
@@ -295,7 +296,7 @@ func (c *Cache) Trim() {
 	// We maintain in dir/trim.txt the time of the last completed cache trim.
 	// If the cache has been trimmed recently enough, do nothing.
 	// This is the common case.
-	data, _ := renameio.ReadFile(filepath.Join(c.dir, "trim.txt"))
+	data, _ := robustio.ReadFile(filepath.Join(c.dir, "trim.txt"))
 	t, err := strconv.ParseInt(strings.TrimSpace(string(data)), 10, 64)
 	if err == nil && now.Sub(time.Unix(t, 0)) < trimInterval {
 		return
@@ -312,7 +313,13 @@ func (c *Cache) Trim() {
 
 	// Ignore errors from here: if we don't write the complete timestamp, the
 	// cache will appear older than it is, and we'll trim it again next time.
-	renameio.WriteFile(filepath.Join(c.dir, "trim.txt"), []byte(fmt.Sprintf("%d", now.Unix())), 0666)
+	f, err := lockedfile.Edit(filepath.Join(c.dir, "trim.txt"))
+	if err != nil {
+		return
+	}
+	f.Truncate(0)
+	fmt.Fprintf(f, "%d", now.Unix())
+	f.Close()
 }
 
 // trimSubdir trims a single cache subdirectory.
