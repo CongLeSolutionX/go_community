@@ -1880,7 +1880,7 @@ func zeroaddr(size int64) ir.Node {
 		x.SetTypecheck(1)
 		s.Def = x
 	}
-	z := ir.Nod(ir.OADDR, ir.AsNode(s.Def), nil)
+	z := ir.NewAddrExpr(base.Pos, ir.AsNode(s.Def))
 	z.SetType(types.NewPtr(types.Types[types.TUINT8]))
 	z.SetTypecheck(1)
 	return z
