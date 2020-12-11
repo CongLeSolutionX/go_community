@@ -8,10 +8,13 @@ import (
 	"archive/zip"
 	"bytes"
 	"context"
+	"crypto/sha256"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"io"
 	"io/fs"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sort"
@@ -220,7 +223,7 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 	// contents of the file (by hashing it) before we commit it. Because the file
 	// is zip-compressed, we need an actual file — or at least an io.ReaderAt — to
 	// validate it: we can't just tee the stream as we write it.
-	f, err := os.CreateTemp(filepath.Dir(zipfile), filepath.Base(renameio.Pattern(zipfile)))
+	f, err := ioutil.TempFile(filepath.Dir(zipfile), filepath.Base(renameio.Pattern(zipfile)))
 	if err != nil {
 		return err
 	}
@@ -276,33 +279,50 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 		}
 	}
 
-	// Sync the file before renaming it: otherwise, after a crash the reader may
-	// observe a 0-length file instead of the actual contents.
-	// See https://golang.org/issue/22397#issuecomment-380831736.
-	if err := f.Sync(); err != nil {
-		return err
-	}
 	if err := f.Close(); err != nil {
 		return err
 	}
 
-	// Hash the zip file and check the sum before renaming to the final location.
-	hash, err := dirhash.HashZip(f.Name(), dirhash.DefaultHash)
-	if err != nil {
-		return err
-	}
-	if err := checkModSum(mod, hash); err != nil {
-		return err
-	}
+	// Hash the zip file, check the sum, and write out the ziphash
+	// before renaming the zip file to the final location.
+	writeAndCheckZiphash(mod, f.Name(), zipfile+"hash")
 
-	if err := renameio.WriteFile(zipfile+"hash", []byte(hash), 0666); err != nil {
-		return err
-	}
 	if err := os.Rename(f.Name(), zipfile); err != nil {
 		return err
 	}
 
 	// TODO(bcmills): Should we make the .zip and .ziphash files read-only to discourage tampering?
+
+	return nil
+}
+
+func writeAndCheckZiphash(mod module.Version, zipfile, ziphashfile string) error {
+	// Hash the zip file, check the sum, and write out the ziphash
+	// before renaming the zip file to the final location.
+	hash, err := dirhash.HashZip(zipfile, dirhash.DefaultHash)
+	if err != nil {
+		return err
+	}
+
+	if err := checkModSum(mod, hash); err != nil {
+		return err
+	}
+	// While downloadZip is protected by a call to lockVersion, the ziphash
+	// file is read by checkMod without lockVersion, so use lockedFile to
+	// ensure the ziphashFile is complete when it's read.
+	hf, err := lockedfile.Create(ziphashfile)
+	if err != nil {
+		return err
+	}
+	if err := hf.Truncate(int64(len(hash))); err != nil {
+		return err
+	}
+	if _, err := hf.WriteAt([]byte(hash), 0); err != nil {
+		return err
+	}
+	if err := hf.Close(); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -460,7 +480,7 @@ func checkMod(mod module.Version) {
 	if err != nil {
 		base.Fatalf("verifying %v", module.VersionError(mod, err))
 	}
-	data, err := renameio.ReadFile(ziphash)
+	data, err := lockedfile.Read(ziphash)
 	if err != nil {
 		if errors.Is(err, fs.ErrNotExist) {
 			// This can happen if someone does rm -rf GOPATH/src/cache/download. So it goes.
@@ -468,7 +488,20 @@ func checkMod(mod module.Version) {
 		}
 		base.Fatalf("verifying %v", module.VersionError(mod, err))
 	}
-	h := strings.TrimSpace(string(data))
+	data = bytes.TrimSpace(data)
+	if !isValidSum(data) {
+		// Recreate ziphash file from zip file and use that tho check the mod sum.
+		zip, err := CachePath(mod, "zip")
+		if err != nil {
+			base.Fatalf("verifying %v", module.VersionError(mod, err))
+		}
+		err = writeAndCheckZiphash(mod, zip, ziphash)
+		if err != nil {
+			base.Fatalf("verifying %v", module.VersionError(mod, err))
+		}
+		return
+	}
+	h := string(data)
 	if !strings.HasPrefix(h, "h1:") {
 		base.Fatalf("verifying %v", module.VersionError(mod, fmt.Errorf("unexpected ziphash: %q", h)))
 	}
@@ -613,11 +646,32 @@ func Sum(mod module.Version) string {
 	if err != nil {
 		return ""
 	}
-	data, err := renameio.ReadFile(ziphash)
+	data, err := lockedfile.Read(ziphash)
 	if err != nil {
 		return ""
 	}
-	return strings.TrimSpace(string(data))
+	data = bytes.TrimSpace(data)
+	if !isValidSum(data) {
+		return ""
+	}
+	return string(data)
+}
+
+// isValidSum returns true if data is the valid contents of a zip hash file.
+// Certain critical files are written to disk by first truncating
+// then writing the actual bytes, so that if the write fails
+// the corrupt file should contain at least one of the null
+// bytes written by the truncate operation.
+func isValidSum(data []byte) bool {
+	if bytes.IndexByte(data, '\000') >= 0 {
+		return false
+	}
+
+	if len(data) != len("h1:")+base64.StdEncoding.EncodedLen(sha256.Size) {
+		return false
+	}
+
+	return true
 }
 
 // WriteGoSum writes the go.sum file if it needs to be updated.
