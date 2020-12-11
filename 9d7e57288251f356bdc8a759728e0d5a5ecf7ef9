@@ -16,6 +16,24 @@
       "message": "Ian, you may want to have a look at the manually changed files in the test directory to ensure we didn\u0027t lose any adjustments made for gccgo. Thanks.",
       "revId": "9d7e57288251f356bdc8a759728e0d5a5ecf7ef9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac76747a_67970a02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-11T00:20:46Z",
+      "side": 1,
+      "message": "There are too many changes to keep track of in that regard.  We\u0027ll clean any issues up later when we merge the testsuite over to gccgo.",
+      "parentUuid": "57abdc15_82dc055f",
+      "revId": "9d7e57288251f356bdc8a759728e0d5a5ecf7ef9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
