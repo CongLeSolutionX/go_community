@@ -150,7 +150,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		}
 
 		l = append(l, cas.Body().Slice()...)
-		l = append(l, ir.Nod(ir.OBREAK, nil, nil))
+		l = append(l, ir.NewBranchStmt(base.Pos, ir.OBREAK, nil))
 		return l
 	}
 
@@ -179,18 +179,18 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 		switch n.Op() {
 		case ir.OSEND:
-			n.SetRight(ir.Nod(ir.OADDR, n.Right(), nil))
+			n.SetRight(ir.NewAddrExpr(base.Pos, n.Right()))
 			n.SetRight(typecheck(n.Right(), ctxExpr))
 
 		case ir.OSELRECV:
 			if !ir.IsBlank(n.Left()) {
-				n.SetLeft(ir.Nod(ir.OADDR, n.Left(), nil))
+				n.SetLeft(ir.NewAddrExpr(base.Pos, n.Left()))
 				n.SetLeft(typecheck(n.Left(), ctxExpr))
 			}
 
 		case ir.OSELRECV2:
 			if !ir.IsBlank(n.List().First()) {
-				n.List().SetIndex(0, ir.Nod(ir.OADDR, n.List().First(), nil))
+				n.List().SetIndex(0, ir.NewAddrExpr(base.Pos, n.List().First()))
 				n.List().SetIndex(0, typecheck(n.List().First(), ctxExpr))
 			}
 		}
@@ -205,7 +205,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 		n := cas.Left()
 		setlineno(n)
-		r := ir.Nod(ir.OIF, nil, nil)
+		r := ir.NewIfStmt(base.Pos, nil, nil, nil)
 		r.PtrInit().Set(cas.Init().Slice())
 		var call ir.Node
 		switch n.Op() {
@@ -235,14 +235,14 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 			if ir.IsBlank(elem) {
 				elem = nodnil()
 			}
-			receivedp := typecheck(ir.Nod(ir.OADDR, n.List().Second(), nil), ctxExpr)
+			receivedp := typecheck(ir.NewAddrExpr(base.Pos, n.List().Second()), ctxExpr)
 			call = mkcall1(chanfn("selectnbrecv2", 2, ch.Type()), types.Types[types.TBOOL], r.PtrInit(), elem, receivedp, ch)
 		}
 
 		r.SetLeft(typecheck(call, ctxExpr))
 		r.PtrBody().Set(cas.Body().Slice())
 		r.PtrRlist().Set(append(dflt.Init().Slice(), dflt.Body().Slice()...))
-		return []ir.Node{r, ir.Nod(ir.OBREAK, nil, nil)}
+		return []ir.Node{r, ir.NewBranchStmt(base.Pos, ir.OBREAK, nil)}
 	}
 
 	if dflt != nil {
@@ -256,7 +256,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 	// generate sel-struct
 	base.Pos = sellineno
 	selv := temp(types.NewArray(scasetype(), int64(ncas)))
-	init = append(init, typecheck(ir.Nod(ir.OAS, selv, nil), ctxStmt))
+	init = append(init, typecheck(ir.NewAssignStmt(base.Pos, selv, nil), ctxStmt))
 
 	// No initialization for order; runtime.selectgo is responsible for that.
 	order := temp(types.NewArray(types.Types[types.TUINT16], 2*int64(ncas)))
@@ -264,7 +264,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 	var pc0, pcs ir.Node
 	if base.Flag.Race {
 		pcs = temp(types.NewArray(types.Types[types.TUINTPTR], int64(ncas)))
-		pc0 = typecheck(ir.Nod(ir.OADDR, ir.Nod(ir.OINDEX, pcs, nodintconst(0)), nil), ctxExpr)
+		pc0 = typecheck(ir.NewAddrExpr(base.Pos, ir.NewIndexExpr(base.Pos, pcs, nodintconst(0))), ctxExpr)
 	} else {
 		pc0 = nodnil()
 	}
@@ -309,7 +309,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		casorder[i] = cas
 
 		setField := func(f string, val ir.Node) {
-			r := ir.Nod(ir.OAS, nodSym(ir.ODOT, ir.Nod(ir.OINDEX, selv, nodintconst(int64(i))), lookup(f)), val)
+			r := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, ir.NewIndexExpr(base.Pos, selv, nodintconst(int64(i))), lookup(f)), val)
 			init = append(init, typecheck(r, ctxStmt))
 		}
 
@@ -323,7 +323,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		// TODO(mdempsky): There should be a cleaner way to
 		// handle this.
 		if base.Flag.Race {
-			r := mkcall("selectsetpc", nil, nil, ir.Nod(ir.OADDR, ir.Nod(ir.OINDEX, pcs, nodintconst(int64(i))), nil))
+			r := mkcall("selectsetpc", nil, nil, ir.NewAddrExpr(base.Pos, ir.NewIndexExpr(base.Pos, pcs, nodintconst(int64(i)))))
 			init = append(init, r)
 		}
 	}
@@ -335,17 +335,17 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 	base.Pos = sellineno
 	chosen := temp(types.Types[types.TINT])
 	recvOK := temp(types.Types[types.TBOOL])
-	r := ir.Nod(ir.OAS2, nil, nil)
+	r := ir.NewAssignListStmt(base.Pos, ir.OAS2, nil, nil)
 	r.PtrList().Set2(chosen, recvOK)
 	fn := syslook("selectgo")
 	r.PtrRlist().Set1(mkcall1(fn, fn.Type().Results(), nil, bytePtrToIndex(selv, 0), bytePtrToIndex(order, 0), pc0, nodintconst(int64(nsends)), nodintconst(int64(nrecvs)), nodbool(dflt == nil)))
 	init = append(init, typecheck(r, ctxStmt))
 
 	// selv and order are no longer alive after selectgo.
-	init = append(init, ir.Nod(ir.OVARKILL, selv, nil))
-	init = append(init, ir.Nod(ir.OVARKILL, order, nil))
+	init = append(init, ir.NewUnaryExpr(base.Pos, ir.OVARKILL, selv))
+	init = append(init, ir.NewUnaryExpr(base.Pos, ir.OVARKILL, order))
 	if base.Flag.Race {
-		init = append(init, ir.Nod(ir.OVARKILL, pcs, nil))
+		init = append(init, ir.NewUnaryExpr(base.Pos, ir.OVARKILL, pcs))
 	}
 
 	// dispatch cases
@@ -353,25 +353,25 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		cond = typecheck(cond, ctxExpr)
 		cond = defaultlit(cond, nil)
 
-		r := ir.Nod(ir.OIF, cond, nil)
+		r := ir.NewIfStmt(base.Pos, cond, nil, nil)
 
 		if n := cas.Left(); n != nil && n.Op() == ir.OSELRECV2 {
-			x := ir.Nod(ir.OAS, n.List().Second(), recvOK)
+			x := ir.NewAssignStmt(base.Pos, n.List().Second(), recvOK)
 			r.PtrBody().Append(typecheck(x, ctxStmt))
 		}
 
 		r.PtrBody().AppendNodes(cas.PtrBody())
-		r.PtrBody().Append(ir.Nod(ir.OBREAK, nil, nil))
+		r.PtrBody().Append(ir.NewBranchStmt(base.Pos, ir.OBREAK, nil))
 		init = append(init, r)
 	}
 
 	if dflt != nil {
 		setlineno(dflt)
-		dispatch(ir.Nod(ir.OLT, chosen, nodintconst(0)), dflt)
+		dispatch(ir.NewBinaryExpr(base.Pos, ir.OLT, chosen, nodintconst(0)), dflt)
 	}
 	for i, cas := range casorder {
 		setlineno(cas)
-		dispatch(ir.Nod(ir.OEQ, chosen, nodintconst(int64(i))), cas)
+		dispatch(ir.NewBinaryExpr(base.Pos, ir.OEQ, chosen, nodintconst(int64(i))), cas)
 	}
 
 	return init
@@ -379,7 +379,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 // bytePtrToIndex returns a Node representing "(*byte)(&n[i])".
 func bytePtrToIndex(n ir.Node, i int64) ir.Node {
-	s := ir.Nod(ir.OADDR, ir.Nod(ir.OINDEX, n, nodintconst(i)), nil)
+	s := ir.NewAddrExpr(base.Pos, ir.NewIndexExpr(base.Pos, n, nodintconst(i)))
 	t := types.NewPtr(types.Types[types.TUINT8])
 	return convnop(s, t)
 }
