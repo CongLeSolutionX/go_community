@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc00d442_84db3f42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-12-11T11:04:49Z",
+      "side": 1,
+      "message": "In the commit message, could you also explain why skipping the Inspect call in that case is okay? It\u0027s unclear to me if it could lead to go/doc returning incorrect results, for example.",
+      "revId": "3a09e7e5fbbb9983df62ee740da4d9479ac543ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
