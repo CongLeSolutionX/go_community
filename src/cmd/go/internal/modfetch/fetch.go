@@ -23,7 +23,6 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/par"
-	"cmd/go/internal/renameio"
 	"cmd/go/internal/robustio"
 	"cmd/go/internal/trace"
 
@@ -207,11 +206,13 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 	ctx, span := trace.StartSpan(ctx, "modfetch.downloadZip "+zipfile)
 	defer span.Done()
 
+	tmpSuffix := ".tmp"
+
 	// Clean up any remaining tempfiles from previous runs.
 	// This is only safe to do because the lock file ensures that their
 	// writers are no longer active.
 	for _, base := range []string{zipfile, zipfile + "hash"} {
-		if old, err := filepath.Glob(renameio.Pattern(base)); err == nil {
+		if old, err := filepath.Glob(base + tmpSuffix); err == nil {
 			for _, path := range old {
 				os.Remove(path) // best effort
 			}
@@ -223,7 +224,7 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 	// contents of the file (by hashing it) before we commit it. Because the file
 	// is zip-compressed, we need an actual file — or at least an io.ReaderAt — to
 	// validate it: we can't just tee the stream as we write it.
-	f, err := ioutil.TempFile(filepath.Dir(zipfile), filepath.Base(renameio.Pattern(zipfile)))
+	f, err := ioutil.TempFile(filepath.Dir(zipfile), filepath.Base(zipfile)+tmpSuffix)
 	if err != nil {
 		return err
 	}
@@ -279,12 +280,6 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 		}
 	}
 
-	// Sync the file before renaming it: otherwise, after a crash the reader may
-	// observe a 0-length file instead of the actual contents.
-	// See https://golang.org/issue/22397#issuecomment-380831736.
-	if err := f.Sync(); err != nil {
-		return err
-	}
 	if err := f.Close(); err != nil {
 		return err
 	}
@@ -298,7 +293,17 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 		return err
 	}
 
-	if err := renameio.WriteFile(zipfile+"hash", []byte(hash), 0666); err != nil {
+	hf, err := os.OpenFile(zipfile+"hash", os.O_CREATE|os.O_RDWR, 0666)
+	if err != nil {
+		return err
+	}
+	if err := hf.Truncate(int64(len(hash))); err != nil {
+		return err
+	}
+	if _, err := hf.WriteAt([]byte(hash), 0); err != nil {
+		return err
+	}
+	if err := hf.Close(); err != nil {
 		return err
 	}
 	if err := os.Rename(f.Name(), zipfile); err != nil {
@@ -463,8 +468,8 @@ func checkMod(mod module.Version) {
 	if err != nil {
 		base.Fatalf("verifying %v", module.VersionError(mod, err))
 	}
-	data, err := renameio.ReadFile(ziphash)
-	if err != nil {
+	data, err := robustio.ReadFile(ziphash)
+	if err != nil || isCorrupt(data) {
 		if errors.Is(err, fs.ErrNotExist) {
 			// This can happen if someone does rm -rf GOPATH/src/cache/download. So it goes.
 			return
@@ -472,6 +477,13 @@ func checkMod(mod module.Version) {
 		base.Fatalf("verifying %v", module.VersionError(mod, err))
 	}
 	h := strings.TrimSpace(string(data))
+	if len(h) != 47 {
+		// For now, while we only use the h1 hash, a valid ziphash
+		// has 47 bytes: 3 bytes for the "h1:" prefix  and 44 bytes for the
+		// base64 encoding of the 256 bit hash. If there are fewer than 47 bytes
+		// the file it's invalid. Treat it the same as a missing file.
+		return
+	}
 	if !strings.HasPrefix(h, "h1:") {
 		base.Fatalf("verifying %v", module.VersionError(mod, fmt.Errorf("unexpected ziphash: %q", h)))
 	}
@@ -616,11 +628,25 @@ func Sum(mod module.Version) string {
 	if err != nil {
 		return ""
 	}
-	data, err := renameio.ReadFile(ziphash)
-	if err != nil {
+	data, err := robustio.ReadFile(ziphash)
+	if err != nil || isCorrupt(data) || len(data) != 47 {
 		return ""
 	}
 	return strings.TrimSpace(string(data))
+}
+
+// isCorrupt returns true if data contains null bytes.
+// Certain critical files are written to disk by first truncating
+// then writing the actual bytes, so that if the write fails
+// the corrupt file should contain at least one of the null
+// bytes written by the truncate operation.
+func isCorrupt(data []byte) bool {
+	for _, b := range data {
+		if b == '\000' {
+			return true
+		}
+	}
+	return false
 }
 
 // WriteGoSum writes the go.sum file if it needs to be updated.
