@@ -46,6 +46,30 @@
       },
       "revId": "21c352450867ac80a0d1acba7e1d988a12a479c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0befad3c_3cb62c98",
+        "filename": "test/fixedbugs/issue13365.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-11T01:02:13Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "b67c716f_1b67f0f4",
+      "range": {
+        "startLine": 31,
+        "startChar": 44,
+        "endLine": 31,
+        "endChar": 75
+      },
+      "revId": "21c352450867ac80a0d1acba7e1d988a12a479c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
