@@ -48,7 +48,9 @@ func typecheckselect(sel *ir.SelectStmt) {
 				// convert x = <-c into OSELRECV(x, <-c).
 				// remove implicit conversions; the eventual assignment
 				// will reintroduce them.
+				n := n.(*ir.AssignStmt)
 				if r := n.Right(); r.Op() == ir.OCONVNOP || r.Op() == ir.OCONVIFACE {
+					r := r.(*ir.ConvExpr)
 					if r.Implicit() {
 						n.SetRight(r.Left())
 					}
@@ -61,6 +63,7 @@ func typecheckselect(sel *ir.SelectStmt) {
 
 			case ir.OAS2RECV:
 				// convert x, ok = <-c into OSELRECV2(x, <-c) with ntest=ok
+				n := n.(*ir.AssignListStmt)
 				if n.Rlist().First().Op() != ir.ORECV {
 					base.ErrorfAt(n.Pos(), "select assignment must have receive on right hand side")
 					break
@@ -168,6 +171,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 		// Lower x, _ = <-c to x = <-c.
 		if sel := n; sel.Op() == ir.OSELRECV2 {
+			sel := sel.(*ir.AssignListStmt)
 			if ir.IsBlank(sel.List().Second()) {
 				as := ir.NewAssignStmt(sel.Pos(), sel.List().First(), sel.Rlist().First())
 				as.SetOp(ir.OSELRECV)
@@ -179,16 +183,19 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 		switch n.Op() {
 		case ir.OSEND:
+			n := n.(*ir.SendStmt)
 			n.SetRight(ir.NewAddrExpr(base.Pos, n.Right()))
 			n.SetRight(typecheck(n.Right(), ctxExpr))
 
 		case ir.OSELRECV:
+			n := n.(*ir.AssignStmt)
 			if !ir.IsBlank(n.Left()) {
 				n.SetLeft(ir.NewAddrExpr(base.Pos, n.Left()))
 				n.SetLeft(typecheck(n.Left(), ctxExpr))
 			}
 
 		case ir.OSELRECV2:
+			n := n.(*ir.AssignListStmt)
 			if !ir.IsBlank(n.List().First()) {
 				n.List().SetIndex(0, ir.NewAddrExpr(base.Pos, n.List().First()))
 				n.List().SetIndex(0, typecheck(n.List().First(), ctxExpr))
@@ -214,11 +221,13 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 		case ir.OSEND:
 			// if selectnbsend(c, v) { body } else { default body }
+			n := n.(*ir.SendStmt)
 			ch := n.Left()
 			call = mkcall1(chanfn("selectnbsend", 2, ch.Type()), types.Types[types.TBOOL], r.PtrInit(), ch, n.Right())
 
 		case ir.OSELRECV:
 			// if selectnbrecv(&v, c) { body } else { default body }
+			n := n.(*ir.AssignStmt)
 			recv := n.Right().(*ir.UnaryExpr)
 			ch := recv.Left()
 			elem := n.Left()
@@ -229,6 +238,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 		case ir.OSELRECV2:
 			// if selectnbrecv2(&v, &received, c) { body } else { default body }
+			n := n.(*ir.AssignListStmt)
 			recv := n.Rlist().First().(*ir.UnaryExpr)
 			ch := recv.Left()
 			elem := n.List().First()
@@ -288,17 +298,20 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		default:
 			base.Fatalf("select %v", n.Op())
 		case ir.OSEND:
+			n := n.(*ir.SendStmt)
 			i = nsends
 			nsends++
 			c = n.Left()
 			elem = n.Right()
 		case ir.OSELRECV:
+			n := n.(*ir.AssignStmt)
 			nrecvs++
 			i = ncas - nrecvs
 			recv := n.Right().(*ir.UnaryExpr)
 			c = recv.Left()
 			elem = n.Left()
 		case ir.OSELRECV2:
+			n := n.(*ir.AssignListStmt)
 			nrecvs++
 			i = ncas - nrecvs
 			recv := n.Rlist().First().(*ir.UnaryExpr)
@@ -356,6 +369,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		r := ir.NewIfStmt(base.Pos, cond, nil, nil)
 
 		if n := cas.Left(); n != nil && n.Op() == ir.OSELRECV2 {
+			n := n.(*ir.AssignListStmt)
 			x := ir.NewAssignStmt(base.Pos, n.List().Second(), recvOK)
 			r.PtrBody().Append(typecheck(x, ctxStmt))
 		}

@@ -261,6 +261,7 @@ func typecheck(n ir.Node, top int) (res ir.Node) {
 		switch n.Op() {
 		// We can already diagnose variables used as types.
 		case ir.ONAME:
+			n := n.(*ir.Name)
 			if top&(ctxExpr|ctxType) == ctxType {
 				base.Errorf("%v is not a type", n)
 			}
@@ -326,6 +327,7 @@ func typecheck(n ir.Node, top int) (res ir.Node) {
 	isMulti := false
 	switch n.Op() {
 	case ir.OCALLFUNC, ir.OCALLINTER, ir.OCALLMETH:
+		n := n.(*ir.CallExpr)
 		if t := n.Left().Type(); t != nil && t.Kind() == types.TFUNC {
 			nr := t.NumResults()
 			isMulti = nr > 1
@@ -426,6 +428,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		}
 
 		if n.Op() == ir.ONAME {
+			n := n.(*ir.Name)
 			if n.SubOp() != 0 && top&ctxCallee == 0 {
 				base.Errorf("use of builtin %v not in function call", n.Sym())
 				n.SetType(nil)
@@ -457,6 +460,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.ONAME:
+		n := n.(*ir.Name)
 		if n.Name().Decldepth == 0 {
 			n.Name().Decldepth = decldepth
 		}
@@ -475,6 +479,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OPACK:
+		n := n.(*ir.PkgName)
 		base.Errorf("use of package %v without selector", n.Sym())
 		n.SetType(nil)
 		return n
@@ -661,6 +666,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		}
 		op := n.Op()
 		if n.Op() == ir.OASOP {
+			n := n.(*ir.AssignOpStmt)
 			checkassign(n, l)
 			if n.Implicit() && !okforarith[l.Type().Kind()] {
 				base.Errorf("invalid operation: %v (non-numeric type %v)", n, l.Type())
@@ -704,6 +710,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		// can't be used with "&&" than to report that "x == x" (type untyped bool)
 		// can't be converted to int (see issue #41500).
 		if n.Op() == ir.OANDAND || n.Op() == ir.OOROR {
+			n := n.(*ir.LogicalExpr)
 			if !n.Left().Type().IsBoolean() {
 				base.Errorf("invalid operation: %v (operator %v not defined on %s)", n, n.Op(), typekind(n.Left().Type()))
 				n.SetType(nil)
@@ -855,6 +862,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 
 		if et == types.TSTRING && n.Op() == ir.OADD {
 			// create or update OADDSTR node with list of strings in x + y + z + (w + v) + ...
+			n := n.(*ir.BinaryExpr)
 			var add *ir.AddStringExpr
 			if l.Op() == ir.OADDSTR {
 				add = l.(*ir.AddStringExpr)
@@ -863,6 +871,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 				add = ir.NewAddStringExpr(n.Pos(), []ir.Node{l})
 			}
 			if r.Op() == ir.OADDSTR {
+				r := r.(*ir.AddStringExpr)
 				add.PtrList().AppendNodes(r.PtrList())
 			} else {
 				add.PtrList().Append(r)
@@ -883,6 +892,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OBITNOT, ir.ONEG, ir.ONOT, ir.OPLUS:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		l := n.Left()
 		t := l.Type()
@@ -901,6 +911,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 
 	// exprs
 	case ir.OADDR:
+		n := n.(*ir.AddrExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		if n.Left().Type() == nil {
 			n.SetType(nil)
@@ -915,6 +926,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 			checklvalue(n.Left(), "take the address of")
 			r := outervalue(n.Left())
 			if r.Op() == ir.ONAME {
+				r := r.(*ir.Name)
 				if ir.Orig(r) != r {
 					base.Fatalf("found non-orig name node %v", r) // TODO(mdempsky): What does this mean?
 				}
@@ -1015,6 +1027,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.ODOTTYPE:
+		n := n.(*ir.TypeAssertExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
 		l := n.Left()
@@ -1060,6 +1073,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OINDEX:
+		n := n.(*ir.IndexExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
 		n.SetLeft(implicitstar(n.Left()))
@@ -1118,6 +1132,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.ORECV:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
 		l := n.Left()
@@ -1142,6 +1157,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OSEND:
+		n := n.(*ir.SendStmt)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetRight(typecheck(n.Right(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
@@ -1170,6 +1186,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		// can construct an OSLICEHEADER node.
 		// Components used in OSLICEHEADER that are supplied by parsed source code
 		// have already been typechecked in e.g. OMAKESLICE earlier.
+		n := n.(*ir.SliceHeaderExpr)
 		t := n.Type()
 		if t == nil {
 			base.Fatalf("no type specified for OSLICEHEADER")
@@ -1214,6 +1231,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		// can construct an OMAKESLICECOPY node.
 		// Components used in OMAKESCLICECOPY that are supplied by parsed source code
 		// have already been typechecked in OMAKE and OCOPY earlier.
+		n := n.(*ir.MakeExpr)
 		t := n.Type()
 
 		if t == nil {
@@ -1252,6 +1270,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OSLICE, ir.OSLICE3:
+		n := n.(*ir.SliceExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		low, high, max := n.SliceBounds()
 		hasmax := n.Op().IsSlice3()
@@ -1341,6 +1360,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		l := n.Left()
 
 		if l.Op() == ir.ONAME && l.(*ir.Name).SubOp() != 0 {
+			l := l.(*ir.Name)
 			if n.IsDDD() && l.SubOp() != ir.OAPPEND {
 				base.Errorf("invalid use of ... with builtin %v", l)
 			}
@@ -1416,6 +1436,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 			n.SetOp(ir.OCALLINTER)
 
 		case ir.ODOTMETH:
+			l := l.(*ir.SelectorExpr)
 			n.SetOp(ir.OCALLMETH)
 
 			// typecheckaste was used here but there wasn't enough
@@ -1477,10 +1498,12 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF:
+		n := n.(*ir.UnaryExpr)
 		n.SetType(types.Types[types.TUINTPTR])
 		return n
 
 	case ir.OCAP, ir.OLEN:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
 		n.SetLeft(implicitstar(n.Left()))
@@ -1507,6 +1530,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OREAL, ir.OIMAG:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		l := n.Left()
 		t := l.Type()
@@ -1531,6 +1555,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OCOMPLEX:
+		n := n.(*ir.BinaryExpr)
 		l := typecheck(n.Left(), ctxExpr)
 		r := typecheck(n.Right(), ctxExpr)
 		if l.Type() == nil || r.Type() == nil {
@@ -1571,6 +1596,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OCLOSE:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
 		l := n.Left()
@@ -1593,6 +1619,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.ODELETE:
+		n := n.(*ir.CallExpr)
 		typecheckargs(n)
 		args := n.List()
 		if args.Len() == 0 {
@@ -1625,6 +1652,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OAPPEND:
+		n := n.(*ir.CallExpr)
 		typecheckargs(n)
 		args := n.List()
 		if args.Len() == 0 {
@@ -1685,6 +1713,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OCOPY:
+		n := n.(*ir.BinaryExpr)
 		n.SetType(types.Types[types.TINT])
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
@@ -1770,6 +1799,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OMAKE:
+		n := n.(*ir.CallExpr)
 		args := n.List().Slice()
 		if len(args) == 0 {
 			base.Errorf("missing argument to make")
@@ -1877,6 +1907,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return nn
 
 	case ir.ONEW:
+		n := n.(*ir.UnaryExpr)
 		if n.Left() == nil {
 			// Fatalf because the OCALL above checked for us,
 			// so this must be an internally-generated mistake.
@@ -1894,6 +1925,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OPRINT, ir.OPRINTN:
+		n := n.(*ir.CallExpr)
 		typecheckargs(n)
 		ls := n.List().Slice()
 		for i1, n1 := range ls {
@@ -1907,6 +1939,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OPANIC:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), types.Types[types.TINTER]))
 		if n.Left().Type() == nil {
@@ -1916,6 +1949,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.ORECOVER:
+		n := n.(*ir.CallExpr)
 		if n.List().Len() != 0 {
 			base.Errorf("too many arguments to recover")
 			n.SetType(nil)
@@ -1933,6 +1967,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OITAB:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		t := n.Left().Type()
 		if t == nil {
@@ -1948,10 +1983,12 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 	case ir.OIDATA:
 		// Whoever creates the OIDATA node must know a priori the concrete type at that moment,
 		// usually by just having checked the OITAB.
+		n := n.(*ir.UnaryExpr)
 		base.Fatalf("cannot typecheck interface data %v", n)
 		panic("unreachable")
 
 	case ir.OSPTR:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		t := n.Left().Type()
 		if t == nil {
@@ -1972,11 +2009,13 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OCFUNC:
+		n := n.(*ir.UnaryExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetType(types.Types[types.TUINTPTR])
 		return n
 
 	case ir.OCONVNOP:
+		n := n.(*ir.ConvExpr)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		return n
 
@@ -2005,6 +2044,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OBLOCK:
+		n := n.(*ir.BlockStmt)
 		typecheckslice(n.List().Slice(), ctxStmt)
 		return n
 
@@ -2027,6 +2067,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OFOR, ir.OFORUNTIL:
+		n := n.(*ir.ForStmt)
 		typecheckslice(n.Init().Slice(), ctxStmt)
 		decldepth++
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
@@ -2046,6 +2087,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OIF:
+		n := n.(*ir.IfStmt)
 		typecheckslice(n.Init().Slice(), ctxStmt)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		n.SetLeft(defaultlit(n.Left(), nil))
@@ -2060,6 +2102,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.ORETURN:
+		n := n.(*ir.ReturnStmt)
 		typecheckargs(n)
 		if Curfn == nil {
 			base.Errorf("return outside function")
@@ -2074,6 +2117,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.ORETJMP:
+		n := n.(*ir.BranchStmt)
 		return n
 
 	case ir.OSELECT:
@@ -2089,6 +2133,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.OTYPESW:
+		n := n.(*ir.TypeSwitchGuard)
 		base.Errorf("use of .(type) outside type switch")
 		n.SetType(nil)
 		return n
@@ -2098,10 +2143,12 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		return n
 
 	case ir.ODCLCONST:
+		n := n.(*ir.Decl)
 		n.SetLeft(typecheck(n.Left(), ctxExpr))
 		return n
 
 	case ir.ODCLTYPE:
+		n := n.(*ir.Decl)
 		n.SetLeft(typecheck(n.Left(), ctxType))
 		checkwidth(n.Left().Type())
 		return n
@@ -2659,6 +2706,7 @@ notenough:
 			// Method expressions have the form T.M, and the compiler has
 			// rewritten those to ONAME nodes but left T in Left.
 			if call.Op() == ir.OMETHEXPR {
+				call := call.(*ir.MethodExpr)
 				base.Errorf("not enough arguments in call to method expression %v%s", call, details)
 			} else {
 				base.Errorf("not enough arguments in call to %v%s", call, details)
@@ -3082,6 +3130,7 @@ func nonexported(sym *types.Sym) bool {
 func islvalue(n ir.Node) bool {
 	switch n.Op() {
 	case ir.OINDEX:
+		n := n.(*ir.IndexExpr)
 		if n.Left().Type() != nil && n.Left().Type().IsArray() {
 			return islvalue(n.Left())
 		}
@@ -3093,9 +3142,11 @@ func islvalue(n ir.Node) bool {
 		return true
 
 	case ir.ODOT:
+		n := n.(*ir.SelectorExpr)
 		return islvalue(n.Left())
 
 	case ir.ONAME:
+		n := n.(*ir.Name)
 		if n.Class() == ir.PFUNC {
 			return false
 		}
@@ -3116,6 +3167,7 @@ func checkassign(stmt ir.Node, n ir.Node) {
 	if !ir.DeclaredBy(n, stmt) || stmt.Op() == ir.ORANGE {
 		r := outervalue(n)
 		if r.Op() == ir.ONAME {
+			r := r.(*ir.Name)
 			r.Name().SetAssigned(true)
 			if r.Name().IsClosureVar() {
 				r.Name().Defn.Name().SetAssigned(true)
@@ -3127,6 +3179,7 @@ func checkassign(stmt ir.Node, n ir.Node) {
 		return
 	}
 	if n.Op() == ir.OINDEXMAP {
+		n := n.(*ir.IndexExpr)
 		n.SetIndexMapLValue(true)
 		return
 	}
@@ -3377,6 +3430,7 @@ func typecheckas2(n *ir.AssignListStmt) {
 			case ir.ORECV:
 				n.SetOp(ir.OAS2RECV)
 			case ir.ODOTTYPE:
+				r := r.(*ir.TypeAssertExpr)
 				n.SetOp(ir.OAS2DOTTYPE)
 				r.SetOp(ir.ODOTTYPE2)
 			}
@@ -3402,6 +3456,7 @@ mismatch:
 	default:
 		base.Errorf("assignment mismatch: %d variables but %d values", cl, cr)
 	case ir.OCALLFUNC, ir.OCALLMETH, ir.OCALLINTER:
+		r := r.(*ir.CallExpr)
 		base.Errorf("assignment mismatch: %d variables but %v returns %d values", cl, r.Left(), cr)
 	}
 
@@ -3616,6 +3671,7 @@ func typecheckdef(n ir.Node) {
 		}
 
 	case ir.ONAME:
+		n := n.(*ir.Name)
 		if n.Name().Ntype != nil {
 			n.Name().Ntype = typecheckNtype(n.Name().Ntype)
 			n.SetType(n.Name().Ntype.Type())
@@ -3736,6 +3792,7 @@ func markBreak(fn *ir.Func) {
 			ir.DoChildren(n, mark)
 
 		case ir.OBREAK:
+			n := n.(*ir.BranchStmt)
 			if n.Sym() == nil {
 				setHasBreak(implicit)
 			} else {
@@ -3828,12 +3885,14 @@ func isTermNode(n ir.Node) bool {
 	// skipping over the label. No case OLABEL here.
 
 	case ir.OBLOCK:
+		n := n.(*ir.BlockStmt)
 		return isTermNodes(n.List())
 
 	case ir.OGOTO, ir.ORETURN, ir.ORETJMP, ir.OPANIC, ir.OFALL:
 		return true
 
 	case ir.OFOR, ir.OFORUNTIL:
+		n := n.(*ir.ForStmt)
 		if n.Left() != nil {
 			return false
 		}
@@ -3843,9 +3902,11 @@ func isTermNode(n ir.Node) bool {
 		return true
 
 	case ir.OIF:
+		n := n.(*ir.IfStmt)
 		return isTermNodes(n.Body()) && isTermNodes(n.Rlist())
 
 	case ir.OSWITCH:
+		n := n.(*ir.SwitchStmt)
 		if n.HasBreak() {
 			return false
 		}
@@ -3862,6 +3923,7 @@ func isTermNode(n ir.Node) bool {
 		return def
 
 	case ir.OSELECT:
+		n := n.(*ir.SelectStmt)
 		if n.HasBreak() {
 			return false
 		}
@@ -3900,10 +3962,12 @@ func deadcode(fn *ir.Func) {
 		}
 		switch n.Op() {
 		case ir.OIF:
+			n := n.(*ir.IfStmt)
 			if !ir.IsConst(n.Left(), constant.Bool) || n.Body().Len() > 0 || n.Rlist().Len() > 0 {
 				return
 			}
 		case ir.OFOR:
+			n := n.(*ir.ForStmt)
 			if !ir.IsConst(n.Left(), constant.Bool) || ir.BoolVal(n.Left()) {
 				return
 			}
@@ -3931,6 +3995,7 @@ func deadcodeslice(nn *ir.Nodes) {
 			continue
 		}
 		if n.Op() == ir.OIF {
+			n := n.(*ir.IfStmt)
 			n.SetLeft(deadcodeexpr(n.Left()))
 			if ir.IsConst(n.Left(), constant.Bool) {
 				var body ir.Nodes
@@ -3960,19 +4025,26 @@ func deadcodeslice(nn *ir.Nodes) {
 		deadcodeslice(n.PtrInit())
 		switch n.Op() {
 		case ir.OBLOCK:
+			n := n.(*ir.BlockStmt)
 			deadcodeslice(n.PtrList())
 		case ir.OCASE:
+			n := n.(*ir.CaseStmt)
 			deadcodeslice(n.PtrBody())
 		case ir.OFOR:
+			n := n.(*ir.ForStmt)
 			deadcodeslice(n.PtrBody())
 		case ir.OIF:
+			n := n.(*ir.IfStmt)
 			deadcodeslice(n.PtrBody())
 			deadcodeslice(n.PtrRlist())
 		case ir.ORANGE:
+			n := n.(*ir.RangeStmt)
 			deadcodeslice(n.PtrBody())
 		case ir.OSELECT:
+			n := n.(*ir.SelectStmt)
 			deadcodeslice(n.PtrList())
 		case ir.OSWITCH:
+			n := n.(*ir.SwitchStmt)
 			deadcodeslice(n.PtrList())
 		}
 
@@ -3989,6 +4061,7 @@ func deadcodeexpr(n ir.Node) ir.Node {
 	// producing a constant 'if' condition.
 	switch n.Op() {
 	case ir.OANDAND:
+		n := n.(*ir.LogicalExpr)
 		n.SetLeft(deadcodeexpr(n.Left()))
 		n.SetRight(deadcodeexpr(n.Right()))
 		if ir.IsConst(n.Left(), constant.Bool) {
@@ -3999,6 +4072,7 @@ func deadcodeexpr(n ir.Node) ir.Node {
 			}
 		}
 	case ir.OOROR:
+		n := n.(*ir.LogicalExpr)
 		n.SetLeft(deadcodeexpr(n.Left()))
 		n.SetRight(deadcodeexpr(n.Right()))
 		if ir.IsConst(n.Left(), constant.Bool) {
@@ -4054,6 +4128,7 @@ func methodExprFunc(n ir.Node) *types.Field {
 	case ir.OMETHEXPR:
 		return n.(*ir.MethodExpr).Method
 	case ir.OCALLPART:
+		n := n.(*ir.CallPartExpr)
 		return callpartMethod(n)
 	}
 	base.Fatalf("unexpected node: %v (%v)", n, n.Op())
