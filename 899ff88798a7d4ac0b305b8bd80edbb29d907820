@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db5270cf_08a12141",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-12-11T19:26:05Z",
+      "side": 1,
+      "message": "TRY\u003dnetbsd",
+      "revId": "899ff88798a7d4ac0b305b8bd80edbb29d907820",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
