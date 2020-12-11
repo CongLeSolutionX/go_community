@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,6 +22,7 @@ import (
 	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/par"
 	"cmd/go/internal/renameio"
+	"cmd/go/internal/robustio"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
@@ -316,7 +316,7 @@ func InfoFile(path, version string) (string, error) {
 	}
 
 	// Stat should have populated the disk cache for us.
-	file, _, err := readDiskStat(path, version)
+	file, err := CachePath(module.Version{Path: path, Version: version}, "info")
 	if err != nil {
 		return "", err
 	}
@@ -368,7 +368,7 @@ func GoModFile(path, version string) (string, error) {
 		return "", err
 	}
 	// GoMod should have populated the disk cache for us.
-	file, _, err := readDiskGoMod(path, version)
+	file, err := CachePath(module.Version{Path: path, Version: version}, "mod")
 	if err != nil {
 		return "", err
 	}
@@ -531,7 +531,7 @@ func readDiskCache(path, rev, suffix string) (file string, data []byte, err erro
 	if err != nil {
 		return "", nil, errNotCached
 	}
-	data, err = renameio.ReadFile(file)
+	data, err = robustio.ReadFile(file)
 	if err != nil {
 		return file, nil, errNotCached
 	}
@@ -568,19 +568,19 @@ func writeDiskCache(file string, data []byte) error {
 		return err
 	}
 
-	if err := renameio.WriteFile(file, data, 0666); err != nil {
+	if err := renameio.WriteToFile(file, bytes.NewReader(data), 0666); err != nil {
 		return err
 	}
 
 	if strings.HasSuffix(file, ".mod") {
-		rewriteVersionList(filepath.Dir(file))
+		rewriteVersionList(filepath.Dir(file), strings.Trim(filepath.Base(file), ".mod"))
 	}
 	return nil
 }
 
 // rewriteVersionList rewrites the version list in dir
 // after a new *.mod file has been written.
-func rewriteVersionList(dir string) {
+func rewriteVersionList(dir string, added string) {
 	if filepath.Base(dir) != "@v" {
 		base.Fatalf("go: internal error: misuse of rewriteVersionList")
 	}
@@ -592,45 +592,30 @@ func rewriteVersionList(dir string) {
 	// a GOPROXY HTTP server, and if we crash midway through a rewrite (or if the
 	// HTTP server ignores our locking and serves the file midway through a
 	// rewrite) it's better to serve a stale list than a truncated one.
-	unlock, err := lockedfile.MutexAt(listFile + ".lock").Lock()
-	if err != nil {
-		base.Fatalf("go: can't lock version list lockfile: %v", err)
-	}
-	defer unlock()
+	skipWrite := errors.New("skip write") // sentinel error to avoid write in Transform
+	err := lockedfile.Transform(listFile, func(old []byte) ([]byte, error) {
+		// TODO(matloob): Is it okay to assume that list is correct?
+		// Since the write of the .mod file is not guaranteed to complete before
+		// this code runs, reading the list of .mod files in the directory
+		// is not sufficient. One alternative is to check if the file is
+		// corrupt, and if it is re-read the directory, and add the new
+		// module to the list.
+		list := strings.Split(strings.TrimSpace(string(old)), "\n")
+		list = append(list, added)
+		SortVersions(list)
 
-	infos, err := ioutil.ReadDir(dir)
-	if err != nil {
-		return
-	}
-	var list []string
-	for _, info := range infos {
-		// We look for *.mod files on the theory that if we can't supply
-		// the .mod file then there's no point in listing that version,
-		// since it's unusable. (We can have *.info without *.mod.)
-		// We don't require *.zip files on the theory that for code only
-		// involved in module graph construction, many *.zip files
-		// will never be requested.
-		name := info.Name()
-		if strings.HasSuffix(name, ".mod") {
-			v := strings.TrimSuffix(name, ".mod")
-			if v != "" && module.CanonicalVersion(v) == v {
-				list = append(list, v)
-			}
+		var buf bytes.Buffer
+		for _, v := range list {
+			buf.WriteString(v)
+			buf.WriteString("\n")
 		}
-	}
-	SortVersions(list)
+		if bytes.Equal(buf.Bytes(), old) {
+			return nil, skipWrite
+		}
 
-	var buf bytes.Buffer
-	for _, v := range list {
-		buf.WriteString(v)
-		buf.WriteString("\n")
-	}
-	old, _ := renameio.ReadFile(listFile)
-	if bytes.Equal(buf.Bytes(), old) {
-		return
-	}
-
-	if err := renameio.WriteFile(listFile, buf.Bytes(), 0666); err != nil {
-		base.Fatalf("go: failed to write version list: %v", err)
+		return buf.Bytes(), nil
+	})
+	if err != nil && err != skipWrite {
+		base.Fatalf("go: updating version list: %w", err)
 	}
 }
