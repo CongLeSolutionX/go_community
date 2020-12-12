@@ -116,7 +116,7 @@ func varEmbed(p *noder, names []ir.Node, typ ir.Ntype, exprs []ir.Node, embeds [
 		v = ir.NewNameAt(v.Pos(), lookupN("embed.", numLocalEmbed))
 		v.Sym().Def = v
 		v.Name().Ntype = typ
-		v.SetClass(ir.PEXTERN)
+		v.Class_ = ir.PEXTERN
 		externdcl = append(externdcl, v)
 		exprs = []ir.Node{v}
 	}

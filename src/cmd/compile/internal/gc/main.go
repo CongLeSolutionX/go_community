@@ -247,7 +247,7 @@ func Main(archInit func(*Arch)) {
 
 	nodfp = NewName(lookup(".fp"))
 	nodfp.SetType(types.Types[types.TINT32])
-	nodfp.SetClass(ir.PPARAM)
+	nodfp.Class_ = ir.PPARAM
 	nodfp.SetUsed(true)
 
 	recordPackageName()
@@ -268,7 +268,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top1")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.(*ir.Decl).Left().Name().Alias()) {
+		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.(*ir.Decl).X.Name().Alias()) {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
@@ -280,7 +280,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top2")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.(*ir.Decl).Left().Name().Alias() {
+		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.(*ir.Decl).X.Name().Alias() {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}

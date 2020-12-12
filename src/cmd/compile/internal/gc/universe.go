@@ -153,14 +153,14 @@ func initUniverse() {
 	for _, s := range &builtinFuncs {
 		s2 := types.BuiltinPkg.Lookup(s.name)
 		def := NewName(s2)
-		def.SetSubOp(s.op)
+		def.BuiltinOp = s.op
 		s2.Def = def
 	}
 
 	for _, s := range &unsafeFuncs {
 		s2 := unsafepkg.Lookup(s.name)
 		def := NewName(s2)
-		def.SetSubOp(s.op)
+		def.BuiltinOp = s.op
 		s2.Def = def
 	}
 

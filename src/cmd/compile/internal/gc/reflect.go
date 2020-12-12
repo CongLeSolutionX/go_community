@@ -993,7 +993,7 @@ func typename(t *types.Type) *ir.AddrExpr {
 	if s.Def == nil {
 		n := ir.NewNameAt(src.NoXPos, s)
 		n.SetType(types.Types[types.TUINT8])
-		n.SetClass(ir.PEXTERN)
+		n.Class_ = ir.PEXTERN
 		n.SetTypecheck(1)
 		s.Def = n
 	}
@@ -1012,7 +1012,7 @@ func itabname(t, itype *types.Type) *ir.AddrExpr {
 	if s.Def == nil {
 		n := NewName(s)
 		n.SetType(types.Types[types.TUINT8])
-		n.SetClass(ir.PEXTERN)
+		n.Class_ = ir.PEXTERN
 		n.SetTypecheck(1)
 		s.Def = n
 		itabs = append(itabs, itabEntry{t: t, itype: itype, lsym: s.Linksym()})
@@ -1878,7 +1878,7 @@ func zeroaddr(size int64) ir.Node {
 	if s.Def == nil {
 		x := NewName(s)
 		x.SetType(types.Types[types.TUINT8])
-		x.SetClass(ir.PEXTERN)
+		x.Class_ = ir.PEXTERN
 		x.SetTypecheck(1)
 		s.Def = x
 	}
