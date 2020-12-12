@@ -20,7 +20,7 @@ import (
 func mkParamResultField(t *types.Type, s *types.Sym, which ir.Class) *types.Field {
 	field := types.NewField(src.NoXPos, s, t)
 	n := NewName(s)
-	n.SetClass(which)
+	n.Class_ = which
 	field.Nname = n
 	n.SetType(t)
 	return field
@@ -76,9 +76,9 @@ func tokenize(src string) []string {
 
 func verifyParamResultOffset(t *testing.T, f *types.Field, r ABIParamAssignment, which string, idx int) int {
 	n := ir.AsNode(f.Nname).(*ir.Name)
-	if n.Offset() != int64(r.Offset) {
+	if n.Offset_ != int64(r.Offset) {
 		t.Errorf("%s %d: got offset %d wanted %d t=%v",
-			which, idx, r.Offset, n.Offset(), f.Type)
+			which, idx, r.Offset, n.Offset_, f.Type)
 		return 1
 	}
 	return 0

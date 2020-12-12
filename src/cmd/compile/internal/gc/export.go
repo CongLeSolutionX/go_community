@@ -106,7 +106,7 @@ func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 		n.SetOp(ir.OTYPE)
 		n.SetPos(pos)
 		n.SetType(t)
-		n.SetClass(ir.PEXTERN)
+		n.Class_ = ir.PEXTERN
 	}
 
 	t := n.Type()
@@ -121,7 +121,7 @@ func importtype(ipkg *types.Pkg, pos src.XPos, s *types.Sym) *types.Type {
 func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op ir.Op, ctxt ir.Class, t *types.Type) ir.Node {
 	n := importsym(ipkg, s, op)
 	if n.Op() != ir.ONONAME {
-		if n.Op() == op && (op == ir.ONAME && n.(*ir.Name).Class() != ctxt || !types.Identical(n.Type(), t)) {
+		if n.Op() == op && (op == ir.ONAME && n.(*ir.Name).Class_ != ctxt || !types.Identical(n.Type(), t)) {
 			redeclare(base.Pos, s, fmt.Sprintf("during import %q", ipkg.Path))
 		}
 		return nil
@@ -130,7 +130,7 @@ func importobj(ipkg *types.Pkg, pos src.XPos, s *types.Sym, op ir.Op, ctxt ir.Cl
 	nn := n.(*ir.Name)
 	nn.SetOp(op)
 	nn.SetPos(pos)
-	nn.SetClass(ctxt)
+	nn.Class_ = ctxt
 	if ctxt == ir.PFUNC {
 		nn.Sym().SetFunc(true)
 	}

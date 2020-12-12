@@ -244,7 +244,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top1")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.(*ir.Decl).Left().Name().Alias()) {
+		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.(*ir.Decl).X.Name().Alias()) {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
@@ -256,7 +256,7 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top2")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
-		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.(*ir.Decl).Left().Name().Alias() {
+		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.(*ir.Decl).X.Name().Alias() {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
 	}
@@ -271,10 +271,10 @@ func Main(archInit func(*Arch)) {
 			Curfn = n.(*ir.Func)
 			decldepth = 1
 			errorsBefore := base.Errors()
-			typecheckslice(Curfn.Body().Slice(), ctxStmt)
+			typecheckslice(Curfn.Body.Slice(), ctxStmt)
 			checkreturn(Curfn)
 			if base.Errors() > errorsBefore {
-				Curfn.PtrBody().Set(nil) // type errors; do not compile
+				Curfn.Body.Set(nil) // type errors; do not compile
 			}
 			// Now that we've checked whether n terminates,
 			// we can eliminate some obviously dead code.
