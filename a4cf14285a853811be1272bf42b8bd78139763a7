@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9e17ec7_06760c67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-12-12T06:51:56Z",
+      "side": 1,
+      "message": "Please include some nocgo builds in the TryBot attempts. The added test will be skipped in cgo builds, as it is testing some nocgo linux specific functionality does not deadlock.",
+      "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
