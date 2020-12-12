@@ -1573,6 +1573,15 @@ func syscall_runtime_doAllThreadsSyscall(fn func(bool) bool) {
 			if done {
 				break
 			}
+			// Ensure the signal handler has a chance to
+			// wakeup to perform the fixup. The only
+			// notetsleepg there is while signal_recv() is
+			// in the sigReceiving state so we only need
+			// to perform a Receiving->Fixup->Receiving
+			// sequence with that function.
+			if atomic.Cas(&sig.state, sigReceiving, sigFixup) {
+				notewakeup(&sig.note)
+			}
 			// if needed force sysmon and/or newmHandoff to wakeup.
 			lock(&sched.lock)
 			if atomic.Load(&sched.sysmonwait) != 0 {

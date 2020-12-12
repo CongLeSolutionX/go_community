@@ -1,0 +1,35 @@
+// +build linux
+
+package signal
+
+import (
+	"os"
+	"syscall"
+	"testing"
+	"time"
+)
+
+const prSetKeepCaps = 8
+
+func TestAllThreadsSyscallSignals(t *testing.T) {
+	if _, _, err := syscall.AllThreadsSyscall(syscall.SYS_PRCTL, prSetKeepCaps, 0, 0); err == syscall.ENOTSUP {
+		t.Skip("AllThreadsSyscall disabled with cgo")
+	}
+
+	sig := make(chan os.Signal, 1)
+	Notify(sig, os.Interrupt)
+
+	for i := 0; i <= 100; i++ {
+		if _, _, errno := syscall.AllThreadsSyscall(syscall.SYS_PRCTL, prSetKeepCaps, uintptr(i&1), 0); errno != 0 {
+			t.Fatalf("[%d] failed to set KEEP_CAPS=%d: %v", i, i&1, errno)
+		}
+	}
+
+	select {
+	case <-time.After(10 * time.Millisecond):
+	case <-sig:
+		t.Fatal("unexpected signal")
+	}
+	Stop(sig)
+	close(sig)
+}
