@@ -1573,6 +1573,7 @@ func syscall_runtime_doAllThreadsSyscall(fn func(bool) bool) {
 			if done {
 				break
 			}
+			sigRecvFixup()
 			// if needed force sysmon and/or newmHandoff to wakeup.
 			lock(&sched.lock)
 			if atomic.Load(&sched.sysmonwait) != 0 {
