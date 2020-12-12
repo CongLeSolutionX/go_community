@@ -69,12 +69,12 @@ func emitptrargsmap(fn *ir.Func) {
 // the top of the stack and increasing in size.
 // Non-autos sort on offset.
 func cmpstackvarlt(a, b *ir.Name) bool {
-	if (a.Class() == ir.PAUTO) != (b.Class() == ir.PAUTO) {
-		return b.Class() == ir.PAUTO
+	if (a.Class_ == ir.PAUTO) != (b.Class_ == ir.PAUTO) {
+		return b.Class_ == ir.PAUTO
 	}
 
-	if a.Class() != ir.PAUTO {
-		return a.Offset() < b.Offset()
+	if a.Class_ != ir.PAUTO {
+		return a.Offset_ < b.Offset_
 	}
 
 	if a.Used() != b.Used() {
@@ -114,7 +114,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 
 	// Mark the PAUTO's unused.
 	for _, ln := range fn.Dcl {
-		if ln.Class() == ir.PAUTO {
+		if ln.Class_ == ir.PAUTO {
 			ln.SetUsed(false)
 		}
 	}
@@ -129,7 +129,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			if n, ok := v.Aux.(*ir.Name); ok {
-				switch n.Class() {
+				switch n.Class_ {
 				case ir.PPARAM, ir.PPARAMOUT:
 					// Don't modify nodfp; it is a global.
 					if n != nodfp {
@@ -155,7 +155,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 	// Reassign stack offsets of the locals that are used.
 	lastHasPtr := false
 	for i, n := range fn.Dcl {
-		if n.Op() != ir.ONAME || n.Class() != ir.PAUTO {
+		if n.Op() != ir.ONAME || n.Class_ != ir.PAUTO {
 			continue
 		}
 		if !n.Used() {
@@ -186,7 +186,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 		if thearch.LinkArch.InFamily(sys.MIPS, sys.MIPS64, sys.ARM, sys.ARM64, sys.PPC64, sys.S390X) {
 			s.stksize = Rnd(s.stksize, int64(Widthptr))
 		}
-		n.SetOffset(-s.stksize)
+		n.Offset_ = -s.stksize
 	}
 
 	s.stksize = Rnd(s.stksize, int64(Widthreg))
@@ -208,7 +208,7 @@ func funccompile(fn *ir.Func) {
 	// assign parameter offsets
 	dowidth(fn.Type())
 
-	if fn.Body().Len() == 0 {
+	if fn.Body.Len() == 0 {
 		// Initialize ABI wrappers if necessary.
 		initLSym(fn, false)
 		emitptrargsmap(fn)
@@ -258,7 +258,7 @@ func compile(fn *ir.Func) {
 	// because symbols must be allocated before the parallel
 	// phase of the compiler.
 	for _, n := range fn.Dcl {
-		switch n.Class() {
+		switch n.Class_ {
 		case ir.PPARAM, ir.PPARAMOUT, ir.PAUTO:
 			if livenessShouldTrack(n) && n.Addrtaken() {
 				dtypesym(n.Type())
@@ -369,7 +369,7 @@ func compileFunctions() {
 			// since they're most likely to be the slowest.
 			// This helps avoid stragglers.
 			sort.Slice(compilequeue, func(i, j int) bool {
-				return compilequeue[i].Body().Len() > compilequeue[j].Body().Len()
+				return compilequeue[i].Body.Len() > compilequeue[j].Body.Len()
 			})
 		}
 		var wg sync.WaitGroup
@@ -445,7 +445,7 @@ func debuginfo(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.S
 			if n.Op() != ir.ONAME { // might be OTYPE or OLITERAL
 				continue
 			}
-			switch n.Class() {
+			switch n.Class_ {
 			case ir.PAUTO:
 				if !n.Used() {
 					// Text == nil -> generating abstract function
@@ -536,9 +536,9 @@ func createSimpleVars(fnsym *obj.LSym, apDecls []*ir.Name) ([]*ir.Name, []*dwarf
 
 func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 	var abbrev int
-	offs := n.Offset()
+	offs := n.Offset_
 
-	switch n.Class() {
+	switch n.Class_ {
 	case ir.PAUTO:
 		abbrev = dwarf.DW_ABRV_AUTO
 		if base.Ctxt.FixedFrameSize() == 0 {
@@ -553,7 +553,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 		abbrev = dwarf.DW_ABRV_PARAM
 		offs += base.Ctxt.FixedFrameSize()
 	default:
-		base.Fatalf("createSimpleVar unexpected class %v for node %v", n.Class(), n)
+		base.Fatalf("createSimpleVar unexpected class %v for node %v", n.Class_, n)
 	}
 
 	typename := dwarf.InfoPrefix + typesymname(n.Type())
@@ -570,7 +570,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 	declpos := base.Ctxt.InnermostPos(declPos(n))
 	return &dwarf.Var{
 		Name:          n.Sym().Name,
-		IsReturnValue: n.Class() == ir.PPARAMOUT,
+		IsReturnValue: n.Class_ == ir.PPARAMOUT,
 		IsInlFormal:   n.Name().InlFormal(),
 		Abbrev:        abbrev,
 		StackOffset:   int32(offs),
@@ -647,7 +647,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 		if c == '.' || n.Type().IsUntyped() {
 			continue
 		}
-		if n.Class() == ir.PPARAM && !canSSAType(n.Type()) {
+		if n.Class_ == ir.PPARAM && !canSSAType(n.Type()) {
 			// SSA-able args get location lists, and may move in and
 			// out of registers, so those are handled elsewhere.
 			// Autos and named output params seem to get handled
@@ -662,10 +662,10 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 		typename := dwarf.InfoPrefix + typesymname(n.Type())
 		decls = append(decls, n)
 		abbrev := dwarf.DW_ABRV_AUTO_LOCLIST
-		isReturnValue := (n.Class() == ir.PPARAMOUT)
-		if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
+		isReturnValue := (n.Class_ == ir.PPARAMOUT)
+		if n.Class_ == ir.PPARAM || n.Class_ == ir.PPARAMOUT {
 			abbrev = dwarf.DW_ABRV_PARAM_LOCLIST
-		} else if n.Class() == ir.PAUTOHEAP {
+		} else if n.Class_ == ir.PAUTOHEAP {
 			// If dcl in question has been promoted to heap, do a bit
 			// of extra work to recover original class (auto or param);
 			// see issue 30908. This insures that we get the proper
@@ -674,9 +674,9 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			// and not stack).
 			// TODO(thanm): generate a better location expression
 			stackcopy := n.Name().Stackcopy
-			if stackcopy != nil && (stackcopy.Class() == ir.PPARAM || stackcopy.Class() == ir.PPARAMOUT) {
+			if stackcopy != nil && (stackcopy.Class_ == ir.PPARAM || stackcopy.Class_ == ir.PPARAMOUT) {
 				abbrev = dwarf.DW_ABRV_PARAM_LOCLIST
-				isReturnValue = (stackcopy.Class() == ir.PPARAMOUT)
+				isReturnValue = (stackcopy.Class_ == ir.PPARAMOUT)
 			}
 		}
 		inlIndex := 0
@@ -693,7 +693,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			Name:          n.Sym().Name,
 			IsReturnValue: isReturnValue,
 			Abbrev:        abbrev,
-			StackOffset:   int32(n.Offset()),
+			StackOffset:   int32(n.Offset_),
 			Type:          base.Ctxt.Lookup(typename),
 			DeclFile:      declpos.RelFilename(),
 			DeclLine:      declpos.RelLine(),
@@ -735,7 +735,7 @@ func preInliningDcls(fnsym *obj.LSym) []*ir.Name {
 func stackOffset(slot ssa.LocalSlot) int32 {
 	n := slot.N
 	var off int64
-	switch n.Class() {
+	switch n.Class_ {
 	case ir.PAUTO:
 		if base.Ctxt.FixedFrameSize() == 0 {
 			off -= int64(Widthptr)
@@ -747,7 +747,7 @@ func stackOffset(slot ssa.LocalSlot) int32 {
 	case ir.PPARAM, ir.PPARAMOUT:
 		off += base.Ctxt.FixedFrameSize()
 	}
-	return int32(off + n.Offset() + slot.Off)
+	return int32(off + n.Offset_ + slot.Off)
 }
 
 // createComplexVar builds a single DWARF variable entry and location list.
@@ -756,7 +756,7 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 	n := debug.Vars[varID]
 
 	var abbrev int
-	switch n.Class() {
+	switch n.Class_ {
 	case ir.PAUTO:
 		abbrev = dwarf.DW_ABRV_AUTO_LOCLIST
 	case ir.PPARAM, ir.PPARAMOUT:
@@ -780,7 +780,7 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 	declpos := base.Ctxt.InnermostPos(n.Pos())
 	dvar := &dwarf.Var{
 		Name:          n.Sym().Name,
-		IsReturnValue: n.Class() == ir.PPARAMOUT,
+		IsReturnValue: n.Class_ == ir.PPARAMOUT,
 		IsInlFormal:   n.Name().InlFormal(),
 		Abbrev:        abbrev,
 		Type:          base.Ctxt.Lookup(typename),

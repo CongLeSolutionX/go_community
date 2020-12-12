@@ -48,7 +48,7 @@ func fninit(n []ir.Node) {
 		if n == nil {
 			continue
 		}
-		if n.Op() != ir.ONAME || n.(*ir.Name).Class() != ir.PEXTERN {
+		if n.Op() != ir.ONAME || n.(*ir.Name).Class_ != ir.PEXTERN {
 			base.Fatalf("bad inittask: %v", n)
 		}
 		deps = append(deps, n.(*ir.Name).Sym().Linksym())
@@ -65,7 +65,7 @@ func fninit(n []ir.Node) {
 		fn.Dcl = append(fn.Dcl, initTodo.Dcl...)
 		initTodo.Dcl = nil
 
-		fn.PtrBody().Set(nf)
+		fn.Body.Set(nf)
 		funcbody()
 
 		typecheckFunc(fn)
@@ -88,8 +88,8 @@ func fninit(n []ir.Node) {
 		s := lookupN("init.", i)
 		fn := ir.AsNode(s.Def).Name().Defn.(*ir.Func)
 		// Skip init functions with empty bodies.
-		if fn.Body().Len() == 1 {
-			if stmt := fn.Body().First(); stmt.Op() == ir.OBLOCK && stmt.(*ir.BlockStmt).List().Len() == 0 {
+		if fn.Body.Len() == 1 {
+			if stmt := fn.Body.First(); stmt.Op() == ir.OBLOCK && stmt.(*ir.BlockStmt).List.Len() == 0 {
 				continue
 			}
 		}
@@ -104,7 +104,7 @@ func fninit(n []ir.Node) {
 	sym := lookup(".inittask")
 	nn := NewName(sym)
 	nn.SetType(types.Types[types.TUINT8]) // fake type
-	nn.SetClass(ir.PEXTERN)
+	nn.Class_ = ir.PEXTERN
 	sym.Def = nn
 	exportsym(nn)
 	lsym := sym.Linksym()

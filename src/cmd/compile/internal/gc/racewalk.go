@@ -85,7 +85,7 @@ func instrument(fn *ir.Func) {
 			// race in the future.
 			nodpc := ir.Copy(nodfp).(*ir.Name)
 			nodpc.SetType(types.Types[types.TUINTPTR])
-			nodpc.SetOffset(int64(-Widthptr))
+			nodpc.Offset_ = int64(-Widthptr)
 			fn.Dcl = append(fn.Dcl, nodpc)
 			fn.Enter.Prepend(mkcall("racefuncenter", nil, nil, nodpc))
 			fn.Exit.Append(mkcall("racefuncexit", nil, nil))

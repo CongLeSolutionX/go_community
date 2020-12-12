@@ -43,8 +43,8 @@ func TestCmpstackvar(t *testing.T) {
 		}
 		n := NewName(s)
 		n.SetType(t)
-		n.SetOffset(xoffset)
-		n.SetClass(cl)
+		n.Offset_ = xoffset
+		n.Class_ = cl
 		return n
 	}
 	testdata := []struct {
@@ -158,8 +158,8 @@ func TestStackvarSort(t *testing.T) {
 	nod := func(xoffset int64, t *types.Type, s *types.Sym, cl ir.Class) *ir.Name {
 		n := NewName(s)
 		n.SetType(t)
-		n.SetOffset(xoffset)
-		n.SetClass(cl)
+		n.Offset_ = xoffset
+		n.Class_ = cl
 		return n
 	}
 	inp := []*ir.Name{
