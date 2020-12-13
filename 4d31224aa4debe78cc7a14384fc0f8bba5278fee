@@ -337,6 +337,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a69b4b4_c1b2772e",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-13T21:58:52Z",
+      "side": 1,
+      "message": "The reason _why_ it\u0027s true is that this is how split resource sections work, as far as I can tell. Those addresses are relative to the section that the data is in, even though the symbols are in the first. So in order to write the correct address, we add in the length of the first section to the address, because the data section is coming right afterwards.",
+      "parentUuid": "b89b53aa_6b254799",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5004c540_93bb4610",
         "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
         "patchSetId": 7
