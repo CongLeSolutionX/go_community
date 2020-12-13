@@ -34,6 +34,24 @@
       "parentUuid": "bc00d442_84db3f42",
       "revId": "3a09e7e5fbbb9983df62ee740da4d9479ac543ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8045883b_2b71d9d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-12-13T19:46:40Z",
+      "side": 1,
+      "message": "Not exactly what I\u0027m after. The question is - is it okay to skip the function in this case? Can it not make the doc package return invalid results? You just avoid the panic, but it\u0027s unclear if the code still behaves correctly with this kind of function.",
+      "parentUuid": "a96348e6_6961f056",
+      "revId": "3a09e7e5fbbb9983df62ee740da4d9479ac543ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
