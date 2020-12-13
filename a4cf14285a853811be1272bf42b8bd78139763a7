@@ -16,6 +16,57 @@
       "message": "Please include some nocgo builds in the TryBot attempts. The added test will be skipped in cgo builds, as it is testing some nocgo linux specific functionality does not deadlock.",
       "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3c61211_b70ad6a5",
+        "filename": "src/os/signal/signal_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-13T02:17:15Z",
+      "side": 1,
+      "message": "This new file needs a copyright header.",
+      "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f91626b2_eebfe8b3",
+        "filename": "src/os/signal/signal_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-13T02:17:15Z",
+      "side": 1,
+      "message": "No need to close sig here, and conventionally only the goroutine that sends on a channel should close it.",
+      "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "743c92a8_d6a7f72a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1582,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-13T02:17:15Z",
+      "side": 1,
+      "message": "Currently all uses of sig.state are in sigqueue.go, and I think it would be better to keep that the case, so I think this should be a tiny function in sigqueue.go.",
+      "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
