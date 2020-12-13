@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a755b775_b1d46a11",
+        "filename": "src/os/signal/signal_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-12-13T20:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c61211_b70ad6a5",
+      "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f91626b2_eebfe8b3",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af240c4a_8ff51379",
+        "filename": "src/os/signal/signal_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-12-13T20:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f91626b2_eebfe8b3",
+      "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "743c92a8_d6a7f72a",
@@ -65,6 +101,24 @@
       "writtenOn": "2020-12-13T02:17:15Z",
       "side": 1,
       "message": "Currently all uses of sig.state are in sigqueue.go, and I think it would be better to keep that the case, so I think this should be a tiny function in sigqueue.go.",
+      "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d62184c_81bc15bf",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1582,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-12-13T20:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "743c92a8_d6a7f72a",
       "revId": "a4cf14285a853811be1272bf42b8bd78139763a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
