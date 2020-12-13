@@ -88,8 +88,8 @@ func fninit(n []ir.Node) {
 		s := lookupN("init.", i)
 		fn := ir.AsNode(s.Def).Name().Defn.(*ir.Func)
 		// Skip init functions with empty bodies.
-		if fn.Body.Len() == 1 {
-			if stmt := fn.Body.First(); stmt.Op() == ir.OBLOCK && stmt.(*ir.BlockStmt).List.Len() == 0 {
+		if len(fn.Body) == 1 {
+			if stmt := fn.Body[0]; stmt.Op() == ir.OBLOCK && len(stmt.(*ir.BlockStmt).List) == 0 {
 				continue
 			}
 		}

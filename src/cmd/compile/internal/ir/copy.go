@@ -65,9 +65,9 @@ func Copy(n Node) Node {
 }
 
 func copyList(x Nodes) Nodes {
-	c := make([]Node, x.Len())
-	copy(c, x.Slice())
-	return AsNodes(c)
+	c := make([]Node, len(x))
+	copy(c, x)
+	return Nodes(c)
 }
 
 // DeepCopy returns a “deep” copy of n, with its entire structure copied

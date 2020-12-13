@@ -271,7 +271,7 @@ func Main(archInit func(*Arch)) {
 			Curfn = n.(*ir.Func)
 			decldepth = 1
 			errorsBefore := base.Errors()
-			typecheckslice(Curfn.Body.Slice(), ctxStmt)
+			typecheckslice(Curfn.Body, ctxStmt)
 			checkreturn(Curfn)
 			if base.Errors() > errorsBefore {
 				Curfn.Body.Set(nil) // type errors; do not compile

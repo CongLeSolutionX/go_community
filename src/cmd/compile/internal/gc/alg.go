@@ -313,10 +313,10 @@ func genhash(t *types.Type) *obj.LSym {
 		n := ir.NewRangeStmt(base.Pos, nil, ir.NewStarExpr(base.Pos, np), nil)
 		ni := ir.Node(NewName(lookup("i")))
 		ni.SetType(types.Types[types.TINT])
-		n.Vars.Set1(ni)
+		n.Vars = []ir.Node{ni}
 		n.Def = true
-		colasdefn(n.Vars.Slice(), n)
-		ni = n.Vars.First()
+		colasdefn(n.Vars, n)
+		ni = n.Vars[0]
 
 		// h = hashel(&p[i], h)
 		call := ir.NewCallExpr(base.Pos, ir.OCALL, hashel, nil)
@@ -386,7 +386,7 @@ func genhash(t *types.Type) *obj.LSym {
 	typecheckFunc(fn)
 
 	Curfn = fn
-	typecheckslice(fn.Body.Slice(), ctxStmt)
+	typecheckslice(fn.Body, ctxStmt)
 	Curfn = nil
 
 	if base.Debug.DclStack != 0 {
@@ -762,7 +762,7 @@ func geneq(t *types.Type) *obj.LSym {
 	typecheckFunc(fn)
 
 	Curfn = fn
-	typecheckslice(fn.Body.Slice(), ctxStmt)
+	typecheckslice(fn.Body, ctxStmt)
 	Curfn = nil
 
 	if base.Debug.DclStack != 0 {

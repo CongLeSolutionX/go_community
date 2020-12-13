@@ -145,7 +145,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 	case Nodes:
 		// unpack Nodes since reflect cannot look inside
 		// due to the unexported field in its struct
-		x = reflect.ValueOf(v.Slice())
+		x = reflect.ValueOf(v)
 
 	case src.XPos:
 		p.printf("%s", base.FmtPos(v))
@@ -229,7 +229,7 @@ func (p *dumper) dump(x reflect.Value, depth int) {
 					omitted = true
 					continue // exclude zero-valued fields
 				}
-				if n, ok := x.Interface().(Nodes); ok && n.Len() == 0 {
+				if n, ok := x.Interface().(Nodes); ok && len(n) == 0 {
 					omitted = true
 					continue // exclude empty Nodes slices
 				}
