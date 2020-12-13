@@ -538,7 +538,7 @@ func (p *iexporter) doInline(f *ir.Name) {
 	w := p.newWriter()
 	w.setPkg(fnpkg(f), false)
 
-	w.stmtList(ir.AsNodes(f.Func_.Inl.Body))
+	w.stmtList(ir.Nodes(f.Func_.Inl.Body))
 
 	w.finish("inl", p.inlineIndex, f.Sym())
 }
@@ -1045,7 +1045,7 @@ func (w *exportWriter) typeExt(t *types.Type) {
 // Inline bodies.
 
 func (w *exportWriter) stmtList(list ir.Nodes) {
-	for _, n := range list.Slice() {
+	for _, n := range list {
 		w.node(n)
 	}
 	w.op(ir.OEND)
@@ -1062,9 +1062,9 @@ func (w *exportWriter) node(n ir.Node) {
 // Caution: stmt will emit more than one node for statement nodes n that have a non-empty
 // n.Ninit and where n cannot have a natural init section (such as in "if", "for", etc.).
 func (w *exportWriter) stmt(n ir.Node) {
-	if n.Init().Len() > 0 && !ir.StmtWithInit(n.Op()) {
+	if len(n.Init()) > 0 && !ir.StmtWithInit(n.Op()) {
 		// can't use stmtList here since we don't want the final OEND
-		for _, n := range n.Init().Slice() {
+		for _, n := range n.Init() {
 			w.stmt(n)
 		}
 	}
@@ -1078,7 +1078,7 @@ func (w *exportWriter) stmt(n ir.Node) {
 		// generate OBLOCK nodes except to denote an empty
 		// function body, although that may change.)
 		n := n.(*ir.BlockStmt)
-		for _, n := range n.List.Slice() {
+		for _, n := range n.List {
 			w.stmt(n)
 		}
 
@@ -1213,9 +1213,9 @@ func (w *exportWriter) caseList(sw ir.Node) {
 
 	var cases []ir.Node
 	if sw.Op() == ir.OSWITCH {
-		cases = sw.(*ir.SwitchStmt).Cases.Slice()
+		cases = sw.(*ir.SwitchStmt).Cases
 	} else {
-		cases = sw.(*ir.SelectStmt).Cases.Slice()
+		cases = sw.(*ir.SelectStmt).Cases
 	}
 	w.uint64(uint64(len(cases)))
 	for _, cas := range cases {
@@ -1223,14 +1223,14 @@ func (w *exportWriter) caseList(sw ir.Node) {
 		w.pos(cas.Pos())
 		w.stmtList(cas.List)
 		if namedTypeSwitch {
-			w.localName(cas.Vars.First().(*ir.Name))
+			w.localName(cas.Vars[0].(*ir.Name))
 		}
 		w.stmtList(cas.Body)
 	}
 }
 
 func (w *exportWriter) exprList(list ir.Nodes) {
-	for _, n := range list.Slice() {
+	for _, n := range list {
 		w.expr(n)
 	}
 	w.op(ir.OEND)
@@ -1549,8 +1549,8 @@ func (w *exportWriter) exprsOrNil(a, b ir.Node) {
 }
 
 func (w *exportWriter) fieldList(list ir.Nodes) {
-	w.uint64(uint64(list.Len()))
-	for _, n := range list.Slice() {
+	w.uint64(uint64(len(list)))
+	for _, n := range list {
 		n := n.(*ir.StructKeyExpr)
 		w.selector(n.Field)
 		w.expr(n.Value)
