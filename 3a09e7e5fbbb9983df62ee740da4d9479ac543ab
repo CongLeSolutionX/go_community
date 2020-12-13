@@ -52,6 +52,24 @@
       "parentUuid": "a96348e6_6961f056",
       "revId": "3a09e7e5fbbb9983df62ee740da4d9479ac543ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec82945e_bf0847b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29863
+      },
+      "writtenOn": "2020-12-13T19:52:35Z",
+      "side": 1,
+      "message": "My understanding is that this can only happen when the body of the function is defined outside of Go, like in a C or assembly file. I assumed that the go\\doc command cannot inspect the body if it is not in the source code, and that skipping the body would be the expected behavior.",
+      "parentUuid": "8045883b_2b71d9d1",
+      "revId": "3a09e7e5fbbb9983df62ee740da4d9479ac543ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
