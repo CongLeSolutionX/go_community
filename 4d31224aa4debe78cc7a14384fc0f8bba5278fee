@@ -319,6 +319,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b89b53aa_6b254799",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-12-13T05:58:23Z",
+      "side": 1,
+      "message": "Sorry, but I still don\u0027t see why this is true.\n\n... then the data that it points to doesn\u0027t actually begin at\n// the virtual address listed in this current section, but rather\n// begins at the section immediately after this one.\n\nPerhaps it is just me. So feel free to ignore my request. But then I won\u0027t be able to review this CL.",
+      "parentUuid": "d3fa13d1_f78285e1",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5004c540_93bb4610",
         "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
         "patchSetId": 7
