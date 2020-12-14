@@ -16,6 +16,23 @@
       "message": "LGTM",
       "revId": "73a79c56a737e1ebe778b76771ee04087bb481c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af7526f0_ec082b79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-14T13:39:39Z",
+      "side": 1,
+      "message": "LGTM.\n\nNit: for new executable/object testdata files, it\u0027s always nice to have a record of the compiler versions and compiler flags used to generate them.\n\nAlso looking at the abbrev table for line-gcc-dwarf5.elf it doesn\u0027t look as though there is any use of DW_form_addrx or DW_form_strx, not sure if that was intended.\n\nIs there a bug associated with this?\n",
+      "revId": "73a79c56a737e1ebe778b76771ee04087bb481c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
