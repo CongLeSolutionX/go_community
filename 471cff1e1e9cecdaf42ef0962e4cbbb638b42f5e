@@ -16,6 +16,24 @@
       "message": "It looks like this is meant to be a merge CL from the subject, but it has just 1 parent, instead of 2. (--no-ff parameter likely needs to be used during git merge to resolve this.) Temporary -2 to prevent accidental submission.",
       "revId": "471cff1e1e9cecdaf42ef0962e4cbbb638b42f5e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0768907c_5a1fca6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-14T19:50:42Z",
+      "side": 1,
+      "message": "Yes, we know. Redoing as we speak.",
+      "parentUuid": "c28f5e3c_645041cf",
+      "revId": "471cff1e1e9cecdaf42ef0962e4cbbb638b42f5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
