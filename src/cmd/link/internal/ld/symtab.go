@@ -483,6 +483,8 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 			symtype = s.Sym()
 			symtyperel = s.Sym()
 		}
+		CarrierSymByType[sym.STYPE].Sym = symtype
+		CarrierSymByType[sym.STYPERELRO].Sym = symtyperel
 	}
 
 	groupSym := func(name string, t sym.SymKind) loader.Sym {
@@ -490,6 +492,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		s.SetType(t)
 		s.SetSize(0)
 		s.SetLocal(true)
+		CarrierSymByType[t].Sym = s.Sym()
 		return s.Sym()
 	}
 	var (
@@ -799,4 +802,10 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		lastmoduledatap.AddAddr(ctxt.Arch, moduledata.Sym())
 	}
 	return symGroupType
+}
+
+// CarrierSymByType tracks carrier symbols and their sizes.
+var CarrierSymByType [sym.SXREF]struct {
+	Sym  loader.Sym
+	Size int64
 }
