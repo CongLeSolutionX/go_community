@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93c4e2ab_e869b24e",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1860,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-14T19:02:13Z",
+      "side": 0,
+      "message": "Review note: heapaddr is known to be a freshly allocated ir.Name on which SetOrig has never been called, so ir.Orig(heapaddr) \u003d\u003d heapaddr, so this line is a no-op.",
+      "revId": "d284ab7e25da3e1a825dfb0271530c75e2ba49a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
