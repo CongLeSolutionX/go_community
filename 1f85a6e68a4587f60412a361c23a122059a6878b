@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bda4ddf_c1bc5ff5",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-14T19:02:13Z",
+      "side": 0,
+      "message": "Review note: the splitting of this condition into two if statements\nin the rewrite is introducing an empty space between them where\nn :\u003d n.(*ir.Name) can be inserted by the automated CL. \nThis pattern happens a bunch in these CLs.",
+      "revId": "1f85a6e68a4587f60412a361c23a122059a6878b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
