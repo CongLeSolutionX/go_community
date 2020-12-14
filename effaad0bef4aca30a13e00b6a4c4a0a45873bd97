@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df16169_20477b7d",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-14T19:02:13Z",
+      "side": 0,
+      "message": "Review note: This is being provided by miniExpr and was redundant here.",
+      "revId": "effaad0bef4aca30a13e00b6a4c4a0a45873bd97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
