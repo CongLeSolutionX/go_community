@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49c43bc0_0884ebfb",
+        "filename": "test/fixedbugs/issue28079b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-14T23:16:13Z",
+      "side": 1,
+      "message": "gc doesn\u0027t error on this line? Weird...",
+      "revId": "df36918d4bc9bdb650995d890262cde9d0d7ac27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
