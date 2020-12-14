@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f189fcc1_497199dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-14T20:07:03Z",
+      "side": 1,
+      "message": "In case it\u0027s helpful, I\u0027ve verified the tree of this CL at patch set 1 is identical to that of the earlier CL 277733:\n\n    $ git fetch https://go.googlesource.com/go refs/changes/33/277733/1 \u0026\u0026 git branch change-277733 FETCH_HEAD\n    $ git fetch https://go.googlesource.com/go refs/changes/34/277734/1 \u0026\u0026 git branch change-277734 FETCH_HEAD\n    $ git diff change-277733 change-277734\n    (Zero output.)",
+      "revId": "d2c58b232bcb26560b07a1ee55d38e1923e8b756",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
