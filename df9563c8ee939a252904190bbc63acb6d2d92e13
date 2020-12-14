@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3e25f43_664980de",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-14T19:02:13Z",
+      "side": 0,
+      "message": "These moved to iimport.go, where they are used.\nnpos will be removed eventually, while builtinCall only serves iimport.go.",
+      "revId": "df9563c8ee939a252904190bbc63acb6d2d92e13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
