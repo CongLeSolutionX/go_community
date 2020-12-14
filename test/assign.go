@@ -56,13 +56,21 @@ func main() {
 	{
 		var x = 1
 		{
+<<<<<<< HEAD   (a20021 [dev.typeparams] cmd/compile/internal/types2: bring over sub)
 			x, x := 2, 3 // ERROR "x repeated on left side of :=|x redeclared in this block"
+=======
+			x, x := 2, 3 // ERROR ".*x.* repeated on left side of :="
+>>>>>>> BRANCH (89f383 [dev.regabi] cmd/compile: add register ABI analysis utilitie)
 			_ = x
 		}
 		_ = x
 	}
 	{
+<<<<<<< HEAD   (a20021 [dev.typeparams] cmd/compile/internal/types2: bring over sub)
 		a, a := 1, 2 // ERROR "a repeated on left side of :=|a redeclared in this block"
+=======
+		a, a := 1, 2 // ERROR ".*a.* repeated on left side of :="
+>>>>>>> BRANCH (89f383 [dev.regabi] cmd/compile: add register ABI analysis utilitie)
 		_ = a
 	}
 }
