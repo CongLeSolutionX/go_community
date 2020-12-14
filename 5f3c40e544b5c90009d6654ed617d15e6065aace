@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d80c8ec_f4b94a5c",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-14T18:16:51Z",
+      "side": 1,
+      "message": "Could this be simplified to:\n\n\t\t\tfor _, err \u003d range workerErrs {\n\t\t\t\tif err !\u003d nil {\n                                        // Return the first error found\n\t\t\t\t\tbreak\n\t\t\t\t}\n\t\t\t}",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 4
+      },
+      "revId": "5f3c40e544b5c90009d6654ed617d15e6065aace",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f02ade_88017c37",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-14T18:16:51Z",
+      "side": 1,
+      "message": "This will get removed in my next CL, but good to eliminate a possible panic in the meantime ✔",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 2
+      },
+      "revId": "5f3c40e544b5c90009d6654ed617d15e6065aace",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21907c13_1af4e949",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-14T18:16:51Z",
+      "side": 1,
+      "message": "To clarify, this is safe because every worker has it\u0027s own shared memory and they can\u0027t alter the data between workers, right?\n\nOtherwise, if the memory is shared among multiple workerServers, then another worker could come in and alter the contents of the value before it is actually run in the following line. Which would be problematic.",
+      "range": {
+        "startLine": 403,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 28
+      },
+      "revId": "5f3c40e544b5c90009d6654ed617d15e6065aace",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
