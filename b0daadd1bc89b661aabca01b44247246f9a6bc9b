@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c25dae9_7b7f0e02",
+        "filename": "src/cmd/compile/internal/gc/initorder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-14T19:02:13Z",
+      "side": 0,
+      "message": "Review note:\nThat this was the only use of \"return false\" in an Inspect callback,\nand OMETHEXPR has no children worth skipping anyway.",
+      "revId": "b0daadd1bc89b661aabca01b44247246f9a6bc9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
