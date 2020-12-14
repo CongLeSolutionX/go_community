@@ -75,7 +75,7 @@ func declare(n *ir.Name, ctxt ir.Class) {
 		if s.Name == "main" && s.Pkg.Name == "main" {
 			base.ErrorfAt(n.Pos(), "cannot declare main - must be func")
 		}
-		externdcl = append(externdcl, n)
+		AddGlobal(n)
 	} else {
 		if Curfn == nil && ctxt == ir.PAUTO {
 			base.Pos = n.Pos()
@@ -116,7 +116,7 @@ func declare(n *ir.Name, ctxt ir.Class) {
 		n.Sym().SetFunc(true)
 	}
 
-	autoexport(n, ctxt)
+	AutoExport(n, ctxt)
 }
 
 // declare variables from grammar

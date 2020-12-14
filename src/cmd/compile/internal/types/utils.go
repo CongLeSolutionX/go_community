@@ -15,7 +15,7 @@ const BADWIDTH = -1000000000
 // TODO(gri) eliminate these dependencies.
 var (
 	Widthptr    int
-	Dowidth     func(*Type)
+	Dowidth     = func(*Type) {}
 	TypeLinkSym func(*Type) *obj.LSym
 )
 

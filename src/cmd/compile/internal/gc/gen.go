@@ -80,7 +80,7 @@ func tempAt(pos src.XPos, curfn *ir.Func, t *types.Type) *ir.Name {
 	s.Def = n
 	n.SetType(t)
 	n.SetClass(ir.PAUTO)
-	n.SetEsc(EscNever)
+	MarkNoEscape(n)
 	n.Curfn = curfn
 	n.SetUsed(true)
 	n.SetAutoTemp(true)

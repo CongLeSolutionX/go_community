@@ -28,6 +28,8 @@ func Rnd(o int64, r int64) int64 {
 	return (o + r - 1) &^ (r - 1)
 }
 
+var MaxWidth int64
+
 // expandiface computes the method set for interface type t by
 // expanding embedded interfaces.
 func expandiface(t *types.Type) {
@@ -84,7 +86,7 @@ func expandiface(t *types.Type) {
 
 	sort.Sort(methcmp(methods))
 
-	if int64(len(methods)) >= thearch.MAXWIDTH/int64(Widthptr) {
+	if int64(len(methods)) >= MaxWidth/int64(Widthptr) {
 		base.ErrorfAt(typePos(t), "interface too large")
 	}
 	for i, m := range methods {
@@ -94,6 +96,25 @@ func expandiface(t *types.Type) {
 	// Access fields directly to avoid recursively calling dowidth
 	// within Type.Fields().
 	t.Extra.(*types.Interface).Fields.Set(methods)
+}
+
+var RecordFrameOffset = func(n types.Object, offset int64) {}
+
+func recordFrameOffset(obj types.Object, offset int64) {
+	n := obj.(*ir.Name)
+	// addrescapes has similar code to update these offsets.
+	// Usually addrescapes runs after widstruct,
+	// in which case we could drop this,
+	// but function closure functions are the exception.
+	// NOTE(rsc): This comment may be stale.
+	// It's possible the ordering has changed and this is
+	// now the common case. I'm not sure.
+	if n.Stackcopy != nil {
+		n.Stackcopy.SetFrameOffset(offset)
+		n.SetFrameOffset(0)
+	} else {
+		n.SetFrameOffset(offset)
+	}
 }
 
 func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
@@ -118,21 +139,8 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 			o = Rnd(o, int64(f.Type.Align))
 		}
 		f.Offset = o
-		if n := ir.AsNode(f.Nname); n != nil {
-			n := n.Name()
-			// addrescapes has similar code to update these offsets.
-			// Usually addrescapes runs after widstruct,
-			// in which case we could drop this,
-			// but function closure functions are the exception.
-			// NOTE(rsc): This comment may be stale.
-			// It's possible the ordering has changed and this is
-			// now the common case. I'm not sure.
-			if n.Name().Stackcopy != nil {
-				n.Name().Stackcopy.SetFrameOffset(o)
-				n.SetFrameOffset(0)
-			} else {
-				n.SetFrameOffset(o)
-			}
+		if f.Nname != nil {
+			RecordFrameOffset(f.Nname, o)
 		}
 
 		w := f.Type.Width
@@ -143,7 +151,7 @@ func widstruct(errtype *types.Type, t *types.Type, o int64, flag int) int64 {
 			lastzero = o
 		}
 		o += w
-		maxwidth := thearch.MAXWIDTH
+		maxwidth := MaxWidth
 		// On 32-bit systems, reflect tables impose an additional constraint
 		// that each field start offset must fit in 31 bits.
 		if maxwidth < 1<<32 {
@@ -206,7 +214,7 @@ func findTypeLoop(t *types.Type, path *[]*types.Type) bool {
 		}
 
 		*path = append(*path, t)
-		if findTypeLoop(t.Obj().(*ir.Name).Ntype.Type(), path) {
+		if findTypeLoop(t.Obj().(interface{ UnderlyingType() *types.Type }).UnderlyingType(), path) {
 			return true
 		}
 		*path = (*path)[:len(*path)-1]
@@ -419,7 +427,7 @@ func dowidth(t *types.Type) {
 
 		dowidth(t.Elem())
 		if t.Elem().Width != 0 {
-			cap := (uint64(thearch.MAXWIDTH) - 1) / uint64(t.Elem().Width)
+			cap := (uint64(MaxWidth) - 1) / uint64(t.Elem().Width)
 			if uint64(t.NumElem()) > cap {
 				base.ErrorfAt(typePos(t), "type %L larger than address space", t)
 			}

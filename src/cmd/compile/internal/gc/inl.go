@@ -39,6 +39,8 @@ import (
 	"strings"
 )
 
+var IsIntrinsicCall func(*ir.CallExpr) bool
+
 // Inlining budget parameters, gathered in one place
 const (
 	inlineMaxBudget       = 80
@@ -230,7 +232,7 @@ func caninl(fn *ir.Func) {
 
 // inlFlood marks n's inline body for export and recursively ensures
 // all called functions are marked too.
-func inlFlood(n *ir.Name) {
+func inlFlood(n *ir.Name, exportsym func(*ir.Name)) {
 	if n == nil {
 		return
 	}
@@ -258,13 +260,13 @@ func inlFlood(n *ir.Name) {
 	ir.VisitList(ir.AsNodes(fn.Inl.Body), func(n ir.Node) {
 		switch n.Op() {
 		case ir.OMETHEXPR, ir.ODOTMETH:
-			inlFlood(methodExprName(n))
+			inlFlood(methodExprName(n), exportsym)
 
 		case ir.ONAME:
 			n := n.(*ir.Name)
 			switch n.Class() {
 			case ir.PFUNC:
-				inlFlood(n)
+				inlFlood(n, exportsym)
 				exportsym(n)
 			case ir.PEXTERN:
 				exportsym(n)
@@ -339,7 +341,7 @@ func (v *hairyVisitor) doNode(n ir.Node) error {
 			}
 		}
 
-		if isIntrinsicCall(n) {
+		if IsIntrinsicCall(n) {
 			// Treat like any other node.
 			break
 		}
@@ -593,7 +595,7 @@ func inlnode(n ir.Node, maxCost int32, inlMap map[*ir.Func]bool, edit func(ir.No
 		if base.Flag.LowerM > 3 {
 			fmt.Printf("%v:call to func %+v\n", ir.Line(n), call.Left())
 		}
-		if isIntrinsicCall(call) {
+		if IsIntrinsicCall(call) {
 			break
 		}
 		if fn := inlCallee(call.Left()); fn != nil && fn.Inl != nil {
@@ -768,6 +770,8 @@ func inlParam(t *types.Field, as ir.Node, inlvars map[*ir.Name]ir.Node) ir.Node 
 
 var inlgen int
 
+var SsaDumpInlined func(*ir.Func)
+
 // If n is a call node (OCALLFUNC or OCALLMETH), and fn is an ONAME node for a
 // function with an inlinable body, return an OINLCALL node that can replace n.
 // The returned node's Ninit has the parameter assignments, the Nbody is the
@@ -835,9 +839,7 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 		fmt.Printf("%v: Before inlining: %+v\n", ir.Line(n), n)
 	}
 
-	if ssaDump != "" && ssaDump == ir.FuncName(Curfn) {
-		ssaDumpInlined = append(ssaDumpInlined, fn)
-	}
+	SsaDumpInlined(fn)
 
 	ninit := n.Init()
 

@@ -245,17 +245,7 @@ const (
 	interfaceType
 )
 
-func iexport(out *bufio.Writer) {
-	// Mark inline bodies that are reachable through exported objects.
-	// (Phase 0 of bexport.go.)
-	{
-		// TODO(mdempsky): Separate from bexport logic.
-		p := &exporter{marked: make(map[*types.Type]bool)}
-		for _, n := range exportlist {
-			p.markObject(n)
-		}
-	}
-
+func iexport(out *bufio.Writer, exportlist []*ir.Name) {
 	p := iexporter{
 		allPkgs:     map[*types.Pkg]bool{},
 		stringIndex: map[string]uint64{},

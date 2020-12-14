@@ -70,6 +70,7 @@ func Main(archInit func(*Arch)) {
 	base.Ctxt.DiagFunc = base.Errorf
 	base.Ctxt.DiagFlush = base.FlushErrors
 	base.Ctxt.Bso = bufio.NewWriter(os.Stdout)
+	MaxWidth = thearch.MAXWIDTH
 
 	// UseBASEntries is preferred because it shaves about 2% off build time, but LLDB, dsymutil, and dwarfdump
 	// on Darwin don't support it properly, especially since macOS 10.14 (Mojave).  This is exposed as a flag
@@ -204,8 +205,26 @@ func Main(archInit func(*Arch)) {
 
 	trackScopes = base.Flag.Dwarf
 
+	ir.EscFmt = escFmt
+
 	Widthptr = thearch.LinkArch.PtrSize
 	Widthreg = thearch.LinkArch.RegSize
+
+	// initialize types package
+	// (we need to do this to break dependencies that otherwise
+	// would lead to import cycles)
+	initializeTypesPackage()
+
+	AddFunc = func(fn *ir.Func) { xtop = append(xtop, fn) }
+	AddGlobal = func(n *ir.Name) { externdcl = append(externdcl, n) }
+	AutoExport = autoexport
+	MarkNoEscape = func(n ir.Node) { n.SetEsc(EscNever) }
+	NeedFuncSym = makefuncsym
+	NeedItab = func(t, itype *types.Type) { itabname(t, itype) }
+	NeedRuntimeType = addsignat
+
+	IsIntrinsicCall = isIntrinsicCall
+	SsaDumpInlined = doSsaDumpInlined
 
 	// initialize types package
 	// (we need to do this to break dependencies that otherwise
@@ -225,6 +244,11 @@ func Main(archInit func(*Arch)) {
 	timings.AddEvent(int64(lines), "lines")
 
 	finishUniverse()
+
+	nodfp = NewName(lookup(".fp"))
+	nodfp.SetType(types.Types[types.TINT32])
+	nodfp.SetClass(ir.PPARAM)
+	nodfp.SetUsed(true)
 
 	recordPackageName()
 
@@ -268,17 +292,7 @@ func Main(archInit func(*Arch)) {
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
 		if n.Op() == ir.ODCLFUNC {
-			Curfn = n.(*ir.Func)
-			decldepth = 1
-			errorsBefore := base.Errors()
-			typecheckslice(Curfn.Body().Slice(), ctxStmt)
-			checkreturn(Curfn)
-			if base.Errors() > errorsBefore {
-				Curfn.PtrBody().Set(nil) // type errors; do not compile
-			}
-			// Now that we've checked whether n terminates,
-			// we can eliminate some obviously dead code.
-			deadcode(Curfn)
+			TypecheckFuncBody(n.(*ir.Func))
 			fcount++
 		}
 	}
@@ -322,11 +336,7 @@ func Main(archInit func(*Arch)) {
 	if base.Debug.TypecheckInl != 0 {
 		// Typecheck imported function bodies if Debug.l > 1,
 		// otherwise lazily when used or re-exported.
-		for _, n := range importlist {
-			if n.Inl != nil {
-				typecheckinl(n)
-			}
-		}
+		TypecheckImports()
 		base.ExitIfErrors()
 	}
 
@@ -1057,9 +1067,11 @@ type lang struct {
 // any language version is supported.
 var langWant lang
 
-// langSupported reports whether language version major.minor is
-// supported in a particular package.
-func langSupported(major, minor int, pkg *types.Pkg) bool {
+// AllowsGoVersion reports whether a particular package
+// is allowed to use Go version major.minor.
+// We assume the imported packages have all been checked,
+// so we only have to check the local package against the -lang flag.
+func AllowsGoVersion(pkg *types.Pkg, major, minor int) bool {
 	if pkg == nil {
 		// TODO(mdempsky): Set Pkg for local types earlier.
 		pkg = types.LocalPkg
@@ -1068,11 +1080,14 @@ func langSupported(major, minor int, pkg *types.Pkg) bool {
 		// Assume imported packages passed type-checking.
 		return true
 	}
-
 	if langWant.major == 0 && langWant.minor == 0 {
 		return true
 	}
 	return langWant.major > major || (langWant.major == major && langWant.minor >= minor)
+}
+
+func langSupported(major, minor int, pkg *types.Pkg) bool {
+	return AllowsGoVersion(pkg, major, minor)
 }
 
 // checkLang verifies that the -lang flag holds a valid value, and
@@ -1117,6 +1132,7 @@ func parseLang(s string) (lang, error) {
 }
 
 func initializeTypesPackage() {
+	RecordFrameOffset = recordFrameOffset
 	types.Widthptr = Widthptr
 	types.Dowidth = dowidth
 	types.TypeLinkSym = func(t *types.Type) *obj.LSym {

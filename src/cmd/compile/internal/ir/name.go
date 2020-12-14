@@ -139,13 +139,19 @@ type Name struct {
 	Outer     *Name
 }
 
+func (n *Name) isExpr() {}
+
 // CloneName makes a cloned copy of the name.
 // It's not ir.Copy(n) because in general that operation is a mistake on names,
 // which uniquely identify variables.
 // Callers must use n.CloneName to make clear they intend to create a separate name.
 func (n *Name) CloneName() *Name { c := *n; return &c }
 
-func (n *Name) isExpr() {}
+// UnderlyingType returns the underlying type for a named OTYPE.
+// It is used by package types to report type loops.
+func (n *Name) UnderlyingType() *types.Type {
+	return n.Ntype.Type()
+}
 
 // NewNameAt returns a new ONAME Node associated with symbol s at position pos.
 // The caller is responsible for setting Curfn.

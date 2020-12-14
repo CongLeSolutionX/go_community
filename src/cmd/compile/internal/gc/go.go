@@ -116,12 +116,13 @@ var (
 	okforadd   [types.NTYPE]bool
 	okforand   [types.NTYPE]bool
 	okfornone  [types.NTYPE]bool
-	okforcmp   [types.NTYPE]bool
 	okforbool  [types.NTYPE]bool
 	okforcap   [types.NTYPE]bool
 	okforlen   [types.NTYPE]bool
 	okforarith [types.NTYPE]bool
 )
+
+var okforcmp [types.NTYPE]bool
 
 var (
 	okfor [ir.OEND][]bool
@@ -131,8 +132,6 @@ var (
 var xtop []ir.Node
 
 var exportlist []*ir.Name
-
-var importlist []*ir.Func // imported functions and methods with inlinable bodies
 
 var (
 	funcsymsmu sync.Mutex // protects funcsyms and associated package lookups (see func funcsym)

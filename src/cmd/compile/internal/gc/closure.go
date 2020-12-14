@@ -129,7 +129,7 @@ func typecheckclosure(clo ir.Node, top int) {
 		Curfn = oldfn
 	}
 
-	xtop = append(xtop, fn)
+	AddFunc(fn)
 }
 
 // globClosgen is like Func.Closgen, but for the global scope.
@@ -499,7 +499,7 @@ func makepartialcall(dot *ir.SelectorExpr, t0 *types.Type, meth *types.Sym) *ir.
 	Curfn = fn
 	typecheckslice(fn.Body().Slice(), ctxStmt)
 	sym.Def = fn
-	xtop = append(xtop, fn)
+	AddFunc(fn)
 	Curfn = savecurfn
 	base.Pos = saveLineNo
 

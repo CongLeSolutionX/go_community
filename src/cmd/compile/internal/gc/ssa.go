@@ -42,6 +42,12 @@ const maxOpenDefers = 8
 // ssaDumpInlined holds all inlined functions when ssaDump contains a function name.
 var ssaDumpInlined []*ir.Func
 
+func doSsaDumpInlined(fn *ir.Func) {
+	if ssaDump != "" && ssaDump == ir.FuncName(Curfn) {
+		ssaDumpInlined = append(ssaDumpInlined, fn)
+	}
+}
+
 func initssaconfig() {
 	types_ := ssa.NewTypes()
 

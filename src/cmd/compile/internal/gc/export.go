@@ -65,7 +65,18 @@ func dumpexport(bout *bio.Writer) {
 	// The linker also looks for the $$ marker - use char after $$ to distinguish format.
 	exportf(bout, "\n$$B\n") // indicate binary export format
 	off := bout.Offset()
-	iexport(bout.Writer)
+
+	// Mark inline bodies that are reachable through exported objects.
+	// (Phase 0 of bexport.go.)
+	{
+		// TODO(mdempsky): Separate from bexport logic.
+		p := &exporter{marked: make(map[*types.Type]bool)}
+		for _, n := range exportlist {
+			p.markObject(n)
+		}
+	}
+
+	iexport(bout.Writer, exportlist)
 	size := bout.Offset() - off
 	exportf(bout, "\n$$\n")
 
