@@ -33,6 +33,24 @@
       "message": "LGTM.\n\nNit: for new executable/object testdata files, it\u0027s always nice to have a record of the compiler versions and compiler flags used to generate them.\n\nAlso looking at the abbrev table for line-gcc-dwarf5.elf it doesn\u0027t look as though there is any use of DW_form_addrx or DW_form_strx, not sure if that was intended.\n\nIs there a bug associated with this?\n",
       "revId": "73a79c56a737e1ebe778b76771ee04087bb481c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b55a0628_c282cf0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-14T17:41:05Z",
+      "side": 1,
+      "message": "\u003e Nit: for new executable/object testdata files, it\u0027s always nice to have a record of the compiler versions and compiler flags used to generate them.\n\nIs there a place we have to write this in the package, or are you suggesting that I add it to the CL description?  (I just compiled the existing line*.[ch] files with GCC and clang with the -gdwarf-5 option).\n\n\u003e Also looking at the abbrev table for line-gcc-dwarf5.elf it doesn\u0027t look as though there is any use of DW_form_addrx or DW_form_strx, not sure if that was intended.\n\nIt appears that GCC doesn\u0027t generate those, at least not the GCC that I used.  That is why I also included the clang-generated binary.\n\n\u003e Is there a bug associated with this?\n\nIt\u0027s Google internal, will send separately.",
+      "parentUuid": "af7526f0_ec082b79",
+      "revId": "73a79c56a737e1ebe778b76771ee04087bb481c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
