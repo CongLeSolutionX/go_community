@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89a288cc_b07eeac1",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-14T19:02:13Z",
+      "side": 0,
+      "message": "Review note: see changes in package ir and typecheck.go for introduction of MethodExpr.FuncName field.\nThat lets us have a real *ir.Name for a method expression instead of having to treat ir.OMETHEXPR as a kind of pseudo-Name throughout, which would stop us from typing a lot of the variables as *ir.Name.",
+      "revId": "640698fb052daa5fef2e9cccb9f11b57144a907c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
