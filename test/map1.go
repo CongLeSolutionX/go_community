@@ -64,5 +64,10 @@ func main() {
 	delete()        // ERROR "missing arguments|not enough arguments"
 	delete(m)       // ERROR "missing second \(key\) argument|not enough arguments"
 	delete(m, 2, 3) // ERROR "too many arguments"
+<<<<<<< HEAD   (a20021 [dev.typeparams] cmd/compile/internal/types2: bring over sub)
 	delete(1, m)    // ERROR "first argument to delete must be map|is not a map"
 }
+=======
+	delete(1, m)    // ERROR "first argument to delete must be map|argument 1 must be a map"
+}
+>>>>>>> BRANCH (89f383 [dev.regabi] cmd/compile: add register ABI analysis utilitie)

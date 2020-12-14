@@ -16,5 +16,9 @@ func (T) foo() {}
 func main() {
 	av := T{}
 	pav := &av
+<<<<<<< HEAD   (a20021 [dev.typeparams] cmd/compile/internal/types2: bring over sub)
 	(**T).foo(&pav) // ERROR "no method foo|requires named type or pointer to named|undefined"
+=======
+	(**T).foo(&pav) // ERROR "no method .*foo|requires named type or pointer to named"
+>>>>>>> BRANCH (89f383 [dev.regabi] cmd/compile: add register ABI analysis utilitie)
 }
