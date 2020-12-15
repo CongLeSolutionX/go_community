@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c6c9f70_64943f03",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T10:19:01Z",
+      "side": 1,
+      "message": "nit: guard. \"tag\" is the Left of this.",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 4
+      },
+      "revId": "6e14d38f5daac36ee3a2e1eae28af30d6f6185b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
