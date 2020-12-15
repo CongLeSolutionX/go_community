@@ -50,6 +50,24 @@
       "message": "Can you show what an error message will look like in your commit message? I\u0027m not entirely certain that %v will do the right thing for a channel.",
       "revId": "b0de22482dfd55939e19d6d44da6c00928eba468",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f04a6276_2d224e33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-15T12:24:50Z",
+      "side": 1,
+      "message": "It shows \n\ntemplate: :1:8: executing \"\" at \u003c.\u003e: range over send-only channel 0xc0000774a0\n\nShould we get channel\u0027s name instead?",
+      "parentUuid": "21590b6b_095b24de",
+      "revId": "b0de22482dfd55939e19d6d44da6c00928eba468",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
