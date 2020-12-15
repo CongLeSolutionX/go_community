@@ -33,6 +33,23 @@
       "message": "Daniel, can you review?",
       "revId": "b0de22482dfd55939e19d6d44da6c00928eba468",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21590b6b_095b24de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-12-15T12:20:03Z",
+      "side": 1,
+      "message": "Can you show what an error message will look like in your commit message? I\u0027m not entirely certain that %v will do the right thing for a channel.",
+      "revId": "b0de22482dfd55939e19d6d44da6c00928eba468",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
