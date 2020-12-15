@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7f73d7_6219e84f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-15T16:59:27Z",
+      "side": 1,
+      "message": "I think the spec is a bit vague here. https://golang.org/ref/spec#Switch_statements discusses comparison with case expressions, but not this eager check for comparability. That said, it is correct to add this check. We may want to update the spec.",
+      "revId": "5f3e9e14ba4f54e33de45e42313b316ce581cdaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
