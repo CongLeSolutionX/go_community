@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a63096a_be89c96f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-15T16:20:16Z",
+      "side": 1,
+      "message": "The handling of carrier symbols is probably not ideal. But I don\u0027t have any better idea...",
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
