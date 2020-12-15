@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6aff9c5_bfc1d918",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-15T22:41:18Z",
+      "side": 1,
+      "message": "Hi Robert, see my review comments with questions / comments about this batch of imports.",
+      "revId": "27e8f9e15e48264c273040b11f933a215ca6ebbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86e93901_638f076f",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-15T22:41:18Z",
+      "side": 1,
+      "message": "This would be something like this, right?\n\nfunc _[T interface{ m() }]() {\n  type N T\n  var x N\n  x.m()\n}\n\nI feel like this _should_ compile, just like it does if we lift `type T interface{ m() }` out of the type parameter list.\n\nJust my 2p.",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 80
+      },
+      "revId": "27e8f9e15e48264c273040b11f933a215ca6ebbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f230f18_bd7624b7",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-15T22:41:18Z",
+      "side": 1,
+      "message": "Should this be updated? The draft is pretty clear that we only consider explicit methods:\nhttps://go.googlesource.com/proposal/+/refs/heads/master/design/go2draft-type-parameters.md#types-with-methods-in-type-lists\n\nIf this is unlikely to change, I\u0027d prefer to either remove or change the wording of this comment.",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 28
+      },
+      "revId": "27e8f9e15e48264c273040b11f933a215ca6ebbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
