@@ -16,6 +16,24 @@
       "message": "gc doesn\u0027t error on this line? Weird...",
       "revId": "df36918d4bc9bdb650995d890262cde9d0d7ac27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1136d00_8345225e",
+        "filename": "test/fixedbugs/issue28079b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-15T02:35:52Z",
+      "side": 1,
+      "message": "gc does give an error when that function is used by itself, without the definition of T.  In fact, that is the test case 28079c.go.  But it doesn\u0027t give an error for this test case, with the definition of T.  And I agree that that is weird.",
+      "parentUuid": "49c43bc0_0884ebfb",
+      "revId": "df36918d4bc9bdb650995d890262cde9d0d7ac27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
