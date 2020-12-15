@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b45ca82_0176bbc2",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T06:03:35Z",
+      "side": 1,
+      "message": "nit: con.Op() \u003d\u003d OLITERAL?\n\n(Otherwise I\u0027ll have to touch this again later due to the ir.Node equality comparison.)",
+      "range": {
+        "startLine": 848,
+        "startChar": 27,
+        "endLine": 848,
+        "endChar": 35
+      },
+      "revId": "c6cf3e7d3dcf69dae5ecc7c03273f91fcca561d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
