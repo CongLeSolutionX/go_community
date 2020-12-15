@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "519614f5_bc45bc35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T04:41:33Z",
+      "side": 1,
+      "message": "Nice, looking forward to these finally getting trimmed down. Also not having to remember that AppendNodes clears the argument slice as a side-effect.",
+      "revId": "a1f4a019b820a1b990c2d6d0d7cc872ba348150c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
