@@ -16,6 +16,97 @@
       "message": "The handling of carrier symbols is probably not ideal. But I don\u0027t have any better idea...",
       "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dc87adc_b2a9fcb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-15T17:24:55Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f62e1367_0756647d",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-15T17:24:55Z",
+      "side": 1,
+      "message": "More comments here explaining what\u0027s happening? E.g. \"If the relocation target would overflow the addend if reached directly, then target a linker-manufactured label symbol instead.\"",
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f0c905b_26022a4c",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-15T17:24:55Z",
+      "side": 1,
+      "message": "Why this error message? Seems as though if label\u003d\u003d0 something went wrong in an earlier phase, e.g. it should be reported as a linker error. Or is it possible to arrive here in some other way?",
+      "range": {
+        "startLine": 484,
+        "startChar": 18,
+        "endLine": 484,
+        "endChar": 44
+      },
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57968b40_aca34827",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-15T17:24:55Z",
+      "side": 1,
+      "message": "Would be good to have a short comment here too. \"machoLabelName\" makes it seem very generic, which is not the case.",
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2c2e3d5_e86c55aa",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-15T17:24:55Z",
+      "side": 1,
+      "message": "For CarrierSymByType[\u003cxxx\u003e].Sym I think it would be useful to have a setter method that panics  if the sym is already set.",
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
