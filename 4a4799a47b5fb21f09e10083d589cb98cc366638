@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e65a516e_a80cb707",
+        "filename": "src/cmd/compile/internal/gc/alg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 1,
+      "message": "Hm, that is suspicious...",
+      "revId": "4a4799a47b5fb21f09e10083d589cb98cc366638",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81438756_3def2d58",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 1,
+      "message": "nit: `return budget \u003c\u003d 0`?",
+      "range": {
+        "startLine": 462,
+        "startChar": 0,
+        "endLine": 465,
+        "endChar": 14
+      },
+      "revId": "4a4799a47b5fb21f09e10083d589cb98cc366638",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76bfc1c7_8498555e",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 1,
+      "message": "Maybe omit this so it\u0027s just \"a node x for which find(x) returns true\"? \"Satisfying\" doesn\u0027t seem to add much if it requires alternative explanation anyway.",
+      "range": {
+        "startLine": 76,
+        "startChar": 12,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "4a4799a47b5fb21f09e10083d589cb98cc366638",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1dc61d3_711b80e1",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 1,
+      "message": "nit: superfluous space",
+      "range": {
+        "startLine": 79,
+        "startChar": 42,
+        "endLine": 79,
+        "endChar": 43
+      },
+      "revId": "4a4799a47b5fb21f09e10083d589cb98cc366638",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63347180_93717814",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 1,
+      "message": "Maybe specify \"non-nil\" for consistency with DoChildren and Find?",
+      "range": {
+        "startLine": 119,
+        "startChar": 21,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "4a4799a47b5fb21f09e10083d589cb98cc366638",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bd8cbfc_36cdbfca",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 1,
+      "message": "nit: find",
+      "range": {
+        "startLine": 161,
+        "startChar": 26,
+        "endLine": 161,
+        "endChar": 28
+      },
+      "revId": "4a4799a47b5fb21f09e10083d589cb98cc366638",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28542d19_d7473dac",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 1,
+      "message": "nit: \"call to find(x) returns true\"",
+      "range": {
+        "startLine": 162,
+        "startChar": 10,
+        "endLine": 162,
+        "endChar": 47
+      },
+      "revId": "4a4799a47b5fb21f09e10083d589cb98cc366638",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f2a75aa_b14e730b",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 1,
+      "message": "nit: false",
+      "range": {
+        "startLine": 164,
+        "startChar": 30,
+        "endLine": 164,
+        "endChar": 33
+      },
+      "revId": "4a4799a47b5fb21f09e10083d589cb98cc366638",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

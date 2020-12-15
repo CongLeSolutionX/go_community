@@ -16,6 +16,24 @@
       "message": "Review note:\nThat this was the only use of \"return false\" in an Inspect callback,\nand OMETHEXPR has no children worth skipping anyway.",
       "revId": "b0daadd1bc89b661aabca01b44247246f9a6bc9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb3835bd_711b0ee5",
+        "filename": "src/cmd/compile/internal/gc/initorder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T05:12:52Z",
+      "side": 0,
+      "message": "Ack. I feel like I remember it being necessary to short-circuit here at some point in time, but I don\u0027t see any need to continue today.",
+      "parentUuid": "0c25dae9_7b7f0e02",
+      "revId": "b0daadd1bc89b661aabca01b44247246f9a6bc9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
