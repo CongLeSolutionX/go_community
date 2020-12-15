@@ -86,6 +86,24 @@
       "parentUuid": "f04a6276_2d224e33",
       "revId": "b0de22482dfd55939e19d6d44da6c00928eba468",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4258a645_fa2025fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2020-12-15T13:36:29Z",
+      "side": 1,
+      "message": "I think the current error looks fine. A pointer isn\u0027t terribly useful perhaps, but it\u0027s still more useful than nothing.",
+      "parentUuid": "dbd27dea_f74fe777",
+      "revId": "b0de22482dfd55939e19d6d44da6c00928eba468",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
