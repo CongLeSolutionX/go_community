@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8d531fe_1f188bd1",
+        "filename": "test/fixedbugs/issue11362.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-15T14:31:38Z",
+      "side": 1,
+      "message": "Interesting, didn\u0027t know about this.",
+      "revId": "2bf2b9b7ac9c261fd1664fa168401e3738559bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
