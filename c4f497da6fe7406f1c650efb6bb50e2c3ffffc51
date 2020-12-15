@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c73dde_6f00d474",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-15T23:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62e1367_0756647d",
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f0c905b_26022a4c",
@@ -65,6 +83,30 @@
       "writtenOn": "2020-12-15T17:24:55Z",
       "side": 1,
       "message": "Why this error message? Seems as though if label\u003d\u003d0 something went wrong in an earlier phase, e.g. it should be reported as a linker error. Or is it possible to arrive here in some other way?",
+      "range": {
+        "startLine": 484,
+        "startChar": 18,
+        "endLine": 484,
+        "endChar": 44
+      },
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebb67f29_d94de1f6",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-15T23:50:35Z",
+      "side": 1,
+      "message": "Added \"internal error\".\n\nAlso changed it to double check after applying the label, to make sure the adjusted addend doesn\u0027t overflow.",
+      "parentUuid": "4f0c905b_26022a4c",
       "range": {
         "startLine": 484,
         "startChar": 18,
@@ -92,6 +134,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f16bfbe5_ec9c36a6",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-15T23:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57968b40_aca34827",
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2c2e3d5_e86c55aa",
@@ -105,6 +165,24 @@
       "writtenOn": "2020-12-15T17:24:55Z",
       "side": 1,
       "message": "For CarrierSymByType[\u003cxxx\u003e].Sym I think it would be useful to have a setter method that panics  if the sym is already set.",
+      "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ad20646_e89e32fd",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-15T23:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2c2e3d5_e86c55aa",
       "revId": "c4f497da6fe7406f1c650efb6bb50e2c3ffffc51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
