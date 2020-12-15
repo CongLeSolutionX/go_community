@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c09c3f7a_8a5deb08",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T07:48:39Z",
+      "side": 1,
+      "message": "nit: Maybe \"call\" instead of \"left\"?",
+      "range": {
+        "startLine": 239,
+        "startChar": 9,
+        "endLine": 239,
+        "endChar": 13
+      },
+      "revId": "4e1fd45f815e5a52fef6fda5c479d98431ac45a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cce42090_184eccff",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T07:48:39Z",
+      "side": 1,
+      "message": "nit: remove, and move this if up into the previous if condition.",
+      "range": {
+        "startLine": 679,
+        "startChar": 5,
+        "endLine": 679,
+        "endChar": 24
+      },
+      "revId": "4e1fd45f815e5a52fef6fda5c479d98431ac45a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "488723f4_59c51b61",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T07:48:39Z",
+      "side": 1,
+      "message": "It looks this is always true now, because r is no longer reassigned.",
+      "revId": "4e1fd45f815e5a52fef6fda5c479d98431ac45a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d3c1ab7_b9a162b4",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T07:48:39Z",
+      "side": 1,
+      "message": "I can\u0027t think of any reason it should be an issue, but I am a little nervous of changing the order we walk subexpressions.",
+      "revId": "4e1fd45f815e5a52fef6fda5c479d98431ac45a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9b69e65_e264481a",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2325,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T07:48:39Z",
+      "side": 1,
+      "message": "This could be rewritten to use ir.Find too:\n\n    return !ir.Find(n, func(n ir.Node) bool) {\n      switch n.Op() {\n      case ir.ONAME:\n        switch n.Class() { ... } ...\n      case ir.OLITERAL, ..., ir.ODOTTYPE:\n        return false\n      default:\n        return true // be conservative\n      }\n    }\n\n(Maybe clearer if ir.Find was named ir.Any, and we had an ir.All helper too.)",
+      "revId": "4e1fd45f815e5a52fef6fda5c479d98431ac45a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e1f6d2_1d54e87a",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2388,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T07:48:39Z",
+      "side": 1,
+      "message": "Alternatively:\n\n    var lhsNames ir.NameSet\n    ir.Visit(l, func(n ir.Node) {\n      if n.Op() \u003d\u003d ir.ONAME {\n        lhsNames.Add(n.(*ir.Name))\n      }\n    }\n    return len(lhsNames) !\u003d 0 \u0026\u0026 ir.Find(r, func(n ir.Node) bool {\n      return n.Op() \u003d\u003d ir.ONAME \u0026\u0026 lhsNames.Has(n.(*ir.Name))\n    })",
+      "revId": "4e1fd45f815e5a52fef6fda5c479d98431ac45a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

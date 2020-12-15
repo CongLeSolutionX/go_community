@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b1c13d4_6e38ae66",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2379,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T07:48:39Z",
+      "side": 0,
+      "message": "What happened to this? Is it because order has already taken care of function call scheduling, so this should never matter?",
+      "range": {
+        "startLine": 2379,
+        "startChar": 6,
+        "endLine": 2379,
+        "endChar": 17
+      },
+      "revId": "c6cf3e7d3dcf69dae5ecc7c03273f91fcca561d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
