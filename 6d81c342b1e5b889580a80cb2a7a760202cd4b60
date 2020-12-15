@@ -16,6 +16,24 @@
       "message": "Ouch.\n",
       "revId": "6d81c342b1e5b889580a80cb2a7a760202cd4b60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4db429b5_bfd778d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T07:15:50Z",
+      "side": 1,
+      "message": "Yeah, this took a frustratingly long time to figure out.",
+      "parentUuid": "41f0542b_5d697022",
+      "revId": "6d81c342b1e5b889580a80cb2a7a760202cd4b60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
