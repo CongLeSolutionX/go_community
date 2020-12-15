@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d80fcc7_2f62d93a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-15T02:22:46Z",
+      "side": 1,
+      "message": "s/Replace/replace/\n\n(See https://golang.org/wiki/CommitMessage)",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "03e48944e8d2952e14a3824d2aba313d208d968f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3e068f2_2621c037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-15T02:22:46Z",
+      "side": 1,
+      "message": "No markdown syntax in commit message please.",
+      "revId": "03e48944e8d2952e14a3824d2aba313d208d968f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3c89365_7e2e15e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-15T02:22:46Z",
+      "side": 1,
+      "message": "Please delete all this boilerplate text from the commit message.",
+      "revId": "03e48944e8d2952e14a3824d2aba313d208d968f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "819331bb_2ec308d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-15T02:22:46Z",
+      "side": 1,
+      "message": "This will be for 1.17.",
+      "revId": "03e48944e8d2952e14a3824d2aba313d208d968f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
