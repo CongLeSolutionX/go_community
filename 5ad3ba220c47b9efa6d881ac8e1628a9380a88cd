@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30143717_2cbc508b",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T08:28:49Z",
+      "side": 1,
+      "message": "ir.OADD",
+      "range": {
+        "startLine": 398,
+        "startChar": 38,
+        "endLine": 398,
+        "endChar": 46
+      },
+      "revId": "5ad3ba220c47b9efa6d881ac8e1628a9380a88cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b62cb68_238aac79",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1388,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-15T08:28:49Z",
+      "side": 1,
+      "message": "Could remove this, like with the OCASE removals.",
+      "range": {
+        "startLine": 1386,
+        "startChar": 0,
+        "endLine": 1388,
+        "endChar": 4
+      },
+      "revId": "5ad3ba220c47b9efa6d881ac8e1628a9380a88cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
