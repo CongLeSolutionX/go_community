@@ -1610,7 +1610,7 @@ func keyVal(x constant.Value) interface{} {
 
 // typeAssertion checks that x.(T) is legal; xtyp must be the type of x.
 func (check *Checker) typeAssertion(at positioner, x *operand, xtyp *Interface, T Type) {
-	method, wrongType := check.assertableTo(xtyp, T)
+	method, wrongType := check.assertableTo(xtyp, T, false)
 	if method == nil {
 		return
 	}
