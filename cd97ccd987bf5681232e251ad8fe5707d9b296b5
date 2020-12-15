@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c33875d_3dae181c",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-15T17:09:30Z",
+      "side": 1,
+      "message": "Stray comment?",
+      "range": {
+        "startLine": 544,
+        "startChar": 1,
+        "endLine": 544,
+        "endChar": 42
+      },
+      "revId": "cd97ccd987bf5681232e251ad8fe5707d9b296b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
