@@ -16,6 +16,23 @@
       "message": "Thanks! PTAL",
       "revId": "b6290a1a2fe741d6f97bca62def97129376c1bc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e52c1a6_66032a49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-12-15T06:15:21Z",
+      "side": 1,
+      "message": "Tl;dr It looks like I\u0027ve added too much code and it is competing with itself!\n\nI had a bug in earlier patches. If I run with -test.count\u003d300 I get a panic (unlocking twice).\n\nDigging in, there is no need to explicitly call the mDoFixup() from the signal_recv() function because once woken, the thread parks itself at that point because of the outstanding stopTheWorldGC() at the start of syscall_runtime_doAllThreadsSyscall(). Once parked in that way, the regular fixup code execution works as intended. So we also don\u0027t need to keep re-waking the signal code as we poll for AllThread fixups to execute.\n\nPruning the patch in this way. It all works better:\n\n$ time ./signal.test -test.run\u003dTestAllThread -test.count\u003d10000\nPASS\n\nreal    7m54.767s\nuser    1m50.130s\nsys     3m51.148s\n",
+      "revId": "b6290a1a2fe741d6f97bca62def97129376c1bc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
