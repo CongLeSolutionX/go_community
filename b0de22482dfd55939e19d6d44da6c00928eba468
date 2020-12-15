@@ -68,6 +68,24 @@
       "parentUuid": "21590b6b_095b24de",
       "revId": "b0de22482dfd55939e19d6d44da6c00928eba468",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbd27dea_f74fe777",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2020-12-15T13:31:31Z",
+      "side": 1,
+      "message": "Channels don\u0027t have names. I think it\u0027s best to omit printing the channel value.",
+      "parentUuid": "f04a6276_2d224e33",
+      "revId": "b0de22482dfd55939e19d6d44da6c00928eba468",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
