@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ec296c_5ab4f1b6",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-15T22:52:18Z",
+      "side": 1,
+      "message": "Correct. Currently this doesn\u0027t compile: https://go2goplay.golang.org/p/9K6v12ulisr\n\nFrankly, I don\u0027t know what the correct answer is here so I\u0027m conservative.",
+      "parentUuid": "86e93901_638f076f",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 80
+      },
+      "revId": "27e8f9e15e48264c273040b11f933a215ca6ebbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f230f18_bd7624b7",
@@ -59,6 +83,53 @@
         "startChar": 0,
         "endLine": 213,
         "endChar": 28
+      },
+      "revId": "27e8f9e15e48264c273040b11f933a215ca6ebbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11ea3849_6c33f64b",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-15T22:52:18Z",
+      "side": 1,
+      "message": "Yes, this is not going to change. We only ever consider explicit methods. Otherwise the code will be very hard to reason about.",
+      "parentUuid": "3f230f18_bd7624b7",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 28
+      },
+      "revId": "27e8f9e15e48264c273040b11f933a215ca6ebbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c748a5_9ce7ed3d",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-15T22:52:18Z",
+      "side": 1,
+      "message": "update this comment (no strict)",
+      "range": {
+        "startLine": 394,
+        "startChar": 6,
+        "endLine": 394,
+        "endChar": 12
       },
       "revId": "27e8f9e15e48264c273040b11f933a215ca6ebbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
