@@ -46,6 +46,30 @@
       },
       "revId": "91803a2df334ddfc9377ef4d07cc5f0eff51b6a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "728ed783_772089e4",
+        "filename": "src/cmd/compile/internal/types2/stdlib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2020-12-15T00:35:29Z",
+      "side": 1,
+      "message": "I\u0027m also not sure what comment I made that is relevant to this.\n\nrfindley@, if you were referring to https://go-review.googlesource.com/c/go/+/277734/2#message-cd9890e478836dfcf1be8ced07cd1535558d778a, can you clarify how it\u0027s helpful?\n\n(If this isn\u0027t relevant anymore since it\u0027s already submitted, then no worries.)",
+      "parentUuid": "a3b68eae_839ed87d",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 75
+      },
+      "revId": "91803a2df334ddfc9377ef4d07cc5f0eff51b6a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
