@@ -245,6 +245,15 @@ func TestUnsupportedValues(t *testing.T) {
 	}
 }
 
+// Issue 43207
+func TestUnsupportedKind(t *testing.T) {
+	m := map[textfloat]string{textfloat(math.NaN()): "NaN"}
+	d, err := Marshal(m)
+	if err == nil {
+		t.Errorf("expect err, got nil, d=%s", string(d))
+	}
+}
+
 // Ref has Marshaler and Unmarshaler methods with pointer receiver.
 type Ref int
 
@@ -854,6 +863,10 @@ func tenc(format string, a ...interface{}) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type textfloat float64
+
+func (f textfloat) MarshalText() ([]byte, error) { return tenc(`TF:%0.2f`, f) }
+
 // Issue 13783
 func TestEncodeBytekind(t *testing.T) {
 	testdata := []struct {
@@ -872,6 +885,7 @@ func TestEncodeBytekind(t *testing.T) {
 		{[]jsonint{5, 4}, `[{"JI":5},{"JI":4}]`},
 		{[]textint{9, 3}, `["TI:9","TI:3"]`},
 		{[]int{9, 3}, `[9,3]`},
+		{[]textfloat{12, 3}, `["TF:12.00","TF:3.00"]`},
 	}
 	for _, d := range testdata {
 		js, err := Marshal(d.data)

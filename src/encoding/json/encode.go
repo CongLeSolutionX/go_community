@@ -617,6 +617,10 @@ var (
 )
 
 func stringEncoder(e *encodeState, v reflect.Value, opts encOpts) {
+	if v.Kind() == reflect.Invalid {
+		e.error(fmt.Errorf("json: invalid kind %q", v))
+		return
+	}
 	if v.Type() == numberType {
 		numStr := v.String()
 		// In Go1.5 the empty string encodes to "0", while this is not a valid number literal
