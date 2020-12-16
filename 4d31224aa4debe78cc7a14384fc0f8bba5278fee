@@ -355,6 +355,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85189432_536e4d6d",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-16T00:45:07Z",
+      "side": 1,
+      "message": "Sorry, I also don\u0027t quite understand this. Do you mean that the symbols are all in the first section, but their data are in later sections? The code here looks like it adds the size of the current section, instead of, say, the lengths of all previous sections? Also, where are the relocations defined? All on the first section, or later sections?\n\nMaybe I just don\u0027t understand how \"grouped\" sections work. Some documentation would be helpful.",
+      "parentUuid": "6a69b4b4_c1b2772e",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5004c540_93bb4610",
         "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
         "patchSetId": 7

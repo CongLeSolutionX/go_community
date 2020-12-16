@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95fdcfba_e358d830",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-16T00:45:07Z",
+      "side": 0,
+      "message": "Why delete this? I think it should be enough to test this on windows/amd64. In general we don\u0027t test cross builds in all.bash, unless there is a good reason.",
+      "revId": "ee8c03f61d39e47d531c0074b867b37af2df0d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49bb057e_b372bc30",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-16T00:45:07Z",
+      "side": 0,
+      "message": "(and this)",
+      "revId": "ee8c03f61d39e47d531c0074b867b37af2df0d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
