@@ -373,6 +373,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61a286bd_0924ed25",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2020-12-16T08:34:19Z",
+      "side": 1,
+      "message": "Looking at this output\n\n```\n$ objdump -x rsrc.syso\n...\nSections:\nIdx Name          Size      VMA               LMA               File off  Algn\n  0 .rsrc$01      00000068  0000000000000000  0000000000000000  00000064  2**2\n                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, DATA\n  1 .rsrc$02      00000018  0000000000000000  0000000000000000  000000d8  2**2\n                  CONTENTS, ALLOC, LOAD, READONLY, DATA\nSYMBOL TABLE:\n[  0](sec -1)(fl 0x00)(ty   0)(scl   3) (nx 0) 0x0000000000000011 @feat.00\n[  1](sec  1)(fl 0x00)(ty   0)(scl   3) (nx 1) 0x0000000000000000 .rsrc$01\nAUX scnlen 0x68 nreloc 1 nlnno 0\n[  3](sec  2)(fl 0x00)(ty   0)(scl   3) (nx 1) 0x0000000000000000 .rsrc$02\nAUX scnlen 0x18 nreloc 0 nlnno 0\n[  5](sec  2)(fl 0x00)(ty   0)(scl   3) (nx 0) 0x0000000000000000 $R000000\n\n\nRELOCATION RECORDS FOR [.rsrc$01]:\nOFFSET           TYPE              VALUE \n0000000000000048 rva32             $R000000\n```\n\n```\n objdump -s rsrc.syso \n\nrsrc.syso:     file format pe-x86-64\n\nContents of section .rsrc$01:\n 0000 00000000 00000000 00000000 00000100  ................\n 0010 0a000000 18000080 00000000 00000000  ................\n 0020 00000000 01000000 58000080 30000080  ........X...0...\n 0030 00000000 00000000 00000000 00000100  ................\n 0040 09040000 48000000 00000000 14000000  ....H...........\n 0050 00000000 00000000 07005200 45005300  ..........R.E.S.\n 0060 4e004100 4d004500                    N.A.M.E.        \nContents of section .rsrc$02:\n 0000 7265736e 616d6520 52434441 54412061  resname RCDATA a\n 0010 2e72630a 00000000                    .rc.....     \n```\n\nthere are 2 sections named .rsrc$01 and .rsrc$02. And 4 PE file symbols\n\n@feat.00 - some external symbol (because of (sec -1))\n.rsrc$01 - name of first section (because of (sec 1))\n.rsrc$02 - name of second section (because of (sec 2))\n$R000000 - symbol pointing to some data in .rsrc$02 section (because of (sec 2))\n\nThere is 1 relocation in .rsrc$01.\n\nI don\u0027t think (I don\u0027t remember) either symbols or relocations live in one of PE sections. They live in a separate place in object file.\n\nLooking at contents of sections:\n\n.rsrc$01 - I don\u0027t know what that is. Perhaps some utf16 strings.\n.rsrc$02 - Looks like original .rc file that Jason used to create this file.",
+      "parentUuid": "85189432_536e4d6d",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5004c540_93bb4610",
         "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
         "patchSetId": 7
