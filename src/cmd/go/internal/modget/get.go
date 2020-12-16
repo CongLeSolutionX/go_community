@@ -1480,17 +1480,27 @@ func (r *resolver) chooseArbitrarily(cs pathSet) (isPackage bool, m module.Versi
 // We skip missing-package errors earlier in the process, since we want to
 // resolve pathSets ourselves, but at that point, we don't have enough context
 // to log the package-import chains leading to each error.
+//
+// As a side-effect, checkPackagesAndRetractions forces modules that provide
+// packages matched by pkgPatterns to be required explicitly, even if the same
+// version would be selected, due to a requirement in another dependency. This
+// provides a way for a user to "promote" a module, which may be needed, for
+// example, after importing a package from a previously indirect dependency.
 func (r *resolver) checkPackagesAndRetractions(ctx context.Context, pkgPatterns []string) {
 	defer base.ExitIfErrors()
 
-	// Build a list of modules to load retractions for. Start with versions
-	// selected based on command line queries.
-	//
-	// This is a subset of the build list. If the main module has a lot of
-	// dependencies, loading retractions for the entire build list would be slow.
-	relevantMods := make(map[module.Version]struct{})
+	// We should load retractions for module versions resolved on the command
+	// line. We should also require these modules explicitly, even if they don't
+	// provide any packages.
+	retractMods := make(map[module.Version]struct{})
+	explicitMods := make(map[string]struct{})
 	for path, reason := range r.resolvedVersion {
-		relevantMods[module.Version{Path: path, Version: reason.version}] = struct{}{}
+		if path == modload.Target.Path || reason.version == "none" {
+			continue
+		}
+		m := module.Version{Path: path, Version: reason.version}
+		retractMods[m] = struct{}{}
+		explicitMods[path] = struct{}{}
 	}
 
 	// Reload packages, reporting errors for missing and ambiguous imports.
@@ -1503,34 +1513,51 @@ func (r *resolver) checkPackagesAndRetractions(ctx context.Context, pkgPatterns 
 			AllowErrors:           true,
 		}
 		matches, pkgs := modload.LoadPackages(ctx, pkgOpts, pkgPatterns...)
-		for _, m := range matches {
-			if len(m.Errs) > 0 {
+
+		// Modules providing packages matching command line arguments should be
+		// required explicitly.
+		for _, match := range matches {
+			if len(match.Errs) > 0 {
 				base.SetExitStatus(1)
-				break
+			}
+			for _, pkg := range match.Pkgs {
+				if m := modload.PackageModule(pkg); m.Path != "" && m != modload.Target {
+					explicitMods[m.Path] = struct{}{}
+				}
 			}
 		}
+
+		// Modules providing imported packages should be checked for retractions.
 		for _, pkg := range pkgs {
 			if _, _, err := modload.Lookup("", false, pkg); err != nil {
 				base.SetExitStatus(1)
 				if ambiguousErr := (*modload.AmbiguousImportError)(nil); errors.As(err, &ambiguousErr) {
 					for _, m := range ambiguousErr.Modules {
-						relevantMods[m] = struct{}{}
+						retractMods[m] = struct{}{}
 					}
 				}
 			}
 			if m := modload.PackageModule(pkg); m.Path != "" {
-				relevantMods[m] = struct{}{}
+				retractMods[m] = struct{}{}
 			}
 		}
 	}
+
+	// Add explicit requirements for modules providing named packages.
+	explicitSorted := make([]string, 0, len(explicitMods))
+	for path := range explicitMods {
+		explicitSorted = append(explicitSorted, path)
+	}
+	sort.Strings(explicitSorted)
+	modload.AdditionalExplicitRequirements = explicitSorted
 
 	// Load and report retractions.
 	type retraction struct {
 		m   module.Version
 		err error
 	}
-	retractions := make([]retraction, 0, len(relevantMods))
-	for m := range relevantMods {
+	retractions := make([]retraction, 0, len(retractMods))
+	for m := range retractMods {
 		retractions = append(retractions, retraction{m: m})
 	}
 	sort.Slice(retractions, func(i, j int) bool {
