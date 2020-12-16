@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ab203a2_33dd9e8c",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-16T15:29:29Z",
+      "side": 1,
+      "message": "There\u0027s already a SendStmt, I just got the assertion wrong here (oops). Thanks.",
+      "parentUuid": "ae896996_972bcfdb",
+      "revId": "068636d8ac9f3c10be9d392574ba64c5ea47e1ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce875fba_474daba0",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7fc1ccc_e13c4b11",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-16T15:29:29Z",
+      "side": 1,
+      "message": "Done and done.",
+      "parentUuid": "ce875fba_474daba0",
+      "range": {
+        "startLine": 1039,
+        "startChar": 6,
+        "endLine": 1039,
+        "endChar": 30
+      },
+      "revId": "068636d8ac9f3c10be9d392574ba64c5ea47e1ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3859ffab_d3216757",
@@ -54,6 +96,30 @@
       "writtenOn": "2020-12-15T04:30:19Z",
       "side": 1,
       "message": "nit: Bool()\n\nIt\u0027s unlikely to matter, but the Kind\u003d\u003dreflect.Bool check above admits methods with defined boolean types, so we might as well correctly handle them here. Bool() is also shorter. :)",
+      "range": {
+        "startLine": 1083,
+        "startChar": 22,
+        "endLine": 1083,
+        "endChar": 41
+      },
+      "revId": "068636d8ac9f3c10be9d392574ba64c5ea47e1ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce875787_4d63217d",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-16T15:29:29Z",
+      "side": 1,
+      "message": "Done. Originally I was thinking about methods returning any basic type, not just bool. But it seems like bools are the special case because we want to pack them into bit fields, and the others not so much.",
+      "parentUuid": "3859ffab_d3216757",
       "range": {
         "startLine": 1083,
         "startChar": 22,
