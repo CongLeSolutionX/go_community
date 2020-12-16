@@ -407,6 +407,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34efb4f0_4c3fe8e5",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-16T14:32:28Z",
+      "side": 1,
+      "message": "\u003e Do you mean that the symbols are all in the first section, but their data are in later sections? The code here looks like it adds the size of the current section, instead of, say, the lengths of all previous sections? Also, where are the relocations defined? All on the first section, or later sections?\n\nWith rsrc grouped sections, the first section has the symbols and the second section has the data. So the symbol virtual address values need to have the size of that first section added to it, so that they point to the right data. There might be a way to generalize this further to include all types of grouped sections, but at that point we might as well add generalized PE group section support to the Go linker, and I understand that to be an explicit non-goal here.",
+      "parentUuid": "9f399aad_6bae68ba",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5004c540_93bb4610",

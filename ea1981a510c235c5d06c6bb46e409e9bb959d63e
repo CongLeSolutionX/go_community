@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8e62a68e_f224361c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-16T14:32:28Z",
+      "side": 1,
+      "message": "Unfortunately not. I looked pretty hard, reading all of the LLVM COFF and PE code, trying to see if I could make the linker generate what I wanted, or even do some objcopy magic, but ultimately, no dice. That\u0027s fine, though, as other resource utilities spit out grouped sections too, including Microsoft\u0027s RC.EXE, so we\u0027re better off supporting the minimal subset for this.",
+      "parentUuid": "014c0724_698d5906",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 58
+      },
+      "revId": "ea1981a510c235c5d06c6bb46e409e9bb959d63e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "43f9a4e5_77c21bfa",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 13
