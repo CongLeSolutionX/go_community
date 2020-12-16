@@ -391,6 +391,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f399aad_6bae68ba",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-16T12:45:46Z",
+      "side": 1,
+      "message": "The LLVM code that creates this is https://github.com/llvm/llvm-project/blob/9322e571d7356a9a0e86aab954c3a916f0f07855/llvm/lib/Object/WindowsResource.cpp#L972 , for what it\u0027s worth",
+      "parentUuid": "61a286bd_0924ed25",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5004c540_93bb4610",
         "filename": "src/cmd/link/testdata/testPErsrc-complex/main.go",
         "patchSetId": 7
