@@ -46,6 +46,30 @@
       },
       "revId": "6e14d38f5daac36ee3a2e1eae28af30d6f6185b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340d0783_909ee096",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-17T08:22:44Z",
+      "side": 1,
+      "message": "Huh, yeah. I\u0027ve always associated \"tag\" with the identifier introduced by named type-switch statements; I\u0027ve never thought of it to mean the switch expression more generally.\n\nExpr or maybe just X (for consistency with ir.RangeStmt and others) seems a better name for ir.SwitchStmt\u0027s field to me.",
+      "parentUuid": "fa6d9f8c_7aef57c8",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 4
+      },
+      "revId": "6e14d38f5daac36ee3a2e1eae28af30d6f6185b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
