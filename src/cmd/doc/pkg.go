@@ -950,6 +950,10 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 			// Not an interface type.
 			continue
 		}
+		origMethods := make([]*ast.Field, len(inter.Methods.List))
+		copy(origMethods, inter.Methods.List)
+
+		n := 0
 		for _, iMethod := range inter.Methods.List {
 			// This is an interface, so there can be only one name.
 			// TODO: Anonymous methods (embedding)
@@ -958,21 +962,21 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 			}
 			name := iMethod.Names[0].Name
 			if match(method, name) {
-				if iMethod.Doc != nil {
-					for _, comment := range iMethod.Doc.List {
-						doc.ToText(&pkg.buf, comment.Text, "", indent, indentedWidth)
-					}
-				}
-				s := pkg.oneLineNode(iMethod.Type)
-				// Hack: s starts "func" but there is no name present.
-				// We could instead build a FuncDecl but it's not worthwhile.
-				lineComment := ""
-				if iMethod.Comment != nil {
-					lineComment = fmt.Sprintf("  %s", iMethod.Comment.List[0].Text)
-				}
-				pkg.Printf("func %s%s%s\n", name, s[4:], lineComment)
+				inter.Methods.List[n] = iMethod
+				n++
 				found = true
 			}
+		}
+		if found {
+			pkg.Printf("type %s ", spec.Name)
+			inter.Methods.List = inter.Methods.List[:n]
+			err := format.Node(&pkg.buf, pkg.fs, inter)
+			if err != nil {
+				log.Fatal(err)
+			}
+			pkg.newlines(1)
+			// Restoring the original methods.
+			inter.Methods.List = origMethods
 		}
 	}
 	return found
