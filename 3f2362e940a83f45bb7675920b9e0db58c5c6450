@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f68459b_2eae862a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-17T19:14:29Z",
+      "side": 1,
+      "message": "The latest patchset is just to rebase and make a couple small changes to comments.",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
