@@ -33,8 +33,8 @@ func TestMain(m *testing.M) {
 	base.Ctxt.DiagFunc = base.Errorf
 	base.Ctxt.DiagFlush = base.FlushErrors
 	base.Ctxt.Bso = bufio.NewWriter(os.Stdout)
-	Widthptr = thearch.LinkArch.PtrSize
-	Widthreg = thearch.LinkArch.RegSize
+	types.PtrSize = thearch.LinkArch.PtrSize
+	types.RegSize = thearch.LinkArch.RegSize
 	initializeTypesPackage()
 	os.Exit(m.Run())
 }

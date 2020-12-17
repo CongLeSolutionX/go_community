@@ -26,3 +26,6 @@ func Exit(code int) {
 	}
 	os.Exit(code)
 }
+
+// To enable tracing support (-t flag), set enableTrace to true.
+const EnableTrace = false

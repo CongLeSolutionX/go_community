@@ -51,31 +51,6 @@ func isReflectPkg(p *types.Pkg) bool {
 	return p.Path == "reflect"
 }
 
-// Slices in the runtime are represented by three components:
-//
-// type slice struct {
-// 	ptr unsafe.Pointer
-// 	len int
-// 	cap int
-// }
-//
-// Strings in the runtime are represented by two components:
-//
-// type string struct {
-// 	ptr unsafe.Pointer
-// 	len int
-// }
-//
-// These variables are the offsets of fields and sizes of these structs.
-var (
-	slicePtrOffset int64
-	sliceLenOffset int64
-	sliceCapOffset int64
-
-	sizeofSlice  int64
-	sizeofString int64
-)
-
 var pragcgobuf [][]string
 
 var decldepth int32
@@ -101,8 +76,6 @@ var mappkg *types.Pkg // fake package for map zero value
 var gopkg *types.Pkg // pseudo-package for method symbols on anonymous receiver types
 
 var zerosize int64
-
-var simtype [types.NTYPE]types.Kind
 
 var (
 	isInt     [types.NTYPE]bool
@@ -141,10 +114,6 @@ var (
 var dclcontext ir.Class // PEXTERN/PAUTO
 
 var Curfn *ir.Func
-
-var Widthptr int
-
-var Widthreg int
 
 var typecheckok bool
 

@@ -76,20 +76,20 @@ var unsafeFuncs = [...]struct {
 
 // initUniverse initializes the universe block.
 func initUniverse() {
-	if Widthptr == 0 {
+	if types.PtrSize == 0 {
 		base.Fatalf("typeinit before betypeinit")
 	}
 
-	slicePtrOffset = 0
-	sliceLenOffset = Rnd(slicePtrOffset+int64(Widthptr), int64(Widthptr))
-	sliceCapOffset = Rnd(sliceLenOffset+int64(Widthptr), int64(Widthptr))
-	sizeofSlice = Rnd(sliceCapOffset+int64(Widthptr), int64(Widthptr))
+	types.SlicePtrOffset = 0
+	types.SliceLenOffset = types.Rnd(types.SlicePtrOffset+int64(types.PtrSize), int64(types.PtrSize))
+	types.SliceCapOffset = types.Rnd(types.SliceLenOffset+int64(types.PtrSize), int64(types.PtrSize))
+	types.SliceSize = types.Rnd(types.SliceCapOffset+int64(types.PtrSize), int64(types.PtrSize))
 
 	// string is same as slice wo the cap
-	sizeofString = Rnd(sliceLenOffset+int64(Widthptr), int64(Widthptr))
+	types.StringSize = types.Rnd(types.SliceLenOffset+int64(types.PtrSize), int64(types.PtrSize))
 
 	for et := types.Kind(0); et < types.NTYPE; et++ {
-		simtype[et] = et
+		types.SimType[et] = et
 	}
 
 	types.Types[types.TANY] = types.New(types.TANY)
@@ -103,7 +103,7 @@ func initUniverse() {
 		n.SetType(t)
 		sym.Def = n
 		if kind != types.TANY {
-			dowidth(t)
+			types.CalcSize(t)
 		}
 		return t
 	}
@@ -114,10 +114,10 @@ func initUniverse() {
 
 	for _, s := range &typedefs {
 		sameas := s.sameas32
-		if Widthptr == 8 {
+		if types.PtrSize == 8 {
 			sameas = s.sameas64
 		}
-		simtype[s.etype] = sameas
+		types.SimType[s.etype] = sameas
 
 		types.Types[s.etype] = defBasic(s.etype, types.BuiltinPkg, s.name)
 	}
@@ -140,15 +140,15 @@ func initUniverse() {
 	types.ErrorType.SetUnderlying(makeErrorInterface())
 	n.SetType(types.ErrorType)
 	s.Def = n
-	dowidth(types.ErrorType)
+	types.CalcSize(types.ErrorType)
 
 	types.Types[types.TUNSAFEPTR] = defBasic(types.TUNSAFEPTR, unsafepkg, "Pointer")
 
 	// simple aliases
-	simtype[types.TMAP] = types.TPTR
-	simtype[types.TCHAN] = types.TPTR
-	simtype[types.TFUNC] = types.TPTR
-	simtype[types.TUNSAFEPTR] = types.TPTR
+	types.SimType[types.TMAP] = types.TPTR
+	types.SimType[types.TCHAN] = types.TPTR
+	types.SimType[types.TFUNC] = types.TPTR
+	types.SimType[types.TUNSAFEPTR] = types.TPTR
 
 	for _, s := range &builtinFuncs {
 		s2 := types.BuiltinPkg.Lookup(s.name)

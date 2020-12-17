@@ -239,7 +239,7 @@ func dumpGlobal(n *ir.Name) {
 	if n.Sym().Pkg != types.LocalPkg {
 		return
 	}
-	dowidth(n.Type())
+	types.CalcSize(n.Type())
 	ggloblnod(n)
 }
 
@@ -284,7 +284,7 @@ func dumpglobls() {
 	for _, s := range funcsyms {
 		sf := s.Pkg.Lookup(funcsymname(s)).Linksym()
 		dsymptr(sf, 0, s.Linksym(), 0)
-		ggloblsym(sf, int32(Widthptr), obj.DUPOK|obj.RODATA)
+		ggloblsym(sf, int32(types.PtrSize), obj.DUPOK|obj.RODATA)
 	}
 
 	// Do not reprocess funcsyms on next dumpglobls call.
@@ -338,7 +338,7 @@ func duint32(s *obj.LSym, off int, v uint32) int {
 }
 
 func duintptr(s *obj.LSym, off int, v uint64) int {
-	return duintxx(s, off, v, Widthptr)
+	return duintxx(s, off, v, types.PtrSize)
 }
 
 func dbvec(s *obj.LSym, off int, bv bvec) int {
@@ -511,9 +511,9 @@ func dstringdata(s *obj.LSym, off int, t string, pos src.XPos, what string) int 
 }
 
 func dsymptr(s *obj.LSym, off int, x *obj.LSym, xoff int) int {
-	off = int(Rnd(int64(off), int64(Widthptr)))
-	s.WriteAddr(base.Ctxt, int64(off), Widthptr, x, int64(xoff))
-	off += Widthptr
+	off = int(types.Rnd(int64(off), int64(types.PtrSize)))
+	s.WriteAddr(base.Ctxt, int64(off), types.PtrSize, x, int64(xoff))
+	off += types.PtrSize
 	return off
 }
 
@@ -536,9 +536,9 @@ func slicesym(n *ir.Name, noff int64, arr *ir.Name, lencap int64) {
 	if arr.Op() != ir.ONAME {
 		base.Fatalf("slicesym non-name arr %v", arr)
 	}
-	s.WriteAddr(base.Ctxt, noff, Widthptr, arr.Sym().Linksym(), 0)
-	s.WriteInt(base.Ctxt, noff+sliceLenOffset, Widthptr, lencap)
-	s.WriteInt(base.Ctxt, noff+sliceCapOffset, Widthptr, lencap)
+	s.WriteAddr(base.Ctxt, noff, types.PtrSize, arr.Sym().Linksym(), 0)
+	s.WriteInt(base.Ctxt, noff+types.SliceLenOffset, types.PtrSize, lencap)
+	s.WriteInt(base.Ctxt, noff+types.SliceCapOffset, types.PtrSize, lencap)
 }
 
 // addrsym writes the static address of a to n. a must be an ONAME.
@@ -554,7 +554,7 @@ func addrsym(n *ir.Name, noff int64, a *ir.Name, aoff int64) {
 		base.Fatalf("addrsym a op %v", a.Op())
 	}
 	s := n.Sym().Linksym()
-	s.WriteAddr(base.Ctxt, noff, Widthptr, a.Sym().Linksym(), aoff)
+	s.WriteAddr(base.Ctxt, noff, types.PtrSize, a.Sym().Linksym(), aoff)
 }
 
 // pfuncsym writes the static address of f to n. f must be a global function.
@@ -570,7 +570,7 @@ func pfuncsym(n *ir.Name, noff int64, f *ir.Name) {
 		base.Fatalf("pfuncsym class not PFUNC %d", f.Class_)
 	}
 	s := n.Sym().Linksym()
-	s.WriteAddr(base.Ctxt, noff, Widthptr, funcsym(f.Sym()).Linksym(), 0)
+	s.WriteAddr(base.Ctxt, noff, types.PtrSize, funcsym(f.Sym()).Linksym(), 0)
 }
 
 // litsym writes the static literal c to n.
@@ -621,8 +621,8 @@ func litsym(n *ir.Name, noff int64, c ir.Node, wid int) {
 	case constant.String:
 		i := constant.StringVal(u)
 		symdata := stringsym(n.Pos(), i)
-		s.WriteAddr(base.Ctxt, noff, Widthptr, symdata, 0)
-		s.WriteInt(base.Ctxt, noff+int64(Widthptr), Widthptr, int64(len(i)))
+		s.WriteAddr(base.Ctxt, noff, types.PtrSize, symdata, 0)
+		s.WriteInt(base.Ctxt, noff+int64(types.PtrSize), types.PtrSize, int64(len(i)))
 
 	default:
 		base.Fatalf("litsym unhandled OLITERAL %v", c)

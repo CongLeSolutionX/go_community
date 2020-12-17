@@ -170,13 +170,6 @@ func NewName(s *types.Sym) *ir.Name {
 	return n
 }
 
-// methcmp sorts methods by symbol.
-type methcmp []*types.Field
-
-func (x methcmp) Len() int           { return len(x) }
-func (x methcmp) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
-func (x methcmp) Less(i, j int) bool { return x[i].Sym.Less(x[j].Sym) }
-
 func nodintconst(v int64) ir.Node {
 	return ir.NewLiteral(constant.MakeInt64(v))
 }
@@ -421,7 +414,7 @@ func convertop(srcConstant bool, src, dst *types.Type) (ir.Op, string) {
 
 	// 4. src and dst are both integer or floating point types.
 	if (src.IsInteger() || src.IsFloat()) && (dst.IsInteger() || dst.IsFloat()) {
-		if simtype[src.Kind()] == simtype[dst.Kind()] {
+		if types.SimType[src.Kind()] == types.SimType[dst.Kind()] {
 			return ir.OCONVNOP, ""
 		}
 		return ir.OCONV, ""
@@ -429,7 +422,7 @@ func convertop(srcConstant bool, src, dst *types.Type) (ir.Op, string) {
 
 	// 5. src and dst are both complex types.
 	if src.IsComplex() && dst.IsComplex() {
-		if simtype[src.Kind()] == simtype[dst.Kind()] {
+		if types.SimType[src.Kind()] == types.SimType[dst.Kind()] {
 			return ir.OCONVNOP, ""
 		}
 		return ir.OCONV, ""
@@ -1139,7 +1132,7 @@ func expandmeth(t *types.Type) {
 	}
 
 	ms = append(ms, t.Methods().Slice()...)
-	sort.Sort(methcmp(ms))
+	sort.Sort(types.MethodsByName(ms))
 	t.AllMethods().Set(ms)
 }
 
@@ -1542,8 +1535,8 @@ func itabType(itab ir.Node) ir.Node {
 	typ := ir.NewSelectorExpr(base.Pos, ir.ODOTPTR, itab, nil)
 	typ.SetType(types.NewPtr(types.Types[types.TUINT8]))
 	typ.SetTypecheck(1)
-	typ.Offset = int64(Widthptr) // offset of _type in runtime.itab
-	typ.SetBounded(true)         // guaranteed not to fault
+	typ.Offset = int64(types.PtrSize) // offset of _type in runtime.itab
+	typ.SetBounded(true)              // guaranteed not to fault
 	return typ
 }
 
@@ -1567,14 +1560,4 @@ func ifaceData(pos src.XPos, n ir.Node, t *types.Type) ir.Node {
 	ind.SetTypecheck(1)
 	ind.SetBounded(true)
 	return ind
-}
-
-// typePos returns the position associated with t.
-// This is where t was declared or where it appeared as a type expression.
-func typePos(t *types.Type) src.XPos {
-	if pos := t.Pos(); pos.IsKnown() {
-		return pos
-	}
-	base.Fatalf("bad type: %v", t)
-	panic("unreachable")
 }

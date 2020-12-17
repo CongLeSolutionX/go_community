@@ -583,8 +583,8 @@ func NewPtr(elem *Type) *Type {
 
 	t := New(TPTR)
 	t.Extra = Ptr{Elem: elem}
-	t.Width = int64(Widthptr)
-	t.Align = uint8(Widthptr)
+	t.Width = int64(PtrSize)
+	t.Align = uint8(PtrSize)
 	if NewPtrCacheEnabled {
 		elem.cache.ptr = t
 	}
@@ -849,7 +849,7 @@ func (t *Type) Fields() *Fields {
 	case TSTRUCT:
 		return &t.Extra.(*Struct).fields
 	case TINTER:
-		Dowidth(t)
+		CalcSize(t)
 		return &t.Extra.(*Interface).Fields
 	}
 	base.Fatalf("Fields: type %v does not have fields", t)
@@ -916,12 +916,12 @@ func (t *Type) Size() int64 {
 		}
 		return 0
 	}
-	Dowidth(t)
+	CalcSize(t)
 	return t.Width
 }
 
 func (t *Type) Alignment() int64 {
-	Dowidth(t)
+	CalcSize(t)
 	return int64(t.Align)
 }
 
@@ -1683,3 +1683,5 @@ func anyBroke(fields []*Field) bool {
 	}
 	return false
 }
+
+var SimType [NTYPE]Kind

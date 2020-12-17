@@ -23,13 +23,13 @@ import (
 	"flag"
 	"fmt"
 	"go/constant"
-	"internal/goversion"
+
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
-	"regexp"
+
 	"runtime"
 	"sort"
 	"strconv"
@@ -70,7 +70,7 @@ func Main(archInit func(*Arch)) {
 	base.Ctxt.DiagFunc = base.Errorf
 	base.Ctxt.DiagFlush = base.FlushErrors
 	base.Ctxt.Bso = bufio.NewWriter(os.Stdout)
-	MaxWidth = thearch.MAXWIDTH
+	types.MaxWidth = thearch.MAXWIDTH
 
 	// UseBASEntries is preferred because it shaves about 2% off build time, but LLDB, dsymutil, and dwarfdump
 	// on Darwin don't support it properly, especially since macOS 10.14 (Mojave).  This is exposed as a flag
@@ -126,7 +126,7 @@ func Main(archInit func(*Arch)) {
 	// changes in the binary.)
 	recordFlags("B", "N", "l", "msan", "race", "shared", "dynlink", "dwarflocationlists", "dwarfbasentries", "smallframes", "spectre")
 
-	if !enableTrace && base.Flag.LowerT {
+	if !base.EnableTrace && base.Flag.LowerT {
 		log.Fatalf("compiler not built with support for -t")
 	}
 
@@ -156,7 +156,7 @@ func Main(archInit func(*Arch)) {
 		log.Fatalf("location lists requested but register mapping not available on %v", base.Ctxt.Arch.Name)
 	}
 
-	checkLang()
+	types.ParseLangFlag()
 
 	if base.Flag.SymABIs != "" {
 		readSymABIs(base.Flag.SymABIs, base.Ctxt.Pkgpath)
@@ -207,8 +207,8 @@ func Main(archInit func(*Arch)) {
 
 	ir.EscFmt = escFmt
 
-	Widthptr = thearch.LinkArch.PtrSize
-	Widthreg = thearch.LinkArch.RegSize
+	types.PtrSize = thearch.LinkArch.PtrSize
+	types.RegSize = thearch.LinkArch.RegSize
 
 	// initialize types package
 	// (we need to do this to break dependencies that otherwise
@@ -1048,93 +1048,8 @@ func recordPackageName() {
 	s.P = []byte(types.LocalPkg.Name)
 }
 
-// currentLang returns the current language version.
-func currentLang() string {
-	return fmt.Sprintf("go1.%d", goversion.Version)
-}
-
-// goVersionRE is a regular expression that matches the valid
-// arguments to the -lang flag.
-var goVersionRE = regexp.MustCompile(`^go([1-9][0-9]*)\.(0|[1-9][0-9]*)$`)
-
-// A lang is a language version broken into major and minor numbers.
-type lang struct {
-	major, minor int
-}
-
-// langWant is the desired language version set by the -lang flag.
-// If the -lang flag is not set, this is the zero value, meaning that
-// any language version is supported.
-var langWant lang
-
-// AllowsGoVersion reports whether a particular package
-// is allowed to use Go version major.minor.
-// We assume the imported packages have all been checked,
-// so we only have to check the local package against the -lang flag.
-func AllowsGoVersion(pkg *types.Pkg, major, minor int) bool {
-	if pkg == nil {
-		// TODO(mdempsky): Set Pkg for local types earlier.
-		pkg = types.LocalPkg
-	}
-	if pkg != types.LocalPkg {
-		// Assume imported packages passed type-checking.
-		return true
-	}
-	if langWant.major == 0 && langWant.minor == 0 {
-		return true
-	}
-	return langWant.major > major || (langWant.major == major && langWant.minor >= minor)
-}
-
-func langSupported(major, minor int, pkg *types.Pkg) bool {
-	return AllowsGoVersion(pkg, major, minor)
-}
-
-// checkLang verifies that the -lang flag holds a valid value, and
-// exits if not. It initializes data used by langSupported.
-func checkLang() {
-	if base.Flag.Lang == "" {
-		return
-	}
-
-	var err error
-	langWant, err = parseLang(base.Flag.Lang)
-	if err != nil {
-		log.Fatalf("invalid value %q for -lang: %v", base.Flag.Lang, err)
-	}
-
-	if def := currentLang(); base.Flag.Lang != def {
-		defVers, err := parseLang(def)
-		if err != nil {
-			log.Fatalf("internal error parsing default lang %q: %v", def, err)
-		}
-		if langWant.major > defVers.major || (langWant.major == defVers.major && langWant.minor > defVers.minor) {
-			log.Fatalf("invalid value %q for -lang: max known version is %q", base.Flag.Lang, def)
-		}
-	}
-}
-
-// parseLang parses a -lang option into a langVer.
-func parseLang(s string) (lang, error) {
-	matches := goVersionRE.FindStringSubmatch(s)
-	if matches == nil {
-		return lang{}, fmt.Errorf(`should be something like "go1.12"`)
-	}
-	major, err := strconv.Atoi(matches[1])
-	if err != nil {
-		return lang{}, err
-	}
-	minor, err := strconv.Atoi(matches[2])
-	if err != nil {
-		return lang{}, err
-	}
-	return lang{major: major, minor: minor}, nil
-}
-
 func initializeTypesPackage() {
-	RecordFrameOffset = recordFrameOffset
-	types.Widthptr = Widthptr
-	types.Dowidth = dowidth
+	types.RecordFrameOffset = recordFrameOffset
 	types.TypeLinkSym = func(t *types.Type) *obj.LSym {
 		return typenamesym(t).Linksym()
 	}
