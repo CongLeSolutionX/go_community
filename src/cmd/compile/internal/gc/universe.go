@@ -142,7 +142,7 @@ func initUniverse() {
 	s.Def = n
 	types.CalcSize(types.ErrorType)
 
-	types.Types[types.TUNSAFEPTR] = defBasic(types.TUNSAFEPTR, unsafepkg, "Pointer")
+	types.Types[types.TUNSAFEPTR] = defBasic(types.TUNSAFEPTR, types.Pkgs.Unsafe, "Pointer")
 
 	// simple aliases
 	types.SimType[types.TMAP] = types.TPTR
@@ -158,7 +158,7 @@ func initUniverse() {
 	}
 
 	for _, s := range &unsafeFuncs {
-		s2 := unsafepkg.Lookup(s.name)
+		s2 := types.Pkgs.Unsafe.Lookup(s.name)
 		def := NewName(s2)
 		def.BuiltinOp = s.op
 		s2.Def = def

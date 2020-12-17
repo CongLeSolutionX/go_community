@@ -92,7 +92,7 @@ func importsym(ipkg *types.Pkg, s *types.Sym, op ir.Op) *ir.Name {
 		// declaration for all imported symbols. The exception
 		// is declarations for Runtimepkg, which are populated
 		// by loadsys instead.
-		if s.Pkg != Runtimepkg {
+		if s.Pkg != types.Pkgs.Runtime {
 			base.Fatalf("missing ONONAME for %v\n", s)
 		}
 

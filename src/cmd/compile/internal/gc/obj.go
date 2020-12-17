@@ -164,7 +164,7 @@ func dumpdata() {
 	externdcl = tmp
 
 	if zerosize > 0 {
-		zero := mappkg.Lookup("zero")
+		zero := types.Pkgs.Map.Lookup("zero")
 		ggloblsym(zero.Linksym(), int32(zerosize), obj.DUPOK|obj.RODATA)
 	}
 

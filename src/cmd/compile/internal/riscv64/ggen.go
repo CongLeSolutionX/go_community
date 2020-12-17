@@ -32,7 +32,7 @@ func zeroRange(pp *gc.Progs, p *obj.Prog, off, cnt int64, _ *uint32) *obj.Prog {
 		p.Reg = riscv.REG_SP
 		p = pp.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_MEM, 0, 0)
 		p.To.Name = obj.NAME_EXTERN
-		p.To.Sym = gc.Duffzero
+		p.To.Sym = types.Syms.Duffzero
 		p.To.Offset = 8 * (128 - cnt/int64(types.PtrSize))
 		return p
 	}

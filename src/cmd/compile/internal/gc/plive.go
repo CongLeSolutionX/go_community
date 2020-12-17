@@ -571,7 +571,7 @@ func (lv *Liveness) markUnsafePoints() {
 		var load *ssa.Value
 		v := wbBlock.Controls[0]
 		for {
-			if sym, ok := v.Aux.(*obj.LSym); ok && sym == writeBarrier {
+			if sym, ok := v.Aux.(*obj.LSym); ok && sym == types.Syms.WriteBarrier {
 				load = v
 				break
 			}
@@ -690,7 +690,7 @@ func (lv *Liveness) hasStackMap(v *ssa.Value) bool {
 	// typedmemclr and typedmemmove are write barriers and
 	// deeply non-preemptible. They are unsafe points and
 	// hence should not have liveness maps.
-	if sym, ok := v.Aux.(*ssa.AuxCall); ok && (sym.Fn == typedmemclr || sym.Fn == typedmemmove) {
+	if sym, ok := v.Aux.(*ssa.AuxCall); ok && (sym.Fn == types.Syms.Typedmemclr || sym.Fn == types.Syms.Typedmemmove) {
 		return false
 	}
 	return true

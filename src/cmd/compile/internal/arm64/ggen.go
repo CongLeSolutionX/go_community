@@ -42,7 +42,7 @@ func zerorange(pp *gc.Progs, p *obj.Prog, off, cnt int64, _ *uint32) *obj.Prog {
 		p.Reg = arm64.REG_R20
 		p = pp.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_MEM, 0, 0)
 		p.To.Name = obj.NAME_EXTERN
-		p.To.Sym = gc.Duffzero
+		p.To.Sym = types.Syms.Duffzero
 		p.To.Offset = 4 * (64 - cnt/(2*int64(types.PtrSize)))
 	} else {
 		// Not using REGTMP, so this is async preemptible (async preemption clobbers REGTMP).
