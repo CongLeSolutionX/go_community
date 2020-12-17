@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e5048c_29bfdf02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-17T18:39:43Z",
+      "side": 1,
+      "message": "Can you explain this a bit? What are the situations where two unique packages could have the same import path? Nested modules perhaps?\nWould this cause issues with different major versions? (I would think no, since the import paths would differ)\n\nIf this is something that could come back to bite people, is there a way we can use a unique name here, such as the module+import_path or something?\n\nI agree that we should leave the minor version out this directory, since a new directory for every revision is not going to be helpful.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 62
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7a466900_55922970",
@@ -14,6 +37,161 @@
       "writtenOn": "2020-12-16T23:29:54Z",
       "side": 1,
       "message": "Ready for review now.",
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efb55e92_c711c96f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-17T18:39:43Z",
+      "side": 1,
+      "message": "This looks great, thank you!! Just a few comments/questions",
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68b40f2a_4d31ef37",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-17T18:39:43Z",
+      "side": 1,
+      "message": "removed",
+      "range": {
+        "startLine": 531,
+        "startChar": 15,
+        "endLine": 531,
+        "endChar": 21
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b567f29_0dff4404",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_cache.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-17T18:39:43Z",
+      "side": 1,
+      "message": "can you clarify the difference between this test and the previous one? Should they just be combined, since they seem to be running the same command?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b7400ab_f0360477",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_cache.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-17T18:39:43Z",
+      "side": 1,
+      "message": "Perhaps another test that checks that running `go clean -fuzzcache` only deletes the fuzz cache and not the regular cache? (basically just the inverse of what you have here)",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0074ab0e_501dfd5b",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-17T18:39:43Z",
+      "side": 1,
+      "message": "Maybe we should eventually have something that can go through and clean out any entries in GOCACHE/fuzz that have the wrong type. I don\u0027t think we should just delete them any time they don\u0027t match, since devs might experiment with different types then lose all of their fuzzing progress. But if we don\u0027t give them a way to clean it then we\u0027ll just keep around a ton of legacy entries that won\u0027t be used anymore.\n\nPerhaps a TODO?",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 230,
+        "endChar": 9
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03f438bb_653fb3c7",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-17T18:39:43Z",
+      "side": 1,
+      "message": "I\u0027m not totally convinced that we should allow people to have README.txt files and such in their testdata seed corpus directory, or at least we shouldn\u0027t bother trying to differentiate them. If they want a README.txt, they could put it in the test\u0027s directory. But it\u0027s fine to keep this as a potential TODO. It might be something we get feedback on when people beta test it.",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 44
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a296572f_6b47f482",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2020-12-17T18:39:43Z",
+      "side": 1,
+      "message": "It would be nice if we could test this behavior, but I\u0027m not sure that\u0027s easy to do. If you can think of a way, maybe add a small test?\n\nIt would also only work if the existing file has the filename as the sum, correct? For example, if someone were to add their own files to testdata which don\u0027t have the sums as the filename, then this wouldn\u0027t successfully de-dupe them, correct?",
+      "range": {
+        "startLine": 277,
+        "startChar": 56,
+        "endLine": 278,
+        "endChar": 45
+      },
       "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
