@@ -22,6 +22,30 @@
       },
       "revId": "c6cf3e7d3dcf69dae5ecc7c03273f91fcca561d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d5b83e2_cf18aecb",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2379,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T15:09:43Z",
+      "side": 0,
+      "message": "Honestly, I missed this detail in the rewrite. But I looked into it, and I added this check in 6be0f50b973, one of a handful of minor fixes that eventually convinced me to write the order pass instead. The order pass now takes care of it, as you speculated.\n\nThat CL also added what is now fixedbugs/bug159.go, which is still passing with the rewrite. So: progress! Magic switch successfully removed.\n\nThanks.",
+      "parentUuid": "1b1c13d4_6e38ae66",
+      "range": {
+        "startLine": 2379,
+        "startChar": 6,
+        "endLine": 2379,
+        "endChar": 17
+      },
+      "revId": "c6cf3e7d3dcf69dae5ecc7c03273f91fcca561d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
