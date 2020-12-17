@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b77a2ba2_e7591ebf",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-17T19:28:20Z",
+      "side": 1,
+      "message": "nit: cond",
+      "range": {
+        "startLine": 144,
+        "startChar": 37,
+        "endLine": 144,
+        "endChar": 41
+      },
+      "revId": "b7c898172ec373071dfb204cfe8fd6218adba157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

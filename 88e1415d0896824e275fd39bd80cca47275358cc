@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44a17bb2_2a6a19a4",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-17T19:28:20Z",
+      "side": 0,
+      "message": "Was this intentionally removed?",
+      "range": {
+        "startLine": 119,
+        "startChar": 21,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "88e1415d0896824e275fd39bd80cca47275358cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
