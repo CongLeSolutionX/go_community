@@ -34,6 +34,24 @@
       "parentUuid": "e52e2a86_d316e5ac",
       "revId": "d189f1a6ca719ffb4bb3b78c0b342ef7a26bc19a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbb10179_7a2388ba",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2020-12-17T17:51:29Z",
+      "side": 1,
+      "message": "I\u0027ve expressed my displeasure. If this is idiomatic, +2.",
+      "parentUuid": "9e37532a_0709240b",
+      "revId": "d189f1a6ca719ffb4bb3b78c0b342ef7a26bc19a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
