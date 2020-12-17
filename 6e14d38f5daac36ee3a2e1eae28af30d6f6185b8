@@ -22,6 +22,30 @@
       },
       "revId": "6e14d38f5daac36ee3a2e1eae28af30d6f6185b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa6d9f8c_7aef57c8",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T04:43:32Z",
+      "side": 1,
+      "message": "Fixed, but I had used tag because this will rewrite to \n\n    tag :\u003d n.Tag.(*ir.TypeSwitchGuard)\n\nIt\u0027s a bit weird that syntax.SwitchStmt (and therefore ir.SwitchStmt) calls n.Left() a Tag, when the spec\u0027s description of expression switches never mentions \"Tag\" (except for a variable name in an example) and the term is incorrect (as you note) for a type switch.\n\nShould we change this field in SwitchStmt to be called Expr?",
+      "parentUuid": "6c6c9f70_64943f03",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 4
+      },
+      "revId": "6e14d38f5daac36ee3a2e1eae28af30d6f6185b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
