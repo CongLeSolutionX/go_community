@@ -518,6 +518,10 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.Node) {
 		}
 		e.flow(k, e.oldLoc(n))
 
+	case ir.ONAMEOFFSET:
+		n := n.(*ir.NameOffsetExpr)
+		e.expr(k, n.Name_)
+
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
 		n := n.(*ir.UnaryExpr)
 		e.discard(n.Left())
@@ -781,6 +785,9 @@ func (e *Escape) addr(n ir.Node) EscHole {
 			break
 		}
 		k = e.oldLoc(n).asHole()
+	case ir.ONAMEOFFSET:
+		n := n.(*ir.NameOffsetExpr)
+		e.addr(n.Name_)
 	case ir.ODOT:
 		n := n.(*ir.SelectorExpr)
 		k = e.addr(n.Left())
@@ -2011,7 +2018,7 @@ func moveToHeap(n *ir.Name) {
 	// in addition to the copy in the heap that may live longer than
 	// the function.
 	if n.Class() == ir.PPARAM || n.Class() == ir.PPARAMOUT {
-		if n.Offset() == types.BADWIDTH {
+		if n.FrameOffset() == types.BADWIDTH {
 			base.Fatalf("addrescapes before param assignment")
 		}
 
@@ -2021,7 +2028,7 @@ func moveToHeap(n *ir.Name) {
 		// so that analyses of the local (on-stack) variables use it.
 		stackcopy := NewName(n.Sym())
 		stackcopy.SetType(n.Type())
-		stackcopy.SetOffset(n.Offset())
+		stackcopy.SetFrameOffset(n.FrameOffset())
 		stackcopy.SetClass(n.Class())
 		stackcopy.Heapaddr = heapaddr
 		if n.Class() == ir.PPARAMOUT {
@@ -2058,7 +2065,7 @@ func moveToHeap(n *ir.Name) {
 
 	// Modify n in place so that uses of n now mean indirection of the heapaddr.
 	n.SetClass(ir.PAUTOHEAP)
-	n.SetOffset(0)
+	n.SetFrameOffset(0)
 	n.Heapaddr = heapaddr
 	n.SetEsc(EscHeap)
 	if base.Flag.LowerM != 0 {
