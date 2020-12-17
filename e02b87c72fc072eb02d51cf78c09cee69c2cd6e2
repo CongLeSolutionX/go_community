@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d9810a0_cd9074bc",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5139,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-12-17T22:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5ea9e58_4505eb78",
+      "range": {
+        "startLine": 5139,
+        "startChar": 29,
+        "endLine": 5139,
+        "endChar": 40
+      },
+      "revId": "e02b87c72fc072eb02d51cf78c09cee69c2cd6e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "021ad080_f0736ffa",
@@ -83,6 +107,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "88ca43cd_67e29de2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5145,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-12-17T22:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "021ad080_f0736ffa",
+      "range": {
+        "startLine": 5145,
+        "startChar": 15,
+        "endLine": 5145,
+        "endChar": 22
+      },
+      "revId": "e02b87c72fc072eb02d51cf78c09cee69c2cd6e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4a140505_d628c275",
         "filename": "src/runtime/proc.go",
         "patchSetId": 4
@@ -94,6 +142,30 @@
       "writtenOn": "2020-12-17T17:49:54Z",
       "side": 1,
       "message": "I forget, is it now safe to call startm from sysmon? I feel like we ran into a bug with this before (that you fixed).\n\n(clearly it was at least somewhat safe since we were doing this before, so this is mostly for me)",
+      "range": {
+        "startLine": 5147,
+        "startChar": 4,
+        "endLine": 5147,
+        "endChar": 10
+      },
+      "revId": "e02b87c72fc072eb02d51cf78c09cee69c2cd6e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7080715_4dbd2429",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5147,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2020-12-17T22:53:07Z",
+      "side": 1,
+      "message": "Yes, it should be safe. It was safe before too, golang.org/cl/267257 made it safe _off_ of the system stack.",
+      "parentUuid": "4a140505_d628c275",
       "range": {
         "startLine": 5147,
         "startChar": 4,
