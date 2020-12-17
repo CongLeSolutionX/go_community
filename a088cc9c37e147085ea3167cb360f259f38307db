@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0460288_69ec6b2b",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T15:09:43Z",
+      "side": 1,
+      "message": "I don\u0027t know about \"iffy\", but it\u0027s definitely more in keeping with the old \"dynamically typed\" world than the current one. I added a CL on top of this one removing those.",
+      "parentUuid": "529afe43_e4ffdbb5",
+      "revId": "a088cc9c37e147085ea3167cb360f259f38307db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff26b34e_576cfa3b",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c66356_c10af204",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T15:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff26b34e_576cfa3b",
+      "revId": "a088cc9c37e147085ea3167cb360f259f38307db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f9e797c_b96a93d1",
@@ -48,6 +84,30 @@
       "writtenOn": "2020-12-15T10:08:17Z",
       "side": 1,
       "message": "I think you can just use me.Method.Nname.(*ir.Name) instead of adding me.FuncName.",
+      "range": {
+        "startLine": 2406,
+        "startChar": 0,
+        "endLine": 2410,
+        "endChar": 16
+      },
+      "revId": "a088cc9c37e147085ea3167cb360f259f38307db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd08902e_766f464a",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2410,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T15:09:43Z",
+      "side": 1,
+      "message": "This didn\u0027t work. The reflect test fails.\nI added a FuncName method so that we can put a hairy expression inside it if we figure out what it should be. For now I\u0027ve left the name computation here.",
+      "parentUuid": "6f9e797c_b96a93d1",
       "range": {
         "startLine": 2406,
         "startChar": 0,
@@ -81,6 +141,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cf06761_fba04ba8",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T15:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f58b3b5e_5fcacdc7",
+      "range": {
+        "startLine": 529,
+        "startChar": 21,
+        "endLine": 529,
+        "endChar": 76
+      },
+      "revId": "a088cc9c37e147085ea3167cb360f259f38307db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea29aa74_ac3b5d97",
@@ -94,6 +178,24 @@
       "writtenOn": "2020-12-15T10:08:17Z",
       "side": 1,
       "message": "We should be able to change this from Node to *types.Type, since it\u0027s always an OTYPE. This would also break toolstash though.",
+      "revId": "a088cc9c37e147085ea3167cb360f259f38307db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4416e4cb_93ec0ff5",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T15:09:43Z",
+      "side": 1,
+      "message": "Done (or at least set up for a deletion).",
+      "parentUuid": "ea29aa74_ac3b5d97",
       "revId": "a088cc9c37e147085ea3167cb360f259f38307db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
