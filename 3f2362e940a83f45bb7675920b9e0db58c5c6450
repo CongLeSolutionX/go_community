@@ -16,6 +16,57 @@
       "message": "The latest patchset is just to rebase and make a couple small changes to comments.",
       "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40d6339a_0a116a63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-17T23:14:49Z",
+      "side": 1,
+      "message": "Some initial comments. I think this needs a bit more thinking.\n\nIn retrospect, it seems to me that the solution for #35895 is overly conservative: This only matters for error messages, so it should suffice to only deal with this when printing error messages (no need to keep track of the pkgCnt). In other words, if we are willing to collect all the packages that are involved in an error message (via formatting), we just qualify them when needed.\n\nSo this code may make the old code redundant.\n\n(Also: The compiler may have the same problem that we are trying to solve here.)\n\nAm I missing something?\n\n",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af99cb69_4f721baa",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-17T23:14:49Z",
+      "side": 1,
+      "message": "I wonder if this is correct in the first place. In some sense this is the job of the check.qualifier.",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab2fd0ee_c1b2d0ed",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-17T23:14:49Z",
+      "side": 1,
+      "message": "This seems a bit ugly: I\u0027d do a separate loop that just looks for the 3 cases where it matters (*operand, Object, Type) for the 2nd rewrite. And at that time you won\u0027t need the qualifyScope anymore, I think. That could also simplify the qualifyScope.qualifier.",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
