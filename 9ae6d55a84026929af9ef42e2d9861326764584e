@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ec210ae_8e83ddb7",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1773,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T04:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800147d2_bf13b148",
+      "revId": "9ae6d55a84026929af9ef42e2d9861326764584e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae8a0584_d1caefbc",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-15T09:08:07Z",
       "side": 1,
       "message": "Could be a pretty simple ir.Find:\n\n    return ir.Find(n, func(n ir.Node) bool {\n        switch n.Op() {\n        case ...:\n            return false // does not affect memory\n        }\n        return true\n    })",
+      "revId": "9ae6d55a84026929af9ef42e2d9861326764584e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b04e745_43b96073",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-17T04:43:07Z",
+      "side": 1,
+      "message": "Breaks toolstash, at least as I tried it. I added a TODO.",
+      "parentUuid": "ae8a0584_d1caefbc",
       "revId": "9ae6d55a84026929af9ef42e2d9861326764584e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
