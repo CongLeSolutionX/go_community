@@ -16,6 +16,24 @@
       "message": "It hurts that we have to do this synchronously (or even at all). Could we start this much earlier in the link, and just look at the output here?",
       "revId": "d189f1a6ca719ffb4bb3b78c0b342ef7a26bc19a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e37532a_0709240b",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2020-12-17T17:48:02Z",
+      "side": 1,
+      "message": "I guess we could do this? .... on the other hand, Go tools are littered with other similar \"test\" executions of gcc that are also synchronous (just look at what the Go command does for cgo builds). Also worth noting that when you do \"gcc -Wl,--version\" it isn\u0027t actually compiling or linking anything, it\u0027s just forking the linker so that the linker can emit version info. So one would expect this to be very fast.",
+      "parentUuid": "e52e2a86_d316e5ac",
+      "revId": "d189f1a6ca719ffb4bb3b78c0b342ef7a26bc19a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
