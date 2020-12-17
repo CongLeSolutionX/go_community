@@ -408,3 +408,19 @@ func BenchmarkEncodeMarshaler(b *testing.B) {
 		}
 	})
 }
+
+func BenchmarkMarshalMap(b *testing.B) {
+	for nt := 32; nt <= 4096; nt <<= 1 {
+		b.Run(fmt.Sprintf("Item=%d", nt), func(b *testing.B) {
+			m := map[string]int{}
+			for i := 0; i < nt; i++ {
+				m[fmt.Sprintf("%d", i)] = i
+			}
+			b.ResetTimer()
+			enc := NewEncoder(io.Discard)
+			if err := enc.Encode(m); err != nil {
+				b.Fatal("Encode:", err)
+			}
+		})
+	}
+}
