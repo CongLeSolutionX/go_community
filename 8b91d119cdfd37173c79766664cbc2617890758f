@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c08d359_c92bfd32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-12-17T16:40:46Z",
+      "side": 1,
+      "message": "Small comment nit. ",
+      "revId": "8b91d119cdfd37173c79766664cbc2617890758f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6943ff0d_5db8e17f",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-12-17T16:40:46Z",
+      "side": 1,
+      "message": "This comment can now go or needs adaption.",
+      "revId": "8b91d119cdfd37173c79766664cbc2617890758f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
