@@ -16,6 +16,24 @@
       "message": "After discussion: it would be better not to have a separately configurable knob for the cache location. It should be derived from GOCACHE instead.\n\nWe should make sure that it doesn\u0027t get automatically cleaned though.",
       "revId": "52738b69f98c8faa49b18a4b5c923889366029b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f881cfa0_074aade7",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-17T23:27:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046002ea_d73c8bce",
+      "revId": "52738b69f98c8faa49b18a4b5c923889366029b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

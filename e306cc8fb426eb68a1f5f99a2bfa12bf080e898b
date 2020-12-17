@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec9f3bec_c1b48add",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-17T23:27:04Z",
+      "side": 1,
+      "message": "There are a few ways this could happen:\n\n1. The same package is fuzzed at different versions (within the same major).\n2. A package with the same path is fuzzed from different modules (example.com/a/b/c could be ./b/c within module example.com/a or ./c within module example.ccom/a/b).\n3. The user checks out or copies a module locally and fuzzes a package from there. It could be different than any released version.\n4. The user fuzzes in GOPATH mode, and there is no module (though GOPATH mode may be gone as soon as 1.17).\n\nThe hazard is that the names of the fuzz targets could change, as could the types of inputs. For example, in one version, they could call f.Add(42) and in the next, f.Add(\"forty-two\") on the same target. We might record crashers or interesting values for both of those.\n\nI don\u0027t think there\u0027s any way to protect against invalid inputs in the cache using the directory layout. If an input has the wrong type, we should just ignore it. Inputs in testdata/corpus are another story: they\u0027re associated with a particular version, so we can report errors for them.",
+      "parentUuid": "15e5048c_29bfdf02",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 62
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7a466900_55922970",
@@ -81,6 +105,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79f43b76_80924007",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-17T23:27:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68b40f2a_4d31ef37",
+      "range": {
+        "startLine": 531,
+        "startChar": 15,
+        "endLine": 531,
+        "endChar": 21
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b567f29_0dff4404",
@@ -104,6 +152,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bbc5eac_bee55de1",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_cache.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-17T23:27:04Z",
+      "side": 1,
+      "message": "Copy paste mistake. Fixed.",
+      "parentUuid": "4b567f29_0dff4404",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b7400ab_f0360477",
@@ -117,6 +189,30 @@
       "writtenOn": "2020-12-17T18:39:43Z",
       "side": 1,
       "message": "Perhaps another test that checks that running `go clean -fuzzcache` only deletes the fuzz cache and not the regular cache? (basically just the inverse of what you have here)",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cb9d63c_e3f05b33",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_cache.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-17T23:27:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b7400ab_f0360477",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -152,6 +248,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2d796174_c79d6c6d",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-17T23:27:04Z",
+      "side": 1,
+      "message": "Added TODO.",
+      "parentUuid": "0074ab0e_501dfd5b",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 230,
+        "endChar": 9
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "03f438bb_653fb3c7",
         "filename": "src/internal/fuzz/fuzz.go",
         "patchSetId": 6
@@ -163,6 +283,30 @@
       "writtenOn": "2020-12-17T18:39:43Z",
       "side": 1,
       "message": "I\u0027m not totally convinced that we should allow people to have README.txt files and such in their testdata seed corpus directory, or at least we shouldn\u0027t bother trying to differentiate them. If they want a README.txt, they could put it in the test\u0027s directory. But it\u0027s fine to keep this as a potential TODO. It might be something we get feedback on when people beta test it.",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 44
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c708d51_f23c8257",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-17T23:27:04Z",
+      "side": 1,
+      "message": "Edited comment. I\u0027m actually more worried about future changes that *we* make. If we need to change the file format or add multiple kinds of files, we could potentially do that as metadata within each file, but it would be *much* easier to use something in the file name.",
+      "parentUuid": "03f438bb_653fb3c7",
       "range": {
         "startLine": 260,
         "startChar": 0,
@@ -186,6 +330,30 @@
       "writtenOn": "2020-12-17T18:39:43Z",
       "side": 1,
       "message": "It would be nice if we could test this behavior, but I\u0027m not sure that\u0027s easy to do. If you can think of a way, maybe add a small test?\n\nIt would also only work if the existing file has the filename as the sum, correct? For example, if someone were to add their own files to testdata which don\u0027t have the sums as the filename, then this wouldn\u0027t successfully de-dupe them, correct?",
+      "range": {
+        "startLine": 277,
+        "startChar": 56,
+        "endLine": 278,
+        "endChar": 45
+      },
+      "revId": "e306cc8fb426eb68a1f5f99a2bfa12bf080e898b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "557714a6_1e2a7b61",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-17T23:27:04Z",
+      "side": 1,
+      "message": "I ended up removing this. I couldn\u0027t think of any observable behavior to test, and it\u0027s not much of a performance optimization, so let\u0027s not take on the complexity. The coordinator should have the corpus in memory anyway, and it should avoid writing values that are already there. Added a TODO for that above.\n\nThe sum isn\u0027t used for anything other than creating unique file names. No de-duping for custom names.",
+      "parentUuid": "a296572f_6b47f482",
       "range": {
         "startLine": 277,
         "startChar": 56,
