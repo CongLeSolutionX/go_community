@@ -16,6 +16,24 @@
       "message": "Since textfloat implements encoding.TextMarshaler, shouldn\u0027t this be a non-error?\n(https://play.golang.org/p/ZwHwWxJswCo)\n\nI would expect that the bug is due to an invalid map lookup; encoding/json probably needs to use MapRange instead of MapKeys.¹ See CL 129777 for an example of a corresponding fix in the `fmt` package.\n\n¹https://github.com/golang/go/blob/846dce9d05f19a1f53465e62a304dea21b99f910/src/encoding/json/encode.go#L797",
       "revId": "8bf61511bdce87577674ac179256aa33812c8b08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3361c6f6_07accdef",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-17T08:03:50Z",
+      "side": 1,
+      "message": "Done\n\nWe can simply use MapRange instead of MapIndex",
+      "parentUuid": "4edef384_f9bb7df9",
+      "revId": "8bf61511bdce87577674ac179256aa33812c8b08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
