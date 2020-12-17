@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca7b2985_90ff4c48",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-17T20:12:19Z",
+      "side": 1,
+      "message": "nit: looks like this function doesn\u0027t have/use an \"aroff\"",
+      "range": {
+        "startLine": 532,
+        "startChar": 46,
+        "endLine": 532,
+        "endChar": 52
+      },
+      "revId": "f1782189106967df5a122321b11a30462381348e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae3bd2e3_0595de33",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-17T20:12:19Z",
+      "side": 1,
+      "message": "Were these calls pushed into the switch to ensure the nicer Fatalf message for PEXTERN/etc?",
+      "revId": "f1782189106967df5a122321b11a30462381348e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "310e465c_63c8bb7b",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-17T20:12:19Z",
+      "side": 1,
+      "message": "This is valid Go syntax, but doesn\u0027t exactly match the semantics of ONAMEOFFSET. I\u0027m concerned it might be confusing to people who see it in a debug message and don\u0027t realize it came from an ONAMEOFFSET.\n\nMaybe something more overt like \"(%T)(%v@%d)\" would be clearer?",
+      "range": {
+        "startLine": 636,
+        "startChar": 18,
+        "endLine": 636,
+        "endChar": 30
+      },
+      "revId": "f1782189106967df5a122321b11a30462381348e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
