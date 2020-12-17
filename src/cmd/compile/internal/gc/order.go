@@ -848,7 +848,7 @@ func (o *Order) stmt(n ir.Node) {
 
 			// prealloc[n] is the temp for the iterator.
 			// hiter contains pointers and needs to be zeroed.
-			prealloc[n] = o.newTemp(hiter(n.Type()), true)
+			n.Prealloc = o.newTemp(hiter(n.Type()), true)
 		}
 		o.exprListInPlace(n.List())
 		if orderBody {
@@ -1077,9 +1077,6 @@ func (o *Order) exprListInPlace(l ir.Nodes) {
 	}
 }
 
-// prealloc[x] records the allocation to use for x.
-var prealloc = map[ir.Node]ir.Node{}
-
 func (o *Order) exprNoLHS(n ir.Node) ir.Node {
 	return o.expr(n, nil)
 }
@@ -1116,11 +1113,12 @@ func (o *Order) expr1(n, lhs ir.Node) ir.Node {
 	// Allocate a temporary to hold the strings.
 	// Fewer than 5 strings use direct runtime helpers.
 	case ir.OADDSTR:
+		n := n.(*ir.AddStringExpr)
 		o.exprList(n.List())
 
 		if n.List().Len() > 5 {
 			t := types.NewArray(types.Types[types.TSTRING], int64(n.List().Len()))
-			prealloc[n] = o.newTemp(t, false)
+			n.Prealloc = o.newTemp(t, false)
 		}
 
 		// Mark string(byteSlice) arguments to reuse byteSlice backing
@@ -1305,7 +1303,7 @@ func (o *Order) expr1(n, lhs ir.Node) ir.Node {
 	case ir.OCLOSURE:
 		n := n.(*ir.ClosureExpr)
 		if n.Transient() && len(n.Func().ClosureVars) > 0 {
-			prealloc[n] = o.newTemp(closureType(n), false)
+			n.Prealloc = o.newTemp(closureType(n), false)
 		}
 		return n
 
@@ -1314,15 +1312,16 @@ func (o *Order) expr1(n, lhs ir.Node) ir.Node {
 		n.SetLeft(o.expr(n.Left(), nil))
 		if n.Transient() {
 			t := partialCallType(n)
-			prealloc[n] = o.newTemp(t, false)
+			n.Prealloc = o.newTemp(t, false)
 		}
 		return n
 
 	case ir.OSLICELIT:
+		n := n.(*ir.CompLitExpr)
 		o.exprList(n.List())
 		if n.Transient() {
 			t := types.NewArray(n.Type().Elem(), ir.Int64Val(n.Right()))
-			prealloc[n] = o.newTemp(t, false)
+			n.Prealloc = o.newTemp(t, false)
 		}
 		return n
 
