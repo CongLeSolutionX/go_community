@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffae0b4b_7eee7c76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-18T09:43:43Z",
+      "side": 1,
+      "message": "LGTM\nThis CL fixed the bug in our internal service.",
+      "revId": "db85ccaf30c9320faf0c7719578973c748cb903b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
