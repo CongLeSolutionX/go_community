@@ -25,14 +25,6 @@ func unreachable() {
 	panic("unreachable")
 }
 
-func (check *Checker) qualifier(pkg *Package) string {
-	// If the same package name was used by multiple packages, display the full path.
-	if check.pkgCnt[pkg.name] > 1 {
-		return fullyQualified(pkg)
-	}
-	return pkg.name
-}
-
 func fullyQualified(pkg *Package) string {
 	return strconv.Quote(pkg.path)
 }
@@ -49,35 +41,88 @@ func (q *qualifyScope) qualifier(pkg *Package) string {
 	if pkg == q.check.pkg {
 		return ""
 	}
+	if ambiguous := q.update(pkg.name, pkg); ambiguous {
+		return fullyQualified(pkg)
+	}
+	return pkg.name
+}
+
+func (q *qualifyScope) update(name string, pkg *Package) bool {
 	if q.names == nil {
 		q.names = make(map[string]*Package)
 	}
-	existing, ok := q.names[pkg.name]
+	existing, ok := q.names[name]
 	if !ok {
-		// this is the first time we've seen the package, so there is no ambiguity.
-		q.names[pkg.name] = pkg
-		return q.check.qualifier(pkg)
+		q.names[name] = pkg
+		// We may be setting a nil pkg when merging scopes, in which case this
+		// scope is now ambiguous.
+		if pkg == nil {
+			q.ambiguous = true
+		}
+		return pkg == nil
 	}
 	if existing == nil {
 		// We've already detected ambiguity for this package.
-		return fullyQualified(pkg)
+		return true
 	}
 	if existing == pkg {
 		// existing != nil && existing == pkg. No ambiguity.
-		return q.check.qualifier(pkg)
+		return false
 	}
 	// exising != nil && existing != pkg. This is the first time we've detected
 	// ambiguity for this package name.
 	q.ambiguous = true
 	// Setting q.names[pkg.name] to nil forces all subsequent qualifications of
 	// this package name to be considered ambiguous.
-	q.names[pkg.name] = nil
-	return fullyQualified(pkg)
+	q.names[name] = nil
+	return true
 }
 
-func (check *Checker) sprintf(format string, args ...interface{}) string {
+func (q *qualifyScope) merge(s qualifiedString) qualifiedString {
+	for name, pkg := range s.scope.names {
+		q.update(name, pkg)
+	}
+	newArgs := make([]interface{}, len(s.formattedArgs))
+	copy(newArgs, s.formattedArgs)
+	s.formattedArgs = newArgs
+	s.scope = q
+	return s
+}
+
+type qualifiedString struct {
+	format        string
+	args          []interface{}
+	formattedArgs []interface{}
+	scope         *qualifyScope
+}
+
+func (s qualifiedString) String() string {
+	if s.scope != nil && s.scope.ambiguous {
+		for i, arg := range s.args {
+			switch a := arg.(type) {
+			case *operand:
+				arg = operandString(a, s.scope.qualifier)
+			case Object:
+				arg = ObjectString(a, s.scope.qualifier)
+			case Type:
+				arg = TypeString(a, s.scope.qualifier)
+			default:
+				continue
+			}
+			s.formattedArgs[i] = arg
+		}
+	}
+	return fmt.Sprintf(s.format, s.formattedArgs...)
+}
+
+type unqualified string
+
+func (s unqualified) String() string {
+	return string(s)
+}
+
+func (q *qualifyScope) sprintf(format string, args ...interface{}) qualifiedString {
 	formattedArgs := make([]interface{}, len(args))
-	qs := &qualifyScope{check: check}
 	for i, arg := range args {
 		switch a := arg.(type) {
 		case nil:
@@ -85,39 +130,34 @@ func (check *Checker) sprintf(format string, args ...interface{}) string {
 		case operand:
 			panic("internal error: should always pass *operand")
 		case *operand:
-			arg = operandString(a, qs.qualifier)
+			arg = operandString(a, q.qualifier)
 		case token.Pos:
-			arg = check.fset.Position(a).String()
+			arg = q.check.fset.Position(a).String()
 		case ast.Expr:
 			arg = ExprString(a)
 		case Object:
-			arg = ObjectString(a, qs.qualifier)
+			arg = ObjectString(a, q.qualifier)
 		case Type:
-			arg = TypeString(a, qs.qualifier)
+			arg = TypeString(a, q.qualifier)
+		case qualifiedString:
+			arg = q.merge(a)
 		}
 		formattedArgs[i] = arg
 	}
-	// Until formatting all arguments, it is not known whether any packages
-	// referenced by args are mutually ambiguous, so we use a qualifyScope to
-	// identify and record ambiguities. If any ambiguities are encountered we
-	// perform a second pass so that all ambiguous package names are fully
-	// qualified.
-	if qs.ambiguous {
-		for i, arg := range args {
-			switch a := arg.(type) {
-			case *operand:
-				arg = operandString(a, qs.qualifier)
-			case Object:
-				arg = ObjectString(a, qs.qualifier)
-			case Type:
-				arg = TypeString(a, qs.qualifier)
-			default:
-				continue
-			}
-			formattedArgs[i] = arg
-		}
+	return qualifiedString{
+		format:        format,
+		args:          args,
+		formattedArgs: formattedArgs,
+		scope:         q,
 	}
-	return fmt.Sprintf(format, formattedArgs...)
+}
+
+func (check *Checker) newQualifyScope() *qualifyScope {
+	return &qualifyScope{check: check}
+}
+
+func (check *Checker) sprintf(format string, args ...interface{}) string {
+	return check.newQualifyScope().sprintf(format, args...).String()
 }
 
 func (check *Checker) trace(pos token.Pos, format string, args ...interface{}) {
@@ -206,7 +246,8 @@ func (check *Checker) error(at positioner, code errorCode, msg string) {
 }
 
 func (check *Checker) errorf(at positioner, code errorCode, format string, args ...interface{}) {
-	check.error(at, code, check.sprintf(format, args...))
+	msg := check.sprintf(format, args...)
+	check.error(at, code, msg)
 }
 
 func (check *Checker) softErrorf(at positioner, code errorCode, format string, args ...interface{}) {

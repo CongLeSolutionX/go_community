@@ -501,7 +501,7 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 			p[call] = true
 		}
 
-		check.assignment(x, &emptyInterface, "argument to panic")
+		check.assignment(x, &emptyInterface, unqualified("argument to panic"))
 		if x.mode == invalid {
 			return
 		}
@@ -521,7 +521,7 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 				if i > 0 {
 					arg(x, i) // first argument already evaluated
 				}
-				check.assignment(x, nil, "argument to "+predeclaredFuncs[id].name)
+				check.assignment(x, nil, unqualified("argument to "+predeclaredFuncs[id].name))
 				if x.mode == invalid {
 					// TODO(gri) "use" all arguments?
 					return
@@ -545,7 +545,7 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 
 	case _Alignof:
 		// unsafe.Alignof(x T) uintptr
-		check.assignment(x, nil, "argument to unsafe.Alignof")
+		check.assignment(x, nil, unqualified("argument to unsafe.Alignof"))
 		if x.mode == invalid {
 			return
 		}
@@ -602,7 +602,7 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 
 	case _Sizeof:
 		// unsafe.Sizeof(x T) uintptr
-		check.assignment(x, nil, "argument to unsafe.Sizeof")
+		check.assignment(x, nil, unqualified("argument to unsafe.Sizeof"))
 		if x.mode == invalid {
 			return
 		}

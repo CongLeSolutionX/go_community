@@ -81,7 +81,6 @@ type Checker struct {
 	objMap map[Object]*declInfo       // maps package-level objects and (non-interface) methods to declaration info
 	impMap map[importKey]*Package     // maps (import path, source directory) to (complete or fake) package
 	posMap map[*Interface][]token.Pos // maps interface types to lists of embedded interface positions
-	pkgCnt map[string]int             // counts number of imported packages with a given name (for better error messages)
 
 	// information collected during type-checking of a set of package files
 	// (initialized by Files, valid only for the duration of check.Files;
@@ -193,7 +192,6 @@ func NewChecker(conf *Config, fset *token.FileSet, pkg *Package, info *Info) *Ch
 		objMap: make(map[Object]*declInfo),
 		impMap: make(map[importKey]*Package),
 		posMap: make(map[*Interface][]token.Pos),
-		pkgCnt: make(map[string]int),
 	}
 }
 

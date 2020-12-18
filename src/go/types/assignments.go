@@ -8,6 +8,7 @@ package types
 
 import (
 	"errors"
+	"fmt"
 	"go/ast"
 	"go/token"
 )
@@ -17,7 +18,7 @@ import (
 // type. context describes the context in which the assignment takes place.
 // Use T == nil to indicate assignment to an untyped blank identifier.
 // x.mode is set to invalid if the assignment failed.
-func (check *Checker) assignment(x *operand, T Type, context string) {
+func (check *Checker) assignment(x *operand, T Type, context fmt.Stringer) {
 	check.singleValue(x)
 
 	switch x.mode {
@@ -107,7 +108,7 @@ func (check *Checker) initConst(lhs *Const, x *operand) {
 		lhs.typ = x.typ
 	}
 
-	check.assignment(x, lhs.typ, "constant declaration")
+	check.assignment(x, lhs.typ, unqualified("constant declaration"))
 	if x.mode == invalid {
 		return
 	}
@@ -115,7 +116,7 @@ func (check *Checker) initConst(lhs *Const, x *operand) {
 	lhs.val = x.val
 }
 
-func (check *Checker) initVar(lhs *Var, x *operand, context string) Type {
+func (check *Checker) initVar(lhs *Var, x *operand, context fmt.Stringer) Type {
 	if x.mode == invalid || x.typ == Typ[Invalid] || lhs.typ == Typ[Invalid] {
 		if lhs.typ == nil {
 			lhs.typ = Typ[Invalid]
@@ -157,7 +158,7 @@ func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
 	// Don't evaluate lhs if it is the blank identifier.
 	if ident != nil && ident.Name == "_" {
 		check.recordDef(ident, nil)
-		check.assignment(x, nil, "assignment to _ identifier")
+		check.assignment(x, nil, unqualified("assignment to _ identifier"))
 		if x.mode == invalid {
 			return nil
 		}
@@ -211,7 +212,7 @@ func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
 		return nil
 	}
 
-	check.assignment(x, z.typ, "assignment")
+	check.assignment(x, z.typ, unqualified("assignment"))
 	if x.mode == invalid {
 		return nil
 	}
@@ -243,9 +244,9 @@ func (check *Checker) initVars(lhs []*Var, rhs []ast.Expr, returnPos token.Pos) 
 		return
 	}
 
-	context := "assignment"
+	context := unqualified("assignment")
 	if returnPos.IsValid() {
-		context = "return statement"
+		context = unqualified("return statement")
 	}
 
 	var x operand

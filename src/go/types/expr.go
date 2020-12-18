@@ -611,7 +611,8 @@ func (check *Checker) implicitType(x *operand, target Type) Type {
 func (check *Checker) comparison(x, y *operand, op token.Token) {
 	// spec: "In any comparison, the first operand must be assignable
 	// to the type of the second operand, or vice versa."
-	err := ""
+	var err qualifiedString
+	var hasErr bool
 	var code errorCode
 	xok, _ := x.assignableTo(check, y.typ, nil)
 	yok, _ := y.assignableTo(check, x.typ, nil)
@@ -632,15 +633,17 @@ func (check *Checker) comparison(x, y *operand, op token.Token) {
 			if x.isNil() {
 				typ = y.typ
 			}
-			err = check.sprintf("operator %s not defined for %s", op, typ)
+			err = check.newQualifyScope().sprintf("operator %s not defined for %s", op, typ)
+			hasErr = true
 			code = _UndefinedOp
 		}
 	} else {
-		err = check.sprintf("mismatched types %s and %s", x.typ, y.typ)
+		err = check.newQualifyScope().sprintf("mismatched types %s and %s", x.typ, y.typ)
+		hasErr = true
 		code = _MismatchedTypes
 	}
 
-	if err != "" {
+	if hasErr {
 		check.errorf(x, code, "cannot compare %s %s %s (%s)", x.expr, op, y.expr, err)
 		x.mode = invalid
 		return
@@ -997,7 +1000,7 @@ func (check *Checker) indexedElts(elts []ast.Expr, typ Type, length int64) int64
 		// check element against composite literal element type
 		var x operand
 		check.exprWithHint(&x, eval, typ)
-		check.assignment(&x, typ, "array or slice literal")
+		check.assignment(&x, typ, unqualified("array or slice literal"))
 	}
 	return max
 }
@@ -1173,7 +1176,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 					fld := fields[i]
 					check.recordUse(key, fld)
 					etyp := fld.typ
-					check.assignment(x, etyp, "struct literal")
+					check.assignment(x, etyp, unqualified("struct literal"))
 					// 0 <= i < len(fields)
 					if visited[i] {
 						check.errorf(kv, _DuplicateLitField, "duplicate field name %s in struct literal", key.Name)
@@ -1202,7 +1205,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 						continue
 					}
 					etyp := fld.typ
-					check.assignment(x, etyp, "struct literal")
+					check.assignment(x, etyp, unqualified("struct literal"))
 				}
 				if len(e.Elts) < len(fields) {
 					check.error(inNode(e, e.Rbrace), _InvalidStructLit, "too few values in struct literal")
@@ -1262,7 +1265,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 					continue
 				}
 				check.exprWithHint(x, kv.Key, utyp.key)
-				check.assignment(x, utyp.key, "map literal")
+				check.assignment(x, utyp.key, unqualified("map literal"))
 				if x.mode == invalid {
 					continue
 				}
@@ -1288,7 +1291,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 					}
 				}
 				check.exprWithHint(x, kv.Value, utyp.elem)
-				check.assignment(x, utyp.elem, "map literal")
+				check.assignment(x, utyp.elem, unqualified("map literal"))
 			}
 
 		default:
@@ -1368,7 +1371,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		case *Map:
 			var key operand
 			check.expr(&key, e.Index)
-			check.assignment(&key, typ.key, "map index")
+			check.assignment(&key, typ.key, unqualified("map index"))
 			// ok to continue even if indexing failed - map element type is known
 			x.mode = mapindex
 			x.typ = typ.elem

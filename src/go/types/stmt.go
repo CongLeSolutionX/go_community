@@ -366,7 +366,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 			return
 		}
 
-		check.assignment(&x, tch.elem, "send")
+		check.assignment(&x, tch.elem, unqualified("send"))
 
 	case *ast.IncDecStmt:
 		var op token.Token
@@ -527,7 +527,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 			check.expr(&x, s.Tag)
 			// By checking assignment of x to an invisible temporary
 			// (as a compiler would), we get all the relevant checks.
-			check.assignment(&x, nil, "switch expression")
+			check.assignment(&x, nil, unqualified("switch expression"))
 			if x.mode != invalid && !Comparable(x.typ) && !hasNil(x.typ) {
 				check.errorf(&x, _InvalidExprSwitch, "cannot switch on %s (%s is not comparable)", &x, x.typ)
 				x.mode = invalid
@@ -838,7 +838,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 					x.mode = value
 					x.expr = lhs // we don't have a better rhs expression to use here
 					x.typ = typ
-					check.initVar(obj, &x, "range clause")
+					check.initVar(obj, &x, unqualified("range clause"))
 				} else {
 					obj.typ = Typ[Invalid]
 					obj.used = true // don't complain about unused variable
