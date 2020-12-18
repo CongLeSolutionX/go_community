@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
@@ -281,7 +282,7 @@ func (e *Escape) stmt(n ir.Node) {
 		return
 	}
 
-	lno := setlineno(n)
+	lno := ir.SetPos(n)
 	defer func() {
 		base.Pos = lno
 	}()
@@ -483,7 +484,7 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.Node) {
 		return
 	}
 
-	lno := setlineno(n)
+	lno := ir.SetPos(n)
 	defer func() {
 		base.Pos = lno
 	}()
@@ -579,7 +580,7 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.Node) {
 		}
 	case ir.OCONVIFACE:
 		n := n.(*ir.ConvExpr)
-		if !n.X.Type().IsInterface() && !isdirectiface(n.X.Type()) {
+		if !n.X.Type().IsInterface() && !types.IsInterfaceWord(n.X.Type()) {
 			k = e.spill(k, n)
 		}
 		e.expr(k.note(n, "interface-converted"), n.X)
@@ -618,7 +619,7 @@ func (e *Escape) exprSkipInit(k EscHole, n ir.Node) {
 		n := n.(*ir.CallPartExpr)
 		closureK := e.spill(k, n)
 
-		m := callpartMethod(n)
+		m := n.Method
 
 		// We don't know how the method value will be called
 		// later, so conservatively assume the result
@@ -882,7 +883,7 @@ func (e *Escape) call(ks []EscHole, call, where ir.Node) {
 				fn = v.Func().Nname
 			}
 		case ir.OCALLMETH:
-			fn = methodExprName(call.X)
+			fn = ir.MethodExprName(call.X)
 		}
 
 		fntype := call.X.Type()
@@ -1063,7 +1064,7 @@ func (k EscHole) deref(where ir.Node, why string) EscHole { return k.shift(1).no
 func (k EscHole) addr(where ir.Node, why string) EscHole  { return k.shift(-1).note(where, why) }
 
 func (k EscHole) dotType(t *types.Type, where ir.Node, why string) EscHole {
-	if !t.IsInterface() && !isdirectiface(t) {
+	if !t.IsInterface() && !types.IsInterfaceWord(t) {
 		k = k.shift(1)
 	}
 	return k.note(where, why)
@@ -1896,7 +1897,7 @@ func heapAllocReason(n ir.Node) string {
 		if r == nil {
 			r = n.Len
 		}
-		if !smallintconst(r) {
+		if !ir.IsSmallIntConst(r) {
 			return "non-constant size"
 		}
 		if t := n.Type(); t.Elem().Width != 0 && ir.Int64Val(r) >= maxImplicitStackVarSize/t.Elem().Width {
@@ -1953,12 +1954,12 @@ func addrescapes(n ir.Node) {
 		//
 		// then we're analyzing the inner closure but we need to move x to the
 		// heap in f, not in the inner closure. Flip over to f before calling moveToHeap.
-		oldfn := Curfn
-		Curfn = n.Curfn
+		oldfn := ir.CurFunc
+		ir.CurFunc = n.Curfn
 		ln := base.Pos
-		base.Pos = Curfn.Pos()
+		base.Pos = ir.CurFunc.Pos()
 		moveToHeap(n)
-		Curfn = oldfn
+		ir.CurFunc = oldfn
 		base.Pos = ln
 
 	// ODOTPTR has already been introduced,
@@ -1998,8 +1999,8 @@ func moveToHeap(n *ir.Name) {
 
 	// Allocate a local stack variable to hold the pointer to the heap copy.
 	// temp will add it to the function declaration list automatically.
-	heapaddr := temp(types.NewPtr(n.Type()))
-	heapaddr.SetSym(lookup("&" + n.Sym().Name))
+	heapaddr := typecheck.Temp(types.NewPtr(n.Type()))
+	heapaddr.SetSym(typecheck.Lookup("&" + n.Sym().Name))
 	heapaddr.SetPos(n.Pos())
 
 	// Unset AutoTemp to persist the &foo variable name through SSA to
@@ -2019,7 +2020,7 @@ func moveToHeap(n *ir.Name) {
 		// Preserve a copy so we can still write code referring to the original,
 		// and substitute that copy into the function declaration list
 		// so that analyses of the local (on-stack) variables use it.
-		stackcopy := NewName(n.Sym())
+		stackcopy := typecheck.NewName(n.Sym())
 		stackcopy.SetType(n.Type())
 		stackcopy.SetFrameOffset(n.FrameOffset())
 		stackcopy.Class_ = n.Class_
@@ -2038,9 +2039,9 @@ func moveToHeap(n *ir.Name) {
 		// liveness and other analyses use the underlying stack slot
 		// and not the now-pseudo-variable n.
 		found := false
-		for i, d := range Curfn.Dcl {
+		for i, d := range ir.CurFunc.Dcl {
 			if d == n {
-				Curfn.Dcl[i] = stackcopy
+				ir.CurFunc.Dcl[i] = stackcopy
 				found = true
 				break
 			}
@@ -2053,7 +2054,7 @@ func moveToHeap(n *ir.Name) {
 		if !found {
 			base.Fatalf("cannot find %v in local variable list", n)
 		}
-		Curfn.Dcl = append(Curfn.Dcl, n)
+		ir.CurFunc.Dcl = append(ir.CurFunc.Dcl, n)
 	}
 
 	// Modify n in place so that uses of n now mean indirection of the heapaddr.

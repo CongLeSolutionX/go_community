@@ -7,6 +7,7 @@ package gc
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/bio"
 	"cmd/internal/obj"
@@ -260,11 +261,11 @@ func dumpGlobalConst(n ir.Node) {
 	if t.IsUntyped() {
 		// Export untyped integers as int (if they fit).
 		t = types.Types[types.TINT]
-		if doesoverflow(v, t) {
+		if ir.ConstOverflow(v, t) {
 			return
 		}
 	}
-	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym().Name, typesymname(t), ir.IntVal(t, v))
+	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym().Name, types.TypeSymName(t), ir.IntVal(t, v))
 }
 
 func dumpglobls() {
@@ -282,7 +283,7 @@ func dumpglobls() {
 		return funcsyms[i].LinksymName() < funcsyms[j].LinksymName()
 	})
 	for _, s := range funcsyms {
-		sf := s.Pkg.Lookup(funcsymname(s)).Linksym()
+		sf := s.Pkg.Lookup(ir.FuncSymName(s)).Linksym()
 		dsymptr(sf, 0, s.Linksym(), 0)
 		ggloblsym(sf, int32(types.PtrSize), obj.DUPOK|obj.RODATA)
 	}
@@ -480,7 +481,7 @@ func slicedata(pos src.XPos, s string) *ir.Name {
 	slicedataGen++
 	symname := fmt.Sprintf(".gobytes.%d", slicedataGen)
 	sym := types.LocalPkg.Lookup(symname)
-	symnode := NewName(sym)
+	symnode := typecheck.NewName(sym)
 	sym.Def = symnode
 
 	lsym := sym.Linksym()

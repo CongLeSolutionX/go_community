@@ -19,6 +19,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
@@ -159,7 +160,7 @@ type noder struct {
 func (p *noder) funcBody(fn *ir.Func, block *syntax.BlockStmt) {
 	oldScope := p.scope
 	p.scope = 0
-	funchdr(fn)
+	typecheck.StartFuncBody(fn)
 
 	if block != nil {
 		body := p.stmts(block.List)
@@ -172,7 +173,7 @@ func (p *noder) funcBody(fn *ir.Func, block *syntax.BlockStmt) {
 		fn.Endlineno = base.Pos
 	}
 
-	funcbody()
+	typecheck.FinishFuncBody()
 	p.scope = oldScope
 }
 
@@ -180,9 +181,9 @@ func (p *noder) openScope(pos syntax.Pos) {
 	types.Markdcl()
 
 	if trackScopes {
-		Curfn.Parents = append(Curfn.Parents, p.scope)
-		p.scopeVars = append(p.scopeVars, len(Curfn.Dcl))
-		p.scope = ir.ScopeID(len(Curfn.Parents))
+		ir.CurFunc.Parents = append(ir.CurFunc.Parents, p.scope)
+		p.scopeVars = append(p.scopeVars, len(ir.CurFunc.Dcl))
+		p.scope = ir.ScopeID(len(ir.CurFunc.Parents))
 
 		p.markScope(pos)
 	}
@@ -195,29 +196,29 @@ func (p *noder) closeScope(pos syntax.Pos) {
 	if trackScopes {
 		scopeVars := p.scopeVars[len(p.scopeVars)-1]
 		p.scopeVars = p.scopeVars[:len(p.scopeVars)-1]
-		if scopeVars == len(Curfn.Dcl) {
+		if scopeVars == len(ir.CurFunc.Dcl) {
 			// no variables were declared in this scope, so we can retract it.
 
-			if int(p.scope) != len(Curfn.Parents) {
+			if int(p.scope) != len(ir.CurFunc.Parents) {
 				base.Fatalf("scope tracking inconsistency, no variables declared but scopes were not retracted")
 			}
 
-			p.scope = Curfn.Parents[p.scope-1]
-			Curfn.Parents = Curfn.Parents[:len(Curfn.Parents)-1]
+			p.scope = ir.CurFunc.Parents[p.scope-1]
+			ir.CurFunc.Parents = ir.CurFunc.Parents[:len(ir.CurFunc.Parents)-1]
 
-			nmarks := len(Curfn.Marks)
-			Curfn.Marks[nmarks-1].Scope = p.scope
+			nmarks := len(ir.CurFunc.Marks)
+			ir.CurFunc.Marks[nmarks-1].Scope = p.scope
 			prevScope := ir.ScopeID(0)
 			if nmarks >= 2 {
-				prevScope = Curfn.Marks[nmarks-2].Scope
+				prevScope = ir.CurFunc.Marks[nmarks-2].Scope
 			}
-			if Curfn.Marks[nmarks-1].Scope == prevScope {
-				Curfn.Marks = Curfn.Marks[:nmarks-1]
+			if ir.CurFunc.Marks[nmarks-1].Scope == prevScope {
+				ir.CurFunc.Marks = ir.CurFunc.Marks[:nmarks-1]
 			}
 			return
 		}
 
-		p.scope = Curfn.Parents[p.scope-1]
+		p.scope = ir.CurFunc.Parents[p.scope-1]
 
 		p.markScope(pos)
 	}
@@ -225,10 +226,10 @@ func (p *noder) closeScope(pos syntax.Pos) {
 
 func (p *noder) markScope(pos syntax.Pos) {
 	xpos := p.makeXPos(pos)
-	if i := len(Curfn.Marks); i > 0 && Curfn.Marks[i-1].Pos == xpos {
-		Curfn.Marks[i-1].Scope = p.scope
+	if i := len(ir.CurFunc.Marks); i > 0 && ir.CurFunc.Marks[i-1].Pos == xpos {
+		ir.CurFunc.Marks[i-1].Scope = p.scope
 	} else {
-		Curfn.Marks = append(Curfn.Marks, ir.Mark{Pos: xpos, Scope: p.scope})
+		ir.CurFunc.Marks = append(ir.CurFunc.Marks, ir.Mark{Pos: xpos, Scope: p.scope})
 	}
 }
 
@@ -272,7 +273,7 @@ func (p *noder) processPragmas() {
 			p.errorAt(l.pos, "//go:linkname only allowed in Go files that import \"unsafe\"")
 			continue
 		}
-		n := ir.AsNode(lookup(l.local).Def)
+		n := ir.AsNode(typecheck.Lookup(l.local).Def)
 		if n == nil || n.Op() != ir.ONAME {
 			// TODO(mdempsky): Change to p.errorAt before Go 1.17 release.
 			// base.WarnfAt(p.makeXPos(l.pos), "//go:linkname must refer to declared function or variable (will be an error in Go 1.17)")
@@ -362,7 +363,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	if imp.LocalPkgName != nil {
 		my = p.name(imp.LocalPkgName)
 	} else {
-		my = lookup(ipkg.Name)
+		my = typecheck.Lookup(ipkg.Name)
 	}
 
 	pack := ir.NewPkgName(p.pos(imp), my, ipkg)
@@ -378,7 +379,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 		return
 	}
 	if my.Def != nil {
-		redeclare(pack.Pos(), my, "as imported package name")
+		typecheck.Redeclared(pack.Pos(), my, "as imported package name")
 	}
 	my.Def = pack
 	my.Lastlineno = pack.Pos()
@@ -413,7 +414,7 @@ func (p *noder) varDecl(decl *syntax.VarDecl) []ir.Node {
 	}
 
 	p.setlineno(decl)
-	return variter(names, typ, exprs)
+	return typecheck.DeclVars(names, typ, exprs)
 }
 
 // constState tracks state between constant specifiers within a
@@ -464,7 +465,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 		}
 
 		n.SetOp(ir.OLITERAL)
-		declare(n, dclcontext)
+		typecheck.Declare(n, typecheck.DeclContext)
 
 		n.Ntype = typ
 		n.Defn = v
@@ -485,7 +486,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.Node {
 	n := p.declName(decl.Name)
 	n.SetOp(ir.OTYPE)
-	declare(n, dclcontext)
+	typecheck.Declare(n, typecheck.DeclContext)
 
 	// decl.Type may be nil but in that case we got a syntax error during parsing
 	typ := p.typeExprOrNil(decl.Type)
@@ -542,7 +543,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 		name = ir.BlankNode.Sym() // filled in by typecheckfunc
 	}
 
-	f.Nname = newFuncNameAt(p.pos(fun.Name), name, f)
+	f.Nname = ir.NewFuncNameAt(p.pos(fun.Name), name, f)
 	f.Nname.Defn = f
 	f.Nname.Ntype = t
 
@@ -556,7 +557,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 	}
 
 	if fun.Recv == nil {
-		declare(f.Nname, ir.PFUNC)
+		typecheck.Declare(f.Nname, ir.PFUNC)
 	}
 
 	p.funcBody(f, fun.Body)
@@ -719,7 +720,7 @@ func (p *noder) expr(expr syntax.Expr) ir.Node {
 			pos, op := p.pos(expr), p.unOp(expr.Op)
 			switch op {
 			case ir.OADDR:
-				return nodAddrAt(pos, x)
+				return typecheck.NodAddrAt(pos, x)
 			case ir.ODEREF:
 				return ir.NewStarExpr(pos, x)
 			}
@@ -965,7 +966,7 @@ func (p *noder) embedded(typ syntax.Expr) *ir.Field {
 	}
 
 	sym := p.packname(typ)
-	n := ir.NewField(p.pos(typ), lookup(sym.Name), importName(sym).(ir.Ntype), nil)
+	n := ir.NewField(p.pos(typ), typecheck.Lookup(sym.Name), importName(sym).(ir.Ntype), nil)
 	n.Embedded = true
 
 	if isStar {
@@ -1011,13 +1012,13 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) ir.Node {
 			// TODO(mdempsky): Line number?
 			return ir.NewBlockStmt(base.Pos, nil)
 		}
-		return liststmt(l)
+		return ir.NewBlockStmt(src.NoXPos, l)
 	case *syntax.ExprStmt:
 		return p.wrapname(stmt, p.expr(stmt.X))
 	case *syntax.SendStmt:
 		return ir.NewSendStmt(p.pos(stmt), p.expr(stmt.Chan), p.expr(stmt.Value))
 	case *syntax.DeclStmt:
-		return liststmt(p.decls(stmt.DeclList))
+		return ir.NewBlockStmt(src.NoXPos, p.decls(stmt.DeclList))
 	case *syntax.AssignStmt:
 		if stmt.Op != 0 && stmt.Op != syntax.Def {
 			n := ir.NewAssignOpStmt(p.pos(stmt), p.binOp(stmt.Op), p.expr(stmt.Lhs), p.expr(stmt.Rhs))
@@ -1080,8 +1081,8 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) ir.Node {
 		}
 		n := ir.NewReturnStmt(p.pos(stmt), nil)
 		n.Results.Set(results)
-		if len(n.Results) == 0 && Curfn != nil {
-			for _, ln := range Curfn.Dcl {
+		if len(n.Results) == 0 && ir.CurFunc != nil {
+			for _, ln := range ir.CurFunc.Dcl {
 				if ln.Class_ == ir.PPARAM {
 					continue
 				}
@@ -1151,8 +1152,8 @@ func (p *noder) assignList(expr syntax.Expr, defn ir.Node, colas bool) []ir.Node
 		}
 
 		newOrErr = true
-		n := NewName(sym)
-		declare(n, dclcontext)
+		n := typecheck.NewName(sym)
+		typecheck.Declare(n, typecheck.DeclContext)
 		n.Defn = defn
 		defn.PtrInit().Append(ir.NewDecl(base.Pos, ir.ODCL, n))
 		res[i] = n
@@ -1260,8 +1261,8 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.TypeSwitch
 			n.List.Set(p.exprList(clause.Cases))
 		}
 		if tswitch != nil && tswitch.Tag != nil {
-			nn := NewName(tswitch.Tag.Sym())
-			declare(nn, dclcontext)
+			nn := typecheck.NewName(tswitch.Tag.Sym())
+			typecheck.Declare(nn, typecheck.DeclContext)
 			n.Vars = []ir.Node{nn}
 			// keep track of the instances for reporting unused
 			nn.Defn = tswitch
@@ -1359,7 +1360,7 @@ func (p *noder) labeledStmt(label *syntax.LabeledStmt, fallOK bool) ir.Node {
 			l = append(l, ls)
 		}
 	}
-	return liststmt(l)
+	return ir.NewBlockStmt(src.NoXPos, l)
 }
 
 var unOps = [...]ir.Op{
@@ -1466,7 +1467,7 @@ func (p *noder) basicLit(lit *syntax.BasicLit) constant.Value {
 	// to big.Float to match cmd/compile's historical precision.
 	// TODO(mdempsky): Remove.
 	if v.Kind() == constant.Float {
-		v = constant.Make(bigFloatVal(v))
+		v = constant.Make(ir.BigFloat(v))
 	}
 
 	return v
@@ -1481,7 +1482,7 @@ var tokenForLitKind = [...]token.Token{
 }
 
 func (p *noder) name(name *syntax.Name) *types.Sym {
-	return lookup(name.Value)
+	return typecheck.Lookup(name.Value)
 }
 
 func (p *noder) mkname(name *syntax.Name) ir.Node {

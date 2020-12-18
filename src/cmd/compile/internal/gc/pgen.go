@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/ssa"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/dwarf"
 	"cmd/internal/obj"
@@ -147,7 +148,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 	}
 
 	if f.Config.NeedsFpScratch && scratchUsed {
-		s.scratchFpMem = tempAt(src.NoXPos, s.curfn, types.Types[types.TUINT64])
+		s.scratchFpMem = typecheck.TempAt(src.NoXPos, s.curfn, types.Types[types.TUINT64])
 	}
 
 	sort.Sort(byStackVar(fn.Dcl))
@@ -194,8 +195,8 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 }
 
 func funccompile(fn *ir.Func) {
-	if Curfn != nil {
-		base.Fatalf("funccompile %v inside %v", fn.Sym(), Curfn.Sym())
+	if ir.CurFunc != nil {
+		base.Fatalf("funccompile %v inside %v", fn.Sym(), ir.CurFunc.Sym())
 	}
 
 	if fn.Type() == nil {
@@ -215,11 +216,11 @@ func funccompile(fn *ir.Func) {
 		return
 	}
 
-	dclcontext = ir.PAUTO
-	Curfn = fn
+	typecheck.DeclContext = ir.PAUTO
+	ir.CurFunc = fn
 	compile(fn)
-	Curfn = nil
-	dclcontext = ir.PEXTERN
+	ir.CurFunc = nil
+	typecheck.DeclContext = ir.PEXTERN
 }
 
 func compile(fn *ir.Func) {
@@ -243,7 +244,7 @@ func compile(fn *ir.Func) {
 	}
 
 	// From this point, there should be no uses of Curfn. Enforce that.
-	Curfn = nil
+	ir.CurFunc = nil
 
 	if ir.FuncName(fn) == "_" {
 		// We don't need to generate code for this function, just report errors in its body.
@@ -557,7 +558,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 		base.Fatalf("createSimpleVar unexpected class %v for node %v", n.Class_, n)
 	}
 
-	typename := dwarf.InfoPrefix + typesymname(n.Type())
+	typename := dwarf.InfoPrefix + types.TypeSymName(n.Type())
 	delete(fnsym.Func().Autot, ngotype(n).Linksym())
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {
@@ -660,7 +661,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			decls = append(decls, n)
 			continue
 		}
-		typename := dwarf.InfoPrefix + typesymname(n.Type())
+		typename := dwarf.InfoPrefix + types.TypeSymName(n.Type())
 		decls = append(decls, n)
 		abbrev := dwarf.DW_ABRV_AUTO_LOCLIST
 		isReturnValue := (n.Class_ == ir.PPARAMOUT)

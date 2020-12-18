@@ -7,94 +7,12 @@ package gc
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 )
 
-// select
-func typecheckselect(sel *ir.SelectStmt) {
-	var def ir.Node
-	lno := setlineno(sel)
-	typecheckslice(sel.Init(), ctxStmt)
-	for _, ncase := range sel.Cases {
-		ncase := ncase.(*ir.CaseStmt)
-
-		if len(ncase.List) == 0 {
-			// default
-			if def != nil {
-				base.ErrorfAt(ncase.Pos(), "multiple defaults in select (first at %v)", ir.Line(def))
-			} else {
-				def = ncase
-			}
-		} else if len(ncase.List) > 1 {
-			base.ErrorfAt(ncase.Pos(), "select cases cannot be lists")
-		} else {
-			ncase.List[0] = typecheck(ncase.List[0], ctxStmt)
-			n := ncase.List[0]
-			ncase.Comm = n
-			ncase.List.Set(nil)
-			oselrecv2 := func(dst, recv ir.Node, colas bool) {
-				n := ir.NewAssignListStmt(n.Pos(), ir.OSELRECV2, nil, nil)
-				n.Lhs = []ir.Node{dst, ir.BlankNode}
-				n.Rhs = []ir.Node{recv}
-				n.Def = colas
-				n.SetTypecheck(1)
-				ncase.Comm = n
-			}
-			switch n.Op() {
-			default:
-				pos := n.Pos()
-				if n.Op() == ir.ONAME {
-					// We don't have the right position for ONAME nodes (see #15459 and
-					// others). Using ncase.Pos for now as it will provide the correct
-					// line number (assuming the expression follows the "case" keyword
-					// on the same line). This matches the approach before 1.10.
-					pos = ncase.Pos()
-				}
-				base.ErrorfAt(pos, "select case must be receive, send or assign recv")
-
-			case ir.OAS:
-				// convert x = <-c into x, _ = <-c
-				// remove implicit conversions; the eventual assignment
-				// will reintroduce them.
-				n := n.(*ir.AssignStmt)
-				if r := n.Y; r.Op() == ir.OCONVNOP || r.Op() == ir.OCONVIFACE {
-					r := r.(*ir.ConvExpr)
-					if r.Implicit() {
-						n.Y = r.X
-					}
-				}
-				if n.Y.Op() != ir.ORECV {
-					base.ErrorfAt(n.Pos(), "select assignment must have receive on right hand side")
-					break
-				}
-				oselrecv2(n.X, n.Y, n.Def)
-
-			case ir.OAS2RECV:
-				n := n.(*ir.AssignListStmt)
-				if n.Rhs[0].Op() != ir.ORECV {
-					base.ErrorfAt(n.Pos(), "select assignment must have receive on right hand side")
-					break
-				}
-				n.SetOp(ir.OSELRECV2)
-
-			case ir.ORECV:
-				// convert <-c into _, _ = <-c
-				n := n.(*ir.UnaryExpr)
-				oselrecv2(ir.BlankNode, n, false)
-
-			case ir.OSEND:
-				break
-			}
-		}
-
-		typecheckslice(ncase.Body, ctxStmt)
-	}
-
-	base.Pos = lno
-}
-
 func walkselect(sel *ir.SelectStmt) {
-	lno := setlineno(sel)
+	lno := ir.SetPos(sel)
 	if len(sel.Compiled) != 0 {
 		base.Fatalf("double walkselect")
 	}
@@ -123,7 +41,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 	// optimization: one-case select: single op.
 	if ncas == 1 {
 		cas := cases[0].(*ir.CaseStmt)
-		setlineno(cas)
+		ir.SetPos(cas)
 		l := cas.Init()
 		if cas.Comm != nil { // not default:
 			n := cas.Comm
@@ -158,7 +76,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 	var dflt *ir.CaseStmt
 	for _, cas := range cases {
 		cas := cas.(*ir.CaseStmt)
-		setlineno(cas)
+		ir.SetPos(cas)
 		n := cas.Comm
 		if n == nil {
 			dflt = cas
@@ -167,14 +85,14 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		switch n.Op() {
 		case ir.OSEND:
 			n := n.(*ir.SendStmt)
-			n.Value = nodAddr(n.Value)
-			n.Value = typecheck(n.Value, ctxExpr)
+			n.Value = typecheck.NodAddr(n.Value)
+			n.Value = typecheck.Expr(n.Value)
 
 		case ir.OSELRECV2:
 			n := n.(*ir.AssignListStmt)
 			if !ir.IsBlank(n.Lhs[0]) {
-				n.Lhs[0] = nodAddr(n.Lhs[0])
-				n.Lhs[0] = typecheck(n.Lhs[0], ctxExpr)
+				n.Lhs[0] = typecheck.NodAddr(n.Lhs[0])
+				n.Lhs[0] = typecheck.Expr(n.Lhs[0])
 			}
 		}
 	}
@@ -187,7 +105,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		}
 
 		n := cas.Comm
-		setlineno(n)
+		ir.SetPos(n)
 		r := ir.NewIfStmt(base.Pos, nil, nil, nil)
 		r.PtrInit().Set(cas.Init())
 		var call ir.Node
@@ -207,7 +125,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 			ch := recv.X
 			elem := n.Lhs[0]
 			if ir.IsBlank(elem) {
-				elem = nodnil()
+				elem = typecheck.NodNil()
 			}
 			if ir.IsBlank(n.Lhs[1]) {
 				// if selectnbrecv(&v, c) { body } else { default body }
@@ -215,12 +133,12 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 			} else {
 				// TODO(cuonglm): make this use selectnbrecv()
 				// if selectnbrecv2(&v, &received, c) { body } else { default body }
-				receivedp := typecheck(nodAddr(n.Lhs[1]), ctxExpr)
+				receivedp := typecheck.Expr(typecheck.NodAddr(n.Lhs[1]))
 				call = mkcall1(chanfn("selectnbrecv2", 2, ch.Type()), types.Types[types.TBOOL], r.PtrInit(), elem, receivedp, ch)
 			}
 		}
 
-		r.Cond = typecheck(call, ctxExpr)
+		r.Cond = typecheck.Expr(call)
 		r.Body.Set(cas.Body)
 		r.Else.Set(append(dflt.Init(), dflt.Body...))
 		return []ir.Node{r, ir.NewBranchStmt(base.Pos, ir.OBREAK, nil)}
@@ -236,24 +154,24 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 	// generate sel-struct
 	base.Pos = sellineno
-	selv := temp(types.NewArray(scasetype(), int64(ncas)))
-	init = append(init, typecheck(ir.NewAssignStmt(base.Pos, selv, nil), ctxStmt))
+	selv := typecheck.Temp(types.NewArray(scasetype(), int64(ncas)))
+	init = append(init, typecheck.Stmt(ir.NewAssignStmt(base.Pos, selv, nil)))
 
 	// No initialization for order; runtime.selectgo is responsible for that.
-	order := temp(types.NewArray(types.Types[types.TUINT16], 2*int64(ncas)))
+	order := typecheck.Temp(types.NewArray(types.Types[types.TUINT16], 2*int64(ncas)))
 
 	var pc0, pcs ir.Node
 	if base.Flag.Race {
-		pcs = temp(types.NewArray(types.Types[types.TUINTPTR], int64(ncas)))
-		pc0 = typecheck(nodAddr(ir.NewIndexExpr(base.Pos, pcs, nodintconst(0))), ctxExpr)
+		pcs = typecheck.Temp(types.NewArray(types.Types[types.TUINTPTR], int64(ncas)))
+		pc0 = typecheck.Expr(typecheck.NodAddr(ir.NewIndexExpr(base.Pos, pcs, ir.NewInt(0))))
 	} else {
-		pc0 = nodnil()
+		pc0 = typecheck.NodNil()
 	}
 
 	// register cases
 	for _, cas := range cases {
 		cas := cas.(*ir.CaseStmt)
-		setlineno(cas)
+		ir.SetPos(cas)
 
 		init = append(init, cas.Init()...)
 		cas.PtrInit().Set(nil)
@@ -286,8 +204,8 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		casorder[i] = cas
 
 		setField := func(f string, val ir.Node) {
-			r := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, ir.NewIndexExpr(base.Pos, selv, nodintconst(int64(i))), lookup(f)), val)
-			init = append(init, typecheck(r, ctxStmt))
+			r := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, ir.NewIndexExpr(base.Pos, selv, ir.NewInt(int64(i))), typecheck.Lookup(f)), val)
+			init = append(init, typecheck.Stmt(r))
 		}
 
 		c = convnop(c, types.Types[types.TUNSAFEPTR])
@@ -300,7 +218,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 		// TODO(mdempsky): There should be a cleaner way to
 		// handle this.
 		if base.Flag.Race {
-			r := mkcall("selectsetpc", nil, nil, nodAddr(ir.NewIndexExpr(base.Pos, pcs, nodintconst(int64(i)))))
+			r := mkcall("selectsetpc", nil, nil, typecheck.NodAddr(ir.NewIndexExpr(base.Pos, pcs, ir.NewInt(int64(i)))))
 			init = append(init, r)
 		}
 	}
@@ -310,13 +228,13 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 	// run the select
 	base.Pos = sellineno
-	chosen := temp(types.Types[types.TINT])
-	recvOK := temp(types.Types[types.TBOOL])
+	chosen := typecheck.Temp(types.Types[types.TINT])
+	recvOK := typecheck.Temp(types.Types[types.TBOOL])
 	r := ir.NewAssignListStmt(base.Pos, ir.OAS2, nil, nil)
 	r.Lhs = []ir.Node{chosen, recvOK}
 	fn := syslook("selectgo")
-	r.Rhs = []ir.Node{mkcall1(fn, fn.Type().Results(), nil, bytePtrToIndex(selv, 0), bytePtrToIndex(order, 0), pc0, nodintconst(int64(nsends)), nodintconst(int64(nrecvs)), nodbool(dflt == nil))}
-	init = append(init, typecheck(r, ctxStmt))
+	r.Rhs = []ir.Node{mkcall1(fn, fn.Type().Results(), nil, bytePtrToIndex(selv, 0), bytePtrToIndex(order, 0), pc0, ir.NewInt(int64(nsends)), ir.NewInt(int64(nrecvs)), ir.NewBool(dflt == nil))}
+	init = append(init, typecheck.Stmt(r))
 
 	// selv and order are no longer alive after selectgo.
 	init = append(init, ir.NewUnaryExpr(base.Pos, ir.OVARKILL, selv))
@@ -327,8 +245,8 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 	// dispatch cases
 	dispatch := func(cond ir.Node, cas *ir.CaseStmt) {
-		cond = typecheck(cond, ctxExpr)
-		cond = defaultlit(cond, nil)
+		cond = typecheck.Expr(cond)
+		cond = typecheck.DefaultLit(cond, nil)
 
 		r := ir.NewIfStmt(base.Pos, cond, nil, nil)
 
@@ -336,7 +254,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 			n := n.(*ir.AssignListStmt)
 			if !ir.IsBlank(n.Lhs[1]) {
 				x := ir.NewAssignStmt(base.Pos, n.Lhs[1], recvOK)
-				r.Body.Append(typecheck(x, ctxStmt))
+				r.Body.Append(typecheck.Stmt(x))
 			}
 		}
 
@@ -346,12 +264,12 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 	}
 
 	if dflt != nil {
-		setlineno(dflt)
-		dispatch(ir.NewBinaryExpr(base.Pos, ir.OLT, chosen, nodintconst(0)), dflt)
+		ir.SetPos(dflt)
+		dispatch(ir.NewBinaryExpr(base.Pos, ir.OLT, chosen, ir.NewInt(0)), dflt)
 	}
 	for i, cas := range casorder {
-		setlineno(cas)
-		dispatch(ir.NewBinaryExpr(base.Pos, ir.OEQ, chosen, nodintconst(int64(i))), cas)
+		ir.SetPos(cas)
+		dispatch(ir.NewBinaryExpr(base.Pos, ir.OEQ, chosen, ir.NewInt(int64(i))), cas)
 	}
 
 	return init
@@ -359,7 +277,7 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 
 // bytePtrToIndex returns a Node representing "(*byte)(&n[i])".
 func bytePtrToIndex(n ir.Node, i int64) ir.Node {
-	s := nodAddr(ir.NewIndexExpr(base.Pos, n, nodintconst(i)))
+	s := typecheck.NodAddr(ir.NewIndexExpr(base.Pos, n, ir.NewInt(i)))
 	t := types.NewPtr(types.Types[types.TUINT8])
 	return convnop(s, t)
 }
@@ -369,9 +287,9 @@ var scase *types.Type
 // Keep in sync with src/runtime/select.go.
 func scasetype() *types.Type {
 	if scase == nil {
-		scase = tostruct([]*ir.Field{
-			namedfield("c", types.Types[types.TUNSAFEPTR]),
-			namedfield("elem", types.Types[types.TUNSAFEPTR]),
+		scase = typecheck.NewStructType([]*ir.Field{
+			ir.NewField(base.Pos, typecheck.Lookup("c"), nil, types.Types[types.TUNSAFEPTR]),
+			ir.NewField(base.Pos, typecheck.Lookup("elem"), nil, types.Types[types.TUNSAFEPTR]),
 		})
 		scase.SetNoalg(true)
 	}

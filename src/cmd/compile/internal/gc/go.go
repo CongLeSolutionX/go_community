@@ -5,7 +5,6 @@
 package gc
 
 import (
-	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
@@ -35,54 +34,9 @@ var (
 	smallArrayBytes = int64(256)
 )
 
-// isRuntimePkg reports whether p is package runtime.
-func isRuntimePkg(p *types.Pkg) bool {
-	if base.Flag.CompilingRuntime && p == types.LocalPkg {
-		return true
-	}
-	return p.Path == "runtime"
-}
-
-// isReflectPkg reports whether p is package reflect.
-func isReflectPkg(p *types.Pkg) bool {
-	if p == types.LocalPkg {
-		return base.Ctxt.Pkgpath == "reflect"
-	}
-	return p.Path == "reflect"
-}
-
 var pragcgobuf [][]string
 
-var decldepth int32
-
-var inimport bool // set during import
-
 var zerosize int64
-
-var (
-	isInt     [types.NTYPE]bool
-	isFloat   [types.NTYPE]bool
-	isComplex [types.NTYPE]bool
-	issimple  [types.NTYPE]bool
-)
-
-var (
-	okforeq    [types.NTYPE]bool
-	okforadd   [types.NTYPE]bool
-	okforand   [types.NTYPE]bool
-	okfornone  [types.NTYPE]bool
-	okforbool  [types.NTYPE]bool
-	okforcap   [types.NTYPE]bool
-	okforlen   [types.NTYPE]bool
-	okforarith [types.NTYPE]bool
-)
-
-var okforcmp [types.NTYPE]bool
-
-var (
-	okfor [ir.OEND][]bool
-	iscmp [ir.OEND]bool
-)
 
 var xtop []ir.Node
 
@@ -92,12 +46,6 @@ var (
 	funcsymsmu sync.Mutex // protects funcsyms and associated package lookups (see func funcsym)
 	funcsyms   []*types.Sym
 )
-
-var dclcontext ir.Class // PEXTERN/PAUTO
-
-var Curfn *ir.Func
-
-var typecheckok bool
 
 // Whether we are adding any sort of code instrumentation, such as
 // when the race detector is enabled.

@@ -2,15 +2,29 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// TODO(gri) This file should probably become part of package types.
-
-package gc
+package typecheck
 
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+)
+
+var (
+	okfor [ir.OEND][]bool
+	iscmp [ir.OEND]bool
+)
+
+var (
+	okforeq    [types.NTYPE]bool
+	okforadd   [types.NTYPE]bool
+	okforand   [types.NTYPE]bool
+	okfornone  [types.NTYPE]bool
+	okforbool  [types.NTYPE]bool
+	okforcap   [types.NTYPE]bool
+	okforlen   [types.NTYPE]bool
+	okforarith [types.NTYPE]bool
 )
 
 var basicTypes = [...]struct {
@@ -75,7 +89,7 @@ var unsafeFuncs = [...]struct {
 }
 
 // initUniverse initializes the universe block.
-func initUniverse() {
+func InitUniverse() {
 	if types.PtrSize == 0 {
 		base.Fatalf("typeinit before betypeinit")
 	}
@@ -165,16 +179,16 @@ func initUniverse() {
 	}
 
 	s = types.BuiltinPkg.Lookup("true")
-	b := nodbool(true)
-	b.(*ir.Name).SetSym(lookup("true"))
+	b := ir.NewBool(true)
+	b.(*ir.Name).SetSym(Lookup("true"))
 	s.Def = b
 
 	s = types.BuiltinPkg.Lookup("false")
-	b = nodbool(false)
-	b.(*ir.Name).SetSym(lookup("false"))
+	b = ir.NewBool(false)
+	b.(*ir.Name).SetSym(Lookup("false"))
 	s.Def = b
 
-	s = lookup("_")
+	s = Lookup("_")
 	types.BlankSym = s
 	s.Block = -100
 	s.Def = NewName(s)
@@ -191,7 +205,7 @@ func initUniverse() {
 
 	types.Types[types.TNIL] = types.New(types.TNIL)
 	s = types.BuiltinPkg.Lookup("nil")
-	nnil := nodnil()
+	nnil := NodNil()
 	nnil.(*ir.NilExpr).SetSym(s)
 	s.Def = nnil
 
@@ -199,49 +213,49 @@ func initUniverse() {
 	s.Def = ir.NewIota(base.Pos, s)
 
 	for et := types.TINT8; et <= types.TUINT64; et++ {
-		isInt[et] = true
+		types.IsInt[et] = true
 	}
-	isInt[types.TINT] = true
-	isInt[types.TUINT] = true
-	isInt[types.TUINTPTR] = true
+	types.IsInt[types.TINT] = true
+	types.IsInt[types.TUINT] = true
+	types.IsInt[types.TUINTPTR] = true
 
-	isFloat[types.TFLOAT32] = true
-	isFloat[types.TFLOAT64] = true
+	types.IsFloat[types.TFLOAT32] = true
+	types.IsFloat[types.TFLOAT64] = true
 
-	isComplex[types.TCOMPLEX64] = true
-	isComplex[types.TCOMPLEX128] = true
+	types.IsComplex[types.TCOMPLEX64] = true
+	types.IsComplex[types.TCOMPLEX128] = true
 
 	// initialize okfor
 	for et := types.Kind(0); et < types.NTYPE; et++ {
-		if isInt[et] || et == types.TIDEAL {
+		if types.IsInt[et] || et == types.TIDEAL {
 			okforeq[et] = true
-			okforcmp[et] = true
+			types.IsOrdered[et] = true
 			okforarith[et] = true
 			okforadd[et] = true
 			okforand[et] = true
 			ir.OKForConst[et] = true
-			issimple[et] = true
+			types.IsSimple[et] = true
 		}
 
-		if isFloat[et] {
+		if types.IsFloat[et] {
 			okforeq[et] = true
-			okforcmp[et] = true
+			types.IsOrdered[et] = true
 			okforadd[et] = true
 			okforarith[et] = true
 			ir.OKForConst[et] = true
-			issimple[et] = true
+			types.IsSimple[et] = true
 		}
 
-		if isComplex[et] {
+		if types.IsComplex[et] {
 			okforeq[et] = true
 			okforadd[et] = true
 			okforarith[et] = true
 			ir.OKForConst[et] = true
-			issimple[et] = true
+			types.IsSimple[et] = true
 		}
 	}
 
-	issimple[types.TBOOL] = true
+	types.IsSimple[types.TBOOL] = true
 
 	okforadd[types.TSTRING] = true
 
@@ -272,7 +286,7 @@ func initUniverse() {
 	okforeq[types.TARRAY] = true  // only if element type is comparable; refined in typecheck
 	okforeq[types.TSTRUCT] = true // only if all struct fields are comparable; refined in typecheck
 
-	okforcmp[types.TSTRING] = true
+	types.IsOrdered[types.TSTRING] = true
 
 	for i := range okfor {
 		okfor[i] = okfornone[:]
@@ -285,10 +299,10 @@ func initUniverse() {
 	okfor[ir.OANDNOT] = okforand[:]
 	okfor[ir.ODIV] = okforarith[:]
 	okfor[ir.OEQ] = okforeq[:]
-	okfor[ir.OGE] = okforcmp[:]
-	okfor[ir.OGT] = okforcmp[:]
-	okfor[ir.OLE] = okforcmp[:]
-	okfor[ir.OLT] = okforcmp[:]
+	okfor[ir.OGE] = types.IsOrdered[:]
+	okfor[ir.OGT] = types.IsOrdered[:]
+	okfor[ir.OLE] = types.IsOrdered[:]
+	okfor[ir.OLT] = types.IsOrdered[:]
 	okfor[ir.OMOD] = okforand[:]
 	okfor[ir.OMUL] = okforarith[:]
 	okfor[ir.ONE] = okforeq[:]
@@ -322,12 +336,12 @@ func makeErrorInterface() *types.Type {
 	sig := types.NewSignature(types.NoPkg, fakeRecvField(), nil, []*types.Field{
 		types.NewField(src.NoXPos, nil, types.Types[types.TSTRING]),
 	})
-	method := types.NewField(src.NoXPos, lookup("Error"), sig)
+	method := types.NewField(src.NoXPos, Lookup("Error"), sig)
 	return types.NewInterface(types.NoPkg, []*types.Field{method})
 }
 
 // finishUniverse makes the universe block visible within the current package.
-func finishUniverse() {
+func FinishUniverse() {
 	// Operationally, this is similar to a dot import of builtinpkg, except
 	// that we silently skip symbols that are already declared in the
 	// package block rather than emitting a redeclared symbol error.
@@ -336,7 +350,7 @@ func finishUniverse() {
 		if s.Def == nil {
 			continue
 		}
-		s1 := lookup(s.Name)
+		s1 := Lookup(s.Name)
 		if s1.Def != nil {
 			continue
 		}

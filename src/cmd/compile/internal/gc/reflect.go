@@ -7,6 +7,7 @@ package gc
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/gcprog"
 	"cmd/internal/obj"
@@ -131,7 +132,7 @@ func bmap(t *types.Type) *types.Type {
 	types.CalcSize(bucket)
 
 	// Check invariants that map code depends on.
-	if !IsComparable(t.Key()) {
+	if !types.IsComparable(t.Key()) {
 		base.Fatalf("unsupported map key type for %v", t)
 	}
 	if BUCKETSIZE < 8 {
@@ -338,51 +339,21 @@ func deferstruct(stksize int64) *types.Type {
 	return s
 }
 
-// f is method type, with receiver.
-// return function type, receiver as first argument (or not).
-func methodfunc(f *types.Type, receiver *types.Type) *types.Type {
-	inLen := f.Params().Fields().Len()
-	if receiver != nil {
-		inLen++
-	}
-	in := make([]*ir.Field, 0, inLen)
-
-	if receiver != nil {
-		d := anonfield(receiver)
-		in = append(in, d)
-	}
-
-	for _, t := range f.Params().Fields().Slice() {
-		d := anonfield(t.Type)
-		d.IsDDD = t.IsDDD()
-		in = append(in, d)
-	}
-
-	outLen := f.Results().Fields().Len()
-	out := make([]*ir.Field, 0, outLen)
-	for _, t := range f.Results().Fields().Slice() {
-		d := anonfield(t.Type)
-		out = append(out, d)
-	}
-
-	return functype(nil, in, out)
-}
-
 // methods returns the methods of the non-interface type t, sorted by name.
 // Generates stub functions as needed.
 func methods(t *types.Type) []*Sig {
 	// method type
-	mt := methtype(t)
+	mt := types.ReceiverBaseType(t)
 
 	if mt == nil {
 		return nil
 	}
-	expandmeth(mt)
+	typecheck.CalcMethods(mt)
 
 	// type stored in interface word
 	it := t
 
-	if !isdirectiface(it) {
+	if !types.IsInterfaceWord(it) {
 		it = types.NewPtr(t)
 	}
 
@@ -409,16 +380,16 @@ func methods(t *types.Type) []*Sig {
 		// if pointer receiver but non-pointer t and
 		// this is not an embedded pointer inside a struct,
 		// method does not apply.
-		if !isMethodApplicable(t, f) {
+		if !types.IsMethodApplicable(t, f) {
 			continue
 		}
 
 		sig := &Sig{
 			name:  method,
-			isym:  methodSym(it, method),
-			tsym:  methodSym(t, method),
-			type_: methodfunc(f.Type, t),
-			mtype: methodfunc(f.Type, nil),
+			isym:  ir.MethodSym(it, method),
+			tsym:  ir.MethodSym(t, method),
+			type_: typecheck.NewMethodType(f.Type, t),
+			mtype: typecheck.NewMethodType(f.Type, nil),
 		}
 		ms = append(ms, sig)
 
@@ -462,7 +433,7 @@ func imethods(t *types.Type) []*Sig {
 		sig := &Sig{
 			name:  f.Sym,
 			mtype: f.Type,
-			type_: methodfunc(f.Type, nil),
+			type_: typecheck.NewMethodType(f.Type, nil),
 		}
 		methods = append(methods, sig)
 
@@ -470,7 +441,7 @@ func imethods(t *types.Type) []*Sig {
 		// IfaceType.Method is not in the reflect data.
 		// Generate the method body, so that compiled
 		// code can refer to it.
-		isym := methodSym(t, f.Sym)
+		isym := ir.MethodSym(t, f.Sym)
 		if !isym.Siggen() {
 			isym.SetSiggen(true)
 			genwrapper(t, f, isym)
@@ -894,7 +865,7 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 	ot = duint8(lsym, ot, t.Align) // fieldAlign
 
 	i = kinds[t.Kind()]
-	if isdirectiface(t) {
+	if types.IsInterfaceWord(t) {
 		i |= objabi.KindDirectIface
 	}
 	if useGCProg {
@@ -922,40 +893,6 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 	return ot
 }
 
-// typeHasNoAlg reports whether t does not have any associated hash/eq
-// algorithms because t, or some component of t, is marked Noalg.
-func typeHasNoAlg(t *types.Type) bool {
-	a, bad := algtype1(t)
-	return a == ANOEQ && bad.Noalg()
-}
-
-func typesymname(t *types.Type) string {
-	name := t.ShortString()
-	// Use a separate symbol name for Noalg types for #17752.
-	if typeHasNoAlg(t) {
-		name = "noalg." + name
-	}
-	return name
-}
-
-// Fake package for runtime type info (headers)
-// Don't access directly, use typeLookup below.
-var (
-	typepkgmu sync.Mutex // protects typepkg lookups
-	typepkg   = types.NewPkg("type", "type")
-)
-
-func typeLookup(name string) *types.Sym {
-	typepkgmu.Lock()
-	s := typepkg.Lookup(name)
-	typepkgmu.Unlock()
-	return s
-}
-
-func typesym(t *types.Type) *types.Sym {
-	return typeLookup(typesymname(t))
-}
-
 // tracksym returns the symbol for tracking use of field/method f, assumed
 // to be a member of struct/interface type t.
 func tracksym(t *types.Type, f *types.Field) *types.Sym {
@@ -964,7 +901,7 @@ func tracksym(t *types.Type, f *types.Field) *types.Sym {
 
 func typesymprefix(prefix string, t *types.Type) *types.Sym {
 	p := prefix + "." + t.ShortString()
-	s := typeLookup(p)
+	s := types.TypeSymLookup(p)
 
 	// This function is for looking up type-related generated functions
 	// (e.g. eq and hash). Make sure they are indeed generated.
@@ -981,7 +918,7 @@ func typenamesym(t *types.Type) *types.Sym {
 	if t == nil || (t.IsPtr() && t.Elem() == nil) || t.IsUntyped() {
 		base.Fatalf("typenamesym %v", t)
 	}
-	s := typesym(t)
+	s := types.TypeSym(t)
 	signatmu.Lock()
 	addsignat(t)
 	signatmu.Unlock()
@@ -998,7 +935,7 @@ func typename(t *types.Type) *ir.AddrExpr {
 		s.Def = n
 	}
 
-	n := nodAddr(ir.AsNode(s.Def))
+	n := typecheck.NodAddr(ir.AsNode(s.Def))
 	n.SetType(types.NewPtr(s.Def.Type()))
 	n.SetTypecheck(1)
 	return n
@@ -1010,7 +947,7 @@ func itabname(t, itype *types.Type) *ir.AddrExpr {
 	}
 	s := types.Pkgs.Itab.Lookup(t.ShortString() + "," + itype.ShortString())
 	if s.Def == nil {
-		n := NewName(s)
+		n := typecheck.NewName(s)
 		n.SetType(types.Types[types.TUINT8])
 		n.Class_ = ir.PEXTERN
 		n.SetTypecheck(1)
@@ -1018,7 +955,7 @@ func itabname(t, itype *types.Type) *ir.AddrExpr {
 		itabs = append(itabs, itabEntry{t: t, itype: itype, lsym: s.Linksym()})
 	}
 
-	n := nodAddr(ir.AsNode(s.Def))
+	n := typecheck.NodAddr(ir.AsNode(s.Def))
 	n.SetType(types.NewPtr(s.Def.Type()))
 	n.SetTypecheck(1)
 	return n
@@ -1138,7 +1075,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 		base.Fatalf("dtypesym %v", t)
 	}
 
-	s := typesym(t)
+	s := types.TypeSym(t)
 	lsym := s.Linksym()
 	if s.Siggen() {
 		return lsym
@@ -1161,7 +1098,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 	if base.Ctxt.Pkgpath != "runtime" || (tbase != types.Types[tbase.Kind()] && tbase != types.ByteType && tbase != types.RuneType && tbase != types.ErrorType) { // int, float, etc
 		// named types from other files are defined only by those files
 		if tbase.Sym() != nil && tbase.Sym().Pkg != types.LocalPkg {
-			if i, ok := typeSymIdx[tbase]; ok {
+			if i, ok := typecheck.TODO_typeSymIdx[tbase]; ok {
 				lsym.Pkg = tbase.Sym().Pkg.Prefix
 				if t != tbase {
 					lsym.SymIdx = int32(i[1])
@@ -1407,7 +1344,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 		}
 	}
 	// Do not put Noalg types in typelinks.  See issue #22605.
-	if typeHasNoAlg(t) {
+	if types.TypeHasNoAlg(t) {
 		keep = false
 	}
 	lsym.Set(obj.AttrMakeTypelink, keep)
@@ -1531,7 +1468,7 @@ func dumpsignats() {
 		signats = signats[:0]
 		// Transfer entries to a slice and sort, for reproducible builds.
 		for _, t := range signatslice {
-			signats = append(signats, typeAndStr{t: t, short: typesymname(t), regular: t.String()})
+			signats = append(signats, typeAndStr{t: t, short: types.TypeSymName(t), regular: t.String()})
 			delete(signatset, t)
 		}
 		signatslice = signatslice[:0]
@@ -1624,7 +1561,7 @@ func dumpbasictypes() {
 		// The latter is the type of an auto-generated wrapper.
 		dtypesym(types.NewPtr(types.ErrorType))
 
-		dtypesym(functype(nil, []*ir.Field{anonfield(types.ErrorType)}, []*ir.Field{anonfield(types.Types[types.TSTRING])}))
+		dtypesym(typecheck.NewFuncType(nil, []*ir.Field{ir.NewField(base.Pos, nil, nil, types.ErrorType)}, []*ir.Field{ir.NewField(base.Pos, nil, nil, types.Types[types.TSTRING])}))
 
 		// add paths for runtime and main, which 6l imports implicitly.
 		dimportpath(types.Pkgs.Runtime)
@@ -1876,13 +1813,13 @@ func zeroaddr(size int64) ir.Node {
 	}
 	s := types.Pkgs.Map.Lookup("zero")
 	if s.Def == nil {
-		x := NewName(s)
+		x := typecheck.NewName(s)
 		x.SetType(types.Types[types.TUINT8])
 		x.Class_ = ir.PEXTERN
 		x.SetTypecheck(1)
 		s.Def = x
 	}
-	z := nodAddr(ir.AsNode(s.Def))
+	z := typecheck.NodAddr(ir.AsNode(s.Def))
 	z.SetType(types.NewPtr(types.Types[types.TUINT8]))
 	z.SetTypecheck(1)
 	return z

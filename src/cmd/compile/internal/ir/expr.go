@@ -5,9 +5,11 @@
 package ir
 
 import (
+	"bytes"
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+	"fmt"
 	"go/constant"
 )
 
@@ -765,4 +767,131 @@ func (n *UnaryExpr) SetOp(op Op) {
 		OCHECKNIL, OCFUNC, OIDATA, OITAB, ONEWOBJ, OSPTR, OVARDEF, OVARKILL, OVARLIVE:
 		n.op = op
 	}
+}
+
+// lvalue etc
+func IsAssignable(n Node) bool {
+	switch n.Op() {
+	case OINDEX:
+		n := n.(*IndexExpr)
+		if n.X.Type() != nil && n.X.Type().IsArray() {
+			return IsAssignable(n.X)
+		}
+		if n.X.Type() != nil && n.X.Type().IsString() {
+			return false
+		}
+		fallthrough
+	case ODEREF, ODOTPTR, OCLOSUREREAD:
+		return true
+
+	case ODOT:
+		n := n.(*SelectorExpr)
+		return IsAssignable(n.X)
+
+	case ONAME:
+		n := n.(*Name)
+		if n.Class_ == PFUNC {
+			return false
+		}
+		return true
+
+	case ONAMEOFFSET:
+		return true
+	}
+
+	return false
+}
+
+func ParamNames(ft *types.Type) []Node {
+	args := make([]Node, ft.NumParams())
+	for i, f := range ft.Params().FieldSlice() {
+		args[i] = AsNode(f.Nname)
+	}
+	return args
+}
+
+// methodSym returns the method symbol representing a method name
+// associated with a specific receiver type.
+//
+// Method symbols can be used to distinguish the same method appearing
+// in different method sets. For example, T.M and (*T).M have distinct
+// method symbols.
+//
+// The returned symbol will be marked as a function.
+func MethodSym(recv *types.Type, msym *types.Sym) *types.Sym {
+	sym := MethodSymSuffix(recv, msym, "")
+	sym.SetFunc(true)
+	return sym
+}
+
+// methodSymSuffix is like methodsym, but allows attaching a
+// distinguisher suffix. To avoid collisions, the suffix must not
+// start with a letter, number, or period.
+func MethodSymSuffix(recv *types.Type, msym *types.Sym, suffix string) *types.Sym {
+	if msym.IsBlank() {
+		base.Fatalf("blank method name")
+	}
+
+	rsym := recv.Sym()
+	if recv.IsPtr() {
+		if rsym != nil {
+			base.Fatalf("declared pointer receiver type: %v", recv)
+		}
+		rsym = recv.Elem().Sym()
+	}
+
+	// Find the package the receiver type appeared in. For
+	// anonymous receiver types (i.e., anonymous structs with
+	// embedded fields), use the "go" pseudo-package instead.
+	rpkg := types.Pkgs.Go
+	if rsym != nil {
+		rpkg = rsym.Pkg
+	}
+
+	var b bytes.Buffer
+	if recv.IsPtr() {
+		// The parentheses aren't really necessary, but
+		// they're pretty traditional at this point.
+		fmt.Fprintf(&b, "(%-S)", recv)
+	} else {
+		fmt.Fprintf(&b, "%-S", recv)
+	}
+
+	// A particular receiver type may have multiple non-exported
+	// methods with the same name. To disambiguate them, include a
+	// package qualifier for names that came from a different
+	// package than the receiver type.
+	if !types.IsExported(msym.Name) && msym.Pkg != rpkg {
+		b.WriteString(".")
+		b.WriteString(msym.Pkg.Prefix)
+	}
+
+	b.WriteString(".")
+	b.WriteString(msym.Name)
+	b.WriteString(suffix)
+
+	return rpkg.LookupBytes(b.Bytes())
+}
+
+// MethodName returns the ONAME representing the method
+// referenced by expression n, which must be a method selector,
+// method expression, or method value.
+func MethodExprName(n Node) *Name {
+	name, _ := MethodExprFunc(n).Nname.(*Name)
+	return name
+}
+
+// MethodFunc is like MethodName, but returns the types.Field instead.
+func MethodExprFunc(n Node) *types.Field {
+	switch n.Op() {
+	case ODOTMETH:
+		return n.(*SelectorExpr).Selection
+	case OMETHEXPR:
+		return n.(*MethodExpr).Method
+	case OCALLPART:
+		n := n.(*CallPartExpr)
+		return n.Method
+	}
+	base.Fatalf("unexpected node: %v (%v)", n, n.Op())
+	panic("unreachable")
 }

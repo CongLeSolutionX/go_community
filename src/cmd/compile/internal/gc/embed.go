@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 
@@ -111,9 +112,9 @@ func varEmbed(p *noder, names []ir.Node, typ ir.Ntype, exprs []ir.Node, embeds [
 	}
 
 	v := names[0].(*ir.Name)
-	if dclcontext != ir.PEXTERN {
+	if typecheck.DeclContext != ir.PEXTERN {
 		numLocalEmbed++
-		v = ir.NewNameAt(v.Pos(), lookupN("embed.", numLocalEmbed))
+		v = ir.NewNameAt(v.Pos(), typecheck.LookupNum("embed.", numLocalEmbed))
 		v.Sym().Def = v
 		v.Name().Ntype = typ
 		v.Class_ = ir.PEXTERN

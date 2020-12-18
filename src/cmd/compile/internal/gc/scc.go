@@ -88,7 +88,7 @@ func (v *bottomUpVisitor) visit(n *ir.Func) uint32 {
 			}
 		case ir.OMETHEXPR:
 			n := n.(*ir.MethodExpr)
-			fn := methodExprName(n)
+			fn := ir.MethodExprName(n)
 			if fn != nil && fn.Defn != nil {
 				if m := v.visit(fn.Defn.(*ir.Func)); m < min {
 					min = m
@@ -96,7 +96,7 @@ func (v *bottomUpVisitor) visit(n *ir.Func) uint32 {
 			}
 		case ir.ODOTMETH:
 			n := n.(*ir.SelectorExpr)
-			fn := methodExprName(n)
+			fn := ir.MethodExprName(n)
 			if fn != nil && fn.Op() == ir.ONAME && fn.Class_ == ir.PFUNC && fn.Defn != nil {
 				if m := v.visit(fn.Defn.(*ir.Func)); m < min {
 					min = m
@@ -104,7 +104,7 @@ func (v *bottomUpVisitor) visit(n *ir.Func) uint32 {
 			}
 		case ir.OCALLPART:
 			n := n.(*ir.CallPartExpr)
-			fn := ir.AsNode(callpartMethod(n).Nname)
+			fn := ir.AsNode(n.Method.Nname)
 			if fn != nil && fn.Op() == ir.ONAME {
 				if fn := fn.(*ir.Name); fn.Class_ == ir.PFUNC && fn.Name().Defn != nil {
 					if m := v.visit(fn.Name().Defn.(*ir.Func)); m < min {

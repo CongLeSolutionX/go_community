@@ -18,6 +18,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/ssa"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/obj/x86"
@@ -43,7 +44,7 @@ const maxOpenDefers = 8
 var ssaDumpInlined []*ir.Func
 
 func doSsaDumpInlined(fn *ir.Func) {
-	if ssaDump != "" && ssaDump == ir.FuncName(Curfn) {
+	if ssaDump != "" && ssaDump == ir.FuncName(ir.CurFunc) {
 		ssaDumpInlined = append(ssaDumpInlined, fn)
 	}
 }
@@ -74,119 +75,119 @@ func initssaconfig() {
 	ssaCaches = make([]ssa.Cache, base.Flag.LowerC)
 
 	// Set up some runtime functions we'll need to call.
-	types.Syms.AssertE2I = sysfunc("assertE2I")
-	types.Syms.AssertE2I2 = sysfunc("assertE2I2")
-	types.Syms.AssertI2I = sysfunc("assertI2I")
-	types.Syms.AssertI2I2 = sysfunc("assertI2I2")
-	types.Syms.Deferproc = sysfunc("deferproc")
-	types.Syms.DeferprocStack = sysfunc("deferprocStack")
-	types.Syms.Deferreturn = sysfunc("deferreturn")
-	types.Syms.Duffcopy = sysfunc("duffcopy")
-	types.Syms.Duffzero = sysfunc("duffzero")
-	types.Syms.GCWriteBarrier = sysfunc("gcWriteBarrier")
-	types.Syms.Goschedguarded = sysfunc("goschedguarded")
-	types.Syms.Growslice = sysfunc("growslice")
-	types.Syms.Msanread = sysfunc("msanread")
-	types.Syms.Msanwrite = sysfunc("msanwrite")
-	types.Syms.Msanmove = sysfunc("msanmove")
-	types.Syms.Newobject = sysfunc("newobject")
-	types.Syms.Newproc = sysfunc("newproc")
-	types.Syms.Panicdivide = sysfunc("panicdivide")
-	types.Syms.PanicdottypeE = sysfunc("panicdottypeE")
-	types.Syms.PanicdottypeI = sysfunc("panicdottypeI")
-	types.Syms.Panicnildottype = sysfunc("panicnildottype")
-	types.Syms.Panicoverflow = sysfunc("panicoverflow")
-	types.Syms.Panicshift = sysfunc("panicshift")
-	types.Syms.Raceread = sysfunc("raceread")
-	types.Syms.Racereadrange = sysfunc("racereadrange")
-	types.Syms.Racewrite = sysfunc("racewrite")
-	types.Syms.Racewriterange = sysfunc("racewriterange")
-	types.Syms.X86HasPOPCNT = sysvar("x86HasPOPCNT")       // bool
-	types.Syms.X86HasSSE41 = sysvar("x86HasSSE41")         // bool
-	types.Syms.X86HasFMA = sysvar("x86HasFMA")             // bool
-	types.Syms.ARMHasVFPv4 = sysvar("armHasVFPv4")         // bool
-	types.Syms.ARM64HasATOMICS = sysvar("arm64HasATOMICS") // bool
-	types.Syms.Typedmemclr = sysfunc("typedmemclr")
-	types.Syms.Typedmemmove = sysfunc("typedmemmove")
-	types.Syms.Udiv = sysvar("udiv")                 // asm func with special ABI
-	types.Syms.WriteBarrier = sysvar("writeBarrier") // struct { bool; ... }
-	types.Syms.Zerobase = sysvar("zerobase")
+	types.Syms.AssertE2I = typecheck.LookupRuntimeFunc("assertE2I")
+	types.Syms.AssertE2I2 = typecheck.LookupRuntimeFunc("assertE2I2")
+	types.Syms.AssertI2I = typecheck.LookupRuntimeFunc("assertI2I")
+	types.Syms.AssertI2I2 = typecheck.LookupRuntimeFunc("assertI2I2")
+	types.Syms.Deferproc = typecheck.LookupRuntimeFunc("deferproc")
+	types.Syms.DeferprocStack = typecheck.LookupRuntimeFunc("deferprocStack")
+	types.Syms.Deferreturn = typecheck.LookupRuntimeFunc("deferreturn")
+	types.Syms.Duffcopy = typecheck.LookupRuntimeFunc("duffcopy")
+	types.Syms.Duffzero = typecheck.LookupRuntimeFunc("duffzero")
+	types.Syms.GCWriteBarrier = typecheck.LookupRuntimeFunc("gcWriteBarrier")
+	types.Syms.Goschedguarded = typecheck.LookupRuntimeFunc("goschedguarded")
+	types.Syms.Growslice = typecheck.LookupRuntimeFunc("growslice")
+	types.Syms.Msanread = typecheck.LookupRuntimeFunc("msanread")
+	types.Syms.Msanwrite = typecheck.LookupRuntimeFunc("msanwrite")
+	types.Syms.Msanmove = typecheck.LookupRuntimeFunc("msanmove")
+	types.Syms.Newobject = typecheck.LookupRuntimeFunc("newobject")
+	types.Syms.Newproc = typecheck.LookupRuntimeFunc("newproc")
+	types.Syms.Panicdivide = typecheck.LookupRuntimeFunc("panicdivide")
+	types.Syms.PanicdottypeE = typecheck.LookupRuntimeFunc("panicdottypeE")
+	types.Syms.PanicdottypeI = typecheck.LookupRuntimeFunc("panicdottypeI")
+	types.Syms.Panicnildottype = typecheck.LookupRuntimeFunc("panicnildottype")
+	types.Syms.Panicoverflow = typecheck.LookupRuntimeFunc("panicoverflow")
+	types.Syms.Panicshift = typecheck.LookupRuntimeFunc("panicshift")
+	types.Syms.Raceread = typecheck.LookupRuntimeFunc("raceread")
+	types.Syms.Racereadrange = typecheck.LookupRuntimeFunc("racereadrange")
+	types.Syms.Racewrite = typecheck.LookupRuntimeFunc("racewrite")
+	types.Syms.Racewriterange = typecheck.LookupRuntimeFunc("racewriterange")
+	types.Syms.X86HasPOPCNT = typecheck.LookupRuntimeVar("x86HasPOPCNT")       // bool
+	types.Syms.X86HasSSE41 = typecheck.LookupRuntimeVar("x86HasSSE41")         // bool
+	types.Syms.X86HasFMA = typecheck.LookupRuntimeVar("x86HasFMA")             // bool
+	types.Syms.ARMHasVFPv4 = typecheck.LookupRuntimeVar("armHasVFPv4")         // bool
+	types.Syms.ARM64HasATOMICS = typecheck.LookupRuntimeVar("arm64HasATOMICS") // bool
+	types.Syms.Typedmemclr = typecheck.LookupRuntimeFunc("typedmemclr")
+	types.Syms.Typedmemmove = typecheck.LookupRuntimeFunc("typedmemmove")
+	types.Syms.Udiv = typecheck.LookupRuntimeVar("udiv")                 // asm func with special ABI
+	types.Syms.WriteBarrier = typecheck.LookupRuntimeVar("writeBarrier") // struct { bool; ... }
+	types.Syms.Zerobase = typecheck.LookupRuntimeVar("zerobase")
 
 	// asm funcs with special ABI
 	if thearch.LinkArch.Name == "amd64" {
 		GCWriteBarrierReg = map[int16]*obj.LSym{
-			x86.REG_AX: sysfunc("gcWriteBarrier"),
-			x86.REG_CX: sysfunc("gcWriteBarrierCX"),
-			x86.REG_DX: sysfunc("gcWriteBarrierDX"),
-			x86.REG_BX: sysfunc("gcWriteBarrierBX"),
-			x86.REG_BP: sysfunc("gcWriteBarrierBP"),
-			x86.REG_SI: sysfunc("gcWriteBarrierSI"),
-			x86.REG_R8: sysfunc("gcWriteBarrierR8"),
-			x86.REG_R9: sysfunc("gcWriteBarrierR9"),
+			x86.REG_AX: typecheck.LookupRuntimeFunc("gcWriteBarrier"),
+			x86.REG_CX: typecheck.LookupRuntimeFunc("gcWriteBarrierCX"),
+			x86.REG_DX: typecheck.LookupRuntimeFunc("gcWriteBarrierDX"),
+			x86.REG_BX: typecheck.LookupRuntimeFunc("gcWriteBarrierBX"),
+			x86.REG_BP: typecheck.LookupRuntimeFunc("gcWriteBarrierBP"),
+			x86.REG_SI: typecheck.LookupRuntimeFunc("gcWriteBarrierSI"),
+			x86.REG_R8: typecheck.LookupRuntimeFunc("gcWriteBarrierR8"),
+			x86.REG_R9: typecheck.LookupRuntimeFunc("gcWriteBarrierR9"),
 		}
 	}
 
 	if thearch.LinkArch.Family == sys.Wasm {
-		BoundsCheckFunc[ssa.BoundsIndex] = sysfunc("goPanicIndex")
-		BoundsCheckFunc[ssa.BoundsIndexU] = sysfunc("goPanicIndexU")
-		BoundsCheckFunc[ssa.BoundsSliceAlen] = sysfunc("goPanicSliceAlen")
-		BoundsCheckFunc[ssa.BoundsSliceAlenU] = sysfunc("goPanicSliceAlenU")
-		BoundsCheckFunc[ssa.BoundsSliceAcap] = sysfunc("goPanicSliceAcap")
-		BoundsCheckFunc[ssa.BoundsSliceAcapU] = sysfunc("goPanicSliceAcapU")
-		BoundsCheckFunc[ssa.BoundsSliceB] = sysfunc("goPanicSliceB")
-		BoundsCheckFunc[ssa.BoundsSliceBU] = sysfunc("goPanicSliceBU")
-		BoundsCheckFunc[ssa.BoundsSlice3Alen] = sysfunc("goPanicSlice3Alen")
-		BoundsCheckFunc[ssa.BoundsSlice3AlenU] = sysfunc("goPanicSlice3AlenU")
-		BoundsCheckFunc[ssa.BoundsSlice3Acap] = sysfunc("goPanicSlice3Acap")
-		BoundsCheckFunc[ssa.BoundsSlice3AcapU] = sysfunc("goPanicSlice3AcapU")
-		BoundsCheckFunc[ssa.BoundsSlice3B] = sysfunc("goPanicSlice3B")
-		BoundsCheckFunc[ssa.BoundsSlice3BU] = sysfunc("goPanicSlice3BU")
-		BoundsCheckFunc[ssa.BoundsSlice3C] = sysfunc("goPanicSlice3C")
-		BoundsCheckFunc[ssa.BoundsSlice3CU] = sysfunc("goPanicSlice3CU")
+		BoundsCheckFunc[ssa.BoundsIndex] = typecheck.LookupRuntimeFunc("goPanicIndex")
+		BoundsCheckFunc[ssa.BoundsIndexU] = typecheck.LookupRuntimeFunc("goPanicIndexU")
+		BoundsCheckFunc[ssa.BoundsSliceAlen] = typecheck.LookupRuntimeFunc("goPanicSliceAlen")
+		BoundsCheckFunc[ssa.BoundsSliceAlenU] = typecheck.LookupRuntimeFunc("goPanicSliceAlenU")
+		BoundsCheckFunc[ssa.BoundsSliceAcap] = typecheck.LookupRuntimeFunc("goPanicSliceAcap")
+		BoundsCheckFunc[ssa.BoundsSliceAcapU] = typecheck.LookupRuntimeFunc("goPanicSliceAcapU")
+		BoundsCheckFunc[ssa.BoundsSliceB] = typecheck.LookupRuntimeFunc("goPanicSliceB")
+		BoundsCheckFunc[ssa.BoundsSliceBU] = typecheck.LookupRuntimeFunc("goPanicSliceBU")
+		BoundsCheckFunc[ssa.BoundsSlice3Alen] = typecheck.LookupRuntimeFunc("goPanicSlice3Alen")
+		BoundsCheckFunc[ssa.BoundsSlice3AlenU] = typecheck.LookupRuntimeFunc("goPanicSlice3AlenU")
+		BoundsCheckFunc[ssa.BoundsSlice3Acap] = typecheck.LookupRuntimeFunc("goPanicSlice3Acap")
+		BoundsCheckFunc[ssa.BoundsSlice3AcapU] = typecheck.LookupRuntimeFunc("goPanicSlice3AcapU")
+		BoundsCheckFunc[ssa.BoundsSlice3B] = typecheck.LookupRuntimeFunc("goPanicSlice3B")
+		BoundsCheckFunc[ssa.BoundsSlice3BU] = typecheck.LookupRuntimeFunc("goPanicSlice3BU")
+		BoundsCheckFunc[ssa.BoundsSlice3C] = typecheck.LookupRuntimeFunc("goPanicSlice3C")
+		BoundsCheckFunc[ssa.BoundsSlice3CU] = typecheck.LookupRuntimeFunc("goPanicSlice3CU")
 	} else {
-		BoundsCheckFunc[ssa.BoundsIndex] = sysfunc("panicIndex")
-		BoundsCheckFunc[ssa.BoundsIndexU] = sysfunc("panicIndexU")
-		BoundsCheckFunc[ssa.BoundsSliceAlen] = sysfunc("panicSliceAlen")
-		BoundsCheckFunc[ssa.BoundsSliceAlenU] = sysfunc("panicSliceAlenU")
-		BoundsCheckFunc[ssa.BoundsSliceAcap] = sysfunc("panicSliceAcap")
-		BoundsCheckFunc[ssa.BoundsSliceAcapU] = sysfunc("panicSliceAcapU")
-		BoundsCheckFunc[ssa.BoundsSliceB] = sysfunc("panicSliceB")
-		BoundsCheckFunc[ssa.BoundsSliceBU] = sysfunc("panicSliceBU")
-		BoundsCheckFunc[ssa.BoundsSlice3Alen] = sysfunc("panicSlice3Alen")
-		BoundsCheckFunc[ssa.BoundsSlice3AlenU] = sysfunc("panicSlice3AlenU")
-		BoundsCheckFunc[ssa.BoundsSlice3Acap] = sysfunc("panicSlice3Acap")
-		BoundsCheckFunc[ssa.BoundsSlice3AcapU] = sysfunc("panicSlice3AcapU")
-		BoundsCheckFunc[ssa.BoundsSlice3B] = sysfunc("panicSlice3B")
-		BoundsCheckFunc[ssa.BoundsSlice3BU] = sysfunc("panicSlice3BU")
-		BoundsCheckFunc[ssa.BoundsSlice3C] = sysfunc("panicSlice3C")
-		BoundsCheckFunc[ssa.BoundsSlice3CU] = sysfunc("panicSlice3CU")
+		BoundsCheckFunc[ssa.BoundsIndex] = typecheck.LookupRuntimeFunc("panicIndex")
+		BoundsCheckFunc[ssa.BoundsIndexU] = typecheck.LookupRuntimeFunc("panicIndexU")
+		BoundsCheckFunc[ssa.BoundsSliceAlen] = typecheck.LookupRuntimeFunc("panicSliceAlen")
+		BoundsCheckFunc[ssa.BoundsSliceAlenU] = typecheck.LookupRuntimeFunc("panicSliceAlenU")
+		BoundsCheckFunc[ssa.BoundsSliceAcap] = typecheck.LookupRuntimeFunc("panicSliceAcap")
+		BoundsCheckFunc[ssa.BoundsSliceAcapU] = typecheck.LookupRuntimeFunc("panicSliceAcapU")
+		BoundsCheckFunc[ssa.BoundsSliceB] = typecheck.LookupRuntimeFunc("panicSliceB")
+		BoundsCheckFunc[ssa.BoundsSliceBU] = typecheck.LookupRuntimeFunc("panicSliceBU")
+		BoundsCheckFunc[ssa.BoundsSlice3Alen] = typecheck.LookupRuntimeFunc("panicSlice3Alen")
+		BoundsCheckFunc[ssa.BoundsSlice3AlenU] = typecheck.LookupRuntimeFunc("panicSlice3AlenU")
+		BoundsCheckFunc[ssa.BoundsSlice3Acap] = typecheck.LookupRuntimeFunc("panicSlice3Acap")
+		BoundsCheckFunc[ssa.BoundsSlice3AcapU] = typecheck.LookupRuntimeFunc("panicSlice3AcapU")
+		BoundsCheckFunc[ssa.BoundsSlice3B] = typecheck.LookupRuntimeFunc("panicSlice3B")
+		BoundsCheckFunc[ssa.BoundsSlice3BU] = typecheck.LookupRuntimeFunc("panicSlice3BU")
+		BoundsCheckFunc[ssa.BoundsSlice3C] = typecheck.LookupRuntimeFunc("panicSlice3C")
+		BoundsCheckFunc[ssa.BoundsSlice3CU] = typecheck.LookupRuntimeFunc("panicSlice3CU")
 	}
 	if thearch.LinkArch.PtrSize == 4 {
-		ExtendCheckFunc[ssa.BoundsIndex] = sysvar("panicExtendIndex")
-		ExtendCheckFunc[ssa.BoundsIndexU] = sysvar("panicExtendIndexU")
-		ExtendCheckFunc[ssa.BoundsSliceAlen] = sysvar("panicExtendSliceAlen")
-		ExtendCheckFunc[ssa.BoundsSliceAlenU] = sysvar("panicExtendSliceAlenU")
-		ExtendCheckFunc[ssa.BoundsSliceAcap] = sysvar("panicExtendSliceAcap")
-		ExtendCheckFunc[ssa.BoundsSliceAcapU] = sysvar("panicExtendSliceAcapU")
-		ExtendCheckFunc[ssa.BoundsSliceB] = sysvar("panicExtendSliceB")
-		ExtendCheckFunc[ssa.BoundsSliceBU] = sysvar("panicExtendSliceBU")
-		ExtendCheckFunc[ssa.BoundsSlice3Alen] = sysvar("panicExtendSlice3Alen")
-		ExtendCheckFunc[ssa.BoundsSlice3AlenU] = sysvar("panicExtendSlice3AlenU")
-		ExtendCheckFunc[ssa.BoundsSlice3Acap] = sysvar("panicExtendSlice3Acap")
-		ExtendCheckFunc[ssa.BoundsSlice3AcapU] = sysvar("panicExtendSlice3AcapU")
-		ExtendCheckFunc[ssa.BoundsSlice3B] = sysvar("panicExtendSlice3B")
-		ExtendCheckFunc[ssa.BoundsSlice3BU] = sysvar("panicExtendSlice3BU")
-		ExtendCheckFunc[ssa.BoundsSlice3C] = sysvar("panicExtendSlice3C")
-		ExtendCheckFunc[ssa.BoundsSlice3CU] = sysvar("panicExtendSlice3CU")
+		ExtendCheckFunc[ssa.BoundsIndex] = typecheck.LookupRuntimeVar("panicExtendIndex")
+		ExtendCheckFunc[ssa.BoundsIndexU] = typecheck.LookupRuntimeVar("panicExtendIndexU")
+		ExtendCheckFunc[ssa.BoundsSliceAlen] = typecheck.LookupRuntimeVar("panicExtendSliceAlen")
+		ExtendCheckFunc[ssa.BoundsSliceAlenU] = typecheck.LookupRuntimeVar("panicExtendSliceAlenU")
+		ExtendCheckFunc[ssa.BoundsSliceAcap] = typecheck.LookupRuntimeVar("panicExtendSliceAcap")
+		ExtendCheckFunc[ssa.BoundsSliceAcapU] = typecheck.LookupRuntimeVar("panicExtendSliceAcapU")
+		ExtendCheckFunc[ssa.BoundsSliceB] = typecheck.LookupRuntimeVar("panicExtendSliceB")
+		ExtendCheckFunc[ssa.BoundsSliceBU] = typecheck.LookupRuntimeVar("panicExtendSliceBU")
+		ExtendCheckFunc[ssa.BoundsSlice3Alen] = typecheck.LookupRuntimeVar("panicExtendSlice3Alen")
+		ExtendCheckFunc[ssa.BoundsSlice3AlenU] = typecheck.LookupRuntimeVar("panicExtendSlice3AlenU")
+		ExtendCheckFunc[ssa.BoundsSlice3Acap] = typecheck.LookupRuntimeVar("panicExtendSlice3Acap")
+		ExtendCheckFunc[ssa.BoundsSlice3AcapU] = typecheck.LookupRuntimeVar("panicExtendSlice3AcapU")
+		ExtendCheckFunc[ssa.BoundsSlice3B] = typecheck.LookupRuntimeVar("panicExtendSlice3B")
+		ExtendCheckFunc[ssa.BoundsSlice3BU] = typecheck.LookupRuntimeVar("panicExtendSlice3BU")
+		ExtendCheckFunc[ssa.BoundsSlice3C] = typecheck.LookupRuntimeVar("panicExtendSlice3C")
+		ExtendCheckFunc[ssa.BoundsSlice3CU] = typecheck.LookupRuntimeVar("panicExtendSlice3CU")
 	}
 
 	// Wasm (all asm funcs with special ABIs)
-	types.Syms.WasmMove = sysvar("wasmMove")
-	types.Syms.WasmZero = sysvar("wasmZero")
-	types.Syms.WasmDiv = sysvar("wasmDiv")
-	types.Syms.WasmTruncS = sysvar("wasmTruncS")
-	types.Syms.WasmTruncU = sysvar("wasmTruncU")
-	types.Syms.SigPanic = sysfunc("sigpanic")
+	types.Syms.WasmMove = typecheck.LookupRuntimeVar("wasmMove")
+	types.Syms.WasmZero = typecheck.LookupRuntimeVar("wasmZero")
+	types.Syms.WasmDiv = typecheck.LookupRuntimeVar("wasmDiv")
+	types.Syms.WasmTruncS = typecheck.LookupRuntimeVar("wasmTruncS")
+	types.Syms.WasmTruncU = typecheck.LookupRuntimeVar("wasmTruncU")
+	types.Syms.SigPanic = typecheck.LookupRuntimeFunc("sigpanic")
 }
 
 // getParam returns the Field of ith param of node n (which is a
@@ -401,7 +402,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 		// Create the deferBits variable and stack slot.  deferBits is a
 		// bitmask showing which of the open-coded defers in this function
 		// have been activated.
-		deferBitsTemp := tempAt(src.NoXPos, s.curfn, types.Types[types.TUINT8])
+		deferBitsTemp := typecheck.TempAt(src.NoXPos, s.curfn, types.Types[types.TUINT8])
 		s.deferBitsTemp = deferBitsTemp
 		// For this value, AuxInt is initialized to zero by default
 		startDeferBits := s.entryNewValue0(ssa.OpConst8, types.Types[types.TUINT8])
@@ -693,7 +694,7 @@ func (s *state) Warnl(pos src.XPos, msg string, args ...interface{}) { s.f.Warnl
 func (s *state) Debug_checknil() bool                                { return s.f.Frontend().Debug_checknil() }
 
 func ssaMarker(name string) *ir.Name {
-	return NewName(&types.Sym{Name: name})
+	return typecheck.NewName(&types.Sym{Name: name})
 }
 
 var (
@@ -1899,28 +1900,6 @@ func (s *state) ssaOp(op ir.Op, t *types.Type) ssa.Op {
 	return x
 }
 
-func floatForComplex(t *types.Type) *types.Type {
-	switch t.Kind() {
-	case types.TCOMPLEX64:
-		return types.Types[types.TFLOAT32]
-	case types.TCOMPLEX128:
-		return types.Types[types.TFLOAT64]
-	}
-	base.Fatalf("unexpected type: %v", t)
-	return nil
-}
-
-func complexForFloat(t *types.Type) *types.Type {
-	switch t.Kind() {
-	case types.TFLOAT32:
-		return types.Types[types.TCOMPLEX64]
-	case types.TFLOAT64:
-		return types.Types[types.TCOMPLEX128]
-	}
-	base.Fatalf("unexpected type: %v", t)
-	return nil
-}
-
 type opAndTwoTypes struct {
 	op     ir.Op
 	etype1 types.Kind
@@ -2090,7 +2069,7 @@ func (s *state) ssaShiftOp(op ir.Op, t *types.Type, u *types.Type) ssa.Op {
 
 // expr converts the expression n to ssa, adds it to s and returns the ssa result.
 func (s *state) expr(n ir.Node) *ssa.Value {
-	if hasUniquePos(n) {
+	if ir.HasUniquePos(n) {
 		// ONAMEs and named OLITERALs have the line number
 		// of the decl, not the use. See issue 14742.
 		s.pushLine(n.Pos())
@@ -2441,8 +2420,8 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 			} else {
 				s.Fatalf("weird complex conversion %v -> %v", ft, tt)
 			}
-			ftp := floatForComplex(ft)
-			ttp := floatForComplex(tt)
+			ftp := types.FloatForComplex(ft)
+			ttp := types.FloatForComplex(tt)
 			return s.newValue2(ssa.OpComplexMake, tt,
 				s.newValueOrSfCall1(op, ttp, s.newValue1(ssa.OpComplexReal, ftp, x)),
 				s.newValueOrSfCall1(op, ttp, s.newValue1(ssa.OpComplexImag, ftp, x)))
@@ -2462,7 +2441,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 		a := s.expr(n.X)
 		b := s.expr(n.Y)
 		if n.X.Type().IsComplex() {
-			pt := floatForComplex(n.X.Type())
+			pt := types.FloatForComplex(n.X.Type())
 			op := s.ssaOp(ir.OEQ, pt)
 			r := s.newValueOrSfCall2(op, types.Types[types.TBOOL], s.newValue1(ssa.OpComplexReal, pt, a), s.newValue1(ssa.OpComplexReal, pt, b))
 			i := s.newValueOrSfCall2(op, types.Types[types.TBOOL], s.newValue1(ssa.OpComplexImag, pt, a), s.newValue1(ssa.OpComplexImag, pt, b))
@@ -2499,8 +2478,8 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 			mulop := ssa.OpMul64F
 			addop := ssa.OpAdd64F
 			subop := ssa.OpSub64F
-			pt := floatForComplex(n.Type())   // Could be Float32 or Float64
-			wt := types.Types[types.TFLOAT64] // Compute in Float64 to minimize cancellation error
+			pt := types.FloatForComplex(n.Type()) // Could be Float32 or Float64
+			wt := types.Types[types.TFLOAT64]     // Compute in Float64 to minimize cancellation error
 
 			areal := s.newValue1(ssa.OpComplexReal, pt, a)
 			breal := s.newValue1(ssa.OpComplexReal, pt, b)
@@ -2543,8 +2522,8 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 			addop := ssa.OpAdd64F
 			subop := ssa.OpSub64F
 			divop := ssa.OpDiv64F
-			pt := floatForComplex(n.Type())   // Could be Float32 or Float64
-			wt := types.Types[types.TFLOAT64] // Compute in Float64 to minimize cancellation error
+			pt := types.FloatForComplex(n.Type()) // Could be Float32 or Float64
+			wt := types.Types[types.TFLOAT64]     // Compute in Float64 to minimize cancellation error
 
 			areal := s.newValue1(ssa.OpComplexReal, pt, a)
 			breal := s.newValue1(ssa.OpComplexReal, pt, b)
@@ -2589,7 +2568,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 		a := s.expr(n.X)
 		b := s.expr(n.Y)
 		if n.Type().IsComplex() {
-			pt := floatForComplex(n.Type())
+			pt := types.FloatForComplex(n.Type())
 			op := s.ssaOp(n.Op(), pt)
 			return s.newValue2(ssa.OpComplexMake, n.Type(),
 				s.newValueOrSfCall2(op, pt, s.newValue1(ssa.OpComplexReal, pt, a), s.newValue1(ssa.OpComplexReal, pt, b)),
@@ -2677,7 +2656,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 		n := n.(*ir.UnaryExpr)
 		a := s.expr(n.X)
 		if n.Type().IsComplex() {
-			tp := floatForComplex(n.Type())
+			tp := types.FloatForComplex(n.Type())
 			negop := s.ssaOp(n.Op(), tp)
 			return s.newValue2(ssa.OpComplexMake, n.Type(),
 				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexReal, tp, a)),
@@ -2740,7 +2719,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 		// SSA, then load just the selected field. This
 		// prevents false memory dependencies in race/msan
 		// instrumentation.
-		if islvalue(n) && !s.canSSA(n) {
+		if ir.IsAssignable(n) && !s.canSSA(n) {
 			p := s.addr(n)
 			return s.load(n.Type(), p)
 		}
@@ -3347,38 +3326,38 @@ var softFloatOps map[ssa.Op]sfRtCallDef
 func softfloatInit() {
 	// Some of these operations get transformed by sfcall.
 	softFloatOps = map[ssa.Op]sfRtCallDef{
-		ssa.OpAdd32F: sfRtCallDef{sysfunc("fadd32"), types.TFLOAT32},
-		ssa.OpAdd64F: sfRtCallDef{sysfunc("fadd64"), types.TFLOAT64},
-		ssa.OpSub32F: sfRtCallDef{sysfunc("fadd32"), types.TFLOAT32},
-		ssa.OpSub64F: sfRtCallDef{sysfunc("fadd64"), types.TFLOAT64},
-		ssa.OpMul32F: sfRtCallDef{sysfunc("fmul32"), types.TFLOAT32},
-		ssa.OpMul64F: sfRtCallDef{sysfunc("fmul64"), types.TFLOAT64},
-		ssa.OpDiv32F: sfRtCallDef{sysfunc("fdiv32"), types.TFLOAT32},
-		ssa.OpDiv64F: sfRtCallDef{sysfunc("fdiv64"), types.TFLOAT64},
+		ssa.OpAdd32F: sfRtCallDef{typecheck.LookupRuntimeFunc("fadd32"), types.TFLOAT32},
+		ssa.OpAdd64F: sfRtCallDef{typecheck.LookupRuntimeFunc("fadd64"), types.TFLOAT64},
+		ssa.OpSub32F: sfRtCallDef{typecheck.LookupRuntimeFunc("fadd32"), types.TFLOAT32},
+		ssa.OpSub64F: sfRtCallDef{typecheck.LookupRuntimeFunc("fadd64"), types.TFLOAT64},
+		ssa.OpMul32F: sfRtCallDef{typecheck.LookupRuntimeFunc("fmul32"), types.TFLOAT32},
+		ssa.OpMul64F: sfRtCallDef{typecheck.LookupRuntimeFunc("fmul64"), types.TFLOAT64},
+		ssa.OpDiv32F: sfRtCallDef{typecheck.LookupRuntimeFunc("fdiv32"), types.TFLOAT32},
+		ssa.OpDiv64F: sfRtCallDef{typecheck.LookupRuntimeFunc("fdiv64"), types.TFLOAT64},
 
-		ssa.OpEq64F:   sfRtCallDef{sysfunc("feq64"), types.TBOOL},
-		ssa.OpEq32F:   sfRtCallDef{sysfunc("feq32"), types.TBOOL},
-		ssa.OpNeq64F:  sfRtCallDef{sysfunc("feq64"), types.TBOOL},
-		ssa.OpNeq32F:  sfRtCallDef{sysfunc("feq32"), types.TBOOL},
-		ssa.OpLess64F: sfRtCallDef{sysfunc("fgt64"), types.TBOOL},
-		ssa.OpLess32F: sfRtCallDef{sysfunc("fgt32"), types.TBOOL},
-		ssa.OpLeq64F:  sfRtCallDef{sysfunc("fge64"), types.TBOOL},
-		ssa.OpLeq32F:  sfRtCallDef{sysfunc("fge32"), types.TBOOL},
+		ssa.OpEq64F:   sfRtCallDef{typecheck.LookupRuntimeFunc("feq64"), types.TBOOL},
+		ssa.OpEq32F:   sfRtCallDef{typecheck.LookupRuntimeFunc("feq32"), types.TBOOL},
+		ssa.OpNeq64F:  sfRtCallDef{typecheck.LookupRuntimeFunc("feq64"), types.TBOOL},
+		ssa.OpNeq32F:  sfRtCallDef{typecheck.LookupRuntimeFunc("feq32"), types.TBOOL},
+		ssa.OpLess64F: sfRtCallDef{typecheck.LookupRuntimeFunc("fgt64"), types.TBOOL},
+		ssa.OpLess32F: sfRtCallDef{typecheck.LookupRuntimeFunc("fgt32"), types.TBOOL},
+		ssa.OpLeq64F:  sfRtCallDef{typecheck.LookupRuntimeFunc("fge64"), types.TBOOL},
+		ssa.OpLeq32F:  sfRtCallDef{typecheck.LookupRuntimeFunc("fge32"), types.TBOOL},
 
-		ssa.OpCvt32to32F:  sfRtCallDef{sysfunc("fint32to32"), types.TFLOAT32},
-		ssa.OpCvt32Fto32:  sfRtCallDef{sysfunc("f32toint32"), types.TINT32},
-		ssa.OpCvt64to32F:  sfRtCallDef{sysfunc("fint64to32"), types.TFLOAT32},
-		ssa.OpCvt32Fto64:  sfRtCallDef{sysfunc("f32toint64"), types.TINT64},
-		ssa.OpCvt64Uto32F: sfRtCallDef{sysfunc("fuint64to32"), types.TFLOAT32},
-		ssa.OpCvt32Fto64U: sfRtCallDef{sysfunc("f32touint64"), types.TUINT64},
-		ssa.OpCvt32to64F:  sfRtCallDef{sysfunc("fint32to64"), types.TFLOAT64},
-		ssa.OpCvt64Fto32:  sfRtCallDef{sysfunc("f64toint32"), types.TINT32},
-		ssa.OpCvt64to64F:  sfRtCallDef{sysfunc("fint64to64"), types.TFLOAT64},
-		ssa.OpCvt64Fto64:  sfRtCallDef{sysfunc("f64toint64"), types.TINT64},
-		ssa.OpCvt64Uto64F: sfRtCallDef{sysfunc("fuint64to64"), types.TFLOAT64},
-		ssa.OpCvt64Fto64U: sfRtCallDef{sysfunc("f64touint64"), types.TUINT64},
-		ssa.OpCvt32Fto64F: sfRtCallDef{sysfunc("f32to64"), types.TFLOAT64},
-		ssa.OpCvt64Fto32F: sfRtCallDef{sysfunc("f64to32"), types.TFLOAT32},
+		ssa.OpCvt32to32F:  sfRtCallDef{typecheck.LookupRuntimeFunc("fint32to32"), types.TFLOAT32},
+		ssa.OpCvt32Fto32:  sfRtCallDef{typecheck.LookupRuntimeFunc("f32toint32"), types.TINT32},
+		ssa.OpCvt64to32F:  sfRtCallDef{typecheck.LookupRuntimeFunc("fint64to32"), types.TFLOAT32},
+		ssa.OpCvt32Fto64:  sfRtCallDef{typecheck.LookupRuntimeFunc("f32toint64"), types.TINT64},
+		ssa.OpCvt64Uto32F: sfRtCallDef{typecheck.LookupRuntimeFunc("fuint64to32"), types.TFLOAT32},
+		ssa.OpCvt32Fto64U: sfRtCallDef{typecheck.LookupRuntimeFunc("f32touint64"), types.TUINT64},
+		ssa.OpCvt32to64F:  sfRtCallDef{typecheck.LookupRuntimeFunc("fint32to64"), types.TFLOAT64},
+		ssa.OpCvt64Fto32:  sfRtCallDef{typecheck.LookupRuntimeFunc("f64toint32"), types.TINT32},
+		ssa.OpCvt64to64F:  sfRtCallDef{typecheck.LookupRuntimeFunc("fint64to64"), types.TFLOAT64},
+		ssa.OpCvt64Fto64:  sfRtCallDef{typecheck.LookupRuntimeFunc("f64toint64"), types.TINT64},
+		ssa.OpCvt64Uto64F: sfRtCallDef{typecheck.LookupRuntimeFunc("fuint64to64"), types.TFLOAT64},
+		ssa.OpCvt64Fto64U: sfRtCallDef{typecheck.LookupRuntimeFunc("f64touint64"), types.TUINT64},
+		ssa.OpCvt32Fto64F: sfRtCallDef{typecheck.LookupRuntimeFunc("f32to64"), types.TFLOAT64},
+		ssa.OpCvt64Fto32F: sfRtCallDef{typecheck.LookupRuntimeFunc("f64to32"), types.TFLOAT32},
 	}
 }
 
@@ -4463,7 +4442,7 @@ func (s *state) openDeferSave(n ir.Node, t *types.Type, val *ssa.Value) *ssa.Val
 	} else {
 		pos = n.Pos()
 	}
-	argTemp := tempAt(pos.WithNotStmt(), s.curfn, t)
+	argTemp := typecheck.TempAt(pos.WithNotStmt(), s.curfn, t)
 	argTemp.SetOpenDeferSlot(true)
 	var addrArgTemp *ssa.Value
 	// Use OpVarLive to make sure stack slots for the args, etc. are not
@@ -4724,7 +4703,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		testLateExpansion = ssa.LateCallExpansionEnabledWithin(s.f)
 		// Make a defer struct d on the stack.
 		t := deferstruct(stksize)
-		d := tempAt(n.Pos(), s.curfn, t)
+		d := typecheck.TempAt(n.Pos(), s.curfn, t)
 
 		s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, d, s.mem())
 		addr := s.addr(d)
@@ -5146,7 +5125,7 @@ func (s *state) canSSAName(name *ir.Name) bool {
 	if name.Addrtaken() {
 		return false
 	}
-	if isParamHeapCopy(name) {
+	if ir.IsParamHeapCopy(name) {
 		return false
 	}
 	if name.Class_ == ir.PAUTOHEAP {
@@ -6130,7 +6109,7 @@ func (s *state) dottype(n *ir.TypeAssertExpr, commaok bool) (res, resok *ssa.Val
 	}
 
 	// Converting to a concrete type.
-	direct := isdirectiface(n.Type())
+	direct := types.IsInterfaceWord(n.Type())
 	itab := s.newValue1(ssa.OpITab, byteptr, iface) // type word of interface
 	if base.Debug.TypeAssert > 0 {
 		base.WarnfAt(n.Pos(), "type assertion inlined")
@@ -6149,7 +6128,7 @@ func (s *state) dottype(n *ir.TypeAssertExpr, commaok bool) (res, resok *ssa.Val
 	if commaok && !canSSAType(n.Type()) {
 		// unSSAable type, use temporary.
 		// TODO: get rid of some of these temporaries.
-		tmp = tempAt(n.Pos(), s.curfn, n.Type())
+		tmp = typecheck.TempAt(n.Pos(), s.curfn, n.Type())
 		s.vars[memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, tmp.(*ir.Name), s.mem())
 		addr = s.addr(tmp)
 	}
@@ -6425,7 +6404,7 @@ func emitStackObjects(e *ssafn, pp *Progs) {
 		// in which case the offset is relative to argp.
 		// Locals have a negative Xoffset, in which case the offset is relative to varp.
 		off = duintptr(x, off, uint64(v.FrameOffset()))
-		if !typesym(v.Type()).Siggen() {
+		if !types.TypeSym(v.Type()).Siggen() {
 			e.Fatalf(v.Pos(), "stack object's type symbol not generated for type %s", v.Type())
 		}
 		off = dsymptr(x, off, dtypesym(v.Type()), 0)
@@ -7178,7 +7157,7 @@ func (e *ssafn) StringData(s string) *obj.LSym {
 }
 
 func (e *ssafn) Auto(pos src.XPos, t *types.Type) *ir.Name {
-	return tempAt(pos, e.curfn, t) // Note: adds new auto to e.curfn.Func.Dcl list
+	return typecheck.TempAt(pos, e.curfn, t) // Note: adds new auto to e.curfn.Func.Dcl list
 }
 
 func (e *ssafn) SplitString(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {

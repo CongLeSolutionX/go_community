@@ -7,62 +7,17 @@ package gc
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"fmt"
 	"sort"
 )
 
-// AlgKind describes the kind of algorithms used for comparing and
-// hashing a Type.
-type AlgKind int
-
-//go:generate stringer -type AlgKind -trimprefix A
-
-const (
-	// These values are known by runtime.
-	ANOEQ AlgKind = iota
-	AMEM0
-	AMEM8
-	AMEM16
-	AMEM32
-	AMEM64
-	AMEM128
-	ASTRING
-	AINTER
-	ANILINTER
-	AFLOAT32
-	AFLOAT64
-	ACPLX64
-	ACPLX128
-
-	// Type can be compared/hashed as regular memory.
-	AMEM AlgKind = 100
-
-	// Type needs special comparison/hashing functions.
-	ASPECIAL AlgKind = -1
-)
-
-// IsComparable reports whether t is a comparable type.
-func IsComparable(t *types.Type) bool {
-	a, _ := algtype1(t)
-	return a != ANOEQ
-}
-
 // IsRegularMemory reports whether t can be compared/hashed as regular memory.
 func IsRegularMemory(t *types.Type) bool {
-	a, _ := algtype1(t)
-	return a == AMEM
-}
-
-// IncomparableField returns an incomparable Field of struct Type t, if any.
-func IncomparableField(t *types.Type) *types.Field {
-	for _, f := range t.FieldSlice() {
-		if !IsComparable(f.Type) {
-			return f
-		}
-	}
-	return nil
+	a, _ := types.AlgType(t)
+	return a == types.AMEM
 }
 
 // EqCanPanic reports whether == on type t could panic (has an interface somewhere).
@@ -87,126 +42,26 @@ func EqCanPanic(t *types.Type) bool {
 
 // algtype is like algtype1, except it returns the fixed-width AMEMxx variants
 // instead of the general AMEM kind when possible.
-func algtype(t *types.Type) AlgKind {
-	a, _ := algtype1(t)
-	if a == AMEM {
+func algtype(t *types.Type) types.AlgKind {
+	a, _ := types.AlgType(t)
+	if a == types.AMEM {
 		switch t.Width {
 		case 0:
-			return AMEM0
+			return types.AMEM0
 		case 1:
-			return AMEM8
+			return types.AMEM8
 		case 2:
-			return AMEM16
+			return types.AMEM16
 		case 4:
-			return AMEM32
+			return types.AMEM32
 		case 8:
-			return AMEM64
+			return types.AMEM64
 		case 16:
-			return AMEM128
+			return types.AMEM128
 		}
 	}
 
 	return a
-}
-
-// algtype1 returns the AlgKind used for comparing and hashing Type t.
-// If it returns ANOEQ, it also returns the component type of t that
-// makes it incomparable.
-func algtype1(t *types.Type) (AlgKind, *types.Type) {
-	if t.Broke() {
-		return AMEM, nil
-	}
-	if t.Noalg() {
-		return ANOEQ, t
-	}
-
-	switch t.Kind() {
-	case types.TANY, types.TFORW:
-		// will be defined later.
-		return ANOEQ, t
-
-	case types.TINT8, types.TUINT8, types.TINT16, types.TUINT16,
-		types.TINT32, types.TUINT32, types.TINT64, types.TUINT64,
-		types.TINT, types.TUINT, types.TUINTPTR,
-		types.TBOOL, types.TPTR,
-		types.TCHAN, types.TUNSAFEPTR:
-		return AMEM, nil
-
-	case types.TFUNC, types.TMAP:
-		return ANOEQ, t
-
-	case types.TFLOAT32:
-		return AFLOAT32, nil
-
-	case types.TFLOAT64:
-		return AFLOAT64, nil
-
-	case types.TCOMPLEX64:
-		return ACPLX64, nil
-
-	case types.TCOMPLEX128:
-		return ACPLX128, nil
-
-	case types.TSTRING:
-		return ASTRING, nil
-
-	case types.TINTER:
-		if t.IsEmptyInterface() {
-			return ANILINTER, nil
-		}
-		return AINTER, nil
-
-	case types.TSLICE:
-		return ANOEQ, t
-
-	case types.TARRAY:
-		a, bad := algtype1(t.Elem())
-		switch a {
-		case AMEM:
-			return AMEM, nil
-		case ANOEQ:
-			return ANOEQ, bad
-		}
-
-		switch t.NumElem() {
-		case 0:
-			// We checked above that the element type is comparable.
-			return AMEM, nil
-		case 1:
-			// Single-element array is same as its lone element.
-			return a, nil
-		}
-
-		return ASPECIAL, nil
-
-	case types.TSTRUCT:
-		fields := t.FieldSlice()
-
-		// One-field struct is same as that one field alone.
-		if len(fields) == 1 && !fields[0].Sym.IsBlank() {
-			return algtype1(fields[0].Type)
-		}
-
-		ret := AMEM
-		for i, f := range fields {
-			// All fields must be comparable.
-			a, bad := algtype1(f.Type)
-			if a == ANOEQ {
-				return ANOEQ, bad
-			}
-
-			// Blank fields, padded fields, fields with non-memory
-			// equality need special compare.
-			if a != AMEM || f.Sym.IsBlank() || ispaddedfield(t, i) {
-				ret = ASPECIAL
-			}
-		}
-
-		return ret, nil
-	}
-
-	base.Fatalf("algtype1: unexpected type %v", t)
-	return 0, nil
 }
 
 // genhash returns a symbol which is the closure used to compute
@@ -217,49 +72,49 @@ func genhash(t *types.Type) *obj.LSym {
 	default:
 		// genhash is only called for types that have equality
 		base.Fatalf("genhash %v", t)
-	case AMEM0:
+	case types.AMEM0:
 		return sysClosure("memhash0")
-	case AMEM8:
+	case types.AMEM8:
 		return sysClosure("memhash8")
-	case AMEM16:
+	case types.AMEM16:
 		return sysClosure("memhash16")
-	case AMEM32:
+	case types.AMEM32:
 		return sysClosure("memhash32")
-	case AMEM64:
+	case types.AMEM64:
 		return sysClosure("memhash64")
-	case AMEM128:
+	case types.AMEM128:
 		return sysClosure("memhash128")
-	case ASTRING:
+	case types.ASTRING:
 		return sysClosure("strhash")
-	case AINTER:
+	case types.AINTER:
 		return sysClosure("interhash")
-	case ANILINTER:
+	case types.ANILINTER:
 		return sysClosure("nilinterhash")
-	case AFLOAT32:
+	case types.AFLOAT32:
 		return sysClosure("f32hash")
-	case AFLOAT64:
+	case types.AFLOAT64:
 		return sysClosure("f64hash")
-	case ACPLX64:
+	case types.ACPLX64:
 		return sysClosure("c64hash")
-	case ACPLX128:
+	case types.ACPLX128:
 		return sysClosure("c128hash")
-	case AMEM:
+	case types.AMEM:
 		// For other sizes of plain memory, we build a closure
 		// that calls memhash_varlen. The size of the memory is
 		// encoded in the first slot of the closure.
-		closure := typeLookup(fmt.Sprintf(".hashfunc%d", t.Width)).Linksym()
+		closure := types.TypeSymLookup(fmt.Sprintf(".hashfunc%d", t.Width)).Linksym()
 		if len(closure.P) > 0 { // already generated
 			return closure
 		}
 		if memhashvarlen == nil {
-			memhashvarlen = sysfunc("memhash_varlen")
+			memhashvarlen = typecheck.LookupRuntimeFunc("memhash_varlen")
 		}
 		ot := 0
 		ot = dsymptr(closure, ot, memhashvarlen, 0)
 		ot = duintptr(closure, ot, uint64(t.Width)) // size encoded in closure
 		ggloblsym(closure, int32(ot), obj.DUPOK|obj.RODATA)
 		return closure
-	case ASPECIAL:
+	case types.ASPECIAL:
 		break
 	}
 
@@ -289,17 +144,17 @@ func genhash(t *types.Type) *obj.LSym {
 	}
 
 	base.Pos = autogeneratedPos // less confusing than end of input
-	dclcontext = ir.PEXTERN
+	typecheck.DeclContext = ir.PEXTERN
 
 	// func sym(p *T, h uintptr) uintptr
 	args := []*ir.Field{
-		namedfield("p", types.NewPtr(t)),
-		namedfield("h", types.Types[types.TUINTPTR]),
+		ir.NewField(base.Pos, typecheck.Lookup("p"), nil, types.NewPtr(t)),
+		ir.NewField(base.Pos, typecheck.Lookup("h"), nil, types.Types[types.TUINTPTR]),
 	}
-	results := []*ir.Field{anonfield(types.Types[types.TUINTPTR])}
+	results := []*ir.Field{ir.NewField(base.Pos, nil, nil, types.Types[types.TUINTPTR])}
 	tfn := ir.NewFuncType(base.Pos, nil, args, results)
 
-	fn := dclfunc(sym, tfn)
+	fn := typecheck.DeclFunc(sym, tfn)
 	np := ir.AsNode(tfn.Type().Params().Field(0).Nname)
 	nh := ir.AsNode(tfn.Type().Params().Field(1).Nname)
 
@@ -311,10 +166,10 @@ func genhash(t *types.Type) *obj.LSym {
 		hashel := hashfor(t.Elem())
 
 		// for i := 0; i < nelem; i++
-		ni := temp(types.Types[types.TINT])
-		init := ir.NewAssignStmt(base.Pos, ni, nodintconst(0))
-		cond := ir.NewBinaryExpr(base.Pos, ir.OLT, ni, nodintconst(t.NumElem()))
-		post := ir.NewAssignStmt(base.Pos, ni, ir.NewBinaryExpr(base.Pos, ir.OADD, ni, nodintconst(1)))
+		ni := typecheck.Temp(types.Types[types.TINT])
+		init := ir.NewAssignStmt(base.Pos, ni, ir.NewInt(0))
+		cond := ir.NewBinaryExpr(base.Pos, ir.OLT, ni, ir.NewInt(t.NumElem()))
+		post := ir.NewAssignStmt(base.Pos, ni, ir.NewBinaryExpr(base.Pos, ir.OADD, ni, ir.NewInt(1)))
 		loop := ir.NewForStmt(base.Pos, nil, cond, post, nil)
 		loop.PtrInit().Append(init)
 
@@ -323,7 +178,7 @@ func genhash(t *types.Type) *obj.LSym {
 
 		nx := ir.NewIndexExpr(base.Pos, np, ni)
 		nx.SetBounded(true)
-		na := nodAddr(nx)
+		na := typecheck.NodAddr(nx)
 		call.Args.Append(na)
 		call.Args.Append(nh)
 		loop.Body.Append(ir.NewAssignStmt(base.Pos, nh, call))
@@ -347,7 +202,7 @@ func genhash(t *types.Type) *obj.LSym {
 				hashel := hashfor(f.Type)
 				call := ir.NewCallExpr(base.Pos, ir.OCALL, hashel, nil)
 				nx := ir.NewSelectorExpr(base.Pos, ir.OXDOT, np, f.Sym) // TODO: fields from other packages?
-				na := nodAddr(nx)
+				na := typecheck.NodAddr(nx)
 				call.Args.Append(na)
 				call.Args.Append(nh)
 				fn.Body.Append(ir.NewAssignStmt(base.Pos, nh, call))
@@ -362,10 +217,10 @@ func genhash(t *types.Type) *obj.LSym {
 			hashel := hashmem(f.Type)
 			call := ir.NewCallExpr(base.Pos, ir.OCALL, hashel, nil)
 			nx := ir.NewSelectorExpr(base.Pos, ir.OXDOT, np, f.Sym) // TODO: fields from other packages?
-			na := nodAddr(nx)
+			na := typecheck.NodAddr(nx)
 			call.Args.Append(na)
 			call.Args.Append(nh)
-			call.Args.Append(nodintconst(size))
+			call.Args.Append(ir.NewInt(size))
 			fn.Body.Append(ir.NewAssignStmt(base.Pos, nh, call))
 
 			i = next
@@ -380,14 +235,14 @@ func genhash(t *types.Type) *obj.LSym {
 		ir.DumpList("genhash body", fn.Body)
 	}
 
-	funcbody()
+	typecheck.FinishFuncBody()
 
 	fn.SetDupok(true)
-	typecheckFunc(fn)
+	typecheck.Func(fn)
 
-	Curfn = fn
-	typecheckslice(fn.Body, ctxStmt)
-	Curfn = nil
+	ir.CurFunc = fn
+	typecheck.Stmts(fn.Body)
+	ir.CurFunc = nil
 
 	if base.Debug.DclStack != 0 {
 		testdclstack()
@@ -407,22 +262,22 @@ func genhash(t *types.Type) *obj.LSym {
 func hashfor(t *types.Type) ir.Node {
 	var sym *types.Sym
 
-	switch a, _ := algtype1(t); a {
-	case AMEM:
+	switch a, _ := types.AlgType(t); a {
+	case types.AMEM:
 		base.Fatalf("hashfor with AMEM type")
-	case AINTER:
+	case types.AINTER:
 		sym = types.Pkgs.Runtime.Lookup("interhash")
-	case ANILINTER:
+	case types.ANILINTER:
 		sym = types.Pkgs.Runtime.Lookup("nilinterhash")
-	case ASTRING:
+	case types.ASTRING:
 		sym = types.Pkgs.Runtime.Lookup("strhash")
-	case AFLOAT32:
+	case types.AFLOAT32:
 		sym = types.Pkgs.Runtime.Lookup("f32hash")
-	case AFLOAT64:
+	case types.AFLOAT64:
 		sym = types.Pkgs.Runtime.Lookup("f64hash")
-	case ACPLX64:
+	case types.ACPLX64:
 		sym = types.Pkgs.Runtime.Lookup("c64hash")
-	case ACPLX128:
+	case types.ACPLX128:
 		sym = types.Pkgs.Runtime.Lookup("c128hash")
 	default:
 		// Note: the caller of hashfor ensured that this symbol
@@ -430,13 +285,13 @@ func hashfor(t *types.Type) ir.Node {
 		sym = typesymprefix(".hash", t)
 	}
 
-	n := NewName(sym)
-	setNodeNameFunc(n)
-	n.SetType(functype(nil, []*ir.Field{
-		anonfield(types.NewPtr(t)),
-		anonfield(types.Types[types.TUINTPTR]),
+	n := typecheck.NewName(sym)
+	ir.MarkFunc(n)
+	n.SetType(typecheck.NewFuncType(nil, []*ir.Field{
+		ir.NewField(base.Pos, nil, nil, types.NewPtr(t)),
+		ir.NewField(base.Pos, nil, nil, types.Types[types.TUINTPTR]),
 	}, []*ir.Field{
-		anonfield(types.Types[types.TUINTPTR]),
+		ir.NewField(base.Pos, nil, nil, types.Types[types.TUINTPTR]),
 	}))
 	return n
 }
@@ -444,9 +299,9 @@ func hashfor(t *types.Type) ir.Node {
 // sysClosure returns a closure which will call the
 // given runtime function (with no closed-over variables).
 func sysClosure(name string) *obj.LSym {
-	s := sysvar(name + "·f")
+	s := typecheck.LookupRuntimeVar(name + "·f")
 	if len(s.P) == 0 {
-		f := sysfunc(name)
+		f := typecheck.LookupRuntimeFunc(name)
 		dsymptr(s, 0, f, 0)
 		ggloblsym(s, int32(types.PtrSize), obj.DUPOK|obj.RODATA)
 	}
@@ -457,52 +312,52 @@ func sysClosure(name string) *obj.LSym {
 // equality for two objects of type t.
 func geneq(t *types.Type) *obj.LSym {
 	switch algtype(t) {
-	case ANOEQ:
+	case types.ANOEQ:
 		// The runtime will panic if it tries to compare
 		// a type with a nil equality function.
 		return nil
-	case AMEM0:
+	case types.AMEM0:
 		return sysClosure("memequal0")
-	case AMEM8:
+	case types.AMEM8:
 		return sysClosure("memequal8")
-	case AMEM16:
+	case types.AMEM16:
 		return sysClosure("memequal16")
-	case AMEM32:
+	case types.AMEM32:
 		return sysClosure("memequal32")
-	case AMEM64:
+	case types.AMEM64:
 		return sysClosure("memequal64")
-	case AMEM128:
+	case types.AMEM128:
 		return sysClosure("memequal128")
-	case ASTRING:
+	case types.ASTRING:
 		return sysClosure("strequal")
-	case AINTER:
+	case types.AINTER:
 		return sysClosure("interequal")
-	case ANILINTER:
+	case types.ANILINTER:
 		return sysClosure("nilinterequal")
-	case AFLOAT32:
+	case types.AFLOAT32:
 		return sysClosure("f32equal")
-	case AFLOAT64:
+	case types.AFLOAT64:
 		return sysClosure("f64equal")
-	case ACPLX64:
+	case types.ACPLX64:
 		return sysClosure("c64equal")
-	case ACPLX128:
+	case types.ACPLX128:
 		return sysClosure("c128equal")
-	case AMEM:
+	case types.AMEM:
 		// make equality closure. The size of the type
 		// is encoded in the closure.
-		closure := typeLookup(fmt.Sprintf(".eqfunc%d", t.Width)).Linksym()
+		closure := types.TypeSymLookup(fmt.Sprintf(".eqfunc%d", t.Width)).Linksym()
 		if len(closure.P) != 0 {
 			return closure
 		}
 		if memequalvarlen == nil {
-			memequalvarlen = sysvar("memequal_varlen") // asm func
+			memequalvarlen = typecheck.LookupRuntimeVar("memequal_varlen") // asm func
 		}
 		ot := 0
 		ot = dsymptr(closure, ot, memequalvarlen, 0)
 		ot = duintptr(closure, ot, uint64(t.Width))
 		ggloblsym(closure, int32(ot), obj.DUPOK|obj.RODATA)
 		return closure
-	case ASPECIAL:
+	case types.ASPECIAL:
 		break
 	}
 
@@ -518,14 +373,14 @@ func geneq(t *types.Type) *obj.LSym {
 	// Autogenerate code for equality of structs and arrays.
 
 	base.Pos = autogeneratedPos // less confusing than end of input
-	dclcontext = ir.PEXTERN
+	typecheck.DeclContext = ir.PEXTERN
 
 	// func sym(p, q *T) bool
 	tfn := ir.NewFuncType(base.Pos, nil,
-		[]*ir.Field{namedfield("p", types.NewPtr(t)), namedfield("q", types.NewPtr(t))},
-		[]*ir.Field{namedfield("r", types.Types[types.TBOOL])})
+		[]*ir.Field{ir.NewField(base.Pos, typecheck.Lookup("p"), nil, types.NewPtr(t)), ir.NewField(base.Pos, typecheck.Lookup("q"), nil, types.NewPtr(t))},
+		[]*ir.Field{ir.NewField(base.Pos, typecheck.Lookup("r"), nil, types.Types[types.TBOOL])})
 
-	fn := dclfunc(sym, tfn)
+	fn := typecheck.DeclFunc(sym, tfn)
 	np := ir.AsNode(tfn.Type().Params().Field(0).Nname)
 	nq := ir.AsNode(tfn.Type().Params().Field(1).Nname)
 	nr := ir.AsNode(tfn.Type().Results().Field(0).Nname)
@@ -586,20 +441,20 @@ func geneq(t *types.Type) *obj.LSym {
 				// Generate a series of checks.
 				for i := int64(0); i < nelem; i++ {
 					// if check {} else { goto neq }
-					nif := ir.NewIfStmt(base.Pos, checkIdx(nodintconst(i)), nil, nil)
+					nif := ir.NewIfStmt(base.Pos, checkIdx(ir.NewInt(i)), nil, nil)
 					nif.Else.Append(ir.NewBranchStmt(base.Pos, ir.OGOTO, neq))
 					fn.Body.Append(nif)
 				}
 				if last {
-					fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, checkIdx(nodintconst(nelem))))
+					fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, checkIdx(ir.NewInt(nelem))))
 				}
 			} else {
 				// Generate a for loop.
 				// for i := 0; i < nelem; i++
-				i := temp(types.Types[types.TINT])
-				init := ir.NewAssignStmt(base.Pos, i, nodintconst(0))
-				cond := ir.NewBinaryExpr(base.Pos, ir.OLT, i, nodintconst(nelem))
-				post := ir.NewAssignStmt(base.Pos, i, ir.NewBinaryExpr(base.Pos, ir.OADD, i, nodintconst(1)))
+				i := typecheck.Temp(types.Types[types.TINT])
+				init := ir.NewAssignStmt(base.Pos, i, ir.NewInt(0))
+				cond := ir.NewBinaryExpr(base.Pos, ir.OLT, i, ir.NewInt(nelem))
+				post := ir.NewAssignStmt(base.Pos, i, ir.NewBinaryExpr(base.Pos, ir.OADD, i, ir.NewInt(1)))
 				loop := ir.NewForStmt(base.Pos, nil, cond, post, nil)
 				loop.PtrInit().Append(init)
 				// if eq(pi, qi) {} else { goto neq }
@@ -608,7 +463,7 @@ func geneq(t *types.Type) *obj.LSym {
 				loop.Body.Append(nif)
 				fn.Body.Append(loop)
 				if last {
-					fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, nodbool(true)))
+					fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, ir.NewBool(true)))
 				}
 			}
 		}
@@ -718,7 +573,7 @@ func geneq(t *types.Type) *obj.LSym {
 		}
 
 		if len(flatConds) == 0 {
-			fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, nodbool(true)))
+			fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, ir.NewBool(true)))
 		} else {
 			for _, c := range flatConds[:len(flatConds)-1] {
 				// if cond {} else { goto neq }
@@ -740,7 +595,7 @@ func geneq(t *types.Type) *obj.LSym {
 	//   r = false
 	//   return (or goto ret)
 	fn.Body.Append(ir.NewLabelStmt(base.Pos, neq))
-	fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, nodbool(false)))
+	fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, ir.NewBool(false)))
 	if EqCanPanic(t) || anyCall(fn) {
 		// Epilogue is large, so share it with the equal case.
 		fn.Body.Append(ir.NewBranchStmt(base.Pos, ir.OGOTO, ret))
@@ -756,14 +611,14 @@ func geneq(t *types.Type) *obj.LSym {
 		ir.DumpList("geneq body", fn.Body)
 	}
 
-	funcbody()
+	typecheck.FinishFuncBody()
 
 	fn.SetDupok(true)
-	typecheckFunc(fn)
+	typecheck.Func(fn)
 
-	Curfn = fn
-	typecheckslice(fn.Body, ctxStmt)
-	Curfn = nil
+	ir.CurFunc = fn
+	typecheck.Stmts(fn.Body)
+	ir.CurFunc = nil
 
 	if base.Debug.DclStack != 0 {
 		testdclstack()
@@ -816,10 +671,10 @@ func eqstring(s, t ir.Node) (eqlen *ir.BinaryExpr, eqmem *ir.CallExpr) {
 	fn := syslook("memequal")
 	fn = substArgTypes(fn, types.Types[types.TUINT8], types.Types[types.TUINT8])
 	call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, []ir.Node{sptr, tptr, ir.Copy(slen)})
-	TypecheckCall(call)
+	typecheck.Call(call)
 
 	cmp := ir.NewBinaryExpr(base.Pos, ir.OEQ, slen, tlen)
-	cmp = typecheck(cmp, ctxExpr).(*ir.BinaryExpr)
+	cmp = typecheck.Expr(cmp).(*ir.BinaryExpr)
 	cmp.SetType(types.Types[types.TBOOL])
 	return cmp, call
 }
@@ -853,10 +708,10 @@ func eqinterface(s, t ir.Node) (eqtab *ir.BinaryExpr, eqdata *ir.CallExpr) {
 	tdata.SetTypecheck(1)
 
 	call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, []ir.Node{stab, sdata, tdata})
-	TypecheckCall(call)
+	typecheck.Call(call)
 
 	cmp := ir.NewBinaryExpr(base.Pos, ir.OEQ, stab, ttab)
-	cmp = typecheck(cmp, ctxExpr).(*ir.BinaryExpr)
+	cmp = typecheck.Expr(cmp).(*ir.BinaryExpr)
 	cmp.SetType(types.Types[types.TBOOL])
 	return cmp, call
 }
@@ -864,15 +719,15 @@ func eqinterface(s, t ir.Node) (eqtab *ir.BinaryExpr, eqdata *ir.CallExpr) {
 // eqmem returns the node
 // 	memequal(&p.field, &q.field [, size])
 func eqmem(p ir.Node, q ir.Node, field *types.Sym, size int64) ir.Node {
-	nx := typecheck(nodAddr(ir.NewSelectorExpr(base.Pos, ir.OXDOT, p, field)), ctxExpr)
-	ny := typecheck(nodAddr(ir.NewSelectorExpr(base.Pos, ir.OXDOT, q, field)), ctxExpr)
+	nx := typecheck.Expr(typecheck.NodAddr(ir.NewSelectorExpr(base.Pos, ir.OXDOT, p, field)))
+	ny := typecheck.Expr(typecheck.NodAddr(ir.NewSelectorExpr(base.Pos, ir.OXDOT, q, field)))
 
 	fn, needsize := eqmemfunc(size, nx.Type().Elem())
 	call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, nil)
 	call.Args.Append(nx)
 	call.Args.Append(ny)
 	if needsize {
-		call.Args.Append(nodintconst(size))
+		call.Args.Append(ir.NewInt(size))
 	}
 
 	return call
@@ -904,7 +759,7 @@ func memrun(t *types.Type, start int) (size int64, next int) {
 			break
 		}
 		// Stop run after a padded field.
-		if ispaddedfield(t, next-1) {
+		if types.IsPaddedField(t, next-1) {
 			break
 		}
 		// Also, stop before a blank or non-memory field.
@@ -913,17 +768,4 @@ func memrun(t *types.Type, start int) (size int64, next int) {
 		}
 	}
 	return t.Field(next-1).End() - t.Field(start).Offset, next
-}
-
-// ispaddedfield reports whether the i'th field of struct type t is followed
-// by padding.
-func ispaddedfield(t *types.Type, i int) bool {
-	if !t.IsStruct() {
-		base.Fatalf("ispaddedfield called non-struct %v", t)
-	}
-	end := t.Width
-	if i+1 < t.NumFields() {
-		end = t.Field(i + 1).Offset
-	}
-	return t.Field(i).End() != end
 }

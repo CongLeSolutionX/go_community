@@ -7,9 +7,11 @@ package gc
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
+	"cmd/internal/src"
 	"cmd/internal/sys"
 	"encoding/binary"
 	"errors"
@@ -24,12 +26,12 @@ const tmpstringbufsize = 32
 const zeroValSize = 1024 // must match value of runtime/map.go:maxZero
 
 func walk(fn *ir.Func) {
-	Curfn = fn
+	ir.CurFunc = fn
 	errorsBefore := base.Errors()
 
 	if base.Flag.W != 0 {
-		s := fmt.Sprintf("\nbefore walk %v", Curfn.Sym())
-		ir.DumpList(s, Curfn.Body)
+		s := fmt.Sprintf("\nbefore walk %v", ir.CurFunc.Sym())
+		ir.DumpList(s, ir.CurFunc.Body)
 	}
 
 	lno := base.Pos
@@ -37,7 +39,7 @@ func walk(fn *ir.Func) {
 	// Final typecheck for any unused variables.
 	for i, ln := range fn.Dcl {
 		if ln.Op() == ir.ONAME && (ln.Class_ == ir.PAUTO || ln.Class_ == ir.PAUTOHEAP) {
-			ln = typecheck(ln, ctxExpr|ctxAssign).(*ir.Name)
+			ln = typecheck.AssignExpr(ln).(*ir.Name)
 			fn.Dcl[i] = ln
 		}
 	}
@@ -68,17 +70,17 @@ func walk(fn *ir.Func) {
 	if base.Errors() > errorsBefore {
 		return
 	}
-	walkstmtlist(Curfn.Body)
+	walkstmtlist(ir.CurFunc.Body)
 	if base.Flag.W != 0 {
-		s := fmt.Sprintf("after walk %v", Curfn.Sym())
-		ir.DumpList(s, Curfn.Body)
+		s := fmt.Sprintf("after walk %v", ir.CurFunc.Sym())
+		ir.DumpList(s, ir.CurFunc.Body)
 	}
 
 	zeroResults()
 	heapmoves()
-	if base.Flag.W != 0 && len(Curfn.Enter) > 0 {
-		s := fmt.Sprintf("enter %v", Curfn.Sym())
-		ir.DumpList(s, Curfn.Enter)
+	if base.Flag.W != 0 && len(ir.CurFunc.Enter) > 0 {
+		s := fmt.Sprintf("enter %v", ir.CurFunc.Sym())
+		ir.DumpList(s, ir.CurFunc.Enter)
 	}
 }
 
@@ -92,7 +94,7 @@ func paramoutheap(fn *ir.Func) bool {
 	for _, ln := range fn.Dcl {
 		switch ln.Class_ {
 		case ir.PPARAMOUT:
-			if isParamStackCopy(ln) || ln.Addrtaken() {
+			if ir.IsParamStackCopy(ln) || ln.Addrtaken() {
 				return true
 			}
 
@@ -112,7 +114,7 @@ func walkstmt(n ir.Node) ir.Node {
 		return n
 	}
 
-	setlineno(n)
+	ir.SetPos(n)
 
 	walkstmtlist(n.Init())
 
@@ -182,8 +184,8 @@ func walkstmt(n ir.Node) ir.Node {
 		n.PtrInit().Set(nil)
 
 		n.X = walkexpr(n.X, &init)
-		call := walkexpr(mkcall1(chanfn("chanrecv1", 2, n.X.Type()), nil, &init, n.X, nodnil()), &init)
-		return initExpr(init, call)
+		call := walkexpr(mkcall1(chanfn("chanrecv1", 2, n.X.Type()), nil, &init, n.X, typecheck.NodNil()), &init)
+		return ir.InitExpr(init, call)
 
 	case ir.OBREAK,
 		ir.OCONTINUE,
@@ -207,7 +209,7 @@ func walkstmt(n ir.Node) ir.Node {
 			}
 			nn := ir.NewAssignStmt(base.Pos, v.Name().Heapaddr, callnew(v.Type()))
 			nn.Def = true
-			return walkstmt(typecheck(nn, ctxStmt))
+			return walkstmt(typecheck.Stmt(nn))
 		}
 		return n
 
@@ -222,18 +224,18 @@ func walkstmt(n ir.Node) ir.Node {
 
 	case ir.ODEFER:
 		n := n.(*ir.GoDeferStmt)
-		Curfn.SetHasDefer(true)
-		Curfn.NumDefers++
-		if Curfn.NumDefers > maxOpenDefers {
+		ir.CurFunc.SetHasDefer(true)
+		ir.CurFunc.NumDefers++
+		if ir.CurFunc.NumDefers > maxOpenDefers {
 			// Don't allow open-coded defers if there are more than
 			// 8 defers in the function, since we use a single
 			// byte to record active defers.
-			Curfn.SetOpenCodedDeferDisallowed(true)
+			ir.CurFunc.SetOpenCodedDeferDisallowed(true)
 		}
 		if n.Esc() != EscNever {
 			// If n.Esc is not EscNever, then this defer occurs in a loop,
 			// so open-coded defers cannot be used in this function.
-			Curfn.SetOpenCodedDeferDisallowed(true)
+			ir.CurFunc.SetOpenCodedDeferDisallowed(true)
 		}
 		fallthrough
 	case ir.OGO:
@@ -280,7 +282,7 @@ func walkstmt(n ir.Node) ir.Node {
 			init := n.Cond.Init()
 			n.Cond.PtrInit().Set(nil)
 			n.Cond = walkexpr(n.Cond, &init)
-			n.Cond = initExpr(init, n.Cond)
+			n.Cond = ir.InitExpr(init, n.Cond)
 		}
 
 		n.Post = walkstmt(n.Post)
@@ -299,24 +301,24 @@ func walkstmt(n ir.Node) ir.Node {
 
 	case ir.ORETURN:
 		n := n.(*ir.ReturnStmt)
-		Curfn.NumReturns++
+		ir.CurFunc.NumReturns++
 		if len(n.Results) == 0 {
 			return n
 		}
-		if (hasNamedResults(Curfn) && len(n.Results) > 1) || paramoutheap(Curfn) {
+		if (ir.HasNamedResults(ir.CurFunc) && len(n.Results) > 1) || paramoutheap(ir.CurFunc) {
 			// assign to the function out parameters,
 			// so that ascompatee can fix up conflicts
 			var rl []ir.Node
 
-			for _, ln := range Curfn.Dcl {
+			for _, ln := range ir.CurFunc.Dcl {
 				cl := ln.Class_
 				if cl == ir.PAUTO || cl == ir.PAUTOHEAP {
 					break
 				}
 				if cl == ir.PPARAMOUT {
 					var ln ir.Node = ln
-					if isParamStackCopy(ln) {
-						ln = walkexpr(typecheck(ir.NewStarExpr(base.Pos, ln.Name().Heapaddr), ctxExpr), nil)
+					if ir.IsParamStackCopy(ln) {
+						ln = walkexpr(typecheck.Expr(ir.NewStarExpr(base.Pos, ln.Name().Heapaddr)), nil)
 					}
 					rl = append(rl, ln)
 				}
@@ -337,12 +339,12 @@ func walkstmt(n ir.Node) ir.Node {
 		walkexprlist(n.Results, n.PtrInit())
 
 		// For each return parameter (lhs), assign the corresponding result (rhs).
-		lhs := Curfn.Type().Results()
+		lhs := ir.CurFunc.Type().Results()
 		rhs := n.Results
 		res := make([]ir.Node, lhs.NumFields())
 		for i, nl := range lhs.FieldSlice() {
 			nname := ir.AsNode(nl.Nname)
-			if isParamHeapCopy(nname) {
+			if ir.IsParamHeapCopy(nname) {
 				nname = nname.Name().Stackcopy
 			}
 			a := ir.NewAssignStmt(base.Pos, nname, rhs[i])
@@ -477,7 +479,7 @@ func walkexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		init.Append(n.PtrInit().Take()...)
 	}
 
-	lno := setlineno(n)
+	lno := ir.SetPos(n)
 
 	if base.Flag.LowerW > 1 {
 		ir.Dump("before walk expr", n)
@@ -495,7 +497,7 @@ func walkexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		n := n.(*ir.Name)
 		nn := ir.NewStarExpr(base.Pos, n.Name().Heapaddr)
 		nn.X.MarkNonNil()
-		return walkexpr(typecheck(nn, ctxExpr), init)
+		return walkexpr(typecheck.Expr(nn), init)
 	}
 
 	n = walkexpr1(n, init)
@@ -506,12 +508,12 @@ func walkexpr(n ir.Node, init *ir.Nodes) ir.Node {
 	// walk of y%1 may have replaced it by 0.
 	// Check whether n with its updated args is itself now a constant.
 	t := n.Type()
-	n = evalConst(n)
+	n = typecheck.EvalConst(n)
 	if n.Type() != t {
 		base.Fatalf("evconst changed Type: %v had type %v, now %v", n, t, n.Type())
 	}
 	if n.Op() == ir.OLITERAL {
-		n = typecheck(n, ctxExpr)
+		n = typecheck.Expr(n)
 		// Emit string symbol now to avoid emitting
 		// any concurrently during the backend.
 		if v := n.Val(); v.Kind() == constant.String {
@@ -609,7 +611,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		}
 		if t.IsArray() {
 			safeexpr(n.X, init)
-			con := origIntConst(n, t.NumElem())
+			con := typecheck.OrigInt(n, t.NumElem())
 			con.SetTypecheck(1)
 			return con
 		}
@@ -635,7 +637,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		var ll ir.Nodes
 
 		n.Y = walkexpr(n.Y, &ll)
-		n.Y = initExpr(ll, n.Y)
+		n.Y = ir.InitExpr(ll, n.Y)
 		return n
 
 	case ir.OPRINT, ir.OPRINTN:
@@ -647,7 +649,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 
 	case ir.ORECOVER:
 		n := n.(*ir.CallExpr)
-		return mkcall("gorecover", n.Type(), init, nodAddr(nodfp))
+		return mkcall("gorecover", n.Type(), init, typecheck.NodAddr(nodfp))
 
 	case ir.OCLOSUREREAD, ir.OCFUNC:
 		return n
@@ -714,7 +716,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 
 		if n.Op() == ir.OASOP {
 			// Rewrite x op= y into x = x op y.
-			n = ir.NewAssignStmt(base.Pos, left, typecheck(ir.NewBinaryExpr(base.Pos, n.(*ir.AssignOpStmt).AsOp, left, right), ctxExpr))
+			n = ir.NewAssignStmt(base.Pos, left, typecheck.Expr(ir.NewBinaryExpr(base.Pos, n.(*ir.AssignOpStmt).AsOp, left, right)))
 		} else {
 			n.(*ir.AssignStmt).X = left
 		}
@@ -743,7 +745,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			recv := n.Y.(*ir.UnaryExpr)
 			recv.X = walkexpr(recv.X, init)
 
-			n1 := nodAddr(n.X)
+			n1 := typecheck.NodAddr(n.X)
 			r := recv.X // the channel
 			return mkcall1(chanfn("chanrecv1", 2, r.Type()), nil, init, r, n1)
 
@@ -785,7 +787,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		init.Append(n.PtrInit().Take()...)
 		walkexprlistsafe(n.Lhs, init)
 		walkexprlistsafe(n.Rhs, init)
-		return liststmt(ascompatee(ir.OAS, n.Lhs, n.Rhs, init))
+		return ir.NewBlockStmt(src.NoXPos, ascompatee(ir.OAS, n.Lhs, n.Rhs, init))
 
 	// a,b,... = fn()
 	case ir.OAS2FUNC:
@@ -803,7 +805,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		init.Append(r)
 
 		ll := ascompatet(n.Lhs, r.Type())
-		return liststmt(ll)
+		return ir.NewBlockStmt(src.NoXPos, ll)
 
 	// x, y = <-c
 	// order.stmt made sure x is addressable or blank.
@@ -816,14 +818,14 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		r.X = walkexpr(r.X, init)
 		var n1 ir.Node
 		if ir.IsBlank(n.Lhs[0]) {
-			n1 = nodnil()
+			n1 = typecheck.NodNil()
 		} else {
-			n1 = nodAddr(n.Lhs[0])
+			n1 = typecheck.NodAddr(n.Lhs[0])
 		}
 		fn := chanfn("chanrecv2", 2, r.X.Type())
 		ok := n.Lhs[1]
 		call := mkcall1(fn, types.Types[types.TBOOL], init, r.X, n1)
-		return typecheck(ir.NewAssignStmt(base.Pos, ok, call), ctxStmt)
+		return typecheck.Stmt(ir.NewAssignStmt(base.Pos, ok, call))
 
 	// a,b = m[i]
 	case ir.OAS2MAPR:
@@ -844,7 +846,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		} else {
 			// standard version takes key by reference
 			// order.expr made sure key is addressable.
-			key = nodAddr(r.Index)
+			key = typecheck.NodAddr(r.Index)
 		}
 
 		// from:
@@ -875,10 +877,10 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 
 		// don't generate a = *var if a is _
 		if ir.IsBlank(a) {
-			return walkexpr(typecheck(n, ctxStmt), init)
+			return walkexpr(typecheck.Stmt(n), init)
 		}
 
-		var_ := temp(types.NewPtr(t.Elem()))
+		var_ := typecheck.Temp(types.NewPtr(t.Elem()))
 		var_.SetTypecheck(1)
 		var_.MarkNonNil() // mapaccess always returns a non-nil pointer
 
@@ -886,7 +888,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		init.Append(walkexpr(n, init))
 
 		as := ir.NewAssignStmt(base.Pos, a, ir.NewStarExpr(base.Pos, var_))
-		return walkexpr(typecheck(as, ctxStmt), init)
+		return walkexpr(typecheck.Stmt(as), init)
 
 	case ir.ODELETE:
 		n := n.(*ir.CallExpr)
@@ -900,7 +902,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		fast := mapfast(t)
 		if fast == mapslow {
 			// order.stmt made sure key is addressable.
-			key = nodAddr(key)
+			key = typecheck.NodAddr(key)
 		}
 		return mkcall1(mapfndel(mapdelete[fast], t), nil, init, typename(t), map_, key)
 
@@ -917,8 +919,8 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		fromType := n.X.Type()
 		toType := n.Type()
 
-		if !fromType.IsInterface() && !ir.IsBlank(Curfn.Nname) { // skip unnamed functions (func _())
-			markTypeUsedInInterface(fromType, Curfn.LSym)
+		if !fromType.IsInterface() && !ir.IsBlank(ir.CurFunc.Nname) { // skip unnamed functions (func _())
+			markTypeUsedInInterface(fromType, ir.CurFunc.LSym)
 		}
 
 		// typeword generates the type word of the interface value.
@@ -930,7 +932,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		}
 
 		// Optimize convT2E or convT2I as a two-word copy when T is pointer-shaped.
-		if isdirectiface(fromType) {
+		if types.IsInterfaceWord(fromType) {
 			l := ir.NewBinaryExpr(base.Pos, ir.OEFACE, typeword(), n.X)
 			l.SetType(toType)
 			l.SetTypecheck(n.Typecheck())
@@ -938,12 +940,12 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		}
 
 		if Names.Staticuint64s == nil {
-			Names.Staticuint64s = NewName(types.Pkgs.Runtime.Lookup("staticuint64s"))
+			Names.Staticuint64s = typecheck.NewName(types.Pkgs.Runtime.Lookup("staticuint64s"))
 			Names.Staticuint64s.Class_ = ir.PEXTERN
 			// The actual type is [256]uint64, but we use [256*8]uint8 so we can address
 			// individual bytes.
 			Names.Staticuint64s.SetType(types.NewArray(types.Types[types.TUINT8], 256*8))
-			Names.Zerobase = NewName(types.Pkgs.Runtime.Lookup("zerobase"))
+			Names.Zerobase = typecheck.NewName(types.Pkgs.Runtime.Lookup("zerobase"))
 			Names.Zerobase.Class_ = ir.PEXTERN
 			Names.Zerobase.SetType(types.Types[types.TUINTPTR])
 		}
@@ -962,9 +964,9 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			// and staticuint64s[n.Left * 8 + 7] on big-endian.
 			n.X = cheapexpr(n.X, init)
 			// byteindex widens n.Left so that the multiplication doesn't overflow.
-			index := ir.NewBinaryExpr(base.Pos, ir.OLSH, byteindex(n.X), nodintconst(3))
+			index := ir.NewBinaryExpr(base.Pos, ir.OLSH, byteindex(n.X), ir.NewInt(3))
 			if thearch.LinkArch.ByteOrder == binary.BigEndian {
-				index = ir.NewBinaryExpr(base.Pos, ir.OADD, index, nodintconst(7))
+				index = ir.NewBinaryExpr(base.Pos, ir.OADD, index, ir.NewInt(7))
 			}
 			xe := ir.NewIndexExpr(base.Pos, Names.Staticuint64s, index)
 			xe.SetBounded(true)
@@ -974,14 +976,14 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			value = n.X
 		case !fromType.IsInterface() && n.Esc() == EscNone && fromType.Width <= 1024:
 			// n.Left does not escape. Use a stack temporary initialized to n.Left.
-			value = temp(fromType)
-			init.Append(typecheck(ir.NewAssignStmt(base.Pos, value, n.X), ctxStmt))
+			value = typecheck.Temp(fromType)
+			init.Append(typecheck.Stmt(ir.NewAssignStmt(base.Pos, value, n.X)))
 		}
 
 		if value != nil {
 			// Value is identical to n.Left.
 			// Construct the interface directly: {type/itab, &value}.
-			l := ir.NewBinaryExpr(base.Pos, ir.OEFACE, typeword(), typecheck(nodAddr(value), ctxExpr))
+			l := ir.NewBinaryExpr(base.Pos, ir.OEFACE, typeword(), typecheck.Expr(typecheck.NodAddr(value)))
 			l.SetType(toType)
 			l.SetTypecheck(n.Typecheck())
 			return l
@@ -995,15 +997,15 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		// e = iface{tmp, i.data}
 		if toType.IsEmptyInterface() && fromType.IsInterface() && !fromType.IsEmptyInterface() {
 			// Evaluate the input interface.
-			c := temp(fromType)
+			c := typecheck.Temp(fromType)
 			init.Append(ir.NewAssignStmt(base.Pos, c, n.X))
 
 			// Get the itab out of the interface.
-			tmp := temp(types.NewPtr(types.Types[types.TUINT8]))
-			init.Append(ir.NewAssignStmt(base.Pos, tmp, typecheck(ir.NewUnaryExpr(base.Pos, ir.OITAB, c), ctxExpr)))
+			tmp := typecheck.Temp(types.NewPtr(types.Types[types.TUINT8]))
+			init.Append(ir.NewAssignStmt(base.Pos, tmp, typecheck.Expr(ir.NewUnaryExpr(base.Pos, ir.OITAB, c))))
 
 			// Get the type out of the itab.
-			nif := ir.NewIfStmt(base.Pos, typecheck(ir.NewBinaryExpr(base.Pos, ir.ONE, tmp, nodnil()), ctxExpr), nil, nil)
+			nif := ir.NewIfStmt(base.Pos, typecheck.Expr(ir.NewBinaryExpr(base.Pos, ir.ONE, tmp, typecheck.NodNil())), nil, nil)
 			nif.Body = []ir.Node{ir.NewAssignStmt(base.Pos, tmp, itabType(tmp))}
 			init.Append(nif)
 
@@ -1026,7 +1028,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			types.CalcSize(fn.Type())
 			call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, nil)
 			call.Args = []ir.Node{n.X}
-			e := ir.NewBinaryExpr(base.Pos, ir.OEFACE, typeword(), safeexpr(walkexpr(typecheck(call, ctxExpr), init), init))
+			e := ir.NewBinaryExpr(base.Pos, ir.OEFACE, typeword(), safeexpr(walkexpr(typecheck.Expr(call), init), init))
 			e.SetType(toType)
 			e.SetTypecheck(1)
 			return e
@@ -1049,10 +1051,10 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			// with a non-interface, especially in a switch on interface value
 			// with non-interface cases, is not visible to order.stmt, so we
 			// have to fall back on allocating a temp here.
-			if !islvalue(v) {
+			if !ir.IsAssignable(v) {
 				v = copyexpr(v, v.Type(), init)
 			}
-			v = nodAddr(v)
+			v = typecheck.NodAddr(v)
 		}
 
 		types.CalcSize(fromType)
@@ -1061,7 +1063,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		types.CalcSize(fn.Type())
 		call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, nil)
 		call.Args = []ir.Node{tab, v}
-		return walkexpr(typecheck(call, ctxExpr), init)
+		return walkexpr(typecheck.Expr(call), init)
 
 	case ir.OCONV, ir.OCONVNOP:
 		n := n.(*ir.ConvExpr)
@@ -1069,7 +1071,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		if n.Op() == ir.OCONVNOP && n.Type() == n.X.Type() {
 			return n.X
 		}
-		if n.Op() == ir.OCONVNOP && checkPtr(Curfn, 1) {
+		if n.Op() == ir.OCONVNOP && checkPtr(ir.CurFunc, 1) {
 			if n.Type().IsPtr() && n.X.Type().IsUnsafePtr() { // unsafe.Pointer to *T
 				return walkCheckPtrAlignment(n, init, nil)
 			}
@@ -1092,14 +1094,14 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		// rewrite complex div into function call.
 		et := n.X.Type().Kind()
 
-		if isComplex[et] && n.Op() == ir.ODIV {
+		if types.IsComplex[et] && n.Op() == ir.ODIV {
 			t := n.Type()
 			call := mkcall("complex128div", types.Types[types.TCOMPLEX128], init, conv(n.X, types.Types[types.TCOMPLEX128]), conv(n.Y, types.Types[types.TCOMPLEX128]))
 			return conv(call, t)
 		}
 
 		// Nothing to do for float divisions.
-		if isFloat[et] {
+		if types.IsFloat[et] {
 			return n
 		}
 
@@ -1168,7 +1170,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			if base.Flag.LowerM != 0 && n.Bounded() && !ir.IsConst(n.Index, constant.Int) {
 				base.Warn("index bounds check elided")
 			}
-			if smallintconst(n.Index) && !n.Bounded() {
+			if ir.IsSmallIntConst(n.Index) && !n.Bounded() {
 				base.Errorf("index out of bounds")
 			}
 		} else if ir.IsConst(n.X, constant.String) {
@@ -1176,13 +1178,13 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			if base.Flag.LowerM != 0 && n.Bounded() && !ir.IsConst(n.Index, constant.Int) {
 				base.Warn("index bounds check elided")
 			}
-			if smallintconst(n.Index) && !n.Bounded() {
+			if ir.IsSmallIntConst(n.Index) && !n.Bounded() {
 				base.Errorf("index out of bounds")
 			}
 		}
 
 		if ir.IsConst(n.Index, constant.Int) {
-			if v := n.Index.Val(); constant.Sign(v) < 0 || doesoverflow(v, types.Types[types.TINT]) {
+			if v := n.Index.Val(); constant.Sign(v) < 0 || ir.ConstOverflow(v, types.Types[types.TINT]) {
 				base.Errorf("index out of bounds")
 			}
 		}
@@ -1203,7 +1205,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			if fast == mapslow {
 				// standard version takes key by reference.
 				// order.expr made sure key is addressable.
-				key = nodAddr(key)
+				key = typecheck.NodAddr(key)
 			}
 			call = mkcall1(mapfn(mapassign[fast], t), nil, init, typename(t), map_, key)
 		} else {
@@ -1212,7 +1214,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			if fast == mapslow {
 				// standard version takes key by reference.
 				// order.expr made sure key is addressable.
-				key = nodAddr(key)
+				key = typecheck.NodAddr(key)
 			}
 
 			if w := t.Elem().Width; w <= zeroValSize {
@@ -1243,7 +1245,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 	case ir.OSLICE, ir.OSLICEARR, ir.OSLICESTR, ir.OSLICE3, ir.OSLICE3ARR:
 		n := n.(*ir.SliceExpr)
 
-		checkSlice := checkPtr(Curfn, 1) && n.Op() == ir.OSLICE3ARR && n.X.Op() == ir.OCONVNOP && n.X.(*ir.ConvExpr).X.Type().IsUnsafePtr()
+		checkSlice := checkPtr(ir.CurFunc, 1) && n.Op() == ir.OSLICE3ARR && n.X.Op() == ir.OCONVNOP && n.X.(*ir.ConvExpr).X.Type().IsUnsafePtr()
 		if checkSlice {
 			conv := n.X.(*ir.ConvExpr)
 			conv.X = walkexpr(conv.X, init)
@@ -1287,9 +1289,9 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			if n.Type().Elem().Width >= maxImplicitStackVarSize {
 				base.Fatalf("large ONEW with EscNone: %v", n)
 			}
-			r := temp(n.Type().Elem())
-			init.Append(typecheck(ir.NewAssignStmt(base.Pos, r, nil), ctxStmt)) // zero temp
-			return typecheck(nodAddr(r), ctxExpr)
+			r := typecheck.Temp(n.Type().Elem())
+			init.Append(typecheck.Stmt(ir.NewAssignStmt(base.Pos, r, nil))) // zero temp
+			return typecheck.Expr(typecheck.NodAddr(r))
 		}
 		return callnew(n.Type().Elem())
 
@@ -1341,10 +1343,10 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			// Allocate hmap on stack.
 
 			// var hv hmap
-			hv := temp(hmapType)
-			init.Append(typecheck(ir.NewAssignStmt(base.Pos, hv, nil), ctxStmt))
+			hv := typecheck.Temp(hmapType)
+			init.Append(typecheck.Stmt(ir.NewAssignStmt(base.Pos, hv, nil)))
 			// h = &hv
-			h = nodAddr(hv)
+			h = typecheck.NodAddr(hv)
 
 			// Allocate one bucket pointed to by hmap.buckets on stack if hint
 			// is not larger than BUCKETSIZE. In case hint is larger than
@@ -1363,15 +1365,15 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 				//     h.buckets = b
 				// }
 
-				nif := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OLE, hint, nodintconst(BUCKETSIZE)), nil, nil)
+				nif := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OLE, hint, ir.NewInt(BUCKETSIZE)), nil, nil)
 				nif.Likely = true
 
 				// var bv bmap
-				bv := temp(bmap(t))
+				bv := typecheck.Temp(bmap(t))
 				nif.Body.Append(ir.NewAssignStmt(base.Pos, bv, nil))
 
 				// b = &bv
-				b := nodAddr(bv)
+				b := typecheck.NodAddr(bv)
 
 				// h.buckets = b
 				bsym := hmapType.Field(5).Sym // hmap.buckets see reflect.go:hmap
@@ -1406,7 +1408,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		}
 
 		if n.Esc() != EscNone {
-			h = nodnil()
+			h = typecheck.NodNil()
 		}
 		// Map initialization with a variable or large hint is
 		// more complicated. We therefore generate a call to
@@ -1449,7 +1451,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			}
 			// var arr [r]T
 			// n = arr[:l]
-			i := indexconst(r)
+			i := typecheck.IndexConst(r)
 			if i < 0 {
 				base.Fatalf("walkexpr: invalid index %v", r)
 			}
@@ -1461,19 +1463,19 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			//     if len < 0 { panicmakeslicelen() }
 			//     panicmakeslicecap()
 			// }
-			nif := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OGT, conv(l, types.Types[types.TUINT64]), nodintconst(i)), nil, nil)
-			niflen := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OLT, l, nodintconst(0)), nil, nil)
+			nif := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OGT, conv(l, types.Types[types.TUINT64]), ir.NewInt(i)), nil, nil)
+			niflen := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OLT, l, ir.NewInt(0)), nil, nil)
 			niflen.Body = []ir.Node{mkcall("panicmakeslicelen", nil, init)}
 			nif.Body.Append(niflen, mkcall("panicmakeslicecap", nil, init))
-			init.Append(typecheck(nif, ctxStmt))
+			init.Append(typecheck.Stmt(nif))
 
 			t = types.NewArray(t.Elem(), i) // [r]T
-			var_ := temp(t)
+			var_ := typecheck.Temp(t)
 			appendWalkStmt(init, ir.NewAssignStmt(base.Pos, var_, nil)) // zero temp
 			r := ir.NewSliceExpr(base.Pos, ir.OSLICE, var_)             // arr[:l]
 			r.SetSliceBounds(nil, l, nil)
 			// The conv is necessary in case n.Type is named.
-			return walkexpr(typecheck(conv(r, n.Type()), ctxExpr), init)
+			return walkexpr(typecheck.Expr(conv(r, n.Type())), init)
 		}
 
 		// n escapes; set up a call to makeslice.
@@ -1501,7 +1503,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		m.Ptr = mkcall1(fn, types.Types[types.TUNSAFEPTR], init, typename(t.Elem()), conv(len, argtype), conv(cap, argtype))
 		m.Ptr.MarkNonNil()
 		m.LenCap = []ir.Node{conv(len, types.Types[types.TINT]), conv(cap, types.Types[types.TINT])}
-		return walkexpr(typecheck(m, ctxExpr), init)
+		return walkexpr(typecheck.Expr(m), init)
 
 	case ir.OMAKESLICECOPY:
 		n := n.(*ir.MakeExpr)
@@ -1525,18 +1527,18 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			// We do not check for overflow of len(to)*elem.Width here
 			// since len(from) is an existing checked slice capacity
 			// with same elem.Width for the from slice.
-			size := ir.NewBinaryExpr(base.Pos, ir.OMUL, conv(length, types.Types[types.TUINTPTR]), conv(nodintconst(t.Elem().Width), types.Types[types.TUINTPTR]))
+			size := ir.NewBinaryExpr(base.Pos, ir.OMUL, conv(length, types.Types[types.TUINTPTR]), conv(ir.NewInt(t.Elem().Width), types.Types[types.TUINTPTR]))
 
 			// instantiate mallocgc(size uintptr, typ *byte, needszero bool) unsafe.Pointer
 			fn := syslook("mallocgc")
 			sh := ir.NewSliceHeaderExpr(base.Pos, nil, nil, nil, nil)
-			sh.Ptr = mkcall1(fn, types.Types[types.TUNSAFEPTR], init, size, nodnil(), nodbool(false))
+			sh.Ptr = mkcall1(fn, types.Types[types.TUNSAFEPTR], init, size, typecheck.NodNil(), ir.NewBool(false))
 			sh.Ptr.MarkNonNil()
 			sh.LenCap = []ir.Node{length, length}
 			sh.SetType(t)
 
-			s := temp(t)
-			r := typecheck(ir.NewAssignStmt(base.Pos, s, sh), ctxStmt)
+			s := typecheck.Temp(t)
+			r := typecheck.Stmt(ir.NewAssignStmt(base.Pos, s, sh))
 			r = walkexpr(r, init)
 			init.Append(r)
 
@@ -1544,7 +1546,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			fn = syslook("memmove")
 			fn = substArgTypes(fn, t.Elem(), t.Elem())
 			ncopy := mkcall1(fn, nil, init, ir.NewUnaryExpr(base.Pos, ir.OSPTR, s), copyptr, size)
-			init.Append(walkexpr(typecheck(ncopy, ctxStmt), init))
+			init.Append(walkexpr(typecheck.Stmt(ncopy), init))
 
 			return s
 		}
@@ -1556,25 +1558,25 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		s.Ptr.MarkNonNil()
 		s.LenCap = []ir.Node{length, length}
 		s.SetType(t)
-		return walkexpr(typecheck(s, ctxExpr), init)
+		return walkexpr(typecheck.Expr(s), init)
 
 	case ir.ORUNESTR:
 		n := n.(*ir.ConvExpr)
-		a := nodnil()
+		a := typecheck.NodNil()
 		if n.Esc() == EscNone {
 			t := types.NewArray(types.Types[types.TUINT8], 4)
-			a = nodAddr(temp(t))
+			a = typecheck.NodAddr(typecheck.Temp(t))
 		}
 		// intstring(*[4]byte, rune)
 		return mkcall("intstring", n.Type(), init, a, conv(n.X, types.Types[types.TINT64]))
 
 	case ir.OBYTES2STR, ir.ORUNES2STR:
 		n := n.(*ir.ConvExpr)
-		a := nodnil()
+		a := typecheck.NodNil()
 		if n.Esc() == EscNone {
 			// Create temporary buffer for string on stack.
 			t := types.NewArray(types.Types[types.TUINT8], tmpstringbufsize)
-			a = nodAddr(temp(t))
+			a = typecheck.NodAddr(typecheck.Temp(t))
 		}
 		if n.Op() == ir.ORUNES2STR {
 			// slicerunetostring(*[32]byte, []rune) string
@@ -1608,12 +1610,12 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			t := types.NewArray(types.Types[types.TUINT8], int64(len(sc)))
 			var a ir.Node
 			if n.Esc() == EscNone && len(sc) <= int(maxImplicitStackVarSize) {
-				a = nodAddr(temp(t))
+				a = typecheck.NodAddr(typecheck.Temp(t))
 			} else {
 				a = callnew(t)
 			}
-			p := temp(t.PtrTo()) // *[n]byte
-			init.Append(typecheck(ir.NewAssignStmt(base.Pos, p, a), ctxStmt))
+			p := typecheck.Temp(t.PtrTo()) // *[n]byte
+			init.Append(typecheck.Stmt(ir.NewAssignStmt(base.Pos, p, a)))
 
 			// Copy from the static string data to the [n]byte.
 			if len(sc) > 0 {
@@ -1628,11 +1630,11 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			return walkexpr(slice, init)
 		}
 
-		a := nodnil()
+		a := typecheck.NodNil()
 		if n.Esc() == EscNone {
 			// Create temporary buffer for slice on stack.
 			t := types.NewArray(types.Types[types.TUINT8], tmpstringbufsize)
-			a = nodAddr(temp(t))
+			a = typecheck.NodAddr(typecheck.Temp(t))
 		}
 		// stringtoslicebyte(*32[byte], string) []byte
 		return mkcall("stringtoslicebyte", n.Type(), init, a, conv(s, types.Types[types.TSTRING]))
@@ -1651,11 +1653,11 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 
 	case ir.OSTR2RUNES:
 		n := n.(*ir.ConvExpr)
-		a := nodnil()
+		a := typecheck.NodNil()
 		if n.Esc() == EscNone {
 			// Create temporary buffer for slice on stack.
 			t := types.NewArray(types.Types[types.TINT32], tmpstringbufsize)
-			a = nodAddr(temp(t))
+			a = typecheck.NodAddr(typecheck.Temp(t))
 		}
 		// stringtoslicerune(*[32]rune, string) []rune
 		return mkcall("stringtoslicerune", n.Type(), init, a, conv(n.X, types.Types[types.TSTRING]))
@@ -1667,18 +1669,18 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			// Make direct reference to the static data. See issue 12841.
 			vstat := readonlystaticname(n.Type())
 			fixedlit(inInitFunction, initKindStatic, n, vstat, init)
-			return typecheck(vstat, ctxExpr)
+			return typecheck.Expr(vstat)
 		}
-		var_ := temp(n.Type())
+		var_ := typecheck.Temp(n.Type())
 		anylit(n, var_, init)
 		return var_
 
 	case ir.OSEND:
 		n := n.(*ir.SendStmt)
 		n1 := n.Value
-		n1 = assignconv(n1, n.Chan.Type().Elem(), "chan send")
+		n1 = typecheck.AssignConv(n1, n.Chan.Type().Elem(), "chan send")
 		n1 = walkexpr(n1, init)
-		n1 = nodAddr(n1)
+		n1 = typecheck.NodAddr(n1)
 		return mkcall1(chanfn("chansend1", 2, n.Chan.Type()), nil, init, n.Chan, n1)
 
 	case ir.OCLOSURE:
@@ -1710,7 +1712,7 @@ func markUsedIfaceMethod(n *ir.CallExpr) {
 	dot := n.X.(*ir.SelectorExpr)
 	ityp := dot.X.Type()
 	tsym := typenamesym(ityp).Linksym()
-	r := obj.Addrel(Curfn.LSym)
+	r := obj.Addrel(ir.CurFunc.LSym)
 	r.Sym = tsym
 	// dot.Xoffset is the method index * Widthptr (the offset of code pointer
 	// in itab).
@@ -1826,7 +1828,7 @@ func ascompatee(op ir.Op, nl, nr []ir.Node, init *ir.Nodes) []ir.Node {
 		var nln, nrn ir.Nodes
 		nln.Set(nl)
 		nrn.Set(nr)
-		base.Fatalf("error in shape across %+v %v %+v / %d %d [%s]", nln, op, nrn, len(nl), len(nr), ir.FuncName(Curfn))
+		base.Fatalf("error in shape across %+v %v %+v / %d %d [%s]", nln, op, nrn, len(nl), len(nr), ir.FuncName(ir.CurFunc))
 	}
 	return reorder3(nn)
 }
@@ -1861,8 +1863,8 @@ func ascompatet(nl ir.Nodes, nr *types.Type) []ir.Node {
 		// Any assignment to an lvalue that might cause a function call must be
 		// deferred until all the returned values have been read.
 		if fncall(l, r.Type) {
-			tmp := ir.Node(temp(r.Type))
-			tmp = typecheck(tmp, ctxExpr)
+			tmp := ir.Node(typecheck.Temp(r.Type))
+			tmp = typecheck.Expr(tmp)
 			a := convas(ir.NewAssignStmt(base.Pos, l, tmp), &mm)
 			mm.Append(a)
 			l = tmp
@@ -1889,7 +1891,7 @@ func ascompatet(nl ir.Nodes, nr *types.Type) []ir.Node {
 func mkdotargslice(typ *types.Type, args []ir.Node) ir.Node {
 	var n ir.Node
 	if len(args) == 0 {
-		n = nodnil()
+		n = typecheck.NodNil()
 		n.SetType(typ)
 	} else {
 		lit := ir.NewCompLitExpr(base.Pos, ir.OCOMPLIT, ir.TypeNode(typ).(ir.Ntype), nil)
@@ -1898,7 +1900,7 @@ func mkdotargslice(typ *types.Type, args []ir.Node) ir.Node {
 		n = lit
 	}
 
-	n = typecheck(n, ctxExpr)
+	n = typecheck.Expr(n)
 	if n.Type() == nil {
 		base.Fatalf("mkdotargslice: typecheck failed")
 	}
@@ -1968,7 +1970,7 @@ func walkCall(n *ir.CallExpr, init *ir.Nodes) {
 		}
 		if instrumenting || fncall(arg, t) {
 			// make assignment of fncall to tempAt
-			tmp := temp(t)
+			tmp := typecheck.Temp(t)
 			a := convas(ir.NewAssignStmt(base.Pos, tmp, arg), init)
 			tempAssigns = append(tempAssigns, a)
 			// replace arg with temp
@@ -1991,11 +1993,11 @@ func walkprint(nn *ir.CallExpr, init *ir.Nodes) ir.Node {
 		t := make([]ir.Node, 0, len(s)*2)
 		for i, n := range s {
 			if i != 0 {
-				t = append(t, nodstr(" "))
+				t = append(t, ir.NewString(" "))
 			}
 			t = append(t, n)
 		}
-		t = append(t, nodstr("\n"))
+		t = append(t, ir.NewString("\n"))
 		nn.Args.Set(t)
 	}
 
@@ -2009,7 +2011,7 @@ func walkprint(nn *ir.CallExpr, init *ir.Nodes) ir.Node {
 			i++
 		}
 		if len(strs) > 0 {
-			t = append(t, nodstr(strings.Join(strs, "")))
+			t = append(t, ir.NewString(strings.Join(strs, "")))
 		}
 		if i < len(s) {
 			t = append(t, s[i])
@@ -2022,22 +2024,22 @@ func walkprint(nn *ir.CallExpr, init *ir.Nodes) ir.Node {
 	for i, n := range nn.Args {
 		if n.Op() == ir.OLITERAL {
 			if n.Type() == types.UntypedRune {
-				n = defaultlit(n, types.RuneType)
+				n = typecheck.DefaultLit(n, types.RuneType)
 			}
 
 			switch n.Val().Kind() {
 			case constant.Int:
-				n = defaultlit(n, types.Types[types.TINT64])
+				n = typecheck.DefaultLit(n, types.Types[types.TINT64])
 
 			case constant.Float:
-				n = defaultlit(n, types.Types[types.TFLOAT64])
+				n = typecheck.DefaultLit(n, types.Types[types.TFLOAT64])
 			}
 		}
 
 		if n.Op() != ir.OLITERAL && n.Type() != nil && n.Type().Kind() == types.TIDEAL {
-			n = defaultlit(n, types.Types[types.TINT64])
+			n = typecheck.DefaultLit(n, types.Types[types.TINT64])
 		}
-		n = defaultlit(n, nil)
+		n = typecheck.DefaultLit(n, nil)
 		nn.Args[i] = n
 		if n.Type() == nil || n.Type().Kind() == types.TFORW {
 			continue
@@ -2069,7 +2071,7 @@ func walkprint(nn *ir.CallExpr, init *ir.Nodes) ir.Node {
 			on = syslook("printslice")
 			on = substArgTypes(on, n.Type()) // any-1
 		case types.TUINT, types.TUINT8, types.TUINT16, types.TUINT32, types.TUINT64, types.TUINTPTR:
-			if isRuntimePkg(n.Type().Sym().Pkg) && n.Type().Sym().Name == "hex" {
+			if types.IsRuntimePkg(n.Type().Sym().Pkg) && n.Type().Sym().Name == "hex" {
 				on = syslook("printhex")
 			} else {
 				on = syslook("printuint")
@@ -2114,12 +2116,12 @@ func walkprint(nn *ir.CallExpr, init *ir.Nodes) ir.Node {
 
 	calls = append(calls, mkcall("printunlock", nil, init))
 
-	typecheckslice(calls, ctxStmt)
+	typecheck.Stmts(calls)
 	walkexprlist(calls, init)
 
 	r := ir.NewBlockStmt(base.Pos, nil)
 	r.List.Set(calls)
-	return walkstmt(typecheck(r, ctxStmt))
+	return walkstmt(typecheck.Stmt(r))
 }
 
 func callnew(t *types.Type) ir.Node {
@@ -2175,12 +2177,12 @@ func convas(n *ir.AssignStmt, init *ir.Nodes) *ir.AssignStmt {
 	}
 
 	if ir.IsBlank(n.X) {
-		n.Y = defaultlit(n.Y, nil)
+		n.Y = typecheck.DefaultLit(n.Y, nil)
 		return n
 	}
 
 	if !types.Identical(lt, rt) {
-		n.Y = assignconv(n.Y, lt, "assignment")
+		n.Y = typecheck.AssignConv(n.Y, lt, "assignment")
 		n.Y = walkexpr(n.Y, init)
 	}
 	types.CalcSize(n.Y.Type())
@@ -2273,41 +2275,10 @@ func reorder3save(n ir.Node, all []*ir.AssignStmt, i int, early *[]ir.Node) ir.N
 		return n
 	}
 
-	q := ir.Node(temp(n.Type()))
-	as := typecheck(ir.NewAssignStmt(base.Pos, q, n), ctxStmt)
+	q := ir.Node(typecheck.Temp(n.Type()))
+	as := typecheck.Stmt(ir.NewAssignStmt(base.Pos, q, n))
 	*early = append(*early, as)
 	return q
-}
-
-// what's the outer value that a write to n affects?
-// outer value means containing struct or array.
-func outervalue(n ir.Node) ir.Node {
-	for {
-		switch nn := n; nn.Op() {
-		case ir.OXDOT:
-			base.Fatalf("OXDOT in walk")
-		case ir.ODOT:
-			nn := nn.(*ir.SelectorExpr)
-			n = nn.X
-			continue
-		case ir.OPAREN:
-			nn := nn.(*ir.ParenExpr)
-			n = nn.X
-			continue
-		case ir.OCONVNOP:
-			nn := nn.(*ir.ConvExpr)
-			n = nn.X
-			continue
-		case ir.OINDEX:
-			nn := nn.(*ir.IndexExpr)
-			if nn.X.Type() != nil && nn.X.Type().IsArray() {
-				n = nn.X
-				continue
-			}
-		}
-
-		return n
-	}
 }
 
 // Is it possible that the computation of r might be
@@ -2335,7 +2306,7 @@ func aliased(r ir.Node, all []*ir.AssignStmt) bool {
 			continue
 		}
 
-		lv := outervalue(as.X)
+		lv := ir.OuterValue(as.X)
 		if lv.Op() != ir.ONAME {
 			memwrite = true
 			continue
@@ -2501,7 +2472,7 @@ func paramstoheap(params *types.Type) []ir.Node {
 		if stackcopy := v.Name().Stackcopy; stackcopy != nil {
 			nn = append(nn, walkstmt(ir.NewDecl(base.Pos, ir.ODCL, v)))
 			if stackcopy.Class_ == ir.PPARAM {
-				nn = append(nn, walkstmt(typecheck(ir.NewAssignStmt(base.Pos, v, stackcopy), ctxStmt)))
+				nn = append(nn, walkstmt(typecheck.Stmt(ir.NewAssignStmt(base.Pos, v, stackcopy))))
 			}
 		}
 	}
@@ -2517,7 +2488,7 @@ func paramstoheap(params *types.Type) []ir.Node {
 // even allocations to move params/results to the heap.
 // The generated code is added to Curfn's Enter list.
 func zeroResults() {
-	for _, f := range Curfn.Type().Results().Fields().Slice() {
+	for _, f := range ir.CurFunc.Type().Results().Fields().Slice() {
 		v := ir.AsNode(f.Nname)
 		if v != nil && v.Name().Heapaddr != nil {
 			// The local which points to the return value is the
@@ -2525,7 +2496,7 @@ func zeroResults() {
 			// by a Needzero annotation in plive.go:livenessepilogue.
 			continue
 		}
-		if isParamHeapCopy(v) {
+		if ir.IsParamHeapCopy(v) {
 			// TODO(josharian/khr): Investigate whether we can switch to "continue" here,
 			// and document more in either case.
 			// In the review of CL 114797, Keith wrote (roughly):
@@ -2535,7 +2506,7 @@ func zeroResults() {
 			v = v.Name().Stackcopy
 		}
 		// Zero the stack location containing f.
-		Curfn.Enter.Append(ir.NewAssignStmt(Curfn.Pos(), v, nil))
+		ir.CurFunc.Enter.Append(ir.NewAssignStmt(ir.CurFunc.Pos(), v, nil))
 	}
 }
 
@@ -2549,7 +2520,7 @@ func returnsfromheap(params *types.Type) []ir.Node {
 			continue
 		}
 		if stackcopy := v.Name().Stackcopy; stackcopy != nil && stackcopy.Class_ == ir.PPARAMOUT {
-			nn = append(nn, walkstmt(typecheck(ir.NewAssignStmt(base.Pos, stackcopy, v), ctxStmt)))
+			nn = append(nn, walkstmt(typecheck.Stmt(ir.NewAssignStmt(base.Pos, stackcopy, v))))
 		}
 	}
 
@@ -2561,13 +2532,13 @@ func returnsfromheap(params *types.Type) []ir.Node {
 // Enter and Exit lists.
 func heapmoves() {
 	lno := base.Pos
-	base.Pos = Curfn.Pos()
-	nn := paramstoheap(Curfn.Type().Recvs())
-	nn = append(nn, paramstoheap(Curfn.Type().Params())...)
-	nn = append(nn, paramstoheap(Curfn.Type().Results())...)
-	Curfn.Enter.Append(nn...)
-	base.Pos = Curfn.Endlineno
-	Curfn.Exit.Append(returnsfromheap(Curfn.Type().Results())...)
+	base.Pos = ir.CurFunc.Pos()
+	nn := paramstoheap(ir.CurFunc.Type().Recvs())
+	nn = append(nn, paramstoheap(ir.CurFunc.Type().Params())...)
+	nn = append(nn, paramstoheap(ir.CurFunc.Type().Results())...)
+	ir.CurFunc.Enter.Append(nn...)
+	base.Pos = ir.CurFunc.Endlineno
+	ir.CurFunc.Exit.Append(returnsfromheap(ir.CurFunc.Type().Results())...)
 	base.Pos = lno
 }
 
@@ -2582,7 +2553,7 @@ func vmkcall(fn ir.Node, t *types.Type, init *ir.Nodes, va []ir.Node) *ir.CallEx
 	}
 
 	call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, va)
-	TypecheckCall(call)
+	typecheck.Call(call)
 	call.SetType(t)
 	return walkexpr(call, init).(*ir.CallExpr)
 }
@@ -2601,7 +2572,7 @@ func conv(n ir.Node, t *types.Type) ir.Node {
 	}
 	n = ir.NewConvExpr(base.Pos, ir.OCONV, nil, n)
 	n.SetType(t)
-	n = typecheck(n, ctxExpr)
+	n = typecheck.Expr(n)
 	return n
 }
 
@@ -2613,7 +2584,7 @@ func convnop(n ir.Node, t *types.Type) ir.Node {
 	}
 	n = ir.NewConvExpr(base.Pos, ir.OCONVNOP, nil, n)
 	n.SetType(t)
-	n = typecheck(n, ctxExpr)
+	n = typecheck.Expr(n)
 	return n
 }
 
@@ -2697,7 +2668,7 @@ func mapfast(t *types.Type) int {
 		return mapslow
 	}
 	switch algtype(t.Key()) {
-	case AMEM32:
+	case types.AMEM32:
 		if !t.Key().HasPointers() {
 			return mapfast32
 		}
@@ -2705,7 +2676,7 @@ func mapfast(t *types.Type) int {
 			return mapfast32ptr
 		}
 		base.Fatalf("small pointer %v", t.Key())
-	case AMEM64:
+	case types.AMEM64:
 		if !t.Key().HasPointers() {
 			return mapfast64
 		}
@@ -2714,7 +2685,7 @@ func mapfast(t *types.Type) int {
 		}
 		// Two-word object, at least one of which is a pointer.
 		// Use the slow path.
-	case ASTRING:
+	case types.ASTRING:
 		return mapfaststr
 	}
 	return mapslow
@@ -2733,7 +2704,7 @@ func addstr(n *ir.AddStringExpr, init *ir.Nodes) ir.Node {
 		base.Fatalf("addstr count %d too small", c)
 	}
 
-	buf := nodnil()
+	buf := typecheck.NodNil()
 	if n.Esc() == EscNone {
 		sz := int64(0)
 		for _, n1 := range n.List {
@@ -2746,7 +2717,7 @@ func addstr(n *ir.AddStringExpr, init *ir.Nodes) ir.Node {
 		if sz < tmpstringbufsize {
 			// Create temporary buffer for result string on stack.
 			t := types.NewArray(types.Types[types.TUINT8], tmpstringbufsize)
-			buf = nodAddr(temp(t))
+			buf = typecheck.NodAddr(typecheck.Temp(t))
 		}
 	}
 
@@ -2776,7 +2747,7 @@ func addstr(n *ir.AddStringExpr, init *ir.Nodes) ir.Node {
 	cat := syslook(fn)
 	r := ir.NewCallExpr(base.Pos, ir.OCALL, cat, nil)
 	r.Args.Set(args)
-	r1 := typecheck(r, ctxExpr)
+	r1 := typecheck.Expr(r)
 	r1 = walkexpr(r1, init)
 	r1.SetType(n.Type())
 
@@ -2820,13 +2791,13 @@ func appendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	var nodes ir.Nodes
 
 	// var s []T
-	s := temp(l1.Type())
+	s := typecheck.Temp(l1.Type())
 	nodes.Append(ir.NewAssignStmt(base.Pos, s, l1)) // s = l1
 
 	elemtype := s.Type().Elem()
 
 	// n := len(s) + len(l2)
-	nn := temp(types.Types[types.TINT])
+	nn := typecheck.Temp(types.Types[types.TINT])
 	nodes.Append(ir.NewAssignStmt(base.Pos, nn, ir.NewBinaryExpr(base.Pos, ir.OADD, ir.NewUnaryExpr(base.Pos, ir.OLEN, s), ir.NewUnaryExpr(base.Pos, ir.OLEN, l2))))
 
 	// if uint(n) > uint(cap(s))
@@ -2856,7 +2827,7 @@ func appendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 		slice.SetType(s.Type())
 		slice.SetSliceBounds(ir.NewUnaryExpr(base.Pos, ir.OLEN, l1), nil, nil)
 
-		Curfn.SetWBPos(n.Pos())
+		ir.CurFunc.SetWBPos(n.Pos())
 
 		// instantiate typedslicecopy(typ *type, dstPtr *any, dstLen int, srcPtr *any, srcLen int) int
 		fn := syslook("typedslicecopy")
@@ -2877,17 +2848,17 @@ func appendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 
 		fn := syslook("slicecopy")
 		fn = substArgTypes(fn, ptr1.Type().Elem(), ptr2.Type().Elem())
-		ncopy = mkcall1(fn, types.Types[types.TINT], &nodes, ptr1, len1, ptr2, len2, nodintconst(elemtype.Width))
+		ncopy = mkcall1(fn, types.Types[types.TINT], &nodes, ptr1, len1, ptr2, len2, ir.NewInt(elemtype.Width))
 	} else {
 		// memmove(&s[len(l1)], &l2[0], len(l2)*sizeof(T))
 		ix := ir.NewIndexExpr(base.Pos, s, ir.NewUnaryExpr(base.Pos, ir.OLEN, l1))
 		ix.SetBounded(true)
-		addr := nodAddr(ix)
+		addr := typecheck.NodAddr(ix)
 
 		sptr := ir.NewUnaryExpr(base.Pos, ir.OSPTR, l2)
 
 		nwid := cheapexpr(conv(ir.NewUnaryExpr(base.Pos, ir.OLEN, l2), types.Types[types.TUINTPTR]), &nodes)
-		nwid = ir.NewBinaryExpr(base.Pos, ir.OMUL, nwid, nodintconst(elemtype.Width))
+		nwid = ir.NewBinaryExpr(base.Pos, ir.OMUL, nwid, ir.NewInt(elemtype.Width))
 
 		// instantiate func memmove(to *any, frm *any, length uintptr)
 		fn := syslook("memmove")
@@ -2896,7 +2867,7 @@ func appendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	}
 	ln := append(nodes, ncopy)
 
-	typecheckslice(ln, ctxStmt)
+	typecheck.Stmts(ln)
 	walkstmtlist(ln)
 	init.Append(ln...)
 	return s
@@ -2972,7 +2943,7 @@ func extendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	// The case of l2 overflow when converting from e.g. uint to int is handled by an explicit
 	// check of l2 < 0 at runtime which is generated below.
 	l2 := conv(n.Args[1].(*ir.MakeExpr).Len, types.Types[types.TINT])
-	l2 = typecheck(l2, ctxExpr)
+	l2 = typecheck.Expr(l2)
 	n.Args[1] = l2 // walkAppendArgs expects l2 in n.List.Second().
 
 	walkAppendArgs(n, init)
@@ -2983,7 +2954,7 @@ func extendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	var nodes []ir.Node
 
 	// if l2 >= 0 (likely happens), do nothing
-	nifneg := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OGE, l2, nodintconst(0)), nil, nil)
+	nifneg := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OGE, l2, ir.NewInt(0)), nil, nil)
 	nifneg.Likely = true
 
 	// else panicmakeslicelen()
@@ -2991,13 +2962,13 @@ func extendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	nodes = append(nodes, nifneg)
 
 	// s := l1
-	s := temp(l1.Type())
+	s := typecheck.Temp(l1.Type())
 	nodes = append(nodes, ir.NewAssignStmt(base.Pos, s, l1))
 
 	elemtype := s.Type().Elem()
 
 	// n := len(s) + l2
-	nn := temp(types.Types[types.TINT])
+	nn := typecheck.Temp(types.Types[types.TINT])
 	nodes = append(nodes, ir.NewAssignStmt(base.Pos, nn, ir.NewBinaryExpr(base.Pos, ir.OADD, ir.NewUnaryExpr(base.Pos, ir.OLEN, s), l2)))
 
 	// if uint(n) > uint(cap(s))
@@ -3020,28 +2991,28 @@ func extendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	nodes = append(nodes, ir.NewAssignStmt(base.Pos, s, nt))
 
 	// lptr := &l1[0]
-	l1ptr := temp(l1.Type().Elem().PtrTo())
+	l1ptr := typecheck.Temp(l1.Type().Elem().PtrTo())
 	tmp := ir.NewUnaryExpr(base.Pos, ir.OSPTR, l1)
 	nodes = append(nodes, ir.NewAssignStmt(base.Pos, l1ptr, tmp))
 
 	// sptr := &s[0]
-	sptr := temp(elemtype.PtrTo())
+	sptr := typecheck.Temp(elemtype.PtrTo())
 	tmp = ir.NewUnaryExpr(base.Pos, ir.OSPTR, s)
 	nodes = append(nodes, ir.NewAssignStmt(base.Pos, sptr, tmp))
 
 	// hp := &s[len(l1)]
 	ix := ir.NewIndexExpr(base.Pos, s, ir.NewUnaryExpr(base.Pos, ir.OLEN, l1))
 	ix.SetBounded(true)
-	hp := convnop(nodAddr(ix), types.Types[types.TUNSAFEPTR])
+	hp := convnop(typecheck.NodAddr(ix), types.Types[types.TUNSAFEPTR])
 
 	// hn := l2 * sizeof(elem(s))
-	hn := conv(ir.NewBinaryExpr(base.Pos, ir.OMUL, l2, nodintconst(elemtype.Width)), types.Types[types.TUINTPTR])
+	hn := conv(ir.NewBinaryExpr(base.Pos, ir.OMUL, l2, ir.NewInt(elemtype.Width)), types.Types[types.TUINTPTR])
 
 	clrname := "memclrNoHeapPointers"
 	hasPointers := elemtype.HasPointers()
 	if hasPointers {
 		clrname = "memclrHasPointers"
-		Curfn.SetWBPos(n.Pos())
+		ir.CurFunc.SetWBPos(n.Pos())
 	}
 
 	var clr ir.Nodes
@@ -3057,7 +3028,7 @@ func extendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 		nodes = append(nodes, clr...)
 	}
 
-	typecheckslice(nodes, ctxStmt)
+	typecheck.Stmts(nodes)
 	walkstmtlist(nodes)
 	init.Append(nodes...)
 	return s
@@ -3103,7 +3074,7 @@ func walkappend(n *ir.CallExpr, init *ir.Nodes, dst ir.Node) ir.Node {
 	for i, n := range ls {
 		n = cheapexpr(n, init)
 		if !types.Identical(n.Type(), nsrc.Type().Elem()) {
-			n = assignconv(n, nsrc.Type().Elem(), "append")
+			n = typecheck.AssignConv(n, nsrc.Type().Elem(), "append")
 			n = walkexpr(n, init)
 		}
 		ls[i] = n
@@ -3122,10 +3093,10 @@ func walkappend(n *ir.CallExpr, init *ir.Nodes, dst ir.Node) ir.Node {
 
 	var l []ir.Node
 
-	ns := temp(nsrc.Type())
+	ns := typecheck.Temp(nsrc.Type())
 	l = append(l, ir.NewAssignStmt(base.Pos, ns, nsrc)) // s = src
 
-	na := nodintconst(int64(argc))               // const argc
+	na := ir.NewInt(int64(argc))                 // const argc
 	nif := ir.NewIfStmt(base.Pos, nil, nil, nil) // if cap(s) - len(s) < argc
 	nif.Cond = ir.NewBinaryExpr(base.Pos, ir.OLT, ir.NewBinaryExpr(base.Pos, ir.OSUB, ir.NewUnaryExpr(base.Pos, ir.OCAP, ns), ir.NewUnaryExpr(base.Pos, ir.OLEN, ns)), na)
 
@@ -3137,7 +3108,7 @@ func walkappend(n *ir.CallExpr, init *ir.Nodes, dst ir.Node) ir.Node {
 
 	l = append(l, nif)
 
-	nn := temp(types.Types[types.TINT])
+	nn := typecheck.Temp(types.Types[types.TINT])
 	l = append(l, ir.NewAssignStmt(base.Pos, nn, ir.NewUnaryExpr(base.Pos, ir.OLEN, ns))) // n = len(s)
 
 	slice := ir.NewSliceExpr(base.Pos, ir.OSLICE, ns) // ...s[:n+argc]
@@ -3151,11 +3122,11 @@ func walkappend(n *ir.CallExpr, init *ir.Nodes, dst ir.Node) ir.Node {
 		ix.SetBounded(true)
 		l = append(l, ir.NewAssignStmt(base.Pos, ix, n)) // s[n] = arg
 		if i+1 < len(ls) {
-			l = append(l, ir.NewAssignStmt(base.Pos, nn, ir.NewBinaryExpr(base.Pos, ir.OADD, nn, nodintconst(1)))) // n = n + 1
+			l = append(l, ir.NewAssignStmt(base.Pos, nn, ir.NewBinaryExpr(base.Pos, ir.OADD, nn, ir.NewInt(1)))) // n = n + 1
 		}
 	}
 
-	typecheckslice(l, ctxStmt)
+	typecheck.Stmts(l)
 	walkstmtlist(l)
 	init.Append(l...)
 	return ns
@@ -3174,7 +3145,7 @@ func walkappend(n *ir.CallExpr, init *ir.Nodes, dst ir.Node) ir.Node {
 //
 func copyany(n *ir.BinaryExpr, init *ir.Nodes, runtimecall bool) ir.Node {
 	if n.X.Type().Elem().HasPointers() {
-		Curfn.SetWBPos(n.Pos())
+		ir.CurFunc.SetWBPos(n.Pos())
 		fn := writebarrierfn("typedslicecopy", n.X.Type().Elem(), n.Y.Type().Elem())
 		n.X = cheapexpr(n.X, init)
 		ptrL, lenL := backingArrayPtrLen(n.X)
@@ -3196,13 +3167,13 @@ func copyany(n *ir.BinaryExpr, init *ir.Nodes, runtimecall bool) ir.Node {
 		fn := syslook("slicecopy")
 		fn = substArgTypes(fn, ptrL.Type().Elem(), ptrR.Type().Elem())
 
-		return mkcall1(fn, n.Type(), init, ptrL, lenL, ptrR, lenR, nodintconst(n.X.Type().Elem().Width))
+		return mkcall1(fn, n.Type(), init, ptrL, lenL, ptrR, lenR, ir.NewInt(n.X.Type().Elem().Width))
 	}
 
 	n.X = walkexpr(n.X, init)
 	n.Y = walkexpr(n.Y, init)
-	nl := temp(n.X.Type())
-	nr := temp(n.Y.Type())
+	nl := typecheck.Temp(n.X.Type())
+	nr := typecheck.Temp(n.Y.Type())
 	var l []ir.Node
 	l = append(l, ir.NewAssignStmt(base.Pos, nl, n.X))
 	l = append(l, ir.NewAssignStmt(base.Pos, nr, n.Y))
@@ -3210,7 +3181,7 @@ func copyany(n *ir.BinaryExpr, init *ir.Nodes, runtimecall bool) ir.Node {
 	nfrm := ir.NewUnaryExpr(base.Pos, ir.OSPTR, nr)
 	nto := ir.NewUnaryExpr(base.Pos, ir.OSPTR, nl)
 
-	nlen := temp(types.Types[types.TINT])
+	nlen := typecheck.Temp(types.Types[types.TINT])
 
 	// n = len(to)
 	l = append(l, ir.NewAssignStmt(base.Pos, nlen, ir.NewUnaryExpr(base.Pos, ir.OLEN, nl)))
@@ -3229,14 +3200,14 @@ func copyany(n *ir.BinaryExpr, init *ir.Nodes, runtimecall bool) ir.Node {
 
 	fn := syslook("memmove")
 	fn = substArgTypes(fn, nl.Type().Elem(), nl.Type().Elem())
-	nwid := ir.Node(temp(types.Types[types.TUINTPTR]))
+	nwid := ir.Node(typecheck.Temp(types.Types[types.TUINTPTR]))
 	setwid := ir.NewAssignStmt(base.Pos, nwid, conv(nlen, types.Types[types.TUINTPTR]))
 	ne.Body.Append(setwid)
-	nwid = ir.NewBinaryExpr(base.Pos, ir.OMUL, nwid, nodintconst(nl.Type().Elem().Width))
+	nwid = ir.NewBinaryExpr(base.Pos, ir.OMUL, nwid, ir.NewInt(nl.Type().Elem().Width))
 	call := mkcall1(fn, nil, init, nto, nfrm, nwid)
 	ne.Body.Append(call)
 
-	typecheckslice(l, ctxStmt)
+	typecheck.Stmts(l)
 	walkstmtlist(l)
 	init.Append(l...)
 	return nlen
@@ -3247,20 +3218,20 @@ func eqfor(t *types.Type) (n ir.Node, needsize bool) {
 	// a struct/array containing a non-memory field/element.
 	// Small memory is handled inline, and single non-memory
 	// is handled by walkcompare.
-	switch a, _ := algtype1(t); a {
-	case AMEM:
+	switch a, _ := types.AlgType(t); a {
+	case types.AMEM:
 		n := syslook("memequal")
 		n = substArgTypes(n, t, t)
 		return n, true
-	case ASPECIAL:
+	case types.ASPECIAL:
 		sym := typesymprefix(".eq", t)
-		n := NewName(sym)
-		setNodeNameFunc(n)
-		n.SetType(functype(nil, []*ir.Field{
-			anonfield(types.NewPtr(t)),
-			anonfield(types.NewPtr(t)),
+		n := typecheck.NewName(sym)
+		ir.MarkFunc(n)
+		n.SetType(typecheck.NewFuncType(nil, []*ir.Field{
+			ir.NewField(base.Pos, nil, nil, types.NewPtr(t)),
+			ir.NewField(base.Pos, nil, nil, types.NewPtr(t)),
 		}, []*ir.Field{
-			anonfield(types.Types[types.TBOOL]),
+			ir.NewField(base.Pos, nil, nil, types.Types[types.TBOOL]),
 		}))
 		return n, false
 	}
@@ -3313,7 +3284,7 @@ func walkcompare(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 			tab.SetTypecheck(1)
 			eqtype = ir.NewBinaryExpr(base.Pos, eq, tab, rtyp)
 		} else {
-			nonnil := ir.NewBinaryExpr(base.Pos, brcom(eq), nodnil(), tab)
+			nonnil := ir.NewBinaryExpr(base.Pos, brcom(eq), typecheck.NodNil(), tab)
 			match := ir.NewBinaryExpr(base.Pos, eq, itabType(tab), rtyp)
 			eqtype = ir.NewLogicalExpr(base.Pos, andor, nonnil, match)
 		}
@@ -3389,7 +3360,7 @@ func walkcompare(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 		return n
 	case types.TARRAY:
 		// We can compare several elements at once with 2/4/8 byte integer compares
-		inline = t.NumElem() <= 1 || (issimple[t.Elem().Kind()] && (t.NumElem() <= 4 || t.Elem().Width*t.NumElem() <= maxcmpsize))
+		inline = t.NumElem() <= 1 || (types.IsSimple[t.Elem().Kind()] && (t.NumElem() <= 4 || t.Elem().Width*t.NumElem() <= maxcmpsize))
 	case types.TSTRUCT:
 		inline = t.NumComponents(types.IgnoreBlankFields) <= 4
 	}
@@ -3406,16 +3377,16 @@ func walkcompare(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 	// Chose not to inline. Call equality function directly.
 	if !inline {
 		// eq algs take pointers; cmpl and cmpr must be addressable
-		if !islvalue(cmpl) || !islvalue(cmpr) {
+		if !ir.IsAssignable(cmpl) || !ir.IsAssignable(cmpr) {
 			base.Fatalf("arguments of comparison must be lvalues - %v %v", cmpl, cmpr)
 		}
 
 		fn, needsize := eqfor(t)
 		call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, nil)
-		call.Args.Append(nodAddr(cmpl))
-		call.Args.Append(nodAddr(cmpr))
+		call.Args.Append(typecheck.NodAddr(cmpl))
+		call.Args.Append(typecheck.NodAddr(cmpr))
 		if needsize {
-			call.Args.Append(nodintconst(t.Width))
+			call.Args.Append(ir.NewInt(t.Width))
 		}
 		res := ir.Node(call)
 		if n.Op() != ir.OEQ {
@@ -3474,31 +3445,31 @@ func walkcompare(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 			}
 			if step == 1 {
 				compare(
-					ir.NewIndexExpr(base.Pos, cmpl, nodintconst(i)),
-					ir.NewIndexExpr(base.Pos, cmpr, nodintconst(i)),
+					ir.NewIndexExpr(base.Pos, cmpl, ir.NewInt(i)),
+					ir.NewIndexExpr(base.Pos, cmpr, ir.NewInt(i)),
 				)
 				i++
 				remains -= t.Elem().Width
 			} else {
 				elemType := t.Elem().ToUnsigned()
-				cmplw := ir.Node(ir.NewIndexExpr(base.Pos, cmpl, nodintconst(i)))
+				cmplw := ir.Node(ir.NewIndexExpr(base.Pos, cmpl, ir.NewInt(i)))
 				cmplw = conv(cmplw, elemType) // convert to unsigned
 				cmplw = conv(cmplw, convType) // widen
-				cmprw := ir.Node(ir.NewIndexExpr(base.Pos, cmpr, nodintconst(i)))
+				cmprw := ir.Node(ir.NewIndexExpr(base.Pos, cmpr, ir.NewInt(i)))
 				cmprw = conv(cmprw, elemType)
 				cmprw = conv(cmprw, convType)
 				// For code like this:  uint32(s[0]) | uint32(s[1])<<8 | uint32(s[2])<<16 ...
 				// ssa will generate a single large load.
 				for offset := int64(1); offset < step; offset++ {
-					lb := ir.Node(ir.NewIndexExpr(base.Pos, cmpl, nodintconst(i+offset)))
+					lb := ir.Node(ir.NewIndexExpr(base.Pos, cmpl, ir.NewInt(i+offset)))
 					lb = conv(lb, elemType)
 					lb = conv(lb, convType)
-					lb = ir.NewBinaryExpr(base.Pos, ir.OLSH, lb, nodintconst(8*t.Elem().Width*offset))
+					lb = ir.NewBinaryExpr(base.Pos, ir.OLSH, lb, ir.NewInt(8*t.Elem().Width*offset))
 					cmplw = ir.NewBinaryExpr(base.Pos, ir.OOR, cmplw, lb)
-					rb := ir.Node(ir.NewIndexExpr(base.Pos, cmpr, nodintconst(i+offset)))
+					rb := ir.Node(ir.NewIndexExpr(base.Pos, cmpr, ir.NewInt(i+offset)))
 					rb = conv(rb, elemType)
 					rb = conv(rb, convType)
-					rb = ir.NewBinaryExpr(base.Pos, ir.OLSH, rb, nodintconst(8*t.Elem().Width*offset))
+					rb = ir.NewBinaryExpr(base.Pos, ir.OLSH, rb, ir.NewInt(8*t.Elem().Width*offset))
 					cmprw = ir.NewBinaryExpr(base.Pos, ir.OOR, cmprw, rb)
 				}
 				compare(cmplw, cmprw)
@@ -3508,12 +3479,12 @@ func walkcompare(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 		}
 	}
 	if expr == nil {
-		expr = nodbool(n.Op() == ir.OEQ)
+		expr = ir.NewBool(n.Op() == ir.OEQ)
 		// We still need to use cmpl and cmpr, in case they contain
 		// an expression which might panic. See issue 23837.
-		t := temp(cmpl.Type())
-		a1 := typecheck(ir.NewAssignStmt(base.Pos, t, cmpl), ctxStmt)
-		a2 := typecheck(ir.NewAssignStmt(base.Pos, t, cmpr), ctxStmt)
+		t := typecheck.Temp(cmpl.Type())
+		a1 := typecheck.Stmt(ir.NewAssignStmt(base.Pos, t, cmpl))
+		a2 := typecheck.Stmt(ir.NewAssignStmt(base.Pos, t, cmpr))
 		init.Append(a1, a2)
 	}
 	return finishcompare(n, expr, init)
@@ -3595,12 +3566,12 @@ func walkcompareString(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 			if len(s) > 0 {
 				ncs = safeexpr(ncs, init)
 			}
-			r := ir.Node(ir.NewBinaryExpr(base.Pos, cmp, ir.NewUnaryExpr(base.Pos, ir.OLEN, ncs), nodintconst(int64(len(s)))))
+			r := ir.Node(ir.NewBinaryExpr(base.Pos, cmp, ir.NewUnaryExpr(base.Pos, ir.OLEN, ncs), ir.NewInt(int64(len(s)))))
 			remains := len(s)
 			for i := 0; remains > 0; {
 				if remains == 1 || !canCombineLoads {
-					cb := nodintconst(int64(s[i]))
-					ncb := ir.NewIndexExpr(base.Pos, ncs, nodintconst(int64(i)))
+					cb := ir.NewInt(int64(s[i]))
+					ncb := ir.NewIndexExpr(base.Pos, ncs, ir.NewInt(int64(i)))
 					r = ir.NewLogicalExpr(base.Pos, and, r, ir.NewBinaryExpr(base.Pos, cmp, ncb, cb))
 					remains--
 					i++
@@ -3619,18 +3590,18 @@ func walkcompareString(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 					convType = types.Types[types.TUINT16]
 					step = 2
 				}
-				ncsubstr := conv(ir.NewIndexExpr(base.Pos, ncs, nodintconst(int64(i))), convType)
+				ncsubstr := conv(ir.NewIndexExpr(base.Pos, ncs, ir.NewInt(int64(i))), convType)
 				csubstr := int64(s[i])
 				// Calculate large constant from bytes as sequence of shifts and ors.
 				// Like this:  uint32(s[0]) | uint32(s[1])<<8 | uint32(s[2])<<16 ...
 				// ssa will combine this into a single large load.
 				for offset := 1; offset < step; offset++ {
-					b := conv(ir.NewIndexExpr(base.Pos, ncs, nodintconst(int64(i+offset))), convType)
-					b = ir.NewBinaryExpr(base.Pos, ir.OLSH, b, nodintconst(int64(8*offset)))
+					b := conv(ir.NewIndexExpr(base.Pos, ncs, ir.NewInt(int64(i+offset))), convType)
+					b = ir.NewBinaryExpr(base.Pos, ir.OLSH, b, ir.NewInt(int64(8*offset)))
 					ncsubstr = ir.NewBinaryExpr(base.Pos, ir.OOR, ncsubstr, b)
 					csubstr |= int64(s[i+offset]) << uint8(8*offset)
 				}
-				csubstrPart := nodintconst(csubstr)
+				csubstrPart := ir.NewInt(csubstr)
 				// Compare "step" bytes as once
 				r = ir.NewLogicalExpr(base.Pos, and, r, ir.NewBinaryExpr(base.Pos, cmp, csubstrPart, ncsubstr))
 				remains -= step
@@ -3659,7 +3630,7 @@ func walkcompareString(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 	} else {
 		// sys_cmpstring(s1, s2) :: 0
 		r = mkcall("cmpstring", types.Types[types.TINT], init, conv(n.X, types.Types[types.TSTRING]), conv(n.Y, types.Types[types.TSTRING]))
-		r = ir.NewBinaryExpr(base.Pos, n.Op(), r, nodintconst(0))
+		r = ir.NewBinaryExpr(base.Pos, n.Op(), r, ir.NewInt(0))
 	}
 
 	return finishcompare(n, r, init)
@@ -3668,7 +3639,7 @@ func walkcompareString(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 // The result of finishcompare MUST be assigned back to n, e.g.
 // 	n.Left = finishcompare(n.Left, x, r, init)
 func finishcompare(n *ir.BinaryExpr, r ir.Node, init *ir.Nodes) ir.Node {
-	r = typecheck(r, ctxExpr)
+	r = typecheck.Expr(r)
 	r = conv(r, n.Type())
 	r = walkexpr(r, init)
 	return r
@@ -3683,7 +3654,7 @@ func bounded(n ir.Node, max int64) bool {
 	sign := n.Type().IsSigned()
 	bits := int32(8 * n.Type().Width)
 
-	if smallintconst(n) {
+	if ir.IsSmallIntConst(n) {
 		v := ir.Int64Val(n)
 		return 0 <= v && v < max
 	}
@@ -3693,9 +3664,9 @@ func bounded(n ir.Node, max int64) bool {
 		n := n.(*ir.BinaryExpr)
 		v := int64(-1)
 		switch {
-		case smallintconst(n.X):
+		case ir.IsSmallIntConst(n.X):
 			v = ir.Int64Val(n.X)
-		case smallintconst(n.Y):
+		case ir.IsSmallIntConst(n.Y):
 			v = ir.Int64Val(n.Y)
 			if n.Op() == ir.OANDNOT {
 				v = ^v
@@ -3710,7 +3681,7 @@ func bounded(n ir.Node, max int64) bool {
 
 	case ir.OMOD:
 		n := n.(*ir.BinaryExpr)
-		if !sign && smallintconst(n.Y) {
+		if !sign && ir.IsSmallIntConst(n.Y) {
 			v := ir.Int64Val(n.Y)
 			if 0 <= v && v <= max {
 				return true
@@ -3719,7 +3690,7 @@ func bounded(n ir.Node, max int64) bool {
 
 	case ir.ODIV:
 		n := n.(*ir.BinaryExpr)
-		if !sign && smallintconst(n.Y) {
+		if !sign && ir.IsSmallIntConst(n.Y) {
 			v := ir.Int64Val(n.Y)
 			for bits > 0 && v >= 2 {
 				bits--
@@ -3729,7 +3700,7 @@ func bounded(n ir.Node, max int64) bool {
 
 	case ir.ORSH:
 		n := n.(*ir.BinaryExpr)
-		if !sign && smallintconst(n.Y) {
+		if !sign && ir.IsSmallIntConst(n.Y) {
 			v := ir.Int64Val(n.Y)
 			if v > int64(bits) {
 				return true
@@ -3784,10 +3755,10 @@ func usemethod(n *ir.CallExpr) {
 	// Note: Don't rely on res0.Type.String() since its formatting depends on multiple factors
 	//       (including global variables such as numImports - was issue #19028).
 	// Also need to check for reflect package itself (see Issue #38515).
-	if s := res0.Type.Sym(); s != nil && s.Name == "Method" && isReflectPkg(s.Pkg) {
-		Curfn.SetReflectMethod(true)
+	if s := res0.Type.Sym(); s != nil && s.Name == "Method" && types.IsReflectPkg(s.Pkg) {
+		ir.CurFunc.SetReflectMethod(true)
 		// The LSym is initialized at this point. We need to set the attribute on the LSym.
-		Curfn.LSym.Set(obj.AttrReflectMethod, true)
+		ir.CurFunc.LSym.Set(obj.AttrReflectMethod, true)
 	}
 }
 
@@ -3836,10 +3807,10 @@ func usefield(n *ir.SelectorExpr) {
 	}
 
 	sym := tracksym(outer, field)
-	if Curfn.FieldTrack == nil {
-		Curfn.FieldTrack = make(map[*types.Sym]struct{})
+	if ir.CurFunc.FieldTrack == nil {
+		ir.CurFunc.FieldTrack = make(map[*types.Sym]struct{})
 	}
-	Curfn.FieldTrack[sym] = struct{}{}
+	ir.CurFunc.FieldTrack[sym] = struct{}{}
 }
 
 // anySideEffects reports whether n contains any operations that could have observable side effects.
@@ -3972,21 +3943,21 @@ func wrapCall(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	origArgs := make([]ir.Node, len(n.Args))
 	var funcArgs []*ir.Field
 	for i, arg := range n.Args {
-		s := lookupN("a", i)
+		s := typecheck.LookupNum("a", i)
 		if !isBuiltinCall && arg.Op() == ir.OCONVNOP && arg.Type().IsUintptr() && arg.(*ir.ConvExpr).X.Type().IsUnsafePtr() {
 			origArgs[i] = arg
 			arg = arg.(*ir.ConvExpr).X
 			n.Args[i] = arg
 		}
-		funcArgs = append(funcArgs, symfield(s, arg.Type()))
+		funcArgs = append(funcArgs, ir.NewField(base.Pos, s, nil, arg.Type()))
 	}
 	t := ir.NewFuncType(base.Pos, nil, funcArgs, nil)
 
 	wrapCall_prgen++
-	sym := lookupN("wrap·", wrapCall_prgen)
-	fn := dclfunc(sym, t)
+	sym := typecheck.LookupNum("wrap·", wrapCall_prgen)
+	fn := typecheck.DeclFunc(sym, t)
 
-	args := paramNnames(t.Type())
+	args := ir.ParamNames(t.Type())
 	for i, origArg := range origArgs {
 		if origArg == nil {
 			continue
@@ -4000,14 +3971,14 @@ func wrapCall(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	}
 	fn.Body = []ir.Node{call}
 
-	funcbody()
+	typecheck.FinishFuncBody()
 
-	typecheckFunc(fn)
-	typecheckslice(fn.Body, ctxStmt)
+	typecheck.Func(fn)
+	typecheck.Stmts(fn.Body)
 	xtop = append(xtop, fn)
 
 	call = ir.NewCallExpr(base.Pos, ir.OCALL, fn.Nname, n.Args)
-	return walkexpr(typecheck(call, ctxStmt), init)
+	return walkexpr(typecheck.Stmt(call), init)
 }
 
 // substArgTypes substitutes the given list of types for
@@ -4067,7 +4038,7 @@ func walkCheckPtrAlignment(n *ir.ConvExpr, init *ir.Nodes, count ir.Node) ir.Nod
 	}
 
 	if count == nil {
-		count = nodintconst(1)
+		count = ir.NewInt(1)
 	}
 
 	n.X = cheapexpr(n.X, init)
@@ -4151,7 +4122,7 @@ func checkPtr(fn *ir.Func, level int) bool {
 // appendWalkStmt typechecks and walks stmt and then appends it to init.
 func appendWalkStmt(init *ir.Nodes, stmt ir.Node) {
 	op := stmt.Op()
-	n := typecheck(stmt, ctxStmt)
+	n := typecheck.Stmt(stmt)
 	if op == ir.OAS || op == ir.OAS2 {
 		// If the assignment has side effects, walkexpr will append them
 		// directly to init for us, while walkstmt will wrap it in an OBLOCK.
@@ -4162,4 +4133,75 @@ func appendWalkStmt(init *ir.Nodes, stmt ir.Node) {
 		n = walkstmt(n)
 	}
 	init.Append(n)
+}
+
+// samesafeexpr checks whether it is safe to reuse one of l and r
+// instead of computing both. samesafeexpr assumes that l and r are
+// used in the same statement or expression. In order for it to be
+// safe to reuse l or r, they must:
+// * be the same expression
+// * not have side-effects (no function calls, no channel ops);
+//   however, panics are ok
+// * not cause inappropriate aliasing; e.g. two string to []byte
+//   conversions, must result in two distinct slices
+//
+// The handling of OINDEXMAP is subtle. OINDEXMAP can occur both
+// as an lvalue (map assignment) and an rvalue (map access). This is
+// currently OK, since the only place samesafeexpr gets used on an
+// lvalue expression is for OSLICE and OAPPEND optimizations, and it
+// is correct in those settings.
+func samesafeexpr(l ir.Node, r ir.Node) bool {
+	if l.Op() != r.Op() || !types.Identical(l.Type(), r.Type()) {
+		return false
+	}
+
+	switch l.Op() {
+	case ir.ONAME, ir.OCLOSUREREAD:
+		return l == r
+
+	case ir.ODOT, ir.ODOTPTR:
+		l := l.(*ir.SelectorExpr)
+		r := r.(*ir.SelectorExpr)
+		return l.Sel != nil && r.Sel != nil && l.Sel == r.Sel && samesafeexpr(l.X, r.X)
+
+	case ir.ODEREF:
+		l := l.(*ir.StarExpr)
+		r := r.(*ir.StarExpr)
+		return samesafeexpr(l.X, r.X)
+
+	case ir.ONOT, ir.OBITNOT, ir.OPLUS, ir.ONEG:
+		l := l.(*ir.UnaryExpr)
+		r := r.(*ir.UnaryExpr)
+		return samesafeexpr(l.X, r.X)
+
+	case ir.OCONVNOP:
+		l := l.(*ir.ConvExpr)
+		r := r.(*ir.ConvExpr)
+		return samesafeexpr(l.X, r.X)
+
+	case ir.OCONV:
+		l := l.(*ir.ConvExpr)
+		r := r.(*ir.ConvExpr)
+		// Some conversions can't be reused, such as []byte(str).
+		// Allow only numeric-ish types. This is a bit conservative.
+		return types.IsSimple[l.Type().Kind()] && samesafeexpr(l.X, r.X)
+
+	case ir.OINDEX, ir.OINDEXMAP:
+		l := l.(*ir.IndexExpr)
+		r := r.(*ir.IndexExpr)
+		return samesafeexpr(l.X, r.X) && samesafeexpr(l.Index, r.Index)
+
+	case ir.OADD, ir.OSUB, ir.OOR, ir.OXOR, ir.OMUL, ir.OLSH, ir.ORSH, ir.OAND, ir.OANDNOT, ir.ODIV, ir.OMOD:
+		l := l.(*ir.BinaryExpr)
+		r := r.(*ir.BinaryExpr)
+		return samesafeexpr(l.X, r.X) && samesafeexpr(l.Y, r.Y)
+
+	case ir.OLITERAL:
+		return constant.Compare(l.Val(), token.EQL, r.Val())
+
+	case ir.ONIL:
+		return true
+	}
+
+	return false
 }

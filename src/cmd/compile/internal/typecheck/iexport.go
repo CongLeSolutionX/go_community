@@ -199,16 +199,11 @@
 // they're expected to change much more rapidly, so they're omitted
 // here. See exportWriter's varExt/funcExt/etc methods for details.
 
-package gc
+package typecheck
 
 import (
 	"bufio"
 	"bytes"
-	"cmd/compile/internal/base"
-	"cmd/compile/internal/ir"
-	"cmd/compile/internal/types"
-	"cmd/internal/goobj"
-	"cmd/internal/src"
 	"crypto/md5"
 	"encoding/binary"
 	"fmt"
@@ -217,6 +212,12 @@ import (
 	"math/big"
 	"sort"
 	"strings"
+
+	"cmd/compile/internal/base"
+	"cmd/compile/internal/ir"
+	"cmd/compile/internal/types"
+	"cmd/internal/goobj"
+	"cmd/internal/src"
 )
 
 // Current indexed export format version. Increase with each format change.
@@ -245,7 +246,7 @@ const (
 	interfaceType
 )
 
-func iexport(out *bufio.Writer, exportlist []*ir.Name) {
+func WriteExports(out *bufio.Writer, exportlist []*ir.Name) {
 	p := iexporter{
 		allPkgs:     map[*types.Pkg]bool{},
 		stringIndex: map[string]uint64{},
@@ -455,13 +456,13 @@ func (p *iexporter) doDecl(n *ir.Name) {
 	case ir.OLITERAL:
 		// Constant.
 		// TODO(mdempsky): Do we still need this typecheck? If so, why?
-		n = typecheck(n, ctxExpr).(*ir.Name)
+		n = Expr(n).(*ir.Name)
 		w.tag('C')
 		w.pos(n.Pos())
 		w.value(n.Type(), n.Val())
 
 	case ir.OTYPE:
-		if IsAlias(n.Sym()) {
+		if types.IsDotAlias(n.Sym()) {
 			// Alias.
 			w.tag('A')
 			w.pos(n.Pos())
@@ -816,7 +817,7 @@ func (w *exportWriter) value(typ *types.Type, v constant.Value) {
 
 func intSize(typ *types.Type) (signed bool, maxBytes uint) {
 	if typ.IsUntyped() {
-		return true, Mpprec / 8
+		return true, ir.ConstPrec / 8
 	}
 
 	switch typ.Kind() {
@@ -927,7 +928,7 @@ func (w *exportWriter) mpint(x constant.Value, typ *types.Type) {
 // multi-precision integer) and then the exponent, except exponent is
 // omitted if mantissa is zero.
 func (w *exportWriter) mpfloat(v constant.Value, typ *types.Type) {
-	f := bigFloatVal(v)
+	f := ir.BigFloat(v)
 	if f.IsInf() {
 		base.Fatalf("infinite constant")
 	}
@@ -1023,13 +1024,13 @@ func (w *exportWriter) typeExt(t *types.Type) {
 	// Export whether this type is marked notinheap.
 	w.bool(t.NotInHeap())
 	// For type T, export the index of type descriptor symbols of T and *T.
-	if i, ok := typeSymIdx[t]; ok {
+	if i, ok := TODO_typeSymIdx[t]; ok {
 		w.int64(i[0])
 		w.int64(i[1])
 		return
 	}
-	w.symIdx(typesym(t))
-	w.symIdx(typesym(t.PtrTo()))
+	w.symIdx(types.TypeSym(t))
+	w.symIdx(types.TypeSym(t.PtrTo()))
 }
 
 // Inline bodies.
