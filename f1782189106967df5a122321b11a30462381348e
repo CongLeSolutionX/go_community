@@ -62,6 +62,30 @@
       },
       "revId": "f1782189106967df5a122321b11a30462381348e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02a15229_8e9e60c6",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-18T01:36:22Z",
+      "side": 1,
+      "message": "Oh, and it should be %v not %T.\n\n(%T would have definitely made it stand out though.)",
+      "parentUuid": "310e465c_63c8bb7b",
+      "range": {
+        "startLine": 636,
+        "startChar": 18,
+        "endLine": 636,
+        "endChar": 30
+      },
+      "revId": "f1782189106967df5a122321b11a30462381348e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
