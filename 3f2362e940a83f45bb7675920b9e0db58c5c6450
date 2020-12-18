@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5572aff1_c55543b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-18T00:12:13Z",
+      "side": 1,
+      "message": "Agree that this needs more thinking and discussion.\n\nThe reason I didn\u0027t remove pkgCnt in this CL (aside from being conservative myself), is that I thought it might be useful for cases where, for example, both text/template and html/template are imported, and a string refers just to \u0027template\u0027 because there is no ambiguity within the string itself. On the other hand it\u0027s usually clear from context which package is being referred to, and also it\u0027s probably more relevant whether there are ambiguities among imports in the file than in the package.\n\nSo maybe we\u0027d be better off just using something like qualifyScope, and eliminating check.qualifier.",
+      "parentUuid": "40d6339a_0a116a63",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af99cb69_4f721baa",
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aeee22a7_80ca4107",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-18T00:12:13Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not sure I understand understand this comment. This is the check.qualifier.\n\nI think what you\u0027re getting at is that it is a bit incorrect that the logic of \"how do I disambiguate a package\" is split in two places: the check.qualifier and qualifyScope.qualifier.  This is true, but I thought the proximity in the code of these two qualifiers, plus factoring out fullyQualified, lessened that ugliness.\n\nBut perhaps we could go further and just eliminate check.qualifier altogether (per discussion elsewhere).",
+      "parentUuid": "af99cb69_4f721baa",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab2fd0ee_c1b2d0ed",
         "filename": "src/go/types/errors.go",
         "patchSetId": 4
@@ -65,6 +101,24 @@
       "writtenOn": "2020-12-17T23:14:49Z",
       "side": 1,
       "message": "This seems a bit ugly: I\u0027d do a separate loop that just looks for the 3 cases where it matters (*operand, Object, Type) for the 2nd rewrite. And at that time you won\u0027t need the qualifyScope anymore, I think. That could also simplify the qualifyScope.qualifier.",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3824af0_3b4f0c06",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-18T00:12:13Z",
+      "side": 1,
+      "message": "Hmm, ok I\u0027ll give it a shot. My thought was that in the overwhelming majority of cases there would be no ambiguity, so the redundant reformatting of of expressions wouldn\u0027t be a big deal. Let\u0027s see how it looks.",
+      "parentUuid": "ab2fd0ee_c1b2d0ed",
       "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
