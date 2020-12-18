@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "42dc1361_e2cc9897",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-18T16:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca7b2985_90ff4c48",
+      "range": {
+        "startLine": 532,
+        "startChar": 46,
+        "endLine": 532,
+        "endChar": 52
+      },
+      "revId": "f1782189106967df5a122321b11a30462381348e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ae3bd2e3_0595de33",
         "filename": "src/cmd/compile/internal/gc/pgen.go",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2020-12-17T20:12:19Z",
       "side": 1,
       "message": "Were these calls pushed into the switch to ensure the nicer Fatalf message for PEXTERN/etc?",
+      "revId": "f1782189106967df5a122321b11a30462381348e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e84236b5_dacd29c6",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-18T16:50:42Z",
+      "side": 1,
+      "message": "Essentially yes. We shouldn\u0027t call FrameOffset if we don\u0027t know it\u0027s valid to do so yet.",
+      "parentUuid": "ae3bd2e3_0595de33",
       "revId": "f1782189106967df5a122321b11a30462381348e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -78,6 +120,30 @@
       "side": 1,
       "message": "Oh, and it should be %v not %T.\n\n(%T would have definitely made it stand out though.)",
       "parentUuid": "310e465c_63c8bb7b",
+      "range": {
+        "startLine": 636,
+        "startChar": 18,
+        "endLine": 636,
+        "endChar": 30
+      },
+      "revId": "f1782189106967df5a122321b11a30462381348e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6fbd4b4_552de939",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-18T16:50:42Z",
+      "side": 1,
+      "message": "Done. :-)",
+      "parentUuid": "02a15229_8e9e60c6",
       "range": {
         "startLine": 636,
         "startChar": 18,
