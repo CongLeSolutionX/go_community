@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7253970a_ace67197",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-18T00:29:38Z",
+      "side": 1,
+      "message": "What I mean here is that the check.qualifier can do arbitrary things, and they may interfere with what we do here.",
+      "parentUuid": "aeee22a7_80ca4107",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab2fd0ee_c1b2d0ed",
         "filename": "src/go/types/errors.go",
         "patchSetId": 4
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "Hmm, ok I\u0027ll give it a shot. My thought was that in the overwhelming majority of cases there would be no ambiguity, so the redundant reformatting of of expressions wouldn\u0027t be a big deal. Let\u0027s see how it looks.",
       "parentUuid": "ab2fd0ee_c1b2d0ed",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abeaf782_86447204",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-18T00:29:38Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s redundant formatting even now unless there\u0027s an ambiguity: once an argument is a string, it\u0027s not touched anymore (again, unless there\u0027s ambiguity). So you just need to check after the first formatting pass if there was ambiguity, and if there was, do it again but only for the three types where it matters. But maybe I\u0027m mistaken.",
+      "parentUuid": "c3824af0_3b4f0c06",
       "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
