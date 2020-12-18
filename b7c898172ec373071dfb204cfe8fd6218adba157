@@ -22,6 +22,30 @@
       },
       "revId": "b7c898172ec373071dfb204cfe8fd6218adba157",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96471441_fd1617df",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-18T16:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b77a2ba2_e7591ebf",
+      "range": {
+        "startLine": 144,
+        "startChar": 37,
+        "endLine": 144,
+        "endChar": 41
+      },
+      "revId": "b7c898172ec373071dfb204cfe8fd6218adba157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
