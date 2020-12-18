@@ -70,6 +70,30 @@
       },
       "revId": "6e14d38f5daac36ee3a2e1eae28af30d6f6185b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2667277_5eba9c3d",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-18T16:09:54Z",
+      "side": 1,
+      "message": "OK, will update in one of the renaming CLs to X.",
+      "parentUuid": "340d0783_909ee096",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 4
+      },
+      "revId": "6e14d38f5daac36ee3a2e1eae28af30d6f6185b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
