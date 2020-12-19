@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f11e84fb_8165580b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-19T22:49:46Z",
+      "side": 1,
+      "message": "Can we put these symbols into a new package instead? Maybe \"abi\" or \"rtabi\"?\n\nI want to eliminate types\u0027s use of obj.LSym, because those details really belong to ir.Name, not types.Sym. Also because I\u0027m hoping to prune down types\u0027s API to match types2, which doesn\u0027t know about LSyms.",
+      "revId": "1c9995aa8cc2c1afa94eae9ef9b3360994227b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
