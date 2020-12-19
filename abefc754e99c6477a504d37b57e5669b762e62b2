@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fcc19b2_dc8f77ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-19T21:47:37Z",
+      "side": 1,
+      "message": "TRY\u003dmips,mipsle,mips64,mips64le,ppc64,ppc64le",
+      "revId": "abefc754e99c6477a504d37b57e5669b762e62b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
