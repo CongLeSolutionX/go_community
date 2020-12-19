@@ -28,7 +28,7 @@ const (
 
 var numLocalEmbed int
 
-func varEmbed(p *noder, names []ir.Node, typ ir.Ntype, exprs []ir.Node, embeds []PragmaEmbed) (newExprs []ir.Node) {
+func varEmbed(p *noder, names []*ir.Name, typ ir.Ntype, exprs []ir.Node, embeds []PragmaEmbed) (newExprs []ir.Node) {
 	haveEmbed := false
 	for _, decl := range p.file.DeclList {
 		imp, ok := decl.(*syntax.ImportDecl)
@@ -110,7 +110,7 @@ func varEmbed(p *noder, names []ir.Node, typ ir.Ntype, exprs []ir.Node, embeds [
 		}
 	}
 
-	v := names[0].(*ir.Name)
+	v := names[0]
 	if dclcontext != ir.PEXTERN {
 		numLocalEmbed++
 		v = ir.NewNameAt(v.Pos(), lookupN("embed.", numLocalEmbed))
