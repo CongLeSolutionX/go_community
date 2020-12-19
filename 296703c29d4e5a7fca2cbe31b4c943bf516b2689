@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c3c42bc_b4395096",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-19T22:40:57Z",
+      "side": 1,
+      "message": "This LGTM, but I don\u0027t immediately see why the trybots are unhappy.",
+      "revId": "296703c29d4e5a7fca2cbe31b4c943bf516b2689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0349a3d_b3eddf57",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-19T22:40:57Z",
+      "side": 1,
+      "message": "I\u0027m embarrassed I didn\u0027t realize how trivial this was to fix when I wrote that TODO. I assume I thought dotlist[0] would be the innermost added ODOT, not the outermost one.",
+      "revId": "296703c29d4e5a7fca2cbe31b4c943bf516b2689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04eaa68e_1f170725",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-19T22:40:57Z",
+      "side": 1,
+      "message": "This is slightly misleading. Consider:\n\n```\ntype A int\ntype B A\n```\n\nB\u0027s underlying type is int (not A), but this function returns A (which is what we want when reporting cycles). I think it\u0027s desirable to avoid the name \"UnderlyingType\", lest someone think they can just call \"n.UnderlyingType()\" when they really almost always want \"n.Type().Underlying()\".\n\nHow about we add to package types:\n\n    // An Expr represents a type expression, either a type name or type literal.\n    type Expr interface { Pos() src.XPos; Type() *Type; CanBeNtype() }\n\nand then add here:\n\n    // TypeExpr returns the type expression given in n\u0027s declaration, if any.\n    func (n *Name) TypeExpr() types.Expr { return n.Ntype }\n\n(We could currently just use types.Object instead of adding types.Expr, but they\u0027re logically separate use cases. They\u0027ll also need to be separate once *ir.Ident replaces *ir.Name in the AST, or if we want to remove Sym() from ir.Node/ir.Expr.)",
+      "range": {
+        "startLine": 150,
+        "startChar": 30,
+        "endLine": 150,
+        "endChar": 45
+      },
+      "revId": "296703c29d4e5a7fca2cbe31b4c943bf516b2689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
