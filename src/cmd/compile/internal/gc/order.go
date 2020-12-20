@@ -892,10 +892,20 @@ func (o *Order) stmt(n ir.Node) {
 
 			case ir.OSELRECV2:
 				// case x, ok = <-c
+<<<<<<< HEAD   (c45313 [dev.regabi] cmd/compile: remove prealloc map)
 				recv := r.Rlist().First().(*ir.UnaryExpr)
 				recv.SetLeft(o.expr(recv.Left(), nil))
 				if recv.Left().Op() != ir.ONAME {
 					recv.SetLeft(o.copyExpr(recv.Left()))
+=======
+				// r->left is x, r->ntest is ok, r->right is ORECV, r->right->left is c.
+				// r->left == N means 'case <-c'.
+				// c is always evaluated; x and ok are only evaluated when assigned.
+				r.Right.Left = o.expr(r.Right.Left, nil)
+
+				if !r.Right.Left.IsAutoTmp() {
+					r.Right.Left = o.copyExpr(r.Right.Left, r.Right.Left.Type, false)
+>>>>>>> BRANCH (89b44b cmd/compile: recognize reassignments involving receives)
 				}
 				r := r.(*ir.AssignListStmt)
 				init := r.PtrInit().Slice()
