@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ede401_6929c980",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-21T18:34:59Z",
+      "side": 1,
+      "message": "I think these rewrites could be shortened a lot if you did a few prelim refactorings to normalize everything:\n\n    npos(pos, nodSym(op, l, sym)) -\u003e nodlSym(pos, op, l, sym)\n\nand then separately (to avoid duplicate matches on nodSym(op, l, sym)):\n\n    ir.Nod(op, l, r)        -\u003e ir.NodAt(base.Pos, op, l, r)\n    p.nod(n, op, l, r)      -\u003e ir.NodAt(p.pos(n), op, l, r)\n    nodSym(op, l, sym)      -\u003e nodlSym(base.Pos, op, l, sym)\n    p.nodSym(n, op, l, sym) -\u003e nodlSym(p.pos(n), op, l, sym)\n\nThen you only need one set of rewrite rules for ir.NodAt and nodlSym.",
+      "revId": "2147a583d76f446c6d8ac5516ac4b7c239c16021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40a64864_f11b003c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-21T18:34:59Z",
+      "side": 1,
+      "message": "Is there a reason the rules are listed twice?",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 94
+      },
+      "revId": "2147a583d76f446c6d8ac5516ac4b7c239c16021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
