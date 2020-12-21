@@ -12,6 +12,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/dwarfgen"
 	"cmd/compile/internal/escape"
+	"cmd/compile/internal/initorder"
 	"cmd/compile/internal/inline"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/logopt"
@@ -226,7 +227,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	base.ExitIfErrors()
 
 	// Build init task.
-	if initTask := fninit(); initTask != nil {
+	if initTask := initorder.Package(); initTask != nil {
 		typecheck.Export(initTask)
 	}
 

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package initorder
 
 import (
 	"cmd/compile/internal/base"
@@ -19,8 +19,8 @@ import (
 //   1) Initialize all of the packages the current package depends on.
 //   2) Initialize all the variables that have initializers.
 //   3) Run any init functions.
-func fninit() *ir.Name {
-	nf := initOrder(typecheck.Target.Decls)
+func Package() *ir.Name {
+	nf := Order(typecheck.Target.Decls)
 
 	var deps []*obj.LSym // initTask records for packages the current package depends on
 	var fns []*obj.LSym  // functions to call for package initialization
