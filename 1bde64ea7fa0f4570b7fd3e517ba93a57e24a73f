@@ -16,6 +16,24 @@
       "message": "[Copying comment from CL 279233]\n\nThis is slightly misleading. Consider:\n\n    type A int\n    type B A\n\nB\u0027s underlying type is int (not A), but this function returns A (which is what we want when reporting cycles). I think it\u0027s desirable to avoid the name \"UnderlyingType\", lest someone think they can just call \"n.UnderlyingType()\" when they really almost always want \"n.Type().Underlying()\".\n\nHow about we add to package types:\n\n    // An Expr represents a type expression, either a type name or type literal.\n    type Expr interface { Pos() src.XPos; Type() *Type; CanBeNtype() }\n\nand then add here:\n\n    // TypeExpr returns the type expression given in n\u0027s declaration, if any.\n    func (n *Name) TypeExpr() types.Expr { return n.Ntype }\n\n(We could currently just use types.Object instead of adding types.Expr, but they\u0027re logically separate use cases. They\u0027ll also need to be separate once *ir.Ident replaces *ir.Name in the AST, or if we want to remove Sym() from ir.Node/ir.Expr.)",
       "revId": "1bde64ea7fa0f4570b7fd3e517ba93a57e24a73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3f3c83f_839c29d6",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-21T18:52:53Z",
+      "side": 1,
+      "message": "The specific result here is not just an Ntype, which might be plain syntax. It\u0027s a real typechecked type, and I don\u0027t want to lose that. Instead I added types.TypeObject and types.VarObject. See what you think.",
+      "parentUuid": "db9b1b62_7edba369",
+      "revId": "1bde64ea7fa0f4570b7fd3e517ba93a57e24a73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
