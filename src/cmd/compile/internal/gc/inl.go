@@ -734,6 +734,7 @@ func reassigned(name *ir.Name) bool {
 	if name.Curfn == nil {
 		return true
 	}
+<<<<<<< HEAD   (c45313 [dev.regabi] cmd/compile: remove prealloc map)
 	return ir.Any(name.Curfn, func(n ir.Node) bool {
 		switch n.Op() {
 		case ir.OAS:
@@ -745,10 +746,70 @@ func reassigned(name *ir.Name) bool {
 				if p == name && n != name.Defn {
 					return true
 				}
+=======
+	f := n.Name.Curfn
+	// There just might be a good reason for this although this can be pretty surprising:
+	// local variables inside a closure have Curfn pointing to the OCLOSURE node instead
+	// of the corresponding ODCLFUNC.
+	// We need to walk the function body to check for reassignments so we follow the
+	// linkage to the ODCLFUNC node as that is where body is held.
+	if f.Op == OCLOSURE {
+		f = f.Func.Closure
+	}
+	v := reassignVisitor{name: n}
+	a := v.visitList(f.Nbody)
+	return a != nil, a
+}
+
+type reassignVisitor struct {
+	name *Node
+}
+
+func (v *reassignVisitor) visit(n *Node) *Node {
+	if n == nil {
+		return nil
+	}
+	switch n.Op {
+	case OAS, OSELRECV:
+		if n.Left == v.name && n != v.name.Name.Defn {
+			return n
+		}
+	case OAS2, OAS2FUNC, OAS2MAPR, OAS2DOTTYPE, OAS2RECV:
+		for _, p := range n.List.Slice() {
+			if p == v.name && n != v.name.Name.Defn {
+				return n
+>>>>>>> BRANCH (89b44b cmd/compile: recognize reassignments involving receives)
 			}
 		}
+<<<<<<< HEAD   (c45313 [dev.regabi] cmd/compile: remove prealloc map)
 		return false
 	})
+=======
+	case OSELRECV2:
+		if (n.Left == v.name || n.List.First() == v.name) && n != v.name.Name.Defn {
+			return n
+		}
+	}
+	if a := v.visit(n.Left); a != nil {
+		return a
+	}
+	if a := v.visit(n.Right); a != nil {
+		return a
+	}
+	if a := v.visitList(n.List); a != nil {
+		return a
+	}
+	if a := v.visitList(n.Rlist); a != nil {
+		return a
+	}
+	if a := v.visitList(n.Ninit); a != nil {
+		return a
+	}
+	if a := v.visitList(n.Nbody); a != nil {
+		return a
+	}
+	return nil
+>>>>>>> BRANCH (89b44b cmd/compile: recognize reassignments involving receives)
 }
 
 func inlParam(t *types.Field, as ir.Node, inlvars map[*ir.Name]ir.Node) ir.Node {
