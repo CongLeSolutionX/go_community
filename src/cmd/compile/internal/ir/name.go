@@ -147,6 +147,23 @@ func (n *Name) isExpr() {}
 // Callers must use n.CloneName to make clear they intend to create a separate name.
 func (n *Name) CloneName() *Name { c := *n; return &c }
 
+// UnderlyingType returns the underlying type for a named OTYPE.
+// It is used by package types to report type loops.
+func (n *Name) UnderlyingType() *types.Type {
+	return n.Ntype.Type()
+}
+
+// RecordFrameOffset records the frame offset for the name.
+// It is used by package types when laying out function arguments.
+func (n *Name) RecordFrameOffset(offset int64) {
+	if n.Stackcopy != nil {
+		n.Stackcopy.SetFrameOffset(offset)
+		n.SetFrameOffset(0)
+	} else {
+		n.SetFrameOffset(offset)
+	}
+}
+
 // NewNameAt returns a new ONAME Node associated with symbol s at position pos.
 // The caller is responsible for setting Curfn.
 func NewNameAt(pos src.XPos, sym *types.Sym) *Name {
