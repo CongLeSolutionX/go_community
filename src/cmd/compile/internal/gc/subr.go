@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/inline"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -483,7 +484,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym) {
 	// generate those wrappers within the same compilation unit as (T).M.
 	// TODO(mdempsky): Investigate why we can't enable this more generally.
 	if rcvr.IsPtr() && rcvr.Elem() == method.Type.Recv().Type && rcvr.Elem().Sym() != nil {
-		inlcalls(fn)
+		inline.InlineCalls(fn)
 	}
 	escapeFuncs([]*ir.Func{fn}, false)
 
