@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15bc7cc8_09e1585c",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-21T22:37:05Z",
+      "side": 1,
+      "message": "Field is currently overloaded to also track methods, where Nname points to the Func\u0027s ONAME. NameObject might be a little better for now until we disentangle that, or keep this just Object and continue type asserting to VarObject just for the RecordFrameOffset call.",
+      "revId": "7ec6168cdb4e0e91df4179f1a202d329d8fc03af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

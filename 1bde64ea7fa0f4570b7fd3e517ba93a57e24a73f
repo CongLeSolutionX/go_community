@@ -34,6 +34,24 @@
       "parentUuid": "db9b1b62_7edba369",
       "revId": "1bde64ea7fa0f4570b7fd3e517ba93a57e24a73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "171e9733_c779a706",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-21T22:37:05Z",
+      "side": 1,
+      "message": "This seems nice. Thanks.\n\nI suspect we might still eventually want to return the Ntype directly. But we don\u0027t today, so I\u0027m happy to defer that until a concrete need arises.",
+      "parentUuid": "b3f3c83f_839c29d6",
+      "revId": "1bde64ea7fa0f4570b7fd3e517ba93a57e24a73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
