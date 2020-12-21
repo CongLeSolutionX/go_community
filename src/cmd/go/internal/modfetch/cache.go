@@ -21,7 +21,6 @@ import (
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/par"
-	"cmd/go/internal/renameio"
 	"cmd/go/internal/robustio"
 
 	"golang.org/x/mod/module"
