@@ -6,6 +6,8 @@ package gc
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/wobj"
+
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -160,7 +162,7 @@ func dumpdata() {
 
 	if zerosize > 0 {
 		zero := ir.Pkgs.Map.Lookup("zero")
-		ggloblsym(zero.Linksym(), int32(zerosize), obj.DUPOK|obj.RODATA)
+		wobj.Global(zero.Linksym(), int32(zerosize), obj.DUPOK|obj.RODATA)
 	}
 
 	addGCLocals()
@@ -281,8 +283,8 @@ func dumpfuncsyms() {
 	})
 	for _, s := range funcsyms {
 		sf := s.Pkg.Lookup(ir.FuncSymName(s)).Linksym()
-		dsymptr(sf, 0, s.Linksym(), 0)
-		ggloblsym(sf, int32(types.PtrSize), obj.DUPOK|obj.RODATA)
+		wobj.SymPtr(sf, 0, s.Linksym(), 0)
+		wobj.Global(sf, int32(types.PtrSize), obj.DUPOK|obj.RODATA)
 	}
 }
 
@@ -298,51 +300,18 @@ func addGCLocals() {
 		}
 		for _, gcsym := range []*obj.LSym{fn.GCArgs, fn.GCLocals} {
 			if gcsym != nil && !gcsym.OnList() {
-				ggloblsym(gcsym, int32(len(gcsym.P)), obj.RODATA|obj.DUPOK)
+				wobj.Global(gcsym, int32(len(gcsym.P)), obj.RODATA|obj.DUPOK)
 			}
 		}
 		if x := fn.StackObjects; x != nil {
 			attr := int16(obj.RODATA)
-			ggloblsym(x, int32(len(x.P)), attr)
+			wobj.Global(x, int32(len(x.P)), attr)
 			x.Set(obj.AttrStatic, true)
 		}
 		if x := fn.OpenCodedDeferInfo; x != nil {
-			ggloblsym(x, int32(len(x.P)), obj.RODATA|obj.DUPOK)
+			wobj.Global(x, int32(len(x.P)), obj.RODATA|obj.DUPOK)
 		}
 	}
-}
-
-func duintxx(s *obj.LSym, off int, v uint64, wid int) int {
-	if off&(wid-1) != 0 {
-		base.Fatalf("duintxxLSym: misaligned: v=%d wid=%d off=%d", v, wid, off)
-	}
-	s.WriteInt(base.Ctxt, int64(off), wid, int64(v))
-	return off + wid
-}
-
-func duint8(s *obj.LSym, off int, v uint8) int {
-	return duintxx(s, off, uint64(v), 1)
-}
-
-func duint16(s *obj.LSym, off int, v uint16) int {
-	return duintxx(s, off, uint64(v), 2)
-}
-
-func duint32(s *obj.LSym, off int, v uint32) int {
-	return duintxx(s, off, uint64(v), 4)
-}
-
-func duintptr(s *obj.LSym, off int, v uint64) int {
-	return duintxx(s, off, v, types.PtrSize)
-}
-
-func dbvec(s *obj.LSym, off int, bv bvec) int {
-	// Runtime reads the bitmaps as byte arrays. Oblige.
-	for j := 0; int32(j) < bv.n; j += 8 {
-		word := bv.b[j/32]
-		off = duint8(s, off, uint8(word>>(uint(j)%32)))
-	}
-	return off
 }
 
 const (
@@ -370,7 +339,7 @@ func stringsym(pos src.XPos, s string) (data *obj.LSym) {
 	symdata := base.Ctxt.Lookup(stringSymPrefix + symname)
 	if !symdata.OnList() {
 		off := dstringdata(symdata, 0, s, pos, "string")
-		ggloblsym(symdata, int32(off), obj.DUPOK|obj.RODATA|obj.LOCAL)
+		wobj.Global(symdata, int32(off), obj.DUPOK|obj.RODATA|obj.LOCAL)
 		symdata.Set(obj.AttrContentAddressable, true)
 	}
 
@@ -450,7 +419,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hash []byte) (*obj.
 			info := symdata.NewFileInfo()
 			info.Name = file
 			info.Size = size
-			ggloblsym(symdata, int32(size), obj.DUPOK|obj.RODATA|obj.LOCAL)
+			wobj.Global(symdata, int32(size), obj.DUPOK|obj.RODATA|obj.LOCAL)
 			// Note: AttrContentAddressable cannot be set here,
 			// because the content-addressable-handling code
 			// does not know about file symbols.
@@ -480,7 +449,7 @@ func slicedata(pos src.XPos, s string) *ir.Name {
 
 	lsym := sym.Linksym()
 	off := dstringdata(lsym, 0, s, pos, "slice")
-	ggloblsym(lsym, int32(off), obj.NOPTR|obj.LOCAL)
+	wobj.Global(lsym, int32(off), obj.NOPTR|obj.LOCAL)
 
 	return symnode
 }
@@ -503,25 +472,6 @@ func dstringdata(s *obj.LSym, off int, t string, pos src.XPos, what string) int 
 
 	s.WriteString(base.Ctxt, int64(off), len(t), t)
 	return off + len(t)
-}
-
-func dsymptr(s *obj.LSym, off int, x *obj.LSym, xoff int) int {
-	off = int(types.Rnd(int64(off), int64(types.PtrSize)))
-	s.WriteAddr(base.Ctxt, int64(off), types.PtrSize, x, int64(xoff))
-	off += types.PtrSize
-	return off
-}
-
-func dsymptrOff(s *obj.LSym, off int, x *obj.LSym) int {
-	s.WriteOff(base.Ctxt, int64(off), x, 0)
-	off += 4
-	return off
-}
-
-func dsymptrWeakOff(s *obj.LSym, off int, x *obj.LSym) int {
-	s.WriteWeakOff(base.Ctxt, int64(off), x, 0)
-	off += 4
-	return off
 }
 
 // slicesym writes a static slice symbol {&arr, lencap, lencap} to n+noff.
@@ -621,5 +571,27 @@ func litsym(n *ir.Name, noff int64, c ir.Node, wid int) {
 
 	default:
 		base.Fatalf("litsym unhandled OLITERAL %v", c)
+	}
+}
+
+func ggloblnod(nam ir.Node) {
+	s := nam.Sym().Linksym()
+	s.Gotype = ngotype(nam).Linksym()
+	flags := 0
+	if nam.Name().Readonly() {
+		flags = obj.RODATA
+	}
+	if nam.Type() != nil && !nam.Type().HasPointers() {
+		flags |= obj.NOPTR
+	}
+	base.Ctxt.Globl(s, nam.Type().Width, flags)
+	if nam.Name().LibfuzzerExtraCounter() {
+		s.Type = objabi.SLIBFUZZER_EXTRA_COUNTER
+	}
+	if nam.Sym().Linkname != "" {
+		// Make sure linkname'd symbol is non-package. When a symbol is
+		// both imported and linkname'd, s.Pkg may not set to "_" in
+		// types.Sym.Linksym because LSym already exists. Set it here.
+		s.Pkg = "_"
 	}
 }
