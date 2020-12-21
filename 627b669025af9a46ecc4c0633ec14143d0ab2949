@@ -22,6 +22,30 @@
       },
       "revId": "627b669025af9a46ecc4c0633ec14143d0ab2949",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "536d840d_1f73e505",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-21T18:52:53Z",
+      "side": 1,
+      "message": "It\u0027s an easy to piece to split out separately later, I suppose.\nMaybe after Keith\u0027s addrtaken changes it will be easier to split out.\nAre you OK with leaving it in package typecheck for now?",
+      "parentUuid": "ccb5d319_95905352",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 12
+      },
+      "revId": "627b669025af9a46ecc4c0633ec14143d0ab2949",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
