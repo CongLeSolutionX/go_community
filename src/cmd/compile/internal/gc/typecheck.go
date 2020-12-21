@@ -22,8 +22,6 @@ var (
 )
 
 func TypecheckInit() {
-	types.Widthptr = Widthptr
-	types.Dowidth = dowidth
 	initUniverse()
 	dclcontext = ir.PEXTERN
 	base.Timer.Start("fe", "loadsys")
@@ -161,7 +159,6 @@ func TypecheckImports() {
 }
 
 var traceIndent []byte
-var skipDowidthForTracing bool
 
 func tracePrint(title string, n ir.Node) func(np *ir.Node) {
 	indent := traceIndent
@@ -175,8 +172,8 @@ func tracePrint(title string, n ir.Node) func(np *ir.Node) {
 		tc = n.Typecheck()
 	}
 
-	skipDowidthForTracing = true
-	defer func() { skipDowidthForTracing = false }()
+	types.SkipSizeForTracing = true
+	defer func() { types.SkipSizeForTracing = false }()
 	fmt.Printf("%s: %s%s %p %s %v tc=%d\n", pos, indent, title, n, op, n, tc)
 	traceIndent = append(traceIndent, ". "...)
 
@@ -199,8 +196,8 @@ func tracePrint(title string, n ir.Node) func(np *ir.Node) {
 			typ = n.Type()
 		}
 
-		skipDowidthForTracing = true
-		defer func() { skipDowidthForTracing = false }()
+		types.SkipSizeForTracing = true
+		defer func() { types.SkipSizeForTracing = false }()
 		fmt.Printf("%s: %s=> %p %s %v tc=%d type=%L\n", pos, indent, n, op, n, tc, typ)
 	}
 }
@@ -511,7 +508,7 @@ func typecheck(n ir.Node, top int) (res ir.Node) {
 			break
 
 		default:
-			checkwidth(t)
+			types.CheckSize(t)
 		}
 	}
 	if t != nil {
@@ -659,7 +656,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		}
 		t := types.NewSlice(n.Elem.Type())
 		n.SetOTYPE(t)
-		checkwidth(t)
+		types.CheckSize(t)
 		return n
 
 	case ir.OTARRAY:
@@ -703,7 +700,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		bound, _ := constant.Int64Val(v)
 		t := types.NewArray(n.Elem.Type(), bound)
 		n.SetOTYPE(t)
-		checkwidth(t)
+		types.CheckSize(t)
 		return n
 
 	case ir.OTMAP:
@@ -766,7 +763,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		if l.Op() == ir.OTYPE {
 			n.SetOTYPE(types.NewPtr(l.Type()))
 			// Ensure l.Type gets dowidth'd for the backend. Issue 20174.
-			checkwidth(l.Type())
+			types.CheckSize(l.Type())
 			return n
 		}
 
@@ -918,7 +915,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 						return n
 					}
 
-					dowidth(l.Type())
+					types.CalcSize(l.Type())
 					if r.Type().IsInterface() == l.Type().IsInterface() || l.Type().Width >= 1<<16 {
 						l = ir.NewConvExpr(base.Pos, aop, r.Type(), l)
 						l.SetTypecheck(1)
@@ -939,7 +936,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 						return n
 					}
 
-					dowidth(r.Type())
+					types.CalcSize(r.Type())
 					if r.Type().IsInterface() == l.Type().IsInterface() || r.Type().Width >= 1<<16 {
 						r = ir.NewConvExpr(base.Pos, aop, l.Type(), r)
 						r.SetTypecheck(1)
@@ -1147,7 +1144,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 				return n
 			}
 			n.SetOp(ir.ODOTPTR)
-			checkwidth(t)
+			types.CheckSize(t)
 		}
 
 		if n.Sel.IsBlank() {
@@ -1472,7 +1469,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		} else if t.IsPtr() && t.Elem().IsArray() {
 			tp = t.Elem()
 			n.SetType(types.NewSlice(tp.Elem()))
-			dowidth(n.Type())
+			types.CalcSize(n.Type())
 			if hasmax {
 				n.SetOp(ir.OSLICE3ARR)
 			} else {
@@ -1589,7 +1586,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 			n.SetType(nil)
 			return n
 		}
-		checkwidth(t)
+		types.CheckSize(t)
 
 		switch l.Op() {
 		case ir.ODOTINTER:
@@ -1868,7 +1865,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 				continue
 			}
 			as[i] = assignconv(n, t.Elem(), "append")
-			checkwidth(as[i].Type()) // ensure width is calculated for backend
+			types.CheckSize(as[i].Type()) // ensure width is calculated for backend
 		}
 		return n
 
@@ -1915,7 +1912,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 
 	case ir.OCONV:
 		n := n.(*ir.ConvExpr)
-		checkwidth(n.Type()) // ensure width is calculated for backend
+		types.CheckSize(n.Type()) // ensure width is calculated for backend
 		n.X = typecheck(n.X, ctxExpr)
 		n.X = convlit1(n.X, n.Type(), true, nil)
 		t := n.X.Type()
@@ -2310,7 +2307,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 	case ir.ODCLTYPE:
 		n := n.(*ir.Decl)
 		n.X = typecheck(n.X, ctxType)
-		checkwidth(n.X.Type())
+		types.CheckSize(n.X.Type())
 		return n
 	}
 
@@ -2633,7 +2630,7 @@ func derefall(t *types.Type) *types.Type {
 func lookdot(n *ir.SelectorExpr, t *types.Type, dostrcmp int) *types.Field {
 	s := n.Sel
 
-	dowidth(t)
+	types.CalcSize(t)
 	var f1 *types.Field
 	if t.IsStruct() || t.IsInterface() {
 		f1 = lookdot1(n, s, t, t.Fields(), dostrcmp)
@@ -2679,7 +2676,7 @@ func lookdot(n *ir.SelectorExpr, t *types.Type, dostrcmp int) *types.Field {
 			return f2
 		}
 		tt := n.X.Type()
-		dowidth(tt)
+		types.CalcSize(tt)
 		rcvr := f2.Type.Recv().Type
 		if !types.Identical(rcvr, tt) {
 			if rcvr.IsPtr() && types.Identical(rcvr.Elem(), tt) {
@@ -3073,7 +3070,7 @@ func typecheckcomplit(n *ir.CompLitExpr) (res ir.Node) {
 
 	case types.TSTRUCT:
 		// Need valid field offsets for Xoffset below.
-		dowidth(t)
+		types.CalcSize(t)
 
 		errored := false
 		if len(n.List) != 0 && nokeys(n.List) {
@@ -3372,7 +3369,7 @@ func typecheckas(n *ir.AssignStmt) {
 		n.X = typecheck(n.X, ctxExpr|ctxAssign)
 	}
 	if !ir.IsBlank(n.X) {
-		checkwidth(n.X.Type()) // ensure width is calculated for backend
+		types.CheckSize(n.X.Type()) // ensure width is calculated for backend
 	}
 }
 
@@ -3596,7 +3593,7 @@ func typecheckdeftype(n *ir.Name) {
 	n.SetTypecheck(1)
 	n.SetWalkdef(1)
 
-	defercheckwidth()
+	types.DeferCheckSize()
 	errorsBefore := base.Errors()
 	n.Ntype = typecheckNtype(n.Ntype)
 	if underlying := n.Ntype.Type(); underlying != nil {
@@ -3610,7 +3607,7 @@ func typecheckdeftype(n *ir.Name) {
 		// but it was reported. Silence future errors.
 		t.SetBroke(true)
 	}
-	resumecheckwidth()
+	types.ResumeCheckSize()
 }
 
 func typecheckdef(n ir.Node) {

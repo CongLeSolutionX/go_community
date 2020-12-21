@@ -20,17 +20,17 @@ func zerorange(pp *gc.Progs, p *obj.Prog, off, cnt int64, r0 *uint32) *obj.Prog 
 		*r0 = 1
 	}
 
-	if cnt < int64(4*gc.Widthptr) {
-		for i := int64(0); i < cnt; i += int64(gc.Widthptr) {
+	if cnt < int64(4*types.PtrSize) {
+		for i := int64(0); i < cnt; i += int64(types.PtrSize) {
 			p = pp.Appendpp(p, arm.AMOVW, obj.TYPE_REG, arm.REG_R0, 0, obj.TYPE_MEM, arm.REGSP, 4+off+i)
 		}
-	} else if cnt <= int64(128*gc.Widthptr) {
+	} else if cnt <= int64(128*types.PtrSize) {
 		p = pp.Appendpp(p, arm.AADD, obj.TYPE_CONST, 0, 4+off, obj.TYPE_REG, arm.REG_R1, 0)
 		p.Reg = arm.REGSP
 		p = pp.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_MEM, 0, 0)
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = types.Syms.Duffzero
-		p.To.Offset = 4 * (128 - cnt/int64(gc.Widthptr))
+		p.To.Offset = 4 * (128 - cnt/int64(types.PtrSize))
 	} else {
 		p = pp.Appendpp(p, arm.AADD, obj.TYPE_CONST, 0, 4+off, obj.TYPE_REG, arm.REG_R1, 0)
 		p.Reg = arm.REGSP
