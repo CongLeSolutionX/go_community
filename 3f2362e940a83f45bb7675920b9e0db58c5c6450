@@ -106,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38fe7554_78746e47",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-21T22:27:23Z",
+      "side": 1,
+      "message": "I think the assumption in this comment is that we were using a user-provided qualifier, but as discussed today that\u0027s not the case here.",
+      "parentUuid": "7253970a_ace67197",
+      "revId": "3f2362e940a83f45bb7675920b9e0db58c5c6450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab2fd0ee_c1b2d0ed",
