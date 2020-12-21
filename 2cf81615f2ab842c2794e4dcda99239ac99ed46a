@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "845ab8e3_1ae5e4c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-21T18:51:12Z",
+      "side": 1,
+      "message": "Again, could do a few prelim refactorings like:\n\n    var nlist interface { PtrList() *ir.Nodes; List() ir.Nodes; SetList(ir.Nodes) }\n    nlist.List()      -\u003e *nlist.PtrList()\n    nlist.SetList(ns) -\u003e *nlist.PtrList() \u003d ns\n\nAnd then later you just need a \"*\u0026ns -\u003e ns\" cleanup.\n\nMaybe not worth it though, since there aren\u0027t that many unique Nodes fields.\n\n(The prelim refactorings would be a little easier to do as part of the previous CL, before the methods are removed from ir.Node.)",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "2cf81615f2ab842c2794e4dcda99239ac99ed46a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
