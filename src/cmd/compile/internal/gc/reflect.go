@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/bitvec"
 	"cmd/compile/internal/ir"
+	livenesspkg "cmd/compile/internal/liveness"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/wobj"
@@ -1594,7 +1595,7 @@ func fillptrmask(t *types.Type, ptrmask []byte) {
 	}
 
 	vec := bitvec.New(8 * int32(len(ptrmask)))
-	onebitwalktype1(t, 0, vec)
+	livenesspkg.SetTypeBits(t, 0, vec)
 
 	nptr := types.PtrDataSize(t) / int64(types.PtrSize)
 	for i := int64(0); i < nptr; i++ {
