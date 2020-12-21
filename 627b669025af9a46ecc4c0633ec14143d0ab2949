@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccb5d319_95905352",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-21T18:06:34Z",
+      "side": 1,
+      "message": "capturevars isn\u0027t really part of type checking; it\u0027s a compiler implementation / optimization detail.\n\nI know capturevarscomplete throws a bit of a monkey wrench into keeping them separate though.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 12
+      },
+      "revId": "627b669025af9a46ecc4c0633ec14143d0ab2949",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
