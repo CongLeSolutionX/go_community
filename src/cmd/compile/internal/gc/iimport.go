@@ -324,7 +324,7 @@ func (r *importReader) doDecl(n ir.Node) {
 
 			fn := ir.NewFunc(mpos)
 			fn.SetType(mtyp)
-			m := newFuncNameAt(mpos, methodSym(recv.Type, msym), fn)
+			m := ir.NewFuncNameAt(mpos, ir.MethodSym(recv.Type, msym), fn)
 			m.SetType(mtyp)
 			m.Class_ = ir.PFUNC
 			// methodSym already marked m.Sym as a function.
@@ -992,7 +992,7 @@ func (r *importReader) node() ir.Node {
 		pos := r.pos()
 		lhs := ir.NewDeclNameAt(pos, r.ident())
 		typ := ir.TypeNode(r.typ())
-		return npos(pos, liststmt(variter([]ir.Node{lhs}, typ, nil))) // TODO(gri) avoid list creation
+		return npos(pos, ir.NewBlockStmt(src.NoXPos, variter([]ir.Node{lhs}, typ, nil))) // TODO(gri) avoid list creation
 
 	// case OAS, OASWB:
 	// 	unreachable - mapped to OAS case below by exporter
@@ -1005,7 +1005,7 @@ func (r *importReader) node() ir.Node {
 		n.AsOp = r.op()
 		n.X = r.expr()
 		if !r.bool() {
-			n.Y = nodintconst(1)
+			n.Y = ir.NewInt(1)
 			n.IncDec = true
 		} else {
 			n.Y = r.expr()

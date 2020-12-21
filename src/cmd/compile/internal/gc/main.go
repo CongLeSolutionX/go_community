@@ -136,8 +136,8 @@ func Main(archInit func(*Arch)) {
 	}
 
 	if base.Flag.SmallFrames {
-		maxStackVarSize = 128 * 1024
-		maxImplicitStackVarSize = 16 * 1024
+		ir.MaxStackVarSize = 128 * 1024
+		ir.MaxImplicitStackVarSize = 16 * 1024
 	}
 
 	if base.Flag.Dwarf {
@@ -187,7 +187,7 @@ func Main(archInit func(*Arch)) {
 	}
 
 	ir.EscFmt = escFmt
-	IsIntrinsicCall = isIntrinsicCall
+	ir.IsIntrinsicCall = isIntrinsicCall
 	SSADumpInline = ssaDumpInline
 	initSSAEnv()
 	initSSATables()
@@ -245,7 +245,7 @@ func Main(archInit func(*Arch)) {
 			devirtualize(n.(*ir.Func))
 		}
 	}
-	Curfn = nil
+	ir.CurFunc = nil
 
 	// Escape analysis.
 	// Required for moving heap allocations onto stack,
@@ -272,8 +272,8 @@ func Main(archInit func(*Arch)) {
 	base.Timer.Start("fe", "xclosures")
 	for _, n := range Target.Decls {
 		if n.Op() == ir.ODCLFUNC && n.Func().OClosure != nil {
-			Curfn = n.(*ir.Func)
-			transformclosure(Curfn)
+			ir.CurFunc = n.(*ir.Func)
+			transformclosure(ir.CurFunc)
 		}
 	}
 
@@ -285,7 +285,7 @@ func Main(archInit func(*Arch)) {
 	// Just before compilation, compile itabs found on
 	// the right side of OCONVIFACE so that methods
 	// can be de-virtualized during compilation.
-	Curfn = nil
+	ir.CurFunc = nil
 	peekitabs()
 
 	// Compile top level functions.
