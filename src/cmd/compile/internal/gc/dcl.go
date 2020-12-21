@@ -138,7 +138,7 @@ func variter(vl []ir.Node, t ir.Ntype, el []ir.Node) []ir.Node {
 		e := el[0]
 		as2 := ir.NewAssignListStmt(base.Pos, ir.OAS2, nil, nil)
 		as2.Lhs.Set(vl)
-		as2.Rhs.Set1(e)
+		as2.Rhs = []ir.Node{e}
 		for _, v := range vl {
 			v := v.(*ir.Name)
 			v.SetOp(ir.ONAME)
@@ -894,7 +894,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(nn ir.Node) {
 	}
 
 	var callee *ir.Func
-	arg := n.Args.First()
+	arg := n.Args[0]
 	switch arg.Op() {
 	case ir.ONAME:
 		arg := arg.(*ir.Name)

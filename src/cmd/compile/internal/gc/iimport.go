@@ -725,9 +725,9 @@ func (r *importReader) doInline(fn *ir.Func) {
 
 	if base.Flag.E > 0 && base.Flag.LowerM > 2 {
 		if base.Flag.LowerM > 3 {
-			fmt.Printf("inl body for %v %v: %+v\n", fn, fn.Type(), ir.AsNodes(fn.Inl.Body))
+			fmt.Printf("inl body for %v %v: %+v\n", fn, fn.Type(), ir.Nodes(fn.Inl.Body))
 		} else {
-			fmt.Printf("inl body for %v %v: %v\n", fn, fn.Type(), ir.AsNodes(fn.Inl.Body))
+			fmt.Printf("inl body for %v %v: %v\n", fn, fn.Type(), ir.Nodes(fn.Inl.Body))
 		}
 	}
 }
@@ -759,7 +759,7 @@ func (r *importReader) stmtList() []ir.Node {
 		// Inline them into the statement list.
 		if n.Op() == ir.OBLOCK {
 			n := n.(*ir.BlockStmt)
-			list = append(list, n.List.Slice()...)
+			list = append(list, n.List...)
 		} else {
 			list = append(list, n)
 		}
@@ -781,7 +781,7 @@ func (r *importReader) caseList(sw ir.Node) []ir.Node {
 			// Sym for diagnostics anyway.
 			caseVar := ir.NewNameAt(cas.Pos(), r.ident())
 			declare(caseVar, dclcontext)
-			cas.Vars.Set1(caseVar)
+			cas.Vars = []ir.Node{caseVar}
 			caseVar.Defn = sw.(*ir.SwitchStmt).Tag
 		}
 		cas.Body.Set(r.stmtList())
