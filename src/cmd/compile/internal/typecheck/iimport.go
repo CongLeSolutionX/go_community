@@ -5,16 +5,9 @@
 // Indexed package import.
 // See iexport.go for the export data format.
 
-package gc
+package typecheck
 
 import (
-	"cmd/compile/internal/base"
-	"cmd/compile/internal/ir"
-	"cmd/compile/internal/types"
-	"cmd/internal/bio"
-	"cmd/internal/goobj"
-	"cmd/internal/obj"
-	"cmd/internal/src"
 	"encoding/binary"
 	"fmt"
 	"go/constant"
@@ -22,6 +15,14 @@ import (
 	"math/big"
 	"os"
 	"strings"
+
+	"cmd/compile/internal/base"
+	"cmd/compile/internal/ir"
+	"cmd/compile/internal/types"
+	"cmd/internal/bio"
+	"cmd/internal/goobj"
+	"cmd/internal/obj"
+	"cmd/internal/src"
 )
 
 // An iimporterAndOffset identifies an importer and an offset within
@@ -34,7 +35,7 @@ type iimporterAndOffset struct {
 var (
 	// declImporter maps from imported identifiers to an importer
 	// and offset where that identifier's declaration can be read.
-	declImporter = map[*types.Sym]iimporterAndOffset{}
+	DeclImporter = map[*types.Sym]iimporterAndOffset{}
 
 	// inlineImporter is like declImporter, but for inline bodies
 	// for function and method symbols.
@@ -46,7 +47,7 @@ func expandDecl(n *ir.Name) {
 		return
 	}
 
-	r := importReaderFor(n, declImporter)
+	r := importReaderFor(n, DeclImporter)
 	if r == nil {
 		// Can happen if user tries to reference an undeclared name.
 		return
@@ -55,7 +56,7 @@ func expandDecl(n *ir.Name) {
 	r.doDecl(n)
 }
 
-func expandInline(fn *ir.Func) {
+func ImportBody(fn *ir.Func) {
 	if fn.Inl.Body != nil {
 		return
 	}
@@ -100,7 +101,7 @@ func (r *intReader) uint64() uint64 {
 	return i
 }
 
-func iimport(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintType) {
+func ReadImports(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintType) {
 	ird := &intReader{in, pkg}
 
 	version := ird.uint64()
@@ -165,8 +166,8 @@ func iimport(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintType)
 			s := pkg.Lookup(p.stringAt(ird.uint64()))
 			off := ird.uint64()
 
-			if _, ok := declImporter[s]; !ok {
-				declImporter[s] = iimporterAndOffset{p, off}
+			if _, ok := DeclImporter[s]; !ok {
+				DeclImporter[s] = iimporterAndOffset{p, off}
 			}
 		}
 	}
@@ -707,9 +708,9 @@ func (r *importReader) doInline(fn *ir.Func) {
 		base.Fatalf("%v already has inline body", fn)
 	}
 
-	funchdr(fn)
+	StartFuncBody(fn)
 	body := r.stmtList()
-	funcbody()
+	FinishFuncBody()
 	if body == nil {
 		//
 		// Make sure empty body is not interpreted as
@@ -780,7 +781,7 @@ func (r *importReader) caseList(sw ir.Node) []ir.Node {
 			// names after import. That's okay: swt.go only needs
 			// Sym for diagnostics anyway.
 			caseVar := ir.NewNameAt(cas.Pos(), r.ident())
-			declare(caseVar, dclcontext)
+			Declare(caseVar, DeclContext)
 			cas.Vars = []ir.Node{caseVar}
 			caseVar.Defn = sw.(*ir.SwitchStmt).Tag
 		}
@@ -822,7 +823,7 @@ func (r *importReader) node() ir.Node {
 		pos := r.pos()
 		typ := r.typ()
 
-		n := npos(pos, nodnil())
+		n := npos(pos, NodNil())
 		n.SetType(typ)
 		return n
 
@@ -961,7 +962,7 @@ func (r *importReader) node() ir.Node {
 		return ir.NewUnaryExpr(r.pos(), op, r.expr())
 
 	case ir.OADDR:
-		return nodAddrAt(r.pos(), r.expr())
+		return NodAddrAt(r.pos(), r.expr())
 
 	case ir.ODEREF:
 		return ir.NewStarExpr(r.pos(), r.expr())
@@ -992,7 +993,7 @@ func (r *importReader) node() ir.Node {
 		pos := r.pos()
 		lhs := ir.NewDeclNameAt(pos, r.ident())
 		typ := ir.TypeNode(r.typ())
-		return npos(pos, ir.NewBlockStmt(src.NoXPos, variter([]ir.Node{lhs}, typ, nil))) // TODO(gri) avoid list creation
+		return npos(pos, ir.NewBlockStmt(src.NoXPos, DeclVars([]ir.Node{lhs}, typ, nil))) // TODO(gri) avoid list creation
 
 	// case OAS, OASWB:
 	// 	unreachable - mapped to OAS case below by exporter
@@ -1085,12 +1086,12 @@ func (r *importReader) node() ir.Node {
 		var sym *types.Sym
 		pos := r.pos()
 		if label := r.string(); label != "" {
-			sym = lookup(label)
+			sym = Lookup(label)
 		}
 		return ir.NewBranchStmt(pos, op, sym)
 
 	case ir.OLABEL:
-		return ir.NewLabelStmt(r.pos(), lookup(r.string()))
+		return ir.NewLabelStmt(r.pos(), Lookup(r.string()))
 
 	case ir.OEND:
 		return nil
