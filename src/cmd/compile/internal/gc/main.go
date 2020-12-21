@@ -51,6 +51,9 @@ func hidePanic() {
 	}
 }
 
+// Target is the package being compiled.
+var Target *ir.Package
+
 // timing data for compiler phases
 var timings Timings
 
@@ -207,6 +210,8 @@ func Main(archInit func(*Arch)) {
 	Widthptr = thearch.LinkArch.PtrSize
 	Widthreg = thearch.LinkArch.RegSize
 
+	Target = new(ir.Package)
+
 	// initialize types package
 	// (we need to do this to break dependencies that otherwise
 	// would lead to import cycles)
@@ -242,10 +247,10 @@ func Main(archInit func(*Arch)) {
 
 	// Don't use range--typecheck can add closures to xtop.
 	timings.Start("fe", "typecheck", "top1")
-	for i := 0; i < len(xtop); i++ {
-		n := xtop[i]
+	for i := 0; i < len(Target.Decls); i++ {
+		n := Target.Decls[i]
 		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.(*ir.Decl).Left().Name().Alias()) {
-			xtop[i] = typecheck(n, ctxStmt)
+			Target.Decls[i] = typecheck(n, ctxStmt)
 		}
 	}
 
@@ -254,10 +259,10 @@ func Main(archInit func(*Arch)) {
 
 	// Don't use range--typecheck can add closures to xtop.
 	timings.Start("fe", "typecheck", "top2")
-	for i := 0; i < len(xtop); i++ {
-		n := xtop[i]
+	for i := 0; i < len(Target.Decls); i++ {
+		n := Target.Decls[i]
 		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.(*ir.Decl).Left().Name().Alias() {
-			xtop[i] = typecheck(n, ctxStmt)
+			Target.Decls[i] = typecheck(n, ctxStmt)
 		}
 	}
 
@@ -265,8 +270,8 @@ func Main(archInit func(*Arch)) {
 	// Don't use range--typecheck can add closures to xtop.
 	timings.Start("fe", "typecheck", "func")
 	var fcount int64
-	for i := 0; i < len(xtop); i++ {
-		n := xtop[i]
+	for i := 0; i < len(Target.Decls); i++ {
+		n := Target.Decls[i]
 		if n.Op() == ir.ODCLFUNC {
 			Curfn = n.(*ir.Func)
 			decldepth = 1
@@ -287,9 +292,9 @@ func Main(archInit func(*Arch)) {
 	// TODO(mdempsky): This should be handled when type checking their
 	// corresponding ODCL nodes.
 	timings.Start("fe", "typecheck", "externdcls")
-	for i, n := range externdcl {
+	for i, n := range Target.Externs {
 		if n.Op() == ir.ONAME {
-			externdcl[i] = typecheck(externdcl[i], ctxExpr)
+			Target.Externs[i] = typecheck(Target.Externs[i], ctxExpr)
 		}
 	}
 
@@ -301,13 +306,13 @@ func Main(archInit func(*Arch)) {
 
 	timings.AddEvent(fcount, "funcs")
 
-	fninit(xtop)
+	fninit(Target.Decls)
 
 	// Phase 4: Decide how to capture closed variables.
 	// This needs to run before escape analysis,
 	// because variables captured by value do not escape.
 	timings.Start("fe", "capturevars")
-	for _, n := range xtop {
+	for _, n := range Target.Decls {
 		if n.Op() == ir.ODCLFUNC && n.Func().OClosure != nil {
 			Curfn = n.(*ir.Func)
 			capturevars(Curfn)
@@ -332,7 +337,7 @@ func Main(archInit func(*Arch)) {
 
 	if base.Flag.LowerL != 0 {
 		// Find functions that can be inlined and clone them before walk expands them.
-		visitBottomUp(xtop, func(list []*ir.Func, recursive bool) {
+		visitBottomUp(Target.Decls, func(list []*ir.Func, recursive bool) {
 			numfns := numNonClosures(list)
 			for _, n := range list {
 				if !recursive || numfns > 1 {
@@ -350,7 +355,7 @@ func Main(archInit func(*Arch)) {
 		})
 	}
 
-	for _, n := range xtop {
+	for _, n := range Target.Decls {
 		if n.Op() == ir.ODCLFUNC {
 			devirtualize(n.(*ir.Func))
 		}
@@ -366,7 +371,7 @@ func Main(archInit func(*Arch)) {
 	// Large values are also moved off stack in escape analysis;
 	// because large values may contain pointers, it must happen early.
 	timings.Start("fe", "escapes")
-	escapes(xtop)
+	escapes(Target.Decls)
 
 	// Collect information for go:nowritebarrierrec
 	// checking. This must happen before transformclosure.
@@ -380,7 +385,7 @@ func Main(archInit func(*Arch)) {
 	// This needs to happen before walk, because closures must be transformed
 	// before walk reaches a call of a closure.
 	timings.Start("fe", "xclosures")
-	for _, n := range xtop {
+	for _, n := range Target.Decls {
 		if n.Op() == ir.ODCLFUNC && n.Func().OClosure != nil {
 			Curfn = n.(*ir.Func)
 			transformclosure(Curfn)
@@ -402,8 +407,8 @@ func Main(archInit func(*Arch)) {
 	// Don't use range--walk can add functions to xtop.
 	timings.Start("be", "compilefuncs")
 	fcount = 0
-	for i := 0; i < len(xtop); i++ {
-		n := xtop[i]
+	for i := 0; i < len(Target.Decls); i++ {
+		n := Target.Decls[i]
 		if n.Op() == ir.ODCLFUNC {
 			funccompile(n.(*ir.Func))
 			fcount++
