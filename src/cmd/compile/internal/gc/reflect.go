@@ -331,8 +331,10 @@ func deferstruct(stksize int64) *types.Type {
 	// build struct holding the above fields
 	s := types.NewStruct(types.NoPkg, fields)
 	s.SetNoalg(true)
-	s.Width = widstruct(s, s, 0, 1)
-	s.Align = uint8(Widthptr)
+	old := sizeCalculationDisabled
+	sizeCalculationDisabled = false
+	dowidth(s)
+	sizeCalculationDisabled = old
 	return s
 }
 
