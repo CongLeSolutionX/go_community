@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce83b0aa_bbb31849",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-12-21T18:09:50Z",
+      "side": 1,
+      "message": "Hi, sorry, but this came up before and it\u0027s not the direction we want to go in.\n\nhttps://github.com/golang/go/issues/26776#issuecomment-497671740\nhttps://github.com/golang/go/issues/34648",
+      "revId": "c6780d8fcdc83de7af0d13fc051d063911aaf885",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
