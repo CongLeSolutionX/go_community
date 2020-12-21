@@ -9,10 +9,15 @@ package p
 type t struct{ x int }
 
 func f1() {
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	t{}.M()     // ERROR "t{}.M undefined \(type t has no field or method M\)"
 	t{x: 1}.M() // ERROR "t{(...|…)}.M undefined \(type t has no field or method M\)"
+=======
+	t{}.M()     // ERROR "t{}.M undefined \(type t has no field or method M\)|undefined field or method .*M"
+	t{x: 1}.M() // ERROR "t{...}.M undefined \(type t has no field or method M\)|undefined field or method .*M"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 }
 
 func f2() (*t, error) {
-	return t{}.M() // ERROR "t{}.M undefined \(type t has no field or method M\)"
+	return t{}.M() // ERROR "t{}.M undefined \(type t has no field or method M\)|undefined field or method .*M|not enough arguments"
 }

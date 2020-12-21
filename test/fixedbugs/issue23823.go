@@ -11,6 +11,11 @@ type I1 = interface {
 }
 
 // BAD: type loop should mention I1; see also #41669
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 type I2 interface { // ERROR "invalid recursive type I2\n\tLINE: I2 refers to\n\tLINE: I2$|invalid recursive type"
 	I1
+=======
+type I2 interface { // GC_ERROR "invalid recursive type I2\n\tLINE: I2 refers to\n\tLINE: I2$"
+	I1 // GCCGO_ERROR "invalid recursive interface"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 }

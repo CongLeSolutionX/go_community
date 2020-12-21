@@ -10,8 +10,14 @@
 package main
 
 func main() {
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	_ = []byte{"foo"}   // ERROR "cannot use|cannot convert"
 	_ = []int{"foo"}    // ERROR "cannot use|cannot convert"
 	_ = []rune{"foo"}   // ERROR "cannot use|cannot convert"
+=======
+	_ = []byte{"foo"}   // ERROR "cannot use|incompatible type"
+	_ = []int{"foo"}    // ERROR "cannot use|incompatible type"
+	_ = []rune{"foo"}   // ERROR "cannot use|incompatible type"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 	_ = []string{"foo"} // OK
 }

@@ -10,7 +10,11 @@
 package p
 
 func F() {
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	switch t := nil.(type) { // ERROR "cannot type switch on non-interface value nil|not an interface"
+=======
+	switch t := nil.(type) { // ERROR "cannot type switch on non-interface value"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 	default:
 		_ = t
 	}
@@ -19,7 +23,11 @@ func F() {
 const x = 1
 
 func G() {
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	switch t := x.(type) { // ERROR "cannot type switch on non-interface value x \(type untyped int\)|not an interface"
+=======
+	switch t := x.(type) { // ERROR "cannot type switch on non-interface value|declared but not used"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 	default:
 	}
 }
