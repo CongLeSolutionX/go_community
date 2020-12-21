@@ -1,0 +1,295 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80c660cb_28a8620d",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "Use lockedfile.Write instead of lockedfile.Edit. Write calls f.Truncate(0) internally.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7d2fde6_99791aa3",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "Rather than checking for NUL bytes, let\u0027s read the file using lockedfile.Read, parse the timestamp, then check if it\u0027s in a reasonable range (say, between 2000 and 2100). If there are errors with any of those, then writeTrimTime and return.",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 22
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3d33e68_a42f6d0e",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "Update comment",
+      "range": {
+        "startLine": 591,
+        "startChar": 19,
+        "endLine": 591,
+        "endChar": 25
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1c6799_b6fd59be",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "Let\u0027s treat the directory contents as the source of truth and ignore the old contents of the file.\n\nUnder normal operation (assuming we don\u0027t lose power), the file system will be consistent, even if the data hasn\u0027t hit the disk. We wrote the .mod file earlier, so we should see it when we read the directory.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe71fc29_a610313e",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "I think it would be better not to move this out of renameio. We should make sure we use consistent naming for temp files even if we\u0027re not actually using renameio to write the zip file.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a51cc8_8637c090",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "Does this actually work? I know it was \".tmp\" originally, but I think it should be \".tmp*\" for both Glob and TempFile.",
+      "range": {
+        "startLine": 215,
+        "startChar": 17,
+        "endLine": 215,
+        "endChar": 48
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e918b65f_f2d3df78",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "You can open with `os.O_CREATE|os.O_RDONLY|os.O_TRUNC`. Maybe use lockedfile.Create instead of os.OpenFile? It\u0027s important to truncate to 0 before writing to ensure the previous content is gone. Otherwise, we might end up with a mix of old and new content after a crash.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a69d289f_bcb168f7",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "Use lockedfile.Read instead? If I understand correctly, robustio.ReadFile helps read files written by another process with renameio or something similar.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbd7a10c_559edd48",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "Why is this separate from the length check below?\n\nAlso, are we treating corruption as a fatal error (as we are here) or ignoring it (as with the length check)?",
+      "range": {
+        "startLine": 472,
+        "startChar": 18,
+        "endLine": 472,
+        "endChar": 33
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad49b72_5ca7f066",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "If the hash begins with \"h2:\" and has a different length, let\u0027s make sure NOT to treat the file as corrupt.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70d8b9cf_10e35374",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "47 would be more clearly written as:\n\n    len(\"h1:\") + base64.EncodedLen(sha256.Size)\n\nI think this should be part of isCorrupt though.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb881284_81cebe00",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "lockedfile.Read?",
+      "range": {
+        "startLine": 631,
+        "startChar": 14,
+        "endLine": 631,
+        "endChar": 22
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db899a74_410763e9",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "47 needs an explanation if it\u0027s not folded into isCorrupt.",
+      "range": {
+        "startLine": 632,
+        "startChar": 37,
+        "endLine": 632,
+        "endChar": 52
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2287176_6e8251b9",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "isCorrupt is kind of a vague name. Maybe isValidSum?",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aca7c96b_c675202a",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-21T19:15:08Z",
+      "side": 1,
+      "message": "bytes.IndexByte(data, \u0027\\000\u0027) \u003e\u003d 0",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
