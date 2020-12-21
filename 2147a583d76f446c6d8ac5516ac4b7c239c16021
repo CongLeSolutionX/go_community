@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b29e3b5_9678c190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-21T19:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15ede401_6929c980",
+      "revId": "2147a583d76f446c6d8ac5516ac4b7c239c16021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40a64864_f11b003c",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-12-21T18:34:59Z",
       "side": 1,
       "message": "Is there a reason the rules are listed twice?",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 94
+      },
+      "revId": "2147a583d76f446c6d8ac5516ac4b7c239c16021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c022dd41_56373c10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-21T19:22:37Z",
+      "side": 1,
+      "message": "Copy-paste gone bad combined with being too large to notice? :-) \nFixed.",
+      "parentUuid": "40a64864_f11b003c",
       "range": {
         "startLine": 160,
         "startChar": 0,
