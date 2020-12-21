@@ -21,7 +21,6 @@ import (
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/par"
-	"cmd/go/internal/renameio"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
@@ -543,8 +542,8 @@ func readDiskCache(path, rev, suffix string) (file string, data []byte, err erro
 	if err != nil {
 		return "", nil, errNotCached
 	}
-	data, err = renameio.ReadFile(file)
-	if err != nil {
+	data, err = lockedfile.Read(file)
+	if err != nil || bytes.IndexRune(data, '\000') >= 0 {
 		return file, nil, errNotCached
 	}
 	return file, data, nil
@@ -572,6 +571,9 @@ func writeDiskGoMod(file string, text []byte) error {
 // writeDiskCache is the generic "write to a cache file" implementation.
 // The file must have been returned by a previous call to readDiskCache.
 func writeDiskCache(file string, data []byte) error {
+	if bytes.IndexByte(data, '\000') >= 0 {
+		return errors.New("writeDiskCache: data contains null bytes")
+	}
 	if file == "" {
 		return nil
 	}
@@ -580,7 +582,19 @@ func writeDiskCache(file string, data []byte) error {
 		return err
 	}
 
-	if err := renameio.WriteFile(file, data, 0666); err != nil {
+	f, err := lockedfile.Create(file)
+	if err != nil {
+		return err
+	}
+	if err := f.Truncate(int64(len(data))); err != nil {
+		f.Close()
+		return err
+	}
+	if _, err := f.Write(data); err != nil {
+		f.Close()
+		return err
+	}
+	if err := f.Close(); err != nil {
 		return err
 	}
 
