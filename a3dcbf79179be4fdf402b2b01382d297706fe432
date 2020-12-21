@@ -16,6 +16,24 @@
       "message": "FYI, this call can actually be pushed up to the caller (see CL 279333), which then makes this function safe to move to types instead of typecheck. But that then fails toolstash.",
       "revId": "a3dcbf79179be4fdf402b2b01382d297706fe432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4760763c_1b38b6c2",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-21T23:30:59Z",
+      "side": 1,
+      "message": "Looked into this, but implements is in charge of reporting an error (base.Errorf) under certain conditions (in ifacelookdot), and I\u0027ve been avoiding putting anything in package types that reports errors. No other package needs to call it, so I\u0027ll leave it in typecheck.",
+      "parentUuid": "ee91ec00_184e2343",
+      "revId": "a3dcbf79179be4fdf402b2b01382d297706fe432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
