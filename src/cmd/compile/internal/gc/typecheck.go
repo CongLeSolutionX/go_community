@@ -15,6 +15,37 @@ import (
 	"strings"
 )
 
+var (
+	NeedFuncSym     = func(*types.Sym) {}
+	NeedITab        = func(t, itype *types.Type) {}
+	NeedRuntimeType = func(*types.Type) {}
+)
+
+func TypecheckAssignExpr(n ir.Node) ir.Node { return typecheck(n, ctxExpr|ctxAssign) }
+func TypecheckExpr(n ir.Node) ir.Node       { return typecheck(n, ctxExpr) }
+func TypecheckStmt(n ir.Node) ir.Node       { return typecheck(n, ctxStmt) }
+
+func TypecheckExprs(exprs []ir.Node) { typecheckslice(exprs, ctxExpr) }
+func TypecheckStmts(stmts []ir.Node) { typecheckslice(stmts, ctxStmt) }
+
+func TypecheckCall(call *ir.CallExpr) {
+	t := call.X.Type()
+	if t == nil {
+		panic("misuse of Call")
+	}
+	ctx := ctxStmt
+	if t.NumResults() > 0 {
+		ctx = ctxExpr | ctxMultiOK
+	}
+	if typecheck(call, ctx) != call {
+		panic("bad typecheck")
+	}
+}
+
+func TypecheckCallee(n ir.Node) ir.Node {
+	return typecheck(n, ctxExpr|ctxCallee)
+}
+
 // To enable tracing support (-t flag), set enableTrace to true.
 const enableTrace = false
 
@@ -2395,7 +2426,7 @@ func typecheckMethodExpr(n *ir.SelectorExpr) (res ir.Node) {
 		// to make sure to generate wrappers for anonymous
 		// receiver types too.
 		if mt.Sym() == nil {
-			addsignat(t)
+			NeedRuntimeType(t)
 		}
 	}
 
@@ -2428,7 +2459,7 @@ func typecheckMethodExpr(n *ir.SelectorExpr) (res ir.Node) {
 
 	// Issue 25065. Make sure that we emit the symbol for a local method.
 	if base.Ctxt.Flag_dynlink && !inimport && (t.Sym() == nil || t.Sym().Pkg == types.LocalPkg) {
-		makefuncsym(me.FuncName_.Sym())
+		NeedFuncSym(me.FuncName_.Sym())
 	}
 
 	return me
@@ -3461,7 +3492,7 @@ func typecheckfunc(n *ir.Func) {
 	}
 
 	if base.Ctxt.Flag_dynlink && !inimport && n.Nname != nil {
-		makefuncsym(n.Sym())
+		NeedFuncSym(n.Sym())
 	}
 }
 
