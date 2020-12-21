@@ -124,10 +124,11 @@ type CmdFlags struct {
 			Patterns map[string][]string
 			Files    map[string]string
 		}
-		ImportDirs   []string          // appended to by -I
-		ImportMap    map[string]string // set by -importmap OR -importcfg
-		PackageFile  map[string]string // set by -importcfg; nil means not in use
-		SpectreIndex bool              // set by -spectre=index or -spectre=all
+		ImportDirs    []string          // appended to by -I
+		ImportMap     map[string]string // set by -importmap OR -importcfg
+		PackageFile   map[string]string // set by -importcfg; nil means not in use
+		SpectreIndex  bool              // set by -spectre=index or -spectre=all
+		Instrumenting bool
 	}
 }
 

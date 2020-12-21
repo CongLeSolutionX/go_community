@@ -85,7 +85,7 @@ func walk(fn *ir.Func) {
 		ir.DumpList(s, Curfn.Enter)
 	}
 
-	if instrumenting {
+	if base.Flag.Cfg.Instrumenting {
 		instrument(fn)
 	}
 }
@@ -737,7 +737,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 			return n
 		}
 
-		if !instrumenting && isZero(n.Y) {
+		if !base.Flag.Cfg.Instrumenting && isZero(n.Y) {
 			return n
 		}
 
@@ -1310,7 +1310,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		panic("unreachable")
 
 	case ir.OCOPY:
-		return copyany(n.(*ir.BinaryExpr), init, instrumenting && !base.Flag.CompilingRuntime)
+		return copyany(n.(*ir.BinaryExpr), init, base.Flag.Cfg.Instrumenting && !base.Flag.CompilingRuntime)
 
 	case ir.OCLOSE:
 		// cannot use chanfn - closechan takes any, not chan any
@@ -1596,7 +1596,7 @@ func walkexpr1(n ir.Node, init *ir.Nodes) ir.Node {
 	case ir.OBYTES2STRTMP:
 		n := n.(*ir.ConvExpr)
 		n.X = walkexpr(n.X, init)
-		if !instrumenting {
+		if !base.Flag.Cfg.Instrumenting {
 			// Let the backend handle OBYTES2STRTMP directly
 			// to avoid a function call to slicebytetostringtmp.
 			return n
@@ -1974,7 +1974,7 @@ func walkCall(n *ir.CallExpr, init *ir.Nodes) {
 		} else {
 			t = params.Field(i).Type
 		}
-		if instrumenting || fncall(arg, t) {
+		if base.Flag.Cfg.Instrumenting || fncall(arg, t) {
 			// make assignment of fncall to tempAt
 			tmp := temp(t)
 			a := convas(ir.NewAssignStmt(base.Pos, tmp, arg), init)
@@ -2872,7 +2872,7 @@ func appendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 		ptr1, len1 := backingArrayPtrLen(cheapexpr(slice, &nodes))
 		ptr2, len2 := backingArrayPtrLen(l2)
 		ncopy = mkcall1(fn, types.Types[types.TINT], &nodes, typename(elemtype), ptr1, len1, ptr2, len2)
-	} else if instrumenting && !base.Flag.CompilingRuntime {
+	} else if base.Flag.Cfg.Instrumenting && !base.Flag.CompilingRuntime {
 		// rely on runtime to instrument:
 		//  copy(s[len(l1):], l2)
 		// l2 can be a slice or string.
@@ -2913,7 +2913,7 @@ func appendslice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 // isAppendOfMake reports whether n is of the form append(x , make([]T, y)...).
 // isAppendOfMake assumes n has already been typechecked.
 func isAppendOfMake(n ir.Node) bool {
-	if base.Flag.N != 0 || instrumenting {
+	if base.Flag.N != 0 || base.Flag.Cfg.Instrumenting {
 		return false
 	}
 
@@ -3124,7 +3124,7 @@ func walkappend(n *ir.CallExpr, init *ir.Nodes, dst ir.Node) ir.Node {
 
 	// General case, with no function calls left as arguments.
 	// Leave for gen, except that instrumentation requires old form.
-	if !instrumenting || base.Flag.CompilingRuntime {
+	if !base.Flag.Cfg.Instrumenting || base.Flag.CompilingRuntime {
 		return n
 	}
 
@@ -4054,7 +4054,7 @@ func canMergeLoads() bool {
 // isRuneCount reports whether n is of the form len([]rune(string)).
 // These are optimized into a call to runtime.countrunes.
 func isRuneCount(n ir.Node) bool {
-	return base.Flag.N == 0 && !instrumenting && n.Op() == ir.OLEN && n.(*ir.UnaryExpr).X.Op() == ir.OSTR2RUNES
+	return base.Flag.N == 0 && !base.Flag.Cfg.Instrumenting && n.Op() == ir.OLEN && n.(*ir.UnaryExpr).X.Op() == ir.OSTR2RUNES
 }
 
 func walkCheckPtrAlignment(n *ir.ConvExpr, init *ir.Nodes, count ir.Node) ir.Node {
