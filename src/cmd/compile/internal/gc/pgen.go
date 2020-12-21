@@ -549,7 +549,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 		base.Fatalf("createSimpleVar unexpected class %v for node %v", n.Class_, n)
 	}
 
-	typename := dwarf.InfoPrefix + typesymname(n.Type())
+	typename := dwarf.InfoPrefix + types.TypeSymName(n.Type())
 	delete(fnsym.Func().Autot, ngotype(n).Linksym())
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {
@@ -652,7 +652,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			decls = append(decls, n)
 			continue
 		}
-		typename := dwarf.InfoPrefix + typesymname(n.Type())
+		typename := dwarf.InfoPrefix + types.TypeSymName(n.Type())
 		decls = append(decls, n)
 		abbrev := dwarf.DW_ABRV_AUTO_LOCLIST
 		isReturnValue := (n.Class_ == ir.PPARAMOUT)
