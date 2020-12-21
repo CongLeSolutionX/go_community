@@ -21,7 +21,6 @@ import (
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/par"
-	"cmd/go/internal/renameio"
 	"cmd/go/internal/robustio"
 
 	"golang.org/x/mod/module"
@@ -562,7 +561,19 @@ func writeDiskCache(file string, data []byte) error {
 		return err
 	}
 
-	if err := renameio.WriteFile(file, data, 0666); err != nil {
+	f, err := lockedfile.Create(file)
+	if err != nil {
+		return err
+	}
+	if err := f.Truncate(int64(len(data))); err != nil {
+		f.Close()
+		return err
+	}
+	if _, err := f.WriteAt(data, 0); err != nil {
+		f.Close()
+		return err
+	}
+	if err := f.Close(); err != nil {
 		return err
 	}
 
