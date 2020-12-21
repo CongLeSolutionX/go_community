@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
+	"cmd/compile/internal/wobj"
 	"cmd/internal/obj"
 )
 
@@ -100,17 +101,17 @@ func fninit() *ir.Name {
 	sym.Def = task
 	lsym := sym.Linksym()
 	ot := 0
-	ot = duintptr(lsym, ot, 0) // state: not initialized yet
-	ot = duintptr(lsym, ot, uint64(len(deps)))
-	ot = duintptr(lsym, ot, uint64(len(fns)))
+	ot = wobj.Uintptr(lsym, ot, 0) // state: not initialized yet
+	ot = wobj.Uintptr(lsym, ot, uint64(len(deps)))
+	ot = wobj.Uintptr(lsym, ot, uint64(len(fns)))
 	for _, d := range deps {
-		ot = dsymptr(lsym, ot, d, 0)
+		ot = wobj.SymPtr(lsym, ot, d, 0)
 	}
 	for _, f := range fns {
-		ot = dsymptr(lsym, ot, f, 0)
+		ot = wobj.SymPtr(lsym, ot, f, 0)
 	}
 	// An initTask has pointers, but none into the Go heap.
 	// It's not quite read only, the state field must be modifiable.
-	ggloblsym(lsym, int32(ot), obj.NOPTR)
+	wobj.Global(lsym, int32(ot), obj.NOPTR)
 	return task
 }
