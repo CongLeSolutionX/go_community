@@ -212,6 +212,9 @@ func Main(archInit func(*Arch)) {
 
 	Target = new(ir.Package)
 
+	NeedFuncSym = makefuncsym
+	NeedRuntimeType = addsignat // TODO(rsc): typenamesym for lock?
+
 	// initialize types package
 	// (we need to do this to break dependencies that otherwise
 	// would lead to import cycles)
