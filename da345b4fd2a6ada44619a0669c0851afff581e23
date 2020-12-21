@@ -16,6 +16,92 @@
       "message": "TRY\u003dlinux-amd64-longtest",
       "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dabc68a5_12011194",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1486,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-21T20:21:58Z",
+      "side": 1,
+      "message": "(nit) s/,//",
+      "range": {
+        "startLine": 1486,
+        "startChar": 28,
+        "endLine": 1486,
+        "endChar": 29
+      },
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abfb59e9_e233063d",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-21T20:21:58Z",
+      "side": 1,
+      "message": "I agree that some kind of global state is currently needed here, but I\u0027m a little surprised that this doesn\u0027t just fall out naturally from modload.EditBuildList (which already edits global state).\n\nWould it make sense to instead change EditBuildList so that everything passed to mustSelect becomes an explicit requirement? (Does that break anything else?)",
+      "range": {
+        "startLine": 846,
+        "startChar": 0,
+        "endLine": 853,
+        "endChar": 43
+      },
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65294aa2_bbbf3c49",
+        "filename": "src/cmd/go/testdata/script/mod_get_promote_implicit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-21T20:21:58Z",
+      "side": 1,
+      "message": "Can the \u0027go get -d m/use-indirect\u0027 hint be decoupled from the \u0027go get\u0027 argument behavior change, so that they can go in as separate CLs?\n\nIf so, I would prefer to split the CL into two, so that the hint can remain in place even if for some reason we need to revert the \u0027go get\u0027 argument change.\n\n(I think the case for adding the \u0027go get -d m/use-indirect\u0027 hint during the freeze is stronger than the case for the \u0027go get -d\u0027 behavior, although I think they\u0027re both strong enough to warrant going in.)",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f869c20_e2d80cb0",
+        "filename": "src/cmd/go/testdata/script/mod_get_promote_implicit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-21T20:21:58Z",
+      "side": 1,
+      "message": "Maybe link to https://golang.org/issue/43131 in this comment as justification for this behavior?",
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
