@@ -351,7 +351,7 @@ func (t *Template) new(name string) *Template {
 		nil,
 		t.text.New(name),
 		nil,
-		nil,
+		t.funcMap,
 		t.nameSpace,
 	}
 	if existing, ok := tmpl.set[name]; ok {

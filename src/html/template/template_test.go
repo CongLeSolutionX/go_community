@@ -13,6 +13,26 @@ import (
 	"text/template/parse"
 )
 
+func TestTemplateNewAndClone(t *testing.T) {
+	// https://golang.org/issue/43295
+	s := `{{ f . }}`
+	want := "test"
+	orig := New("orig").Funcs(map[string]interface{}{
+		"f": func(in string) string {
+			return in
+		},
+	}).New("child")
+
+	overviewTmpl := Must(Must(orig.Clone()).Parse(s))
+	out := &bytes.Buffer{}
+	if err := overviewTmpl.Execute(out, want); err != nil {
+		t.Fatal(err)
+	}
+	if got := out.String(); got != want {
+		t.Fatalf("got %q; want %q", got, want)
+	}
+}
+
 func TestTemplateClone(t *testing.T) {
 	// https://golang.org/issue/12996
 	orig := New("name")
