@@ -7,6 +7,7 @@ package gc
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+
 	"cmd/internal/dwarf"
 	"cmd/internal/obj"
 	"cmd/internal/src"

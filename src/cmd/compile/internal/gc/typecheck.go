@@ -836,7 +836,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 				n.SetType(nil)
 				return n
 			}
-			if t.IsSigned() && !langSupported(1, 13, curpkg()) {
+			if t.IsSigned() && !types.AllowsGoVersion(curpkg(), 1, 13) {
 				base.ErrorfVers("go1.13", "invalid operation: %v (signed shift count type %v)", n, r.Type())
 				n.SetType(nil)
 				return n
@@ -903,7 +903,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 			if r.Type().Kind() != types.TBLANK {
 				aop, _ = assignop(l.Type(), r.Type())
 				if aop != ir.OXXX {
-					if r.Type().IsInterface() && !l.Type().IsInterface() && !IsComparable(l.Type()) {
+					if r.Type().IsInterface() && !l.Type().IsInterface() && !types.IsComparable(l.Type()) {
 						base.Errorf("invalid operation: %v (operator %v not defined on %s)", n, op, typekind(l.Type()))
 						n.SetType(nil)
 						return n
@@ -924,7 +924,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 			if !converted && l.Type().Kind() != types.TBLANK {
 				aop, _ = assignop(r.Type(), l.Type())
 				if aop != ir.OXXX {
-					if l.Type().IsInterface() && !r.Type().IsInterface() && !IsComparable(r.Type()) {
+					if l.Type().IsInterface() && !r.Type().IsInterface() && !types.IsComparable(r.Type()) {
 						base.Errorf("invalid operation: %v (operator %v not defined on %s)", n, op, typekind(r.Type()))
 						n.SetType(nil)
 						return n
@@ -968,7 +968,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 
 		// okfor allows any array == array, map == map, func == func.
 		// restrict to slice/map/func == nil and nil == slice/map/func.
-		if l.Type().IsArray() && !IsComparable(l.Type()) {
+		if l.Type().IsArray() && !types.IsComparable(l.Type()) {
 			base.Errorf("invalid operation: %v (%v cannot be compared)", n, l.Type())
 			n.SetType(nil)
 			return n
@@ -993,7 +993,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 		}
 
 		if l.Type().IsStruct() {
-			if f := IncomparableField(l.Type()); f != nil {
+			if f := types.IncomparableField(l.Type()); f != nil {
 				base.Errorf("invalid operation: %v (struct containing %v cannot be compared)", n, f.Type)
 				n.SetType(nil)
 				return n
@@ -1626,7 +1626,7 @@ func typecheck1(n ir.Node, top int) (res ir.Node) {
 			n.SetType(l.Type().Results().Field(0).Type)
 
 			if n.Op() == ir.OCALLFUNC && n.X.Op() == ir.ONAME {
-				if sym := n.X.(*ir.Name).Sym(); isRuntimePkg(sym.Pkg) && sym.Name == "getg" {
+				if sym := n.X.(*ir.Name).Sym(); types.IsRuntimePkg(sym.Pkg) && sym.Name == "getg" {
 					// Emit code for runtime.getg() directly instead of calling function.
 					// Most such rewrites (for example the similar one for math.Sqrt) should be done in walk,
 					// so that the ordering pass can make sure to preserve the semantics of the original code
@@ -2559,7 +2559,7 @@ func typecheckMethodExpr(n *ir.SelectorExpr) (res ir.Node) {
 	if t.IsInterface() {
 		ms = t.Fields()
 	} else {
-		mt := methtype(t)
+		mt := types.ReceiverBaseType(t)
 		if mt == nil {
 			base.Errorf("%v undefined (type %v has no method %v)", n, t, n.Sel)
 			n.SetType(nil)
@@ -2594,7 +2594,7 @@ func typecheckMethodExpr(n *ir.SelectorExpr) (res ir.Node) {
 		return n
 	}
 
-	if !isMethodApplicable(t, m) {
+	if !types.IsMethodApplicable(t, m) {
 		base.Errorf("invalid method expression %v (needs pointer receiver: (*%v).%S)", n, t, s)
 		n.SetType(nil)
 		return n
@@ -2615,14 +2615,6 @@ func typecheckMethodExpr(n *ir.SelectorExpr) (res ir.Node) {
 	return me
 }
 
-// isMethodApplicable reports whether method m can be called on a
-// value of type t. This is necessary because we compute a single
-// method set for both T and *T, but some *T methods are not
-// applicable to T receivers.
-func isMethodApplicable(t *types.Type, m *types.Field) bool {
-	return t.IsPtr() || !m.Type.Recv().Type.IsPtr() || isifacemethod(m.Type) || m.Embedded == 2
-}
-
 func derefall(t *types.Type) *types.Type {
 	for t != nil && t.IsPtr() {
 		t = t.Elem()
@@ -2641,7 +2633,7 @@ func lookdot(n *ir.SelectorExpr, t *types.Type, dostrcmp int) *types.Field {
 
 	var f2 *types.Field
 	if n.X.Type() == t || n.X.Type().Sym() == nil {
-		mt := methtype(t)
+		mt := types.ReceiverBaseType(t)
 		if mt != nil {
 			f2 = lookdot1(n, s, mt, mt.Methods(), dostrcmp)
 		}
@@ -3404,7 +3396,7 @@ func samesafeexpr(l ir.Node, r ir.Node) bool {
 		r := r.(*ir.ConvExpr)
 		// Some conversions can't be reused, such as []byte(str).
 		// Allow only numeric-ish types. This is a bit conservative.
-		return issimple[l.Type().Kind()] && samesafeexpr(l.X, r.X)
+		return types.IsSimple[l.Type().Kind()] && samesafeexpr(l.X, r.X)
 
 	case ir.OINDEX, ir.OINDEXMAP:
 		l := l.(*ir.IndexExpr)
@@ -3678,7 +3670,7 @@ var mapqueue []*ir.MapType
 func checkMapKeys() {
 	for _, n := range mapqueue {
 		k := n.Type().MapType().Key
-		if !k.Broke() && !IsComparable(k) {
+		if !k.Broke() && !types.IsComparable(k) {
 			base.ErrorfAt(n.Pos(), "invalid map key type %v", k)
 		}
 	}
