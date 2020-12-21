@@ -912,7 +912,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		}
 		p = s.Prog(obj.ADUFFZERO)
 		p.To.Type = obj.TYPE_ADDR
-		p.To.Sym = gc.Duffzero
+		p.To.Sym = types.Syms.Duffzero
 		p.To.Offset = off
 	case ssa.OpAMD64MOVOconst:
 		if v.AuxInt != 0 {
@@ -923,7 +923,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 	case ssa.OpAMD64DUFFCOPY:
 		p := s.Prog(obj.ADUFFCOPY)
 		p.To.Type = obj.TYPE_ADDR
-		p.To.Sym = gc.Duffcopy
+		p.To.Sym = types.Syms.Duffcopy
 		if v.AuxInt%16 != 0 {
 			v.Fatalf("bad DUFFCOPY AuxInt %v", v.AuxInt)
 		}

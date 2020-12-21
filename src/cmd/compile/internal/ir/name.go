@@ -408,3 +408,9 @@ func NewPkgName(pos src.XPos, sym *types.Sym, pkg *types.Pkg) *PkgName {
 	p.pos = pos
 	return p
 }
+
+// Names holds known names.
+var Names struct {
+	Staticuint64s *Name
+	Zerobase      *Name
+}

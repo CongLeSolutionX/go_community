@@ -516,7 +516,7 @@ func backingArrayPtrLen(n ir.Node) (ptr, length ir.Node) {
 }
 
 func syslook(name string) *ir.Name {
-	s := Runtimepkg.Lookup(name)
+	s := types.Pkgs.Runtime.Lookup(name)
 	if s == nil || s.Def == nil {
 		base.Fatalf("syslook: can't find runtime.%s", name)
 	}
@@ -1240,7 +1240,7 @@ func paramNnames(ft *types.Type) []ir.Node {
 }
 
 func hashmem(t *types.Type) ir.Node {
-	sym := Runtimepkg.Lookup("memhash")
+	sym := types.Pkgs.Runtime.Lookup("memhash")
 
 	n := NewName(sym)
 	setNodeNameFunc(n)
