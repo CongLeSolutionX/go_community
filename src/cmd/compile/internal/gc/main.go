@@ -306,7 +306,9 @@ func Main(archInit func(*Arch)) {
 
 	timings.AddEvent(fcount, "funcs")
 
-	fninit(Target.Decls)
+	if init := fninit(); init != nil {
+		exportsym(init)
+	}
 
 	// Phase 4: Decide how to capture closed variables.
 	// This needs to run before escape analysis,
