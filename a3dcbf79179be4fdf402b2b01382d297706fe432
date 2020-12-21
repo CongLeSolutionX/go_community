@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee91ec00_184e2343",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-21T17:39:07Z",
+      "side": 1,
+      "message": "FYI, this call can actually be pushed up to the caller (see CL 279333), which then makes this function safe to move to types instead of typecheck. But that then fails toolstash.",
+      "revId": "a3dcbf79179be4fdf402b2b01382d297706fe432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
