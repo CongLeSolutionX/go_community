@@ -443,6 +443,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7113c6_50b6eb6a",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2020-12-22T18:56:00Z",
+      "side": 1,
+      "message": "I\u0027ve never seen resource sections split into more than two. Other types of symbols that happens, I think, but we don\u0027t support those anyway. So I\u0027ll update the comment.",
+      "parentUuid": "402b7672_d0954e86",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5004c540_93bb4610",
