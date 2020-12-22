@@ -34,6 +34,24 @@
       "parentUuid": "538299c0_73d1e396",
       "revId": "91cc51e0053b6ed6ab096c949f46364002b54be1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6c58da1_3d2c0802",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-22T22:19:47Z",
+      "side": 1,
+      "message": "SGTM. Figured it was intentional, but thought I\u0027d confirm.",
+      "parentUuid": "a166dee6_0164eb18",
+      "revId": "91cc51e0053b6ed6ab096c949f46364002b54be1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
