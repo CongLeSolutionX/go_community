@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7074ef9c_39db2a36",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80c660cb_28a8620d",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7d2fde6_99791aa3",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-12-21T19:15:08Z",
       "side": 1,
       "message": "Rather than checking for NUL bytes, let\u0027s read the file using lockedfile.Read, parse the timestamp, then check if it\u0027s in a reasonable range (say, between 2000 and 2100). If there are errors with any of those, then writeTrimTime and return.",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 22
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2bb0c58_e069d7e1",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7d2fde6_99791aa3",
       "range": {
         "startLine": 321,
         "startChar": 4,
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "161accc8_2dde10ce",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "How\u0027s this?",
+      "parentUuid": "c3d33e68_a42f6d0e",
+      "range": {
+        "startLine": 591,
+        "startChar": 19,
+        "endLine": 591,
+        "endChar": 25
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a1c6799_b6fd59be",
@@ -81,6 +147,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35decde7_01168ac3",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a1c6799_b6fd59be",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe71fc29_a610313e",
@@ -94,6 +178,24 @@
       "writtenOn": "2020-12-21T19:15:08Z",
       "side": 1,
       "message": "I think it would be better not to move this out of renameio. We should make sure we use consistent naming for temp files even if we\u0027re not actually using renameio to write the zip file.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05fab149_0009cfe7",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Okay, I\u0027ll move it back.",
+      "parentUuid": "fe71fc29_a610313e",
       "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -121,6 +223,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "450ca572_0a1604d6",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Brought pattern back for now.",
+      "parentUuid": "15a51cc8_8637c090",
+      "range": {
+        "startLine": 215,
+        "startChar": 17,
+        "endLine": 215,
+        "endChar": 48
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e918b65f_f2d3df78",
@@ -138,6 +264,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7c5d428_7ee25114",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Did you mean os.O_CREATE|os.O_WRONLY|os.O_TRUNC ? \n\nUsing lockedfile.Create sounds good... Easier to avoid mixing things up...",
+      "parentUuid": "e918b65f_f2d3df78",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a69d289f_bcb168f7",
@@ -151,6 +295,24 @@
       "writtenOn": "2020-12-21T19:15:08Z",
       "side": 1,
       "message": "Use lockedfile.Read instead? If I understand correctly, robustio.ReadFile helps read files written by another process with renameio or something similar.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9d48389_c5383f08",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a69d289f_bcb168f7",
       "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -180,6 +342,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5350e0ea_4dd9e31c",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "I think it\u0027s probably something that should be ignored. I\u0027ll move the check after this check",
+      "parentUuid": "fbd7a10c_559edd48",
+      "range": {
+        "startLine": 472,
+        "startChar": 18,
+        "endLine": 472,
+        "endChar": 33
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ad49b72_5ca7f066",
         "filename": "src/cmd/go/internal/modfetch/fetch.go",
         "patchSetId": 7
@@ -191,6 +377,24 @@
       "writtenOn": "2020-12-21T19:15:08Z",
       "side": 1,
       "message": "If the hash begins with \"h2:\" and has a different length, let\u0027s make sure NOT to treat the file as corrupt.",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7e4dd50_383f3976",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Okay, should we check for other \"h\u003cnum\u003e:\" sequences?",
+      "parentUuid": "7ad49b72_5ca7f066",
       "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -212,6 +416,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98df1b98_a8d57839",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Ah! I did not know about base64.EncodedLen!",
+      "parentUuid": "70d8b9cf_10e35374",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb881284_81cebe00",
@@ -225,6 +447,30 @@
       "writtenOn": "2020-12-21T19:15:08Z",
       "side": 1,
       "message": "lockedfile.Read?",
+      "range": {
+        "startLine": 631,
+        "startChar": 14,
+        "endLine": 631,
+        "endChar": 22
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e918f1f_149255e8",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb881284_81cebe00",
       "range": {
         "startLine": 631,
         "startChar": 14,
@@ -258,6 +504,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b874f54_e92d2276",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Folded into isCorrupt.",
+      "parentUuid": "db899a74_410763e9",
+      "range": {
+        "startLine": 632,
+        "startChar": 37,
+        "endLine": 632,
+        "endChar": 52
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2287176_6e8251b9",
@@ -275,6 +545,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19fb4804_9d08f8a8",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2287176_6e8251b9",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aca7c96b_c675202a",
@@ -288,6 +576,24 @@
       "writtenOn": "2020-12-21T19:15:08Z",
       "side": 1,
       "message": "bytes.IndexByte(data, \u0027\\000\u0027) \u003e\u003d 0",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acf2ea78_8a8ba673",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aca7c96b_c675202a",
       "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
