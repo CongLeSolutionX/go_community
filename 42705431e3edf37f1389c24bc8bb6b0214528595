@@ -39,6 +39,24 @@
       "message": "LGTM but we should wait for the TryBots to be fixed.",
       "revId": "42705431e3edf37f1389c24bc8bb6b0214528595",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19390345_be6fc900",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-22T04:22:53Z",
+      "side": 1,
+      "message": "(unresolved)",
+      "parentUuid": "3db5a4ab_089e8218",
+      "revId": "42705431e3edf37f1389c24bc8bb6b0214528595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
