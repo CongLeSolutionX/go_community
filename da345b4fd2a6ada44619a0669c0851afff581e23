@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8f48610_52448acc",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1486,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-22T22:06:00Z",
+      "side": 1,
+      "message": "Reverted, since no changes are needed with EditBuildList.",
+      "parentUuid": "dabc68a5_12011194",
+      "range": {
+        "startLine": 1486,
+        "startChar": 28,
+        "endLine": 1486,
+        "endChar": 29
+      },
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abfb59e9_e233063d",
@@ -54,6 +78,30 @@
       "writtenOn": "2020-12-21T20:21:58Z",
       "side": 1,
       "message": "I agree that some kind of global state is currently needed here, but I\u0027m a little surprised that this doesn\u0027t just fall out naturally from modload.EditBuildList (which already edits global state).\n\nWould it make sense to instead change EditBuildList so that everything passed to mustSelect becomes an explicit requirement? (Does that break anything else?)",
+      "range": {
+        "startLine": 846,
+        "startChar": 0,
+        "endLine": 853,
+        "endChar": 43
+      },
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef690e4f_5acd5add",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-22T22:06:00Z",
+      "side": 1,
+      "message": "Seems to work! Thanks for pointing this out. This really simplified the CL.",
+      "parentUuid": "abfb59e9_e233063d",
       "range": {
         "startLine": 846,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d931a22_42f56925",
+        "filename": "src/cmd/go/testdata/script/mod_get_promote_implicit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-22T22:06:00Z",
+      "side": 1,
+      "message": "Sure, split hint into CL 279528.",
+      "parentUuid": "65294aa2_bbbf3c49",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f869c20_e2d80cb0",
@@ -100,6 +172,24 @@
       "writtenOn": "2020-12-21T20:21:58Z",
       "side": 1,
       "message": "Maybe link to https://golang.org/issue/43131 in this comment as justification for this behavior?",
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ae9ce36_ad99d06c",
+        "filename": "src/cmd/go/testdata/script/mod_get_promote_implicit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-22T22:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f869c20_e2d80cb0",
       "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
