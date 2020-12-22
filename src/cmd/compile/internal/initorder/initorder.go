@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package initorder
 
 import (
 	"bytes"
@@ -77,7 +77,7 @@ type InitOrder struct {
 // package-level declarations (in declaration order) and outputs the
 // corresponding list of statements to include in the init() function
 // body.
-func initOrder(l []ir.Node) []ir.Node {
+func Order(l []ir.Node) []ir.Node {
 	s := walk.InitSchedule{
 		Plans: make(map[ir.Node]*walk.InitPlan),
 		Temps: make(map[ir.Node]*ir.Name),
