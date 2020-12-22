@@ -16,6 +16,24 @@
       "message": "I can\u0027t find expectations for \"trusted\" documented in the wiki or contributing code pages. What needs to happen to move this review forward? Should I be doing something more? Thanks for any pointers!",
       "revId": "23c81ec7400d681fbd15d7f4cdc0188e550dcf94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dbbed35_aa14cf48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-22T20:57:23Z",
+      "side": 1,
+      "message": "Docs for \"trusted\" are at https://tip.golang.org/doc/contribute.html#votes.\n\nThere isn\u0027t anything you need to do here.",
+      "parentUuid": "5d537760_46985124",
+      "revId": "23c81ec7400d681fbd15d7f4cdc0188e550dcf94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
