@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12b01702_df5f9e24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-22T04:46:54Z",
+      "side": 1,
+      "message": "I\u0027d stick to the \"direct\" terminology. \"DirectIface\" is also used (internally) within runtime and reflect to refer to this same property, and I think being consistent here is worthwhile.\n\nI\u0027m open to renaming all of them though.",
+      "range": {
+        "startLine": 45,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "ab67ce5ef0590e1648784daa41b895532d1f6082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
