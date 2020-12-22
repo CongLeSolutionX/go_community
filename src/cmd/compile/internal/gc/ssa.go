@@ -7351,3 +7351,17 @@ func clobberBase(n ir.Node) ir.Node {
 	}
 	return n
 }
+
+func min8(a, b int8) int8 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max8(a, b int8) int8 {
+	if a > b {
+		return a
+	}
+	return b
+}
