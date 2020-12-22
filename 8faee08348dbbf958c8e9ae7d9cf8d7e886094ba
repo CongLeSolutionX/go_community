@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5b2afa8_4aff578d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-22T22:10:43Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ll send mail when the new git-codereview is checked in, but once it is, you\u0027d sync the branch by running\n\ngit codereview sync-branch\n\nwhich will use this config to make sure all the right things happen.\n",
+      "revId": "8faee08348dbbf958c8e9ae7d9cf8d7e886094ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
