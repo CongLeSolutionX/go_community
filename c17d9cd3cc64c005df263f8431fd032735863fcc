@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7260fd42_3eba0d7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-22T03:45:31Z",
+      "side": 1,
+      "message": "I\u0027d probably keep these with walk instead, but base seems okay too.",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 55
+      },
+      "revId": "c17d9cd3cc64c005df263f8431fd032735863fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
