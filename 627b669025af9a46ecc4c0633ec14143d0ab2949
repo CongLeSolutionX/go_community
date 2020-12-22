@@ -46,6 +46,30 @@
       },
       "revId": "627b669025af9a46ecc4c0633ec14143d0ab2949",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e59863d5_98bb47a3",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-22T06:44:37Z",
+      "side": 1,
+      "message": "Yeah, I think that\u0027s fine.",
+      "parentUuid": "536d840d_1f73e505",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 12
+      },
+      "revId": "627b669025af9a46ecc4c0633ec14143d0ab2949",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
