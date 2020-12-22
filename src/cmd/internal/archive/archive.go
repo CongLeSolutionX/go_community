@@ -464,3 +464,20 @@ func exactly16Bytes(s string) string {
 	s += sixteenSpaces[:16-len(s)]
 	return s
 }
+
+// architecture-independent object file output
+const HeaderSize = 60
+
+func ReadHeader(b *bufio.Reader, name string) int {
+	var buf [HeaderSize]byte
+	if _, err := io.ReadFull(b, buf[:]); err != nil {
+		return -1
+	}
+	aname := strings.Trim(string(buf[0:16]), " ")
+	if !strings.HasPrefix(aname, name) {
+		return -1
+	}
+	asize := strings.Trim(string(buf[48:58]), " ")
+	i, _ := strconv.Atoi(asize)
+	return i
+}

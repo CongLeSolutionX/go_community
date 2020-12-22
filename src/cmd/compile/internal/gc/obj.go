@@ -10,6 +10,7 @@ import (
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/wobj"
+	"cmd/internal/archive"
 	"cmd/internal/bio"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
@@ -24,9 +25,6 @@ import (
 	"sort"
 	"strconv"
 )
-
-// architecture-independent object file output
-const ArhdrSize = 60
 
 func formathdr(arhdr []byte, name string, size int64) {
 	copy(arhdr[:], fmt.Sprintf("%-16s%-12d%-6d%-6d%-8o%-10d`\n", name, 0, 0, 0, 0644, size))
@@ -93,7 +91,7 @@ func printObjHeader(bout *bio.Writer) {
 }
 
 func startArchiveEntry(bout *bio.Writer) int64 {
-	var arhdr [ArhdrSize]byte
+	var arhdr [archive.HeaderSize]byte
 	bout.Write(arhdr[:])
 	return bout.Offset()
 }
@@ -104,9 +102,9 @@ func finishArchiveEntry(bout *bio.Writer, start int64, name string) {
 	if size&1 != 0 {
 		bout.WriteByte(0)
 	}
-	bout.MustSeek(start-ArhdrSize, 0)
+	bout.MustSeek(start-archive.HeaderSize, 0)
 
-	var arhdr [ArhdrSize]byte
+	var arhdr [archive.HeaderSize]byte
 	formathdr(arhdr[:], name, size)
 	bout.Write(arhdr[:])
 	bout.Flush()
