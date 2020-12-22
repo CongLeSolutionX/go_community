@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c570fa26_1a1f605d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-22T19:33:37Z",
+      "side": 1,
+      "message": "This mutex should not be necessary.\n\nThe overlay map is only written during fsys.Init, and that function should not be called concurrently with any other fsys function. If that property does not hold, then we need to fix the caller, not the callee.",
+      "revId": "70ee1df70971ba7eccf9f9cab6f313252a501f21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
