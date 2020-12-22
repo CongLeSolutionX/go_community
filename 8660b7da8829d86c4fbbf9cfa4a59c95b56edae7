@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa173ff3_21f30f83",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-22T19:33:22Z",
+      "side": 1,
+      "message": "nit: as?",
+      "range": {
+        "startLine": 708,
+        "startChar": 19,
+        "endLine": 708,
+        "endChar": 20
+      },
+      "revId": "8660b7da8829d86c4fbbf9cfa4a59c95b56edae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
