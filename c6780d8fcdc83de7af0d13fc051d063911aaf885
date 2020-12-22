@@ -34,6 +34,24 @@
       "parentUuid": "ce83b0aa_bbb31849",
       "revId": "c6780d8fcdc83de7af0d13fc051d063911aaf885",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c59c05c_702aceae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2020-12-22T15:07:14Z",
+      "side": 1,
+      "message": "I think a secp256k1 implementation belongs in a third-party module, it doesn\u0027t need to be in the standard library or in x/crypto. It might be a good idea to split it out of larger modules, I agree, but keep in mind that especially from Go 1.16, module dependencies that are not imported do not actually influence the build.",
+      "parentUuid": "6f4ce431_103e40eb",
+      "revId": "c6780d8fcdc83de7af0d13fc051d063911aaf885",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
