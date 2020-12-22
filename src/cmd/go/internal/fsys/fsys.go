@@ -13,6 +13,7 @@ import (
 	"runtime"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -45,6 +46,7 @@ func (n *node) isDeleted() bool {
 // TODO(matloob): encapsulate these in an io/fs-like interface
 var overlay map[string]*node // path -> file or directory node
 var cwd string               // copy of base.Cwd to avoid dependency
+var rwmu sync.RWMutex
 
 // Canonicalize a path for looking it up in the overlay.
 // Important: filepath.Join(cwd, path) doesn't always produce
@@ -134,7 +136,10 @@ func initFromJSON(overlayJSON OverlayJSON) error {
 
 		// Create node for overlaid file.
 		dir, base := filepath.Dir(from), filepath.Base(from)
-		if n, ok := overlay[from]; ok {
+		rwmu.RLock()
+		n, ok := overlay[from]
+		rwmu.RUnlock()
+		if ok {
 			// All 'from' paths in the overlay are file paths. Since the from paths
 			// are in a map, they are unique, so if the node already exists we added
 			// it below when we create parent directory nodes. That is, that
@@ -150,15 +155,22 @@ func initFromJSON(overlayJSON OverlayJSON) error {
 				}
 			}
 		}
+
+		rwmu.Lock()
 		overlay[from] = &node{actualFilePath: to}
+		rwmu.Unlock()
 
 		// Add parent directory nodes to overlay structure.
 		childNode := overlay[from]
 		for {
+			rwmu.Lock()
 			dirNode := overlay[dir]
+			rwmu.Unlock()
 			if dirNode == nil || dirNode.isDeleted() {
 				dirNode = &node{children: make(map[string]*node)}
+				rwmu.RLock()
 				overlay[dir] = dirNode
+				rwmu.RUnlock()
 			}
 			if childNode.isDeleted() {
 				// Only create one parent for a deleted file:
@@ -197,6 +209,8 @@ func IsDir(path string) (bool, error) {
 		return false, nil
 	}
 
+	rwmu.RLock()
+	defer rwmu.RUnlock()
 	if n, ok := overlay[path]; ok {
 		return n.isDir(), nil
 	}
@@ -218,6 +232,9 @@ func parentIsOverlayFile(name string) (string, bool) {
 		// it or one of its parents is overlaid with a file.
 		// TODO(matloob): Maybe save this to avoid doing it every time?
 		prefix := name
+
+		rwmu.RLock()
+		defer rwmu.RUnlock()
 		for {
 			node := overlay[prefix]
 			if node != nil && !node.isDir() {
@@ -265,6 +282,8 @@ func ReadDir(dir string) ([]fs.FileInfo, error) {
 		return nil, &fs.PathError{Op: "ReadDir", Path: dir, Err: errNotDir}
 	}
 
+	rwmu.RLock()
+	defer rwmu.RUnlock()
 	dirNode := overlay[dir]
 	if dirNode == nil {
 		return readDir(dir)
@@ -318,6 +337,8 @@ func ReadDir(dir string) ([]fs.FileInfo, error) {
 // It returns true if the path is overlaid with a regular file
 // or deleted, and false otherwise.
 func OverlayPath(path string) (string, bool) {
+	rwmu.RLock()
+	defer rwmu.RUnlock()
 	if p, ok := overlay[canonicalize(path)]; ok && !p.isDir() {
 		return p.actualFilePath, ok
 	}
@@ -332,6 +353,8 @@ func Open(path string) (*os.File, error) {
 
 // OpenFile opens the file at or overlaid on the given path with the flag and perm.
 func OpenFile(path string, flag int, perm os.FileMode) (*os.File, error) {
+	rwmu.RLock()
+	defer rwmu.RUnlock()
 	cpath := canonicalize(path)
 	if node, ok := overlay[cpath]; ok {
 		// Opening a file in the overlay.
@@ -466,6 +489,8 @@ func overlayStat(path string, osStat func(string) (fs.FileInfo, error), opName s
 		return nil, &fs.PathError{Op: opName, Path: cpath, Err: fs.ErrNotExist}
 	}
 
+	rwmu.RLock()
+	defer rwmu.RUnlock()
 	node, ok := overlay[cpath]
 	if !ok {
 		// The file or directory is not overlaid.
