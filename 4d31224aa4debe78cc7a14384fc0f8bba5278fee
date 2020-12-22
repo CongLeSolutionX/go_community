@@ -425,6 +425,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "402b7672_d0954e86",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2020-12-22T18:12:06Z",
+      "side": 1,
+      "message": "So it must be two sections? (Or, this is all what we support for now?) It may be helpful to add that in the comment, if that\u0027s the case.",
+      "parentUuid": "34efb4f0_4c3fe8e5",
+      "revId": "4d31224aa4debe78cc7a14384fc0f8bba5278fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5004c540_93bb4610",
