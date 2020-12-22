@@ -20,27 +20,253 @@ import (
 	"cmd/internal/sys"
 )
 
-func cheapComputableIndex(width int64) bool {
-	switch ssagen.Arch.LinkArch.Family {
-	// MIPS does not have R+R addressing
-	// Arm64 may lack ability to generate this code in our assembler,
-	// but the architecture supports it.
-	case sys.PPC64, sys.S390X:
-		return width == 1
-	case sys.AMD64, sys.I386, sys.ARM64, sys.ARM:
-		switch width {
-		case 1, 2, 4, 8:
-			return true
-		}
+// The result of walkstmt MUST be assigned back to n, e.g.
+// 	n.Left = walkstmt(n.Left)
+func walkStmt(n ir.Node) ir.Node {
+	if n == nil {
+		return n
 	}
-	return false
+
+	ir.SetPos(n)
+
+	walkStmtList(n.Init())
+
+	switch n.Op() {
+	default:
+		if n.Op() == ir.ONAME {
+			n := n.(*ir.Name)
+			base.Errorf("%v is not a top level statement", n.Sym())
+		} else {
+			base.Errorf("%v is not a top level statement", n.Op())
+		}
+		ir.Dump("nottop", n)
+		return n
+
+	case ir.OAS,
+		ir.OASOP,
+		ir.OAS2,
+		ir.OAS2DOTTYPE,
+		ir.OAS2RECV,
+		ir.OAS2FUNC,
+		ir.OAS2MAPR,
+		ir.OCLOSE,
+		ir.OCOPY,
+		ir.OCALLMETH,
+		ir.OCALLINTER,
+		ir.OCALL,
+		ir.OCALLFUNC,
+		ir.ODELETE,
+		ir.OSEND,
+		ir.OPRINT,
+		ir.OPRINTN,
+		ir.OPANIC,
+		ir.ORECOVER,
+		ir.OGETG:
+		if n.Typecheck() == 0 {
+			base.Fatalf("missing typecheck: %+v", n)
+		}
+		init := n.Init()
+		n.PtrInit().Set(nil)
+		n = walkExpr(n, &init)
+		if n.Op() == ir.ONAME {
+			// copy rewrote to a statement list and a temp for the length.
+			// Throw away the temp to avoid plain values as statements.
+			n = ir.NewBlockStmt(n.Pos(), init)
+			init.Set(nil)
+		}
+		if len(init) > 0 {
+			switch n.Op() {
+			case ir.OAS, ir.OAS2, ir.OBLOCK:
+				n.PtrInit().Prepend(init...)
+
+			default:
+				init.Append(n)
+				n = ir.NewBlockStmt(n.Pos(), init)
+			}
+		}
+		return n
+
+	// special case for a receive where we throw away
+	// the value received.
+	case ir.ORECV:
+		n := n.(*ir.UnaryExpr)
+		return walkRecv(n)
+
+	case ir.OBREAK,
+		ir.OCONTINUE,
+		ir.OFALL,
+		ir.OGOTO,
+		ir.OLABEL,
+		ir.ODCLCONST,
+		ir.ODCLTYPE,
+		ir.OCHECKNIL,
+		ir.OVARDEF,
+		ir.OVARKILL,
+		ir.OVARLIVE:
+		return n
+
+	case ir.ODCL:
+		n := n.(*ir.Decl)
+		return walkDecl(n)
+
+	case ir.OBLOCK:
+		n := n.(*ir.BlockStmt)
+		walkStmtList(n.List)
+		return n
+
+	case ir.OCASE:
+		base.Errorf("case statement out of place")
+		panic("unreachable")
+
+	case ir.ODEFER:
+		n := n.(*ir.GoDeferStmt)
+		ir.CurFunc.SetHasDefer(true)
+		ir.CurFunc.NumDefers++
+		if ir.CurFunc.NumDefers > maxOpenDefers {
+			// Don't allow open-coded defers if there are more than
+			// 8 defers in the function, since we use a single
+			// byte to record active defers.
+			ir.CurFunc.SetOpenCodedDeferDisallowed(true)
+		}
+		if n.Esc() != ir.EscNever {
+			// If n.Esc is not EscNever, then this defer occurs in a loop,
+			// so open-coded defers cannot be used in this function.
+			ir.CurFunc.SetOpenCodedDeferDisallowed(true)
+		}
+		fallthrough
+	case ir.OGO:
+		n := n.(*ir.GoDeferStmt)
+		return walkGoDefer(n)
+
+	case ir.OFOR, ir.OFORUNTIL:
+		n := n.(*ir.ForStmt)
+		return walkFor(n)
+
+	case ir.OIF:
+		n := n.(*ir.IfStmt)
+		return walkIf(n)
+
+	case ir.ORETURN:
+		n := n.(*ir.ReturnStmt)
+		return walkReturn(n)
+
+	case ir.ORETJMP:
+		n := n.(*ir.BranchStmt)
+		return n
+
+	case ir.OINLMARK:
+		n := n.(*ir.InlineMarkStmt)
+		return n
+
+	case ir.OSELECT:
+		n := n.(*ir.SelectStmt)
+		walkSelect(n)
+		return n
+
+	case ir.OSWITCH:
+		n := n.(*ir.SwitchStmt)
+		walkSwitch(n)
+		return n
+
+	case ir.ORANGE:
+		n := n.(*ir.RangeStmt)
+		return walkRange(n)
+	}
+
+	// No return! Each case must return (or panic),
+	// to avoid confusion about what gets returned
+	// in the presence of type assertions.
+}
+
+func walkStmtList(s []ir.Node) {
+	for i := range s {
+		s[i] = walkStmt(s[i])
+	}
+}
+
+// walkDecl walks an ODCL node.
+func walkDecl(n *ir.Decl) ir.Node {
+	v := n.X.(*ir.Name)
+	if v.Class_ == ir.PAUTOHEAP {
+		if base.Flag.CompilingRuntime {
+			base.Errorf("%v escapes to heap, not allowed in runtime", v)
+		}
+		nn := ir.NewAssignStmt(base.Pos, v.Name().Heapaddr, callnew(v.Type()))
+		nn.Def = true
+		return walkStmt(typecheck.Stmt(nn))
+	}
+	return n
+}
+
+// walkFor walks an OFOR or OFORUNTIL node.
+func walkFor(n *ir.ForStmt) ir.Node {
+	if n.Cond != nil {
+		walkStmtList(n.Cond.Init())
+		init := n.Cond.Init()
+		n.Cond.PtrInit().Set(nil)
+		n.Cond = walkExpr(n.Cond, &init)
+		n.Cond = ir.InitExpr(init, n.Cond)
+	}
+
+	n.Post = walkStmt(n.Post)
+	if n.Op() == ir.OFORUNTIL {
+		walkStmtList(n.Late)
+	}
+	walkStmtList(n.Body)
+	return n
+}
+
+// walkGoDefer walks an OGO or ODEFER node.
+func walkGoDefer(n *ir.GoDeferStmt) ir.Node {
+	var init ir.Nodes
+	switch call := n.Call; call.Op() {
+	case ir.OPRINT, ir.OPRINTN:
+		call := call.(*ir.CallExpr)
+		n.Call = wrapCall(call, &init)
+
+	case ir.ODELETE:
+		call := call.(*ir.CallExpr)
+		if mapfast(call.Args[0].Type()) == mapslow {
+			n.Call = wrapCall(call, &init)
+		} else {
+			n.Call = walkExpr(call, &init)
+		}
+
+	case ir.OCOPY:
+		call := call.(*ir.BinaryExpr)
+		n.Call = walkCopy(call, &init, true)
+
+	case ir.OCALLFUNC, ir.OCALLMETH, ir.OCALLINTER:
+		call := call.(*ir.CallExpr)
+		if len(call.Body) > 0 {
+			n.Call = wrapCall(call, &init)
+		} else {
+			n.Call = walkExpr(call, &init)
+		}
+
+	default:
+		n.Call = walkExpr(call, &init)
+	}
+	if len(init) > 0 {
+		init.Append(n)
+		return ir.NewBlockStmt(n.Pos(), init)
+	}
+	return n
+}
+
+// walkIf walks an OIF node.
+func walkIf(n *ir.IfStmt) ir.Node {
+	n.Cond = walkExpr(n.Cond, n.PtrInit())
+	walkStmtList(n.Body)
+	walkStmtList(n.Else)
+	return n
 }
 
 // walkrange transforms various forms of ORANGE into
 // simpler forms.  The result must be assigned back to n.
 // Node n may also be modified in place, and may also be
 // the returned node.
-func walkrange(nrange *ir.RangeStmt) ir.Node {
+func walkRange(nrange *ir.RangeStmt) ir.Node {
 	if isMapClear(nrange) {
 		m := nrange.X
 		lno := ir.SetPos(m)
@@ -329,177 +555,81 @@ func walkrange(nrange *ir.RangeStmt) ir.Node {
 		n = ifGuard
 	}
 
-	n = walkstmt(n)
+	n = walkStmt(n)
 
 	base.Pos = lno
 	return n
 }
 
-// isMapClear checks if n is of the form:
-//
-// for k := range m {
-//   delete(m, k)
-// }
-//
-// where == for keys of map m is reflexive.
-func isMapClear(n *ir.RangeStmt) bool {
-	if base.Flag.N != 0 || base.Flag.Cfg.Instrumenting {
-		return false
+// walkRecv walks an ORECV node.
+func walkRecv(n *ir.UnaryExpr) ir.Node {
+	if n.Typecheck() == 0 {
+		base.Fatalf("missing typecheck: %+v", n)
 	}
+	init := n.Init()
+	n.PtrInit().Set(nil)
 
-	if n.Op() != ir.ORANGE || n.Type().Kind() != types.TMAP || len(n.Vars) != 1 {
-		return false
-	}
-
-	k := n.Vars[0]
-	if k == nil || ir.IsBlank(k) {
-		return false
-	}
-
-	// Require k to be a new variable name.
-	if !ir.DeclaredBy(k, n) {
-		return false
-	}
-
-	if len(n.Body) != 1 {
-		return false
-	}
-
-	stmt := n.Body[0] // only stmt in body
-	if stmt == nil || stmt.Op() != ir.ODELETE {
-		return false
-	}
-
-	m := n.X
-	if delete := stmt.(*ir.CallExpr); !ir.SameSafeExpr(delete.Args[0], m) || !ir.SameSafeExpr(delete.Args[1], k) {
-		return false
-	}
-
-	// Keys where equality is not reflexive can not be deleted from maps.
-	if !types.IsReflexive(m.Type().Key()) {
-		return false
-	}
-
-	return true
+	n.X = walkExpr(n.X, &init)
+	call := walkExpr(mkcall1(chanfn("chanrecv1", 2, n.X.Type()), nil, &init, n.X, typecheck.NodNil()), &init)
+	return ir.InitExpr(init, call)
 }
 
-// mapClear constructs a call to runtime.mapclear for the map m.
-func mapClear(m ir.Node) ir.Node {
-	t := m.Type()
+// walkReturn walks an ORETURN node.
+func walkReturn(n *ir.ReturnStmt) ir.Node {
+	ir.CurFunc.NumReturns++
+	if len(n.Results) == 0 {
+		return n
+	}
+	if (ir.HasNamedResults(ir.CurFunc) && len(n.Results) > 1) || paramoutheap(ir.CurFunc) {
+		// assign to the function out parameters,
+		// so that ascompatee can fix up conflicts
+		var rl []ir.Node
 
-	// instantiate mapclear(typ *type, hmap map[any]any)
-	fn := typecheck.LookupRuntime("mapclear")
-	fn = typecheck.SubstArgTypes(fn, t.Key(), t.Elem())
-	n := mkcall1(fn, nil, nil, reflectdata.TypePtr(t), m)
-	return walkstmt(typecheck.Stmt(n))
+		for _, ln := range ir.CurFunc.Dcl {
+			cl := ln.Class_
+			if cl == ir.PAUTO || cl == ir.PAUTOHEAP {
+				break
+			}
+			if cl == ir.PPARAMOUT {
+				var ln ir.Node = ln
+				if ir.IsParamStackCopy(ln) {
+					ln = walkExpr(typecheck.Expr(ir.NewStarExpr(base.Pos, ln.Name().Heapaddr)), nil)
+				}
+				rl = append(rl, ln)
+			}
+		}
+
+		if got, want := len(n.Results), len(rl); got != want {
+			// order should have rewritten multi-value function calls
+			// with explicit OAS2FUNC nodes.
+			base.Fatalf("expected %v return arguments, have %v", want, got)
+		}
+
+		// move function calls out, to make ascompatee's job easier.
+		walkExprListSafe(n.Results, n.PtrInit())
+
+		n.Results.Set(ascompatee(n.Op(), rl, n.Results, n.PtrInit()))
+		return n
+	}
+	walkExprList(n.Results, n.PtrInit())
+
+	// For each return parameter (lhs), assign the corresponding result (rhs).
+	lhs := ir.CurFunc.Type().Results()
+	rhs := n.Results
+	res := make([]ir.Node, lhs.NumFields())
+	for i, nl := range lhs.FieldSlice() {
+		nname := ir.AsNode(nl.Nname)
+		if ir.IsParamHeapCopy(nname) {
+			nname = nname.Name().Stackcopy
+		}
+		a := ir.NewAssignStmt(base.Pos, nname, rhs[i])
+		res[i] = convas(a, n.PtrInit())
+	}
+	n.Results.Set(res)
+	return n
 }
 
-// Lower n into runtime·memclr if possible, for
-// fast zeroing of slices and arrays (issue 5373).
-// Look for instances of
-//
-// for i := range a {
-// 	a[i] = zero
-// }
-//
-// in which the evaluation of a is side-effect-free.
-//
-// Parameters are as in walkrange: "for v1, v2 = range a".
-func arrayClear(loop *ir.RangeStmt, v1, v2, a ir.Node) ir.Node {
-	if base.Flag.N != 0 || base.Flag.Cfg.Instrumenting {
-		return nil
-	}
-
-	if v1 == nil || v2 != nil {
-		return nil
-	}
-
-	if len(loop.Body) != 1 || loop.Body[0] == nil {
-		return nil
-	}
-
-	stmt1 := loop.Body[0] // only stmt in body
-	if stmt1.Op() != ir.OAS {
-		return nil
-	}
-	stmt := stmt1.(*ir.AssignStmt)
-	if stmt.X.Op() != ir.OINDEX {
-		return nil
-	}
-	lhs := stmt.X.(*ir.IndexExpr)
-
-	if !ir.SameSafeExpr(lhs.X, a) || !ir.SameSafeExpr(lhs.Index, v1) {
-		return nil
-	}
-
-	elemsize := loop.Type().Elem().Width
-	if elemsize <= 0 || !ir.IsZero(stmt.Y) {
-		return nil
-	}
-
-	// Convert to
-	// if len(a) != 0 {
-	// 	hp = &a[0]
-	// 	hn = len(a)*sizeof(elem(a))
-	// 	memclr{NoHeap,Has}Pointers(hp, hn)
-	// 	i = len(a) - 1
-	// }
-	n := ir.NewIfStmt(base.Pos, nil, nil, nil)
-	n.Body.Set(nil)
-	n.Cond = ir.NewBinaryExpr(base.Pos, ir.ONE, ir.NewUnaryExpr(base.Pos, ir.OLEN, a), ir.NewInt(0))
-
-	// hp = &a[0]
-	hp := typecheck.Temp(types.Types[types.TUNSAFEPTR])
-
-	ix := ir.NewIndexExpr(base.Pos, a, ir.NewInt(0))
-	ix.SetBounded(true)
-	addr := typecheck.ConvNop(typecheck.NodAddr(ix), types.Types[types.TUNSAFEPTR])
-	n.Body.Append(ir.NewAssignStmt(base.Pos, hp, addr))
-
-	// hn = len(a) * sizeof(elem(a))
-	hn := typecheck.Temp(types.Types[types.TUINTPTR])
-	mul := typecheck.Conv(ir.NewBinaryExpr(base.Pos, ir.OMUL, ir.NewUnaryExpr(base.Pos, ir.OLEN, a), ir.NewInt(elemsize)), types.Types[types.TUINTPTR])
-	n.Body.Append(ir.NewAssignStmt(base.Pos, hn, mul))
-
-	var fn ir.Node
-	if a.Type().Elem().HasPointers() {
-		// memclrHasPointers(hp, hn)
-		ir.CurFunc.SetWBPos(stmt.Pos())
-		fn = mkcall("memclrHasPointers", nil, nil, hp, hn)
-	} else {
-		// memclrNoHeapPointers(hp, hn)
-		fn = mkcall("memclrNoHeapPointers", nil, nil, hp, hn)
-	}
-
-	n.Body.Append(fn)
-
-	// i = len(a) - 1
-	v1 = ir.NewAssignStmt(base.Pos, v1, ir.NewBinaryExpr(base.Pos, ir.OSUB, ir.NewUnaryExpr(base.Pos, ir.OLEN, a), ir.NewInt(1)))
-
-	n.Body.Append(v1)
-
-	n.Cond = typecheck.Expr(n.Cond)
-	n.Cond = typecheck.DefaultLit(n.Cond, nil)
-	typecheck.Stmts(n.Body)
-	return walkstmt(n)
-}
-
-// addptr returns (*T)(uintptr(p) + n).
-func addptr(p ir.Node, n int64) ir.Node {
-	t := p.Type()
-
-	p = ir.NewConvExpr(base.Pos, ir.OCONVNOP, nil, p)
-	p.SetType(types.Types[types.TUINTPTR])
-
-	p = ir.NewBinaryExpr(base.Pos, ir.OADD, p, ir.NewInt(n))
-
-	p = ir.NewConvExpr(base.Pos, ir.OCONVNOP, nil, p)
-	p.SetType(t)
-
-	return p
-}
-
-func walkselect(sel *ir.SelectStmt) {
+func walkSelect(sel *ir.SelectStmt) {
 	lno := ir.SetPos(sel)
 	if len(sel.Compiled) != 0 {
 		base.Fatalf("double walkselect")
@@ -508,16 +638,16 @@ func walkselect(sel *ir.SelectStmt) {
 	init := sel.Init()
 	sel.PtrInit().Set(nil)
 
-	init = append(init, walkselectcases(sel.Cases)...)
+	init = append(init, walkSelectCases(sel.Cases)...)
 	sel.Cases = ir.Nodes{}
 
 	sel.Compiled.Set(init)
-	walkstmtlist(sel.Compiled)
+	walkStmtList(sel.Compiled)
 
 	base.Pos = lno
 }
 
-func walkselectcases(cases ir.Nodes) []ir.Node {
+func walkSelectCases(cases ir.Nodes) []ir.Node {
 	ncas := len(cases)
 	sellineno := base.Pos
 
@@ -763,44 +893,23 @@ func walkselectcases(cases ir.Nodes) []ir.Node {
 	return init
 }
 
-// bytePtrToIndex returns a Node representing "(*byte)(&n[i])".
-func bytePtrToIndex(n ir.Node, i int64) ir.Node {
-	s := typecheck.NodAddr(ir.NewIndexExpr(base.Pos, n, ir.NewInt(i)))
-	t := types.NewPtr(types.Types[types.TUINT8])
-	return typecheck.ConvNop(s, t)
-}
-
-var scase *types.Type
-
-// Keep in sync with src/runtime/select.go.
-func scasetype() *types.Type {
-	if scase == nil {
-		scase = typecheck.NewStructType([]*ir.Field{
-			ir.NewField(base.Pos, typecheck.Lookup("c"), nil, types.Types[types.TUNSAFEPTR]),
-			ir.NewField(base.Pos, typecheck.Lookup("elem"), nil, types.Types[types.TUNSAFEPTR]),
-		})
-		scase.SetNoalg(true)
-	}
-	return scase
-}
-
 // walkswitch walks a switch statement.
-func walkswitch(sw *ir.SwitchStmt) {
+func walkSwitch(sw *ir.SwitchStmt) {
 	// Guard against double walk, see #25776.
 	if len(sw.Cases) == 0 && len(sw.Compiled) > 0 {
 		return // Was fatal, but eliminating every possible source of double-walking is hard
 	}
 
 	if sw.Tag != nil && sw.Tag.Op() == ir.OTYPESW {
-		walkTypeSwitch(sw)
+		walkSwitchType(sw)
 	} else {
-		walkExprSwitch(sw)
+		walkSwitchExpr(sw)
 	}
 }
 
 // walkExprSwitch generates an AST implementing sw.  sw is an
 // expression switch.
-func walkExprSwitch(sw *ir.SwitchStmt) {
+func walkSwitchExpr(sw *ir.SwitchStmt) {
 	lno := ir.SetPos(sw)
 
 	cond := sw.Tag
@@ -825,7 +934,7 @@ func walkExprSwitch(sw *ir.SwitchStmt) {
 		cond.SetOp(ir.OBYTES2STRTMP)
 	}
 
-	cond = walkexpr(cond, sw.PtrInit())
+	cond = walkExpr(cond, sw.PtrInit())
 	if cond.Op() != ir.OLITERAL && cond.Op() != ir.ONIL {
 		cond = copyexpr(cond, cond.Type(), &sw.Compiled)
 	}
@@ -875,7 +984,333 @@ func walkExprSwitch(sw *ir.SwitchStmt) {
 	s.Emit(&sw.Compiled)
 	sw.Compiled.Append(defaultGoto)
 	sw.Compiled.Append(body.Take()...)
-	walkstmtlist(sw.Compiled)
+	walkStmtList(sw.Compiled)
+}
+
+// walkTypeSwitch generates an AST that implements sw, where sw is a
+// type switch.
+func walkSwitchType(sw *ir.SwitchStmt) {
+	var s typeSwitch
+	s.facename = sw.Tag.(*ir.TypeSwitchGuard).X
+	sw.Tag = nil
+
+	s.facename = walkExpr(s.facename, sw.PtrInit())
+	s.facename = copyexpr(s.facename, s.facename.Type(), &sw.Compiled)
+	s.okname = typecheck.Temp(types.Types[types.TBOOL])
+
+	// Get interface descriptor word.
+	// For empty interfaces this will be the type.
+	// For non-empty interfaces this will be the itab.
+	itab := ir.NewUnaryExpr(base.Pos, ir.OITAB, s.facename)
+
+	// For empty interfaces, do:
+	//     if e._type == nil {
+	//         do nil case if it exists, otherwise default
+	//     }
+	//     h := e._type.hash
+	// Use a similar strategy for non-empty interfaces.
+	ifNil := ir.NewIfStmt(base.Pos, nil, nil, nil)
+	ifNil.Cond = ir.NewBinaryExpr(base.Pos, ir.OEQ, itab, typecheck.NodNil())
+	base.Pos = base.Pos.WithNotStmt() // disable statement marks after the first check.
+	ifNil.Cond = typecheck.Expr(ifNil.Cond)
+	ifNil.Cond = typecheck.DefaultLit(ifNil.Cond, nil)
+	// ifNil.Nbody assigned at end.
+	sw.Compiled.Append(ifNil)
+
+	// Load hash from type or itab.
+	dotHash := ir.NewSelectorExpr(base.Pos, ir.ODOTPTR, itab, nil)
+	dotHash.SetType(types.Types[types.TUINT32])
+	dotHash.SetTypecheck(1)
+	if s.facename.Type().IsEmptyInterface() {
+		dotHash.Offset = int64(2 * types.PtrSize) // offset of hash in runtime._type
+	} else {
+		dotHash.Offset = int64(2 * types.PtrSize) // offset of hash in runtime.itab
+	}
+	dotHash.SetBounded(true) // guaranteed not to fault
+	s.hashname = copyexpr(dotHash, dotHash.Type(), &sw.Compiled)
+
+	br := ir.NewBranchStmt(base.Pos, ir.OBREAK, nil)
+	var defaultGoto, nilGoto ir.Node
+	var body ir.Nodes
+	for _, ncase := range sw.Cases {
+		ncase := ncase.(*ir.CaseStmt)
+		var caseVar ir.Node
+		if len(ncase.Vars) != 0 {
+			caseVar = ncase.Vars[0]
+		}
+
+		// For single-type cases with an interface type,
+		// we initialize the case variable as part of the type assertion.
+		// In other cases, we initialize it in the body.
+		var singleType *types.Type
+		if len(ncase.List) == 1 && ncase.List[0].Op() == ir.OTYPE {
+			singleType = ncase.List[0].Type()
+		}
+		caseVarInitialized := false
+
+		label := typecheck.AutoLabel(".s")
+		jmp := ir.NewBranchStmt(ncase.Pos(), ir.OGOTO, label)
+
+		if len(ncase.List) == 0 { // default:
+			if defaultGoto != nil {
+				base.Fatalf("duplicate default case not detected during typechecking")
+			}
+			defaultGoto = jmp
+		}
+
+		for _, n1 := range ncase.List {
+			if ir.IsNil(n1) { // case nil:
+				if nilGoto != nil {
+					base.Fatalf("duplicate nil case not detected during typechecking")
+				}
+				nilGoto = jmp
+				continue
+			}
+
+			if singleType != nil && singleType.IsInterface() {
+				s.Add(ncase.Pos(), n1.Type(), caseVar, jmp)
+				caseVarInitialized = true
+			} else {
+				s.Add(ncase.Pos(), n1.Type(), nil, jmp)
+			}
+		}
+
+		body.Append(ir.NewLabelStmt(ncase.Pos(), label))
+		if caseVar != nil && !caseVarInitialized {
+			val := s.facename
+			if singleType != nil {
+				// We have a single concrete type. Extract the data.
+				if singleType.IsInterface() {
+					base.Fatalf("singleType interface should have been handled in Add")
+				}
+				val = ifaceData(ncase.Pos(), s.facename, singleType)
+			}
+			l := []ir.Node{
+				ir.NewDecl(ncase.Pos(), ir.ODCL, caseVar),
+				ir.NewAssignStmt(ncase.Pos(), caseVar, val),
+			}
+			typecheck.Stmts(l)
+			body.Append(l...)
+		}
+		body.Append(ncase.Body...)
+		body.Append(br)
+	}
+	sw.Cases.Set(nil)
+
+	if defaultGoto == nil {
+		defaultGoto = br
+	}
+	if nilGoto == nil {
+		nilGoto = defaultGoto
+	}
+	ifNil.Body = []ir.Node{nilGoto}
+
+	s.Emit(&sw.Compiled)
+	sw.Compiled.Append(defaultGoto)
+	sw.Compiled.Append(body.Take()...)
+
+	walkStmtList(sw.Compiled)
+}
+
+func cheapComputableIndex(width int64) bool {
+	switch ssagen.Arch.LinkArch.Family {
+	// MIPS does not have R+R addressing
+	// Arm64 may lack ability to generate this code in our assembler,
+	// but the architecture supports it.
+	case sys.PPC64, sys.S390X:
+		return width == 1
+	case sys.AMD64, sys.I386, sys.ARM64, sys.ARM:
+		switch width {
+		case 1, 2, 4, 8:
+			return true
+		}
+	}
+	return false
+}
+
+// isMapClear checks if n is of the form:
+//
+// for k := range m {
+//   delete(m, k)
+// }
+//
+// where == for keys of map m is reflexive.
+func isMapClear(n *ir.RangeStmt) bool {
+	if base.Flag.N != 0 || base.Flag.Cfg.Instrumenting {
+		return false
+	}
+
+	if n.Op() != ir.ORANGE || n.Type().Kind() != types.TMAP || len(n.Vars) != 1 {
+		return false
+	}
+
+	k := n.Vars[0]
+	if k == nil || ir.IsBlank(k) {
+		return false
+	}
+
+	// Require k to be a new variable name.
+	if !ir.DeclaredBy(k, n) {
+		return false
+	}
+
+	if len(n.Body) != 1 {
+		return false
+	}
+
+	stmt := n.Body[0] // only stmt in body
+	if stmt == nil || stmt.Op() != ir.ODELETE {
+		return false
+	}
+
+	m := n.X
+	if delete := stmt.(*ir.CallExpr); !ir.SameSafeExpr(delete.Args[0], m) || !ir.SameSafeExpr(delete.Args[1], k) {
+		return false
+	}
+
+	// Keys where equality is not reflexive can not be deleted from maps.
+	if !types.IsReflexive(m.Type().Key()) {
+		return false
+	}
+
+	return true
+}
+
+// mapClear constructs a call to runtime.mapclear for the map m.
+func mapClear(m ir.Node) ir.Node {
+	t := m.Type()
+
+	// instantiate mapclear(typ *type, hmap map[any]any)
+	fn := typecheck.LookupRuntime("mapclear")
+	fn = typecheck.SubstArgTypes(fn, t.Key(), t.Elem())
+	n := mkcall1(fn, nil, nil, reflectdata.TypePtr(t), m)
+	return walkStmt(typecheck.Stmt(n))
+}
+
+// Lower n into runtime·memclr if possible, for
+// fast zeroing of slices and arrays (issue 5373).
+// Look for instances of
+//
+// for i := range a {
+// 	a[i] = zero
+// }
+//
+// in which the evaluation of a is side-effect-free.
+//
+// Parameters are as in walkrange: "for v1, v2 = range a".
+func arrayClear(loop *ir.RangeStmt, v1, v2, a ir.Node) ir.Node {
+	if base.Flag.N != 0 || base.Flag.Cfg.Instrumenting {
+		return nil
+	}
+
+	if v1 == nil || v2 != nil {
+		return nil
+	}
+
+	if len(loop.Body) != 1 || loop.Body[0] == nil {
+		return nil
+	}
+
+	stmt1 := loop.Body[0] // only stmt in body
+	if stmt1.Op() != ir.OAS {
+		return nil
+	}
+	stmt := stmt1.(*ir.AssignStmt)
+	if stmt.X.Op() != ir.OINDEX {
+		return nil
+	}
+	lhs := stmt.X.(*ir.IndexExpr)
+
+	if !ir.SameSafeExpr(lhs.X, a) || !ir.SameSafeExpr(lhs.Index, v1) {
+		return nil
+	}
+
+	elemsize := loop.Type().Elem().Width
+	if elemsize <= 0 || !ir.IsZero(stmt.Y) {
+		return nil
+	}
+
+	// Convert to
+	// if len(a) != 0 {
+	// 	hp = &a[0]
+	// 	hn = len(a)*sizeof(elem(a))
+	// 	memclr{NoHeap,Has}Pointers(hp, hn)
+	// 	i = len(a) - 1
+	// }
+	n := ir.NewIfStmt(base.Pos, nil, nil, nil)
+	n.Body.Set(nil)
+	n.Cond = ir.NewBinaryExpr(base.Pos, ir.ONE, ir.NewUnaryExpr(base.Pos, ir.OLEN, a), ir.NewInt(0))
+
+	// hp = &a[0]
+	hp := typecheck.Temp(types.Types[types.TUNSAFEPTR])
+
+	ix := ir.NewIndexExpr(base.Pos, a, ir.NewInt(0))
+	ix.SetBounded(true)
+	addr := typecheck.ConvNop(typecheck.NodAddr(ix), types.Types[types.TUNSAFEPTR])
+	n.Body.Append(ir.NewAssignStmt(base.Pos, hp, addr))
+
+	// hn = len(a) * sizeof(elem(a))
+	hn := typecheck.Temp(types.Types[types.TUINTPTR])
+	mul := typecheck.Conv(ir.NewBinaryExpr(base.Pos, ir.OMUL, ir.NewUnaryExpr(base.Pos, ir.OLEN, a), ir.NewInt(elemsize)), types.Types[types.TUINTPTR])
+	n.Body.Append(ir.NewAssignStmt(base.Pos, hn, mul))
+
+	var fn ir.Node
+	if a.Type().Elem().HasPointers() {
+		// memclrHasPointers(hp, hn)
+		ir.CurFunc.SetWBPos(stmt.Pos())
+		fn = mkcall("memclrHasPointers", nil, nil, hp, hn)
+	} else {
+		// memclrNoHeapPointers(hp, hn)
+		fn = mkcall("memclrNoHeapPointers", nil, nil, hp, hn)
+	}
+
+	n.Body.Append(fn)
+
+	// i = len(a) - 1
+	v1 = ir.NewAssignStmt(base.Pos, v1, ir.NewBinaryExpr(base.Pos, ir.OSUB, ir.NewUnaryExpr(base.Pos, ir.OLEN, a), ir.NewInt(1)))
+
+	n.Body.Append(v1)
+
+	n.Cond = typecheck.Expr(n.Cond)
+	n.Cond = typecheck.DefaultLit(n.Cond, nil)
+	typecheck.Stmts(n.Body)
+	return walkStmt(n)
+}
+
+// addptr returns (*T)(uintptr(p) + n).
+func addptr(p ir.Node, n int64) ir.Node {
+	t := p.Type()
+
+	p = ir.NewConvExpr(base.Pos, ir.OCONVNOP, nil, p)
+	p.SetType(types.Types[types.TUINTPTR])
+
+	p = ir.NewBinaryExpr(base.Pos, ir.OADD, p, ir.NewInt(n))
+
+	p = ir.NewConvExpr(base.Pos, ir.OCONVNOP, nil, p)
+	p.SetType(t)
+
+	return p
+}
+
+// bytePtrToIndex returns a Node representing "(*byte)(&n[i])".
+func bytePtrToIndex(n ir.Node, i int64) ir.Node {
+	s := typecheck.NodAddr(ir.NewIndexExpr(base.Pos, n, ir.NewInt(i)))
+	t := types.NewPtr(types.Types[types.TUINT8])
+	return typecheck.ConvNop(s, t)
+}
+
+var scase *types.Type
+
+// Keep in sync with src/runtime/select.go.
+func scasetype() *types.Type {
+	if scase == nil {
+		scase = typecheck.NewStructType([]*ir.Field{
+			ir.NewField(base.Pos, typecheck.Lookup("c"), nil, types.Types[types.TUNSAFEPTR]),
+			ir.NewField(base.Pos, typecheck.Lookup("elem"), nil, types.Types[types.TUNSAFEPTR]),
+		})
+		scase.SetNoalg(true)
+	}
+	return scase
 }
 
 // An exprSwitch walks an expression switch.
@@ -1053,131 +1488,6 @@ func endsInFallthrough(stmts []ir.Node) (bool, src.XPos) {
 		return false, src.NoXPos
 	}
 	return stmts[i].Op() == ir.OFALL, stmts[i].Pos()
-}
-
-// walkTypeSwitch generates an AST that implements sw, where sw is a
-// type switch.
-func walkTypeSwitch(sw *ir.SwitchStmt) {
-	var s typeSwitch
-	s.facename = sw.Tag.(*ir.TypeSwitchGuard).X
-	sw.Tag = nil
-
-	s.facename = walkexpr(s.facename, sw.PtrInit())
-	s.facename = copyexpr(s.facename, s.facename.Type(), &sw.Compiled)
-	s.okname = typecheck.Temp(types.Types[types.TBOOL])
-
-	// Get interface descriptor word.
-	// For empty interfaces this will be the type.
-	// For non-empty interfaces this will be the itab.
-	itab := ir.NewUnaryExpr(base.Pos, ir.OITAB, s.facename)
-
-	// For empty interfaces, do:
-	//     if e._type == nil {
-	//         do nil case if it exists, otherwise default
-	//     }
-	//     h := e._type.hash
-	// Use a similar strategy for non-empty interfaces.
-	ifNil := ir.NewIfStmt(base.Pos, nil, nil, nil)
-	ifNil.Cond = ir.NewBinaryExpr(base.Pos, ir.OEQ, itab, typecheck.NodNil())
-	base.Pos = base.Pos.WithNotStmt() // disable statement marks after the first check.
-	ifNil.Cond = typecheck.Expr(ifNil.Cond)
-	ifNil.Cond = typecheck.DefaultLit(ifNil.Cond, nil)
-	// ifNil.Nbody assigned at end.
-	sw.Compiled.Append(ifNil)
-
-	// Load hash from type or itab.
-	dotHash := ir.NewSelectorExpr(base.Pos, ir.ODOTPTR, itab, nil)
-	dotHash.SetType(types.Types[types.TUINT32])
-	dotHash.SetTypecheck(1)
-	if s.facename.Type().IsEmptyInterface() {
-		dotHash.Offset = int64(2 * types.PtrSize) // offset of hash in runtime._type
-	} else {
-		dotHash.Offset = int64(2 * types.PtrSize) // offset of hash in runtime.itab
-	}
-	dotHash.SetBounded(true) // guaranteed not to fault
-	s.hashname = copyexpr(dotHash, dotHash.Type(), &sw.Compiled)
-
-	br := ir.NewBranchStmt(base.Pos, ir.OBREAK, nil)
-	var defaultGoto, nilGoto ir.Node
-	var body ir.Nodes
-	for _, ncase := range sw.Cases {
-		ncase := ncase.(*ir.CaseStmt)
-		var caseVar ir.Node
-		if len(ncase.Vars) != 0 {
-			caseVar = ncase.Vars[0]
-		}
-
-		// For single-type cases with an interface type,
-		// we initialize the case variable as part of the type assertion.
-		// In other cases, we initialize it in the body.
-		var singleType *types.Type
-		if len(ncase.List) == 1 && ncase.List[0].Op() == ir.OTYPE {
-			singleType = ncase.List[0].Type()
-		}
-		caseVarInitialized := false
-
-		label := typecheck.AutoLabel(".s")
-		jmp := ir.NewBranchStmt(ncase.Pos(), ir.OGOTO, label)
-
-		if len(ncase.List) == 0 { // default:
-			if defaultGoto != nil {
-				base.Fatalf("duplicate default case not detected during typechecking")
-			}
-			defaultGoto = jmp
-		}
-
-		for _, n1 := range ncase.List {
-			if ir.IsNil(n1) { // case nil:
-				if nilGoto != nil {
-					base.Fatalf("duplicate nil case not detected during typechecking")
-				}
-				nilGoto = jmp
-				continue
-			}
-
-			if singleType != nil && singleType.IsInterface() {
-				s.Add(ncase.Pos(), n1.Type(), caseVar, jmp)
-				caseVarInitialized = true
-			} else {
-				s.Add(ncase.Pos(), n1.Type(), nil, jmp)
-			}
-		}
-
-		body.Append(ir.NewLabelStmt(ncase.Pos(), label))
-		if caseVar != nil && !caseVarInitialized {
-			val := s.facename
-			if singleType != nil {
-				// We have a single concrete type. Extract the data.
-				if singleType.IsInterface() {
-					base.Fatalf("singleType interface should have been handled in Add")
-				}
-				val = ifaceData(ncase.Pos(), s.facename, singleType)
-			}
-			l := []ir.Node{
-				ir.NewDecl(ncase.Pos(), ir.ODCL, caseVar),
-				ir.NewAssignStmt(ncase.Pos(), caseVar, val),
-			}
-			typecheck.Stmts(l)
-			body.Append(l...)
-		}
-		body.Append(ncase.Body...)
-		body.Append(br)
-	}
-	sw.Cases.Set(nil)
-
-	if defaultGoto == nil {
-		defaultGoto = br
-	}
-	if nilGoto == nil {
-		nilGoto = defaultGoto
-	}
-	ifNil.Body = []ir.Node{nilGoto}
-
-	s.Emit(&sw.Compiled)
-	sw.Compiled.Append(defaultGoto)
-	sw.Compiled.Append(body.Take()...)
-
-	walkstmtlist(sw.Compiled)
 }
 
 // A typeSwitch walks a type switch.
