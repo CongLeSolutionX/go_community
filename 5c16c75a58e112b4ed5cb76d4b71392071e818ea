@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8765d041_126d1eed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-22T07:45:10Z",
+      "side": 1,
+      "message": "FYI, I\u0027m a little skeptical of separating inline, escape, and walk. E.g., we\u0027ve talked about wanting to interleave inline and escape, so inline can make escape-aware optimizing decisions; or doing all of them in a single bottom-up traversal.\n\nBut maybe I\u0027m just overly accustomed to working in the cmd/compile mono-package and fine-grained packages will be fine. I\u0027m happy to give it a shot. I\u0027m sure we\u0027ll want to fine-tune package boundaries over time as we gain experience anyway.",
+      "revId": "5c16c75a58e112b4ed5cb76d4b71392071e818ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
