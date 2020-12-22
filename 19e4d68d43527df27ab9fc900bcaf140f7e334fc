@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad378bbc_b90dec95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-22T21:55:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e88eb9c9_a431b962",
+      "revId": "19e4d68d43527df27ab9fc900bcaf140f7e334fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ea23d51_c9fe0299",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-22T21:43:16Z",
       "side": 1,
       "message": "FWIW, I think enumerating conflicts is useful, to encourage the author to document how they resolved them. But listing merged CLs like this seems like noise to me. Gerrit already provides this list to reviewers; \"git log\" will list merged CLs anyway when looking at history; \"git log commit^1..commit^2\" can always be used to list just the commits included in a merge.\n\nJust my 2c though.",
+      "revId": "19e4d68d43527df27ab9fc900bcaf140f7e334fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f201db_d9c4a154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-22T21:55:40Z",
+      "side": 1,
+      "message": "I\u0027ve seen others ask for the list, and while they are in Gerrit,\nyou\u0027re not always in Gerrit: for example it is a useful sanity check\nfor the author of the CL before mailing. \n\nIt\u0027s also worth pointing out that the goal here is to make something\nthat doesn\u0027t require being a git expert on the day you are doing the merge\nI knew that syntax at one point and could have come up with it eventually,\nbut if you\u0027d asked me just now to produce\n    \"git log commit^1..commit^2\"\nwithout looking it up, I probably couldn\u0027t have.\n\nGoing to leave them in.",
+      "parentUuid": "7ea23d51_c9fe0299",
       "revId": "19e4d68d43527df27ab9fc900bcaf140f7e334fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
