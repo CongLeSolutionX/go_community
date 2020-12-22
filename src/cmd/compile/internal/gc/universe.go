@@ -163,12 +163,12 @@ func initUniverse() {
 	}
 
 	s = types.BuiltinPkg.Lookup("true")
-	b := nodbool(true)
+	b := ir.NewBool(true)
 	b.(*ir.Name).SetSym(lookup("true"))
 	s.Def = b
 
 	s = types.BuiltinPkg.Lookup("false")
-	b = nodbool(false)
+	b = ir.NewBool(false)
 	b.(*ir.Name).SetSym(lookup("false"))
 	s.Def = b
 
@@ -343,8 +343,8 @@ func finishUniverse() {
 		s1.Block = s.Block
 	}
 
-	nodfp = NewName(lookup(".fp"))
-	nodfp.SetType(types.Types[types.TINT32])
-	nodfp.Class_ = ir.PPARAM
-	nodfp.SetUsed(true)
+	ir.RegFP = NewName(lookup(".fp"))
+	ir.RegFP.SetType(types.Types[types.TINT32])
+	ir.RegFP.Class_ = ir.PPARAM
+	ir.RegFP.SetUsed(true)
 }
