@@ -52,6 +52,24 @@
       "parentUuid": "6f4ce431_103e40eb",
       "revId": "c6780d8fcdc83de7af0d13fc051d063911aaf885",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66a298fb_837294d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49338
+      },
+      "writtenOn": "2020-12-22T19:13:49Z",
+      "side": 1,
+      "message": "Given secp256k1\u0027s popularity, I feel supporting it in x/crypto will add to Go\u0027s influence and help its adoption in the realm of cryptocurrency -- so I am using the curve from native \"Go\" instead of having to import btc or ethereum.\n\nanyway only my 2 cents, thanks for your clarification. Happy holidays!",
+      "parentUuid": "9c59c05c_702aceae",
+      "revId": "c6780d8fcdc83de7af0d13fc051d063911aaf885",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
