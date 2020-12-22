@@ -159,6 +159,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4569ad67_617ecf38",
+        "filename": "src/cmd/go/testdata/script/mod_get_promote_implicit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-22T22:34:47Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "5d931a22_42f56925",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "da345b4fd2a6ada44619a0669c0851afff581e23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f869c20_e2d80cb0",
