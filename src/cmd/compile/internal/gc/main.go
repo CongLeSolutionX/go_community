@@ -17,6 +17,7 @@ import (
 	"cmd/compile/internal/noder"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/ssa"
+	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/staticdata"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -30,7 +31,6 @@ import (
 	"log"
 	"os"
 	"runtime"
-	"sort"
 	"strings"
 )
 
@@ -52,14 +52,14 @@ func hidePanic() {
 // Main parses flags and Go source files specified in the command-line
 // arguments, type-checks the parsed Go package, compiles functions to machine
 // code, and finally writes the compiled package definition to disk.
-func Main(archInit func(*Arch)) {
+func Main(archInit func(*ssagen.ArchInfo)) {
 	base.Timer.Start("fe", "init")
 
 	defer hidePanic()
 
-	archInit(&thearch)
+	archInit(&ssagen.Arch)
 
-	base.Ctxt = obj.Linknew(thearch.LinkArch)
+	base.Ctxt = obj.Linknew(ssagen.Arch.LinkArch)
 	base.Ctxt.DiagFunc = base.Errorf
 	base.Ctxt.DiagFlush = base.FlushErrors
 	base.Ctxt.Bso = bufio.NewWriter(os.Stdout)
@@ -159,7 +159,7 @@ func Main(archInit func(*Arch)) {
 		base.Flag.MSan = false
 	}
 
-	thearch.LinkArch.Init(base.Ctxt)
+	ssagen.Arch.LinkArch.Init(base.Ctxt)
 	startProfile()
 	if base.Flag.Race {
 		ir.Pkgs.Race = types.NewPkg("runtime/race", "")
@@ -174,7 +174,7 @@ func Main(archInit func(*Arch)) {
 		dwarf.EnableLogging(base.Debug.DwarfInl != 0)
 	}
 	if base.Debug.SoftFloat != 0 {
-		thearch.SoftFloat = true
+		ssagen.Arch.SoftFloat = true
 	}
 
 	if base.Flag.JSON != "" { // parse version,destination from json logging optimization.
@@ -182,14 +182,14 @@ func Main(archInit func(*Arch)) {
 	}
 
 	ir.EscFmt = escape.Fmt
-	ir.IsIntrinsicCall = isIntrinsicCall
-	inline.SSADumpInline = ssaDumpInline
-	initSSAEnv()
-	initSSATables()
+	ir.IsIntrinsicCall = ssagen.IsIntrinsicCall
+	inline.SSADumpInline = ssagen.DumpInline
+	ssagen.InitEnv()
+	ssagen.InitTables()
 
-	types.PtrSize = thearch.LinkArch.PtrSize
-	types.RegSize = thearch.LinkArch.RegSize
-	types.MaxWidth = thearch.MAXWIDTH
+	types.PtrSize = ssagen.Arch.LinkArch.PtrSize
+	types.RegSize = ssagen.Arch.LinkArch.RegSize
+	types.MaxWidth = ssagen.Arch.MAXWIDTH
 	types.TypeLinkSym = func(t *types.Type) *obj.LSym {
 		return reflectdata.TypeSym(t).Linksym()
 	}
@@ -257,7 +257,7 @@ func Main(archInit func(*Arch)) {
 	// We'll do the final check after write barriers are
 	// inserted.
 	if base.Flag.CompilingRuntime {
-		EnableNoWriteBarrierRecCheck()
+		ssagen.EnableNoWriteBarrierRecCheck()
 	}
 
 	// Transform closure bodies to properly reference captured variables.
@@ -277,7 +277,7 @@ func Main(archInit func(*Arch)) {
 	// Prepare for SSA compilation.
 	// This must be before peekitabs, because peekitabs
 	// can trigger function compilation.
-	initssaconfig()
+	ssagen.InitConfig()
 
 	// Just before compilation, compile itabs found on
 	// the right side of OCONVIFACE so that methods
@@ -302,7 +302,7 @@ func Main(archInit func(*Arch)) {
 
 	if base.Flag.CompilingRuntime {
 		// Write barriers are now known. Check the call graph.
-		NoWriteBarrierRecCheck()
+		ssagen.NoWriteBarrierRecCheck()
 	}
 
 	// Finalize DWARF inline routine DIEs, then explicitly turn off
@@ -323,7 +323,7 @@ func Main(archInit func(*Arch)) {
 		dumpasmhdr()
 	}
 
-	CheckLargeStacks()
+	ssagen.CheckLargeStacks()
 	typecheck.CheckFuncStack()
 
 	if len(compilequeue) != 0 {
@@ -339,20 +339,6 @@ func Main(archInit func(*Arch)) {
 	if base.Flag.Bench != "" {
 		if err := writebench(base.Flag.Bench); err != nil {
 			log.Fatalf("cannot write benchmark data: %v", err)
-		}
-	}
-}
-
-func CheckLargeStacks() {
-	// Check whether any of the functions we have compiled have gigantic stack frames.
-	sort.Slice(largeStackFrames, func(i, j int) bool {
-		return largeStackFrames[i].pos.Before(largeStackFrames[j].pos)
-	})
-	for _, large := range largeStackFrames {
-		if large.callee != 0 {
-			base.ErrorfAt(large.pos, "stack frame too large (>1GB): %d MB locals + %d MB args + %d MB callee", large.locals>>20, large.args>>20, large.callee>>20)
-		} else {
-			base.ErrorfAt(large.pos, "stack frame too large (>1GB): %d MB locals + %d MB args", large.locals>>20, large.args>>20)
 		}
 	}
 }
