@@ -2,9 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package walk
 
 import (
+	"fmt"
+	"go/constant"
+
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/reflectdata"
@@ -12,7 +15,6 @@ import (
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
-	"fmt"
 )
 
 type InitEntry struct {
@@ -31,18 +33,18 @@ type InitPlan struct {
 type InitSchedule struct {
 	// out is the ordered list of dynamic initialization
 	// statements.
-	out []ir.Node
+	Out []ir.Node
 
-	initplans map[ir.Node]*InitPlan
-	inittemps map[ir.Node]*ir.Name
+	Plans map[ir.Node]*InitPlan
+	Temps map[ir.Node]*ir.Name
 }
 
 func (s *InitSchedule) append(n ir.Node) {
-	s.out = append(s.out, n)
+	s.Out = append(s.Out, n)
 }
 
 // staticInit adds an initialization statement n to the schedule.
-func (s *InitSchedule) staticInit(n ir.Node) {
+func (s *InitSchedule) StaticInit(n ir.Node) {
 	if !s.tryStaticInit(n) {
 		if base.Flag.Percent != 0 {
 			ir.Dump("nonstatic", n)
@@ -141,19 +143,19 @@ func (s *InitSchedule) staticcopy(l *ir.Name, loff int64, rn *ir.Name, typ *type
 		switch r.X.Op() {
 		case ir.OARRAYLIT, ir.OSLICELIT, ir.OSTRUCTLIT, ir.OMAPLIT:
 			// copy pointer
-			staticdata.InitAddr(l, loff, s.inittemps[r], 0)
+			staticdata.InitAddr(l, loff, s.Temps[r], 0)
 			return true
 		}
 
 	case ir.OSLICELIT:
 		r := r.(*ir.CompLitExpr)
 		// copy slice
-		staticdata.InitSlice(l, loff, s.inittemps[r], r.Len)
+		staticdata.InitSlice(l, loff, s.Temps[r], r.Len)
 		return true
 
 	case ir.OARRAYLIT, ir.OSTRUCTLIT:
 		r := r.(*ir.CompLitExpr)
-		p := s.initplans[r]
+		p := s.Plans[r]
 		for i := range p.E {
 			e := &p.E[i]
 			typ := e.Expr.Type()
@@ -221,7 +223,7 @@ func (s *InitSchedule) staticassign(l *ir.Name, loff int64, r ir.Node, typ *type
 			// Init pointer.
 			a := staticname(r.X.Type())
 
-			s.inittemps[r] = a
+			s.Temps[r] = a
 			staticdata.InitAddr(l, loff, a, 0)
 
 			// Init underlying literal.
@@ -247,7 +249,7 @@ func (s *InitSchedule) staticassign(l *ir.Name, loff int64, r ir.Node, typ *type
 		ta := types.NewArray(r.Type().Elem(), r.Len)
 		ta.SetNoalg(true)
 		a := staticname(ta)
-		s.inittemps[r] = a
+		s.Temps[r] = a
 		staticdata.InitSlice(l, loff, a, r.Len)
 		// Fall through to init underlying array.
 		l = a
@@ -258,7 +260,7 @@ func (s *InitSchedule) staticassign(l *ir.Name, loff int64, r ir.Node, typ *type
 		r := r.(*ir.CompLitExpr)
 		s.initplan(r)
 
-		p := s.initplans[r]
+		p := s.Plans[r]
 		for i := range p.E {
 			e := &p.E[i]
 			if e.Expr.Op() == ir.OLITERAL || e.Expr.Op() == ir.ONIL {
@@ -340,7 +342,7 @@ func (s *InitSchedule) staticassign(l *ir.Name, loff int64, r ir.Node, typ *type
 		} else {
 			// Construct temp to hold val, write pointer to temp into n.
 			a := staticname(val.Type())
-			s.inittemps[val] = a
+			s.Temps[val] = a
 			if !s.staticassign(a, 0, val, val.Type()) {
 				s.append(ir.NewAssignStmt(base.Pos, a, val))
 			}
@@ -1048,11 +1050,11 @@ func stataddr(n ir.Node) (name *ir.Name, offset int64, ok bool) {
 }
 
 func (s *InitSchedule) initplan(n ir.Node) {
-	if s.initplans[n] != nil {
+	if s.Plans[n] != nil {
 		return
 	}
 	p := new(InitPlan)
-	s.initplans[n] = p
+	s.Plans[n] = p
 	switch n.Op() {
 	default:
 		base.Fatalf("initplan")
@@ -1107,7 +1109,7 @@ func (s *InitSchedule) addvalue(p *InitPlan, xoffset int64, n ir.Node) {
 	// special case: inline struct and array (not slice) literals
 	if isvaluelit(n) {
 		s.initplan(n)
-		q := s.initplans[n]
+		q := s.Plans[n]
 		for _, qe := range q.E {
 			// qe is a copy; we are not modifying entries in q.E
 			qe.Xoffset += xoffset
@@ -1153,4 +1155,60 @@ func genAsStatic(as *ir.AssignStmt) {
 		}
 	}
 	base.Fatalf("genAsStatic: rhs %v", as.Y)
+}
+
+// litsym writes the static literal c to n.
+// Neither n nor c is modified.
+func litsym(n *ir.Name, noff int64, c ir.Node, wid int) {
+	if n.Op() != ir.ONAME {
+		base.Fatalf("litsym n op %v", n.Op())
+	}
+	if n.Sym() == nil {
+		base.Fatalf("litsym nil n sym")
+	}
+	if c.Op() == ir.ONIL {
+		return
+	}
+	if c.Op() != ir.OLITERAL {
+		base.Fatalf("litsym c op %v", c.Op())
+	}
+	s := n.Sym().Linksym()
+	switch u := c.Val(); u.Kind() {
+	case constant.Bool:
+		i := int64(obj.Bool2int(constant.BoolVal(u)))
+		s.WriteInt(base.Ctxt, noff, wid, i)
+
+	case constant.Int:
+		s.WriteInt(base.Ctxt, noff, wid, ir.IntVal(c.Type(), u))
+
+	case constant.Float:
+		f, _ := constant.Float64Val(u)
+		switch c.Type().Kind() {
+		case types.TFLOAT32:
+			s.WriteFloat32(base.Ctxt, noff, float32(f))
+		case types.TFLOAT64:
+			s.WriteFloat64(base.Ctxt, noff, f)
+		}
+
+	case constant.Complex:
+		re, _ := constant.Float64Val(constant.Real(u))
+		im, _ := constant.Float64Val(constant.Imag(u))
+		switch c.Type().Kind() {
+		case types.TCOMPLEX64:
+			s.WriteFloat32(base.Ctxt, noff, float32(re))
+			s.WriteFloat32(base.Ctxt, noff+4, float32(im))
+		case types.TCOMPLEX128:
+			s.WriteFloat64(base.Ctxt, noff, re)
+			s.WriteFloat64(base.Ctxt, noff+8, im)
+		}
+
+	case constant.String:
+		i := constant.StringVal(u)
+		symdata := staticdata.StringSym(n.Pos(), i)
+		s.WriteAddr(base.Ctxt, noff, types.PtrSize, symdata, 0)
+		s.WriteInt(base.Ctxt, noff+int64(types.PtrSize), types.PtrSize, int64(len(i)))
+
+	default:
+		base.Fatalf("litsym unhandled OLITERAL %v", c)
+	}
 }

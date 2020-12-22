@@ -2,9 +2,16 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package walk
 
 import (
+	"encoding/binary"
+	"errors"
+	"fmt"
+	"go/constant"
+	"go/token"
+	"strings"
+
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/escape"
 	"cmd/compile/internal/ir"
@@ -17,19 +24,13 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"cmd/internal/sys"
-	"encoding/binary"
-	"errors"
-	"fmt"
-	"go/constant"
-	"go/token"
-	"strings"
 )
 
 // The constant is known to runtime.
 const tmpstringbufsize = 32
 const zeroValSize = 1024 // must match value of runtime/map.go:maxZero
 
-func walk(fn *ir.Func) {
+func Walk(fn *ir.Func) {
 	ir.CurFunc = fn
 	errorsBefore := base.Errors()
 	order(fn)

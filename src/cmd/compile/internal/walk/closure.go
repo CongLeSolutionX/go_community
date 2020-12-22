@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package walk
 
 import (
 	"cmd/compile/internal/base"
@@ -14,7 +14,7 @@ import (
 
 // transformclosure is called in a separate phase after escape analysis.
 // It transform closure bodies to properly reference captured variables.
-func transformclosure(fn *ir.Func) {
+func Closure(fn *ir.Func) {
 	lno := base.Pos
 	base.Pos = fn.Pos()
 
