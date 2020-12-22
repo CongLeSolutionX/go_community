@@ -224,7 +224,7 @@ func safeexpr(n ir.Node, init *ir.Nodes) ir.Node {
 	}
 
 	if len(n.Init()) != 0 {
-		walkstmtlist(n.Init())
+		walkStmtList(n.Init())
 		init.Append(n.PtrInit().Take()...)
 	}
 
@@ -240,7 +240,7 @@ func safeexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		}
 		a := ir.Copy(n).(*ir.UnaryExpr)
 		a.X = l
-		return walkexpr(typecheck.Expr(a), init)
+		return walkExpr(typecheck.Expr(a), init)
 
 	case ir.ODOT, ir.ODOTPTR:
 		n := n.(*ir.SelectorExpr)
@@ -250,7 +250,7 @@ func safeexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		}
 		a := ir.Copy(n).(*ir.SelectorExpr)
 		a.X = l
-		return walkexpr(typecheck.Expr(a), init)
+		return walkExpr(typecheck.Expr(a), init)
 
 	case ir.ODEREF:
 		n := n.(*ir.StarExpr)
@@ -260,7 +260,7 @@ func safeexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		}
 		a := ir.Copy(n).(*ir.StarExpr)
 		a.X = l
-		return walkexpr(typecheck.Expr(a), init)
+		return walkExpr(typecheck.Expr(a), init)
 
 	case ir.OINDEX, ir.OINDEXMAP:
 		n := n.(*ir.IndexExpr)
@@ -272,7 +272,7 @@ func safeexpr(n ir.Node, init *ir.Nodes) ir.Node {
 		a := ir.Copy(n).(*ir.IndexExpr)
 		a.X = l
 		a.Index = r
-		return walkexpr(typecheck.Expr(a), init)
+		return walkExpr(typecheck.Expr(a), init)
 
 	case ir.OSTRUCTLIT, ir.OARRAYLIT, ir.OSLICELIT:
 		n := n.(*ir.CompLitExpr)

@@ -607,7 +607,7 @@ func fixedlit(ctxt initContext, kind initKind, n *ir.CompLitExpr, var_ ir.Node, 
 			genAsStatic(as)
 		case initKindDynamic, initKindLocalCode:
 			a = orderStmtInPlace(as, map[string][]*ir.Name{})
-			a = walkstmt(a)
+			a = walkStmt(a)
 			init.Append(a)
 		default:
 			base.Fatalf("fixedlit: bad kind %d", kind)
@@ -765,7 +765,7 @@ func slicelit(ctxt initContext, n *ir.CompLitExpr, var_ ir.Node, init *ir.Nodes)
 		ir.SetPos(value)
 		as := typecheck.Stmt(ir.NewAssignStmt(base.Pos, a, value))
 		as = orderStmtInPlace(as, map[string][]*ir.Name{})
-		as = walkstmt(as)
+		as = walkStmt(as)
 		init.Append(as)
 	}
 
@@ -774,7 +774,7 @@ func slicelit(ctxt initContext, n *ir.CompLitExpr, var_ ir.Node, init *ir.Nodes)
 
 	a = typecheck.Stmt(a)
 	a = orderStmtInPlace(a, map[string][]*ir.Name{})
-	a = walkstmt(a)
+	a = walkStmt(a)
 	init.Append(a)
 }
 
