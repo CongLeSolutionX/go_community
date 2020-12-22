@@ -383,22 +383,18 @@ const (
 	//  func init()
 	_MissingInitBody
 
-	// _InvalidInitSig occurs when an init function declares parameters or
-	// results.
-	//
-	// Example:
-	//  func init() int { return 1 }
-	_InvalidInitSig
-
 	// _InvalidInitDecl occurs when init is declared as anything other than a
 	// function.
 	//
 	// Example:
 	//  var init = 1
+	//
+	// Example:
+	//  func init(int) {}
 	_InvalidInitDecl
 
 	// _InvalidMainDecl occurs when main is declared as anything other than a
-	// function, in a main package.
+	// function with no arguments and no return values, in a main package.
 	_InvalidMainDecl
 
 	/* exprs */
