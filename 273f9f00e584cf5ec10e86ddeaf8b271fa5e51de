@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8362153e_f539b542",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-22T04:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2015b0b6_02fa8b55",
+      "range": {
+        "startLine": 743,
+        "startChar": 23,
+        "endLine": 743,
+        "endChar": 38
+      },
+      "revId": "273f9f00e584cf5ec10e86ddeaf8b271fa5e51de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f99ce8b_13c1fbfb",
@@ -64,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "887a4f74_e6afda6b",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-22T04:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f99ce8b_13c1fbfb",
+      "range": {
+        "startLine": 745,
+        "startChar": 2,
+        "endLine": 745,
+        "endChar": 3
+      },
+      "revId": "273f9f00e584cf5ec10e86ddeaf8b271fa5e51de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f6b1ec2_e5fdf38e",
@@ -77,6 +125,30 @@
       "writtenOn": "2020-12-22T01:38:03Z",
       "side": 1,
       "message": "Can we combine this one with _InvalidInitDecl? We have only one for \"main\" below.",
+      "range": {
+        "startLine": 391,
+        "startChar": 1,
+        "endLine": 391,
+        "endChar": 16
+      },
+      "revId": "273f9f00e584cf5ec10e86ddeaf8b271fa5e51de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c939d1e1_a088fdd2",
+        "filename": "src/go/types/errorcodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-22T04:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6b1ec2_e5fdf38e",
       "range": {
         "startLine": 391,
         "startChar": 1,
@@ -124,6 +196,30 @@
       "side": 1,
       "message": "I take this back. It\u0027s probably better to leave as is.",
       "parentUuid": "8a229272_53761111",
+      "range": {
+        "startLine": 8,
+        "startChar": 8,
+        "endLine": 8,
+        "endChar": 13
+      },
+      "revId": "273f9f00e584cf5ec10e86ddeaf8b271fa5e51de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab1a9291_0230d324",
+        "filename": "src/go/types/testdata/main.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2020-12-22T04:38:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "96733e7e_85f7e215",
       "range": {
         "startLine": 8,
         "startChar": 8,
