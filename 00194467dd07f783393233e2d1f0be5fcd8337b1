@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81013094_2cd14718",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-22T07:22:23Z",
+      "side": 1,
+      "message": "Maybe rf should skip copying the result parameter names if they aren\u0027t needed in the extracted code?\n\nOtherwise seems like an easy enough cleanup to do later.",
+      "range": {
+        "startLine": 19,
+        "startChar": 29,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "00194467dd07f783393233e2d1f0be5fcd8337b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
