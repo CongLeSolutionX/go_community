@@ -11,7 +11,11 @@ type T struct {
 }
 
 func a() {
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	_ = T // ERROR "type T is not an expression|T \(type\) is not an expression"
+=======
+	_ = T // ERROR "type T is not an expression|invalid use of type"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 }
 
 func b() {

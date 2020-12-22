@@ -8,11 +8,19 @@ package p
 
 func f(e interface{}) {
 	switch e.(type) {
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	case nil, nil: // ERROR "multiple nil cases in type switch|duplicate case nil in type switch"
+=======
+	case nil, nil: // ERROR "multiple nil cases in type switch|duplicate type in switch"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 	}
 
 	switch e.(type) {
 	case nil:
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	case nil: // ERROR "multiple nil cases in type switch|duplicate case nil in type switch"
+=======
+	case nil: // ERROR "multiple nil cases in type switch|duplicate type in switch"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 	}
 }

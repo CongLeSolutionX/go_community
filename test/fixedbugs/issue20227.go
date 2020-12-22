@@ -8,9 +8,20 @@
 
 package p
 
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 var _ = 1 / 1e-600000000i  // ERROR "(complex )?division by zero"
 var _ = 1i / 1e-600000000  // ERROR "(complex )?division by zero"
 var _ = 1i / 1e-600000000i // ERROR "(complex )?division by zero"
+=======
+var _ = 1 / 1e-600000000i  // ERROR "division by zero"
+var _ = 1i / 1e-600000000  // ERROR "division by zero"
+var _ = 1i / 1e-600000000i // ERROR "division by zero"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 var _ = 1 / (1e-600000000 + 1e-600000000i)  // ERROR "(complex )?division by zero"
 var _ = 1i / (1e-600000000 + 1e-600000000i) // ERROR "(complex )?division by zero"
+=======
+var _ = 1 / (1e-600000000 + 1e-600000000i)  // ERROR "division by zero"
+var _ = 1i / (1e-600000000 + 1e-600000000i) // ERROR "division by zero"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )

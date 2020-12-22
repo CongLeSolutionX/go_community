@@ -13,9 +13,14 @@ type it struct {
 
 func main() {
 	i1 := it{Floats: true}
-	if i1.floats { // ERROR "(type it .* field or method floats, but does have Floats)"
+	if i1.floats { // ERROR "(type it .* field or method floats, but does have Floats)|undefined field or method"
 	}
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	i2 := &it{floats: false} // ERROR "(but does have Floats)|unknown field"
 	_ = &it{InneR: "foo"}    // ERROR "(but does have inner)|unknown field"
 	_ = i2
+=======
+	i2 := &it{floats: false} // ERROR "(but does have Floats)|unknown field|declared but not used"
+	_ = &it{InneR: "foo"}    // ERROR "(but does have inner)|unknown field"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 }

@@ -16,6 +16,11 @@ func h(int, int) {}
 
 func main() {
 	f(g())        // ERROR "in argument to f|incompatible type"
+<<<<<<< HEAD   (060cdb [dev.typeparams] go/types: import object resolution from dev)
 	f(true)       // ERROR "in argument to f|cannot convert"
 	h(true, true) // ERROR "in argument to h|cannot convert"
+=======
+	f(true)       // ERROR "in argument to f|incompatible type"
+	h(true, true) // ERROR "in argument to h|incompatible type"
+>>>>>>> BRANCH (4e8f68 Merge "[dev.regabi] all: merge master into dev.regabi" into )
 }
