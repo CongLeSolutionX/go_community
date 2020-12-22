@@ -17,6 +17,7 @@ import (
 	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
+	"cmd/compile/internal/walk"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 )
@@ -63,7 +64,7 @@ func compile(fn *ir.Func) {
 	initLSym(fn, true)
 
 	errorsBefore := base.Errors()
-	walk(fn)
+	walk.Walk(fn)
 	if base.Errors() > errorsBefore {
 		return
 	}
