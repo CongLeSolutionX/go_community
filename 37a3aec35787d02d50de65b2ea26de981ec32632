@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5937c00c_801c3b5b",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2020-12-22T03:39:07Z",
+      "side": 1,
+      "message": "ignore these diffs, they were was mailed accidentally, and are gone on PS9...",
+      "range": {
+        "startLine": 571,
+        "startChar": 0,
+        "endLine": 571,
+        "endChar": 34
+      },
+      "revId": "37a3aec35787d02d50de65b2ea26de981ec32632",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
