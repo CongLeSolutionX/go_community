@@ -16,6 +16,24 @@
       "message": "Would it be possible to loose the Inline prefixes and suffixes on exported API during this refactoring step?\n\n(for the reasons communicated to the Go ecosystem see https://golang.org/s/style#package-names) ",
       "revId": "ee5dc2f15aba19ef59198d477a4eb938b65e3563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9494a4d3_b3a407d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-22T06:11:46Z",
+      "side": 1,
+      "message": "In general I have been doing that. However, I don\u0027t find \"inline.Can\" and \"inline.Calls\" nearly as clear as \"inline.CanInline\" and \"inline.InlineCalls\". This is a large program used by many people and clarity beats brevity in this case.",
+      "parentUuid": "f5c9bca1_7ec32e93",
+      "revId": "ee5dc2f15aba19ef59198d477a4eb938b65e3563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
