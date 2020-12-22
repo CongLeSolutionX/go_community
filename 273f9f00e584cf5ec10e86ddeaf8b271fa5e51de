@@ -108,6 +108,30 @@
       },
       "revId": "273f9f00e584cf5ec10e86ddeaf8b271fa5e51de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96733e7e_85f7e215",
+        "filename": "src/go/types/testdata/main.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-22T01:45:48Z",
+      "side": 1,
+      "message": "I take this back. It\u0027s probably better to leave as is.",
+      "parentUuid": "8a229272_53761111",
+      "range": {
+        "startLine": 8,
+        "startChar": 8,
+        "endLine": 8,
+        "endChar": 13
+      },
+      "revId": "273f9f00e584cf5ec10e86ddeaf8b271fa5e51de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
