@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "422d9512_4ccdb742",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2020-12-22T04:40:37Z",
+      "side": 1,
+      "message": "this comment should go after this if-else-if",
+      "range": {
+        "startLine": 744,
+        "startChar": 12,
+        "endLine": 744,
+        "endChar": 20
+      },
+      "revId": "753afcb746577967ccd394f14e054cd027905a3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
