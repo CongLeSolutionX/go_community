@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bbc063f_29427fb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-22T19:37:43Z",
+      "side": 1,
+      "message": "This CL should wait until April 1, at which point we should consider whether it is appropriate. 🙂",
+      "revId": "771d79f7164fc9203561525f93e1fbf882ebb6df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
