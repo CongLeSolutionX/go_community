@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d537760_46985124",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-12-22T18:24:56Z",
+      "side": 1,
+      "message": "I can\u0027t find expectations for \"trusted\" documented in the wiki or contributing code pages. What needs to happen to move this review forward? Should I be doing something more? Thanks for any pointers!",
+      "revId": "23c81ec7400d681fbd15d7f4cdc0188e550dcf94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
