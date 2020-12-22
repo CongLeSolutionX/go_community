@@ -6,8 +6,8 @@ package gc
 
 import (
 	"cmd/compile/internal/base"
-	"cmd/compile/internal/bitvec"
 	"cmd/compile/internal/ir"
+	livenesspkg "cmd/compile/internal/liveness"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -29,36 +29,6 @@ import (
 var (
 	compilequeue []*ir.Func // functions waiting to be compiled
 )
-
-func emitptrargsmap(fn *ir.Func) {
-	if ir.FuncName(fn) == "_" || fn.Sym().Linkname != "" {
-		return
-	}
-	lsym := base.Ctxt.Lookup(fn.LSym.Name + ".args_stackmap")
-	nptr := int(fn.Type().ArgWidth() / int64(types.PtrSize))
-	bv := bitvec.New(int32(nptr) * 2)
-	nbitmap := 1
-	if fn.Type().NumResults() > 0 {
-		nbitmap = 2
-	}
-	off := wobj.Uint32(lsym, 0, uint32(nbitmap))
-	off = wobj.Uint32(lsym, off, uint32(bv.N))
-
-	if ir.IsMethod(fn) {
-		onebitwalktype1(fn.Type().Recvs(), 0, bv)
-	}
-	if fn.Type().NumParams() > 0 {
-		onebitwalktype1(fn.Type().Params(), 0, bv)
-	}
-	off = wobj.BitVec(lsym, off, bv)
-
-	if fn.Type().NumResults() > 0 {
-		onebitwalktype1(fn.Type().Results(), 0, bv)
-		off = wobj.BitVec(lsym, off, bv)
-	}
-
-	wobj.Global(lsym, int32(off), obj.RODATA|obj.LOCAL)
-}
 
 // cmpstackvarlt reports whether the stack variable a sorts before b.
 //
@@ -213,7 +183,7 @@ func funccompile(fn *ir.Func) {
 	if len(fn.Body) == 0 {
 		// Initialize ABI wrappers if necessary.
 		initLSym(fn, false)
-		emitptrargsmap(fn)
+		livenesspkg.WriteFuncMap(fn)
 		return
 	}
 
@@ -254,7 +224,7 @@ func compile(fn *ir.Func) {
 	for _, n := range fn.Dcl {
 		switch n.Class_ {
 		case ir.PPARAM, ir.PPARAMOUT, ir.PAUTO:
-			if livenessShouldTrack(n) && n.Addrtaken() {
+			if livenesspkg.ShouldTrack(n) && n.Addrtaken() {
 				dtypesym(n.Type())
 				// Also make sure we allocate a linker symbol
 				// for the stack object data, for the same reason.
