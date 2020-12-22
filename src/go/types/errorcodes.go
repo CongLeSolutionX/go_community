@@ -398,7 +398,7 @@ const (
 	_InvalidInitDecl
 
 	// _InvalidMainDecl occurs when main is declared as anything other than a
-	// function, in a main package.
+	// function with no arguments and no return values, in a main package.
 	_InvalidMainDecl
 
 	/* exprs */
