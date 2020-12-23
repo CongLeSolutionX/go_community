@@ -33,6 +33,24 @@
       "message": "I have a concern about the licensing here.\nWe don\u0027t want to add code to the runtime that is not contributed under CLA.\nGoogle also generally avoids incorporating \"unlicense\" code into any of its projects, because it is too vague legally.\n\nIs this code you wrote entirely yourself and are contributing under CLA?\nOr is it derived from someone else\u0027s code?\n\nThanks.\n\n \n\n",
       "revId": "903c09751a3b78d708140dc5c5b4e0178a5ac29a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "416dd171_c7321f45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-23T01:17:40Z",
+      "side": 1,
+      "message": "Maybe some misunderstand here:) \n\"Unlicense\" is the original C++ version that author wrote and the algorithm itself.\n\nThis Go version is written entirely by me.",
+      "parentUuid": "3186b712_3fa64018",
+      "revId": "903c09751a3b78d708140dc5c5b4e0178a5ac29a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
