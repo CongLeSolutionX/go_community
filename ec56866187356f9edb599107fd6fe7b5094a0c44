@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae8b372_03cb5d03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-23T15:09:01Z",
+      "side": 1,
+      "message": "FYI, Var can actually be a *Name, but we need to fix mknode.go to still generate the doChildren/etc methods to visit it. It\u0027s too late (early?) for me to attempt that though.\n\nFeel free to submit if this looks good to you and passes trybots. I\u0027m heading to bed.",
+      "revId": "ec56866187356f9edb599107fd6fe7b5094a0c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
