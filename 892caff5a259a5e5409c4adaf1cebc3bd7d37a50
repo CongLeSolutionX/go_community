@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ce4a7cb_9d8f0962",
+        "filename": "src/cmd/compile/internal/liveness/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-23T14:09:09Z",
+      "side": 1,
+      "message": "I suspect this is always a variable. Can you double check that? If so, affectedVar would be better.",
+      "range": {
+        "startLine": 288,
+        "startChar": 5,
+        "endLine": 288,
+        "endChar": 17
+      },
+      "revId": "892caff5a259a5e5409c4adaf1cebc3bd7d37a50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
