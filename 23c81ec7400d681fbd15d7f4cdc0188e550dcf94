@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d59bd93_0e1e9380",
+        "filename": "src/os/signal/signal_linux_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-12-23T01:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "047d9eae_2627b273",
+      "revId": "23c81ec7400d681fbd15d7f4cdc0188e550dcf94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7971b6d_580514e8",
@@ -66,6 +84,24 @@
       "writtenOn": "2020-12-22T21:51:49Z",
       "side": 1,
       "message": "I find this a little confusing because if we get to *here*, this specific line, then the next thing that will happen is coming around the loop and re-entering the Cas. I assume the mDoFixup actually happened in notesleepg, in which case this comment could be a little clearer. Perhaps \"In the sigFixup case, we need to call mDoFixup(). This already happened in notetsleepg, so this can just re-enter the loop now.\"?",
+      "revId": "23c81ec7400d681fbd15d7f4cdc0188e550dcf94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed0da37_46a18608",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2020-12-23T01:03:42Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve opted to comment by reference to the function that wakes this thread up.",
+      "parentUuid": "d7971b6d_580514e8",
       "revId": "23c81ec7400d681fbd15d7f4cdc0188e550dcf94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
