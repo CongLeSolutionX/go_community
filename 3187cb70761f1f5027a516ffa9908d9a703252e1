@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71fd7c06_799e35eb",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "This should match the WriteFile used in writeDiskCache — we appear to still be using renameio.WriteFile there, so we should still use renameio.ReadFile here.\n\n(robustio.ReadFile and renameio.ReadFile are equivalent anyway, but for future changes it seems more rebust to keep them paired.)",
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a22e7017_3709b016",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "lockedfile.Transform goes to significant lengths to preserve the existing contents of files if the disk happens to run out of space during writing, since that is an error that can easily happen during normal operation.\n\nHowever, that comes at the cost of leaving a frankenfile (with a possibly-undetectable seam in the middle) if the write is interrupted for some other reason.\n\n―\n\nHere, we don\u0027t particularly care about preserving the existing file contents (they\u0027re easy to reconstruct from the cache), but we *do* want to make a best effort to detect interrupted writes so that we can reconstruct the file from the rest of the cache contents.\n\nSo here I think we should use lockedfile.Edit rather than lockedfile.Transform.\n\nSpecifically, I think we should do something like:\n\n\tf, err :\u003d lockedfile.Edit(listfile)\n\tif err !\u003d nil {\n\t\t…\n\t}\n\tdefer func() {\n\t\tif err :\u003d f.Close(); err !\u003d nil {\n\t\t\t…\n\t\t}\n\t}()\n\n\tinfos, err :\u003d os.ReadDir(dir)\n\t…\n\n\tvar buf bytes.Buffer\n\t…\n\n\tif fi, err :\u003d f.Stat(); err \u003d\u003d nil \u0026\u0026 fi.Size() \u003d\u003d buf.Len() {\n\t\told :\u003d make([]byte, buf.Len()+1)\n\t\tif n, err :\u003d f.ReadAt(old, 0); err \u003d\u003d io.EOF \u0026\u0026 n \u003d\u003d buf.Len() \u0026\u0026 bytes.Equal(buf.Bytes(), old) {\n\t\t\treturn nil  // No edit needed.\n\t\t}\n\t}\n\n\t// Remove existing contents, so that when we truncate to the actual size it will zero-fill,\n\t// and we will be able to detect (some) incomplete writes as files containing trailing NUL bytes.\n\tif err :\u003d f.Truncate(0); err !\u003d nil {\n\t\t…\n\t}\n\n\t// Reserve the final size and zero-fill.\n\tif err :\u003d f.Truncate(int64(buf.Len())); err !\u003d nil {\n\t\t…\n\t}\n\n\t// Write the actual contents. If this fails partway through,\n\t// the remainder of the fill should remain as zeroes.\n\tif _, err :\u003d f.Write(buf.Bytes()); err !\u003d nil {\n\t\t… // Maybe truncate back to 0 before returning to save disk space?\n\t\t… // We can\u0027t delete the file, though. (That would make the lockedfile.Edit racy.)\n\t}\n\nCome to think of it, maybe there should be a convenience function in the lockedfile package for that operation. It\u0027s very close to lockedfile.Transform — perhaps it could even be some option that we pass to lockedfile.Transform to indicate “zero-fill instead of preserving existing contents”.",
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4407a91_2e50d452",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment — why isn\u0027t the write of the .mod file necessarily complete before this code runs?\n\n(It should be complete in program order, just not necessarily committed to the disk by the kernel yet.)",
+      "range": {
+        "startLine": 602,
+        "startChar": 0,
+        "endLine": 604,
+        "endChar": 23
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8437ecd3_8182c4ea",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "(nit) As of Go 1.16, all of the ioutil functions have been moved (to either `os` or `io` as appropriate).",
+      "range": {
+        "startLine": 228,
+        "startChar": 11,
+        "endLine": 228,
+        "endChar": 17
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8422e8d2_d444dfe1",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "update comment",
+      "range": {
+        "startLine": 288,
+        "startChar": 40,
+        "endLine": 288,
+        "endChar": 77
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1de25e0_e6598baa",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "Please add a comment here explaining the use of lockedfile — this path is already guarded by the lockVersion call at line 186, so the reason isn\u0027t obvious.\n\n(I think this is to ensure that the lockedfile.Read call in checkMod can be sure that the ziphash file is complete without calling lockVersion itself?)",
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "173879a3_2c741209",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "I think it was reasonable to assume that a missing ziphash was due to user intervention when we were using renameio to write it, because renameio was syncing it to the disk — it should not have been lost due to (say) a power failure.\n\nNow that we are no longer syncing the file to disk, I think we should either treat a missing ziphash as fatal (and error out until the user cleans up the cache corruption explicitly), or attempt to reconstruct the missing file.\n\nPerhaps this should be split into a separate CL, because I think this part of the change can be independent of the other fsync changes.",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 484,
+        "endChar": 2
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baf87923_92e6d3d7",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "At 486–492, we check for the \"h1:\" prefix explicitly and pass the whole blob to checkModSum, which does not appear to do its own splitting or validation.\n\nI think that implies that if we ever add an \"h2\" hash it will have to go in a file other than the .ziphash file, so we can probably omit this special case too.",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 0
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80780859_2d34f99f",
+        "filename": "src/cmd/go/internal/renameio/renameio.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:41:15Z",
+      "side": 1,
+      "message": "Please retain patternSuffix here, or else change renameio.Pattern to also use the hard-coded constant.\n\n(The two functions must remain in sync, or else the Pattern function becomes useless.)\n\n―\n\nGAH, we already broke the synchronization in CL 175958. 😩",
+      "range": {
+        "startLine": 67,
+        "startChar": 72,
+        "endLine": 67,
+        "endChar": 78
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
