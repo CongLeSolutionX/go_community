@@ -16,6 +16,24 @@
       "message": "FYI, I\u0027m a little skeptical of separating inline, escape, and walk. E.g., we\u0027ve talked about wanting to interleave inline and escape, so inline can make escape-aware optimizing decisions; or doing all of them in a single bottom-up traversal.\n\nBut maybe I\u0027m just overly accustomed to working in the cmd/compile mono-package and fine-grained packages will be fine. I\u0027m happy to give it a shot. I\u0027m sure we\u0027ll want to fine-tune package boundaries over time as we gain experience anyway.",
       "revId": "5c16c75a58e112b4ed5cb76d4b71392071e818ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2448ab61_63a31844",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-23T02:17:57Z",
+      "side": 1,
+      "message": "Acknowledged. I do like that right now (after this CL sequence) you can go in and start working on, say, the inliner or the escape analysis and see clearly what state is visible to the rest and what is not. And if they get merged then that will still be true (they\u0027ll be a bigger unit and the package boundaries will need to change to reflect that). Until then, I really like that it\u0027s clear exactly how separate they are.\n\nFWIW I think this paper might be overkill but I found it thought-provoking about the value of trying to keep passes small and separated (not that we\u0027ve done that!): https://legacy.cs.indiana.edu/~dyb/pubs/nano-jfp.pdf.",
+      "parentUuid": "8765d041_126d1eed",
+      "revId": "5c16c75a58e112b4ed5cb76d4b71392071e818ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
