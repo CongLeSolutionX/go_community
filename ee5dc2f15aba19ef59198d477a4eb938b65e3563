@@ -34,6 +34,24 @@
       "parentUuid": "f5c9bca1_7ec32e93",
       "revId": "ee5dc2f15aba19ef59198d477a4eb938b65e3563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfdd53eb_9bfb66a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2020-12-23T01:10:07Z",
+      "side": 1,
+      "message": "Thank you very much for the clarification! \n\nIt might be something to add to the commit message. It is a deviation from a common recommendation. \n\nMaking this very conscious decision transparent means it can be referred to, if someone comes along and wants to submit an change that \"optimizes readability\" after running some linter.",
+      "parentUuid": "9494a4d3_b3a407d5",
+      "revId": "ee5dc2f15aba19ef59198d477a4eb938b65e3563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
