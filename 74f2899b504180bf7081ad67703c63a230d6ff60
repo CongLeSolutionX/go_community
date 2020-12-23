@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2dd122_86430c22",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:51:00Z",
+      "side": 1,
+      "message": "If we\u0027re now using lockedfile.Create to write the file, should we be using lockedfile.Read to read from it?\n\n(robustio.ReadFile retries on failure, but it does not guarantee atomicity.)",
+      "revId": "74f2899b504180bf7081ad67703c63a230d6ff60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964b6902_1267c202",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:51:00Z",
+      "side": 1,
+      "message": "Should writeDiskCache verify that `data` does not contain trailing zeroes, to ensure that we can distinguish successful writes from failed ones?\n\nShould readDiskCache return errNotCached if the data it reads does contain trailing zeroes? (If not, do we need to update any individual callers to re-fetch or regenerate files in case of corruption or truncation?)",
+      "revId": "74f2899b504180bf7081ad67703c63a230d6ff60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eac3234_92f1d296",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:51:00Z",
+      "side": 1,
+      "message": "f.Write(data) should suffice. (Truncate does not change the file\u0027s offset.)",
+      "range": {
+        "startLine": 578,
+        "startChar": 14,
+        "endLine": 578,
+        "endChar": 32
+      },
+      "revId": "74f2899b504180bf7081ad67703c63a230d6ff60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c08a044_df949fa1",
+        "filename": "src/cmd/go/internal/renameio/renameio.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2020-12-23T05:51:00Z",
+      "side": 1,
+      "message": "If we\u0027re not using renamio, then the calls to renameio.Pattern should go away too.\n\nThe only purpose of renamio.Pattern is to clean up files left over from failed calls to renameio.WriteFile, and it\u0027s probably not worth keeping the code around to clean up a constant number of existing files.\n\n(Especially given that — as discovered in https://go-review.googlesource.com/c/go/+/277412/12/src/cmd/go/internal/renameio/renameio.go#67 — the pattern probably no longer works for cleaning up files anyway.)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "74f2899b504180bf7081ad67703c63a230d6ff60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
