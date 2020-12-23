@@ -22,6 +22,30 @@
       },
       "revId": "05847759b34e8990e0699fcfb2ba8d3416eed031",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f8432e5_6cdb27d1",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-23T04:24:23Z",
+      "side": 0,
+      "message": "Same root cause as the ones Than pointed out on the Names, Syms, Pkgs CL.\nFixed in latest copy.",
+      "parentUuid": "a90e5c5c_d545acf1",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 37
+      },
+      "revId": "05847759b34e8990e0699fcfb2ba8d3416eed031",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
