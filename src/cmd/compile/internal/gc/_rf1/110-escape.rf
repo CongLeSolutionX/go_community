@@ -1,0 +1,38 @@
+[dev.regabi] cmd/compile: split out package escape [generated]
+
+[git-generate]
+
+cd src/cmd/compile/internal/gc
+rf '
+	# Trivial min, max defined in escape.go but only used in ssa.go.
+	mv min8 max8 ssa.go
+
+	# Export package escape API.
+	mv escapes Funcs
+	mv escapeFuncs Batch
+	mv escFmt Fmt
+	mv unsafeUintptrTag UnsafeUintptrNote
+	mv uintptrEscapesTag UintptrEscapesNote
+	mv heapAllocReason HeapAllocReason
+
+	# Unexport non-API.
+	mv EscEdge edge
+	mv EscHole hole
+	mv EscLeaks leaks
+	mv ParseLeaks parseLeaks
+	mv EscLocation location
+	mv EscNote note
+	mv Escape _escape # leave room for escape import, fixed below
+	mv EscFuncUnknown escFuncUnknown
+	mv EscFuncPlanned escFuncPlanned
+	mv EscFuncStarted escFuncStarted
+	mv EscFuncTagged escFuncTagged
+
+	mv escape.go cmd/compile/internal/escape
+'
+cd ../escape
+rf '
+	mv _escape escape
+'
+
+Change-Id: I3a6d1bfb6eba12bea936354ea1fe9813cbde425c

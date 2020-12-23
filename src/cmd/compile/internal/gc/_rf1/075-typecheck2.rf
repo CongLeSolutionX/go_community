@@ -1,0 +1,225 @@
+[dev.regabi] cmd/compile: split up typecheck1 [generated]
+
+typecheck1 is the largest non-machine-generated function in the compiler.
+weighing in at 1,747 lines. Since we are destroying the git blame history
+anyway, now is a good time to split each different case into its own function,
+making future work on this function more manageable.
+
+[git-generate]
+cd src/cmd/compile/internal/typecheck
+rf '
+	# Remove tracing print from typecheck1 - the one in typecheck is fine.
+	# Removing it lets us remove the named result.
+	# That lets all the cut-out functions not have named results.
+	rm typecheck.go:/^func typecheck1/+0,/^func typecheck1/+4
+	sub typecheck.go:/^func typecheck1/+/\(res ir\.Node\)/ ir.Node
+
+	mv typecheckselect tcSelect
+	mv typecheckswitch tcSwitch
+	mv typecheckrange tcRange
+	mv typecheckfunc tcFunc
+	mv checkdefergo tcGoDefer
+	mv typecheckclosure tcClosure
+	mv check typecheck
+	mv typecheckcomplit tcCompLit
+	mv typecheckas tcAssign
+	mv typecheckas2 tcAssignList
+	mv typecheckpartialcall tcCallPart
+	mv typecheckExprSwitch tcSwitchExpr
+	mv typecheckTypeSwitch tcSwitchType
+
+	mv typecheck1:/^\tcase ir.ORETURN:/+2,/^\tcase /-2 tcReturn
+	add typecheck.go:/^func tcReturn/-0 \
+		// tcReturn typechecks an ORETURN node.
+	mv typecheck1:/^\tcase ir.OIF:/+2,/^\tcase /-2 tcIf
+	add typecheck.go:/^func tcIf/-0 \
+		// tcIf typechecks an OIF node.
+	mv typecheck1:/^\tcase ir.OFOR,/+2,/^\tcase /-2 tcFor
+	add typecheck.go:/^func tcFor/-0 \
+		// tcFor typechecks an OFOR node.
+	mv typecheck1:/^\tcase ir.OSPTR:/+2,/^\tcase /-2 tcSPtr
+	add typecheck.go:/^func tcSPtr/-0 \
+		// tcSPtr typechecks an OSPTR node.
+	mv typecheck1:/^\tcase ir.OITAB:/+2,/^\tcase /-2 tcITab
+	add typecheck.go:/^func tcITab/-0 \
+		// tcITab typechecks an OITAB node.
+	mv typecheck1:/^\tcase ir.ORECOVER:/+2,/^\tcase /-2 tcRecover
+	add typecheck.go:/^func tcRecover/-0 \
+		// tcRecover typechecks an ORECOVER node.
+	mv typecheck1:/^\tcase ir.OPANIC:/+2,/^\tcase /-2 tcPanic
+	add typecheck.go:/^func tcPanic/-0 \
+		// tcPanic typechecks an OPANIC node.
+	mv typecheck1:/^\tcase ir.OPRINT,/+2,/^\tcase /-2 tcPrint
+	add typecheck.go:/^func tcPrint/-0 \
+		// tcPrint typechecks an OPRINT or OPRINTN node.
+	mv typecheck1:/^\tcase ir.ONEW:/+2,/^\tcase /-2 tcNew
+	add typecheck.go:/^func tcNew/-0 \
+		// tcNew typechecks an ONEW node.
+	mv typecheck1:/^\tcase ir.OMAKE:/+2,/^\tcase /-2 tcMake
+	add typecheck.go:/^func tcMake/-0 \
+		// tcMake typechecks an OMAKE node.
+	mv typecheck1:/^\tcase ir.OCONV:/+2,/^\tcase /-2 tcConv
+	add typecheck.go:/^func tcConv/-0 \
+		// tcConv typechecks an OCONV node.
+	mv typecheck1:/^\tcase ir.OCOPY:/+2,/^\tcase /-2 tcCopy
+	add typecheck.go:/^func tcCopy/-0 \
+		// tcCopy typechecks an OCOPY node.
+	mv typecheck1:/^\tcase ir.OAPPEND:/+2,/^\tcase /-2 tcAppend
+	add typecheck.go:/^func tcAppend/-0 \
+		// tcAppend typechecks an OAPPEND node.
+	mv typecheck1:/^\tcase ir.ODELETE:/+2,/^\tcase /-2 tcDelete
+	add typecheck.go:/^func tcDelete/-0 \
+		// tcDelete typechecks an ODELETE node.
+	mv typecheck1:/^\tcase ir.OCLOSE:/+2,/^\tcase /-2 tcClose
+	add typecheck.go:/^func tcClose/-0 \
+		// tcClose typechecks an OCLOSE node.
+	mv typecheck1:/^\tcase ir.OCOMPLEX:/+2,/^\tcase /-2 tcComplex
+	add typecheck.go:/^func tcComplex/-0 \
+		// tcComplex typechecks an OCOMPLEX node.
+	mv typecheck1:/^\tcase ir.OREAL,/+2,/^\tcase /-2 tcRealImag
+	add typecheck.go:/^func tcRealImag/-0 \
+		// tcRealImag typechecks an OREAL or OIMAG node.
+	mv typecheck1:/^\tcase ir.OCAP,/+2,/^\tcase /-2 tcLenCap
+	add typecheck.go:/^func tcLenCap/-0 \
+		// tcLenCap typechecks an OLEN or OCAP node.
+	mv typecheck1:/^\tcase ir.OCALL:/+2,/^\tcase /-2 tcCall
+	add typecheck.go:/^func tcCall/-0 \
+		// tcCall typechecks an OCALL node.
+	mv typecheck1:/^\tcase ir.OSLICE,/+2,/^\tcase /-3 tcSlice
+	add typecheck.go:/^func tcSlice/-0 \
+		// tcSlice typechecks an OSLICE or OSLICE3 node.
+	# move type assertion above comment
+	mv typecheck1:/^\tcase ir.OMAKESLICECOPY:/+/n := n/-+ typecheck1:/^\tcase ir.OMAKESLICECOPY:/+0
+	mv typecheck1:/^\tcase ir.OMAKESLICECOPY:/+2,/^\tcase /-2 tcMakeSliceCopy
+	add typecheck.go:/^func tcMakeSliceCopy/-0 \
+		// tcMakeSliceCopy typechecks an OMAKESLICECOPY node.
+	# move type assertion above comment
+	mv typecheck1:/^\tcase ir.OSLICEHEADER:/+/n := n/-+ typecheck1:/^\tcase ir.OSLICEHEADER:/+0
+	mv typecheck1:/^\tcase ir.OSLICEHEADER:/+2,/^\tcase /-2 tcSliceHeader
+	add typecheck.go:/^func tcSliceHeader/-0 \
+		// tcSliceHeader typechecks an OSLICEHEADER node.
+	mv typecheck1:/^\tcase ir.OSEND:/+2,/^\tcase /-2 tcSend
+	add typecheck.go:/^func tcSend/-0 \
+		// tcSend typechecks an OSEND node.
+	mv typecheck1:/^\tcase ir.ORECV:/+2,/^\tcase /-2 tcRecv
+	add typecheck.go:/^func tcRecv/-0 \
+		// tcRecv typechecks an ORECV node.
+	mv typecheck1:/^\tcase ir.OINDEX:/+2,/^\tcase /-2 tcIndex
+	add typecheck.go:/^func tcIndex/-0 \
+		// tcIndex typechecks an OINDEX node.
+	mv typecheck1:/^\tcase ir.ODOTTYPE:/+2,/^\tcase /-2 tcDotType
+	add typecheck.go:/^func tcDotType/-0 \
+		// tcDotType typechecks an ODOTTYPE node.
+	mv typecheck1:/^\tcase ir.OXDOT,/+2,/^\tcase /-2 tcDot
+	add typecheck.go:/^func tcDot/-0 \
+		// tcDot typechecks an OXDOT or ODOT node.
+	mv typecheck1:/^\tcase ir.OADDR:/+2,/^\tcase /-2 tcAddr
+	add typecheck.go:/^func tcAddr/-0 \
+		// tcAddr typechecks an OADDR node.
+	mv typecheck1:/^\tcase ir.OBITNOT,/+2,/^\tcase /-3 tcUnaryArith
+	add typecheck.go:/^func tcUnaryArith/-0 \
+		// tcUnaryArith typechecks a unary arithmetic expression.
+	mv typecheck1:/^\t\tir.OXOR:/+1,/^\tcase /-2 tcArith
+	add typecheck.go:/^func tcArith/-0 \
+		// tcArith typechecks a binary arithmetic expression.
+	mv typecheck1:/^\tcase ir.ODEREF:/+2,/^\tcase /-2 tcStar
+	add typecheck.go:/^func tcStar/-0 \
+		// tcStar typechecks an ODEREF node, which may be an expression or a type.
+	mv typecheck1:/^\tcase ir.OTFUNC:/+2,/^\tcase /-2 tcFuncType
+	add typecheck.go:/^func tcFuncType/-0 \
+		// tcFuncType typechecks an OTFUNC node.
+	mv typecheck1:/^\tcase ir.OTINTER:/+2,/^\tcase /-2 tcInterfaceType
+	add typecheck.go:/^func tcInterfaceType/-0 \
+		// tcInterfaceType typechecks an OTINTER node.
+	mv typecheck1:/^\tcase ir.OTSTRUCT:/+2,/^\tcase /-2 tcStructType
+	add typecheck.go:/^func tcStructType/-0 \
+		// tcStructType typechecks an OTSTRUCT node.
+	mv typecheck1:/^\tcase ir.OTCHAN:/+2,/^\tcase /-2 tcChanType
+	add typecheck.go:/^func tcChanType/-0 \
+		// tcChanType typechecks an OTCHAN node.
+	mv typecheck1:/^\tcase ir.OTMAP:/+2,/^\tcase /-2 tcMapType
+	add typecheck.go:/^func tcMapType/-0 \
+		// tcMapType typechecks an OTMAP node.
+	mv typecheck1:/^\tcase ir.OTARRAY:/+2,/^\tcase /-2 tcArrayType
+	add typecheck.go:/^func tcArrayType/-0 \
+		// tcArrayType typechecks an OTARRAY node.
+	mv typecheck1:/^\tcase ir.OTSLICE:/+2,/^\tcase /-2 tcSliceType
+	add typecheck.go:/^func tcSliceType/-0 \
+		// tcSliceType typechecks an OTSLICE node.
+	mv \
+		tcAssign \
+		tcAssignList \
+		tcFor \
+		tcGoDefer \
+		tcIf \
+		tcRange \
+		tcReturn \
+		tcSelect \
+		tcSend \
+		tcSwitch \
+		tcSwitchExpr \
+		tcSwitchType \
+		typeSet \
+		typeSetEntry \
+		typeSet.add \
+		stmt1.go
+	mv stmt1.go stmt.go
+
+	mv \
+		tcAddr \
+		tcArith \
+		tcArrayType \
+		tcChanType \
+		tcClosure \
+		tcCompLit \
+		tcConv \
+		tcDot \
+		tcDotType \
+		tcFuncType \
+		tcITab \
+		tcIndex \
+		tcInterfaceType \
+		tcLenCap \
+		tcMapType \
+		tcRecv \
+		tcSPtr \
+		tcSlice \
+		tcSliceHeader \
+		tcSliceType \
+		tcStar \
+		tcStructType \
+		tcUnaryArith \
+		expr.go
+
+	mv \
+		tcClosure \
+		tcCallPart \
+		tcFunc \
+		tcCall \
+		tcAppend \
+		tcClose \
+		tcComplex \
+		tcCopy \
+		tcDelete \
+		tcMake \
+		tcMakeSliceCopy \
+		tcNew \
+		tcPanic \
+		tcPrint \
+		tcRealImag \
+		tcRecover \
+		func1.go
+	mv func1.go func.go
+
+	mv \
+		tcArrayType \
+		tcChanType \
+		tcFuncType \
+		tcInterfaceType \
+		tcMapType \
+		tcSliceType \
+		tcStructType \
+		type.go
+'
+
+Change-Id: I0fb0a3039005bc1783575291daff1e6c306895ff

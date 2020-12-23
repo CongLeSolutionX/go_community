@@ -1,0 +1,202 @@
+[dev.regabi] cmd/compile: remove ir.Nod [generated]
+
+Rewrite all uses of ir.Nod and friends to call the IR constructors directly.
+This gives the results a more specific type and will play nicely with
+introduction of more specific types throughout the code in a followup CL.
+
+Passes buildall w/ toolstash -cmp.
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+ex . ../ir {
+	import "cmd/compile/internal/ir"
+	import "cmd/compile/internal/types"
+	import "cmd/compile/internal/syntax"
+	import "cmd/internal/src"
+
+	var p *noder
+	var orig syntax.Node
+	var op ir.Op
+	var l, r ir.Node
+	var sym *types.Sym
+	p.nod(orig, op, l, r) -> ir.NodAt(p.pos(orig), op, l, r)
+	p.nodSym(orig, op, l, sym) -> nodlSym(p.pos(orig), op, l, sym)
+
+	var xpos src.XPos
+	var ns ir.Nodes
+	npos(xpos, nodSym(op, l, sym)) -> nodlSym(xpos, op, l, sym)
+	npos(xpos, liststmt(ns)) -> ir.NewBlockStmt(xpos, ns)
+}
+ex . ../ir {
+	import "cmd/compile/internal/base"
+	import "cmd/compile/internal/ir"
+	import "cmd/compile/internal/types"
+
+	var op ir.Op
+	var l, r ir.Node
+	ir.Nod(op, l, r) -> ir.NodAt(base.Pos, op, l, r)
+
+	var sym *types.Sym
+	nodSym(op, l, sym) -> nodlSym(base.Pos, op, l, sym)
+}
+ex . ../ir {
+	import "cmd/compile/internal/ir"
+	import "cmd/internal/src"
+
+	# rf overlapping match handling is not quite good enough
+	# for certain nested rewrites, so handle these two - which often contain other ir.NodAt calls - early.
+	var l, r ir.Node
+	var xpos src.XPos
+	ir.NodAt(xpos, ir.OAS, l, r)              -> ir.NewAssignStmt(xpos, l, r)
+	ir.NodAt(xpos, ir.OIF, l, nil)            -> ir.NewIfStmt(xpos, l, nil, nil)
+}
+ex . ../ir {
+	import "cmd/compile/internal/ir"
+	import "cmd/compile/internal/types"
+	import "cmd/internal/src"
+
+	var l, r ir.Node
+	var sym *types.Sym
+	var xpos src.XPos
+
+	nodlSym(xpos, ir.ODOT, l, sym)                   -> ir.NewSelectorExpr(xpos, ir.ODOT, l, sym)
+	nodlSym(xpos, ir.OXDOT, l, sym)                  -> ir.NewSelectorExpr(xpos, ir.OXDOT, l, sym)
+	nodlSym(xpos, ir.ODOTPTR, l, sym)                -> ir.NewSelectorExpr(xpos, ir.ODOTPTR, l, sym)
+	nodlSym(xpos, ir.OGOTO, nil, sym)                -> ir.NewBranchStmt(xpos, ir.OGOTO, sym)
+	nodlSym(xpos, ir.ORETJMP, nil, sym)              -> ir.NewBranchStmt(xpos, ir.ORETJMP, sym)
+	nodlSym(xpos, ir.OLABEL, nil, sym)               -> ir.NewLabelStmt(xpos, sym)
+	nodlSym(xpos, ir.OSTRUCTKEY, l, sym)             -> ir.NewStructKeyExpr(xpos, sym, l)
+
+	ir.NodAt(xpos, ir.OADD, l, r)             -> ir.NewBinaryExpr(xpos, ir.OADD, l, r)
+	ir.NodAt(xpos, ir.OAND, l, r)             -> ir.NewBinaryExpr(xpos, ir.OAND, l, r)
+	ir.NodAt(xpos, ir.OANDNOT, l, r)          -> ir.NewBinaryExpr(xpos, ir.OANDNOT, l, r)
+	ir.NodAt(xpos, ir.ODIV, l, r)             -> ir.NewBinaryExpr(xpos, ir.ODIV, l, r)
+	ir.NodAt(xpos, ir.OEQ, l, r)              -> ir.NewBinaryExpr(xpos, ir.OEQ, l, r)
+	ir.NodAt(xpos, ir.OGE, l, r)              -> ir.NewBinaryExpr(xpos, ir.OGE, l, r)
+	ir.NodAt(xpos, ir.OGT, l, r)              -> ir.NewBinaryExpr(xpos, ir.OGT, l, r)
+	ir.NodAt(xpos, ir.OLE, l, r)              -> ir.NewBinaryExpr(xpos, ir.OLE, l, r)
+	ir.NodAt(xpos, ir.OLSH, l, r)             -> ir.NewBinaryExpr(xpos, ir.OLSH, l, r)
+	ir.NodAt(xpos, ir.OLT, l, r)              -> ir.NewBinaryExpr(xpos, ir.OLT, l, r)
+	ir.NodAt(xpos, ir.OMOD, l, r)             -> ir.NewBinaryExpr(xpos, ir.OMOD, l, r)
+	ir.NodAt(xpos, ir.OMUL, l, r)             -> ir.NewBinaryExpr(xpos, ir.OMUL, l, r)
+	ir.NodAt(xpos, ir.ONE, l, r)              -> ir.NewBinaryExpr(xpos, ir.ONE, l, r)
+	ir.NodAt(xpos, ir.OOR, l, r)              -> ir.NewBinaryExpr(xpos, ir.OOR, l, r)
+	ir.NodAt(xpos, ir.ORSH, l, r)             -> ir.NewBinaryExpr(xpos, ir.ORSH, l, r)
+	ir.NodAt(xpos, ir.OSUB, l, r)             -> ir.NewBinaryExpr(xpos, ir.OSUB, l, r)
+	ir.NodAt(xpos, ir.OXOR, l, r)             -> ir.NewBinaryExpr(xpos, ir.OXOR, l, r)
+	ir.NodAt(xpos, ir.OCOPY, l, r)            -> ir.NewBinaryExpr(xpos, ir.OCOPY, l, r)
+	ir.NodAt(xpos, ir.OCOMPLEX, l, r)         -> ir.NewBinaryExpr(xpos, ir.OCOMPLEX, l, r)
+	ir.NodAt(xpos, ir.OEFACE, l, r)           -> ir.NewBinaryExpr(xpos, ir.OEFACE, l, r)
+	ir.NodAt(xpos, ir.OADDR, l, nil)          -> ir.NewAddrExpr(xpos, l)
+	ir.NodAt(xpos, ir.OADDSTR, nil, nil)      -> ir.NewAddStringExpr(xpos, nil)
+	ir.NodAt(xpos, ir.OANDAND, l, r)          -> ir.NewLogicalExpr(xpos, ir.OANDAND, l, r)
+	ir.NodAt(xpos, ir.OOROR, l, r)            -> ir.NewLogicalExpr(xpos, ir.OOROR, l, r)
+	ir.NodAt(xpos, ir.OARRAYLIT, nil, nil)    -> ir.NewCompLitExpr(xpos, ir.OARRAYLIT, nil, nil)
+	ir.NodAt(xpos, ir.OCOMPLIT, nil, nil)     -> ir.NewCompLitExpr(xpos, ir.OCOMPLIT, nil, nil)
+	ir.NodAt(xpos, ir.OMAPLIT, nil, nil)      -> ir.NewCompLitExpr(xpos, ir.OMAPLIT, nil, nil)
+	ir.NodAt(xpos, ir.OSTRUCTLIT, nil, nil)   -> ir.NewCompLitExpr(xpos, ir.OSTRUCTLIT, nil, nil)
+	ir.NodAt(xpos, ir.OSLICELIT, nil, nil)    -> ir.NewCompLitExpr(xpos, ir.OSLICELIT, nil, nil)
+	ir.NodAt(xpos, ir.OARRAYLIT, nil, r)      -> ir.NewCompLitExpr(xpos, ir.OARRAYLIT, r.(ir.Ntype), nil)
+	ir.NodAt(xpos, ir.OCOMPLIT, nil, r)       -> ir.NewCompLitExpr(xpos, ir.OCOMPLIT, r.(ir.Ntype), nil)
+	ir.NodAt(xpos, ir.OMAPLIT, nil, r)        -> ir.NewCompLitExpr(xpos, ir.OMAPLIT, r.(ir.Ntype), nil)
+	ir.NodAt(xpos, ir.OSTRUCTLIT, nil, r)     -> ir.NewCompLitExpr(xpos, ir.OSTRUCTLIT, r.(ir.Ntype), nil)
+	ir.NodAt(xpos, ir.OSLICELIT, nil, r)      -> ir.NewCompLitExpr(xpos, ir.OSLICELIT, r.(ir.Ntype), nil)
+	ir.NodAt(xpos, ir.OAS2, nil, nil)         -> ir.NewAssignListStmt(xpos, ir.OAS2, nil, nil)
+	ir.NodAt(xpos, ir.OAS2DOTTYPE, nil, nil)  -> ir.NewAssignListStmt(xpos, ir.OAS2DOTTYPE, nil, nil)
+	ir.NodAt(xpos, ir.OAS2FUNC, nil, nil)     -> ir.NewAssignListStmt(xpos, ir.OAS2FUNC, nil, nil)
+	ir.NodAt(xpos, ir.OAS2MAPR, nil, nil)     -> ir.NewAssignListStmt(xpos, ir.OAS2MAPR, nil, nil)
+	ir.NodAt(xpos, ir.OAS2RECV, nil, nil)     -> ir.NewAssignListStmt(xpos, ir.OAS2RECV, nil, nil)
+	ir.NodAt(xpos, ir.OSELRECV2, nil, nil)    -> ir.NewAssignListStmt(xpos, ir.OSELRECV2, nil, nil)
+	ir.NodAt(xpos, ir.OASOP, l, r)            -> ir.NewAssignOpStmt(xpos, ir.OXXX, l, r)
+	ir.NodAt(xpos, ir.OBITNOT, l, nil)        -> ir.NewUnaryExpr(xpos, ir.OBITNOT, l)
+	ir.NodAt(xpos, ir.ONEG, l, nil)           -> ir.NewUnaryExpr(xpos, ir.ONEG, l)
+	ir.NodAt(xpos, ir.ONOT, l, nil)           -> ir.NewUnaryExpr(xpos, ir.ONOT, l)
+	ir.NodAt(xpos, ir.OPLUS, l, nil)          -> ir.NewUnaryExpr(xpos, ir.OPLUS, l)
+	ir.NodAt(xpos, ir.ORECV, l, nil)          -> ir.NewUnaryExpr(xpos, ir.ORECV, l)
+	ir.NodAt(xpos, ir.OALIGNOF, l, nil)       -> ir.NewUnaryExpr(xpos, ir.OALIGNOF, l)
+	ir.NodAt(xpos, ir.OCAP, l, nil)           -> ir.NewUnaryExpr(xpos, ir.OCAP, l)
+	ir.NodAt(xpos, ir.OCLOSE, l, nil)         -> ir.NewUnaryExpr(xpos, ir.OCLOSE, l)
+	ir.NodAt(xpos, ir.OIMAG, l, nil)          -> ir.NewUnaryExpr(xpos, ir.OIMAG, l)
+	ir.NodAt(xpos, ir.OLEN, l, nil)           -> ir.NewUnaryExpr(xpos, ir.OLEN, l)
+	ir.NodAt(xpos, ir.ONEW, l, nil)           -> ir.NewUnaryExpr(xpos, ir.ONEW, l)
+	ir.NodAt(xpos, ir.ONEWOBJ, l, nil)        -> ir.NewUnaryExpr(xpos, ir.ONEWOBJ, l)
+	ir.NodAt(xpos, ir.OOFFSETOF, l, nil)      -> ir.NewUnaryExpr(xpos, ir.OOFFSETOF, l)
+	ir.NodAt(xpos, ir.OPANIC, l, nil)         -> ir.NewUnaryExpr(xpos, ir.OPANIC, l)
+	ir.NodAt(xpos, ir.OREAL, l, nil)          -> ir.NewUnaryExpr(xpos, ir.OREAL, l)
+	ir.NodAt(xpos, ir.OSIZEOF, l, nil)        -> ir.NewUnaryExpr(xpos, ir.OSIZEOF, l)
+	ir.NodAt(xpos, ir.OCHECKNIL, l, nil)      -> ir.NewUnaryExpr(xpos, ir.OCHECKNIL, l)
+	ir.NodAt(xpos, ir.OCFUNC, l, nil)         -> ir.NewUnaryExpr(xpos, ir.OCFUNC, l)
+	ir.NodAt(xpos, ir.OIDATA, l, nil)         -> ir.NewUnaryExpr(xpos, ir.OIDATA, l)
+	ir.NodAt(xpos, ir.OITAB, l, nil)          -> ir.NewUnaryExpr(xpos, ir.OITAB, l)
+	ir.NodAt(xpos, ir.OSPTR, l, nil)          -> ir.NewUnaryExpr(xpos, ir.OSPTR, l)
+	ir.NodAt(xpos, ir.OVARDEF, l, nil)        -> ir.NewUnaryExpr(xpos, ir.OVARDEF, l)
+	ir.NodAt(xpos, ir.OVARKILL, l, nil)       -> ir.NewUnaryExpr(xpos, ir.OVARKILL, l)
+	ir.NodAt(xpos, ir.OVARLIVE, l, nil)       -> ir.NewUnaryExpr(xpos, ir.OVARLIVE, l)
+	ir.NodAt(xpos, ir.OBLOCK, nil, nil)       -> ir.NewBlockStmt(xpos, nil)
+	ir.NodAt(xpos, ir.OBREAK, nil, nil)       -> ir.NewBranchStmt(xpos, ir.OBREAK, nil)
+	ir.NodAt(xpos, ir.OCONTINUE, nil, nil)    -> ir.NewBranchStmt(xpos, ir.OCONTINUE, nil)
+	ir.NodAt(xpos, ir.OFALL, nil, nil)        -> ir.NewBranchStmt(xpos, ir.OFALL, nil)
+	ir.NodAt(xpos, ir.OGOTO, nil, nil)        -> ir.NewBranchStmt(xpos, ir.OGOTO, nil)
+	ir.NodAt(xpos, ir.ORETJMP, nil, nil)      -> ir.NewBranchStmt(xpos, ir.ORETJMP, nil)
+	ir.NodAt(xpos, ir.OCALL, l, nil)          -> ir.NewCallExpr(xpos, ir.OCALL, l, nil)
+	ir.NodAt(xpos, ir.OCALLFUNC, l, nil)      -> ir.NewCallExpr(xpos, ir.OCALLFUNC, l, nil)
+	ir.NodAt(xpos, ir.OCALLINTER, l, nil)     -> ir.NewCallExpr(xpos, ir.OCALLINTER, l, nil)
+	ir.NodAt(xpos, ir.OCALLMETH, l, nil)      -> ir.NewCallExpr(xpos, ir.OCALLMETH, l, nil)
+	ir.NodAt(xpos, ir.OAPPEND, l, nil)        -> ir.NewCallExpr(xpos, ir.OAPPEND, l, nil)
+	ir.NodAt(xpos, ir.ODELETE, l, nil)        -> ir.NewCallExpr(xpos, ir.ODELETE, l, nil)
+	ir.NodAt(xpos, ir.OGETG, l, nil)          -> ir.NewCallExpr(xpos, ir.OGETG, l, nil)
+	ir.NodAt(xpos, ir.OMAKE, l, nil)          -> ir.NewCallExpr(xpos, ir.OMAKE, l, nil)
+	ir.NodAt(xpos, ir.OPRINT, l, nil)         -> ir.NewCallExpr(xpos, ir.OPRINT, l, nil)
+	ir.NodAt(xpos, ir.OPRINTN, l, nil)        -> ir.NewCallExpr(xpos, ir.OPRINTN, l, nil)
+	ir.NodAt(xpos, ir.ORECOVER, l, nil)       -> ir.NewCallExpr(xpos, ir.ORECOVER, l, nil)
+	ir.NodAt(xpos, ir.OCASE, nil, nil)        -> ir.NewCaseStmt(xpos, nil, nil)
+	ir.NodAt(xpos, ir.OCONV, l, nil)          -> ir.NewConvExpr(xpos, ir.OCONV, nil, l)
+	ir.NodAt(xpos, ir.OCONVIFACE, l, nil)     -> ir.NewConvExpr(xpos, ir.OCONVIFACE, nil, l)
+	ir.NodAt(xpos, ir.OCONVNOP, l, nil)       -> ir.NewConvExpr(xpos, ir.OCONVNOP, nil, l)
+	ir.NodAt(xpos, ir.ORUNESTR, l, nil)       -> ir.NewConvExpr(xpos, ir.ORUNESTR, nil, l)
+	ir.NodAt(xpos, ir.ODCL, l, nil)           -> ir.NewDecl(xpos, ir.ODCL, l)
+	ir.NodAt(xpos, ir.ODCLCONST, l, nil)      -> ir.NewDecl(xpos, ir.ODCLCONST, l)
+	ir.NodAt(xpos, ir.ODCLTYPE, l, nil)       -> ir.NewDecl(xpos, ir.ODCLTYPE, l)
+	ir.NodAt(xpos, ir.ODCLFUNC, nil, nil)     -> ir.NewFunc(xpos)
+	ir.NodAt(xpos, ir.ODEFER, l, nil)         -> ir.NewGoDeferStmt(xpos, ir.ODEFER, l)
+	ir.NodAt(xpos, ir.OGO, l, nil)            -> ir.NewGoDeferStmt(xpos, ir.OGO, l)
+	ir.NodAt(xpos, ir.ODEREF, l, nil)         -> ir.NewStarExpr(xpos, l)
+	ir.NodAt(xpos, ir.ODOT, l, nil)           -> ir.NewSelectorExpr(xpos, ir.ODOT, l, nil)
+	ir.NodAt(xpos, ir.ODOTPTR, l, nil)        -> ir.NewSelectorExpr(xpos, ir.ODOTPTR, l, nil)
+	ir.NodAt(xpos, ir.ODOTMETH, l, nil)       -> ir.NewSelectorExpr(xpos, ir.ODOTMETH, l, nil)
+	ir.NodAt(xpos, ir.ODOTINTER, l, nil)      -> ir.NewSelectorExpr(xpos, ir.ODOTINTER, l, nil)
+	ir.NodAt(xpos, ir.OXDOT, l, nil)          -> ir.NewSelectorExpr(xpos, ir.OXDOT, l, nil)
+	ir.NodAt(xpos, ir.ODOTTYPE, l, nil)       -> ir.NewTypeAssertExpr(xpos, l, nil)
+	ir.NodAt(xpos, ir.ODOTTYPE, l, r)         -> ir.NewTypeAssertExpr(xpos, l, r.(ir.Ntype))
+	ir.NodAt(xpos, ir.OFOR, l, r)             -> ir.NewForStmt(xpos, nil, l, r, nil)
+	ir.NodAt(xpos, ir.OINDEX, l, r)           -> ir.NewIndexExpr(xpos, l, r)
+	ir.NodAt(xpos, ir.OINLMARK, nil, nil)     -> ir.NewInlineMarkStmt(xpos, types.BADWIDTH)
+	ir.NodAt(xpos, ir.OKEY, l, r)             -> ir.NewKeyExpr(xpos, l, r)
+	ir.NodAt(xpos, ir.OLABEL, nil, nil)       -> ir.NewLabelStmt(xpos, nil)
+	ir.NodAt(xpos, ir.OMAKECHAN, l, r)        -> ir.NewMakeExpr(xpos, ir.OMAKECHAN, l, r)
+	ir.NodAt(xpos, ir.OMAKEMAP, l, r)         -> ir.NewMakeExpr(xpos, ir.OMAKEMAP, l, r)
+	ir.NodAt(xpos, ir.OMAKESLICE, l, r)       -> ir.NewMakeExpr(xpos, ir.OMAKESLICE, l, r)
+	ir.NodAt(xpos, ir.OMAKESLICECOPY, l, r)   -> ir.NewMakeExpr(xpos, ir.OMAKESLICECOPY, l, r)
+	ir.NodAt(xpos, ir.ONIL, nil, nil)         -> ir.NewNilExpr(xpos)
+	ir.NodAt(xpos, ir.OPACK, nil, nil)        -> ir.NewPkgName(xpos, nil, nil)
+	ir.NodAt(xpos, ir.OPAREN, l, nil)         -> ir.NewParenExpr(xpos, l)
+	ir.NodAt(xpos, ir.ORANGE, nil, r)         -> ir.NewRangeStmt(xpos, nil, r, nil)
+	ir.NodAt(xpos, ir.ORESULT, nil, nil)      -> ir.NewResultExpr(xpos, nil, types.BADWIDTH)
+	ir.NodAt(xpos, ir.ORETURN, nil, nil)      -> ir.NewReturnStmt(xpos, nil)
+	ir.NodAt(xpos, ir.OSELECT, nil, nil)      -> ir.NewSelectStmt(xpos, nil)
+	ir.NodAt(xpos, ir.OSEND, l, r)            -> ir.NewSendStmt(xpos, l, r)
+	ir.NodAt(xpos, ir.OSLICE, l, nil)         -> ir.NewSliceExpr(xpos, ir.OSLICE, l)
+	ir.NodAt(xpos, ir.OSLICEARR, l, nil)      -> ir.NewSliceExpr(xpos, ir.OSLICEARR, l)
+	ir.NodAt(xpos, ir.OSLICESTR, l, nil)      -> ir.NewSliceExpr(xpos, ir.OSLICESTR, l)
+	ir.NodAt(xpos, ir.OSLICE3, l, nil)        -> ir.NewSliceExpr(xpos, ir.OSLICE3, l)
+	ir.NodAt(xpos, ir.OSLICE3ARR, l, nil)     -> ir.NewSliceExpr(xpos, ir.OSLICE3ARR, l)
+	ir.NodAt(xpos, ir.OSLICEHEADER, l, nil)   -> ir.NewSliceHeaderExpr(xpos, nil, l, nil, nil)
+	ir.NodAt(xpos, ir.OSWITCH, l, nil)        -> ir.NewSwitchStmt(xpos, l, nil)
+	ir.NodAt(xpos, ir.OINLCALL, nil, nil)     -> ir.NewInlinedCallExpr(xpos, nil, nil)
+}
+
+rm noder.nod noder.nodSym nodSym nodlSym ir.NodAt ir.Nod
+'
+
+Change-Id: Ibf1eb708de8463ae74ccc47d7966cc263a18295e

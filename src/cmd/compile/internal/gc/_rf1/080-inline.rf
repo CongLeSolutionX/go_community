@@ -1,0 +1,16 @@
+[dev.regabi] cmd/compile: split out package inline [generated]
+
+[git-generate]
+
+cd src/cmd/compile/internal/gc
+rf '
+	mv numNonClosures inl.go
+	mv inlFlood Inline_Flood
+	mv inlcalls InlineCalls
+	mv devirtualize Devirtualize
+	mv caninl CanInline
+
+	mv inl.go cmd/compile/internal/inline
+'
+
+Change-Id: Iee1f5b1e82d5cea6be4ecd91e6920500810f21de

@@ -1,0 +1,15 @@
+[dev.regabi] cmd/compile: split out package test [generated]
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+	mv bench_test.go constFold_test.go dep_test.go \
+		fixedbugs_test.go iface_test.go float_test.go global_test.go \
+		inl_test.go lang_test.go logic_test.go \
+		reproduciblebuilds_test.go shift_test.go ssa_test.go \
+		truncconst_test.go zerorange_test.go \
+		cmd/compile/internal/test
+'
+mv testdata ../test
+
+Change-Id: I041971b7e9766673f7a331679bfe1c8110dcda66

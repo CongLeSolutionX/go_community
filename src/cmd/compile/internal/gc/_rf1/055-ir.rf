@@ -1,0 +1,91 @@
+[dev.regabi] cmd/compile: move helpers into package ir [generated]
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+	# Inline a few little-used constructors to avoid bringing them.
+	ex {
+		import "cmd/compile/internal/base"
+		import "cmd/compile/internal/ir"
+		import "cmd/compile/internal/types"
+		import "cmd/internal/src"
+
+		var typ *types.Type
+		var sym *types.Sym
+		var str string
+		symfield(sym, typ) -> ir.NewField(base.Pos, sym, nil, typ)
+		anonfield(typ) -> ir.NewField(base.Pos, nil, nil, typ)
+		namedfield(str, typ) -> ir.NewField(base.Pos, lookup(str), nil, typ)
+
+		var cp *ir.CallPartExpr
+		callpartMethod(cp) -> cp.Method
+		var n ir.Node
+		callpartMethod(n) -> n.(*ir.CallPartExpr).Method
+
+		var ns []ir.Node
+		liststmt(ns) -> ir.NewBlockStmt(src.NoXPos, ns)
+	}
+	rm symfield anonfield namedfield liststmt callpartMethod
+
+	mv maxStackVarSize MaxStackVarSize
+	mv maxImplicitStackVarSize MaxImplicitStackVarSize
+	mv smallArrayBytes MaxSmallArraySize
+	mv MaxStackVarSize cfg.go
+
+	mv nodbool NewBool
+	mv nodintconst NewInt
+	mv nodstr NewString
+	mv NewBool NewInt NewString const.go
+
+	mv Mpprec ConstPrec
+	mv bigFloatVal BigFloat
+	mv doesoverflow ConstOverflow
+	mv isGoConst IsConstNode
+	mv smallintconst IsSmallIntConst
+
+	mv isZero IsZero
+	mv islvalue IsAssignable
+	mv staticValue StaticValue
+	mv samesafeexpr SameSafeExpr
+	mv checkPtr ShouldCheckPtr
+	mv isReflectHeaderDataField IsReflectHeaderDataField
+	mv paramNnames ParamNames
+	mv methodSym MethodSym
+	mv methodSymSuffix MethodSymSuffix
+	mv methodExprFunc MethodExprFunc
+	mv methodExprName MethodExprName
+	mv IsZero IsAssignable StaticValue staticValue1 reassigned \
+		IsIntrinsicCall \
+		SameSafeExpr ShouldCheckPtr IsReflectHeaderDataField \
+		ParamNames MethodSym MethodSymSuffix \
+		MethodExprName MethodExprFunc \
+		expr.go
+
+	mv Curfn CurFunc
+	mv funcsymname FuncSymName
+	mv newFuncNameAt NewFuncNameAt
+	mv setNodeNameFunc MarkFunc
+	mv CurFunc FuncSymName NewFuncNameAt MarkFunc func.go
+
+	mv isParamStackCopy IsParamStackCopy
+	mv isParamHeapCopy IsParamHeapCopy
+	mv nodfp RegFP
+	mv IsParamStackCopy IsParamHeapCopy RegFP name.go
+
+	mv hasUniquePos HasUniquePos
+	mv setlineno SetPos
+	mv initExpr InitExpr
+	mv hasNamedResults HasNamedResults
+	mv outervalue OuterValue
+	mv HasNamedResults HasUniquePos SetPos InitExpr OuterValue EscNever node.go
+
+	mv visitBottomUp VisitFuncsBottomUp # scc.go
+
+	mv cfg.go \
+		NewBool NewInt NewString \ # parts of const.go
+		ConstPrec BigFloat ConstOverflow IsConstNode IsSmallIntConst \
+		expr.go func.go name.go node.go scc.go \
+		cmd/compile/internal/ir
+'
+
+Change-Id: I13402c5a2cedbf78d993a1eae2940718f23ac166

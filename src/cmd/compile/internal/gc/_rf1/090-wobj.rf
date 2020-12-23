@@ -1,0 +1,94 @@
+[dev.regabi] cmd/compile: split out package objw [generated]
+
+Object file writing routines are used not just at the end
+of the compilation but also during static data layout in walk.
+Split them into their own package.
+
+[git-generate]
+
+cd src/cmd/compile/internal/gc
+rf '
+	# Move bit vector to new package bitvec
+	mv bvec.n bvec.N
+	mv bvec.b bvec.B
+	mv bvec BitVec
+	mv bvalloc New
+	mv bvbulkalloc NewBulk
+	mv bulkBvec.next bulkBvec.Next
+	mv bulkBvec Bulk
+	mv H0 h0
+	mv Hp hp
+
+	# Leave bvecSet and bitmap hashes behind - not needed as broadly.
+	mv bvecSet.extractUniqe bvecSet.extractUnique
+	mv h0 bvecSet bvecSet.grow bvecSet.add \
+		bvecSet.extractUnique hashbitmap bvset.go
+
+	mv bv.go cmd/compile/internal/bitvec
+
+	ex . ../arm ../arm64 ../mips ../mips64 ../ppc64 ../s390x ../riscv64 {
+		import "cmd/internal/obj"
+		var a *obj.Addr
+		var i int64
+		Addrconst(a, i) -> a.SetConst(i)
+		var p, to *obj.Prog
+		Patch(p, to) -> p.To.SetTarget(to)
+	}
+	rm Addrconst Patch
+
+	# Move object-writing API to new package objw
+	mv duint8 Objw_Uint8
+	mv duint16 Objw_Uint16
+	mv duint32 Objw_Uint32
+	mv duintptr Objw_Uintptr
+	mv duintxx Objw_UintN
+	mv dsymptr Objw_SymPtr
+	mv dsymptrOff Objw_SymPtrOff
+	mv dsymptrWeakOff Objw_SymPtrWeakOff
+	mv ggloblsym Objw_Global
+	mv dbvec Objw_BitVec
+	mv newProgs NewProgs
+	mv Progs.clearp Progs.Clear
+	mv Progs.settext Progs.SetText
+	mv Progs.next Progs.Next
+	mv Progs.pc Progs.PC
+	mv Progs.pos Progs.Pos
+	mv Progs.curfn Progs.CurFunc
+	mv Progs.progcache Progs.Cache
+	mv Progs.cacheidx Progs.CacheIndex
+	mv Progs.nextLive Progs.NextLive
+	mv Progs.prevLive Progs.PrevLive
+	mv Progs.Appendpp Progs.Append
+	mv LivenessIndex.stackMapIndex LivenessIndex.StackMapIndex
+	mv LivenessIndex.isUnsafePoint LivenessIndex.IsUnsafePoint
+
+	mv Objw_Uint8 Objw_Uint16 Objw_Uint32 Objw_Uintptr Objw_UintN \
+		Objw_SymPtr Objw_SymPtrOff Objw_SymPtrWeakOff Objw_Global \
+		Objw_BitVec \
+		objw.go
+	mv sharedProgArray NewProgs Progs \
+		LivenessIndex StackMapDontCare \
+		LivenessDontCare LivenessIndex.StackMapValid \
+		Progs.NewProg Progs.Flush Progs.Free Progs.Prog Progs.Clear Progs.Append Progs.SetText \
+		prog.go
+	mv prog.go objw.go cmd/compile/internal/objw
+
+	# Move ggloblnod to obj with the rest of the non-objw higher-level writing.
+	mv ggloblnod obj.go
+'
+
+cd ../objw
+rf '
+	mv Objw_Uint8 Uint8
+	mv Objw_Uint16 Uint16
+	mv Objw_Uint32 Uint32
+	mv Objw_Uintptr Uintptr
+	mv Objw_UintN UintN
+	mv Objw_SymPtr SymPtr
+	mv Objw_SymPtrOff SymPtrOff
+	mv Objw_SymPtrWeakOff SymPtrWeakOff
+	mv Objw_Global Global
+	mv Objw_BitVec BitVec
+'
+
+Change-Id: I2b87085aa788564fb322e9c55bddd73347b4d5fd

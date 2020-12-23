@@ -1,0 +1,265 @@
+[dev.regabi] cmd/compile: split out package typecheck [generated]
+
+This commit splits the typechecking logic into its own package,
+the first of a sequence of CLs to break package gc into more
+manageable units.
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+	# The binary import/export has to be part of typechecking,
+	# because we load inlined function bodies lazily, but "exporter"
+	# should not be. Move that out of bexport.go.
+	mv exporter exporter.markObject exporter.markType export.go
+
+	# Use the typechecking helpers, so that the calls left behind
+	# in package gc do not need access to ctxExpr etc.
+	ex {
+		import "cmd/compile/internal/ir"
+
+		# TODO(rsc): Should not be necessary.
+		avoid TypecheckExpr
+		avoid TypecheckStmt
+		avoid TypecheckExprs
+		avoid TypecheckStmts
+		avoid TypecheckAssignExpr
+		avoid TypecheckCallee
+
+		var n ir.Node
+		var ns []ir.Node
+		typecheck(n, ctxExpr) -> TypecheckExpr(n)
+		typecheck(n, ctxStmt) -> TypecheckStmt(n)
+		typecheckslice(ns, ctxExpr) -> TypecheckExprs(ns)
+		typecheckslice(ns, ctxStmt) -> TypecheckStmts(ns)
+		typecheck(n, ctxExpr|ctxAssign) -> TypecheckAssignExpr(n)
+		typecheck(n, ctxExpr|ctxCallee) -> TypecheckCallee(n)
+	}
+
+	# Move some typechecking API to typecheck.
+	mv syslook LookupRuntime
+	mv substArgTypes SubstArgTypes
+	mv LookupRuntime SubstArgTypes syms.go
+
+	mv conv Conv
+	mv convnop ConvNop
+	mv Conv ConvNop typecheck.go
+
+	mv colasdefn AssignDefn
+	mv colasname assignableName
+
+	mv Target target.go
+
+	mv initname autoexport exportsym dcl.go
+	mv exportsym Export
+
+	# Export API to be called from outside typecheck.
+	# The ones with "Typecheck" prefixes will be renamed later to drop the prefix.
+	mv adddot AddImplicitDots
+	mv assignconv AssignConv
+	mv expandmeth CalcMethods
+	mv capturevarscomplete CaptureVarsComplete
+	mv checkMapKeys CheckMapKeys
+	mv checkreturn CheckReturn
+	mv dclcontext DeclContext
+	mv dclfunc DeclFunc
+	mv declare Declare
+	mv dotImportRefs DotImportRefs
+	mv declImporter DeclImporter
+	mv variter DeclVars
+	mv defaultlit DefaultLit
+	mv evalConst EvalConst
+	mv expandInline ImportBody
+	mv finishUniverse declareUniverse
+	mv funcbody FinishFuncBody
+	mv funchdr StartFuncBody
+	mv indexconst IndexConst
+	mv initTodo InitTodoFunc
+	mv lookup Lookup
+	mv resolve Resolve
+	mv lookupN LookupNum
+	mv nodAddr NodAddr
+	mv nodAddrAt NodAddrAt
+	mv nodnil NodNil
+	mv origBoolConst OrigBool
+	mv origConst OrigConst
+	mv origIntConst OrigInt
+	mv redeclare Redeclared
+	mv tostruct NewStructType
+	mv functype NewFuncType
+	mv methodfunc NewMethodType
+	mv structargs NewFuncParams
+	mv temp Temp
+	mv tempAt TempAt
+	mv typecheckok TypecheckAllowed
+	mv typecheck _typecheck # make room for typecheck pkg
+	mv typecheckinl TypecheckImportedBody
+	mv typecheckFunc TypecheckFunc
+	mv iimport ReadImports
+	mv iexport WriteExports
+	mv sysfunc LookupRuntimeFunc
+	mv sysvar LookupRuntimeVar
+
+	# Move function constructors to typecheck.
+	mv mkdotargslice MakeDotArgs
+	mv fixVariadicCall FixVariadicCall
+	mv closureType ClosureType
+	mv partialCallType PartialCallType
+	mv capturevars CaptureVars
+	mv MakeDotArgs FixVariadicCall ClosureType PartialCallType CaptureVars typecheckclosure func.go
+
+	mv autolabel AutoLabel
+	mv AutoLabel syms.go
+
+	mv Dlist dlist
+	mv Symlink symlink
+
+	mv \
+		AssignDefn assignableName \
+		AssignConv \
+		CaptureVarsComplete \
+		DeclContext \
+		DeclFunc \
+		DeclImporter \
+		DeclVars \
+		Declare \
+		DotImportRefs \
+		Export \
+		InitTodoFunc \
+		Lookup \
+		LookupNum \
+		LookupRuntimeFunc \
+		LookupRuntimeVar \
+		NewFuncParams \
+		NewName \
+		NodAddr \
+		NodAddrAt \
+		NodNil \
+		Redeclared \
+		StartFuncBody \
+		FinishFuncBody \
+		TypecheckImportedBody \
+		AddImplicitDots \
+		CalcMethods \
+		CheckFuncStack \
+		NewFuncType \
+		NewMethodType \
+		NewStructType \
+		TypecheckAllowed \
+		Temp \
+		TempAt \
+		adddot1 \
+		dotlist \
+		addmethod \
+		assignconvfn \
+		assignop \
+		autotmpname \
+		autoexport \
+		bexport.go \
+		checkdupfields \
+		checkembeddedtype \
+		closurename \
+		convertop \
+		declare_typegen \
+		decldepth \
+		dlist \
+		dotpath \
+		expand0 \
+		expand1 \
+		expandDecl \
+		fakeRecvField \
+		fnpkg \
+		funcStack \
+		funcStackEnt \
+		funcarg \
+		funcarg2 \
+		funcargs \
+		funcargs2 \
+		globClosgen \
+		ifacelookdot \
+		implements \
+		importalias \
+		importconst \
+		importfunc \
+		importobj \
+		importsym \
+		importtype \
+		importvar \
+		inimport \
+		initname \
+		isptrto \
+		loadsys \
+		lookdot0 \
+		lookdot1 \
+		makepartialcall \
+		okfor \
+		okforlen \
+		operandType \
+		slist \
+		symlink \
+		tointerface \
+		typeSet \
+		typeSet.add \
+		typeSetEntry \
+		typecheckExprSwitch \
+		typecheckTypeSwitch \
+		typecheckpartialcall \
+		typecheckrange \
+		typecheckrangeExpr \
+		typecheckselect \
+		typecheckswitch \
+		vargen \
+		builtin.go \
+		builtin_test.go \
+		const.go \
+		func.go \
+		iexport.go \
+		iimport.go \
+		mapfile_mmap.go \
+		syms.go \
+		target.go \
+		typecheck.go \
+		unsafe.go \
+		universe.go \
+		cmd/compile/internal/typecheck
+'
+rm gen.go types.go types_acc.go
+
+sed -i '' 's/package gc/package typecheck/' mapfile_read.go mkbuiltin.go
+mv mapfile_read.go ../typecheck # not part of default build
+mv mkbuiltin.go ../typecheck # package main helper
+mv builtin ../typecheck
+
+cd ../typecheck
+mv dcl.go dcl1.go
+mv typecheck.go typecheck1.go
+mv universe.go universe1.go
+rf '
+	# Sweep some small files into larger ones.
+	# "mv sym... file1.go file.go" (after the mv file1.go file.go above)
+	# lets us insert sym... at the top of file.go.
+	mv okfor okforeq universe1.go universe.go
+	mv DeclContext vargen dcl1.go Temp TempAt autotmpname NewMethodType dcl.go
+	mv InitTodoFunc inimport decldepth TypecheckAllowed typecheck1.go typecheck.go
+	mv inl.go closure.go func.go
+	mv range.go select.go swt.go stmt.go
+	mv Lookup loadsys LookupRuntimeFunc LookupRuntimeVar syms.go
+	mv unsafe.go const.go
+
+	mv TypecheckAssignExpr AssignExpr
+	mv TypecheckExpr Expr
+	mv TypecheckStmt Stmt
+	mv TypecheckExprs Exprs
+	mv TypecheckStmts Stmts
+	mv TypecheckCall Call
+	mv TypecheckCallee Callee
+	mv _typecheck check
+	mv TypecheckFunc Func
+	mv TypecheckFuncBody FuncBody
+	mv TypecheckImports AllImportedBodies
+	mv TypecheckImportedBody ImportedBody
+	mv TypecheckInit Init
+	mv TypecheckPackage Package
+'
+rm gen.go go.go init.go main.go reflect.go
+
+Change-Id: Iea6a7aaf6407d690670ec58aeb36cc0b280f80b0

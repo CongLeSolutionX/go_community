@@ -1,0 +1,46 @@
+[git-generate]
+
+cd src/cmd/compile/internal/gc
+rm -f arch.go dwarf.go compile.go ../ssagen
+rf '
+	mv isZero IsZero
+	mv IsZero expr.go
+	mv expr.go cmd/compile/internal/ir
+
+	mv newProgs NewProgs
+	mv sharedProgArray NewProgs prog.go
+	mv prog.go cmd/compile/internal/wobj
+
+	mv maxOpenDefers walk.go
+
+	mv Arch ArchInfo
+	mv thearch Arch
+	mv Arch ArchInfo arch.go
+
+	mv initssaconfig InitConfig
+	mv isIntrinsicCall IsIntrinsicCall
+	mv doSsaDumpInlined DumpInlined
+	mv initSSATables InitTables
+	mv initSSAEnv InitEnv
+	mv compileSSA Compile
+	mv stackOffset StackOffset
+	mv canSSAType TypeOK
+
+	mv debuginfo declPos createDwarfVars preInliningDcls \
+		createSimpleVars createSimpleVar \
+		createComplexVars createComplexVar \
+		dwarf.go
+
+	mv compilequeue funccompile compile compilenow \
+		compileFunctions isInlinableButNotInlined \
+		emitptrargsmap \
+		compile.go
+
+	mv BoundsCheckFunc GCWriteBarrierReg ssa.go
+	mv largeStack largeStackFrames CheckLargeStacks pgen.go
+
+	# All that is left in dcl.go is the nowritebarrierrecCheck
+	mv dcl.go nowb.go
+
+	mv arch.go nowb.go phi.go pgen.go pgen_test.go ssa.go cmd/compile/internal/ssagen
+'

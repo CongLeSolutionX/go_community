@@ -1,0 +1,62 @@
+[dev.regabi] cmd/compile: split out package walk [generated]
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+	# Late addition to package ir.
+	mv closuredebugruntimecheck ClosureDebugRuntimeCheck
+	mv hasemptycvars IsTrivialClosure
+	mv ClosureDebugRuntimeCheck IsTrivialClosure func.go
+	mv func.go cmd/compile/internal/ir
+
+	# Late addition to package reflectdata.
+	mv markTypeUsedInInterface MarkTypeUsedInInterface
+	mv markUsedIfaceMethod MarkUsedIfaceMethod
+	mv MarkTypeUsedInInterface MarkUsedIfaceMethod reflect.go
+	mv reflect.go cmd/compile/internal/reflectdata
+
+	# Late addition to package staticdata.
+	mv litsym InitConst
+	mv InitConst data.go
+	mv data.go cmd/compile/internal/staticdata
+
+	# Extract staticinit out of walk into its own package.
+	mv InitEntry InitPlan InitSchedule InitSchedule.append InitSchedule.staticInit \
+		InitSchedule.tryStaticInit InitSchedule.staticcopy \
+		InitSchedule.staticassign InitSchedule.initplan InitSchedule.addvalue \
+		statuniqgen staticname stataddr anySideEffects getlit isvaluelit \
+		sched.go
+	mv InitSchedule.initplans InitSchedule.Plans
+	mv InitSchedule.inittemps InitSchedule.Temps
+	mv InitSchedule.out InitSchedule.Out
+	mv InitSchedule.staticInit InitSchedule.StaticInit
+	mv InitSchedule.staticassign InitSchedule.StaticAssign
+	mv InitSchedule Schedule
+	mv InitPlan Plan
+	mv InitEntry Entry
+	mv anySideEffects AnySideEffects
+	mv staticname StaticName
+	mv stataddr StaticLoc
+	mv sched.go cmd/compile/internal/staticinit
+
+	# Export API and unexport non-API.
+	mv transformclosure Closure
+	mv walk Walk
+
+	mv Order orderState
+
+	mv swt.go switch.go
+	mv racewalk.go race.go
+
+	mv closure.go order.go range.go select.go switch.go race.go \
+		sinit.go subr.go walk.go \
+		cmd/compile/internal/walk
+'
+
+: # Update format test.
+cd ../../
+go install ./...
+go test -u || go test -u
+
+
+Change-Id: I11c7a45f74d4a9e963da15c080e1018caaa99c05

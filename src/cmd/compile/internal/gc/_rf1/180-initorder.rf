@@ -1,0 +1,10 @@
+[dev.regabi] cmd/compile: split out package pkginit [generated]
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+	mv fninit Task
+	mv init.go initorder.go cmd/compile/internal/pkginit
+'
+
+Change-Id: Ie2a924784c7a6fa029eaef821384eef4b262e1af

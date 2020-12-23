@@ -1,0 +1,27 @@
+[dev.regabi] cmd/compile: split out package staticdata [generated]
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+
+rf '
+	# Export API and move to its own files.
+	mv addrsym InitAddr
+	mv pfuncsym InitFunc
+	mv slicesym InitSlice
+	mv slicebytes InitSliceBytes
+	mv stringsym StringSym
+	mv funcsym FuncSym
+	mv makefuncsym NeedFuncSym
+	mv dumpfuncsyms WriteFuncSyms
+	mv InitAddr InitFunc InitSlice InitSliceBytes stringSymPrefix \
+		StringSym fileStringSym slicedataGen slicedata dstringdata \
+		funcsyms FuncSym NeedFuncSym WriteFuncSyms \
+		data.go
+
+	mv initEmbed WriteEmbed
+	mv dumpembeds obj.go
+
+	mv data.go embed.go cmd/compile/internal/staticdata
+'
+
+Change-Id: I209c5e597c8acfa29a48527695a9ddc1e9ea8e6a

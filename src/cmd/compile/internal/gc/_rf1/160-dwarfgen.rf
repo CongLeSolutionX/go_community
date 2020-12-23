@@ -1,0 +1,25 @@
+[dev.regabi] cmd/compile: split out package dwarfgen [generated]
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+
+rf '
+	# Inline and remove ngotype.
+	ex {
+		import "cmd/compile/internal/ir"
+		import "cmd/compile/internal/reflectdata"
+		var n ir.Node
+		ngotype(n) -> reflectdata.TypeSym(n.Type())
+	}
+	rm ngotype
+
+	mv recordFlags RecordFlags
+	mv recordPackageName RecordPackageName
+	mv RecordFlags RecordPackageName dwarf.go
+
+	mv debuginfo Info
+	mv genAbstractFunc AbstractFunc
+	mv scope.go scope_test.go dwarf.go dwinl.go cmd/compile/internal/dwarfgen
+'
+
+Change-Id: I31fa982900dbba2066ca4c7a706af922e5481c70

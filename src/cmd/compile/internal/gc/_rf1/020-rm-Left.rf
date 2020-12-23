@@ -1,0 +1,229 @@
+[dev.regabi] cmd/compile: remove Node.Left etc [generated]
+
+This automated CL adds type assertions on the true branches of
+n.Op() equality tests, to redeclare n with a more specific type, when
+it is safe to do so. (That is, when n is not reassigned with a more
+general type, when n is not reassigned and then used outside the
+scope, and so on.) All the "unsafe" times that the automated tool
+would avoid have been removed or rewritten in earlier CLs, so that
+after this CL and the next one, which removes the use of ir.Nod,
+every use of the Left, Right, and so on methods is done using concrete
+types, never the Node interface.
+
+Having done that, the CL locks in the progress by deleting many of
+the access methods, including Left, SetLeft and so on, from the
+Node interface.
+
+There are still uses of Name, Func, Sym, some of the tracking
+bits, and a few other miscellaneous fields, but all the main access
+methods are gone from the Node interface. The others will be cleaned
+up in smaller CLs.
+
+Passes buildall w/ toolstash -cmp.
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf 'typeassert {
+        import "cmd/compile/internal/ir"
+        var n ir.Node
+
+        n.Op() == ir.OADD -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OADDR -> n.(*ir.AddrExpr)
+        n.Op() == ir.OADDSTR -> n.(*ir.AddStringExpr)
+        n.Op() == ir.OALIGNOF -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OAND -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OANDAND -> n.(*ir.LogicalExpr)
+        n.Op() == ir.OANDNOT -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OAPPEND -> n.(*ir.CallExpr)
+        n.Op() == ir.OARRAYLIT -> n.(*ir.CompLitExpr)
+        n.Op() == ir.OAS -> n.(*ir.AssignStmt)
+        n.Op() == ir.OAS2 -> n.(*ir.AssignListStmt)
+        n.Op() == ir.OAS2DOTTYPE -> n.(*ir.AssignListStmt)
+        n.Op() == ir.OAS2FUNC -> n.(*ir.AssignListStmt)
+        n.Op() == ir.OAS2MAPR -> n.(*ir.AssignListStmt)
+        n.Op() == ir.OAS2RECV -> n.(*ir.AssignListStmt)
+        n.Op() == ir.OASOP -> n.(*ir.AssignOpStmt)
+        n.Op() == ir.OBITNOT -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OBLOCK -> n.(*ir.BlockStmt)
+        n.Op() == ir.OBREAK -> n.(*ir.BranchStmt)
+        n.Op() == ir.OBYTES2STR -> n.(*ir.ConvExpr)
+        n.Op() == ir.OBYTES2STRTMP -> n.(*ir.ConvExpr)
+        n.Op() == ir.OCALL -> n.(*ir.CallExpr)
+        n.Op() == ir.OCALLFUNC -> n.(*ir.CallExpr)
+        n.Op() == ir.OCALLINTER -> n.(*ir.CallExpr)
+        n.Op() == ir.OCALLMETH -> n.(*ir.CallExpr)
+        n.Op() == ir.OCALLPART -> n.(*ir.CallPartExpr)
+        n.Op() == ir.OCAP -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OCASE -> n.(*ir.CaseStmt)
+        n.Op() == ir.OCFUNC -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OCHECKNIL -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OCLOSE -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OCOMPLEX -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OCOMPLIT -> n.(*ir.CompLitExpr)
+        n.Op() == ir.OCONTINUE -> n.(*ir.BranchStmt)
+        n.Op() == ir.OCONV -> n.(*ir.ConvExpr)
+        n.Op() == ir.OCONVIFACE -> n.(*ir.ConvExpr)
+        n.Op() == ir.OCONVNOP -> n.(*ir.ConvExpr)
+        n.Op() == ir.OCOPY -> n.(*ir.BinaryExpr)
+        n.Op() == ir.ODCL -> n.(*ir.Decl)
+        n.Op() == ir.ODCLCONST -> n.(*ir.Decl)
+        n.Op() == ir.ODCLFUNC -> n.(*ir.Func)
+        n.Op() == ir.ODCLTYPE -> n.(*ir.Decl)
+        n.Op() == ir.ODEFER -> n.(*ir.GoDeferStmt)
+        n.Op() == ir.ODELETE -> n.(*ir.CallExpr)
+        n.Op() == ir.ODEREF -> n.(*ir.StarExpr)
+        n.Op() == ir.ODIV -> n.(*ir.BinaryExpr)
+        n.Op() == ir.ODOT -> n.(*ir.SelectorExpr)
+        n.Op() == ir.ODOTINTER -> n.(*ir.SelectorExpr)
+        n.Op() == ir.ODOTMETH -> n.(*ir.SelectorExpr)
+        n.Op() == ir.ODOTPTR -> n.(*ir.SelectorExpr)
+        n.Op() == ir.ODOTTYPE -> n.(*ir.TypeAssertExpr)
+        n.Op() == ir.ODOTTYPE2 -> n.(*ir.TypeAssertExpr)
+        n.Op() == ir.OEFACE -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OEQ -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OFALL -> n.(*ir.BranchStmt)
+        n.Op() == ir.OFOR -> n.(*ir.ForStmt)
+        n.Op() == ir.OFORUNTIL -> n.(*ir.ForStmt)
+        n.Op() == ir.OGE -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OGETG -> n.(*ir.CallExpr)
+        n.Op() == ir.OGO -> n.(*ir.GoDeferStmt)
+        n.Op() == ir.OGOTO -> n.(*ir.BranchStmt)
+        n.Op() == ir.OGT -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OIDATA -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OIF -> n.(*ir.IfStmt)
+        n.Op() == ir.OIMAG -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OINDEX -> n.(*ir.IndexExpr)
+        n.Op() == ir.OINDEXMAP -> n.(*ir.IndexExpr)
+        n.Op() == ir.OINLCALL -> n.(*ir.InlinedCallExpr)
+        n.Op() == ir.OINLMARK -> n.(*ir.InlineMarkStmt)
+        n.Op() == ir.OITAB -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OKEY -> n.(*ir.KeyExpr)
+        n.Op() == ir.OLABEL -> n.(*ir.LabelStmt)
+        n.Op() == ir.OLE -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OLEN -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OLSH -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OLT -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OMAKE -> n.(*ir.CallExpr)
+        n.Op() == ir.OMAKECHAN -> n.(*ir.MakeExpr)
+        n.Op() == ir.OMAKEMAP -> n.(*ir.MakeExpr)
+        n.Op() == ir.OMAKESLICE -> n.(*ir.MakeExpr)
+        n.Op() == ir.OMAKESLICECOPY -> n.(*ir.MakeExpr)
+        n.Op() == ir.OMAPLIT -> n.(*ir.CompLitExpr)
+        n.Op() == ir.OMETHEXPR -> n.(*ir.MethodExpr)
+        n.Op() == ir.OMOD -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OMUL -> n.(*ir.BinaryExpr)
+        n.Op() == ir.ONAME -> n.(*ir.Name)
+        n.Op() == ir.ONE -> n.(*ir.BinaryExpr)
+        n.Op() == ir.ONEG -> n.(*ir.UnaryExpr)
+        n.Op() == ir.ONEW -> n.(*ir.UnaryExpr)
+        n.Op() == ir.ONEWOBJ -> n.(*ir.UnaryExpr)
+        n.Op() == ir.ONIL -> n.(*ir.NilExpr)
+        n.Op() == ir.ONOT -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OOFFSETOF -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OOR -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OOROR -> n.(*ir.LogicalExpr)
+        n.Op() == ir.OPACK -> n.(*ir.PkgName)
+        n.Op() == ir.OPANIC -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OPAREN -> n.(*ir.ParenExpr)
+        n.Op() == ir.OPLUS -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OPRINT -> n.(*ir.CallExpr)
+        n.Op() == ir.OPRINTN -> n.(*ir.CallExpr)
+        n.Op() == ir.OPTRLIT -> n.(*ir.AddrExpr)
+        n.Op() == ir.ORANGE -> n.(*ir.RangeStmt)
+        n.Op() == ir.OREAL -> n.(*ir.UnaryExpr)
+        n.Op() == ir.ORECOVER -> n.(*ir.CallExpr)
+        n.Op() == ir.ORECV -> n.(*ir.UnaryExpr)
+        n.Op() == ir.ORESULT -> n.(*ir.ResultExpr)
+        n.Op() == ir.ORETJMP -> n.(*ir.BranchStmt)
+        n.Op() == ir.ORETURN -> n.(*ir.ReturnStmt)
+        n.Op() == ir.ORSH -> n.(*ir.BinaryExpr)
+        n.Op() == ir.ORUNES2STR -> n.(*ir.ConvExpr)
+        n.Op() == ir.ORUNESTR -> n.(*ir.ConvExpr)
+        n.Op() == ir.OSELECT -> n.(*ir.SelectStmt)
+        n.Op() == ir.OSELRECV2 -> n.(*ir.AssignListStmt)
+        n.Op() == ir.OSEND -> n.(*ir.SendStmt)
+        n.Op() == ir.OSIZEOF -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OSLICE -> n.(*ir.SliceExpr)
+        n.Op() == ir.OSLICE3 -> n.(*ir.SliceExpr)
+        n.Op() == ir.OSLICE3ARR -> n.(*ir.SliceExpr)
+        n.Op() == ir.OSLICEARR -> n.(*ir.SliceExpr)
+        n.Op() == ir.OSLICEHEADER -> n.(*ir.SliceHeaderExpr)
+        n.Op() == ir.OSLICELIT -> n.(*ir.CompLitExpr)
+        n.Op() == ir.OSLICESTR -> n.(*ir.SliceExpr)
+        n.Op() == ir.OSPTR -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OSTR2BYTES -> n.(*ir.ConvExpr)
+        n.Op() == ir.OSTR2BYTESTMP -> n.(*ir.ConvExpr)
+        n.Op() == ir.OSTR2RUNES -> n.(*ir.ConvExpr)
+        n.Op() == ir.OSTRUCTLIT -> n.(*ir.CompLitExpr)
+        n.Op() == ir.OSUB -> n.(*ir.BinaryExpr)
+        n.Op() == ir.OSWITCH -> n.(*ir.SwitchStmt)
+        n.Op() == ir.OTYPESW -> n.(*ir.TypeSwitchGuard)
+        n.Op() == ir.OVARDEF -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OVARKILL -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OVARLIVE -> n.(*ir.UnaryExpr)
+        n.Op() == ir.OXDOT -> n.(*ir.SelectorExpr)
+        n.Op() == ir.OXOR -> n.(*ir.BinaryExpr)
+}
+'
+
+cd ../ir
+rf '
+        rm \
+                Node.SetOp \
+                miniNode.SetOp \
+                Node.Func \
+                miniNode.Func \
+                Node.Left Node.SetLeft \
+                miniNode.Left miniNode.SetLeft \
+                Node.Right Node.SetRight \
+                miniNode.Right miniNode.SetRight \
+                Node.List Node.PtrList Node.SetList \
+                miniNode.List miniNode.PtrList miniNode.SetList \
+                Node.Rlist Node.PtrRlist Node.SetRlist \
+                miniNode.Rlist miniNode.PtrRlist miniNode.SetRlist \
+                Node.Body Node.PtrBody Node.SetBody \
+                miniNode.Body miniNode.PtrBody miniNode.SetBody \
+                Node.SubOp Node.SetSubOp \
+                miniNode.SubOp miniNode.SetSubOp \
+                Node.SetSym \
+                miniNode.SetSym \
+                Node.Offset Node.SetOffset \
+                miniNode.Offset miniNode.SetOffset \
+                Node.Class Node.SetClass \
+                miniNode.Class miniNode.SetClass \
+                Node.Iota Node.SetIota \
+                miniNode.Iota miniNode.SetIota \
+                Node.Colas Node.SetColas \
+                miniNode.Colas miniNode.SetColas \
+                Node.Transient Node.SetTransient \
+                miniNode.Transient miniNode.SetTransient \
+                Node.Implicit Node.SetImplicit \
+                miniNode.Implicit miniNode.SetImplicit \
+                Node.IsDDD Node.SetIsDDD \
+                miniNode.IsDDD miniNode.SetIsDDD \
+                Node.MarkReadonly \
+                miniNode.MarkReadonly \
+                Node.Likely Node.SetLikely \
+                miniNode.Likely miniNode.SetLikely \
+                Node.SliceBounds Node.SetSliceBounds \
+                miniNode.SliceBounds miniNode.SetSliceBounds \
+                Node.NoInline Node.SetNoInline \
+                miniNode.NoInline miniNode.SetNoInline \
+                Node.IndexMapLValue Node.SetIndexMapLValue \
+                miniNode.IndexMapLValue miniNode.SetIndexMapLValue \
+                Node.ResetAux \
+                miniNode.ResetAux \
+                Node.HasBreak Node.SetHasBreak \
+                miniNode.HasBreak miniNode.SetHasBreak \
+                Node.Bounded Node.SetBounded \
+                miniNode.Bounded miniNode.SetBounded \
+                miniNode.Embedded miniNode.SetEmbedded \
+                miniNode.Int64Val miniNode.Uint64Val miniNode.CanInt64 \
+                miniNode.BoolVal miniNode.StringVal \
+                miniNode.TChanDir miniNode.SetTChanDir \
+                miniNode.Format \
+                miniNode.copy miniNode.doChildren miniNode.editChildren \
+
+'
+
+Change-Id: I2a05b535963b43f83b1849fcf653f82b99af6035

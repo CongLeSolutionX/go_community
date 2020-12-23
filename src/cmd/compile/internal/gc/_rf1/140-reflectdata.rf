@@ -1,0 +1,51 @@
+[dev.regabi] cmd/compile: split out package reflectdata [generated]
+
+[git-generate]
+
+cd src/cmd/compile/internal/gc
+rf '
+	ex {
+		import "cmd/compile/internal/base"
+		thearch.LinkArch.Name -> base.Ctxt.Arch.Name
+	}
+
+	# Move out of reflect.go a few functions that should stay.
+	mv addsignats obj.go
+	mv deferstruct ssa.go
+
+	# Export reflectdata API.
+	mv zerosize ZeroSize
+	mv hmap MapType
+	mv bmap MapBucketType
+	mv hiter MapIterType
+	mv addsignat NeedRuntimeType
+	mv typename TypePtr
+	mv typenamesym TypeSym
+	mv typesymprefix TypeSymPrefix
+	mv itabsym ITabSym
+	mv tracksym TrackSym
+	mv zeroaddr ZeroAddr
+	mv itabname ITabAddr
+	mv ifaceMethodOffset InterfaceMethodOffset
+	mv peekitabs CompileITabs
+	mv addptabs CollectPTabs
+	mv algtype AlgType
+	mv dtypesym WriteType
+	mv dumpbasictypes WriteBasicTypes
+	mv dumpimportstrings WriteImportStrings
+	mv dumpsignats WriteRuntimeTypes
+	mv dumptabs WriteTabs
+	mv eqinterface EqInterface
+	mv eqstring EqString
+
+	mv GCProg gcProg
+	mv EqCanPanic eqCanPanic
+	mv IsRegularMemory isRegularMemory
+	mv Sig typeSig
+
+	mv hashmem alg.go
+	mv CollectPTabs genwrapper ZeroSize reflect.go
+	mv alg.go reflect.go cmd/compile/internal/reflectdata
+'
+
+Change-Id: Iaae9da9e9fad5f772f5216004823ccff2ea8f139

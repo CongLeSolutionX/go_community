@@ -1,0 +1,33 @@
+[dev.regabi] cmd/compile: split out package liveness [generated]
+
+[git-generate]
+
+cd src/cmd/compile/internal/gc
+rf '
+	# AutoVar is essentially an ssa helper; move it there.
+	mv AutoVar value.go
+	mv value.go cmd/compile/internal/ssa
+
+	# Export liveness API and unexport non-API.
+	mv LivenessMap Map
+	mv Map.vals Map.Vals
+	mv Map.deferreturn Map.DeferReturn
+	mv livenessShouldTrack ShouldTrack
+	mv onebitwalktype1 SetTypeBits
+	mv allUnsafe IsUnsafe
+	mv liveness Compute
+	mv BlockEffects blockEffects
+	mv Liveness liveness
+	mv liveness _liveness # make room for import
+
+	mv emitptrargsmap WriteFuncMap
+	mv WriteFuncMap plive.go
+
+	mv bvset.go plive.go cmd/compile/internal/liveness
+'
+cd ../liveness
+rf '
+	mv _liveness liveness
+'
+
+Change-Id: I3b86e5025bd9d32a7e19f44714fa16be4125059e

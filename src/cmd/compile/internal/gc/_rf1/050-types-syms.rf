@@ -1,0 +1,91 @@
+[dev.regabi] cmd/compile: group known symbols, packages, names [generated]
+
+There are a handful of pre-computed magic symbols known by
+package gc, and we need a place to store them.
+
+If we keep them together, the need for type *ir.Name means that
+package ir is the lowest package in the import hierarchy that they
+can go in. And package ir needs gopkg for methodSymSuffix
+(in a later CL), so they can't go any higher either, at least not all together.
+So package ir it is.
+
+Rather than dump them all into the top-level package ir
+namespace, however, we introduce global structs, Syms, Pkgs, and Names,
+and make the known symbols, packages, and names fields of those.
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+
+rf '
+	add go.go:$ \
+		// Names holds known names. \
+		var Names struct{} \
+		\
+		// Syms holds known symbols. \
+		var Syms struct {} \
+		\
+		// Pkgs holds known packages. \
+		var Pkgs struct {} \
+
+	mv staticuint64s Names.Staticuint64s
+	mv zerobase Names.Zerobase
+
+	mv assertE2I Syms.AssertE2I
+	mv assertE2I2 Syms.AssertE2I2
+	mv assertI2I Syms.AssertI2I
+	mv assertI2I2 Syms.AssertI2I2
+	mv deferproc Syms.Deferproc
+	mv deferprocStack Syms.DeferprocStack
+	mv Deferreturn Syms.Deferreturn
+	mv Duffcopy Syms.Duffcopy
+	mv Duffzero Syms.Duffzero
+	mv gcWriteBarrier Syms.GCWriteBarrier
+	mv goschedguarded Syms.Goschedguarded
+	mv growslice Syms.Growslice
+	mv msanread Syms.Msanread
+	mv msanwrite Syms.Msanwrite
+	mv msanmove Syms.Msanmove
+	mv newobject Syms.Newobject
+	mv newproc Syms.Newproc
+	mv panicdivide Syms.Panicdivide
+	mv panicshift Syms.Panicshift
+	mv panicdottypeE Syms.PanicdottypeE
+	mv panicdottypeI Syms.PanicdottypeI
+	mv panicnildottype Syms.Panicnildottype
+	mv panicoverflow Syms.Panicoverflow
+	mv raceread Syms.Raceread
+	mv racereadrange Syms.Racereadrange
+	mv racewrite Syms.Racewrite
+	mv racewriterange Syms.Racewriterange
+	mv SigPanic Syms.SigPanic
+	mv typedmemclr Syms.Typedmemclr
+	mv typedmemmove Syms.Typedmemmove
+	mv Udiv Syms.Udiv
+	mv writeBarrier Syms.WriteBarrier
+	mv zerobaseSym Syms.Zerobase
+	mv arm64HasATOMICS Syms.ARM64HasATOMICS
+	mv armHasVFPv4 Syms.ARMHasVFPv4
+	mv x86HasFMA Syms.X86HasFMA
+	mv x86HasPOPCNT Syms.X86HasPOPCNT
+	mv x86HasSSE41 Syms.X86HasSSE41
+	mv WasmDiv Syms.WasmDiv
+	mv WasmMove Syms.WasmMove
+	mv WasmZero Syms.WasmZero
+	mv WasmTruncS Syms.WasmTruncS
+	mv WasmTruncU Syms.WasmTruncU
+
+	mv gopkg Pkgs.Go
+	mv itabpkg Pkgs.Itab
+	mv itablinkpkg Pkgs.Itablink
+	mv mappkg Pkgs.Map
+	mv msanpkg Pkgs.Msan
+	mv racepkg Pkgs.Race
+	mv Runtimepkg Pkgs.Runtime
+	mv trackpkg Pkgs.Track
+	mv unsafepkg Pkgs.Unsafe
+
+	mv Names Syms Pkgs symtab.go
+	mv symtab.go cmd/compile/internal/ir
+'
+
+Change-Id: Ic143862148569a3bcde8e70b26d75421aa2d00f3

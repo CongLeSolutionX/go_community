@@ -1,0 +1,41 @@
+[dev.regabi] cmd/compile: split out package noder [generated]
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+
+rf '
+	mv ArhdrSize HeaderSize
+	mv arsize ReadHeader
+	mv formathdr FormatHeader
+	mv HeaderSize ReadHeader FormatHeader archive.go
+	mv archive.go cmd/internal/archive
+
+	mv makePos main.go
+
+	mv checkDotImports CheckDotImports
+	mv parseFiles ParseFiles
+
+	mv Pragma pragmas
+	mv PragmaEmbed pragmaEmbed
+	mv PragmaPos pragmaPos
+	mv FuncPragmas funcPragmas
+	mv TypePragmas typePragmas
+
+	mv fakeRecv noder.funcLit renameinitgen renameinit oldname varEmbed noder.go
+	mv isDriveLetter islocalname findpkg myheight importfile \
+		reservedimports isbadimport \
+		pkgnotused \
+		mkpackage clearImports \
+		CheckDotImports dotImports importDot \
+		importName \
+		import.go
+
+	mv noder _noder
+	mv import.go lex.go lex_test.go noder.go cmd/compile/internal/noder
+'
+cd ../noder
+rf '
+	mv _noder noder
+'
+
+Change-Id: Iac2b856f7b86143c666d818e4b7c5b261cf387d5

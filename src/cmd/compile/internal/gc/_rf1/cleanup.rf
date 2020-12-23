@@ -1,0 +1,13 @@
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+	mv initLSym compile.go
+	mv ggloblnod obj.go
+	mv go.go main.go
+
+	mv timings.go cmd/compile/internal/base
+
+	mv fninit Fninit
+	mv init.go cmd/compile/internal/initorder
+'
+rm gsubr.go

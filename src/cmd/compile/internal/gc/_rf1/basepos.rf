@@ -1,0 +1,21 @@
+[git-generate]
+set -x
+cd src/cmd/compile/internal/base
+sed -i '' '
+	s/base\.Errorf(/base.ErrorfAt(base.Pos, /
+' *.go
+cd ../base
+rf '
+	add Pos \
+		var PosPtr = &Pos
+
+	mv Pos Pos_
+	mv PosPtr Pos
+	ex ../escape ../initorder ../inline ../ir ../noder ../reflectdata ../ssagen ../typecheck ../types ../walk {
+		Pos_ -> *Pos
+	}
+'
+cd ../gc
+rf -diff '
+	inject base.Pos walk.Walk
+' > diffs

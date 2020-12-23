@@ -1,0 +1,58 @@
+[dev.regabi] cmd/compile: move type size calculations into package types [generated]
+
+To break up package gc, we need to put these calculations somewhere
+lower in the import graph, either an existing or new package. Package types
+already needs this code and is using hacks to get it without an import cycle.
+We can remove the hacks and set up for the new package gc by moving the
+code into package types itself.
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+	# Remove old import cycle hacks in gc.
+	rm TypecheckInit:/types.Widthptr =/-0,/types.Dowidth =/+0 \
+		../ssa/export_test.go:/types.Dowidth =/-+
+	ex {
+		import "cmd/compile/internal/types"
+		types.Widthptr -> Widthptr
+		types.Dowidth -> dowidth
+	}
+
+	# Disable CalcSize in tests instead of base.Fatalf
+	sub dowidth:/base.Fatalf\("dowidth without betypeinit"\)/ \
+		// Assume this is a test. \
+		return
+
+	# Move size calculation into cmd/compile/internal/types
+	mv Widthptr PtrSize
+	mv Widthreg RegSize
+	mv slicePtrOffset SlicePtrOffset
+	mv sliceLenOffset SliceLenOffset
+	mv sliceCapOffset SliceCapOffset
+	mv sizeofSlice SliceSize
+	mv sizeofString StringSize
+	mv skipDowidthForTracing SkipSizeForTracing
+	mv dowidth CalcSize
+	mv checkwidth CheckSize
+	mv widstruct calcStructOffset
+	mv sizeCalculationDisabled CalcSizeDisabled
+	mv defercheckwidth DeferCheckSize
+	mv resumecheckwidth ResumeCheckSize
+	mv typeptrdata PtrDataSize
+	mv \
+		PtrSize RegSize SlicePtrOffset SkipSizeForTracing typePos align.go PtrDataSize \
+		size.go
+	mv size.go cmd/compile/internal/types
+'
+
+: # Remove old import cycle hacks in types.
+cd ../types
+rf '
+	ex {
+		Widthptr -> PtrSize
+		Dowidth -> CalcSize
+	}
+	rm Widthptr Dowidth
+'
+
+Change-Id: Ib96cdc6bda2617235480c29392ea5cfb20f60cd8

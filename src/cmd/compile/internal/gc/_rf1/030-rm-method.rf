@@ -1,0 +1,506 @@
+[dev.regabi] cmd/compile: remove Left, Right etc methods [generated]
+
+Now that the generic graph structure methods - Left, Right, and so on -
+have been removed from the Node interface, each implementation's uses
+can be replaced with direct field access, using more specific names,
+and the methods themselves can be deleted.
+
+Passes buildall w/ toolstash -cmp.
+
+[git-generate]
+
+cd src/cmd/compile/internal/ir
+rf '
+	mv Func.iota Func.Iota_
+	mv Name.fn Name.Func_
+'
+
+cd ../gc
+rf '
+ex . ../ir {
+        import "cmd/compile/internal/ir"
+        import "cmd/compile/internal/types"
+
+        var ns ir.Nodes
+        var b bool
+        var i64 int64
+        var n ir.Node
+        var op ir.Op
+        var sym *types.Sym
+        var class ir.Class
+
+        var decl *ir.Decl
+        decl.Left()         -> decl.X
+        decl.SetLeft(n)     -> decl.X = n
+
+        var asl *ir.AssignListStmt
+        asl.List()          -> asl.Lhs
+        asl.PtrList()       -> &asl.Lhs
+        asl.SetList(ns)     -> asl.Lhs = ns
+        asl.Rlist()         -> asl.Rhs
+        asl.PtrRlist()      -> &asl.Rhs
+        asl.SetRlist(ns)    -> asl.Rhs = ns
+        asl.Colas()         -> asl.Def
+        asl.SetColas(b)     -> asl.Def = b
+
+        var as *ir.AssignStmt
+        as.Left()           -> as.X
+        as.SetLeft(n)       -> as.X = n
+        as.Right()          -> as.Y
+        as.SetRight(n)      -> as.Y = n
+        as.Colas()          -> as.Def
+        as.SetColas(b)      -> as.Def = b
+
+        var ao *ir.AssignOpStmt
+        ao.Left()           -> ao.X
+        ao.SetLeft(n)       -> ao.X = n
+        ao.Right()          -> ao.Y
+        ao.SetRight(n)      -> ao.Y = n
+        ao.SubOp()          -> ao.AsOp
+        ao.SetSubOp(op)     -> ao.AsOp = op
+        ao.Implicit()       -> ao.IncDec
+        ao.SetImplicit(b)   -> ao.IncDec = b
+
+        var bl *ir.BlockStmt
+        bl.List()           -> bl.List_
+        bl.PtrList()        -> &bl.List_
+        bl.SetList(ns)      -> bl.List_ = ns
+
+        var br *ir.BranchStmt
+        br.Sym()            -> br.Label
+        br.SetSym(sym)      -> br.Label = sym
+
+        var cas *ir.CaseStmt
+        cas.List()          -> cas.List_
+        cas.PtrList()       -> &cas.List_
+        cas.SetList(ns)     -> cas.List_ = ns
+        cas.Body()          -> cas.Body_
+        cas.PtrBody()       -> &cas.Body_
+        cas.SetBody(ns)     -> cas.Body_ = ns
+        cas.Rlist()         -> cas.Vars
+        cas.PtrRlist()      -> &cas.Vars
+        cas.SetRlist(ns)    -> cas.Vars = ns
+        cas.Left()          -> cas.Comm
+        cas.SetLeft(n)      -> cas.Comm = n
+
+        var fr *ir.ForStmt
+        fr.Sym()            -> fr.Label
+        fr.SetSym(sym)      -> fr.Label = sym
+        fr.Left()           -> fr.Cond
+        fr.SetLeft(n)       -> fr.Cond = n
+        fr.Right()          -> fr.Post
+        fr.SetRight(n)      -> fr.Post = n
+        fr.Body()           -> fr.Body_
+        fr.PtrBody()        -> &fr.Body_
+        fr.SetBody(ns)      -> fr.Body_ = ns
+        fr.List()           -> fr.Late
+        fr.PtrList()        -> &fr.Late
+        fr.SetList(ns)      -> fr.Late = ns
+        fr.HasBreak()       -> fr.HasBreak_
+        fr.SetHasBreak(b)   -> fr.HasBreak_ = b
+
+        var gs *ir.GoDeferStmt
+        gs.Left()           -> gs.Call
+        gs.SetLeft(n)       -> gs.Call = n
+
+        var ifs *ir.IfStmt
+        ifs.Left()          -> ifs.Cond
+        ifs.SetLeft(n)      -> ifs.Cond = n
+        ifs.Body()          -> ifs.Body_
+        ifs.PtrBody()       -> &ifs.Body_
+        ifs.SetBody(ns)     -> ifs.Body_ = ns
+        ifs.Rlist()         -> ifs.Else
+        ifs.PtrRlist()      -> &ifs.Else
+        ifs.SetRlist(ns)    -> ifs.Else = ns
+        ifs.Likely()        -> ifs.Likely_
+        ifs.SetLikely(b)    -> ifs.Likely_ = b
+
+        var im *ir.InlineMarkStmt
+        im.Offset()         -> im.Index
+        im.SetOffset(i64)   -> im.Index = i64
+
+        var lab *ir.LabelStmt
+        lab.Sym()           -> lab.Label
+        lab.SetSym(sym)     -> lab.Label = sym
+
+        var rng *ir.RangeStmt
+        rng.Sym()           -> rng.Label
+        rng.SetSym(sym)     -> rng.Label = sym
+        rng.Right()         -> rng.X
+        rng.SetRight(n)     -> rng.X = n
+        rng.Body()          -> rng.Body_
+        rng.PtrBody()       -> &rng.Body_
+        rng.SetBody(ns)     -> rng.Body_ = ns
+        rng.List()          -> rng.Vars
+        rng.PtrList()       -> &rng.Vars
+        rng.SetList(ns)     -> rng.Vars = ns
+        rng.HasBreak()      -> rng.HasBreak_
+        rng.SetHasBreak(b)  -> rng.HasBreak_ = b
+        rng.Colas()         -> rng.Def
+        rng.SetColas(b)     -> rng.Def = b
+
+        var ret *ir.ReturnStmt
+        ret.List()          -> ret.Results
+        ret.PtrList()       -> &ret.Results
+        ret.SetList(ns)     -> ret.Results = ns
+
+        var sel *ir.SelectStmt
+        sel.List()          -> sel.Cases
+        sel.PtrList()       -> &sel.Cases
+        sel.SetList(ns)     -> sel.Cases = ns
+        sel.Sym()           -> sel.Label
+        sel.SetSym(sym)     -> sel.Label = sym
+        sel.HasBreak()      -> sel.HasBreak_
+        sel.SetHasBreak(b)  -> sel.HasBreak_ = b
+        sel.Body()          -> sel.Compiled
+        sel.PtrBody()       -> &sel.Compiled
+        sel.SetBody(ns)     -> sel.Compiled = ns
+
+        var send *ir.SendStmt
+        send.Left()         -> send.Chan
+        send.SetLeft(n)     -> send.Chan = n
+        send.Right()        -> send.Value
+        send.SetRight(n)    -> send.Value = n
+
+        var sw *ir.SwitchStmt
+        sw.Left()           -> sw.Tag
+        sw.SetLeft(n)       -> sw.Tag = n
+        sw.List()           -> sw.Cases
+        sw.PtrList()        -> &sw.Cases
+        sw.SetList(ns)      -> sw.Cases = ns
+        sw.Body()           -> sw.Compiled
+        sw.PtrBody()        -> &sw.Compiled
+        sw.SetBody(ns)      -> sw.Compiled = ns
+        sw.Sym()            -> sw.Label
+        sw.SetSym(sym)      -> sw.Label = sym
+        sw.HasBreak()       -> sw.HasBreak_
+        sw.SetHasBreak(b)   -> sw.HasBreak_ = b
+
+        var tg *ir.TypeSwitchGuard
+        tg.Left()           -> tg.Tag
+        tg.SetLeft(nil)     -> tg.Tag = nil
+        tg.SetLeft(n)       -> tg.Tag = n.(*ir.Ident)
+        tg.Right()          -> tg.X
+        tg.SetRight(n)      -> tg.X = n
+
+        var adds *ir.AddStringExpr
+        adds.List()         -> adds.List_
+        adds.PtrList()      -> &adds.List_
+        adds.SetList(ns)    -> adds.List_ = ns
+
+        var addr *ir.AddrExpr
+        addr.Left()         -> addr.X
+        addr.SetLeft(n)     -> addr.X = n
+        addr.Right()        -> addr.Alloc
+        addr.SetRight(n)    -> addr.Alloc = n
+
+        var bin *ir.BinaryExpr
+        bin.Left()          -> bin.X
+        bin.SetLeft(n)      -> bin.X = n
+        bin.Right()         -> bin.Y
+        bin.SetRight(n)     -> bin.Y = n
+
+        var log *ir.LogicalExpr
+        log.Left()          -> log.X
+        log.SetLeft(n)      -> log.X = n
+        log.Right()         -> log.Y
+        log.SetRight(n)     -> log.Y = n
+
+        var call *ir.CallExpr
+        call.Left()         -> call.X
+        call.SetLeft(n)     -> call.X = n
+        call.List()         -> call.Args
+        call.PtrList()      -> &call.Args
+        call.SetList(ns)    -> call.Args = ns
+        call.Rlist()        -> call.Rargs
+        call.PtrRlist()     -> &call.Rargs
+        call.SetRlist(ns)   -> call.Rargs = ns
+        call.IsDDD()        -> call.DDD
+        call.SetIsDDD(b)    -> call.DDD = b
+        call.NoInline()     -> call.NoInline_
+        call.SetNoInline(b) -> call.NoInline_ = b
+        call.Body()         -> call.Body_
+        call.PtrBody()      -> &call.Body_
+        call.SetBody(ns)    -> call.Body_ = ns
+
+        var cp *ir.CallPartExpr
+        cp.Func()           -> cp.Func_
+        cp.Left()           -> cp.X
+        cp.SetLeft(n)       -> cp.X = n
+        cp.Sym()            -> cp.Method.Sym
+
+        var clo *ir.ClosureExpr
+        clo.Func()          -> clo.Func_
+
+        var cr *ir.ClosureReadExpr
+        cr.Offset()         -> cr.Offset_
+
+        var cl *ir.CompLitExpr
+        cl.Right()          -> cl.Ntype
+        cl.SetRight(nil)    -> cl.Ntype = nil
+        cl.SetRight(n)      -> cl.Ntype = ir.Node(n).(ir.Ntype)
+        cl.List()           -> cl.List_
+        cl.PtrList()        -> &cl.List_
+        cl.SetList(ns)      -> cl.List_ = ns
+
+        var conv *ir.ConvExpr
+        conv.Left()         -> conv.X
+        conv.SetLeft(n)     -> conv.X = n
+
+        var ix *ir.IndexExpr
+        ix.Left()           -> ix.X
+        ix.SetLeft(n)       -> ix.X = n
+        ix.Right()          -> ix.Index
+        ix.SetRight(n)      -> ix.Index = n
+        ix.IndexMapLValue() -> ix.Assigned
+        ix.SetIndexMapLValue(b) -> ix.Assigned = b
+
+        var kv *ir.KeyExpr
+        kv.Left()           -> kv.Key
+        kv.SetLeft(n)       -> kv.Key = n
+        kv.Right()          -> kv.Value
+        kv.SetRight(n)      -> kv.Value = n
+
+        var sk *ir.StructKeyExpr
+        sk.Sym()            -> sk.Field
+        sk.SetSym(sym)      -> sk.Field = sym
+        sk.Left()           -> sk.Value
+        sk.SetLeft(n)       -> sk.Value = n
+        sk.Offset()         -> sk.Offset_
+        sk.SetOffset(i64)   -> sk.Offset_ = i64
+
+        var ic *ir.InlinedCallExpr
+        ic.Body()           -> ic.Body_
+        ic.PtrBody()        -> &ic.Body_
+        ic.SetBody(ns)      -> ic.Body_ = ns
+        ic.Rlist()          -> ic.ReturnVars
+        ic.PtrRlist()       -> &ic.ReturnVars
+        ic.SetRlist(ns)     -> ic.ReturnVars = ns
+
+        var mak *ir.MakeExpr
+        mak.Left()          -> mak.Len
+        mak.SetLeft(n)      -> mak.Len = n
+        mak.Right()         -> mak.Cap
+        mak.SetRight(n)     -> mak.Cap = n
+
+        var par *ir.ParenExpr
+        par.Left()          -> par.X
+        par.SetLeft(n)      -> par.X = n
+
+        var res *ir.ResultExpr
+        res.Offset()        -> res.Offset_
+        res.SetOffset(i64)  -> res.Offset_ = i64
+
+        var dot *ir.SelectorExpr
+        dot.Left()          -> dot.X
+        dot.SetLeft(n)      -> dot.X = n
+        dot.Sym()           -> dot.Sel
+        dot.SetSym(sym)     -> dot.Sel = sym
+        dot.Offset()        -> dot.Offset_
+        dot.SetOffset(i64)  -> dot.Offset_ = i64
+
+        var sl *ir.SliceExpr
+        sl.Left()           -> sl.X
+        sl.SetLeft(n)       -> sl.X = n
+        sl.List()           -> sl.List_
+        sl.PtrList()        -> &sl.List_
+        sl.SetList(ns)      -> sl.List_ = ns
+
+        var sh *ir.SliceHeaderExpr
+        sh.Left()           -> sh.Ptr
+        sh.SetLeft(n)       -> sh.Ptr = n
+        sh.List()           -> sh.LenCap_
+        sh.PtrList()        -> &sh.LenCap_
+        sh.SetList(ns)      -> sh.LenCap_ = ns
+
+        var st *ir.StarExpr
+        st.Left()           -> st.X
+        st.SetLeft(n)       -> st.X = n
+
+        var ta *ir.TypeAssertExpr
+        ta.Left()           -> ta.X
+        ta.SetLeft(n)       -> ta.X = n
+        ta.Right()          -> ta.Ntype
+        ta.SetRight(n)    -> ta.Ntype = n
+        ta.List()           -> ta.Itab
+        ta.PtrList()        -> &ta.Itab
+        ta.SetList(ns)      -> ta.Itab = ns
+
+        var u *ir.UnaryExpr
+        u.Left()            -> u.X
+        u.SetLeft(n)        -> u.X = n
+
+        var fn *ir.Func
+        fn.Body()           -> fn.Body_
+        fn.PtrBody()        -> &fn.Body_
+        fn.SetBody(ns)      -> fn.Body_ = ns
+        fn.Iota()           -> fn.Iota_
+        fn.SetIota(i64)     -> fn.Iota_ = i64
+        fn.Func()           -> fn
+
+        var nam *ir.Name
+        nam.SubOp()         -> nam.BuiltinOp
+        nam.SetSubOp(op)    -> nam.BuiltinOp = op
+        nam.Class()         -> nam.Class_
+        nam.SetClass(class) -> nam.Class_ = class
+        nam.Func()          -> nam.Func_
+        nam.Offset()        -> nam.Offset_
+        nam.SetOffset(i64)  -> nam.Offset_ = i64
+}
+
+ex . ../ir {
+        import "cmd/compile/internal/ir"
+
+        var n ir.Nodes
+
+        (&n).Append         -> n.Append
+        (&n).AppendNodes    -> n.AppendNodes
+        (&n).MoveNodes      -> n.MoveNodes
+        (&n).Prepend        -> n.Prepend
+        (&n).Set            -> n.Set
+        (&n).Set1           -> n.Set1
+        (&n).Set2           -> n.Set2
+        (&n).Set3           -> n.Set3
+
+        var ntype ir.Ntype
+        ir.Node(ntype).(ir.Ntype) -> ntype
+}
+'
+
+cd ../ir
+rf '
+rm \
+        Decl.Left Decl.SetLeft \
+        AssignListStmt.List AssignListStmt.PtrList AssignListStmt.SetList \
+        AssignListStmt.Rlist AssignListStmt.PtrRlist AssignListStmt.SetRlist \
+        AssignListStmt.Colas AssignListStmt.SetColas \
+        AssignStmt.Left AssignStmt.SetLeft \
+        AssignStmt.Right AssignStmt.SetRight \
+        AssignStmt.Colas AssignStmt.SetColas \
+        AssignOpStmt.Left AssignOpStmt.SetLeft \
+        AssignOpStmt.Right AssignOpStmt.SetRight \
+        AssignOpStmt.SubOp AssignOpStmt.SetSubOp \
+        AssignOpStmt.Implicit AssignOpStmt.SetImplicit \
+        BlockStmt.List BlockStmt.PtrList BlockStmt.SetList \
+        BranchStmt.SetSym \
+        CaseStmt.List CaseStmt.PtrList CaseStmt.SetList \
+        CaseStmt.Body CaseStmt.PtrBody CaseStmt.SetBody \
+        CaseStmt.Rlist CaseStmt.PtrRlist CaseStmt.SetRlist \
+        CaseStmt.Left CaseStmt.SetLeft \
+        ForStmt.Left ForStmt.SetLeft \
+        ForStmt.Right ForStmt.SetRight \
+        ForStmt.Body ForStmt.PtrBody ForStmt.SetBody \
+        ForStmt.List ForStmt.PtrList ForStmt.SetList \
+        ForStmt.HasBreak ForStmt.SetHasBreak \
+        ForStmt.Sym ForStmt.SetSym \
+        GoDeferStmt.Left GoDeferStmt.SetLeft \
+        IfStmt.Left IfStmt.SetLeft \
+        IfStmt.Body IfStmt.PtrBody IfStmt.SetBody \
+        IfStmt.Rlist IfStmt.PtrRlist IfStmt.SetRlist \
+        IfStmt.Likely IfStmt.SetLikely \
+        LabelStmt.SetSym \
+        RangeStmt.Right RangeStmt.SetRight \
+        RangeStmt.Body RangeStmt.PtrBody RangeStmt.SetBody \
+        RangeStmt.List RangeStmt.PtrList RangeStmt.SetList \
+        RangeStmt.HasBreak RangeStmt.SetHasBreak \
+        RangeStmt.Colas RangeStmt.SetColas \
+        RangeStmt.Sym RangeStmt.SetSym \
+        ReturnStmt.List ReturnStmt.PtrList ReturnStmt.SetList \
+        SelectStmt.List SelectStmt.PtrList SelectStmt.SetList \
+        SelectStmt.HasBreak SelectStmt.SetHasBreak \
+        SelectStmt.Body SelectStmt.PtrBody SelectStmt.SetBody \
+        SelectStmt.Sym SelectStmt.SetSym \
+        SendStmt.Left SendStmt.SetLeft \
+        SendStmt.Right SendStmt.SetRight \
+        SwitchStmt.Left SwitchStmt.SetLeft \
+        SwitchStmt.List SwitchStmt.PtrList SwitchStmt.SetList \
+        SwitchStmt.Body SwitchStmt.PtrBody SwitchStmt.SetBody \
+        SwitchStmt.HasBreak SwitchStmt.SetHasBreak \
+        SwitchStmt.Sym SwitchStmt.SetSym \
+        TypeSwitchGuard.Left TypeSwitchGuard.SetLeft \
+        TypeSwitchGuard.Right TypeSwitchGuard.SetRight \
+        AddStringExpr.List AddStringExpr.PtrList AddStringExpr.SetList \
+        AddrExpr.Left AddrExpr.SetLeft \
+        AddrExpr.Right AddrExpr.SetRight \
+        BinaryExpr.Left BinaryExpr.SetLeft \
+        BinaryExpr.Right BinaryExpr.SetRight \
+        LogicalExpr.Left LogicalExpr.SetLeft \
+        LogicalExpr.Right LogicalExpr.SetRight \
+        CallExpr.Left CallExpr.SetLeft \
+        CallExpr.List CallExpr.PtrList CallExpr.SetList \
+        CallExpr.Rlist CallExpr.PtrRlist CallExpr.SetRlist \
+        CallExpr.NoInline CallExpr.SetNoInline \
+        CallExpr.Body CallExpr.PtrBody CallExpr.SetBody \
+        CallExpr.IsDDD CallExpr.SetIsDDD \
+        CallPartExpr.Left CallPartExpr.SetLeft \
+        ClosureReadExpr.Offset \
+        ClosureReadExpr.Type \ # provided by miniExpr already
+        CompLitExpr.Right CompLitExpr.SetRight \
+        CompLitExpr.List CompLitExpr.PtrList CompLitExpr.SetList \
+        ConvExpr.Left ConvExpr.SetLeft \
+        IndexExpr.Left IndexExpr.SetLeft \
+        IndexExpr.Right IndexExpr.SetRight \
+        IndexExpr.IndexMapLValue IndexExpr.SetIndexMapLValue \
+        KeyExpr.Left KeyExpr.SetLeft \
+        KeyExpr.Right KeyExpr.SetRight \
+        StructKeyExpr.Left StructKeyExpr.SetLeft \
+        StructKeyExpr.Offset StructKeyExpr.SetOffset \
+        StructKeyExpr.SetSym \
+        InlinedCallExpr.Body InlinedCallExpr.PtrBody InlinedCallExpr.SetBody \
+        InlinedCallExpr.Rlist InlinedCallExpr.PtrRlist InlinedCallExpr.SetRlist \
+        MakeExpr.Left MakeExpr.SetLeft \
+        MakeExpr.Right MakeExpr.SetRight \
+        MethodExpr.Left MethodExpr.SetLeft \
+        MethodExpr.Right MethodExpr.SetRight \
+        MethodExpr.Offset MethodExpr.SetOffset \
+        MethodExpr.Class MethodExpr.SetClass \
+        ParenExpr.Left ParenExpr.SetLeft \
+        ResultExpr.Offset ResultExpr.SetOffset \
+        ReturnStmt.IsDDD \
+        SelectorExpr.Left SelectorExpr.SetLeft \
+        SelectorExpr.Offset SelectorExpr.SetOffset \
+        SelectorExpr.SetSym \
+        SliceExpr.Left SliceExpr.SetLeft \
+        SliceExpr.List SliceExpr.PtrList SliceExpr.SetList \
+        SliceHeaderExpr.Left SliceHeaderExpr.SetLeft \
+        SliceHeaderExpr.List SliceHeaderExpr.PtrList SliceHeaderExpr.SetList \
+        StarExpr.Left StarExpr.SetLeft \
+        TypeAssertExpr.Left TypeAssertExpr.SetLeft \
+        TypeAssertExpr.Right TypeAssertExpr.SetRight \
+        TypeAssertExpr.List TypeAssertExpr.PtrList TypeAssertExpr.SetList \
+        UnaryExpr.Left UnaryExpr.SetLeft \
+        Func.Body Func.PtrBody Func.SetBody \
+        Func.Iota Func.SetIota \
+        CallPartExpr.Func ClosureExpr.Func Func.Func Name.Func \
+
+mv BlockStmt.List_ BlockStmt.List
+mv CaseStmt.List_ CaseStmt.List
+mv CaseStmt.Body_ CaseStmt.Body
+mv ForStmt.Body_ ForStmt.Body
+mv ForStmt.HasBreak_ ForStmt.HasBreak
+mv Func.Iota_ Func.Iota
+mv IfStmt.Body_ IfStmt.Body
+mv IfStmt.Likely_ IfStmt.Likely
+mv RangeStmt.Body_ RangeStmt.Body
+mv RangeStmt.HasBreak_ RangeStmt.HasBreak
+mv SelectStmt.HasBreak_ SelectStmt.HasBreak
+mv SwitchStmt.HasBreak_ SwitchStmt.HasBreak
+mv AddStringExpr.List_ AddStringExpr.List
+mv CallExpr.NoInline_ CallExpr.NoInline
+mv CallExpr.Body_ CallExpr.Body # TODO what is this?
+mv CallExpr.DDD CallExpr.IsDDD
+mv ClosureReadExpr.Offset_ ClosureReadExpr.Offset
+mv CompLitExpr.List_ CompLitExpr.List
+mv StructKeyExpr.Offset_ StructKeyExpr.Offset
+mv InlinedCallExpr.Body_ InlinedCallExpr.Body
+mv ResultExpr.Offset_ ResultExpr.Offset
+mv SelectorExpr.Offset_ SelectorExpr.Offset
+mv SliceExpr.List_ SliceExpr.List
+mv SliceHeaderExpr.LenCap_ SliceHeaderExpr.LenCap
+mv Func.Body_ Func.Body
+mv CallPartExpr.Func_ CallPartExpr.Func
+mv ClosureExpr.Func_ ClosureExpr.Func
+mv Name.Func_ Name.Func
+'
+
+Change-Id: Ia2ee59649674f83eb123e63fda7a7781cf91cc56

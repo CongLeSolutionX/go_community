@@ -1,0 +1,54 @@
+[dev.regabi] cmd/compile: simplify Nodes usage [generated]
+
+Now that Nodes is a slice, most of the methods can be removed
+in favor of direct slice operations, reducing the new API that must
+be understood to:
+
+	Copy
+	Take
+	Append
+	Prepend
+	Format
+
+Passes buildall w/ toolstash -cmp.
+
+[git-generate]
+cd src/cmd/compile/internal/ir
+rf '
+ex . ../gc {
+	var ns Nodes
+	var pns *Nodes
+	var n, n2, n3 Node
+	var i int
+	var slice []Node
+
+	ns.Len() -> len(ns)
+	ns.Slice() -> ns
+	ns.First() -> ns[0]
+	ns.Second() -> ns[1]
+	ns.Index(i) -> ns[i]
+	ns.Addr(i) -> &ns[i]
+	ns.SetIndex(i, n) -> ns[i] = n
+	ns.SetFirst(n) -> ns[0] = n
+	ns.SetSecond(n) -> ns[1] = n
+	ns.Set1(n) -> ns = []Node{n}
+	ns.Set2(n, n2) -> ns = []Node{n, n2}
+	ns.Set3(n, n2, n3) -> ns = []Node{n, n2, n3}
+	ns.Set1(n) -> ns = []Node{n}
+	ns.Set2(n, n2) -> ns = []Node{n, n2}
+	ns.Set3(n, n2, n3) -> ns = []Node{n, n2, n3}
+	AsNodes(slice) -> Nodes(slice)
+	ns.AppendNodes(pns) -> ns.Append(pns.Take()...)
+	ns.MoveNodes(pns) -> ns = pns.Take()
+}
+
+rm \
+	Nodes.Len Nodes.Slice \
+	Nodes.First Nodes.Second Nodes.Index Nodes.Addr \
+	Nodes.SetIndex Nodes.SetFirst Nodes.SetSecond \
+	Nodes.Set1 Nodes.Set2 Nodes.Set3 \
+	AsNodes \
+	Nodes.AppendNodes Nodes.MoveNodes
+'
+
+Change-Id: Iee86434ced52e67861c3fa71bdd6d994a8cba735

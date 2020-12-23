@@ -1,0 +1,277 @@
+[dev.regabi] cmd/compile: split up walkexpr1, walkstmt [generated]
+
+walkexpr1 is the second largest non-machine-generated function in the compiler.
+weighing in at 1,164 lines. Since we are destroying the git blame history
+anyway, now is a good time to split each different case into its own function,
+making future work on this function more manageable.
+Do the same to walkstmt too for consistency, even though it is a paltry 259 lines.
+
+[git-generate]
+cd src/cmd/compile/internal/walk
+rf '
+	mv addstr walkAddString
+	mv walkCall walkCall1
+	mv walkpartialcall walkCallPart
+	mv walkclosure walkClosure
+	mv walkrange walkRange
+	mv walkselect walkSelect
+	mv walkselectcases walkSelectCases
+	mv walkswitch walkSwitch
+	mv walkExprSwitch walkSwitchExpr
+	mv walkTypeSwitch walkSwitchType
+	mv walkstmt walkStmt
+	mv walkstmtlist walkStmtList
+	mv walkexprlist walkExprList
+	mv walkexprlistsafe walkExprListSafe
+	mv walkexprlistcheap walkExprListCheap
+	mv walkexpr walkExpr
+	mv walkexpr1 walkExpr1
+	mv walkprint walkPrint
+	mv walkappend walkAppend
+	mv walkcompare walkCompare
+	mv walkcompareInterface walkCompareInterface
+	mv walkcompareString walkCompareString
+
+	mv appendslice appendSlice
+	mv cheapexpr cheapExpr
+	mv copyany walkCopy
+	mv copyexpr copyExpr
+	mv eqfor eqFor
+	mv extendslice extendSlice
+	mv finishcompare finishCompare
+	mv safeexpr safeExpr
+
+	mv walkStmt:/^\tcase ir.ORECV:/+2,/^\tcase /-2 walkRecv
+	add walk.go:/^func walkRecv/-0 \
+		// walkRecv walks an ORECV node.
+	mv walkStmt:/^\tcase ir.ODCL:/+2,/^\tcase /-2 walkDecl
+	add walk.go:/^func walkDecl/-0 \
+		// walkDecl walks an ODCL node.
+	mv walkStmt:/^\tcase ir.OGO:/+2,/^\tcase /-2 walkGoDefer
+	add walk.go:/^func walkGoDefer/-0 \
+		// walkGoDefer walks an OGO or ODEFER node.
+	mv walkStmt:/^\tcase ir.OFOR,/+2,/^\tcase /-2 walkFor
+	add walk.go:/^func walkFor/-0 \
+		// walkFor walks an OFOR or OFORUNTIL node.
+	mv walkStmt:/^\tcase ir.OIF:/+2,/^\tcase /-2 walkIf
+	add walk.go:/^func walkIf/-0 \
+		// walkIf walks an OIF node.
+	mv walkStmt:/^\tcase ir.ORETURN:/+2,/^\tcase /-2 walkReturn
+	add walk.go:/^func walkReturn/-0 \
+		// walkReturn walks an ORETURN node.
+
+	mv walkExpr1:/^\tcase ir.ODOT,/+2,/^\tcase /-2 walkDot
+	add walk.go:/^func walkDot/-0 \
+		// walkDot walks an ODOT or ODOTPTR node.
+	mv walkExpr1:/^\tcase ir.ODOTTYPE,/+2,/^\tcase /-2 walkDotType
+	add walk.go:/^func walkDotType/-0 \
+		// walkDotType walks an ODOTTYPE or ODOTTYPE2 node.
+	mv walkExpr1:/^\tcase ir.OLEN,/+2,/^\tcase /-2 walkLenCap
+	add walk.go:/^func walkLenCap/-0 \
+		// walkLenCap walks an OLEN or OCAP node.
+	mv walkExpr1:/^\tcase ir.OANDAND,/+2,/^\tcase /-2 walkLogical
+	add walk.go:/^func walkLogical/-0 \
+		// walkLogical walks an OANDAND or OOROR node.
+	mv walkExpr1:/^\tcase ir.OCALLINTER,/+2,/^\tcase /-2 walkCall
+	add walk.go:/^func walkCall/-0 \
+		// walkCall walks an OCALLFUNC, OCALLINTER, or OCALLMETH node.
+	mv walkExpr1:/^\tcase ir.OAS,/+1,/^\tcase /-2 walkAssign
+	add walk.go:/^func walkAssign/-0 \
+		// walkAssign walks an OAS (AssignExpr) or OASOP (AssignOpExpr) node.
+	mv walkExpr1:/^\tcase ir.OAS2:/+2,/^\tcase /-3 walkAssignList
+	add walk.go:/^func walkAssignList/-0 \
+		// walkAssignList walks an OAS2 node.
+	mv walkExpr1:/^\tcase ir.OAS2FUNC:/+2,/^\tcase /-4 walkAssignFunc
+	add walk.go:/^func walkAssignFunc/-0 \
+		// walkAssignFunc walks an OAS2FUNC node.
+	mv walkExpr1:/^\tcase ir.OAS2RECV:/+2,/^\tcase /-3 walkAssignRecv
+	add walk.go:/^func walkAssignRecv/-0 \
+		// walkAssignRecv walks an OAS2RECV node.
+	mv walkExpr1:/^\tcase ir.OAS2MAPR:/+2,/^\tcase /-2 walkAssignMapRead
+	add walk.go:/^func walkAssignMapRead/-0 \
+		// walkAssignMapRead walks an OAS2MAPR node.
+	mv walkExpr1:/^\tcase ir.ODELETE:/+2,/^\tcase /-2 walkDelete
+	add walk.go:/^func walkDelete/-0 \
+		// walkDelete walks an ODELETE node.
+	mv walkExpr1:/^\tcase ir.OAS2DOTTYPE:/+2,/^\tcase /-2 walkAssignDotType
+	add walk.go:/^func walkAssignDotType/-0 \
+		// walkAssignDotType walks an OAS2DOTTYPE node.
+	mv walkExpr1:/^\tcase ir.OCONVIFACE:/+2,/^\tcase /-2 walkConvInterface
+	add walk.go:/^func walkConvInterface/-0 \
+		// walkConvInterface walks an OCONVIFACE node.
+	mv walkExpr1:/^\tcase ir.OCONV,/+2,/^\tcase /-2 walkConv
+	add walk.go:/^func walkConv/-0 \
+		// walkConv walks an OCONV or OCONVNOP (but not OCONVIFACE) node.
+	mv walkExpr1:/^\tcase ir.ODIV,/+2,/^\tcase /-2 walkDivMod
+	add walk.go:/^func walkDivMod/-0 \
+		// walkDivMod walks an ODIV or OMOD node.
+	mv walkExpr1:/^\tcase ir.OINDEX:/+2,/^\tcase /-2 walkIndex
+	add walk.go:/^func walkIndex/-0 \
+		// walkIndex walks an OINDEX node.
+	# move type assertion above comment
+	mv walkExpr1:/^\tcase ir.OINDEXMAP:/+/n := n/-+ walkExpr1:/^\tcase ir.OINDEXMAP:/+0
+	mv walkExpr1:/^\tcase ir.OINDEXMAP:/+2,/^\tcase /-2 walkIndexMap
+	add walk.go:/^func walkIndexMap/-0 \
+		// walkIndexMap walks an OINDEXMAP node.
+	mv walkExpr1:/^\tcase ir.OSLICEHEADER:/+2,/^\tcase /-2 walkSliceHeader
+	add walk.go:/^func walkSliceHeader/-0 \
+		// walkSliceHeader walks an OSLICEHEADER node.
+	mv walkExpr1:/^\tcase ir.OSLICE,/+2,/^\tcase /-2 walkSlice
+	add walk.go:/^func walkSlice/-0 \
+		// walkSlice walks an OSLICE, OSLICEARR, OSLICESTR, OSLICE3, or OSLICE3ARR node.
+	mv walkExpr1:/^\tcase ir.ONEW:/+2,/^\tcase /-2 walkNew
+	add walk.go:/^func walkNew/-0 \
+		// walkNew walks an ONEW node.
+	# move type assertion above comment
+	mv walkExpr1:/^\tcase ir.OCLOSE:/+/n := n/-+ walkExpr1:/^\tcase ir.OCLOSE:/+0
+	mv walkExpr1:/^\tcase ir.OCLOSE:/+2,/^\tcase /-2 walkClose
+	add walk.go:/^func walkClose/-0 \
+		// walkClose walks an OCLOSE node.
+	# move type assertion above comment
+	mv walkExpr1:/^\tcase ir.OMAKECHAN:/+/n := n/-+ walkExpr1:/^\tcase ir.OMAKECHAN:/+0
+	mv walkExpr1:/^\tcase ir.OMAKECHAN:/+2,/^\tcase /-2 walkMakeChan
+	add walk.go:/^func walkMakeChan/-0 \
+		// walkMakeChan walks an OMAKECHAN node.
+	mv walkExpr1:/^\tcase ir.OMAKEMAP:/+2,/^\tcase /-2 walkMakeMap
+	add walk.go:/^func walkMakeMap/-0 \
+		// walkMakeMap walks an OMAKEMAP node.
+	mv walkExpr1:/^\tcase ir.OMAKESLICE:/+2,/^\tcase /-2 walkMakeSlice
+	add walk.go:/^func walkMakeSlice/-0 \
+		// walkMakeSlice walks an OMAKESLICE node.
+	mv walkExpr1:/^\tcase ir.OMAKESLICECOPY:/+2,/^\tcase /-2 walkMakeSliceCopy
+	add walk.go:/^func walkMakeSliceCopy/-0 \
+		// walkMakeSliceCopy walks an OMAKESLICECOPY node.
+	mv walkExpr1:/^\tcase ir.ORUNESTR:/+2,/^\tcase /-2 walkRuneToString
+	add walk.go:/^func walkRuneToString/-0 \
+		// walkRuneToString walks an ORUNESTR node.
+	mv walkExpr1:/^\tcase ir.OBYTES2STR,/+2,/^\tcase /-2 walkBytesRunesToString
+	add walk.go:/^func walkBytesRunesToString/-0 \
+		// walkBytesRunesToString walks an OBYTES2STR or ORUNES2STR node.
+	mv walkExpr1:/^\tcase ir.OBYTES2STRTMP:/+2,/^\tcase /-2 walkBytesToStringTemp
+	add walk.go:/^func walkBytesToStringTemp/-0 \
+		// walkBytesToStringTemp walks an OBYTES2STRTMP node.
+	mv walkExpr1:/^\tcase ir.OSTR2BYTES:/+2,/^\tcase /-2 walkStringToBytes
+	add walk.go:/^func walkStringToBytes/-0 \
+		// walkStringToBytes walks an OSTR2BYTES node.
+	# move type assertion above comment
+	mv walkExpr1:/^\tcase ir.OSTR2BYTESTMP:/+/n := n/-+ walkExpr1:/^\tcase ir.OSTR2BYTESTMP:/+0
+	mv walkExpr1:/^\tcase ir.OSTR2BYTESTMP:/+2,/^\tcase /-2 walkStringToBytesTemp
+	add walk.go:/^func walkStringToBytesTemp/-0 \
+		// walkStringToBytesTemp walks an OSTR2BYTESTMP node.
+	mv walkExpr1:/^\tcase ir.OSTR2RUNES:/+2,/^\tcase /-2 walkStringToRunes
+	add walk.go:/^func walkStringToRunes/-0 \
+		// walkStringToRunes walks an OSTR2RUNES node.
+	mv walkExpr1:/^\tcase ir.OARRAYLIT,/+1,/^\tcase /-2 walkCompLit
+	add walk.go:/^func walkCompLit/-0 \
+		// walkCompLit walks a composite literal node: \
+		// OARRAYLIT, OSLICELIT, OMAPLIT, OSTRUCTLIT (all CompLitExpr), or OPTRLIT (AddrExpr).
+	mv walkExpr1:/^\tcase ir.OSEND:/+2,/^\tcase /-2 walkSend
+	add walk.go:/^func walkSend/-0 \
+		// walkSend walks an OSEND node.
+
+	mv walkStmt walkStmtList \
+		walkDecl \
+		walkFor \
+		walkGoDefer \
+		walkIf \
+		wrapCall \
+		stmt.go
+
+	mv walkExpr walkExpr1 walkExprList walkExprListCheap walkExprListSafe \
+		cheapExpr safeExpr copyExpr \
+		walkAddString \
+		walkCall \
+		walkCall1 \
+		walkDivMod \
+		walkDot \
+		walkDotType \
+		walkIndex \
+		walkIndexMap \
+		walkLogical \
+		walkSend \
+		walkSlice \
+		walkSliceHeader \
+		reduceSlice \
+		bounded \
+		usemethod \
+		usefield \
+		expr.go
+
+	mv \
+		walkAssign \
+		walkAssignDotType \
+		walkAssignFunc \
+		walkAssignList \
+		walkAssignMapRead \
+		walkAssignRecv \
+		walkReturn \
+		fncall \
+		ascompatee \
+		ascompatee1 \
+		ascompatet \
+		reorder3 \
+		reorder3save \
+		aliased \
+		anyAddrTaken \
+		refersToName \
+		refersToCommonName \
+		appendSlice \
+		isAppendOfMake \
+		extendSlice \
+		assign.go
+
+	mv \
+		walkCompare \
+		walkCompareInterface \
+		walkCompareString \
+		finishCompare \
+		eqFor \
+		brcom \
+		brrev \
+		tracecmpArg \
+		canMergeLoads \
+		compare.go
+
+	mv \
+		walkConv \
+		walkConvInterface \
+		walkBytesRunesToString \
+		walkBytesToStringTemp \
+		walkRuneToString \
+		walkStringToBytes \
+		walkStringToBytesTemp \
+		walkStringToRunes \
+		convFuncName \
+		rtconvfn \
+		byteindex \
+		walkCheckPtrAlignment \
+		walkCheckPtrArithmetic \
+		convert.go
+
+	mv \
+		walkAppend \
+		walkClose \
+		walkCopy \
+		walkDelete \
+		walkLenCap \
+		walkMakeChan \
+		walkMakeMap \
+		walkMakeSlice \
+		walkMakeSliceCopy \
+		walkNew \
+		walkPrint \
+		badtype \
+		callnew \
+		writebarrierfn \
+		isRuneCount \
+		builtin.go
+
+	mv \
+		walkCompLit \
+		sinit.go \
+		complit.go
+
+	mv subr.go walk.go
+'
+
+Change-Id: Ie0cf3ba4adf363c120c134d57cb7ef37934eaab9

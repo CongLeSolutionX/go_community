@@ -1,0 +1,83 @@
+[dev.regabi] cmd/compile: move helpers into package types [generated]
+
+[git-generate]
+cd src/cmd/compile/internal/gc
+rf '
+	# Type hash (formatting).
+	mv typehash TypeHash
+	mv TypeHash fmt.go
+
+	# Method sorting.
+	mv methcmp MethodsByName
+	mv MethodsByName MethodsByName.Len MethodsByName.Swap \
+		MethodsByName.Less sort.go
+
+	# Move version check into types.
+	# A little surprising, but its keyed off the types.Pkg.
+	ex {
+		import "cmd/compile/internal/types"
+		var p *types.Pkg
+		var major, minor int
+		langSupported(major, minor, p) -> AllowsGoVersion(p, major, minor)
+	}
+	rm langSupported
+	mv checkLang ParseLangFlag
+	mv lang langWant AllowsGoVersion ParseLangFlag \
+		parseLang currentLang goVersionRE goversion.go
+
+	mv testdclstack CheckDclstack
+	mv CheckDclstack scope.go
+
+	mv algtype1 AlgType
+	mv isComplex IsComplex
+	mv isFloat IsFloat
+	mv isInt IsInt
+	mv issimple IsSimple
+	mv okforcmp IsOrdered
+	mv floatForComplex FloatForComplex
+	mv complexForFloat ComplexForFloat
+	mv isdirectiface IsDirectIface
+	mv isifacemethod IsInterfaceMethod
+	mv isMethodApplicable IsMethodApplicable
+	mv ispaddedfield IsPaddedField
+	mv isRuntimePkg IsRuntimePkg
+	mv isReflectPkg IsReflectPkg
+	mv methtype ReceiverBaseType
+	mv typesymname TypeSymName
+	mv typesym TypeSym
+	mv typeLookup TypeSymLookup
+	mv IsAlias IsDotAlias
+	mv isreflexive IsReflexive
+	mv simtype SimType
+
+	# The type1.go here is to avoid an undiagnosed bug in rf
+	# that does not get the follow-up typechecking right if we
+	# move directly to type.go during the mv into package types below.
+	mv \
+		IsInt IsOrdered IsReflexive \
+		IsDirectIface IsInterfaceMethod IsMethodApplicable IsPaddedField \
+		IsRuntimePkg IsReflectPkg ReceiverBaseType \
+		FloatForComplex ComplexForFloat \
+		TypeSym TypeSymLookup TypeSymName \
+		typepkg SimType \
+		type1.go
+
+	# The alg1.go here is because we are only moving part of alg.go.
+	mv typeHasNoAlg TypeHasNoAlg
+	mv AlgKind ANOEQ AlgType TypeHasNoAlg IsComparable IncomparableField IsPaddedField alg1.go
+
+	mv IsDotAlias pkg.go
+
+	mv alg1.go algkind_string.go fmt.go goversion.go pkg.go \
+		CheckDclstack \ # scope.go
+		sort.go type1.go \
+		cmd/compile/internal/types
+'
+cd ../types
+rf '
+	mv IsDclstackValid isDclstackValid
+	mv alg1.go alg.go
+	mv type1.go type.go
+'
+
+Change-Id: I8bd53b21c7bdd1770e1b525de32f136833e84c9d
