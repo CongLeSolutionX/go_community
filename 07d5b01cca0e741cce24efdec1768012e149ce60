@@ -16,6 +16,24 @@
       "message": "nit: \"wobj\" sounds like it might be related to \"wasm\" (\"web assembly\" compiles to \"web object\" files, right?). Maybe \"wrobj\" or \"objw\"? It\u0027s probably not going to be an issue in practice though, so \"wobj\" is fine with me if you prefer it to the alternatives.",
       "revId": "07d5b01cca0e741cce24efdec1768012e149ce60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e9655be_9235f5d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-23T02:17:57Z",
+      "side": 1,
+      "message": "Done as objw. Nice point about wasm.",
+      "parentUuid": "5d248a95_a587c98b",
+      "revId": "07d5b01cca0e741cce24efdec1768012e149ce60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
