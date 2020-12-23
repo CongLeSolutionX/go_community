@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f91725c_c8e1123d",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2020-12-23T17:24:56Z",
+      "side": 1,
+      "message": "I\u0027m really nervous about this change in particular.\n\nWith renameio, we had the guarantee that under normal operation (no system crash), concurrent processes would only see complete .mod, .info, and .zip files in the module cache. We talked about proxies here, but that also includes previous versions of the go command sharing the cache.\n\nCould we get the same performance benefit by continuing to use renameio but removing the fsync? fsync should only protect against corruption after a system crash, and we probably aren\u0027t using it correctly since we aren\u0027t also calling fsync on the parent directory. In normal operation, fsync shouldn\u0027t make a difference.\n\nI\u0027d feel a lot safer if we didn\u0027t have to rely on file locking.",
+      "revId": "74f2899b504180bf7081ad67703c63a230d6ff60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "964b6902_1267c202",
         "filename": "src/cmd/go/internal/modfetch/cache.go",
         "patchSetId": 6
