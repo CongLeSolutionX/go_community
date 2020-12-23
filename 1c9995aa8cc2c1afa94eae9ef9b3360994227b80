@@ -135,6 +135,30 @@
       },
       "revId": "1c9995aa8cc2c1afa94eae9ef9b3360994227b80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adae7763_57a93cec",
+        "filename": "src/cmd/compile/internal/types/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-23T04:29:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d02a52a_6f89eabe",
+      "range": {
+        "startLine": 65,
+        "startChar": 1,
+        "endLine": 65,
+        "endChar": 6
+      },
+      "revId": "1c9995aa8cc2c1afa94eae9ef9b3360994227b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
