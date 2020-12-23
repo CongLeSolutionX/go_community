@@ -14,8 +14,6 @@ var pragcgobuf [][]string
 
 var nolocalimports bool
 
-var zerosize int64
-
 // interface to back end
 
 type Arch struct {
