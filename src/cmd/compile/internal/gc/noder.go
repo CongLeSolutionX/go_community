@@ -21,6 +21,7 @@ import (
 	"cmd/compile/internal/importer"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
 	"cmd/internal/objabi"
@@ -293,7 +294,7 @@ func (p *noder) sel(x *syntax.SelectorExpr) *types2.Selection {
 func (p *noder) funcBody(fn *ir.Func, block *syntax.BlockStmt) {
 	oldScope := p.scope
 	p.scope = 0
-	funchdr(fn)
+	typecheck.StartFuncBody(fn)
 
 	if block != nil {
 		body := p.stmts(block.List)
@@ -306,7 +307,7 @@ func (p *noder) funcBody(fn *ir.Func, block *syntax.BlockStmt) {
 		fn.Endlineno = base.Pos
 	}
 
-	funcbody()
+	typecheck.FinishFuncBody()
 	p.scope = oldScope
 }
 
@@ -394,7 +395,7 @@ func (p *noder) node() {
 		p.checkUnused(pragma)
 	}
 
-	Target.Decls = append(Target.Decls, p.decls(p.file.DeclList)...)
+	typecheck.Target.Decls = append(typecheck.Target.Decls, p.decls(p.file.DeclList)...)
 
 	base.Pos = src.NoXPos
 	clearImports()
@@ -406,7 +407,7 @@ func (p *noder) processPragmas() {
 			p.errorAt(l.pos, "//go:linkname only allowed in Go files that import \"unsafe\"")
 			continue
 		}
-		n := ir.AsNode(lookup(l.local).Def)
+		n := ir.AsNode(typecheck.Lookup(l.local).Def)
 		if n == nil || n.Op() != ir.ONAME {
 			// TODO(mdempsky): Change to p.errorAt before Go 1.17 release.
 			// base.WarnfAt(p.makeXPos(l.pos), "//go:linkname must refer to declared function or variable (will be an error in Go 1.17)")
@@ -418,7 +419,7 @@ func (p *noder) processPragmas() {
 		}
 		n.Sym().Linkname = l.remote
 	}
-	Target.CgoPragmas = append(Target.CgoPragmas, p.pragcgobuf...)
+	typecheck.Target.CgoPragmas = append(typecheck.Target.CgoPragmas, p.pragcgobuf...)
 }
 
 func (p *noder) decls(decls []syntax.Decl) (l []ir.Node) {
@@ -475,7 +476,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	}
 
 	if !ipkg.Direct {
-		Target.Imports = append(Target.Imports, ipkg)
+		typecheck.Target.Imports = append(typecheck.Target.Imports, ipkg)
 	}
 	ipkg.Direct = true
 
@@ -483,7 +484,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	if imp.LocalPkgName != nil {
 		my = p.name(imp.LocalPkgName)
 	} else {
-		my = lookup(ipkg.Name)
+		my = typecheck.Lookup(ipkg.Name)
 	}
 
 	pack := ir.NewPkgName(p.pos(imp), my, ipkg)
@@ -499,7 +500,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 		return
 	}
 	if my.Def != nil {
-		redeclare(pack.Pos(), my, "as imported package name")
+		typecheck.Redeclared(pack.Pos(), my, "as imported package name")
 	}
 	my.Def = pack
 	my.Lastlineno = pack.Pos()
@@ -534,7 +535,7 @@ func (p *noder) varDecl(decl *syntax.VarDecl) []ir.Node {
 	}
 
 	p.setlineno(decl)
-	return variter(names, typ, exprs)
+	return typecheck.DeclVars(names, typ, exprs)
 }
 
 // constState tracks state between constant specifiers within a
@@ -582,7 +583,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 		if decl.Values == nil {
 			v = ir.DeepCopy(n.Pos(), v)
 		}
-		declare(n, dclcontext)
+		typecheck.Declare(n, typecheck.DeclContext)
 
 		n.Ntype = typ
 		n.Defn = v
@@ -602,7 +603,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 
 func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.Node {
 	n := p.declName(ir.OTYPE, decl.Name)
-	declare(n, dclcontext)
+	typecheck.Declare(n, typecheck.DeclContext)
 
 	// decl.Type may be nil but in that case we got a syntax error during parsing
 	typ := p.typeExprOrNil(decl.Type)
@@ -647,7 +648,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 			if len(t.Params) > 0 || len(t.Results) > 0 {
 				base.ErrorfAt(f.Pos(), "func init must have no arguments and no return values")
 			}
-			Target.Inits = append(Target.Inits, f)
+			typecheck.Target.Inits = append(typecheck.Target.Inits, f)
 		}
 
 		if types.LocalPkg.Name == "main" && name.Name == "main" {
@@ -674,7 +675,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 	}
 
 	if fun.Recv == nil {
-		declare(f.Nname, ir.PFUNC)
+		typecheck.Declare(f.Nname, ir.PFUNC)
 	}
 
 	p.funcBody(f, fun.Body)
@@ -837,7 +838,7 @@ func (p *noder) expr(expr syntax.Expr) ir.Node {
 			pos, op := p.pos(expr), p.unOp(expr.Op)
 			switch op {
 			case ir.OADDR:
-				return nodAddrAt(pos, x)
+				return typecheck.NodAddrAt(pos, x)
 			case ir.ODEREF:
 				return ir.NewStarExpr(pos, x)
 			}
@@ -1083,7 +1084,7 @@ func (p *noder) embedded(typ syntax.Expr) *ir.Field {
 	}
 
 	sym := p.packname(typ)
-	n := ir.NewField(p.pos(typ), lookup(sym.Name), importName(sym).(ir.Ntype), nil)
+	n := ir.NewField(p.pos(typ), typecheck.Lookup(sym.Name), importName(sym).(ir.Ntype), nil)
 	n.Embedded = true
 
 	if isStar {
@@ -1269,8 +1270,8 @@ func (p *noder) assignList(expr syntax.Expr, defn ir.Node, colas bool) []ir.Node
 		}
 
 		newOrErr = true
-		n := NewName(sym)
-		declare(n, dclcontext)
+		n := typecheck.NewName(sym)
+		typecheck.Declare(n, typecheck.DeclContext)
 		n.Defn = defn
 		defn.PtrInit().Append(ir.NewDecl(base.Pos, ir.ODCL, n))
 		res[i] = n
@@ -1378,8 +1379,8 @@ func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *ir.TypeSwitch
 			n.List.Set(p.exprList(clause.Cases))
 		}
 		if tswitch != nil && tswitch.Tag != nil {
-			nn := NewName(tswitch.Tag.Sym())
-			declare(nn, dclcontext)
+			nn := typecheck.NewName(tswitch.Tag.Sym())
+			typecheck.Declare(nn, typecheck.DeclContext)
 			n.Vars = []ir.Node{nn}
 			// keep track of the instances for reporting unused
 			nn.Defn = tswitch
@@ -1599,7 +1600,7 @@ var tokenForLitKind = [...]token.Token{
 }
 
 func (p *noder) name(name *syntax.Name) *types.Sym {
-	return lookup(name.Value)
+	return typecheck.Lookup(name.Value)
 }
 
 func (p *noder) mkname(name *syntax.Name) ir.Node {
