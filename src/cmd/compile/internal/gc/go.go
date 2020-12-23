@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (8b1fbd [dev.typeparams] all: merge dev.regabi (6d03cde) into dev.ty)
 // Copyright 2009 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -241,3 +242,5 @@ var (
 
 // GCWriteBarrierReg maps from registers to gcWriteBarrier implementation LSyms.
 var GCWriteBarrierReg map[int16]*obj.LSym
+=======
+>>>>>>> BRANCH (37f138 [dev.regabi] cmd/compile: split out package test [generated])
