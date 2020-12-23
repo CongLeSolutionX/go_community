@@ -5,7 +5,6 @@
 package gc
 
 import (
-	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
@@ -33,22 +32,6 @@ var (
 	// 256 bytes was chosen to minimize generated code + statictmp size.
 	smallArrayBytes = int64(256)
 )
-
-// isRuntimePkg reports whether p is package runtime.
-func isRuntimePkg(p *types.Pkg) bool {
-	if base.Flag.CompilingRuntime && p == types.LocalPkg {
-		return true
-	}
-	return p.Path == "runtime"
-}
-
-// isReflectPkg reports whether p is package reflect.
-func isReflectPkg(p *types.Pkg) bool {
-	if p == types.LocalPkg {
-		return base.Ctxt.Pkgpath == "reflect"
-	}
-	return p.Path == "reflect"
-}
 
 // Slices in the runtime are represented by three components:
 //
@@ -103,15 +86,6 @@ var gopkg *types.Pkg // pseudo-package for method symbols on anonymous receiver 
 
 var zerosize int64
 
-var simtype [types.NTYPE]types.Kind
-
-var (
-	isInt     [types.NTYPE]bool
-	isFloat   [types.NTYPE]bool
-	isComplex [types.NTYPE]bool
-	issimple  [types.NTYPE]bool
-)
-
 var (
 	okforeq    [types.NTYPE]bool
 	okforadd   [types.NTYPE]bool
@@ -122,8 +96,6 @@ var (
 	okforlen   [types.NTYPE]bool
 	okforarith [types.NTYPE]bool
 )
-
-var okforcmp [types.NTYPE]bool
 
 var (
 	okfor [ir.OEND][]bool
