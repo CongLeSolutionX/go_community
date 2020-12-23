@@ -16,6 +16,24 @@
       "message": "Now that we have an entire directory to dedicate to walking code, I think we should really break these apart into separate files instead of just coarse-grained expr/stmt lines. A few big themes I see:\n\nassign.go -- walkAssign, walkAssignDotType, walkAssignFunc, walkAssignList, walkAssignMapRead, walkAssignRecv (ascompat*, reorder3*; probably walkReturn too)\n\ncompare.go -- walkCompare, walkCompareInterface, walkCompareString (eqfor, finishcompare)\n\nconvert.go -- walkBytesRunesToString, walkBytesToStringTemp, walkConv, walkConvInterface, walkRuneToString, walkStringToBytes, walkStringToBytesTemp, walkStringToRunes\n\nbuiltin.go -- walkAppend, walkCopy, walkDelete, walkLenCap, walkMakeChan, walkMakeMap, walkMakeSlice, walkMakeSliceCopy, walkNew, walkPrint (admittedly a bit of a grab bag)\n\nMaybe:\n\ncomplit.go -- walkCompLit, the *lit code from sinit.go once the Init stuff is elsewhere",
       "revId": "dbc3a0330548d165d64407cba959f0101359105c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a91f04dc_a0683b49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2020-12-23T04:05:58Z",
+      "side": 1,
+      "message": "Done. See what you think.",
+      "parentUuid": "dbccc41d_436c806d",
+      "revId": "dbc3a0330548d165d64407cba959f0101359105c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
