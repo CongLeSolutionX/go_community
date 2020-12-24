@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13314059_686e07ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-24T19:14:06Z",
+      "side": 1,
+      "message": "This kind of change needs to go through the proposal process.\n\nAlso the builtin package only exists for documentation purposes.  Actually supporting \"any\" requires changing the various compilers.",
+      "revId": "ec17cf8ab4cb13a2ac023e8f9a65b9d875a012c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
