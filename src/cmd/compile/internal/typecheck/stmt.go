@@ -14,7 +14,7 @@ import (
 func typecheckrangeExpr(n *ir.RangeStmt) {
 	n.X = Expr(n.X)
 
-	t := n.X.Type()
+	t := n.Type()
 	if t == nil {
 		return
 	}
@@ -25,10 +25,6 @@ func typecheckrangeExpr(n *ir.RangeStmt) {
 	if n.Value != nil && !ir.DeclaredBy(n.Value, n) {
 		n.Value = AssignExpr(n.Value)
 	}
-	if t.IsPtr() && t.Elem().IsArray() {
-		t = t.Elem()
-	}
-	n.SetType(t)
 
 	var tk, tv *types.Type
 	toomany := false

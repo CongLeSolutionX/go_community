@@ -356,7 +356,7 @@ func (e *escape) stmt(n ir.Node) {
 		e.loopDepth--
 
 		// X is evaluated outside the loop.
-		if n.X.Type().IsArray() {
+		if n.Type().IsArray() {
 			k = k.note(n, "range")
 		} else {
 			k = k.deref(n, "range-deref")
