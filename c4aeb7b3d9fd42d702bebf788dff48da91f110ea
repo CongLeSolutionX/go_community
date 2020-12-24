@@ -33,6 +33,24 @@
       "message": "Insert \"t !\u003d nil \u0026\u0026\" at the start. I think right now this will panic if typechecking failed, which means for invalid code like:\n\n    package p\n\n    func f() {\n      for range undefined1 {}\n      for range undefined2 {}\n    }\n\nwe\u0027ll only report one error.",
       "revId": "c4aeb7b3d9fd42d702bebf788dff48da91f110ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c07c4bc_4795f193",
+        "filename": "src/cmd/compile/internal/ir/stmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T16:56:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b5a4da5_d5db5d30",
+      "revId": "c4aeb7b3d9fd42d702bebf788dff48da91f110ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
