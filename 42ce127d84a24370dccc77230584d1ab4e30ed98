@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1852f9c_daaf1194",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T08:53:43Z",
+      "side": 1,
+      "message": "X",
+      "range": {
+        "startLine": 358,
+        "startChar": 5,
+        "endLine": 358,
+        "endChar": 10
+      },
+      "revId": "42ce127d84a24370dccc77230584d1ab4e30ed98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79711033_7ea477af",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T08:53:43Z",
+      "side": 1,
+      "message": "This variable gets reassigned unconditionally now. Might as well get rid of it, and rename \"kv\" to just \"k\".",
+      "revId": "42ce127d84a24370dccc77230584d1ab4e30ed98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eaf9ab4_f99e1299",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T08:53:43Z",
+      "side": 1,
+      "message": "Sorry, just noticed the convention in this file is to use fmt.Fprint, not fmt.Fprintf, for simple strings like this.\n\nSame for the \"\u003d\" below.",
+      "revId": "42ce127d84a24370dccc77230584d1ab4e30ed98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37198e86_104674eb",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T08:53:43Z",
+      "side": 1,
+      "message": "If you use exprsOrNil here, then you need to use it in iexport.go too.",
+      "range": {
+        "startLine": 1032,
+        "startChar": 12,
+        "endLine": 1032,
+        "endChar": 22
+      },
+      "revId": "42ce127d84a24370dccc77230584d1ab4e30ed98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
