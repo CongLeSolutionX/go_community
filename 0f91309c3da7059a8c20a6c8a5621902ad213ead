@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c4192d5_389c873c",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c60ee2de_e718cbf4",
+      "range": {
+        "startLine": 350,
+        "startChar": 5,
+        "endLine": 350,
+        "endChar": 37
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ee0a7f3_77a7a854",
@@ -54,6 +78,24 @@
       "writtenOn": "2020-12-24T07:08:07Z",
       "side": 1,
       "message": "I suggest:\n\n```\nfmt.Fprintf(s, \"for\")\nif n.Key !\u003d nil {\n  fmt.Fprintf(s, \" %v\", n.Key)\n  if n.Value !\u003d nil {\n    fmt.Fprintf(s, \", %v\", n.Value)\n  }\n  fmt.Fprintf(s, \" \u003d\")\n}\nfmt.Fprintf(s, \" range %v { %v }\", n.X, n.Body)\n```",
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00cb485a_f52dbc9a",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee0a7f3_77a7a854",
       "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -81,6 +123,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cbff4df_9f4550ab",
+        "filename": "src/cmd/compile/internal/ir/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5fd0a56_32fb0b8c",
+      "range": {
+        "startLine": 293,
+        "startChar": 59,
+        "endLine": 293,
+        "endChar": 64
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "511cc7e0_e3f03863",
@@ -98,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff41eac_5e895064",
+        "filename": "src/cmd/compile/internal/ir/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "511cc7e0_e3f03863",
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27a53a3a_fe3a4d3c",
@@ -111,6 +195,54 @@
       "writtenOn": "2020-12-24T07:08:07Z",
       "side": 1,
       "message": "nit: I\u0027d call it \"lhs\".",
+      "range": {
+        "startLine": 1178,
+        "startChar": 3,
+        "endLine": 1178,
+        "endChar": 7
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd813fd2_f6f5bf19",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a53a3a_fe3a4d3c",
+      "range": {
+        "startLine": 1178,
+        "startChar": 3,
+        "endLine": 1178,
+        "endChar": 7
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1239411a_2407d353",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a53a3a_fe3a4d3c",
       "range": {
         "startLine": 1178,
         "startChar": 3,
@@ -146,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40aeed3a_208018c4",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Hmm, I just map it directly from what `r.stmtList()` does internally. And looking further, r.expr() also call r.node() internally. But yes, look like we need r.exprsOrNil()",
+      "parentUuid": "740f267f_4c6fcd15",
+      "range": {
+        "startLine": 1031,
+        "startChar": 34,
+        "endLine": 1031,
+        "endChar": 52
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98bc8f01_d759089b",
         "filename": "src/cmd/compile/internal/typecheck/stmt.go",
         "patchSetId": 1
@@ -157,6 +313,30 @@
       "writtenOn": "2020-12-24T07:08:07Z",
       "side": 1,
       "message": "I think it\u0027s fine to just check \"n.Value !\u003d nil\".",
+      "range": {
+        "startLine": 56,
+        "startChar": 5,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "572aceab_fcd1eefb",
+        "filename": "src/cmd/compile/internal/typecheck/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98bc8f01_d759089b",
       "range": {
         "startLine": 56,
         "startChar": 5,
@@ -190,6 +370,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9ca979b_440cc0c1",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3db3d7b7_3a166929",
+      "range": {
+        "startLine": 851,
+        "startChar": 6,
+        "endLine": 851,
+        "endChar": 21
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d55834_dd78e1e4",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3db3d7b7_3a166929",
+      "range": {
+        "startLine": 851,
+        "startChar": 6,
+        "endLine": 851,
+        "endChar": 21
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c8cdbb6_5bc3d70e",
@@ -203,6 +431,30 @@
       "writtenOn": "2020-12-24T07:08:07Z",
       "side": 1,
       "message": "You can get rid of this. You checked n.Key \u003d\u003d nil above, and ir.DeclaredBy(k, n) will be false if k is blank.",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 2
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd03e49b_6719f5e2",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-24T07:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c8cdbb6_5bc3d70e",
       "range": {
         "startLine": 343,
         "startChar": 0,
