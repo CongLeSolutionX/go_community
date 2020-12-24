@@ -1172,10 +1172,14 @@ func (p *noder) forStmt(stmt *syntax.ForStmt) ir.Node {
 			panic("unexpected RangeClause")
 		}
 
-		n := ir.NewRangeStmt(p.pos(r), nil, p.expr(r.X), nil)
+		n := ir.NewRangeStmt(p.pos(r), nil, nil, p.expr(r.X), nil)
 		if r.Lhs != nil {
 			n.Def = r.Def
-			n.Vars.Set(p.assignList(r.Lhs, n, n.Def))
+			vars := p.assignList(r.Lhs, n, n.Def)
+			n.Key = vars[0]
+			if len(vars) > 1 {
+				n.Value = vars[1]
+			}
 		}
 		n.Body.Set(p.blockStmt(stmt.Body))
 		p.closeAnotherScope()

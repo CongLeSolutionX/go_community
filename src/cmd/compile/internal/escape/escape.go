@@ -350,18 +350,17 @@ func (e *escape) stmt(n ir.Node) {
 		// for List = range Right { Nbody }
 		n := n.(*ir.RangeStmt)
 		e.loopDepth++
-		ks := e.addrs(n.Vars)
+		e.addr(n.Key)
+		kv := e.addr(n.Value)
 		e.block(n.Body)
 		e.loopDepth--
 
 		// Right is evaluated outside the loop.
 		k := e.discardHole()
-		if len(ks) >= 2 {
-			if n.X.Type().IsArray() {
-				k = ks[1].note(n, "range")
-			} else {
-				k = ks[1].deref(n, "range-deref")
-			}
+		if n.X.Type().IsArray() {
+			k = kv.note(n, "range")
+		} else {
+			k = kv.deref(n, "range-deref")
 		}
 		e.expr(e.later(k), n.X)
 

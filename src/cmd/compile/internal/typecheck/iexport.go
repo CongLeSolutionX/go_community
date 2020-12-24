@@ -1143,7 +1143,8 @@ func (w *exportWriter) stmt(n ir.Node) {
 		n := n.(*ir.RangeStmt)
 		w.op(ir.ORANGE)
 		w.pos(n.Pos())
-		w.stmtList(n.Vars)
+		w.expr(n.Key)
+		w.expr(n.Value)
 		w.expr(n.X)
 		w.stmtList(n.Body)
 
