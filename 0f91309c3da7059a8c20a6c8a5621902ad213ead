@@ -1,0 +1,216 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "580bed04_36c37b04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "Looks nice. Bunch of nits though.\n\nI think it\u0027ll be nice to further cleanup typecheckrange after https://go-review.googlesource.com/c/go/+/280112 lands.",
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c60ee2de_e718cbf4",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "Please update the comments while you\u0027re here:\n\n    // for Key, Value \u003d range X { Body }",
+      "range": {
+        "startLine": 350,
+        "startChar": 5,
+        "endLine": 350,
+        "endChar": 37
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ee0a7f3_77a7a854",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "I suggest:\n\n```\nfmt.Fprintf(s, \"for\")\nif n.Key !\u003d nil {\n  fmt.Fprintf(s, \" %v\", n.Key)\n  if n.Value !\u003d nil {\n    fmt.Fprintf(s, \", %v\", n.Value)\n  }\n  fmt.Fprintf(s, \" \u003d\")\n}\nfmt.Fprintf(s, \" range %v { %v }\", n.X, n.Body)\n```",
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5fd0a56_32fb0b8c",
+        "filename": "src/cmd/compile/internal/ir/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "nit: Body",
+      "range": {
+        "startLine": 293,
+        "startChar": 59,
+        "endLine": 293,
+        "endChar": 64
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "511cc7e0_e3f03863",
+        "filename": "src/cmd/compile/internal/ir/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "I think this was miscopied from ForStmt.",
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a53a3a_fe3a4d3c",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "nit: I\u0027d call it \"lhs\".",
+      "range": {
+        "startLine": 1178,
+        "startChar": 3,
+        "endLine": 1178,
+        "endChar": 7
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "740f267f_4c6fcd15",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "Why did iexport use r.expr(), but here it uses r.node()? That seems suspicious to me.\n\nI also think since these expressions are nullable, you might need to use r.exprsOrNil() or something.\n\n(FYI: we don\u0027t currently support inlining ORANGE statements anyway, so this code is unused; but it would be good to make sure it\u0027s working for when we do add inlining support for ORANGE.)",
+      "range": {
+        "startLine": 1031,
+        "startChar": 34,
+        "endLine": 1031,
+        "endChar": 52
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98bc8f01_d759089b",
+        "filename": "src/cmd/compile/internal/typecheck/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to just check \"n.Value !\u003d nil\".",
+      "range": {
+        "startLine": 56,
+        "startChar": 5,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3db3d7b7_3a166929",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "omit",
+      "range": {
+        "startLine": 851,
+        "startChar": 6,
+        "endLine": 851,
+        "endChar": 21
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c8cdbb6_5bc3d70e",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-24T07:08:07Z",
+      "side": 1,
+      "message": "You can get rid of this. You checked n.Key \u003d\u003d nil above, and ir.DeclaredBy(k, n) will be false if k is blank.",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 2
+      },
+      "revId": "0f91309c3da7059a8c20a6c8a5621902ad213ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
