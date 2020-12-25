@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11f9e9c2_92265a31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2020-12-25T10:39:21Z",
+      "side": 1,
+      "message": "TRY\u003dandroid",
+      "revId": "2dadf71fbbe583442c1b8497fb63f84379165c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
