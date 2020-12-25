@@ -12,7 +12,7 @@
 
 static void *threadentry(void*);
 
-void (*x_cgo_inittls)(void **tlsg, void **tlsbase);
+void (*x_cgo_inittls)(void **tlsg, void **tlsbase) __attribute__((weak));
 static void (*setg_gcc)(void*);
 
 void
