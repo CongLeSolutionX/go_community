@@ -50,6 +50,23 @@
       "message": "TRY\u003dandroid-386,android-amd64,android-arm,android-arm64",
       "revId": "2dadf71fbbe583442c1b8497fb63f84379165c40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "713d4dce_e7017087",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-25T23:44:20Z",
+      "side": 1,
+      "message": "I think what we want here is not __attribute__((weak)), but rather __attribute__((common)).  Making these common symbols will give us the right semantics.  Using weak is going to depend on the linker behavior, though it\u0027s true it will normally work.",
+      "revId": "2dadf71fbbe583442c1b8497fb63f84379165c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
