@@ -22,6 +22,30 @@
       },
       "revId": "f362df1528d340068a61e4d8f6e6f650921fff45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fe3e634_edf1fedd",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1692,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-25T09:17:08Z",
+      "side": 1,
+      "message": "I think src/dst are better here, because it makes clear the relationship.\n\nIf they were named just t and n, it would be ambiguous whether you\u0027re checking that expression n can be assigned to a variable of type t (what I would naturally expect, since destination parameters tend to precede source parameters), or that a value of type t can be assigned to variable n (what it actually does).",
+      "parentUuid": "380f7a42_8d13a559",
+      "range": {
+        "startLine": 1692,
+        "startChar": 19,
+        "endLine": 1692,
+        "endChar": 22
+      },
+      "revId": "f362df1528d340068a61e4d8f6e6f650921fff45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
