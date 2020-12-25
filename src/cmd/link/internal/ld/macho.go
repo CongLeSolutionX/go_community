@@ -486,6 +486,12 @@ func (ctxt *Link) domacho() {
 			}
 		case sys.ARM, sys.ARM64:
 			machoPlatform = PLATFORM_IOS
+			if ctxt.LinkMode == LinkInternal {
+				// Need to specify version, as above. See also #43371.
+				ml := newMachoLoad(ctxt.Arch, LC_VERSION_MIN_IPHONEOS, 2)
+				ml.data[0] = 9<<16 | 0<<8 | 0<<0  // iOS version 9.0
+				ml.data[1] = 14<<16 | 0<<8 | 0<<0 // SDK 14
+			}
 		}
 	}
 
