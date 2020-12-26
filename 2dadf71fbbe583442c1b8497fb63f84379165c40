@@ -67,6 +67,24 @@
       "message": "I think what we want here is not __attribute__((weak)), but rather __attribute__((common)).  Making these common symbols will give us the right semantics.  Using weak is going to depend on the linker behavior, though it\u0027s true it will normally work.",
       "revId": "2dadf71fbbe583442c1b8497fb63f84379165c40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f0f3826_f89f5309",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2020-12-26T00:04:11Z",
+      "side": 1,
+      "message": "Done. I didn\u0027t know about about \"common\", thanks.",
+      "parentUuid": "713d4dce_e7017087",
+      "revId": "2dadf71fbbe583442c1b8497fb63f84379165c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
