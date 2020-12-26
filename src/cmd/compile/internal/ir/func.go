@@ -116,8 +116,21 @@ func NewFunc(pos src.XPos) *Func {
 
 func (f *Func) isStmt() {}
 
-func (f *Func) Type() *types.Type     { return f.typ }
-func (f *Func) SetType(x *types.Type) { f.typ = x }
+func (f *Func) Type() *types.Type { return f.typ }
+func (f *Func) SetType(x *types.Type) {
+	if f.typ != nil && f.HasType2() {
+		f.SetHasType2(false)
+		if compareType2(f.typ, x) {
+			// If the types are identical, then use the types2-derived type.
+			return
+		}
+	}
+	f.typ = x
+}
+func (f *Func) SetType2(x *types.Type) {
+	f.SetType(x)
+	f.SetHasType2(true)
+}
 
 func (f *Func) Sym() *types.Sym {
 	if f.Nname != nil {
@@ -163,6 +176,7 @@ const (
 	funcInstrumentBody           // add race/msan instrumentation during SSA construction
 	funcOpenCodedDeferDisallowed // can't do open-coded defers
 	funcClosureCalled            // closure is only immediately called
+	funcHasType2
 )
 
 type SymAndPos struct {
@@ -195,6 +209,9 @@ func (f *Func) SetExportInline(b bool)             { f.flags.set(funcExportInlin
 func (f *Func) SetInstrumentBody(b bool)           { f.flags.set(funcInstrumentBody, b) }
 func (f *Func) SetOpenCodedDeferDisallowed(b bool) { f.flags.set(funcOpenCodedDeferDisallowed, b) }
 func (f *Func) SetClosureCalled(b bool)            { f.flags.set(funcClosureCalled, b) }
+
+func (f *Func) HasType2() bool     { return f.flags&funcHasType2 != 0 }
+func (f *Func) SetHasType2(b bool) { f.flags.set(funcHasType2, b) }
 
 func (f *Func) SetWBPos(pos src.XPos) {
 	if base.Debug.WB != 0 {
