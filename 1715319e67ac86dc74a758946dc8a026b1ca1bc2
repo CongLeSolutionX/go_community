@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d6f442ac_1e1d193a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-26T02:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091f2e9_239d13c2",
+      "revId": "1715319e67ac86dc74a758946dc8a026b1ca1bc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e90ddb9e_f8348df2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-25T14:30:02Z",
       "side": 1,
       "message": "I don\u0027t think this correctly handles an even number of \\s appearing at the end of a string. The tests should also include a test case with an escaped \" character. E.g.\n\n    const s \u003d \"\\\"\\\\\\\\\"\n\n    //go:embed x y z\n    var t []byte\n",
+      "revId": "1715319e67ac86dc74a758946dc8a026b1ca1bc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ec50b43_0d1e0269",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2020-12-26T02:15:30Z",
+      "side": 1,
+      "message": "Thanks.\nDone.",
+      "parentUuid": "e90ddb9e_f8348df2",
       "revId": "1715319e67ac86dc74a758946dc8a026b1ca1bc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
