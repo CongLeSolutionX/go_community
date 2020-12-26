@@ -104,3 +104,6 @@ func (n *miniNode) NonNil() bool            { return false }
 func (n *miniNode) MarkNonNil()             { panic(n.no("MarkNonNil")) }
 func (n *miniNode) Opt() interface{}        { return nil }
 func (n *miniNode) SetOpt(interface{})      { panic(n.no("SetOpt")) }
+func (n *miniNode) HasType2() bool          { panic(n.no("HasType2")) }
+func (n *miniNode) SetHasType2(bool)        { panic(n.no("SetHasType2")) }
+func (n *miniNode) SetType2(*types.Type)    { panic(n.no("SetType2")) }
