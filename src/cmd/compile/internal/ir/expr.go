@@ -38,23 +38,80 @@ const (
 	miniExprBounded
 	miniExprImplicit // for use by implementations; not supported by every Expr
 	miniExprCheckPtr
+	miniExprHasType2
 )
 
 func (*miniExpr) isExpr() {}
 
-func (n *miniExpr) Type() *types.Type     { return n.typ }
-func (n *miniExpr) SetType(x *types.Type) { n.typ = x }
-func (n *miniExpr) HasCall() bool         { return n.flags&miniExprHasCall != 0 }
-func (n *miniExpr) SetHasCall(b bool)     { n.flags.set(miniExprHasCall, b) }
-func (n *miniExpr) NonNil() bool          { return n.flags&miniExprNonNil != 0 }
-func (n *miniExpr) MarkNonNil()           { n.flags |= miniExprNonNil }
-func (n *miniExpr) Transient() bool       { return n.flags&miniExprTransient != 0 }
-func (n *miniExpr) SetTransient(b bool)   { n.flags.set(miniExprTransient, b) }
-func (n *miniExpr) Bounded() bool         { return n.flags&miniExprBounded != 0 }
-func (n *miniExpr) SetBounded(b bool)     { n.flags.set(miniExprBounded, b) }
-func (n *miniExpr) Init() Nodes           { return n.init }
-func (n *miniExpr) PtrInit() *Nodes       { return &n.init }
-func (n *miniExpr) SetInit(x Nodes)       { n.init = x }
+func (n *miniExpr) Type() *types.Type { return n.typ }
+func (n *miniExpr) SetType(x *types.Type) {
+	if n.typ != nil && n.HasType2() {
+		n.SetHasType2(false)
+		if compareType2(n.typ, x) {
+			// If the types are identical, then use the types2-derived type.
+			return
+		}
+	}
+	n.typ = x
+}
+func (n *miniExpr) SetType2(x *types.Type) {
+	n.SetType(x)
+	n.SetHasType2(true)
+}
+func (n *miniExpr) HasCall() bool       { return n.flags&miniExprHasCall != 0 }
+func (n *miniExpr) SetHasCall(b bool)   { n.flags.set(miniExprHasCall, b) }
+func (n *miniExpr) NonNil() bool        { return n.flags&miniExprNonNil != 0 }
+func (n *miniExpr) MarkNonNil()         { n.flags |= miniExprNonNil }
+func (n *miniExpr) Transient() bool     { return n.flags&miniExprTransient != 0 }
+func (n *miniExpr) SetTransient(b bool) { n.flags.set(miniExprTransient, b) }
+func (n *miniExpr) Bounded() bool       { return n.flags&miniExprBounded != 0 }
+func (n *miniExpr) SetBounded(b bool)   { n.flags.set(miniExprBounded, b) }
+func (n *miniExpr) Init() Nodes         { return n.init }
+func (n *miniExpr) PtrInit() *Nodes     { return &n.init }
+func (n *miniExpr) SetInit(x Nodes)     { n.init = x }
+func (n *miniExpr) HasType2() bool      { return n.flags&miniExprHasType2 != 0 }
+func (n *miniExpr) SetHasType2(b bool)  { n.flags.set(miniExprHasType2, b) }
+
+// compareType2 compares the type derived from types2 with the type derived from
+// the typechecker. It returns true if the types are the same, based on
+// types.Compare.
+func compareType2(t2, x *types.Type) bool {
+	if x.Kind() == types.TIDEAL || x.Kind() == types.TFORW {
+		// Allowed mismatch for x.Kind being TIDEAL or TFORW
+		println("Allowed mismatched Kinds:", t2.Kind().String(), x.Kind().String())
+	} else if t2.Kind() == x.Kind() {
+		var c types.Cmp
+		c = t2.Compare(x)
+		if c == types.CMPeq {
+			println("Matched", t2.Kind().String())
+		} else {
+			if x.Kind() == types.TFUNC && x.NumRecvs() > 0 &&
+				t2.NumRecvs() == 0 {
+				// This is probably because types2
+				// represents ODOTMETH as a method value
+				// (OCALLPART), so the receiver has
+				// already been subsumed.
+				println(fmt.Sprintf("Failed deep match (probably rcvr): %s", t2.Kind().String()))
+				return false
+			} else if x.Kind() == types.TSTRUCT &&
+				x.StructType().Funarg == types.FunargResults &&
+				t2.StructType().Funarg == types.FunargResults &&
+				x.NumFields() == t2.NumFields() {
+				// x has "~r" syms filled in for the return value
+				// names, whereas the types2-derived type does not.
+				println(fmt.Sprintf("Failed match on results struct, probably because of syms"))
+			} else if x == types.UntypedBool && t2.Underlying() == types.Types[types.TBOOL] {
+				println("Allowed mismatch: bool and untyped bool")
+				return false
+			} else {
+				base.Fatalf("Failed deep match: %s", t2.Kind().String())
+			}
+		}
+	} else {
+		panic(fmt.Sprintf("Mismatched Kinds: %s, %s", t2.Kind().String(), x.Kind().String()))
+	}
+	return true
+}
 
 // An AddStringExpr is a string concatenation Expr[0] + Exprs[1] + ... + Expr[len(Expr)-1].
 type AddStringExpr struct {

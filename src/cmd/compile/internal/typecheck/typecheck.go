@@ -1744,7 +1744,7 @@ func typecheckdef(n *ir.Name) {
 		return
 	}
 
-	if n.Type() != nil { // builtin
+	if n.Type() != nil && !n.HasType2() { // builtin
 		// Mark as Walkdef so that if n.SetType(nil) is called later, we
 		// won't try walking again.
 		if got := n.Walkdef(); got != 0 {
@@ -1808,7 +1808,7 @@ func typecheckdef(n *ir.Name) {
 		}
 
 		t := n.Type()
-		if t != nil {
+		if t != nil && !n.HasType2() {
 			if !ir.OKForConst[t.Kind()] {
 				base.ErrorfAt(n.Pos(), "invalid constant type %v", t)
 				goto ret

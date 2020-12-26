@@ -524,6 +524,22 @@ func tcDot(n *ir.SelectorExpr, top int) ir.Node {
 	return n
 }
 
+// checkMultiValue checks if the types2-derived type in n is a multi-value and
+// compatible with the single type t. If so, it clears the type2 flag so t can be
+// set as the type of n without error.
+func checkMultiValue(n ir.Node, t *types.Type) {
+	if n.HasType2() {
+		typ := n.Type()
+		if typ.Kind() == types.TSTRUCT &&
+			typ.Fields().Len() == 2 &&
+			typ.Field(0).Type == t &&
+			typ.Field(1).Type.Underlying() == types.Types[types.TBOOL] {
+			println("Matched", t.Kind().String(), "in", n.Op().String())
+			n.SetHasType2(false)
+		}
+	}
+}
+
 // tcDotType typechecks an ODOTTYPE node.
 func tcDotType(n *ir.TypeAssertExpr) ir.Node {
 	n.X = Expr(n.X)
@@ -542,6 +558,9 @@ func tcDotType(n *ir.TypeAssertExpr) ir.Node {
 
 	if n.Ntype != nil {
 		n.Ntype = typecheckNtype(n.Ntype)
+		if base.Flag.G > 0 {
+			checkMultiValue(n, n.Ntype.Type())
+		}
 		n.SetType(n.Ntype.Type())
 		n.Ntype = nil
 		if n.Type() == nil {
@@ -639,6 +658,9 @@ func tcIndex(n *ir.IndexExpr) ir.Node {
 
 	case types.TMAP:
 		n.Index = AssignConv(n.Index, t.Key(), "map index")
+		if base.Flag.G > 0 {
+			checkMultiValue(n, t.Elem())
+		}
 		n.SetType(t.Elem())
 		n.SetOp(ir.OINDEXMAP)
 		n.Assigned = false
@@ -696,6 +718,9 @@ func tcRecv(n *ir.UnaryExpr) ir.Node {
 		return n
 	}
 
+	if base.Flag.G > 0 {
+		checkMultiValue(n, t.Elem())
+	}
 	n.SetType(t.Elem())
 	return n
 }
