@@ -59,25 +59,72 @@ const (
 	miniExprTransient
 	miniExprBounded
 	miniExprImplicit // for use by implementations; not supported by every Expr
+	miniExprHasType2
 )
 
 func (*miniExpr) isExpr() {}
 
-func (n *miniExpr) Type() *types.Type     { return n.typ }
-func (n *miniExpr) SetType(x *types.Type) { n.typ = x }
-func (n *miniExpr) Opt() interface{}      { return n.opt }
-func (n *miniExpr) SetOpt(x interface{})  { n.opt = x }
-func (n *miniExpr) HasCall() bool         { return n.flags&miniExprHasCall != 0 }
-func (n *miniExpr) SetHasCall(b bool)     { n.flags.set(miniExprHasCall, b) }
-func (n *miniExpr) NonNil() bool          { return n.flags&miniExprNonNil != 0 }
-func (n *miniExpr) MarkNonNil()           { n.flags |= miniExprNonNil }
-func (n *miniExpr) Transient() bool       { return n.flags&miniExprTransient != 0 }
-func (n *miniExpr) SetTransient(b bool)   { n.flags.set(miniExprTransient, b) }
-func (n *miniExpr) Bounded() bool         { return n.flags&miniExprBounded != 0 }
-func (n *miniExpr) SetBounded(b bool)     { n.flags.set(miniExprBounded, b) }
-func (n *miniExpr) Init() Nodes           { return n.init }
-func (n *miniExpr) PtrInit() *Nodes       { return &n.init }
-func (n *miniExpr) SetInit(x Nodes)       { n.init = x }
+func (n *miniExpr) Type() *types.Type { return n.typ }
+func (n *miniExpr) SetType(x *types.Type) {
+	if n.typ != nil && n.HasType2() {
+		if compareType2(n.typ, x) {
+			// If the types are identical, then use the types2-derived type.
+			n.SetHasType2(false)
+			return
+		}
+		n.SetHasType2(false)
+	}
+	n.typ = x
+}
+func (n *miniExpr) Opt() interface{}     { return n.opt }
+func (n *miniExpr) SetOpt(x interface{}) { n.opt = x }
+func (n *miniExpr) HasCall() bool        { return n.flags&miniExprHasCall != 0 }
+func (n *miniExpr) SetHasCall(b bool)    { n.flags.set(miniExprHasCall, b) }
+func (n *miniExpr) NonNil() bool         { return n.flags&miniExprNonNil != 0 }
+func (n *miniExpr) MarkNonNil()          { n.flags |= miniExprNonNil }
+func (n *miniExpr) Transient() bool      { return n.flags&miniExprTransient != 0 }
+func (n *miniExpr) SetTransient(b bool)  { n.flags.set(miniExprTransient, b) }
+func (n *miniExpr) Bounded() bool        { return n.flags&miniExprBounded != 0 }
+func (n *miniExpr) SetBounded(b bool)    { n.flags.set(miniExprBounded, b) }
+func (n *miniExpr) Init() Nodes          { return n.init }
+func (n *miniExpr) PtrInit() *Nodes      { return &n.init }
+func (n *miniExpr) SetInit(x Nodes)      { n.init = x }
+func (n *miniExpr) HasType2() bool       { return n.flags&miniExprHasType2 != 0 }
+func (n *miniExpr) SetHasType2(b bool)   { n.flags.set(miniExprHasType2, b) }
+
+// compareType2 compares the type derived from types2 with the type derived from
+// the typechecker. It returns true if the types are the same, based on
+// types.Compare.
+func compareType2(t2, x *types.Type) bool {
+	if t2.Kind() == x.Kind() {
+		var c types.Cmp
+		c = t2.Compare(x)
+		if c == types.CMPeq {
+			println("Matched", t2.Kind().String())
+		} else {
+			if x.Kind() == types.TFUNC && x.NumRecvs() > 0 &&
+				t2.NumRecvs() == 0 {
+				// This is probably because types2
+				// represents ODOTMETH as a method value
+				// (OCALLPART), so the receiver has
+				// already been subsumed.
+				println(fmt.Sprintf("failed deep match (maybe rcvr): %s", t2.Kind().String()))
+				return false
+			} else if (x.IsScalar() || x.IsString()) && (t2.Sym() == nil && x.Sym() != nil || t2.Sym() != nil && x.Sym() == nil) {
+				println(fmt.Sprintf("failed match on scalar type because of sym: %s", t2.Kind().String()))
+				return false
+			} else {
+				panic(fmt.Sprintf("failed deep match: %s", t2.Kind().String()))
+			}
+		}
+	} else if x.Kind() != types.TIDEAL && x.Kind() != types.TFORW {
+		panic(fmt.Sprintf("mismatched Kind()s %s, %s", t2.Kind().String(), x.Kind().String()))
+	} else {
+		// Allowed mismatch for x.Kind being TIDEAL or TFORW
+		println("Allowed mismatched Kinds()s", t2.Kind().String(), x.Kind().String())
+	}
+	return true
+}
 
 func toNtype(x Node) Ntype {
 	if x == nil {

@@ -1108,6 +1108,10 @@ func dumpNodeHeader(w io.Writer, n Node) {
 			fmt.Fprintf(w, " type")
 		}
 		fmt.Fprintf(w, " %+v", n.Type())
+		if n.Op() != OASOP && n.Op() != OTYPE && n.Op() != ORANGE && n.HasType2() {
+			// Show where types were derived from types2
+			fmt.Fprintf(w, "**")
+		}
 	}
 
 	if n.Pos().IsKnown() {

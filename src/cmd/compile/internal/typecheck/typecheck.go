@@ -57,6 +57,10 @@ func Package() {
 	base.Timer.Start("fe", "typecheck", "top1")
 	for i := 0; i < len(Target.Decls); i++ {
 		n := Target.Decls[i]
+		if base.Flag.W != 0 {
+			s := fmt.Sprintf("\nbefore typecheck %v", n.Sym())
+			ir.Dump(s, n)
+		}
 		if op := n.Op(); op != ir.ODCL && op != ir.OAS && op != ir.OAS2 && (op != ir.ODCLTYPE || !n.(*ir.Decl).X.Name().Alias()) {
 			Target.Decls[i] = Stmt(n)
 		}
@@ -71,6 +75,10 @@ func Package() {
 		n := Target.Decls[i]
 		if op := n.Op(); op == ir.ODCL || op == ir.OAS || op == ir.OAS2 || op == ir.ODCLTYPE && n.(*ir.Decl).X.Name().Alias() {
 			Target.Decls[i] = Stmt(n)
+			if base.Flag.W != 0 {
+				s := fmt.Sprintf("\nafter typecheck %v", n.Sym())
+				ir.Dump(s, n)
+			}
 		}
 	}
 
@@ -82,6 +90,10 @@ func Package() {
 		n := Target.Decls[i]
 		if n.Op() == ir.ODCLFUNC {
 			FuncBody(n.(*ir.Func))
+			if base.Flag.W != 0 {
+				s := fmt.Sprintf("\nafter typecheck %v", n.Sym())
+				ir.Dump(s, n)
+			}
 			fcount++
 		}
 	}
@@ -1797,7 +1809,9 @@ func typecheckdef(n ir.Node) {
 
 	n.SetWalkdef(2)
 
-	if n.Type() != nil || n.Sym() == nil { // builtin or no name
+	// For this check, ignore a type already set on a node if it came from
+	// types2 translation.
+	if (n.Type() != nil && !n.HasType2()) || n.Sym() == nil { // builtin or no name
 		goto ret
 	}
 
@@ -1840,7 +1854,7 @@ func typecheckdef(n ir.Node) {
 		}
 
 		t := n.Type()
-		if t != nil {
+		if t != nil && !n.HasType2() {
 			if !ir.OKForConst[t.Kind()] {
 				base.ErrorfAt(n.Pos(), "invalid constant type %v", t)
 				goto ret

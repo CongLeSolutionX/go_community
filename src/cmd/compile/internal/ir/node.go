@@ -44,6 +44,8 @@ type Node interface {
 	Sym() *types.Sym
 	Val() constant.Value
 	SetVal(v constant.Value)
+	HasType2() bool
+	SetHasType2(x bool)
 
 	// Storage for analysis passes.
 	Esc() uint16

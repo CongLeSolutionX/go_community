@@ -62,12 +62,14 @@ func Closure(fn *ir.Func) {
 
 		if len(params) > 0 {
 			// Prepend params and decls.
-			f.Type().Params().SetFields(append(params, f.Type().Params().FieldSlice()...))
+			fn.Type().Params().SetFields(append(params, f.Type().Params().FieldSlice()...))
 			fn.Dcl = append(decls, fn.Dcl...)
 		}
 
 		types.CalcSize(f.Type())
-		fn.SetType(f.Type()) // update type of ODCLFUNC
+		// If -G off, fn.typ and f.typ are same. If -G on, fn has the type
+		// with fields that have Nname set properly, so set f.typ from fn.typ
+		f.SetType(fn.Type())
 	} else {
 		// The closure is not called, so it is going to stay as closure.
 		var body []ir.Node

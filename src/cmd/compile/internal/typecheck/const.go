@@ -699,6 +699,11 @@ func mixUntyped(t1, t2 *types.Type) *types.Type {
 	return t1
 }
 
+// XXX Probably temporary, so not renaming defaultType() for now.
+func DefaultType(t *types.Type) *types.Type {
+	return defaultType(t)
+}
+
 func defaultType(t *types.Type) *types.Type {
 	if !t.IsUntyped() || t.Kind() == types.TNIL {
 		return t

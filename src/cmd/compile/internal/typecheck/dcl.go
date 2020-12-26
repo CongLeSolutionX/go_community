@@ -257,10 +257,14 @@ func StartFuncBody(fn *ir.Func) {
 
 	types.Markdcl()
 
-	if fn.Nname.Ntype != nil {
+	if base.Flag.G > 0 && fn.Type() != nil && fn.HasType2() {
+		// If we have a types2-derived type for the function, use it to
+		// set the types and nname nodes of the receiver/params/results.
+		funcargs2(fn.Type(), true)
+	} else if fn.Nname.Ntype != nil {
 		funcargs(fn.Nname.Ntype.(*ir.FuncType))
 	} else {
-		funcargs2(fn.Type())
+		funcargs2(fn.Type(), false)
 	}
 }
 
@@ -520,13 +524,16 @@ func funcarg(n *ir.Field, ctxt ir.Class) {
 	n.Decl.Vargen = int32(vargen)
 }
 
-func funcarg2(f *types.Field, ctxt ir.Class) {
+func funcarg2(f *types.Field, ctxt ir.Class, fromType2 bool) {
 	if f.Sym == nil {
 		return
 	}
 	n := ir.NewNameAt(f.Pos, f.Sym)
 	f.Nname = n
 	n.SetType(f.Type)
+	if fromType2 {
+		n.SetHasType2(true)
+	}
 	n.SetIsDDD(f.IsDDD())
 	Declare(n, ctxt)
 }
@@ -584,19 +591,26 @@ func funcargs(nt *ir.FuncType) {
 // Same as funcargs, except run over an already constructed TFUNC.
 // This happens during import, where the hidden_fndcl rule has
 // used functype directly to parse the function's type.
-func funcargs2(t *types.Type) {
+func funcargs2(t *types.Type, fromType2 bool) {
 	if t.Kind() != types.TFUNC {
 		base.Fatalf("funcargs2 %v", t)
 	}
 
 	for _, f := range t.Recvs().Fields().Slice() {
-		funcarg2(f, ir.PPARAM)
+		funcarg2(f, ir.PPARAM, fromType2)
 	}
 	for _, f := range t.Params().Fields().Slice() {
-		funcarg2(f, ir.PPARAM)
+		funcarg2(f, ir.PPARAM, fromType2)
 	}
+	gen := t.NumParams()
 	for _, f := range t.Results().Fields().Slice() {
-		funcarg2(f, ir.PPARAMOUT)
+		if f.Sym == nil {
+			// Name so that escape analysis can track it. ~r stands for 'result'.
+			f.Sym = LookupNum("~r", gen)
+			gen++
+		}
+
+		funcarg2(f, ir.PPARAMOUT, fromType2)
 	}
 }
 
