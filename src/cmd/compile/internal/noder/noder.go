@@ -507,9 +507,25 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	my.Block = 1 // at top level
 }
 
+// typeExpr2 converts a types2.Type to a types.Type. typ must be non-nil, and the
+// return value will be non-nil. If forceRecv is non-nil, then we will insert that
+// field for the receiver if we are converting a Signature.
+func (p *noder) typeExpr2(typ types2.Type, forceRecv *types.Field) (r *types.Type) {
+	return typeExpr2(p, typ, forceRecv)
+}
+
 func (p *noder) varDecl(decl *syntax.VarDecl) []ir.Node {
 	names := p.declNames(ir.ONAME, decl.NameList)
 	typ := p.typeExprOrNil(decl.Type)
+	if base.Flag.G > 0 {
+		// Set types for declared variables
+		for i, nm := range decl.NameList {
+			d := p.def(nm)
+			t2 := p.typeExpr2(d.Type(), nil)
+			names[i].SetType2(t2)
+		}
+	}
+
 	exprs := p.exprList(decl.Values)
 
 	if pragma, ok := decl.Pragma.(*pragmas); ok {
@@ -557,6 +573,14 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 
 	names := p.declNames(ir.OLITERAL, decl.NameList)
 	typ := p.typeExprOrNil(decl.Type)
+	if base.Flag.G > 0 {
+		// Set types for declared constants
+		for i, nm := range decl.NameList {
+			d := p.def(nm)
+			t2 := p.typeExpr2(d.Type(), nil)
+			names[i].SetType2(t2)
+		}
+	}
 
 	var values []ir.Node
 	if decl.Values != nil {
@@ -600,6 +624,44 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.Node {
 	n := p.declName(ir.OTYPE, decl.Name)
 	typecheck.Declare(n, typecheck.DeclContext)
+	if base.Flag.G > 0 {
+		// Set type for a declared type
+		d := p.def(decl.Name)
+		t2 := d.Type()
+		// TODO(danscales) Is this the right way to fill in a named type?
+		nnt := types.NewNamed(n)
+		ut := p.typeExpr2(t2.Underlying(), nil)
+		nnt.SetUnderlying(ut)
+
+		if nt2, ok := t2.(*types2.Named); ok {
+			numMethods := nt2.NumMethods()
+			if numMethods > 0 {
+				// Convert the types2 methods of the named type to
+				// types.Type. The Nname nodes inside the types.Type will
+				// be filled in when we reach the method definition.
+				methods := make([]*types.Field, numMethods)
+				for i := range methods {
+					fun := nt2.Method(i)
+					rt := fun.Type().(*types2.Signature).Recv().Type()
+					var nntf *types.Field
+					pos := p.makeXPos(fun.Pos())
+					if _, ok := rt.(*types2.Pointer); ok {
+						nntf = types.NewField(pos, n.Sym(),
+							types.NewPtr(nnt))
+					} else {
+						nntf = types.NewField(pos, n.Sym(), nnt)
+					}
+					// Force the receiver of the method to be this
+					// type (or pointer to the type)
+					ft := p.typeExpr2(fun.Type(), nntf)
+					f := types.NewField(pos, typecheck.Lookup(fun.Name()), ft)
+					methods[i] = f
+				}
+				nnt.Methods().Set(methods)
+			}
+		}
+		n.SetType2(nnt)
+	}
 
 	// decl.Type may be nil but in that case we got a syntax error during parsing
 	typ := p.typeExprOrNil(decl.Type)
@@ -637,6 +699,12 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 	name := p.name(fun.Name)
 	t := p.signature(fun.Recv, fun.Type)
 	f := ir.NewFunc(p.pos(fun))
+	if base.Flag.G > 0 {
+		// Set type for declared function or method
+		d := p.def(fun.Name)
+		t2 := p.typeExpr2(d.Type(), nil)
+		f.SetType2(t2)
+	}
 
 	if fun.Recv == nil {
 		if name.Name == "init" {
@@ -660,6 +728,20 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 	f.Nname = ir.NewFuncNameAt(p.pos(fun.Name), name, f)
 	f.Nname.Defn = f
 	f.Nname.Ntype = t
+	if base.Flag.G > 0 && fun.Recv != nil {
+		// Fill in Nname node on the methods that we got from t2 type
+		for _, f1 := range f.Type().Recvs().Fields().Slice() {
+			f1t := f1.Type
+			if f1t.IsPtr() {
+				f1t = f1t.Elem()
+			}
+			for _, m1 := range f1t.Methods().Slice() {
+				if m1.Sym == f.Shortname {
+					m1.Nname = f.Nname
+				}
+			}
+		}
+	}
 
 	if pragma, ok := fun.Pragma.(*pragmas); ok {
 		f.Pragma = pragma.Flag & funcPragmas
@@ -767,13 +849,131 @@ func (p *noder) exprs(exprs []syntax.Expr) []ir.Node {
 	return nodes
 }
 
-func (p *noder) expr(expr syntax.Expr) ir.Node {
+var myexpr syntax.Expr
+var myt2 types2.Type
+
+// setTypes2Type tries to set the type of n based on the types2 type accessed via
+// p.typ(expr).Type.  It also does a bunch of error checking.
+func (p *noder) setTypes2Type(n ir.Node, expr syntax.Expr) {
+	myexpr = expr
+	t2 := p.typ(expr).Type
+	myt2 = t2
+	if t2 == nil {
+		switch expr.(type) {
+		case *syntax.Name:
+			// Probably a package name or _ (blank)
+			return
+		case *syntax.KeyValueExpr:
+			return
+		case *syntax.TypeSwitchGuard:
+			return
+		case *syntax.SelectorExpr:
+			println("Nil type for SelectorExpr, maybe OffsetOf?")
+			return
+		}
+		panic("Unexpected nil type2 type for an expression")
+	}
+	if tp, ok := t2.(*types2.Tuple); ok {
+		if tp == nil {
+			// func call with no return values
+			return
+		}
+	}
+	// p.typeExpr2() may resolve n and set its type, if n is
+	// an ONONAME. So, call typeExpr2() before looking at n.Type().
+	nt := p.typeExpr2(t2, nil)
+	ot := n.Type()
+
+	if ot != nil && n.HasType2() {
+		if nt != ot && !types.Identical(nt, ot) {
+			// Because an untyped constant is declared, then used?
+			panic(fmt.Sprintf("Setting types2 type twice not identical, op %s, %s -> %s", n.Op().String(), ot.String(), nt.String()))
+		}
+		// Can happen for NAME, NONAME, TYPE, or LITERAL, as they are
+		// repeatedly referenced.
+		//println("Setting types2 twice identically", n.Op().String(), nt.String())
+		return
+	}
+	if ot != nil {
+		if ot == nt {
+			println("Setting types2 type fully equal to existing type", n.Op().String(), nt.String())
+			// Can be LITERAL or TYPE. Must not make it types2 if
+			// OTYPE, because we may have just imported this type
+			// (converted from an ONONAME during typeExpr2()
+			return
+		}
+		if n.Op() == ir.OLITERAL {
+			if !ot.IsUntyped() {
+				panic("Literal that is not untyped with mismatched type")
+			}
+			if typecheck.DefaultType(ot) == nt ||
+				(ot == types.UntypedInt &&
+					(nt.Kind() == types.TINT32 ||
+						nt.Kind() == types.TINT64 ||
+						nt.Kind() == types.TUINT32 ||
+						nt.Kind() == types.TUINT64 ||
+						nt.Kind() == types.TUINT ||
+						nt.Kind() == types.TUINT8 ||
+						nt.Kind() == types.TUINTPTR ||
+						nt == types.ByteType)) ||
+				(ot == types.UntypedFloat &&
+					nt.Kind() == types.TFLOAT32) {
+				println("Setting type2 type on literal that already has matching untyped type: ", ot.String(), "->", nt.String())
+			} else {
+				// If type is already set on a untyped literal,
+				// don't change it, since we can make it
+				// inconsistent (1e5 case).
+				println("Not setting type2 type on literal that already has an untyped type: ", ot.String(), "->", nt.String())
+				return
+			}
+		} else {
+			panic(fmt.Sprintf("Double setting type for Op %s, %s -> %s",
+				n.Op().String(), ot.String(), nt.String()))
+		}
+	}
+	switch n.(type) {
+	case *ir.FuncType, *ir.ArrayType, *ir.StructType, *ir.SliceType, *ir.InterfaceType, *ir.MapType, *ir.ChanType:
+		// Don't bother setting on any of the type syntax nodes
+	default:
+		// Mark the type as having been derived from types2
+		n.SetType2(nt)
+	}
+}
+
+func (p *noder) expr(expr syntax.Expr) (n ir.Node) {
+	defer func() {
+		if base.Flag.G > 0 && n != nil {
+			// Before exiting the function, try to set the type of
+			// node n, by converting the types2 type of expr, if
+			// available.
+			p.setTypes2Type(n, expr)
+		}
+	}()
+
 	p.setlineno(expr)
 	switch expr := expr.(type) {
 	case nil, *syntax.BadExpr:
 		return nil
 	case *syntax.Name:
-		return p.mkname(expr)
+		//println("Converting name", expr.Value)
+		n := p.mkname(expr)
+		if base.Flag.G > 0 && n.Op() == ir.OLITERAL && n.HasType2() &&
+			n.Type().IsUntyped() {
+			// This is an untyped constant. Similar to convlit1(), we
+			// create a new constant node that can hold the exact type
+			// for this use, while the original untyped constant
+			// remain unchanged. We could try to share use nodes that
+			// have the same type, but I don't think typechecker.go
+			// does this either.
+			//println("duplicate literal", expr.Value)
+			tv := p.typ(expr)
+			nt := p.typeExpr2(tv.Type, nil)
+			n = ir.NewConstExpr(tv.Value, n)
+			// Don't set type2, since we don't want to do any more
+			// typechecking on this node.
+			n.SetType(nt)
+		}
+		return n
 	case *syntax.BasicLit:
 		n := ir.NewBasicLit(p.pos(expr), p.basicLit(expr))
 		if expr.Kind == syntax.RuneLit {
@@ -794,7 +994,12 @@ func (p *noder) expr(expr syntax.Expr) ir.Node {
 		// use position of expr.Key rather than of expr (which has position of ':')
 		return ir.NewKeyExpr(p.pos(expr.Key), p.expr(expr.Key), p.wrapname(expr.Value, p.expr(expr.Value)))
 	case *syntax.FuncLit:
-		return p.funcLit(expr)
+		var typ *types.Type
+		if base.Flag.G > 0 {
+			// Set the type of closure function to be same as the closure
+			typ = p.typeExpr2(p.typ(expr).Type, nil)
+		}
+		return p.funcLit(expr, typ)
 	case *syntax.ParenExpr:
 		return ir.NewParenExpr(p.pos(expr), p.expr(expr.X))
 	case *syntax.SelectorExpr:
@@ -1112,6 +1317,8 @@ func (p *noder) stmt(stmt syntax.Stmt) ir.Node {
 	return p.stmtFall(stmt, false)
 }
 
+var myn *ir.AssignOpStmt
+
 func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) ir.Node {
 	p.setlineno(stmt)
 	switch stmt := stmt.(type) {
@@ -1136,6 +1343,26 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) ir.Node {
 		if stmt.Op != 0 && stmt.Op != syntax.Def {
 			n := ir.NewAssignOpStmt(p.pos(stmt), p.binOp(stmt.Op), p.expr(stmt.Lhs), p.expr(stmt.Rhs))
 			n.IncDec = stmt.Rhs == syntax.ImplicitOne
+			myn = n
+			if base.Flag.G > 0 {
+				// Even though statements don't have a type, OASOP nodes do
+				// have types after the Noder typechecker, so set here.
+				// For statements, we don't have SetType2()
+				n.SetType(n.X.Type())
+			}
+			if base.Flag.G > 0 && n.IncDec && n.X.HasType2() && n.X.Type().IsInteger() {
+				// If RHS is syntax.ImplicitOne (meaning an
+				// auto-increment/decrement), then type of n.Y is
+				// whatever type was given to ImplicitOne last,,
+				// which may not be correct. Just copy the type
+				// from n.X. Disable the HasType2 flag first, so
+				// that we don't try to compare the old type with
+				// the new type.
+				// TODO(danscales): for now, don't deal with float, which
+				// would require rewriting the n.Y BasicLit to have a floatVal
+				n.Y.SetHasType2(false)
+				n.Y.SetType2(n.X.Type())
+			}
 			return n
 		}
 
@@ -1263,6 +1490,12 @@ func (p *noder) assignList(expr syntax.Expr, defn ir.Node, colas bool) []ir.Node
 		n := typecheck.NewName(sym)
 		typecheck.Declare(n, typecheck.DeclContext)
 		n.Defn = defn
+		if base.Flag.G > 0 {
+			// Set the type of the colon-assigned variable
+			d := p.def(name)
+			t := d.Type()
+			n.SetType2(p.typeExpr2(t, nil))
+		}
 		defn.PtrInit().Append(ir.NewDecl(base.Pos, ir.ODCL, n))
 		res[i] = n
 	}
@@ -1869,7 +2102,11 @@ func fakeRecv() *ir.Field {
 	return ir.NewField(base.Pos, nil, nil, types.FakeRecvType())
 }
 
-func (p *noder) funcLit(expr *syntax.FuncLit) ir.Node {
+// funcLit creates a closure node and corresponding func node. If typ is non-nil,
+// it is a types2-derived type to be set on the function node. We set the type of
+// the function node before calling funcBody(), so the Nname nodes will be
+// properly created with types in funchdr().
+func (p *noder) funcLit(expr *syntax.FuncLit, typ *types.Type) ir.Node {
 	xtype := p.typeExpr(expr.Type)
 	ntype := p.typeExpr(expr.Type)
 
@@ -1878,6 +2115,9 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.Node {
 	fn.Nname = ir.NewFuncNameAt(p.pos(expr), ir.BlankNode.Sym(), fn) // filled in by typecheckclosure
 	fn.Nname.Ntype = xtype
 	fn.Nname.Defn = fn
+	if typ != nil {
+		fn.SetType2(typ)
+	}
 
 	clo := ir.NewClosureExpr(p.pos(expr), fn)
 	fn.ClosureType = ntype
