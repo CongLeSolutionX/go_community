@@ -562,7 +562,7 @@ func tcConv(n *ir.ConvExpr) ir.Node {
 // tcDot typechecks an OXDOT or ODOT node.
 func tcDot(n *ir.SelectorExpr, top int) ir.Node {
 	if n.Op() == ir.OXDOT {
-		n = AddImplicitDots(n)
+		n = AddImplicitDots(n, true)
 		n.SetOp(ir.ODOT)
 		if n.X == nil {
 			n.SetType(nil)
