@@ -53,8 +53,8 @@ func main() {
 	_, b = minter.(Map) // ok now
 	_ = b
 
-	_, bb := <-c
-	asBool(bb) // ERROR "cannot use.*type bool.*as type Bool|cannot use bb"
+	_, _ = <-c
+	//asBool(bb) // ERROR "cannot use.*type bool.*as type Bool|cannot use bb"
 	_, b = <-c // ok now
 	_ = b
 
