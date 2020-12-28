@@ -729,6 +729,31 @@ func typecheck1(n ir.Node, top int) ir.Node {
 		n := n.(*ir.SelectorExpr)
 		return tcDot(n, top)
 
+	case ir.ODOTPTR, ir.ODOTINTER, ir.ODOTMETH:
+		n := n.(*ir.SelectorExpr)
+		if base.Flag.G > 0 {
+			// Must still typecheck X expression, in case it is
+			// complex. Also, we need to typecheck to mark any ONAME
+			// node in X expression as used.
+			n.X = typecheck(n.X, ctxExpr|ctxType)
+			if (n.Op() == ir.ODOTINTER || n.Op() == ir.ODOTMETH) && top&ctxCallee == 0 {
+				// Still need to call this to make the wrapper
+				return tcCallPart(n, n.Sym())
+			}
+			return n
+		}
+		ir.Dump("typecheck", n)
+		base.Fatalf("typecheck %v", n.Op())
+		panic("unreachable")
+
+	case ir.OMETHEXPR:
+		if base.Flag.G > 0 {
+			return n
+		}
+		ir.Dump("typecheck", n)
+		base.Fatalf("typecheck %v", n.Op())
+		panic("unreachable")
+
 	case ir.ODOTTYPE:
 		n := n.(*ir.TypeAssertExpr)
 		return tcDotType(n)
