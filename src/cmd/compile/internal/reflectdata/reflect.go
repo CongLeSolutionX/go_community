@@ -1777,7 +1777,7 @@ func methodWrapper(rcvr *types.Type, method *types.Field) *obj.LSym {
 		fn.Body.Append(n)
 	}
 
-	dot := typecheck.AddImplicitDots(ir.NewSelectorExpr(base.Pos, ir.OXDOT, nthis, method.Sym))
+	dot := typecheck.AddImplicitDots(ir.NewSelectorExpr(base.Pos, ir.OXDOT, nthis, method.Sym), true)
 
 	// generate call
 	// It's not possible to use a tail call when dynamic linking on ppc64le. The

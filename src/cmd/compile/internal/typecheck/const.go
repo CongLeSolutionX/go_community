@@ -880,7 +880,8 @@ func evalunsafe(n ir.Node) int64 {
 	case ir.OOFFSETOF:
 		// must be a selector.
 		n := n.(*ir.UnaryExpr)
-		if n.X.Op() != ir.OXDOT {
+		if n.X.Op() != ir.OXDOT &&
+			!(base.Flag.G > 0 && (n.X.Op() == ir.ODOT || n.X.Op() == ir.ODOTPTR)) {
 			base.Errorf("invalid expression %v", n)
 			return 0
 		}

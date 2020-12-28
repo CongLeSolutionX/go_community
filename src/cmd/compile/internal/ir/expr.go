@@ -85,15 +85,7 @@ func compareType2(t2, x *types.Type) bool {
 		if c == types.CMPeq {
 			println("Matched", t2.Kind().String())
 		} else {
-			if x.Kind() == types.TFUNC && x.NumRecvs() > 0 &&
-				t2.NumRecvs() == 0 {
-				// This is probably because types2
-				// represents ODOTMETH as a method value
-				// (OCALLPART), so the receiver has
-				// already been subsumed.
-				println(fmt.Sprintf("Failed deep match (probably rcvr): %s", t2.Kind().String()))
-				return false
-			} else if x.Kind() == types.TSTRUCT &&
+			if x.Kind() == types.TSTRUCT &&
 				x.StructType().Funarg == types.FunargResults &&
 				t2.StructType().Funarg == types.FunargResults &&
 				x.NumFields() == t2.NumFields() {

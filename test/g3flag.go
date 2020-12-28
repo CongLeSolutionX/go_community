@@ -190,6 +190,14 @@ var cfiles []string = []string{
 	"reorder2.go",
 	"torture.go",
 
+	// Embedded fields (affects XDOT transformation)
+	"sizeof.go",
+	"closure2.go",
+	"method.go",
+	"method5.go",
+	"nilptr2.go",
+	"gcgort.go",
+
 	// Modified - temporary
 	"alias2.go",
 }
