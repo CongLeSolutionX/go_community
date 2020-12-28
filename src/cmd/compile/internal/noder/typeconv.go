@@ -78,16 +78,23 @@ func typeExpr2(p *noder, typ types2.Type, forceRecv *types.Field) (r *types.Type
 		}
 
 		if obj.Pkg().Name() == types.LocalPkg.Name { /* current package */
-			def := oldname(typecheck.Lookup(obj.Name()))
+			sym := typecheck.Lookup(obj.Name())
+			var def ir.Node
+			if sym.Def == nil {
+				// We haven't encountered this type name yet, so a
+				// new named type that will fully filled out when
+				// we see the type decl.
+				def = ir.NewDeclNameAt(src.NoXPos, ir.OTYPE, sym)
+				def.Sym().Def = def
+				def.SetType(types.NewNamed(def))
+			} else {
+				def = oldname(sym)
+			}
 			if def.Op() != ir.OTYPE {
 				base.Fatalf("definition for %v is not a type: %v (%v)", obj, def, def.Op())
 			}
 			if def.Type() == nil {
-				// TODO(danscales): If we don't have a type for
-				// this local type name, we must be defining it,
-				// hence it is using the type within the type def.
-				// I have another change to deal with this.
-				panic("Circular type")
+				panic("Named type should have a type set")
 			}
 			return def.Type()
 		}
@@ -208,7 +215,7 @@ func typeExpr2(p *noder, typ types2.Type, forceRecv *types.Field) (r *types.Type
 			fields[i] = f
 		}
 		t := types.NewStruct(types.LocalPkg, fields)
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		return t
 
 	case *types2.Interface:
@@ -236,7 +243,7 @@ func typeExpr2(p *noder, typ types2.Type, forceRecv *types.Field) (r *types.Type
 		t := types.NewInterface(types.LocalPkg, append(embeddeds, methods...))
 
 		// Ensure we expand the interface in the frontend (#25055).
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		return t
 
 	case *types2.Tuple:
@@ -250,7 +257,7 @@ func typeExpr2(p *noder, typ types2.Type, forceRecv *types.Field) (r *types.Type
 			fields[i] = f
 		}
 		t := types.NewStruct(types.LocalPkg, fields)
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		// Can only set after doing the types.CheckSize()
 		t.StructType().Funarg = types.FunargResults
 		return t

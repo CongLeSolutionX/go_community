@@ -622,18 +622,42 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 }
 
 func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.Node {
-	n := p.declName(ir.OTYPE, decl.Name)
+	sym := p.name(decl.Name)
+	var n *ir.Name
+	if base.Flag.G > 0 && typecheck.DeclContext == ir.PEXTERN &&
+		sym.Def != nil && ir.AsNode(sym.Def) != ir.BlankNode {
+		// Type name has already been encountered as a use
+		// TODO(danscales): need to do typedef scoping correctly.  May need
+		// a separate hash table from types2 named type to Name node
+		n = ir.AsNode(sym.Def).(*ir.Name)
+		// Fill in the actual position of the def
+		n.SetPos(p.pos(decl.Name))
+	} else {
+		n = ir.NewDeclNameAt(p.pos(decl.Name), ir.OTYPE, sym)
+	}
 	typecheck.Declare(n, typecheck.DeclContext)
 	if base.Flag.G > 0 {
 		// Set type for a declared type
 		d := p.def(decl.Name)
 		t2 := d.Type()
-		// TODO(danscales) Is this the right way to fill in a named type?
-		nnt := types.NewNamed(n)
-		ut := p.typeExpr2(t2.Underlying(), nil)
-		nnt.SetUnderlying(ut)
-
-		if nt2, ok := t2.(*types2.Named); ok {
+		var nnt *types.Type
+		if decl.Alias {
+			// For an alias, set n's type to exactly the conversion
+			// from the types2 type.
+			nnt = p.typeExpr2(t2, nil)
+			n.SetType(nnt)
+		} else {
+			nnt = n.Type()
+			if nnt == nil {
+				// Set n's type now, so we can deal with circular types
+				// (including this type as a method receiver below) as we
+				// translate the t2 type via p.typeExpr2().
+				nnt = types.NewNamed(n)
+				n.SetType(nnt)
+			}
+			ut := p.typeExpr2(t2.Underlying(), nil)
+			nnt.SetUnderlying(ut)
+			nt2 := t2.(*types2.Named)
 			numMethods := nt2.NumMethods()
 			if numMethods > 0 {
 				// Convert the types2 methods of the named type to
@@ -642,25 +666,15 @@ func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.Node {
 				methods := make([]*types.Field, numMethods)
 				for i := range methods {
 					fun := nt2.Method(i)
-					rt := fun.Type().(*types2.Signature).Recv().Type()
-					var nntf *types.Field
 					pos := p.makeXPos(fun.Pos())
-					if _, ok := rt.(*types2.Pointer); ok {
-						nntf = types.NewField(pos, n.Sym(),
-							types.NewPtr(nnt))
-					} else {
-						nntf = types.NewField(pos, n.Sym(), nnt)
-					}
-					// Force the receiver of the method to be this
-					// type (or pointer to the type)
-					ft := p.typeExpr2(fun.Type(), nntf)
+					ft := p.typeExpr2(fun.Type(), nil)
 					f := types.NewField(pos, typecheck.Lookup(fun.Name()), ft)
 					methods[i] = f
 				}
 				nnt.Methods().Set(methods)
 			}
 		}
-		n.SetType2(nnt)
+		n.SetHasType2(true)
 	}
 
 	// decl.Type may be nil but in that case we got a syntax error during parsing

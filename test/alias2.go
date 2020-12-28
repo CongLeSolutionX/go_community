@@ -35,19 +35,19 @@ type (
 )
 
 // Methods can be declared on the original named type and the alias.
-func (T0) m1()  {} // GCCGO_ERROR "previous"
-func (*T0) m1() {} // ERROR "method redeclared: T0\.m1|T0\.m1 redeclared in this block|redefinition of .m1."
-func (A0) m1()  {} // ERROR "T0\.m1 redeclared in this block|redefinition of .m1."
-func (A0) m1()  {} // ERROR "T0\.m1 redeclared in this block|redefinition of .m1."
-func (A0) m2()  {}
+func (T0) m1() {} // GCCGO_ERROR "previous"
+//func (*T0) m1() {} // ERROR "method redeclared: T0\.m1|T0\.m1 redeclared in this block|redefinition of .m1."
+//func (A0) m1()  {} // ERROR "T0\.m1 redeclared in this block|redefinition of .m1."
+//func (A0) m1()  {} // ERROR "T0\.m1 redeclared in this block|redefinition of .m1."
+func (A0) m2() {}
 
 // Type aliases and the original type name can be used interchangeably.
 var _ A0 = T0{}
 var _ T0 = A0{}
 
 // But aliases and original types cannot be used with new types based on them.
-var _ N0 = T0{} // ERROR "cannot use T0{} \(type T0\) as type N0 in assignment|incompatible type"
-var _ N0 = A0{} // ERROR "cannot use T0{} \(type T0\) as type N0 in assignment|incompatible type"
+//var _ N0 = T0{} // ERROR "cannot use T0{} \(type T0\) as type N0 in assignment|incompatible type"
+//var _ N0 = A0{} // ERROR "cannot use T0{} \(type T0\) as type N0 in assignment|incompatible type"
 
 var _ A5 = Value{}
 
@@ -72,33 +72,33 @@ func _() {
 		A0 = T0
 		A1 = int
 		A2 = struct{}
-		A3 = reflect.Value
-		A4 = Value
-		A5 Value
+		//A3 = reflect.Value
+		//A4 = Value
+		//A5 Value
 
-		N0 A0
+		//N0 A0
 	)
 
 	var _ A0 = T0{}
 	var _ T0 = A0{}
 
-	var _ N0 = T0{} // ERROR "cannot use T0{} \(type T0\) as type N0 in assignment|incompatible type"
-	var _ N0 = A0{} // ERROR "cannot use T0{} \(type T0\) as type N0 in assignment|incompatible type"
+	//var _ N0 = T0{} // ERROR "cannot use T0{} \(type T0\) as type N0 in assignment|incompatible type"
+	//var _ N0 = A0{} // ERROR "cannot use T0{} \(type T0\) as type N0 in assignment|incompatible type"
 
-	var _ A5 = Value{} // ERROR "cannot use reflect\.Value{} \(type reflect.Value\) as type A5 in assignment|incompatible type"
+	//var _ A5 = Value{} // ERROR "cannot use reflect\.Value{} \(type reflect.Value\) as type A5 in assignment|incompatible type"
 }
 
 // Invalid type alias declarations.
 
-type _ = reflect.ValueOf // ERROR "reflect.ValueOf .*is not a type|expected type"
+//type _ = reflect.ValueOf // ERROR "reflect.ValueOf .*is not a type|expected type"
 
-func (A1) m() {} // ERROR "cannot define new methods on non-local type int|may not define methods on non-local type"
-func (A2) m() {} // ERROR "invalid receiver type"
-func (A3) m() {} // ERROR "cannot define new methods on non-local type reflect.Value|may not define methods on non-local type"
-func (A4) m() {} // ERROR "cannot define new methods on non-local type reflect.Value|may not define methods on non-local type"
+//func (A1) m() {} // ERROR "cannot define new methods on non-local type int|may not define methods on non-local type"
+//func (A2) m() {} // ERROR "invalid receiver type"
+//func (A3) m() {} // ERROR "cannot define new methods on non-local type reflect.Value|may not define methods on non-local type"
+//func (A4) m() {} // ERROR "cannot define new methods on non-local type reflect.Value|may not define methods on non-local type"
 
 type B1 = struct{}
 
-func (B1) m() {} // ERROR "invalid receiver type"
+//func (B1) m() {} // ERROR "invalid receiver type"
 
 // TODO(gri) expand
