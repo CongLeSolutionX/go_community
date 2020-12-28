@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8911e232_01d4d849",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-28T07:17:11Z",
+      "side": 1,
+      "message": "Yay",
+      "revId": "45eef92594aff41b3d3bfd3bd21da7febf4f871e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
