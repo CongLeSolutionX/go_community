@@ -28,6 +28,13 @@ import (
 	"cmd/internal/src"
 )
 
+const (
+	nodeAll = iota
+	nodePhase1
+	nodePhase2
+	nodePhase3
+)
+
 // ParseFiles concurrently parses files into *syntax.File structures.
 // Each declaration in every *syntax.File is converted to a syntax tree
 // and its root represented by *Node is appended to Target.Decls.
@@ -132,7 +139,21 @@ func ParseFiles(filenames []string) (lines uint) {
 			// errors have already been reported
 
 			p.typeInfo = &info
-			p.node()
+			p.node(nodePhase1)
+			base.ExitIfErrors()
+		}
+
+		for _, p := range noders {
+			p.typeInfo = &info
+			p.node(nodePhase2)
+			base.ExitIfErrors()
+		}
+
+		for _, p := range noders {
+			// errors have already been reported
+
+			p.typeInfo = &info
+			p.node(nodePhase3)
 			lines += p.file.EOF.Line()
 			p.file = nil // release memory
 			base.ExitIfErrors()
@@ -151,7 +172,7 @@ func ParseFiles(filenames []string) (lines uint) {
 			p.errorAt(e.Pos, "%s", e.Msg)
 		}
 
-		p.node()
+		p.node(nodeAll)
 		lines += p.file.EOF.Line()
 		p.file = nil // release memory
 		if base.SyntaxErrors() != 0 {
@@ -382,7 +403,7 @@ type linkname struct {
 	remote string
 }
 
-func (p *noder) node() {
+func (p *noder) node(phase int) {
 	types.Block = 1
 	p.importedUnsafe = false
 	p.importedEmbed = false
@@ -395,10 +416,12 @@ func (p *noder) node() {
 		p.checkUnused(pragma)
 	}
 
-	typecheck.Target.Decls = append(typecheck.Target.Decls, p.decls(p.file.DeclList)...)
+	typecheck.Target.Decls = append(typecheck.Target.Decls, p.decls(p.file.DeclList, phase)...)
 
 	base.Pos = src.NoXPos
-	clearImports()
+	if phase == nodeAll || phase == nodePhase3 {
+		clearImports()
+	}
 }
 
 func (p *noder) processPragmas() {
@@ -422,26 +445,45 @@ func (p *noder) processPragmas() {
 	typecheck.Target.CgoPragmas = append(typecheck.Target.CgoPragmas, p.pragcgobuf...)
 }
 
-func (p *noder) decls(decls []syntax.Decl) (l []ir.Node) {
+func (p *noder) decls(decls []syntax.Decl, phase int) (l []ir.Node) {
 	var cs constState
 
 	for _, decl := range decls {
 		p.setlineno(decl)
 		switch decl := decl.(type) {
 		case *syntax.ImportDecl:
-			p.importDecl(decl)
+			if phase == nodeAll || phase == nodePhase1 {
+				p.importDecl(decl)
+			}
 
 		case *syntax.VarDecl:
-			l = append(l, p.varDecl(decl)...)
+			if phase == nodeAll || phase == nodePhase3 {
+				l = append(l, p.varDecl(decl)...)
+			}
 
 		case *syntax.ConstDecl:
-			l = append(l, p.constDecl(decl, &cs)...)
+			if phase == nodeAll || phase == nodePhase3 {
+				l = append(l, p.constDecl(decl, &cs)...)
+			}
 
 		case *syntax.TypeDecl:
-			l = append(l, p.typeDecl(decl))
+			if phase == nodeAll || phase == nodePhase2 {
+				if base.Flag.G > 0 {
+					println("Doing full type", decl.Name.Value)
+				}
+				l = append(l, p.typeDecl(decl))
+			} else if phase == nodePhase1 {
+				println("Creating dummy", decl.Name.Value)
+				n := p.declName(ir.OTYPE, decl.Name)
+				n.Sym().Def = n
+				nnt := types.NewNamed(n)
+				n.SetType(nnt)
+			}
 
 		case *syntax.FuncDecl:
-			l = append(l, p.funcDecl(decl))
+			if phase == nodeAll || phase == nodePhase3 {
+				l = append(l, p.funcDecl(decl))
+			}
 
 		default:
 			panic("unhandled Decl")
@@ -615,14 +657,28 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 }
 
 func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.Node {
-	n := p.declName(ir.OTYPE, decl.Name)
+	var n *ir.Name
+
+	hasdef := false
+	if base.Flag.G > 0 && p.name(decl.Name).Def != nil {
+		// Type was pre-declared to deal with forward referencees, etc.
+		hasdef = true
+		n = ir.AsNode(p.name(decl.Name).Def).(*ir.Name)
+	} else {
+		n = p.declName(ir.OTYPE, decl.Name)
+	}
 	typecheck.Declare(n, typecheck.DeclContext)
 	if base.Flag.G > 0 {
 		// Set type for a declared type
 		d := p.def(decl.Name)
 		t2 := d.Type()
 		// TODO(danscales) Is this the right way to fill in a named type?
-		nnt := types.NewNamed(n)
+		var nnt *types.Type
+		if hasdef {
+			nnt = n.Type()
+		} else {
+			nnt = types.NewNamed(n)
+		}
 		ut := p.typeExpr2(t2.Underlying(), nil)
 		nnt.SetUnderlying(ut)
 
@@ -1326,7 +1382,7 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) ir.Node {
 	case *syntax.SendStmt:
 		return ir.NewSendStmt(p.pos(stmt), p.expr(stmt.Chan), p.expr(stmt.Value))
 	case *syntax.DeclStmt:
-		return ir.NewBlockStmt(src.NoXPos, p.decls(stmt.DeclList))
+		return ir.NewBlockStmt(src.NoXPos, p.decls(stmt.DeclList, nodeAll))
 	case *syntax.AssignStmt:
 		if stmt.Op != 0 && stmt.Op != syntax.Def {
 			n := ir.NewAssignOpStmt(p.pos(stmt), p.binOp(stmt.Op), p.expr(stmt.Lhs), p.expr(stmt.Rhs))
@@ -1985,7 +2041,7 @@ func (p *noder) typeExpr2(typ types2.Type, forceRecv *types.Field) (r *types.Typ
 			fields[i] = f
 		}
 		t := types.NewStruct(types.LocalPkg, fields)
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		return t
 
 	case *types2.Interface:
@@ -2013,7 +2069,7 @@ func (p *noder) typeExpr2(typ types2.Type, forceRecv *types.Field) (r *types.Typ
 		t := types.NewInterface(types.LocalPkg, append(embeddeds, methods...))
 
 		// Ensure we expand the interface in the frontend (#25055).
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		return t
 
 	case *types2.Tuple:
@@ -2027,7 +2083,7 @@ func (p *noder) typeExpr2(typ types2.Type, forceRecv *types.Field) (r *types.Typ
 			fields[i] = f
 		}
 		t := types.NewStruct(types.LocalPkg, fields)
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		// Can only set after doing the types.CheckSize()
 		t.StructType().Funarg = types.FunargResults
 		return t
