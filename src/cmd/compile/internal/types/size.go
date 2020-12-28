@@ -476,9 +476,9 @@ func CalcSize(t *Type) {
 		t.Align = uint8(PtrSize)
 
 	case TSTRUCT:
-		if t.IsFuncArgStruct() {
-			base.Fatalf("dowidth fn struct %v", t)
-		}
+		//if t.IsFuncArgStruct() {
+		//	base.Fatalf("dowidth fn struct %v", t)
+		//}
 		w = calcStructOffset(t, t, 0, 1)
 
 	// make fake type to check later to
@@ -551,9 +551,9 @@ func CheckSize(t *Type) {
 
 	// function arg structs should not be checked
 	// outside of the enclosing function.
-	if t.IsFuncArgStruct() {
-		base.Fatalf("checkwidth %v", t)
-	}
+	//if t.IsFuncArgStruct() {
+	//	base.Fatalf("checkwidth %v", t)
+	//}
 
 	if defercalc == 0 {
 		CalcSize(t)

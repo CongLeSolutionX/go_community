@@ -425,11 +425,54 @@ func (p *noder) processPragmas() {
 func (p *noder) decls(decls []syntax.Decl) (l []ir.Node) {
 	var cs constState
 
+	if base.Flag.G > 0 {
+		for _, decl := range decls {
+			p.setlineno(decl)
+			switch decl := decl.(type) {
+			case *syntax.ImportDecl:
+				p.importDecl(decl)
+
+			case *syntax.VarDecl:
+			case *syntax.ConstDecl:
+
+			case *syntax.TypeDecl:
+				println("Creating dummy", decl.Name.Value)
+				n := p.declName(ir.OTYPE, decl.Name)
+				if base.Flag.G > 0 {
+					n.Sym().Def = n
+					nnt := types.NewNamed(n)
+					n.SetType(nnt)
+				}
+
+			case *syntax.FuncDecl:
+
+			default:
+				panic("unhandled Decl")
+			}
+		}
+
+		for _, decl := range decls {
+			p.setlineno(decl)
+			switch decl := decl.(type) {
+			case *syntax.ImportDecl:
+			case *syntax.VarDecl:
+			case *syntax.ConstDecl:
+			case *syntax.TypeDecl:
+				println("Doing full type", decl.Name.Value)
+				l = append(l, p.typeDecl(decl))
+
+			case *syntax.FuncDecl:
+			}
+		}
+	}
+
 	for _, decl := range decls {
 		p.setlineno(decl)
 		switch decl := decl.(type) {
 		case *syntax.ImportDecl:
-			p.importDecl(decl)
+			if base.Flag.G == 0 {
+				p.importDecl(decl)
+			}
 
 		case *syntax.VarDecl:
 			l = append(l, p.varDecl(decl)...)
@@ -438,7 +481,9 @@ func (p *noder) decls(decls []syntax.Decl) (l []ir.Node) {
 			l = append(l, p.constDecl(decl, &cs)...)
 
 		case *syntax.TypeDecl:
-			l = append(l, p.typeDecl(decl))
+			if base.Flag.G == 0 {
+				l = append(l, p.typeDecl(decl))
+			}
 
 		case *syntax.FuncDecl:
 			l = append(l, p.funcDecl(decl))
@@ -615,14 +660,20 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []ir.Node {
 }
 
 func (p *noder) typeDecl(decl *syntax.TypeDecl) ir.Node {
-	n := p.declName(ir.OTYPE, decl.Name)
+	var n *ir.Name
+	if base.Flag.G > 0 {
+		n = ir.AsNode(p.name(decl.Name).Def).(*ir.Name)
+	} else {
+		n = p.declName(ir.OTYPE, decl.Name)
+	}
 	typecheck.Declare(n, typecheck.DeclContext)
 	if base.Flag.G > 0 {
 		// Set type for a declared type
 		d := p.def(decl.Name)
 		t2 := d.Type()
 		// TODO(danscales) Is this the right way to fill in a named type?
-		nnt := types.NewNamed(n)
+		//nnt := types.NewNamed(n)
+		nnt := n.Type()
 		ut := p.typeExpr2(t2.Underlying(), nil)
 		nnt.SetUnderlying(ut)
 
@@ -1963,7 +2014,7 @@ func (p *noder) typeExpr2(typ types2.Type, forceRecv *types.Field) (r *types.Typ
 			fields[i] = f
 		}
 		t := types.NewStruct(TODO, fields)
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		return t
 
 	case *types2.Interface:
@@ -1991,7 +2042,7 @@ func (p *noder) typeExpr2(typ types2.Type, forceRecv *types.Field) (r *types.Typ
 		t := types.NewInterface(TODO, append(embeddeds, methods...))
 
 		// Ensure we expand the interface in the frontend (#25055).
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		return t
 
 	case *types2.Tuple:
@@ -2005,7 +2056,7 @@ func (p *noder) typeExpr2(typ types2.Type, forceRecv *types.Field) (r *types.Typ
 			fields[i] = f
 		}
 		t := types.NewStruct(TODO, fields)
-		types.CheckSize(t)
+		//types.CheckSize(t)
 		// Can only set after doing the types.CheckSize()
 		t.StructType().Funarg = types.FunargResults
 		return t
