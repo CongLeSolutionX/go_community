@@ -62,11 +62,20 @@ func _() {
 	_ = f0()               // ERROR "f0\(\) .*used as value"
 	_ = f1()               // ok
 	_, _ = f2()            // ok
+<<<<<<< HEAD   (dd40bb [dev.typeparams] cmd/compile: re-enable internal/types2 test)
 	_ = f2()               // ERROR "assignment mismatch: 1 variable but f2 returns 2 values|cannot assign"
 	T.M0                   // ERROR "T.M0 .* not used"
 	t.M0                   // ERROR "t.M0 .* not used"
 	cap                    // ERROR "use of builtin cap not in function call|must be called"
 	cap(slice)             // ERROR "cap\(slice\) .* not used"
+=======
+	_ = f2()               // ERROR "assignment mismatch: 1 variable but f2 returns 2 values"
+	_ = f1(), 0            // ERROR "assignment mismatch: 1 variable but 2 values"
+	T.M0                   // ERROR "T.M0 evaluated but not used"
+	t.M0                   // ERROR "t.M0 evaluated but not used"
+	cap                    // ERROR "use of builtin cap not in function call"
+	cap(slice)             // ERROR "cap\(slice\) evaluated but not used"
+>>>>>>> BRANCH (07569d [dev.regabi] all: merge master (1d78139) into dev.regabi)
 	close(c)               // ok
 	_ = close(c)           // ERROR "close\(c\) .*used as value"
 	func() {}              // ERROR "func literal .* not used|is not used"

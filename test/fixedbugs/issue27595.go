@@ -6,9 +6,15 @@
 
 package main
 
+<<<<<<< HEAD   (dd40bb [dev.typeparams] cmd/compile: re-enable internal/types2 test)
 var a = twoResults()       // ERROR "assignment mismatch: 1 variable but twoResults returns 2 values|2\-valued"
 var b, c, d = twoResults() // ERROR "assignment mismatch: 3 variables but twoResults returns 2 values|cannot initialize"
 var e, f = oneResult()     // ERROR "assignment mismatch: 2 variables but oneResult returns 1 values|cannot initialize"
+=======
+var a = twoResults()       // ERROR "assignment mismatch: 1 variable but twoResults returns 2 values"
+var b, c, d = twoResults() // ERROR "assignment mismatch: 3 variables but twoResults returns 2 values"
+var e, f = oneResult()     // ERROR "assignment mismatch: 2 variables but oneResult returns 1 value"
+>>>>>>> BRANCH (07569d [dev.regabi] all: merge master (1d78139) into dev.regabi)
 
 func twoResults() (int, int) {
 	return 1, 2
