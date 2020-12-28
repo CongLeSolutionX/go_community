@@ -1056,8 +1056,65 @@ func (p *noder) expr(expr syntax.Expr) (n ir.Node) {
 			pack.Used = true
 			return importName(pack.Pkg.Lookup(expr.Sel.Value))
 		}
-		n := ir.NewSelectorExpr(base.Pos, ir.OXDOT, obj, p.name(expr.Sel))
-		n.SetPos(p.pos(expr)) // lineno may have been changed by p.expr(expr.X)
+		sym := p.name(expr.Sel)
+		pos := p.pos(expr)
+		n := ir.NewSelectorExpr(base.Pos, ir.OXDOT, obj, sym)
+		n.SetPos(pos) // lineno may have been changed by p.expr(expr.X)
+		if base.Flag.G > 0 {
+			// Using types2 info, select among ODOT, ODOTPTR,
+			// ODOTMETH, ODOTINTER, and OMETHEXPR here rather than in
+			// typecheck.go.
+			//
+			// XXX Need adddot() functionality for missing fields
+			selx := p.sel(expr)
+			t := obj.Type()
+			if selx.Kind() == types2.MethodExpr {
+				var ms *types.Fields
+				if t.IsInterface() {
+					ms = t.Fields()
+				} else {
+					// XXX Must do CalcMethods, use AllMethods
+					ms = types.ReceiverBaseType(t).Methods()
+				}
+				m := ms.Slice()[selx.Index()[0]]
+				me := ir.NewMethodExpr(pos, t, m)
+				f := typecheck.NewName(ir.MethodSym(t, sym))
+				f.Class_ = ir.PFUNC
+				f.SetType(p.typeExpr2(p.typ(expr).Type, nil))
+				f.Offset_ = m.Offset
+				me.FuncName_ = f
+				return me
+			} else {
+				var f *types.Field
+				var op ir.Op = ir.ODOT
+				// XXX Must do AddImplicitDots, set type of
+				// intervening nodes correctly.
+				if t.IsPtr() && !t.Elem().IsInterface() {
+					t = t.Elem()
+					op = ir.ODOTPTR
+				}
+				if selx.Kind() == types2.FieldVal {
+					f = t.Field(selx.Index()[0])
+					n.SetOp(op)
+				} else { // types.MethodVal
+					if t.IsInterface() {
+						n.SetOp(ir.ODOTINTER)
+						f = t.Field(selx.Index()[0])
+					} else {
+						n.SetOp(ir.ODOTMETH)
+						f = t.Methods().Slice()[selx.Index()[0]]
+						rcvr := f.Type.Recv().Type
+						if rcvr.IsPtr() && types.Identical(rcvr.Elem(), obj.Type()) {
+							addr := typecheck.NodAddrAt(pos, obj)
+							addr.SetImplicit(true)
+							addr.SetType(obj.Type().PtrTo())
+							n.X = addr
+						}
+					}
+				}
+				n.Selection = f
+			}
+		}
 		return n
 	case *syntax.IndexExpr:
 		return ir.NewIndexExpr(p.pos(expr), p.expr(expr.X), p.expr(expr.Index))
@@ -1100,6 +1157,17 @@ func (p *noder) expr(expr syntax.Expr) (n ir.Node) {
 		return ir.NewBinaryExpr(pos, op, x, y)
 	case *syntax.CallExpr:
 		n := ir.NewCallExpr(p.pos(expr), ir.OCALL, p.expr(expr.Fun), p.exprs(expr.ArgList))
+		if base.Flag.G > 0 {
+			// If method value is called (normal method value), then
+			// set its type to be a method func, since that's what
+			// later phases expect.
+			left := n.X
+			if left.Op() == ir.ODOTMETH || left.Op() == ir.ODOTINTER {
+				left.SetHasType2(false)
+				left.SetType(left.(*ir.SelectorExpr).Selection.Type)
+				left.SetHasType2(true)
+			}
+		}
 		n.IsDDD = expr.HasDots
 		return n
 
