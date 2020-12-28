@@ -176,6 +176,22 @@ var cfiles []string = []string{
 	"finprofiled.go",
 	"chanlinear.go",
 	"iota.go",
+
+	// These all have circular or forward references on types
+	"escape3.go",
+	"live2.go",
+	"notinheap3.go",
+	"escape_calls.go",
+	"func2.go",
+	"mallocfin.go",
+	"stackobj2.go",
+	"recover3.go",
+	"peano.go",
+	"reorder2.go",
+	"torture.go",
+
+	// Modified - temporary
+	"alias2.go",
 }
 
 var rfiles []string = []string{
