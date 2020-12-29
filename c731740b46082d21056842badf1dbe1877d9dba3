@@ -16,6 +16,24 @@
       "message": "PING\nI think we should land this CL in 1.16.\nIs that ok for you?",
       "revId": "c731740b46082d21056842badf1dbe1877d9dba3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d82c1a18_5f591f14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-29T04:48:37Z",
+      "side": 1,
+      "message": "Many US employees are on holiday vacation and spending time with their families. I expect Russ will review this in early January, if not sooner. I\u0027ve marked the issue as a release-blocker, so it will be sure to be reviewed before Go 1.16\u0027s release, due Feb 1. Thanks.",
+      "parentUuid": "300e500b_9d67b06a",
+      "revId": "c731740b46082d21056842badf1dbe1877d9dba3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
