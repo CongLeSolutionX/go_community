@@ -104,6 +104,30 @@
       },
       "revId": "69640da98a68567a3a43cc787ea8e6bf27e83fc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b32ce2e0_79ef8a76",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2020-12-29T17:52:00Z",
+      "side": 1,
+      "message": "Whoops, maybe not, my advice looks suspect now.  At minimum causes different behavior for a test when return values are expanded late.  I\u0027ll experiment with src.NoXPos, also.",
+      "parentUuid": "4440b22b_bc562b25",
+      "range": {
+        "startLine": 792,
+        "startChar": 25,
+        "endLine": 792,
+        "endChar": 35
+      },
+      "revId": "69640da98a68567a3a43cc787ea8e6bf27e83fc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
