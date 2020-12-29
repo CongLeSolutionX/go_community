@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "496b5eb0_264cab15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-29T02:17:07Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "2fdc9083_1db85d7b",
+      "revId": "1e4e9de774ff052af467d028f136e5e921cb9c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afb5617b_9706783c",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-29T01:50:16Z",
       "side": 1,
       "message": "Fix this comment (fn.Left)?",
+      "revId": "1e4e9de774ff052af467d028f136e5e921cb9c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42c6dd2c_dd4fc8fd",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-29T02:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afb5617b_9706783c",
       "revId": "1e4e9de774ff052af467d028f136e5e921cb9c9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a343b4b_95929313",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-29T02:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71e73527_477ba2d6",
+      "revId": "1e4e9de774ff052af467d028f136e5e921cb9c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b3d16b9_52df0252",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ac0e25_2c1b7f4e",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-29T02:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b3d16b9_52df0252",
+      "revId": "1e4e9de774ff052af467d028f136e5e921cb9c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3162d99b_e4f648e7",
@@ -82,6 +154,24 @@
       "writtenOn": "2020-12-29T01:50:16Z",
       "side": 1,
       "message": "Maybe a comment here that MakePartialCall() will use a cached copy of the wrapper function, so won\u0027t generate a new function.",
+      "revId": "1e4e9de774ff052af467d028f136e5e921cb9c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ff6a9c4_9f7265c5",
+        "filename": "src/cmd/compile/internal/walk/closure.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-29T02:17:07Z",
+      "side": 1,
+      "message": "I renamed it to MethodValueWrapper and expanded the docs somewhat to hopefully make it clearer its cached. It\u0027s the norm within the frontend that we create things on-demand like this, so I don\u0027t think it\u0027s too important to call out here in particular. (But agreed that the previous name was misleading.)",
+      "parentUuid": "3162d99b_e4f648e7",
       "revId": "1e4e9de774ff052af467d028f136e5e921cb9c9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
