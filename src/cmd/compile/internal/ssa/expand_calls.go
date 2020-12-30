@@ -624,6 +624,24 @@ func expandCalls(f *Func) {
 		return x
 	}
 
+	rewriteDereference := func(b *Block, base, a, mem *Value, offset, size int64, typ *types.Type, pos src.XPos) *Value {
+		source := a.Args[0]
+		dst := offsetFrom(base, offset, source.Type) // f.ConstOffPtrSP(source.Type, offset, sp)
+		if a.Uses == 1 && a.Block == b {
+			a.reset(OpMove)
+			a.Pos = pos
+			a.Type = types.TypeMem
+			a.Aux = typ
+			a.AuxInt = size
+			a.SetArgs3(dst, source, mem)
+			mem = a
+		} else {
+			mem = b.NewValue3A(pos, OpMove, types.TypeMem, typ, dst, source, mem)
+			mem.AuxInt = size
+		}
+		return mem
+	}
+
 	// rewriteArgs removes all the Args from a call and converts the call args into appropriate
 	// stores (or later, register movement).  Extra args for interface and closure calls are ignored,
 	// but removed.
@@ -631,7 +649,7 @@ func expandCalls(f *Func) {
 		// Thread the stores on the memory arg
 		aux := v.Aux.(*AuxCall)
 		pos := v.Pos.WithNotStmt()
-		m0 := v.Args[len(v.Args)-1]
+		m0 := v.MemoryArg()
 		mem := m0
 		for i, a := range v.Args {
 			if i < firstArg {
@@ -647,20 +665,7 @@ func expandCalls(f *Func) {
 				}
 				// "Dereference" of addressed (probably not-SSA-eligible) value becomes Move
 				// TODO this will be more complicated with registers in the picture.
-				source := a.Args[0]
-				dst := f.ConstOffPtrSP(source.Type, aux.OffsetOfArg(auxI), sp)
-				if a.Uses == 1 && a.Block == v.Block {
-					a.reset(OpMove)
-					a.Pos = pos
-					a.Type = types.TypeMem
-					a.Aux = aux.TypeOfArg(auxI)
-					a.AuxInt = aux.SizeOfArg(auxI)
-					a.SetArgs3(dst, source, mem)
-					mem = a
-				} else {
-					mem = v.Block.NewValue3A(pos, OpMove, types.TypeMem, aux.TypeOfArg(auxI), dst, source, mem)
-					mem.AuxInt = aux.SizeOfArg(auxI)
-				}
+				mem = rewriteDereference(v.Block, sp, a, mem, aux.OffsetOfArg(auxI), aux.SizeOfArg(auxI), aux.TypeOfArg(auxI), pos)
 			} else {
 				if debug {
 					fmt.Printf("storeArg %s, %v, %d\n", a.LongString(), aux.TypeOfArg(auxI), aux.OffsetOfArg(auxI))
@@ -676,8 +681,17 @@ func expandCalls(f *Func) {
 
 	// Step 0: rewrite the calls to convert incoming args to stores.
 	for _, b := range f.Blocks {
+		// Keep track of VarDefs by their mem, which they will share with self-move instructions
+		var varDefs map[*Value]*Value
+		if b.Kind == BlockRet || b.Kind == BlockRetJmp {
+			varDefs = make(map[*Value]*Value)
+		}
 		for _, v := range b.Values {
 			switch v.Op {
+			case OpVarDef:
+				if varDefs != nil {
+					varDefs[v.MemoryArg()] = v
+				}
 			case OpStaticLECall:
 				mem := rewriteArgs(v, 0)
 				v.SetArgs1(mem)
@@ -691,6 +705,49 @@ func expandCalls(f *Func) {
 				mem := rewriteArgs(v, 1)
 				v.SetArgs2(code, mem)
 			}
+		}
+		if (b.Kind == BlockRet || b.Kind == BlockRetJmp) && len(b.Controls) > 0 && b.Controls[0].Op == OpMakeResult {
+			// Very similar to code in rewriteArgs, but results instead of args.
+			v := b.Controls[0]
+			m0 := v.MemoryArg()
+			mem := m0
+			aux := f.OwnAux
+			pos := v.Pos.WithNotStmt()
+			for j, a := range v.Args {
+				i := int64(j)
+				if a == m0 {
+					break
+				}
+				auxType := aux.TypeOfResult(i)
+				auxBase := b.NewValue2A(v.Pos, OpLocalAddr, types.NewPtr(auxType), aux.results[i].Name, sp, mem)
+				auxOffset := int64(0)
+				auxSize := aux.SizeOfResult(i)
+				if a.Op == OpDereference {
+					// Avoid a self-move, and if one is detected remove the already-inserted VarDef for the assignment that won't happen.
+					if dAddr, dMem := a.Args[0], a.Args[1]; dAddr.Op == OpLocalAddr && dAddr.Args[0].Op == OpSP &&
+						dAddr.Args[1] == dMem && dAddr.Aux == aux.results[i].Name {
+						if varDef := varDefs[dMem]; varDef != nil {
+							varDef.copyOf(dMem)
+						}
+						// fmt.Printf("Self move to arg detected, arg=%s, addr=%s\n", a.LongString(), dAddr.LongString())
+						continue
+					} else {
+					}
+					mem = rewriteDereference(v.Block, auxBase, a, mem, auxOffset, auxSize, auxType, pos)
+				} else {
+					if a.Op == OpLoad && a.Args[0].Op == OpLocalAddr {
+						addr := a.Args[0]
+						if addr.MemoryArg() == a.MemoryArg() && addr.Aux == aux.results[i].Name {
+							continue
+						} else {
+							// fmt.Printf("Not self move to arg detected, a=%v, arg=%v \n", a.LongString(), aux.results[i].Name)
+						}
+					}
+					mem = storeArgOrLoad(v.Pos, b, auxBase, a, mem, aux.TypeOfResult(i), auxOffset)
+				}
+			}
+			b.SetControl(mem)
+			v.reset(OpInvalid) // otherwise it can have a mem operand which will fail check(), even though it is dead.
 		}
 	}
 
