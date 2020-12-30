@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800c2332_5fa7d27d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-30T04:52:14Z",
+      "side": 1,
+      "message": "cmd/go: document GO111MODULE environment variable",
+      "revId": "ba7c5ebbab06d7973036c2bde452da4e0952e7d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "036e1ac4_81c5e3b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-30T04:52:14Z",
+      "side": 1,
+      "message": "Please run (cd cmd/go \u0026\u0026 ./mkalldocs.sh) and add cmd/go/alldocs.go to the change.",
+      "revId": "ba7c5ebbab06d7973036c2bde452da4e0952e7d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
