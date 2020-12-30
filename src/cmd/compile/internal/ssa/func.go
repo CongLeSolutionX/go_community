@@ -58,6 +58,9 @@ type Func struct {
 	// of keys to make iteration order deterministic.
 	Names []LocalSlot
 
+	// AuxCall describing parameters and results for this function.
+	OwnAux *AuxCall
+
 	// WBLoads is a list of Blocks that branch on the write
 	// barrier flag. Safe-points are disabled from the OpLoad that
 	// reads the write-barrier flag until the control flow rejoins
@@ -771,7 +774,7 @@ func DebugNameMatch(evname, name string) bool {
 }
 
 func (f *Func) spSb() (sp, sb *Value) {
-	initpos := f.Entry.Pos
+	initpos := src.NoXPos // f.Entry.Pos
 	for _, v := range f.Entry.Values {
 		if v.Op == OpSB {
 			sb = v
