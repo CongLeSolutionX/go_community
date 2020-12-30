@@ -5,6 +5,7 @@
 package ssa
 
 import (
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"fmt"
@@ -70,7 +71,9 @@ type auxType int8
 
 type Param struct {
 	Type   *types.Type
-	Offset int32 // TODO someday this will be a register
+	Offset int32    // Offset of Param if not in a register.
+	Reg    int8     // -1 for not a register
+	Name   *ir.Name // For OwnAux, need to prepend stores with Vardefs
 }
 
 type AuxCall struct {
@@ -198,6 +201,11 @@ func ClosureAuxCall(args []Param, results []Param) *AuxCall {
 }
 
 func (*AuxCall) CanBeAnSSAAux() {}
+
+// OwnAuxCall returns a function's own AuxCall
+func OwnAuxCall(args []Param, results []Param) *AuxCall {
+	return &AuxCall{Fn: nil, args: args, results: results}
+}
 
 const (
 	auxNone         auxType = iota
