@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f551842d_b9011656",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 45030
+      },
+      "writtenOn": "2020-12-30T08:22:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800c2332_5fa7d27d",
+      "revId": "ba7c5ebbab06d7973036c2bde452da4e0952e7d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "036e1ac4_81c5e3b9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2020-12-30T04:54:50Z",
       "side": 1,
       "message": "Makes the lines shorter, and removing the trailing spaces.\n\nI believe that the default for GO111MODULE is now \"on\", not \"auto\".",
+      "revId": "ba7c5ebbab06d7973036c2bde452da4e0952e7d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f10e8e1_6edcd8cc",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 45030
+      },
+      "writtenOn": "2020-12-30T08:22:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "070b4bc4_9fdb25ef",
       "revId": "ba7c5ebbab06d7973036c2bde452da4e0952e7d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
