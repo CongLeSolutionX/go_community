@@ -33,6 +33,23 @@
       "message": "Please run (cd cmd/go \u0026\u0026 ./mkalldocs.sh) and add cmd/go/alldocs.go to the change.",
       "revId": "ba7c5ebbab06d7973036c2bde452da4e0952e7d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "070b4bc4_9fdb25ef",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2020-12-30T04:54:50Z",
+      "side": 1,
+      "message": "Makes the lines shorter, and removing the trailing spaces.\n\nI believe that the default for GO111MODULE is now \"on\", not \"auto\".",
+      "revId": "ba7c5ebbab06d7973036c2bde452da4e0952e7d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
