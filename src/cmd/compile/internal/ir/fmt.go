@@ -747,7 +747,11 @@ func exprFmt(n Node, s fmt.State, prec int) {
 
 	case OXDOT, ODOT, ODOTPTR, ODOTINTER, ODOTMETH, OCALLPART, OMETHEXPR:
 		n := n.(*SelectorExpr)
-		exprFmt(n.X, s, nprec)
+		prec := nprec
+		if _, ok := n.X.(*StarExpr); ok {
+			prec++
+		}
+		exprFmt(n.X, s, prec)
 		if n.Sel == nil {
 			fmt.Fprint(s, ".<nil>")
 			return
