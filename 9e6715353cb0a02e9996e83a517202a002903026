@@ -104,6 +104,30 @@
       },
       "revId": "9e6715353cb0a02e9996e83a517202a002903026",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93985b89_e9883fd0",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-31T09:31:26Z",
+      "side": 1,
+      "message": "Will do in follow up CL.",
+      "parentUuid": "de783963_43ff571c",
+      "range": {
+        "startLine": 518,
+        "startChar": 11,
+        "endLine": 518,
+        "endChar": 19
+      },
+      "revId": "9e6715353cb0a02e9996e83a517202a002903026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
