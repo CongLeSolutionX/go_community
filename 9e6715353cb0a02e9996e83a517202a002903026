@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab36fe1d_d9ac5286",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-31T08:58:18Z",
+      "side": 1,
+      "message": "Add a comment like \"// vars to be kept alive until call returns\"",
+      "revId": "9e6715353cb0a02e9996e83a517202a002903026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de1b9ae3_27068e73",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4871,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-31T08:58:18Z",
+      "side": 1,
+      "message": "Use n.Pos() instead. name.Pos() is where the name was declared.",
+      "range": {
+        "startLine": 4871,
+        "startChar": 25,
+        "endLine": 4871,
+        "endChar": 35
+      },
+      "revId": "9e6715353cb0a02e9996e83a517202a002903026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de783963_43ff571c",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2020-12-31T08:58:18Z",
+      "side": 1,
+      "message": "FYI: I think copyExpr can be changed to return *ir.Name. Doesn\u0027t have to be this CL.",
+      "range": {
+        "startLine": 518,
+        "startChar": 11,
+        "endLine": 518,
+        "endChar": 19
+      },
+      "revId": "9e6715353cb0a02e9996e83a517202a002903026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
