@@ -4899,7 +4899,5 @@ func rewriteValueWasm_OpZeroExt8to64(v *Value) bool {
 	}
 }
 func rewriteBlockWasm(b *Block) bool {
-	switch b.Kind {
-	}
 	return false
 }

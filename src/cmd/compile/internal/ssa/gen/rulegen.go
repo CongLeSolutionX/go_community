@@ -194,7 +194,9 @@ func genRulesSuffix(arch arch, suff string) {
 		swc.add(stmtf("return rewriteValue%s%s_%s(v)", arch.name, suff, op))
 		sw.add(swc)
 	}
-	fn.add(sw)
+	if len(sw.List) > 0 { // skip if empty
+		fn.add(sw)
+	}
 	fn.add(stmtf("return false"))
 	genFile.add(fn)
 
@@ -264,7 +266,9 @@ func genRulesSuffix(arch arch, suff string) {
 		}
 		sw.add(swc)
 	}
-	fn.add(sw)
+	if len(sw.List) > 0 { // skip if empty
+		fn.add(sw)
+	}
 	fn.add(stmtf("return false"))
 	genFile.add(fn)
 

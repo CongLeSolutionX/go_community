@@ -241,7 +241,5 @@ func rewriteValuedecArgs_OpArg(v *Value) bool {
 	return false
 }
 func rewriteBlockdecArgs(b *Block) bool {
-	switch b.Kind {
-	}
 	return false
 }
