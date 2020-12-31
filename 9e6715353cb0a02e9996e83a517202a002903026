@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "598c2ba2_3b1c453a",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-31T09:27:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab36fe1d_d9ac5286",
+      "revId": "9e6715353cb0a02e9996e83a517202a002903026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de1b9ae3_27068e73",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-12-31T08:58:18Z",
       "side": 1,
       "message": "Use n.Pos() instead. name.Pos() is where the name was declared.",
+      "range": {
+        "startLine": 4871,
+        "startChar": 25,
+        "endLine": 4871,
+        "endChar": 35
+      },
+      "revId": "9e6715353cb0a02e9996e83a517202a002903026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8b2aa5_4d9fd83e",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4871,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2020-12-31T09:27:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de1b9ae3_27068e73",
       "range": {
         "startLine": 4871,
         "startChar": 25,
