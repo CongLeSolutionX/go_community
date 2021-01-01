@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8694de2_a0b1e13f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-01T18:19:17Z",
+      "side": 1,
+      "message": "lol, looks like rf turned out to be overkill for this, but glad to see it worked and that there weren\u0027t any other unnecessary type assertions",
+      "revId": "8791f446deea6c48edafc474c3ff6fccc4918f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
