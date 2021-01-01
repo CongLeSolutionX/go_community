@@ -34,6 +34,24 @@
       "parentUuid": "d8694de2_a0b1e13f",
       "revId": "8791f446deea6c48edafc474c3ff6fccc4918f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1230ce79_86f35325",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-01T18:36:41Z",
+      "side": 1,
+      "message": "Ack. I considered when revising mknode.go to make it omit those assertions. But I figured it\u0027s simpler to keep them, and it also prevents `edit` functions from returning nil. (T(nil).(T) panics rather than evaluating to T(nil).)",
+      "parentUuid": "2da0398e_8285b418",
+      "revId": "8791f446deea6c48edafc474c3ff6fccc4918f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
