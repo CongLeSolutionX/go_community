@@ -14,6 +14,7 @@ package syscall
 
 import (
 	"runtime"
+	"sync"
 	"unsafe"
 )
 
@@ -220,6 +221,21 @@ func (sa *SockaddrDatalink) sockaddr() (unsafe.Pointer, _Socklen, error) {
 	return unsafe.Pointer(&sa.raw), SizeofSockaddrDatalink, nil
 }
 
+type inetSockaddrPoolKey struct {
+	port uint16
+	addr [4]byte
+}
+
+type inetSockaddrPoolMap map[inetSockaddrPoolKey]Sockaddr
+
+var (
+	inetSockaddrPool = &sync.Pool{
+		New: func() interface{} {
+			return make(inetSockaddrPoolMap)
+		},
+	}
+)
+
 func anyToSockaddr(rsa *RawSockaddrAny) (Sockaddr, error) {
 	switch rsa.Addr.Family {
 	case AF_LINK:
@@ -263,12 +279,21 @@ func anyToSockaddr(rsa *RawSockaddrAny) (Sockaddr, error) {
 
 	case AF_INET:
 		pp := (*RawSockaddrInet4)(unsafe.Pointer(rsa))
-		sa := new(SockaddrInet4)
 		p := (*[2]byte)(unsafe.Pointer(&pp.Port))
-		sa.Port = int(p[0])<<8 + int(p[1])
-		for i := 0; i < len(sa.Addr); i++ {
-			sa.Addr[i] = pp.Addr[i]
+		var key inetSockaddrPoolKey
+		key.port = uint16(p[0])<<8 + uint16(p[1])
+		for i := 0; i < len(key.addr); i++ {
+			key.addr[i] = pp.Addr[i]
 		}
+		m := inetSockaddrPool.Get().(inetSockaddrPoolMap)
+		defer inetSockaddrPool.Put(m)
+		if sa := m[key]; sa != nil {
+			return sa, nil
+		}
+		sa := new(SockaddrInet4)
+		sa.Port = int(key.port)
+		sa.Addr = key.addr
+		m[key] = sa
 		return sa, nil
 
 	case AF_INET6:
