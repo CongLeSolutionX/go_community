@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3ef5993_5b5db868",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49460
+      },
+      "writtenOn": "2021-01-02T01:35:59Z",
+      "side": 1,
+      "message": "Re: https://github.com/golang/go/pull/43463\n\nHere is a suggestion on how to make sure that the password protected PEM files are being loaded correctly.  Parse the ASN.1 formatted DER file to extract the length field (which is common to all DER encoded binaries) and compare it with the actual length of the data blob.\n\nThis length comparison is forward compatible as it doesn\u0027t depend on any of the underlying PKCS file formats, but instead the ASN.1 standard which is what PKCS fits into.\n\nThe rare, and I mean very rare, case that one would get a false positive is when the decrypted block has a DER encoded length that matches exactly the length.  For an average cert, the probability of this check getting a false positive is on the order of 1/255^3, or in other words, it\u0027s 99.999993% accurate.  So, I\u0027d say with near certainty, this check will do. ",
+      "revId": "20b3a9b6eddfb7e3279a315a29f2b45f1ea603f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
