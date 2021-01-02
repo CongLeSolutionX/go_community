@@ -406,6 +406,10 @@ func (v *hairyVisitor) visit(n *Node) bool {
 	case OAPPEND:
 		v.budget -= inlineExtraAppendCost
 
+	case OCONVNOP:
+		// This doesn't produce code, but the children might.
+		v.budget++ // undo default cost
+
 	case ODCLCONST, OEMPTY, OFALL:
 		// These nodes don't produce code; omit from inlining budget.
 		return false
