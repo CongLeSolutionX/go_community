@@ -406,6 +406,19 @@ func (v *hairyVisitor) visit(n *Node) bool {
 	case OAPPEND:
 		v.budget -= inlineExtraAppendCost
 
+	case ODEREF:
+		// *(*X)(unsafe.Pointer(&x)) doesn't cost anything when x is smaller than a register.
+		if n.Left.Op == OCONVNOP && // (*X)(
+			n.Left.Left.Op == OCONVNOP && // unsafe.Pointer(
+			n.Left.Left.Left.Op == OADDR && // &
+			n.Left.Left.Left.Left.Type != nil && n.Left.Left.Left.Left.Type.Width <= thearch.MAXWIDTH {
+			return v.visit(n.Left.Left.Left.Left)
+		}
+
+	case OCONVNOP:
+		// This doesn't produce code, but the children might.
+		return v.visit(n.Left)
+
 	case ODCLCONST, OEMPTY, OFALL:
 		// These nodes don't produce code; omit from inlining budget.
 		return false
