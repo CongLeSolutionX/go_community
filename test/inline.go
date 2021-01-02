@@ -262,3 +262,14 @@ func gd2() int { // ERROR "can inline gd2"
 func gd3() func() { // ERROR "can inline gd3"
 	return ii
 }
+
+// Issue #42788 - ensure OCONVNOP is zero cost.
+func Conv(v uint64) uint64 { // ERROR "can inline Conv"
+	return conv2(conv2(conv2(v))) // ERROR "inlining call to (conv1|conv2)"
+}
+func conv2(v uint64) uint64 { // ERROR "can inline conv2"
+	return conv1(conv1(conv1(conv1(v)))) // ERROR "inlining call to conv1"
+}
+func conv1(v uint64) uint64 { // ERROR "can inline conv1"
+	return uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(v)))))))))))
+}
