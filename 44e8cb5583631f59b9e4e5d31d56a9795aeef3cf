@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aba55008_5b9f446a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2021-01-03T18:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3c04164_8ea5cc25",
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0118fd45_e24a475d",
@@ -55,6 +73,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b64365d6_4429a2f4",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2021-01-03T18:54:15Z",
+      "side": 1,
+      "message": "It looks like the gio case does seem to be sufficiently handled. And inlining the conversion manually does seem to reduce the overhead further.\n\nI\u0027ll remove this special case.",
+      "parentUuid": "b998a7b9_2f84b139",
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24a1425c_8e0e7a4e",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2021-01-03T18:54:15Z",
+      "side": 1,
+      "message": "It looks like these changes barely won\u0027t clear for gio EncodeQuad:\n\n    func EncodeQuad(d []uint32, q Quad) { // cost 83\n    \td \u003d d[:6]\n    \td[0] \u003d math.Float32bits(q.From.X)\n    \td[1] \u003d math.Float32bits(q.From.Y)\n    \td[2] \u003d math.Float32bits(q.Ctrl.X)\n    \td[3] \u003d math.Float32bits(q.Ctrl.Y)\n    \td[4] \u003d math.Float32bits(q.To.X)\n    \td[5] \u003d math.Float32bits(q.To.Y)\n    }\n\nHowever, the code can be manually inlined making it usable:\n\n    func EncodeQuad(d []uint32, q Quad) { // cost 59\n    \td \u003d d[:6]\n    \td[0] \u003d *(*uint32)(unsafe.Pointer(\u0026q.From.X))\n    \td[1] \u003d *(*uint32)(unsafe.Pointer(\u0026q.From.Y))\n    \td[2] \u003d *(*uint32)(unsafe.Pointer(\u0026q.Ctrl.X))\n    \td[3] \u003d *(*uint32)(unsafe.Pointer(\u0026q.Ctrl.Y))\n    \td[4] \u003d *(*uint32)(unsafe.Pointer(\u0026q.To.X))\n    \td[5] \u003d *(*uint32)(unsafe.Pointer(\u0026q.To.Y))\n    }\n\nSo, I\u0027ll remove the special case.",
+      "parentUuid": "b998a7b9_2f84b139",
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58ff7e33_c3d268a0",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 2
@@ -84,6 +138,24 @@
       "side": 1,
       "message": "I don\u0027t think there is any test for exact costs, no.\n\nProbably the right way is to add a test to test/inline.go where the body contains enough CONVNOPs to make it uninlineable currently but inlineable with your CL.",
       "parentUuid": "58ff7e33_c3d268a0",
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d55b18d_6af3a1a9",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2021-01-03T18:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b06aa57_ce7968d9",
       "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
