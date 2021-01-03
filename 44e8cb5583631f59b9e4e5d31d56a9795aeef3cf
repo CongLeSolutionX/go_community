@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "859f8862_c24b3d51",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2021-01-03T19:13:32Z",
+      "side": 1,
+      "message": "I currently removed the special case, since just the OCONVNOP change seems to be sufficient for the initial cases.\n\nHowever, I can add back the special case if you think it\u0027s worthwhile.",
+      "parentUuid": "190e66c5_bcbb8b3c",
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e59c012_d0a6f7e3",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 2
@@ -156,6 +174,30 @@
       "writtenOn": "2021-01-03T18:58:13Z",
       "side": 1,
       "message": "A bunch of nitty comments here. But TL;DR: I\u0027d just get rid of checking the size here altogether.\n\nWe don\u0027t currently worry about value size when measuring inlining cost at all (though we probably should), so I don\u0027t think there\u0027s a need to special case this currently.\n\nIf we did consider size though, we\u0027d want to check n.Type.Size() here (i.e., the size of the value we\u0027re loading from memory), not n.Left.Left.Left.Left.Type.Size() (i.e., the size of the variable we\u0027re referencing).\n\nIn general, you should use \"Size()\" rather than just \"Width\" to ensure the size has actually be calculated.\n\nFinally, thearch.MAXWIDTH refers to the address space size (e.g., 1PiB on amd64). You were probably looking for Widthreg or something.",
+      "range": {
+        "startLine": 414,
+        "startChar": 67,
+        "endLine": 414,
+        "endChar": 92
+      },
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c7afeba_ddb71910",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2021-01-03T19:13:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2e59c012_d0a6f7e3",
       "range": {
         "startLine": 414,
         "startChar": 67,
@@ -232,6 +274,24 @@
       "writtenOn": "2021-01-03T18:58:13Z",
       "side": 1,
       "message": "Instead of \"return v.visit(n.Left)\", please just do \"v.budget++ // undo default cost\".\n\nAt least later in the compiler, OCONVNOP nodes can have statements in their Ninit. I don\u0027t *think* that happens at this point in the compiler. But it\u0027s easy to be robust about that.",
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37caecf7_86894eab",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2021-01-03T19:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d4715a5_79419867",
       "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
