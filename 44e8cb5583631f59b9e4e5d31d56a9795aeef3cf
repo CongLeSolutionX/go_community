@@ -163,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45fc6456_278648ed",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-03T19:43:56Z",
+      "side": 1,
+      "message": "I think it makes sense and is consistent with the current inlining-cost heuristics, so I\u0027d lean towards adding it.\n\nBut as the concrete use cases we have at hand don\u0027t rely on it, I\u0027m also fine with omitting it.",
+      "parentUuid": "859f8862_c24b3d51",
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e59c012_d0a6f7e3",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 2
