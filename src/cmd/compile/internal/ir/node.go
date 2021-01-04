@@ -453,6 +453,9 @@ const (
 
 	// Go command pragmas
 	GoBuildPragma
+
+	RegisterParams // TODO remove after register abi is working
+
 )
 
 func AsNode(n types.Object) Node {
