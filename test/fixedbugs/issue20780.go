@@ -1,4 +1,4 @@
-// errorcheck
+// compile
 
 // Copyright 2018 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
@@ -9,7 +9,7 @@
 
 package main
 
-func f() { // GC_ERROR "stack frame too large"
+func f() {
 	var x [800e6]byte
 	g(x)
 	return
