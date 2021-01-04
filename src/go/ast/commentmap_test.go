@@ -61,6 +61,7 @@ func f1() {
 
 // f2
 func f2() {
+	// associated with the body of f2 
 }
 
 func f3() {
@@ -88,10 +89,11 @@ var res = map[string]string{
 	"29: *ast.FuncDecl":   "f1\nassociated with f1\nalso associated with f1\n",
 	"31: *ast.ExprStmt":   " associated with s1\nalso associated with s1\n",
 	"37: *ast.ExprStmt":   "associated with s2\nalso associated with s2\nline comment for s2\n",
+	"45: *ast.BlockStmt":  "associated with the body of f2\n",
 	"45: *ast.FuncDecl":   "associated with f2\nf2\n",
-	"49: *ast.AssignStmt": "addition\n",
-	"49: *ast.BasicLit":   " 1\n",
-	"50: *ast.Ident":      "the very last comment\n",
+	"50: *ast.AssignStmt": "addition\n",
+	"50: *ast.BasicLit":   " 1\n",
+	"51: *ast.Ident":      "the very last comment\n",
 }
 
 func ctext(list []*CommentGroup) string {
