@@ -644,6 +644,9 @@ func (r *importReader) funcExt(n *ir.Name) {
 	r.linkname(n.Sym())
 	r.symIdx(n.Sym())
 
+	// TODO remove after register abi is working
+	n.SetPragma(ir.PragmaFlag(r.uint64()))
+
 	// Escape analysis.
 	for _, fs := range &types.RecvsParams {
 		for _, f := range fs(n.Type()).FieldSlice() {
