@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7cb09a_1a1cdeaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-04T20:25:18Z",
+      "side": 1,
+      "message": "LGTM. This will have to wait until Go 1.17 development re-opens and dev.regabi is merged into master though.",
+      "revId": "e6e69cdc0857cb5b99a5a3f42f236cc13844c5c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a2f1b0_2739624f",
+        "filename": "test/inline.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-04T20:25:18Z",
+      "side": 1,
+      "message": "Similar test to ensure ODEREF+OADDR is cheap?",
+      "revId": "e6e69cdc0857cb5b99a5a3f42f236cc13844c5c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
