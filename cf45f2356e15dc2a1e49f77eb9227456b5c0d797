@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0955dca_d395dfcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49460
+      },
+      "writtenOn": "2021-01-04T04:10:54Z",
+      "side": 1,
+      "message": "The function NewTicker has been limiting as often I created a new tiker that starts ticking in the future.  As I build with go I found many times I was wrapping this timer call in an anonymous function with a sleep then a start, I\u0027d like to expose the interface to the underlying timer interface with both inputs of period duration and duration start for programming simplicity.\n\nGetting the process Runtime Start is useful to have as a way of easley looking up runtime.  I know something similar can be created by storing this value via an init() function, but having a static value in the time library can be useful in many places. Such as metrics, and the NewTicker Runtime Start seen above, with a future start time, I can imagine doing a time.Sub() between the RuntimeStart and Now(), add an hour, to set the ticker to start an hour from now and run every N minutes.\n\n",
+      "revId": "cf45f2356e15dc2a1e49f77eb9227456b5c0d797",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
