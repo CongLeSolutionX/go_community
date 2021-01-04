@@ -217,6 +217,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3aef9a98_47e51bd6",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-04T16:40:06Z",
+      "side": 1,
+      "message": "Yes, sorry, the original cost is 4 and with the OCONVNOP change only the cost goes down to 2.\nMaking *(*X)(unsafe.Pointer(\u0026x)) cost 1 sounds fine.",
+      "parentUuid": "64ea9595_0a40925e",
+      "revId": "44e8cb5583631f59b9e4e5d31d56a9795aeef3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e59c012_d0a6f7e3",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 2
