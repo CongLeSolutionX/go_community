@@ -127,7 +127,7 @@ func Info(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.Scope,
 }
 
 func declPos(decl *ir.Name) src.XPos {
-	if decl.IsClosureVar() {
+	if decl.IsClosureVar() && decl.Defn != nil {
 		decl = decl.Defn.(*ir.Name)
 	}
 	return decl.Pos()

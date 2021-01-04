@@ -266,7 +266,7 @@ const (
 	nameNeedzero              // if it contains pointers, needs to be zeroed on function entry
 	nameAutoTemp              // is the variable a temporary (implies no dwarf info. reset if escapes to heap)
 	nameUsed                  // for variable declared and not used error
-	nameIsClosureVar          // PAUTOHEAP closure pseudo-variable; original at n.Name.Defn
+	nameIsClosureVar          // PAUTOHEAP closure pseudo-variable; original (if any) at n.Defn
 	nameIsOutputParamHeapAddr // pointer to a result parameter's heap copy
 	nameAssigned              // is the variable ever assigned to
 	nameAddrtaken             // address taken, even if not moved to heap
