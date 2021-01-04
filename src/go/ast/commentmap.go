@@ -204,6 +204,7 @@ func NewCommentMap(fset *token.FileSet, node Node, comments []*CommentGroup) Com
 				assoc = pg
 			case p != nil &&
 				(pend.Line == r.pos.Line ||
+					pend.Line-1 == r.pos.Line && r.end.Line+1 < qpos.Line ||
 					pend.Line+1 == r.pos.Line && r.end.Line+1 < qpos.Line ||
 					q == nil):
 				// same rules apply as above for p rather than pg,
