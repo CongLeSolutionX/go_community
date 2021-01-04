@@ -85,6 +85,7 @@ type CmdFlags struct {
 	ABIWrap            bool         "help:\"enable generation of ABI wrappers\""
 	ABIWrapLimit       int          "help:\"emit at most N ABI wrappers (for debugging)\""
 	AsmHdr             string       "help:\"write assembly header to `file`\""
+	ASan               bool         "help:\"build code compatible with C/C++ address sanitizer\""
 	Bench              string       "help:\"append benchmark times to `file`\""
 	BlockProfile       string       "help:\"write block profile to `file`\""
 	BuildID            string       "help:\"record `id` as the build id in the export metadata\""
@@ -167,6 +168,9 @@ func ParseFlags() {
 	registerFlags()
 	objabi.Flagparse(usage)
 
+	if Flag.ASan && !sys.ASanSupported(objabi.GOOS, objabi.GOARCH) {
+		log.Fatalf("%s/%s does not support -asan", objabi.GOOS, objabi.GOARCH)
+	}
 	if Flag.MSan && !sys.MSanSupported(objabi.GOOS, objabi.GOARCH) {
 		log.Fatalf("%s/%s does not support -msan", objabi.GOOS, objabi.GOARCH)
 	}
@@ -210,12 +214,17 @@ func ParseFlags() {
 		}
 		Flag.LowerO = p + suffix
 	}
-
-	if Flag.Race && Flag.MSan {
+	switch {
+	case Flag.Race && Flag.MSan:
 		log.Fatal("cannot use both -race and -msan")
+	case Flag.Race && Flag.ASan:
+		log.Fatal("cannot use both -race and -asan")
+	case Flag.MSan && Flag.ASan:
+		log.Fatal("cannot use both -msan and -asan")
 	}
-	if Flag.Race || Flag.MSan {
-		// -race and -msan imply -d=checkptr for now.
+
+	if Flag.Race || Flag.MSan || Flag.ASan {
+		// -race, -msan and -asan imply -d=checkptr for now.
 		Debug.Checkptr = 1
 	}
 
