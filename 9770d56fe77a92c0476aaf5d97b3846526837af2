@@ -16,6 +16,24 @@
       "message": "nit: src.addrtaken \u003d k.addrtaken",
       "revId": "9770d56fe77a92c0476aaf5d97b3846526837af2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f396701_1202ce7d",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1348,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-05T18:29:24Z",
+      "side": 1,
+      "message": "Do you mean to replace the entire if statement? If so, that would be incorrect: a location can flow to more than one hole, and we want to set addrtaken if it flows to any addrtaken hole.",
+      "parentUuid": "e26ce259_e54e82e4",
+      "revId": "9770d56fe77a92c0476aaf5d97b3846526837af2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
