@@ -100,7 +100,7 @@ func compareType2(t2, x *types.Type) bool {
 			}
 		}
 	} else {
-		panic(fmt.Sprintf("Mismatched Kinds: %s, %s", t2.Kind().String(), x.Kind().String()))
+		base.Fatalf("Mismatched Kinds: %s, %s", t2.Kind().String(), x.Kind().String())
 	}
 	return true
 }

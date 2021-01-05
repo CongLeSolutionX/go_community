@@ -408,9 +408,11 @@ func clearImports() {
 			// leave s->block set to cause redeclaration
 			// errors if a conflicting top-level name is
 			// introduced by a different file.
-			p := n.(*ir.PkgName)
-			if !p.Used && base.SyntaxErrors() == 0 {
-				unused = append(unused, importedPkg{p.Pos(), p.Pkg.Path, s.Name})
+			if base.Flag.G == 0 {
+				p := n.(*ir.PkgName)
+				if !p.Used && base.SyntaxErrors() == 0 {
+					unused = append(unused, importedPkg{p.Pos(), p.Pkg.Path, s.Name})
+				}
 			}
 			s.Def = nil
 			continue

@@ -2142,10 +2142,14 @@ func CheckUnused(fn *ir.Func) {
 			if defn.Used {
 				continue
 			}
-			base.ErrorfAt(defn.Tag.Pos(), "%v declared but not used", ln.Sym())
+			if base.Flag.G == 0 {
+				base.ErrorfAt(defn.Tag.Pos(), "%v declared but not used", ln.Sym())
+			}
 			defn.Used = true // suppress repeats
 		} else {
-			base.ErrorfAt(ln.Pos(), "%v declared but not used", ln.Sym())
+			if base.Flag.G == 0 {
+				base.ErrorfAt(ln.Pos(), "%v declared but not used", ln.Sym())
+			}
 		}
 	}
 }

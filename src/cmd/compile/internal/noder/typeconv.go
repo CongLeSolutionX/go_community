@@ -29,9 +29,6 @@ func (p *noder) setTypes2Type(n ir.Node, expr syntax.Expr) {
 			return
 		case *syntax.TypeSwitchGuard:
 			return
-		case *syntax.SelectorExpr:
-			println("Nil type for SelectorExpr, maybe OffsetOf?")
-			return
 		}
 		panic("Unexpected nil type2 type for an expression")
 	}
@@ -48,7 +45,6 @@ func (p *noder) setTypes2Type(n ir.Node, expr syntax.Expr) {
 
 	if ot != nil && n.HasType2() {
 		if nt != ot && !types.Identical(nt, ot) {
-			// Because an untyped constant is declared, then used?
 			panic(fmt.Sprintf("Setting types2 type twice not identical, op %s, %s -> %s", n.Op().String(), ot.String(), nt.String()))
 		}
 		// Can happen for NAME, NONAME, TYPE, or LITERAL, as they are
@@ -57,41 +53,15 @@ func (p *noder) setTypes2Type(n ir.Node, expr syntax.Expr) {
 		return
 	}
 	if ot != nil {
-		if ot == nt {
+		if ot == nt && n.Op() == ir.OTYPE {
 			println("Setting types2 type fully equal to existing type", n.Op().String(), nt.String())
-			// Can be LITERAL or TYPE. Must not make it types2 if
-			// OTYPE, because we may have just imported this type
-			// (converted from an ONONAME during typeExpr2()
+			// OK for OTYPE. Must not make it types2, because we may
+			// have just imported this type (converted from an ONONAME
+			// during typeExpr2()
 			return
 		}
-		if n.Op() == ir.OLITERAL {
-			if !ot.IsUntyped() {
-				panic("Literal that is not untyped with mismatched type")
-			}
-			if typecheck.DefaultType(ot) == nt ||
-				(ot == types.UntypedInt &&
-					(nt.Kind() == types.TINT32 ||
-						nt.Kind() == types.TINT64 ||
-						nt.Kind() == types.TUINT32 ||
-						nt.Kind() == types.TUINT64 ||
-						nt.Kind() == types.TUINT ||
-						nt.Kind() == types.TUINT8 ||
-						nt.Kind() == types.TUINTPTR ||
-						nt == types.ByteType)) ||
-				(ot == types.UntypedFloat &&
-					nt.Kind() == types.TFLOAT32) {
-				println("Setting type2 type on literal that already has matching untyped type: ", ot.String(), "->", nt.String())
-			} else {
-				// If type is already set on a untyped literal,
-				// don't change it, since we can make it
-				// inconsistent (1e5 case).
-				println("Not setting type2 type on literal that already has an untyped type: ", ot.String(), "->", nt.String())
-				return
-			}
-		} else {
-			panic(fmt.Sprintf("Double setting type for Op %s, %s -> %s",
-				n.Op().String(), ot.String(), nt.String()))
-		}
+		base.Fatalf("Double setting type for Op %s, %s -> %s",
+			n.Op().String(), ot.String(), nt.String())
 	}
 	switch n.(type) {
 	case *ir.FuncType, *ir.ArrayType, *ir.StructType, *ir.SliceType, *ir.InterfaceType, *ir.MapType, *ir.ChanType:
@@ -234,11 +204,7 @@ func (p *noder) typeExpr2(typ types2.Type, forceRecv *types.Field) (r *types.Typ
 			// TODO(danscales) - there is no UntypedNil, is TNIL fine?
 			return types.Types[types.TNIL]
 		case types2.Invalid:
-			// This could be because this is part of an expression
-			// that has already been evaluated to a constant (e.g.
-			// len(a) where a is an array).
-			println("Returning TNIL for an Invalid type from types2")
-			return types.Types[types.TNIL]
+			panic("Encountered Invalid kind from types2")
 		}
 		base.Fatalf("DIDN'T HANDLE THIS BASIC TYPE: %v\n", typ)
 	case *types2.Array:

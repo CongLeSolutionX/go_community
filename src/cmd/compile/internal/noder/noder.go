@@ -1022,39 +1022,45 @@ func (p *noder) exprs(exprs []syntax.Expr) []ir.Node {
 }
 
 func (p *noder) expr(expr syntax.Expr) (n ir.Node) {
+	p.setlineno(expr)
+	if base.Flag.G > 0 && expr != syntax.ImplicitOne {
+		tv := p.typ(expr)
+		if tv.IsConstant() {
+			// If types2 indicates this expression is a constant, just
+			// create the exact literal we need and don't node the
+			// expression, which may be a literal, a named constant,
+			// or something more complex that is a compile-time
+			// constant.
+
+			// For named constants, this is important, so
+			// that the use node can have a different type from the
+			// declared constant (which is always untyped). For
+			// expressions that are compile-time constants, this is
+			// needed because types2 doesn't have types for any of the
+			// sub-expressions of the constant expression.
+			n := ir.NewBasicLit(p.pos(expr), tv.Value)
+			n.SetType2(p.typeExpr2(tv.Type, nil))
+			return n
+		}
+	}
+
 	defer func() {
-		if base.Flag.G > 0 && n != nil {
+		if base.Flag.G > 0 && n != nil && expr != syntax.ImplicitOne {
 			// Before exiting the function, try to set the type of
 			// node n, by converting the types2 type of expr, if
-			// available.
+			// available. Type of ImplicitOne node is wrong, so don't
+			// try to set it. It's type will be fixed when outer
+			// AssignStmt is noded.
 			p.setTypes2Type(n, expr)
 		}
 	}()
 
-	p.setlineno(expr)
 	switch expr := expr.(type) {
 	case nil, *syntax.BadExpr:
 		return nil
 	case *syntax.Name:
 		//println("Converting name", expr.Value)
-		n := p.mkname(expr)
-		if base.Flag.G > 0 && n.Op() == ir.OLITERAL && n.HasType2() &&
-			n.Type().IsUntyped() {
-			// This is an untyped constant. Similar to convlit1(), we
-			// create a new constant node that can hold the exact type
-			// for this use, while the original untyped constant
-			// remain unchanged. We could try to share use nodes that
-			// have the same type, but I don't think typechecker.go
-			// does this either.
-			//println("duplicate literal", expr.Value)
-			tv := p.typ(expr)
-			nt := p.typeExpr2(tv.Type, nil)
-			n = ir.NewConstExpr(tv.Value, n)
-			// Don't set type2, since we don't want to do any more
-			// typechecking on this node.
-			n.SetType(nt)
-		}
-		return n
+		return p.mkname(expr)
 	case *syntax.BasicLit:
 		n := ir.NewBasicLit(p.pos(expr), p.basicLit(expr))
 		if expr.Kind == syntax.RuneLit {

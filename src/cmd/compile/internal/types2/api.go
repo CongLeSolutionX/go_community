@@ -337,6 +337,12 @@ func (tv TypeAndValue) IsNil() bool {
 	return tv.mode == value && tv.Type == Typ[UntypedNil]
 }
 
+// IsConstant reports whether the corresponding expression is a
+// compile-time constant.
+func (tv TypeAndValue) IsConstant() bool {
+	return tv.mode == constant_
+}
+
 // Addressable reports whether the corresponding expression
 // is addressable (https://golang.org/ref/spec#Address_operators).
 func (tv TypeAndValue) Addressable() bool {
