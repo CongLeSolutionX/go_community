@@ -2240,6 +2240,9 @@ func newm1(mp *m) {
 		if msanenabled {
 			msanwrite(unsafe.Pointer(&ts), unsafe.Sizeof(ts))
 		}
+		if asanenabled {
+			asanwrite(unsafe.Pointer(&ts), unsafe.Sizeof(ts))
+		}
 		execLock.rlock() // Prevent process clone.
 		asmcgocall(_cgo_thread_start, unsafe.Pointer(&ts))
 		execLock.runlock()
@@ -4493,6 +4496,9 @@ retry:
 		}
 		if msanenabled {
 			msanmalloc(unsafe.Pointer(gp.stack.lo), gp.stack.hi-gp.stack.lo)
+		}
+		if asanenabled {
+			asanunpoison(unsafe.Pointer(gp.stack.lo), gp.stack.hi-gp.stack.lo)
 		}
 	}
 	return gp
