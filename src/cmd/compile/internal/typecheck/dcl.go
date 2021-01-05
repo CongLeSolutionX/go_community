@@ -49,10 +49,10 @@ func Declare(n *ir.Name, ctxt ir.Class) {
 
 	gen := 0
 	if ctxt == ir.PEXTERN {
-		if s.Name == "init" {
+		if initname(s.Name) {
 			base.ErrorfAt(n.Pos(), "cannot declare init - must be func")
 		}
-		if s.Name == "main" && s.Pkg.Name == "main" {
+		if mainname(s.Name) && mainname(s.Pkg.Name) {
 			base.ErrorfAt(n.Pos(), "cannot declare main - must be func")
 		}
 		Target.Externs = append(Target.Externs, n)
@@ -424,6 +424,10 @@ func funcargs2(t *types.Type) {
 
 func initname(s string) bool {
 	return s == "init"
+}
+
+func mainname(s string) bool {
+	return s == "main"
 }
 
 var vargen int
