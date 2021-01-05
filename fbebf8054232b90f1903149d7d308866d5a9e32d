@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8e96748_e42957a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49460
+      },
+      "writtenOn": "2021-01-05T02:58:31Z",
+      "side": 1,
+      "message": "Created proposal\n\nhttps://go-review.googlesource.com/c/proposal/+/281453/2",
+      "revId": "fbebf8054232b90f1903149d7d308866d5a9e32d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
