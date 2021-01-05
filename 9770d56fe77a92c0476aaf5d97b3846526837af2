@@ -52,6 +52,24 @@
       "parentUuid": "0f396701_1202ce7d",
       "revId": "9770d56fe77a92c0476aaf5d97b3846526837af2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab20b8ca_19fd8e98",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1348,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-05T20:19:18Z",
+      "side": 1,
+      "message": "I thought some more about changing this to \"src.addrtaken \u003d src.addrtaken || k.addrtaken\" per your suggestion, but I\u0027m going to keep as-is for now. I\u0027ll keep thinking about it though. Thanks.",
+      "parentUuid": "3f69a93d_1ea6d64a",
+      "revId": "9770d56fe77a92c0476aaf5d97b3846526837af2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
