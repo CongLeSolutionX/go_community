@@ -9,6 +9,8 @@ import (
 	"cmd/internal/sys"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 )
 
 // A BuildMode indicates the sort of object we are building.
@@ -233,6 +235,12 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 	}
 	if ctxt.linkShared {
 		return true, "dynamically linking with a shared library"
+	}
+
+	for _, flag := range strings.Fields(os.Getenv("CGO_CFLAGS")) {
+		if !strings.HasPrefix(flag, "-O") && !strings.HasPrefix(flag, "-g") {
+			return true, "CGO_CFLAGS contains flag that may inhibit internal linking: " + flag
+		}
 	}
 
 	return false, ""
