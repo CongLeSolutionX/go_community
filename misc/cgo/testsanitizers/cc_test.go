@@ -268,6 +268,9 @@ func configure(sanitizer string) *config {
 			c.ldFlags = append(c.ldFlags, "-fPIC", "-static-libtsan")
 		}
 
+	case "address":
+		c.goFlags = append(c.goFlags, "-asan")
+
 	default:
 		panic(fmt.Sprintf("unrecognized sanitizer: %q", sanitizer))
 	}

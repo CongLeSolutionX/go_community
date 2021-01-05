@@ -737,6 +737,9 @@ func (t *tester) registerTests() {
 			t.registerTest("testasan", "../misc/cgo/testasan", "go", "run", ".")
 		}
 		if mSanSupported(goos, goarch) {
+			// The asan tests in misc/cgo/testsanitizers require support for the Go compiler's -asan option.
+			// Currently, goos/goarch that supports -msan option and -asan option are the same, so mSanSupported()
+			// can be used as the only condition.
 			t.registerHostTest("testsanitizers/msan", "../misc/cgo/testsanitizers", "misc/cgo/testsanitizers", ".")
 		}
 		if t.hasBash() && goos != "android" && !t.iOS() && gohostos != "windows" {
