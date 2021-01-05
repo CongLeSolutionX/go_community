@@ -74,6 +74,9 @@ func makeslicecopy(et *_type, tolen int, fromlen int, from unsafe.Pointer) unsaf
 	if msanenabled {
 		msanread(from, copymem)
 	}
+	if asanenabled {
+		asanread(from, copymem)
+	}
 
 	memmove(to, from, copymem)
 
@@ -129,6 +132,9 @@ func growslice(et *_type, old slice, cap int) slice {
 	}
 	if msanenabled {
 		msanread(old.array, uintptr(old.len*int(et.size)))
+	}
+	if asanenabled {
+		asanread(old.array, uintptr(old.len*int(et.size)))
 	}
 
 	if cap < old.cap {
@@ -268,6 +274,10 @@ func slicecopy(toPtr unsafe.Pointer, toLen int, fromPtr unsafe.Pointer, fromLen 
 	if msanenabled {
 		msanread(fromPtr, size)
 		msanwrite(toPtr, size)
+	}
+	if asanenabled {
+		asanread(fromPtr, size)
+		asanwrite(toPtr, size)
 	}
 
 	if size == 1 { // common case worth about 2x to do here
