@@ -49,6 +49,7 @@ func main() {
 		shouldPanic("cap out of range", func() { _ = make(T, 0, x) })
 		testMakeInAppend(int(x))
 	}
+	n = n // TODO(mdempsky): Remove once CaptureVars is gone.
 }
 
 func shouldPanic(str string, f func()) {
