@@ -16,6 +16,23 @@
       "message": "How this check works: it uses the ASN.1 basic encoding rules (BER) to parse the first length field.  This length field will contain a number which, when [properly decoded and] parsed, contains the length of the PEM encoded message blob (plus the 2-4 bytes declaring this length).  The power of doing this size comparison check via length field is that the decoding routine will then have a verification, with high certainty, that the blob was decoded properly -- and since this does not depend on knowing which kind of crypto pkcs PEM file is being decoded, it is not tied to the knowing or testing any of the pkcs formats; thus it is forward compatible. ",
       "revId": "c5ae64538eb48a8d1e5d2bfa962ce35adc0e6624",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "434d2dc5_b91031ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2021-01-05T02:37:16Z",
+      "side": 1,
+      "message": "would you please add a test so others can assert this fixes the problem is fixes and in the future the fix is not broke. ",
+      "revId": "c5ae64538eb48a8d1e5d2bfa962ce35adc0e6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
