@@ -53,6 +53,7 @@ func main() {
 		shouldPanic("makechan: size out of range", func() { _ = make(T, n) })
 		shouldPanic("makechan: size out of range", func() { _ = make(T, int64(n)) })
 	}
+	n = n // TODO(mdempsky): Remove once CaptureVars is gone.
 }
 
 func shouldPanic(str string, f func()) {
