@@ -1396,6 +1396,9 @@ func callCgoSymbolizer(arg *cgoSymbolizerArg) {
 	if msanenabled {
 		msanwrite(unsafe.Pointer(arg), unsafe.Sizeof(cgoSymbolizerArg{}))
 	}
+	if asanenabled {
+		asanwrite(unsafe.Pointer(arg), unsafe.Sizeof(cgoSymbolizerArg{}))
+	}
 	call(cgoSymbolizer, noescape(unsafe.Pointer(arg)))
 }
 
@@ -1417,6 +1420,9 @@ func cgoContextPCs(ctxt uintptr, buf []uintptr) {
 	}
 	if msanenabled {
 		msanwrite(unsafe.Pointer(&arg), unsafe.Sizeof(arg))
+	}
+	if asanenabled {
+		asanwrite(unsafe.Pointer(&arg), unsafe.Sizeof(arg))
 	}
 	call(cgoTraceback, noescape(unsafe.Pointer(&arg)))
 }
