@@ -16,6 +16,24 @@
       "message": "Please no. If anything, get rid of initname instead. Simple string comparison is perfectly fine here.",
       "revId": "84f99affd0f65e0b82a4b8de9e59814c5dc2e9ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0984883_5cf6f055",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2021-01-05T07:46:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89f1c319_6e0bf22b",
+      "revId": "84f99affd0f65e0b82a4b8de9e59814c5dc2e9ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
