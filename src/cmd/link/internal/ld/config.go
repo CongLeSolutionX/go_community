@@ -9,6 +9,8 @@ import (
 	"cmd/internal/sys"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 )
 
 // A BuildMode indicates the sort of object we are building.
@@ -175,6 +177,15 @@ func (mode *LinkMode) String() string {
 	return fmt.Sprintf("LinkMode(%d)", uint8(*mode))
 }
 
+// Some arguments in CGO_CFLAGS can cause the host compiler to
+// generate object files that loadelf cannot handle but arguments
+// starting with any of these values are OK.
+var internalOKCflagPrefixes = []string{
+	"-O",
+	"-g",
+	"-I",
+}
+
 // mustLinkExternal reports whether the program being linked requires
 // the external linker be used to complete the link.
 func mustLinkExternal(ctxt *Link) (res bool, reason string) {
@@ -233,6 +244,16 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 	}
 	if ctxt.linkShared {
 		return true, "dynamically linking with a shared library"
+	}
+
+outer:
+	for _, flag := range strings.Fields(os.Getenv("CGO_CFLAGS")) {
+		for _, okPrefix := range internalOKCflagPrefixes {
+			if strings.HasPrefix(flag, okPrefix) {
+				continue outer
+			}
+		}
+		return true, "CGO_CFLAGS contains flag that may inhibit internal linking: " + flag
 	}
 
 	return false, ""
