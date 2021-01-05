@@ -52,6 +52,41 @@
       "parentUuid": "8a1b5019_fb2596fd",
       "revId": "43d248089c88dbdfe0168d99aeba3eda46498799",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a57bc30a_39fbdb3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-05T20:25:30Z",
+      "side": 1,
+      "message": "Please rebase this change, then run ./mkalldocs.sh to generate this file. Make sure the `go` in your PATH is built from the same source tree: so run src/make.bash first and include the bin directory in your path.",
+      "parentUuid": "248f2bae_3ed050ff",
+      "revId": "43d248089c88dbdfe0168d99aeba3eda46498799",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e123dbc_e39012df",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-05T20:25:30Z",
+      "side": 1,
+      "message": "Let\u0027s base this on the text from https://golang.org/ref/mod#environment-variables instead of writing something new.\n\nOne change needed: GO111MODULE\u003don is now the default, so the phrase \"or unset\" should be moved to that case.",
+      "revId": "43d248089c88dbdfe0168d99aeba3eda46498799",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
