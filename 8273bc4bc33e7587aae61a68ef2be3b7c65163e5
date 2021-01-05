@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7bcea70_9a744193",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-01-05T18:24:34Z",
+      "side": 1,
+      "message": "PKCS#10 doesn\u0027t specify the attributes field as optional. If no attributes are specified the field should be encoded as an empty SET rather than omitted. Certain parsing implementations will tolerate this invalid encoding (notably OpenSSL), but the Go implementation is generally stricter in these cases. The code you are using to produce CSRs should be fixed to produce a valid encoding of CSRs that lack any attributes.",
+      "revId": "8273bc4bc33e7587aae61a68ef2be3b7c65163e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
