@@ -387,6 +387,9 @@ func Read(fd Handle, p []byte) (n int, err error) {
 	if msanenabled && done > 0 {
 		msanWrite(unsafe.Pointer(&p[0]), int(done))
 	}
+	if asanenabled && done > 0 {
+		asanWrite(unsafe.Pointer(&p[0]), int(done))
+	}
 	return int(done), nil
 }
 
@@ -404,6 +407,9 @@ func Write(fd Handle, p []byte) (n int, err error) {
 	}
 	if msanenabled && done > 0 {
 		msanRead(unsafe.Pointer(&p[0]), int(done))
+	}
+	if asanenabled && done > 0 {
+		asanRead(unsafe.Pointer(&p[0]), int(done))
 	}
 	return int(done), nil
 }

@@ -322,6 +322,9 @@ func convT2E(t *_type, elem unsafe.Pointer) (e eface) {
 	if msanenabled {
 		msanread(elem, t.size)
 	}
+	if asanenabled {
+		asanread(elem, t.size)
+	}
 	x := mallocgc(t.size, t, true)
 	// TODO: We allocate a zeroed object only to overwrite it with actual data.
 	// Figure out how to avoid zeroing. Also below in convT2Eslice, convT2I, convT2Islice.
@@ -395,6 +398,9 @@ func convT2Enoptr(t *_type, elem unsafe.Pointer) (e eface) {
 	if msanenabled {
 		msanread(elem, t.size)
 	}
+	if asanenabled {
+		asanread(elem, t.size)
+	}
 	x := mallocgc(t.size, t, false)
 	memmove(x, elem, t.size)
 	e._type = t
@@ -410,6 +416,9 @@ func convT2I(tab *itab, elem unsafe.Pointer) (i iface) {
 	if msanenabled {
 		msanread(elem, t.size)
 	}
+	if asanenabled {
+		asanread(elem, t.size)
+	}
 	x := mallocgc(t.size, t, true)
 	typedmemmove(t, x, elem)
 	i.tab = tab
@@ -424,6 +433,9 @@ func convT2Inoptr(tab *itab, elem unsafe.Pointer) (i iface) {
 	}
 	if msanenabled {
 		msanread(elem, t.size)
+	}
+	if asanenabled {
+		asanread(elem, t.size)
 	}
 	x := mallocgc(t.size, t, false)
 	memmove(x, elem, t.size)
