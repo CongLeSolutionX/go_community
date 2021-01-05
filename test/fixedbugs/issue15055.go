@@ -8,10 +8,21 @@ package main
 
 func main() {
 	type name string
+<<<<<<< HEAD   (a800ac [dev.typeparams] all: merge dev.regabi (07569da) into dev.ty)
 	_ = []byte("abc", "def", 12)    // ERROR "too many arguments (to conversion to \[\]byte: \(\[\]byte\)\(.abc., .def., 12\))?"
 	_ = string("a", "b", nil)       // ERROR "too many arguments (to conversion to string: string\(.a., .b., nil\))?"
 	_ = []byte()                    // ERROR "missing argument (to conversion to \[\]byte: \(\[\]byte\)\(\))?"
 	_ = string()                    // ERROR "missing argument (to conversion to string: string\(\))?"
 	_ = name("a", 1, 3.3)           // ERROR "too many arguments (to conversion to name: name\(.a., 1, 3.3\))?"
 	_ = map[string]string(nil, nil) // ERROR "too many arguments (to conversion to map\[string\]string: \(map\[string\]string\)\(nil, nil\))?"
+=======
+	_ = []byte("abc", "def", 12)    // ERROR "too many arguments to conversion to \[\]byte: \[\]byte\(.abc., .def., 12\)"
+	_ = string("a", "b", nil)       // ERROR "too many arguments to conversion to string: string\(.a., .b., nil\)"
+	_ = []byte()                    // ERROR "missing argument to conversion to \[\]byte: \[\]byte\(\)"
+	_ = string()                    // ERROR "missing argument to conversion to string: string\(\)"
+	_ = *int()                      // ERROR "missing argument to conversion to int: int\(\)"
+	_ = (*int)()                    // ERROR "missing argument to conversion to \*int: \(\*int\)\(\)"
+	_ = name("a", 1, 3.3)           // ERROR "too many arguments to conversion to name: name\(.a., 1, 3.3\)"
+	_ = map[string]string(nil, nil) // ERROR "too many arguments to conversion to map\[string\]string: map\[string\]string\(nil, nil\)"
+>>>>>>> BRANCH (77365c [dev.regabi] cmd/compile: add Name.Canonical and move Byval)
 }
