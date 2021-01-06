@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb85967f_e055c061",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-06T22:58:27Z",
+      "side": 1,
+      "message": "Looks like before submitting this CL, we need to submit CL 281973 and then re-import golang.org/x/tools.",
+      "revId": "2a9b5056389558431fd2d2b16822900c1ff1b6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
