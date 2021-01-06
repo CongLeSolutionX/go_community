@@ -26,6 +26,7 @@ var (
 	Importpath       = flag.String("p", "", "set expected package import to path")
 	Spectre          = flag.String("spectre", "", "enable spectre mitigations in `list` (all, ret)")
 	CompilingRuntime = flag.Bool("compiling-runtime", false, "source to be compiled is part of the Go runtime")
+	MinimalDwarf     = flag.Bool("minimaldwarf", false, "generate minimized DWARF to for profiling purposes")
 )
 
 var (
