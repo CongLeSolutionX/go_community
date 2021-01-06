@@ -5132,7 +5132,6 @@ func sysmon() {
 				}
 				if syscallWake {
 					idle = 0
-					delay = 20
 				}
 			}
 			unlock(&sched.lock)
