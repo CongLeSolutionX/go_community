@@ -33,6 +33,24 @@
       "message": "We should probably suggest a different command here (perhaps `go mod download`?) before we mark #43430 as fixed.",
       "revId": "8e988e3190c9f3a2a8761711df40c3bb9dd58d21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "630f6b27_d39fec1d",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-06T18:54:19Z",
+      "side": 1,
+      "message": "I\u0027ll reopen #43430 and add a note for this.\n\nI\u0027m planning to send a follow-up CL today, making a pass through all of our command line hints to make sure they\u0027re in the same format and appropriate for the situation.",
+      "parentUuid": "6ba36fb0_0f228e84",
+      "revId": "8e988e3190c9f3a2a8761711df40c3bb9dd58d21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
