@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63c1a317_de276bdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-06T14:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "066777d4_116a6e5c",
+      "range": {
+        "startLine": 15,
+        "startChar": 18,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "90849414312b8c3ed4a10e455b54e2af713a411d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4adc96f5_dfbb9f1a",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-05T18:26:12Z",
       "side": 1,
       "message": "Suggested better approach.",
+      "range": {
+        "startLine": 22,
+        "startChar": 24,
+        "endLine": 22,
+        "endChar": 25
+      },
+      "revId": "90849414312b8c3ed4a10e455b54e2af713a411d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "081e2af5_c28963dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-06T14:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4adc96f5_dfbb9f1a",
       "range": {
         "startLine": 22,
         "startChar": 24,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bb882ba_c84e5709",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-06T14:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4254af7b_fa466980",
+      "range": {
+        "startLine": 1072,
+        "startChar": 19,
+        "endLine": 1072,
+        "endChar": 20
+      },
+      "revId": "90849414312b8c3ed4a10e455b54e2af713a411d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "043050a0_94dea45e",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-01-05T18:26:12Z",
       "side": 1,
       "message": "No. See comment above.",
+      "range": {
+        "startLine": 1138,
+        "startChar": 15,
+        "endLine": 1138,
+        "endChar": 24
+      },
+      "revId": "90849414312b8c3ed4a10e455b54e2af713a411d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4de4d6a5_349cbeac",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-06T14:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "043050a0_94dea45e",
       "range": {
         "startLine": 1138,
         "startChar": 15,
@@ -116,6 +212,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93e22d7c_03d9df2a",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-06T14:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1c65e0f_e92bfd55",
+      "range": {
+        "startLine": 1167,
+        "startChar": 1,
+        "endLine": 1167,
+        "endChar": 6
+      },
+      "revId": "90849414312b8c3ed4a10e455b54e2af713a411d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92a36207_acea0d8c",
@@ -133,6 +253,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b745d4d_ecfb42fd",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-06T14:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92a36207_acea0d8c",
+      "revId": "90849414312b8c3ed4a10e455b54e2af713a411d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "818f407e_1b3c13d9",
@@ -146,6 +284,24 @@
       "writtenOn": "2021-01-05T18:26:12Z",
       "side": 1,
       "message": "This not really worth it. I fact we can make a real difference (fewer allocations) by changing this code to:\n\nif includes(list[:i], t) {\n\tcheck.softErrorf(types[i], \"duplicate type %s in type list\", t)\n}\n\nand remove the need for uniques altogether.",
+      "revId": "90849414312b8c3ed4a10e455b54e2af713a411d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54e115d1_680136be",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-06T14:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "818f407e_1b3c13d9",
       "revId": "90849414312b8c3ed4a10e455b54e2af713a411d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
