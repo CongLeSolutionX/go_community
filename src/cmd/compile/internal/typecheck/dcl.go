@@ -318,9 +318,12 @@ func checkembeddedtype(t *types.Type) {
 
 var declare_typegen int
 
-func fakeRecvField() *types.Field {
+// TODO(mdempsky): Move to package types.
+func FakeRecvField() *types.Field {
 	return types.NewField(src.NoXPos, nil, types.FakeRecvType())
 }
+
+var fakeRecvField = FakeRecvField
 
 var funcStack []funcStackEnt // stack of previous values of Curfn/dclcontext
 
