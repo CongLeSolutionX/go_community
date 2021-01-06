@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "686378da_84440960",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-06T22:09:06Z",
+      "side": 1,
+      "message": "this shouldn\u0027t be needed - especially if we don\u0027t run this after syntax or type-checking errors",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54eeabd_aae4cb2e",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-06T22:09:06Z",
+      "side": 1,
+      "message": "There\u0027s Info.Selections which gives you more but not for qualified identifiers (don\u0027t remember why off-hand).\n\nThis is all stuff we can tweak down the road.",
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9426586c_ae275c1a",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-06T22:09:06Z",
+      "side": 1,
+      "message": "FYI: The parser does some of the work, but not all (e.g. misplaced fallthrough\u0027s are not done, I think). So it\u0027s a bit hybrid at the moment. Eventually, we may want to do this in the type checker (as it\u0027s complete) and  then we can delete the special parser code.",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e8f4da_837acb8b",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-06T22:09:06Z",
+      "side": 1,
+      "message": "This is a \"large\" array with most entries wasted (though ir.Op\u0027s are bytes so it\u0027s ok I guess.\n\nIn cases like this I wonder if a little switch isn\u0027t more efficient (CPUs run code faster than access memory.)",
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "362ebdaa_b02329b9",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-06T22:09:06Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e6ecc52_97226a3e",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-06T22:09:06Z",
+      "side": 1,
+      "message": "There are no issues with cycles because they always go via a Named type? What about aliases?\n\n(That said, Aliases should be represented by their own node, eventually.)",
+      "range": {
+        "startLine": 16,
+        "startChar": 20,
+        "endLine": 16,
+        "endChar": 23
+      },
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
