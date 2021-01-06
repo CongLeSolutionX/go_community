@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f549b54_5bd97d17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-01-06T13:52:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary. You can easily use a combination of ldflags and ReadBuildInfo, for example: https://github.com/mvdan/gofumpt/blob/c12f7904f7767ab063dcbdce3b7520ca93e4f67f/version.go",
+      "revId": "a98c762c967d00b8c9d7577c5c8803bf631bd9c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
