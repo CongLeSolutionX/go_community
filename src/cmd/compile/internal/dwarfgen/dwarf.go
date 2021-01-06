@@ -67,7 +67,7 @@ func Info(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.Scope,
 	// the ODCLFUNC. If it's non-empty (the name will end in $abstract),
 	// DebugInfo is being called from (*obj.Link).DwarfAbstractFunc,
 	// which used to use the ONAME form.
-	isODCLFUNC := infosym.Name == ""
+	isODCLFUNC := infosym.Name == "" && !base.Ctxt.Flag_dwarfOnlyLine
 
 	var apdecls []*ir.Name
 	// Populate decls for fn.
@@ -94,31 +94,36 @@ func Info(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.Scope,
 		}
 	}
 
-	decls, dwarfVars := createDwarfVars(fnsym, isODCLFUNC, fn, apdecls)
+	var decls []*ir.Name
+	var dwarfVars []*dwarf.Var
+	var scopes []dwarf.Scope
+	if !base.Ctxt.Flag_dwarfOnlyLine {
+		decls, dwarfVars = createDwarfVars(fnsym, isODCLFUNC, fn, apdecls)
 
-	// For each type referenced by the functions auto vars but not
-	// already referenced by a dwarf var, attach an R_USETYPE relocation to
-	// the function symbol to insure that the type included in DWARF
-	// processing during linking.
-	typesyms := []*obj.LSym{}
-	for t, _ := range fnsym.Func().Autot {
-		typesyms = append(typesyms, t)
-	}
-	sort.Sort(obj.BySymName(typesyms))
-	for _, sym := range typesyms {
-		r := obj.Addrel(infosym)
-		r.Sym = sym
-		r.Type = objabi.R_USETYPE
-	}
-	fnsym.Func().Autot = nil
+		// For each type referenced by the functions auto vars but not
+		// already referenced by a dwarf var, attach an R_USETYPE relocation to
+		// the function symbol to insure that the type included in DWARF
+		// processing during linking.
+		typesyms := []*obj.LSym{}
+		for t, _ := range fnsym.Func().Autot {
+			typesyms = append(typesyms, t)
+		}
+		sort.Sort(obj.BySymName(typesyms))
+		for _, sym := range typesyms {
+			r := obj.Addrel(infosym)
+			r.Sym = sym
+			r.Type = objabi.R_USETYPE
+		}
+		fnsym.Func().Autot = nil
 
-	var varScopes []ir.ScopeID
-	for _, decl := range decls {
-		pos := declPos(decl)
-		varScopes = append(varScopes, findScope(fn.Marks, pos))
-	}
+		var varScopes []ir.ScopeID
+		for _, decl := range decls {
+			pos := declPos(decl)
+			varScopes = append(varScopes, findScope(fn.Marks, pos))
+		}
 
-	scopes := assembleScopes(fnsym, fn, dwarfVars, varScopes)
+		scopes = assembleScopes(fnsym, fn, dwarfVars, varScopes)
+	}
 	var inlcalls dwarf.InlCalls
 	if base.Flag.GenDwarfInl > 0 {
 		inlcalls = assembleInlines(fnsym, dwarfVars)

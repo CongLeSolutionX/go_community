@@ -93,6 +93,7 @@ type CmdFlags struct {
 	Dwarf              bool         "help:\"generate DWARF symbols\""
 	DwarfBASEntries    *bool        "help:\"use base address selection entries in DWARF\""                        // &Ctxt.UseBASEntries, set below
 	DwarfLocationLists *bool        "help:\"add location lists to DWARF in optimized mode\""                      // &Ctxt.Flag_locationlists, set below
+	DwarfOnlyLine      *bool        "help:\"restrict DWARF generation to line tables only\""                      // &Ctxt.Flag_dwarfOnlyLine, set below
 	Dynlink            *bool        "help:\"support references to Go symbols defined in other shared libraries\"" // &Ctxt.Flag_dynlink, set below
 	EmbedCfg           func(string) "help:\"read go:embed configuration from `file`\""
 	GenDwarfInl        int          "help:\"generate DWARF inline info records\"" // 0=disabled, 1=funcs, 2=funcs+formals/locals
@@ -151,6 +152,8 @@ func ParseFlags() {
 	Flag.DwarfBASEntries = &Ctxt.UseBASEntries
 	Flag.DwarfLocationLists = &Ctxt.Flag_locationlists
 	*Flag.DwarfLocationLists = true
+	Flag.DwarfOnlyLine = &Ctxt.Flag_dwarfOnlyLine
+	*Flag.DwarfOnlyLine = false
 	Flag.Dynlink = &Ctxt.Flag_dynlink
 	Flag.EmbedCfg = readEmbedCfg
 	Flag.GenDwarfInl = 2

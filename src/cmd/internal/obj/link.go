@@ -833,6 +833,7 @@ type Link struct {
 	Flag_linkshared    bool
 	Flag_optimize      bool
 	Flag_locationlists bool
+	Flag_dwarfOnlyLine bool
 	Retpoline          bool // emit use of retpoline stubs for indirect jmp/call
 	Bso                *bufio.Writer
 	Pathname           string
