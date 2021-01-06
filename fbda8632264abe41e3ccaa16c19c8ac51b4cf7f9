@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e472a97a_da40030a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-06T08:56:00Z",
+      "side": 1,
+      "message": "TRY\u003dmips64,mips,mipsle,mips64le",
+      "revId": "fbda8632264abe41e3ccaa16c19c8ac51b4cf7f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
