@@ -16,6 +16,24 @@
       "message": "I\u0027m working on a full revert.",
       "revId": "f8c38fd807d3b41a1a4015398d5581b10253ad0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19133a02_7bb4d3e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2021-01-06T22:34:43Z",
+      "side": 1,
+      "message": "Oh, okay. I couldn\u0027t press \"revert\" on my CL 274474 because\nthe reflect section was already there, but I thought I would\nrevert the relnote change since I submitted it. Feel free to\ninclude this.",
+      "parentUuid": "1a7eb9d9_c95e1b85",
+      "revId": "f8c38fd807d3b41a1a4015398d5581b10253ad0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
