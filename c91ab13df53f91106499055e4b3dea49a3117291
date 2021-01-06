@@ -16,6 +16,24 @@
       "message": "Hi, I submitted code to Golang for the first time.\nI was reading the code of go runtime recently and I found some small problems.\nMaybe GODEBUG\u003dscavenge is no longer used, so I tried to delete it.\nIn sysmon, I think it is no longer necessary to set delay \u003d 20, because when for loops again, when idle \u003d\u003d 0, it will automatically set delay to 20.\nI try to modify it, please let me know if something is wrong.\nIn addition, do I need additional and more detailed commit information?\n\nThank you!",
       "revId": "c91ab13df53f91106499055e4b3dea49a3117291",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67b4ffa2_5dff08d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-01-06T17:12:31Z",
+      "side": 1,
+      "message": "\u003e In sysmon, I think it is no longer necessary to set delay \u003d 20, because when for loops again, when idle \u003d\u003d 0, it will automatically set delay to 20.\n\nThis looks correct to me, feel free to send a cleanup CL.\n\n(Note that we are currently in the 1.16 release freeze, so these changes will need to wait for the end of the freeze (~Feb) to be submitted.)",
+      "parentUuid": "ce2d96ef_8f8787a7",
+      "revId": "c91ab13df53f91106499055e4b3dea49a3117291",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
