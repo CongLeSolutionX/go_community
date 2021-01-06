@@ -33,6 +33,24 @@
       "message": "Let\u0027s drop the `e.inAll` case and just recommend \u0027go get %s\u0027.\n\nWe discussed this a bit offline and opened golang.org/issue/43523: we plan to remove \u0027-d\u0027 from \u0027go get\u0027 commands in error messages.",
       "revId": "b604057bb9941281e28754d3fa162707547e5ffc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9c4cb84_d098224e",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2021-01-06T08:49:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dab207d_631637c4",
+      "revId": "b604057bb9941281e28754d3fa162707547e5ffc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
