@@ -16,6 +16,23 @@
       "message": "Note:  I avoided touching the IF block above this TODO as that was outside of this TODO ask.  It looks like the above block and this could be merged together, but there would be little to no cycles saved.  Aka: If it works don\u0027t touch it.",
       "revId": "6a045969744b559b46445b21b00eac4de14f6c17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ab6f94b_f6d569b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2021-01-06T13:05:45Z",
+      "side": 1,
+      "message": "Thanks for your contribution but unfortunately this does not look correct to me. Most notably the original hashToInt call does a right shift (Rsh) on the value when the excess is \u003e 0 that this CL omits: (https://github.com/golang/go/blob/3e1e13ce6d1271f49f3d8ee359689145a6995bad/src/crypto/ecdsa/ecdsa.go#L178).\n\nNote that hashToBytes only compiles/runs on s390x (the IBM Z mainframe) due to the \u0027_s390x\u0027 filename suffix. Unless you have access to a z15 machine I would not try and modify this code since you will struggle to test it (except via slow bots). This may be why the issue above does not show up on your machine.\n\nIf you do decide to proceed then I would like to see additional tests added comparing the output of hashToBytes to the equivalent hashToInt call since a hand rolled Rsh implementation will be non-trivial.\n\nI would strongly suggest to leave this code as-is though, unless you are particularly interested in the performance of P-521 operations on z15 machines.\n",
+      "revId": "6a045969744b559b46445b21b00eac4de14f6c17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
