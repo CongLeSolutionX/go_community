@@ -64,11 +64,20 @@ func BuildInit() {
 }
 
 func instrumentInit() {
-	if !cfg.BuildRace && !cfg.BuildMSan {
+	if !cfg.BuildRace && !cfg.BuildMSan && !cfg.BuildASan {
 		return
 	}
-	if cfg.BuildRace && cfg.BuildMSan {
+	switch {
+	case cfg.BuildRace && cfg.BuildMSan:
 		fmt.Fprintf(os.Stderr, "go %s: may not use -race and -msan simultaneously\n", flag.Args()[0])
+		base.SetExitStatus(2)
+		base.Exit()
+	case cfg.BuildRace && cfg.BuildASan:
+		fmt.Fprintf(os.Stderr, "go %s: may not use -race and -asan simultaneously\n", flag.Args()[0])
+		base.SetExitStatus(2)
+		base.Exit()
+	case cfg.BuildMSan && cfg.BuildASan:
+		fmt.Fprintf(os.Stderr, "go %s: may not use -msan and -asan simultaneously\n", flag.Args()[0])
 		base.SetExitStatus(2)
 		base.Exit()
 	}
@@ -84,6 +93,11 @@ func instrumentInit() {
 			base.Exit()
 		}
 	}
+	if cfg.BuildASan && !sys.ASanSupported(cfg.Goos, cfg.Goarch) {
+		fmt.Fprintf(os.Stderr, "-asan is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+		base.SetExitStatus(2)
+		base.Exit()
+	}
 	mode := "race"
 	if cfg.BuildMSan {
 		mode = "msan"
@@ -92,6 +106,9 @@ func instrumentInit() {
 		if cfg.Goos == "linux" && cfg.Goarch == "arm64" && cfg.BuildBuildmode == "default" {
 			cfg.BuildBuildmode = "pie"
 		}
+	}
+	if cfg.BuildASan {
+		mode = "asan"
 	}
 	modeFlag := "-" + mode
 
