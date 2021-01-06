@@ -330,7 +330,9 @@ func (n *Name) SetVal(v constant.Value) {
 	if n.op != OLITERAL {
 		panic(n.no("SetVal"))
 	}
-	AssertValidTypeForConst(n.Type(), v)
+	if base.Flag.G == 0 {
+		AssertValidTypeForConst(n.Type(), v)
+	}
 	n.val = v
 }
 
