@@ -1622,6 +1622,7 @@ var cgoSyscallExclude = map[string]bool{
 	"runtime/cgo":  true,
 	"runtime/race": true,
 	"runtime/msan": true,
+	"runtime/asan": true,
 }
 
 var foldPath = make(map[string]string)
@@ -2230,6 +2231,10 @@ func LinkerDeps(p *Package) []string {
 	// Using memory sanitizer forces an import of runtime/msan.
 	if cfg.BuildMSan {
 		deps = append(deps, "runtime/msan")
+	}
+	// Using address sanitizer forces an import of runtime/asan.
+	if cfg.BuildASan {
+		deps = append(deps, "runtime/asan")
 	}
 
 	return deps
