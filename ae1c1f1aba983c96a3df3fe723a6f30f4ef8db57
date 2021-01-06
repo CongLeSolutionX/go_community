@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85274f3e_084fb7b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-06T23:59:19Z",
+      "side": 1,
+      "message": "Thanks, SGTM.",
+      "parentUuid": "dc712ea2_bd64a9d5",
+      "revId": "ae1c1f1aba983c96a3df3fe723a6f30f4ef8db57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e592b38f_8b5b27e2",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-06T22:09:06Z",
       "side": 1,
       "message": "That is correct: If P were *struct{}, P in P{} is not a valid composite literal type.",
+      "range": {
+        "startLine": 165,
+        "startChar": 22,
+        "endLine": 165,
+        "endChar": 29
+      },
+      "revId": "ae1c1f1aba983c96a3df3fe723a6f30f4ef8db57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d9a18e9_fa6627fc",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-06T23:59:19Z",
+      "side": 1,
+      "message": "That was my intuition, but it looks like we do allow []P{{}}: https://play.golang.org/p/SDBBfdtn1Xe\n\nTested that all of cmd/compile, go/types, and gccgo accept it.\n\nThis isn\u0027t hard to continue allowing, but it will require some code reorganization that I plan to get to eventually anyway. I\u0027ll tackle it then.",
+      "parentUuid": "e592b38f_8b5b27e2",
       "range": {
         "startLine": 165,
         "startChar": 22,

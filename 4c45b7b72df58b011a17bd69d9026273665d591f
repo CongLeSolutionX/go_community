@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80c60895_a30bbf88",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-06T23:59:19Z",
+      "side": 1,
+      "message": "I just checked, and it\u0027s needed for ForStmt.Cond and SwitchStmt.Tag, at least how I\u0027m currently handling them. I\u0027ve added a TODO to explore moving this check to the callers.",
+      "parentUuid": "686378da_84440960",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b54eeabd_aae4cb2e",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-01-06T22:09:06Z",
       "side": 1,
       "message": "There\u0027s Info.Selections which gives you more but not for qualified identifiers (don\u0027t remember why off-hand).\n\nThis is all stuff we can tweak down the road.",
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c2be7ac_76170d38",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-06T23:59:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b54eeabd_aae4cb2e",
       "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81ca262a_7168aa25",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-06T23:59:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9426586c_ae275c1a",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50e8f4da_837acb8b",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-01-06T22:09:06Z",
       "side": 1,
       "message": "This is a \"large\" array with most entries wasted (though ir.Op\u0027s are bytes so it\u0027s ok I guess.\n\nIn cases like this I wonder if a little switch isn\u0027t more efficient (CPUs run code faster than access memory.)",
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d23653e_26109707",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-06T23:59:19Z",
+      "side": 1,
+      "message": "My intuition was the opposite: that branches are more expensive, whereas a load that the data doesn\u0027t immediately influence control flow is cheap. I\u0027ll look into this though. Added a TODO.",
+      "parentUuid": "50e8f4da_837acb8b",
       "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -98,6 +182,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b81b9d5_006d2f06",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-06T23:59:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "362ebdaa_b02329b9",
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e6ecc52_97226a3e",
@@ -111,6 +213,30 @@
       "writtenOn": "2021-01-06T22:09:06Z",
       "side": 1,
       "message": "There are no issues with cycles because they always go via a Named type? What about aliases?\n\n(That said, Aliases should be represented by their own node, eventually.)",
+      "range": {
+        "startLine": 16,
+        "startChar": 20,
+        "endLine": 16,
+        "endChar": 23
+      },
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9791633_2ccd86c4",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-06T23:59:19Z",
+      "side": 1,
+      "message": "Correct, any valid cycles (i.e., that types2 would have admitted) have to go through a defined type, which is handled in irgen.obj. This is the same approach that iexport uses for handling type cycles.",
+      "parentUuid": "9e6ecc52_97226a3e",
       "range": {
         "startLine": 16,
         "startChar": 20,
