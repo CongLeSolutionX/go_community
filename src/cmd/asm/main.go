@@ -40,6 +40,7 @@ func main() {
 	ctxt.Flag_dynlink = *flags.Dynlink
 	ctxt.Flag_linkshared = *flags.Linkshared
 	ctxt.Flag_shared = *flags.Shared || *flags.Dynlink
+	ctxt.Flag_minimalDwarf = *flags.MinimalDwarf
 	ctxt.IsAsm = true
 	ctxt.Pkgpath = *flags.Importpath
 	switch *flags.Spectre {

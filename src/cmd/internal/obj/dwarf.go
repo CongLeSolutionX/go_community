@@ -372,6 +372,7 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string)
 		Scopes:        scopes,
 		InlCalls:      inlcalls,
 		UseBASEntries: ctxt.UseBASEntries,
+		MinimalDwarf:  ctxt.Flag_minimalDwarf,
 	}
 	if absfunc != nil {
 		err = dwarf.PutAbstractFunc(dwctxt, fnstate)
@@ -392,7 +393,7 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string)
 // DwarfIntConst creates a link symbol for an integer constant with the
 // given name, type and value.
 func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) {
-	if myimportpath == "" {
+	if myimportpath == "" || ctxt.Flag_minimalDwarf {
 		return
 	}
 	s := ctxt.LookupInit(dwarf.ConstInfoPrefix+myimportpath, func(s *LSym) {
@@ -405,7 +406,7 @@ func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) 
 // DwarfGlobal creates a link symbol containing a DWARF entry for
 // a global variable.
 func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym) {
-	if myimportpath == "" || varSym.Local() {
+	if myimportpath == "" || varSym.Local() || ctxt.Flag_minimalDwarf {
 		return
 	}
 	var varname string
@@ -446,6 +447,7 @@ func (ctxt *Link) DwarfAbstractFunc(curfn interface{}, s *LSym, myimportpath str
 		External:      !s.Static(),
 		Scopes:        scopes,
 		UseBASEntries: ctxt.UseBASEntries,
+		MinimalDwarf:  ctxt.Flag_minimalDwarf,
 	}
 	if err := dwarf.PutAbstractFunc(dwctxt, &fnstate); err != nil {
 		ctxt.Diag("emitting DWARF for %s failed: %v", s.Name, err)

@@ -95,6 +95,7 @@ type FnState struct {
 	Scopes        []Scope
 	InlCalls      InlCalls
 	UseBASEntries bool
+	MinimalDwarf  bool
 }
 
 func EnableLogging(doit bool) {
@@ -327,6 +328,9 @@ const (
 	DW_ABRV_FUNCTION_CONCRETE
 	DW_ABRV_INLINED_SUBROUTINE
 	DW_ABRV_INLINED_SUBROUTINE_RANGES
+	DW_ABRV_MINIMAL_FUNCTION
+	DW_ABRV_MINIMAL_FUNCTION_ABSTRACT
+	DW_ABRV_MINIMAL_FUNCTION_CONCRETE
 	DW_ABRV_VARIABLE
 	DW_ABRV_INT_CONSTANT
 	DW_ABRV_AUTO
@@ -498,6 +502,39 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 			{DW_AT_ranges, DW_FORM_sec_offset},
 			{DW_AT_call_file, DW_FORM_data4},
 			{DW_AT_call_line, DW_FORM_udata_pseudo}, // pseudo-form
+		},
+	},
+
+	/* MINIMAL_FUNCTION */
+	{
+		DW_TAG_subprogram,
+		DW_CHILDREN_yes,
+		[]dwAttrForm{
+			{DW_AT_name, DW_FORM_string},
+			{DW_AT_low_pc, DW_FORM_addr},
+			{DW_AT_high_pc, DW_FORM_addr},
+		},
+	},
+
+	/* MINIMAL_FUNCTION_ABSTRACT */
+	{
+		DW_TAG_subprogram,
+		DW_CHILDREN_no,
+		[]dwAttrForm{
+			{DW_AT_name, DW_FORM_string},
+			{DW_AT_inline, DW_FORM_data1},
+			{DW_AT_external, DW_FORM_flag},
+		},
+	},
+
+	/* MINIMAL_FUNCTION_CONCRETE */
+	{
+		DW_TAG_subprogram,
+		DW_CHILDREN_yes,
+		[]dwAttrForm{
+			{DW_AT_abstract_origin, DW_FORM_ref_addr},
+			{DW_AT_low_pc, DW_FORM_addr},
+			{DW_AT_high_pc, DW_FORM_addr},
 		},
 	},
 
@@ -1187,6 +1224,9 @@ func PutAbstractFunc(ctxt Context, s *FnState) error {
 	}
 
 	abbrev := DW_ABRV_FUNCTION_ABSTRACT
+	if s.MinimalDwarf {
+		abbrev = DW_ABRV_MINIMAL_FUNCTION_ABSTRACT
+	}
 	Uleb128put(ctxt, s.Absfn, int64(abbrev))
 
 	fullname := s.Name
@@ -1217,6 +1257,13 @@ func PutAbstractFunc(ctxt Context, s *FnState) error {
 	// This slice will hold the offset in bytes for each child var DIE
 	// with respect to the start of the parent subprogram DIE.
 	var offsets []int32
+
+	// Minimal abstract function ends here (note that the abbrev
+	// entry for the minimal abstract func has no children).
+	if s.MinimalDwarf {
+		ctxt.RecordChildDieOffsets(s.Absfn, flattened, offsets)
+		return nil
+	}
 
 	// Scopes/vars
 	if len(s.Scopes) > 0 {
@@ -1296,16 +1343,18 @@ func putInlinedFunc(ctxt Context, s *FnState, callersym Sym, callIdx int) error 
 	form := int(expandPseudoForm(DW_FORM_udata_pseudo))
 	putattr(ctxt, s.Info, abbrev, form, DW_CLS_CONSTANT, int64(ic.CallLine), nil)
 
-	// Variables associated with this inlined routine instance.
-	vars := ic.InlVars
-	sort.Sort(byChildIndex(vars))
-	inlIndex := ic.InlIndex
-	var encbuf [20]byte
-	for _, v := range vars {
-		if !v.IsInAbstract {
-			continue
+	if !s.MinimalDwarf {
+		// Variables associated with this inlined routine instance.
+		vars := ic.InlVars
+		sort.Sort(byChildIndex(vars))
+		inlIndex := ic.InlIndex
+		var encbuf [20]byte
+		for _, v := range vars {
+			if !v.IsInAbstract {
+				continue
+			}
+			putvar(ctxt, s, v, callee, abbrev, inlIndex, encbuf[:0])
 		}
-		putvar(ctxt, s, v, callee, abbrev, inlIndex, encbuf[:0])
 	}
 
 	// Children of this inline.
@@ -1333,6 +1382,13 @@ func PutConcreteFunc(ctxt Context, s *FnState) error {
 		ctxt.Logf("PutConcreteFunc(%v)\n", s.Info)
 	}
 	abbrev := DW_ABRV_FUNCTION_CONCRETE
+	inlKids := inlChildren(-1, &s.InlCalls)
+	if s.MinimalDwarf {
+		if len(inlKids) == 0 {
+			return nil
+		}
+		abbrev = DW_ABRV_MINIMAL_FUNCTION_CONCRETE
+	}
 	Uleb128put(ctxt, s.Info, int64(abbrev))
 
 	// Abstract origin.
@@ -1342,16 +1398,18 @@ func PutConcreteFunc(ctxt Context, s *FnState) error {
 	putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, 0, s.StartPC)
 	putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, s.Size, s.StartPC)
 
-	// cfa / frame base
-	putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
+	if !s.MinimalDwarf {
+		// cfa / frame base
+		putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
 
-	// Scopes
-	if err := putPrunedScopes(ctxt, s, abbrev); err != nil {
-		return err
+		// Scopes
+		if err := putPrunedScopes(ctxt, s, abbrev); err != nil {
+			return err
+		}
 	}
 
 	// Inlined subroutines.
-	for _, sib := range inlChildren(-1, &s.InlCalls) {
+	for _, sib := range inlKids {
 		absfn := s.InlCalls.Calls[sib].AbsFunSym
 		err := putInlinedFunc(ctxt, s, absfn, sib)
 		if err != nil {
@@ -1373,6 +1431,13 @@ func PutDefaultFunc(ctxt Context, s *FnState) error {
 		ctxt.Logf("PutDefaultFunc(%v)\n", s.Info)
 	}
 	abbrev := DW_ABRV_FUNCTION
+	inlKids := inlChildren(-1, &s.InlCalls)
+	if s.MinimalDwarf {
+		if len(inlKids) == 0 {
+			return nil
+		}
+		abbrev = DW_ABRV_MINIMAL_FUNCTION
+	}
 	Uleb128put(ctxt, s.Info, int64(abbrev))
 
 	// Expand '"".' to import path.
@@ -1384,22 +1449,24 @@ func PutDefaultFunc(ctxt Context, s *FnState) error {
 	putattr(ctxt, s.Info, DW_ABRV_FUNCTION, DW_FORM_string, DW_CLS_STRING, int64(len(name)), name)
 	putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, 0, s.StartPC)
 	putattr(ctxt, s.Info, abbrev, DW_FORM_addr, DW_CLS_ADDRESS, s.Size, s.StartPC)
-	putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
-	ctxt.AddFileRef(s.Info, s.Filesym)
+	if !s.MinimalDwarf {
+		putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
+		ctxt.AddFileRef(s.Info, s.Filesym)
 
-	var ev int64
-	if s.External {
-		ev = 1
-	}
-	putattr(ctxt, s.Info, abbrev, DW_FORM_flag, DW_CLS_FLAG, ev, 0)
+		var ev int64
+		if s.External {
+			ev = 1
+		}
+		putattr(ctxt, s.Info, abbrev, DW_FORM_flag, DW_CLS_FLAG, ev, 0)
 
-	// Scopes
-	if err := putPrunedScopes(ctxt, s, abbrev); err != nil {
-		return err
+		// Scopes
+		if err := putPrunedScopes(ctxt, s, abbrev); err != nil {
+			return err
+		}
 	}
 
 	// Inlined subroutines.
-	for _, sib := range inlChildren(-1, &s.InlCalls) {
+	for _, sib := range inlKids {
 		absfn := s.InlCalls.Calls[sib].AbsFunSym
 		err := putInlinedFunc(ctxt, s, absfn, sib)
 		if err != nil {

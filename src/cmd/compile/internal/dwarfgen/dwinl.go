@@ -30,7 +30,12 @@ func assembleInlines(fnsym *obj.LSym, dwVars []*dwarf.Var) dwarf.InlCalls {
 	var inlcalls dwarf.InlCalls
 
 	if base.Debug.DwarfInl != 0 {
-		base.Ctxt.Logf("assembling DWARF inlined routine info for %v\n", fnsym.Name)
+		mindw := ""
+		if base.Ctxt.Flag_minimalDwarf {
+			mindw = "minimal "
+		}
+		base.Ctxt.Logf("assembling %sDWARF inlined routine info for %v\n",
+			mindw, fnsym.Name)
 	}
 
 	// This maps inline index (from Ctxt.InlTree) to index in inlcalls.Calls
