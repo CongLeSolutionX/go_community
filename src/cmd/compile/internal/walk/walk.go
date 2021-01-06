@@ -57,6 +57,10 @@ func Walk(fn *ir.Func) {
 	if base.Flag.Cfg.Instrumenting {
 		instrument(fn)
 	}
+
+	for _, n := range fn.Dcl {
+		types.CalcSize(n.Type())
+	}
 }
 
 func paramoutheap(fn *ir.Func) bool {

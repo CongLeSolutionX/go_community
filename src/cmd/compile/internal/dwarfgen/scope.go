@@ -15,13 +15,13 @@ import (
 )
 
 // See golang.org/issue/20390.
-func xposBefore(p, q src.XPos) bool {
+func XPosBefore(p, q src.XPos) bool {
 	return base.Ctxt.PosTable.Pos(p).Before(base.Ctxt.PosTable.Pos(q))
 }
 
 func findScope(marks []ir.Mark, pos src.XPos) ir.ScopeID {
 	i := sort.Search(len(marks), func(i int) bool {
-		return xposBefore(pos, marks[i].Pos)
+		return XPosBefore(pos, marks[i].Pos)
 	})
 	if i == 0 {
 		return 0

@@ -36,6 +36,7 @@ func Closure(fn *ir.Func) {
 
 		// f is ONAME of the actual function.
 		f := fn.Nname
+		typ := f.Type()
 
 		// We are going to insert captured variables before input args.
 		var params []*types.Field
@@ -62,12 +63,9 @@ func Closure(fn *ir.Func) {
 
 		if len(params) > 0 {
 			// Prepend params and decls.
-			f.Type().Params().SetFields(append(params, f.Type().Params().FieldSlice()...))
+			typ.Params().SetFields(append(params, typ.Params().FieldSlice()...))
 			fn.Dcl = append(decls, fn.Dcl...)
 		}
-
-		types.CalcSize(f.Type())
-		fn.Nname.SetType(f.Type()) // update type of ODCLFUNC
 	} else {
 		// The closure is not called, so it is going to stay as closure.
 		var body []ir.Node
