@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"go/constant"
 	"go/token"
-	"io"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -18,54 +17,36 @@ import (
 	"unicode/utf8"
 
 	"cmd/compile/internal/base"
-	"cmd/compile/internal/importer"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
-	"cmd/compile/internal/types2"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 )
 
 func LoadPackage(filenames []string) {
 	base.Timer.Start("fe", "parse")
-	lines := ParseFiles(filenames)
-	base.Timer.Stop()
-	base.Timer.AddEvent(int64(lines), "lines")
 
-	if base.Flag.G != 0 && base.Flag.G < 3 {
-		// can only parse generic code for now
-		base.ExitIfErrors()
-		return
+	mode := syntax.CheckBranches
+	if base.Flag.G != 0 {
+		mode |= syntax.AllowGenerics
 	}
 
-	// Typecheck.
-	Package()
-
-	// With all user code typechecked, it's now safe to verify unused dot imports.
-	CheckDotImports()
-	base.ExitIfErrors()
-}
-
-// ParseFiles concurrently parses files into *syntax.File structures.
-// Each declaration in every *syntax.File is converted to a syntax tree
-// and its root represented by *Node is appended to Target.Decls.
-// Returns the total count of parsed lines.
-func ParseFiles(filenames []string) (lines uint) {
-	noders := make([]*noder, 0, len(filenames))
 	// Limit the number of simultaneously open files.
 	sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
 
-	for _, filename := range filenames {
-		p := &noder{
+	noders := make([]*noder, len(filenames))
+	for i, filename := range filenames {
+		p := noder{
 			basemap:     make(map[*syntax.PosBase]*src.PosBase),
 			err:         make(chan syntax.Error),
 			trackScopes: base.Flag.Dwarf,
 		}
-		noders = append(noders, p)
+		noders[i] = &p
 
-		go func(filename string) {
+		filename := filename
+		go func() {
 			sem <- struct{}{}
 			defer func() { <-sem }()
 			defer close(p.err)
@@ -78,121 +59,41 @@ func ParseFiles(filenames []string) (lines uint) {
 			}
 			defer f.Close()
 
-			mode := syntax.CheckBranches
-			if base.Flag.G != 0 {
-				mode |= syntax.AllowGenerics
-			}
 			p.file, _ = syntax.Parse(fbase, f, p.error, p.pragma, mode) // errors are tracked via p.error
-		}(filename)
+		}()
 	}
 
-	// generic noding phase (using new typechecker)
-	if base.Flag.G != 0 {
-		// setup and syntax error reporting
-		nodersmap := make(map[string]*noder)
-		var files []*syntax.File
-		for _, p := range noders {
-			for e := range p.err {
-				p.errorAt(e.Pos, "%s", e.Msg)
-			}
-
-			nodersmap[p.file.Pos().RelFilename()] = p
-			files = append(files, p.file)
-			lines += p.file.EOF.Line()
-
-		}
-		if base.SyntaxErrors() != 0 {
-			base.ErrorExit()
-		}
-
-		// typechecking
-		conf := types2.Config{
-			InferFromConstraints:  true,
-			IgnoreBranches:        true, // parser already checked via syntax.CheckBranches mode
-			CompilerErrorMessages: true, // use error strings matching existing compiler errors
-			Error: func(err error) {
-				terr := err.(types2.Error)
-				if len(terr.Msg) > 0 && terr.Msg[0] == '\t' {
-					// types2 reports error clarifications via separate
-					// error messages which are indented with a tab.
-					// Ignore them to satisfy tools and tests that expect
-					// only one error in such cases.
-					// TODO(gri) Need to adjust error reporting in types2.
-					return
-				}
-				p := nodersmap[terr.Pos.RelFilename()]
-				base.ErrorfAt(p.makeXPos(terr.Pos), "%s", terr.Msg)
-			},
-			Importer: &gcimports{
-				packages: make(map[string]*types2.Package),
-				lookup: func(path string) (io.ReadCloser, error) {
-					file, ok := findpkg(path)
-					if !ok {
-						return nil, fmt.Errorf("can't find import: %q", path)
-					}
-					return os.Open(file)
-				},
-			},
-		}
-		info := types2.Info{
-			Types:      make(map[syntax.Expr]types2.TypeAndValue),
-			Defs:       make(map[*syntax.Name]types2.Object),
-			Uses:       make(map[*syntax.Name]types2.Object),
-			Selections: make(map[*syntax.SelectorExpr]*types2.Selection),
-			// expand as needed
-		}
-		conf.Check(base.Ctxt.Pkgpath, files, &info)
-		base.ExitIfErrors()
-		if base.Flag.G < 2 {
-			return
-		}
-
-		// noding
-		for _, p := range noders {
-			// errors have already been reported
-
-			p.typeInfo = &info
-			p.node()
-			lines += p.file.EOF.Line()
-			p.file = nil // release memory
-			base.ExitIfErrors()
-
-			// Always run testdclstack here, even when debug_dclstack is not set, as a sanity measure.
-			types.CheckDclstack()
-		}
-
-		types.LocalPkg.Height = myheight
-		return
-	}
-
-	// traditional (non-generic) noding phase
+	var lines uint
 	for _, p := range noders {
 		for e := range p.err {
 			p.errorAt(e.Pos, "%s", e.Msg)
 		}
-
-		p.node()
 		lines += p.file.EOF.Line()
-		p.file = nil // release memory
-		if base.SyntaxErrors() != 0 {
-			base.ErrorExit()
-		}
-
-		// Always run testdclstack here, even when debug_dclstack is not set, as a sanity measure.
-		types.CheckDclstack()
 	}
+	base.Timer.AddEvent(int64(lines), "lines")
+
+	if base.Flag.G != 0 {
+		check2(noders)
+		return
+	}
+
+	for _, p := range noders {
+		p.node()
+		p.file = nil // release memory
+	}
+
+	if base.SyntaxErrors() != 0 {
+		base.ErrorExit()
+	}
+	types.CheckDclstack()
 
 	for _, p := range noders {
 		p.processPragmas()
 	}
 
+	// Typecheck.
 	types.LocalPkg.Height = myheight
-	return
-}
-
-func Package() {
 	typecheck.DeclareUniverse()
-
 	typecheck.TypecheckAllowed = true
 
 	// Process top-level declarations in phases.
@@ -249,25 +150,10 @@ func Package() {
 	}
 
 	// Phase 5: With all user code type-checked, it's now safe to verify map keys.
+	// With all user code typechecked, it's now safe to verify unused dot imports.
 	typecheck.CheckMapKeys()
-
-}
-
-// Temporary import helper to get type2-based type-checking going.
-type gcimports struct {
-	packages map[string]*types2.Package
-	lookup   func(path string) (io.ReadCloser, error)
-}
-
-func (m *gcimports) Import(path string) (*types2.Package, error) {
-	return m.ImportFrom(path, "" /* no vendoring */, 0)
-}
-
-func (m *gcimports) ImportFrom(path, srcDir string, mode types2.ImportMode) (*types2.Package, error) {
-	if mode != 0 {
-		panic("mode must be 0")
-	}
-	return importer.Import(m.packages, path, srcDir, m.lookup)
+	CheckDotImports()
+	base.ExitIfErrors()
 }
 
 // makeSrcPosBase translates from a *syntax.PosBase to a *src.PosBase.
@@ -340,38 +226,7 @@ type noder struct {
 	trackScopes bool
 	scopeVars   []int
 
-	// typeInfo provides access to the type information computed by the new
-	// typechecker. It is only present if -G is set, and all noders point to
-	// the same types.Info. For now this is a local field, if need be we can
-	// make it global.
-	typeInfo *types2.Info
-
 	lastCloseScopePos syntax.Pos
-}
-
-// For now we provide these basic accessors to get to type and object
-// information of expression nodes during noding. Eventually we will
-// attach this information directly to the syntax tree which should
-// simplify access and make it more efficient as well.
-
-// typ returns the type and value information for the given expression.
-func (p *noder) typ(x syntax.Expr) types2.TypeAndValue {
-	return p.typeInfo.Types[x]
-}
-
-// def returns the object for the given name in its declaration.
-func (p *noder) def(x *syntax.Name) types2.Object {
-	return p.typeInfo.Defs[x]
-}
-
-// use returns the object for the given name outside its declaration.
-func (p *noder) use(x *syntax.Name) types2.Object {
-	return p.typeInfo.Uses[x]
-}
-
-// sel returns the selection information for the given selector expression.
-func (p *noder) sel(x *syntax.SelectorExpr) *types2.Selection {
-	return p.typeInfo.Selections[x]
 }
 
 func (p *noder) funcBody(fn *ir.Func, block *syntax.BlockStmt) {
@@ -466,7 +321,6 @@ type linkname struct {
 }
 
 func (p *noder) node() {
-	types.Block = 1
 	p.importedUnsafe = false
 	p.importedEmbed = false
 
