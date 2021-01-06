@@ -6,6 +6,9 @@ package syntax
 
 type token uint
 
+// TODO(mdempsky): Why isn't this exported?
+type Token = token
+
 //go:generate stringer -type token -linecomment tokens.go
 
 const (
