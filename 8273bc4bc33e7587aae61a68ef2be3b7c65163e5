@@ -33,6 +33,24 @@
       "message": "I would argue that for all intents and purposes, an optional empty set is the same as an empty set that can contain optional values. They are both empty and they are both optional.\n\nDoes the strictness that is present in Go but not in OpenSSL have a purpose?",
       "revId": "8273bc4bc33e7587aae61a68ef2be3b7c65163e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "843b7f63_52904d36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-01-06T17:14:48Z",
+      "side": 1,
+      "message": "While that may be reasonable, it\u0027s not how the encoding is specified. PKCS#10 explicitly chose, for whatever reason, to not mark the attributes field as optional, and so it is required to be present, even if empty.\n\nOpenSSL added their exception quite a while ago, when there were a number of broken implementations which got this wrong. That is no longer the case, and as far as I am aware there are no major implementations that still get this wrong.",
+      "parentUuid": "ffedd19f_a2f0077f",
+      "revId": "8273bc4bc33e7587aae61a68ef2be3b7c65163e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
