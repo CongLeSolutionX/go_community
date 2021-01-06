@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b3a5849_4e5925c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49460
+      },
+      "writtenOn": "2021-01-06T15:59:01Z",
+      "side": 1,
+      "message": "Figures, right when I send the playground example, I see that declaring both pad and excess is redundant...\n\nUpdated PR example with curve P521\nhttps://play.golang.org/p/BZw8JW7xntu",
+      "revId": "9f03d744df11a74f710028a8a2883aa322c1b166",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
