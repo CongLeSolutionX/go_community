@@ -167,7 +167,9 @@ func ReadImports(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintT
 			if pkg.Name != pkgName {
 				base.Fatalf("conflicting package names %v and %v for path %q", pkg.Name, pkgName, pkg.Path)
 			}
-			if pkg.Height != pkgHeight {
+			// TODO(mdempsky): Restore package height
+			// check for generics mode.
+			if pkg.Height != pkgHeight && base.Flag.G == 0 {
 				base.Fatalf("conflicting package heights %v and %v for path %q", pkg.Height, pkgHeight, pkg.Path)
 			}
 		}

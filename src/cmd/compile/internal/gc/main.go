@@ -136,6 +136,11 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		ir.MaxImplicitStackVarSize = 16 * 1024
 	}
 
+	// TODO(mdempsky): Update irgen to track DWARF scopes.
+	if base.Flag.G != 0 {
+		base.Flag.Dwarf = false
+	}
+
 	if base.Flag.Dwarf {
 		base.Ctxt.DebugInfo = dwarfgen.Info
 		base.Ctxt.GenAbstractFunc = dwarfgen.AbstractFunc
@@ -278,10 +283,22 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	for _, n := range typecheck.Target.Decls {
 		if n.Op() == ir.ODCLFUNC {
 			n := n.(*ir.Func)
+
+			// As a side effect of computing the size of a
+			// function, we currently also layout its
+			// parameters on the stack. walk.Closure may
+			// add new parameters, and we may have
+			// type-checked a call to a function before
+			// declaring its parameters. So force a
+			// recalculation here to be safe.
+			typ := n.Type()
+			typ.Align = 0
+			typ.Params().Align = 0
 			if n.OClosure != nil {
 				ir.CurFunc = n
 				walk.Closure(n)
 			}
+			types.CalcSize(typ)
 		}
 	}
 
