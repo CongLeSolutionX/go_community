@@ -54,6 +54,7 @@ type Func struct {
 
 	Nname    *Name        // ONAME node
 	OClosure *ClosureExpr // OCLOSURE node
+	Outer    *Func        // enclosing ODCLFUNC node
 
 	Shortname *types.Sym
 
