@@ -16,6 +16,24 @@
       "message": "Congrats Eva, happy New Year, and exciting to have you as a contributor, officially!\n\nI am going to run the trybots, but please run go fmt on the _test.go file, as there is a stray tab in there.",
       "revId": "6ec27dad85ee3dca36657ade886bf1a5c4db4892",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b175a20a_101d86ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49533
+      },
+      "writtenOn": "2021-01-06T10:11:05Z",
+      "side": 1,
+      "message": "Thank you for the warm welcome and a happy new year to you too! I removed the stray tab, let me know if anything else needs changing.",
+      "parentUuid": "8d2a0f61_06f8b503",
+      "revId": "6ec27dad85ee3dca36657ade886bf1a5c4db4892",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
