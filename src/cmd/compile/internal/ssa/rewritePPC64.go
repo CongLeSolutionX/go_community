@@ -16525,14 +16525,14 @@ func rewriteValuePPC64_OpStore(v *Value) bool {
 		return true
 	}
 	// match: (Store {t} ptr val mem)
-	// cond: t.Size() == 8 && (is64BitInt(val.Type) || isPtr(val.Type))
+	// cond: t.Size() == 8
 	// result: (MOVDstore ptr val mem)
 	for {
 		t := auxToType(v.Aux)
 		ptr := v_0
 		val := v_1
 		mem := v_2
-		if !(t.Size() == 8 && (is64BitInt(val.Type) || isPtr(val.Type))) {
+		if !(t.Size() == 8) {
 			break
 		}
 		v.reset(OpPPC64MOVDstore)
@@ -16540,14 +16540,14 @@ func rewriteValuePPC64_OpStore(v *Value) bool {
 		return true
 	}
 	// match: (Store {t} ptr val mem)
-	// cond: t.Size() == 4 && is32BitInt(val.Type)
+	// cond: t.Size() == 4
 	// result: (MOVWstore ptr val mem)
 	for {
 		t := auxToType(v.Aux)
 		ptr := v_0
 		val := v_1
 		mem := v_2
-		if !(t.Size() == 4 && is32BitInt(val.Type)) {
+		if !(t.Size() == 4) {
 			break
 		}
 		v.reset(OpPPC64MOVWstore)
