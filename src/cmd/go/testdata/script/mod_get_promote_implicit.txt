@@ -6,7 +6,7 @@ cp go.mod.orig go.mod
 go list -m indirect-with-pkg
 stdout '^indirect-with-pkg v1.0.0 => ./indirect-with-pkg$'
 ! go list ./use-indirect
-stderr '^go: m/use-indirect: package indirect-with-pkg imported from implicitly required module; try ''go get -d m/use-indirect'' to add missing requirements$'
+stderr '^go: m/use-indirect: package indirect-with-pkg imported from implicitly required module; to add missing requirements, run:\n\tgo get m/use-indirect$'
 
 # We can promote the implicit requirement by getting the importing package,
 # as hinted.

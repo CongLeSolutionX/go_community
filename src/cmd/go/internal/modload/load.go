@@ -868,7 +868,7 @@ func loadFromRoots(params loaderParams) *loader {
 						// base.Errorf. Ideally, 'go list' should not fail because of this,
 						// but today, LoadPackages calls WriteGoMod unconditionally, which
 						// would fail with a less clear message.
-						base.Errorf("go: %[1]s: package %[2]s imported from implicitly required module; try 'go get -d %[1]s' to add missing requirements", pkg.path, dep.path)
+						base.Errorf("go: %[1]s: package %[2]s imported from implicitly required module; to add missing requirements, run:\n\tgo get %[1]s", pkg.path, dep.path)
 					}
 					ld.direct[dep.mod.Path] = true
 				}

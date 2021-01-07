@@ -133,8 +133,8 @@ func (e *AmbiguousImportError) Error() string {
 // if a module in the build list contains a package, but we don't have a sum
 // for its .zip file.
 type ImportMissingSumError struct {
-	importPath   string
-	found, inAll bool
+	importPath, modPath string
+	found, inAll        bool
 }
 
 func (e *ImportMissingSumError) Error() string {
@@ -145,7 +145,7 @@ func (e *ImportMissingSumError) Error() string {
 		message = fmt.Sprintf("missing go.sum entry for module providing package %s", e.importPath)
 	}
 	if e.inAll {
-		return message + "; to add it:\n\tgo mod tidy"
+		return message + fmt.Sprintf("; to add it:\n\tgo mod download %s", e.modPath)
 	}
 	return message
 }
@@ -238,7 +238,7 @@ func importFromBuildList(ctx context.Context, path string, buildList []module.Ve
 	// Check each module on the build list.
 	var dirs []string
 	var mods []module.Version
-	haveSumErr := false
+	var sumErrModPath string
 	for _, m := range buildList {
 		if !maybeInModule(path, m.Path) {
 			// Avoid possibly downloading irrelevant modules.
@@ -251,8 +251,9 @@ func importFromBuildList(ctx context.Context, path string, buildList []module.Ve
 				// We are missing a sum needed to fetch a module in the build list.
 				// We can't verify that the package is unique, and we may not find
 				// the package at all. Keep checking other modules to decide which
-				// error to report.
-				haveSumErr = true
+				// error to report. If there are multiple missing sums, just report the
+				// last (longest) one.
+				sumErrModPath = m.Path
 				continue
 			}
 			// Report fetch error.
@@ -273,8 +274,8 @@ func importFromBuildList(ctx context.Context, path string, buildList []module.Ve
 	if len(mods) > 1 {
 		return module.Version{}, "", &AmbiguousImportError{importPath: path, Dirs: dirs, Modules: mods}
 	}
-	if haveSumErr {
-		return module.Version{}, "", &ImportMissingSumError{importPath: path, found: len(mods) > 0}
+	if sumErrModPath != "" {
+		return module.Version{}, "", &ImportMissingSumError{importPath: path, modPath: sumErrModPath, found: len(mods) > 0}
 	}
 	if len(mods) == 1 {
 		return mods[0], dirs[0], nil
