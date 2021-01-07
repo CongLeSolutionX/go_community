@@ -122,6 +122,10 @@ func opregreg(s *ssagen.State, op obj.As, dest, src int16) *obj.Prog {
 	return p
 }
 
+func setFrom3Reg(p *obj.Prog, v *ssa.Value) {
+	p.SetFrom3(obj.Addr{Type: obj.TYPE_REG, Reg: v.Reg()})
+}
+
 // memIdx fills out a as an indexed memory reference for v.
 // It assumes that the base register and the index register
 // are v.Args[0].Reg() and v.Args[1].Reg(), respectively.
@@ -201,7 +205,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From = obj.Addr{Type: obj.TYPE_REG, Reg: v.Args[2].Reg()}
 		p.To = obj.Addr{Type: obj.TYPE_REG, Reg: v.Reg()}
-		p.SetFrom3(obj.Addr{Type: obj.TYPE_REG, Reg: v.Args[1].Reg()})
+		setFrom3Reg(p, v.Args[1])
 		if v.Reg() != v.Args[0].Reg() {
 			v.Fatalf("input[0] and output not in same register %s", v.LongString())
 		}
@@ -612,7 +616,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Offset = v.AuxInt
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
-		p.SetFrom3(obj.Addr{Type: obj.TYPE_REG, Reg: v.Args[0].Reg()})
+		setFrom3Reg(p, v.Args[0])
 
 	case ssa.OpAMD64SUBQconst, ssa.OpAMD64SUBLconst,
 		ssa.OpAMD64ANDQconst, ssa.OpAMD64ANDLconst,
@@ -1115,7 +1119,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		}
 		p.From.Offset = val
 		p.From.Type = obj.TYPE_CONST
-		p.SetFrom3(obj.Addr{Type: obj.TYPE_REG, Reg: v.Args[0].Reg()})
+		setFrom3Reg(p, v.Args[0])
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpAMD64POPCNTQ, ssa.OpAMD64POPCNTL:
