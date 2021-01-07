@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68b6e8a9_35cb5af8",
+        "filename": "src/go/types/operand.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-07T20:29:18Z",
+      "side": 1,
+      "message": "types2 has another check following this code here (with comment). But it may be that it\u0027s not needed here because of the cleanups you did early on in representableConst and friends.\nOk to submit if not sure, but then you should add a TODO so we don\u0027t miss this down the line (and possibly need to track it down again when hunting for a bug).",
+      "revId": "01ff10b1302c2bdfcc588be011c31e41de0badb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de62565b_7bb14935",
+        "filename": "src/go/types/operand.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-07T20:29:18Z",
+      "side": 1,
+      "message": "types2 has some different code here as well but your code may be ahead here because of the before mentioned cleanup.",
+      "range": {
+        "startLine": 257,
+        "startChar": 2,
+        "endLine": 257,
+        "endChar": 8
+      },
+      "revId": "01ff10b1302c2bdfcc588be011c31e41de0badb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
