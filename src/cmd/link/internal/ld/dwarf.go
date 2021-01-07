@@ -1077,6 +1077,9 @@ func (d *dwctxt) calcCompUnitRanges() {
 }
 
 func movetomodule(ctxt *Link, parent *dwarf.DWDie) {
+	if ctxt.runtimeCU == nil {
+		return
+	}
 	die := ctxt.runtimeCU.DWInfo.Child
 	if die == nil {
 		ctxt.runtimeCU.DWInfo.Child = parent.Child
@@ -2014,11 +2017,11 @@ func (d *dwctxt) dwarfGenerateDebugSyms() {
 	}
 
 	// Create the section symbols.
+	lineSym := mkSecSym(".debug_line")
+	infoSym := mkSecSym(".debug_info")
+	rangesSym := mkSecSym(".debug_ranges")
 	frameSym := mkSecSym(".debug_frame")
 	locSym := mkSecSym(".debug_loc")
-	lineSym := mkSecSym(".debug_line")
-	rangesSym := mkSecSym(".debug_ranges")
-	infoSym := mkSecSym(".debug_info")
 
 	// Create the section objects
 	lineSec := dwarfSecInfo{syms: []loader.Sym{lineSym}}
@@ -2040,6 +2043,12 @@ func (d *dwctxt) dwarfGenerateDebugSyms() {
 
 	var wg sync.WaitGroup
 	sema := make(chan struct{}, runtime.GOMAXPROCS(0))
+
+	// A note on -dwarfonlyline: at the moment .debug_frame generation
+	// is alway enabled, even when -dwarfonlyline is in effect. In
+	// theory we could change things so that .debug_frame entries are
+	// only emitted for functions compiled with full DWARF, but this
+	// is not implemented at the moment.
 
 	// Kick off generation of .debug_frame, since it doesn't have
 	// any entanglements and can be started right away.
@@ -2086,7 +2095,9 @@ func (d *dwctxt) dwarfGenerateDebugSyms() {
 		rangesSec.syms = append(rangesSec.syms, markReachable(r.rangessyms)...)
 	}
 	dwarfp = append(dwarfp, lineSec)
-	dwarfp = append(dwarfp, frameSec)
+	if len(frameSec.syms) > 0 {
+		dwarfp = append(dwarfp, frameSec)
+	}
 	gdbScriptSec := d.writegdbscript()
 	if gdbScriptSec.secSym() != 0 {
 		dwarfp = append(dwarfp, gdbScriptSec)

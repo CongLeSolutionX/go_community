@@ -25,10 +25,13 @@ import (
 )
 
 const (
-	DefaultOpt = "-gcflags="
-	NoOpt      = "-gcflags=-l -N"
-	OptInl4    = "-gcflags=-l=4"
-	OptAllInl4 = "-gcflags=all=-l=4"
+	DefaultOpt  = "-gcflags="
+	NoOpt       = "-gcflags=-l -N"
+	OptInl4     = "-gcflags=-l=4"
+	OptAllInl4  = "-gcflags=all=-l=4"
+	MinDwarfOpt = "-gcflags=all=-dwarfonlyline"
+	NoAsmFlags  = "-asmflags="
+	MinDwarfAsm = "-asmflags=all=-dwarfonlyline"
 )
 
 func TestRuntimeTypesPresent(t *testing.T) {
@@ -95,7 +98,7 @@ type builtFile struct {
 	path string
 }
 
-func gobuild(t *testing.T, dir string, testfile string, gcflags string) *builtFile {
+func gobuild(t *testing.T, dir string, testfile string, flags string) *builtFile {
 	src := filepath.Join(dir, "test.go")
 	dst := filepath.Join(dir, "out.exe")
 
@@ -103,7 +106,7 @@ func gobuild(t *testing.T, dir string, testfile string, gcflags string) *builtFi
 		t.Fatal(err)
 	}
 
-	cmd := exec.Command(testenv.GoToolPath(t), "build", gcflags, "-o", dst, src)
+	cmd := exec.Command(testenv.GoToolPath(t), "build", flags, "-o", dst, src)
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("build: %s\n", b)
 		t.Fatalf("build error: %v", err)
@@ -118,11 +121,12 @@ func gobuild(t *testing.T, dir string, testfile string, gcflags string) *builtFi
 
 // Similar to gobuild() above, but uses a main package instead of a test.go file.
 
-func gobuildTestdata(t *testing.T, tdir string, pkgDir string, gcflags string) *builtFile {
+func gobuildTestdata(t *testing.T, tdir string, pkgDir string, gcflags string, asmflags string) *builtFile {
 	dst := filepath.Join(tdir, "out.exe")
 
 	// Run a build with an updated GOPATH
-	cmd := exec.Command(testenv.GoToolPath(t), "build", gcflags, "-o", dst)
+	cmd := exec.Command(testenv.GoToolPath(t), "build",
+		gcflags, asmflags, "-o", dst)
 	cmd.Dir = pkgDir
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("build: %s\n", b)
@@ -785,7 +789,7 @@ func main() {
 	}
 }
 
-func abstractOriginSanity(t *testing.T, pkgDir string, flags string) {
+func abstractOriginSanity(t *testing.T, pkgDir string, gcflags string) {
 	t.Parallel()
 
 	dir, err := ioutil.TempDir("", "TestAbstractOriginSanity")
@@ -795,7 +799,7 @@ func abstractOriginSanity(t *testing.T, pkgDir string, flags string) {
 	defer os.RemoveAll(dir)
 
 	// Build with inlining, to exercise DWARF inlining support.
-	f := gobuildTestdata(t, dir, filepath.Join(pkgDir, "main"), flags)
+	f := gobuildTestdata(t, dir, filepath.Join(pkgDir, "main"), gcflags, NoAsmFlags)
 
 	d, err := f.DWARF()
 	if err != nil {
@@ -1318,7 +1322,7 @@ func TestMachoIssue32233(t *testing.T) {
 		t.Fatalf("where am I? %v", err)
 	}
 	pdir := filepath.Join(wd, "testdata", "issue32233", "main")
-	f := gobuildTestdata(t, tmpdir, pdir, DefaultOpt)
+	f := gobuildTestdata(t, tmpdir, pdir, DefaultOpt, NoAsmFlags)
 	f.Close()
 }
 
@@ -1407,7 +1411,7 @@ func TestIssue38192(t *testing.T) {
 		t.Fatalf("where am I? %v", err)
 	}
 	pdir := filepath.Join(wd, "testdata", "issue38192")
-	f := gobuildTestdata(t, tmpdir, pdir, DefaultOpt)
+	f := gobuildTestdata(t, tmpdir, pdir, DefaultOpt, NoAsmFlags)
 
 	// Open the resulting binary and examine the DWARF it contains.
 	// Look for the function of interest ("main.singleInstruction")
@@ -1530,7 +1534,7 @@ func TestIssue39757(t *testing.T) {
 		t.Fatalf("where am I? %v", err)
 	}
 	pdir := filepath.Join(wd, "testdata", "issue39757")
-	f := gobuildTestdata(t, tmpdir, pdir, DefaultOpt)
+	f := gobuildTestdata(t, tmpdir, pdir, DefaultOpt, NoAsmFlags)
 
 	syms, err := f.Symbols()
 	if err != nil {
@@ -1616,6 +1620,73 @@ func TestIssue39757(t *testing.T) {
 		t.Errorf("not enough line table rows for main.main (got %d, wanted > 3", mainrows)
 		for i, r := range rows {
 			t.Logf("row %d: A=%x F=%s L=%d\n", i, r.Address, r.File.Name, r.Line)
+		}
+	}
+}
+
+func TestDwarfOnlyLine(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
+	if runtime.GOOS == "plan9" {
+		t.Skip("skipping on plan9; no DWARF symbol table in executables")
+	}
+	t.Parallel()
+
+	dir, err := ioutil.TempDir("", "TestDwarfOnlyLine")
+	if err != nil {
+		t.Fatalf("could not create directory: %v", err)
+	}
+	defer os.RemoveAll(dir)
+	wd, err2 := os.Getwd()
+	if err2 != nil {
+		t.Fatalf("os.Getwd() failed %v", err2)
+	}
+
+	// Build a smallish testcase with -dwarfonlyline enabled. Code in
+	// the testcase is relatively unimportant, just need something a
+	// bit larger than "hi mom" that pulls in a few packages from
+	// stdlib.
+	gopathdir := filepath.Join(wd, "testdata", "httptest")
+	f := gobuildTestdata(t, dir, filepath.Join(gopathdir, "main"),
+		MinDwarfOpt, MinDwarfAsm)
+
+	// Take a walk through the generated DWARF and look to make sure
+	// there aren't any unexpected things. This isn't an exhaustive
+	// test of -dwarfonlyline, but make sure we have:
+	//
+	// - no DW_TAG_VARIABLE, or W_TAG_constant
+	// - not DW_AT_frame_base or DW_AT_location attributes
+	//
+	// Note that there is still type info emitted for runtime._type,
+	// meaning that we can't error on tag types.
+	d, err := f.DWARF()
+	if err != nil {
+		t.Fatalf("error reading DWARF: %v", err)
+	}
+	rdr := d.Reader()
+	ex := examiner{}
+	if err := ex.populate(rdr); err != nil {
+		t.Fatalf("error reading DWARF: %v", err)
+	}
+
+	badcount := 0
+	for i, die := range ex.dies {
+		switch die.Tag {
+		case dwarf.TagVariable, dwarf.TagConstant:
+			ex.dumpEntry(i, false, 0)
+			t.Errorf("unexpected tag %s found with -dwarfonlyline", die.Tag)
+			badcount++
+		}
+		if die.Val(dwarf.AttrFrameBase) != nil ||
+			die.Val(dwarf.AttrLocation) != nil {
+			ex.dumpEntry(i, false, 0)
+			t.Errorf("unexpected tag %s found with -dwarfonlyline", die.Tag)
+			badcount++
+		}
+		if badcount > 10 {
+			break
 		}
 	}
 }
