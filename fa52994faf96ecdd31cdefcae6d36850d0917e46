@@ -33,6 +33,24 @@
       "message": "Should the removed conditions be changed to t.IsInteger() instead?",
       "revId": "fa52994faf96ecdd31cdefcae6d36850d0917e46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d516a47d_50aa38cd",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-07T18:05:42Z",
+      "side": 1,
+      "message": "Any reason to restrict it to integer only? Other archs just make the different rules for \"float\" vs \"non-float\".\n\nAlso, do you mean val.Type.IsInteger()?",
+      "parentUuid": "41ad1fa3_9461714a",
+      "revId": "fa52994faf96ecdd31cdefcae6d36850d0917e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
