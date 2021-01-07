@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aebf19c4_6952401e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-07T17:33:16Z",
+      "side": 1,
+      "message": "Even easier and in some ways better would be to run, at the start of run.go, \"go tool -n compile\", and then invoke that program instead of \"go tool compile\" throughout.  But that can be for later.",
+      "revId": "8ebe1355f6a6744d1d87ca30790db5ecd7fbd06a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
