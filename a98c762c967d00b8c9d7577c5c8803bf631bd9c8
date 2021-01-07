@@ -69,6 +69,23 @@
       "parentUuid": "6f549b54_5bd97d17",
       "revId": "a98c762c967d00b8c9d7577c5c8803bf631bd9c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "143a4e7f_12681543",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-01-07T10:06:35Z",
+      "side": 1,
+      "message": "Gerrit is not the place to have this discussion. I\u0027d encourage you to raise an issue on the tracker, detailing the problem before you propose a solution.\n\nUntil we\u0027ve agreed on a solution, looking at code isn\u0027t going to help. Adding a -2 until a discussion happens.\n\nFor the record, I don\u0027t think https://github.com/golang/go/issues/29228 counts - its scope is much narrower, and it does not talk about adding new features. This idea is quite different from that original issue, so I think it deserves a separate issue.",
+      "revId": "a98c762c967d00b8c9d7577c5c8803bf631bd9c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
