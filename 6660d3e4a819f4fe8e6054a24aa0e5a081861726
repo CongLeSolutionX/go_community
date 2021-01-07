@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a423628_9e69105e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-07T06:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d1cae2a_b819c9e9",
+      "revId": "6660d3e4a819f4fe8e6054a24aa0e5a081861726",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5da8ca98_a1c31f83",
@@ -84,6 +102,30 @@
       "writtenOn": "2021-01-06T15:13:42Z",
       "side": 1,
       "message": "This part of the check should not be needed: `encode` should not be called on an invalid reflect.Value in the first place.",
+      "range": {
+        "startLine": 780,
+        "startChar": 14,
+        "endLine": 780,
+        "endChar": 46
+      },
+      "revId": "6660d3e4a819f4fe8e6054a24aa0e5a081861726",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "944cb9b2_0e66f6cf",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-07T06:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5da8ca98_a1c31f83",
       "range": {
         "startLine": 780,
         "startChar": 14,
