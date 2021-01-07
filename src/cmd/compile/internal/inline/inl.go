@@ -265,7 +265,11 @@ var errBudget = errors.New("too expensive")
 func (v *hairyVisitor) tooHairy(fn *ir.Func) bool {
 	v.do = v.doNode // cache closure
 
-	err := errChildren(fn, v.do)
+	var err error
+	ir.DoChildren(fn, func(x ir.Node) bool {
+		err = v.do(x)
+		return err != nil
+	})
 	if err != nil {
 		v.reason = err.Error()
 		return true
@@ -431,7 +435,12 @@ func (v *hairyVisitor) doNode(n ir.Node) error {
 		return errBudget
 	}
 
-	return errChildren(n, v.do)
+	var err error
+	ir.DoChildren(n, func(x ir.Node) bool {
+		err = v.do(x)
+		return err != nil
+	})
+	return err
 }
 
 func isBigFunc(fn *ir.Func) bool {
@@ -1191,14 +1200,6 @@ func numNonClosures(list []*ir.Func) int {
 	return count
 }
 
-// TODO(mdempsky): Update inl.go to use ir.DoChildren directly.
-func errChildren(n ir.Node, do func(ir.Node) error) (err error) {
-	ir.DoChildren(n, func(x ir.Node) bool {
-		err = do(x)
-		return err != nil
-	})
-	return
-}
 func errList(list []ir.Node, do func(ir.Node) error) error {
 	for _, x := range list {
 		if x != nil {
