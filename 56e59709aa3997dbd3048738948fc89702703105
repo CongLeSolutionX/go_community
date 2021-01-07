@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56b14e86_98358b15",
+        "filename": "src/go/types/stmt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-07T20:49:38Z",
+      "side": 1,
+      "message": "A soft error is an error that the compiler can \"fix\" itself (were it allowed to).\n\nFor instance, if there\u0027s more range variables than permitted, removing the superfluous one will make the error go away (other code may break though, but that\u0027s ok).\n\nThe above \"definition\" leaves room for interpretation which is why sometimes the view of an error changes.\n\nAs discussed in person, the distinction between hard and soft seems to cause more problems than solve, so maybe we should get rid of it at some point.",
+      "range": {
+        "startLine": 772,
+        "startChar": 30,
+        "endLine": 772,
+        "endChar": 35
+      },
+      "revId": "56e59709aa3997dbd3048738948fc89702703105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
