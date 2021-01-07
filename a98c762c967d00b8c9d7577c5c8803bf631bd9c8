@@ -33,6 +33,42 @@
       "message": "I\u0027d prefer this not be submitted for the reasons in https://github.com/golang/go/issues/29228#issuecomment-755332642.",
       "revId": "a98c762c967d00b8c9d7577c5c8803bf631bd9c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "963d058f_96f13377",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49593
+      },
+      "writtenOn": "2021-01-07T00:52:55Z",
+      "side": 1,
+      "message": "The main module does have a version. It can represent a source build or your release pipeline tag or something else, but it does have a version.\nThis change affects directly calling \"go build\" only, so \"go install pkg@version\" sets the correct module version. If a dependency itself depends on another version of the main module it would appear as a dependency in the build info, like any module that was included more than once.\n\nI\u0027ll add tests for \"go install\" cases and explain it on the PR later today.\nAnd a test for the transient dependency of the main module as soon as I manage to understand the test tooling enough to know how 😜\n\nI named the flag \"modversion\" since it works only for modules, but maybe \"target_module_version\"/\"main_module_version\"\n\n\u003e It may also be misleading if a binary appears to be built from a published version (authenticated by the sumdb) but was actually built from a local checkout with modifications.\n\nI agree it would be misleading to have a sum that doesn\u0027t necessarily match anything in sumdb, that is why I\u0027m proposing setting just the version, not the sum.  \nBesides, local build values can always be changed by whoever is building them. I can add `-modversion` to my local Makefile much like I can add `-ldflags\u003d\"-X main.version\u003d${version}\"`, builds from a local checkout can be anything.",
+      "parentUuid": "b6f1a084_d7f44b0f",
+      "revId": "a98c762c967d00b8c9d7577c5c8803bf631bd9c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d0c06c_19367d90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49593
+      },
+      "writtenOn": "2021-01-07T00:52:55Z",
+      "side": 1,
+      "message": "I wouldn\u0027t say easily. small !\u003d easy\n\nHow long it takes anyone researching this for the first time this to reach the point \"I need to use a linker flag inside a go build flag to change a variable during my build and uses as a constant in the code\"?\n\nPersonally, having done it multiple times, I know how/what is happening and so I can just copy\u0026paste this boilerplate on every project that I need to include the version anywhere. Changing linker flags is something very advanced, but it is required for a use case that is quite common.",
+      "parentUuid": "6f549b54_5bd97d17",
+      "revId": "a98c762c967d00b8c9d7577c5c8803bf631bd9c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
