@@ -402,6 +402,34 @@ func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) 
 	dwarf.PutIntConst(dwCtxt{ctxt}, s, ctxt.Lookup(dwarf.InfoPrefix+typename), myimportpath+"."+name, val)
 }
 
+// DwarfGlobal creates a link symbol containing a DWARF entry for
+// a global variable.
+func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym, trace bool) {
+	if myimportpath == "" || varSym.Local() {
+		return
+	}
+	var varname string
+	if varSym.Pkg == "_" {
+		// The frontend uses package "_" to mark symbols that should not
+		// be referenced by index, e.g. linkname'd symbols.
+		varname = varSym.Name
+	} else {
+		varname = objabi.PathToPrefix(myimportpath) + "." + varSym.Name[len(`"".`):]
+	}
+	dieSymName := dwarf.InfoPrefix + varname
+	dieSym := ctxt.LookupInit(dieSymName, func(s *LSym) {
+		s.Type = objabi.SDWARFVAR
+		s.Set(AttrDuplicateOK, true) // needed for shared linkage
+		ctxt.Data = append(ctxt.Data, s)
+	})
+	typeSym := ctxt.Lookup(dwarf.InfoPrefix + typename)
+	dwarf.PutGlobal(dwCtxt{ctxt}, dieSym, typeSym, varSym, varname)
+	if trace {
+		ctxt.Logf("DwarfGlobal(cu=%s,rawname=%s,name=%s,diename=%s)\n", myimportpath, varSym.Name, varname, dieSymName)
+	}
+
+}
+
 func (ctxt *Link) DwarfAbstractFunc(curfn interface{}, s *LSym, myimportpath string) {
 	absfn := ctxt.DwFixups.AbsFuncDwarfSym(s)
 	if absfn.Size != 0 {

@@ -1021,13 +1021,32 @@ func (d *dwctxt) synthesizechantypes(ctxt *Link, die *dwarf.DWDie) {
 }
 
 func (d *dwctxt) dwarfDefineGlobal(ctxt *Link, symIdx loader.Sym, str string, v int64, gotype loader.Sym) {
+	unit := d.ldr.SymUnit(symIdx)
+	if !*flagDoDwGlob {
+		// Find compiler-generated DWARF info sym for global in question,
+		// and tack it onto the appropriate unit.  Note that there are
+		// circumstances under which we can't find the compiler-generated
+		// symbol-- this typically happens as a result of compiler options
+		// (e.g. compile package X with "-dwarf=0").
+
+		// FIXME: use an aux sym or a relocation here instead of a
+		// name lookup.
+		varDIE := d.ldr.Lookup(dwarf.InfoPrefix+str, 0)
+		if varDIE != 0 {
+			d.defgotype(gotype)
+			unit.VarDIEs = append(unit.VarDIEs, sym.LoaderSym(varDIE))
+		}
+		return
+	}
 	// Find a suitable CU DIE to include the global.
 	// One would think it's as simple as just looking at the unit, but that might
 	// not have any reachable code. So, we go to the runtime's CU if our unit
 	// isn't otherwise reachable.
-	unit := d.ldr.SymUnit(symIdx)
 	if unit == nil {
 		unit = ctxt.runtimeCU
+	}
+	if *flagDumpDwGlob {
+		d.Logf("DwarfGlobal(cu=%s,name=%s)\n", unit.Lib, str)
 	}
 	ver := d.ldr.SymVersion(symIdx)
 	dv := d.newdie(unit.DWInfo, dwarf.DW_ABRV_VARIABLE, str, int(ver))
@@ -1552,7 +1571,7 @@ func appendSyms(syms []loader.Sym, src []sym.LoaderSym) []loader.Sym {
 
 func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym loader.Sym, infoEpilog loader.Sym) []loader.Sym {
 	syms := []loader.Sym{}
-	if len(u.Textp) == 0 && u.DWInfo.Child == nil {
+	if len(u.Textp) == 0 && u.DWInfo.Child == nil && len(u.VarDIEs) == 0 {
 		return syms
 	}
 
@@ -1583,6 +1602,7 @@ func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym loader.Sym, inf
 	if u.Consts != 0 {
 		cu = append(cu, loader.Sym(u.Consts))
 	}
+	cu = appendSyms(cu, u.VarDIEs)
 	var cusize int64
 	for _, child := range cu {
 		cusize += int64(len(d.ldr.Data(child)))
