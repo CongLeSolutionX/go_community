@@ -27,7 +27,6 @@
 package inline
 
 import (
-	"errors"
 	"fmt"
 	"go/constant"
 	"strings"
@@ -257,17 +256,12 @@ type hairyVisitor struct {
 	reason        string
 	extraCallCost int32
 	usedLocals    map[*ir.Name]bool
-	do            func(ir.Node) error
+	do            func(ir.Node) bool
 }
-
-var errBudget = errors.New("too expensive")
 
 func (v *hairyVisitor) tooHairy(fn *ir.Func) bool {
 	v.do = v.doNode // cache closure
-
-	err := errChildren(fn, v.do)
-	if err != nil {
-		v.reason = err.Error()
+	if ir.DoChildren(fn, v.do) {
 		return true
 	}
 	if v.budget < 0 {
@@ -277,11 +271,10 @@ func (v *hairyVisitor) tooHairy(fn *ir.Func) bool {
 	return false
 }
 
-func (v *hairyVisitor) doNode(n ir.Node) error {
+func (v *hairyVisitor) doNode(n ir.Node) bool {
 	if n == nil {
-		return nil
+		return false
 	}
-
 	switch n.Op() {
 	// Call is okay if inlinable and we have the budget for the body.
 	case ir.OCALLFUNC:
@@ -295,7 +288,8 @@ func (v *hairyVisitor) doNode(n ir.Node) error {
 			if name.Class == ir.PFUNC && types.IsRuntimePkg(name.Sym().Pkg) {
 				fn := name.Sym().Name
 				if fn == "getcallerpc" || fn == "getcallersp" {
-					return errors.New("call to " + fn)
+					v.reason = "call to " + fn
+					return true
 				}
 				if fn == "throw" {
 					v.budget -= inlineExtraThrowCost
@@ -351,7 +345,8 @@ func (v *hairyVisitor) doNode(n ir.Node) error {
 	case ir.ORECOVER:
 		// recover matches the argument frame pointer to find
 		// the right panic value, so it needs an argument frame.
-		return errors.New("call to recover")
+		v.reason = "call to recover"
+		return true
 
 	case ir.OCLOSURE,
 		ir.ORANGE,
@@ -360,24 +355,27 @@ func (v *hairyVisitor) doNode(n ir.Node) error {
 		ir.ODEFER,
 		ir.ODCLTYPE, // can't print yet
 		ir.ORETJMP:
-		return errors.New("unhandled op " + n.Op().String())
+		v.reason = "unhandled op " + n.Op().String()
+		return true
 
 	case ir.OAPPEND:
 		v.budget -= inlineExtraAppendCost
 
 	case ir.ODCLCONST, ir.OFALL:
 		// These nodes don't produce code; omit from inlining budget.
-		return nil
+		return false
 
 	case ir.OFOR, ir.OFORUNTIL:
 		n := n.(*ir.ForStmt)
 		if n.Label != nil {
-			return errors.New("labeled control")
+			v.reason = "labeled control"
+			return true
 		}
 	case ir.OSWITCH:
 		n := n.(*ir.SwitchStmt)
 		if n.Label != nil {
-			return errors.New("labeled control")
+			v.reason = "labeled control"
+			return true
 		}
 	// case ir.ORANGE, ir.OSELECT in "unhandled" above
 
@@ -393,16 +391,9 @@ func (v *hairyVisitor) doNode(n ir.Node) error {
 		if ir.IsConst(n.Cond, constant.Bool) {
 			// This if and the condition cost nothing.
 			// TODO(rsc): It seems strange that we visit the dead branch.
-			if err := errList(n.Init(), v.do); err != nil {
-				return err
-			}
-			if err := errList(n.Body, v.do); err != nil {
-				return err
-			}
-			if err := errList(n.Else, v.do); err != nil {
-				return err
-			}
-			return nil
+			return doList(n.Init(), v.do) ||
+				doList(n.Body, v.do) ||
+				doList(n.Else, v.do)
 		}
 
 	case ir.ONAME:
@@ -428,10 +419,11 @@ func (v *hairyVisitor) doNode(n ir.Node) error {
 
 	// When debugging, don't stop early, to get full cost of inlining this function
 	if v.budget < 0 && base.Flag.LowerM < 2 && !logopt.Enabled() {
-		return errBudget
+		v.reason = "too expensive"
+		return true
 	}
 
-	return errChildren(n, v.do)
+	return ir.DoChildren(n, v.do)
 }
 
 func isBigFunc(fn *ir.Func) bool {
@@ -1191,21 +1183,13 @@ func numNonClosures(list []*ir.Func) int {
 	return count
 }
 
-// TODO(mdempsky): Update inl.go to use ir.DoChildren directly.
-func errChildren(n ir.Node, do func(ir.Node) error) (err error) {
-	ir.DoChildren(n, func(x ir.Node) bool {
-		err = do(x)
-		return err != nil
-	})
-	return
-}
-func errList(list []ir.Node, do func(ir.Node) error) error {
+func doList(list []ir.Node, do func(ir.Node) bool) bool {
 	for _, x := range list {
 		if x != nil {
-			if err := do(x); err != nil {
-				return err
+			if do(x) {
+				return true
 			}
 		}
 	}
-	return nil
+	return false
 }
