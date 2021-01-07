@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ca6830f_a24bad60",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-07T21:25:37Z",
+      "side": 1,
+      "message": "Thanks. Is this specific to ppc64 only? I don\u0027t see other arch do alignment check.",
+      "parentUuid": "ceca7921_25d62d90",
+      "revId": "fa52994faf96ecdd31cdefcae6d36850d0917e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41ad1fa3_9461714a",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 1
