@@ -165,6 +165,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9d8b7f6_acb66df9",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-07T00:12:39Z",
+      "side": 1,
+      "message": "The issue is caches: Having this table in the caches doesn\u0027t allow more important data to be there and vice versa. A full memory access is really slow relatively speaking because today\u0027s CPU\u0027s are so fast.\n\nBut I wouldn\u0027t spend any time on this at this point. My comment was just an aside.\n\nRelated: I\u0027ve not exported syntax.Token exactly because I wanted to avoid such translation questions. A handful of tokens are now exposed. It may be better to do the translation inside the syntax package and have a dedicated enumeration for these cases, which all start at 0. Then client code doesn\u0027t have to worry about the values and a short table is all it takes.",
+      "parentUuid": "9d23653e_26109707",
+      "revId": "4c45b7b72df58b011a17bd69d9026273665d591f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "362ebdaa_b02329b9",
