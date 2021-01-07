@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc42a63e_3b80baba",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-07T22:19:26Z",
+      "side": 1,
+      "message": "Does this always work? I tried it while investigating #43572 but it appeared not to add the needed checksum:\n\n$ go mod download golang.org/x/exp\n\n$ go test gonum.org/v1/gonum/graph/topo\n# gonum.org/v1/gonum/graph/topo\n.gopath/pkg/mod/gonum.org/v1/gonum@v0.8.2/graph/graphs/gen/batagelj_brandes.go:14:2: missing go.sum entry for module providing package golang.org/x/exp/rand\nFAIL    gonum.org/v1/gonum/graph/topo [setup failed]\nFAIL",
+      "revId": "112f94c7895202ec536177c2279ae18e9b2f272f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf09334f_d910ea39",
         "filename": "src/cmd/go/internal/modload/import.go",
         "patchSetId": 2
