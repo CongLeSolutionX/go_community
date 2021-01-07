@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee3aa52d_c612dc4d",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-07T00:02:15Z",
+      "side": 1,
+      "message": "I\u0027ve often wondered if we could simply disallow defined types to be pointer types. For one, *T is clearer than P (where type P *T), and it may also simplify some spec rules that explicitly call out named pointer types.",
+      "revId": "fed62d9783898438ad6a5b98af6251c6779818ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
