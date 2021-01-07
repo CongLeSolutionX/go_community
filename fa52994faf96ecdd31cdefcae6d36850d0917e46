@@ -104,6 +104,24 @@
       "parentUuid": "d516a47d_50aa38cd",
       "revId": "fa52994faf96ecdd31cdefcae6d36850d0917e46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10ac8b09_02b386c1",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-07T21:38:19Z",
+      "side": 1,
+      "message": "See Lynn\u0027s comment above. David\u0027s patch is technically the same as this patch.",
+      "parentUuid": "9ec40f0a_5797f6f8",
+      "revId": "fa52994faf96ecdd31cdefcae6d36850d0917e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
