@@ -133,9 +133,9 @@ func (e *AmbiguousImportError) Error() string {
 // if a module in the build list contains a package, but we don't have a sum
 // for its .zip file.
 type ImportMissingSumError struct {
-	importPath   string
-	modPaths     []string
-	found, inAll bool
+	importPath         string
+	modPaths           []string
+	found, inBuildList bool
 }
 
 func (e *ImportMissingSumError) Error() string {
@@ -145,7 +145,7 @@ func (e *ImportMissingSumError) Error() string {
 	} else {
 		message = fmt.Sprintf("missing go.sum entry for module providing package %s", e.importPath)
 	}
-	if e.inAll {
+	if e.inBuildList {
 		return message + fmt.Sprintf("; to add it:\n\tgo mod download %s", strings.Join(e.modPaths, " "))
 	}
 	return message
@@ -276,7 +276,12 @@ func importFromBuildList(ctx context.Context, path string, buildList []module.Ve
 		return module.Version{}, "", &AmbiguousImportError{importPath: path, Dirs: dirs, Modules: mods}
 	}
 	if len(sumErrModPaths) > 0 {
-		return module.Version{}, "", &ImportMissingSumError{importPath: path, modPaths: sumErrModPaths, found: len(mods) > 0}
+		return module.Version{}, "", &ImportMissingSumError{
+			importPath:  path,
+			modPaths:    sumErrModPaths,
+			inBuildList: true,
+			found:       len(mods) > 0,
+		}
 	}
 	if len(mods) == 1 {
 		return mods[0], dirs[0], nil
