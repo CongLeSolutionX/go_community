@@ -88,6 +88,24 @@
       "parentUuid": "38cacf4c_97df4e32",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cb03c5f_a4721c49",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-01-08T18:48:14Z",
+      "side": 1,
+      "message": "In ppc64/ssa.go where MOVDstore is processed, val is a register value and a call is made to AddAux to determine the constant offset that needs to be encoded in the store instruction based on the location of the target. This constant offset must be a multiple of 4 or the assembler will fail. I\u0027m not seeing how the alignment of val\u0027s data has any effect but checking it probably doesn\u0027t hurt because most likely they are always the same?",
+      "parentUuid": "b50d97c7_1bf5450a",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
