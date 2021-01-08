@@ -51,6 +51,24 @@
       "parentUuid": "cbbd83f7_31519cda",
       "revId": "aed5e690cc13357420646c49e7444f26f491630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4bfac8b_67bed53d",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-08T23:01:08Z",
+      "side": 1,
+      "message": "\u003e FWIW, we already have the loadPkg.stack field — does that suffice?\n\nI think that would work.\n\n\u003e We don\u0027t want to respond to a single-argument `go test` command with a gigantic N-argument `go mod download` suggestion, or (even worse!) a sequence of N `go mod download` suggestions.\n\nWe\u0027ll have to attach one of these errors to each package that can\u0027t be imported due to a missing sum... but maybe we can aggregate them in load.CheckPackageErrors and just report one error?",
+      "parentUuid": "09a12753_723c7fe3",
+      "revId": "aed5e690cc13357420646c49e7444f26f491630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
