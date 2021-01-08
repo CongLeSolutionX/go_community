@@ -16,6 +16,23 @@
       "message": "TRY\u003dlinux-amd64-longtest",
       "revId": "aed5e690cc13357420646c49e7444f26f491630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbbd83f7_31519cda",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-08T20:37:39Z",
+      "side": 1,
+      "message": "Per a conversation with bcmills: we should recommend \u0027go get -d\u0027 instead of \u0027go mod download\u0027.\n\nIn order to avoid adding require requirements to go.mod, we should list the command-line argument that caused this import. Or at least a package directly matched by a command-line argument. load.PackagePublic.Match is similar; we might need that in loadPkg.\n\nWe should include the -t flag if LoadTests is true.",
+      "revId": "aed5e690cc13357420646c49e7444f26f491630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
