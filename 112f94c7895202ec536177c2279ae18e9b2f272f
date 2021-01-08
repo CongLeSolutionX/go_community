@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da52ae3d_e50387bd",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-08T18:58:28Z",
+      "side": 1,
+      "message": "Looks like \u0027go mod download\u0027 and other commands only retained sums for directly required modules. CL 282692 should fix that.",
+      "parentUuid": "fc42a63e_3b80baba",
+      "revId": "112f94c7895202ec536177c2279ae18e9b2f272f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf09334f_d910ea39",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5a1701f_1fc0c46e",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-08T18:58:28Z",
+      "side": 1,
+      "message": "Done for the case when multiple modules could provide a single import.\n\nIf you mean providing a single command to fix missing sums for all imports, that would be harder to do. Leaving that out for now.",
+      "parentUuid": "bf09334f_d910ea39",
+      "range": {
+        "startLine": 254,
+        "startChar": 24,
+        "endLine": 255,
+        "endChar": 26
+      },
+      "revId": "112f94c7895202ec536177c2279ae18e9b2f272f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d5400fd_58460642",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-01-07T21:00:32Z",
       "side": 1,
       "message": "This is a case where the `-d` may actually be important. (If m/use-indirect is a `package main`, this `go get` command will install the binary.)\n\nUnlike many of the other commands we\u0027re listing, the package passed to `go get` here is the importer (rather than the package being imported) We should either suggest `-d` uniformly in this case, or at least check whether the package in question is a `package main`.\n\nOr, I suppose we could suggest `go get indirect-with-pkg@v1.0.0` instead.",
+      "range": {
+        "startLine": 9,
+        "startChar": 134,
+        "endLine": 9,
+        "endChar": 155
+      },
+      "revId": "112f94c7895202ec536177c2279ae18e9b2f272f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb599e75_fc85510f",
+        "filename": "src/cmd/go/testdata/script/mod_get_promote_implicit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-08T18:58:28Z",
+      "side": 1,
+      "message": "Changed to `go get indirect-with-pkg@v1.0.0`.\n\nThat adds an \"// indirect\" comment which is unfortunate, but I think the simplicity outweighs that.",
+      "parentUuid": "5d5400fd_58460642",
       "range": {
         "startLine": 9,
         "startChar": 134,
