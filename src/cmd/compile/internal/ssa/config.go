@@ -5,6 +5,7 @@
 package ssa
 
 import (
+	"cmd/compile/internal/abi"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
@@ -31,21 +32,23 @@ type Config struct {
 	specialRegMask regMask       // special register mask
 	iParamRegs     []int8        // register numbers of integer param (in/out) registers
 	fParamRegs     []int8        // register numbers of floating param (in/out) registers
-	GCRegMap       []*Register   // garbage collector register map, by GC register index
-	FPReg          int8          // register number of frame pointer, -1 if not used
-	LinkReg        int8          // register number of link register if it is a general purpose register, -1 if not used
-	hasGReg        bool          // has hardware g register
-	ctxt           *obj.Link     // Generic arch information
-	optimize       bool          // Do optimization
-	noDuffDevice   bool          // Don't use Duff's device
-	useSSE         bool          // Use SSE for non-float operations
-	useAvg         bool          // Use optimizations that need Avg* operations
-	useHmul        bool          // Use optimizations that need Hmul* operations
-	SoftFloat      bool          //
-	Race           bool          // race detector enabled
-	NeedsFpScratch bool          // No direct move between GP and FP register sets
-	BigEndian      bool          //
-	UseFMA         bool          // Use hardware FMA operation
+	abi1           abi.ABIConfig
+	abi0           abi.ABIConfig
+	GCRegMap       []*Register // garbage collector register map, by GC register index
+	FPReg          int8        // register number of frame pointer, -1 if not used
+	LinkReg        int8        // register number of link register if it is a general purpose register, -1 if not used
+	hasGReg        bool        // has hardware g register
+	ctxt           *obj.Link   // Generic arch information
+	optimize       bool        // Do optimization
+	noDuffDevice   bool        // Don't use Duff's device
+	useSSE         bool        // Use SSE for non-float operations
+	useAvg         bool        // Use optimizations that need Avg* operations
+	useHmul        bool        // Use optimizations that need Hmul* operations
+	SoftFloat      bool        //
+	Race           bool        // race detector enabled
+	NeedsFpScratch bool        // No direct move between GP and FP register sets
+	BigEndian      bool        //
+	UseFMA         bool        // Use hardware FMA operation
 }
 
 type (
@@ -336,6 +339,9 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 	c.optimize = optimize
 	c.useSSE = true
 	c.UseFMA = true
+
+	c.abi0 = abi.NewABIConfig(0, 0)
+	c.abi1 = abi.NewABIConfig(len(c.iParamRegs), len(c.fParamRegs))
 
 	// On Plan 9, floating point operations are not allowed in note handler.
 	if objabi.GOOS == "plan9" {

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gc
+package abi
 
 import (
 	"cmd/compile/internal/types"
@@ -29,6 +29,34 @@ type ABIParamResultInfo struct {
 	floatSpillSlots   int
 	offsetToSpillArea int64
 	config            ABIConfig // to enable String() method
+}
+
+func (a *ABIParamResultInfo) InParams() []ABIParamAssignment {
+	return a.inparams
+}
+
+func (a *ABIParamResultInfo) OutParams() []ABIParamAssignment {
+	return a.outparams
+}
+
+func (a *ABIParamResultInfo) InParam(i int) ABIParamAssignment {
+	return a.inparams[i]
+}
+
+func (a *ABIParamResultInfo) OutParam(i int) ABIParamAssignment {
+	return a.outparams[i]
+}
+
+func (a *ABIParamResultInfo) IntSpillCount() int {
+	return a.intSpillSlots
+}
+
+func (a *ABIParamResultInfo) FloatSpillCount() int {
+	return a.floatSpillSlots
+}
+
+func (a *ABIParamResultInfo) SpillAreaOffset() int64 {
+	return a.offsetToSpillArea
 }
 
 // RegIndex stores the index into the set of machine registers used by
@@ -64,6 +92,12 @@ type RegAmounts struct {
 type ABIConfig struct {
 	// Do we need anything more than this?
 	regAmounts RegAmounts
+}
+
+// NewABIConfig returns a new ABI configuration for an architecture with
+// iRegsCount integer/pointer registers and fRegsCount floating point registers.
+func NewABIConfig(iRegsCount, fRegsCount int) ABIConfig {
+	return ABIConfig{RegAmounts{iRegsCount, fRegsCount}}
 }
 
 // ABIAnalyze takes a function type 't' and an ABI rules description
