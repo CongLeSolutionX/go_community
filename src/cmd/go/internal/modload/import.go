@@ -130,12 +130,18 @@ func (e *AmbiguousImportError) Error() string {
 }
 
 // ImportMissingSumError is reported in readonly mode when we need to check
-// if a module in the build list contains a package, but we don't have a sum
-// for its .zip file.
+// if a module contains a package, but we don't have a sum for its .zip file.
+// We might need sums for multiple modules to verify the package is unique.
+//
+// TODO(#43653): consolidate multiple errors of this type into a single error
+// that suggests a 'go get' command for root packages that transtively import
+// packages from modules with missing sums. load.CheckPackageErrors would be
+// a good place to consolidate errors, but we'll need to attach the import
+// stack here.
 type ImportMissingSumError struct {
-	importPath   string
-	modPaths     []string
-	found, inAll bool
+	importPath         string
+	mods               []module.Version
+	found, inBuildList bool
 }
 
 func (e *ImportMissingSumError) Error() string {
@@ -145,10 +151,25 @@ func (e *ImportMissingSumError) Error() string {
 	} else {
 		message = fmt.Sprintf("missing go.sum entry for module providing package %s", e.importPath)
 	}
-	if e.inAll {
-		return message + fmt.Sprintf("; to add it:\n\tgo mod download %s", strings.Join(e.modPaths, " "))
+	var hint string
+	if e.inBuildList {
+		if !e.found && len(e.mods) == 1 {
+			// Common case: package could only be provided by one module.
+			// Print a 'go get' command for the package at that version, since that's
+			// what most people will expect.
+			hint = fmt.Sprintf("; to add:\n\tgo get %s@%s", e.importPath, e.mods[0].Version)
+		} else if len(e.mods) >= 1 {
+			// Less common case: package might be in multiple modules.
+			// It's hard to come up with a 'go get' command that won't change go.mod.
+			// Print 'go mod download' with each candidate module instead.
+			modPaths := make([]string, len(e.mods))
+			for i, mod := range e.mods {
+				modPaths[i] = mod.Path
+			}
+			hint = fmt.Sprintf("; to add:\n\tgo mod download %s", strings.Join(modPaths, " "))
+		}
 	}
-	return message
+	return message + hint
 }
 
 func (e *ImportMissingSumError) ImportPath() string {
@@ -239,7 +260,7 @@ func importFromBuildList(ctx context.Context, path string, buildList []module.Ve
 	// Check each module on the build list.
 	var dirs []string
 	var mods []module.Version
-	var sumErrModPaths []string
+	var sumErrMods []module.Version
 	for _, m := range buildList {
 		if !maybeInModule(path, m.Path) {
 			// Avoid possibly downloading irrelevant modules.
@@ -254,7 +275,7 @@ func importFromBuildList(ctx context.Context, path string, buildList []module.Ve
 				// the package at all. Keep checking other modules to decide which
 				// error to report. Multiple sums may be missing if we need to look in
 				// multiple nested modules to resolve the import; we'll report them all.
-				sumErrModPaths = append(sumErrModPaths, m.Path)
+				sumErrMods = append(sumErrMods, m)
 				continue
 			}
 			// Report fetch error.
@@ -275,8 +296,13 @@ func importFromBuildList(ctx context.Context, path string, buildList []module.Ve
 	if len(mods) > 1 {
 		return module.Version{}, "", &AmbiguousImportError{importPath: path, Dirs: dirs, Modules: mods}
 	}
-	if len(sumErrModPaths) > 0 {
-		return module.Version{}, "", &ImportMissingSumError{importPath: path, modPaths: sumErrModPaths, found: len(mods) > 0}
+	if len(sumErrMods) > 0 {
+		return module.Version{}, "", &ImportMissingSumError{
+			importPath:  path,
+			mods:        sumErrMods,
+			inBuildList: true,
+			found:       len(mods) > 0,
+		}
 	}
 	if len(mods) == 1 {
 		return mods[0], dirs[0], nil
