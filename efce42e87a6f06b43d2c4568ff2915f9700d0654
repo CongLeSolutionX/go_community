@@ -16,6 +16,24 @@
       "message": "Should this be submitted?",
       "revId": "efce42e87a6f06b43d2c4568ff2915f9700d0654",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6546a125_833060d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-08T22:22:57Z",
+      "side": 1,
+      "message": "I thought we had discussed holding this until 1.17, since the beta has passed and this bug has existed for a while.\n\nShould we reconsider?",
+      "parentUuid": "e5082ac3_e73424a1",
+      "revId": "efce42e87a6f06b43d2c4568ff2915f9700d0654",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
