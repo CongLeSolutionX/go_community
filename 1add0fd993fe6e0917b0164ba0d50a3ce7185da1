@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9657a0fe_84aeafbb",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-08T07:04:00Z",
+      "side": 1,
+      "message": "I think we can omit this, base on Lynn\u0027s comment, we only need to check for alignment.",
+      "range": {
+        "startLine": 582,
+        "startChar": 44,
+        "endLine": 582,
+        "endChar": 67
+      },
+      "revId": "1add0fd993fe6e0917b0164ba0d50a3ce7185da1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1b85589_6279ea49",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-08T07:04:00Z",
+      "side": 1,
+      "message": "Seems that we can remove all these conditions.",
+      "range": {
+        "startLine": 583,
+        "startChar": 41,
+        "endLine": 583,
+        "endChar": 98
+      },
+      "revId": "1add0fd993fe6e0917b0164ba0d50a3ce7185da1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
