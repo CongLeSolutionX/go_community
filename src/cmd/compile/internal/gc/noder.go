@@ -141,7 +141,6 @@ type noder struct {
 	err            chan syntax.Error
 	scope          ScopeID
 	importedUnsafe bool
-	importedEmbed  bool
 
 	// scopeVars is a stack tracking the number of variables declared in the
 	// current function at the moment each open scope was opened.
@@ -244,7 +243,6 @@ type linkname struct {
 func (p *noder) node() {
 	types.Block = 1
 	p.importedUnsafe = false
-	p.importedEmbed = false
 
 	p.setlineno(p.file.PkgName)
 	mkpackage(p.file.PkgName.Value)
@@ -342,9 +340,6 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	if ipkg == unsafepkg {
 		p.importedUnsafe = true
 	}
-	if ipkg.Path == "embed" {
-		p.importedEmbed = true
-	}
 
 	ipkg.Direct = true
 
@@ -388,17 +383,7 @@ func (p *noder) varDecl(decl *syntax.VarDecl) []*Node {
 
 	if pragma, ok := decl.Pragma.(*Pragma); ok {
 		if len(pragma.Embeds) > 0 {
-			if !p.importedEmbed {
-				// This check can't be done when building the list pragma.Embeds
-				// because that list is created before the noder starts walking over the file,
-				// so at that point it hasn't seen the imports.
-				// We're left to check now, just before applying the //go:embed lines.
-				for _, e := range pragma.Embeds {
-					p.yyerrorpos(e.Pos, "//go:embed only allowed in Go files that import \"embed\"")
-				}
-			} else {
-				varEmbed(p, names, typ, exprs, pragma.Embeds)
-			}
+			varEmbed(p, names, typ, exprs, pragma.Embeds)
 			pragma.Embeds = nil
 		}
 		p.checkUnused(pragma)
