@@ -5,7 +5,6 @@
 package gc
 
 import (
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"encoding/json"
@@ -13,7 +12,6 @@ import (
 	"log"
 	"path"
 	"sort"
-	"strconv"
 	"strings"
 )
 
@@ -48,25 +46,7 @@ const (
 )
 
 func varEmbed(p *noder, names []*Node, typ *Node, exprs []*Node, embeds []PragmaEmbed) {
-	haveEmbed := false
-	for _, decl := range p.file.DeclList {
-		imp, ok := decl.(*syntax.ImportDecl)
-		if !ok {
-			// imports always come first
-			break
-		}
-		path, _ := strconv.Unquote(imp.Path.Value)
-		if path == "embed" {
-			haveEmbed = true
-			break
-		}
-	}
-
 	pos := embeds[0].Pos
-	if !haveEmbed {
-		p.yyerrorpos(pos, "invalid go:embed: missing import \"embed\"")
-		return
-	}
 	if embedCfg.Patterns == nil {
 		p.yyerrorpos(pos, "invalid go:embed: build system did not supply embed configuration")
 		return

@@ -15,9 +15,6 @@ import (
 //go:embed c*.txt testdata/g*.txt
 var global embed.FS
 
-//go:embed c*txt
-var concurrency string
-
 //go:embed testdata/g*.txt
 var glass []byte
 

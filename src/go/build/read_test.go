@@ -276,12 +276,12 @@ var readEmbedTests = []struct {
 		[]string{"pointer"},
 	},
 	{
-		"package p\n//go:embed x y z\n", // no import, no scan
+		"package p\n//go:embed x y z\n", // ignores comment before end of imports
 		nil,
 	},
 	{
-		"package p\n//go:embed x y z\nvar files embed.FS", // no import, no scan
-		nil,
+		"package p\n//go:embed x y z\nvar files embed.FS", // no import, still scans
+		[]string{"x", "y", "z"},
 	},
 }
 

@@ -388,7 +388,6 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 		return nil
 	}
 
-	hasEmbed := false
 	for _, decl := range info.parsed.Decls {
 		d, ok := decl.(*ast.GenDecl)
 		if !ok {
@@ -404,9 +403,6 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 			if err != nil {
 				return fmt.Errorf("parser returned invalid quoted string: <%s>", quoted)
 			}
-			if path == "embed" {
-				hasEmbed = true
-			}
 
 			doc := spec.Doc
 			if doc == nil && len(d.Specs) == 1 {
@@ -416,32 +412,28 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 		}
 	}
 
-	// If the file imports "embed",
-	// we have to look for //go:embed comments
-	// in the remainder of the file.
+	// We have to look at the remainder of the file for //go:embed info.
 	// The compiler will enforce the mapping of comments to
 	// declared variables. We just need to know the patterns.
 	// If there were //go:embed comments earlier in the file
 	// (near the package statement or imports), the compiler
 	// will reject them. They can be (and have already been) ignored.
-	if hasEmbed {
-		var line []byte
-		for first := true; r.findEmbed(first); first = false {
-			line = line[:0]
-			for {
-				c := r.readByteNoBuf()
-				if c == '\n' || r.err != nil || r.eof {
-					break
-				}
-				line = append(line, c)
+	var line []byte
+	for first := true; r.findEmbed(first); first = false {
+		line = line[:0]
+		for {
+			c := r.readByteNoBuf()
+			if c == '\n' || r.err != nil || r.eof {
+				break
 			}
-			// Add args if line is well-formed.
-			// Ignore badly-formed lines - the compiler will report them when it finds them,
-			// and we can pretend they are not there to help go list succeed with what it knows.
-			args, err := parseGoEmbed(string(line))
-			if err == nil {
-				info.embeds = append(info.embeds, args...)
-			}
+			line = append(line, c)
+		}
+		// Add args if line is well-formed.
+		// Ignore badly-formed lines - the compiler will report them when it finds them,
+		// and we can pretend they are not there to help go list succeed with what it knows.
+		args, err := parseGoEmbed(string(line))
+		if err == nil {
+			info.embeds = append(info.embeds, args...)
 		}
 	}
 
