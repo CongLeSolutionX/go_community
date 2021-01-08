@@ -16,6 +16,24 @@
       "message": "Why close c here?  Seems unnecessary.",
       "revId": "9890e079d8a6363fa01b44393ec62360c667ae88",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33b313ef_e724f7d6",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-01-08T16:59:41Z",
+      "side": 1,
+      "message": "In case this code gets copied elsewhere if we start\nrunning multiple tools in a row or something like that,\nit just seemed worth cleaning up the signal handler and the goroutine.",
+      "parentUuid": "24f16c9a_5e6ec41e",
+      "revId": "9890e079d8a6363fa01b44393ec62360c667ae88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
