@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "396cb311_e76117ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-01-08T15:43:17Z",
+      "side": 1,
+      "message": "I thought this was already submitted.\nSince it\u0027s a new package and therefore can\u0027t break anything,\nI think it\u0027s still OK to submit for Go 1.16,\nbut I\u0027ve rebased and will run the trybots again.\n",
+      "revId": "6b8290f8f60d6a3fd7f55411090c9bc7f620f156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
