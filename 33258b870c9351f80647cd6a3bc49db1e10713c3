@@ -70,6 +70,24 @@
       "parentUuid": "c1e3fd1d_0b4eb13a",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b50d97c7_1bf5450a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-08T17:43:42Z",
+      "side": 1,
+      "message": "So just to clarify, this would be a risk-reducing improvement?\n\n(Store {t} ptr val mem) \u0026\u0026 t.Size() \u003d\u003d 8 \u0026\u0026\n    val.Type.Alignment()%4 \u003d\u003d 0 \u0026\u0026 t.Alignment()%4 \u003d\u003d 0\u003d\u003e\n       (MOVDstore ptr val mem)",
+      "parentUuid": "38cacf4c_97df4e32",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
