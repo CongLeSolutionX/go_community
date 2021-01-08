@@ -34,6 +34,24 @@
       "parentUuid": "e5082ac3_e73424a1",
       "revId": "efce42e87a6f06b43d2c4568ff2915f9700d0654",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c422585b_7258014a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-08T22:28:50Z",
+      "side": 1,
+      "message": "Ah, sorry, you\u0027re correct.\n\nWe should hold off. Alternatively, you could submit into the dev.regabi branch so we have this fix and can forget about it.",
+      "parentUuid": "6546a125_833060d1",
+      "revId": "efce42e87a6f06b43d2c4568ff2915f9700d0654",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
