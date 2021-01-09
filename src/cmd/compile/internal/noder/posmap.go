@@ -27,6 +27,11 @@ func (m *posMap) end(p ender) src.XPos { return m.makeXPos(p.End()) }
 
 func (m *posMap) makeXPos(pos syntax.Pos) src.XPos {
 	if !pos.IsKnown() {
+		if base.Flag.G != 0 {
+			// TODO(mdempsky): types2 appears to sometimes fail to provide
+			// position information for objects. Investigate why.
+			return src.NoXPos
+		}
 		base.Fatalf("unknown position")
 	}
 
