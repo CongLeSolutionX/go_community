@@ -60,7 +60,11 @@ func (g *irgen) expr(expr syntax.Expr) ir.Node {
 
 	// Constant expression.
 	if tv.Value != nil {
-		return Const(g.pos(expr), g.typ(tv.Type), tv.Value)
+		n := Const(g.pos(expr), g.typ(tv.Type), tv.Value)
+		// TODO(mdempsky): Only save the original string if we might
+		// report it in diagnostics later.
+		n.(*ir.BasicLit).OrigStr = syntax.String(expr)
+		return n
 	}
 
 	// TODO(mdempsky): Remove dependency on typecheck.Expr.
