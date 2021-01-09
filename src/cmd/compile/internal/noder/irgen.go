@@ -5,6 +5,7 @@
 package noder
 
 import (
+	"fmt"
 	"os"
 
 	"cmd/compile/internal/base"
@@ -25,12 +26,14 @@ func check2(noders []*noder) {
 	}
 
 	// setup and syntax error reporting
-	nodersmap := make(map[string]*noder)
+	var m posMap
 	files := make([]*syntax.File, len(noders))
 	for i, p := range noders {
-		nodersmap[p.file.Pos().RelFilename()] = p
+		m.join(&p.posMap)
 		files[i] = p.file
 	}
+
+	var lastErr types2.Error
 
 	// typechecking
 	conf := types2.Config{
@@ -40,15 +43,17 @@ func check2(noders []*noder) {
 		Error: func(err error) {
 			terr := err.(types2.Error)
 			if len(terr.Msg) > 0 && terr.Msg[0] == '\t' {
-				// types2 reports error clarifications via separate
-				// error messages which are indented with a tab.
-				// Ignore them to satisfy tools and tests that expect
-				// only one error in such cases.
-				// TODO(gri) Need to adjust error reporting in types2.
+				pos := m.makeXPos(terr.Pos)
+				if !lastErr.Pos.IsKnown() {
+					base.FatalfAt(pos, "clarification without previous error: %q", terr.Msg)
+				}
+				lastErr.Msg = fmt.Sprintf("%s\n\t%s: %s", lastErr.Msg, base.FmtPos(pos), terr.Msg)
 				return
 			}
-			p := nodersmap[terr.Pos.RelFilename()]
-			base.ErrorfAt(p.makeXPos(terr.Pos), "%s", terr.Msg)
+			if lastErr.Pos.IsKnown() {
+				base.ErrorfAt(m.makeXPos(lastErr.Pos), "%s", lastErr.Msg)
+			}
+			lastErr = terr
 		},
 		Importer: &gcimports{
 			packages: make(map[string]*types2.Package),
@@ -69,15 +74,19 @@ func check2(noders []*noder) {
 	if err != nil {
 		base.FatalfAt(src.NoXPos, "conf.Check error: %v", err)
 	}
+	if lastErr.Pos.IsKnown() {
+		base.ErrorfAt(m.makeXPos(lastErr.Pos), "%s", lastErr.Msg)
+	}
 	base.ExitIfErrors()
 	if base.Flag.G < 2 {
 		os.Exit(0)
 	}
 
 	g := irgen{
-		self: pkg,
-		info: &info,
-		objs: make(map[types2.Object]*ir.Name),
+		self:   pkg,
+		info:   &info,
+		posMap: m,
+		objs:   make(map[types2.Object]*ir.Name),
 	}
 	g.generate(noders)
 
@@ -114,7 +123,6 @@ func (g *irgen) generate(noders []*noder) {
 	// wanting to map an object/type from another source file, but not
 	// yet have the import data it relies on.
 	for _, p := range noders {
-		g.posMap.join(&p.posMap)
 		g.pragmaFlags(p.file.Pragma, ir.GoBuildPragma)
 		for _, decl := range p.file.DeclList {
 			switch decl := decl.(type) {
