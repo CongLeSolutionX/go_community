@@ -152,6 +152,7 @@ package main
 func main() {
 	done := make(chan bool)
 	x := 0
+	_ = x
 	go func() {
 		x = 42
 		done <- true
@@ -166,6 +167,7 @@ package main
 func main() {
 	done := make(chan bool)
 	x := 0
+	_ = x
 	go func() {
 		x = 42
 		done <- true
@@ -182,6 +184,7 @@ package main
 func main() {
 	done := make(chan bool)
 	x := 0
+	_ = x
 	go func() {
 		x = 42
 		done <- true

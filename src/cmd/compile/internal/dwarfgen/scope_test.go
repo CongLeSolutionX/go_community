@@ -182,7 +182,10 @@ var testfile = []testline{
 	{line: "	}"},
 	{line: "}"},
 	{line: "func TestCaptureVar(flag bool) func() int {"},
-	{line: "	a := 1", vars: []string{"arg flag bool", "arg ~r1 func() int", "var a int"}},
+	// TODO(mdempsky): Why does DWARF consider the anonymous result
+	// parameter in scope here? Is that intentional? It seems useless to
+	// end users.
+	{line: "	a := 1", vars: []string{"arg flag bool", "arg ~r0 func() int", "var a int"}},
 	{line: "	if flag {"},
 	{line: "		b := 2", scopes: []int{1}, vars: []string{"var b int", "var f func() int"}},
 	{line: "		f := func() int {", scopes: []int{1, 0}},
