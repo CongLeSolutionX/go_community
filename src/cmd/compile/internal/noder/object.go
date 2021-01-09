@@ -128,11 +128,12 @@ func (g *irgen) obj(obj types2.Object) *ir.Name {
 	case *types2.Var:
 		var sym *types.Sym
 		if class == ir.PPARAMOUT {
+			num := ir.CurFunc.Type().NumParams() + len(ir.CurFunc.Dcl)
 			switch obj.Name() {
 			case "":
-				sym = typecheck.LookupNum("~r", len(ir.CurFunc.Dcl))
+				sym = typecheck.LookupNum("~r", num)
 			case "_":
-				sym = typecheck.LookupNum("~b", len(ir.CurFunc.Dcl))
+				sym = typecheck.LookupNum("~b", num)
 			}
 		}
 		if sym == nil {

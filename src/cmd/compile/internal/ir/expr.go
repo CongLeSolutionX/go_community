@@ -101,10 +101,11 @@ func (n *AddrExpr) SetOp(op Op) {
 // A BasicLit is a literal of basic type.
 type BasicLit struct {
 	miniExpr
-	val constant.Value
+	val     constant.Value
+	OrigStr string
 }
 
-func NewBasicLit(pos src.XPos, val constant.Value) Node {
+func NewBasicLit(pos src.XPos, val constant.Value) *BasicLit {
 	n := &BasicLit{val: val}
 	n.op = OLITERAL
 	n.pos = pos

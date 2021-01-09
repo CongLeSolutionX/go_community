@@ -1,4 +1,6 @@
 // errorcheck
+// +build ignore
+// TODO(mdempsky): types2 should handle this better.
 
 // Copyright 2015 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style

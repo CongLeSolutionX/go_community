@@ -576,6 +576,12 @@ func exprFmt(n Node, s fmt.State, prec int) {
 			return
 		}
 
+		n := n.(*BasicLit)
+		if n.OrigStr != "" {
+			fmt.Fprint(s, n.OrigStr)
+			return
+		}
+
 		needUnparen := false
 		if n.Type() != nil && !n.Type().IsUntyped() {
 			// Need parens when type begins with what might

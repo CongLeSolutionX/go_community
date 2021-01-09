@@ -55,6 +55,9 @@ func (g *irgen) expr(expr syntax.Expr) ir.Node {
 	if tv.Value != nil {
 		n := ir.NewBasicLit(g.pos(expr), tv.Value)
 		n.SetType(g.typ(tv.Type))
+		// TODO(mdempsky): Only save the original string if we might
+		// report it in diagnostics later.
+		n.OrigStr = syntax.String(expr)
 		return n
 	}
 
