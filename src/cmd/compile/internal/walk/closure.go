@@ -62,12 +62,18 @@ func Closure(fn *ir.Func) {
 
 		if len(params) > 0 {
 			// Prepend params and decls.
-			f.Type().Params().SetFields(append(params, f.Type().Params().FieldSlice()...))
+			//
+			// Note: We may have already calculated the closure's size,
+			// force a recalculation to fix parameter offsets, if needed.
+
+			typ := f.Type()
+			typ.Params().Align = 0 // allow SetFields
+			typ.Params().SetFields(append(params, typ.Params().FieldSlice()...))
+			typ.Align = 0 // clear WidthCalculated
+			types.CalcSize(typ)
 			fn.Dcl = append(decls, fn.Dcl...)
 		}
 
-		types.CalcSize(f.Type())
-		fn.Nname.SetType(f.Type()) // update type of ODCLFUNC
 	} else {
 		// The closure is not called, so it is going to stay as closure.
 		var body []ir.Node
