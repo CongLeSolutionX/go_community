@@ -5,6 +5,7 @@
 package noder
 
 import (
+	"fmt"
 	"os"
 
 	"cmd/compile/internal/base"
@@ -32,6 +33,8 @@ func check2(noders []*noder) {
 		files[i] = p.file
 	}
 
+	var lastErr types2.Error
+
 	// typechecking
 	conf := types2.Config{
 		InferFromConstraints:  true,
@@ -40,14 +43,17 @@ func check2(noders []*noder) {
 		Error: func(err error) {
 			terr := err.(types2.Error)
 			if len(terr.Msg) > 0 && terr.Msg[0] == '\t' {
-				// types2 reports error clarifications via separate
-				// error messages which are indented with a tab.
-				// Ignore them to satisfy tools and tests that expect
-				// only one error in such cases.
-				// TODO(gri) Need to adjust error reporting in types2.
+				pos := m.makeXPos(terr.Pos)
+				if !lastErr.Pos.IsKnown() {
+					base.FatalfAt(pos, "clarification without previous error: %q", terr.Msg)
+				}
+				lastErr.Msg = fmt.Sprintf("%s\n\t%s: %s", lastErr.Msg, base.FmtPos(pos), terr.Msg)
 				return
 			}
-			base.ErrorfAt(m.makeXPos(terr.Pos), "%s", terr.Msg)
+			if lastErr.Pos.IsKnown() {
+				base.ErrorfAt(m.makeXPos(lastErr.Pos), "%s", lastErr.Msg)
+			}
+			lastErr = terr
 		},
 		Importer: &gcimports{
 			packages: make(map[string]*types2.Package),
@@ -67,6 +73,9 @@ func check2(noders []*noder) {
 	files = nil
 	if err != nil {
 		base.FatalfAt(src.NoXPos, "conf.Check error: %v", err)
+	}
+	if lastErr.Pos.IsKnown() {
+		base.ErrorfAt(m.makeXPos(lastErr.Pos), "%s", lastErr.Msg)
 	}
 	base.ExitIfErrors()
 	if base.Flag.G < 2 {
