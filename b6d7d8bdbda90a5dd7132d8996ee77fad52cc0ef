@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bf8791f_a9efb57b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-09T02:17:01Z",
+      "side": 1,
+      "message": "Maybe you can clarify comment (here or in the code), because you are still generating ntype values, I think, but as expected, you are directly creating a type node for the final type, rather than the composite form that generates the type.",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ea71c50b_95a663eb",
@@ -14,6 +31,108 @@
       "writtenOn": "2021-01-08T11:00:10Z",
       "side": 1,
       "message": "\u003e Patch Set 10: TryBot-Result-1\n\u003e \n\u003e 7 of 20 TryBots failed:\n\u003e Failed on freebsd-amd64-12_0: https://storage.googleapis.com/go-build-log/b6d7d8bd/freebsd-amd64-12_0_151f4371.log\n\u003e Failed on windows-amd64-2016: https://storage.googleapis.com/go-build-log/b6d7d8bd/windows-amd64-2016_71a2d5e7.log\n\u003e Failed on linux-386: https://storage.googleapis.com/go-build-log/b6d7d8bd/linux-386_577a0a4e.log\n\u003e Failed on linux-amd64: https://storage.googleapis.com/go-build-log/b6d7d8bd/linux-amd64_f776f31e.log\n\u003e Failed on js-wasm: https://storage.googleapis.com/go-build-log/b6d7d8bd/js-wasm_b761050a.log\n\u003e Failed on linux-amd64-race: https://storage.googleapis.com/go-build-log/b6d7d8bd/linux-amd64-race_9342962b.log\n\u003e Failed on openbsd-amd64-68: https://storage.googleapis.com/go-build-log/b6d7d8bd/openbsd-amd64-68_99e3531d.log\n\nN.B., PS10 enabled -G\u003d3 by default to demonstrate the current working status of the CL and for my own curiosity about how much is left to do. I do not plan on including that default in the submitted CL.",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48218f41_6e7c91c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-09T02:17:01Z",
+      "side": 1,
+      "message": "Just some comments so far, haven\u0027t tried to go through all the code yet.",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f1645e6_d2103d0e",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-09T02:17:01Z",
+      "side": 1,
+      "message": "Can you put this under a conditional for the -G\u003d3 flag or make clear that this now applies to original typechecking flow as well?",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "947f9c24_614e7fc7",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-09T02:17:01Z",
+      "side": 1,
+      "message": "Can you put in a comment why the assert is allowed to be false in the -G\u003d3 case?",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef705f90_e3a1b7a4",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-09T02:17:01Z",
+      "side": 1,
+      "message": "**In these last 7 cases or so, you don\u0027t seem to be using the types2 type to set the type on the resulting node.  So, you are depending on the original type checker to set these types.  But maybe I\u0027m missing some other place you are setting it?",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f6b10c6_64e035e6",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-09T02:17:01Z",
+      "side": 1,
+      "message": "Can you add a comment on why resolve()s initially need to be delayed?",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce8988d7_7722a10d",
+        "filename": "src/cmd/compile/internal/types/scope.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-09T02:17:01Z",
+      "side": 1,
+      "message": "Can you comment on why this initialization is useful.  Does it need to be re-initialized at the beginning of each node call anyway?  Or is it always restored back to 1 by the end of the overall scope?",
       "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
