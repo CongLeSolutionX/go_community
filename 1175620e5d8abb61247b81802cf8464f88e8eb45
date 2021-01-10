@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "093c0ec9_81520827",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-10T07:00:01Z",
+      "side": 1,
+      "message": "I don\u0027t think you mean unnecessary here. An unnecessary break you would remove, not add.\nMaybe \"break to avoid unnecessary iterations\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "1175620e5d8abb61247b81802cf8464f88e8eb45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
