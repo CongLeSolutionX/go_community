@@ -250,6 +250,24 @@
       "parentUuid": "6f904be6_08e0205f",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d526d862_5a532052",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-11T19:49:19Z",
+      "side": 1,
+      "message": "This rule doesn\u0027t have any Aux. So AddAux2 doesn\u0027t do anything.\n\nIf a later rule adds an Aux, that rule should be responsible to make it correct.",
+      "parentUuid": "b26a6192_59c6e619",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
