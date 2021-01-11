@@ -196,6 +196,24 @@
       "parentUuid": "0eb8b278_4b1d7e96",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e28725_a7b56bc0",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-01-11T19:07:14Z",
+      "side": 1,
+      "message": "If you are guaranteed that the offset is always 0 then there is no problem, but that was not clear to me. I realize the alignment check is not exactly what we want for this general situation but if the alignment of the data is at least 4 then if a constant offset is needed it must also be a multiple of 4. Are you saying this rule will never be used for data on the stack, where the offset is never 0?",
+      "parentUuid": "9e8c4205_ccff7d2a",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
