@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "283f7bf6_4ad7d9e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T23:20:28Z",
+      "side": 1,
+      "message": "Very nice. I like the consistent return of an error.",
+      "revId": "2de6029f04e6cc5e8cea7f4ebc6aa09ba2571807",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc156c86_34731e46",
+        "filename": "src/cmd/compile/internal/noder/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T23:20:28Z",
+      "side": 1,
+      "message": "can we return an error here as well, and perhaps an additional signal that we need to exit?",
+      "range": {
+        "startLine": 177,
+        "startChar": 47,
+        "endLine": 177,
+        "endChar": 48
+      },
+      "revId": "2de6029f04e6cc5e8cea7f4ebc6aa09ba2571807",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
