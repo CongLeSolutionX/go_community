@@ -106,6 +106,24 @@
       "parentUuid": "b50d97c7_1bf5450a",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3451fb99_41f305dd",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-11T17:13:14Z",
+      "side": 1,
+      "message": "Hmmm, I\u0027m confused. What happened if t.Size() \u003d\u003d 8 but the alignment is not a multiple of 4? In the current form of this CL it won\u0027t be lowered, so ICE.\n\nI agree with Lynn that the alignment doesn\u0027t seem to matter. So maybe we could just remove that clause.",
+      "parentUuid": "0cb03c5f_a4721c49",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
