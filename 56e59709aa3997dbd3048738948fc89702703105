@@ -22,6 +22,30 @@
       },
       "revId": "56e59709aa3997dbd3048738948fc89702703105",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "637be326_74713805",
+        "filename": "src/go/types/stmt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-11T17:22:12Z",
+      "side": 1,
+      "message": "Thanks. Removed this comment.",
+      "parentUuid": "56b14e86_98358b15",
+      "range": {
+        "startLine": 772,
+        "startChar": 30,
+        "endLine": 772,
+        "endChar": 35
+      },
+      "revId": "56e59709aa3997dbd3048738948fc89702703105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
