@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ae44897_4d74309a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-11T17:03:21Z",
+      "side": 1,
+      "message": "I think calling addpool seems just not the right thing to do here. VMOVQ requires the 128-bit constant be consecutive in memory. Calling addpool twice does not guarantee that. Maybe we could just add a way to support adding the 128-bit directly to the pool, either a new function like addpool128, or extending the existing addpool. (It can still generate two DWORD pseudo-instructions, which are guaranteed to be consecutive.)",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "d5d96ce62aea8f6c88a63e58f826e6189f4f4783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d868da_22e1adbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-11T17:03:21Z",
+      "side": 1,
+      "message": "While I also don\u0027t like that operand class check, does it need to be done in the same CL? If it is just a general cleanup, maybe do it in a separate CL. Thanks.",
+      "revId": "d5d96ce62aea8f6c88a63e58f826e6189f4f4783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
