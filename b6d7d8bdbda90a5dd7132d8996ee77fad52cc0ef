@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "785c556f_ce2fd805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bf8791f_a9efb57b",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ea71c50b_95a663eb",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
@@ -69,6 +87,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60bb4193_fe7b9899",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "Reverted. Handling this instead by proactively re-typechecking the function type after parameters are created in irgen.funcBody.",
+      "parentUuid": "4f1645e6_d2103d0e",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "947f9c24_614e7fc7",
@@ -82,6 +118,24 @@
       "writtenOn": "2021-01-09T02:17:01Z",
       "side": 1,
       "message": "Can you put in a comment why the assert is allowed to be false in the -G\u003d3 case?",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5d682fc_0ce72808",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "This was previously necessary because sometimes irgen.obj would call SetVal to initialize a constant of defined type, where the defined type\u0027s underlying type hadn\u0027t been resolved yet.\n\nThe most recent CL revisions avoid this by processing all package-block types first, and then calling SetVal on constants in irgen.constDecl instead of irgen.obj.",
+      "parentUuid": "947f9c24_614e7fc7",
       "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -103,6 +157,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "294109b4_17f7a35f",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "No, you understand correctly. In these cases we can easily infer the result type from the arguments, so I don\u0027t see a need to use types2\u0027s information here. And for iimport and later frontend rewrites, we\u0027ll still want to be able to build up typed IR expressions without relying on types2 information (since we won\u0027t have any then).\n\nFor now this CL relies on typecheck to help with that still (e.g., to handle all the special-case IR forms), but I expect we incrementally refactor that code out of typecheck until we no longer rely on typecheck at all.\n\nAlso, in the men time, irgen.expr does validate the expression\u0027s result type against types2\u0027s info.",
+      "parentUuid": "ef705f90_e3a1b7a4",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f6b10c6_64e035e6",
@@ -120,6 +192,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7d30c49_c9395ca1",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "Done. Reordered the phases so it\u0027s no longer needed, and added comments explaining the current phase ordering.",
+      "parentUuid": "2f6b10c6_64e035e6",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce8988d7_7722a10d",
@@ -133,6 +223,24 @@
       "writtenOn": "2021-01-09T02:17:01Z",
       "side": 1,
       "message": "Can you comment on why this initialization is useful.  Does it need to be re-initialized at the beginning of each node call anyway?  Or is it always restored back to 1 by the end of the overall scope?",
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "390d77c6_fef3b2f4",
+        "filename": "src/cmd/compile/internal/types/scope.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "Block\u003d\u003d1 indicates the package block. In noder, it gets increased every time types.Markdcl is used to enter a block, and then restored again every time types.Popdcl is called. So it will always return back to 1 after processing FuncDecl or FuncLit.\n\nOriginally, the old yacc-based parser tried to recover when it failed to match Markdcl/Popdcl calls correctly, and re-setting Block to 1 for each file was part of that. But over time we\u0027ve been moving to just Fatalf\u0027ing immediately when we notice any internal consistency errors.",
+      "parentUuid": "ce8988d7_7722a10d",
       "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

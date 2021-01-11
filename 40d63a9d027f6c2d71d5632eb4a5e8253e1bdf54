@@ -16,6 +16,24 @@
       "message": "I will get to this tomorrow (probably afternoon).\n\nYou mentioned that you now pass the same tests as Dan\u0027s code. Do you have a test that can be checked in with this?",
       "revId": "40d63a9d027f6c2d71d5632eb4a5e8253e1bdf54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bac6ca5a_70245b46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "Not yet. I was thinking of extending run.bash to re-run \"go test std cmd\" with -gcflags\u003d-G\u003d3, and then similarly extend test/run.go to run more tests with -G\u003d3 with a list of known failures, as is currently done with errorcheck tests.",
+      "parentUuid": "a377f204_4ed352af",
+      "revId": "40d63a9d027f6c2d71d5632eb4a5e8253e1bdf54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

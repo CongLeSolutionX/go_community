@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "369dccbf_04a95fe6",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "This is fixed in later patch sets by having irgen.obj set Ntype, so even if it does re-assign Type, it\u0027ll just be with the type we already constructed here.",
+      "parentUuid": "b73d3ced_457bf6db",
+      "revId": "fed62d9783898438ad6a5b98af6251c6779818ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c25aabf_1097dbf2",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f9252b2_2e597b52",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "Ack. The types2.Info maps also contain entries for the entire package, so there\u0027s certainly room for optimizations. I think it would be straightforward to split irgen.objs into separate pkgObjs and localObjs maps, and clear the latter at the end of each FuncDecl.",
+      "parentUuid": "1c25aabf_1097dbf2",
+      "revId": "fed62d9783898438ad6a5b98af6251c6779818ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddbcdc87_8c54d9a4",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-01-07T03:24:01Z",
       "side": 1,
       "message": "I have an extra check in the code handling AssignStmt that adjusts the type and literal for ImplicitOne, since this may have to be a float(1) if the thing being incremented is a float.  Also, p.typ() on ImplicitOne doesn\u0027t currently return the right type.",
+      "revId": "fed62d9783898438ad6a5b98af6251c6779818ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80cde1c_5f858531",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "Done. (The code here was returning an untyped 1, not using info.Types[ImplicitOne].)",
+      "parentUuid": "ddbcdc87_8c54d9a4",
       "revId": "fed62d9783898438ad6a5b98af6251c6779818ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -99,6 +153,24 @@
       "writtenOn": "2021-01-07T03:24:01Z",
       "side": 1,
       "message": "I see you\u0027re already doing two passes over the decls here, as expected.  This is similar to what I do to fully deal with forward references (in my stacked change https://go-review.googlesource.com/c/go/+/280633/8/src/cmd/compile/internal/noder/noder.go)",
+      "revId": "fed62d9783898438ad6a5b98af6251c6779818ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c78a00bd_5da2a2c3",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T17:58:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "afcba7c9_d51e6890",
       "revId": "fed62d9783898438ad6a5b98af6251c6779818ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
