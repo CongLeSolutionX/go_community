@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6649815_1d515f85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T22:47:11Z",
+      "side": 1,
+      "message": "Minor suggestions. Leaving up to you.",
+      "revId": "e2752baad670abfdac6bd7a3fa6570ee8d384970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34e0d6c_4e9a2bc5",
+        "filename": "src/cmd/compile/internal/dwarfgen/marker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T22:47:11Z",
+      "side": 1,
+      "message": "minor: lasti feels a bit \"heavy\" for the simple use case here (also, inconsistently, on line 58, the equivalent index is called last). How about:\n\nif len(m.marks) \u003d\u003d 0 {\n  return 0\n}\n\nlast :\u003d \u0026m.marks[len(m.marks)-1]\n...\nreturn last.Scope",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 24
+      },
+      "revId": "e2752baad670abfdac6bd7a3fa6570ee8d384970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02793cc9_87a72991",
+        "filename": "src/cmd/compile/internal/dwarfgen/marker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T22:47:11Z",
+      "side": 1,
+      "message": "s/current/last/ ? (and s/last/i/)",
+      "range": {
+        "startLine": 59,
+        "startChar": 1,
+        "endLine": 59,
+        "endChar": 8
+      },
+      "revId": "e2752baad670abfdac6bd7a3fa6570ee8d384970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
