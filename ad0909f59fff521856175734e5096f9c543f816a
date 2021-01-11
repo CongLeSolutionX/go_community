@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfd05aee_ba6a7d15",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T20:08:43Z",
+      "side": 0,
+      "message": "Reviewer note: I\u0027ve intentionally removed these errors, since it seems like the proposal plan is to remove them. Also, dev.regabi has already diverged from the embed implementation on master, tentatively assuming the recent proposals are accepted. I expect this code will be revisited eventually once we reconcile everything anyway.",
+      "range": {
+        "startLine": 2085,
+        "startChar": 0,
+        "endLine": 2088,
+        "endChar": 2
+      },
+      "revId": "ad0909f59fff521856175734e5096f9c543f816a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
