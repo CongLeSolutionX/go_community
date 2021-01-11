@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef7bdf43_d8475234",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T19:45:24Z",
+      "side": 1,
+      "message": "Instead of the comment, can we make this an explicit check for syntax.ImplicitOne and only then use base.Pos?\n\nThis removes a dependency on this global variable. But it also makes it simpler to look for code that depends on special behavior for syntax.ImplicitOne.\n\n(I have been contemplating replacing the use of syntax.ImplicitOne with nil: Most of the time we need to check for the special case anyway. With nil, we will probably crash if we don\u0027t check, which is a good thing. Also, the use of ImplicitOne leads to breaking the invariant that a syntax tree is always a tree and not a DAG, at least with respect to nodes.)",
+      "revId": "ad0909f59fff521856175734e5096f9c543f816a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc6d6ecd_9621afd3",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T19:45:24Z",
+      "side": 1,
+      "message": "another reason for getting rid of syntax.ImplicitOne",
+      "range": {
+        "startLine": 1684,
+        "startChar": 28,
+        "endLine": 1684,
+        "endChar": 39
+      },
+      "revId": "ad0909f59fff521856175734e5096f9c543f816a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
