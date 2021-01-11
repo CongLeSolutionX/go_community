@@ -73,6 +73,14 @@ func asmb(ctxt *Link) {
 	wg.Wait()
 }
 
+func GetDwarfSections(ctxt *Link, ldr *loader.Loader) [][]loader.Sym {
+	var sects [][]loader.Sym
+	for _, info := range dwarfp {
+		sects = append(sects, info.syms)
+	}
+	return sects
+}
+
 // Assembling the binary is broken into two steps:
 //  - writing out the code/data/dwarf Segments
 //  - writing out the architecture specific pieces.

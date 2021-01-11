@@ -1658,7 +1658,7 @@ func dwarfEnabled(ctxt *Link) bool {
 	if *FlagS && ctxt.HeadType != objabi.Hdarwin {
 		return false
 	}
-	if ctxt.HeadType == objabi.Hplan9 || ctxt.HeadType == objabi.Hjs {
+	if ctxt.HeadType == objabi.Hplan9 {
 		return false
 	}
 
@@ -1953,7 +1953,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 
 // dwarfGenerateDebugSyms constructs debug_line, debug_frame, and
 // debug_loc. It also writes out the debug_info section using symbols
-// generated in dwarfGenerateDebugInfo2.
+// generated in dwarfGenerateDebugInfo.
 func dwarfGenerateDebugSyms(ctxt *Link) {
 	if !dwarfEnabled(ctxt) {
 		return

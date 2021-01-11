@@ -6,11 +6,14 @@ package wasm
 
 import (
 	"bytes"
+	"cmd/internal/dwarf"
 	"cmd/internal/objabi"
 	"cmd/link/internal/ld"
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
+	"fmt"
 	"io"
+	"log"
 	"regexp"
 )
 
@@ -216,6 +219,7 @@ func asmb2(ctxt *ld.Link, ldr *loader.Loader) {
 	writeCodeSec(ctxt, fns)
 	writeDataSec(ctxt)
 	writeProducerSec(ctxt)
+	writeDwarfSec(ctxt, ldr)
 	if !*ld.FlagS {
 		writeNameSec(ctxt, len(hostImports), fns)
 	}
@@ -517,6 +521,39 @@ func writeProducerSec(ctxt *ld.Link) {
 	writeName(ctxt.Out, objabi.Version)   // value: version
 
 	writeSecSize(ctxt, sizeOffset)
+}
+
+func writeDwarfSec(ctxt *ld.Link, ldr *loader.Loader) {
+	dwarfp := ld.GetDwarfSections(ctxt, ldr)
+	for _, sec := range dwarfp {
+		if len(sec) == 0 {
+			continue
+		}
+		secSym := sec[0]
+		var dataSyms []loader.Sym
+		if len(sec) > 1 {
+			dataSyms = sec[1:]
+		}
+		secName := ldr.SymName(secSym)
+		secOffset := writeSecHeader(ctxt, sectionCustom)
+		writeName(ctxt.Out, secName)
+
+		if secName == ".debug_abbrev" {
+			// why is debug_abbrev so special?
+			abbrev := dwarf.GetAbbrev()
+			if _, err := ctxt.Out.Write(abbrev); err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			for _, dataSym := range dataSyms {
+				data := ldr.Data(dataSym)
+				if _, err := ctxt.Out.Write(data); err != nil {
+					log.Println(err)
+				}
+			}
+		}
+		writeSecSize(ctxt, secOffset)
+	}
 }
 
 var nameRegexp = regexp.MustCompile(`[^\w\.]`)
