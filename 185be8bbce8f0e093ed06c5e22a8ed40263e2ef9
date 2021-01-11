@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca227cd3_091715b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T19:25:25Z",
+      "side": 1,
+      "message": "minor: s/used/used for/",
+      "range": {
+        "startLine": 29,
+        "startChar": 41,
+        "endLine": 29,
+        "endChar": 45
+      },
+      "revId": "185be8bbce8f0e093ed06c5e22a8ed40263e2ef9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69dbd720_ddb275b9",
+        "filename": "src/cmd/compile/internal/types2/typexpr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-11T19:25:25Z",
+      "side": 1,
+      "message": "ugh! nice catch",
+      "revId": "185be8bbce8f0e093ed06c5e22a8ed40263e2ef9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
