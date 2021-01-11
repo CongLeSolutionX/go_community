@@ -124,6 +124,24 @@
       "parentUuid": "0cb03c5f_a4721c49",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fd98628_18daaa3a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-11T17:38:06Z",
+      "side": 1,
+      "message": "IIUC, the alignment of val.Type does not matter, but the alignment of t does.",
+      "parentUuid": "3451fb99_41f305dd",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
