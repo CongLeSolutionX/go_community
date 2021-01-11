@@ -214,6 +214,24 @@
       "parentUuid": "9e8c4205_ccff7d2a",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f904be6_08e0205f",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-11T19:19:18Z",
+      "side": 1,
+      "message": "For this particular rule, the offset is always 0, as there is no square bracket on the RHS of the rule.\n\nLater on, other optimizations may fold offsets into the store instruction, e.g.\n\n(MOVDstore [off1] {sym} (ADDconst [off2] x) val mem) \u0026\u0026 is16Bit(off1+off2) \u0026\u0026 (off1+off2)%4 \u003d\u003d 0 -\u003e (MOVDstore [off1+off2] {sym} x val mem)\n\nThose rules should check that the folded offset is a multiple of 4, which is what CL 216379 does.",
+      "parentUuid": "79e28725_a7b56bc0",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
