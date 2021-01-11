@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a74744b7_0174fa2b",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-11T19:10:00Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason this can\u0027t be moved to a globally scoped function.",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5399469_c3f39570",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-11T19:10:00Z",
+      "side": 1,
+      "message": "This condition seems complicated enough to move to a IsXXX function on the block.",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "589688ea_0d4f4eae",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-11T19:10:00Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5201c159_f7319a11",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-11T19:10:00Z",
+      "side": 1,
+      "message": "ditto remove.",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2135d546_808920c8",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-11T19:10:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is right. At the very least you should remove the previous value, but, I would like to know why a comment about why NoPos is corect.",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc08732a_b3ba4fb4",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-11T19:10:00Z",
+      "side": 1,
+      "message": "wanna just return instead?",
+      "range": {
+        "startLine": 786,
+        "startChar": 3,
+        "endLine": 786,
+        "endChar": 8
+      },
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8bda236_e8b9dbcc",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-11T19:10:00Z",
+      "side": 1,
+      "message": "Unless I\u0027m mistaken, it doesn\u0027t look to me like this is used in this change. It should probably be moved to the change that uses it.\n\nSecondly[*], I don\u0027t care much for this structure. Having to consult Offset/Reg everywhere this type is used adds cognitive load to the user of this structure. (eg, the user needs to consult Reg to know whether or not Offset is valid). I\u0027d prefer to make Offset and Reg local, and have accessors like: IsInReg(), Register(), Offset() and Register/Offset make sure IsInReg is correct.\n\n[*] I haven\u0027t read high enough in the stack (where this structure is used) to know if I\u0027m right about cognitive load, but I bet I am.",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c66ece6_0f3cba42",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-11T19:10:00Z",
+      "side": 1,
+      "message": "invert logic and continue instead?",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
