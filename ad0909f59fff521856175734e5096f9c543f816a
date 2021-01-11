@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54f7502e_97bdde5a",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T20:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef7bdf43_d8475234",
+      "revId": "ad0909f59fff521856175734e5096f9c543f816a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc6d6ecd_9621afd3",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-11T19:45:24Z",
       "side": 1,
       "message": "another reason for getting rid of syntax.ImplicitOne",
+      "range": {
+        "startLine": 1684,
+        "startChar": 28,
+        "endLine": 1684,
+        "endChar": 39
+      },
+      "revId": "ad0909f59fff521856175734e5096f9c543f816a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c67a5d7d_dc6d1c64",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T20:05:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dc6d6ecd_9621afd3",
       "range": {
         "startLine": 1684,
         "startChar": 28,
