@@ -304,6 +304,24 @@
       "parentUuid": "919a077a_8a83b63b",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa7d9697_6ffc3b2c",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-01-11T23:15:38Z",
+      "side": 1,
+      "message": "Hmm so I\u0027ve misunderstood the way aux: symOff is supposed to work... But then I don\u0027t understand where the offset gets filled in when it is needed. If you look through our rules file, all the rules with MOVDstore on the right check the alignment and those were put in because without them failures occurred.",
+      "parentUuid": "96167663_def85313",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
