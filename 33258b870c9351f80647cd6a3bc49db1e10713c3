@@ -286,6 +286,24 @@
       "parentUuid": "d526d862_5a532052",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96167663_def85313",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-11T19:57:57Z",
+      "side": 1,
+      "message": "That just means MOVDstore _can_ have an Aux. This particular rule doesn\u0027t make one.",
+      "parentUuid": "919a077a_8a83b63b",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
