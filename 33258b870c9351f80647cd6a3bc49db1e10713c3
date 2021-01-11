@@ -268,6 +268,24 @@
       "parentUuid": "b26a6192_59c6e619",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "919a077a_8a83b63b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-01-11T19:56:28Z",
+      "side": 1,
+      "message": "{name: \"MOVDstore\", argLength: 3, reg: gpstore, asm: \"MOVD\", aux: \"SymOff\", typ: \"Mem\", faultOnNilArg0: true, symEffect: \"Write\"}, // store 8 bytes",
+      "parentUuid": "d526d862_5a532052",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
