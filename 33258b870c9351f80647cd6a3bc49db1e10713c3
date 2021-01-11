@@ -178,6 +178,24 @@
       "parentUuid": "8b15ac77_3b3428ad",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e8c4205_ccff7d2a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-11T19:02:29Z",
+      "side": 1,
+      "message": "I understand the offset needs to be a multiple of 4. But alignment is not offset. I don\u0027t know why the alignment matters. In fact, the offset is 0 here.",
+      "parentUuid": "0eb8b278_4b1d7e96",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
