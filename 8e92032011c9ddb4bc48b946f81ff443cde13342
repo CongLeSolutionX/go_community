@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1c2501a_860a8a0f",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1307,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T22:05:04Z",
+      "side": 1,
+      "message": "This will always be a function type, so I think you can use just w.signature(n.Type())?",
+      "revId": "8e92032011c9ddb4bc48b946f81ff443cde13342",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f18fc153_2ddde6cd",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1529,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T22:05:04Z",
+      "side": 1,
+      "message": "You can probably just do \"n \u003d n.Canonical()\" at the start of the function to handle closure variables.",
+      "revId": "8e92032011c9ddb4bc48b946f81ff443cde13342",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cd7e142_3ade46af",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T22:05:04Z",
+      "side": 1,
+      "message": "Vargens are numbered per-Func, so they\u0027re not guaranteed to be unique when flattened into a single function like this. For example, this program should print \"ok\", but it prints \"FAIL\" when I tested with this CL: https://play.golang.org/p/YY60ajdANCO\n\nThis is somewhat a pre-existing issue, but I *think* it can only cause code to fail to compile, not compile and misbehave at runtime: https://play.golang.org/p/sGmXu0Bix_W",
+      "range": {
+        "startLine": 1532,
+        "startChar": 29,
+        "endLine": 1532,
+        "endChar": 35
+      },
+      "revId": "8e92032011c9ddb4bc48b946f81ff443cde13342",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b2b8611_f801eaa4",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T22:05:04Z",
+      "side": 1,
+      "message": "FYI, this can be removed after rebasing. Since CL 281535, escape analysis handles capture analysis too.",
+      "revId": "8e92032011c9ddb4bc48b946f81ff443cde13342",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eb4c738_b57e8a8b",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-11T22:05:04Z",
+      "side": 1,
+      "message": "FYI, I\u0027ve uploaded CL 283152 so that the ONAME and OCLOSUREs share a single Type.",
+      "revId": "8e92032011c9ddb4bc48b946f81ff443cde13342",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
