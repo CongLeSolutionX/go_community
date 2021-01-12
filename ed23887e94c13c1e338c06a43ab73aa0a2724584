@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c2f212d_81db44f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T02:16:14Z",
+      "side": 1,
+      "message": "Thanks, some answers/responses to your feedback. I\u0027ll respond to the rest after I revise the CL.",
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f32103b3_1f16b554",
@@ -41,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9221d84_238f0005",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T02:16:14Z",
+      "side": 1,
+      "message": "Ack, I remember from your comment on PS4. :)\n\nThe main reason I\u0027m handling these specially up here though is because they aren\u0027t stored in g.info.Types either, so they hit the Fatalf at L41 otherwise. I\u0027m expecting our long-term plan is still to get rid of the maps and store type-checker info directly into the syntax AST, so this probably isn\u0027t worth worrying about for types2. But maybe for go/types.",
+      "parentUuid": "f32103b3_1f16b554",
+      "range": {
+        "startLine": 31,
+        "startChar": 30,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "523ca20c_9e2150bf",
@@ -54,6 +95,30 @@
       "writtenOn": "2021-01-12T01:31:47Z",
       "side": 1,
       "message": "Can we just ignore parentheses? Either way, perhaps add a comment as to why/why not.",
+      "range": {
+        "startLine": 91,
+        "startChar": 12,
+        "endLine": 91,
+        "endChar": 24
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da7c362e_e6c63031",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T02:16:14Z",
+      "side": 1,
+      "message": "Hm, probably. I\u0027m pretty sure typecheck just throws them away anyway. I\u0027ll double check.",
+      "parentUuid": "523ca20c_9e2150bf",
       "range": {
         "startLine": 91,
         "startChar": 12,
@@ -104,6 +169,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c1b1b30_78e23d46",
+        "filename": "src/cmd/compile/internal/noder/object.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T02:16:14Z",
+      "side": 1,
+      "message": "Ack. We should be able to once the uses of typecheck.Expr/typecheck.Stmt are all gone.",
+      "parentUuid": "92ff7948_7d7c6a0e",
+      "range": {
+        "startLine": 133,
+        "startChar": 43,
+        "endLine": 133,
+        "endChar": 50
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1273edf_2c69a789",
@@ -129,6 +218,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ecbfeb9_23e633ee",
+        "filename": "src/cmd/compile/internal/noder/posmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T02:16:14Z",
+      "side": 1,
+      "message": "Yes, types2.Objects. I think I saw it for anonymous parameters. I\u0027ll double-check and see if there was anything else too.",
+      "parentUuid": "e1273edf_2c69a789",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f197ee1_d0a64c71",
         "filename": "src/cmd/compile/internal/noder/stmt.go",
         "patchSetId": 13
@@ -140,6 +253,30 @@
       "writtenOn": "2021-01-12T01:31:47Z",
       "side": 1,
       "message": "Is this for labeled statements where there\u0027s only a label? perhaps add a comment",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adfce06d_95b9220d",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T02:16:14Z",
+      "side": 1,
+      "message": "I think it\u0027s for EmptyStmt. I\u0027ll check and add a comment. (This was mostly copied from noder.)",
+      "parentUuid": "8f197ee1_d0a64c71",
       "range": {
         "startLine": 19,
         "startChar": 7,
@@ -198,6 +335,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ddc7983_03074601",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T02:16:14Z",
+      "side": 1,
+      "message": "I think you\u0027re asking if I meant types2 instead of go/types? If so, no.\n\nFor function parameters and struct fields (types.Var) and interface methods (types.Func), the package that they syntactically appeared in is exposed via their Pkg methods. Historically though, the Go compiler only tracked package-origin for unexported struct fields and interface methods (and lowercase function parameter names, as an implementation quirk), because the package isn\u0027t relevant to type-checking for exported names.\n\nNowadays the compiler explicitly tracks this information, just so it\u0027ll be available in export data for gcimporter. However, types2 doesn\u0027t directly provide this information, hence the roundabout approach below to try to infer it.",
+      "parentUuid": "f20741b1_9eae5260",
+      "range": {
+        "startLine": 129,
+        "startChar": 34,
+        "endLine": 129,
+        "endChar": 39
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e26d201_0edc9a14",
         "filename": "src/cmd/compile/internal/noder/validate.go",
         "patchSetId": 13
@@ -232,6 +393,30 @@
       "writtenOn": "2021-01-12T01:31:47Z",
       "side": 1,
       "message": "It was probably a mistake to represent empty tuples as nil (it also causes problems in types2). I should make it a singleton non-nil empty tuple.",
+      "range": {
+        "startLine": 32,
+        "startChar": 17,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc9f028a_1a99b102",
+        "filename": "src/cmd/compile/internal/noder/validate.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T02:16:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e67d3a26_a2696e6e",
       "range": {
         "startLine": 32,
         "startChar": 17,
