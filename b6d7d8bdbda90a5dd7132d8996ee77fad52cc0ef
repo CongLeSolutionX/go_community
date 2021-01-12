@@ -243,6 +243,29 @@
       "parentUuid": "ce8988d7_7722a10d",
       "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fd975fd_e5759d5d",
+        "filename": "src/cmd/compile/internal/types2/typexpr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "ugh! nice find",
+      "range": {
+        "startLine": 1113,
+        "startChar": 5,
+        "endLine": 1113,
+        "endChar": 6
+      },
+      "revId": "b6d7d8bdbda90a5dd7132d8996ee77fad52cc0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb51068c_9a1f6c3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "I have not thought through every detail, but it looks very clean overall.\nSome minor comments.\n",
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f32103b3_1f16b554",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "types2.Info.Selections provides selector information, but not for qualified identifiers. Perhaps it should.",
+      "range": {
+        "startLine": 31,
+        "startChar": 30,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "523ca20c_9e2150bf",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "Can we just ignore parentheses? Either way, perhaps add a comment as to why/why not.",
+      "range": {
+        "startLine": 91,
+        "startChar": 12,
+        "endLine": 91,
+        "endChar": 24
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab563766_a0520d58",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "ImportDecls must always come first per Go syntax. This loop can exit as soon as we a declaration that\u0027s not an ImportDecl. Probably worthwhile doing.\n\nIt may even make sense to operate on a sub-slice (everything after the imports) for the remaining two steps. Though it\u0027s unlikely to have a perf. impact.",
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92ff7948_7d7c6a0e",
+        "filename": "src/cmd/compile/internal/noder/object.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "hopefully we can eventually get rid of these global vars",
+      "range": {
+        "startLine": 133,
+        "startChar": 43,
+        "endLine": 133,
+        "endChar": 50
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1273edf_2c69a789",
+        "filename": "src/cmd/compile/internal/noder/posmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "do you mean types2.Objects or just nodes?",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f197ee1_d0a64c71",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "Is this for labeled statements where there\u0027s only a label? perhaps add a comment",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a08d283_f3345180",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "I\u0027d prefer not exporting Token and have specific (short) enumerations where we need them. Better decoupling of the packages.",
+      "range": {
+        "startLine": 111,
+        "startChar": 26,
+        "endLine": 111,
+        "endChar": 32
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f20741b1_9eae5260",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "go/types? (here and below)",
+      "range": {
+        "startLine": 129,
+        "startChar": 34,
+        "endLine": 129,
+        "endChar": 39
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e26d201_0edc9a14",
+        "filename": "src/cmd/compile/internal/noder/validate.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "go/types -\u003e types2",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e67d3a26_a2696e6e",
+        "filename": "src/cmd/compile/internal/noder/validate.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-12T01:31:47Z",
+      "side": 1,
+      "message": "It was probably a mistake to represent empty tuples as nil (it also causes problems in types2). I should make it a singleton non-nil empty tuple.",
+      "range": {
+        "startLine": 32,
+        "startChar": 17,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
