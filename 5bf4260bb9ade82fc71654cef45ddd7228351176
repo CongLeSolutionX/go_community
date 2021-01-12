@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcb15529_e1f5911f",
+        "filename": "test/fixedbugs/regabipragma.dir/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-12T15:19:52Z",
+      "side": 1,
+      "message": "gerrit is marking this line with a pink space at the end, leading me to believe you have tws.",
+      "revId": "5bf4260bb9ade82fc71654cef45ddd7228351176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f357b182_de44de01",
+        "filename": "test/fixedbugs/regabipragma.dir/tmp/foo.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-12T15:19:52Z",
+      "side": 1,
+      "message": "Ditto on pink space here.",
+      "revId": "5bf4260bb9ade82fc71654cef45ddd7228351176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7ff96e6_c01cd632",
+        "filename": "test/fixedbugs/regabipragma.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-12T15:19:52Z",
+      "side": 1,
+      "message": "not sure why you picked the test/fixedbugs directory. I don\u0027t know that I\u0027d beat you up over it, but it seems an odd choice.",
+      "revId": "5bf4260bb9ade82fc71654cef45ddd7228351176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
