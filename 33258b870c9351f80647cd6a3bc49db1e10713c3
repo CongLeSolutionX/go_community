@@ -376,6 +376,24 @@
       "parentUuid": "a0b1bce8_afa0f285",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eba046d_f6d5c8f2",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-01-12T20:47:34Z",
+      "side": 1,
+      "message": "OK so I said \"new\" when I meant \"different\".\n\nBack to my previous question. Are you saying that we should remove all the alignment checks in all the rules where MOVDstore or MOVDstorezero is on the RHS and there are no explicit auxInt values or aux syms in the rule? Because that is what it sounds like you are saying. If alignment checks aren\u0027t needed for the new/changed rule, then it shouldn\u0027t be needed anywhere if there is no auxInt or aux with the MOVDstore or MOVDstorezero.\n\nBut if I do that things break. Mostly cases like in issue #21947. That has been my concern.",
+      "parentUuid": "31b29a39_3f915d2a",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
