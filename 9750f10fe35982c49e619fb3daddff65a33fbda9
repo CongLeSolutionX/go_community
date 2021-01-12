@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30e3c1e2_4187fc31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-12T21:03:52Z",
+      "side": 1,
+      "message": "LGTM modulo the TryBot test failure, which appears genuine.",
+      "revId": "9750f10fe35982c49e619fb3daddff65a33fbda9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ed1097_7685eb76",
+        "filename": "test/embedfunc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-12T21:03:52Z",
+      "side": 1,
+      "message": "s/go1.15/go1.16/\n?",
+      "range": {
+        "startLine": 1,
+        "startChar": 20,
+        "endLine": 1,
+        "endChar": 26
+      },
+      "revId": "9750f10fe35982c49e619fb3daddff65a33fbda9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
