@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11cb6773_99dcdb32",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2021-01-12T16:55:00Z",
+      "side": 1,
+      "message": "Remove this empty line",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a3ec8b1_b7bb2ea7",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2021-01-12T16:55:00Z",
+      "side": 1,
+      "message": "Just out of curiosity, would it be feasible to specify `-Werror` to make all the warnings errors?",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25a229e3_1cc2aef3",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2021-01-12T16:55:00Z",
+      "side": 1,
+      "message": "`filepath.Join(\"..\", \"..\", \"..\", \"bin\", \"go\")` is better",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51c0243b_cf73e521",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2021-01-12T16:55:00Z",
+      "side": 1,
+      "message": "Remove this empty line",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
