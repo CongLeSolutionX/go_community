@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f606b39_f038569a",
+        "filename": "src/cmd/compile/internal/dwarfgen/marker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T00:34:10Z",
+      "side": 1,
+      "message": "Done. (Looking again at this code with fresh eyes, I completely agree.)",
+      "parentUuid": "c34e0d6c_4e9a2bc5",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 24
+      },
+      "revId": "e2752baad670abfdac6bd7a3fa6570ee8d384970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02793cc9_87a72991",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-01-11T22:47:11Z",
       "side": 1,
       "message": "s/current/last/ ? (and s/last/i/)",
+      "range": {
+        "startLine": 59,
+        "startChar": 1,
+        "endLine": 59,
+        "endChar": 8
+      },
+      "revId": "e2752baad670abfdac6bd7a3fa6570ee8d384970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d8c5981_bd900397",
+        "filename": "src/cmd/compile/internal/dwarfgen/marker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T00:34:10Z",
+      "side": 1,
+      "message": "Renamed last to i, but left current as-is, since that\u0027s the name also used for the current ir.ScopeID in Push/Pop.",
+      "parentUuid": "02793cc9_87a72991",
       "range": {
         "startLine": 59,
         "startChar": 1,
