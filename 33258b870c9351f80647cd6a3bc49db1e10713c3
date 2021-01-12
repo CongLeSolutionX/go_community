@@ -358,6 +358,24 @@
       "parentUuid": "2d33cbc3_aa10992c",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31b29a39_3f915d2a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-12T18:37:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow. This CL doesn\u0027t add a new rule. It only changes an existing rule. And that rule doesn\u0027t have any Aux or offset.\n\n\u003e But what if the MOVDstore rule does not have an (ADDconst [off2] x), then it won\u0027t match?\n\nThen it won\u0027t match, and works fine. But there exist cases where it does have an (ADDconst [off2] x) and the rule does match. When it does match, the offset check is necessary. It checks the _offset_, not _alignment_, though.",
+      "parentUuid": "a0b1bce8_afa0f285",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
