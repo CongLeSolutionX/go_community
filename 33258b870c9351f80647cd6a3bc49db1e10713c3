@@ -340,6 +340,24 @@
       "parentUuid": "fa7d9697_6ffc3b2c",
       "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0b1bce8_afa0f285",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-01-12T18:30:15Z",
+      "side": 1,
+      "message": "But what if the MOVDstore rule does not have an (ADDconst [off2] x), then it won\u0027t match? As in the new rule added by this CL.\n\nBased on what you are saying we should be able to remove all the alignment checks for MOVDstore and MOVDstorezero but that causes failures.",
+      "parentUuid": "2d33cbc3_aa10992c",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
