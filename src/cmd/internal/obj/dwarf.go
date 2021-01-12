@@ -404,7 +404,7 @@ func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) 
 
 // DwarfGlobal creates a link symbol containing a DWARF entry for
 // a global variable.
-func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym, trace bool) {
+func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym) {
 	if myimportpath == "" || varSym.Local() {
 		return
 	}
@@ -424,10 +424,6 @@ func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym, trace
 	})
 	typeSym := ctxt.Lookup(dwarf.InfoPrefix + typename)
 	dwarf.PutGlobal(dwCtxt{ctxt}, dieSym, typeSym, varSym, varname)
-	if trace {
-		ctxt.Logf("DwarfGlobal(cu=%s,rawname=%s,name=%s,diename=%s)\n", myimportpath, varSym.Name, varname, dieSymName)
-	}
-
 }
 
 func (ctxt *Link) DwarfAbstractFunc(curfn interface{}, s *LSym, myimportpath string) {

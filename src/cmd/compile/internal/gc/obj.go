@@ -195,10 +195,7 @@ func dumpGlobal(n *ir.Name) {
 	}
 	types.CalcSize(n.Type())
 	ggloblnod(n)
-	if base.Ctxt.Flag_dodwvars {
-		base.Ctxt.DwarfGlobal(base.Ctxt.Pkgpath, types.TypeSymName(n.Type()), n.Linksym(),
-			base.Ctxt.Flag_dumpdwvars)
-	}
+	base.Ctxt.DwarfGlobal(base.Ctxt.Pkgpath, types.TypeSymName(n.Type()), n.Linksym())
 }
 
 func dumpGlobalConst(n ir.Node) {

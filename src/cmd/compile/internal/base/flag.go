@@ -82,46 +82,44 @@ type CmdFlags struct {
 	CompilingRuntime bool "flag:\"+\" help:\"compiling runtime\""
 
 	// Longer names
-	ABIWrap             bool         "help:\"enable generation of ABI wrappers\""
-	ABIWrapLimit        int          "help:\"emit at most N ABI wrappers (for debugging)\""
-	AsmHdr              string       "help:\"write assembly header to `file`\""
-	Bench               string       "help:\"append benchmark times to `file`\""
-	BlockProfile        string       "help:\"write block profile to `file`\""
-	BuildID             string       "help:\"record `id` as the build id in the export metadata\""
-	CPUProfile          string       "help:\"write cpu profile to `file`\""
-	Complete            bool         "help:\"compiling complete package (no C or assembly)\""
-	Dwarf               bool         "help:\"generate DWARF symbols\""
-	DwarfBASEntries     *bool        "help:\"use base address selection entries in DWARF\"" // &Ctxt.UseBASEntries, set below
-	DoDwarfGlobalVars   *bool        "help:\"emit DWARF global vars\""
-	DumpDwarfGlobalVars *bool        "help:\"dump  DWARF global var emit process\""
-	DwarfLocationLists  *bool        "help:\"add location lists to DWARF in optimized mode\""                      // &Ctxt.Flag_locationlists, set below
-	Dynlink             *bool        "help:\"support references to Go symbols defined in other shared libraries\"" // &Ctxt.Flag_dynlink, set below
-	EmbedCfg            func(string) "help:\"read go:embed configuration from `file`\""
-	GenDwarfInl         int          "help:\"generate DWARF inline info records\"" // 0=disabled, 1=funcs, 2=funcs+formals/locals
-	GoVersion           string       "help:\"required version of the runtime\""
-	ImportCfg           func(string) "help:\"read import configuration from `file`\""
-	ImportMap           func(string) "help:\"add `definition` of the form source=actual to import map\""
-	InstallSuffix       string       "help:\"set pkg directory `suffix`\""
-	JSON                string       "help:\"version,file for JSON compiler/optimizer detail output\""
-	Lang                string       "help:\"Go language version source code expects\""
-	LinkObj             string       "help:\"write linker-specific object to `file`\""
-	LinkShared          *bool        "help:\"generate code that will be linked against Go shared libraries\"" // &Ctxt.Flag_linkshared, set below
-	Live                CountFlag    "help:\"debug liveness analysis\""
-	MSan                bool         "help:\"build code compatible with C/C++ memory sanitizer\""
-	MemProfile          string       "help:\"write memory profile to `file`\""
-	MemProfileRate      int64        "help:\"set runtime.MemProfileRate to `rate`\""
-	MutexProfile        string       "help:\"write mutex profile to `file`\""
-	NoLocalImports      bool         "help:\"reject local (relative) imports\""
-	Pack                bool         "help:\"write to file.a instead of file.o\""
-	Race                bool         "help:\"enable race detector\""
-	Shared              *bool        "help:\"generate code that can be linked into a shared library\"" // &Ctxt.Flag_shared, set below
-	SmallFrames         bool         "help:\"reduce the size limit for stack allocated objects\""      // small stacks, to diagnose GC latency; see golang.org/issue/27732
-	Spectre             string       "help:\"enable spectre mitigations in `list` (all, index, ret)\""
-	Std                 bool         "help:\"compiling standard library\""
-	SymABIs             string       "help:\"read symbol ABIs from `file`\""
-	TraceProfile        string       "help:\"write an execution trace to `file`\""
-	TrimPath            string       "help:\"remove `prefix` from recorded source file paths\""
-	WB                  bool         "help:\"enable write barrier\"" // TODO: remove
+	ABIWrap            bool         "help:\"enable generation of ABI wrappers\""
+	ABIWrapLimit       int          "help:\"emit at most N ABI wrappers (for debugging)\""
+	AsmHdr             string       "help:\"write assembly header to `file`\""
+	Bench              string       "help:\"append benchmark times to `file`\""
+	BlockProfile       string       "help:\"write block profile to `file`\""
+	BuildID            string       "help:\"record `id` as the build id in the export metadata\""
+	CPUProfile         string       "help:\"write cpu profile to `file`\""
+	Complete           bool         "help:\"compiling complete package (no C or assembly)\""
+	Dwarf              bool         "help:\"generate DWARF symbols\""
+	DwarfBASEntries    *bool        "help:\"use base address selection entries in DWARF\""                        // &Ctxt.UseBASEntries, set below
+	DwarfLocationLists *bool        "help:\"add location lists to DWARF in optimized mode\""                      // &Ctxt.Flag_locationlists, set below
+	Dynlink            *bool        "help:\"support references to Go symbols defined in other shared libraries\"" // &Ctxt.Flag_dynlink, set below
+	EmbedCfg           func(string) "help:\"read go:embed configuration from `file`\""
+	GenDwarfInl        int          "help:\"generate DWARF inline info records\"" // 0=disabled, 1=funcs, 2=funcs+formals/locals
+	GoVersion          string       "help:\"required version of the runtime\""
+	ImportCfg          func(string) "help:\"read import configuration from `file`\""
+	ImportMap          func(string) "help:\"add `definition` of the form source=actual to import map\""
+	InstallSuffix      string       "help:\"set pkg directory `suffix`\""
+	JSON               string       "help:\"version,file for JSON compiler/optimizer detail output\""
+	Lang               string       "help:\"Go language version source code expects\""
+	LinkObj            string       "help:\"write linker-specific object to `file`\""
+	LinkShared         *bool        "help:\"generate code that will be linked against Go shared libraries\"" // &Ctxt.Flag_linkshared, set below
+	Live               CountFlag    "help:\"debug liveness analysis\""
+	MSan               bool         "help:\"build code compatible with C/C++ memory sanitizer\""
+	MemProfile         string       "help:\"write memory profile to `file`\""
+	MemProfileRate     int64        "help:\"set runtime.MemProfileRate to `rate`\""
+	MutexProfile       string       "help:\"write mutex profile to `file`\""
+	NoLocalImports     bool         "help:\"reject local (relative) imports\""
+	Pack               bool         "help:\"write to file.a instead of file.o\""
+	Race               bool         "help:\"enable race detector\""
+	Shared             *bool        "help:\"generate code that can be linked into a shared library\"" // &Ctxt.Flag_shared, set below
+	SmallFrames        bool         "help:\"reduce the size limit for stack allocated objects\""      // small stacks, to diagnose GC latency; see golang.org/issue/27732
+	Spectre            string       "help:\"enable spectre mitigations in `list` (all, index, ret)\""
+	Std                bool         "help:\"compiling standard library\""
+	SymABIs            string       "help:\"read symbol ABIs from `file`\""
+	TraceProfile       string       "help:\"write an execution trace to `file`\""
+	TrimPath           string       "help:\"remove `prefix` from recorded source file paths\""
+	WB                 bool         "help:\"enable write barrier\"" // TODO: remove
 
 	// Configuration derived from flags; not a flag itself.
 	Cfg struct {
@@ -152,11 +150,6 @@ func ParseFlags() {
 	Flag.Dwarf = objabi.GOARCH != "wasm"
 	Flag.DwarfBASEntries = &Ctxt.UseBASEntries
 	Flag.DwarfLocationLists = &Ctxt.Flag_locationlists
-
-	Flag.DoDwarfGlobalVars = &Ctxt.Flag_dodwvars
-	*Flag.DoDwarfGlobalVars = true
-	Flag.DumpDwarfGlobalVars = &Ctxt.Flag_dumpdwvars
-
 	*Flag.DwarfLocationLists = true
 	Flag.Dynlink = &Ctxt.Flag_dynlink
 	Flag.EmbedCfg = readEmbedCfg
