@@ -87,6 +87,24 @@
       "parentUuid": "e4bfac8b_67bed53d",
       "revId": "aed5e690cc13357420646c49e7444f26f491630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e521fe95_480200e6",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-12T19:37:59Z",
+      "side": 1,
+      "message": "One more change needed:\n\n* Let\u0027s recommend \u0027go get\u0027 on the importing package, not the missing imported package. No need to recommend \u0027go mod download\u0027.\n* Make sure to suggest -t if the missing package was transitively imported by a test.",
+      "parentUuid": "2c0f854b_66095806",
+      "revId": "aed5e690cc13357420646c49e7444f26f491630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
