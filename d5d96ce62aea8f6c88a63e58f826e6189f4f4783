@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aba3c97d_b9685a1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-12T02:39:32Z",
+      "side": 1,
+      "message": "Oh yes, although the two addpool calls are consecutive, they may not produce the correct 128-bit result.\nThen we need to define a new flag, say LFROM128 (indicating that FROM and FROM3 form a 128-bit constant input), to mark whether to call addpool or addpool128. Is this ok ?",
+      "parentUuid": "1ae44897_4d74309a",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "d5d96ce62aea8f6c88a63e58f826e6189f4f4783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9d868da_22e1adbb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2021-01-11T17:03:21Z",
       "side": 1,
       "message": "While I also don\u0027t like that operand class check, does it need to be done in the same CL? If it is just a general cleanup, maybe do it in a separate CL. Thanks.",
+      "revId": "d5d96ce62aea8f6c88a63e58f826e6189f4f4783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5c01f69_b69c4f35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-12T02:39:32Z",
+      "side": 1,
+      "message": "We can also think that this check is related to the bug. Because not all classes supported by VMOVQ are listed.\nI\u0027ll create another patch in case that the check is necessary, then we can just revert the cleanup patch. Thanks.",
+      "parentUuid": "a9d868da_22e1adbb",
       "revId": "d5d96ce62aea8f6c88a63e58f826e6189f4f4783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
