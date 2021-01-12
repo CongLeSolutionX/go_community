@@ -16,6 +16,24 @@
       "message": "funcsyms is accessed under mutex up here. Do we need that for the use at 290 as well, or is NeedFuncSym already synchronized (or in the serial phase of the compiler)?\nWorth a comment.",
       "revId": "448add4da1ac10d9656d8bb1c5906a787c564bbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "053a43c7_fd12a163",
+        "filename": "src/cmd/compile/internal/staticdata/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T22:16:55Z",
+      "side": 1,
+      "message": "It always happens in serial. Added a comment and an assert. Just grabbing the lock is probably fine, but I think this code could be cleaned up further.",
+      "parentUuid": "32f23c0b_9eb51618",
+      "revId": "448add4da1ac10d9656d8bb1c5906a787c564bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
