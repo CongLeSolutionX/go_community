@@ -105,6 +105,24 @@
       "parentUuid": "2c0f854b_66095806",
       "revId": "aed5e690cc13357420646c49e7444f26f491630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c750205_aeb6aaf1",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-12T19:58:07Z",
+      "side": 1,
+      "message": "\u003e * Make sure to suggest -t if the missing package was transitively imported by a test.\n\nIf we\u0027re recommending \u0027go get\u0027 on the importing package, I think we generally only need -t if the importer is itself a test..?\n\n(Or is this one of those weird effects of test-variants of packages?)",
+      "parentUuid": "e521fe95_480200e6",
+      "revId": "aed5e690cc13357420646c49e7444f26f491630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
