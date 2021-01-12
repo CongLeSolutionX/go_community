@@ -69,6 +69,24 @@
       "parentUuid": "09a12753_723c7fe3",
       "revId": "aed5e690cc13357420646c49e7444f26f491630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c0f854b_66095806",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-12T18:57:26Z",
+      "side": 1,
+      "message": "I tried to fix this but couldn\u0027t come up with a simple solution. We may need this to work for other errors, too. For now, I\u0027ve opened #43653 and added a TODO above.\n\nWe\u0027ll recommend \u0027go get pkg@version\u0027 if the package could only be provided by one module in the build list. We\u0027ll recommend \u0027go mod download mod1 mod2...\u0027 if there are multiple modules that could provide the package.",
+      "parentUuid": "e4bfac8b_67bed53d",
+      "revId": "aed5e690cc13357420646c49e7444f26f491630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
