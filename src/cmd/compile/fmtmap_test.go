@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (099599 [dev.typeparams] cmd/compile: refactor import logic)
 // Copyright 2018 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -100,3 +101,5 @@ var knownFormats = map[string]string{
 	"reflect.Type %s":                                                                "",
 	"time.Duration %d":                                                               "",
 }
+=======
+>>>>>>> BRANCH (d9acf6 [dev.regabi] cmd/compile: remove Func.ClosureType)
