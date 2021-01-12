@@ -39,6 +39,30 @@
       },
       "revId": "2de6029f04e6cc5e8cea7f4ebc6aa09ba2571807",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "289c0c5a_363df318",
+        "filename": "src/cmd/compile/internal/noder/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-12T00:34:28Z",
+      "side": 1,
+      "message": "Yeah, I think that\u0027s reasonable. I don\u0027t think we even really need to exit in any of these cases. I suspect those are just artifacts from when import processing was still coupled to lexing/parsing of user code.\n\nHowever, changing the calling convention here will affect irgen too, so I\u0027ll do that in a followup CL. I\u0027ve added a TODO.",
+      "parentUuid": "fc156c86_34731e46",
+      "range": {
+        "startLine": 177,
+        "startChar": 47,
+        "endLine": 177,
+        "endChar": 48
+      },
+      "revId": "2de6029f04e6cc5e8cea7f4ebc6aa09ba2571807",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
