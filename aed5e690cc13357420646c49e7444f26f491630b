@@ -123,6 +123,24 @@
       "parentUuid": "e521fe95_480200e6",
       "revId": "aed5e690cc13357420646c49e7444f26f491630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbbb1771_4d621dbb",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-12T22:28:28Z",
+      "side": 1,
+      "message": "You\u0027re right: we only need to say \u0027go get -t pkg\u0027 if \u0027go get pkg\u0027 wouldn\u0027t fetch the missing import because it appears in a test.\n\nThis should be ready now.",
+      "parentUuid": "3c750205_aeb6aaf1",
+      "revId": "aed5e690cc13357420646c49e7444f26f491630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
