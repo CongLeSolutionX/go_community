@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac501e48_b6ccf340",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-12T00:53:08Z",
+      "side": 1,
+      "message": "offsetFrom is tied to the frame.\n\nI could refactor the whole thing into an object, I suppose.\nI\u0027ll put that in a follow-on CL, it touches a lot of lines in very simple-minded ways.",
+      "parentUuid": "a74744b7_0174fa2b",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5399469_c3f39570",
         "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-11T19:10:00Z",
       "side": 1,
       "message": "This condition seems complicated enough to move to a IsXXX function on the block.",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63be61a2_1cb79cf9",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-12T00:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5399469_c3f39570",
       "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69e14190_425c5201",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-12T00:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "589688ea_0d4f4eae",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5201c159_f7319a11",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73177712_e7a62ecb",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-12T00:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5201c159_f7319a11",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2135d546_808920c8",
@@ -82,6 +154,24 @@
       "writtenOn": "2021-01-11T19:10:00Z",
       "side": 1,
       "message": "I\u0027m not sure this is right. At the very least you should remove the previous value, but, I would like to know why a comment about why NoPos is corect.",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cfdd040_f11c6ad7",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-12T00:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2135d546_808920c8",
       "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -109,6 +199,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87af4815_0de29109",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-12T00:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc08732a_b3ba4fb4",
+      "range": {
+        "startLine": 786,
+        "startChar": 3,
+        "endLine": 786,
+        "endChar": 8
+      },
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8bda236_e8b9dbcc",
@@ -126,6 +240,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e45c6d46_6b9cb0ed",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-12T00:53:08Z",
+      "side": 1,
+      "message": "It turns out it is wrong anyway, and I\u0027m in the middle of sorting (in another CL) what the heck it all should be.\nSo out it goes...",
+      "parentUuid": "a8bda236_e8b9dbcc",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c66ece6_0f3cba42",
@@ -139,6 +271,24 @@
       "writtenOn": "2021-01-11T19:10:00Z",
       "side": 1,
       "message": "invert logic and continue instead?",
+      "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb9d295e_88cd2a69",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-12T00:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c66ece6_0f3cba42",
       "revId": "d8da8d9941ea02895fe707d90f3034cfddb16b87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
