@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ee7c672_2e586a17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-01-12T13:46:39Z",
+      "side": 1,
+      "message": "LGTM, thanks for sending this (with all the other refactorings, it no longer makes sense for the abi stuff to be part of package cmd/compile/internal/gc).\n",
+      "revId": "e4e00332298e742c2d29f99fcbb117f5b8b31e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3ea2088_d302bdd5",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-01-12T13:46:39Z",
+      "side": 1,
+      "message": "abiInternal? Or maybe keep as abi1 but add a comment to the effect that this is the current ABIInternal",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 5
+      },
+      "revId": "e4e00332298e742c2d29f99fcbb117f5b8b31e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
