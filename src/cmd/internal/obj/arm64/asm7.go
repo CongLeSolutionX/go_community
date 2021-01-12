@@ -1229,87 +1229,15 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 		sz = 8
 	}
 
-	switch cls {
-	// TODO(aram): remove.
-	default:
-		if a.Name != obj.NAME_EXTERN {
-			fmt.Printf("addpool: %v in %v shouldn't go to default case\n", DRconv(cls), p)
-		}
-
+	if a.Name != obj.NAME_EXTERN {
+		t.To.Type = obj.TYPE_CONST
+		t.To.Offset = lit
+	} else {
+		// TODO(aram): remove.
 		t.To.Offset = a.Offset
 		t.To.Sym = a.Sym
 		t.To.Type = a.Type
 		t.To.Name = a.Name
-
-	/* This is here because MOV uint12<<12, R is disabled in optab.
-	Because of this, we need to load the constant from memory. */
-	case C_ADDCON:
-		fallthrough
-
-	case C_ZAUTO,
-		C_PSAUTO,
-		C_PSAUTO_8,
-		C_PSAUTO_4,
-		C_PPAUTO_16,
-		C_PPAUTO,
-		C_UAUTO4K_16,
-		C_UAUTO4K_8,
-		C_UAUTO4K_4,
-		C_UAUTO4K_2,
-		C_UAUTO4K,
-		C_UAUTO8K_16,
-		C_UAUTO8K_8,
-		C_UAUTO8K_4,
-		C_UAUTO8K,
-		C_UAUTO16K_16,
-		C_UAUTO16K_8,
-		C_UAUTO16K,
-		C_UAUTO32K_16,
-		C_UAUTO32K,
-		C_UAUTO64K,
-		C_NSAUTO_8,
-		C_NSAUTO_4,
-		C_NSAUTO,
-		C_NPAUTO,
-		C_NAUTO4K,
-		C_LAUTO,
-		C_PSOREG,
-		C_PSOREG_8,
-		C_PSOREG_4,
-		C_PPOREG_16,
-		C_PPOREG,
-		C_UOREG4K_16,
-		C_UOREG4K_8,
-		C_UOREG4K_4,
-		C_UOREG4K_2,
-		C_UOREG4K,
-		C_UOREG8K_16,
-		C_UOREG8K_8,
-		C_UOREG8K_4,
-		C_UOREG8K,
-		C_UOREG16K_16,
-		C_UOREG16K_8,
-		C_UOREG16K,
-		C_UOREG32K_16,
-		C_UOREG32K,
-		C_UOREG64K,
-		C_NSOREG_8,
-		C_NSOREG_4,
-		C_NSOREG,
-		C_NPOREG,
-		C_NOREG4K,
-		C_LOREG,
-		C_LACON,
-		C_ADDCON2,
-		C_LCON,
-		C_VCON:
-		if a.Name == obj.NAME_EXTERN {
-			fmt.Printf("addpool: %v in %v needs reloc\n", DRconv(cls), p)
-		}
-
-		t.To.Type = obj.TYPE_CONST
-		t.To.Offset = lit
-		break
 	}
 
 	for q := c.blitrl; q != nil; q = q.Link { /* could hash on t.t0.offset */
@@ -1329,7 +1257,6 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 		c.elitrl.Link = q
 	}
 	c.elitrl = q
-	c.pool.size = -c.pool.size & (funcAlign - 1)
 	c.pool.size += uint32(sz)
 	p.Pool = q
 }
