@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1995d3c2_0148edd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-12T17:05:13Z",
+      "side": 1,
+      "message": "holding off on review b/c David\u0027s still sorting out some of this.",
+      "revId": "91449dfa3a843d16cb5a3539c606a90005d9d2b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13ae2f50_307ef944",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-12T17:05:13Z",
+      "side": 1,
+      "message": "s/from function/from a function./\n\nhere and below.",
+      "revId": "91449dfa3a843d16cb5a3539c606a90005d9d2b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
