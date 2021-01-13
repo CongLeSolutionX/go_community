@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "065308f1_e0dbb59b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-13T13:27:42Z",
+      "side": 1,
+      "message": "How did these lines get here? I didn\u0027t write the lines down.",
+      "parentUuid": "ec68eb89_db2659c1",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be8f4012_827928d8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-12T21:11:53Z",
       "side": 1,
       "message": "Please remove the boilerplate text from the description.",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f868e40a_b8f5a89d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-13T13:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8f4012_827928d8",
       "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32f3ce9e_6c6c04e4",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-13T13:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f878ecbd_42c2a7be",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8934fd47_d569c5d7",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-01-12T21:11:53Z",
       "side": 1,
       "message": "The cgo tests mostly live under misc/cgo.",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a121a521_72afbf79",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-13T13:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8934fd47_d569c5d7",
       "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2776b13d_b0697155",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-13T13:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11cb6773_99dcdb32",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a3ec8b1_b7bb2ea7",
@@ -99,6 +189,24 @@
       "writtenOn": "2021-01-12T16:55:00Z",
       "side": 1,
       "message": "Just out of curiosity, would it be feasible to specify `-Werror` to make all the warnings errors?",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fdd8d2e_d24bf8f3",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-13T13:27:42Z",
+      "side": 1,
+      "message": "Yep, `-W -Wall` option request more warnings from compiler. `-Werror` option treats those as error.",
+      "parentUuid": "8a3ec8b1_b7bb2ea7",
       "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +228,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d9d2c43_08983830",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-13T13:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25a229e3_1cc2aef3",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51c0243b_cf73e521",
@@ -133,6 +259,24 @@
       "writtenOn": "2021-01-12T16:55:00Z",
       "side": 1,
       "message": "Remove this empty line",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a802764a_97303c92",
+        "filename": "src/cmd/cgo/unused_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-13T13:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51c0243b_cf73e521",
       "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
