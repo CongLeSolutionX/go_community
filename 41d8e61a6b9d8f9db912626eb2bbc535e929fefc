@@ -16,6 +16,24 @@
       "message": "Russ, for this change to appear at https://golang.org/doc/install/source, the same file in x/website will need to be modified, not this old copy.\n\nI\u0027ve added this CL to the list at https://github.com/golang/go/issues/40496#issuecomment-705641649.",
       "revId": "41d8e61a6b9d8f9db912626eb2bbc535e929fefc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4938da57_2978a401",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-01-13T14:18:00Z",
+      "side": 1,
+      "message": "Thank you for the heads up. This is not a great long-term situation.",
+      "parentUuid": "c23d58e6_93e1857f",
+      "revId": "41d8e61a6b9d8f9db912626eb2bbc535e929fefc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
