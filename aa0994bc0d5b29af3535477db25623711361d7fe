@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "999cb964_817e436c",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T03:14:28Z",
+      "side": 1,
+      "message": "I think you can do this as something like:\n\n    w.signature(n.Type())\n\n    w.int64(len(n.Func.ClosureVars))\n    for i, cv :\u003d range n.Func.ClosureVars {\n        w.pos(cv.Pos())\n        w.localName(cv.Outer)\n        w.dclIndex[cv] \u003d -(i + 2)\n    }\n\n    w.funcBody(n.Func)\n\nand then if importReader.localName is updated to know indices \u003c\u003d-2 correspond to r.curfn.ClosureVars instead of r.curfn.Dcl, reading an OCLOSURE node back in hopefully becomes roughly:\n\n    fn :\u003d ir.NewFunc(...)\n    ... // setup fn\n\n    cvars :\u003d make([]*ir.Name, r.int64())\n    for i :\u003d range cvars {\n        cvars[i] \u003d ir.CaptureName(r.Pos(), fn, r.localName().Canonical())\n    }\n    fn.ClosureVars \u003d cvars\n\n    r.funcBody(fn)\n\n\nAt least that\u0027s how I was imagining/hoping ir.CaptureName and {exportWriter,importReader}.funcBody would be helpful to your work on this.\n\nBetter still would be to renumber blank\u0027s encoding in localName from -1 to 0, and then index both Dcl and ClosureVars from 1 and -1, respectively, so they\u0027re symmetric.",
+      "revId": "aa0994bc0d5b29af3535477db25623711361d7fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
