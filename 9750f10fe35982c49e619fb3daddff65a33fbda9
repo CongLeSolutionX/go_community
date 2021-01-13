@@ -63,6 +63,30 @@
       },
       "revId": "9750f10fe35982c49e619fb3daddff65a33fbda9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a93a28d_e0fad830",
+        "filename": "test/embedfunc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T17:16:29Z",
+      "side": 1,
+      "message": "That seems to be what embedvers.go is checking for? Isn\u0027t this checking for misuse of //go:embed on a func-scoped var, which would still be an error in Go 1.16?",
+      "parentUuid": "2a29fe75_f287d43f",
+      "range": {
+        "startLine": 1,
+        "startChar": 20,
+        "endLine": 1,
+        "endChar": 26
+      },
+      "revId": "9750f10fe35982c49e619fb3daddff65a33fbda9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
