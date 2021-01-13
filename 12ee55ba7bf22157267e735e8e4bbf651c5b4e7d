@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd61dbd0_e4d276e8",
+        "filename": "src/cmd/compile/internal/dwarfgen/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-13T23:57:23Z",
+      "side": 0,
+      "message": "So the cleanup simplifies out all this special case?",
+      "range": {
+        "startLine": 189,
+        "startChar": 11,
+        "endLine": 189,
+        "endChar": 35
+      },
+      "revId": "12ee55ba7bf22157267e735e8e4bbf651c5b4e7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
