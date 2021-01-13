@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8e333bd_003d8830",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-13T18:11:39Z",
+      "side": 1,
+      "message": "Is it possible to add a test? The encoding test in cmd/asm cannot test constant pool. Maybe we can test a small program that uses VMOVQ to load a constant and check the constant is correct,",
+      "revId": "1176d37d8fe595490c821aaa6f3acdc363afc77e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd081fa2_366aa266",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1265,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-13T18:11:39Z",
+      "side": 1,
+      "message": "Offset (capital O).",
+      "range": {
+        "startLine": 1265,
+        "startChar": 54,
+        "endLine": 1265,
+        "endChar": 60
+      },
+      "revId": "1176d37d8fe595490c821aaa6f3acdc363afc77e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd98eef3_d393b614",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1268,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-13T18:11:39Z",
+      "side": 1,
+      "message": "Is this really necessary? Can you just use al.Offset and ah.Offset?",
+      "range": {
+        "startLine": 1267,
+        "startChar": 0,
+        "endLine": 1268,
+        "endChar": 20
+      },
+      "revId": "1176d37d8fe595490c821aaa6f3acdc363afc77e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
