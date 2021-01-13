@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64f24593_271f0442",
+        "filename": "misc/cgo/test/issue43639.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-13T23:02:24Z",
+      "side": 1,
+      "message": "Instead of creating a file and running \"go build\", simpler to put the test in a subdirectory of misc/cgo/test/testdata.",
+      "revId": "454f9c2b1db261a8ddacb128bfaee4353dde2c26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
