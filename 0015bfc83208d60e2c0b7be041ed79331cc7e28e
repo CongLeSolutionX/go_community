@@ -16,6 +16,103 @@
       "message": "Ping.",
       "revId": "0015bfc83208d60e2c0b7be041ed79331cc7e28e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b28c072f_f8ce9ea7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T17:34:12Z",
+      "side": 1,
+      "message": "Thanks, this looks better.",
+      "revId": "0015bfc83208d60e2c0b7be041ed79331cc7e28e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44bf365d_27eaf3a1",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T17:34:12Z",
+      "side": 1,
+      "message": "Not for this CL, but a future cleanup could replace this map with ir.NameSet.",
+      "revId": "0015bfc83208d60e2c0b7be041ed79331cc7e28e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d02752cb_cb98abfa",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T17:34:12Z",
+      "side": 1,
+      "message": "Either change to `const tooExpensive \u003d \"too expensive\"` or just inline that string below.",
+      "revId": "0015bfc83208d60e2c0b7be041ed79331cc7e28e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51d979de_b9a323d9",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T17:34:12Z",
+      "side": 1,
+      "message": "Rename errList to doList and change to:\n\n    return doList(n.Init(), v.do) ||\n        doList(n.Body, v.do) ||\n        doList(n.Else, v.do)",
+      "range": {
+        "startLine": 397,
+        "startChar": 0,
+        "endLine": 407,
+        "endChar": 3
+      },
+      "revId": "0015bfc83208d60e2c0b7be041ed79331cc7e28e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34195d0_35366b5f",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T17:34:12Z",
+      "side": 1,
+      "message": "v.do",
+      "range": {
+        "startLine": 436,
+        "startChar": 25,
+        "endLine": 436,
+        "endChar": 33
+      },
+      "revId": "0015bfc83208d60e2c0b7be041ed79331cc7e28e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
