@@ -52,6 +52,12 @@ func (g *irgen) expr(expr syntax.Expr) ir.Node {
 		base.FatalfAt(g.pos(expr), "unrecognized type-checker result")
 	}
 
+	if base.Debug.Untyped != 0 {
+		if basic, ok := tv.Type.(*types2.Basic); ok && basic.Info()&types2.IsUntyped != 0 {
+			base.WarnfAt(g.pos(expr), "%v has type %v", syntax.String(expr), basic)
+		}
+	}
+
 	// Constant expression.
 	if tv.Value != nil {
 		return Const(g.pos(expr), g.typ(tv.Type), tv.Value)
