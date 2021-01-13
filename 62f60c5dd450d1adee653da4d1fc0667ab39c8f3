@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54292c19_b2d2a016",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-01-13T23:36:52Z",
+      "side": 1,
+      "message": "LGTM. \n\nTIL there is a global blank node (node sharing in compiler IRs is always an interesting source of fun).\n",
+      "revId": "62f60c5dd450d1adee653da4d1fc0667ab39c8f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
