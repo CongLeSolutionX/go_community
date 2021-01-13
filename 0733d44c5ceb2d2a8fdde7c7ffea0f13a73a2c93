@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1e707a1_d3354073",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-13T18:43:59Z",
+      "side": 1,
+      "message": "LGTM modulo comment in embedfunc.go.",
+      "revId": "0733d44c5ceb2d2a8fdde7c7ffea0f13a73a2c93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
