@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f79782_511210e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-13T22:57:43Z",
+      "side": 1,
+      "message": "My understanding is that when you open a GitHub pull request, that text is automatically added to tell you what to do.",
+      "parentUuid": "065308f1_e0dbb59b",
+      "revId": "30fe18a7dd1d32b771749509ae630d383534a523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be8f4012_827928d8",
