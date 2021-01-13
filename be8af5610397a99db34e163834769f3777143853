@@ -51,6 +51,69 @@
       "parentUuid": "9f9b87eb_d976a3bf",
       "revId": "be8af5610397a99db34e163834769f3777143853",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6af69e91_0ca53b84",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3791,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-13T15:58:55Z",
+      "side": 1,
+      "message": "I think the \"as\" field is no longer used, so it can be removed.\n(Seperate CL if you want.)",
+      "range": {
+        "startLine": 3791,
+        "startChar": 3,
+        "endLine": 3791,
+        "endChar": 10
+      },
+      "revId": "be8af5610397a99db34e163834769f3777143853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6899cfb_afb9a351",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3917,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-13T15:58:55Z",
+      "side": 1,
+      "message": "I think this is the missing one, mislabeled.",
+      "revId": "be8af5610397a99db34e163834769f3777143853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bf31cb9_aca86637",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3943,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-13T15:58:55Z",
+      "side": 1,
+      "message": "ASHRL needs a separate entry.",
+      "range": {
+        "startLine": 3943,
+        "startChar": 3,
+        "endLine": 3943,
+        "endChar": 8
+      },
+      "revId": "be8af5610397a99db34e163834769f3777143853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

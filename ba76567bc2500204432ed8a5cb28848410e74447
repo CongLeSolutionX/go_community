@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6103ba14_9b8c55dc",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3856,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-13T15:58:55Z",
+      "side": 0,
+      "message": "This one is missing?\n\nMaybe count the entries before and after and make sure there isn\u0027t another missing one.",
+      "range": {
+        "startLine": 3856,
+        "startChar": 1,
+        "endLine": 3856,
+        "endChar": 69
+      },
+      "revId": "ba76567bc2500204432ed8a5cb28848410e74447",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
