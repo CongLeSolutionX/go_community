@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e3c699a_b5728f92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-13T22:58:15Z",
+      "side": 1,
+      "message": "Test failures appear to be due to https://github.com/golang/go/issues/42637.",
+      "revId": "a530ff4a9c5730d75cbf734122bac51ee0a96bbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
