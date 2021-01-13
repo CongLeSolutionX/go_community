@@ -76,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de30ec0b_dc2d1c63",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3791,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2021-01-13T17:07:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6af69e91_0ca53b84",
+      "range": {
+        "startLine": 3791,
+        "startChar": 3,
+        "endLine": 3791,
+        "endChar": 10
+      },
+      "revId": "be8af5610397a99db34e163834769f3777143853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6899cfb_afb9a351",
@@ -93,6 +117,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30a91632_72c3133e",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3917,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2021-01-13T17:07:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a6899cfb_afb9a351",
+      "revId": "be8af5610397a99db34e163834769f3777143853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80a2e42_e554e952",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3917,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2021-01-13T17:07:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a6899cfb_afb9a351",
+      "revId": "be8af5610397a99db34e163834769f3777143853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bf31cb9_aca86637",
@@ -106,6 +166,54 @@
       "writtenOn": "2021-01-13T15:58:55Z",
       "side": 1,
       "message": "ASHRL needs a separate entry.",
+      "range": {
+        "startLine": 3943,
+        "startChar": 3,
+        "endLine": 3943,
+        "endChar": 8
+      },
+      "revId": "be8af5610397a99db34e163834769f3777143853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b2f19c6_4e782ec8",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3943,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2021-01-13T17:07:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3bf31cb9_aca86637",
+      "range": {
+        "startLine": 3943,
+        "startChar": 3,
+        "endLine": 3943,
+        "endChar": 8
+      },
+      "revId": "be8af5610397a99db34e163834769f3777143853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb869d2_78e6c121",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3943,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2021-01-13T17:07:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3bf31cb9_aca86637",
       "range": {
         "startLine": 3943,
         "startChar": 3,
