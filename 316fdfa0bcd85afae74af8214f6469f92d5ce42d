@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8a2ae0f_31ab07f4",
+        "filename": "src/cmd/go/testdata/script/mod_sum_ambiguous.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-13T20:21:51Z",
+      "side": 1,
+      "message": "(minor) Maybe add \"(imported by m)\" or similar after the \"example.com/…\" package path to explain why we\u0027re suggesting `go get` on a different path?",
+      "range": {
+        "startLine": 28,
+        "startChar": 52,
+        "endLine": 28,
+        "endChar": 126
+      },
+      "revId": "316fdfa0bcd85afae74af8214f6469f92d5ce42d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
