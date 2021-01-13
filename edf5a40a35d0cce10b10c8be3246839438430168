@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b1675c4_0b672348",
+        "filename": "src/cmd/go/testdata/script/mod_empty_err.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-13T13:57:32Z",
+      "side": 1,
+      "message": "While we\u0027re here, s/Veries/Verifies/",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 2,
+        "endChar": 8
+      },
+      "revId": "edf5a40a35d0cce10b10c8be3246839438430168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
