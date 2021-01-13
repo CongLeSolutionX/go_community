@@ -129,6 +129,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1922127_c8e0e418",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T04:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7c362e_e6c63031",
+      "range": {
+        "startLine": 91,
+        "startChar": 12,
+        "endLine": 91,
+        "endChar": 24
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab563766_a0520d58",
@@ -142,6 +166,24 @@
       "writtenOn": "2021-01-12T01:31:47Z",
       "side": 1,
       "message": "ImportDecls must always come first per Go syntax. This loop can exit as soon as we a declaration that\u0027s not an ImportDecl. Probably worthwhile doing.\n\nIt may even make sense to operate on a sub-slice (everything after the imports) for the remaining two steps. Though it\u0027s unlikely to have a perf. impact.",
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f6e040b_1097f230",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T04:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab563766_a0520d58",
       "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -240,6 +282,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d2e196_ca351ecc",
+        "filename": "src/cmd/compile/internal/noder/posmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T04:57:40Z",
+      "side": 1,
+      "message": "It seems like at least imported objects are a common case. Maybe that\u0027ll go away once we better integrate the importers, or we can restructure the code to avoid it. It\u0027s at least not a visible problem today, so I\u0027m leaving as a TODO for now. I\u0027ll revisit once things are further along.",
+      "parentUuid": "3ecbfeb9_23e633ee",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f197ee1_d0a64c71",
@@ -287,6 +353,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e043e2d9_c32024e8",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T04:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adfce06d_95b9220d",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a08d283_f3345180",
@@ -300,6 +390,30 @@
       "writtenOn": "2021-01-12T01:31:47Z",
       "side": 1,
       "message": "I\u0027d prefer not exporting Token and have specific (short) enumerations where we need them. Better decoupling of the packages.",
+      "range": {
+        "startLine": 111,
+        "startChar": 26,
+        "endLine": 111,
+        "endChar": 32
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "545ef0c6_29b3f6af",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T04:57:40Z",
+      "side": 1,
+      "message": "Updated the TODO comments.",
+      "parentUuid": "3a08d283_f3345180",
       "range": {
         "startLine": 111,
         "startChar": 26,
@@ -394,6 +508,30 @@
       "writtenOn": "2021-01-12T01:31:47Z",
       "side": 1,
       "message": "go/types -\u003e types2",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "ed23887e94c13c1e338c06a43ab73aa0a2724584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6d12e7a_04acddad",
+        "filename": "src/cmd/compile/internal/noder/validate.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-13T04:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e26d201_0edc9a14",
       "range": {
         "startLine": 26,
         "startChar": 27,
