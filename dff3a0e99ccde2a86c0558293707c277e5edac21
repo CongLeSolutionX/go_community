@@ -22,6 +22,30 @@
       },
       "revId": "dff3a0e99ccde2a86c0558293707c277e5edac21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f328355_81a19a19",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T18:10:56Z",
+      "side": 1,
+      "message": "Hm, good point. That sounds plausible to me.",
+      "parentUuid": "7e792874_321c25b0",
+      "range": {
+        "startLine": 269,
+        "startChar": 97,
+        "endLine": 269,
+        "endChar": 160
+      },
+      "revId": "dff3a0e99ccde2a86c0558293707c277e5edac21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
