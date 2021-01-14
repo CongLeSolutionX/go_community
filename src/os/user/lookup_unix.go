@@ -9,7 +9,6 @@ package user
 
 import (
 	"bufio"
-	"bytes"
 	"errors"
 	"io"
 	"os"
@@ -20,26 +19,26 @@ import (
 const groupFile = "/etc/group"
 const userFile = "/etc/passwd"
 
-var colon = []byte{':'}
+var colon = ":"
 
 func init() {
 	groupImplemented = false
 }
 
 // lineFunc returns a value, an error, or (nil, nil) to skip the row.
-type lineFunc func(line []byte) (v interface{}, err error)
+type lineFunc func(line string) (v interface{}, err error)
 
 // readColonFile parses r as an /etc/group or /etc/passwd style file, running
 // fn for each row. readColonFile returns a value, an error, or (nil, nil) if
 // the end of the file is reached without a match.
 func readColonFile(r io.Reader, fn lineFunc) (v interface{}, err error) {
-	bs := bufio.NewScanner(r)
-	for bs.Scan() {
-		line := bs.Bytes()
+	rd := bufio.NewReader(r)
+	var line string
+	for line, err = rd.ReadString('\n'); err == nil; line, err = rd.ReadString('\n') {
 		// There's no spec for /etc/passwd or /etc/group, but we try to follow
 		// the same rules as the glibc parser, which allows comments and blank
 		// space at the beginning of a line.
-		line = bytes.TrimSpace(line)
+		line = strings.TrimSpace(line)
 		if len(line) == 0 || line[0] == '#' {
 			continue
 		}
@@ -48,7 +47,7 @@ func readColonFile(r io.Reader, fn lineFunc) (v interface{}, err error) {
 			return
 		}
 	}
-	return nil, bs.Err()
+	return nil, err
 }
 
 func matchGroupIndexValue(value string, idx int) lineFunc {
@@ -56,9 +55,9 @@ func matchGroupIndexValue(value string, idx int) lineFunc {
 	if idx > 0 {
 		leadColon = ":"
 	}
-	substr := []byte(leadColon + value + ":")
-	return func(line []byte) (v interface{}, err error) {
-		if !bytes.Contains(line, substr) || bytes.Count(line, colon) < 3 {
+	substr := leadColon + value + ":"
+	return func(line string) (v interface{}, err error) {
+		if !strings.Contains(line, substr) || strings.Count(line, colon) < 3 {
 			return
 		}
 		// wheel:*:0:root
@@ -103,13 +102,13 @@ func matchUserIndexValue(value string, idx int) lineFunc {
 	if idx > 0 {
 		leadColon = ":"
 	}
-	substr := []byte(leadColon + value + ":")
-	return func(line []byte) (v interface{}, err error) {
-		if !bytes.Contains(line, substr) || bytes.Count(line, colon) < 6 {
+	substr := leadColon + value + ":"
+	return func(line string) (v interface{}, err error) {
+		if !strings.Contains(line, substr) || strings.Count(line, colon) < 6 {
 			return
 		}
 		// kevin:x:1005:1006::/home/kevin:/usr/bin/zsh
-		parts := strings.SplitN(string(line), ":", 7)
+		parts := strings.SplitN(line, ":", 7)
 		if len(parts) < 6 || parts[idx] != value || parts[0] == "" ||
 			parts[0][0] == '+' || parts[0][0] == '-' {
 			return
