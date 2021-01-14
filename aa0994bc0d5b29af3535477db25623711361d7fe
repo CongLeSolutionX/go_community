@@ -16,6 +16,24 @@
       "message": "I think you can do this as something like:\n\n    w.signature(n.Type())\n\n    w.int64(len(n.Func.ClosureVars))\n    for i, cv :\u003d range n.Func.ClosureVars {\n        w.pos(cv.Pos())\n        w.localName(cv.Outer)\n        w.dclIndex[cv] \u003d -(i + 2)\n    }\n\n    w.funcBody(n.Func)\n\nand then if importReader.localName is updated to know indices \u003c\u003d-2 correspond to r.curfn.ClosureVars instead of r.curfn.Dcl, reading an OCLOSURE node back in hopefully becomes roughly:\n\n    fn :\u003d ir.NewFunc(...)\n    ... // setup fn\n\n    cvars :\u003d make([]*ir.Name, r.int64())\n    for i :\u003d range cvars {\n        cvars[i] \u003d ir.CaptureName(r.Pos(), fn, r.localName().Canonical())\n    }\n    fn.ClosureVars \u003d cvars\n\n    r.funcBody(fn)\n\n\nAt least that\u0027s how I was imagining/hoping ir.CaptureName and {exportWriter,importReader}.funcBody would be helpful to your work on this.\n\nBetter still would be to renumber blank\u0027s encoding in localName from -1 to 0, and then index both Dcl and ClosureVars from 1 and -1, respectively, so they\u0027re symmetric.",
       "revId": "aa0994bc0d5b29af3535477db25623711361d7fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2995f4bd_a4e5720c",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "FYI, after using ir.CaptureName for irgen, I realized it doesn\u0027t set the Type for the closure var, which it probably should. I plan to get to that eventually unless you want to tackle it, but in the mean time if you run into any issues with capture-vars missing their type, you may need some code similar to this for copying Type/etc: https://go-review.googlesource.com/c/go/+/281932/21/src/cmd/compile/internal/noder/expr.go#187",
+      "parentUuid": "999cb964_817e436c",
+      "revId": "aa0994bc0d5b29af3535477db25623711361d7fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

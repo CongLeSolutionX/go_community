@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03b4887_811f5fb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "Looking good. Glad you\u0027ve gotten this working! I think users will be happy that functions containing closures will soon be inlinable.",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2acd52c_91ef26db",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "You can omit ir.FuncName. %v will print the function name for *ir.Func on its own.",
+      "range": {
+        "startLine": 222,
+        "startChar": 42,
+        "endLine": 222,
+        "endChar": 53
+      },
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcabdcc4_a7911e52",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "Can you check if this test case builds and runs okay?\n\nWe want G, G.func1, and f to get inlined into main. But I expect without inlFlood(n.Func.Nname) that it\u0027ll Fatalf due to \"missing import reader for a.f\".\n\n```\n-- a.go --\npackage a\nfunc f() bool { return true }\nfunc G() func() func() bool { return func() func() bool { return f } }\n\n-- main.go --\npackage main\nimport \"./a\"\nfunc main() { if !a.G()()() { panic(\"FAIL\") } }\n```",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5cb3325_015a2474",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "There\u0027s a handful of places like this below where objects are copied by value like this. I think it would be better to use ir.New{Func,ClosureExpr,Name}, types.New{Signature,Struct,Field}, etc to construct the cloned nodes/types instead. If there\u0027s anywhere you\u0027re not able to easily get that working though and have to resort to value copying, please leave a TODO calling it out.",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c255655_cde36eff",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "Can you clarify which of these functions newxfunc refers to? If it\u0027s the closure function, I\u0027d suggest \"newclofn\". I\u0027ve been starting to use \"clofn\" everywhere to refer to *ir.Funcs that correspond to a *ir.ClosureExpr.",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "194e5893_9a9d2e47",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "base.FatalfAt(n.Pos(), \"want closure variable, got: %+v\", n)",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abe08bd4_c3343818",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "If this works and is currently necessary, I think that\u0027s fine. But this feels to me like an issue in how we later generate code to create/access closure structs.\n\nAdd a TODO(mdempsky) to fix this and a note of where you found it was needed?",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a744ef62_e66e8685",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "This is a substantial chunk of code. Maybe split out into a helper method, and then add something like \"case ir.OCLOSURE: return subst.closure(n.(*ir.ClosureExpr))\" to the switch above?",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11a4c367_7b4f77d6",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "Instead of exporting tcClosure, I think you can do:\n\n```\nif oldfn.ClosureCalled() {\n  return typecheck.Callee(m)\n}\nreturn typecheck.Expr(m)\n```",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ee54f38_858f5493",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T20:09:10Z",
+      "side": 1,
+      "message": "Can you check ir.IsBlank(fn.Nname)?",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
