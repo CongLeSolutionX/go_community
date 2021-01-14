@@ -284,6 +284,13 @@ func compilerEnv(envName, def string) map[string]string {
 		}
 	}
 
+	if _, ok := m["darwin/amd64"]; !ok {
+		m["darwin/amd64"] = def + " -arch x86_64"
+	}
+	if _, ok := m["darwin/arm64"]; !ok {
+		m["darwin/arm64"] = def + " -arch arm64"
+	}
+
 	return m
 }
 
