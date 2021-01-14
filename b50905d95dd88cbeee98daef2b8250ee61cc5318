@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13c7cc1e_e14e2ae9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T01:51:06Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "b333fc4e_a89177a0",
+      "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f636974_7c16050d",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-13T23:59:43Z",
       "side": 1,
       "message": "Can you explain the hack in a comment?  I think you are delaying typechecking variable declarations to avoid some bad side effect of typechecking too early?\n\nAlso, not sure I\u0027m following, but it seems like constdecls and typedecls are no longer on typecheck.Target.Decls anymore?  If so, would it be better to keep things consistent for now between -G\u003d3 and not?",
+      "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85cf85a6_10725281",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T01:51:06Z",
+      "side": 1,
+      "message": "Removed the hack, and done. I intended to get around to adding ODCLCONST/ODCLTYPE in a subsequent CL. The rest of the compiler ignores them anyway, so it wasn\u0027t a priority.",
+      "parentUuid": "2f636974_7c16050d",
       "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5acc9c5_d122b268",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T01:51:06Z",
+      "side": 1,
+      "message": "They\u0027re all used now.",
+      "parentUuid": "7021bfaf_d2a55cac",
+      "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e29ece1_30b5d806",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-01-13T23:59:43Z",
       "side": 1,
       "message": "If it works, maybe move this into funcBody(), since that is where typecheck.DeclContext is being changed away from PEXTERN?",
+      "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bb6b6cb_3a0ae6a7",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T01:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e29ece1_30b5d806",
       "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d59d8223_c1e7daab",
+        "filename": "src/cmd/compile/internal/noder/func.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T01:51:06Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s too important when it happens exactly. It just needed to happen for both FuncDecls and FuncLits, so and I happened to put it here.\n\nHowever, FuncDecls are now being handled via the normal decls-out path, so I\u0027ve moved this to funcLit for function literals.",
+      "parentUuid": "bc4ccc10_ae7494c4",
+      "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f936b54_2a69dd19",
@@ -99,6 +189,24 @@
       "writtenOn": "2021-01-13T23:59:43Z",
       "side": 1,
       "message": "Maybe worth a standout comment here that this is where we completely diverge to run the types2 noder?",
+      "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c926f71_d77dcef0",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T01:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f936b54_2a69dd19",
       "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +228,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68efd5d5_cd73a4ae",
+        "filename": "src/cmd/compile/internal/noder/posmap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T01:51:06Z",
+      "side": 1,
+      "message": "Done, added a comment to the commit message.\n\nI think once we deduplicate the importer code and get all of test/run.go passing, we can revisit this and check if there are still unknown positions. At the moment though, I\u0027m not too concerned. The rest of the compiler can (or should) gracefully handle src.NoXPos anyway.",
+      "parentUuid": "1bfd32d4_97ca737c",
+      "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d9c71dc_8f04f590",
@@ -133,6 +259,24 @@
       "writtenOn": "2021-01-13T23:59:43Z",
       "side": 1,
       "message": "This validation is very limited (only call exprs).  Are you planning to add any further validation in the future?  For example, making sure that the types of funcs themselves match, since you depend on the known types of functions to determine the types of function calls.\n\nDon\u0027t need to do for this change, but seems like more validation is probably better?",
+      "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "283d5f4e_b6ffed8d",
+        "filename": "src/cmd/compile/internal/noder/validate.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T01:51:06Z",
+      "side": 1,
+      "message": "There\u0027s validation at https://go-review.googlesource.com/c/go/+/281932/19/src/cmd/compile/internal/noder/expr.go#62 to make sure all expression types match between typecheck and types2. This code is for extra validation on top of that.\n\nIn particular, here I\u0027m checking that types2 is constant-folding unsafe.Sizeof/unsafe.Alignof expressions using the same size calculations that cmd/compile would. In effect, this is checking that CL 282915 is correct.\n\nI\u0027ve added unsafe.Offsetof now. I\u0027m happy to add more checks, but I don\u0027t have any in mind.",
+      "parentUuid": "4d9c71dc_8f04f590",
       "revId": "b50905d95dd88cbeee98daef2b8250ee61cc5318",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
