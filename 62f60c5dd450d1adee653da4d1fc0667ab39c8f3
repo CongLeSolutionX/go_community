@@ -16,6 +16,24 @@
       "message": "LGTM. \n\nTIL there is a global blank node (node sharing in compiler IRs is always an interesting source of fun).\n",
       "revId": "62f60c5dd450d1adee653da4d1fc0667ab39c8f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4b04d71_0d5d721a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T00:14:20Z",
+      "side": 1,
+      "message": "To elaborate: ir.BlankNode is the predeclared \"_\" variable, as would be used in an assignment like \"_ \u003d 42\". If a user writes \"var _ \u003d 42\" though, that will declare a new Name whose Sym is \"_\". In both of these cases, the \"_\" variable satisfies the ir.IsBlank predicate.",
+      "parentUuid": "54292c19_b2d2a016",
+      "revId": "62f60c5dd450d1adee653da4d1fc0667ab39c8f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
