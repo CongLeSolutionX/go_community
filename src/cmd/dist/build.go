@@ -284,6 +284,18 @@ func compilerEnv(envName, def string) map[string]string {
 		}
 	}
 
+	// On Apple Silicon Mac, the C compiler has an annoying default target selection,
+	// depending on the ancestor processes' architecture. In particular, if the shell
+	// or IDE is x86, when running "go build" even with a native ARM64 Go toolchain,
+	// the C compiler defaults to x86, causing build failures. We pass "-arch" flag
+	// explicitly to avoid this situation.
+	if _, ok := m["darwin/amd64"]; !ok {
+		m["darwin/amd64"] = def + " -arch x86_64"
+	}
+	if _, ok := m["darwin/arm64"]; !ok {
+		m["darwin/arm64"] = def + " -arch arm64"
+	}
+
 	return m
 }
 

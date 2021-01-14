@@ -2435,7 +2435,7 @@ func (b *Builder) fcExe() []string {
 func (b *Builder) compilerExe(envValue string, def string) []string {
 	compiler := strings.Fields(envValue)
 	if len(compiler) == 0 {
-		compiler = []string{def}
+		compiler = strings.Fields(def)
 	}
 	return compiler
 }
