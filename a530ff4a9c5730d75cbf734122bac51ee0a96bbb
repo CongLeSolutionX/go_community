@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8e45a20_41a39688",
+        "filename": "src/go/build/read.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-14T16:29:54Z",
+      "side": 1,
+      "message": "Good point. I also like strong invariants.",
+      "parentUuid": "339c6d8b_de12598f",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 4
+      },
+      "revId": "a530ff4a9c5730d75cbf734122bac51ee0a96bbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b4b7246_af430e82",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-01-14T03:03:45Z",
       "side": 1,
       "message": "Just curious: why flat strings for `out` rather than, say, `[]string`?\n\nIt seems like there is a fair amount going on here to format multi-line strings, when we could instead use reflect.DeepEqual to compare slices.",
+      "range": {
+        "startLine": 310,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 52
+      },
+      "revId": "a530ff4a9c5730d75cbf734122bac51ee0a96bbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d74da0c8_51cf5195",
+        "filename": "src/go/build/read_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-14T16:29:54Z",
+      "side": 1,
+      "message": "Mainly personal preference. Better to optimize for ease of adding new test cases. Also, reflect.DeepEqual lacks type checking; this test compiled fine before it was updated.\n\n[]string seems workable, but it seems like an awkward middle ground between string and []fileEmbed.",
+      "parentUuid": "9b4b7246_af430e82",
       "range": {
         "startLine": 310,
         "startChar": 0,
