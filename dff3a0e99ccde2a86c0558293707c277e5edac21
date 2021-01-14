@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e792874_321c25b0",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-14T17:47:15Z",
+      "side": 1,
+      "message": "Actually, I\u0027m not sure this is a problem. On PPC64, for a call across DSO boundary the caller needs to save R2 before the call and restore it after the call, which makes it not possible to do tail call. But for wrappers, can we be sure that the wrapper and wrapped function are always in the same DSO? Then it would be fine to do tail call.",
+      "range": {
+        "startLine": 269,
+        "startChar": 97,
+        "endLine": 269,
+        "endChar": 160
+      },
+      "revId": "dff3a0e99ccde2a86c0558293707c277e5edac21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
