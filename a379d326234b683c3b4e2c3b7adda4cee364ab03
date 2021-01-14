@@ -135,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e7f0998_57f1bf12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-14T19:46:04Z",
+      "side": 1,
+      "message": "These places seem reasonable to me as well. Let me know if you think that is better. I can make the change.",
+      "parentUuid": "2b6dd4cb_cdb0b4a3",
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87f92088_2ff135cb",
