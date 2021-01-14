@@ -16,6 +16,8 @@ import (
 	"testing"
 )
 
+func testvmovq() (r1, r2 uint64)
+
 // TestLarge generates a very large file to verify that large
 // program builds successfully, in particular, too-far
 // conditional branches are fixed, and also verify that the
@@ -47,7 +49,7 @@ func TestLarge(t *testing.T) {
 
 	// assemble generated file
 	cmd := exec.Command(testenv.GoToolPath(t), "tool", "asm", "-S", "-o", filepath.Join(dir, "test.o"), tmpfile)
-	cmd.Env = append(os.Environ(), "GOARCH=arm64", "GOOS=linux")
+	cmd.Env = append(os.Environ(), "GOOS=linux")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Errorf("Assemble failed: %v, output: %s", err, out)
@@ -62,7 +64,7 @@ func TestLarge(t *testing.T) {
 
 	// build generated file
 	cmd = exec.Command(testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
-	cmd.Env = append(os.Environ(), "GOARCH=arm64", "GOOS=linux")
+	cmd.Env = append(os.Environ(), "GOOS=linux")
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Errorf("Build failed: %v, output: %s", err, out)
@@ -96,7 +98,7 @@ func TestNoRet(t *testing.T) {
 		t.Fatal(err)
 	}
 	cmd := exec.Command(testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
-	cmd.Env = append(os.Environ(), "GOARCH=arm64", "GOOS=linux")
+	cmd.Env = append(os.Environ(), "GOOS=linux")
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Errorf("%v\n%s", err, out)
 	}
@@ -134,7 +136,7 @@ func TestPCALIGN(t *testing.T) {
 			t.Fatal(err)
 		}
 		cmd := exec.Command(testenv.GoToolPath(t), "tool", "asm", "-S", "-o", tmpout, tmpfile)
-		cmd.Env = append(os.Environ(), "GOARCH=arm64", "GOOS=linux")
+		cmd.Env = append(os.Environ(), "GOOS=linux")
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Errorf("The %s build failed: %v, output: %s", test.name, err, out)
@@ -148,5 +150,13 @@ func TestPCALIGN(t *testing.T) {
 		if !matched {
 			t.Errorf("The %s testing failed!\ninput: %s\noutput: %s\n", test.name, test.code, out)
 		}
+	}
+}
+
+// TestVMOVQ checks if the arm64 VMOVQ instruction is working properly.
+func TestVMOVQ(t *testing.T) {
+	a, b := testvmovq()
+	if a != 0x7040201008040201 || b != 0x3040201008040201 {
+		t.Errorf("TestVMOVQ got: a=0x%x, b=0x%x, want: a=0x3040201008040201, b=7040201008040201", b, a)
 	}
 }
