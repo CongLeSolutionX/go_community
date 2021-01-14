@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67cee3ad_7e72aaf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T05:47:25Z",
+      "side": 1,
+      "message": "Yeah, I figured that would make you a good reviewer for this, and that you\u0027d also appreciate the cleanup. :)",
+      "parentUuid": "d1715cde_149a0b5f",
+      "revId": "1691e2b8c540752566147e325e507947005dc412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92fb42d3_1b00c714",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-13T23:57:23Z",
       "side": 1,
       "message": "\"plive.go:(*liveness).epilogue\", more or less.\n\nThere\u0027s a mention of Liveness.epilogue in a comment in plive.go, also.",
+      "range": {
+        "startLine": 545,
+        "startChar": 34,
+        "endLine": 545,
+        "endChar": 59
+      },
+      "revId": "1691e2b8c540752566147e325e507947005dc412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6c6c90b_ae23334e",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-14T05:47:25Z",
+      "side": 1,
+      "message": "Fixed the comment here, and touched up a few other docs. Left the plive.go comment for now, to minimize merge conflict risk.",
+      "parentUuid": "92fb42d3_1b00c714",
       "range": {
         "startLine": 545,
         "startChar": 34,
