@@ -32,10 +32,57 @@ type lineFunc func(line []byte) (v interface{}, err error)
 // readColonFile parses r as an /etc/group or /etc/passwd style file, running
 // fn for each row. readColonFile returns a value, an error, or (nil, nil) if
 // the end of the file is reached without a match.
-func readColonFile(r io.Reader, fn lineFunc) (v interface{}, err error) {
-	bs := bufio.NewScanner(r)
-	for bs.Scan() {
-		line := bs.Bytes()
+//
+// If fn is only concerned with contents of first few columns, and ignores the
+// rest of a row, you can specify readCols number. This can help to handle
+// overly long rows (such as groups in /etc/group files with a lot of users in
+// them, that can exceed reader's buffer size) more efficiently. If whole rows
+// are of interest, pass 0.
+func readColonFile(r io.Reader, fn lineFunc, readCols uint) (v interface{}, err error) {
+	rd := bufio.NewReader(r)
+
+	// Read the file line-by-line.
+	for {
+		var isPrefix bool
+		var line []byte
+		var sLine string = ""
+
+		// Read the next line. We do so in chunks (as much as reader's
+		// buffer is able to keep), check if we read enough columns
+		// already on each step and store final result in sLine.
+		for {
+			line, isPrefix, err = rd.ReadLine()
+
+			if err != nil {
+				// We should return (nil, nil) if EOF is reached
+				// without a match.
+				if err == io.EOF {
+					err = nil
+				}
+				return nil, err
+			}
+
+			// Simple common case: line is short enough to fit in a
+			// single reader's buffer.
+			if !isPrefix && (len(sLine) == 0) {
+				break
+			}
+
+			sLine += string(line)
+
+			// Check if we read the whole line (or enough columns)
+			// already.
+			if !isPrefix ||
+				((readCols > 0) && (strings.Count(sLine, ":") >= int(readCols))) {
+				break
+			}
+		}
+
+		// If the line is long, we collected all the chunks in sLine.
+		if len(sLine) > 0 {
+			line = []byte(sLine)
+		}
+
 		// There's no spec for /etc/passwd or /etc/group, but we try to follow
 		// the same rules as the glibc parser, which allows comments and blank
 		// space at the beginning of a line.
@@ -47,8 +94,18 @@ func readColonFile(r io.Reader, fn lineFunc) (v interface{}, err error) {
 		if v != nil || err != nil {
 			return
 		}
+
+		// If necessary, skip the rest of the line
+		for ; isPrefix; _, isPrefix, err = rd.ReadLine() {
+			if err != nil {
+				// We should return (nil, nil) if EOF is reached without a match.
+				if err == io.EOF {
+					err = nil
+				}
+				return nil, err
+			}
+		}
 	}
-	return nil, bs.Err()
 }
 
 func matchGroupIndexValue(value string, idx int) lineFunc {
@@ -79,7 +136,7 @@ func matchGroupIndexValue(value string, idx int) lineFunc {
 }
 
 func findGroupId(id string, r io.Reader) (*Group, error) {
-	if v, err := readColonFile(r, matchGroupIndexValue(id, 2)); err != nil {
+	if v, err := readColonFile(r, matchGroupIndexValue(id, 2), 3); err != nil {
 		return nil, err
 	} else if v != nil {
 		return v.(*Group), nil
@@ -88,7 +145,7 @@ func findGroupId(id string, r io.Reader) (*Group, error) {
 }
 
 func findGroupName(name string, r io.Reader) (*Group, error) {
-	if v, err := readColonFile(r, matchGroupIndexValue(name, 0)); err != nil {
+	if v, err := readColonFile(r, matchGroupIndexValue(name, 0), 3); err != nil {
 		return nil, err
 	} else if v != nil {
 		return v.(*Group), nil
@@ -143,7 +200,7 @@ func findUserId(uid string, r io.Reader) (*User, error) {
 	if e != nil {
 		return nil, errors.New("user: invalid userid " + uid)
 	}
-	if v, err := readColonFile(r, matchUserIndexValue(uid, 2)); err != nil {
+	if v, err := readColonFile(r, matchUserIndexValue(uid, 2), 6); err != nil {
 		return nil, err
 	} else if v != nil {
 		return v.(*User), nil
@@ -152,7 +209,7 @@ func findUserId(uid string, r io.Reader) (*User, error) {
 }
 
 func findUsername(name string, r io.Reader) (*User, error) {
-	if v, err := readColonFile(r, matchUserIndexValue(name, 0)); err != nil {
+	if v, err := readColonFile(r, matchUserIndexValue(name, 0), 6); err != nil {
 		return nil, err
 	} else if v != nil {
 		return v.(*User), nil

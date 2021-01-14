@@ -9,11 +9,12 @@ package user
 
 import (
 	"reflect"
+	"strconv"
 	"strings"
 	"testing"
 )
 
-const testGroupFile = `# See the opendirectoryd(8) man page for additional 
+var testGroupFile = `# See the opendirectoryd(8) man page for additional 
 # information about Open Directory.
 ##
 nobody:*:-2:
@@ -29,6 +30,7 @@ daemon:*:1:root
 # comment:*:4:found
      # comment:*:4:found
 kmem:*:2:root
+largegroup:x:1000:user1
 `
 
 var groupTests = []struct {
@@ -48,7 +50,22 @@ var groupTests = []struct {
 	{testGroupFile, "invalidgid", ""},
 	{testGroupFile, "indented", "7"},
 	{testGroupFile, "# comment", ""},
+	{testGroupFile, "largegroup", "1000"},
 	{"", "emptyfile", ""},
+}
+
+func init() {
+	// Generate a proper "largegroup" entry in testGroupFile string.
+	insertion := ""
+	for i := 2; i <= 7500; i++ {
+		insertion += ",user" + strconv.Itoa(i)
+	}
+	const largeGroupString = "largegroup:x:1000:user1"
+	largeGroupStringIdx := strings.Index(testGroupFile, largeGroupString) +
+		len(largeGroupString)
+	testGroupFile = testGroupFile[:largeGroupStringIdx] +
+		insertion +
+		testGroupFile[largeGroupStringIdx:]
 }
 
 func TestFindGroupName(t *testing.T) {
