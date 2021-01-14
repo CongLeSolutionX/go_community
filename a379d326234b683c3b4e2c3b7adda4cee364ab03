@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea3bcee5_12cef8de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-14T19:23:15Z",
+      "side": 1,
+      "message": "Added a test that checks we pass the flags.\n\nIf we actually want to run the program, it might be too complicated, because of the various environments (ARM64 vs. x86, has Rosetta installed or not, etc). Let me know if a more complex test is preferred.",
+      "parentUuid": "7dc50872_8a0dab6b",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e78fc377_1313a216",
@@ -75,6 +99,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6dd4cb_cdb0b4a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-14T19:23:15Z",
+      "side": 1,
+      "message": "I\u0027m not really sure where is the best place to do this. I\u0027ll look into these places. If we could do it in one place, it might be better than doing it in many places, though.\n\nAlso, I think we may not want to pass the flags if user uses a custom C compiler (e.g. have CC set).",
+      "parentUuid": "4101cb72_752d59dc",
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f57d26_2e1e702b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-14T19:23:15Z",
+      "side": 1,
+      "message": "Yes, it does work for the linker (the ld method in cmd/go/internal/work/gc.go passes it as extldflags).",
+      "parentUuid": "922d0342_74ea7693",
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87f92088_2ff135cb",
@@ -88,6 +148,30 @@
       "writtenOn": "2021-01-14T18:01:34Z",
       "side": 1,
       "message": "Are these flags guaranteed to be supported on all supported versions of C compilers on these platforms?\n\nA comment here would be helpful.",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 2
+      },
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3de3f3f4_bfd3b8d9",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-14T19:23:15Z",
+      "side": 1,
+      "message": "Yes, it is supported for all supported versions of the system C compiler. (If the user use a custom C compiler or build a custom clang from source, there is nothing we could do.)\n\nAdded comment.",
+      "parentUuid": "87f92088_2ff135cb",
       "range": {
         "startLine": 287,
         "startChar": 0,
