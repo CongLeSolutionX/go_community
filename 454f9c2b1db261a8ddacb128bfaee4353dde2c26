@@ -16,6 +16,24 @@
       "message": "Instead of creating a file and running \"go build\", simpler to put the test in a subdirectory of misc/cgo/test/testdata.",
       "revId": "454f9c2b1db261a8ddacb128bfaee4353dde2c26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98156810_acbeb692",
+        "filename": "misc/cgo/test/issue43639.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-14T06:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64f24593_271f0442",
+      "revId": "454f9c2b1db261a8ddacb128bfaee4353dde2c26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
