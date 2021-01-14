@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dc50872_8a0dab6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-14T18:01:34Z",
+      "side": 1,
+      "message": "(not sure)\n\nIs it feasible to add a regression test for this behavior? (Could we perhaps probe for Rosetta support and then execute `go build` with a chain of processes of appropriate architectures, or set some kind of environment variable to fake an architecture-swap?)",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e78fc377_1313a216",
@@ -14,6 +37,29 @@
       "writtenOn": "2021-01-14T17:36:11Z",
       "side": 1,
       "message": "TRY\u003ddarwin,darwin-arm64\n",
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87f92088_2ff135cb",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-14T18:01:34Z",
+      "side": 1,
+      "message": "Are these flags guaranteed to be supported on all supported versions of C compilers on these platforms?\n\nA comment here would be helpful.",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 2
+      },
       "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
