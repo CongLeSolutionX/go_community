@@ -13,6 +13,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"testing"
 )
 
@@ -148,5 +149,66 @@ func TestPCALIGN(t *testing.T) {
 		if !matched {
 			t.Errorf("The %s testing failed!\ninput: %s\noutput: %s\n", test.name, test.code, out)
 		}
+	}
+}
+
+// TestVMOVQ checks if the arm64 VMOVQ instruction is working properly.
+func TestVMOVQ(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+	if runtime.GOARCH != "arm64" || runtime.GOOS != "linux" {
+		return
+	}
+	dir, err := ioutil.TempDir("", "testvmovq")
+	if err != nil {
+		t.Fatal(err)
+	}
+	//	defer os.RemoveAll(dir)
+
+	// Create file f.s which contains VMOVQ instruction.
+	tmpfile1 := filepath.Join(dir, "f.s")
+	s := `TEXT ·f(SB), 4, $0-16
+	VMOVQ   $0x7040201008040201, $0x3040201008040201, V1
+	VMOV    V1.D[0], R0
+	VMOV    V1.D[1], R1
+	MOVD    R0, r1+0(FP)
+	MOVD    R1, r2+8(FP)
+	RET
+	`
+	if err := ioutil.WriteFile(tmpfile1, []byte(s), 0644); err != nil {
+		t.Fatal(err)
+	}
+
+	// Create main.go which calls function f.
+	tmpfile2 := filepath.Join(dir, "main.go")
+	s = `package main
+	func f() (r1, r2 uint64)
+	func main () {
+		a, b := f()
+		if a != 0x7040201008040201 || b != 0x3040201008040201 {
+			panic("the arm64 instruction VMOVQ is not working as expected")
+		}
+	}`
+	if err := ioutil.WriteFile(tmpfile2, []byte(s), 0644); err != nil {
+		t.Fatal(err)
+	}
+
+	// Create go.mod
+	tmpfile3 := filepath.Join(dir, "go.mod")
+	s = "module example.com/main\n"
+	if err := ioutil.WriteFile(tmpfile3, []byte(s), 0644); err != nil {
+		t.Fatal(err)
+	}
+
+	// Build the executable.
+	exe := filepath.Join(dir, "main")
+	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", exe)
+	cmd.Dir = dir
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Errorf("%v\n%s", err, out)
+	}
+	// Run the executable.
+	cmd = exec.Command(exe)
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Errorf("%v\n%s", err, out)
 	}
 }
