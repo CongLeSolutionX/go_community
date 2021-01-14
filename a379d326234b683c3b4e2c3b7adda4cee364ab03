@@ -155,6 +155,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "228e07d2_906efc00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-14T20:03:04Z",
+      "side": 1,
+      "message": "I do think it\u0027s a bit better since I think that is an existing mechanism, albeit an awkward one.  I\u0027m less comfortable adding a new approach at this stage of the release cycle.  Assuming that using the existing mechanism works, of course.",
+      "parentUuid": "6e7f0998_57f1bf12",
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87f92088_2ff135cb",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 1
