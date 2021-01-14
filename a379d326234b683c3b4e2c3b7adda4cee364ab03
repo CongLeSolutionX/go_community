@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "523159b8_4a483773",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-14T21:35:07Z",
+      "side": 1,
+      "message": "I always prefer a complete integration test, but this one will suffice. Thanks!",
+      "parentUuid": "ea3bcee5_12cef8de",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "a379d326234b683c3b4e2c3b7adda4cee364ab03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e78fc377_1313a216",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
