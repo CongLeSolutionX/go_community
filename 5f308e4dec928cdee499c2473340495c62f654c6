@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d9f5e82_a7356f17",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6502,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T06:08:15Z",
+      "side": 1,
+      "message": "I think we just need to change this to TypeLinksym, and get rid of the check on lines L6499-L6501. Then we can probably get rid of the WriteTypes in gc/compile.go.\n\nAfter that, it looks like reflectdata.WriteType isn\u0027t needed elsewhere, and we can unexport it. That\u0027s for a followup CL though.",
+      "range": {
+        "startLine": 6502,
+        "startChar": 28,
+        "endLine": 6502,
+        "endChar": 49
+      },
+      "revId": "5f308e4dec928cdee499c2473340495c62f654c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
