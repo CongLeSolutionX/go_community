@@ -375,6 +375,12 @@ func unminit() {
 	unminitSignals()
 }
 
+// Called from exitm, but not from drop, to undo the effect of thread-owned
+// resources in minit, semacreate, or elsewhere, after no locks will be needed
+// any longer.
+func mdestroy(mp *m) {
+}
+
 //#ifdef GOARCH_386
 //#define sa_handler k_sa_handler
 //#endif
