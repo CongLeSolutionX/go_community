@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9a7e8cd_d35fd19d",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-15T23:42:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c77ca8c_f82f42a0",
+      "range": {
+        "startLine": 509,
+        "startChar": 7,
+        "endLine": 509,
+        "endChar": 12
+      },
+      "revId": "1575576752aa480af650b9e1f2f18b795ae19f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4979d0eb_46d6faa6",
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e623607e_6936d8bd",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-15T23:42:03Z",
+      "side": 1,
+      "message": "Seems we can omit SetType, but not types.CalcSize",
+      "parentUuid": "4979d0eb_46d6faa6",
+      "range": {
+        "startLine": 516,
+        "startChar": 0,
+        "endLine": 517,
+        "endChar": 27
+      },
+      "revId": "1575576752aa480af650b9e1f2f18b795ae19f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3370cbe_2bc04099",
         "filename": "src/cmd/compile/internal/walk/convert.go",
         "patchSetId": 3
@@ -77,6 +125,24 @@
       "writtenOn": "2021-01-15T21:54:55Z",
       "side": 1,
       "message": "Should be okay to omit. We calculate all expression type sizes now at the end of walkexpr.",
+      "revId": "1575576752aa480af650b9e1f2f18b795ae19f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4265a6c9_922d62be",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-15T23:42:03Z",
+      "side": 1,
+      "message": "Do you mean this block:\n\n```\n// Eagerly compute sizes of all expressions for the back end.\nif typ :\u003d n.Type(); typ !\u003d nil \u0026\u0026 typ.Kind() !\u003d types.TBLANK \u0026\u0026 !typ.IsFuncArgStruct() {\n\ttypes.CheckSize(typ)\n}\n```\n\nIf yes, we still must add types.CalcSize. In fact, omit this like break some tests in std.",
+      "parentUuid": "f3370cbe_2bc04099",
       "revId": "1575576752aa480af650b9e1f2f18b795ae19f66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
