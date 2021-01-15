@@ -6487,7 +6487,8 @@ func emitStackObjects(e *ssafn, pp *objw.Progs) {
 
 	// Populate the stack object data.
 	// Format must match runtime/stack.go:stackObjectRecord.
-	x := e.curfn.LSym.Func().StackObjects
+	x := base.Ctxt.Lookup(e.curfn.LSym.Name + ".stkobj")
+	e.curfn.LSym.Func().StackObjects = x
 	off := 0
 	off = objw.Uintptr(x, off, uint64(len(vars)))
 	for _, v := range vars {
