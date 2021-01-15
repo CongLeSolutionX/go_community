@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3032b3d7_d0e5026b",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2acd52c_91ef26db",
+      "range": {
+        "startLine": 222,
+        "startChar": 42,
+        "endLine": 222,
+        "endChar": 53
+      },
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcabdcc4_a7911e52",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-01-14T20:09:10Z",
       "side": 1,
       "message": "Can you check if this test case builds and runs okay?\n\nWe want G, G.func1, and f to get inlined into main. But I expect without inlFlood(n.Func.Nname) that it\u0027ll Fatalf due to \"missing import reader for a.f\".\n\n```\n-- a.go --\npackage a\nfunc f() bool { return true }\nfunc G() func() func() bool { return func() func() bool { return f } }\n\n-- main.go --\npackage main\nimport \"./a\"\nfunc main() { if !a.G()()() { panic(\"FAIL\") } }\n```",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a133f771_5d12e8e8",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "Yes, thanks for that test case.  It does fail until I add a recursive ir.VisitList() call.  Recursive Inline_Flood call doesn\u0027t make sense, since the closure is not a function that needs to be exported.  I added that test case to the tests as closure5.dir.  Thanks!",
+      "parentUuid": "dcabdcc4_a7911e52",
       "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -75,6 +117,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56aa76f4_7df81496",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "OK, I fixed the case here and all the cases below.  Except for a use of Name{} in clovar below. I put a TODO in and will try to fix this and/or change the Name api in a later CL.  The obvious changes didn\u0027t work.  One of the problems is that it isn\u0027t easy to copy all the flags of a Name node (or nodes in general).",
+      "parentUuid": "b5cb3325_015a2474",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c255655_cde36eff",
@@ -88,6 +148,24 @@
       "writtenOn": "2021-01-14T20:09:10Z",
       "side": 1,
       "message": "Can you clarify which of these functions newxfunc refers to? If it\u0027s the closure function, I\u0027d suggest \"newclofn\". I\u0027ve been starting to use \"clofn\" everywhere to refer to *ir.Funcs that correspond to a *ir.ClosureExpr.",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f77e1e10_15072b8b",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "Good suggestion, done.",
+      "parentUuid": "0c255655_cde36eff",
       "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -109,6 +187,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89fc681c_f2151a03",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "194e5893_9a9d2e47",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abe08bd4_c3343818",
@@ -122,6 +218,24 @@
       "writtenOn": "2021-01-14T20:09:10Z",
       "side": 1,
       "message": "If this works and is currently necessary, I think that\u0027s fine. But this feels to me like an issue in how we later generate code to create/access closure structs.\n\nAdd a TODO(mdempsky) to fix this and a note of where you found it was needed?",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76801fe_1176b7ff",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "Yes, this is still required.  I added a comment that the problem can be reproduced by running \u0027go test go/internal/srcimporter\u0027 (elsewhere as well) after disabling this code.",
+      "parentUuid": "abe08bd4_c3343818",
       "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -143,6 +257,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92e94628_bdc0f558",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "Good suggestion!  Done.",
+      "parentUuid": "a744ef62_e66e8685",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11a4c367_7b4f77d6",
@@ -160,6 +292,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "065a3c47_95ea255b",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "Thanks, good suggestion!",
+      "parentUuid": "11a4c367_7b4f77d6",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ee54f38_858f5493",
@@ -173,6 +323,24 @@
       "writtenOn": "2021-01-14T20:09:10Z",
       "side": 1,
       "message": "Can you check ir.IsBlank(fn.Nname)?",
+      "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0adebe7_7a8dcea2",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "No, that doesn\u0027t work (since name will be blank when typechecking a newly imported inline body).  But it works to say we are typechecking an inlined body (and so shouldn\u0027t give a name) if:\n\ninTypeCheckInl :\u003d ir.CurFunc !- nil \u0026\u0026 ir.CurFunc.Body \u003d\u003d nil\n\nSo, I was able to get rid of the global using this definition.",
+      "parentUuid": "8ee54f38_858f5493",
       "revId": "aa84240d1bba57e5504fb9ebcfd67d3695df9d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

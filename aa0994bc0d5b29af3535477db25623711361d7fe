@@ -34,6 +34,24 @@
       "parentUuid": "999cb964_817e436c",
       "revId": "aa0994bc0d5b29af3535477db25623711361d7fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f21ef06_64b82f61",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-15T17:43:00Z",
+      "side": 1,
+      "message": "OK, did it roughly as you described.  Thanks for that suggestion, makes the export a bit compacter.  Had to add a ir.FinishCaptureNames() call, as expected.",
+      "parentUuid": "2995f4bd_a4e5720c",
+      "revId": "aa0994bc0d5b29af3535477db25623711361d7fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
