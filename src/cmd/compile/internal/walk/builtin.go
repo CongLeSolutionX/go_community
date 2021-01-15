@@ -512,7 +512,9 @@ func walkNew(n *ir.UnaryExpr, init *ir.Nodes) ir.Node {
 		init.Append(typecheck.Stmt(ir.NewAssignStmt(base.Pos, r, nil))) // zero temp
 		return typecheck.Expr(typecheck.NodAddr(r))
 	}
-	return callnew(n.Type().Elem())
+	n.SetType(types.NewPtr(n.Type().Elem()))
+	n.MarkNonNil()
+	return n
 }
 
 // generate code for print
@@ -676,15 +678,6 @@ func badtype(op ir.Op, tl, tr *types.Type) {
 	}
 
 	base.Errorf("illegal types for operand: %v%s", op, s)
-}
-
-func callnew(t *types.Type) ir.Node {
-	types.CalcSize(t)
-	n := ir.NewUnaryExpr(base.Pos, ir.ONEWOBJ, reflectdata.TypePtr(t))
-	n.SetType(types.NewPtr(t))
-	n.SetTypecheck(1)
-	n.MarkNonNil()
-	return n
 }
 
 func writebarrierfn(name string, l *types.Type, r *types.Type) ir.Node {
