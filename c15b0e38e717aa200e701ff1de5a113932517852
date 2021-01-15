@@ -16,6 +16,24 @@
       "message": "This isn\u0027t going to work reliably on Unix systems.  On Unix systems unminit can refer to m.gsignal, but this moves the call to unminit to after m.gsignal has been freed.",
       "revId": "c15b0e38e717aa200e701ff1de5a113932517852",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dec6fd4b_ff6d8fd5",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-01-15T23:53:32Z",
+      "side": 1,
+      "message": "I\u0027ll move the signal freeing below this call. Thanks for pointing that out. Hopefully that doesn\u0027t cause a new cascade of issues.",
+      "parentUuid": "96b7b156_149a1aca",
+      "revId": "c15b0e38e717aa200e701ff1de5a113932517852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
