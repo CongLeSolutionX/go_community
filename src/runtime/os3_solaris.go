@@ -227,6 +227,12 @@ func unminit() {
 	unminitSignals()
 }
 
+// Called from exitm, but not from drop, to undo the effect of thread-owned
+// resources in minit, semacreate, or elsewhere, after no locks will be needed
+// any longer.
+func mdestroy(mp *m) {
+}
+
 func sigtramp()
 
 //go:nosplit
