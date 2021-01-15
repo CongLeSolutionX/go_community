@@ -33,6 +33,24 @@
       "message": "\u003e Patch Set 5: TryBot-Result-1\n\u003e \n\u003e 4 of 21 TryBots failed:\n\u003e Failed on windows-amd64-2016: https://storage.googleapis.com/go-build-log/edf96077/windows-amd64-2016_a41d9d44.log\n\u003e Failed on linux-amd64: https://storage.googleapis.com/go-build-log/edf96077/linux-amd64_606cc895.log\n\u003e Failed on linux-386: https://storage.googleapis.com/go-build-log/edf96077/linux-386_f2d1733c.log\n\u003e Failed on windows-386-2008: https://storage.googleapis.com/go-build-log/edf96077/windows-386-2008_ab811407.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\nPlease fix these issues.",
       "revId": "edf960778955f12d9f088144f43df2130c2fd5b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d82ad79_cd854d29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-01-15T08:49:32Z",
+      "side": 1,
+      "message": "😄 __attribute__ specifier position matters. I fixed TryBots failure by putting the specifier at the end of declaration. The test passed well in my macOS and linux machine. I\u0027m not sure its okay on Windows.\n\nBy the way, is there any easy way to get a similar environment for my local test before push changes.",
+      "parentUuid": "4856fff6_cc7cb5ab",
+      "revId": "edf960778955f12d9f088144f43df2130c2fd5b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
