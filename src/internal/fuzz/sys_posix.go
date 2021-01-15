@@ -29,6 +29,9 @@ func sharedMemMapFile(f *os.File, size int, removeOnClose bool) (*sharedMem, err
 // Close unmaps the shared memory and closes the temporary file. If this
 // sharedMem was created with sharedMemTempFile, Close also removes the file.
 func (m *sharedMem) Close() error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.closed = true
 	// Attempt all operations, even if we get an error for an earlier operation.
 	// os.File.Close may fail due to I/O errors, but we still want to delete
 	// the temporary file.

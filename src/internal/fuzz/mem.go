@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sync"
 	"unsafe"
 )
 
@@ -33,6 +34,9 @@ type sharedMem struct {
 
 	// sys contains OS-specific information.
 	sys sharedMemSys
+
+	mu     sync.Mutex
+	closed bool // whether or not the memory has been closed, protected by mu.
 }
 
 // sharedMemHeader stores metadata in shared memory.
@@ -87,23 +91,34 @@ func (m *sharedMem) valueRef() []byte {
 }
 
 // valueCopy returns a copy of the value stored in shared memory.
-func (m *sharedMem) valueCopy() []byte {
+func (m *sharedMem) valueCopy() ([]byte, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.closed {
+		return nil, fmt.Errorf("already closed")
+	}
 	ref := m.valueRef()
 	b := make([]byte, len(ref))
 	copy(b, ref)
-	return b
+	return b, nil
 }
 
 // setValue copies the data in b into the shared memory buffer and sets
 // the length. len(b) must be less than or equal to the capacity of the buffer
 // (as returned by cap(m.value())).
-func (m *sharedMem) setValue(b []byte) {
+func (m *sharedMem) setValue(b []byte) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.closed {
+		return fmt.Errorf("already closed")
+	}
 	v := m.valueRef()
 	if len(b) > cap(v) {
 		panic(fmt.Sprintf("value length %d larger than shared memory capacity %d", len(b), cap(v)))
 	}
 	m.header().length = len(b)
 	copy(v[:cap(v)], b)
+	return nil
 }
 
 // setValueLen sets the length of the shared memory buffer returned by valueRef

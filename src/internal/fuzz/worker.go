@@ -99,7 +99,7 @@ func (w *worker) runFuzzing() error {
 
 			// Unexpected termination. Inform the coordinator about the crash.
 			// TODO(jayconrod,katiehockman): if -keepfuzzing, restart worker.
-			value := w.mem.valueCopy()
+			value, _ := w.mem.valueCopy()
 			message := fmt.Sprintf("fuzzing process terminated unexpectedly: %v", w.waitErr)
 			crasher := crasherEntry{
 				corpusEntry: corpusEntry{b: value},
@@ -514,12 +514,18 @@ func (wc *workerClient) fuzz(valueIn []byte, args fuzzArgs) (valueOut []byte, re
 	wc.mu.Lock()
 	defer wc.mu.Unlock()
 
-	wc.mem.setValue(valueIn)
+	if wc.mem.setValue(valueIn) != nil {
+		// The shared memory has already been closed, so just stop fuzzing.
+		return nil, fuzzResponse{}, err
+	}
 	c := call{Fuzz: &args}
 	if err := wc.enc.Encode(c); err != nil {
 		return nil, fuzzResponse{}, err
 	}
 	err = wc.dec.Decode(&resp)
-	valueOut = wc.mem.valueCopy()
+	valueOut, err2 := wc.mem.valueCopy()
+	if err2 != nil {
+		return nil, fuzzResponse{}, err2
+	}
 	return valueOut, resp, err
 }
