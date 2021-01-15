@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5deab29a_9654ac97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-15T18:25:57Z",
+      "side": 1,
+      "message": "I think since (a) this is fairly subtle and (b) there is a straightforward workaround (using a wrapper script around \"zig cc\"), this should wait until the tree reopens for Go 1.17.",
+      "revId": "b9d742878aa2d085c13656a82d1514035a0100ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
