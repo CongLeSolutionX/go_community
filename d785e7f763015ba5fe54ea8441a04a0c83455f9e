@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb4c5b5_113f471e",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-01-15T17:21:09Z",
+      "side": 1,
+      "message": "Egon pointed out that this is called from both mexit and dropm https://github.com/golang/go/issues/43720#issuecomment-761062248",
+      "parentUuid": "b6b59383_fb7c8a18",
+      "revId": "d785e7f763015ba5fe54ea8441a04a0c83455f9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48fc9c22_c19055b8",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-15T17:16:12Z",
       "side": 1,
       "message": "I worry that this may be racy. E.g., are we positive semawakeup can never be called on an M that\u0027s exiting? Maybe we are, since it should only be called when an M is definitely parked or about to park.",
+      "revId": "d785e7f763015ba5fe54ea8441a04a0c83455f9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51f0e9f0_2e4f0b14",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-01-15T17:21:09Z",
+      "side": 1,
+      "message": "I assumed there would be much larger problems were this the case. So I don\u0027t think so, but I\u0027m also not super familiar with this code.\n\nBut I am pretty sure those handles are leaking.",
+      "parentUuid": "48fc9c22_c19055b8",
       "revId": "d785e7f763015ba5fe54ea8441a04a0c83455f9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
