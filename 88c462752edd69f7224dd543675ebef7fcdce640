@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5649ddd_5b986cf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-01-15T11:42:08Z",
+      "side": 1,
+      "message": "How was it tested that this removes bounds checks?\n\nThere doesnt seems to be less bounds checks on amd64 after this change:\nhttps://godbolt.org/z/MG17Gc\n\nThe difference seems to be that the check for q being a nil pointer is moved before the branch.\n\nSince these are arrays the compiler should be able to infer if bounds checks are needed for constant indices.\n\nIf this change doesnt remove any bounds checks I would suggest to leave the code as is.",
+      "revId": "88c462752edd69f7224dd543675ebef7fcdce640",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
