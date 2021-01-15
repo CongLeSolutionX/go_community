@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f945fa7_30f80428",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-01-15T11:44:04Z",
+      "side": 1,
+      "message": "Authors and contributors are updated using scripts from the committed changes. Please wait until changes have been accepted to the repository.",
+      "revId": "9b783186486d24c6ef7bfc1ea52a05791fc59b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
