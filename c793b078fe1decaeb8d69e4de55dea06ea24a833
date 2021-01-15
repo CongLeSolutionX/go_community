@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3a34883_26a5adab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-15T18:10:49Z",
+      "side": 1,
+      "message": "\u003e Patch Set 3:\n\u003e \n\u003e Build is still in progress...\n\u003e This change failed on linux-amd64-race:\n\u003e See https://storage.googleapis.com/go-build-log/c793b078/linux-amd64-race_de7fe24c.log\n\nhttps://golang.org/issue/30938",
+      "revId": "c793b078fe1decaeb8d69e4de55dea06ea24a833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
