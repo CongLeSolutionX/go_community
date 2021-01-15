@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0346fa85_8a5f26ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-01-15T15:19:01Z",
+      "side": 1,
+      "message": "windows-386-2008 failure is #42637.",
+      "revId": "807d04d5a3ecfb504bcad2411850686542554855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88af821b_8a55f5d6",
+        "filename": "src/crypto/x509/root.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-01-15T15:19:01Z",
+      "side": 1,
+      "message": "The issue mentioned a preference of an index text file over directory listing due to the latter being more out of date. Has the directory listing become a better source by now?",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "807d04d5a3ecfb504bcad2411850686542554855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
