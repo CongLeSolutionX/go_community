@@ -16,6 +16,224 @@
       "message": "Just noticed a bunch of the mismatches because of the renames, so decided to try to fix most of them by going the \u0027mv\u0027 in the commit log in semi-automated way.\n\nHopefully this should be fairly easy to scan through for review.  No changes affect behavior (except possible error messages).\n",
       "revId": "34f378a4e40f55747906710dab24f24109b18bea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f17f37a0_3845c225",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "Thanks for doing this!",
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca359932_9b9fd4a6",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1620,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "nit: gcProg",
+      "range": {
+        "startLine": 1620,
+        "startChar": 15,
+        "endLine": 1620,
+        "endChar": 17
+      },
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b863e0e2_f9ff8430",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1635,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "Here too, while you\u0027re at it.",
+      "range": {
+        "startLine": 1635,
+        "startChar": 16,
+        "endLine": 1635,
+        "endChar": 22
+      },
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b23c13a4_fdc924bd",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "I think remove the \"Func.\" prefix. I\u0027m guessing this used to be a method on Func, and rsc demoted it to a function so it could go into a separate package.",
+      "range": {
+        "startLine": 157,
+        "startChar": 26,
+        "endLine": 157,
+        "endChar": 31
+      },
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698be7cd_9dc520ad",
+        "filename": "src/cmd/compile/internal/staticdata/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "nit: InitSliceBytes",
+      "range": {
+        "startLine": 74,
+        "startChar": 15,
+        "endLine": 74,
+        "endChar": 25
+      },
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd6731bc_27eb0bab",
+        "filename": "src/cmd/compile/internal/typecheck/dcl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "This is now reflectdata.methodWrapper.",
+      "range": {
+        "startLine": 44,
+        "startChar": 58,
+        "endLine": 44,
+        "endChar": 68
+      },
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "858b2d6d_8958123e",
+        "filename": "src/cmd/compile/internal/typecheck/dcl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "ir.CurFunc",
+      "range": {
+        "startLine": 311,
+        "startChar": 60,
+        "endLine": 311,
+        "endChar": 65
+      },
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4110cb3_0b25493e",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "nit: OuterValue",
+      "range": {
+        "startLine": 84,
+        "startChar": 11,
+        "endLine": 84,
+        "endChar": 21
+      },
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2a0f3a6_5094daee",
+        "filename": "src/cmd/compile/internal/types/size.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "Remove this spurious blank line while you\u0027re here?\n\n(Russ added it accidentally during an automated refactoring, and I\u0027ve been meaning to have an excuse to revisit this file to remove it again.)",
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97a56eb6_d4362ed6",
+        "filename": "src/cmd/compile/internal/walk/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-15T23:47:41Z",
+      "side": 1,
+      "message": "nit: IsDirectIface",
+      "range": {
+        "startLine": 426,
+        "startChar": 30,
+        "endLine": 426,
+        "endChar": 43
+      },
+      "revId": "34f378a4e40f55747906710dab24f24109b18bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
