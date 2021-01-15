@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d6df6dc_a77bff3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-01-15T15:14:32Z",
+      "side": 1,
+      "message": "Updated according to Paschalis\u0027 review + added a unit test",
+      "revId": "98e0727e10ee77dd98605aa25ad0092742be4925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
