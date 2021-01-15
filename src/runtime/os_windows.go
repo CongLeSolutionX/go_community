@@ -950,6 +950,14 @@ func unminit() {
 		stdcall1(_CloseHandle, mp.highResTimer)
 		mp.highResTimer = 0
 	}
+	if mp.waitsema != 0 {
+		stdcall1(_CloseHandle, mp.waitsema)
+		mp.waitsema = 0
+	}
+	if mp.resumesema != 0 {
+		stdcall1(_CloseHandle, mp.resumesema)
+		mp.resumesema = 0
+	}
 	unlock(&mp.threadLock)
 }
 
