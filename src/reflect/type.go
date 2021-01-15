@@ -2832,6 +2832,10 @@ const maxPtrmaskBytes = 2048
 func ArrayOf(count int, elem Type) Type {
 	typ := elem.(*rtype)
 
+	if count < 0 {
+		panic("reflect: negative count passed to ArrayOf")
+	}
+
 	// Look in cache.
 	ckey := cacheKey{Array, typ, nil, uintptr(count)}
 	if array, ok := lookupCache.Load(ckey); ok {

@@ -4599,6 +4599,13 @@ func TestArrayOfDirectIface(t *testing.T) {
 	}
 }
 
+// golang.org/issue/43603
+func TestArrayOfPanicOnNegativeCount(t *testing.T) {
+	shouldPanic("reflect: negative count passed to ArrayOf", func() {
+		ArrayOf(-1, TypeOf(byte(0)))
+	})
+}
+
 func TestSliceOf(t *testing.T) {
 	// check construction and use of type not in binary
 	type T int
