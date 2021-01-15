@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bef48bff_a22a8e53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-15T23:19:39Z",
+      "side": 1,
+      "message": "I don\u0027t think this entirely prevents the problem. If the shared memory is unmapped in Close by the worker goroutine, the client goroutine (workerClient.fuzz) could still call setValue or valueCopy. So the mutex needs to exist outside sharedMem, and the caller needs to know whether sharedMem has been Closed.\n\nI\u0027m not quite sure where the mutex should go: worker and workerClient both need access to it. It would be awkward to have a pointer to a mutex. Maybe sharedMem itself should expose it as a field.\n\nTotally optional, but this seems like a good use case for Bryan\u0027s chan-as-mutex pattern. worker could have a field of type chan *sharedMem instead of *sharedMem.\n\nThat\u0027s created with:\n\n  memC :\u003d make(chan *sharedMem, 1)\n  mem, err :\u003d ...\n  memC \u003c- mem\n\nClosed with:\n\n  mem :\u003d \u003c-memC\n  mem.Close()\n  close(memC)\n\nAccessed with:\n\n  mem :\u003d \u003c-memC // lock\n  if mem \u003d\u003d nil {\n    // closed earlier\n  }\n  ...\n  memC \u003c- mem // unlock\n",
+      "revId": "1f6d161d9e042e041be8487259ac27595484a24e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
