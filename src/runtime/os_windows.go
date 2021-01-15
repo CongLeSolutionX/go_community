@@ -27,6 +27,7 @@ const (
 //go:cgo_import_dynamic runtime._FreeEnvironmentStringsW FreeEnvironmentStringsW%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetConsoleMode GetConsoleMode%2 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetEnvironmentStringsW GetEnvironmentStringsW%0 "kernel32.dll"
+//go:cgo_import_dynamic runtime._GetHandleInformation GetHandleInformation%0 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetProcAddress GetProcAddress%2 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetProcessAffinityMask GetProcessAffinityMask%3 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetQueuedCompletionStatusEx GetQueuedCompletionStatusEx%6 "kernel32.dll"
@@ -75,6 +76,7 @@ var (
 	_FreeEnvironmentStringsW,
 	_GetConsoleMode,
 	_GetEnvironmentStringsW,
+	_GetHandleInformation,
 	_GetProcAddress,
 	_GetProcessAffinityMask,
 	_GetQueuedCompletionStatusEx,
@@ -460,7 +462,10 @@ func initHighResTimer() {
 	if h != 0 {
 		haveHighResTimer = true
 		usleep2Addr = unsafe.Pointer(funcPC(usleep2HighRes))
-		stdcall1(_CloseHandle, h)
+		if stdcall1(_CloseHandle, h) != 1 {
+			print("CloseHandle failed: ", getlasterror(), "\n")
+			throw("CloseHandle failed")
+		}
 	}
 }
 
@@ -737,8 +742,10 @@ func semasleep(ns int64) int32 {
 	)
 
 	var result uintptr
+	var waitsema uintptr
 	if ns < 0 {
-		result = stdcall2(_WaitForSingleObject, getg().m.waitsema, uintptr(_INFINITE))
+		waitsema = getg().m.waitsema
+		result = stdcall2(_WaitForSingleObject, waitsema, uintptr(_INFINITE))
 	} else {
 		start := nanotime()
 		elapsed := int64(0)
@@ -747,8 +754,9 @@ func semasleep(ns int64) int32 {
 			if ms == 0 {
 				ms = 1
 			}
+			waitsema = getg().m.waitsema
 			result = stdcall4(_WaitForMultipleObjects, 2,
-				uintptr(unsafe.Pointer(&[2]uintptr{getg().m.waitsema, getg().m.resumesema})),
+				uintptr(unsafe.Pointer(&[2]uintptr{waitsema, getg().m.resumesema})),
 				0, uintptr(ms))
 			if result != _WAIT_OBJECT_0+1 {
 				// Not a suspend/resume event
@@ -774,13 +782,13 @@ func semasleep(ns int64) int32 {
 
 	case _WAIT_FAILED:
 		systemstack(func() {
-			print("runtime: waitforsingleobject wait_failed; errno=", getlasterror(), "\n")
+			print("runtime: waitforsingleobject wait_failed; errno=", getlasterror(), ", waitsema=", waitsema, "\n")
 			throw("runtime.semasleep wait_failed")
 		})
 
 	default:
 		systemstack(func() {
-			print("runtime: waitforsingleobject unexpected; result=", result, "\n")
+			print("runtime: waitforsingleobject unexpected; result=", result, ", waitsema=", waitsema, "\n")
 			throw("runtime.semasleep unexpected")
 		})
 	}
@@ -792,7 +800,7 @@ func semasleep(ns int64) int32 {
 func semawakeup(mp *m) {
 	if stdcall1(_SetEvent, mp.waitsema) == 0 {
 		systemstack(func() {
-			print("runtime: setevent failed; errno=", getlasterror(), "\n")
+			print("runtime: setevent failed; errno=", getlasterror(), ", mp.waitsema=", mp.waitsema, "\n")
 			throw("runtime.semawakeup")
 		})
 	}
@@ -816,7 +824,10 @@ func semacreate(mp *m) {
 			print("runtime: createevent failed; errno=", getlasterror(), "\n")
 			throw("runtime.semacreate")
 		})
-		stdcall1(_CloseHandle, mp.waitsema)
+		if stdcall1(_CloseHandle, mp.waitsema) != 1 {
+			print("CloseHandle failed: ", getlasterror(), "\n")
+			throw("CloseHandle failed")
+		}
 		mp.waitsema = 0
 	}
 }
@@ -846,7 +857,10 @@ func newosproc(mp *m) {
 	}
 
 	// Close thandle to avoid leaking the thread object if it exits.
-	stdcall1(_CloseHandle, thandle)
+	if stdcall1(_CloseHandle, thandle) != 1 {
+		print("CloseHandle failed: ", getlasterror(), "\n")
+		throw("CloseHandle failed")
+	}
 }
 
 // Used by the C library build mode. On Linux this function would allocate a
@@ -893,7 +907,16 @@ func sigblock(exiting bool) {
 // Called on the new thread, cannot allocate memory.
 func minit() {
 	var thandle uintptr
-	stdcall7(_DuplicateHandle, currentProcess, currentThread, currentProcess, uintptr(unsafe.Pointer(&thandle)), 0, 0, _DUPLICATE_SAME_ACCESS)
+	if stdcall7(_DuplicateHandle, currentProcess, currentThread, currentProcess, uintptr(unsafe.Pointer(&thandle)), 0, 0, _DUPLICATE_SAME_ACCESS) != 1 {
+		duplicateHandleErr := getlasterror()
+
+		var flags uint64
+		stdcall2(_GetHandleInformation, currentThread, uintptr(unsafe.Pointer(&flags)))
+		getHandleErr := getlasterror()
+
+		print("DuplicateHandle failed: ", duplicateHandleErr, ", mp.thread:", getHandleErr, " ", flags, "\n")
+		throw("DuplicateHandle failed")
+	}
 
 	// Configure usleep timer, if possible.
 	var timer uintptr
@@ -944,10 +967,30 @@ func minit() {
 func unminit() {
 	mp := getg().m
 	lock(&mp.threadLock)
-	stdcall1(_CloseHandle, mp.thread)
+	if mp.waitsema != 0 {
+		if stdcall1(_CloseHandle, mp.waitsema) != 1 {
+			print("CloseHandle failed: ", getlasterror(), "\n")
+			throw("CloseHandle failed")
+		}
+		mp.waitsema = 0
+	}
+	if mp.resumesema != 0 {
+		if stdcall1(_CloseHandle, mp.resumesema) != 1 {
+			print("CloseHandle failed: ", getlasterror(), "\n")
+			throw("CloseHandle failed")
+		}
+		mp.resumesema = 0
+	}
+	if stdcall1(_CloseHandle, mp.thread) != 1 {
+		print("CloseHandle failed: ", getlasterror(), "\n")
+		throw("CloseHandle failed")
+	}
 	mp.thread = 0
 	if mp.highResTimer != 0 {
-		stdcall1(_CloseHandle, mp.highResTimer)
+		if stdcall1(_CloseHandle, mp.highResTimer) != 1 {
+			print("CloseHandle failed: ", getlasterror(), "\n")
+			throw("CloseHandle failed")
+		}
 		mp.highResTimer = 0
 	}
 	unlock(&mp.threadLock)
@@ -1134,15 +1177,29 @@ func profileloop1(param uintptr) uint32 {
 			}
 			// Acquire our own handle to the thread.
 			var thread uintptr
-			stdcall7(_DuplicateHandle, currentProcess, mp.thread, currentProcess, uintptr(unsafe.Pointer(&thread)), 0, 0, _DUPLICATE_SAME_ACCESS)
+			mpthread := mp.thread
+			ok := stdcall7(_DuplicateHandle, currentProcess, mp.thread, currentProcess, uintptr(unsafe.Pointer(&thread)), 0, 0, _DUPLICATE_SAME_ACCESS)
 			unlock(&mp.threadLock)
+			if ok != 1 {
+				duplicateHandleErr := getlasterror()
+
+				var flags uint64
+				stdcall2(_GetHandleInformation, mpthread, uintptr(unsafe.Pointer(&flags)))
+				getHandleErr := getlasterror()
+
+				print("DuplicateHandle failed: ", duplicateHandleErr, ", mp.thread:", getHandleErr, " ", flags, "\n")
+				throw("DuplicateHandle failed")
+			}
 			// mp may exit between the DuplicateHandle
 			// above and the SuspendThread. The handle
 			// will remain valid, but SuspendThread may
 			// fail.
 			if int32(stdcall1(_SuspendThread, thread)) == -1 {
 				// The thread no longer exists.
-				stdcall1(_CloseHandle, thread)
+				if stdcall1(_CloseHandle, thread) != 1 {
+					print("CloseHandle failed: ", getlasterror(), "\n")
+					throw("CloseHandle failed")
+				}
 				continue
 			}
 			if mp.profilehz != 0 && !mp.blocked {
@@ -1151,7 +1208,10 @@ func profileloop1(param uintptr) uint32 {
 				profilem(mp, thread)
 			}
 			stdcall1(_ResumeThread, thread)
-			stdcall1(_CloseHandle, thread)
+			if stdcall1(_CloseHandle, thread) != 1 {
+				print("CloseHandle failed: ", getlasterror(), "\n")
+				throw("CloseHandle failed")
+			}
 		}
 	}
 }
@@ -1162,7 +1222,10 @@ func setProcessCPUProfiler(hz int32) {
 		atomic.Storeuintptr(&profiletimer, timer)
 		thread := stdcall6(_CreateThread, 0, 0, funcPC(profileloop), 0, 0, 0)
 		stdcall2(_SetThreadPriority, thread, _THREAD_PRIORITY_HIGHEST)
-		stdcall1(_CloseHandle, thread)
+		if stdcall1(_CloseHandle, thread) != 1 {
+			print("CloseHandle failed: ", getlasterror(), "\n")
+			throw("CloseHandle failed")
+		}
 	}
 }
 
@@ -1214,8 +1277,20 @@ func preemptM(mp *m) {
 		return
 	}
 	var thread uintptr
-	stdcall7(_DuplicateHandle, currentProcess, mp.thread, currentProcess, uintptr(unsafe.Pointer(&thread)), 0, 0, _DUPLICATE_SAME_ACCESS)
+	mpthread := mp.thread
+	ok := stdcall7(_DuplicateHandle, currentProcess, mp.thread, currentProcess, uintptr(unsafe.Pointer(&thread)), 0, 0, _DUPLICATE_SAME_ACCESS)
 	unlock(&mp.threadLock)
+
+	if ok != 1 {
+		duplicateHandleErr := getlasterror()
+
+		var flags uint64
+		stdcall2(_GetHandleInformation, mpthread, uintptr(unsafe.Pointer(&flags)))
+		getHandleErr := getlasterror()
+
+		print("DuplicateHandle failed: ", duplicateHandleErr, ", mp.thread:", getHandleErr, " ", flags, "\n")
+		throw("DuplicateHandle failed")
+	}
 
 	// Prepare thread context buffer. This must be aligned to 16 bytes.
 	var c *context
@@ -1233,7 +1308,10 @@ func preemptM(mp *m) {
 	// Suspend the thread.
 	if int32(stdcall1(_SuspendThread, thread)) == -1 {
 		unlock(&suspendLock)
-		stdcall1(_CloseHandle, thread)
+		if stdcall1(_CloseHandle, thread) != 1 {
+			print("CloseHandle failed: ", getlasterror(), "\n")
+			throw("CloseHandle failed")
+		}
 		atomic.Store(&mp.preemptExtLock, 0)
 		// The thread no longer exists. This shouldn't be
 		// possible, but just acknowledge the request.
@@ -1282,7 +1360,10 @@ func preemptM(mp *m) {
 	atomic.Xadd(&mp.preemptGen, 1)
 
 	stdcall1(_ResumeThread, thread)
-	stdcall1(_CloseHandle, thread)
+	if stdcall1(_CloseHandle, thread) != 1 {
+		print("CloseHandle failed: ", getlasterror(), "\n")
+		throw("CloseHandle failed")
+	}
 }
 
 // osPreemptExtEnter is called before entering external code that may
