@@ -1350,7 +1350,6 @@ func mexit(osStack bool) {
 	}
 
 	sigblock(true)
-	unminit()
 
 	// Free the gsignal stack.
 	if m.gsignal != nil {
@@ -1398,6 +1397,10 @@ found:
 	sched.nmfreed++
 	checkdead()
 	unlock(&sched.lock)
+
+	// After we no longer need to take any locks, we call unminit, since
+	// locks might use some of the objects that this frees.
+	unminit()
 
 	if GOOS == "darwin" || GOOS == "ios" {
 		// Make sure pendingPreemptSignals is correct when an M exits.
