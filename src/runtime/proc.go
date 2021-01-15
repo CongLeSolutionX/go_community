@@ -1350,17 +1350,6 @@ func mexit(osStack bool) {
 	}
 
 	sigblock(true)
-	unminit()
-
-	// Free the gsignal stack.
-	if m.gsignal != nil {
-		stackfree(m.gsignal.stack)
-		// On some platforms, when calling into VDSO (e.g. nanotime)
-		// we store our g on the gsignal stack, if there is one.
-		// Now the stack is freed, unlink it from the m, so we
-		// won't write to it when calling VDSO code.
-		m.gsignal = nil
-	}
 
 	// Remove m from allm.
 	lock(&sched.lock)
@@ -1398,6 +1387,20 @@ found:
 	sched.nmfreed++
 	checkdead()
 	unlock(&sched.lock)
+
+	// After we no longer need to take any locks, we call unminit, since
+	// locks might use some of the objects that this frees.
+	unminit()
+
+	// Free the gsignal stack after unminit, which might refer to the signal stack.
+	if m.gsignal != nil {
+		stackfree(m.gsignal.stack)
+		// On some platforms, when calling into VDSO (e.g. nanotime)
+		// we store our g on the gsignal stack, if there is one.
+		// Now the stack is freed, unlink it from the m, so we
+		// won't write to it when calling VDSO code.
+		m.gsignal = nil
+	}
 
 	if GOOS == "darwin" || GOOS == "ios" {
 		// Make sure pendingPreemptSignals is correct when an M exits.
