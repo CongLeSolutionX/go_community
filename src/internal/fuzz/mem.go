@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sync"
 	"unsafe"
 )
 
@@ -33,6 +34,8 @@ type sharedMem struct {
 
 	// sys contains OS-specific information.
 	sys sharedMemSys
+
+	mu sync.Mutex
 }
 
 // sharedMemHeader stores metadata in shared memory.
@@ -81,6 +84,15 @@ func (m *sharedMem) header() *sharedMemHeader {
 // valueRef returns the value currently stored in shared memory. The returned
 // slice points to shared memory; it is not a copy.
 func (m *sharedMem) valueRef() []byte {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	return m.valueRefLocked()
+}
+
+// valueRefLocked returns the value currently stored in shared memory when the
+// mutex is already taken. The returned slice points to shared memory; it is not
+// a copy.
+func (m *sharedMem) valueRefLocked() []byte {
 	length := m.header().length
 	valueOffset := int(unsafe.Sizeof(sharedMemHeader{}))
 	return m.region[valueOffset : valueOffset+length]
@@ -88,7 +100,9 @@ func (m *sharedMem) valueRef() []byte {
 
 // valueCopy returns a copy of the value stored in shared memory.
 func (m *sharedMem) valueCopy() []byte {
-	ref := m.valueRef()
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	ref := m.valueRefLocked()
 	b := make([]byte, len(ref))
 	copy(b, ref)
 	return b
@@ -98,7 +112,9 @@ func (m *sharedMem) valueCopy() []byte {
 // the length. len(b) must be less than or equal to the capacity of the buffer
 // (as returned by cap(m.value())).
 func (m *sharedMem) setValue(b []byte) {
-	v := m.valueRef()
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	v := m.valueRefLocked()
 	if len(b) > cap(v) {
 		panic(fmt.Sprintf("value length %d larger than shared memory capacity %d", len(b), cap(v)))
 	}
@@ -113,7 +129,9 @@ func (m *sharedMem) setValue(b []byte) {
 // slice header contains a pointer, which is likely only valid for one process,
 // since each process can map shared memory at a different virtual address.
 func (m *sharedMem) setValueLen(n int) {
-	v := m.valueRef()
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	v := m.valueRefLocked()
 	if n > cap(v) {
 		panic(fmt.Sprintf("length %d larger than shared memory capacity %d", n, cap(v)))
 	}
