@@ -476,6 +476,9 @@ func NewNameOffsetExpr(pos src.XPos, name *Name, offset int64, typ *types.Type) 
 	if name == nil || IsBlank(name) {
 		base.FatalfAt(pos, "cannot take offset of nil or blank name: %v", name)
 	}
+	if name.Class != PEXTERN {
+		base.FatalfAt(pos, "cannot take offset of non-global variable: %v", name)
+	}
 	n := &NameOffsetExpr{Name_: name, Offset_: offset}
 	n.typ = typ
 	n.op = ONAMEOFFSET
