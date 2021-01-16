@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f9164f_900ef2b7",
+        "filename": "test/reorder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-16T11:49:56Z",
+      "side": 1,
+      "message": "This catches an issue I almost introduced in PS2 (thinking I could skip the OAS2 and just emit a bunch of OASes), and which wasn\u0027t caught by any other tests.",
+      "revId": "d76fc9acd10bbb92def9a5523543ecd955a94dd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
