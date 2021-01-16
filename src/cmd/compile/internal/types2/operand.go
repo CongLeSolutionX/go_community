@@ -27,6 +27,7 @@ const (
 	variable                     // operand is an addressable variable
 	mapindex                     // operand is a map index expression (acts like a variable on lhs, commaok on rhs of an assignment)
 	value                        // operand is a computed value
+	nilvalue                     // operand is the nil value
 	commaok                      // like value, but operand may be used in a comma,ok expression
 	commaerr                     // like commaok, but second value is error, not boolean
 	cgofunc                      // operand is a cgo function
@@ -41,6 +42,7 @@ var operandModeString = [...]string{
 	variable:  "variable",
 	mapindex:  "map index expression",
 	value:     "value",
+	nilvalue:  "nil",
 	commaok:   "comma, ok expression",
 	commaerr:  "comma, error expression",
 	cgofunc:   "cgo function",
@@ -96,6 +98,8 @@ func (x *operand) Pos() syntax.Pos {
 // value      <expr> (<untyped kind> <mode>                    )
 // value      <expr> (               <mode>       of type <typ>)
 //
+// nilvalue   nil
+//
 // commaok    <expr> (<untyped kind> <mode>                    )
 // commaok    <expr> (               <mode>       of type <typ>)
 //
@@ -106,6 +110,10 @@ func (x *operand) Pos() syntax.Pos {
 // cgofunc    <expr> (               <mode>       of type <typ>)
 //
 func operandString(x *operand, qf Qualifier) string {
+	if x.mode == nilvalue {
+		return "nil"
+	}
+
 	var buf bytes.Buffer
 
 	var expr string
@@ -222,9 +230,9 @@ func (x *operand) setConst(k syntax.LitKind, lit string) {
 	x.val = val
 }
 
-// isNil reports whether x is the nil value.
+// isNil reports whether x is the (typed or untyped!) nil value.
 func (x *operand) isNil() bool {
-	return x.mode == value && x.typ == Typ[UntypedNil]
+	return x.mode == nilvalue
 }
 
 // TODO(gri) The functions operand.assignableTo, checker.convertUntyped,

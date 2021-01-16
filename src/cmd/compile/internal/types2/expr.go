@@ -606,18 +606,15 @@ func (check *Checker) convertUntyped(x *operand, target Type) {
 		}
 
 		for _, t := range unpack(types) {
-			check.convertUntypedInternal(x, t)
+			x := *x // make a copy; convertUntypedInternal modifies x
+			check.convertUntypedInternal(&x, t)
 			if x.mode == invalid {
 				goto Error
 			}
 		}
 
-		// keep nil untyped (was bug #39755)
-		if x.isNil() {
-			target = Typ[UntypedNil]
-		}
 		x.typ = target
-		check.updateExprType(x.expr, target, true) // UntypedNils are final
+		check.updateExprType(x.expr, target, true)
 		return
 	}
 
@@ -667,7 +664,6 @@ func (check *Checker) convertUntypedInternal(x *operand, target Type) {
 				if !hasNil(target) {
 					goto Error
 				}
-				target = Typ[UntypedNil]
 			default:
 				goto Error
 			}
@@ -678,15 +674,11 @@ func (check *Checker) convertUntypedInternal(x *operand, target Type) {
 			return x.mode != invalid
 		})
 	case *Interface:
-		// Update operand types to the default type rather then
-		// the target (interface) type: values must have concrete
-		// dynamic types. If the value is nil, keep it untyped
-		// (this is important for tools such as go vet which need
-		// the dynamic type for argument checking of say, print
-		// functions)
-		if x.isNil() {
-			target = Typ[UntypedNil]
-		} else {
+		// Except for untyped nil, update operand types to the default
+		// type rather then the target (interface) type: values must
+		// have concrete dynamic types. For untyped nil, use the target
+		// type.
+		if x.typ != Typ[UntypedNil] {
 			// cannot assign untyped values to non-empty interfaces
 			check.completeInterface(nopos, t)
 			if !t.Empty() {
@@ -695,17 +687,15 @@ func (check *Checker) convertUntypedInternal(x *operand, target Type) {
 			target = Default(x.typ)
 		}
 	case *Pointer, *Signature, *Slice, *Map, *Chan:
-		if !x.isNil() {
+		if x.typ != Typ[UntypedNil] {
 			goto Error
 		}
-		// keep nil untyped - see comment for interfaces, above
-		target = Typ[UntypedNil]
 	default:
 		goto Error
 	}
 
 	x.typ = target
-	check.updateExprType(x.expr, target, true) // UntypedNils are final
+	check.updateExprType(x.expr, target, true)
 	return
 
 Error:
