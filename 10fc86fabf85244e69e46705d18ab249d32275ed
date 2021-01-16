@@ -16,6 +16,24 @@
       "message": "LGTM for +1, but I am not familiar with this code for +2.\n\nPerhaps we should delay submitting this change after Go 1.16 is released. This has been always broken, so there is no urgency to fix it.\n\nAlex",
       "revId": "10fc86fabf85244e69e46705d18ab249d32275ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36333ce3_5e53eefd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-01-16T02:49:31Z",
+      "side": 1,
+      "message": "I\u0027m generally not a big fan of the mentality toward bugs where you prioritize newer bugs over older bugs because it means inevitably older bugs get forgotten.\n\nAnyway, I submitted this here because I think it\u0027s one part of the story of fixing #43720, which is rather dire.",
+      "parentUuid": "e955a8b4_53291eb9",
+      "revId": "10fc86fabf85244e69e46705d18ab249d32275ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
