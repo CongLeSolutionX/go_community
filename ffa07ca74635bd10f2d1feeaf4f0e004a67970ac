@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5cc1624_823bd8fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-16T13:03:21Z",
+      "side": 1,
+      "message": "Nice! I’m always want to refactor oas2 and oas2ok, also, after this, mapAssign will actually does its job.",
+      "revId": "ffa07ca74635bd10f2d1feeaf4f0e004a67970ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
