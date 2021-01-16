@@ -555,10 +555,6 @@ func (o *orderState) mapAssign(n ir.Node) {
 			n.Y = o.safeMapRHS(n.Y)
 		}
 		o.out = append(o.out, n)
-
-	case ir.OAS2, ir.OAS2DOTTYPE, ir.OAS2MAPR, ir.OAS2FUNC:
-		n := n.(*ir.AssignListStmt)
-		o.out = append(o.out, n)
 	}
 }
 
@@ -637,7 +633,7 @@ func (o *orderState) stmt(n ir.Node) {
 		t := o.markTemp()
 		o.exprList(n.Lhs)
 		o.exprList(n.Rhs)
-		o.mapAssign(n)
+		o.out = append(o.out, n)
 		o.cleanTemp(t)
 
 	// Special: avoid copy of func call n.Right
@@ -647,7 +643,7 @@ func (o *orderState) stmt(n ir.Node) {
 		o.exprList(n.Lhs)
 		o.init(n.Rhs[0])
 		o.call(n.Rhs[0])
-		o.as2(n)
+		o.as2func(n)
 		o.cleanTemp(t)
 
 	// Special: use temporary variables to hold result,
@@ -679,7 +675,7 @@ func (o *orderState) stmt(n ir.Node) {
 			base.Fatalf("order.stmt: %v", r.Op())
 		}
 
-		o.okAs2(n)
+		o.as2ok(n)
 		o.cleanTemp(t)
 
 	// Special: does not save n onto out.
@@ -1390,7 +1386,7 @@ func (o *orderState) expr1(n, lhs ir.Node) ir.Node {
 	// No return - type-assertions above. Each case must return for itself.
 }
 
-// as2 orders OAS2XXXX nodes. It creates temporaries to ensure left-to-right assignment.
+// as2func orders OAS2FUNC nodes. It creates temporaries to ensure left-to-right assignment.
 // The caller should order the right-hand side of the assignment before calling order.as2.
 // It rewrites,
 // 	a, b, a = ...
@@ -1398,29 +1394,24 @@ func (o *orderState) expr1(n, lhs ir.Node) ir.Node {
 //	tmp1, tmp2, tmp3 = ...
 // 	a, b, a = tmp1, tmp2, tmp3
 // This is necessary to ensure left to right assignment order.
-func (o *orderState) as2(n *ir.AssignListStmt) {
-	tmplist := []ir.Node{}
-	left := []ir.Node{}
-	for ni, l := range n.Lhs {
-		if !ir.IsBlank(l) {
-			tmp := o.newTemp(l.Type(), l.Type().HasPointers())
-			n.Lhs[ni] = tmp
-			tmplist = append(tmplist, tmp)
-			left = append(left, l)
+func (o *orderState) as2func(n *ir.AssignListStmt) {
+	results := n.Rhs[0].Type()
+	o.out = append(o.out, n)
+	for i, nl := range n.Lhs {
+		if !ir.IsBlank(nl) {
+			typ := results.Field(i).Type
+			tmp := o.newTemp(typ, typ.HasPointers())
+			n.Lhs[i] = tmp
+
+			r := ir.NewAssignStmt(n.Pos(), nl, tmp)
+			o.mapAssign(typecheck.Stmt(r))
 		}
 	}
-
-	o.out = append(o.out, n)
-
-	as := ir.NewAssignListStmt(base.Pos, ir.OAS2, nil, nil)
-	as.Lhs = left
-	as.Rhs = tmplist
-	o.stmt(typecheck.Stmt(as))
 }
 
-// okAs2 orders OAS2XXX with ok.
-// Just like as2, this also adds temporaries to ensure left-to-right assignment.
-func (o *orderState) okAs2(n *ir.AssignListStmt) {
+// as2ok orders OAS2XXX with ok.
+// Just like as2func, this also adds temporaries to ensure left-to-right assignment.
+func (o *orderState) as2ok(n *ir.AssignListStmt) {
 	var tmp1, tmp2 ir.Node
 	if !ir.IsBlank(n.Lhs[0]) {
 		typ := n.Rhs[0].Type()
