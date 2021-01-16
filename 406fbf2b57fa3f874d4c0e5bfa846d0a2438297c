@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f341e14_1f93848b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-16T23:37:03Z",
+      "side": 1,
+      "message": "Thanks Cuong, this looks pretty good.",
+      "revId": "406fbf2b57fa3f874d4c0e5bfa846d0a2438297c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6769538_44fae3fb",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-16T23:37:03Z",
+      "side": 1,
+      "message": "nit: probably change to \"global variable\"",
+      "range": {
+        "startLine": 468,
+        "startChar": 49,
+        "endLine": 468,
+        "endChar": 57
+      },
+      "revId": "406fbf2b57fa3f874d4c0e5bfa846d0a2438297c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c4cedc4_d4a7ae32",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-16T23:37:03Z",
+      "side": 1,
+      "message": "So one concern I have is that we only want this used with ONAME/PEXTERN Names, but I don\u0027t think Name.Linksym() enforces that. I\u0027d feel more confident if we had some asserts to validate that for a while.\n\nHow about in the previous CL (where you change escape analysis to assume NameOffsetExpr.Name_ will always be ONAME/PEXTERN) you add another Fatalf check in NewNameOffsetExpr to make sure name is ONAME/PEXTERN, and then in this CL add a new NewLinksymOffsetExpr function that NewNameOffsetExpr can call after validating the Name?",
+      "revId": "406fbf2b57fa3f874d4c0e5bfa846d0a2438297c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30c5447_3c9e7cd5",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5087,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-16T23:37:03Z",
+      "side": 1,
+      "message": "How about linksymOffset instead?\n\nI think \"do\" is fine in small functions, but state.addr is a pretty big function, and this helper function is only useful in two cases. So I think a more descriptive name here is appropriate.",
+      "range": {
+        "startLine": 5087,
+        "startChar": 1,
+        "endLine": 5087,
+        "endChar": 3
+      },
+      "revId": "406fbf2b57fa3f874d4c0e5bfa846d0a2438297c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
