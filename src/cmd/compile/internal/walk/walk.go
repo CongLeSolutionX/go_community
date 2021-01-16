@@ -294,7 +294,7 @@ func calcHasCall(n ir.Node) bool {
 		base.Fatalf("calcHasCall %+v", n)
 		panic("unreachable")
 
-	case ir.OLITERAL, ir.ONIL, ir.ONAME, ir.OTYPE, ir.ONAMEOFFSET:
+	case ir.OLITERAL, ir.ONIL, ir.ONAME, ir.OTYPE, ir.OLINKSYMOFFSET:
 		if n.HasCall() {
 			base.Fatalf("OLITERAL/ONAME/OTYPE should never have calls: %+v", n)
 		}

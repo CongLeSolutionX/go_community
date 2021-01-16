@@ -121,7 +121,7 @@ func (s *Schedule) staticcopy(l *ir.Name, loff int64, rn *ir.Name, typ *types.Ty
 		// use conv to ensure r is assignable to l (#13263).
 		dst := ir.Node(l)
 		if loff != 0 || !types.Identical(typ, l.Type()) {
-			dst = ir.NewNameOffsetExpr(base.Pos, l.Linksym(), loff, typ)
+			dst = ir.NewLinksymOffsetExpr(base.Pos, l.Linksym(), loff, typ)
 		}
 		s.append(ir.NewAssignStmt(base.Pos, dst, typecheck.Conv(r, typ)))
 		return true
@@ -178,8 +178,8 @@ func (s *Schedule) staticcopy(l *ir.Name, loff int64, rn *ir.Name, typ *types.Ty
 			}
 			// Requires computation, but we're
 			// copying someone else's computation.
-			ll := ir.NewNameOffsetExpr(base.Pos, l.Linksym(), loff+e.Xoffset, typ)
-			rr := ir.NewNameOffsetExpr(base.Pos, orig.Linksym(), e.Xoffset, typ)
+			ll := ir.NewLinksymOffsetExpr(base.Pos, l.Linksym(), loff+e.Xoffset, typ)
+			rr := ir.NewLinksymOffsetExpr(base.Pos, orig.Linksym(), e.Xoffset, typ)
 			ir.SetPos(rr)
 			s.append(ir.NewAssignStmt(base.Pos, ll, rr))
 		}
@@ -206,10 +206,10 @@ func (s *Schedule) StaticAssign(l *ir.Name, loff int64, r ir.Node, typ *types.Ty
 		}
 		var lhs ir.Node
 		if ir.IsBlank(a) {
-			// Don't use NameOffsetExpr with blank (#43677).
+			// Don't use LinksymOffsetExpr with blank (#43677).
 			lhs = ir.BlankNode
 		} else {
-			lhs = ir.NewNameOffsetExpr(pos, a.Linksym(), aoff, v.Type())
+			lhs = ir.NewLinksymOffsetExpr(pos, a.Linksym(), aoff, v.Type())
 		}
 		s.append(ir.NewAssignStmt(pos, lhs, v))
 	}
