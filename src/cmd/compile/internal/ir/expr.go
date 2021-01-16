@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
+	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
 	"go/constant"
@@ -468,15 +469,15 @@ func NewResultExpr(pos src.XPos, typ *types.Type, offset int64) *ResultExpr {
 // It is like a SelectorExpr but without the field name.
 type NameOffsetExpr struct {
 	miniExpr
-	Name_   *Name
+	Linksym *obj.LSym
 	Offset_ int64
 }
 
-func NewNameOffsetExpr(pos src.XPos, name *Name, offset int64, typ *types.Type) *NameOffsetExpr {
-	if name == nil || IsBlank(name) {
-		base.FatalfAt(pos, "cannot take offset of nil or blank name: %v", name)
+func NewNameOffsetExpr(pos src.XPos, lsym *obj.LSym, offset int64, typ *types.Type) *NameOffsetExpr {
+	if lsym == nil || lsym.Name == "_" {
+		base.FatalfAt(pos, "cannot take offset of nil or blank name: %v", lsym)
 	}
-	n := &NameOffsetExpr{Name_: name, Offset_: offset}
+	n := &NameOffsetExpr{Linksym: lsym, Offset_: offset}
 	n.typ = typ
 	n.op = ONAMEOFFSET
 	return n
