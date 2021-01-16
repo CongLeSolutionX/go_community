@@ -467,20 +467,20 @@ func NewResultExpr(pos src.XPos, typ *types.Type, offset int64) *ResultExpr {
 
 // A NameOffsetExpr refers to an offset within a variable.
 // It is like a SelectorExpr but without the field name.
-type NameOffsetExpr struct {
+type LinksymOffsetExpr struct {
 	miniExpr
 	Linksym *obj.LSym
 	Offset_ int64
 }
 
-func NewLinksymOffsetExpr(pos src.XPos, lsym *obj.LSym, offset int64, typ *types.Type) *NameOffsetExpr {
-	n := &NameOffsetExpr{Linksym: lsym, Offset_: offset}
+func NewLinksymOffsetExpr(pos src.XPos, lsym *obj.LSym, offset int64, typ *types.Type) *LinksymOffsetExpr {
+	n := &LinksymOffsetExpr{Linksym: lsym, Offset_: offset}
 	n.typ = typ
-	n.op = ONAMEOFFSET
+	n.op = OLINKSYMOFFSET
 	return n
 }
 
-func NewNameOffsetExpr(pos src.XPos, name *Name, offset int64, typ *types.Type) *NameOffsetExpr {
+func NewNameOffsetExpr(pos src.XPos, name *Name, offset int64, typ *types.Type) *LinksymOffsetExpr {
 	if name == nil || IsBlank(name) {
 		base.FatalfAt(pos, "cannot take offset of nil or blank name: %v", name)
 	}
@@ -737,7 +737,7 @@ func IsAddressable(n Node) bool {
 		}
 		return true
 
-	case ONAMEOFFSET:
+	case OLINKSYMOFFSET:
 		return true
 	}
 
