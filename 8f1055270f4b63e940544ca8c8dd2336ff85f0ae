@@ -16,6 +16,24 @@
       "message": "I meant to say that this might be something actually useful to be submitted, if you\u0027re interested in preparing it as such.",
       "revId": "8f1055270f4b63e940544ca8c8dd2336ff85f0ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baff4b42_88d0f2a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2021-01-16T09:28:36Z",
+      "side": 1,
+      "message": "Ah, sorry, I misunderstood. I just now saw this message.",
+      "parentUuid": "80cee3a4_6f704573",
+      "revId": "8f1055270f4b63e940544ca8c8dd2336ff85f0ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
