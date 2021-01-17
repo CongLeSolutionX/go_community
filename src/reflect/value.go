@@ -334,7 +334,24 @@ func (v Value) CanSet() bool {
 func (v Value) Call(in []Value) []Value {
 	v.mustBe(Func)
 	v.mustBeExported()
-	return v.call("Call", in)
+	var out []Value
+	if nout := v.Type().NumOut(); nout > 0 {
+		out = make([]Value, nout)
+	}
+	v.call("Call", out, in)
+	return out
+}
+
+// CallWith calls the function v with the input arguments in and
+// stores the return results in out, where len(out) must equal v.NumOut().
+// If out[i].IsValid() and out[i].CanSet() and v.Out(i).AssignableTo(out[i].Type()),
+// then the return value is directly set into the existing Value.
+// Otherwise, a new value is allocated and stored into out[i].
+// See Call for information about the input arguments.
+func (v Value) CallWith(out, in []Value) {
+	v.mustBe(Func)
+	v.mustBeExported()
+	v.call("CallWith", out, in)
 }
 
 // CallSlice calls the variadic function v with the input arguments in,
@@ -347,12 +364,27 @@ func (v Value) Call(in []Value) []Value {
 func (v Value) CallSlice(in []Value) []Value {
 	v.mustBe(Func)
 	v.mustBeExported()
-	return v.call("CallSlice", in)
+	var out []Value
+	if nout := v.Type().NumOut(); nout > 0 {
+		out = make([]Value, nout)
+	}
+	v.call("CallSlice", out, in)
+	return out
+}
+
+// CallSliceWith calls the function v with the input arguments in and
+// stores the return results in out.
+// See CallSlice for information about the input arguments.
+// See CallWith for information about the output arguments.
+func (v Value) CallSliceWith(out, in []Value) {
+	v.mustBe(Func)
+	v.mustBeExported()
+	v.call("CallSliceWith", out, in)
 }
 
 var callGC bool // for testing; see TestCallMethodJump
 
-func (v Value) call(op string, in []Value) []Value {
+func (v Value) call(op string, out, in []Value) {
 	// Get function pointer, type.
 	t := (*funcType)(unsafe.Pointer(v.typ))
 	var (
@@ -373,27 +405,27 @@ func (v Value) call(op string, in []Value) []Value {
 		panic("reflect.Value.Call: call of nil function")
 	}
 
-	isSlice := op == "CallSlice"
+	isSlice := len(op) >= len("CallSlice") && op[:len("CallSlice")] == "CallSlice"
 	n := t.NumIn()
 	if isSlice {
 		if !t.IsVariadic() {
-			panic("reflect: CallSlice of non-variadic function")
+			panic("reflect: " + op + " of non-variadic function")
 		}
 		if len(in) < n {
-			panic("reflect: CallSlice with too few input arguments")
+			panic("reflect: " + op + " with too few input arguments")
 		}
 		if len(in) > n {
-			panic("reflect: CallSlice with too many input arguments")
+			panic("reflect: " + op + " with too many input arguments")
 		}
 	} else {
 		if t.IsVariadic() {
 			n--
 		}
 		if len(in) < n {
-			panic("reflect: Call with too few input arguments")
+			panic("reflect: " + op + " with too few input arguments")
 		}
 		if !t.IsVariadic() && len(in) > n {
-			panic("reflect: Call with too many input arguments")
+			panic("reflect: " + op + " with too many input arguments")
 		}
 	}
 	for _, x := range in {
@@ -402,7 +434,7 @@ func (v Value) call(op string, in []Value) []Value {
 		}
 	}
 	for i := 0; i < n; i++ {
-		if xt, targ := in[i].Type(), t.In(i); !xt.AssignableTo(targ) {
+		if xt, targ := in[i].Type(), t.In(i); xt != targ && !xt.AssignableTo(targ) {
 			panic("reflect: " + op + " using " + xt.String() + " as type " + targ.String())
 		}
 	}
@@ -413,7 +445,7 @@ func (v Value) call(op string, in []Value) []Value {
 		elem := t.In(n).Elem()
 		for i := 0; i < m; i++ {
 			x := in[n+i]
-			if xt := x.Type(); !xt.AssignableTo(elem) {
+			if xt := x.Type(); xt != elem && !xt.AssignableTo(elem) {
 				panic("reflect: cannot use " + xt.String() + " as type " + elem.String() + " in " + op)
 			}
 			slice.Index(i).Set(x)
@@ -426,27 +458,23 @@ func (v Value) call(op string, in []Value) []Value {
 
 	nin := len(in)
 	if nin != t.NumIn() {
-		panic("reflect.Value.Call: wrong argument count")
+		panic("reflect.Value.Call: wrong input argument count")
 	}
-	nout := t.NumOut()
+	nout := len(out)
+	if nout != t.NumOut() {
+		panic("reflect.Value.Call: wrong output argument count")
+	}
 
 	// Compute frame type.
 	frametype, _, retOffset, _, framePool := funcLayout(t, rcvrtype)
 
 	// Allocate a chunk of memory for frame.
-	var args unsafe.Pointer
-	if nout == 0 {
-		args = framePool.Get().(unsafe.Pointer)
-	} else {
-		// Can't use pool if the function has return values.
-		// We will leak pointer to args in ret, so its lifetime is not scoped.
-		args = unsafe_New(frametype)
-	}
+	frame := framePool.Get().(unsafe.Pointer)
 	off := uintptr(0)
 
-	// Copy inputs into args.
+	// Copy inputs into frame.
 	if rcvrtype != nil {
-		storeRcvr(rcvr, args)
+		storeRcvr(rcvr, frame)
 		off = ptrSize
 	}
 	for i, v := range in {
@@ -456,13 +484,13 @@ func (v Value) call(op string, in []Value) []Value {
 		off = (off + a - 1) &^ (a - 1)
 		n := targ.size
 		if n == 0 {
-			// Not safe to compute args+off pointing at 0 bytes,
+			// Not safe to compute frame+off pointing at 0 bytes,
 			// because that might point beyond the end of the frame,
 			// but we still need to call assignTo to check assignability.
 			v.assignTo("reflect.Value.Call", targ, nil)
 			continue
 		}
-		addr := add(args, off, "n > 0")
+		addr := add(frame, off, "n > 0")
 		v = v.assignTo("reflect.Value.Call", targ, addr)
 		if v.flag&flagIndir != 0 {
 			typedmemmove(targ, addr, v.ptr)
@@ -473,47 +501,50 @@ func (v Value) call(op string, in []Value) []Value {
 	}
 
 	// Call.
-	call(frametype, fn, args, uint32(frametype.size), uint32(retOffset))
+	call(frametype, fn, frame, uint32(frametype.size), uint32(retOffset))
 
 	// For testing; see TestCallMethodJump.
 	if callGC {
 		runtime.GC()
 	}
 
-	var ret []Value
-	if nout == 0 {
-		typedmemclr(frametype, args)
-		framePool.Put(args)
-	} else {
-		// Zero the now unused input area of args,
-		// because the Values returned by this function contain pointers to the args object,
-		// and will thus keep the args object alive indefinitely.
-		typedmemclrpartial(frametype, args, 0, retOffset)
-
-		// Wrap Values around return values in args.
-		ret = make([]Value, nout)
-		off = retOffset
-		for i := 0; i < nout; i++ {
-			tv := t.Out(i)
-			a := uintptr(tv.Align())
-			off = (off + a - 1) &^ (a - 1)
-			if tv.Size() != 0 {
-				fl := flagIndir | flag(tv.Kind())
-				ret[i] = Value{tv.common(), add(args, off, "tv.Size() != 0"), fl}
-				// Note: this does introduce false sharing between results -
-				// if any result is live, they are all live.
-				// (And the space for the args is live as well, but as we've
-				// cleared that space it isn't as big a deal.)
+	// Wrap Values around return values in frame.
+	var escapedFrame bool // reports whether frame escapes to out
+	off = retOffset
+	for i := 0; i < nout; i++ {
+		tv := t.Out(i)
+		a := uintptr(tv.Align())
+		off = (off + a - 1) &^ (a - 1)
+		if tv.Size() != 0 {
+			fl := flagIndir | flag(tv.Kind())
+			v := Value{tv.common(), add(frame, off, "tv.Size() != 0"), fl}
+			if out[i].IsValid() && out[i].CanSet() && (out[i].Type() == tv || tv.AssignableTo(out[i].Type())) {
+				out[i].Set(v)
 			} else {
-				// For zero-sized return value, args+off may point to the next object.
-				// In this case, return the zero value instead.
-				ret[i] = Zero(tv)
+				// Note: this does introduce false sharing between results;
+				// if any result is live, they are all live.
+				// (And the space for the frame is live as well,
+				// but as we will clear that space it isn't as big a deal.)
+				out[i] = v
+				escapedFrame = true
 			}
-			off += tv.Size()
+		} else {
+			// For zero-sized return value, frame+off may point to the next object.
+			// In this case, return the zero value instead.
+			out[i] = Zero(tv)
 		}
+		off += tv.Size()
 	}
 
-	return ret
+	if escapedFrame {
+		// Zero the now unused input area of frame,
+		// because the Values returned by this function contain pointers to the frame object,
+		// and will thus keep the frame object alive.
+		typedmemclrpartial(frametype, frame, 0, retOffset)
+	} else {
+		typedmemclr(frametype, frame)
+		framePool.Put(frame)
+	}
 }
 
 // callReflect is the call implementation used by a function
