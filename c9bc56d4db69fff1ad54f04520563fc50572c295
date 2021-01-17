@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a683bba_30babb01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-17T05:11:01Z",
+      "side": 1,
+      "message": "nit: Fatalf",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "c9bc56d4db69fff1ad54f04520563fc50572c295",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e79aa066_3f6051c0",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-17T05:11:01Z",
+      "side": 1,
+      "message": "nit: Make this break for consistency with the ir.PEXTERN case above.",
+      "revId": "c9bc56d4db69fff1ad54f04520563fc50572c295",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e49eb09_4b5c2260",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-17T05:11:01Z",
+      "side": 1,
+      "message": "Let\u0027s make this `!(name.Op() \u003d\u003d ONAME \u0026\u0026 name.Class \u003d\u003d PEXTERN)`, since Class\u003d\u003dPEXTERN will also be true for constants and types declared in the package block.",
+      "range": {
+        "startLine": 476,
+        "startChar": 36,
+        "endLine": 476,
+        "endChar": 57
+      },
+      "revId": "c9bc56d4db69fff1ad54f04520563fc50572c295",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
