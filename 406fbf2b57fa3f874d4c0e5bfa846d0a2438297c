@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe18bf64_78bcb4a8",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-17T05:16:23Z",
+      "side": 1,
+      "message": "Looks like it still says just \"variable\"?",
+      "parentUuid": "bb55aae4_ab21b07e",
+      "range": {
+        "startLine": 468,
+        "startChar": 49,
+        "endLine": 468,
+        "endChar": 57
+      },
+      "revId": "406fbf2b57fa3f874d4c0e5bfa846d0a2438297c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c4cedc4_d4a7ae32",
         "filename": "src/cmd/compile/internal/ir/expr.go",
         "patchSetId": 1
