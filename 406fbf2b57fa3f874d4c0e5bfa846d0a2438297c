@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb55aae4_ab21b07e",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-17T04:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6769538_44fae3fb",
+      "range": {
+        "startLine": 468,
+        "startChar": 49,
+        "endLine": 468,
+        "endChar": 57
+      },
+      "revId": "406fbf2b57fa3f874d4c0e5bfa846d0a2438297c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c4cedc4_d4a7ae32",
@@ -58,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ea35a86_7ecab921",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-17T04:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c4cedc4_d4a7ae32",
+      "revId": "406fbf2b57fa3f874d4c0e5bfa846d0a2438297c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b30c5447_3c9e7cd5",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-01-16T23:37:03Z",
       "side": 1,
       "message": "How about linksymOffset instead?\n\nI think \"do\" is fine in small functions, but state.addr is a pretty big function, and this helper function is only useful in two cases. So I think a more descriptive name here is appropriate.",
+      "range": {
+        "startLine": 5087,
+        "startChar": 1,
+        "endLine": 5087,
+        "endChar": 3
+      },
+      "revId": "406fbf2b57fa3f874d4c0e5bfa846d0a2438297c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5099b18c_24055459",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5087,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-17T04:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b30c5447_3c9e7cd5",
       "range": {
         "startLine": 5087,
         "startChar": 1,
