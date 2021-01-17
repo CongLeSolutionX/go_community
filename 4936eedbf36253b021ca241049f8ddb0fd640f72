@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4917d592_92517a76",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-17T05:17:44Z",
+      "side": 1,
+      "message": "I thought rf handles updating godocs now. Maybe try updating it before you re-generate the CL?",
+      "range": {
+        "startLine": 468,
+        "startChar": 5,
+        "endLine": 468,
+        "endChar": 19
+      },
+      "revId": "4936eedbf36253b021ca241049f8ddb0fd640f72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
