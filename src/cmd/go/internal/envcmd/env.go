@@ -420,12 +420,12 @@ func checkEnvWrite(key, val string) error {
 		default:
 			return fmt.Errorf("invalid %s value %q", key, val)
 		}
-	case "GOPATH":
+	case "GOPATH", "GOMODCACHE":
 		if strings.HasPrefix(val, "~") {
-			return fmt.Errorf("GOPATH entry cannot start with shell metacharacter '~': %q", val)
+			return fmt.Errorf("%s entry cannot start with shell metacharacter '~': %q", key, val)
 		}
 		if !filepath.IsAbs(val) && val != "" {
-			return fmt.Errorf("GOPATH entry is relative; must be absolute path: %q", val)
+			return fmt.Errorf("%s entry is relative; must be absolute path: %q", key, val)
 		}
 	// Make sure CC and CXX are absolute paths
 	case "CC", "CXX":
