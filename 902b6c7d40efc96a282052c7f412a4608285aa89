@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391d7d12_c803899f",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-18T03:18:55Z",
+      "side": 1,
+      "message": "Please revert. I think current style for cmd imports is to keep them separate from std imports.",
+      "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "559651bf_17568311",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-18T03:18:55Z",
+      "side": 1,
+      "message": "Change this to \"lsym :\u003d TypeLinksym(t)\" and use lsym instead of s.Linksym().",
+      "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3feb91a4_93acc42b",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-18T03:18:55Z",
+      "side": 1,
+      "message": "Simplify this code like:\n\n    n :\u003d ir.NewLinksymExpr(...)\n    return typecheck.Expr(typecheck.NodAddr(n)).(*ir.AddrExpr)",
+      "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7afbf2e6_3fb2b2b4",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-18T03:18:55Z",
+      "side": 1,
+      "message": "Similar changes as above: add an lsym variable (in addition to s here), and then construct/typecheck the Nodes the same way.",
+      "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
