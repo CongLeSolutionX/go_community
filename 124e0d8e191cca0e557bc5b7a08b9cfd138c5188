@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a3cb923_09fa1639",
+        "filename": "src/cmd/compile/internal/liveness/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T06:29:03Z",
+      "side": 1,
+      "message": "Maybe:\n\n```\noff :\u003d objw.Uintptr(x, 0, uint64(len(vars)))\n```",
+      "range": {
+        "startLine": 1212,
+        "startChar": 1,
+        "endLine": 1213,
+        "endChar": 46
+      },
+      "revId": "124e0d8e191cca0e557bc5b7a08b9cfd138c5188",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
