@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d115e388_6f89fdfc",
+        "filename": "src/cmd/compile/internal/staticdata/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73cb43ee_42a7ef1b",
+      "revId": "1e99b2f950516bdadd019210db6b092230c251a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c528b340_ae568198",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-18T03:13:22Z",
       "side": 1,
       "message": "... and then this one to InitAddr, and make it just call \"InitAddrOffset(n, noff, lsym, 0)\".",
+      "revId": "1e99b2f950516bdadd019210db6b092230c251a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a08f1006_d63c5edf",
+        "filename": "src/cmd/compile/internal/staticdata/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c528b340_ae568198",
       "revId": "1e99b2f950516bdadd019210db6b092230c251a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a8aed37_36fc1a67",
+        "filename": "src/cmd/compile/internal/staticdata/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3abbad8e_82f33542",
+      "revId": "1e99b2f950516bdadd019210db6b092230c251a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a78ff7a_06c734ff",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96754a6a_02aeb152",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a78ff7a_06c734ff",
+      "revId": "1e99b2f950516bdadd019210db6b092230c251a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54cd5d82_65c14dd0",
@@ -82,6 +154,30 @@
       "writtenOn": "2021-01-18T03:13:22Z",
       "side": 1,
       "message": "You\u0027re need to compute \"s.Temps[r].Linksym()\" a bunch. Maybe add a helper method like:\n\n    func (s *Schedule) tempLinksym(r ir.Node) *obj.LSym {\n        return staticdata.GlobalLinksym(s.Temps[r])\n    }\n\nand use it everywhere instead?",
+      "range": {
+        "startLine": 162,
+        "startChar": 32,
+        "endLine": 162,
+        "endChar": 52
+      },
+      "revId": "1e99b2f950516bdadd019210db6b092230c251a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "325c60e8_c9d6ee60",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:18Z",
+      "side": 1,
+      "message": "Hmm, seems this is the only place we do `s.Temps[r].Linksym()`, where did I miss others?",
+      "parentUuid": "54cd5d82_65c14dd0",
       "range": {
         "startLine": 162,
         "startChar": 32,
