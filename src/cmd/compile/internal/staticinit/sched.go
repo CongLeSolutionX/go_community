@@ -348,7 +348,7 @@ func (s *Schedule) StaticAssign(l *ir.Name, loff int64, r ir.Node, typ *types.Ty
 		// Create a copy of l to modify while we emit data.
 
 		// Emit itab, advance offset.
-		staticdata.InitAddr(l, loff, itab.X.(*ir.Name).Linksym(), 0)
+		staticdata.InitAddr(l, loff, itab.X.(*ir.LinksymOffsetExpr).Linksym, 0)
 
 		// Emit data.
 		if types.IsDirectIface(val.Type()) {

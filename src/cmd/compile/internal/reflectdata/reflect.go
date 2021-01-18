@@ -5,12 +5,6 @@
 package reflectdata
 
 import (
-	"fmt"
-	"os"
-	"sort"
-	"strings"
-	"sync"
-
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/bitvec"
 	"cmd/compile/internal/escape"
@@ -24,6 +18,11 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
+	"fmt"
+	"os"
+	"sort"
+	"strings"
+	"sync"
 )
 
 type itabEntry struct {
@@ -837,16 +836,8 @@ func TypeLinksym(t *types.Type) *obj.LSym {
 
 func TypePtr(t *types.Type) *ir.AddrExpr {
 	s := TypeSym(t)
-	if s.Def == nil {
-		n := ir.NewNameAt(src.NoXPos, s)
-		n.SetType(types.Types[types.TUINT8])
-		n.Class = ir.PEXTERN
-		n.SetTypecheck(1)
-		s.Def = n
-	}
-
-	n := typecheck.NodAddr(ir.AsNode(s.Def))
-	n.SetType(types.NewPtr(s.Def.Type()))
+	n := typecheck.NodAddr(ir.NewLinksymExpr(base.Pos, s.Linksym(), types.Types[types.TUINT8]))
+	n.SetType(types.NewPtr(types.Types[types.TUINT8]))
 	n.SetTypecheck(1)
 	return n
 }
@@ -855,18 +846,13 @@ func ITabAddr(t, itype *types.Type) *ir.AddrExpr {
 	if t == nil || (t.IsPtr() && t.Elem() == nil) || t.IsUntyped() || !itype.IsInterface() || itype.IsEmptyInterface() {
 		base.Fatalf("ITabAddr(%v, %v)", t, itype)
 	}
-	s := ir.Pkgs.Itab.Lookup(t.ShortString() + "," + itype.ShortString())
-	if s.Def == nil {
-		n := typecheck.NewName(s)
-		n.SetType(types.Types[types.TUINT8])
-		n.Class = ir.PEXTERN
-		n.SetTypecheck(1)
-		s.Def = n
-		itabs = append(itabs, itabEntry{t: t, itype: itype, lsym: n.Linksym()})
+	s, existed := ir.Pkgs.Itab.LookupOK(t.ShortString() + "," + itype.ShortString())
+	if !existed {
+		itabs = append(itabs, itabEntry{t: t, itype: itype, lsym: s.Linksym()})
 	}
 
-	n := typecheck.NodAddr(ir.AsNode(s.Def))
-	n.SetType(types.NewPtr(s.Def.Type()))
+	n := typecheck.NodAddr(ir.NewLinksymExpr(base.Pos, s.Linksym(), types.Types[types.TUINT8]))
+	n.SetType(types.NewPtr(types.Types[types.TUINT8]))
 	n.SetTypecheck(1)
 	return n
 }
