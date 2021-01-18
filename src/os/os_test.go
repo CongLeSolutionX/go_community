@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"internal/testenv"
 	"io"
+	"io/fs"
 	"os"
 	. "os"
 	osexec "os/exec"
@@ -2689,6 +2690,24 @@ func TestOpenFileKeepsPermissions(t *testing.T) {
 }
 
 func TestDirFS(t *testing.T) {
+	// On Windows, we give bogus mtimes to all of the files, in order to prevent a race between FindFirstFile and
+	// GetFileInformationByHandle, in which the MFT is only written to lazily, which can be delayed by anti-virus.
+	// See golang.org/issues/42637 for background.
+	if runtime.GOOS == "windows" {
+		fileTime := time.Now().Add(-time.Hour * 4)
+		if err := filepath.WalkDir("./testdata/dirfs", func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				t.Fatal(err)
+			}
+			if err := Chtimes(path, fileTime, fileTime); err != nil {
+				t.Fatal(err)
+			}
+			fileTime = fileTime.Add(time.Second * 3)
+			return nil
+		}); err != nil {
+			t.Fatal(err)
+		}
+	}
 	if err := fstest.TestFS(DirFS("./testdata/dirfs"), "a", "b", "dir/x"); err != nil {
 		t.Fatal(err)
 	}
