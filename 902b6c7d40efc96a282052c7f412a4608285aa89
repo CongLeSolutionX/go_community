@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91b39fb1_8adb2ec6",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "391d7d12_c803899f",
+      "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "559651bf_17568311",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-18T03:18:55Z",
       "side": 1,
       "message": "Change this to \"lsym :\u003d TypeLinksym(t)\" and use lsym instead of s.Linksym().",
+      "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4212329_fa47a92e",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "559651bf_17568311",
       "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7583e8cb_dd33ee79",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3feb91a4_93acc42b",
+      "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7afbf2e6_3fb2b2b4",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-01-18T03:18:55Z",
       "side": 1,
       "message": "Similar changes as above: add an lsym variable (in addition to s here), and then construct/typecheck the Nodes the same way.",
+      "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce333e8c_7ff56399",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-01-18T03:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7afbf2e6_3fb2b2b4",
       "revId": "902b6c7d40efc96a282052c7f412a4608285aa89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
