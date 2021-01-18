@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "78f5cb2c_01b1cdc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-18T19:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83e6233d_aa553d89",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a827de60_cbc4e019",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -64,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d1bfef_44257eec",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-18T19:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8294563_9256d416",
+      "range": {
+        "startLine": 245,
+        "startChar": 16,
+        "endLine": 245,
+        "endChar": 24
+      },
+      "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a221ace_3d129d9a",
@@ -77,6 +125,24 @@
       "writtenOn": "2021-01-15T22:44:34Z",
       "side": 1,
       "message": "Closure expressions themselves don\u0027t actually involve any calls. They\u0027re just creating a data structure, like OSTRUCTLIT. So maybe `v.budget -\u003d len(n.(*ir.ClosureExpr).Func.ClosureVars)` would reasonably approximate that cost?",
+      "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9075173b_b0d6d880",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-18T19:40:47Z",
+      "side": 1,
+      "message": "Seems reasonable, thanks for the suggestion.",
+      "parentUuid": "1a221ace_3d129d9a",
       "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -98,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "754b4421_49abf61f",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-18T19:40:47Z",
+      "side": 1,
+      "message": "Good suggestion to keep in mind.",
+      "parentUuid": "62c85a33_57983ef7",
+      "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a17256c1_3d1c07de",
@@ -111,6 +195,24 @@
       "writtenOn": "2021-01-15T22:44:34Z",
       "side": 1,
       "message": "nit: blank line after edit",
+      "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbbe85a4_a5b04be3",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-18T19:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a17256c1_3d1c07de",
       "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -138,6 +240,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70585aba_96a67376",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-18T19:40:47Z",
+      "side": 1,
+      "message": "Thanks, good advice to keep in mind.",
+      "parentUuid": "f2441312_c90a0761",
+      "range": {
+        "startLine": 1108,
+        "startChar": 55,
+        "endLine": 1108,
+        "endChar": 62
+      },
+      "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a41afe11_91978022",
@@ -155,6 +281,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fea753b3_c7d8b559",
+        "filename": "test/closure5.dir/a.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-18T19:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a41afe11_91978022",
+      "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89f44424_14b58550",
@@ -168,6 +312,24 @@
       "writtenOn": "2021-01-15T22:44:34Z",
       "side": 1,
       "message": "nit: copyright and gofmt",
+      "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "967289ab_ce2cb4f2",
+        "filename": "test/closure5.dir/main.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-18T19:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89f44424_14b58550",
       "revId": "c72e0ec966ebe949009216d1af166627f0f690a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
