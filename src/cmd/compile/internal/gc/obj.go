@@ -248,11 +248,6 @@ func addGCLocals() {
 				objw.Global(gcsym, int32(len(gcsym.P)), obj.RODATA|obj.DUPOK)
 			}
 		}
-		if x := fn.StackObjects; x != nil {
-			attr := int16(obj.RODATA)
-			objw.Global(x, int32(len(x.P)), attr)
-			x.Set(obj.AttrStatic, true)
-		}
 		if x := fn.OpenCodedDeferInfo; x != nil {
 			objw.Global(x, int32(len(x.P)), obj.RODATA|obj.DUPOK)
 		}

@@ -1209,7 +1209,6 @@ func (lv *liveness) emitStackObjects() *obj.LSym {
 	// Populate the stack object data.
 	// Format must match runtime/stack.go:stackObjectRecord.
 	x := base.Ctxt.Lookup(lv.fn.LSym.Name + ".stkobj")
-	lv.fn.LSym.Func().StackObjects = x
 	off := 0
 	off = objw.Uintptr(x, off, uint64(len(vars)))
 	for _, v := range vars {
@@ -1219,6 +1218,8 @@ func (lv *liveness) emitStackObjects() *obj.LSym {
 		off = objw.Uintptr(x, off, uint64(v.FrameOffset()))
 		off = objw.SymPtr(x, off, reflectdata.TypeLinksym(v.Type()), 0)
 	}
+	objw.Global(x, int32(off), obj.RODATA)
+	x.Set(obj.AttrStatic, true)
 
 	if base.Flag.Live != 0 {
 		for _, v := range vars {
