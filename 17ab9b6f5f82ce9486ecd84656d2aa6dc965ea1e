@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25793be3_3c35559b",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "s/blockIs/isBlock/g",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c8c98b1_b905c140",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 633,
+        "startChar": 47,
+        "endLine": 633,
+        "endChar": 90
+      },
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a7954a7_5c59a1d4",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "remove x7",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42658718_745ef4f0",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "remove x4",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68b9c275_3ad9461c",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "This comment leaves me with more questions than answers. I\u0027d end up being suspect of the code. Was it your intention to make me suspect this work?",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1353d386_bc66377a",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1859,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "s/raceexit/racefuncexit/ ?",
+      "range": {
+        "startLine": 1859,
+        "startChar": 40,
+        "endLine": 1859,
+        "endChar": 48
+      },
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a6d93d5_058f3954",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "1864-1867 and 1889-1892 are duplicate. Move outside the if/else block.",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca9e0b28_79b302b3",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "do you want to yank lines 1877 and 1874 outside to outside the condition?",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eefa90d_a72388f7",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-19T16:16:05Z",
+      "side": 1,
+      "message": "Should we add a panic here on an else case?",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
