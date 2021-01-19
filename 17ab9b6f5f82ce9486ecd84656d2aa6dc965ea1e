@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75ea86c2_fb759821",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-19T23:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25793be3_3c35559b",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c8c98b1_b905c140",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-19T16:16:05Z",
       "side": 1,
       "message": "delete",
+      "range": {
+        "startLine": 633,
+        "startChar": 47,
+        "endLine": 633,
+        "endChar": 90
+      },
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4046f36_187a7e6a",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-19T23:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c8c98b1_b905c140",
       "range": {
         "startLine": 633,
         "startChar": 47,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d05427e4_85603227",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-19T23:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a7954a7_5c59a1d4",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42658718_745ef4f0",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-01-19T16:16:05Z",
       "side": 1,
       "message": "remove x4",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d26f9e2_a5abde5b",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-19T23:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42658718_745ef4f0",
       "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -121,6 +205,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06c6b673_ee78c84f",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1859,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-19T23:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1353d386_bc66377a",
+      "range": {
+        "startLine": 1859,
+        "startChar": 40,
+        "endLine": 1859,
+        "endChar": 48
+      },
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a6d93d5_058f3954",
@@ -134,6 +242,24 @@
       "writtenOn": "2021-01-19T16:16:05Z",
       "side": 1,
       "message": "1864-1867 and 1889-1892 are duplicate. Move outside the if/else block.",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af1bf21d_1d4f75ea",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-19T23:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a6d93d5_058f3954",
       "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -155,6 +281,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b0aca92_b5b774aa",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-19T23:28:16Z",
+      "side": 1,
+      "message": "Done\n\nThis turned out to be a lot messier than planned, the resulting code seems to be much improved however (there are some changes in expand_calls.go, all in all, much better).",
+      "parentUuid": "ca9e0b28_79b302b3",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eefa90d_a72388f7",
@@ -168,6 +312,24 @@
       "writtenOn": "2021-01-19T16:16:05Z",
       "side": 1,
       "message": "Should we add a panic here on an else case?",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f21eb98_14e8c519",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-19T23:28:16Z",
+      "side": 1,
+      "message": "Turns out that there is actual code here.",
+      "parentUuid": "2eefa90d_a72388f7",
       "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
