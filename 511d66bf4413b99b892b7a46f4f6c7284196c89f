@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3156fe4e_c9e69459",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37365
+      },
+      "writtenOn": "2021-01-19T03:02:49Z",
+      "side": 1,
+      "message": "Hi, we also need to cherry-pick this test fix (CL 266097) otherwise it might be flaky.\n\nhttps://go-review.googlesource.com/c/go/+/266097",
+      "revId": "511d66bf4413b99b892b7a46f4f6c7284196c89f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
