@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53d5ecb6_22f354b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-19T16:30:21Z",
+      "side": 1,
+      "message": "Thanks for working on this!\n\nTest failure is unrelated (golang.org/issue/42637).",
+      "revId": "34209de0f94f4f3e5ca6279a62f33ad198d9e167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "190f1b36_9587efa7",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-19T16:30:21Z",
+      "side": 1,
+      "message": "Let\u0027s group GOMODCACHE together with CC and CXX instead. GOPATH is formatted a little differently; it can be a list with multiple entries. We\u0027re not checking that (yet) but it would be better not to use the same code for GOMODCACHE.",
+      "revId": "34209de0f94f4f3e5ca6279a62f33ad198d9e167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55c2f7da_dfc53974",
+        "filename": "src/cmd/go/testdata/script/mod_cache_dir.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-19T16:30:21Z",
+      "side": 1,
+      "message": "Let\u0027s also add something in env_write.txt that checks \u0027go env -w\u0027 fails when given a relative path.",
+      "revId": "34209de0f94f4f3e5ca6279a62f33ad198d9e167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
