@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "048991a6_a3d316b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-19T18:11:37Z",
+      "side": 1,
+      "message": "I think this is good to land? Are there any other //go:embed CLs for cmd/compile that are likely to land for Go 1.16?\n\nI\u0027m interested in sync\u0027ing master to dev.regabi and dev.typeparams, and their //go:embed implementations have all diverged somewhat. I figured I\u0027d wait until the Go 1.16 code has all settled before working on reconciling them. I think this is the last CL blocking that.\n\n(I know there\u0027s CL 282716 too, but that\u0027s \"likely decline\" at the moment, and seems likely to be fully declined this week.)",
+      "revId": "34138c49cb12a77c18112c0e0135012740788fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
