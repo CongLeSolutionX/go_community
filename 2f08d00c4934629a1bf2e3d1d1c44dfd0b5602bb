@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34fbf301_40c3cf10",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-19T22:16:33Z",
+      "side": 1,
+      "message": "Cast is not necessary.",
+      "range": {
+        "startLine": 1230,
+        "startChar": 16,
+        "endLine": 1230,
+        "endChar": 22
+      },
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c87812_da406d8f",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-19T22:16:33Z",
+      "side": 1,
+      "message": "It is probably simpler to just call an assembly function directly in a Test function, without using a subprocess.\n\nMaybe, in a file in this directory (say asm_arm64_test.s) with arm64 build tag, define testvmovq, and in TestVMOVQ, call testvmovq, and call t.Errorf if the result is wrong.",
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdb6a0b1_c1935ffc",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-19T22:16:33Z",
+      "side": 1,
+      "message": "I don\u0027t see why the OS matters.",
+      "range": {
+        "startLine": 158,
+        "startChar": 33,
+        "endLine": 158,
+        "endChar": 56
+      },
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "773b69e1_ae68b485",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-19T22:16:33Z",
+      "side": 1,
+      "message": "Use t.Skip or Skipf.",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 8
+      },
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c5543ae_c3c14056",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-19T22:16:33Z",
+      "side": 1,
+      "message": "Uncomment this.",
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e84e0274_75f60f63",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-19T22:16:33Z",
+      "side": 1,
+      "message": "Let\u0027s make this newline-terminated as well.",
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fd0a364_ed2c8dc4",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-19T22:16:33Z",
+      "side": 1,
+      "message": "I think it is simpler to just use \"go run\".",
+      "range": {
+        "startLine": 204,
+        "startChar": 45,
+        "endLine": 204,
+        "endChar": 50
+      },
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
