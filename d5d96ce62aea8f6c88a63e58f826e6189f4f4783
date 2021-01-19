@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30628c44_0d04b7d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-19T01:44:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aba3c97d_b9685a1c",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "d5d96ce62aea8f6c88a63e58f826e6189f4f4783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9d868da_22e1adbb",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "We can also think that this check is related to the bug. Because not all classes supported by VMOVQ are listed.\nI\u0027ll create another patch in case that the check is necessary, then we can just revert the cleanup patch. Thanks.",
       "parentUuid": "a9d868da_22e1adbb",
+      "revId": "d5d96ce62aea8f6c88a63e58f826e6189f4f4783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce82c080_f5edd1ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-19T01:44:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5c01f69_b69c4f35",
       "revId": "d5d96ce62aea8f6c88a63e58f826e6189f4f4783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
