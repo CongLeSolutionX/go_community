@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6502e27d_70372c62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-19T21:14:14Z",
+      "side": 1,
+      "message": "LGTM, thanks! Just a bunch of minor suggestions. All at your discretion.",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e36ce836_f18b47c1",
+        "filename": "src/cmd/compile/internal/types2/assignments.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-19T21:14:14Z",
+      "side": 1,
+      "message": "As mentioned on email, I think this might be somewhat clearer as:\n\n```\nif x.isNil() {\n  if T \u003d\u003d nil {\n    check.errorf(x, \"use of untyped nil in %s\", context)\n    ...\n  }\n} else if T \u003d\u003d nil || IsInterface(T) {\n  target \u003d Default(x.typ)\n}\n```\n\nBut up to you two.",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e346962_69c9ce0a",
+        "filename": "src/cmd/compile/internal/types2/conversions.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-19T21:14:14Z",
+      "side": 1,
+      "message": "Similarly (and again up to you two):\n\n```\nif x.isNil() {\n  // ok\n} else if IsInterface(T) || constArg \u0026\u0026 !isConstType(T) {\n  final \u003d Default(x.typ)\n} else if ...\n```",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31d66b97_dce5d010",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-19T21:14:14Z",
+      "side": 1,
+      "message": "Similarly:\n\n```\nif x.isNil() {\n  if !hasNil(target) {\n    goto Error\n  }\n  goto OK\n}\n```",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a3f89f1_38cd6e21",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-19T21:14:14Z",
+      "side": 1,
+      "message": "nit: I\u0027d probably flip this: handle \"x.type \u003d\u003d nil || x.type \u003d\u003d Typ[Invalid]\" as the special case, and then make \"nil (of type %s)\" the default/expected case.",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
