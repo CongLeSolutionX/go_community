@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24fd25b5_b6929e64",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-20T05:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34fbf301_40c3cf10",
+      "range": {
+        "startLine": 1230,
+        "startChar": 16,
+        "endLine": 1230,
+        "endChar": 22
+      },
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19c87812_da406d8f",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "688e4e5c_74a7795f",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-20T05:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19c87812_da406d8f",
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdb6a0b1_c1935ffc",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-01-19T22:16:33Z",
       "side": 1,
       "message": "I don\u0027t see why the OS matters.",
+      "range": {
+        "startLine": 158,
+        "startChar": 33,
+        "endLine": 158,
+        "endChar": 56
+      },
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9027ff11_446c3e2f",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-20T05:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdb6a0b1_c1935ffc",
       "range": {
         "startLine": 158,
         "startChar": 33,
@@ -87,6 +153,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1a6527_f6d30ccb",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-20T05:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "773b69e1_ae68b485",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 8
+      },
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c5543ae_c3c14056",
@@ -100,6 +190,24 @@
       "writtenOn": "2021-01-19T22:16:33Z",
       "side": 1,
       "message": "Uncomment this.",
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4016dda7_4061043a",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-20T05:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c5543ae_c3c14056",
       "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -121,6 +229,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b6bcfc_09e0ed7f",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-20T05:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e84e0274_75f60f63",
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fd0a364_ed2c8dc4",
@@ -134,6 +260,30 @@
       "writtenOn": "2021-01-19T22:16:33Z",
       "side": 1,
       "message": "I think it is simpler to just use \"go run\".",
+      "range": {
+        "startLine": 204,
+        "startChar": 45,
+        "endLine": 204,
+        "endChar": 50
+      },
+      "revId": "2f08d00c4934629a1bf2e3d1d1c44dfd0b5602bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eeb6e2d_692df4e0",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-01-20T05:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fd0a364_ed2c8dc4",
       "range": {
         "startLine": 204,
         "startChar": 45,
