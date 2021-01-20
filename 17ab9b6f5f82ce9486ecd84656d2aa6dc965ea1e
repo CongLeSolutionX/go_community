@@ -332,6 +332,24 @@
       "parentUuid": "2eefa90d_a72388f7",
       "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "636d6410_a0e7fcc2",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-20T17:19:48Z",
+      "side": 1,
+      "message": "Again, if !s.canSSA \u0026\u0026 !OnStack, do we want a panic?",
+      "parentUuid": "1f21eb98_14e8c519",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
