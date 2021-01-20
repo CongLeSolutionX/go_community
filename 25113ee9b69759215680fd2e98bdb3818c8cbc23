@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df11c46f_5a697b1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-20T03:28:26Z",
+      "side": 1,
+      "message": "[Still LGTM]",
+      "revId": "25113ee9b69759215680fd2e98bdb3818c8cbc23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b77a5bf_383b79a9",
+        "filename": "src/cmd/compile/internal/types2/conversions.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-20T03:28:26Z",
+      "side": 1,
+      "message": "Was this debugging code? I initially read this as saying \"x.mode is now/currently nilvalue\", but from your comment I see it\u0027s actually already \"value\" here. If it is meant as a comment, maybe the comment can be made clearer. :)",
+      "range": {
+        "startLine": 61,
+        "startChar": 3,
+        "endLine": 61,
+        "endChar": 23
+      },
+      "revId": "25113ee9b69759215680fd2e98bdb3818c8cbc23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
