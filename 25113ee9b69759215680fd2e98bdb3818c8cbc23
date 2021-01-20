@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f12423c0_f38606f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-20T05:49:16Z",
+      "side": 1,
+      "message": "Sorry for the delay. This should be ok for now.",
+      "revId": "25113ee9b69759215680fd2e98bdb3818c8cbc23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b77a5bf_383b79a9",
@@ -48,6 +65,30 @@
       "writtenOn": "2021-01-20T03:28:26Z",
       "side": 1,
       "message": "Was this debugging code? I initially read this as saying \"x.mode is now/currently nilvalue\", but from your comment I see it\u0027s actually already \"value\" here. If it is meant as a comment, maybe the comment can be made clearer. :)",
+      "range": {
+        "startLine": 61,
+        "startChar": 3,
+        "endLine": 61,
+        "endChar": 23
+      },
+      "revId": "25113ee9b69759215680fd2e98bdb3818c8cbc23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ca9d0d1_7c664987",
+        "filename": "src/cmd/compile/internal/types2/conversions.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-20T05:49:16Z",
+      "side": 1,
+      "message": "No, I was under the (wrong) impression that I needed to set the x.mode to nilvalue here, but that broke a test:\n\nvar _ \u003d interface{}(nil) \u003d\u003d []int(nil)\n\ndidn\u0027t report an error anymore. The point here is that the recorded type for these nil expressions should be interface{} and []int respectively, but that interface{}(nil) itself is a a value (not a nilvalue).\n\nSo I am going to remove this.\n\nThis confused me for a while and it\u0027s all a bit too subtle, still. Anyway, I will submit shortly and perhaps revisit the implementation. Hopefully, for the API this works now.",
+      "parentUuid": "0b77a5bf_383b79a9",
       "range": {
         "startLine": 61,
         "startChar": 3,
@@ -94,6 +135,30 @@
       "writtenOn": "2021-01-20T03:49:24Z",
       "side": 1,
       "message": "In a follow-up CL, I should port the fix for this error message from go/types...",
+      "range": {
+        "startLine": 72,
+        "startChar": 31,
+        "endLine": 72,
+        "endChar": 38
+      },
+      "revId": "25113ee9b69759215680fd2e98bdb3818c8cbc23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76762d24_0c8a88d1",
+        "filename": "src/cmd/compile/internal/types2/testdata/stmt0.src",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-20T05:49:16Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "26d9951a_a8ceaa5f",
       "range": {
         "startLine": 72,
         "startChar": 31,
