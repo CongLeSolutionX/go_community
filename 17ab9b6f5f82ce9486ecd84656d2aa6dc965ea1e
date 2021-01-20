@@ -182,6 +182,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b09496c2_89e5af75",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-20T18:41:56Z",
+      "side": 1,
+      "message": "It was not my intent, will revise.",
+      "parentUuid": "68b9c275_3ad9461c",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1353d386_bc66377a",
@@ -348,6 +366,24 @@
       "side": 1,
       "message": "Again, if !s.canSSA \u0026\u0026 !OnStack, do we want a panic?",
       "parentUuid": "1f21eb98_14e8c519",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "259b103f_95a9f5b0",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-20T18:41:56Z",
+      "side": 1,
+      "message": "Oh, I just realized that is not my code, that is old code.\n\nMy comment above is mistaken, you just had me checking in a (non-Go) panic that I had made changes to the wrong CL.\nShort answer is no, Go panic would be wrong.\n!OnStack is true for any escaping \"local variable\", and that implies !canSSA(*ir.Name).",
+      "parentUuid": "636d6410_a0e7fcc2",
       "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
