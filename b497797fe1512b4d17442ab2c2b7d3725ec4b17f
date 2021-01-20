@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "667e8806_b85b7953",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T17:43:16Z",
+      "side": 1,
+      "message": "This should be \"e.g.\" not \"i.e.\"\nYou can literally treat \"i.e.\" as \"that is\"\nand treat \"e.g.\" as \"for example\".\nIt\u0027s one of those weird cases where Latin has entered the English language.\n\nHowever, this example itself is already incorrect since it you can\u0027t natively serialize a float without the MarshalText method, which this doesn\u0027t show.\n\nPerhaps:\n    type F float64\n    func (f F) MarshalText() ([]byte, error) {\n        return []byte(fmt.Sprint(f)), nil\n    }\n    json.Marshal(map[F]int{math.NaN(): 1}) // should not panic",
+      "range": {
+        "startLine": 13,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "b497797fe1512b4d17442ab2c2b7d3725ec4b17f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2633acfa_4230388b",
