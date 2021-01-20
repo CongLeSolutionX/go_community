@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd0541e7_134673c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-20T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "486010f0_2f6da11c",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf9bfb29_00f15a1e",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-20T01:55:13Z",
       "side": 1,
       "message": "Again, there is no MarshalMap function.\n\nPerhaps:\n\u003e Map serialization using reflect.Value.MapIndex cannot retrieve map keys that contain a NaN, resulting in a panic. Switch the implementation to use the reflect.Value.MapRange method instead, which iterates over all map entries regardless of whether they are directly retrievable.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8be0b026_42b54f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-20T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf9bfb29_00f15a1e",
       "range": {
         "startLine": 8,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a323e920_c19cb4cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-20T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04615576_72286c24",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "287270a6_83a70ab6",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-01-20T01:55:13Z",
       "side": 1,
       "message": "It *does* actually specify duplicate names, it just specifies that it is implementation specific behavior.\n\nThus, this should say something like:\n\u003e Note that according to RFC 8259, section 4, a JSON object should have unique names, but does not forbid the occurrence of duplicate names.\n\nAlso, RFC 7159 has been obsoleted by RFC 8259, so we should use the latter.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1a284bd_4c3f7978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-20T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "287270a6_83a70ab6",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -150,6 +246,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1387a6f_0b12d37b",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-20T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61e02299_46808a3b",
+      "range": {
+        "startLine": 254,
+        "startChar": 1,
+        "endLine": 254,
+        "endChar": 2
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58f3bb9e_68c4476e",
@@ -163,6 +283,30 @@
       "writtenOn": "2021-01-20T01:55:13Z",
       "side": 1,
       "message": "Style nit:\n\n    t.Errorf(\"Marshal() error: %v\", err)",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 42
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "299b5813_d7909cfd",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-20T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f3bb9e_68c4476e",
       "range": {
         "startLine": 256,
         "startChar": 0,
@@ -196,6 +340,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ece6eefe_f64fd464",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-20T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aef0f9ed_3bbfbc25",
+      "range": {
+        "startLine": 258,
+        "startChar": 1,
+        "endLine": 258,
+        "endChar": 7
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c50e5a8_dc3baf6f",
@@ -209,6 +377,30 @@
       "writtenOn": "2021-01-20T01:55:13Z",
       "side": 1,
       "message": "Style nit:\n\n    if string(got) !\u003d want {\n        t.Errorf(\"Marshal() \u003d %s, want %s\", got, want)\n    }",
+      "range": {
+        "startLine": 259,
+        "startChar": 1,
+        "endLine": 261,
+        "endChar": 2
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d555fa_7cf6e8b8",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-20T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c50e5a8_dc3baf6f",
       "range": {
         "startLine": 259,
         "startChar": 1,
