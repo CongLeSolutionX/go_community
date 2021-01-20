@@ -1,6 +1,98 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "486010f0_2f6da11c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "There is no exported function named MarshalMap\n\nPerhaps:\n\n   encoding/json: marshal maps using reflect.Value.MapRange",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf9bfb29_00f15a1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "Again, there is no MarshalMap function.\n\nPerhaps:\n\u003e Map serialization using reflect.Value.MapIndex cannot retrieve map keys that contain a NaN, resulting in a panic. Switch the implementation to use the reflect.Value.MapRange method instead, which iterates over all map entries regardless of whether they are directly retrievable.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04615576_72286c24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "Nit: space after :\u003d",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "287270a6_83a70ab6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "It *does* actually specify duplicate names, it just specifies that it is implementation specific behavior.\n\nThus, this should say something like:\n\u003e Note that according to RFC 8259, section 4, a JSON object should have unique names, but does not forbid the occurrence of duplicate names.\n\nAlso, RFC 7159 has been obsoleted by RFC 8259, so we should use the latter.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cd6745c3_8c305048",
@@ -14,6 +106,115 @@
       "writtenOn": "2021-01-07T06:15:17Z",
       "side": 1,
       "message": "All done and I\u0027ve removed the benchmark.",
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02794d5f_9513d3f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "Thanks for the fix. Lots of minor comments.",
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61e02299_46808a3b",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "s/d/got/",
+      "range": {
+        "startLine": 254,
+        "startChar": 1,
+        "endLine": 254,
+        "endChar": 2
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58f3bb9e_68c4476e",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "Style nit:\n\n    t.Errorf(\"Marshal() error: %v\", err)",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 42
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef0f9ed_3bbfbc25",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "s/expect/want/",
+      "range": {
+        "startLine": 258,
+        "startChar": 1,
+        "endLine": 258,
+        "endChar": 7
+      },
+      "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c50e5a8_dc3baf6f",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-01-20T01:55:13Z",
+      "side": 1,
+      "message": "Style nit:\n\n    if string(got) !\u003d want {\n        t.Errorf(\"Marshal() \u003d %s, want %s\", got, want)\n    }",
+      "range": {
+        "startLine": 259,
+        "startChar": 1,
+        "endLine": 261,
+        "endChar": 2
+      },
       "revId": "01d7309c933446d869f7c27f863cd714c00e3713",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
