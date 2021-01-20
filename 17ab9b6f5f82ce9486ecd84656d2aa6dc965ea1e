@@ -386,6 +386,24 @@
       "parentUuid": "636d6410_a0e7fcc2",
       "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f0907ac_ac1ec53b",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-01-20T18:48:52Z",
+      "side": 1,
+      "message": "So, again, all cases SHOULD be handled here, correct? So it could look like:\n\nif s.canSSA(n) {\n} else if !n.OnStack() {\n} else {\n  panic(?)\n}\n\nor even:\n\nif s.canSSA(n) {\n} else {\n}\n\nI\u0027m sorry to beat a dead horse on this one, I\u0027m just looking for the most legible code.",
+      "parentUuid": "259b103f_95a9f5b0",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
