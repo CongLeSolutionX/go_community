@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "648370d6_5ad751be",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-20T22:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0990d8e_1366d3a6",
+      "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae112496_7414fe41",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-01-20T17:11:08Z",
       "side": 1,
       "message": "doesn\u0027t",
+      "range": {
+        "startLine": 243,
+        "startChar": 22,
+        "endLine": 243,
+        "endChar": 27
+      },
+      "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd98365c_7c4a5932",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-20T22:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae112496_7414fe41",
       "range": {
         "startLine": 243,
         "startChar": 22,
@@ -75,6 +117,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "764601f3_24042fd1",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-20T22:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dce59f2_e5fb8cb8",
+      "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7d021f2_ae8184f6",
@@ -88,6 +148,30 @@
       "writtenOn": "2021-01-20T17:11:08Z",
       "side": 1,
       "message": "This could use a comment about why it is this expression.",
+      "range": {
+        "startLine": 1337,
+        "startChar": 20,
+        "endLine": 1337,
+        "endChar": 51
+      },
+      "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9169781b_8bf6b577",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-20T22:31:54Z",
+      "side": 1,
+      "message": "Done.  Added some extra comments in the exportWriter struct as well about dclIndex, etc.",
+      "parentUuid": "f7d021f2_ae8184f6",
       "range": {
         "startLine": 1337,
         "startChar": 20,
