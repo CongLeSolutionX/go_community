@@ -16,6 +16,86 @@
       "message": "Thanks for more comments!  I\u0027ll aim to check in tomorrow after checking with Keith if he has any comments.\n",
       "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0990d8e_1366d3a6",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-20T17:11:08Z",
+      "side": 1,
+      "message": "Remove this?",
+      "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae112496_7414fe41",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-20T17:11:08Z",
+      "side": 1,
+      "message": "doesn\u0027t",
+      "range": {
+        "startLine": 243,
+        "startChar": 22,
+        "endLine": 243,
+        "endChar": 27
+      },
+      "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dce59f2_e5fb8cb8",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-20T17:11:08Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7d021f2_ae8184f6",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-20T17:11:08Z",
+      "side": 1,
+      "message": "This could use a comment about why it is this expression.",
+      "range": {
+        "startLine": 1337,
+        "startChar": 20,
+        "endLine": 1337,
+        "endChar": 51
+      },
+      "revId": "a08dfb0df9fef5896eaffd4fd2bbd199bf3f43de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
