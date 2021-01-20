@@ -50,6 +50,24 @@
       "message": "Let\u0027s also add something in env_write.txt that checks \u0027go env -w\u0027 fails when given a relative path.",
       "revId": "34209de0f94f4f3e5ca6279a62f33ad198d9e167",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31bf66f6_02839e66",
+        "filename": "src/cmd/go/testdata/script/mod_cache_dir.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2021-01-20T05:24:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c2f7da_dfc53974",
+      "revId": "34209de0f94f4f3e5ca6279a62f33ad198d9e167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
