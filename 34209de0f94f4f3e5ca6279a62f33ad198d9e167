@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3092cdbb_7fe743fa",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-20T19:45:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "190f1b36_9587efa7",
+      "revId": "34209de0f94f4f3e5ca6279a62f33ad198d9e167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55c2f7da_dfc53974",
