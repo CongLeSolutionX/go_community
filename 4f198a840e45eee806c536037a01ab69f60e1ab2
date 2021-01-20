@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d8113c4_0f16a0c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-01-20T00:29:08Z",
+      "side": 1,
+      "message": "Drive by review: Found a possibly duplicate function you might consider to change or delete. ",
+      "revId": "4f198a840e45eee806c536037a01ab69f60e1ab2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d17da41c_0635ac51",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-01-20T00:29:08Z",
+      "side": 1,
+      "message": "How is this function different to ClosureAuxCall a few lines above?",
+      "revId": "4f198a840e45eee806c536037a01ab69f60e1ab2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
