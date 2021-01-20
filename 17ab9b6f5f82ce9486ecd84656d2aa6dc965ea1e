@@ -404,6 +404,24 @@
       "parentUuid": "259b103f_95a9f5b0",
       "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5843a50_93e914c0",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-20T18:58:55Z",
+      "side": 1,
+      "message": "It could be not-SSA-able but on-stack (i.e., too large to SSA but not escaped), in which case it is already where it needs to be.  I hope to delete this code within a month anyway.\n\nBut sure, I will fix it.",
+      "parentUuid": "8f0907ac_ac1ec53b",
+      "revId": "17ab9b6f5f82ce9486ecd84656d2aa6dc965ea1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
