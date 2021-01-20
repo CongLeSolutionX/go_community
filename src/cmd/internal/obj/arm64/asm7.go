@@ -321,15 +321,17 @@ var optab = []Optab{
 	{ACMP, C_VCON, C_REG, C_NONE, C_NONE, 13, 20, 0, 0, 0},
 	{AADD, C_SHIFT, C_REG, C_NONE, C_REG, 3, 4, 0, 0, 0},
 	{AADD, C_SHIFT, C_NONE, C_NONE, C_REG, 3, 4, 0, 0, 0},
+	{AADD, C_SHIFT, C_RSP, C_NONE, C_RSP, 3, 4, 0, 0, 0},
+	{AADD, C_SHIFT, C_NONE, C_NONE, C_RSP, 3, 4, 0, 0, 0},
 	{AMVN, C_SHIFT, C_NONE, C_NONE, C_REG, 3, 4, 0, 0, 0},
 	{ACMP, C_SHIFT, C_REG, C_NONE, C_NONE, 3, 4, 0, 0, 0},
+	{ACMP, C_SHIFT, C_RSP, C_NONE, C_NONE, 3, 4, 0, 0, 0},
 	{ANEG, C_SHIFT, C_NONE, C_NONE, C_REG, 26, 4, 0, 0, 0},
 	{AADD, C_REG, C_RSP, C_NONE, C_RSP, 27, 4, 0, 0, 0},
 	{AADD, C_REG, C_NONE, C_NONE, C_RSP, 27, 4, 0, 0, 0},
 	{ACMP, C_REG, C_RSP, C_NONE, C_NONE, 27, 4, 0, 0, 0},
 	{AADD, C_EXTREG, C_RSP, C_NONE, C_RSP, 27, 4, 0, 0, 0},
 	{AADD, C_EXTREG, C_NONE, C_NONE, C_RSP, 27, 4, 0, 0, 0},
-	{AMVN, C_EXTREG, C_NONE, C_NONE, C_RSP, 27, 4, 0, 0, 0},
 	{ACMP, C_EXTREG, C_RSP, C_NONE, C_NONE, 27, 4, 0, 0, 0},
 	{AADD, C_REG, C_REG, C_NONE, C_REG, 1, 4, 0, 0, 0},
 	{AADD, C_REG, C_NONE, C_NONE, C_REG, 1, 4, 0, 0, 0},
@@ -3192,14 +3194,9 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = c.oaddi(p, int32(o1), v, r, rt)
 
 	case 3: /* op R<<n[,R],R (shifted register) */
-		o1 = c.oprrr(p, p.As)
-
 		amount := (p.From.Offset >> 10) & 63
-		is64bit := o1 & (1 << 31)
-		if is64bit == 0 && amount >= 32 {
-			c.ctxt.Diag("shift amount out of range 0 to 31: %v", p)
-		}
-		o1 |= uint32(p.From.Offset) /* includes reg, op, etc */
+		shift := (p.From.Offset >> 22) & 3
+		rf := (p.From.Offset >> 16) & 31
 		rt := int(p.To.Reg)
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
@@ -3210,7 +3207,34 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		} else if r == 0 {
 			r = rt
 		}
-		o1 |= (uint32(r&31) << 5) | uint32(rt&31)
+		if (isADDop(p.As) || isADDWop(p.As)) && (p.To.Reg == REGSP || p.Reg == REGSP) {
+			// Refer to ARM reference manual, if "Rd" or "Rn" is RSP, it can be encoded
+			// as op(extended regster) instruction.
+			// op Rm<<imm, Rn|RSP, Rd|RSP (extended register)
+			if shift != 0 {
+				c.ctxt.Diag("illegal combination: %v", p)
+				break
+			}
+			if p.To.Reg == REGSP && (p.As == AADDS || p.As == AADDSW || p.As == ASUBS || p.As == ASUBSW) {
+				c.ctxt.Diag("unexpected SP reference: %v", p)
+				break
+			}
+			if amount > 4 {
+				c.ctxt.Diag("the left shift amount out of range 0 to 4: %v", p)
+				break
+			}
+			o1 = c.opxrrr(p, p.As, false)
+			o1 |= uint32(rf)<<16 | uint32(amount&7)<<10 | (uint32(r&31) << 5) | uint32(rt&31)
+		} else {
+			// op Rm<<imm, Rn, Rd (shifted register)
+			o1 = c.oprrr(p, p.As)
+			is64bit := o1 & (1 << 31)
+			if is64bit == 0 && amount >= 32 {
+				c.ctxt.Diag("shift amount out of range 0 to 31: %v", p)
+			}
+			o1 |= uint32(p.From.Offset) /* includes reg, op, etc */
+			o1 |= (uint32(r&31) << 5) | uint32(rt&31)
+		}
 
 	case 4: /* mov $addcon, R; mov $recon, R; mov $racon, R; mov $addcon2, R */
 		rt := int(p.To.Reg)
@@ -6357,11 +6381,10 @@ func (c *ctxt7) opbit(p *obj.Prog, a obj.As) uint32 {
 func (c *ctxt7) opxrrr(p *obj.Prog, a obj.As, extend bool) uint32 {
 	extension := uint32(0)
 	if !extend {
-		switch a {
-		case AADD, ACMN, AADDS, ASUB, ACMP, ASUBS:
+		if isADDop(a) {
 			extension = LSL0_64
-
-		case AADDW, ACMNW, AADDSW, ASUBW, ACMPW, ASUBSW:
+		}
+		if isADDWop(a) {
 			extension = LSL0_32
 		}
 	}
