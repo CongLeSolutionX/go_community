@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bd03fb8_5952d530",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-01-20T22:27:33Z",
+      "side": 1,
+      "message": "I was poking around with how I thought the chan stuff should work and ended up writing CL 285054. Let me know what you think about that as a possible alternative.",
+      "revId": "6f63afb6b5136137558f01fb19df47ebcdce82bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
