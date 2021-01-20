@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20599e13_df3af582",
+        "filename": "src/cmd/compile/internal/types2/assignments.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-20T02:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e36ce836_f18b47c1",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e346962_69c9ce0a",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-01-19T21:14:14Z",
       "side": 1,
       "message": "Similarly (and again up to you two):\n\n```\nif x.isNil() {\n  // ok\n} else if IsInterface(T) || constArg \u0026\u0026 !isConstType(T) {\n  final \u003d Default(x.typ)\n} else if ...\n```",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd944c5f_3ba8d8f7",
+        "filename": "src/cmd/compile/internal/types2/conversions.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-20T02:17:29Z",
+      "side": 1,
+      "message": "Your suggestion is not quite right because x.mode may have already been changed. Rewrote slightly.",
+      "parentUuid": "6e346962_69c9ce0a",
       "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc890128_ae9560b0",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-20T02:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d66b97_dce5d010",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a3f89f1_38cd6e21",
@@ -82,6 +136,24 @@
       "writtenOn": "2021-01-19T21:14:14Z",
       "side": 1,
       "message": "nit: I\u0027d probably flip this: handle \"x.type \u003d\u003d nil || x.type \u003d\u003d Typ[Invalid]\" as the special case, and then make \"nil (of type %s)\" the default/expected case.",
+      "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ef15010_3c8c2de9",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-20T02:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a3f89f1_38cd6e21",
       "revId": "b5407972cbb9cf90870db6da2d2b7e6fca0b8c9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
