@@ -157,12 +157,12 @@ func (a *ABIConfig) NumParamRegs(t *types.Type) int {
 // 'config' and analyzes the function to determine how its parameters
 // and results will be passed (in registers or on the stack), returning
 // an ABIParamResultInfo object that holds the results of the analysis.
-func (config *ABIConfig) ABIAnalyze(t *types.Type) ABIParamResultInfo {
+func (config *ABIConfig) ABIAnalyze(t *types.Type) *ABIParamResultInfo {
 	setup()
 	s := assignState{
 		rTotal: config.regAmounts,
 	}
-	result := ABIParamResultInfo{config: config}
+	result := &ABIParamResultInfo{config: config}
 
 	// Receiver
 	ft := t.FuncType()
