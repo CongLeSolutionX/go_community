@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb9df904_de7a9efe",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-01-21T17:38:20Z",
+      "side": 1,
+      "message": "I found this \"filter\" loop quite hard to understand with the two indices. I initially thought it didn\u0027t preserve the order, for example. How about https://github.com/golang/go/wiki/SliceTricks#filter-in-place?\n\nOr perhaps just a bit more docs for people who aren\u0027t used to the trick, like me :)",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "762fb7b0_75c9a456",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-01-21T17:38:20Z",
+      "side": 1,
+      "message": "I\u0027m a bit sad that we need an extra map to avoid cycles, when cycles are not the norm and this API is otherwise quite cheap. I don\u0027t have a particular suggestion, though.\n\nA bit of a random idea: only add types to the \"visited\" map if len(index)\u003e10. Structs without cycles and without deep nesting would never need to make/alloc the visited map. A struct with a cycle might go through the cycle a few times, but afterwards will start keeping track of pointers and stop soon after. The result should be the same, as byName would prevent duplicates.",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2670f033_90f96011",
+        "filename": "src/reflect/visiblefields_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-01-21T17:38:20Z",
+      "side": 1,
+      "message": "nit: CamelCase would look more consistent than kebab-case, like:\n\nTestFields/SimpleStruct",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0079b623_ac52bf66",
+        "filename": "src/reflect/visiblefields_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-01-21T17:38:20Z",
+      "side": 1,
+      "message": "any particular reason for all these field tags?",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
