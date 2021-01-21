@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2dfdc02f_a52fed8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-21T14:55:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "667e8806_b85b7953",
+      "range": {
+        "startLine": 13,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "b497797fe1512b4d17442ab2c2b7d3725ec4b17f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2633acfa_4230388b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -37,6 +61,23 @@
       "writtenOn": "2021-01-20T13:51:54Z",
       "side": 1,
       "message": "Hi, Joe\nThank you for the review!\nAll done.",
+      "revId": "b497797fe1512b4d17442ab2c2b7d3725ec4b17f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93bc2d5b_f4c6a258",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-01-21T14:55:52Z",
+      "side": 1,
+      "message": "Thanks for clear this up.\nI think we should remove this example this not very helpful.",
       "revId": "b497797fe1512b4d17442ab2c2b7d3725ec4b17f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
