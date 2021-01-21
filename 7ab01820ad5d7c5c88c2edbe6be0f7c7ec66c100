@@ -16,6 +16,63 @@
       "message": "Thanks for the review",
       "revId": "7ab01820ad5d7c5c88c2edbe6be0f7c7ec66c100",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fecc6475_b918e590",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-21T17:18:06Z",
+      "side": 1,
+      "message": "LGTM, thanks.\n\nTRY\u003darm64\n",
+      "revId": "7ab01820ad5d7c5c88c2edbe6be0f7c7ec66c100",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f8dfc7_f79f8e9e",
+        "filename": "src/cmd/internal/obj/arm64/asm_arm64_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-21T17:18:06Z",
+      "side": 1,
+      "message": "Move this next to TestVMOVQ.",
+      "revId": "7ab01820ad5d7c5c88c2edbe6be0f7c7ec66c100",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2ff3026_46d8ced1",
+        "filename": "src/cmd/internal/obj/arm64/asm_arm64_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-21T17:18:06Z",
+      "side": 1,
+      "message": "a, b ?",
+      "range": {
+        "startLine": 160,
+        "startChar": 92,
+        "endLine": 160,
+        "endChar": 96
+      },
+      "revId": "7ab01820ad5d7c5c88c2edbe6be0f7c7ec66c100",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
