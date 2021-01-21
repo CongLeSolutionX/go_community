@@ -1,0 +1,472 @@
+# Go internal ABI specification
+
+This document describes Go’s internal application binary interface
+(ABI), which is used when calling between Go functions.
+This ABI is *unstable* and will change between Go versions.
+If you’re writing assembly code, please instead refer to Go’s
+[assembly documentation](/doc/asm.html), which describes Go’s stable
+ABI.
+
+Go uses a common ABI design across all architectures.
+We first describe the common ABI, and then cover per-architecture
+specifics.
+
+TODO: Start with a description of memory (aka struct) layout?
+If we have that to reference, a lot of the description of the stack
+layout can be framed more directly and precisely in those terms.
+
+## Argument and result passing
+
+Each architecture defines a sequence of integer registers and a
+sequence of floating-point registers.
+At a high level, arguments and results are recursively broken down
+into values of base types and these base values are assigned to
+registers from these sequences.
+Any argument or result that contains a non-trivial array or does not
+fit entirely in the remaining registers is passed on the stack.
+Arguments and results can share the same registers, but do not share
+the same stack space.
+Beyond the arguments and results passed on the stack, the caller also
+pre-reserves spill slots on the stack for all argument registers (but
+does not populate them).
+
+The receiver, arguments, and results of function or method F are
+assigned to registers using the following algorithm:
+
+1. Start with the full integer and floating-point register sequences
+   and an empty stack frame.
+1. If F is a method, assign F’s receiver.
+1. For each argument A of F, assign A.
+1. Let IntRegs and FloatRegs be the number of integer and
+   floating-point registers assigned.
+1. Align the stack frame offset to the architecture’s pointer size.
+1. Reset to the full integer and floating-point register sequences
+   (but do not reset the stack frame).
+1. For each result R of F, assign R.
+1. Align the stack frame offset to the architecture’s pointer size.
+1. Reserve IntRegs uintptrs in the stack frame as spill slots
+   corresponding to the integer argument registers.
+1. Reserve FloatRegs uint64s in the frame stack as spill slots
+   corresponding to the floating-point argument registers.
+
+Assigning a receiver, argument, or result V works as follows:
+
+1. Register-assign V.
+1. If step 1 failed, undo all register and stack assignments it
+   performed and stack-assign V.
+
+Register-assignment of a value V of underlying type T works as follows:
+
+1. If T is a boolean or integral type that fits in an integer
+   register, assign V to the next available integer register.
+1. If T is an integral type that fits in two integer registers, assign
+   the least significant and most significant halves of V to the next
+   two available integer registers, respectively.
+1. If T is a floating-point type and can be represented without loss
+   of precision in a floating-point register, assign V to the next
+   available floating-point register.
+1. If T is a complex type, recursively register-assign its real and
+   imaginary parts.
+1. If T is a pointer type, map type, channel type, or function type,
+   assign V to the next available integer register.
+1. If T is a string type, interface type, or slice type, recursively
+   register-assign V’s components (2 for strings and interfaces, 3 for
+   slices).
+1. If T is a struct type, recursively register-assign each non-blank
+   field of V.
+1. If T is an array type of length 0, do nothing.
+1. If T is an array type of length 1, recursively register-assign its
+   one element.
+1. If T is an array type of length > 1, fail.
+1. If there is no available integer or floating-point register
+   available above, fail.
+1. If any recursive assignment above fails, this register-assign fails.
+
+Stack-assignment of a value V of underlying type T works as follows:
+
+1. Align the current stack frame offset to T’s alignment.
+1. Append V to the stack frame.
+
+(Note that any non-zero-sized struct type that ends in a zero-sized
+field is implicitly padded with 1 byte to prevent past-the-end
+pointers.
+This applies to all structs, not just those passed as arguments.)
+
+The following diagram shows what the resulting argument frame looks
+like on the stack:
+
+    +------------------------------+
+    | float register spill slots   |
+    | integer register spill slots |
+    |             . . .            |
+    | 2nd stack-assigned result    |
+    | 1st stack-assigned result    |
+    |             . . .            |
+    | 2nd stack-assigned argument  |
+    | 1st stack-assigned argument  |
+    | stack-assigned receiver      |
+    +------------------------------+ ↓ lower addresses
+
+(Note that, while stack diagrams conventionally have address 0 at the
+bottom, if this were expressed as a Go struct the fields would appear
+in the opposite order, starting with the stack-assigned receiver.)
+
+To perform a call, the caller reserves space starting at the lowest
+address in its stack frame for the call stack frame, stores arguments
+in the registers and argument stack slots determined by the above
+algorithm, and performs the call.
+At the time of a call, register spill slots, result stack slots, and
+result registers are assumed to be uninitialized.
+Upon return, the callee must have stored results to all result
+registers and result stack slots determined by the above algorithm.
+
+There are no callee-save registers, so a call may overwrite any
+register that doesn’t have a fixed meaning, including argument
+registers.
+
+### Example
+
+The function `func f(a1 uint8, a2 [2]uintptr, a3 uint8) (r1 struct { x
+uintptr; y [2]uintptr }, r2 string)` has the following argument frame
+layout on a 64-bit host with hypothetical integer registers R0–R9:
+
+    +-------------------+ 56
+    | a3 argument spill | 48
+    | a1 argument spill | 40
+    | r1 result         | 16
+    | a2 argument       | 0
+    +-------------------+
+    On entry: R0=a1, R1=a3
+    On exit:  R0=r2.base, R1=r2.len
+
+There are several things to note in this example.
+First, a2 and r1 are stack-assigned because they contain arrays.
+The other arguments and results are register-assigned.
+Result r2 is decomposed into its components, which are individually
+register-assigned.
+All of the stack-assigned arguments and results appear on the stack
+before any of the register spill slots, and only the argument
+registers are assigned spill slots (not the result registers).
+Finally, the spill slots for a1 and a3 are full words, even though
+these arguments are only one byte.
+
+### Rationale
+
+Each base value is assigned to its own register to optimize
+construction and access.
+An alternative would be to pack multiple sub-word values into
+registers, or to simply map an arguments in-memory layout to registers
+(this is common in C ABIs), but this typically adds cost to pack and
+unpack these values.
+Modern architectures have more than enough registers to pass all
+arguments and results this way for nearly all functions (see the
+appendix), so there’s little downside to spreading base values across
+registers.
+
+Arguments that can’t be fully assigned to registers are passed
+entirely on the stack in case the callee takes the address of that
+argument.
+If an argument could be split across the stack and registers and the
+callee took its address, it would need to be reconstructed in memory,
+a process that would be proportional to the size of the argument.
+
+Non-trivial arrays are always passed on the stack because indexing
+into an array typically requires a computed offset, which generally
+isn’t possible with registers.
+Arrays in general are rare in function signatures (only 0.7% of
+functions in the Go 1.15 standard library and 0.2% in kubelet).
+We considered allowing array fields to be passed on the stack while
+the rest of an argument’s fields are passed in registers, but this
+creates the same problems as other large structs if the callee takes
+the address of an argument, and would benefit <0.1% of functions in
+kubelet (and even these very little).
+
+We make exceptions for 0 and 1-element arrays because these don’t
+require computed offsets, and 1-element arrays are already decomposed
+in the compiler’s SSA.
+
+The stack assignment algorithm above is equivalent to Go’s stack-based
+ABI0 calling convention if there are zero architecture registers.
+This is intended to ease the transition to the register-based internal
+ABI and make it easy for the compiler to generate either calling
+convention.
+An architecture may still define register meanings that aren’t
+compatible with ABI0, but these differences should be easy to account
+for in the compiler.
+
+The algorithm reserves spill space for argument registers in the
+caller’s frame so that the compiler can generate a stack growth path
+that spills into these pre-reserved slots.
+If the callee has to grow the stack, it may not be able to reserve
+enough additional stack space in its own frame to spill these, which
+is why it’s important that the caller do so.
+These slots also act as the home location if these registers need to
+be spilled for any other reason, which simplifies traceback printing.
+
+An alternative approach to spill slots would be to use the ABI0 layout
+on the stack, but leave the stack space of any arguments promoted to
+registers undefined.
+This is probably simpler to implement in the compiler, too, since it
+already implements ABI0.
+However, it further complicates traceback metadata and traceback
+printing in the runtime because 1) argument words would be live or
+dead at a byte level and 2) whether an argument is packed on the stack
+or unpacked in a register would depend on the site.
+It also, somewhat counter-intuitively, results in *larger* stack
+frames for 81% of functions in kubelet, with a median growth of 16
+bytes.
+This is because ABI0 reserves stack space for all results, but the
+register ABI does not reserve any stack space (even spill space) for
+register results.
+Finally, the long-term intent is to remove pre-reserved spill slots
+entirely – allowing most functions to be called without any stack
+setup and easing the introduction of callee-save registers – and spill
+slots make that transition easier.
+
+## Closures
+
+A func value (e.g., `var x func()`) is a pointer to a closure object.
+A closure object begins with a pointer-sized program counter
+representing the entry point of the function, followed by zero or more
+bytes containing the closed-over environment.
+
+Closure calls follow the same conventions as static function and
+method calls, with one addition. Each architecture specifies a
+*closure context pointer* register and calls to closures store the
+address of the closure object in the closure context pointer register
+prior to the call.
+
+## Software floating-point mode
+
+In "softfloat" mode, the ABI simply treats the hardware as having zero
+floating-point registers.
+As a result, any arguments containing floating-point values will be
+passed on the stack.
+
+*Rationale*: Softfloat mode is about compatibility over performance
+and is not commonly used.
+Hence, we keep the ABI as simple as possible in this case, rather than
+adding additional rules for passing floating-point values in integer
+registers.
+
+## Architecture specifics
+
+This section describes per-architecture register mappings, as well as
+other per-architecture special cases.
+
+### amd64 architecture
+
+The amd64 architecture uses the following sequence of 9 registers for
+integer arguments and results:
+
+    RAX, RBX, RCX, RDI, RSI, R8, R9, R10, R11
+
+It uses X0 – X14 for floating-point arguments and results.
+
+*Rationale*: These sequences are chosen from the available registers
+to be relatively easy to remember.
+
+Registers R12 and R13 are permanent scratch registers.
+R15 is a scratch register except in dynamically linked binaries.
+
+*Rationale*: Some operations such as stack growth and reflection calls
+need dedicated scratch registers in order to manipulate call frames
+without corrupting arguments or results.
+
+Special-purpose registers are as follows:
+
+| Register | Call meaning | Body meaning |
+| --- | --- | --- |
+| RSP | Stack pointer | Fixed |
+| RBP | Frame pointer | Fixed |
+| RDX | Closure context pointer | Scratch |
+| R12 | None | Scratch |
+| R13 | None | Scratch |
+| R14 | Current goroutine | Scratch |
+| R15 | GOT reference temporary | Fixed if dynlink |
+| X15 | Zero value | Fixed |
+
+TODO: We may start with the existing TLS-based g and move to R14
+later.
+
+*Rationale*: These register meanings are compatible with Go’s
+stack-based calling convention except for R14 and X15, which will have
+to be restored on transitions from ABI0 code to ABIInternal code.
+In ABI0, these are undefined, so transitions from ABIInternal to ABI0
+can ignore these registers.
+
+*Rationale*: For the current goroutine pointer, we chose a register
+that requires an additional REX byte.
+While this adds one byte to every function prologue, it is hardly ever
+accessed outside the function prologue and we expect making more
+single-byte registers available to be a net win.
+
+*Rationale*: We designate X15 as a fixed zero register because
+functions often have to bulk zero their stack frames, and this is more
+efficient with a designated zero register.
+
+#### Stack layout
+
+The stack pointer, RSP, grows down and is always aligned to 8 bytes.
+
+The amd64 architecture does not use a link register.
+
+A function's stack frame is laid out as follows:
+
+    +------------------------------+
+    | return PC                    |
+    | RBP on entry                 |
+    | ... locals ...               |
+    | ... outgoing arguments ...   |
+    +------------------------------+ ↓ lower addresses
+
+The "return PC" is pushed as part of the standard amd64 `CALL`
+operation.
+On entry, a function subtracts from RSP to open its stack frame and
+saves the value of RBP directly below the return PC.
+A leaf function that does not require any stack space may omit the
+saved RBP.
+
+The Go ABI's use of RBP as a frame pointer register is compatible with
+amd64 platform conventions so that Go can inter-operate with platform
+debuggers and profilers.
+
+#### Flags
+
+The direction flag (D) is always cleared (set to the “forward”
+direction) at a call.
+The arithmetic status flags are treated like scratch registers and not
+preserved across calls.
+All other bits in RFLAGS are system flags.
+
+The CPU is always in MMX technology state (not x87 mode).
+
+*Rationale*: Go on amd64 uses the XMM registers and never uses the x87
+registers, so it makes sense to assume the CPU is in MMX mode.
+Otherwise, any function that used the XMM registers would have to
+execute an EMMS instruction before calling another function or
+returning (this is the case in the SysV ABI).
+
+At calls, the MXCSR control bits are always set as follows:
+
+| Flag | Bit | Value | Meaning |
+| --- | --- | --- | --- |
+| FZ | 15 | 0 | Do not flush to zero |
+| RC | 14/13 | 0 (RN) | Round to nearest |
+| PM | 12 | 1 | Precision masked |
+| UM | 11 | 1 | Underflow masked |
+| OM | 10 | 1 | Overflow masked |
+| ZM | 9 | 1 | Divide-by-zero masked |
+| DM | 8 | 1 | Denormal operations masked |
+| IM | 7 | 1 | Invalid operations masked |
+| DAZ | 6 | 0 | Do not zero de-normals |
+
+The MXCSR status bits are callee-save.
+
+*Rationale*: Having a fixed MXCSR control configuration allows Go
+functions to use SSE operations without modifying or saving the MXCSR.
+Functions are allowed to modify it between calls (as long as they
+restore it), but as of this writing Go code never does.
+The above fixed configuration matches the process initialization
+control bits specified by the ELF AMD64 ABI.
+
+The x87 floating-point control word is not used by Go on amd64.
+
+## Future directions
+
+The ABI currently pre-reserves spill slots for argument registers so
+the compiler can statically generate an argument register spill path
+before calling into `runtime.morestack` to grow the stack.
+This keeps stack growth and stack scanning essentially unchanged from
+ABI0.
+However, it would reduce code size and make better use of stack space
+to instead have a generic spill path in the runtime before growing the
+stack, and have additional metadata to identify pointers in spill
+space.
+Since this case is rare, this path could spill all possible argument
+registers.
+This would also set us up to spill callee-save registers in the
+future.
+It may also allow for faster reflection calls in the common case where
+a function takes only register arguments, since it would allow
+reflection to make these calls directly without allocating any frame.
+
+TODO Than's idea about moving spill spaces into callee and charging
+all callee's spill spaces to the caller for morestack checks to ensure
+the space is always available.
+
+TODO Clobber sets
+
+TODO Pass arrays and large aggregates by reference and the callee is
+responsible for copying.
+(What if it’s coming from the heap?
+Then doesn’t the callee have to copy it first?)
+
+## Appendix: Register usage analysis
+
+In order to understand the impacts of the above design on register
+usage, we
+[analyzed](https://github.com/aclements/go-misc/tree/master/abi) the
+impact of the above ABI on a large code base: cmd/kubelet from
+[Kubernetes](https://github.com/kubernetes/kubernetes) at tag v1.18.8.
+
+The following table shows the impact of different numbers of available
+integer and floating-point registers on argument assignment:
+
+```
+|      |        |       |      stack args |          spills |     stack total |
+| ints | floats | % fit | p50 | p95 | p99 | p50 | p95 | p99 | p50 | p95 | p99 |
+|    0 |      0 |  6.3% |  32 | 152 | 256 |   0 |   0 |   0 |  32 | 152 | 256 |
+|    0 |      8 |  6.4% |  32 | 152 | 256 |   0 |   0 |   0 |  32 | 152 | 256 |
+|    1 |      8 | 21.3% |  24 | 144 | 248 |   8 |   8 |   8 |  32 | 152 | 256 |
+|    2 |      8 | 38.9% |  16 | 128 | 224 |   8 |  16 |  16 |  24 | 136 | 240 |
+|    3 |      8 | 57.0% |   0 | 120 | 224 |  16 |  24 |  24 |  24 | 136 | 240 |
+|    4 |      8 | 73.0% |   0 | 120 | 216 |  16 |  32 |  32 |  24 | 136 | 232 |
+|    5 |      8 | 83.3% |   0 | 112 | 216 |  16 |  40 |  40 |  24 | 136 | 232 |
+|    6 |      8 | 87.5% |   0 | 112 | 208 |  16 |  48 |  48 |  24 | 136 | 232 |
+|    7 |      8 | 89.8% |   0 | 112 | 208 |  16 |  48 |  56 |  24 | 136 | 232 |
+|    8 |      8 | 91.3% |   0 | 112 | 200 |  16 |  56 |  64 |  24 | 136 | 232 |
+|    9 |      8 | 92.1% |   0 | 112 | 192 |  16 |  56 |  72 |  24 | 136 | 232 |
+|   10 |      8 | 92.6% |   0 | 104 | 192 |  16 |  56 |  72 |  24 | 136 | 232 |
+|   11 |      8 | 93.1% |   0 | 104 | 184 |  16 |  56 |  80 |  24 | 136 | 232 |
+|   12 |      8 | 93.4% |   0 | 104 | 176 |  16 |  56 |  88 |  24 | 128 | 232 |
+|   13 |      8 | 94.0% |   0 |  88 | 176 |  16 |  56 |  96 |  24 | 128 | 232 |
+|   14 |      8 | 94.4% |   0 |  80 | 152 |  16 |  64 | 104 |  24 | 128 | 232 |
+|   15 |      8 | 94.6% |   0 |  80 | 152 |  16 |  64 | 112 |  24 | 128 | 232 |
+|   16 |      8 | 94.9% |   0 |  16 | 152 |  16 |  64 | 112 |  24 | 128 | 232 |
+|    ∞ |      8 | 99.8% |   0 |   0 |   0 |  24 | 112 | 216 |  24 | 120 | 216 |
+```
+
+The first two columns show the number of available integer and
+floating-point registers.
+The first row shows the results for 0 integer and 0 floating-point
+registers, which is equivalent to ABI0.
+We found that any reasonable number of floating-point registers has
+the same effect, so we fixed it at 8 for all other rows.
+
+The “% fit” column gives the fraction of functions where all arguments
+and results are register-assigned and no arguments are passed on the
+stack.
+The three “stack args” columns give the median, 95th and 99th
+percentile number of bytes of stack arguments.
+The “spills” columns likewise summarize the number of bytes in
+on-stack spill slots.
+And “stack total” summarizes the sum of stack arguments and on-stack
+spill slots.
+Note that these are three different distributions; for example,
+there’s no single function that takes 0 stack argument bytes, 16 spill
+bytes, and 24 total stack bytes.
+
+From this, we can see that the fraction of functions that fit entirely
+in registers grows very slowly once it reaches about 90%, though
+curiously there is a small minority of functions that could benefit
+from a huge number of registers.
+Making 9 integer registers available on amd64 puts it in this realm.
+We also see that the stack space required for most functions is fairly
+small.
+While the increasing space required for spills largely balances out
+the decreasing space required for stack arguments as the number of
+available registers increases, there is a general reduction in the
+total stack space required with more available registers.
+This does, however, suggest that eliminating spill slots in the future
+would noticeably reduce stack requirements.
