@@ -27,8 +27,8 @@ fit entirely in the remaining registers is passed on the stack.
 Arguments and results can share the same registers, but do not share
 the same stack space.
 Beyond the arguments and results passed on the stack, the caller also
-pre-reserves spill slots on the stack for all argument registers (but
-does not populate them).
+pre-reserves spill space on the stack for all register-based arguments
+(but does not populate this space).
 
 The receiver, arguments, and results of function or method F are
 assigned to registers using the following algorithm:
@@ -37,17 +37,15 @@ assigned to registers using the following algorithm:
    and an empty stack frame.
 1. If F is a method, assign F’s receiver.
 1. For each argument A of F, assign A.
-1. Let IntRegs and FloatRegs be the number of integer and
-   floating-point registers assigned.
 1. Align the stack frame offset to the architecture’s pointer size.
 1. Reset to the full integer and floating-point register sequences
    (but do not reset the stack frame).
 1. For each result R of F, assign R.
 1. Align the stack frame offset to the architecture’s pointer size.
-1. Reserve IntRegs uintptrs in the stack frame as spill slots
-   corresponding to the integer argument registers.
-1. Reserve FloatRegs uint64s in the frame stack as spill slots
-   corresponding to the floating-point argument registers.
+1. For each register-assigned receiver and argument of F, let T be its
+   type and stack-assign an empty value of type T.
+   This is the argument's (or receiver's) spill space.
+1. Align the stack frame offset to the architecture’s pointer size.
 
 Assigning a receiver, argument, or result V works as follows:
 
@@ -96,11 +94,14 @@ The following diagram shows what the resulting argument frame looks
 like on the stack:
 
     +------------------------------+
-    | float register spill slots   |
-    | integer register spill slots |
+    |             . . .            |
+    | 2nd reg argument spill space |
+    | 1st reg argument spill space |
+    | <pointer-sized alignment>    |
     |             . . .            |
     | 2nd stack-assigned result    |
     | 1st stack-assigned result    |
+    | <pointer-sized alignment>    |
     |             . . .            |
     | 2nd stack-assigned argument  |
     | 1st stack-assigned argument  |
@@ -115,8 +116,8 @@ To perform a call, the caller reserves space starting at the lowest
 address in its stack frame for the call stack frame, stores arguments
 in the registers and argument stack slots determined by the above
 algorithm, and performs the call.
-At the time of a call, register spill slots, result stack slots, and
-result registers are assumed to be uninitialized.
+At the time of a call, spill slots, result stack slots, and result
+registers are assumed to be uninitialized.
 Upon return, the callee must have stored results to all result
 registers and result stack slots determined by the above algorithm.
 
@@ -130,8 +131,9 @@ The function `func f(a1 uint8, a2 [2]uintptr, a3 uint8) (r1 struct { x
 uintptr; y [2]uintptr }, r2 string)` has the following argument frame
 layout on a 64-bit host with hypothetical integer registers R0–R9:
 
-    +-------------------+ 56
-    | a3 argument spill | 48
+    +-------------------+ 48
+    | alignment padding | 42
+    | a3 argument spill | 41
     | a1 argument spill | 40
     | r1 result         | 16
     | a2 argument       | 0
@@ -144,11 +146,9 @@ First, a2 and r1 are stack-assigned because they contain arrays.
 The other arguments and results are register-assigned.
 Result r2 is decomposed into its components, which are individually
 register-assigned.
-All of the stack-assigned arguments and results appear on the stack
-before any of the register spill slots, and only the argument
-registers are assigned spill slots (not the result registers).
-Finally, the spill slots for a1 and a3 are full words, even though
-these arguments are only one byte.
+On the stack, the stack-assigned arguments appear below the
+stack-assigned results, which appear below the argument spill area.
+Only arguments, not results, are assigned a spill area.
 
 ### Rationale
 
@@ -194,34 +194,48 @@ An architecture may still define register meanings that aren’t
 compatible with ABI0, but these differences should be easy to account
 for in the compiler.
 
-The algorithm reserves spill space for argument registers in the
-caller’s frame so that the compiler can generate a stack growth path
-that spills into these pre-reserved slots.
+The algorithm reserves spill space for arguments in the caller’s frame
+so that the compiler can generate a stack growth path that spills into
+this pre-reserved space.
 If the callee has to grow the stack, it may not be able to reserve
 enough additional stack space in its own frame to spill these, which
 is why it’s important that the caller do so.
-These slots also act as the home location if these registers need to
+These slots also act as the home location if these arguments need to
 be spilled for any other reason, which simplifies traceback printing.
 
-An alternative approach to spill slots would be to use the ABI0 layout
-on the stack, but leave the stack space of any arguments promoted to
-registers undefined.
-This is probably simpler to implement in the compiler, too, since it
-already implements ABI0.
-However, it further complicates traceback metadata and traceback
-printing in the runtime because 1) argument words would be live or
-dead at a byte level and 2) whether an argument is packed on the stack
-or unpacked in a register would depend on the site.
-It also, somewhat counter-intuitively, results in *larger* stack
-frames for 81% of functions in kubelet, with a median growth of 16
-bytes.
-This is because ABI0 reserves stack space for all results, but the
-register ABI does not reserve any stack space (even spill space) for
-register results.
+There are several options for how to lay out the argument spill space.
+We chose to lay out each argument in its type's usual memory layout
+but to separate the spill space from the regular argument space.
+Using the usual memory layout simplifies the compiler because it
+already understands this layout.
+Also, if a function takes the address of a register-assigned argument,
+the compiler must spill that argument to memory in its usual in-memory
+layout and it's more convenient to use the argument spill space for
+this purpose.
+
+Alternatively, the spill space could be structured around argument
+registers.
+In this approach, the stack growth spill path would spill each
+argument register to a register-sized stack word.
+However, if the function takes the address of a register-assigned
+argument, the compiler would have to reconstruct it in memory layout
+elsewhere on the stack.
+
+The spill space could also be interleaved with the stack-assigned
+arguments so the arguments appear in order whether they are register-
+or stack-assigned.
+This would be close to ABI0, except that register-assigned arguments
+would be uninitialized on the stack and there's no need to reserve
+stack space for register-assigned results.
+We expect separating the spill space to perform better because of
+memory locality.
+Separating the space is also potentially simpler for `reflect` calls
+because this allows `reflect` to summarize the spill space as a single
+number.
 Finally, the long-term intent is to remove pre-reserved spill slots
 entirely – allowing most functions to be called without any stack
-setup and easing the introduction of callee-save registers – and spill
-slots make that transition easier.
+setup and easing the introduction of callee-save registers – and
+separating the spill space makes that transition easier.
 
 ## Closures
 
@@ -374,9 +388,9 @@ The x87 floating-point control word is not used by Go on amd64.
 
 ## Future directions
 
-The ABI currently pre-reserves spill slots for argument registers so
-the compiler can statically generate an argument register spill path
-before calling into `runtime.morestack` to grow the stack.
+The ABI currently pre-reserves spill space for argument registers so
+the compiler can statically generate an argument spill path before
+calling into `runtime.morestack` to grow the stack.
 This keeps stack growth and stack scanning essentially unchanged from
 ABI0.
 However, it would reduce code size and make better use of stack space
@@ -428,7 +442,7 @@ integer and floating-point registers on argument assignment:
 |    8 |      8 | 91.3% |   0 | 112 | 200 |  16 |  56 |  64 |  24 | 136 | 232 |
 |    9 |      8 | 92.1% |   0 | 112 | 192 |  16 |  56 |  72 |  24 | 136 | 232 |
 |   10 |      8 | 92.6% |   0 | 104 | 192 |  16 |  56 |  72 |  24 | 136 | 232 |
-|   11 |      8 | 93.1% |   0 | 104 | 184 |  16 |  56 |  80 |  24 | 136 | 232 |
+|   11 |      8 | 93.1% |   0 | 104 | 184 |  16 |  56 |  80 |  24 | 128 | 232 |
 |   12 |      8 | 93.4% |   0 | 104 | 176 |  16 |  56 |  88 |  24 | 128 | 232 |
 |   13 |      8 | 94.0% |   0 |  88 | 176 |  16 |  56 |  96 |  24 | 128 | 232 |
 |   14 |      8 | 94.4% |   0 |  80 | 152 |  16 |  64 | 104 |  24 | 128 | 232 |
@@ -450,7 +464,7 @@ stack.
 The three “stack args” columns give the median, 95th and 99th
 percentile number of bytes of stack arguments.
 The “spills” columns likewise summarize the number of bytes in
-on-stack spill slots.
+on-stack spill space.
 And “stack total” summarizes the sum of stack arguments and on-stack
 spill slots.
 Note that these are three different distributions; for example,
