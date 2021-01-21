@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bafceae5_6fd11ac6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-01-21T07:35:40Z",
+      "side": 1,
+      "message": "Could you help to review this patch? Thank you.",
+      "revId": "9ebe8359e0cfa279773da0b765cec2dd26189634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
