@@ -109,14 +109,21 @@ type escape struct {
 
 	curfn *ir.Func // function being analyzed
 
-	labels map[*types.Sym]labelState // known labels
+	loops []loop // stack of active loops
 
-	// loopDepth counts the current loop nesting depth within
-	// curfn. It increments within each "for" loop and at each
-	// label with a corresponding backwards "goto" (i.e.,
-	// unstructured loop).
-	loopDepth int
+	labels map[*types.Sym]labelState // known labels
 }
+
+type loop struct {
+	// locs lists locations that were allocated directly in this loop.
+	locs []*location
+}
+
+// loopDepth counts the current loop nesting depth within
+// curfn. It increments within each "for" loop and at each
+// label with a corresponding backwards "goto" (i.e.,
+// unstructured loop).
+func (e *escape) loopDepth() int { return len(e.loops) }
 
 // An location represents an abstract location that stores a Go
 // variable.
@@ -124,7 +131,15 @@ type location struct {
 	n         ir.Node  // represented variable or expression, if any
 	curfn     *ir.Func // enclosing function
 	edges     []edge   // incoming edges
-	loopDepth int      // loopDepth at declaration
+	declDepth int      // loopDepth at declaration
+
+	// captures lists nodes that could be more efficiently handled if
+	// this location is never reassigned after use by the
+	// node. Currently, these nodes might be OCLOSURE (for closure
+	// variables that could be passed by value) or OBYTES2STR (for
+	// []byte-to-string conversions that can be be handled without
+	// copying).
+	captures []ir.Node
 
 	// resultIndex records the tuple index (starting at 1) for
 	// PPARAMOUT variables within their function's result type.
@@ -159,8 +174,7 @@ type location struct {
 	// paramEsc records the represented parameter's leak set.
 	paramEsc leaks
 
-	captured   bool // has a closure captured this variable?
-	reassigned bool // has this variable been reassigned?
+	reassigned bool // could this variable be reassigned?
 	addrtaken  bool // has this variable's address been taken?
 }
 
@@ -193,11 +207,11 @@ func Fmt(n ir.Node) string {
 
 	if n.Op() == ir.ONAME {
 		n := n.(*ir.Name)
-		if loc, ok := n.Opt.(*location); ok && loc.loopDepth != 0 {
+		if loc, ok := n.Opt.(*location); ok && loc.declDepth != 0 {
 			if text != "" {
 				text += " "
 			}
-			text += fmt.Sprintf("ld(%d)", loc.loopDepth)
+			text += fmt.Sprintf("ld(%d)", loc.declDepth)
 		}
 	}
 
@@ -234,6 +248,7 @@ func Batch(fns []*ir.Func, recursive bool) {
 	// variable might be reassigned or have it's address taken. Now we
 	// can decide whether closures should capture their free variables
 	// by value or reference.
+	b.captureVars()
 	for _, closure := range b.closures {
 		b.flowClosure(closure.k, closure.clo)
 	}
@@ -251,9 +266,8 @@ func Batch(fns []*ir.Func, recursive bool) {
 
 func (b *batch) with(fn *ir.Func) *escape {
 	return &escape{
-		batch:     b,
-		curfn:     fn,
-		loopDepth: 1,
+		batch: b,
+		curfn: fn,
 	}
 }
 
@@ -304,6 +318,15 @@ func (b *batch) walkFunc(fn *ir.Func) {
 		}
 	})
 
+	e.enterLoop()
+
+	for _, n := range fn.Dcl {
+		switch n.Class {
+		case ir.PPARAM, ir.PPARAMOUT:
+			e.dcl(n)
+		}
+	}
+
 	e.block(fn.Body)
 
 	if len(e.labels) != 0 {
@@ -311,34 +334,35 @@ func (b *batch) walkFunc(fn *ir.Func) {
 	}
 }
 
+func (b *batch) captureVars() {
+	// Mark closure variables that are eligible for capture by value.
+	for _, loc := range b.allLocs {
+		n, ok := loc.n.(*ir.Name)
+		if !ok || loc.addrtaken || n.Type().Size() > 128 {
+			continue // not a variable or too big
+		}
+		for _, c := range loc.captures {
+			if c, ok := c.(*ir.Name); ok {
+				c.SetByval(true)
+			}
+		}
+	}
+}
+
 func (b *batch) flowClosure(k hole, clo *ir.ClosureExpr) {
 	for _, cv := range clo.Func.ClosureVars {
-		n := cv.Canonical()
 		loc := b.oldLoc(cv)
-		if !loc.captured {
-			base.FatalfAt(cv.Pos(), "closure variable never captured: %v", cv)
-		}
-
-		// Capture by value for variables <= 128 bytes that are never reassigned.
-		n.SetByval(!loc.addrtaken && !loc.reassigned && n.Type().Size() <= 128)
-		if !n.Byval() {
-			n.SetAddrtaken(true)
-		}
-
-		if base.Flag.LowerM > 1 {
-			how := "ref"
-			if n.Byval() {
-				how = "value"
-			}
-			base.WarnfAt(n.Pos(), "%v capturing by %s: %v (addr=%v assign=%v width=%d)", n.Curfn, how, n, loc.addrtaken, loc.reassigned, n.Type().Size())
-		}
 
 		// Flow captured variables to closure.
-		k := k
+		k, how := k, "value"
 		if !cv.Byval() {
-			k = k.addr(cv, "reference")
+			k, how = k.addr(cv, "reference"), "ref"
 		}
+
 		b.flow(k.note(cv, "captured by a closure"), loc)
+		if base.Flag.LowerM > 1 {
+			base.WarnfAt(cv.Pos(), "%v capturing by %s: %v", cv.Curfn, how, cv)
+		}
 	}
 }
 
@@ -380,10 +404,10 @@ func (e *escape) stmt(n ir.Node) {
 	}()
 
 	if base.Flag.LowerM > 2 {
-		fmt.Printf("%v:[%d] %v stmt: %v\n", base.FmtPos(base.Pos), e.loopDepth, e.curfn, n)
+		fmt.Printf("%v:[%d] %v stmt: %v\n", base.FmtPos(base.Pos), e.loopDepth(), e.curfn, n)
 	}
 
-	e.stmts(n.Init())
+	e.init(n)
 
 	switch n.Op() {
 	default:
@@ -417,7 +441,7 @@ func (e *escape) stmt(n ir.Node) {
 			if base.Flag.LowerM > 2 {
 				fmt.Printf("%v: %v looping label\n", base.FmtPos(base.Pos), n)
 			}
-			e.loopDepth++
+			e.enterLoop()
 		default:
 			base.Fatalf("label missing tag")
 		}
@@ -431,11 +455,11 @@ func (e *escape) stmt(n ir.Node) {
 
 	case ir.OFOR, ir.OFORUNTIL:
 		n := n.(*ir.ForStmt)
-		e.loopDepth++
-		e.discard(n.Cond)
-		e.stmt(n.Post)
-		e.block(n.Body)
-		e.loopDepth--
+		e.looped(func() {
+			e.discard(n.Cond)
+			e.stmt(n.Post)
+			e.block(n.Body)
+		})
 
 	case ir.ORANGE:
 		// for Key, Value = range X { Body }
@@ -445,17 +469,17 @@ func (e *escape) stmt(n ir.Node) {
 		tmp := e.newLoc(nil, false)
 		e.expr(tmp.asHole(), n.X)
 
-		e.loopDepth++
-		ks := e.addrs([]ir.Node{n.Key, n.Value})
-		if n.X.Type().IsArray() {
-			e.flow(ks[1].note(n, "range"), tmp)
-		} else {
-			e.flow(ks[1].deref(n, "range-deref"), tmp)
-		}
-		e.reassigned(ks, n)
+		e.looped(func() {
+			ks := e.addrs([]ir.Node{n.Key, n.Value})
+			if n.X.Type().IsArray() {
+				e.flow(ks[1].note(n, "range"), tmp)
+			} else {
+				e.flow(ks[1].deref(n, "range-deref"), tmp)
+			}
+			e.reassigned(ks)
 
-		e.block(n.Body)
-		e.loopDepth--
+			e.block(n.Body)
+		})
 
 	case ir.OSWITCH:
 		n := n.(*ir.SwitchStmt)
@@ -484,6 +508,7 @@ func (e *escape) stmt(n ir.Node) {
 	case ir.OSELECT:
 		n := n.(*ir.SelectStmt)
 		for _, cas := range n.Cases {
+			e.init(cas)
 			e.stmt(cas.Comm)
 			e.block(cas.Body)
 		}
@@ -519,10 +544,10 @@ func (e *escape) stmt(n ir.Node) {
 
 	case ir.OAS2FUNC:
 		n := n.(*ir.AssignListStmt)
-		e.stmts(n.Rhs[0].Init())
+		e.init(n.Rhs[0])
 		ks := e.addrs(n.Lhs)
 		e.call(ks, n.Rhs[0], nil)
-		e.reassigned(ks, n)
+		e.reassigned(ks)
 	case ir.ORETURN:
 		n := n.(*ir.ReturnStmt)
 		results := e.curfn.Type().Results().FieldSlice()
@@ -535,7 +560,7 @@ func (e *escape) stmt(n ir.Node) {
 		e.call(nil, n, nil)
 	case ir.OGO, ir.ODEFER:
 		n := n.(*ir.GoDeferStmt)
-		e.stmts(n.Call.Init())
+		e.init(n.Call)
 		e.call(nil, n.Call, n)
 
 	case ir.OTAILCALL:
@@ -549,11 +574,39 @@ func (e *escape) stmts(l ir.Nodes) {
 	}
 }
 
+func (e *escape) looped(f func()) {
+	e.blocked(func() {
+		e.enterLoop()
+		f()
+	})
+}
+
+func (e *escape) currentBlock() *loop {
+	return &e.loops[len(e.loops)-1]
+}
+
+func (e *escape) enterLoop() {
+	e.loops = append(e.loops, loop{})
+}
+
+func (e *escape) blocked(f func()) {
+	depth := len(e.loops)
+	f()
+	e.loops = e.loops[:depth]
+	for _, loc := range e.loops[depth-1].locs {
+		loc.reassigned = false
+	}
+}
+
 // block is like stmts, but preserves loopDepth.
 func (e *escape) block(l ir.Nodes) {
-	old := e.loopDepth
-	e.stmts(l)
-	e.loopDepth = old
+	e.blocked(func() { e.stmts(l) })
+}
+
+func (e *escape) capture(loc *location, n ir.Node) {
+	if !loc.reassigned {
+		loc.captures = append(loc.captures, n)
+	}
 }
 
 // expr models evaluating an expression n and flowing the result into
@@ -562,8 +615,14 @@ func (e *escape) expr(k hole, n ir.Node) {
 	if n == nil {
 		return
 	}
-	e.stmts(n.Init())
+	e.init(n)
 	e.exprSkipInit(k, n)
+}
+
+func (e *escape) init(n ir.Node) {
+	// TODO(mdempsky): Convince myself that using block instead of stmts
+	// is really okay here.
+	e.block(n.Init())
 }
 
 func (e *escape) exprSkipInit(k hole, n ir.Node) {
@@ -770,15 +829,7 @@ func (e *escape) exprSkipInit(k hole, n ir.Node) {
 
 		if fn := n.Func; fn.IsHiddenClosure() {
 			for _, cv := range fn.ClosureVars {
-				if loc := e.oldLoc(cv); !loc.captured {
-					loc.captured = true
-
-					// Ignore reassignments to the variable in straightline code
-					// preceding the first capture by a closure.
-					if loc.loopDepth == e.loopDepth {
-						loc.reassigned = false
-					}
-				}
+				e.capture(e.oldLoc(cv), cv)
 			}
 
 			e.walkFunc(fn)
@@ -787,6 +838,27 @@ func (e *escape) exprSkipInit(k hole, n ir.Node) {
 	case ir.ORUNES2STR, ir.OBYTES2STR, ir.OSTR2RUNES, ir.OSTR2BYTES, ir.ORUNESTR:
 		n := n.(*ir.ConvExpr)
 		e.spill(k, n)
+
+		if n.Op() == ir.OBYTES2STR {
+			// TODO(mdempsky): Peal away multiple levels of slice slicing.
+			switch n.X.Op() {
+			case ir.OSLICEARR, ir.OSLICE3ARR:
+				x := n.X.(*ir.SliceExpr)
+				// TODO(mdempsky): Generalize OADDR+ONAME to any pointer to an
+				// on-stack array that we have a location for.
+				if addr, ok := x.X.(*ir.AddrExpr); ok && addr.Op() == ir.OADDR {
+					nbase, ok := addr.X.(*ir.Name)
+					if ok && nbase.Op() == ir.ONAME && nbase.OnStack() {
+						e.capture(e.oldLoc(nbase), n)
+						e.discard(x.Low)
+						e.discard(x.High)
+						e.discard(x.Max)
+						return
+					}
+				}
+			}
+		}
+
 		e.discard(n.X)
 
 	case ir.OADDSTR:
@@ -809,7 +881,7 @@ func (e *escape) unsafeValue(k hole, n ir.Node) {
 		base.Fatalf("unexpected addrtaken")
 	}
 
-	e.stmts(n.Init())
+	e.init(n)
 
 	switch n.Op() {
 	case ir.OCONV, ir.OCONVNOP:
@@ -908,25 +980,30 @@ func (e *escape) addrs(l ir.Nodes) []hole {
 }
 
 // reassigned marks the locations associated with the given holes as
-// reassigned, unless the location represents a variable declared and
-// assigned exactly once by where.
-func (e *escape) reassigned(ks []hole, where ir.Node) {
-	if as, ok := where.(*ir.AssignStmt); ok && as.Op() == ir.OAS && as.Y == nil {
-		if dst, ok := as.X.(*ir.Name); ok && dst.Op() == ir.ONAME && dst.Defn == nil {
-			// Zero-value assignment for variable declared without an
-			// explicit initial value. Assume this is its initialization
-			// statement.
-			return
-		}
-	}
-
+// assigned at the current loop depth.
+func (e *escape) reassigned(ks []hole) {
 	for _, k := range ks {
 		loc := k.dst
-		// Variables declared by range statements are assigned on every iteration.
-		if n, ok := loc.n.(*ir.Name); ok && n.Defn == where && where.Op() != ir.ORANGE {
-			continue
+
+		if loc.curfn == e.curfn {
+			if loc.declDepth == 0 {
+				ir.Dump("fn", e.curfn)
+				base.Fatalf("missing declDepth for %+v", loc.n)
+			}
+			if e.loopDepth() < loc.declDepth {
+				base.Fatalf("weird decldepth: %v < %v", e.loopDepth(), loc.declDepth)
+			}
+			if e.loopDepth() > loc.declDepth {
+				loc.reassigned = true
+			}
+		} else {
+			// Assigning to a variable from another function always requires
+			// assigning through a pointer.
+			loc.addrtaken = true
 		}
-		loc.reassigned = true
+
+		// Clear any captures, regardless of depth.
+		loc.captures = loc.captures[:0]
 	}
 }
 
@@ -959,7 +1036,7 @@ func (e *escape) assignList(dsts, srcs []ir.Node, why string, where ir.Node) {
 		e.expr(k.note(where, why), src)
 	}
 
-	e.reassigned(ks, where)
+	e.reassigned(ks)
 }
 
 func (e *escape) assignHeap(src ir.Node, why string, where ir.Node) {
@@ -970,7 +1047,7 @@ func (e *escape) assignHeap(src ir.Node, why string, where ir.Node) {
 // should contain the holes representing where the function callee's
 // results flows; where is the OGO/ODEFER context of the call, if any.
 func (e *escape) call(ks []hole, call, where ir.Node) {
-	topLevelDefer := where != nil && where.Op() == ir.ODEFER && e.loopDepth == 1
+	topLevelDefer := where != nil && where.Op() == ir.ODEFER && e.loopDepth() == 1
 	if topLevelDefer {
 		// force stack allocation of defer record, unless
 		// open-coded defers are used (see ssa.go)
@@ -1235,11 +1312,22 @@ func (e *escape) teeHole(ks ...hole) hole {
 
 func (e *escape) dcl(n *ir.Name) hole {
 	if n.Curfn != e.curfn || n.IsClosureVar() {
-		base.Fatalf("bad declaration of %v", n)
+		base.FatalfAt(n.Pos(), "bad declaration of %v", n)
 	}
 	loc := e.oldLoc(n)
-	loc.loopDepth = e.loopDepth
+	e.setDeclDepth(loc)
 	return loc.asHole()
+}
+
+func (e *escape) setDeclDepth(loc *location) {
+	if loc.declDepth != 0 {
+		base.Fatalf("location already has declDepth %v", loc.declDepth)
+	}
+	loc.declDepth = e.loopDepth()
+	if loc.declDepth != 0 {
+		loop := &e.loops[loc.declDepth-1]
+		loop.locs = append(loop.locs, loc)
+	}
 }
 
 // spill allocates a new location associated with expression n, flows
@@ -1274,9 +1362,9 @@ func (e *escape) newLoc(n ir.Node, transient bool) *location {
 	loc := &location{
 		n:         n,
 		curfn:     e.curfn,
-		loopDepth: e.loopDepth,
 		transient: transient,
 	}
+	e.setDeclDepth(loc)
 	e.allLocs = append(e.allLocs, loc)
 	if n != nil {
 		if n.Op() == ir.ONAME {
@@ -1581,7 +1669,7 @@ func (b *batch) outlives(l, other *location) bool {
 	//    for {
 	//        l = new(int)
 	//    }
-	if l.curfn == other.curfn && l.loopDepth < other.loopDepth {
+	if l.curfn == other.curfn && l.declDepth < other.declDepth {
 		return true
 	}
 
@@ -1690,6 +1778,26 @@ func (b *batch) finish(fns []*ir.Func) {
 				case ir.OSLICELIT:
 					n := n.(*ir.CompLitExpr)
 					n.SetTransient(true)
+				}
+			}
+		}
+	}
+
+	// Mark zero-copy string conversions.
+	//
+	// A []byte-to-string conversion is eligible for zero-copy if
+	// neither the underlying byte array nor the string escape to the
+	// heap; the byte array's address is not taken; and the byte array
+	// is not reassigned after the capture.
+	for _, loc := range b.allLocs {
+		if loc.escapes || loc.addrtaken {
+			continue
+		}
+		for _, c := range loc.captures {
+			if n, ok := c.(*ir.ConvExpr); ok && n.Esc() == ir.EscNone {
+				n.SetOp(ir.OBYTES2STRTMP)
+				if base.Flag.LowerM > 0 {
+					base.WarnfAt(n.Pos(), "zero-copy string conversion")
 				}
 			}
 		}

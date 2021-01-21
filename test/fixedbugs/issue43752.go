@@ -1,0 +1,18 @@
+// errorcheck -0 -m
+
+// Copyright 2021 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+//go:noescape
+func f(string)
+
+func g() {
+	var buf [32]byte
+	for i := range buf {
+		buf[i] = byte('A' + i)
+	}
+	f(string(buf[:])) // ERROR "does not escape" "zero-copy string conversion"
+}

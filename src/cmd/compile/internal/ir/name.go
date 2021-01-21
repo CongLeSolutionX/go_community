@@ -341,16 +341,17 @@ func (n *Name) Canonical() *Name {
 }
 
 func (n *Name) SetByval(b bool) {
-	if n.Canonical() != n {
-		base.Fatalf("SetByval called on non-canonical variable: %v", n)
+	if !n.IsClosureVar() {
+		base.Fatalf("SetByval called on non-closure variable: %v", n)
 	}
 	n.flags.set(nameByval, b)
 }
 
 func (n *Name) Byval() bool {
-	// We require byval to be set on the canonical variable, but we
-	// allow it to be accessed from any instance.
-	return n.Canonical().flags&nameByval != 0
+	if !n.IsClosureVar() {
+		panic(fmt.Sprintf("Byval called on non-closure variable: %v", n))
+	}
+	return n.flags&nameByval != 0
 }
 
 // CaptureName returns a Name suitable for referring to n from within function

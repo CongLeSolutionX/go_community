@@ -906,7 +906,7 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 
 		x := len(as.Lhs)
 		for len(as.Lhs) < len(as.Rhs) {
-			as.Lhs.Append(argvar(param.Type, len(as.Lhs)))
+			as.Lhs.Append(argvar(param.Type, as, len(as.Lhs)))
 		}
 		varargs := as.Lhs[x:]
 
@@ -1048,12 +1048,14 @@ func retvar(t *types.Field, i int) *ir.Name {
 
 // Synthesize a variable to store the inlined function's arguments
 // when they come from a multiple return call.
-func argvar(t *types.Type, i int) ir.Node {
+func argvar(t *types.Type, as ir.InitNode, i int) ir.Node {
 	n := typecheck.NewName(typecheck.LookupNum("~arg", i))
 	n.SetType(t.Elem())
 	n.Class = ir.PAUTO
 	n.SetUsed(true)
 	n.Curfn = ir.CurFunc // the calling function, not the called one
+	as.PtrInit().Append(ir.NewDecl(n.Pos(), ir.ODCL, n))
+	n.Defn = as
 	ir.CurFunc.Dcl = append(ir.CurFunc.Dcl, n)
 	return n
 }
