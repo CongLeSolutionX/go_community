@@ -51,6 +51,24 @@
       "parentUuid": "c3b14fd9_58a40cf5",
       "revId": "0b96ad42289e44359c6ced509c3029b4a7717563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d72b96f1_1767a4c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-21T18:26:34Z",
+      "side": 1,
+      "message": "Go 1.16 is frozen, but the tree is still open for bug-fixes (which this is, because it causes a panic when the `encoding/json` API is used as documented).\n\nThat said, we\u0027re very close to the release, so it\u0027s not obvious to me whether this change is too invasive for this point in the cycle.",
+      "parentUuid": "bad7e1e6_3a354166",
+      "revId": "0b96ad42289e44359c6ced509c3029b4a7717563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
