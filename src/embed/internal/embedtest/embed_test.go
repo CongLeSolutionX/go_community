@@ -74,13 +74,21 @@ func TestGlobal(t *testing.T) {
 }
 
 //go:embed testdata
+<<<<<<< HEAD   (d7e71c [dev.regabi] cmd/compile: replace ir.Name map with ir.NameSe)
 var dir embed.FS
 
 //go:embed testdata/*
 var star embed.FS
+=======
+var testDirAll embed.FS
+>>>>>>> BRANCH (dab3e5 runtime: switch runtime to libc for openbsd/amd64)
 
 func TestDir(t *testing.T) {
+<<<<<<< HEAD   (d7e71c [dev.regabi] cmd/compile: replace ir.Name map with ir.NameSe)
 	all := dir
+=======
+	all := testDirAll
+>>>>>>> BRANCH (dab3e5 runtime: switch runtime to libc for openbsd/amd64)
 	testFiles(t, all, "testdata/hello.txt", "hello, world\n")
 	testFiles(t, all, "testdata/i/i18n.txt", "internationalization\n")
 	testFiles(t, all, "testdata/i/j/k/k8s.txt", "kubernetes\n")
@@ -92,7 +100,20 @@ func TestDir(t *testing.T) {
 	testDir(t, all, "testdata/i/j/k", "k8s.txt")
 }
 
+<<<<<<< HEAD   (d7e71c [dev.regabi] cmd/compile: replace ir.Name map with ir.NameSe)
 func TestHidden(t *testing.T) {
+=======
+//go:embed testdata
+var testHiddenDir embed.FS
+
+//go:embed testdata/*
+var testHiddenStar embed.FS
+
+func TestHidden(t *testing.T) {
+	dir := testHiddenDir
+	star := testHiddenStar
+
+>>>>>>> BRANCH (dab3e5 runtime: switch runtime to libc for openbsd/amd64)
 	t.Logf("//go:embed testdata")
 
 	testDir(t, dir, "testdata",
@@ -105,4 +126,21 @@ func TestHidden(t *testing.T) {
 
 	testDir(t, star, "testdata/.hidden",
 		"fortune.txt", "more/") // but not .more or _more
+}
+
+func TestUninitialized(t *testing.T) {
+	var uninitialized embed.FS
+	testDir(t, uninitialized, ".")
+	f, err := uninitialized.Open(".")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	fi, err := f.Stat()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !fi.IsDir() {
+		t.Errorf("in uninitialized embed.FS, . is not a directory")
+	}
 }
