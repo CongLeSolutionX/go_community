@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0661cec_fa131030",
+        "filename": "src/cmd/compile/internal/noder/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-22T17:40:53Z",
+      "side": 1,
+      "message": "I think it would be clearer if you could just set Def to true/false here in this function where you\u0027re doing the SetInit() (or not), but I see it\u0027s not possible because there\u0027s no SetDef() in InitNode\u0027s interface.",
+      "revId": "e4e38f3107646568ff0f8b63e9f62925c0625d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
