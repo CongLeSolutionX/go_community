@@ -34,6 +34,24 @@
       "parentUuid": "3d78ec51_a7d5acf8",
       "revId": "7c7b919e60ba920bd353de24022f20c9d590ed9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77f85455_9fa6c5a8",
+        "filename": "doc/internal-abi.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-22T00:40:51Z",
+      "side": 1,
+      "message": "LGTM.",
+      "parentUuid": "f057db0e_1660172a",
+      "revId": "7c7b919e60ba920bd353de24022f20c9d590ed9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
