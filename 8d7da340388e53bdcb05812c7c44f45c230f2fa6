@@ -16,6 +16,23 @@
       "message": "Thanks",
       "revId": "8d7da340388e53bdcb05812c7c44f45c230f2fa6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3e78959_be0c8cdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-22T15:32:54Z",
+      "side": 1,
+      "message": "LGTM. Feel free to submit the CL. (You need to do a Trust+1. Let me know if you don\u0027t have permission.)",
+      "revId": "8d7da340388e53bdcb05812c7c44f45c230f2fa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
