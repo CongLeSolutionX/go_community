@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "880db70a_8db0ea8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-01-22T03:43:22Z",
+      "side": 1,
+      "message": "I went to file a duplicate bug only to find that I\u0027d filed the original bug (#28100) about this, so I figured that was a sign I should just document it.\n",
+      "revId": "0416a8772e42af962e949001da4d05e994136405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
