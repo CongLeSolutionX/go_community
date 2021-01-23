@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68620228_305cc218",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-01-23T12:20:08Z",
+      "side": 1,
+      "message": "This is long and a bit repetitive. How about,\n\nAfter passing it to NewFile, fd must be closed only through the Close method on the *File returned by NewFile, or by its finalizer during garbage collection.\nSee the comment on the Fd method for more information.",
+      "revId": "7845fa15ef46fc52aae783fdb4e243a768860bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
