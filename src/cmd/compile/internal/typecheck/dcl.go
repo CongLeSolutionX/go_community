@@ -41,7 +41,7 @@ func Declare(n *ir.Name, ctxt ir.Class) {
 
 	s := n.Sym()
 
-	// kludgy: typecheckok means we're past parsing. Eg genwrapper may declare out of package names later.
+	// kludgy: TypecheckAllowed means we're past parsing. Eg reflectdata.methodWrapper may declare out of package names later.
 	if !inimport && !TypecheckAllowed && s.Pkg != types.LocalPkg {
 		base.ErrorfAt(n.Pos(), "cannot declare name %v", s)
 	}
@@ -309,9 +309,13 @@ func FakeRecv() *types.Field {
 	return types.NewField(src.NoXPos, nil, types.FakeRecvType())
 }
 
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 var fakeRecvField = FakeRecv
 
 var funcStack []funcStackEnt // stack of previous values of Curfn/dclcontext
+=======
+var funcStack []funcStackEnt // stack of previous values of ir.CurFunc/DeclContext
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 
 type funcStackEnt struct {
 	curfn      *ir.Func
@@ -401,14 +405,14 @@ func Temp(t *types.Type) *ir.Name {
 // make a new Node off the books
 func TempAt(pos src.XPos, curfn *ir.Func, t *types.Type) *ir.Name {
 	if curfn == nil {
-		base.Fatalf("no curfn for tempAt")
+		base.Fatalf("no curfn for TempAt")
 	}
 	if curfn.Op() == ir.OCLOSURE {
-		ir.Dump("tempAt", curfn)
-		base.Fatalf("adding tempAt to wrong closure function")
+		ir.Dump("TempAt", curfn)
+		base.Fatalf("adding TempAt to wrong closure function")
 	}
 	if t == nil {
-		base.Fatalf("tempAt called with nil type")
+		base.Fatalf("TempAt called with nil type")
 	}
 	if t.Kind() == types.TFUNC && t.Recv() != nil {
 		base.Fatalf("misuse of method type: %v", t)

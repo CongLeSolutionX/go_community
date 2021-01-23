@@ -69,7 +69,20 @@ func LoadPackage(filenames []string) {
 		for e := range p.err {
 			p.errorAt(e.Pos, "%s", e.Msg)
 		}
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 		lines += p.file.EOF.Line()
+=======
+
+		p.node()
+		lines += p.file.Lines
+		p.file = nil // release memory
+
+		if base.SyntaxErrors() != 0 {
+			base.ErrorExit()
+		}
+		// Always run CheckDclstack here, even when debug_dclstack is not set, as a sanity measure.
+		types.CheckDclstack()
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 	}
 	base.Timer.AddEvent(int64(lines), "lines")
 
@@ -136,7 +149,15 @@ func LoadPackage(filenames []string) {
 	for i := 0; i < len(typecheck.Target.Decls); i++ {
 		n := typecheck.Target.Decls[i]
 		if n.Op() == ir.ODCLFUNC {
+			if base.Flag.W > 1 {
+				s := fmt.Sprintf("\nbefore typecheck %v", n)
+				ir.Dump(s, n)
+			}
 			typecheck.FuncBody(n.(*ir.Func))
+			if base.Flag.W > 1 {
+				s := fmt.Sprintf("\nafter typecheck %v", n)
+				ir.Dump(s, n)
+			}
 			fcount++
 		}
 	}
@@ -385,8 +406,24 @@ func (p *noder) varDecl(decl *syntax.VarDecl) []ir.Node {
 	exprs := p.exprList(decl.Values)
 
 	if pragma, ok := decl.Pragma.(*pragmas); ok {
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 		if err := varEmbed(p.makeXPos, names[0], decl, pragma); err != nil {
 			p.errorAt(decl.Pos(), "%s", err.Error())
+=======
+		if len(pragma.Embeds) > 0 {
+			if !p.importedEmbed {
+				// This check can't be done when building the list pragma.Embeds
+				// because that list is created before the noder starts walking over the file,
+				// so at that point it hasn't seen the imports.
+				// We're left to check now, just before applying the //go:embed lines.
+				for _, e := range pragma.Embeds {
+					p.errorAt(e.Pos, "//go:embed only allowed in Go files that import \"embed\"")
+				}
+			} else {
+				varEmbed(p, names, typ, exprs, pragma.Embeds)
+			}
+			pragma.Embeds = nil
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 		}
 		p.checkUnused(pragma)
 	}
@@ -555,7 +592,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 		}
 	} else {
 		f.Shortname = name
-		name = ir.BlankNode.Sym() // filled in by typecheckfunc
+		name = ir.BlankNode.Sym() // filled in by tcFunc
 	}
 
 	f.Nname = ir.NewNameAt(p.pos(fun.Name), name)
@@ -1001,7 +1038,7 @@ func (p *noder) stmtsFall(stmts []syntax.Stmt, fallOK bool) []ir.Node {
 		if s == nil {
 		} else if s.Op() == ir.OBLOCK && len(s.(*ir.BlockStmt).List) > 0 {
 			// Inline non-empty block.
-			// Empty blocks must be preserved for checkreturn.
+			// Empty blocks must be preserved for CheckReturn.
 			nodes = append(nodes, s.(*ir.BlockStmt).List...)
 		} else {
 			nodes = append(nodes, s)
@@ -1774,7 +1811,7 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.Node {
 	fn := ir.NewFunc(p.pos(expr))
 	fn.SetIsHiddenClosure(ir.CurFunc != nil)
 
-	fn.Nname = ir.NewNameAt(p.pos(expr), ir.BlankNode.Sym()) // filled in by typecheckclosure
+	fn.Nname = ir.NewNameAt(p.pos(expr), ir.BlankNode.Sym()) // filled in by tcClosure
 	fn.Nname.Func = fn
 	fn.Nname.Ntype = xtype
 	fn.Nname.Defn = fn
@@ -1829,36 +1866,86 @@ func oldname(s *types.Sym) ir.Node {
 	return n
 }
 
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 func varEmbed(makeXPos func(syntax.Pos) src.XPos, name *ir.Name, decl *syntax.VarDecl, pragma *pragmas) error {
 	if pragma.Embeds == nil {
 		return nil
+=======
+func varEmbed(p *noder, names []*ir.Name, typ ir.Ntype, exprs []ir.Node, embeds []pragmaEmbed) {
+	haveEmbed := false
+	for _, decl := range p.file.DeclList {
+		imp, ok := decl.(*syntax.ImportDecl)
+		if !ok {
+			// imports always come first
+			break
+		}
+		path, _ := strconv.Unquote(imp.Path.Value)
+		if path == "embed" {
+			haveEmbed = true
+			break
+		}
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 	}
 
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 	pragmaEmbeds := pragma.Embeds
 	pragma.Embeds = nil
 
 	if base.Flag.Cfg.Embed.Patterns == nil {
 		return errors.New("invalid go:embed: build system did not supply embed configuration")
+=======
+	pos := embeds[0].Pos
+	if !haveEmbed {
+		p.errorAt(pos, "invalid go:embed: missing import \"embed\"")
+		return
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 	}
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 	if len(decl.NameList) > 1 {
 		return errors.New("go:embed cannot apply to multiple vars")
+=======
+	if len(names) > 1 {
+		p.errorAt(pos, "go:embed cannot apply to multiple vars")
+		return
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 	}
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 	if decl.Values != nil {
 		return errors.New("go:embed cannot apply to var with initializer")
+=======
+	if len(exprs) > 0 {
+		p.errorAt(pos, "go:embed cannot apply to var with initializer")
+		return
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 	}
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 	if decl.Type == nil {
 		// Should not happen, since Values == nil now.
 		return errors.New("go:embed cannot apply to var without type")
+=======
+	if typ == nil {
+		// Should not happen, since len(exprs) == 0 now.
+		p.errorAt(pos, "go:embed cannot apply to var without type")
+		return
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 	}
 	if typecheck.DeclContext != ir.PEXTERN {
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 		return errors.New("go:embed cannot apply to var inside func")
+=======
+		p.errorAt(pos, "go:embed cannot apply to var inside func")
+		return
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 	}
 
 	var embeds []ir.Embed
 	for _, e := range pragmaEmbeds {
 		embeds = append(embeds, ir.Embed{Pos: makeXPos(e.Pos), Patterns: e.Patterns})
 	}
+<<<<<<< HEAD   (e4ef30 [dev.typeparams] cmd/compile: refactor irgen's handling of ")
 	typecheck.Target.Embeds = append(typecheck.Target.Embeds, name)
 	name.Embed = &embeds
 	return nil
+=======
+>>>>>>> BRANCH (7e0a81 [dev.regabi] all: merge master (dab3e5a) into dev.regabi)
 }
