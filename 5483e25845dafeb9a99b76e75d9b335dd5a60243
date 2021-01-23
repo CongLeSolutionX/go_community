@@ -16,6 +16,24 @@
       "message": "Looks good.  Does changing -G to -G\u003d3 for \u0027errorcheck\u0027 files make much of a difference, given all/almost all of those files have errors that will terminate the compilation in types2 before noding?\n",
       "revId": "5483e25845dafeb9a99b76e75d9b335dd5a60243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7c098e4_283c56f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-23T04:25:11Z",
+      "side": 1,
+      "message": "Well, now it runs all the tests that were excluded because they checked for ssa-backend output, so that\u0027s good. Eventually we want all of these to run (and then run all tests with -G\u003d3). By enabling the ones that work now we hopefully won\u0027t regress.",
+      "parentUuid": "feaf590e_5b296ce0",
+      "revId": "5483e25845dafeb9a99b76e75d9b335dd5a60243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
