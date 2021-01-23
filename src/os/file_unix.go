@@ -90,6 +90,14 @@ func (f *File) Fd() uintptr {
 // descriptor. On Unix systems, if the file descriptor is in
 // non-blocking mode, NewFile will attempt to return a pollable File
 // (one for which the SetDeadline methods work).
+//
+// Because the finalizer will close the file descriptor on garbage
+// collection if the returned File wasn't explicitly closed, the file
+// descriptor must only be closed through the returned File.
+// Otherwise, the finalizer may close the file descriptor number
+// after it has become invalid, or after it is reused for another opened
+// file, which would cause undefined behaviors.
+// See comments on Fd() and issue #43863.
 func NewFile(fd uintptr, name string) *File {
 	kind := kindNewFile
 	if nb, err := unix.IsNonblock(int(fd)); err == nil && nb {
