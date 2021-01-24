@@ -154,13 +154,6 @@ func DotField(pos src.XPos, x ir.Node, index int) *ir.SelectorExpr {
 func DotMethod(pos src.XPos, x ir.Node, index int) *ir.SelectorExpr {
 	method := method(x.Type(), index)
 
-	// Method expression.
-	// TODO(mdempsky): Handle with a separate helper?
-	if x.Op() == ir.OTYPE {
-		typ := typecheck.NewMethodType(method.Type, x.Type())
-		return dot(pos, typ, ir.OMETHEXPR, x, method)
-	}
-
 	// Method value.
 	typ := typecheck.NewMethodType(method.Type, nil)
 	return dot(pos, typ, ir.OCALLPART, x, method)

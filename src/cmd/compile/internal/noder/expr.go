@@ -140,6 +140,7 @@ func (g *irgen) selectorExpr(pos src.XPos, expr *syntax.SelectorExpr) ir.Node {
 	embeds, last := index[:len(index)-1], index[len(index)-1]
 
 	x := g.expr(expr.X)
+	origx := x
 	for _, ix := range embeds {
 		x = Implicit(DotField(pos, x, ix))
 	}
@@ -155,10 +156,16 @@ func (g *irgen) selectorExpr(pos src.XPos, expr *syntax.SelectorExpr) ir.Node {
 	// unexported methods from two different packages (due to cross-package
 	// interface embedding).
 
-	method := selinfo.Obj().(*types2.Func)
+	if kind == types2.MethodExpr {
+		mfield := method(x.Type(), last)
+		// Receiver is the original type of x, before following embedded fields
+		typ := typecheck.NewMethodType(mfield.Type, origx.Type())
+		return dot(pos, typ, ir.OMETHEXPR, x, mfield)
+	}
 
+	method := selinfo.Obj().(*types2.Func)
 	// Add implicit addr/deref for method values, if needed.
-	if kind == types2.MethodVal && !x.Type().IsInterface() {
+	if !x.Type().IsInterface() {
 		recvTyp := method.Type().(*types2.Signature).Recv().Type()
 		_, wantPtr := recvTyp.(*types2.Pointer)
 		havePtr := x.Type().IsPtr()
