@@ -16,6 +16,24 @@
       "message": "This is long and a bit repetitive. How about,\n\nAfter passing it to NewFile, fd must be closed only through the Close method on the *File returned by NewFile, or by its finalizer during garbage collection.\nSee the comment on the Fd method for more information.",
       "revId": "7845fa15ef46fc52aae783fdb4e243a768860bdf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d30b6a2f_9d1c80d9",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 39258
+      },
+      "writtenOn": "2021-01-24T03:21:06Z",
+      "side": 1,
+      "message": "Yes, it was indeed a bit long/repetitive - and actually a bit confusing :)\n\nBut in the end it didn\u0027t actually address all of what I was trying to convey (see the example I gave there: https://github.com/golang/go/issues/43863 )\nThere are 2 issues (which are essentially the same, but may be seen as different depending on the perspective of the user):\nA) The naked fd is unsafe to use if a *File referencing it can be GC\u0027d\nB) Due to FD reuse by the kernel, the naked fd passed is always unsafe to close (other than through the *File) if the *File can be GC\u0027d during the lifetime of the program. Otherwise, the finalizer will close a totally unrelated FD with the same number\n\nI think the comments on Fd() were properly conveying A. B on the other end, isn\u0027t explained in Fd(), but that seemed acceptable. However, both A and B make a lot of sense to be called out in the comments for NewFile(). I think the example issue I gave in https://github.com/golang/go/issues/43863 isn\u0027t properly addressed by your suggestion (and not by my original submission either), as they only explained B, and loosely suggested the user to go read the comments in Fd()\n\nI\u0027ve reworked things slightly: now, the information regarding interacting with naked FDs is all in one place:\n* Both A and B are explicitly called out in the comments for Fd(), making explicit all the issues related to interacting with naked FDs.\n* NewFile makes it explicit that the user must go read all the comments for Fd() regarding the validity of the provided file descriptor.\n\nHopefully that makes a bit more sense than my first iteration.\nThanks!",
+      "parentUuid": "68620228_305cc218",
+      "revId": "7845fa15ef46fc52aae783fdb4e243a768860bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
