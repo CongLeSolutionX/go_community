@@ -1412,3 +1412,40 @@ func testServeFileRejectsInvalidSuffixLengths(t *testing.T, h2 bool) {
 		})
 	}
 }
+
+// Issue 43822: tests that response returns EOF when Server's WriteTimeout happens.
+func TestServeContentEOFsOnWriteTimeoutExceeded(t *testing.T) {
+	defer afterTest(t)
+
+	// case design depends on sniffLen
+	files := []string{
+		"file",                 // size < 512 bytes
+		"file-bigger-than-512", // size > 512 bytes
+	}
+
+	fileServer := FileServer(Dir("testdata"))
+	for _, file := range files {
+		filename := file
+		t.Run(filename, func(t *testing.T) {
+			writeTimeout := 100 * time.Millisecond
+			timeoutHandler := HandlerFunc(func(w ResponseWriter, r *Request) {
+				time.Sleep(2 * writeTimeout)
+				fileServer.ServeHTTP(w, r)
+			})
+
+			cts := httptest.NewUnstartedServer(timeoutHandler)
+			cts.Config.WriteTimeout = writeTimeout
+			cts.Start()
+			defer cts.Close()
+
+			res, err := cts.Client().Get(cts.URL + "/" + filename)
+			if res != nil && res.Body != nil {
+				res.Body.Close()
+			}
+
+			if !errors.Is(err, io.EOF) {
+				t.Fatalf("got %v, want io.EOF", err)
+			}
+		})
+	}
+}
