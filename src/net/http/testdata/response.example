@@ -1,0 +1,37 @@
+HTTP/1.1 Response Message
+
+After receiving and interpreting a request message, a server responds with an
+HTTP response message.
+
+{{{
+
+        Response    = Status-Line
+                       *(( general-header
+                        | response-header
+                        | entity-header ) CRLF)
+                       CRLF
+                       [ message-body ]
+
+        Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+
+}}}
+
+For example:
+
+{{{
+
+HTTP/1.1 200 OK
+Date: Wed, 27 Jan 2021 15:57:31 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Vary: Accept-Encoding
+
+package main
+
+import "fmt"
+
+func main() {
+        fmt.Println("Hello, 世界")
+}
+
+}}}
