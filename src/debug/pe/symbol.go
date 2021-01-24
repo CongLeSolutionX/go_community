@@ -33,6 +33,10 @@ func readCOFFSymbols(fh *FileHeader, r io.ReadSeeker) ([]COFFSymbol, error) {
 	if err != nil {
 		return nil, fmt.Errorf("fail to seek to symbol table: %v", err)
 	}
+
+	if fh.NumberOfSymbols > (1 << 22) {
+		return nil, fmt.Errorf("fail to seek to symbol table: NumberOfSymbols field is too huge")
+	}
 	syms := make([]COFFSymbol, fh.NumberOfSymbols)
 	err = binary.Read(r, binary.LittleEndian, syms)
 	if err != nil {
