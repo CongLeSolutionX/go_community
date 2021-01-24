@@ -10,8 +10,10 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"runtime"
 	"sync"
@@ -312,4 +314,69 @@ func TestSendfilePipe(t *testing.T) {
 	}
 
 	wg.Wait()
+}
+
+// Issue 43822: tests that returns EOF when conn write timeout.
+func TestSendfileOnWriteTimeoutExceeded(t *testing.T) {
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer ln.Close()
+
+	errc := make(chan error, 1)
+	go func(ln Listener) {
+		conn, err := ln.Accept()
+		if err != nil {
+			errc <- err
+			close(errc)
+			return
+		}
+
+		go func() {
+			defer close(errc)
+			defer conn.Close()
+
+			// Set the write deadline in the past(1h ago). It makes
+			// sure that it is always write timeout.
+			if err := conn.SetWriteDeadline(time.Now().Add(-1 * time.Hour)); err != nil {
+				errc <- err
+				return
+			}
+
+			f, err := os.Open(newton)
+			if err != nil {
+				errc <- err
+				return
+			}
+			defer f.Close()
+
+			_, err = io.Copy(conn, f)
+			if !errors.Is(err, os.ErrDeadlineExceeded) {
+				if err == nil {
+					err = fmt.Errorf("expected ErrDeadlineExceeded, but got nil")
+				}
+				errc <- err
+			}
+		}()
+	}(ln)
+
+	c, err := Dial("tcp", ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer c.Close()
+
+	n, err := io.Copy(ioutil.Discard, c)
+	if err != nil {
+		t.Fatalf("expected nil error, but got %v", err)
+	}
+	if n != 0 {
+		t.Fatalf("expected receive zero, but got %v byte(s)", n)
+	}
+
+	err = <-errc
+	if err != nil {
+		t.Fatal(err)
+	}
 }
