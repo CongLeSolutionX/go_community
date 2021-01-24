@@ -34,6 +34,24 @@
       "parentUuid": "68620228_305cc218",
       "revId": "7845fa15ef46fc52aae783fdb4e243a768860bdf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5a24fa_5b576054",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 39258
+      },
+      "writtenOn": "2021-01-24T06:00:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d30b6a2f_9d1c80d9",
+      "revId": "7845fa15ef46fc52aae783fdb4e243a768860bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
