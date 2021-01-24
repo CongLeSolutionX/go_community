@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e6bb5c_cef871d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-24T16:46:12Z",
+      "side": 1,
+      "message": "I\u0027d rather not have a fixed limit here. What if a PE file really has that many symbols?\nI\u0027d rather stat the file to see how big it is, then error here only if the table is claimed to be larger than could fit in the file.\n\n",
+      "revId": "b7e0b7c2b0c718faae8e2dcb20a9d942fece984a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
