@@ -84,6 +84,23 @@
       "message": "Time for round 4.",
       "revId": "b1aea3a4156ee09cb2817adc420d49268ac90d33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfd12ab6_344663da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-01-25T14:57:25Z",
+      "side": 1,
+      "message": "Looks like round 4 was successful, though it reused the built snapshot from last round. I\u0027ll change the commit hash and run it again for a final round 5, just to be certain. If that works, then I\u0027ll submit it.",
+      "revId": "b1aea3a4156ee09cb2817adc420d49268ac90d33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
