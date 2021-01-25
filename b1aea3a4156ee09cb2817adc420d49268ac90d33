@@ -16,6 +16,23 @@
       "message": "Round 2 of trybotting.\n\n(I\u0027ll do a few trials of this and hopefully it doesn\u0027t break.)",
       "revId": "b1aea3a4156ee09cb2817adc420d49268ac90d33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc6687b_db037976",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-01-25T14:44:12Z",
+      "side": 1,
+      "message": "Looks like the os/ tests passed on Windows. Canceling trybot and doing another round.",
+      "revId": "b1aea3a4156ee09cb2817adc420d49268ac90d33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
