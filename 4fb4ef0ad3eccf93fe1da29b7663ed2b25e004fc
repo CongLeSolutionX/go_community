@@ -52,6 +52,23 @@
       "parentUuid": "0cdec4ea_ab330bd0",
       "revId": "4fb4ef0ad3eccf93fe1da29b7663ed2b25e004fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "769b40f3_ca965af9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-25T21:17:02Z",
+      "side": 1,
+      "message": "Keith: Do you want to take a look at this too?\n\nI think the CL itself is safe: returning \"true\" here just causes us to compile things more pessimistically. My biggest question is if there might be any other tricky cases we should consider/test.",
+      "revId": "4fb4ef0ad3eccf93fe1da29b7663ed2b25e004fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
