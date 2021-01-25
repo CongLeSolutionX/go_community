@@ -354,6 +354,7 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		return true
 
 	case ir.OCLOSURE:
+<<<<<<< HEAD   (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		// TODO(danscales,mdempsky): Get working with -G.
 		// Probably after #43818 is fixed.
 		if base.Flag.G > 0 {
@@ -362,9 +363,18 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		}
 
 		// TODO(danscales) - fix some bugs when budget is lowered below 30
+=======
+		// TODO(danscales) - fix some bugs when budget is lowered below 15
+>>>>>>> BRANCH (063c72 [dev.regabi] cmd/compile: backport changes from dev.typepara)
 		// Maybe make budget proportional to number of closure variables, e.g.:
 		//v.budget -= int32(len(n.(*ir.ClosureExpr).Func.ClosureVars) * 3)
-		v.budget -= 30
+		v.budget -= 15
+		// Scan body of closure (which DoChildren doesn't automatically
+		// do) to check for disallowed ops in the body and include the
+		// body in the budget.
+		if doList(n.(*ir.ClosureExpr).Func.Body, v.do) {
+			return true
+		}
 
 	case ir.ORANGE,
 		ir.OSELECT,

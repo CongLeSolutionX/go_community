@@ -30,9 +30,12 @@ func LoadPackage(filenames []string) {
 	base.Timer.Start("fe", "parse")
 
 	mode := syntax.CheckBranches
+<<<<<<< HEAD   (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	if base.Flag.G != 0 {
 		mode |= syntax.AllowGenerics
 	}
+=======
+>>>>>>> BRANCH (063c72 [dev.regabi] cmd/compile: backport changes from dev.typepara)
 
 	// Limit the number of simultaneously open files.
 	sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
@@ -68,16 +71,23 @@ func LoadPackage(filenames []string) {
 		for e := range p.err {
 			p.errorAt(e.Pos, "%s", e.Msg)
 		}
+<<<<<<< HEAD   (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		lines += p.file.EOF.Line()
+=======
+		lines += p.file.Lines
+>>>>>>> BRANCH (063c72 [dev.regabi] cmd/compile: backport changes from dev.typepara)
 	}
 	base.Timer.AddEvent(int64(lines), "lines")
 
+<<<<<<< HEAD   (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	if base.Flag.G != 0 {
 		// Use types2 to type-check and possibly generate IR.
 		check2(noders)
 		return
 	}
 
+=======
+>>>>>>> BRANCH (063c72 [dev.regabi] cmd/compile: backport changes from dev.typepara)
 	for _, p := range noders {
 		p.node()
 		p.file = nil // release memory
@@ -1040,7 +1050,12 @@ func (p *noder) stmtFall(stmt syntax.Stmt, fallOK bool) ir.Node {
 	case *syntax.DeclStmt:
 		return ir.NewBlockStmt(src.NoXPos, p.decls(stmt.DeclList))
 	case *syntax.AssignStmt:
+<<<<<<< HEAD   (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		if stmt.Rhs == nil {
+=======
+		if stmt.Rhs == syntax.ImplicitOne {
+			one := constant.MakeInt64(1)
+>>>>>>> BRANCH (063c72 [dev.regabi] cmd/compile: backport changes from dev.typepara)
 			pos := p.pos(stmt)
 			n := ir.NewAssignOpStmt(pos, p.binOp(stmt.Op), p.expr(stmt.Lhs), ir.NewBasicLit(pos, one))
 			n.IncDec = true

@@ -7,7 +7,10 @@ package noder
 import (
 	"errors"
 	"fmt"
+<<<<<<< HEAD   (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	"io"
+=======
+>>>>>>> BRANCH (063c72 [dev.regabi] cmd/compile: backport changes from dev.typepara)
 	"os"
 	pathpkg "path"
 	"runtime"
@@ -173,9 +176,22 @@ func resolveImportPath(path string) (string, error) {
 
 	return path, nil
 }
+<<<<<<< HEAD   (945680 [dev.typeparams] test: fix excluded files lookup so it works)
+=======
 
 // TODO(mdempsky): Return an error instead.
 func importfile(decl *syntax.ImportDecl) *types.Pkg {
+	if decl.Path.Kind != syntax.StringLit {
+		base.Errorf("import path must be a string")
+		return nil
+	}
+>>>>>>> BRANCH (063c72 [dev.regabi] cmd/compile: backport changes from dev.typepara)
+
+<<<<<<< HEAD   (945680 [dev.typeparams] test: fix excluded files lookup so it works)
+// TODO(mdempsky): Return an error instead.
+func importfile(decl *syntax.ImportDecl) *types.Pkg {
+=======
+>>>>>>> BRANCH (063c72 [dev.regabi] cmd/compile: backport changes from dev.typepara)
 	path, err := strconv.Unquote(decl.Path.Value)
 	if err != nil {
 		base.Errorf("import path must be a string")
