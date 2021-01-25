@@ -22,6 +22,30 @@
       },
       "revId": "3f6283b558de8d8361cf6d7046793d9e22456532",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0358c1a2_4443ed3e",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-25T18:53:18Z",
+      "side": 1,
+      "message": "Ack. :)",
+      "parentUuid": "9c8eb68c_07572082",
+      "range": {
+        "startLine": 1007,
+        "startChar": 28,
+        "endLine": 1007,
+        "endChar": 34
+      },
+      "revId": "3f6283b558de8d8361cf6d7046793d9e22456532",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
