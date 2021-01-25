@@ -145,10 +145,13 @@ func indexes() {
 	ms = "foo" /* ERROR "cannot use .* in assignment" */ [1:2]
 	ms = "foo" /* ERROR "cannot use .* in assignment" */ [i:j]
 	_, _ = ss, ms
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 
 	// With type parameters, index expressions may have multiple indices.
 	_ = a[i, j /* ERROR "more than one index" */ ]
 	_ = a[i, j /* ERROR "more than one index" */ , j]
+=======
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 }
 
 type T struct {

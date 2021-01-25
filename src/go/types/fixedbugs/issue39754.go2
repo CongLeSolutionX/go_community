@@ -16,5 +16,9 @@ func f[V interface{}, A, B Box[V]]() {}
 
 func _() {
 	f[int, Optional[int], Optional[int]]()
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	f[int, Optional[int], Optional /* ERROR does not satisfy Box */ [string]]()
+=======
+	// f[int, Optional[int], Optional /* ERROR does not satisfy Box */ [string]]()
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 }

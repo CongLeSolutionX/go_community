@@ -13,7 +13,7 @@ import (
 	"go/parser"
 	"go/token"
 	"io"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -33,7 +33,7 @@ type checkMode uint
 const (
 	export checkMode = 1 << iota
 	rawFormat
-	stdFormat
+	normNumber
 	idempotent
 )
 
@@ -42,7 +42,7 @@ const (
 // if any.
 func format(src []byte, mode checkMode) ([]byte, error) {
 	// parse src
-	f, err := parser.ParseFile(fset, "", src, parser.ParseComments)
+	f, err := parser.ParseFile(fset, "", src, parser.ParseComments|parser.ParseTypeParams)
 	if err != nil {
 		return nil, fmt.Errorf("parse: %s\n%s", err, src)
 	}
@@ -58,8 +58,8 @@ func format(src []byte, mode checkMode) ([]byte, error) {
 	if mode&rawFormat != 0 {
 		cfg.Mode |= RawFormat
 	}
-	if mode&stdFormat != 0 {
-		cfg.Mode |= StdFormat
+	if mode&normNumber != 0 {
+		cfg.Mode |= normalizeNumbers
 	}
 
 	// print AST
@@ -70,7 +70,7 @@ func format(src []byte, mode checkMode) ([]byte, error) {
 
 	// make sure formatted output is syntactically correct
 	res := buf.Bytes()
-	if _, err := parser.ParseFile(fset, "", res, 0); err != nil {
+	if _, err := parser.ParseFile(fset, "", res, parser.ParseTypeParams); err != nil {
 		return nil, fmt.Errorf("re-parse: %s\n%s", err, buf.Bytes())
 	}
 
@@ -119,7 +119,7 @@ func diff(aname, bname string, a, b []byte) error {
 }
 
 func runcheck(t *testing.T, source, golden string, mode checkMode) {
-	src, err := ioutil.ReadFile(source)
+	src, err := os.ReadFile(source)
 	if err != nil {
 		t.Error(err)
 		return
@@ -133,14 +133,14 @@ func runcheck(t *testing.T, source, golden string, mode checkMode) {
 
 	// update golden files if necessary
 	if *update {
-		if err := ioutil.WriteFile(golden, res, 0644); err != nil {
+		if err := os.WriteFile(golden, res, 0644); err != nil {
 			t.Error(err)
 		}
 		return
 	}
 
 	// get golden
-	gld, err := ioutil.ReadFile(golden)
+	gld, err := os.ReadFile(golden)
 	if err != nil {
 		t.Error(err)
 		return
@@ -205,9 +205,14 @@ var data = []entry{
 	{"slow.input", "slow.golden", idempotent},
 	{"complit.input", "complit.x", export},
 	{"go2numbers.input", "go2numbers.golden", idempotent},
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	{"go2numbers.input", "go2numbers.stdfmt", stdFormat | idempotent},
 	{"generics.input", "generics.golden", idempotent},
 	{"genericsB.input", "genericsB.golden", idempotent},
+=======
+	{"go2numbers.input", "go2numbers.norm", normNumber | idempotent},
+	{"generics.input", "generics.golden", idempotent},
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 }
 
 func TestFiles(t *testing.T) {
@@ -554,7 +559,7 @@ func TestBaseIndent(t *testing.T) {
 	// are not indented (because their values must not change) and make
 	// this test fail.
 	const filename = "printer.go"
-	src, err := ioutil.ReadFile(filename)
+	src, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err) // error in test
 	}
@@ -641,7 +646,7 @@ func (l *limitWriter) Write(buf []byte) (n int, err error) {
 func TestWriteErrors(t *testing.T) {
 	t.Parallel()
 	const filename = "printer.go"
-	src, err := ioutil.ReadFile(filename)
+	src, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err) // error in test
 	}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 // Copyright 2018 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -232,6 +233,251 @@ func (p *iimporter) typAt(off uint64, base *types2.Named) types2.Type {
 
 	r := &importReader{p: p}
 	r.declReader.Reset(p.declData[off-predeclReserved:])
+=======
+// UNREVIEWED
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Indexed package import.
+// See cmd/compile/internal/gc/iexport.go for the export data format.
+
+package importer
+
+import (
+	"bytes"
+	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/types2"
+	"encoding/binary"
+	"fmt"
+	"go/constant"
+	"go/token"
+	"io"
+	"sort"
+)
+
+type intReader struct {
+	*bytes.Reader
+	path string
+}
+
+func (r *intReader) int64() int64 {
+	i, err := binary.ReadVarint(r.Reader)
+	if err != nil {
+		errorf("import %q: read varint error: %v", r.path, err)
+	}
+	return i
+}
+
+func (r *intReader) uint64() uint64 {
+	i, err := binary.ReadUvarint(r.Reader)
+	if err != nil {
+		errorf("import %q: read varint error: %v", r.path, err)
+	}
+	return i
+}
+
+const predeclReserved = 32
+
+type itag uint64
+
+const (
+	// Types
+	definedType itag = iota
+	pointerType
+	sliceType
+	arrayType
+	chanType
+	mapType
+	signatureType
+	structType
+	interfaceType
+)
+
+const io_SeekCurrent = 1 // io.SeekCurrent (not defined in Go 1.4)
+
+// iImportData imports a package from the serialized package data
+// and returns the number of bytes consumed and a reference to the package.
+// If the export data version is not recognized or the format is otherwise
+// compromised, an error is returned.
+func iImportData(imports map[string]*types2.Package, data []byte, path string) (_ int, pkg *types2.Package, err error) {
+	const currentVersion = 1
+	version := int64(-1)
+	defer func() {
+		if e := recover(); e != nil {
+			if version > currentVersion {
+				err = fmt.Errorf("cannot import %q (%v), export data is newer version - update tool", path, e)
+			} else {
+				err = fmt.Errorf("cannot import %q (%v), possibly version skew - reinstall package", path, e)
+			}
+		}
+	}()
+
+	r := &intReader{bytes.NewReader(data), path}
+
+	version = int64(r.uint64())
+	switch version {
+	case currentVersion, 0:
+	default:
+		errorf("unknown iexport format version %d", version)
+	}
+
+	sLen := int64(r.uint64())
+	dLen := int64(r.uint64())
+
+	whence, _ := r.Seek(0, io_SeekCurrent)
+	stringData := data[whence : whence+sLen]
+	declData := data[whence+sLen : whence+sLen+dLen]
+	r.Seek(sLen+dLen, io_SeekCurrent)
+
+	p := iimporter{
+		ipath:   path,
+		version: int(version),
+
+		stringData:  stringData,
+		stringCache: make(map[uint64]string),
+		pkgCache:    make(map[uint64]*types2.Package),
+
+		declData: declData,
+		pkgIndex: make(map[*types2.Package]map[string]uint64),
+		typCache: make(map[uint64]types2.Type),
+	}
+
+	for i, pt := range predeclared {
+		p.typCache[uint64(i)] = pt
+	}
+
+	pkgList := make([]*types2.Package, r.uint64())
+	for i := range pkgList {
+		pkgPathOff := r.uint64()
+		pkgPath := p.stringAt(pkgPathOff)
+		pkgName := p.stringAt(r.uint64())
+		_ = r.uint64() // package height; unused by go/types
+
+		if pkgPath == "" {
+			pkgPath = path
+		}
+		pkg := imports[pkgPath]
+		if pkg == nil {
+			pkg = types2.NewPackage(pkgPath, pkgName)
+			imports[pkgPath] = pkg
+		} else if pkg.Name() != pkgName {
+			errorf("conflicting names %s and %s for package %q", pkg.Name(), pkgName, path)
+		}
+
+		p.pkgCache[pkgPathOff] = pkg
+
+		nameIndex := make(map[string]uint64)
+		for nSyms := r.uint64(); nSyms > 0; nSyms-- {
+			name := p.stringAt(r.uint64())
+			nameIndex[name] = r.uint64()
+		}
+
+		p.pkgIndex[pkg] = nameIndex
+		pkgList[i] = pkg
+	}
+
+	localpkg := pkgList[0]
+
+	names := make([]string, 0, len(p.pkgIndex[localpkg]))
+	for name := range p.pkgIndex[localpkg] {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	for _, name := range names {
+		p.doDecl(localpkg, name)
+	}
+
+	for _, typ := range p.interfaceList {
+		typ.Complete()
+	}
+
+	// record all referenced packages as imports
+	list := append(([]*types2.Package)(nil), pkgList[1:]...)
+	sort.Sort(byPath(list))
+	localpkg.SetImports(list)
+
+	// package was imported completely and without errors
+	localpkg.MarkComplete()
+
+	consumed, _ := r.Seek(0, io_SeekCurrent)
+	return int(consumed), localpkg, nil
+}
+
+type iimporter struct {
+	ipath   string
+	version int
+
+	stringData  []byte
+	stringCache map[uint64]string
+	pkgCache    map[uint64]*types2.Package
+
+	declData []byte
+	pkgIndex map[*types2.Package]map[string]uint64
+	typCache map[uint64]types2.Type
+
+	interfaceList []*types2.Interface
+}
+
+func (p *iimporter) doDecl(pkg *types2.Package, name string) {
+	// See if we've already imported this declaration.
+	if obj := pkg.Scope().Lookup(name); obj != nil {
+		return
+	}
+
+	off, ok := p.pkgIndex[pkg][name]
+	if !ok {
+		errorf("%v.%v not in index", pkg, name)
+	}
+
+	r := &importReader{p: p, currPkg: pkg}
+	// Reader.Reset is not available in Go 1.4.
+	// Use bytes.NewReader for now.
+	// r.declReader.Reset(p.declData[off:])
+	r.declReader = *bytes.NewReader(p.declData[off:])
+
+	r.obj(name)
+}
+
+func (p *iimporter) stringAt(off uint64) string {
+	if s, ok := p.stringCache[off]; ok {
+		return s
+	}
+
+	slen, n := binary.Uvarint(p.stringData[off:])
+	if n <= 0 {
+		errorf("varint failed")
+	}
+	spos := off + uint64(n)
+	s := string(p.stringData[spos : spos+slen])
+	p.stringCache[off] = s
+	return s
+}
+
+func (p *iimporter) pkgAt(off uint64) *types2.Package {
+	if pkg, ok := p.pkgCache[off]; ok {
+		return pkg
+	}
+	path := p.stringAt(off)
+	errorf("missing package %q in %q", path, p.ipath)
+	return nil
+}
+
+func (p *iimporter) typAt(off uint64, base *types2.Named) types2.Type {
+	if t, ok := p.typCache[off]; ok && (base == nil || !isInterface(t)) {
+		return t
+	}
+
+	if off < predeclReserved {
+		errorf("predeclared type missing from cache: %v", off)
+	}
+
+	r := &importReader{p: p}
+	// Reader.Reset is not available in Go 1.4.
+	// Use bytes.NewReader for now.
+	// r.declReader.Reset(p.declData[off-predeclReserved:])
+	r.declReader = *bytes.NewReader(p.declData[off-predeclReserved:])
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	t := r.doType(base)
 
 	if base == nil || !isInterface(t) {

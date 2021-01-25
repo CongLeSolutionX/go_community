@@ -753,6 +753,7 @@ const (
 	_NonVariadicDotDotDot
 
 	// _MisplacedDotDotDot occurs when a "..." is used somewhere other than the
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	// final argument to a function call.
 	//
 	// Example:
@@ -1353,4 +1354,568 @@ const (
 	//  	return i
 	//  }
 	_InvalidGo
+=======
+	// final argument in a function declaration.
+	//
+	// Example:
+	// 	func f(...int, int)
+	_MisplacedDotDotDot
+
+	// _InvalidDotDotDot occurs when a "..." is used in a non-variadic built-in
+	// function.
+	//
+	// Example:
+	//  var s = []int{1, 2, 3}
+	//  var l = len(s...)
+	_InvalidDotDotDot
+
+	/* exprs > built-in */
+
+	// _UncalledBuiltin occurs when a built-in function is used as a
+	// function-valued expression, instead of being called.
+	//
+	// Per the spec:
+	//  "The built-in functions do not have standard Go types, so they can only
+	//  appear in call expressions; they cannot be used as function values."
+	//
+	// Example:
+	//  var _ = copy
+	_UncalledBuiltin
+
+	// _InvalidAppend occurs when append is called with a first argument that is
+	// not a slice.
+	//
+	// Example:
+	//  var _ = append(1, 2)
+	_InvalidAppend
+
+	// _InvalidCap occurs when an argument to the cap built-in function is not of
+	// supported type.
+	//
+	// See https://golang.org/ref/spec#Length_and_capacity for information on
+	// which underlying types are supported as arguments to cap and len.
+	//
+	// Example:
+	//  var s = 2
+	//  var x = cap(s)
+	_InvalidCap
+
+	// _InvalidClose occurs when close(...) is called with an argument that is
+	// not of channel type, or that is a receive-only channel.
+	//
+	// Example:
+	//  func f() {
+	//  	var x int
+	//  	close(x)
+	//  }
+	_InvalidClose
+
+	// _InvalidCopy occurs when the arguments are not of slice type or do not
+	// have compatible type.
+	//
+	// See https://golang.org/ref/spec#Appending_and_copying_slices for more
+	// information on the type requirements for the copy built-in.
+	//
+	// Example:
+	//  func f() {
+	//  	var x []int
+	//  	y := []int64{1,2,3}
+	//  	copy(x, y)
+	//  }
+	_InvalidCopy
+
+	// _InvalidComplex occurs when the complex built-in function is called with
+	// arguments with incompatible types.
+	//
+	// Example:
+	//  var _ = complex(float32(1), float64(2))
+	_InvalidComplex
+
+	// _InvalidDelete occurs when the delete built-in function is called with a
+	// first argument that is not a map.
+	//
+	// Example:
+	//  func f() {
+	//  	m := "hello"
+	//  	delete(m, "e")
+	//  }
+	_InvalidDelete
+
+	// _InvalidImag occurs when the imag built-in function is called with an
+	// argument that does not have complex type.
+	//
+	// Example:
+	//  var _ = imag(int(1))
+	_InvalidImag
+
+	// _InvalidLen occurs when an argument to the len built-in function is not of
+	// supported type.
+	//
+	// See https://golang.org/ref/spec#Length_and_capacity for information on
+	// which underlying types are supported as arguments to cap and len.
+	//
+	// Example:
+	//  var s = 2
+	//  var x = len(s)
+	_InvalidLen
+
+	// _SwappedMakeArgs occurs when make is called with three arguments, and its
+	// length argument is larger than its capacity argument.
+	//
+	// Example:
+	//  var x = make([]int, 3, 2)
+	_SwappedMakeArgs
+
+	// _InvalidMake occurs when make is called with an unsupported type argument.
+	//
+	// See https://golang.org/ref/spec#Making_slices_maps_and_channels for
+	// information on the types that may be created using make.
+	//
+	// Example:
+	//  var x = make(int)
+	_InvalidMake
+
+	// _InvalidReal occurs when the real built-in function is called with an
+	// argument that does not have complex type.
+	//
+	// Example:
+	//  var _ = real(int(1))
+	_InvalidReal
+
+	/* exprs > assertion */
+
+	// _InvalidAssert occurs when a type assertion is applied to a
+	// value that is not of interface type.
+	//
+	// Example:
+	//  var x = 1
+	//  var _ = x.(float64)
+	_InvalidAssert
+
+	// _ImpossibleAssert occurs for a type assertion x.(T) when the value x of
+	// interface cannot have dynamic type T, due to a missing or mismatching
+	// method on T.
+	//
+	// Example:
+	//  type T int
+	//
+	//  func (t *T) m() int { return int(*t) }
+	//
+	//  type I interface { m() int }
+	//
+	//  var x I
+	//  var _ = x.(T)
+	_ImpossibleAssert
+
+	/* exprs > conversion */
+
+	// _InvalidConversion occurs when the argument type cannot be converted to the
+	// target.
+	//
+	// See https://golang.org/ref/spec#Conversions for the rules of
+	// convertibility.
+	//
+	// Example:
+	//  var x float64
+	//  var _ = string(x)
+	_InvalidConversion
+
+	// _InvalidUntypedConversion occurs when an there is no valid implicit
+	// conversion from an untyped value satisfying the type constraints of the
+	// context in which it is used.
+	//
+	// Example:
+	//  var _ = 1 + ""
+	_InvalidUntypedConversion
+
+	/* offsetof */
+
+	// _BadOffsetofSyntax occurs when unsafe.Offsetof is called with an argument
+	// that is not a selector expression.
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	//  var x int
+	//  var _ = unsafe.Offsetof(x)
+	_BadOffsetofSyntax
+
+	// _InvalidOffsetof occurs when unsafe.Offsetof is called with a method
+	// selector, rather than a field selector, or when the field is embedded via
+	// a pointer.
+	//
+	// Per the spec:
+	//
+	//  "If f is an embedded field, it must be reachable without pointer
+	//  indirections through fields of the struct. "
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	//  type T struct { f int }
+	//  type S struct { *T }
+	//  var s S
+	//  var _ = unsafe.Offsetof(s.f)
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	//  type S struct{}
+	//
+	//  func (S) m() {}
+	//
+	//  var s S
+	//  var _ = unsafe.Offsetof(s.m)
+	_InvalidOffsetof
+
+	/* control flow > scope */
+
+	// _UnusedExpr occurs when a side-effect free expression is used as a
+	// statement. Such a statement has no effect.
+	//
+	// Example:
+	//  func f(i int) {
+	//  	i*i
+	//  }
+	_UnusedExpr
+
+	// _UnusedVar occurs when a variable is declared but unused.
+	//
+	// Example:
+	//  func f() {
+	//  	x := 1
+	//  }
+	_UnusedVar
+
+	// _MissingReturn occurs when a function with results is missing a return
+	// statement.
+	//
+	// Example:
+	//  func f() int {}
+	_MissingReturn
+
+	// _WrongResultCount occurs when a return statement returns an incorrect
+	// number of values.
+	//
+	// Example:
+	//  func ReturnOne() int {
+	//  	return 1, 2
+	//  }
+	_WrongResultCount
+
+	// _OutOfScopeResult occurs when the name of a value implicitly returned by
+	// an empty return statement is shadowed in a nested scope.
+	//
+	// Example:
+	//  func factor(n int) (i int) {
+	//  	for i := 2; i < n; i++ {
+	//  		if n%i == 0 {
+	//  			return
+	//  		}
+	//  	}
+	//  	return 0
+	//  }
+	_OutOfScopeResult
+
+	/* control flow > if */
+
+	// _InvalidCond occurs when an if condition is not a boolean expression.
+	//
+	// Example:
+	//  func checkReturn(i int) {
+	//  	if i {
+	//  		panic("non-zero return")
+	//  	}
+	//  }
+	_InvalidCond
+
+	/* control flow > for */
+
+	// _InvalidPostDecl occurs when there is a declaration in a for-loop post
+	// statement.
+	//
+	// Example:
+	//  func f() {
+	//  	for i := 0; i < 10; j := 0 {}
+	//  }
+	_InvalidPostDecl
+
+	// _InvalidIterVar occurs when two iteration variables are used while ranging
+	// over a channel.
+	//
+	// Example:
+	//  func f(c chan int) {
+	//  	for k, v := range c {
+	//  		println(k, v)
+	//  	}
+	//  }
+	_InvalidIterVar
+
+	// _InvalidRangeExpr occurs when the type of a range expression is not array,
+	// slice, string, map, or channel.
+	//
+	// Example:
+	//  func f(i int) {
+	//  	for j := range i {
+	//  		println(j)
+	//  	}
+	//  }
+	_InvalidRangeExpr
+
+	/* control flow > switch */
+
+	// _MisplacedBreak occurs when a break statement is not within a for, switch,
+	// or select statement of the innermost function definition.
+	//
+	// Example:
+	//  func f() {
+	//  	break
+	//  }
+	_MisplacedBreak
+
+	// _MisplacedContinue occurs when a continue statement is not within a for
+	// loop of the innermost function definition.
+	//
+	// Example:
+	//  func sumeven(n int) int {
+	//  	proceed := func() {
+	//  		continue
+	//  	}
+	//  	sum := 0
+	//  	for i := 1; i <= n; i++ {
+	//  		if i % 2 != 0 {
+	//  			proceed()
+	//  		}
+	//  		sum += i
+	//  	}
+	//  	return sum
+	//  }
+	_MisplacedContinue
+
+	// _MisplacedFallthrough occurs when a fallthrough statement is not within an
+	// expression switch.
+	//
+	// Example:
+	//  func typename(i interface{}) string {
+	//  	switch i.(type) {
+	//  	case int64:
+	//  		fallthrough
+	//  	case int:
+	//  		return "int"
+	//  	}
+	//  	return "unsupported"
+	//  }
+	_MisplacedFallthrough
+
+	// _DuplicateCase occurs when a type or expression switch has duplicate
+	// cases.
+	//
+	// Example:
+	//  func printInt(i int) {
+	//  	switch i {
+	//  	case 1:
+	//  		println("one")
+	//  	case 1:
+	//  		println("One")
+	//  	}
+	//  }
+	_DuplicateCase
+
+	// _DuplicateDefault occurs when a type or expression switch has multiple
+	// default clauses.
+	//
+	// Example:
+	//  func printInt(i int) {
+	//  	switch i {
+	//  	case 1:
+	//  		println("one")
+	//  	default:
+	//  		println("One")
+	//  	default:
+	//  		println("1")
+	//  	}
+	//  }
+	_DuplicateDefault
+
+	// _BadTypeKeyword occurs when a .(type) expression is used anywhere other
+	// than a type switch.
+	//
+	// Example:
+	//  type I interface {
+	//  	m()
+	//  }
+	//  var t I
+	//  var _ = t.(type)
+	_BadTypeKeyword
+
+	// _InvalidTypeSwitch occurs when .(type) is used on an expression that is
+	// not of interface type.
+	//
+	// Example:
+	//  func f(i int) {
+	//  	switch x := i.(type) {}
+	//  }
+	_InvalidTypeSwitch
+
+	// _InvalidExprSwitch occurs when a switch expression is not comparable.
+	//
+	// Example:
+	//  func _() {
+	//  	var a struct{ _ func() }
+	//  	switch a /* ERROR cannot switch on a */ {
+	//  	}
+	//  }
+	_InvalidExprSwitch
+
+	/* control flow > select */
+
+	// _InvalidSelectCase occurs when a select case is not a channel send or
+	// receive.
+	//
+	// Example:
+	//  func checkChan(c <-chan int) bool {
+	//  	select {
+	//  	case c:
+	//  		return true
+	//  	default:
+	//  		return false
+	//  	}
+	//  }
+	_InvalidSelectCase
+
+	/* control flow > labels and jumps */
+
+	// _UndeclaredLabel occurs when an undeclared label is jumped to.
+	//
+	// Example:
+	//  func f() {
+	//  	goto L
+	//  }
+	_UndeclaredLabel
+
+	// _DuplicateLabel occurs when a label is declared more than once.
+	//
+	// Example:
+	//  func f() int {
+	//  L:
+	//  L:
+	//  	return 1
+	//  }
+	_DuplicateLabel
+
+	// _MisplacedLabel occurs when a break or continue label is not on a for,
+	// switch, or select statement.
+	//
+	// Example:
+	//  func f() {
+	//  L:
+	//  	a := []int{1,2,3}
+	//  	for _, e := range a {
+	//  		if e > 10 {
+	//  			break L
+	//  		}
+	//  		println(a)
+	//  	}
+	//  }
+	_MisplacedLabel
+
+	// _UnusedLabel occurs when a label is declared but not used.
+	//
+	// Example:
+	//  func f() {
+	//  L:
+	//  }
+	_UnusedLabel
+
+	// _JumpOverDecl occurs when a label jumps over a variable declaration.
+	//
+	// Example:
+	//  func f() int {
+	//  	goto L
+	//  	x := 2
+	//  L:
+	//  	x++
+	//  	return x
+	//  }
+	_JumpOverDecl
+
+	// _JumpIntoBlock occurs when a forward jump goes to a label inside a nested
+	// block.
+	//
+	// Example:
+	//  func f(x int) {
+	//  	goto L
+	//  	if x > 0 {
+	//  	L:
+	//  		print("inside block")
+	//  	}
+	// }
+	_JumpIntoBlock
+
+	/* control flow > calls */
+
+	// _InvalidMethodExpr occurs when a pointer method is called but the argument
+	// is not addressable.
+	//
+	// Example:
+	//  type T struct {}
+	//
+	//  func (*T) m() int { return 1 }
+	//
+	//  var _ = T.m(T{})
+	_InvalidMethodExpr
+
+	// _WrongArgCount occurs when too few or too many arguments are passed by a
+	// function call.
+	//
+	// Example:
+	//  func f(i int) {}
+	//  var x = f()
+	_WrongArgCount
+
+	// _InvalidCall occurs when an expression is called that is not of function
+	// type.
+	//
+	// Example:
+	//  var x = "x"
+	//  var y = x()
+	_InvalidCall
+
+	/* control flow > suspended */
+
+	// _UnusedResults occurs when a restricted expression-only built-in function
+	// is suspended via go or defer. Such a suspension discards the results of
+	// these side-effect free built-in functions, and therefore is ineffectual.
+	//
+	// Example:
+	//  func f(a []int) int {
+	//  	defer len(a)
+	//  	return i
+	//  }
+	_UnusedResults
+
+	// _InvalidDefer occurs when a deferred expression is not a function call,
+	// for example if the expression is a type conversion.
+	//
+	// Example:
+	//  func f(i int) int {
+	//  	defer int32(i)
+	//  	return i
+	//  }
+	_InvalidDefer
+
+	// _InvalidGo occurs when a go expression is not a function call, for example
+	// if the expression is a type conversion.
+	//
+	// Example:
+	//  func f(i int) int {
+	//  	go int32(i)
+	//  	return i
+	//  }
+	_InvalidGo
+
+	// _Todo is a placeholder for error codes that have not been decided.
+	// TODO(rFindley) remove this error code after deciding on errors for generics code.
+	_Todo
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 )

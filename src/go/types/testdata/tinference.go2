@@ -8,6 +8,12 @@ import "strconv"
 
 type any interface{}
 
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
+=======
+// TODO(rFindley) the below partially applied function types should probably
+//                not be permitted (spec question).
+
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 func f0[A any, B interface{type C}, C interface{type D}, D interface{type A}](A, B, C, D)
 func _() {
 	f := f0[string]

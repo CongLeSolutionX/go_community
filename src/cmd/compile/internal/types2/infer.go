@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 // Copyright 2018 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -134,6 +135,146 @@ func typeNamesString(list []*TypeName) string {
 
 	// general case (n > 2)
 	var b strings.Builder
+=======
+// UNREVIEWED
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file implements type parameter inference given
+// a list of concrete arguments and a parameter list.
+
+package types2
+
+import "bytes"
+
+// infer returns the list of actual type arguments for the given list of type parameters tparams
+// by inferring them from the actual arguments args for the parameters params. If type inference
+// is impossible because unification fails, an error is reported and the resulting types list is
+// nil, and index is 0. Otherwise, types is the list of inferred type arguments, and index is
+// the index of the first type argument in that list that couldn't be inferred (and thus is nil).
+// If all type arguments where inferred successfully, index is < 0.
+func (check *Checker) infer(tparams []*TypeName, params *Tuple, args []*operand) (types []Type, index int) {
+	assert(params.Len() == len(args))
+
+	u := newUnifier(check, false)
+	u.x.init(tparams)
+
+	errorf := func(kind string, tpar, targ Type, arg *operand) {
+		// provide a better error message if we can
+		targs, failed := u.x.types()
+		if failed == 0 {
+			// The first type parameter couldn't be inferred.
+			// If none of them could be inferred, don't try
+			// to provide the inferred type in the error msg.
+			allFailed := true
+			for _, targ := range targs {
+				if targ != nil {
+					allFailed = false
+					break
+				}
+			}
+			if allFailed {
+				check.errorf(arg, "%s %s of %s does not match %s (cannot infer %s)", kind, targ, arg.expr, tpar, typeNamesString(tparams))
+				return
+			}
+		}
+		smap := makeSubstMap(tparams, targs)
+		inferred := check.subst(arg.Pos(), tpar, smap)
+		if inferred != tpar {
+			check.errorf(arg, "%s %s of %s does not match inferred type %s for %s", kind, targ, arg.expr, inferred, tpar)
+		} else {
+			check.errorf(arg, "%s %s of %s does not match %s", kind, targ, arg.expr, tpar)
+		}
+	}
+
+	// Terminology: generic parameter = function parameter with a type-parameterized type
+
+	// 1st pass: Unify parameter and argument types for generic parameters with typed arguments
+	//           and collect the indices of generic parameters with untyped arguments.
+	var indices []int
+	for i, arg := range args {
+		par := params.At(i)
+		// If we permit bidirectional unification, this conditional code needs to be
+		// executed even if par.typ is not parameterized since the argument may be a
+		// generic function (for which we want to infer // its type arguments).
+		if isParameterized(tparams, par.typ) {
+			if arg.mode == invalid {
+				// An error was reported earlier. Ignore this targ
+				// and continue, we may still be able to infer all
+				// targs resulting in fewer follon-on errors.
+				continue
+			}
+			if targ := arg.typ; isTyped(targ) {
+				// If we permit bidirectional unification, and targ is
+				// a generic function, we need to initialize u.y with
+				// the respectice type parameters of targ.
+				if !u.unify(par.typ, targ) {
+					errorf("type", par.typ, targ, arg)
+					return nil, 0
+				}
+			} else {
+				indices = append(indices, i)
+			}
+		}
+	}
+
+	// Some generic parameters with untyped arguments may have been given a type
+	// indirectly through another generic parameter with a typed argument; we can
+	// ignore those now. (This only means that we know the types for those generic
+	// parameters; it doesn't mean untyped arguments can be passed safely. We still
+	// need to verify that assignment of those arguments is valid when we check
+	// function parameter passing external to infer.)
+	j := 0
+	for _, i := range indices {
+		par := params.At(i)
+		// Since untyped types are all basic (i.e., non-composite) types, an
+		// untyped argument will never match a composite parameter type; the
+		// only parameter type it can possibly match against is a *TypeParam.
+		// Thus, only keep the indices of generic parameters that are not of
+		// composite types and which don't have a type inferred yet.
+		if tpar, _ := par.typ.(*TypeParam); tpar != nil && u.x.at(tpar.index) == nil {
+			indices[j] = i
+			j++
+		}
+	}
+	indices = indices[:j]
+
+	// 2nd pass: Unify parameter and default argument types for remaining generic parameters.
+	for _, i := range indices {
+		par := params.At(i)
+		arg := args[i]
+		targ := Default(arg.typ)
+		// The default type for an untyped nil is untyped nil. We must not
+		// infer an untyped nil type as type parameter type. Ignore untyped
+		// nil by making sure all default argument types are typed.
+		if isTyped(targ) && !u.unify(par.typ, targ) {
+			errorf("default type", par.typ, targ, arg)
+			return nil, 0
+		}
+	}
+
+	return u.x.types()
+}
+
+// typeNamesString produces a string containing all the
+// type names in list suitable for human consumption.
+func typeNamesString(list []*TypeName) string {
+	// common cases
+	n := len(list)
+	switch n {
+	case 0:
+		return ""
+	case 1:
+		return list[0].name
+	case 2:
+		return list[0].name + " and " + list[1].name
+	}
+
+	// general case (n > 2)
+	// Would like to use strings.Builder but it's not available in Go 1.4.
+	var b bytes.Buffer
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	for i, tname := range list[:n-1] {
 		if i > 0 {
 			b.WriteString(", ")

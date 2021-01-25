@@ -135,8 +135,12 @@ func main() {
 	//     56  .  Unresolved: []*ast.Ident (len = 1) {
 	//     57  .  .  0: *(obj @ 29)
 	//     58  .  }
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	//     59  .  UseBrackets: false
 	//     60  }
+=======
+	//     59  }
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 }
 
 // This example illustrates how to remove a variable declaration

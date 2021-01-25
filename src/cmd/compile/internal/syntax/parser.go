@@ -499,21 +499,20 @@ func (p *parser) appendGroup(list []Decl, f func(*Group) Decl) []Decl {
 		p.clearPragma()
 		p.next() // must consume "(" after calling clearPragma!
 		p.list(_Semi, _Rparen, func() bool {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			list = append(list, f(g))
+=======
+			if x := f(g); x != nil {
+				list = append(list, x)
+			}
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			return false
 		})
 	} else {
-		list = append(list, f(nil))
-	}
-
-	if debug {
-		for _, d := range list {
-			if d == nil {
-				panic("nil list entry")
-			}
+		if x := f(nil); x != nil {
+			list = append(list, x)
 		}
 	}
-
 	return list
 }
 
@@ -533,15 +532,20 @@ func (p *parser) importDecl(group *Group) Decl {
 	case _Name:
 		d.LocalPkgName = p.name()
 	case _Dot:
-		d.LocalPkgName = p.newName(".")
+		d.LocalPkgName = NewName(p.pos(), ".")
 		p.next()
 	}
 	d.Path = p.oliteral()
 	if d.Path == nil {
 		p.syntaxError("missing import path")
 		p.advance(_Semi, _Rparen)
-		return nil
+		return d
 	}
+	if !d.Path.Bad && d.Path.Kind != StringLit {
+		p.syntaxError("import path must be a string")
+		d.Path.Bad = true
+	}
+	// d.Path.Bad || d.Path.Kind == StringLit
 
 	return d
 }
@@ -595,7 +599,11 @@ func (p *parser) typeDecl(group *Group) Decl {
 			p.xnest--
 			if name0, ok := x.(*Name); p.mode&AllowGenerics != 0 && ok && p.tok != _Rbrack {
 				// generic type
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 				d.TParamList = p.paramList(name0, _Rbrack)
+=======
+				d.TParamList = p.paramList(name0, _Rbrack, true)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 				pos := p.pos()
 				if p.gotAssign() {
 					p.syntaxErrorAt(pos, "generic type cannot be alias")
@@ -664,7 +672,11 @@ func (p *parser) funcDeclOrNil() *FuncDecl {
 	f.Pragma = p.takePragma()
 
 	if p.got(_Lparen) {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		rcvr := p.paramList(nil, _Rparen)
+=======
+		rcvr := p.paramList(nil, _Rparen, false)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		switch len(rcvr) {
 		case 0:
 			p.error("method has no receiver")
@@ -688,7 +700,11 @@ func (p *parser) funcDeclOrNil() *FuncDecl {
 			p.syntaxError("empty type parameter list")
 			p.next()
 		} else {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			f.TParamList = p.paramList(nil, _Rbrack)
+=======
+			f.TParamList = p.paramList(nil, _Rbrack, true)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		}
 	}
 	f.Type = p.funcType()
@@ -1313,7 +1329,11 @@ func (p *parser) funcType() *FuncType {
 	typ := new(FuncType)
 	typ.pos = p.pos()
 	p.want(_Lparen)
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	typ.ParamList = p.paramList(nil, _Rparen)
+=======
+	typ.ParamList = p.paramList(nil, _Rparen, false)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	typ.ResultList = p.funcResult()
 
 	return typ
@@ -1409,9 +1429,13 @@ func (p *parser) interfaceType() *InterfaceType {
 		case _Type:
 			if p.mode&AllowGenerics != 0 {
 				// TODO(gri) factor this better
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 				type_ := new(Name)
 				type_.pos = p.pos()
 				type_.Value = "type" // cannot have a method named "type"
+=======
+				type_ := NewName(p.pos(), "type") // cannot have a method named "type"
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 				p.next()
 				if p.tok != _Semi && p.tok != _Rbrace {
 					f := new(Field)
@@ -1455,7 +1479,11 @@ func (p *parser) funcResult() []*Field {
 	}
 
 	if p.got(_Lparen) {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		return p.paramList(nil, _Rparen)
+=======
+		return p.paramList(nil, _Rparen, false)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	}
 
 	pos := p.pos()
@@ -1679,7 +1707,11 @@ func (p *parser) methodDecl() *Field {
 
 			// A type argument list looks like a parameter list with only
 			// types. Parse a parameter list and decide afterwards.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			list := p.paramList(nil, _Rbrack)
+=======
+			list := p.paramList(nil, _Rbrack, false)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			if len(list) == 0 {
 				// The type parameter list is not [] but we got nothing
 				// due to other errors (reported by paramList). Treat
@@ -1794,7 +1826,12 @@ func (p *parser) paramDeclOrNil(name *Name) *Field {
 // ParameterList = ParameterDecl { "," ParameterDecl } .
 // "(" or "[" has already been consumed.
 // If name != nil, it is the first name after "(" or "[".
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 func (p *parser) paramList(name *Name, close token) (list []*Field) {
+=======
+// In the result list, either all fields have a name, or no field has a name.
+func (p *parser) paramList(name *Name, close token, requireNames bool) (list []*Field) {
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	if trace {
 		defer p.trace("paramList")()
 	}
@@ -1815,7 +1852,11 @@ func (p *parser) paramList(name *Name, close token) (list []*Field) {
 		return false
 	})
 
-	// distribute parameter types
+	if len(list) == 0 {
+		return
+	}
+
+	// distribute parameter types (len(list) > 0)
 	if named == 0 {
 		// all unnamed => found names are named types
 		for _, par := range list {
@@ -1824,18 +1865,29 @@ func (p *parser) paramList(name *Name, close token) (list []*Field) {
 				par.Name = nil
 			}
 		}
+		if requireNames {
+			p.syntaxErrorAt(list[0].Type.Pos(), "type parameters must be named")
+		}
 	} else if named != len(list) {
 		// some named => all must have names and types
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		var pos Pos // error position (or unknown)
+=======
+		var pos Pos // left-most error position (or unknown)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		var typ Expr
 		for i := len(list) - 1; i >= 0; i-- {
 			if par := list[i]; par.Type != nil {
 				typ = par.Type
 				if par.Name == nil {
 					pos = typ.Pos()
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 					n := p.newName("_")
 					n.pos = pos // correct position
 					par.Name = n
+=======
+					par.Name = NewName(pos, "_")
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 				}
 			} else if typ != nil {
 				par.Type = typ
@@ -1848,7 +1900,17 @@ func (p *parser) paramList(name *Name, close token) (list []*Field) {
 			}
 		}
 		if pos.IsKnown() {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			p.syntaxErrorAt(pos, "mixed named and unnamed parameters")
+=======
+			var msg string
+			if requireNames {
+				msg = "type parameters must be named"
+			} else {
+				msg = "mixed named and unnamed parameters"
+			}
+			p.syntaxErrorAt(pos, msg)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		}
 	}
 
@@ -1863,10 +1925,6 @@ func (p *parser) badExpr() *BadExpr {
 
 // ----------------------------------------------------------------------------
 // Statements
-
-// We represent x++, x-- as assignments x += ImplicitOne, x -= ImplicitOne.
-// ImplicitOne should not be used elsewhere.
-var ImplicitOne = &BasicLit{Value: "1"}
 
 // SimpleStmt = EmptyStmt | ExpressionStmt | SendStmt | IncDecStmt | Assignment | ShortVarDecl .
 func (p *parser) simpleStmt(lhs Expr, keyword token) SimpleStmt {
@@ -1900,7 +1958,7 @@ func (p *parser) simpleStmt(lhs Expr, keyword token) SimpleStmt {
 			// lhs++ or lhs--
 			op := p.op
 			p.next()
-			return p.newAssignStmt(pos, op, lhs, ImplicitOne)
+			return p.newAssignStmt(pos, op, lhs, nil)
 
 		case _Arrow:
 			// lhs <- rhs
@@ -2468,23 +2526,16 @@ func (p *parser) argList() (list []Expr, hasDots bool) {
 // ----------------------------------------------------------------------------
 // Common productions
 
-func (p *parser) newName(value string) *Name {
-	n := new(Name)
-	n.pos = p.pos()
-	n.Value = value
-	return n
-}
-
 func (p *parser) name() *Name {
 	// no tracing to avoid overly verbose output
 
 	if p.tok == _Name {
-		n := p.newName(p.lit)
+		n := NewName(p.pos(), p.lit)
 		p.next()
 		return n
 	}
 
-	n := p.newName("_")
+	n := NewName(p.pos(), "_")
 	p.syntaxError("expecting name")
 	p.advance()
 	return n
@@ -2522,7 +2573,11 @@ func (p *parser) qualifiedName(name *Name) Expr {
 	case p.tok == _Name:
 		x = p.name()
 	default:
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		x = p.newName("_")
+=======
+		x = NewName(p.pos(), "_")
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		p.syntaxError("expecting name")
 		p.advance(_Dot, _Semi, _Rbrace)
 	}

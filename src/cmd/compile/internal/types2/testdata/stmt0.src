@@ -69,10 +69,17 @@ func assignments1() {
 
 	// test cases for issue 5800
 	var (
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		_ int = nil /* ERROR "untyped nil value" */
 		_ [10]int = nil /* ERROR "untyped nil value" */
 		_ []byte = nil
 		_ struct{} = nil /* ERROR "untyped nil value" */
+=======
+		_ int = nil /* ERROR "cannot convert untyped nil" */
+		_ [10]int = nil /* ERROR "cannot convert untyped nil" */
+		_ []byte = nil
+		_ struct{} = nil /* ERROR "cannot convert untyped nil" */
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		_ func() = nil
 		_ map[int]string = nil
 		_ chan int = nil

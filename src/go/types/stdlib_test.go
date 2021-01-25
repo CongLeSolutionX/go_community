@@ -16,7 +16,6 @@ import (
 	"go/scanner"
 	"go/token"
 	"internal/testenv"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -87,7 +86,7 @@ func firstComment(filename string) string {
 }
 
 func testTestDir(t *testing.T, path string, ignore ...string) {
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -156,6 +155,9 @@ func TestStdTest(t *testing.T) {
 	testTestDir(t, filepath.Join(runtime.GOROOT(), "test"),
 		"cmplxdivide.go", // also needs file cmplxdivide1.go - ignore
 		"directive.go",   // tests compiler rejection of bad directive placement - ignore
+		"embedfunc.go",   // tests //go:embed
+		"embedvers.go",   // tests //go:embed
+		"linkname2.go",   // go/types doesn't check validity of //go:xxx directives
 	)
 }
 
@@ -183,7 +185,12 @@ func TestStdFixed(t *testing.T) {
 		"issue31747.go",  // go/types does not have constraints on language level (-lang=go1.12) (see #31793)
 		"issue34329.go",  // go/types does not have constraints on language level (-lang=go1.13) (see #31793)
 		"bug251.go",      // issue #34333 which was exposed with fix for #34151
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		"bug299.go",      // go/types permits parenthesized embedded fields (TODO(gri) remove once we disallow this again because we switched to []'s)
+=======
+		"issue42058a.go", // go/types does not have constraints on channel element size
+		"issue42058b.go", // go/types does not have constraints on channel element size
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	)
 }
 
@@ -296,7 +303,7 @@ func (w *walker) walk(dir string) {
 		return
 	}
 
-	fis, err := ioutil.ReadDir(dir)
+	files, err := os.ReadDir(dir)
 	if err != nil {
 		w.errh(err)
 		return
@@ -316,9 +323,15 @@ func (w *walker) walk(dir string) {
 	}
 
 	// traverse subdirectories, but don't walk into testdata
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	for _, fi := range fis {
 		if fi.IsDir() && fi.Name() != "testdata" {
 			w.walk(filepath.Join(dir, fi.Name()))
+=======
+	for _, f := range files {
+		if f.IsDir() && f.Name() != "testdata" {
+			w.walk(filepath.Join(dir, f.Name()))
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		}
 	}
 }

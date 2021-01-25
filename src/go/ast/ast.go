@@ -57,6 +57,11 @@ type Decl interface {
 // Comments
 
 // A Comment node represents a single //-style or /*-style comment.
+//
+// The Text field contains the comment text without carriage returns (\r) that
+// may have been present in the source. Because a comment's end position is
+// computed using len(Text), the position reported by End() does not match the
+// true source end position for comments containing carriage returns.
 type Comment struct {
 	Slash token.Pos // position of "/" starting the comment
 	Text  string    // comment text (excluding '\n' for //-style comments)
@@ -367,7 +372,13 @@ type (
 		Args     []Expr    // function arguments; or nil
 		Ellipsis token.Pos // position of "..." (token.NoPos if there is no "...")
 		Rparen   token.Pos // position of ")"
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		Brackets bool      // if set, "[" and "]" are used instead of "(" and ")"
+=======
+		// TODO(rFindley) use a new ListExpr type rather than overloading CallExpr
+		//                via Brackets, as is done in the syntax package
+		Brackets bool // if set, "[" and "]" are used instead of "(" and ")"
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	}
 
 	// A StarExpr node represents an expression of the form "*" Expression.
@@ -982,6 +993,8 @@ type (
 		Name *Ident        // function/method name
 		Type *FuncType     // function signature: type and value parameters, results, and position of "func" keyword
 		Body *BlockStmt    // function body; or nil for external (non-Go) function
+		// TODO(rFindley) consider storing TParams here, rather than FuncType, as
+		//                they are only valid for declared functions
 	}
 )
 

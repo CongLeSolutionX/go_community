@@ -4,6 +4,11 @@
 
 package types
 
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
+=======
+// sanitizeInfo walks the types contained in info to ensure that all instances
+// are expanded.
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 func sanitizeInfo(info *Info) {
 	var s sanitizer = make(map[Type]Type)
 

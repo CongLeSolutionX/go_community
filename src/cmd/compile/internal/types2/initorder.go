@@ -151,7 +151,15 @@ func findPath(objMap map[Object]*declInfo, from, to Object, seen map[Object]bool
 // reportCycle reports an error for the given cycle.
 func (check *Checker) reportCycle(cycle []Object) {
 	obj := cycle[0]
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	check.errorf(obj, "initialization cycle for %s", obj.Name())
+=======
+	if check.conf.CompilerErrorMessages {
+		check.errorf(obj, "initialization loop for %s", obj.Name())
+	} else {
+		check.errorf(obj, "initialization cycle for %s", obj.Name())
+	}
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	// subtle loop: print cycle[i] for i = 0, n-1, n-2, ... 1 for len(cycle) = n
 	for i := len(cycle) - 1; i >= 0; i-- {
 		check.errorf(obj, "\t%s refers to", obj.Name()) // secondary error, \t indented

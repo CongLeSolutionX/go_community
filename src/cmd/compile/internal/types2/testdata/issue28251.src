@@ -60,6 +60,10 @@ type (
         T11 = T
 )
 
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 func (T9 /* ERROR invalid receiver \*\*T */ ) m9() {}
+=======
+func (T9 /* ERROR invalid receiver type \*\*T */ ) m9() {}
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 func _() { (T{}).m9 /* ERROR has no field or method m9 */ () }
 func _() { (&T{}).m9 /* ERROR has no field or method m9 */ () }

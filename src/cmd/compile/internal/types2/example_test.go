@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 // Copyright 2015 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -159,6 +160,115 @@ type I interface { m() byte }
 	//
 	// Method set of temperature.S:
 	// MethodSet {}
+=======
+// UNREVIEWED
+// Copyright 2015 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Only run where builders (build.golang.org) have
+// access to compiled packages for import.
+//
+// +build !arm,!arm64
+
+package types2_test
+
+// This file shows examples of basic usage of the go/types API.
+//
+// To locate a Go package, use (*go/build.Context).Import.
+// To load, parse, and type-check a complete Go program
+// from source, use golang.org/x/tools/go/loader.
+
+import (
+	"bytes"
+	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/types2"
+	"fmt"
+	"log"
+	"regexp"
+	"sort"
+	"strings"
+)
+
+// ExampleScope prints the tree of Scopes of a package created from a
+// set of parsed files.
+func ExampleScope() {
+	// Parse the source files for a package.
+	var files []*syntax.File
+	for _, file := range []struct{ name, input string }{
+		{"main.go", `
+package main
+import "fmt"
+func main() {
+	freezing := FToC(-18)
+	fmt.Println(freezing, Boiling) }
+`},
+		{"celsius.go", `
+package main
+import "fmt"
+type Celsius float64
+func (c Celsius) String() string { return fmt.Sprintf("%g°C", c) }
+func FToC(f float64) Celsius { return Celsius(f - 32 / 9 * 5) }
+const Boiling Celsius = 100
+func Unused() { {}; {{ var x int; _ = x }} } // make sure empty block scopes get printed
+`},
+	} {
+		f, err := parseSrc(file.name, file.input)
+		if err != nil {
+			log.Fatal(err)
+		}
+		files = append(files, f)
+	}
+
+	// Type-check a package consisting of these files.
+	// Type information for the imported "fmt" package
+	// comes from $GOROOT/pkg/$GOOS_$GOOARCH/fmt.a.
+	conf := types2.Config{Importer: defaultImporter()}
+	pkg, err := conf.Check("temperature", files, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Print the tree of scopes.
+	// For determinism, we redact addresses.
+	var buf bytes.Buffer
+	pkg.Scope().WriteTo(&buf, 0, true)
+	rx := regexp.MustCompile(` 0x[a-fA-F0-9]*`)
+	fmt.Println(rx.ReplaceAllString(buf.String(), ""))
+
+	// Output:
+	// package "temperature" scope {
+	// .  const temperature.Boiling temperature.Celsius
+	// .  type temperature.Celsius float64
+	// .  func temperature.FToC(f float64) temperature.Celsius
+	// .  func temperature.Unused()
+	// .  func temperature.main()
+	// .  main.go scope {
+	// .  .  package fmt
+	// .  .  function scope {
+	// .  .  .  var freezing temperature.Celsius
+	// .  .  }
+	// .  }
+	// .  celsius.go scope {
+	// .  .  package fmt
+	// .  .  function scope {
+	// .  .  .  var c temperature.Celsius
+	// .  .  }
+	// .  .  function scope {
+	// .  .  .  var f float64
+	// .  .  }
+	// .  .  function scope {
+	// .  .  .  block scope {
+	// .  .  .  }
+	// .  .  .  block scope {
+	// .  .  .  .  block scope {
+	// .  .  .  .  .  var x int
+	// .  .  .  .  }
+	// .  .  .  }
+	// .  .  }
+	// .  }
+	// }
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 }
 
 // ExampleInfo prints various facts recorded by the type checker in a

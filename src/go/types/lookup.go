@@ -196,6 +196,7 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 				}
 
 			case *TypeParam:
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 				if i, m := lookupMethod(t.Bound().allMethods, pkg, name); m != nil {
 					assert(m.typ != nil)
 					index = concat(e.index, i)
@@ -211,6 +212,19 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 					// that any underlyng type of the types in the type list
 					// migth have.
 					// TODO(gri) Do we want to specify the language that way?
+=======
+				// only consider explicit methods in the type parameter bound, not
+				// methods that may be common to all types in the type list.
+				if i, m := lookupMethod(t.Bound().allMethods, pkg, name); m != nil {
+					assert(m.typ != nil)
+					index = concat(e.index, i)
+					if obj != nil || e.multiples {
+						return nil, index, false // collision
+					}
+					tpar = t
+					obj = m
+					indirect = e.indirect
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 				}
 			}
 		}
@@ -223,7 +237,11 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 			//        is shorthand for (&x).m()".
 			if f, _ := obj.(*Func); f != nil {
 				// determine if method has a pointer receiver
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 				hasPtrRecv := tpar == nil && ptrRecv(f) || tpar != nil && tpar.ptr
+=======
+				hasPtrRecv := tpar == nil && ptrRecv(f)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 				if hasPtrRecv && !indirect && !addressable {
 					return nil, nil, true // pointer/addressable receiver required
 				}
@@ -329,7 +347,10 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 				return m, f
 			}
 
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			// both methods must have the same number of type parameters
+=======
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			ftyp := f.typ.(*Signature)
 			mtyp := m.typ.(*Signature)
 			if len(ftyp.tparams) != len(mtyp.tparams) {
@@ -429,13 +450,23 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 // method required by V and whether it is missing or just has the wrong type.
 // The receiver may be nil if assertableTo is invoked through an exported API call
 // (such as AssertableTo), i.e., when all methods have been type-checked.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 // If strict (or the global constant forceStrict) is set, assertions that
 // are known to fail are not permitted.
 func (check *Checker) assertableTo(V *Interface, T Type, strict bool) (method, wrongType *Func) {
+=======
+// If the global constant forceStrict is set, assertions that are known to fail
+// are not permitted.
+func (check *Checker) assertableTo(V *Interface, T Type) (method, wrongType *Func) {
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	// no static check is required if T is an interface
 	// spec: "If T is an interface type, x.(T) asserts that the
 	//        dynamic type of x implements the interface T."
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	if asInterface(T) != nil && !(strict || forceStrict) {
+=======
+	if asInterface(T) != nil && !forceStrict {
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		return
 	}
 	return check.missingMethod(T, V, false)

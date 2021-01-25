@@ -30,9 +30,9 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, wantType bool)
 	scope, obj := check.scope.LookupParent(e.Name, check.pos)
 	if obj == nil {
 		if e.Name == "_" {
-			check.errorf(e.Pos(), "cannot use _ as value or type")
+			check.errorf(e, _InvalidBlank, "cannot use _ as value or type")
 		} else {
-			check.errorf(e.Pos(), "undeclared name: %s", e.Name)
+			check.errorf(e, _UndeclaredName, "undeclared name: %s", e.Name)
 		}
 		return
 	}
@@ -63,7 +63,7 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, wantType bool)
 
 	switch obj := obj.(type) {
 	case *PkgName:
-		check.errorf(e.Pos(), "use of package %s not in selector", obj.name)
+		check.errorf(e, _InvalidPkgUse, "use of package %s not in selector", obj.name)
 		return
 
 	case *Const:
@@ -73,7 +73,7 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, wantType bool)
 		}
 		if obj == universeIota {
 			if check.iota == nil {
-				check.errorf(e.Pos(), "cannot use iota outside constant declaration")
+				check.errorf(e, _InvalidIota, "cannot use iota outside constant declaration")
 				return
 			}
 			x.val = check.iota
@@ -128,6 +128,7 @@ func (check *Checker) typ(e ast.Expr) Type {
 // (see ordinaryType).
 func (check *Checker) varType(e ast.Expr) Type {
 	typ := check.definedType(e, nil)
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	check.ordinaryType(e.Pos(), typ)
 	return typ
 }
@@ -148,6 +149,28 @@ func (check *Checker) ordinaryType(pos token.Pos, typ Type) {
 			}
 			if t.IsComparable() {
 				check.softErrorf(pos, "interface is (or embeds) comparable")
+=======
+	check.ordinaryType(e, typ)
+	return typ
+}
+
+// ordinaryType reports an error if typ is an interface type containing
+// type lists or is (or embeds) the predeclared type comparable.
+func (check *Checker) ordinaryType(pos positioner, typ Type) {
+	// We don't want to call under() (via asInterface) or complete interfaces
+	// while we are in the middle of type-checking parameter declarations that
+	// might belong to interface methods. Delay this check to the end of
+	// type-checking.
+	check.atEnd(func() {
+		if t := asInterface(typ); t != nil {
+			check.completeInterface(pos.Pos(), t) // TODO(gri) is this the correct position?
+			if t.allTypes != nil {
+				check.softErrorf(pos, _Todo, "interface contains type constraints (%s)", t.allTypes)
+				return
+			}
+			if t.IsComparable() {
+				check.softErrorf(pos, _Todo, "interface is (or embeds) comparable")
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			}
 		}
 	})
@@ -171,7 +194,11 @@ func (check *Checker) definedType(e ast.Expr, def *Named) Type {
 	typ := check.typInternal(e, def)
 	assert(isTyped(typ))
 	if isGeneric(typ) {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		check.errorf(e.Pos(), "cannot use generic type %s without instantiation", typ)
+=======
+		check.errorf(e, _Todo, "cannot use generic type %s without instantiation", typ)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		typ = Typ[Invalid]
 	}
 	check.recordTypeAndValue(e, typexpr, typ, nil)
@@ -184,7 +211,11 @@ func (check *Checker) genericType(e ast.Expr, reportErr bool) Type {
 	assert(isTyped(typ))
 	if typ != Typ[Invalid] && !isGeneric(typ) {
 		if reportErr {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			check.errorf(e.Pos(), "%s is not a generic type", typ)
+=======
+			check.errorf(e, _Todo, "%s is not a generic type", typ)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		}
 		typ = Typ[Invalid]
 	}
@@ -211,6 +242,7 @@ func isubst(x ast.Expr, smap map[*ast.Ident]*ast.Ident) ast.Expr {
 	case *ast.CallExpr:
 		var args []ast.Expr
 		for i, arg := range n.Args {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			Arg := isubst(arg, smap)
 			if Arg != arg {
 				if args == nil {
@@ -218,6 +250,15 @@ func isubst(x ast.Expr, smap map[*ast.Ident]*ast.Ident) ast.Expr {
 					copy(args, n.Args)
 				}
 				args[i] = Arg
+=======
+			new := isubst(arg, smap)
+			if new != arg {
+				if args == nil {
+					args = make([]ast.Expr, len(n.Args))
+					copy(args, n.Args)
+				}
+				args[i] = new
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			}
 		}
 		if args != nil {
@@ -288,6 +329,7 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 			// - only do this if we have the right number (otherwise an error is reported elsewhere)
 			if len(sig.rparams) == len(recvTParams) {
 				// We have a list of *TypeNames but we need a list of Types.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 				// While creating this list, also update type parameter pointer designation
 				// for each (*TypeParam) list entry, by copying the information from the
 				// receiver base type's type parameters.
@@ -331,6 +373,48 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 	results, _ := check.collectParams(scope, ftyp.Results, nil, false)
 	scope.Squash(func(obj, alt Object) {
 		check.errorf(obj.Pos(), "%s redeclared in this block", obj.Name())
+=======
+				list := make([]Type, len(sig.rparams))
+				for i, t := range sig.rparams {
+					list[i] = t.typ
+				}
+				smap := makeSubstMap(recvTParams, list)
+				for i, tname := range sig.rparams {
+					bound := recvTParams[i].typ.(*TypeParam).bound
+					// bound is (possibly) parameterized in the context of the
+					// receiver type declaration. Substitute parameters for the
+					// current context.
+					// TODO(gri) should we assume now that bounds always exist?
+					//           (no bound == empty interface)
+					if bound != nil {
+						bound = check.subst(tname.pos, bound, smap)
+						tname.typ.(*TypeParam).bound = bound
+					}
+				}
+			}
+		}
+	}
+
+	if ftyp.TParams != nil {
+		sig.tparams = check.collectTypeParams(ftyp.TParams)
+		// Always type-check method type parameters but complain that they are not allowed.
+		// (A separate check is needed when type-checking interface method signatures because
+		// they don't have a receiver specification.)
+		if recvPar != nil {
+			check.errorf(ftyp.TParams, _Todo, "methods cannot have type parameters")
+		}
+	}
+
+	// Value (non-type) parameters' scope starts in the function body. Use a temporary scope for their
+	// declarations and then squash that scope into the parent scope (and report any redeclarations at
+	// that time).
+	scope := NewScope(check.scope, token.NoPos, token.NoPos, "function body (temp. scope)")
+	recvList, _ := check.collectParams(scope, recvPar, recvTyp, false) // use rewritten receiver type, if any
+	params, variadic := check.collectParams(scope, ftyp.Params, nil, true)
+	results, _ := check.collectParams(scope, ftyp.Results, nil, false)
+	scope.Squash(func(obj, alt Object) {
+		check.errorf(obj, _DuplicateDecl, "%s redeclared in this block", obj.Name())
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		check.reportAltDecl(alt)
 	})
 
@@ -345,7 +429,7 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 			recv = NewParam(0, nil, "", Typ[Invalid]) // ignore recv below
 		default:
 			// more than one receiver
-			check.error(recvList[len(recvList)-1].Pos(), "method must have exactly one receiver")
+			check.error(recvList[len(recvList)-1], _BadRecv, "method must have exactly one receiver")
 			fallthrough // continue with first receiver
 		case 1:
 			recv = recvList[0]
@@ -381,7 +465,7 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 				err = "basic or unnamed type"
 			}
 			if err != "" {
-				check.errorf(recv.pos, "invalid receiver %s (%s)", recv.typ, err)
+				check.errorf(recv, _InvalidRecv, "invalid receiver %s (%s)", recv.typ, err)
 				// ok to continue
 			}
 		}
@@ -403,7 +487,11 @@ func goTypeName(typ Type) string {
 // Must only be called by definedType or genericType.
 //
 func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	if check.conf.Trace {
+=======
+	if trace {
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		check.trace(e0.Pos(), "type %s", e0)
 		check.indent++
 		defer func() {
@@ -440,9 +528,9 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 		case invalid:
 			// ignore - error reported before
 		case novalue:
-			check.errorf(x.pos(), "%s used as type", &x)
+			check.errorf(&x, _NotAType, "%s used as type", &x)
 		default:
-			check.errorf(x.pos(), "%s is not a type", &x)
+			check.errorf(&x, _NotAType, "%s is not a type", &x)
 		}
 
 	case *ast.SelectorExpr:
@@ -457,9 +545,19 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 		case invalid:
 			// ignore - error reported before
 		case novalue:
-			check.errorf(x.pos(), "%s used as type", &x)
+			check.errorf(&x, _NotAType, "%s used as type", &x)
 		default:
-			check.errorf(x.pos(), "%s is not a type", &x)
+			check.errorf(&x, _NotAType, "%s is not a type", &x)
+		}
+
+	case *ast.IndexExpr:
+		return check.instantiatedType(e.X, []ast.Expr{e.Index}, def)
+
+	case *ast.CallExpr:
+		if e.Brackets {
+			return check.instantiatedType(e.Fun, e.Args, def)
+		} else {
+			check.errorf(e0, _NotAType, "%s is not a type", e0)
 		}
 
 	case *ast.IndexExpr:
@@ -536,7 +634,11 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 				if asTypeParam(typ.key) != nil {
 					why = " (missing comparable constraint)"
 				}
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 				check.errorf(e.Key.Pos(), "invalid map key type %s%s", typ.key, why)
+=======
+				check.errorf(e.Key, _IncomparableMapKey, "incomparable map key type %s%s", typ.key, why)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			}
 		})
 
@@ -555,7 +657,7 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 		case ast.RECV:
 			dir = RecvOnly
 		default:
-			check.invalidAST(e.Pos(), "unknown channel direction %d", e.Dir)
+			check.invalidAST(e, "unknown channel direction %d", e.Dir)
 			// ok to continue
 		}
 
@@ -564,7 +666,11 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 		return typ
 
 	default:
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		check.errorf(e0.Pos(), "%s is not a type", e0)
+=======
+		check.errorf(e0, _NotAType, "%s is not a type", e0)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	}
 
 	typ := Typ[Invalid]
@@ -584,7 +690,7 @@ func (check *Checker) typeOrNil(e ast.Expr) Type {
 	case invalid:
 		// ignore - error reported before
 	case novalue:
-		check.errorf(x.pos(), "%s used as type", &x)
+		check.errorf(&x, _NotAType, "%s used as type", &x)
 	case typexpr:
 		check.instantiatedOperand(&x)
 		return x.typ
@@ -594,7 +700,7 @@ func (check *Checker) typeOrNil(e ast.Expr) Type {
 		}
 		fallthrough
 	default:
-		check.errorf(x.pos(), "%s is not a type", &x)
+		check.errorf(&x, _NotAType, "%s is not a type", &x)
 	}
 	return Typ[Invalid]
 }
@@ -609,9 +715,15 @@ func (check *Checker) instantiatedType(x ast.Expr, targs []ast.Expr, def *Named)
 		unreachable() // should have been caught by genericType
 	}
 
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	// create a new type Instance rather than instantiate the type
 	// TODO(gri) should do argument number check here rather than
 	// when instantiating the type?
+=======
+	// create a new type instance rather than instantiate the type
+	// TODO(gri) should do argument number check here rather than
+	//           when instantiating the type?
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	typ := new(instance)
 	def.setUnderlying(typ)
 
@@ -650,7 +762,7 @@ func (check *Checker) arrayLength(e ast.Expr) int64 {
 	check.expr(&x, e)
 	if x.mode != constant_ {
 		if x.mode != invalid {
-			check.errorf(x.pos(), "array length %s must be constant", &x)
+			check.errorf(&x, _InvalidArrayLen, "array length %s must be constant", &x)
 		}
 		return -1
 	}
@@ -660,12 +772,12 @@ func (check *Checker) arrayLength(e ast.Expr) int64 {
 				if n, ok := constant.Int64Val(val); ok && n >= 0 {
 					return n
 				}
-				check.errorf(x.pos(), "invalid array length %s", &x)
+				check.errorf(&x, _InvalidArrayLen, "invalid array length %s", &x)
 				return -1
 			}
 		}
 	}
-	check.errorf(x.pos(), "array length %s must be integer", &x)
+	check.errorf(&x, _InvalidArrayLen, "array length %s must be integer", &x)
 	return -1
 }
 
@@ -703,7 +815,7 @@ func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, type0 ast
 			if variadicOk && i == len(list.List)-1 && len(field.Names) <= 1 {
 				variadic = true
 			} else {
-				check.softErrorf(t.Pos(), "can only use ... with final parameter in list")
+				check.softErrorf(t, _MisplacedDotDotDot, "can only use ... with final parameter in list")
 				// ignore ... and continue
 			}
 		}
@@ -714,7 +826,7 @@ func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, type0 ast
 			// named parameter
 			for _, name := range field.Names {
 				if name.Name == "" {
-					check.invalidAST(name.Pos(), "anonymous parameter")
+					check.invalidAST(name, "anonymous parameter")
 					// ok to continue
 				}
 				par := NewParam(name.Pos(), check.pkg, name.Name, typ)
@@ -732,7 +844,7 @@ func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, type0 ast
 	}
 
 	if named && anonymous {
-		check.invalidAST(list.Pos(), "list contains both named and anonymous parameters")
+		check.invalidAST(list, "list contains both named and anonymous parameters")
 		// ok to continue
 	}
 
@@ -750,7 +862,7 @@ func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, type0 ast
 
 func (check *Checker) declareInSet(oset *objset, pos token.Pos, obj Object) bool {
 	if alt := oset.insert(obj); alt != nil {
-		check.errorf(pos, "%s redeclared", obj.Name())
+		check.errorf(atPos(pos), _DuplicateDecl, "%s redeclared", obj.Name())
 		check.reportAltDecl(alt)
 		return false
 	}
@@ -768,7 +880,7 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 			// and we don't care if a constructed AST has more.)
 			name := f.Names[0]
 			if name.Name == "_" {
-				check.errorf(name.Pos(), "invalid method name _")
+				check.errorf(name, _BlankIfaceMethod, "invalid method name _")
 				continue // ignore
 			}
 
@@ -778,7 +890,11 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 				// the author intended to include all types.
 				types = append(types, f.Type)
 				if tlist != nil && tlist != name {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 					check.errorf(name.Pos(), "cannot have multiple type lists in an interface")
+=======
+					check.errorf(name, _Todo, "cannot have multiple type lists in an interface")
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 				}
 				tlist = name
 				continue
@@ -788,7 +904,7 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 			sig, _ := typ.(*Signature)
 			if sig == nil {
 				if typ != Typ[Invalid] {
-					check.invalidAST(f.Type.Pos(), "%s is not a method signature", typ)
+					check.invalidAST(f.Type, "%s is not a method signature", typ)
 				}
 				continue // ignore
 			}
@@ -796,8 +912,13 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 			// Always type-check method type parameters but complain if they are not enabled.
 			// (This extra check is needed here because interface method signatures don't have
 			// a receiver specification.)
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			if sig.tparams != nil && !check.conf.AcceptMethodTypeParams {
 				check.errorf(f.Type.(*ast.FuncType).TParams.Pos(), "methods cannot have type parameters")
+=======
+			if sig.tparams != nil {
+				check.errorf(f.Type.(*ast.FuncType).TParams, _Todo, "methods cannot have type parameters")
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			}
 
 			// use named receiver type if available (for better error messages)
@@ -847,7 +968,11 @@ func (check *Checker) completeInterface(pos token.Pos, ityp *Interface) {
 		panic("internal error: incomplete interface")
 	}
 
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	if check.conf.Trace {
+=======
+	if trace {
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		// Types don't generally have position information.
 		// If we don't have a valid pos provided, try to use
 		// one close enough.
@@ -892,14 +1017,14 @@ func (check *Checker) completeInterface(pos token.Pos, ityp *Interface) {
 			methods = append(methods, m)
 			mpos[m] = pos
 		case explicit:
-			check.errorf(pos, "duplicate method %s", m.name)
-			check.errorf(mpos[other.(*Func)], "\tother declaration of %s", m.name) // secondary error, \t indented
+			check.errorf(atPos(pos), _DuplicateDecl, "duplicate method %s", m.name)
+			check.errorf(atPos(mpos[other.(*Func)]), _DuplicateDecl, "\tother declaration of %s", m.name) // secondary error, \t indented
 		default:
 			// check method signatures after all types are computed (issue #33656)
 			check.atEnd(func() {
 				if !check.identical(m.typ, other.Type()) {
-					check.errorf(pos, "duplicate method %s", m.name)
-					check.errorf(mpos[other.(*Func)], "\tother declaration of %s", m.name) // secondary error, \t indented
+					check.errorf(atPos(pos), _DuplicateDecl, "duplicate method %s", m.name)
+					check.errorf(atPos(mpos[other.(*Func)]), _DuplicateDecl, "\tother declaration of %s", m.name) // secondary error, \t indented
 				}
 			})
 		}
@@ -925,7 +1050,12 @@ func (check *Checker) completeInterface(pos token.Pos, ityp *Interface) {
 				} else {
 					format = "%s is not an interface"
 				}
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 				check.errorf(pos, format, typ)
+=======
+				// TODO: correct error code.
+				check.errorf(atPos(pos), _InvalidIfaceEmbed, format, typ)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			}
 			continue
 		}
@@ -962,8 +1092,13 @@ func intersect(x, y Type) (r Type) {
 		return x
 	}
 
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	xtypes := unpack(x)
 	ytypes := unpack(y)
+=======
+	xtypes := unpackType(x)
+	ytypes := unpackType(y)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	// Compute the list rtypes which includes only
 	// types that are in both xtypes and ytypes.
 	// Quadratic algorithm, but good enough for now.
@@ -1009,7 +1144,7 @@ func (check *Checker) tag(t *ast.BasicLit) string {
 				return val
 			}
 		}
-		check.invalidAST(t.Pos(), "incorrect tag syntax: %q", t.Value)
+		check.invalidAST(t, "incorrect tag syntax: %q", t.Value)
 	}
 	return ""
 }
@@ -1067,22 +1202,39 @@ func (check *Checker) structType(styp *Struct, e *ast.StructType) {
 			}
 		} else {
 			// embedded field
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			// spec: "An embedded type must be specified as a (possibly parenthesized) type name T or
 			// as a pointer to a non-interface type name *T, and T itself may not be a pointer type."
+=======
+			// spec: "An embedded type must be specified as a type name T or as a
+			// pointer to a non-interface type name *T, and T itself may not be a
+			// pointer type."
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			pos := f.Type.Pos()
 			name := embeddedFieldIdent(f.Type)
 			if name == nil {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 				check.errorf(pos, "invalid embedded field type %s", f.Type)
+=======
+				// TODO(rFindley): using invalidAST here causes test failures (all
+				//                 errors should have codes). Clean this up.
+				check.errorf(f.Type, _Todo, "invalid AST: embedded field type %s has no name", f.Type)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 				name = ast.NewIdent("_")
 				name.NamePos = pos
 				addInvalid(name, pos)
 				continue
 			}
 			add(name, true, pos)
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
+=======
+
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 			// Because we have a name, typ must be of the form T or *T, where T is the name
 			// of a (named or alias) type, and t (= deref(typ)) must be the type of T.
 			// We must delay this check to the end because we don't want to instantiate
 			// (via under(t)) a possibly incomplete type.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			embeddedTyp := typ // for closure below
 			embeddedPos := pos
 			check.atEnd(func() {
@@ -1102,6 +1254,30 @@ func (check *Checker) structType(styp *Struct, e *ast.StructType) {
 				case *Interface:
 					if isPtr {
 						check.errorf(embeddedPos, "embedded field type cannot be a pointer to an interface")
+=======
+
+			// for use in the closure below
+			embeddedTyp := typ
+			embeddedPos := f.Type
+
+			check.atEnd(func() {
+				t, isPtr := deref(embeddedTyp)
+				switch t := optype(t).(type) {
+				case *Basic:
+					if t == Typ[Invalid] {
+						// error was reported before
+						return
+					}
+					// unsafe.Pointer is treated like a regular pointer
+					if t.kind == UnsafePointer {
+						check.errorf(embeddedPos, _InvalidPtrEmbed, "embedded field type cannot be unsafe.Pointer")
+					}
+				case *Pointer:
+					check.errorf(embeddedPos, _InvalidPtrEmbed, "embedded field type cannot be a pointer")
+				case *Interface:
+					if isPtr {
+						check.errorf(embeddedPos, _InvalidPtrEmbed, "embedded field type cannot be a pointer to an interface")
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 					}
 				}
 			})
@@ -1123,10 +1299,19 @@ func embeddedFieldIdent(e ast.Expr) *ast.Ident {
 		}
 	case *ast.SelectorExpr:
 		return e.Sel
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	case *ast.CallExpr:
 		return embeddedFieldIdent(e.Fun)
 	case *ast.ParenExpr:
 		return embeddedFieldIdent(e.X)
+=======
+	case *ast.IndexExpr:
+		return embeddedFieldIdent(e.X)
+	case *ast.CallExpr:
+		if e.Brackets {
+			return embeddedFieldIdent(e.Fun)
+		}
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	}
 	return nil // invalid embedded field
 }
@@ -1135,6 +1320,7 @@ func (check *Checker) collectTypeConstraints(pos token.Pos, types []ast.Expr) []
 	list := make([]Type, 0, len(types)) // assume all types are correct
 	for _, texpr := range types {
 		if texpr == nil {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			check.invalidAST(pos, "missing type constraint")
 			continue
 		}
@@ -1236,4 +1422,38 @@ func (check *Checker) typeConstraint(typ Type, why *string) bool {
 		unreachable()
 	}
 	return true
+=======
+			check.invalidAST(atPos(pos), "missing type constraint")
+			continue
+		}
+		list = append(list, check.varType(texpr))
+	}
+
+	// Ensure that each type is only present once in the type list.  Types may be
+	// interfaces, which may not be complete yet. It's ok to do this check at the
+	// end because it's not a requirement for correctness of the code.
+	// Note: This is a quadratic algorithm, but type lists tend to be short.
+	check.atEnd(func() {
+		for i, t := range list {
+			if t := asInterface(t); t != nil {
+				check.completeInterface(types[i].Pos(), t)
+			}
+			if includes(list[:i], t) {
+				check.softErrorf(types[i], _Todo, "duplicate type %s in type list", t)
+			}
+		}
+	})
+
+	return list
+}
+
+// includes reports whether typ is in list.
+func includes(list []Type, typ Type) bool {
+	for _, e := range list {
+		if Identical(typ, e) {
+			return true
+		}
+	}
+	return false
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 }

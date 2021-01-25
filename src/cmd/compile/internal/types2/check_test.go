@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 // Copyright 2011 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -85,6 +86,104 @@ func delta(x, y uint) uint {
 func checkFiles(t *testing.T, sources []string, colDelta uint, trace bool) {
 	// parse files and collect parser errors
 	files, errlist := parseFiles(t, sources)
+=======
+// UNREVIEWED
+// Copyright 2011 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file implements a typechecker test harness. The packages specified
+// in tests are typechecked. Error messages reported by the typechecker are
+// compared against the error messages expected in the test files.
+//
+// Expected errors are indicated in the test files by putting a comment
+// of the form /* ERROR "rx" */ immediately following an offending token.
+// The harness will verify that an error matching the regular expression
+// rx is reported at that source position. Consecutive comments may be
+// used to indicate multiple errors for the same token position.
+//
+// For instance, the following test file indicates that a "not declared"
+// error should be reported for the undeclared variable x:
+//
+//	package p
+//	func f() {
+//		_ = x /* ERROR "not declared" */ + 1
+//	}
+
+// TODO(gri) Also collect strict mode errors of the form /* STRICT ... */
+//           and test against strict mode.
+
+package types2_test
+
+import (
+	"cmd/compile/internal/syntax"
+	"flag"
+	"fmt"
+	"internal/testenv"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
+	"testing"
+
+	. "cmd/compile/internal/types2"
+)
+
+var (
+	haltOnError = flag.Bool("halt", false, "halt on error")
+	listErrors  = flag.Bool("errlist", false, "list errors")
+	testFiles   = flag.String("files", "", "space-separated list of test files")
+)
+
+func parseFiles(t *testing.T, filenames []string, mode syntax.Mode) ([]*syntax.File, []error) {
+	var files []*syntax.File
+	var errlist []error
+	errh := func(err error) { errlist = append(errlist, err) }
+	for _, filename := range filenames {
+		file, err := syntax.ParseFile(filename, errh, nil, mode)
+		if file == nil {
+			t.Fatalf("%s: %s", filename, err)
+		}
+		files = append(files, file)
+	}
+	return files, errlist
+}
+
+func unpackError(err error) syntax.Error {
+	switch err := err.(type) {
+	case syntax.Error:
+		return err
+	case Error:
+		return syntax.Error{Pos: err.Pos, Msg: err.Msg}
+	default:
+		return syntax.Error{Msg: err.Error()}
+	}
+}
+
+func delta(x, y uint) uint {
+	switch {
+	case x < y:
+		return y - x
+	case x > y:
+		return x - y
+	default:
+		return 0
+	}
+}
+
+func checkFiles(t *testing.T, sources []string, colDelta uint, trace bool) {
+	if len(sources) == 0 {
+		t.Fatal("no source files")
+	}
+
+	var mode syntax.Mode
+	if strings.HasSuffix(sources[0], ".go2") {
+		mode |= syntax.AllowGenerics
+	}
+	// parse files and collect parser errors
+	files, errlist := parseFiles(t, sources, mode)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 
 	pkgName := "<no package>"
 	if len(files) > 0 {

@@ -313,6 +313,7 @@ func writeTypeList(buf *bytes.Buffer, list []Type, qf Qualifier, visited []Type)
 }
 
 func writeTParamList(buf *bytes.Buffer, list []*TypeName, qf Qualifier, visited []Type) {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	// bound returns the type bound for tname. The result is never nil.
 	bound := func(tname *TypeName) Type {
 		// be careful to avoid crashes in case of inconsistencies
@@ -358,6 +359,34 @@ func writeTParamList(buf *bytes.Buffer, list []*TypeName, qf Qualifier, visited 
 		}
 	}
 	if writeBounds && prev != nil {
+=======
+	// TODO(rFindley) compare this with the corresponding implementation in types2
+	buf.WriteString("[")
+	var prev Type
+	for i, p := range list {
+		// TODO(rFindley) support 'any' sugar here.
+		var b Type = &emptyInterface
+		if t, _ := p.typ.(*TypeParam); t != nil && t.bound != nil {
+			b = t.bound
+		}
+		if i > 0 {
+			if b != prev {
+				// type bound changed - write previous one before advancing
+				buf.WriteByte(' ')
+				writeType(buf, prev, qf, visited)
+			}
+			buf.WriteString(", ")
+		}
+		prev = b
+
+		if t, _ := p.typ.(*TypeParam); t != nil {
+			writeType(buf, t, qf, visited)
+		} else {
+			buf.WriteString(p.name)
+		}
+	}
+	if prev != nil {
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		buf.WriteByte(' ')
 		writeType(buf, prev, qf, visited)
 	}

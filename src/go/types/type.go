@@ -207,8 +207,13 @@ type Signature struct {
 	// and store it in the Func Object) because when type-checking a function
 	// literal we call the general type checker which returns a general Type.
 	// We then unpack the *Signature and use the scope for the literal body.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	rparams  []*TypeName // reveiver type parameters from left to right; or nil
 	tparams  []*TypeName // type parameters from left to right; or nil
+=======
+	rparams  []*TypeName // receiver type parameters from left to right, or nil
+	tparams  []*TypeName // type parameters from left to right, or nil
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	scope    *Scope      // function scope, present for package-local signatures
 	recv     *Var        // nil if not a method
 	params   *Tuple      // (incoming) parameters from left to right; or nil
@@ -317,6 +322,7 @@ type Interface struct {
 
 // unpack unpacks a type into a list of types.
 // TODO(gri) Try to eliminate the need for this function.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 func unpack(typ Type) []Type {
 	if typ == nil {
 		return nil
@@ -333,6 +339,24 @@ func (t *Interface) is(pred func(Type) bool) bool {
 		return false // we must have at least one type! (was bug)
 	}
 	for _, t := range unpack(t.allTypes) {
+=======
+func unpackType(typ Type) []Type {
+	if typ == nil {
+		return nil
+	}
+	if sum := asSum(typ); sum != nil {
+		return sum.types
+	}
+	return []Type{typ}
+}
+
+// is reports whether interface t represents types that all satisfy pred.
+func (t *Interface) is(pred func(Type) bool) bool {
+	if t.allTypes == nil {
+		return false // we must have at least one type! (was bug)
+	}
+	for _, t := range unpackType(t.allTypes) {
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		if !pred(t) {
 			return false
 		}
@@ -443,6 +467,7 @@ func (t *Interface) Empty() bool {
 		return len(t.allMethods) == 0 && t.allTypes == nil
 	}
 	return !t.iterate(func(t *Interface) bool {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		if len(t.methods) > 0 || t.types != nil {
 			return true
 		}
@@ -535,6 +560,94 @@ func (t *Interface) isSatisfiedBy(typ Type) bool {
 		return true
 	}
 	types := unpack(t.allTypes)
+=======
+		return len(t.methods) > 0 || t.types != nil
+	}, nil)
+}
+
+// HasTypeList reports whether interface t has a type list, possibly from an embedded type.
+func (t *Interface) HasTypeList() bool {
+	if t.allMethods != nil {
+		// interface is complete - quick test
+		return t.allTypes != nil
+	}
+
+	return t.iterate(func(t *Interface) bool {
+		return t.types != nil
+	}, nil)
+}
+
+// IsComparable reports whether interface t is or embeds the predeclared interface "comparable".
+func (t *Interface) IsComparable() bool {
+	if t.allMethods != nil {
+		// interface is complete - quick test
+		_, m := lookupMethod(t.allMethods, nil, "==")
+		return m != nil
+	}
+
+	return t.iterate(func(t *Interface) bool {
+		_, m := lookupMethod(t.methods, nil, "==")
+		return m != nil
+	}, nil)
+}
+
+// IsConstraint reports t.HasTypeList() || t.IsComparable().
+func (t *Interface) IsConstraint() bool {
+	if t.allMethods != nil {
+		// interface is complete - quick test
+		if t.allTypes != nil {
+			return true
+		}
+		_, m := lookupMethod(t.allMethods, nil, "==")
+		return m != nil
+	}
+
+	return t.iterate(func(t *Interface) bool {
+		if t.types != nil {
+			return true
+		}
+		_, m := lookupMethod(t.methods, nil, "==")
+		return m != nil
+	}, nil)
+}
+
+// iterate calls f with t and then with any embedded interface of t, recursively, until f returns true.
+// iterate reports whether any call to f returned true.
+func (t *Interface) iterate(f func(*Interface) bool, seen map[*Interface]bool) bool {
+	if f(t) {
+		return true
+	}
+	for _, e := range t.embeddeds {
+		// e should be an interface but be careful (it may be invalid)
+		if e := asInterface(e); e != nil {
+			// Cyclic interfaces such as "type E interface { E }" are not permitted
+			// but they are still constructed and we need to detect such cycles.
+			if seen[e] {
+				continue
+			}
+			if seen == nil {
+				seen = make(map[*Interface]bool)
+			}
+			seen[e] = true
+			if e.iterate(f, seen) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// isSatisfiedBy reports whether interface t's type list is satisfied by the type typ.
+// If the the type list is empty (absent), typ trivially satisfies the interface.
+// TODO(gri) This is not a great name. Eventually, we should have a more comprehensive
+//           "implements" predicate.
+func (t *Interface) isSatisfiedBy(typ Type) bool {
+	t.Complete()
+	if t.allTypes == nil {
+		return true
+	}
+	types := unpackType(t.allTypes)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	return includes(types, typ) || includes(types, under(typ))
 }
 
@@ -726,13 +839,17 @@ func (t *Named) AddMethod(m *Func) {
 type TypeParam struct {
 	check *Checker  // for lazy type bound completion
 	id    uint64    // unique id
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	ptr   bool      // pointer designation
+=======
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	obj   *TypeName // corresponding type name
 	index int       // parameter index
 	bound Type      // *Named or *Interface; underlying type is always *Interface
 }
 
 // NewTypeParam returns a new TypeParam.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 func (check *Checker) NewTypeParam(ptr bool, obj *TypeName, index int, bound Type) *TypeParam {
 	assert(bound != nil)
 	typ := &TypeParam{check: check, id: check.nextId, ptr: ptr, obj: obj, index: index, bound: bound}
@@ -766,6 +883,42 @@ func optype(typ Type) Type {
 		// If the optype is typ, return the top type as we have
 		// no information. It also prevents infinite recursion
 		// via the TypeParam converter methods. This can happen
+=======
+func (check *Checker) NewTypeParam(obj *TypeName, index int, bound Type) *TypeParam {
+	assert(bound != nil)
+	typ := &TypeParam{check: check, id: check.nextId, obj: obj, index: index, bound: bound}
+	check.nextId++
+	if obj.typ == nil {
+		obj.typ = typ
+	}
+	return typ
+}
+
+func (t *TypeParam) Bound() *Interface {
+	iface := asInterface(t.bound)
+	// use the type bound position if we have one
+	pos := token.NoPos
+	if n, _ := t.bound.(*Named); n != nil {
+		pos = n.obj.pos
+	}
+	// TODO(rFindley) switch this to an unexported method on Checker.
+	t.check.completeInterface(pos, iface)
+	return iface
+}
+
+// optype returns a type's operational type. Except for
+// type parameters, the operational type is the same
+// as the underlying type (as returned by under). For
+// Type parameters, the operational type is determined
+// by the corresponding type bound's type list. The
+// result may be the bottom or top type, but it is never
+// the incoming type parameter.
+func optype(typ Type) Type {
+	if t := asTypeParam(typ); t != nil {
+		// If the optype is typ, return the top type as we have
+		// no information. It also prevents infinite recursion
+		// via the asTypeParam converter function. This can happen
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		// for a type parameter list of the form:
 		// (type T interface { type T }).
 		// See also issue #39680.

@@ -190,8 +190,13 @@ type eD struct {
 }
 
 var (
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	_ = eD{}.xf /* ERROR ambiguous selector \(eD literal\).xf */
 	_ = eD{}.xm /* ERROR ambiguous selector \(eD literal\).xm */
+=======
+	_ = eD{}.xf /* ERROR ambiguous selector eD\{\}.xf */
+	_ = eD{}.xm /* ERROR ambiguous selector eD\{\}.xm */
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 )
 
 var (

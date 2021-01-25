@@ -39,7 +39,11 @@ func (t T1[[ /* ERROR must be an identifier */ ]int]) m2() {}
 // and usually should be avoided. There are some notable exceptions; e.g.,
 // sometimes it makes sense to use the identifier "copy" which happens to
 // also be the name of a predeclared built-in function.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 func (t T1[int]) m3() { var _ int = 42 /* ERROR cannot convert 42 .* to int */ }
+=======
+func (t T1[int]) m3() { var _ int = 42 /* ERROR cannot use 42 .* as int */ }
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 
 // The names of the type parameters used in a parameterized receiver
 // type don't have to match the type parameter names in the the declaration

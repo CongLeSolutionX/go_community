@@ -1272,12 +1272,35 @@ func (p *trimmer) Write(data []byte) (n int, err error) {
 type Mode uint
 
 const (
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	RawFormat   Mode = 1 << iota // do not use a tabwriter; if set, UseSpaces is ignored
 	TabIndent                    // use tabs for indentation independent of UseSpaces
 	UseSpaces                    // use spaces instead of tabs for alignment
 	SourcePos                    // emit //line directives to preserve original source positions
 	StdFormat                    // apply standard formatting changes (exact byte output may change between versions of Go)
 	UseBrackets                  // use square brackets instead of parentheses for type parameters (implies unified parameter syntax)
+=======
+	RawFormat Mode = 1 << iota // do not use a tabwriter; if set, UseSpaces is ignored
+	TabIndent                  // use tabs for indentation independent of UseSpaces
+	UseSpaces                  // use spaces instead of tabs for alignment
+	SourcePos                  // emit //line directives to preserve original source positions
+)
+
+// The mode below is not included in printer's public API because
+// editing code text is deemed out of scope. Because this mode is
+// unexported, it's also possible to modify or remove it based on
+// the evolving needs of go/format and cmd/gofmt without breaking
+// users. See discussion in CL 240683.
+const (
+	// normalizeNumbers means to canonicalize number
+	// literal prefixes and exponents while printing.
+	//
+	// This value is known in and used by go/format and cmd/gofmt.
+	// It is currently more convenient and performant for those
+	// packages to apply number normalization during printing,
+	// rather than by modifying the AST in advance.
+	normalizeNumbers Mode = 1 << 30
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 )
 
 // A Config node controls the output of Fprint.

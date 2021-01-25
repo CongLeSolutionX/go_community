@@ -283,7 +283,11 @@ func delete1() {
 	delete() // ERROR not enough arguments
 	delete(1) // ERROR not enough arguments
 	delete(1, 2, 3) // ERROR too many arguments
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	delete(m, 0 /* ERROR not assignable */)
+=======
+	delete(m, 0 /* ERROR cannot convert */)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	delete(m, s)
 	_ = delete /* ERROR used as value */ (m, s)
 

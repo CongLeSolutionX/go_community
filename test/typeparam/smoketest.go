@@ -30,6 +30,7 @@ type _ T3[bool]
 
 // methods
 func (T1[P]) m1() {}
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 func (x T2[P1, P2, P3]) m1() {}
 func (_ T3[_]) m1() {}
 
@@ -40,6 +41,17 @@ type _ interface {
 	type int, float32, string
 	m3()
 	type bool
+=======
+func (T1[_]) m2() {}
+func (x T2[P1, P2, P3]) m() {}
+
+// type lists
+type _ interface {
+	m1()
+	m2()
+	type int, float32, string
+	m3()
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 }
 
 // embedded instantiated types

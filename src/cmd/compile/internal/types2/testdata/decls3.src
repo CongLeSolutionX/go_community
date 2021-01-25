@@ -221,6 +221,7 @@ func _() {
 	_ = S2{}.B
 	_ = S2{}.C
 	_ = S2{}.D /* ERROR "no field or method" */
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	_ = S3{}.S1 /* ERROR "ambiguous selector \(S3 literal\).S1" */
 	_ = S3{}.A
 	_ = S3{}.B /* ERROR "ambiguous selector" \(S3 literal\).B */
@@ -307,3 +308,91 @@ type R23 R21
 type R24 R21
 
 var _ = R0{}.X /* ERROR "ambiguous selector \(R0 literal\).X" */
+=======
+	_ = S3{}.S1 /* ERROR "ambiguous selector S3\{\}.S1" */
+	_ = S3{}.A
+	_ = S3{}.B /* ERROR "ambiguous selector" S3\{\}.B */
+	_ = S3{}.D
+	_ = S3{}.E
+	_ = S4{}.A
+	_ = S4{}.B /* ERROR "no field or method" */
+	_ = S5{}.X /* ERROR "ambiguous selector S5\{\}.X" */
+	_ = S5{}.Y
+	_ = S10{}.X /* ERROR "ambiguous selector S10\{\}.X" */
+	_ = S10{}.Y
+}
+
+// Borrowed from the FieldByName benchmark in reflect/all_test.go.
+
+type R0 struct {
+	*R1
+	*R2
+	*R3
+	*R4
+}
+
+type R1 struct {
+	*R5
+	*R6
+	*R7
+	*R8
+}
+
+type R2 R1
+type R3 R1
+type R4 R1
+
+type R5 struct {
+	*R9
+	*R10
+	*R11
+	*R12
+}
+
+type R6 R5
+type R7 R5
+type R8 R5
+
+type R9 struct {
+	*R13
+	*R14
+	*R15
+	*R16
+}
+
+type R10 R9
+type R11 R9
+type R12 R9
+
+type R13 struct {
+	*R17
+	*R18
+	*R19
+	*R20
+}
+
+type R14 R13
+type R15 R13
+type R16 R13
+
+type R17 struct {
+	*R21
+	*R22
+	*R23
+	*R24
+}
+
+type R18 R17
+type R19 R17
+type R20 R17
+
+type R21 struct {
+	X int
+}
+
+type R22 R21
+type R23 R21
+type R24 R21
+
+var _ = R0{}.X /* ERROR "ambiguous selector R0\{\}.X" */
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)

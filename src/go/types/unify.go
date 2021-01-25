@@ -65,6 +65,7 @@ type tparamsList struct {
 	unifier *unifier
 	tparams []*TypeName
 	// For each tparams element, there is a corresponding type slot index in indices.
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	// index  < 0: unifier.types[-index] == nil
 	// index == 0: no type slot allocated yet
 	// index  > 0: unifier.types[index] == typ
@@ -127,6 +128,66 @@ func (u *unifier) join(i, j int) bool {
 	default:
 		// Neither type parameter has an inferred type. Use y slot for x
 		// (or x slot for y, it doesn't matter).
+=======
+	// index  < 0: unifier.types[-index-1] == nil
+	// index == 0: no type slot allocated yet
+	// index  > 0: unifier.types[index-1] == typ
+	// Joined tparams elements share the same type slot and thus have the same index.
+	// By using a negative index for nil types we don't need to check unifier.types
+	// to see if we have a type or not.
+	indices []int // len(d.indices) == len(d.tparams)
+}
+
+// init initializes d with the given type parameters.
+// The type parameters must be in the order in which they appear in their declaration
+// (this ensures that the tparams indices match the respective type parameter index).
+func (d *tparamsList) init(tparams []*TypeName) {
+	if len(tparams) == 0 {
+		return
+	}
+	if debug {
+		for i, tpar := range tparams {
+			assert(i == tpar.typ.(*TypeParam).index)
+		}
+	}
+	d.tparams = tparams
+	d.indices = make([]int, len(tparams))
+}
+
+// join unifies the i'th type parameter of x with the j'th type parameter of y.
+// If both type parameters already have a type associated with them and they are
+// not joined, join fails and return false.
+func (u *unifier) join(i, j int) bool {
+	ti := u.x.indices[i]
+	tj := u.y.indices[j]
+	switch {
+	case ti == 0 && tj == 0:
+		// Neither type parameter has a type slot associated with them.
+		// Allocate a new joined nil type slot (negative index).
+		u.types = append(u.types, nil)
+		u.x.indices[i] = -len(u.types)
+		u.y.indices[j] = -len(u.types)
+	case ti == 0:
+		// The type parameter for x has no type slot yet. Use slot of y.
+		u.x.indices[i] = tj
+	case tj == 0:
+		// The type parameter for y has no type slot yet. Use slot of x.
+		u.y.indices[j] = ti
+
+	// Both type parameters have a slot: ti != 0 && tj != 0.
+	case ti == tj:
+		// Both type parameters already share the same slot. Nothing to do.
+		break
+	case ti > 0 && tj > 0:
+		// Both type parameters have (possibly different) inferred types. Cannot join.
+		return false
+	case ti > 0:
+		// Only the type parameter for x has an inferred type. Use x slot for y.
+		u.y.setIndex(j, ti)
+	default:
+		// Either the type parameter for y has an inferred type, or neither type
+		// parameter has an inferred type. In either case, use y slot for x.
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		u.x.setIndex(i, tj)
 	}
 	return true

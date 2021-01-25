@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 // Copyright 2013 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -187,6 +188,203 @@ func TestStdFixed(t *testing.T) {
 		"issue20780.go",  // go/types does not have constraints on stack size
 		"issue31747.go",  // go/types does not have constraints on language level (-lang=go1.12) (see #31793)
 		"issue34329.go",  // go/types does not have constraints on language level (-lang=go1.13) (see #31793)
+=======
+// UNREVIEWED
+// Copyright 2013 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file tests types.Check by using it to
+// typecheck the standard library and tests.
+
+package types2_test
+
+import (
+	"bytes"
+	"cmd/compile/internal/syntax"
+	"fmt"
+	"go/build"
+	"internal/testenv"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"runtime"
+	"strings"
+	"testing"
+	"time"
+
+	. "cmd/compile/internal/types2"
+)
+
+var stdLibImporter = defaultImporter()
+
+func TestStdlib(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	pkgCount := 0
+	duration := walkPkgDirs(filepath.Join(runtime.GOROOT(), "src"), func(dir string, filenames []string) {
+		typecheck(t, dir, filenames)
+		pkgCount++
+	}, t.Error)
+
+	if testing.Verbose() {
+		fmt.Println(pkgCount, "packages typechecked in", duration)
+	}
+}
+
+// firstComment returns the contents of the first non-empty comment in
+// the given file, "skip", or the empty string. No matter the present
+// comments, if any of them contains a build tag, the result is always
+// "skip". Only comments within the first 4K of the file are considered.
+// TODO(gri) should only read until we see "package" token.
+func firstComment(filename string) (first string) {
+	f, err := os.Open(filename)
+	if err != nil {
+		return ""
+	}
+	defer f.Close()
+
+	// read at most 4KB
+	var buf [4 << 10]byte
+	n, _ := f.Read(buf[:])
+	src := bytes.NewBuffer(buf[:n])
+
+	// TODO(gri) we need a better way to terminate CommentsDo
+	defer func() {
+		if p := recover(); p != nil {
+			if s, ok := p.(string); ok {
+				first = s
+			}
+		}
+	}()
+
+	syntax.CommentsDo(src, func(_, _ uint, text string) {
+		if text[0] != '/' {
+			return // not a comment
+		}
+
+		// extract comment text
+		if text[1] == '*' {
+			text = text[:len(text)-2]
+		}
+		text = strings.TrimSpace(text[2:])
+
+		if strings.HasPrefix(text, "+build ") {
+			panic("skip")
+		}
+		if first == "" {
+			first = text // text may be "" but that's ok
+		}
+		// continue as we may still see build tags
+	})
+
+	return
+}
+
+func testTestDir(t *testing.T, path string, ignore ...string) {
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	excluded := make(map[string]bool)
+	for _, filename := range ignore {
+		excluded[filename] = true
+	}
+
+	for _, f := range files {
+		// filter directory contents
+		if f.IsDir() || !strings.HasSuffix(f.Name(), ".go") || excluded[f.Name()] {
+			continue
+		}
+
+		// get per-file instructions
+		expectErrors := false
+		filename := filepath.Join(path, f.Name())
+		if comment := firstComment(filename); comment != "" {
+			fields := strings.Fields(comment)
+			switch fields[0] {
+			case "skip", "compiledir":
+				continue // ignore this file
+			case "errorcheck":
+				expectErrors = true
+				for _, arg := range fields[1:] {
+					if arg == "-0" || arg == "-+" || arg == "-std" {
+						// Marked explicitly as not expected errors (-0),
+						// or marked as compiling runtime/stdlib, which is only done
+						// to trigger runtime/stdlib-only error output.
+						// In both cases, the code should typecheck.
+						expectErrors = false
+						break
+					}
+				}
+			}
+		}
+
+		// parse and type-check file
+		if testing.Verbose() {
+			fmt.Println("\t", filename)
+		}
+		file, err := syntax.ParseFile(filename, nil, nil, 0)
+		if err == nil {
+			conf := Config{Importer: stdLibImporter}
+			_, err = conf.Check(filename, []*syntax.File{file}, nil)
+		}
+
+		if expectErrors {
+			if err == nil {
+				t.Errorf("expected errors but found none in %s", filename)
+			}
+		} else {
+			if err != nil {
+				t.Error(err)
+			}
+		}
+	}
+}
+
+func TestStdTest(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	if testing.Short() && testenv.Builder() == "" {
+		t.Skip("skipping in short mode")
+	}
+
+	testTestDir(t, filepath.Join(runtime.GOROOT(), "test"),
+		"cmplxdivide.go", // also needs file cmplxdivide1.go - ignore
+		"directive.go",   // tests compiler rejection of bad directive placement - ignore
+		"embedfunc.go",   // tests //go:embed
+		"embedvers.go",   // tests //go:embed
+		"linkname2.go",   // types2 doesn't check validity of //go:xxx directives
+	)
+}
+
+func TestStdFixed(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	if testing.Short() && testenv.Builder() == "" {
+		t.Skip("skipping in short mode")
+	}
+
+	testTestDir(t, filepath.Join(runtime.GOROOT(), "test", "fixedbugs"),
+		"bug248.go", "bug302.go", "bug369.go", // complex test instructions - ignore
+		"issue6889.go",   // gc-specific test
+		"issue7746.go",   // large constants - consumes too much memory
+		"issue11362.go",  // canonical import path check
+		"issue16369.go",  // go/types handles this correctly - not an issue
+		"issue18459.go",  // go/types doesn't check validity of //go:xxx directives
+		"issue18882.go",  // go/types doesn't check validity of //go:xxx directives
+		"issue20232.go",  // go/types handles larger constants than gc
+		"issue20529.go",  // go/types does not have constraints on stack size
+		"issue22200.go",  // go/types does not have constraints on stack size
+		"issue22200b.go", // go/types does not have constraints on stack size
+		"issue25507.go",  // go/types does not have constraints on stack size
+		"issue20780.go",  // go/types does not have constraints on stack size
+		"issue31747.go",  // go/types does not have constraints on language level (-lang=go1.12) (see #31793)
+		"issue34329.go",  // go/types does not have constraints on language level (-lang=go1.13) (see #31793)
+		"issue42058a.go", // go/types does not have constraints on channel element size
+		"issue42058b.go", // go/types does not have constraints on channel element size
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		"bug251.go",      // issue #34333 which was exposed with fix for #34151
 	)
 }

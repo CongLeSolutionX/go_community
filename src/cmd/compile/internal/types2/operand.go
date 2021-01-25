@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 // Copyright 2012 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -219,6 +220,251 @@ func (x *operand) setConst(k syntax.LitKind, lit string) {
 func (x *operand) isNil() bool {
 	return x.mode == value && x.typ == Typ[UntypedNil]
 }
+=======
+// UNREVIEWED
+// Copyright 2012 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file defines operands and associated operations.
+
+package types2
+
+import (
+	"bytes"
+	"cmd/compile/internal/syntax"
+	"fmt"
+	"go/constant"
+	"go/token"
+)
+
+// An operandMode specifies the (addressing) mode of an operand.
+type operandMode byte
+
+const (
+	invalid   operandMode = iota // operand is invalid
+	novalue                      // operand represents no value (result of a function call w/o result)
+	builtin                      // operand is a built-in function
+	typexpr                      // operand is a type
+	constant_                    // operand is a constant; the operand's typ is a Basic type
+	variable                     // operand is an addressable variable
+	mapindex                     // operand is a map index expression (acts like a variable on lhs, commaok on rhs of an assignment)
+	value                        // operand is a computed value
+	nilvalue                     // operand is the nil value
+	commaok                      // like value, but operand may be used in a comma,ok expression
+	commaerr                     // like commaok, but second value is error, not boolean
+	cgofunc                      // operand is a cgo function
+)
+
+var operandModeString = [...]string{
+	invalid:   "invalid operand",
+	novalue:   "no value",
+	builtin:   "built-in",
+	typexpr:   "type",
+	constant_: "constant",
+	variable:  "variable",
+	mapindex:  "map index expression",
+	value:     "value",
+	nilvalue:  "nil",
+	commaok:   "comma, ok expression",
+	commaerr:  "comma, error expression",
+	cgofunc:   "cgo function",
+}
+
+// An operand represents an intermediate value during type checking.
+// Operands have an (addressing) mode, the expression evaluating to
+// the operand, the operand's type, a value for constants, and an id
+// for built-in functions.
+// The zero value of operand is a ready to use invalid operand.
+//
+type operand struct {
+	mode operandMode
+	expr syntax.Expr
+	typ  Type
+	val  constant.Value
+	id   builtinId
+}
+
+// Pos returns the position of the expression corresponding to x.
+// If x is invalid the position is nopos.
+//
+func (x *operand) Pos() syntax.Pos {
+	// x.expr may not be set if x is invalid
+	if x.expr == nil {
+		return nopos
+	}
+	return x.expr.Pos()
+}
+
+// Operand string formats
+// (not all "untyped" cases can appear due to the type system,
+// but they fall out naturally here)
+//
+// mode       format
+//
+// invalid    <expr> (               <mode>                    )
+// novalue    <expr> (               <mode>                    )
+// builtin    <expr> (               <mode>                    )
+// typexpr    <expr> (               <mode>                    )
+//
+// constant   <expr> (<untyped kind> <mode>                    )
+// constant   <expr> (               <mode>       of type <typ>)
+// constant   <expr> (<untyped kind> <mode> <val>              )
+// constant   <expr> (               <mode> <val> of type <typ>)
+//
+// variable   <expr> (<untyped kind> <mode>                    )
+// variable   <expr> (               <mode>       of type <typ>)
+//
+// mapindex   <expr> (<untyped kind> <mode>                    )
+// mapindex   <expr> (               <mode>       of type <typ>)
+//
+// value      <expr> (<untyped kind> <mode>                    )
+// value      <expr> (               <mode>       of type <typ>)
+//
+// nilvalue   untyped nil
+// nilvalue   nil    (                            of type <typ>)
+//
+// commaok    <expr> (<untyped kind> <mode>                    )
+// commaok    <expr> (               <mode>       of type <typ>)
+//
+// commaerr   <expr> (<untyped kind> <mode>                    )
+// commaerr   <expr> (               <mode>       of type <typ>)
+//
+// cgofunc    <expr> (<untyped kind> <mode>                    )
+// cgofunc    <expr> (               <mode>       of type <typ>)
+//
+func operandString(x *operand, qf Qualifier) string {
+	// special-case nil
+	if x.mode == nilvalue {
+		switch x.typ {
+		case nil, Typ[Invalid]:
+			return "nil (with invalid type)"
+		case Typ[UntypedNil]:
+			return "untyped nil"
+		default:
+			return fmt.Sprintf("nil (of type %s)", TypeString(x.typ, qf))
+		}
+	}
+
+	var buf bytes.Buffer
+
+	var expr string
+	if x.expr != nil {
+		expr = syntax.String(x.expr)
+	} else {
+		switch x.mode {
+		case builtin:
+			expr = predeclaredFuncs[x.id].name
+		case typexpr:
+			expr = TypeString(x.typ, qf)
+		case constant_:
+			expr = x.val.String()
+		}
+	}
+
+	// <expr> (
+	if expr != "" {
+		buf.WriteString(expr)
+		buf.WriteString(" (")
+	}
+
+	// <untyped kind>
+	hasType := false
+	switch x.mode {
+	case invalid, novalue, builtin, typexpr:
+		// no type
+	default:
+		// should have a type, but be cautious (don't crash during printing)
+		if x.typ != nil {
+			if isUntyped(x.typ) {
+				buf.WriteString(x.typ.(*Basic).name)
+				buf.WriteByte(' ')
+				break
+			}
+			hasType = true
+		}
+	}
+
+	// <mode>
+	buf.WriteString(operandModeString[x.mode])
+
+	// <val>
+	if x.mode == constant_ {
+		if s := x.val.String(); s != expr {
+			buf.WriteByte(' ')
+			buf.WriteString(s)
+		}
+	}
+
+	// <typ>
+	if hasType {
+		if x.typ != Typ[Invalid] {
+			var intro string
+			switch {
+			case isGeneric(x.typ):
+				intro = " of generic type "
+			case x.typ.TypeParam() != nil:
+				intro = " of type parameter type "
+			default:
+				intro = " of type "
+			}
+			buf.WriteString(intro)
+			WriteType(&buf, x.typ, qf)
+		} else {
+			buf.WriteString(" with invalid type")
+		}
+	}
+
+	// )
+	if expr != "" {
+		buf.WriteByte(')')
+	}
+
+	return buf.String()
+}
+
+func (x *operand) String() string {
+	return operandString(x, nil)
+}
+
+// setConst sets x to the untyped constant for literal lit.
+func (x *operand) setConst(k syntax.LitKind, lit string) {
+	var tok token.Token
+	var kind BasicKind
+	switch k {
+	case syntax.IntLit:
+		tok = token.INT
+		kind = UntypedInt
+	case syntax.FloatLit:
+		tok = token.FLOAT
+		kind = UntypedFloat
+	case syntax.ImagLit:
+		tok = token.IMAG
+		kind = UntypedComplex
+	case syntax.RuneLit:
+		tok = token.CHAR
+		kind = UntypedRune
+	case syntax.StringLit:
+		tok = token.STRING
+		kind = UntypedString
+	default:
+		unreachable()
+	}
+
+	val := constant.MakeFromLiteral(lit, tok, 0)
+	if val.Kind() == constant.Unknown {
+		x.mode = invalid
+		x.typ = Typ[Invalid]
+		return
+	}
+	x.mode = constant_
+	x.typ = Typ[kind]
+	x.val = val
+}
+
+// isNil reports whether x is a typed or the untyped nil value.
+func (x *operand) isNil() bool { return x.mode == nilvalue }
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 
 // TODO(gri) The functions operand.assignableTo, checker.convertUntyped,
 //           checker.representable, and checker.assignment are

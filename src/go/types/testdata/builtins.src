@@ -25,19 +25,28 @@ func append1() {
 	_ = append(s, b)
 	_ = append(s, x /* ERROR cannot use x */ )
 	_ = append(s, s /* ERROR cannot use s */ )
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	_ = append(s... ) /* ERROR not enough arguments */
 	_ = append(s, b, s /* ERROR too many arguments */ ... )
+=======
+	_ = append(s...) /* ERROR not enough arguments */
+	_ = append(s, b, s /* ERROR too many arguments */ ...)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	_ = append(s, 1, 2, 3)
 	_ = append(s, 1, 2, 3, x /* ERROR cannot use x */ , 5, 6, 6)
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 	_ = append(s, 1, 2 /* ERROR too many arguments */ , s... )
+=======
+	_ = append(s, 1, 2 /* ERROR too many arguments */, s...)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	_ = append([]interface{}(nil), 1, 2, "foo", x, 3.1425, false)
 
 	type S []byte
 	type T string
 	var t T
-	_ = append(s, "foo" /* ERROR cannot convert */ )
+	_ = append(s, "foo" /* ERROR cannot use .* in argument to append */ )
 	_ = append(s, "foo"...)
-	_ = append(S(s), "foo" /* ERROR cannot convert */ )
+	_ = append(S(s), "foo" /* ERROR cannot use .* in argument to append */ )
 	_ = append(S(s), "foo"...)
 	_ = append(s, t /* ERROR cannot use t */ )
 	_ = append(s, t...)

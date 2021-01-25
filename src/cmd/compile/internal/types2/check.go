@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 // Copyright 2011 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -50,6 +51,62 @@ type context struct {
 	scope         *Scope                    // top-most scope for lookups
 	pos           syntax.Pos                // if valid, identifiers are looked up as if at position pos (used by Eval)
 	iota          constant.Value            // value of iota in a constant declaration; nil otherwise
+=======
+// UNREVIEWED
+// Copyright 2011 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file implements the Check function, which drives type-checking.
+
+package types2
+
+import (
+	"cmd/compile/internal/syntax"
+	"errors"
+	"fmt"
+	"go/constant"
+)
+
+var nopos syntax.Pos
+
+// debugging/development support
+const debug = true // leave on during development
+
+// If forceStrict is set, the type-checker enforces additional
+// rules not specified by the Go 1 spec, but which will
+// catch guaranteed run-time errors if the respective
+// code is executed. In other words, programs passing in
+// strict mode are Go 1 compliant, but not all Go 1 programs
+// will pass in strict mode. The additional rules are:
+//
+// - A type assertion x.(T) where T is an interface type
+//   is invalid if any (statically known) method that exists
+//   for both x and T have different signatures.
+//
+const forceStrict = false
+
+// If methodTypeParamsOk is set, type parameters are
+// permitted in method declarations (in interfaces, too).
+// Generalization and experimental feature.
+const methodTypeParamsOk = true
+
+// exprInfo stores information about an untyped expression.
+type exprInfo struct {
+	isLhs bool // expression is lhs operand of a shift with delayed type-check
+	mode  operandMode
+	typ   *Basic
+	val   constant.Value // constant value; or nil (if not a constant)
+}
+
+// A context represents the context within which an object is type-checked.
+type context struct {
+	decl          *declInfo                 // package-level declaration whose init expression/function body is checked
+	scope         *Scope                    // top-most scope for lookups
+	pos           syntax.Pos                // if valid, identifiers are looked up as if at position pos (used by Eval)
+	iota          constant.Value            // value of iota in a constant declaration; nil otherwise
+	errpos        syntax.Pos                // if valid, identifier position of a constant with inherited initializer
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	sig           *Signature                // function signature if inside a function; nil otherwise
 	isPanic       map[*syntax.CallExpr]bool // set of panic call expressions (used for termination check)
 	hasLabel      bool                      // set if a function makes use of labels (only ~1% of functions); unused outside functions

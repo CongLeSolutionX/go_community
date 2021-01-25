@@ -319,6 +319,7 @@ func (p *printer) exprList(prev0 token.Pos, list []ast.Expr, depth int, mode exp
 	}
 }
 
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 func (p *printer) parameters(isTypeParam bool, fields *ast.FieldList) {
 	openTok, closeTok := token.LPAREN, token.RPAREN
 	if isTypeParam && p.Mode&UseBrackets != 0 {
@@ -328,6 +329,14 @@ func (p *printer) parameters(isTypeParam bool, fields *ast.FieldList) {
 	if isTypeParam && p.Mode&UseBrackets == 0 {
 		p.print(token.TYPE)
 	}
+=======
+func (p *printer) parameters(fields *ast.FieldList, isTypeParam bool) {
+	openTok, closeTok := token.LPAREN, token.RPAREN
+	if isTypeParam {
+		openTok, closeTok = token.LBRACK, token.RBRACK
+	}
+	p.print(fields.Opening, openTok)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	if len(fields.List) > 0 {
 		prevLine := p.lineFor(fields.Opening)
 		ws := indent
@@ -401,10 +410,17 @@ func (p *printer) parameters(isTypeParam bool, fields *ast.FieldList) {
 
 func (p *printer) signature(sig *ast.FuncType) {
 	if sig.TParams != nil {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		p.parameters(true, sig.TParams)
 	}
 	if sig.Params != nil {
 		p.parameters(false, sig.Params)
+=======
+		p.parameters(sig.TParams, true)
+	}
+	if sig.Params != nil {
+		p.parameters(sig.Params, false)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	} else {
 		p.print(token.LPAREN, token.RPAREN)
 	}
@@ -418,7 +434,11 @@ func (p *printer) signature(sig *ast.FuncType) {
 			p.expr(stripParensAlways(res.List[0].Type))
 			return
 		}
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		p.parameters(false, res)
+=======
+		p.parameters(res, false)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 	}
 }
 
@@ -848,8 +868,8 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 		}
 
 	case *ast.BasicLit:
-		if p.Config.Mode&StdFormat != 0 {
-			x = normalizeNumbers(x)
+		if p.Config.Mode&normalizeNumbers != 0 {
+			x = normalizedNumber(x)
 		}
 		p.print(x)
 
@@ -1038,11 +1058,15 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 	}
 }
 
-// normalizeNumbers rewrites base prefixes and exponents to
-// use lower-case letters, and removes leading 0's from
-// integer imaginary literals. It leaves hexadecimal digits
-// alone.
-func normalizeNumbers(lit *ast.BasicLit) *ast.BasicLit {
+// normalizedNumber rewrites base prefixes and exponents
+// of numbers to use lower-case letters (0X123 to 0x123 and 1.2E3 to 1.2e3),
+// and removes leading 0's from integer imaginary literals (0765i to 765i).
+// It leaves hexadecimal digits alone.
+//
+// normalizedNumber doesn't modify the ast.BasicLit value lit points to.
+// If lit is not a number or a number in canonical format already,
+// lit is returned as is. Otherwise a new ast.BasicLit is created.
+func normalizedNumber(lit *ast.BasicLit) *ast.BasicLit {
 	if lit.Kind != token.INT && lit.Kind != token.FLOAT && lit.Kind != token.IMAG {
 		return lit // not a number - nothing to do
 	}
@@ -1646,7 +1670,11 @@ func (p *printer) spec(spec ast.Spec, n int, doIndent bool) {
 		p.setComment(s.Doc)
 		p.expr(s.Name)
 		if s.TParams != nil {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 			p.parameters(true, s.TParams)
+=======
+			p.parameters(s.TParams, true)
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		}
 		if n == 1 {
 			p.print(blank)
@@ -1836,7 +1864,11 @@ func (p *printer) funcDecl(d *ast.FuncDecl) {
 	// FUNC is emitted).
 	startCol := p.out.Column - len("func ")
 	if d.Recv != nil {
+<<<<<<< HEAD   (79f796 [dev.go2go] go/format: parse type parameters)
 		p.parameters(false, d.Recv) // method: print receiver
+=======
+		p.parameters(d.Recv, false) // method: print receiver
+>>>>>>> BRANCH (945680 [dev.typeparams] test: fix excluded files lookup so it works)
 		p.print(blank)
 	}
 	p.expr(d.Name)
