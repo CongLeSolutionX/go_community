@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "677258d0_35056118",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-25T22:42:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eafc306_120b0fcc",
+      "range": {
+        "startLine": 670,
+        "startChar": 22,
+        "endLine": 670,
+        "endChar": 23
+      },
+      "revId": "40433d95e05a0b2debf2a194436b1f91b5fc480c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "466893fa_5d17905c",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-25T16:15:16Z",
       "side": 1,
       "message": "Two other instances in this file refer to this directive as:\n\n    \u003ccode\u003e//go:embed\u003c/code\u003e directive\n\nConsider using that format here too.",
+      "range": {
+        "startLine": 672,
+        "startChar": 58,
+        "endLine": 672,
+        "endChar": 66
+      },
+      "revId": "40433d95e05a0b2debf2a194436b1f91b5fc480c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09743718_904d5b57",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-25T22:42:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "466893fa_5d17905c",
       "range": {
         "startLine": 672,
         "startChar": 58,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a995cc6_5dc29678",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-25T22:42:17Z",
+      "side": 1,
+      "message": "Yikes, done.",
+      "parentUuid": "51704516_422a14d2",
+      "range": {
+        "startLine": 675,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 100
+      },
+      "revId": "40433d95e05a0b2debf2a194436b1f91b5fc480c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f20b3ca2_1891329b",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-01-25T16:15:16Z",
       "side": 1,
       "message": "s/\u003ctwo spaces\u003e/\u003cone space\u003e/",
+      "range": {
+        "startLine": 686,
+        "startChar": 40,
+        "endLine": 686,
+        "endChar": 42
+      },
+      "revId": "40433d95e05a0b2debf2a194436b1f91b5fc480c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27516b52_039ca2d7",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-25T22:42:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f20b3ca2_1891329b",
       "range": {
         "startLine": 686,
         "startChar": 40,
