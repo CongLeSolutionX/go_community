@@ -69,6 +69,24 @@
       "parentUuid": "9e2e9234_f4adc4f0",
       "revId": "c2ddd1af6093be88b2437c66683190d1408e1114",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52462df2_9fa89ae7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-01-25T18:02:29Z",
+      "side": 1,
+      "message": "Oh, okay. I just saw the timing was close of these CLs and didn\u0027t want for you to inadvertently miss it. I\u0027ll get rid of the -2.",
+      "parentUuid": "bc9a6c23_cf4da1fa",
+      "revId": "c2ddd1af6093be88b2437c66683190d1408e1114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
