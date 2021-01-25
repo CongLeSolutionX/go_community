@@ -69,6 +69,23 @@
       "message": "Keith: Do you want to take a look at this too?\n\nI think the CL itself is safe: returning \"true\" here just causes us to compile things more pessimistically. My biggest question is if there might be any other tricky cases we should consider/test.",
       "revId": "4fb4ef0ad3eccf93fe1da29b7663ed2b25e004fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db8f16b_a2e47515",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2237,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-25T22:56:55Z",
+      "side": 1,
+      "message": "I think this is ok for now, but it doesn\u0027t seem like the right place for this long-term. We\u0027re returning \"yes, it is aliased\" which isn\u0027t really what is going on. It\u0027s another, not-alias-related, reason why we need to compute-into-temporaries and then assign-to-target.",
+      "revId": "4fb4ef0ad3eccf93fe1da29b7663ed2b25e004fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
