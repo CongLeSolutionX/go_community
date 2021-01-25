@@ -67,6 +67,23 @@
       "message": "Round 3 was successful on Windows.",
       "revId": "b1aea3a4156ee09cb2817adc420d49268ac90d33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd8c377c_7a129c04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-01-25T14:51:39Z",
+      "side": 1,
+      "message": "Time for round 4.",
+      "revId": "b1aea3a4156ee09cb2817adc420d49268ac90d33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
