@@ -16,6 +16,23 @@
       "message": "Rebase on top of master instead: https://github.com/golang/go/commit/ff82cc971aabd113f3b79afb054e287c0d5c5c00",
       "revId": "c2ddd1af6093be88b2437c66683190d1408e1114",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf2d6c18_b89f11d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-25T16:40:56Z",
+      "side": 1,
+      "message": "OK to fix in dev.regabi. We can always port it to master as well if that\u0027s desired.",
+      "revId": "c2ddd1af6093be88b2437c66683190d1408e1114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
