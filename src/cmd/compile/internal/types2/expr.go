@@ -1,3 +1,4 @@
+// UNREVIEWED
 // Copyright 2012 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -68,7 +69,11 @@ var unaryOpPredicates = opPredicates{
 func (check *Checker) op(m opPredicates, x *operand, op syntax.Operator) bool {
 	if pred := m[op]; pred != nil {
 		if !pred(x.typ) {
-			check.invalidOpf(x, "operator %s not defined for %s", op, x)
+			if check.conf.CompilerErrorMessages {
+				check.invalidOpf(x, "operator %s not defined on %s", op, x)
+			} else {
+				check.invalidOpf(x, "operator %s not defined for %s", op, x)
+			}
 			return false
 		}
 	} else {
@@ -601,18 +606,15 @@ func (check *Checker) convertUntyped(x *operand, target Type) {
 		}
 
 		for _, t := range unpack(types) {
-			check.convertUntypedInternal(x, t)
+			x := *x // make a copy; convertUntypedInternal modifies x
+			check.convertUntypedInternal(&x, t)
 			if x.mode == invalid {
 				goto Error
 			}
 		}
 
-		// keep nil untyped (was bug #39755)
-		if x.isNil() {
-			target = Typ[UntypedNil]
-		}
 		x.typ = target
-		check.updateExprType(x.expr, target, true) // UntypedNils are final
+		check.updateExprType(x.expr, target, true)
 		return
 	}
 
@@ -629,6 +631,14 @@ Error:
 func (check *Checker) convertUntypedInternal(x *operand, target Type) {
 	assert(isTyped(target))
 
+	if x.isNil() {
+		assert(isUntyped(x.typ))
+		if hasNil(target) {
+			goto OK
+		}
+		goto Error
+	}
+
 	// typed target
 	switch t := optype(target.Under()).(type) {
 	case *Basic:
@@ -643,7 +653,7 @@ func (check *Checker) convertUntypedInternal(x *operand, target Type) {
 			// Non-constant untyped values may appear as the
 			// result of comparisons (untyped bool), intermediate
 			// (delayed-checked) rhs operands of shifts, and as
-			// the value nil.
+			// the value nil. Nil was handled upfront.
 			switch x.typ.(*Basic).kind {
 			case UntypedBool:
 				if !isBoolean(target) {
@@ -657,11 +667,6 @@ func (check *Checker) convertUntypedInternal(x *operand, target Type) {
 				// Non-constant untyped string values are not
 				// permitted by the spec and should not occur.
 				unreachable()
-			case UntypedNil:
-				// Unsafe.Pointer is a basic type that includes nil.
-				if !hasNil(target) {
-					goto Error
-				}
 			default:
 				goto Error
 			}
@@ -672,34 +677,21 @@ func (check *Checker) convertUntypedInternal(x *operand, target Type) {
 			return x.mode != invalid
 		})
 	case *Interface:
-		// Update operand types to the default type rather then
-		// the target (interface) type: values must have concrete
-		// dynamic types. If the value is nil, keep it untyped
-		// (this is important for tools such as go vet which need
-		// the dynamic type for argument checking of say, print
-		// functions)
-		if x.isNil() {
-			target = Typ[UntypedNil]
-		} else {
-			// cannot assign untyped values to non-empty interfaces
-			check.completeInterface(nopos, t)
-			if !t.Empty() {
-				goto Error
-			}
-			target = Default(x.typ)
+		// Update operand types to the default type rather then the target
+		// (interface) type: values must have concrete dynamic types.
+		// Untyped nil was handled upfront.
+		check.completeInterface(nopos, t)
+		if !t.Empty() {
+			goto Error // cannot assign untyped values to non-empty interfaces
 		}
-	case *Pointer, *Signature, *Slice, *Map, *Chan:
-		if !x.isNil() {
-			goto Error
-		}
-		// keep nil untyped - see comment for interfaces, above
-		target = Typ[UntypedNil]
+		target = Default(x.typ)
 	default:
 		goto Error
 	}
 
+OK:
 	x.typ = target
-	check.updateExprType(x.expr, target, true) // UntypedNils are final
+	check.updateExprType(x.expr, target, true)
 	return
 
 Error:
@@ -728,14 +720,19 @@ func (check *Checker) comparison(x, y *operand, op syntax.Operator) {
 			if x.isNil() {
 				typ = y.typ
 			}
-			err = check.sprintf("operator %s not defined for %s", op, typ)
+			if check.conf.CompilerErrorMessages {
+				err = check.sprintf("operator %s not defined on %s", op, typ)
+			} else {
+				err = check.sprintf("operator %s not defined for %s", op, typ)
+			}
 		}
 	} else {
 		err = check.sprintf("mismatched types %s and %s", x.typ, y.typ)
 	}
 
 	if err != "" {
-		check.errorf(x, "cannot compare %s %s %s (%s)", x.expr, op, y.expr, err)
+		// TODO(gri) better error message for cases where one can only compare against nil
+		check.invalidOpf(x, "cannot compare %s %s %s (%s)", x.expr, op, y.expr, err)
 		x.mode = invalid
 		return
 	}
@@ -760,14 +757,14 @@ func (check *Checker) comparison(x, y *operand, op syntax.Operator) {
 }
 
 func (check *Checker) shift(x, y *operand, e *syntax.Operation, op syntax.Operator) {
-	untypedx := isUntyped(x.typ)
+	// TODO(gri) This function seems overly complex. Revisit.
 
 	var xval constant.Value
 	if x.mode == constant_ {
 		xval = constant.ToInt(x.val)
 	}
 
-	if isInteger(x.typ) || untypedx && xval != nil && xval.Kind() == constant.Int {
+	if isInteger(x.typ) || isUntyped(x.typ) && xval != nil && xval.Kind() == constant.Int {
 		// The lhs is of integer type or an untyped constant representable
 		// as an integer. Nothing to do.
 	} else {
@@ -779,40 +776,36 @@ func (check *Checker) shift(x, y *operand, e *syntax.Operation, op syntax.Operat
 
 	// spec: "The right operand in a shift expression must have integer type
 	// or be an untyped constant representable by a value of type uint."
-	switch {
-	case isInteger(y.typ):
-		// nothing to do
-	case isUntyped(y.typ):
-		check.convertUntyped(y, Typ[Uint])
-		if y.mode == invalid {
-			x.mode = invalid
-			return
-		}
-	default:
-		check.invalidOpf(y, "shift count %s must be integer", y)
-		x.mode = invalid
-		return
-	}
 
-	var yval constant.Value
+	// Provide a good error message for negative shift counts.
 	if y.mode == constant_ {
-		// rhs must be an integer value
-		// (Either it was of an integer type already, or it was
-		// untyped and successfully converted to a uint above.)
-		yval = constant.ToInt(y.val)
-		assert(yval.Kind() == constant.Int)
-		if constant.Sign(yval) < 0 {
+		yval := constant.ToInt(y.val) // consider -1, 1.0, but not -1.1
+		if yval.Kind() == constant.Int && constant.Sign(yval) < 0 {
 			check.invalidOpf(y, "negative shift count %s", y)
 			x.mode = invalid
 			return
 		}
 	}
 
+	// Caution: Check for isUntyped first because isInteger includes untyped
+	//          integers (was bug #43697).
+	if isUntyped(y.typ) {
+		check.convertUntyped(y, Typ[Uint])
+		if y.mode == invalid {
+			x.mode = invalid
+			return
+		}
+	} else if !isInteger(y.typ) {
+		check.invalidOpf(y, "shift count %s must be integer", y)
+		x.mode = invalid
+		return
+	}
+
 	if x.mode == constant_ {
 		if y.mode == constant_ {
 			// rhs must be within reasonable bounds in constant shifts
 			const shiftBound = 1023 - 1 + 52 // so we can express smallestFloat64
-			s, ok := constant.Uint64Val(yval)
+			s, ok := constant.Uint64Val(y.val)
 			if !ok || s > shiftBound {
 				check.invalidOpf(y, "invalid shift count %s", y)
 				x.mode = invalid
@@ -839,7 +832,7 @@ func (check *Checker) shift(x, y *operand, e *syntax.Operation, op syntax.Operat
 		}
 
 		// non-constant shift with constant lhs
-		if untypedx {
+		if isUntyped(x.typ) {
 			// spec: "If the left operand of a non-constant shift
 			// expression is an untyped constant, the type of the
 			// constant is what it would be if the shift expression
@@ -896,7 +889,8 @@ var binaryOpPredicates = opPredicates{
 }
 
 // The binary expression e may be nil. It's passed in for better error messages only.
-func (check *Checker) binary(x *operand, e *syntax.Operation, lhs, rhs syntax.Expr, op syntax.Operator) {
+// TODO(gri) revisit use of e and opPos
+func (check *Checker) binary(x *operand, e *syntax.Operation, lhs, rhs syntax.Expr, op syntax.Operator, opPos syntax.Pos) {
 	var y operand
 
 	check.expr(x, lhs)
@@ -976,6 +970,14 @@ func (check *Checker) binary(x *operand, e *syntax.Operation, lhs, rhs syntax.Ex
 			tok = token.QUO_ASSIGN
 		}
 		x.val = constant.BinaryOp(xval, tok, yval)
+		// report error if valid operands lead to an invalid result
+		if xval.Kind() != constant.Unknown && yval.Kind() != constant.Unknown && x.val.Kind() == constant.Unknown {
+			// TODO(gri) We should report exactly what went wrong. At the
+			//           moment we don't have the (go/constant) API for that.
+			//           See also TODO in go/constant/value.go.
+			check.errorf(opPos, "constant result is not representable")
+			// TODO(gri) Should we mark operands with unknown values as invalid?
+		}
 		// Typed constants must be representable in
 		// their type after each constant operation.
 		if isTyped(typ) {
@@ -1029,7 +1031,11 @@ func (check *Checker) index(index syntax.Expr, max int64) (typ Type, val int64) 
 
 	v, valid := constant.Int64Val(constant.ToInt(x.val))
 	if !valid || max >= 0 && v >= max {
-		check.errorf(&x, "index %s is out of bounds", &x)
+		if check.conf.CompilerErrorMessages {
+			check.errorf(&x, "array index %s out of bounds [0:%d]", x.val.String(), max)
+		} else {
+			check.errorf(&x, "index %s is out of bounds", &x)
+		}
 		return
 	}
 
@@ -1159,15 +1165,22 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		check.ident(x, e, nil, false)
 
 	case *syntax.DotsType:
-		// ellipses are handled explicitly where they are legal
+		// dots are handled explicitly where they are legal
 		// (array composite literals and parameter lists)
 		check.error(e, "invalid use of '...'")
 		goto Error
 
 	case *syntax.BasicLit:
+		if e.Bad {
+			goto Error // error reported during parsing
+		}
 		x.setConst(e.Kind, e.Value)
 		if x.mode == invalid {
-			check.invalidASTf(e, "invalid literal %v", e.Value)
+			// The parser already establishes syntactic correctness.
+			// If we reach here it's because of number under-/overflow.
+			// TODO(gri) setConst (and in turn the go/constant package)
+			// should return an error describing the issue.
+			check.errorf(e, "malformed constant: %s", e.Value)
 			goto Error
 		}
 
@@ -1247,7 +1260,11 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 					}
 					i := fieldIndex(utyp.fields, check.pkg, key.Value)
 					if i < 0 {
-						check.errorf(kv, "unknown field %s in struct literal", key.Value)
+						if check.conf.CompilerErrorMessages {
+							check.errorf(kv.Key, "unknown field '%s' in struct literal of type %s", key.Value, base)
+						} else {
+							check.errorf(kv.Key, "unknown field %s in struct literal", key.Value)
+						}
 						continue
 					}
 					fld := fields[i]
@@ -1611,7 +1628,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 			valid = true
 			length = typ.len
 			if x.mode != variable {
-				check.invalidOpf(x, "cannot slice %s (value not addressable)", x)
+				check.invalidOpf(x, "%s (slice of unaddressable value)", x)
 				goto Error
 			}
 			x.typ = &Slice{elem: typ.elem}
@@ -1776,7 +1793,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		}
 
 		// binary expression
-		check.binary(x, e, e.X, e.Y, e.Op)
+		check.binary(x, e, e.X, e.Y, e.Op, e.Y.Pos()) // TODO(gri) should have OpPos here (like in go/types)
 		if x.mode == invalid {
 			goto Error
 		}
@@ -1850,7 +1867,11 @@ func (check *Checker) typeAssertion(pos syntax.Pos, x *operand, xtyp *Interface,
 	} else {
 		msg = "missing method " + method.name
 	}
-	check.errorf(pos, "%s cannot have dynamic type %s (%s)", x, T, msg)
+	if check.conf.CompilerErrorMessages {
+		check.errorf(pos, "impossible type assertion: %s (%s)", x, msg)
+	} else {
+		check.errorf(pos, "%s cannot have dynamic type %s (%s)", x, T, msg)
+	}
 }
 
 // expr typechecks expression e and initializes x with the expression value.

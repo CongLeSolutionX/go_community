@@ -1,3 +1,4 @@
+// UNREVIEWED
 // Copyright 2013 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -16,12 +17,13 @@ import (
 
 // A declInfo describes a package-level const, type, var, or func declaration.
 type declInfo struct {
-	file  *Scope           // scope of file containing this declaration
-	lhs   []*Var           // lhs of n:1 variable declarations, or nil
-	vtyp  syntax.Expr      // type, or nil (for const and var declarations only)
-	init  syntax.Expr      // init/orig expression, or nil (for const and var declarations only)
-	tdecl *syntax.TypeDecl // type declaration, or nil
-	fdecl *syntax.FuncDecl // func declaration, or nil
+	file      *Scope           // scope of file containing this declaration
+	lhs       []*Var           // lhs of n:1 variable declarations, or nil
+	vtyp      syntax.Expr      // type, or nil (for const and var declarations only)
+	init      syntax.Expr      // init/orig expression, or nil (for const and var declarations only)
+	inherited bool             // if set, the init expression is inherited from a previous constant declaration
+	tdecl     *syntax.TypeDecl // type declaration, or nil
+	fdecl     *syntax.FuncDecl // func declaration, or nil
 
 	// The deps field tracks initialization expression dependencies.
 	deps map[Object]bool // lazily initialized
@@ -234,6 +236,9 @@ func (check *Checker) collectObjects() {
 			switch s := decl.(type) {
 			case *syntax.ImportDecl:
 				// import package
+				if s.Path == nil || s.Path.Bad {
+					continue // error reported during parsing
+				}
 				path, err := validatedImportPath(s.Path.Value)
 				if err != nil {
 					check.errorf(s.Path, "invalid import path (%s)", err)
@@ -337,7 +342,7 @@ func (check *Checker) collectObjects() {
 						init = values[i]
 					}
 
-					d := &declInfo{file: fileScope, vtyp: last.Type, init: init}
+					d := &declInfo{file: fileScope, vtyp: last.Type, init: init, inherited: inherited}
 					check.declarePkgObj(name, obj, d)
 				}
 
@@ -392,15 +397,16 @@ func (check *Checker) collectObjects() {
 				obj := NewFunc(d.Name.Pos(), pkg, name, nil)
 				if d.Recv == nil {
 					// regular function
-					if name == "init" {
+					if name == "init" || name == "main" && pkg.name == "main" {
 						if d.TParamList != nil {
-							//check.softErrorf(d.TParamList.Pos(), "func init must have no type parameters")
-							check.softErrorf(d.Name, "func init must have no type parameters")
+							check.softErrorf(d, "func %s must have no type parameters", name)
 						}
 						if t := d.Type; len(t.ParamList) != 0 || len(t.ResultList) != 0 {
-							check.softErrorf(d, "func init must have no arguments and no return values")
+							check.softErrorf(d, "func %s must have no arguments and no return values", name)
 						}
-						// don't declare init functions in the package scope - they are invisible
+					}
+					// don't declare init functions in the package scope - they are invisible
+					if name == "init" {
 						obj.parent = pkg.scope
 						check.recordDef(d.Name, obj)
 						// init functions must have a body
@@ -490,11 +496,13 @@ L: // unpack receiver type
 		case *syntax.ParenExpr:
 			rtyp = t.X
 		// case *ast.StarExpr:
+		//      ptr = true
 		// 	rtyp = t.X
 		case *syntax.Operation:
 			if t.Op != syntax.Mul || t.Y != nil {
 				break
 			}
+			ptr = true
 			rtyp = t.X
 		default:
 			break L
@@ -518,7 +526,7 @@ L: // unpack receiver type
 					check.errorf(arg, "receiver type parameter %s must be an identifier", arg)
 				}
 				if par == nil {
-					par = newName(arg.Pos(), "_")
+					par = syntax.NewName(arg.Pos(), "_")
 				}
 				tparams = append(tparams, par)
 			}
@@ -675,9 +683,17 @@ func (check *Checker) unusedImports() {
 					path := obj.imported.path
 					base := pkgName(path)
 					if obj.name == base {
-						check.softErrorf(obj.pos, "%q imported but not used", path)
+						if check.conf.CompilerErrorMessages {
+							check.softErrorf(obj.pos, "%q imported and not used", path)
+						} else {
+							check.softErrorf(obj.pos, "%q imported but not used", path)
+						}
 					} else {
-						check.softErrorf(obj.pos, "%q imported but not used as %s", path, obj.name)
+						if check.conf.CompilerErrorMessages {
+							check.softErrorf(obj.pos, "%q imported and not used as %s", path, obj.name)
+						} else {
+							check.softErrorf(obj.pos, "%q imported but not used as %s", path, obj.name)
+						}
 					}
 				}
 			}
@@ -687,7 +703,11 @@ func (check *Checker) unusedImports() {
 	// check use of dot-imported packages
 	for _, unusedDotImports := range check.unusedDotImports {
 		for pkg, pos := range unusedDotImports {
-			check.softErrorf(pos, "%q imported but not used", pkg.path)
+			if check.conf.CompilerErrorMessages {
+				check.softErrorf(pos, "%q imported and not used", pkg.path)
+			} else {
+				check.softErrorf(pos, "%q imported but not used", pkg.path)
+			}
 		}
 	}
 }

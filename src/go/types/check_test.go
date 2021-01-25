@@ -35,6 +35,7 @@ import (
 	"go/token"
 	"internal/testenv"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -67,11 +68,11 @@ func splitError(err error) (pos, msg string) {
 	return
 }
 
-func parseFiles(t *testing.T, filenames []string) ([]*ast.File, []error) {
+func parseFiles(t *testing.T, filenames []string, mode parser.Mode) ([]*ast.File, []error) {
 	var files []*ast.File
 	var errlist []error
 	for _, filename := range filenames {
-		file, err := parser.ParseFile(fset, filename, nil, parser.AllErrors|parser.UnifiedParamLists)
+		file, err := parser.ParseFile(fset, filename, nil, mode)
 		if file == nil {
 			t.Fatalf("%s: %s", filename, err)
 		}
@@ -106,7 +107,7 @@ func errMap(t *testing.T, testname string, files []*ast.File) map[string][]strin
 
 	for _, file := range files {
 		filename := fset.Position(file.Package).Filename
-		src, err := ioutil.ReadFile(filename)
+		src, err := os.ReadFile(filename)
 		if err != nil {
 			t.Fatalf("%s: could not read %s", testname, filename)
 		}
@@ -189,9 +190,18 @@ func eliminate(t *testing.T, errmap map[string][]string, errlist []error) {
 	}
 }
 
-func checkFiles(t *testing.T, sources []string, trace bool) {
+func checkFiles(t *testing.T, sources []string) {
+	if len(sources) == 0 {
+		t.Fatal("no source files")
+	}
+
+	mode := parser.AllErrors
+	if strings.HasSuffix(sources[0], ".go2") {
+		mode |= parser.ParseTypeParams
+	}
+
 	// parse files and collect parser errors
-	files, errlist := parseFiles(t, sources)
+	files, errlist := parseFiles(t, sources, mode)
 
 	pkgName := "<no package>"
 	if len(files) > 0 {
@@ -207,16 +217,14 @@ func checkFiles(t *testing.T, sources []string, trace bool) {
 
 	// typecheck and collect typechecker errors
 	var conf Config
-	conf.AcceptMethodTypeParams = true
-	conf.InferFromConstraints = true
+
 	// special case for importC.src
 	if len(sources) == 1 && strings.HasSuffix(sources[0], "importC.src") {
 		conf.FakeImportC = true
 	}
-	conf.Trace = trace
-	// We don't use importer.Default() below so we can eventually
-	// get testdata/map.go2 to import chans (still to be fixed).
-	conf.Importer = importer.ForCompiler(fset, "source", nil)
+	// TODO(rFindley) we may need to use the source importer when adding generics
+	// tests.
+	conf.Importer = importer.Default()
 	conf.Error = func(err error) {
 		if *haltOnError {
 			defer panic(err)
@@ -235,6 +243,17 @@ func checkFiles(t *testing.T, sources []string, trace bool) {
 
 	if *listErrors {
 		return
+	}
+
+	for _, err := range errlist {
+		err, ok := err.(Error)
+		if !ok {
+			continue
+		}
+		code := readCode(err)
+		if code == 0 {
+			t.Errorf("missing error code: %v", err)
+		}
 	}
 
 	// match and eliminate errors;
@@ -260,7 +279,7 @@ func TestCheck(t *testing.T) {
 	}
 	testenv.MustHaveGoBuild(t)
 	DefPredeclaredTestFuncs()
-	checkFiles(t, strings.Split(*testFiles, " "), testing.Verbose())
+	checkFiles(t, strings.Split(*testFiles, " "))
 }
 
 func TestTestdata(t *testing.T)  { DefPredeclaredTestFuncs(); testDir(t, "testdata") }
@@ -270,26 +289,24 @@ func TestFixedbugs(t *testing.T) { testDir(t, "fixedbugs") }
 func testDir(t *testing.T, dir string) {
 	testenv.MustHaveGoBuild(t)
 
-	fis, err := ioutil.ReadDir(dir)
+	fis, err := os.ReadDir(dir)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	for count, fi := range fis {
+	for _, fi := range fis {
 		path := filepath.Join(dir, fi.Name())
 
 		// if fi is a directory, its files make up a single package
+		var files []string
 		if fi.IsDir() {
-			if testing.Verbose() {
-				fmt.Printf("%3d %s\n", count, path)
-			}
 			fis, err := ioutil.ReadDir(path)
 			if err != nil {
 				t.Error(err)
 				continue
 			}
-			files := make([]string, len(fis))
+			files = make([]string, len(fis))
 			for i, fi := range fis {
 				// if fi is a directory, checkFiles below will complain
 				files[i] = filepath.Join(path, fi.Name())
@@ -297,14 +314,11 @@ func testDir(t *testing.T, dir string) {
 					fmt.Printf("\t%s\n", files[i])
 				}
 			}
-			checkFiles(t, files, false)
-			continue
+		} else {
+			files = []string{path}
 		}
-
-		// otherwise, fi is a stand-alone file
-		if testing.Verbose() {
-			fmt.Printf("%3d %s\n", count, path)
-		}
-		checkFiles(t, []string{path}, false)
+		t.Run(filepath.Base(path), func(t *testing.T) {
+			checkFiles(t, files)
+		})
 	}
 }
