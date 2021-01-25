@@ -71,6 +71,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc4afb6d_f2319a9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-25T23:54:30Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "4fb4ef0ad3eccf93fe1da29b7663ed2b25e004fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6db8f16b_a2e47515",
@@ -84,6 +101,24 @@
       "writtenOn": "2021-01-25T22:56:55Z",
       "side": 1,
       "message": "I think this is ok for now, but it doesn\u0027t seem like the right place for this long-term. We\u0027re returning \"yes, it is aliased\" which isn\u0027t really what is going on. It\u0027s another, not-alias-related, reason why we need to compute-into-temporaries and then assign-to-target.",
+      "revId": "4fb4ef0ad3eccf93fe1da29b7663ed2b25e004fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd02ca08_f5ec23ec",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2237,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-25T23:54:30Z",
+      "side": 1,
+      "message": "Ack. FWIW, I\u0027ve significantly refactored this code on dev.regabi, and I think the separation of responsibilities is clearer there now. I\u0027ll add you as a reviewer for the next master-\u003edev.regabi merge so you can see how this code translates there now.",
+      "parentUuid": "6db8f16b_a2e47515",
       "revId": "4fb4ef0ad3eccf93fe1da29b7663ed2b25e004fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
