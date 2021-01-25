@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121f5c29_97b07947",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-01-25T15:48:50Z",
+      "side": 1,
+      "message": "Rebased to include CL 285720 which fixes #42637.",
+      "revId": "82864c1a1c6053227f5a843e9bceaae6eff465fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
