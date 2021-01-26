@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac447b53_1277631f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-26T02:21:28Z",
+      "side": 1,
+      "message": "Please include an actual failure output in this commit message.\n\nThe command referenced here should not involve the Go toolchain at all — it is just invoking what is supposed to be an ordinary C source file with ordinary, widely-supported flags.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "6e15e7f625feea438aba1a4cac914ddbd2721f6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
