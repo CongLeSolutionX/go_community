@@ -22,6 +22,30 @@
       },
       "revId": "51bbdb76c13c827c29e56c130ba7f1063584f7f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5672e518_7d2bc15e",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-26T20:42:28Z",
+      "side": 1,
+      "message": "Thanks for the idea/question.\n\nNo, we can\u0027t just stop at the first non-open-coded defer frame.  Your suggested code causes the same problem as the original bug if we just take the RecursivePanic5 case and add one more intermediate function between two() and three() that has non-open coded defers (by putting them in a loop):\n\nThe bugs you filed do indicate I still don\u0027t quite have the invariant right for all the crazy complex cases.\n\nI think that I maybe want the invariant to be that there is at most one open-coded frame on the defer chain for each _active_ (unrecovered) panic (of which there may be several).  In that way, if I recover a panic, I should only remove at most one open-coded frame.  To get this right, I may need to label each open-coded-defer entry with the panic that added it, so I can remove exactly the remaining entry (if any) that the panic added.  I\u0027ll try this out.  If it works, we may still have to decide whether this CL or that CL is best for putting in 1.16 on such short notice.\n\nI think this current CL makes things better, even though there are still bugs for some complex cases.",
+      "parentUuid": "b57212ad_3e1e0990",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1038,
+        "endChar": 15
+      },
+      "revId": "51bbdb76c13c827c29e56c130ba7f1063584f7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
