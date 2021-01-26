@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4152edc1_9b528a5f",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-01-26T15:45:22Z",
+      "side": 1,
+      "message": "Add a comment here as to why the code is this way. Reference issue number 43827.\nOtherwise, looks good.",
+      "revId": "3efcf863c9ba8e254caf346d223c229f61fb5a15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
