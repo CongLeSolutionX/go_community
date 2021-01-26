@@ -16,6 +16,24 @@
       "message": "This isn\u0027t strictly required.  On systems that support internal linking with -buildmode\u003dpie, like amd64 GNU/Linux, the internal test ought to work even with CGO_ENABLED\u003d0.  For testing purposes, I think this is OK, but we should probably add a comment:\n\n// We don\u0027t want to test -linkmode\u003dexternal if cgo is not supported.\n// On some systems -buildmode\u003dpie implies -linkmode\u003dexternal, so just\n// always skip the test if cgo is not supported.",
       "revId": "bc366df7cb965621b135094263b704d1c4614264",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2ea3b39_c181b2ca",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-26T15:31:09Z",
+      "side": 1,
+      "message": "External linking probably works too, but the warning message is somewhat annoying (see https://github.com/golang/go/issues/31544).\n\nIn fact, the test passes:\n\n$ CGO_ENABLED\u003d0 go test -run\u003dTestPIESize cmd/link\nok  \tcmd/link\t4.381s",
+      "parentUuid": "fdce034b_4c32e12c",
+      "revId": "bc366df7cb965621b135094263b704d1c4614264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
