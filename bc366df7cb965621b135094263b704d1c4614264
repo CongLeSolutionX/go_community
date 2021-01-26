@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdce034b_4c32e12c",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-26T05:32:38Z",
+      "side": 1,
+      "message": "This isn\u0027t strictly required.  On systems that support internal linking with -buildmode\u003dpie, like amd64 GNU/Linux, the internal test ought to work even with CGO_ENABLED\u003d0.  For testing purposes, I think this is OK, but we should probably add a comment:\n\n// We don\u0027t want to test -linkmode\u003dexternal if cgo is not supported.\n// On some systems -buildmode\u003dpie implies -linkmode\u003dexternal, so just\n// always skip the test if cgo is not supported.",
+      "revId": "bc366df7cb965621b135094263b704d1c4614264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
