@@ -410,3 +410,30 @@ func rec1(max int) {
 		rec1(max - 1)
 	}
 }
+
+func TestIssue43921(t *testing.T) {
+	defer func() {
+		expect(t, 1, recover())
+	}()
+	func() {
+		defer func() {
+			defer func() {
+				expect(t, 4, recover())
+			}()
+			panic(4)
+		}()
+		panic(1)
+
+		// Prevent open-coded defers; not executed.
+		for {
+			defer panic(-1)
+			break
+		}
+	}()
+}
+
+func expect(t *testing.T, n int, err interface{}) {
+	if n != err {
+		t.Fatalf("have %v, want %v", err, n)
+	}
+}
