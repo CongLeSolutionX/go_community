@@ -34,6 +34,24 @@
       "parentUuid": "01fb0b21_5c2e9a5a",
       "revId": "236f448e14f60a27e9616b3fee6890e0bd0fdb2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46fdd54e_0b5255b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-26T18:49:03Z",
+      "side": 1,
+      "message": "Ugh. I carefully finished rebasing, then clicked submit, without mailing first.\nNot sure what the best repair method is....",
+      "parentUuid": "6a23d071_19bc6ddf",
+      "revId": "236f448e14f60a27e9616b3fee6890e0bd0fdb2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
