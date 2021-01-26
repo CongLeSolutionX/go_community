@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbddc784_e8b6ea3c",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4693,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-26T18:19:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d84cab1_5e7cc7f9",
+      "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e211c697_f02ce33d",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-26T01:14:22Z",
       "side": 1,
       "message": "Similarly, here, the call.AddArgs(callArgs...) is shared in all the switch cases.\n\n(They appear to also be shared with the callDeferStack branch above, but these two code paths are already so long, I think that might be better to keep as-is.)",
+      "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c8febcf_bf74803a",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4898,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-26T18:19:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e211c697_f02ce33d",
       "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cd4b6e2_df075639",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5396,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-26T18:19:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "697cd38a_9f76d899",
+      "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b4e64ae_1a306364",
@@ -65,6 +119,30 @@
       "writtenOn": "2021-01-26T01:14:22Z",
       "side": 1,
       "message": "nit: update",
+      "range": {
+        "startLine": 5544,
+        "startChar": 0,
+        "endLine": 5545,
+        "endChar": 122
+      },
+      "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5f72528_156d9c49",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5545,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-01-26T18:19:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b4e64ae_1a306364",
       "range": {
         "startLine": 5544,
         "startChar": 0,
