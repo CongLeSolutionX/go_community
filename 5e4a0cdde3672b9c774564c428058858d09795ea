@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e01cb3_04552d6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-26T00:40:52Z",
+      "side": 1,
+      "message": "[Merge review tip: make sure to change the Gerrit diff base from \"Parent 1\" to \"Auto Merge\".]",
+      "revId": "5e4a0cdde3672b9c774564c428058858d09795ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
