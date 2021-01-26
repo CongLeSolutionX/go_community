@@ -70,6 +70,24 @@
       "parentUuid": "704dd9b3_c872e973",
       "revId": "bc366df7cb965621b135094263b704d1c4614264",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c223e121_bd407f51",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-26T15:55:02Z",
+      "side": 1,
+      "message": "\u003e We explicitly set CC, CXX and FC to /dev/null while building the non CGO variant.\n\nOkay. Probably still good to include the comment as Ian said.",
+      "parentUuid": "39e18e11_219b2da4",
+      "revId": "bc366df7cb965621b135094263b704d1c4614264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
