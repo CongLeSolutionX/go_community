@@ -88,6 +88,24 @@
       "parentUuid": "39e18e11_219b2da4",
       "revId": "bc366df7cb965621b135094263b704d1c4614264",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5064ce27_39af9be5",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 49923
+      },
+      "writtenOn": "2021-01-26T16:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c223e121_bd407f51",
+      "revId": "bc366df7cb965621b135094263b704d1c4614264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
