@@ -52,6 +52,24 @@
       "parentUuid": "6a23d071_19bc6ddf",
       "revId": "236f448e14f60a27e9616b3fee6890e0bd0fdb2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5910941_e9c5ef1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-26T18:52:33Z",
+      "side": 1,
+      "message": "Ah, oops.\n\nTo recover from that, I\u0027d probably use \"git diff\" with the old and new patch sets to get the changes, and then just create a new CL from it. 236f448e14f60a27e9616b3fee6890e0bd0fdb2f was the SHA from PS2, so probably what you have locally before applying the fixes?\n\n(Actually, I think git-codereview keeps a \"foo.mailed\" tag or something for whenever you mail out your \"foo\" work branch?)",
+      "parentUuid": "46fdd54e_0b5255b6",
+      "revId": "236f448e14f60a27e9616b3fee6890e0bd0fdb2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
