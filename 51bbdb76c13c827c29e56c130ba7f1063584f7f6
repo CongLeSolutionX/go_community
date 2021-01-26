@@ -46,6 +46,30 @@
       },
       "revId": "51bbdb76c13c827c29e56c130ba7f1063584f7f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30f5a5cc_c4b19f2b",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-26T22:44:30Z",
+      "side": 1,
+      "message": "Ack, that makes sense. Thanks for the explanation.\n\nFWIW, I think a partial fix that addresses a user-reported failure is reasonable as a near-term solution if a complete fix that also addresses fuzzer-discovered failures is going to take longer or be more invasive. As long as we\u0027re monotonically adding regression tests, I consider that forward progress.\n\nIn the mean time, I\u0027ll continue minimizing and reporting fuzzeer-discovered failures, unless you indicate they\u0027re not helpful.",
+      "parentUuid": "5672e518_7d2bc15e",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1038,
+        "endChar": 15
+      },
+      "revId": "51bbdb76c13c827c29e56c130ba7f1063584f7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
