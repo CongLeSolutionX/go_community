@@ -63,6 +63,24 @@
       "message": "I think the `[!exec:cc]` condition should be removed: the `cc` command in this script language is a builtin,¹ not an executable resolved from $PATH, so the existence of an executable named `cc` is irrelevant.\n\n¹https://github.com/golang/go/blob/8634a234df2a9e93ed1de58bf59d2eb843d8f464/src/cmd/go/script_test.go#L458-L468",
       "revId": "67d17a5503028f5a3391801ca91add9d0670d919",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb62473a_e5a070ce",
+        "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 49923
+      },
+      "writtenOn": "2021-01-26T21:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81b70a7b_daa47182",
+      "revId": "67d17a5503028f5a3391801ca91add9d0670d919",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
