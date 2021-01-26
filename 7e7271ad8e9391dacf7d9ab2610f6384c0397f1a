@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d84cab1_5e7cc7f9",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4693,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-26T01:14:22Z",
+      "side": 1,
+      "message": "The callArgs and call.AddArgs computations are the same in both code paths. Pull outside/after the \"if\"?",
+      "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e211c697_f02ce33d",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4898,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-26T01:14:22Z",
+      "side": 1,
+      "message": "Similarly, here, the call.AddArgs(callArgs...) is shared in all the switch cases.\n\n(They appear to also be shared with the callDeferStack branch above, but these two code paths are already so long, I think that might be better to keep as-is.)",
+      "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "697cd38a_9f76d899",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5396,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-26T01:14:22Z",
+      "side": 1,
+      "message": "gofmt?",
+      "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b4e64ae_1a306364",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5545,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-01-26T01:14:22Z",
+      "side": 1,
+      "message": "nit: update",
+      "range": {
+        "startLine": 5544,
+        "startChar": 0,
+        "endLine": 5545,
+        "endChar": 122
+      },
+      "revId": "7e7271ad8e9391dacf7d9ab2610f6384c0397f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
