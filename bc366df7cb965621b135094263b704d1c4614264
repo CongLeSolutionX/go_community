@@ -52,6 +52,24 @@
       "parentUuid": "f2ea3b39_c181b2ca",
       "revId": "bc366df7cb965621b135094263b704d1c4614264",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e18e11_219b2da4",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 49923
+      },
+      "writtenOn": "2021-01-26T15:49:55Z",
+      "side": 1,
+      "message": "I am one of the maintainers of the recipe at https://github.com/conda-forge/go-feedstock. We build two variants of the go package, one with cgo enabled and one without. We explicitly set CC, CXX and FC to /dev/null while building the non CGO variant.\n\nFollowing is the output for the complete failure log:\n\n```\ngo test -run\u003dTestPIESize cmd/link\n--- FAIL: TestPIESize (0.00s)\n    --- FAIL: TestPIESize/TestPieSize-external (10.19s)\n        elf_test.go:289: [/home/wani/m3/conda-bld/go-nocgo_1611595920233/t/go/bin/go build -o /tmp/go-link-TestPieSize-external964805885/pieexternal -buildmode\u003dpie -ldflags\u003d-linkmode\u003dexternal pie.go]\n        elf_test.go:289: [/home/wani/m3/conda-bld/go-nocgo_1611595920233/t/go/bin/go build -o /tmp/go-link-TestPieSize-external964805885/exeexternal -buildmode\u003dexe -ldflags\u003d-linkmode\u003dexternal pie.go]\n        elf_test.go:292: # command-line-arguments\n            loadinternal: cannot find runtime/cgo\n            /home/wani/m3/conda-bld/go-nocgo_1611595920233/t/go/pkg/tool/linux_amd64/link: running /dev/null failed: fork/exec /dev/null: permission denied\n            \n        elf_test.go:295: exit status 2\n        elf_test.go:292: # command-line-arguments\n            loadinternal: cannot find runtime/cgo\n            /home/wani/m3/conda-bld/go-nocgo_1611595920233/t/go/pkg/tool/linux_amd64/link: running /dev/null failed: fork/exec /dev/null: permission denied\n            \n        elf_test.go:295: exit status 2\n        elf_test.go:313: link failed\nFAIL\nFAIL\tcmd/link\t10.337s\nFAIL\n```",
+      "parentUuid": "704dd9b3_c872e973",
+      "revId": "bc366df7cb965621b135094263b704d1c4614264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
