@@ -680,23 +680,23 @@ TEXT runtime·syscall10(SB),NOSPLIT,$0
 	MOVQ	(8*8)(DI), R11	// a8
 	MOVQ	(9*8)(DI), R12	// a9
 	MOVQ	(10*8)(DI), R13	// a10
-	MOVQ	R10, (1*8)(SP)	// a7
-	MOVQ	R11, (2*8)(SP)	// a8
-	MOVQ	R12, (3*8)(SP)	// a9
-	MOVQ	R13, (4*8)(SP)	// a10
+	MOVQ	R10, (0*8)(SP)	// a7
+	MOVQ	R11, (1*8)(SP)	// a8
+	MOVQ	R12, (2*8)(SP)	// a9
+	MOVQ	R13, (3*8)(SP)	// a10
 	MOVQ	(0*8)(DI), R11	// fn
 	MOVQ	(2*8)(DI), SI	// a2
 	MOVQ	(3*8)(DI), DX	// a3
 	MOVQ	(4*8)(DI), CX	// a4
 	MOVQ	(5*8)(DI), R8	// a5
 	MOVQ	(6*8)(DI), R9	// a6
-	MOVQ	DI, (SP)
+	MOVQ	DI, (4*8)(SP)
 	MOVQ	(1*8)(DI), DI	// a1
 	XORL	AX, AX	     	// vararg: say "no float args"
 
 	CALL	R11
 
-	MOVQ	(SP), DI
+	MOVQ	(4*8)(SP), DI
 	MOVQ	AX, (11*8)(DI) // r1
 	MOVQ	DX, (12*8)(DI) // r2
 
@@ -705,7 +705,7 @@ TEXT runtime·syscall10(SB),NOSPLIT,$0
 
 	CALL	libc_errno(SB)
 	MOVLQSX	(AX), AX
-	MOVQ	(SP), DI
+	MOVQ	(4*8)(SP), DI
 	MOVQ	AX, (13*8)(DI) // err
 
 ok:
@@ -745,23 +745,23 @@ TEXT runtime·syscall10X(SB),NOSPLIT,$0
 	MOVQ	(8*8)(DI), R11	// a8
 	MOVQ	(9*8)(DI), R12	// a9
 	MOVQ	(10*8)(DI), R13	// a10
-	MOVQ	R10, (1*8)(SP)	// a7
-	MOVQ	R11, (2*8)(SP)	// a8
-	MOVQ	R12, (3*8)(SP)	// a9
-	MOVQ	R13, (4*8)(SP)	// a10
+	MOVQ	R10, (0*8)(SP)	// a7
+	MOVQ	R11, (1*8)(SP)	// a8
+	MOVQ	R12, (2*8)(SP)	// a9
+	MOVQ	R13, (3*8)(SP)	// a10
 	MOVQ	(0*8)(DI), R11	// fn
 	MOVQ	(2*8)(DI), SI	// a2
 	MOVQ	(3*8)(DI), DX	// a3
 	MOVQ	(4*8)(DI), CX	// a4
 	MOVQ	(5*8)(DI), R8	// a5
 	MOVQ	(6*8)(DI), R9	// a6
-	MOVQ	DI, (SP)
+	MOVQ	DI, (4*8)(SP)
 	MOVQ	(1*8)(DI), DI	// a1
 	XORL	AX, AX	     	// vararg: say "no float args"
 
 	CALL	R11
 
-	MOVQ	(SP), DI
+	MOVQ	(4*8)(SP), DI
 	MOVQ	AX, (11*8)(DI) // r1
 	MOVQ	DX, (12*8)(DI) // r2
 
@@ -770,7 +770,7 @@ TEXT runtime·syscall10X(SB),NOSPLIT,$0
 
 	CALL	libc_errno(SB)
 	MOVLQSX	(AX), AX
-	MOVQ	(SP), DI
+	MOVQ	(4*8)(SP), DI
 	MOVQ	AX, (13*8)(DI) // err
 
 ok:
