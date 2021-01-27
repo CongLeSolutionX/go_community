@@ -70,6 +70,30 @@
       },
       "revId": "51bbdb76c13c827c29e56c130ba7f1063584f7f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb6f9eed_f611dad8",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-27T20:44:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "30f5a5cc_c4b19f2b",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1038,
+        "endChar": 15
+      },
+      "revId": "51bbdb76c13c827c29e56c130ba7f1063584f7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
