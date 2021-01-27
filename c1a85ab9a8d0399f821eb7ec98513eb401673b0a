@@ -33,6 +33,24 @@
       "message": "\u003e Patch Set 7: TryBot-Result-1\n\u003e \n\u003e 1 of 24 SlowBots failed:\n\u003e Failed on linux-amd64-clang: https://storage.googleapis.com/go-build-log/c1a85ab9/linux-amd64-clang_fe871a86.log\n\nThat looks like #43897, which is fixed at head.\n\nI\u0027m not sure if Gerrit rebasing will work with a GitHub PR — Nehal, could you rebase and reupload the change so we can verify that the clang SlowBot passes?",
       "revId": "c1a85ab9a8d0399f821eb7ec98513eb401673b0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3def6cfb_c1764629",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49923
+      },
+      "writtenOn": "2021-01-27T15:57:43Z",
+      "side": 1,
+      "message": "Uploaded patch set 8 with a rebase over cd176b36",
+      "parentUuid": "3d195803_87c1851b",
+      "revId": "c1a85ab9a8d0399f821eb7ec98513eb401673b0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
