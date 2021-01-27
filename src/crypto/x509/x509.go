@@ -1997,15 +1997,6 @@ func buildCSRExtensions(template *CertificateRequest) ([]pkix.Extension, error) 
 		})
 	}
 
-	if template.KeyUsage != 0 &&
-		!oidInExtensions(oidExtensionKeyUsage, template.ExtraExtensions) {
-		ext, err := marshalKeyUsage(template.KeyUsage)
-		if err != nil {
-			return nil, err
-		}
-		ret = append(ret, ext)
-	}
-
 	return append(ret, template.ExtraExtensions...), nil
 }
 
@@ -2371,7 +2362,6 @@ type CertificateRequest struct {
 	Version            int
 	Signature          []byte
 	SignatureAlgorithm SignatureAlgorithm
-	KeyUsage           KeyUsage
 
 	PublicKeyAlgorithm PublicKeyAlgorithm
 	PublicKey          interface{}
@@ -2731,11 +2721,6 @@ func parseCertificateRequest(in *certificateRequest) (*CertificateRequest, error
 		switch {
 		case extension.Id.Equal(oidExtensionSubjectAltName):
 			out.DNSNames, out.EmailAddresses, out.IPAddresses, out.URIs, err = parseSANExtension(extension.Value)
-			if err != nil {
-				return nil, err
-			}
-		case extension.Id.Equal(oidExtensionKeyUsage):
-			out.KeyUsage, err = parseKeyUsageExtension(extension.Value)
 			if err != nil {
 				return nil, err
 			}
