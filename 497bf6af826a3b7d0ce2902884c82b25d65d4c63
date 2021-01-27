@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89ca97a0_acd5588c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-01-27T21:48:48Z",
+      "side": 1,
+      "message": "Thanks Ian, but Roland already took care of this (see https://golang.org/issue/43407#issuecomment-768539021 and CL 287392).\n\nIt is good to see that this code change matches CL 287392 exactly (other than the CreateCertificateRequest documentation change).",
+      "revId": "497bf6af826a3b7d0ce2902884c82b25d65d4c63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
