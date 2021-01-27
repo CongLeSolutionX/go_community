@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f48fff81_9ace5805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2021-01-27T21:07:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1937c64_8ca690cd",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "bfd4ad58d30899a2a1392c4638392a093eddd22a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54d22119_115d8f14",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-27T20:41:40Z",
       "side": 1,
       "message": "If Russ isn\u0027t able to review this CL before we submit it, I think we should leave issue 43407 open to give Russ a chance to confirm everything\u0027s as expected before the final release cements this API. (If so, change \"Fixes\" to \"For\".)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "bfd4ad58d30899a2a1392c4638392a093eddd22a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "588bfb74_a76e4f52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2021-01-27T21:07:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54d22119_115d8f14",
       "range": {
         "startLine": 13,
         "startChar": 0,
