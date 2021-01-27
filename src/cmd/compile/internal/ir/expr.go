@@ -159,6 +159,7 @@ type CallExpr struct {
 	origNode
 	X         Node
 	Args      Nodes
+	Targs     Nodes   // Typeparam arguments
 	KeepAlive []*Name // vars to be kept alive until call returns
 	IsDDD     bool
 	Use       CallUse
@@ -171,6 +172,16 @@ func NewCallExpr(pos src.XPos, op Op, fun Node, args []Node) *CallExpr {
 	n.orig = n
 	n.SetOp(op)
 	n.Args = args
+	return n
+}
+
+func NewGenericCallExpr(pos src.XPos, op Op, fun Node, args []Node, targs []Node) *CallExpr {
+	n := &CallExpr{X: fun}
+	n.pos = pos
+	n.orig = n
+	n.SetOp(op)
+	n.Args = args
+	n.Targs = targs
 	return n
 }
 
