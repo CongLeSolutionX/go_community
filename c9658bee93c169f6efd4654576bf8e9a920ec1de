@@ -16,6 +16,24 @@
       "message": "The CertificateRequest.KeyUsage field was removed from api/go1.16.txt but not removed here. Should it be? I left a comment at https://golang.org/issue/43407#issuecomment-768535817.",
       "revId": "c9658bee93c169f6efd4654576bf8e9a920ec1de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e53f92a_157cd52b",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2408,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-01-27T21:27:03Z",
+      "side": 0,
+      "message": "I sent https://golang.org/cl/287432, in case that is the right thing to do.",
+      "parentUuid": "6276c38b_9759dba4",
+      "revId": "c9658bee93c169f6efd4654576bf8e9a920ec1de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
