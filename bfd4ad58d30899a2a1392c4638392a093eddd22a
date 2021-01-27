@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1937c64_8ca690cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-01-27T20:41:40Z",
+      "side": 1,
+      "message": "Add \"go/\" in front.",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "bfd4ad58d30899a2a1392c4638392a093eddd22a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d22119_115d8f14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-01-27T20:41:40Z",
+      "side": 1,
+      "message": "If Russ isn\u0027t able to review this CL before we submit it, I think we should leave issue 43407 open to give Russ a chance to confirm everything\u0027s as expected before the final release cements this API. (If so, change \"Fixes\" to \"For\".)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "bfd4ad58d30899a2a1392c4638392a093eddd22a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24b2e4ab_19658851",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-01-27T20:41:40Z",
+      "side": 1,
+      "message": "The proposal was indeed approved, and the the API looks good to me.\n\n(If there\u0027s anything to adjust before the final release, it\u0027s safe\nto do so since it\u0027s a new API and no one can depend on it yet.)",
+      "revId": "bfd4ad58d30899a2a1392c4638392a093eddd22a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
