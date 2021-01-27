@@ -163,6 +163,30 @@
       },
       "revId": "93a7da33359c89bcce5ad63ef88d5dd70877c2aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c75a4840_4c087bec",
+        "filename": "src/syscall/syscall_openbsd_libc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-27T17:40:54Z",
+      "side": 1,
+      "message": "Okay. They are fine for now. Thanks.",
+      "parentUuid": "79c3195d_6faee7a5",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 1
+      },
+      "revId": "93a7da33359c89bcce5ad63ef88d5dd70877c2aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
