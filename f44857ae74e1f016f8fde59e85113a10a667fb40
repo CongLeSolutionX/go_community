@@ -16,6 +16,29 @@
       "message": "Did that refactoring, finally.",
       "revId": "f44857ae74e1f016f8fde59e85113a10a667fb40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a08a8f_8540f69b",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-27T15:57:15Z",
+      "side": 1,
+      "message": "Minor: it is probably fine to just name it sp. (There seems no local variable named sp.) Or you can assign this field after the literal: x :\u003d \u0026expandStat{...}; x.sp, _ \u003d f.spSb().",
+      "range": {
+        "startLine": 632,
+        "startChar": 1,
+        "endLine": 632,
+        "endChar": 7
+      },
+      "revId": "f44857ae74e1f016f8fde59e85113a10a667fb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
