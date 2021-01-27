@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76d9c2d0_160e2562",
+        "filename": "src/runtime/sys_openbsd_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-01-27T16:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b6cbc5f_a96bb39c",
+      "range": {
+        "startLine": 435,
+        "startChar": 25,
+        "endLine": 435,
+        "endChar": 27
+      },
+      "revId": "93a7da33359c89bcce5ad63ef88d5dd70877c2aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f554b63_dd2393c4",
@@ -58,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbfac224_c61f3c7e",
+        "filename": "src/runtime/sys_openbsd_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-01-27T16:58:18Z",
+      "side": 1,
+      "message": "This was based on the sys_openbsd_amd64.s implementation, which was based on the sys_darwin_amd64.s implementation - I guess there was an assumption that clearing the AX register prevented things from checking it. Looking at sys_darwin_arm64.s it does not clear R0, so I\u0027ve removed this.",
+      "parentUuid": "5f554b63_dd2393c4",
+      "revId": "93a7da33359c89bcce5ad63ef88d5dd70877c2aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f80c404_0e011152",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-01-26T17:20:45Z",
       "side": 1,
       "message": "(Actually about the previous CL) Why these functions are hand-written instead of generated?",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 1
+      },
+      "revId": "93a7da33359c89bcce5ad63ef88d5dd70877c2aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79c3195d_6faee7a5",
+        "filename": "src/syscall/syscall_openbsd_libc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-01-27T16:58:18Z",
+      "side": 1,
+      "message": "I don\u0027t immediately recall the background here, however they\u0027re manually written for aix, darwin and solaris. I\u0027ll make a note to follow up on this.",
+      "parentUuid": "2f80c404_0e011152",
       "range": {
         "startLine": 77,
         "startChar": 0,
