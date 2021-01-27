@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "685beb48_6477cdcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-01-27T19:28:32Z",
+      "side": 1,
+      "message": "Until its clear AVX-512 is ok to use in the standard library im blocking this.\n\nConsensus i have heard so far has been that the downclocking that can happen due to use of AVX-512 can cause whole program performance to regress (and even other tenants on the same machine) so doesnt seem like it should be used unless consciously added into high performance applications where the tradeoff is made consciously.",
+      "revId": "f16f1d4e58f7793d3073b6a9d3551c3e6b9a8f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
