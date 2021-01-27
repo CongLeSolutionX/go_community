@@ -72,6 +72,7 @@ const (
 	TANY
 	TSTRING
 	TUNSAFEPTR
+	TTYPEPARAM // type of a type param - can be Interface or a named type which is an interface
 
 	// pseudo-types for literals
 	TIDEAL // untyped numeric constants
@@ -150,6 +151,7 @@ type Type struct {
 	// TARRAY: *Array
 	// TSLICE: Slice
 	// TSSA: string
+	// TTPARAM:  *TypeParam
 	Extra interface{}
 
 	// Width is the width of this Type in bytes.
@@ -174,6 +176,13 @@ type Type struct {
 	Align uint8 // the required alignment of this type, in bytes (0 means Width and Align have not yet been computed)
 
 	flags bitset8
+
+	// Both tparams and targs are nil if not a generic type.
+	// If generic type, tparams is filled in and targs is nil.
+	// If instantiated generic type, tparams and targs are filled in. Type may then be
+	// evaluatedd to a non-generic type.
+	tparams []TypeParam
+	targs   []Type
 }
 
 func (*Type) CanBeAnSSAAux() {}
@@ -283,6 +292,8 @@ type Func struct {
 	Receiver *Type // function receiver
 	Results  *Type // function results
 	Params   *Type // function params
+	Rparams  *Type // type params of receiver (nil if not a generic function type)
+	Tparams  *Type // type params of remaining params (nil if not a generic function type)
 
 	pkg *Pkg
 
@@ -318,6 +329,8 @@ const (
 	FunargRcvr           // receiver
 	FunargParams         // input parameters
 	FunargResults        // output results
+	FunargRparams        // type params for receiver
+	FunargTparams        // type params for other params
 )
 
 // StructType returns t's extra struct-specific fields.
@@ -330,6 +343,15 @@ func (t *Type) StructType() *Struct {
 type Interface struct {
 	Fields Fields
 	pkg    *Pkg
+	// Should this have a type list?  Or should we have a separate bound/constraint type
+	types []Type
+}
+
+type TypeParam struct {
+	// This is a union - the type of a type param is either an interface
+	// (inline constraint) or a named type which is an interface
+	i     *Interface
+	named *Type
 }
 
 // Ptr contains Type fields specific to pointer types.
@@ -1670,6 +1692,9 @@ func NewSignature(pkg *Pkg, recv *Field, params, results []*Field) *Type {
 	ft.pkg = pkg
 
 	return t
+}
+
+func NewGenericSignature(pkg *Pkg, recv *Field, params, results, rparams, tparams []*Field) *Type {
 }
 
 // NewStruct returns a new struct with the given fields.
