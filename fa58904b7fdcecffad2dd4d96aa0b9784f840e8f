@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86debdf9_55c2c3d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-01-27T08:37:05Z",
+      "side": 1,
+      "message": "Thank you for working on this.\n\nBut this CL needs a test before it can even be considered. Otherwise how we can verify that it fixes the issue?\n\nMaking it -2 to make sure CL does not get submitted.\n\nAlex",
+      "revId": "fa58904b7fdcecffad2dd4d96aa0b9784f840e8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbf294f_a395807e",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-01-27T08:37:05Z",
+      "side": 1,
+      "message": "How do you know that this will not OOM?\n\nAnd your new code allocate memory and copies data from one buffer to another. Is that really necessary?",
+      "revId": "fa58904b7fdcecffad2dd4d96aa0b9784f840e8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
