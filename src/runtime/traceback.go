@@ -36,6 +36,11 @@ import (
 
 const usesLR = sys.MinFrameSize > 0
 
+// round rounds x to a multiple of align, which must be a power of two.
+func round(x, align uintptr) uintptr {
+	return (x + align - 1) &^ (align - 1)
+}
+
 // Traceback over the deferred function calls.
 // Report them like calls that have been invoked but not started executing yet.
 func tracebackdefers(gp *g, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer) {
@@ -144,8 +149,8 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			frame.pc = *(*uintptr)(unsafe.Pointer(frame.sp))
 			frame.lr = 0
 		} else {
-			frame.pc = uintptr(*(*sys.Uintreg)(unsafe.Pointer(frame.sp)))
-			frame.sp += sys.RegSize
+			frame.pc = uintptr(*(*uintptr)(unsafe.Pointer(frame.sp)))
+			frame.sp += sys.PtrSize
 		}
 	}
 
@@ -208,7 +213,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			frame.fp = frame.sp + uintptr(funcspdelta(f, frame.pc, &cache))
 			if !usesLR {
 				// On x86, call instruction pushes return PC before entering new function.
-				frame.fp += sys.RegSize
+				frame.fp += sys.PtrSize
 			}
 		}
 		var flr funcInfo
@@ -235,8 +240,8 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 				}
 			} else {
 				if frame.lr == 0 {
-					lrPtr = frame.fp - sys.RegSize
-					frame.lr = uintptr(*(*sys.Uintreg)(unsafe.Pointer(lrPtr)))
+					lrPtr = frame.fp - sys.PtrSize
+					frame.lr = uintptr(*(*uintptr)(unsafe.Pointer(lrPtr)))
 				}
 			}
 			flr = findfunc(frame.lr)
@@ -266,13 +271,13 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 		frame.varp = frame.fp
 		if !usesLR {
 			// On x86, call instruction pushes return PC before entering new function.
-			frame.varp -= sys.RegSize
+			frame.varp -= sys.PtrSize
 		}
 
 		// For architectures with frame pointers, if there's
 		// a frame, then there's a saved frame pointer here.
 		if frame.varp > frame.sp && (GOARCH == "amd64" || GOARCH == "arm64") {
-			frame.varp -= sys.RegSize
+			frame.varp -= sys.PtrSize
 		}
 
 		// Derive size of arguments.
@@ -490,11 +495,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 		// before faking a call.
 		if usesLR && injectedCall {
 			x := *(*uintptr)(unsafe.Pointer(frame.sp))
-			frame.sp += sys.MinFrameSize
-			if GOARCH == "arm64" {
-				// arm64 needs 16-byte aligned SP, always
-				frame.sp += sys.PtrSize
-			}
+			frame.sp += round(sys.MinFrameSize, sys.StackAlign)
 			f = findfunc(frame.pc)
 			frame.fn = f
 			if !f.valid() {
