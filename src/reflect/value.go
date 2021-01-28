@@ -646,32 +646,71 @@ func (v Value) call(op string, in []Value) []Value {
 // frame is a pointer to the arguments to that closure on the stack.
 // retValid points to a boolean which should be set when the results
 // section of frame is set.
-func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer, retValid *bool) {
+//
+// regs contains the argument values passed in registers. outRegs
+// will contain the return results passed in registers.
+func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer, retValid *bool, regs abi.RegArgs) (outRegs abi.RegArgs) {
 	ftyp := ctxt.ftyp
 	f := ctxt.fn
 
-	// Copy argument frame into Values.
+	_, _, abi := funcLayout(t, rcvrtype)
+
+	// Copy arguments into Values.
 	ptr := frame
-	off := uintptr(0)
 	in := make([]Value, 0, int(ftyp.inCount))
-	for _, typ := range ftyp.in() {
-		off += -off & uintptr(typ.align-1)
+	for i, typ := range ftyp.in() {
 		v := Value{typ, nil, flag(typ.Kind())}
-		if ifaceIndir(typ) {
-			// value cannot be inlined in interface data.
-			// Must make a copy, because f might keep a reference to it,
-			// and we cannot let f keep a reference to the stack frame
-			// after this function returns, not even a read-only reference.
-			v.ptr = unsafe_New(typ)
-			if typ.size > 0 {
-				typedmemmove(typ, v.ptr, add(ptr, off, "typ.size > 0"))
+		steps := abi.ret.stepsForValue(i)
+		if st := steps[0]; st.kind == abiStepStack {
+			if ifaceIndir(typ) {
+				// value cannot be inlined in interface data.
+				// Must make a copy, because f might keep a reference to it,
+				// and we cannot let f keep a reference to the stack frame
+				// after this function returns, not even a read-only reference.
+				v.ptr = unsafe_New(typ)
+				if typ.size > 0 {
+					typedmemmove(typ, v.ptr, add(ptr, st.stackOffset, "typ.size > 0"))
+				}
+				v.flag |= flagIndir
+			} else {
+				v.ptr = *(*unsafe.Pointer)(add(ptr, st.stackOffset, "1-ptr"))
 			}
-			v.flag |= flagIndir
 		} else {
-			v.ptr = *(*unsafe.Pointer)(add(ptr, off, "1-ptr"))
+			// Handle pointers passed in registers.
+			if !ifaceIndir(typ) {
+				// Pointer-valued data gets put directly
+				// into v.ptr.
+				if steps[0].kind != abiStepPointer {
+					print("kind=", steps[0].kind, ", type=", typ.String(), "\n")
+					panic("mismatch between ABI description and types")
+				}
+				v.ptr = regs.ReturnPtrs[steps[0].ireg]
+				continue
+			}
+
+			// All that's left is values passed in registers that we need to
+			// create space for the values.
+			v.flag |= flagIndir
+			v.ptr := unsafe_New(typ)
+			for _, st := range steps {
+				switch st.kind {
+				case abiStepIntReg:
+					offset := add(v.ptr, st.offset, "precomputed value offset")
+					memmove(offset, unsafe.Pointer(&regs.Ints[st.ireg]), st.size)
+				case abiStepPointer:
+					s := add(v.ptr, st.offset, "precomputed value offset")
+					*((*unsafe.Pointer)(s)) = regs.ReturnPtrs[st.ireg]
+				case abiStepFloatReg:
+					offset := add(v.ptr, st.offset, "precomputed value offset")
+					memmove(offset, unsafe.Pointer(&regs.Floats[st.freg]), st.size)
+				case abiStepStack:
+					panic("register-based return value has stack component")
+				default:
+					panic("unknown ABI part kind")
+				}
+			}
 		}
 		in = append(in, v)
-		off += typ.size
 	}
 
 	// Call underlying function.
@@ -681,9 +720,8 @@ func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer, retValid *bool) {
 		panic("reflect: wrong return count from function created by MakeFunc")
 	}
 
-	// Copy results back into argument frame.
+	// Copy results back into argument frame and register space.
 	if numOut > 0 {
-		off += -off & (ptrSize - 1)
 		for i, typ := range ftyp.out() {
 			v := out[i]
 			if v.typ == nil {
@@ -694,31 +732,63 @@ func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer, retValid *bool) {
 				panic("reflect: function created by MakeFunc using " + funcName(f) +
 					" returned value obtained from unexported field")
 			}
-			off += -off & uintptr(typ.align-1)
 			if typ.size == 0 {
 				continue
 			}
-			addr := add(ptr, off, "typ.size > 0")
 
 			// Convert v to type typ if v is assignable to a variable
 			// of type t in the language spec.
 			// See issue 28761.
-			if typ.Kind() == Interface {
-				// We must clear the destination before calling assignTo,
-				// in case assignTo writes (with memory barriers) to the
-				// target location used as scratch space. See issue 39541.
-				*(*uintptr)(addr) = 0
-				*(*uintptr)(add(addr, ptrSize, "typ.size == 2*ptrSize")) = 0
+			//
+			//
+			// TODO(mknyszek): In the switch to the register ABI we lost
+			// the scratch space here for the register cases (and 
+			// temporarily for all the cases).
+			//
+			// If/when this happens, take note of the following:
+			//
+			// We must clear the destination before calling assignTo,
+			// in case assignTo writes (with memory barriers) to the
+			// target location used as scratch space. See issue 39541.
+			v = v.assignTo("reflect.MakeFunc", typ, nil)
+		stepsLoop:
+			for _, st := range abi.call.stepsForValue(i) {
+				switch st.kind {
+				case abiStepStack:
+					// Copy values to the "stack."
+					addr := add(stackArgs, st.stkOff, "precomputed stack arg offset")
+					if v.flag&flagIndir != 0 {
+						typedmemmove(targ, addr, v.ptr)
+					} else {
+						// This case must be a pointer type.
+						*(*unsafe.Pointer)(addr) = v.ptr
+					}
+					// There's only one step for a stack-allocated value.
+					break stepsLoop
+				case abiStepIntReg, abiStepPointer:
+					// Copy values to "integer registers."
+					if v.flag&flagIndir != 0 {
+						offset := add(v.ptr, st.offset, "precomputed value offset")
+						memmove(unsafe.Pointer(&outRegs.Ints[st.ireg]), offset, st.size)
+					} else {
+						// Only populate the Ints space on the return path.
+						// This is safe because out is kept alive until the
+						// end of this function, and the return path through
+						// makeFuncStub has no preemption, so these pointers
+						// are always visible to the GC.
+						outRegs.Ints[st.ireg] = uintptr(v.ptr)
+					}
+				case abiStepFloatReg:
+					// Copy values to "float registers."
+					if v.flag&flagIndir == 0 {
+						panic("attempted to copy pointer to FP register")
+					}
+					offset := add(v.ptr, st.offset, "precomputed value offset")
+					memmove(unsafe.Pointer(&outRegs.Floats[st.freg]), offset, st.size)
+				default:
+					panic("unknown ABI part kind")
+				}
 			}
-			v = v.assignTo("reflect.MakeFunc", typ, addr)
-
-			// We are writing to stack. No write barrier.
-			if v.flag&flagIndir != 0 {
-				memmove(addr, v.ptr, typ.size)
-			} else {
-				*(*uintptr)(addr) = uintptr(v.ptr)
-			}
-			off += typ.size
 		}
 	}
 
@@ -819,7 +889,10 @@ func align(x, n uintptr) uintptr {
 // frame is a pointer to the arguments to that closure on the stack.
 // retValid points to a boolean which should be set when the results
 // section of frame is set.
-func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool) {
+//
+// regs contains the argument values passed in registers. outRegs
+// will contain the return results passed in registers.
+func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool, regs abi.RegArgs) (outRegs abi.RegArgs) {
 	rcvr := ctxt.rcvr
 	rcvrtype, t, fn := methodReceiver("call", rcvr, ctxt.method)
 	frametype, framePool, abid := funcLayout(t, rcvrtype)
@@ -829,12 +902,34 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool) {
 	// This space is used for both arguments and return values.
 	scratch := framePool.Get().(unsafe.Pointer)
 
-	// Copy in receiver and rest of args.
-	storeRcvr(rcvr, scratch)
-	// Align the first arg. The alignment can't be larger than ptrSize.
-	argOffset := uintptr(ptrSize)
+	// Copy in receiver.
+	//
+	// Guaranteed to only be one word in size,
+	// so it will only take up exactly 1 abiStep (either
+	// in a register or on the stack).
+	argOffset := uintptr(0)
+	if st := abi.call.steps[0]; st.kind == abiStepStack {
+		// Only copy the reciever to the stack if the ABI says so.
+		// Otherwise, it'll be in a register already.
+		storeRcvr(rcvr, scratch)
+
+		// Align the first arg. The alignment can't be larger than ptrSize.
+		argOffset = ptrSize
+	}
 	if len(t.in()) > 0 {
 		argOffset = align(argOffset, uintptr(t.in()[0].align))
+	}
+	// argOffset is either 0 or ptrSize, and so should be sufficiently
+	// aligned for any type today. Let's defensively align to the next
+	// stack argument (if there is one) to avoid issues if one day we
+	// have types with greater alignments.
+	// Skip the first step because it's always going to be for the
+	// reciever.
+	for _, st := range abi.call.steps[1:] {
+		if st.kind == abiStepStack {
+			argOffset = st.stkOff
+			break
+		}
 	}
 	// Avoid constructing out-of-bounds pointers if there are no args.
 	if argSize-argOffset > 0 {
@@ -850,10 +945,10 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool) {
 	// Call.
 	// Call copies the arguments from scratch to the stack, calls fn,
 	// and then copies the results back into scratch.
-	//
-	// TODO(mknyszek): Have this actually support the register-based ABI.
-	var regs abi.RegArgs
 	call(frametype, fn, scratch, uint32(frametype.size), uint32(retOffset), uint32(frameSize), &regs)
+
+	// Copy the result registers to the returned space.
+	outRegs = regs
 
 	// Copy return values.
 	// Ignore any changes to args and just copy return values.
