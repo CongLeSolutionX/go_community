@@ -146,9 +146,21 @@ func (check *Checker) invalidOpf(at poser, format string, args ...interface{}) {
 func posFor(at poser) syntax.Pos {
 	switch x := at.(type) {
 	case *operand:
-		if x.expr != nil {
-			return startPos(x.expr)
+		if x.expr == nil {
+			return nopos
 		}
+		// If the operand is a constant, and the corresponding
+		// expression is an operation, use the operator position
+		// rather than the start of the expression. This way, we
+		// point to the offending operation rather then the begin
+		// of a lengthy expression, such as x*x*x*x*x*x where the
+		// error happens at the last multiplication.
+		if x.mode == constant_ {
+			if op, _ := x.expr.(*syntax.Operation); op != nil {
+				return op.Pos()
+			}
+		}
+		return startPos(x.expr)
 	case syntax.Node:
 		return startPos(x)
 	}
