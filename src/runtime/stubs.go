@@ -395,3 +395,10 @@ func addmoduledata()
 // Injected by the signal handler for panicking signals. On many platforms it just
 // jumps to sigpanic.
 func sigpanic0()
+
+// Used by reflectcall and the reflect package.
+//
+// Spills/loads arguments in registers to/from an internal/abi.RegArgs
+// respectively. Does not follow the Go ABI.
+func spillArgs()
+func unspillArgs()

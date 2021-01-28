@@ -33,6 +33,10 @@ var (
 	floatRegSize = uintptr(0) // uintptr(abi.EffectiveFloatRegSize)
 )
 
+// Redefine abi.RegArgs here so that the structure is visible
+// to the assembler.
+type reflectRegArgs abi.RegArgs
+
 // abiStep represents an ABI "instruction." Each instruction
 // describes one part of how to translate between a Go value
 // in memory and a call frame.
@@ -349,11 +353,15 @@ type abiDesc struct {
 	// passed to reflectcall.
 	stackPtrs *bitVector
 
-	// outRegPtrs is a bitmap whose i'th bit indicates
-	// whether the i'th integer result register contains
-	// a pointer. Used by reflectcall to make result
-	// pointers visible to the GC.
-	outRegPtrs abi.IntArgRegBitmap
+	// inRegPtrs is a bitmap whose i'th bit indicates
+	// whether the i'th integer argument register contains
+	// a pointer. Used by makeFuncStub and methodValueCall
+	// to make result pointers visible to the GC.
+	//
+	// outRegPtrs is the same, but for result values.
+	// Used by reflectcall to make result pointers visible
+	// to the GC.
+	inRegPtrs, outRegPtrs abi.IntArgRegBitmap
 }
 
 func (a *abiDesc) dump() {
@@ -381,6 +389,10 @@ func newAbiDesc(t *funcType, rcvr *rtype) abiDesc {
 	// Compute gc program & stack bitmap for stack arguments
 	stackPtrs := new(bitVector)
 
+	// Compute the stack frame pointer bitmap and register
+	// pointer bitmap for arguments.
+	inRegPtrs := abi.IntArgRegBitmap{}
+
 	// Compute abiSeq for input parameters.
 	var in abiSeq
 	if rcvr != nil {
@@ -395,13 +407,18 @@ func newAbiDesc(t *funcType, rcvr *rtype) abiDesc {
 			spill += ptrSize
 		}
 	}
-	for _, arg := range t.in() {
+	for i, arg := range t.in() {
 		stkStep := in.addArg(arg)
 		if stkStep != nil {
 			addTypeBits(stackPtrs, stkStep.stkOff, arg)
 		} else {
 			spill = align(spill, uintptr(arg.align))
 			spill += arg.size
+			for _, st := range in.stepsForValue(i) {
+				if st.kind == abiStepPointer {
+					inRegPtrs.Set(st.ireg)
+				}
+			}
 		}
 	}
 	spill = align(spill, ptrSize)
@@ -438,5 +455,5 @@ func newAbiDesc(t *funcType, rcvr *rtype) abiDesc {
 	// Undo the faking from earlier so that stackBytes
 	// is accurate.
 	out.stackBytes -= retOffset
-	return abiDesc{in, out, stackCallArgsSize, retOffset, spill, stackPtrs, outRegPtrs}
+	return abiDesc{in, out, stackCallArgsSize, retOffset, spill, stackPtrs, inRegPtrs, outRegPtrs}
 }
