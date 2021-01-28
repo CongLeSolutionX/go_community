@@ -545,6 +545,16 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				p.From.Reg = REGSP
 			}
 		}
+
+		if p.To.Type == obj.TYPE_REG && p.To.Reg == REGSP && p.Spadj == 0 {
+			f := c.cursym.Func()
+			if f.FuncFlag&objabi.FuncFlag_SPWRITE == 0 {
+				c.cursym.Func().FuncFlag |= objabi.FuncFlag_SPWRITE
+				if ctxt.Debugvlog {
+					ctxt.Logf("auto-SPWRITE: %s\n", c.cursym.Name)
+				}
+			}
+		}
 	}
 	if wasSplit {
 		c.stacksplitPost(pLast, pPre, pPreempt, autosize) // emit post part of split check

@@ -447,6 +447,7 @@ type FuncInfo struct {
 	Locals   int32
 	Align    int32
 	FuncID   objabi.FuncID
+	FuncFlag objabi.FuncFlag
 	Text     *Prog
 	Autot    map[*LSym]struct{}
 	Pcln     Pcln
