@@ -16,6 +16,24 @@
       "message": "Could we use have instead of defining haveBase? That would make it more clear we aren\u0027t getting duplicated from two sources.",
       "revId": "5263bfffc5dbc0ceebb4d2632ec74578fe0e74c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8958da3_1efca2eb",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-01-28T22:04:38Z",
+      "side": 1,
+      "message": "Unfortunately, no. If the selected version of the first path in base ends up requiring the selected version of a subsequent path, then `have` will be set for the second path even though it is not a root.\n\n(Added a test case to clarify.)",
+      "parentUuid": "b2f5efc7_1f8fcb0e",
+      "revId": "5263bfffc5dbc0ceebb4d2632ec74578fe0e74c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
