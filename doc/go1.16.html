@@ -80,6 +80,15 @@ Do not send CLs removing the interior tags from such phrases.
   support cgo.
 </p>
 
+<p><!-- golang.org/issue/36435, many CLs -->
+  On AMD64 and ARM64 architectures on OpenBSD, system calls are now
+  made through <code>libc</code>, instead of directly using the
+  <code>SYSCALL</code>/<code>SVC</code> instruction. This ensures
+  forward-compatibility with future versions of OpenBSD. In particular,
+  OpenBSD 6.9 onwards will restrict system calls to be made through
+  <code>libc</code> for non-static binaries.
+</p>
+
 <h3 id="386">386</h3>
 
 <p><!-- golang.org/issue/40255, golang.org/issue/41848, CL 258957, and CL 260017 -->
