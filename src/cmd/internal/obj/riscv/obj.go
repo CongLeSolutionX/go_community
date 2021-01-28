@@ -716,6 +716,16 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				p.Spadj = int32(-p.From.Offset)
 			}
 		}
+
+		if p.To.Type == obj.TYPE_REG && p.To.Reg == REGSP && p.Spadj == 0 {
+			f := cursym.Func()
+			if f.FuncFlag&objabi.FuncFlag_SPWRITE == 0 {
+				f.FuncFlag |= objabi.FuncFlag_SPWRITE
+				if ctxt.Debugvlog {
+					ctxt.Logf("auto-SPWRITE: %s %v\n", cursym.Name, p)
+				}
+			}
+		}
 	}
 
 	// Rewrite MOV pseudo-instructions. This cannot be done in

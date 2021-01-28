@@ -1904,7 +1904,11 @@ func (fi *FuncInfo) Locals() int {
 }
 
 func (fi *FuncInfo) FuncID() objabi.FuncID {
-	return objabi.FuncID((*goobj.FuncInfo)(nil).ReadFuncID(fi.data))
+	return (*goobj.FuncInfo)(nil).ReadFuncID(fi.data)
+}
+
+func (fi *FuncInfo) FuncFlag() objabi.FuncFlag {
+	return (*goobj.FuncInfo)(nil).ReadFuncFlag(fi.data)
 }
 
 func (fi *FuncInfo) Pcsp() Sym {

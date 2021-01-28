@@ -673,9 +673,10 @@ func genFuncInfoSyms(ctxt *Link) {
 			continue
 		}
 		o := goobj.FuncInfo{
-			Args:   uint32(fn.Args),
-			Locals: uint32(fn.Locals),
-			FuncID: objabi.FuncID(fn.FuncID),
+			Args:     uint32(fn.Args),
+			Locals:   uint32(fn.Locals),
+			FuncID:   fn.FuncID,
+			FuncFlag: fn.FuncFlag,
 		}
 		pc := &fn.Pcln
 		o.Pcsp = makeSymRef(preparePcSym(pc.Pcsp))
