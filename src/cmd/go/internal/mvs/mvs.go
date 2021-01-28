@@ -375,10 +375,19 @@ func Upgrade(target module.Version, reqs Reqs, upgrade ...module.Version) ([]mod
 // reqs.Previous, but the methods of reqs must otherwise handle such versions
 // correctly.
 func Downgrade(target module.Version, reqs Reqs, downgrade ...module.Version) ([]module.Version, error) {
-	list, err := reqs.Required(target)
+	// Per https://research.swtch.com/vgo-mvs#algorithm_4:
+	// “To avoid an unnecessary downgrade to E 1.1, we must also add a new
+	// requirement on E 1.2. We can apply Algorithm R to find the minimal set of
+	// new requirements to write to go.mod.”
+	//
+	// In order to generate those new requirements, we need to consider the whole
+	// build list here — not just reqs.Required(target).
+	list, err := BuildList(target, reqs)
 	if err != nil {
 		return nil, err
 	}
+	list = list[1:] // remove target
+
 	max := make(map[string]string)
 	for _, r := range list {
 		max[r.Path] = r.Version
