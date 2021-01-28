@@ -16,6 +16,92 @@
       "message": "Thanks for the review!  Made all suggested changes.  The changes to the signatures of NewSignature \u0026NewCallExpr did cause a bunch of changes, including modifying mkbuiltin.go.\n\nAny further comments are welcome.\n",
       "revId": "0a3cebe8480f68c82968325640a0951a9a31eeaf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "651e7877_26d8aeda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-28T04:14:28Z",
+      "side": 1,
+      "message": "LGTM.\n\nI see your point about making lots of changes to existing NewCalls. Excluding the cases in built.go, which could use a separate cleanup, I\u0027m guessing about 50% of them will eventually need to deal with type parameters. If there\u0027s many more than that, we can always introduce a helper down the road.",
+      "revId": "0a3cebe8480f68c82968325640a0951a9a31eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aeb52fe_f3d46372",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-28T04:14:28Z",
+      "side": 1,
+      "message": "again, I think this is self-explanatory (eventually)\n\nit\u0027s new now, so we feel compelled to add a comment",
+      "range": {
+        "startLine": 161,
+        "startChar": 20,
+        "endLine": 161,
+        "endChar": 29
+      },
+      "revId": "0a3cebe8480f68c82968325640a0951a9a31eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "625de986_aae06516",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-28T04:14:28Z",
+      "side": 1,
+      "message": "leave away \"input\"?\n\nWe\u0027ll never have output type parameters and writing input here seems to imply that.",
+      "range": {
+        "startLine": 482,
+        "startChar": 28,
+        "endLine": 482,
+        "endChar": 33
+      },
+      "revId": "0a3cebe8480f68c82968325640a0951a9a31eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94322c5c_93a0f3aa",
+        "filename": "src/cmd/compile/internal/typecheck/builtin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-28T04:14:28Z",
+      "side": 1,
+      "message": "The bulk of changes due to the new type parameter argument seems to be in this file. That\u0027s ok. All these calls could use a local helper function that factors out more of the boilerplate eventually. Fine to leave as is for now.",
+      "range": {
+        "startLine": 214,
+        "startChar": 17,
+        "endLine": 214,
+        "endChar": 29
+      },
+      "revId": "0a3cebe8480f68c82968325640a0951a9a31eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
