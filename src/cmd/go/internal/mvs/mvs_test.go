@@ -327,6 +327,12 @@ B1: Cnone D1
 E1: Fnone
 build M: M B1 D1 E1
 req M: B1 E1
+
+name: reqdup
+M: A1 B1
+A1: B1
+B1:
+req M A A: A1
 `
 
 func Test(t *testing.T) {
