@@ -526,6 +526,12 @@ func TestGoroutineSwitch(t *testing.T) {
 				}
 			}
 
+			// An entry with just one frame is OK too:
+			// it knew to stop at runtime.gogo.
+			if len(stk) == 1 {
+				return
+			}
+
 			// Otherwise, should not see runtime.gogo.
 			// The place we'd see it would be the inner most frame.
 			name := stk[0].Line[0].Function.Name
