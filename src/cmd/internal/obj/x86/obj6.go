@@ -833,6 +833,15 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 		switch p.As {
 		default:
+			if p.To.Type == obj.TYPE_REG && p.To.Reg == REG_SP {
+				f := cursym.Func()
+				if f.FuncFlag&objabi.FuncFlag_SPWRITE == 0 {
+					f.FuncFlag |= objabi.FuncFlag_SPWRITE
+					if ctxt.Debugvlog {
+						ctxt.Logf("auto-SPWRITE: %s %v\n", cursym.Name, p)
+					}
+				}
+			}
 			continue
 
 		case APUSHL, APUSHFL:
