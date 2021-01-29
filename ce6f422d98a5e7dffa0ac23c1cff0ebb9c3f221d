@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91661664_db75ff7a",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T04:45:16Z",
+      "side": 1,
+      "message": "I\u0027d move this code before the do function since it\u0027s unrelated. The do function is needed below, no need to define it earlier.",
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "214bfa75_b4dade29",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T04:45:16Z",
+      "side": 1,
+      "message": "nitpick: why \"tn\"?\n\nwhy not just \"p\" or \"tp\" (for type parameter)",
+      "range": {
+        "startLine": 124,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 4
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6669914c_7ab55c10",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T04:45:16Z",
+      "side": 1,
+      "message": "open, close :\u003d \u0027(\u0027, \u0027)\u0027\nif funarg \u003d\u003d FunargTparams {\n   open, close \u003d \u0027[\u0027, \u0027]\u0027\n}\nb.WriteByte(open)",
+      "range": {
+        "startLine": 521,
+        "startChar": 16,
+        "endLine": 521,
+        "endChar": 29
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31886b9c_a7ab23d3",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T04:45:16Z",
+      "side": 1,
+      "message": "b.WriteByte(close)",
+      "range": {
+        "startLine": 538,
+        "startChar": 14,
+        "endLine": 538,
+        "endChar": 15
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c740595f_45ce635e",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T04:45:16Z",
+      "side": 1,
+      "message": "All type parameters have a name - can\u0027t we just write the name instead?\n\nAlso, all type parameters have a unique index that we can write to disambiguate them for debugging. Though I am not exporting that yet. Will do.",
+      "range": {
+        "startLine": 569,
+        "startChar": 4,
+        "endLine": 569,
+        "endChar": 15
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86735fc8_93dbaad0",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T04:45:16Z",
+      "side": 1,
+      "message": "Rather than explaining in the comment what intert means, give it a better name.\n\ns/intert/constraint/\n\nAnd then the comment can be:\n\n// NewTypeParam returns a new type parameter with the given constraint.\n\n(I will rename \"Bound\" to \"Constraint\" in types2 eventually to match this.)",
+      "range": {
+        "startLine": 1657,
+        "startChar": 28,
+        "endLine": 1657,
+        "endChar": 34
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
