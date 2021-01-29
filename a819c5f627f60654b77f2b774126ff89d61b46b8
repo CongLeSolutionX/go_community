@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0dc11ab_a94b5a4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-01-29T20:17:05Z",
+      "side": 1,
+      "message": "As a note, forcibly setting -mod\u003dmod (to prevent -mod\u003dvendor from being automatically selected) was necessary for the 1.15 branch because of its vendor/bundle skew, but otherwise it can be left out (primarily for simplicity). But it does need to happen after vendor. See CL 266374 or CL 258538 for past examples.\n\nNo need to redo anything (the outcome is the same), but it might be nice to write down the simpler instructions here to avoid setting a complicated precedent, or potentially cause \"why was it needed to do -mod\u003dmod?\" questions.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "a819c5f627f60654b77f2b774126ff89d61b46b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
