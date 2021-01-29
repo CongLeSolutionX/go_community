@@ -2776,20 +2776,22 @@ stop:
 	}
 
 	// check all runqueues once again
-	for id, _p_ := range allpSnapshot {
-		if !idlepMaskSnapshot.read(uint32(id)) && !runqempty(_p_) {
-			lock(&sched.lock)
-			_p_ = pidleget()
-			unlock(&sched.lock)
-			if _p_ != nil {
-				acquirep(_p_)
-				if wasSpinning {
-					_g_.m.spinning = true
-					atomic.Xadd(&sched.nmspinning, 1)
+	if wasSpinning {
+		for id, _p_ := range allpSnapshot {
+			if !idlepMaskSnapshot.read(uint32(id)) && !runqempty(_p_) {
+				lock(&sched.lock)
+				_p_ = pidleget()
+				unlock(&sched.lock)
+				if _p_ != nil {
+					acquirep(_p_)
+					if wasSpinning {
+						_g_.m.spinning = true
+						atomic.Xadd(&sched.nmspinning, 1)
+					}
+					goto top
 				}
-				goto top
+				break
 			}
-			break
 		}
 	}
 
