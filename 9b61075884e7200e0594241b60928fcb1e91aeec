@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62c32da3_cd118835",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-29T19:45:45Z",
+      "side": 1,
+      "message": "I\u0027m trying to mirror previous few sections. Also expanded to 64-bit x86 and 64-bit ARM (as in other places).",
+      "parentUuid": "51a3481a_85870fd2",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "9b61075884e7200e0594241b60928fcb1e91aeec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2839f149_886df107",
         "filename": "doc/go1.16.html",
         "patchSetId": 1
@@ -54,6 +78,30 @@
       "writtenOn": "2021-01-28T17:48:30Z",
       "side": 1,
       "message": "Nit: s/restrict/require/ (or perhaps \"will restrict system calls, requiring them to be made ...\") ?",
+      "range": {
+        "startLine": 88,
+        "startChar": 27,
+        "endLine": 88,
+        "endChar": 35
+      },
+      "revId": "9b61075884e7200e0594241b60928fcb1e91aeec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d968741_109877e9",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-29T19:45:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839f149_886df107",
       "range": {
         "startLine": 88,
         "startChar": 27,
@@ -77,6 +125,30 @@
       "writtenOn": "2021-01-28T17:48:30Z",
       "side": 1,
       "message": "Might be worth saying \"Go binaries\" since it already does this for non-Go binaries.",
+      "range": {
+        "startLine": 89,
+        "startChar": 35,
+        "endLine": 89,
+        "endChar": 44
+      },
+      "revId": "9b61075884e7200e0594241b60928fcb1e91aeec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "074bd2c0_cc3dc277",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-01-29T19:45:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d8b6eb3_5a4c7ba7",
       "range": {
         "startLine": 89,
         "startChar": 35,
