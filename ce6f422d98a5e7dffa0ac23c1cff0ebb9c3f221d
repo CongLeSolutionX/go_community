@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f088aa_38b8bf71",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-29T17:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91661664_db75ff7a",
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "214bfa75_b4dade29",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-29T04:45:16Z",
       "side": 1,
       "message": "nitpick: why \"tn\"?\n\nwhy not just \"p\" or \"tp\" (for type parameter)",
+      "range": {
+        "startLine": 124,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 4
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74463130_db3953f7",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-29T17:17:05Z",
+      "side": 1,
+      "message": "Yes, I\u0027m not sure why I didn\u0027t choose tp!",
+      "parentUuid": "214bfa75_b4dade29",
       "range": {
         "startLine": 124,
         "startChar": 2,
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "629ad408_66aca1d5",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-29T17:17:05Z",
+      "side": 1,
+      "message": "Yes, thanks, that\u0027s better Go style.",
+      "parentUuid": "6669914c_7ab55c10",
+      "range": {
+        "startLine": 521,
+        "startChar": 16,
+        "endLine": 521,
+        "endChar": 29
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31886b9c_a7ab23d3",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-01-29T04:45:16Z",
       "side": 1,
       "message": "b.WriteByte(close)",
+      "range": {
+        "startLine": 538,
+        "startChar": 14,
+        "endLine": 538,
+        "endChar": 15
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c015c5d_02288184",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-29T17:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31886b9c_a7ab23d3",
       "range": {
         "startLine": 538,
         "startChar": 14,
@@ -110,6 +200,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8096db12_f470636e",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-29T17:17:05Z",
+      "side": 1,
+      "message": "Yes, I had thought about it, but it does require adding new SetSym() method in types.  (Or we could add a sym arg into the NewTypeParam() method.)  I made the change, seems reasonable for now - let me know what you think.  Or, as you say, we can just carry forward the unique id as a separate field and print that when needed.\n\nWith the current change (setting the sym), some output now looks as expected like:\n\n.   DCLFUNC tc(1) Iota:-1 FUNC-func[T](string, T) # min.go:5\n.   DCLFUNC-Dcl\n.   .   NAME-main.s tc(1) Class:PPARAM Offset:0 OnStack Used string # min.go:5\n.   .   NAME-main.val tc(1) Class:PPARAM Offset:16 OnStack Used TYPEPARAM-T # min.go:5",
+      "parentUuid": "c740595f_45ce635e",
+      "range": {
+        "startLine": 569,
+        "startChar": 4,
+        "endLine": 569,
+        "endChar": 15
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86735fc8_93dbaad0",
@@ -123,6 +237,30 @@
       "writtenOn": "2021-01-29T04:45:16Z",
       "side": 1,
       "message": "Rather than explaining in the comment what intert means, give it a better name.\n\ns/intert/constraint/\n\nAnd then the comment can be:\n\n// NewTypeParam returns a new type parameter with the given constraint.\n\n(I will rename \"Bound\" to \"Constraint\" in types2 eventually to match this.)",
+      "range": {
+        "startLine": 1657,
+        "startChar": 28,
+        "endLine": 1657,
+        "endChar": 34
+      },
+      "revId": "ce6f422d98a5e7dffa0ac23c1cff0ebb9c3f221d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f37548b_ad511328",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-29T17:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86735fc8_93dbaad0",
       "range": {
         "startLine": 1657,
         "startChar": 28,
