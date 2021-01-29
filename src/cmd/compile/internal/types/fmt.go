@@ -478,6 +478,9 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 			}
 			b.WriteString("func")
 		}
+		if t.NumTParams() > 0 {
+			tconv2(b, t.TParams(), 0, mode, visited)
+		}
 		tconv2(b, t.Params(), 0, mode, visited)
 
 		switch t.NumResults() {
@@ -515,7 +518,11 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 		}
 
 		if funarg := t.StructType().Funarg; funarg != FunargNone {
-			b.WriteByte('(')
+			if funarg == FunargTparams {
+				b.WriteByte('[')
+			} else {
+				b.WriteByte('(')
+			}
 			fieldVerb := 'v'
 			switch mode {
 			case fmtTypeID, fmtTypeIDName, fmtGo:
@@ -528,7 +535,11 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 				}
 				fldconv(b, f, fieldVerb, mode, visited, funarg)
 			}
-			b.WriteByte(')')
+			if funarg == FunargTparams {
+				b.WriteByte(']')
+			} else {
+				b.WriteByte(')')
+			}
 		} else {
 			b.WriteString("struct {")
 			for i, f := range t.Fields().Slice() {
@@ -553,6 +564,11 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 
 	case TUNSAFEPTR:
 		b.WriteString("unsafe.Pointer")
+
+	case TTYPEPARAM:
+		b.WriteString("tp")
+		// Print out the pointer value for now to disambiguate type params
+		b.WriteString(fmt.Sprintf("%p", t))
 
 	case Txxx:
 		b.WriteString("Txxx")
