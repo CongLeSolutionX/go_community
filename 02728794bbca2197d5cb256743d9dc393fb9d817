@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03c0e3f4_a6a30136",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-29T23:18:42Z",
+      "side": 1,
+      "message": "What about literals? Looks like types2 would accept overflowing literals, but the compiler does not:\nhttps://play.golang.org/p/dIzGsU8WBVx\n\n(this is just a literal output of the huge*huge*huge test case)",
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94da09e6_40b86643",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-29T23:18:42Z",
+      "side": 1,
+      "message": "I went back and forth on this. Initially, I thought we should treat constant.Unknown like Typ[Invalid], and report the error at the callsite, when the unknown value was first generated.\n\nBut that is unnecessary boilerplate. Perhaps we should (in a future CL) just pass in a \u0027context\u0027 string argument to make the error messages here more precise.\n\nSee my top-level question: if we use this check for constant literals as well, then this error message no longer makes sense (though it also shouldn\u0027t be hit...).",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 36
+      },
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54c8d05a_28bfbdb2",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-29T23:18:42Z",
+      "side": 1,
+      "message": "Where is this documented? In the spec it says \"at least 256\"\nhttps://golang.org/ref/spec#Constants\n\nIs this just a compiler detail?",
+      "range": {
+        "startLine": 120,
+        "startChar": 24,
+        "endLine": 120,
+        "endChar": 102
+      },
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90614026_f05204c4",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-01-29T23:18:42Z",
+      "side": 1,
+      "message": "Why not put the trailing space in this format string, and remove from the end of each op2str element?",
+      "range": {
+        "startLine": 122,
+        "startChar": 30,
+        "endLine": 122,
+        "endChar": 32
+      },
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
