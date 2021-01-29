@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7288d6ac_dedc28c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T22:28:03Z",
+      "side": 1,
+      "message": "LGTM. Please address the one comment and submit. Thanks.",
+      "revId": "30d7452e9847b02d41ad33d036b91d0ed52b8c39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b4de287_8cdc2ed7",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T22:28:03Z",
+      "side": 1,
+      "message": "All type parameters have a non-empty name, so this should always produce a non-nil sym. But irrespective of that, tp.SetSym(sym) accepts nil so there\u0027s no need for this test.\n\ntp.SetSym(g.sym(typ.Obj()))\n\nshould be enough, I\u0027d think.\n\nIs there a reason for the if statement I am missing?",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 106,
+        "endChar": 11
+      },
+      "revId": "30d7452e9847b02d41ad33d036b91d0ed52b8c39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
