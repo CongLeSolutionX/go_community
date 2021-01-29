@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba3c68f7_ee0b2f61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-01-29T02:24:12Z",
+      "side": 1,
+      "message": "It seems that the failed windows case is not related to this patch. Is it possible to rerun the CI? ",
+      "revId": "8ccdd228b5fd20d2100d8676632e8b7f0b64766a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
