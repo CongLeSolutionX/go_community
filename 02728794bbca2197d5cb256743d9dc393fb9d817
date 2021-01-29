@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "43a79969_540434ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T23:53:17Z",
+      "side": 1,
+      "message": "The compiler in dev.typeparams doesn\u0027t either, it seems:\n\nThis https://play.golang.org/p/OrHRxDoIGj9 is accepted w/o errors on the command-line. It will be reported with the first operation.\n\nBut it\u0027s a good point - an oversize integer could bring the compiler to a stand-still. We need a check even before we start converting a number into an int constant. Made a note to experiment, will file an issue if needed.",
+      "parentUuid": "03c0e3f4_a6a30136",
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "94da09e6_40b86643",
         "filename": "src/cmd/compile/internal/types2/expr.go",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-29T23:18:42Z",
       "side": 1,
       "message": "I went back and forth on this. Initially, I thought we should treat constant.Unknown like Typ[Invalid], and report the error at the callsite, when the unknown value was first generated.\n\nBut that is unnecessary boilerplate. Perhaps we should (in a future CL) just pass in a \u0027context\u0027 string argument to make the error messages here more precise.\n\nSee my top-level question: if we use this check for constant literals as well, then this error message no longer makes sense (though it also shouldn\u0027t be hit...).",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 36
+      },
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37161505_a1e20f95",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T23:53:17Z",
+      "side": 1,
+      "message": "So far we made a difference between operands that are invalid and valid constant operands where we just don\u0027t know the operand value.\n\nAll the code we have in the constant package takes care of this (unknown values) automatically. However, the constant package also returns an unknown value if something goes wrong, and we report this as an error here. But we shouldn\u0027t if any of the inputs was unknown in the first place.\n\nBefore, we checked at the error place (e.g. for binary operations I kept the input values around so I could check if they were unknown). But it\u0027s simpler to just do nothing in that case right away. So now I check for unknown values at the start of each operation and bail if there are any. Thus any unknown result is due to a new operation error.\n\nBut I agree this could be done better. For now I just try to keep things working.",
+      "parentUuid": "94da09e6_40b86643",
       "range": {
         "startLine": 104,
         "startChar": 4,
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dec2b53_ce9600b2",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T23:53:17Z",
+      "side": 1,
+      "message": "It\u0027s not documented, it\u0027s a compiler detail. The compiler used to use 512 bits internally, and now that it\u0027s using go/constant that\u0027s still the same.\n\nThere\u0027s errorcheck cases that depend on this being 512 bits exactly, but if I reduce it to that, then a lot of go/types and types2 tests fail because there was no limit.\n\nI\u0027m working on reducing it to 512 to match the compiler, in a subsequent CL.",
+      "parentUuid": "54c8d05a_28bfbdb2",
+      "range": {
+        "startLine": 120,
+        "startChar": 24,
+        "endLine": 120,
+        "endChar": 102
+      },
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90614026_f05204c4",
@@ -82,6 +148,53 @@
         "startChar": 30,
         "endLine": 122,
         "endChar": 32
+      },
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "000bc840_cf4b0e62",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T23:53:17Z",
+      "side": 1,
+      "message": "Because what might be the empty string. But in retrospect, I think that cannot/should not happen, so I will fix this (in the worst case we\u0027d get two blanks in a row).",
+      "parentUuid": "90614026_f05204c4",
+      "range": {
+        "startLine": 122,
+        "startChar": 30,
+        "endLine": 122,
+        "endChar": 32
+      },
+      "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "717f3d69_e2f983b0",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-01-29T23:53:17Z",
+      "side": 1,
+      "message": "Also: removed this line - this was actually wrong.\n\nWe don\u0027t distinguish between unary and binary ops here because we use the same operation codes for both. The compiler does distinguish and produces a slightly better error message for unary ^. Will fix in a follow-up CL.",
+      "range": {
+        "startLine": 134,
+        "startChar": 25,
+        "endLine": 134,
+        "endChar": 35
       },
       "revId": "02728794bbca2197d5cb256743d9dc393fb9d817",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
