@@ -102,7 +102,12 @@ func (p *ProcessState) String() string {
 	res := ""
 	switch {
 	case status.Exited():
-		res = "exit status " + itoa(status.ExitStatus())
+		code := status.ExitStatus()
+		if uint(code) > 1<<16 { // windows 0xc0000005 etc
+			res = "exit status " + uitox(uint(code))
+		} else {
+			res = "exit status " + itoa(code) // unix
+		}
 	case status.Signaled():
 		res = "signal: " + status.Signal().String()
 	case status.Stopped():

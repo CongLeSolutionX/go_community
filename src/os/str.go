@@ -31,3 +31,35 @@ func uitoa(val uint) string {
 	buf[i] = byte('0' + val)
 	return string(buf[i:])
 }
+
+// Convert integer to decimal string
+func itox(val int) string {
+	if val < 0 {
+		return "-" + uitox(uint(-val))
+	}
+	return uitox(uint(val))
+}
+
+const hex = "0123456789abcdef"
+
+// Convert unsigned integer to decimal string
+func uitox(val uint) string {
+	if val == 0 { // avoid string allocation
+		return "0x0"
+	}
+	var buf [20]byte // big enough for 64bit value base 16 + 0x
+	i := len(buf) - 1
+	for val >= 16 {
+		q := val / 16
+		buf[i] = hex[val%16]
+		i--
+		val = q
+	}
+	// val < 16
+	buf[i] = hex[val%16]
+	i--
+	buf[i] = 'x'
+	i--
+	buf[i] = '0'
+	return string(buf[i:])
+}
