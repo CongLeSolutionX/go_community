@@ -341,8 +341,22 @@ TEXT runtime·systemstack_switch(SB), NOSPLIT, $0-0
 // func systemstack(fn func())
 TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVQ	fn+0(FP), DI	// DI = fn
+
+	// Note: On a newly created thread, get_tls(CX) reads
+	// the TLS slot for the thread (which hasn't been set up yet)
+	// and gets a zero. In that case, or if the slot is there but g is not,
+	// we just run the function (which clearly must be a no-split function)
+	// directly, same as if we are already on g0 or gsignal:
+	// we're on a system stack.
+	// This can happen especially on Windows where needm calls
+	// lockextram which calls osyield and usleep on contention,
+	// and those use systemstack to make Windows system calls.
 	get_tls(CX)
+	CMPQ	CX, $0
+	JEQ	noswitch
 	MOVQ	g(CX), AX	// AX = g
+	CMPQ	AX, $0
+	JEQ	noswitch
 	MOVQ	g_m(AX), BX	// BX = m
 
 	CMPQ	AX, m_gsignal(BX)
@@ -619,6 +633,23 @@ TEXT gosave<>(SB),NOSPLIT,$0
 	TESTQ	R9, R9
 	JZ	2(PC)
 	CALL	runtime·badctxt(SB)
+	RET
+
+// func asmcgocall_no_g(fn, arg unsafe.Pointer)
+// Call fn(arg) aligned appropriately for the gcc ABI.
+// Called when there is no g yet (during needm).
+TEXT ·asmcgocall_no_g(SB),NOSPLIT,$0-16
+	MOVQ	fn+0(FP), AX
+	MOVQ	arg+8(FP), BX
+	MOVQ	SP, DX
+	SUBQ	$32, SP
+	ANDQ	$~15, SP	// alignment
+	MOVQ	DX, 8(SP)
+	MOVQ	BX, DI		// DI = first argument in AMD64 ABI
+	MOVQ	BX, CX		// CX = first argument in Win64
+	CALL	AX
+	MOVQ	8(SP), DX
+	MOVQ	DX, SP
 	RET
 
 // func asmcgocall(fn, arg unsafe.Pointer) int32
