@@ -39,6 +39,30 @@
       },
       "revId": "30d7452e9847b02d41ad33d036b91d0ed52b8c39",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa26e56d_c3956a5f",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-01-30T00:22:28Z",
+      "side": 1,
+      "message": "Done.  Thanks for clarifying.  I didn\u0027t know if there was a situation where a type parameter has no name, so the if-check was a way of expressing that the sym may not always be set.  But I also understand either way that the simpler code works.",
+      "parentUuid": "7b4de287_8cdc2ed7",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 106,
+        "endChar": 11
+      },
+      "revId": "30d7452e9847b02d41ad33d036b91d0ed52b8c39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
