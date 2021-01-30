@@ -271,6 +271,9 @@ func getclosureptr() uintptr
 //go:noescape
 func asmcgocall(fn, arg unsafe.Pointer) int32
 
+//go:noescape
+func asmcgocall_no_g(fn, arg unsafe.Pointer)
+
 func morestack()
 func morestack_noctxt()
 func rt0_go()
