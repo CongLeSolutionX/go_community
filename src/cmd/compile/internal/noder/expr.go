@@ -95,7 +95,18 @@ func (g *irgen) expr0(typ types2.Type, expr syntax.Expr) ir.Node {
 	case *syntax.CallExpr:
 		return Call(pos, g.typ(typ), g.expr(expr.Fun), g.exprs(expr.ArgList), expr.HasDots)
 	case *syntax.IndexExpr:
-		return Index(pos, g.typ(typ), g.expr(expr.X), g.expr(expr.Index))
+		var index ir.Node
+		if _, ok := expr.Index.(*syntax.ListExpr); ok {
+			// Multiple types for generic function call
+			index = ir.NewIndexListExpr(pos, g.exprList(expr.Index))
+		} else {
+			index = g.expr(expr.Index)
+			if index.Op() == ir.OTYPE {
+				// Single type for a generic function call
+				index = ir.NewIndexListExpr(pos, []ir.Node{index})
+			}
+		}
+		return Index(pos, g.typ(typ), g.expr(expr.X), index)
 	case *syntax.ParenExpr:
 		return g.expr(expr.X) // skip parens; unneeded after parse+typecheck
 	case *syntax.SelectorExpr:
