@@ -307,6 +307,20 @@ func (n *IndexExpr) SetOp(op Op) {
 	}
 }
 
+// An IndexListExpr is list of types for a generic function call
+type IndexListExpr struct {
+	miniExpr
+	List Nodes
+}
+
+func NewIndexListExpr(pos src.XPos, list []Node) *IndexListExpr {
+	n := &IndexListExpr{}
+	n.pos = pos
+	n.op = OINDEXLIST
+	n.List = list
+	return n
+}
+
 // A KeyExpr is a Key: Value composite literal key.
 type KeyExpr struct {
 	miniExpr

@@ -118,12 +118,12 @@ func Call(pos src.XPos, typ *types.Type, fun ir.Node, args []ir.Node, dots bool)
 
 	var targs []ir.Node
 	if indexExpr, ok := fun.(*ir.IndexExpr); ok {
-		if indexExpr.Index.Op() == ir.OTYPE {
+		if indexExpr.Index.Op() == ir.OINDEXLIST {
 			// Called function is an instantiated generic function
-			// TODO this handles just one type argument for now
 			fun = indexExpr.X
-			targs = make([]ir.Node, 1, 1)
-			targs[0] = indexExpr.Index
+			indexList := indexExpr.Index.(*ir.IndexListExpr)
+			// Don't need to copy, since the node list was just created
+			targs = indexList.List
 		}
 	}
 
@@ -235,7 +235,7 @@ func method(typ *types.Type, index int) *types.Field {
 }
 
 func Index(pos src.XPos, typ *types.Type, x, index ir.Node) ir.Node {
-	if index.Op() == ir.OTYPE {
+	if index.Op() == ir.OINDEXLIST {
 		n := ir.NewIndexExpr(pos, x, index)
 		typed(typ, n)
 		return n
