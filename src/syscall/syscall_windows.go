@@ -284,6 +284,9 @@ func NewCallbackCDecl(fn interface{}) uintptr {
 // This function returns 1 byte BOOLEAN rather than the 4 byte BOOL.
 //sys	CreateSymbolicLink(symlinkfilename *uint16, targetfilename *uint16, flags uint32) (err error) [failretval&0xff==0] = CreateSymbolicLinkW
 //sys	CreateHardLink(filename *uint16, existingfilename *uint16, reserved uintptr) (err error) [failretval&0xff==0] = CreateHardLinkW
+//sys	initializeProcThreadAttributeList(attrlist *_PROC_THREAD_ATTRIBUTE_LIST, attrcount uint32, flags uint32, size *uintptr) (err error) = InitializeProcThreadAttributeList
+//sys	deleteProcThreadAttributeList(attrlist *_PROC_THREAD_ATTRIBUTE_LIST) = DeleteProcThreadAttributeList
+//sys	updateProcThreadAttribute(attrlist *_PROC_THREAD_ATTRIBUTE_LIST, flags uint32, attr uintptr, value uintptr, size uintptr, prevvalue uintptr, returnedsize *uintptr) (err error) = UpdateProcThreadAttribute
 
 // syscall interface implementation for other packages
 
@@ -1208,4 +1211,28 @@ func Readlink(path string, buf []byte) (n int, err error) {
 	n = copy(buf, []byte(s))
 
 	return n, nil
+}
+
+// newProcThreadAttributeList allocates new PROC_THREAD_ATTRIBUTE_LIST, with a have maximum of maxattrcount attributes.
+func newProcThreadAttributeList(maxattrcount uint32) (*_PROC_THREAD_ATTRIBUTE_LIST, error) {
+	var size uintptr
+	err := initializeProcThreadAttributeList(nil, maxattrcount, 0, &size)
+	if err != ERROR_INSUFFICIENT_BUFFER {
+		if err == nil {
+			return nil, errorspkg.New("InitializeProcThreadAttributeList returned no error")
+		}
+		return nil, err
+	}
+	al := (*_PROC_THREAD_ATTRIBUTE_LIST)(unsafe.Pointer(&make([]byte, size)[0]))
+	err = initializeProcThreadAttributeList(al, maxattrcount, 0, &size)
+	if err != nil {
+		return nil, err
+	}
+	runtime.SetFinalizer(al, deleteProcThreadAttributeList)
+	return al, err
+}
+
+// Update modifies the ProcThreadAttributeList using UpdateProcThreadAttribute.
+func (al *_PROC_THREAD_ATTRIBUTE_LIST) Update(attribute uintptr, flags uint32, value unsafe.Pointer, size uintptr) error {
+	return updateProcThreadAttribute(al, flags, attribute, uintptr(value), size, 0, nil)
 }
