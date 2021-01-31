@@ -235,13 +235,14 @@ type ProcAttr struct {
 }
 
 type SysProcAttr struct {
-	HideWindow        bool
-	CmdLine           string // used if non-empty, else the windows command line is built by escaping the arguments passed to StartProcess
-	CreationFlags     uint32
-	Token             Token               // if set, runs new process in the security context represented by the token
-	ProcessAttributes *SecurityAttributes // if set, applies these security attributes as the descriptor for the new process
-	ThreadAttributes  *SecurityAttributes // if set, applies these security attributes as the descriptor for the main thread of the new process
-	NoInheritHandles  bool                // if set, each inheritable handle in the calling process is not inherited by the new process
+	HideWindow                 bool
+	CmdLine                    string // used if non-empty, else the windows command line is built by escaping the arguments passed to StartProcess
+	CreationFlags              uint32
+	Token                      Token               // if set, runs new process in the security context represented by the token
+	ProcessAttributes          *SecurityAttributes // if set, applies these security attributes as the descriptor for the new process
+	ThreadAttributes           *SecurityAttributes // if set, applies these security attributes as the descriptor for the main thread of the new process
+	NoInheritHandles           bool                // if set, each inheritable handle in the calling process is not inherited by the new process
+	AdditionalInheritedHandles []Handle            // a list of additional handles, already marked as inheritable, that will be inherited by the new process
 }
 
 var zeroProcAttr ProcAttr
@@ -336,6 +337,7 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 	si.StdOutput = fd[1]
 	si.StdErr = fd[2]
 
+	fd = append(fd, sys.AdditionalInheritedHandles...)
 	// Do not accidentally inherit more than these handles.
 	err = si.ProcThreadAttributeList.Update(_PROC_THREAD_ATTRIBUTE_HANDLE_LIST, 0, unsafe.Pointer(&fd[0]), uintptr(len(fd))*unsafe.Sizeof(fd[0]))
 	if err != nil {
