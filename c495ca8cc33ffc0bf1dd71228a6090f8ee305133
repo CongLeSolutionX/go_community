@@ -39,6 +39,30 @@
       },
       "revId": "c495ca8cc33ffc0bf1dd71228a6090f8ee305133",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e51afdb9_e5ac28dd",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-01T22:05:06Z",
+      "side": 1,
+      "message": "Yes, will fix that in next CL.",
+      "parentUuid": "db63eea8_1220edc3",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 5
+      },
+      "revId": "c495ca8cc33ffc0bf1dd71228a6090f8ee305133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
