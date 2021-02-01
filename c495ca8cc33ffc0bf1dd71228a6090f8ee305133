@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b18f7779_83024c36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-01T21:26:06Z",
+      "side": 1,
+      "message": "All suggestions done.  Added line in irgen.go to create the Inferred map in Info, so that it would then be populated.  (Just using it right now to give an error if there are any inferred arguments.)\n\n",
+      "revId": "c495ca8cc33ffc0bf1dd71228a6090f8ee305133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
