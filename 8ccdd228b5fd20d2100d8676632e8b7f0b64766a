@@ -33,6 +33,57 @@
       "message": "Thanks! The CI is on green!",
       "revId": "8ccdd228b5fd20d2100d8676632e8b7f0b64766a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4cb71c4_965b4cfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-01T19:29:20Z",
+      "side": 1,
+      "message": "Thank you for mailing this change, Wei! I\u0027ve added some suggestions for making the test reliable and also improving it, please take a look.",
+      "revId": "8ccdd228b5fd20d2100d8676632e8b7f0b64766a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddda5c9c_565ad901",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-01T19:29:20Z",
+      "side": 1,
+      "message": "In the past this kind of test caused flakes, perhaps we can recompose this code to ensure proper synchronization, and thus for every single test perhaps:\n\nfunc TestServeContentEOFsOnWriteTimeoutExceeded(t *testing.T) {\n        files :\u003d []string{\n                \"/file\",                 // size \u003c 512 bytes\n                \"/file-bigger-than-512\", // size \u003e 512 bytes\n        }\n\n        fileServer :\u003d FileServer(Dir(\"testdata\"))\n        for _, filename :\u003d range files {\n                filename :\u003d filename\n                t.Run(filename, func(t *testing.T) {\n                        var wg sync.WaitGroup\n                        // Ensure that the test ended.\n                        defer wg.Wait()\n\n                        timeoutHandler :\u003d HandlerFunc(func(rw ResponseWriter, req *Request) {\n                                wg.Wait()\n                                fileServer.ServeHTTP(rw, req)\n                        })\n                        cst :\u003d httptest.NewUnstartedServer(timeoutHandler)\n                        cst.Config.WriteTimeout \u003d 100 * time.Millisecond\n                        cst.Start()\n                        defer cst.Close()\n\n                        wg.Add(1)\n                        go func() {\n                                \u003c-time.After(cst.Config.WriteTimeout * 2)\n                                wg.Done()\n                        }()\n\n                        res, err :\u003d cst.Client().Get(cst.URL + filename)\n                        if !errors.Is(err, io.EOF) {\n                                t.Fatalf(\"got %v, want io.EOF\", err)\n                        }\n                        if res !\u003d nil \u0026\u0026 res.Body !\u003d nil {\n                                res.Body.Close()\n                        }\n                })\n        }\n}",
+      "revId": "8ccdd228b5fd20d2100d8676632e8b7f0b64766a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "166535d1_67498da8",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-01T19:29:20Z",
+      "side": 1,
+      "message": "This code won\u0027t run the next test if it fails on the first, we perhaps need a sub test.",
+      "revId": "8ccdd228b5fd20d2100d8676632e8b7f0b64766a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
