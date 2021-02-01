@@ -5,6 +5,7 @@
 package abi
 
 import (
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
@@ -28,6 +29,10 @@ type ABIParamResultInfo struct {
 	offsetToSpillArea int64
 	spillAreaSize     int64
 	config            *ABIConfig // to enable String() method
+}
+
+func (a *ABIParamResultInfo) Config() *ABIConfig {
+	return a.config
 }
 
 func (a *ABIParamResultInfo) InParams() []ABIParamAssignment {
@@ -72,6 +77,7 @@ type RegIndex uint8
 // described above), not architected registers.
 type ABIParamAssignment struct {
 	Type      *types.Type
+	Name      *ir.Name // should be *ir.Name helpful for matching to a particular Arg.
 	Registers []RegIndex
 	offset    int32
 }
@@ -126,37 +132,38 @@ func (a *ABIConfig) Copy() *ABIConfig {
 // NumParamRegs returns the number of parameter registers used for a given type,
 // without regard for the number available.
 func (a *ABIConfig) NumParamRegs(t *types.Type) int {
+	var n int
 	if n, ok := a.regsForTypeCache[t]; ok {
 		return n
 	}
 
 	if t.IsScalar() || t.IsPtrShaped() {
-		var n int
 		if t.IsComplex() {
 			n = 2
 		} else {
 			n = (int(t.Size()) + types.RegSize - 1) / types.RegSize
 		}
-		a.regsForTypeCache[t] = n
-		return n
-	}
-	typ := t.Kind()
-	n := 0
-	switch typ {
-	case types.TARRAY:
-		n = a.NumParamRegs(t.Elem()) * int(t.NumElem())
-	case types.TSTRUCT:
-		for _, f := range t.FieldSlice() {
-			n += a.NumParamRegs(f.Type)
+	} else {
+		typ := t.Kind()
+		switch typ {
+		case types.TARRAY:
+			n = a.NumParamRegs(t.Elem()) * int(t.NumElem())
+		case types.TSTRUCT:
+			for _, f := range t.FieldSlice() {
+				n += a.NumParamRegs(f.Type)
+			}
+		case types.TSLICE:
+			n = a.NumParamRegs(synthSlice)
+		case types.TSTRING:
+			n = a.NumParamRegs(synthString)
+		case types.TINTER:
+			n = a.NumParamRegs(synthIface)
 		}
-	case types.TSLICE:
-		n = a.NumParamRegs(synthSlice)
-	case types.TSTRING:
-		n = a.NumParamRegs(synthString)
-	case types.TINTER:
-		n = a.NumParamRegs(synthIface)
 	}
-	a.regsForTypeCache[t] = n
+	if _, ok := a.regsForTypeCache[t]; !ok {
+		a.regsForTypeCache[t] = n
+	}
+
 	return n
 }
 
@@ -176,14 +183,14 @@ func (config *ABIConfig) ABIAnalyze(t *types.Type) *ABIParamResultInfo {
 	if t.NumRecvs() != 0 {
 		rfsl := ft.Receiver.FieldSlice()
 		result.inparams = append(result.inparams,
-			s.assignParamOrReturn(rfsl[0].Type, false))
+			s.assignParamOrReturn(rfsl[0], false))
 	}
 
 	// Inputs
 	ifsl := ft.Params.FieldSlice()
 	for _, f := range ifsl {
 		result.inparams = append(result.inparams,
-			s.assignParamOrReturn(f.Type, false))
+			s.assignParamOrReturn(f, false))
 	}
 	s.stackOffset = types.Rnd(s.stackOffset, int64(types.RegSize))
 
@@ -191,7 +198,7 @@ func (config *ABIConfig) ABIAnalyze(t *types.Type) *ABIParamResultInfo {
 	s.rUsed = RegAmounts{}
 	ofsl := ft.Results.FieldSlice()
 	for _, f := range ofsl {
-		result.outparams = append(result.outparams, s.assignParamOrReturn(f.Type, true))
+		result.outparams = append(result.outparams, s.assignParamOrReturn(f, true))
 	}
 	// The spill area is at a register-aligned offset and its size is rounded up to a register alignment.
 	// TODO in theory could align offset only to minimum required by spilled data types.
@@ -299,7 +306,7 @@ func (state *assignState) allocateRegs() []RegIndex {
 // regAllocate creates a register ABIParamAssignment object for a param
 // or result with the specified type, as a final step (this assumes
 // that all of the safety/suitability analysis is complete).
-func (state *assignState) regAllocate(t *types.Type, isReturn bool) ABIParamAssignment {
+func (state *assignState) regAllocate(t *types.Type, name *ir.Name, isReturn bool) ABIParamAssignment {
 	spillLoc := int64(-1)
 	if !isReturn {
 		// Spill for register-resident t must be aligned for storage of a t.
@@ -308,6 +315,7 @@ func (state *assignState) regAllocate(t *types.Type, isReturn bool) ABIParamAssi
 	}
 	return ABIParamAssignment{
 		Type:      t,
+		Name:      name,
 		Registers: state.allocateRegs(),
 		offset:    int32(spillLoc),
 	}
@@ -316,9 +324,10 @@ func (state *assignState) regAllocate(t *types.Type, isReturn bool) ABIParamAssi
 // stackAllocate creates a stack memory ABIParamAssignment object for
 // a param or result with the specified type, as a final step (this
 // assumes that all of the safety/suitability analysis is complete).
-func (state *assignState) stackAllocate(t *types.Type) ABIParamAssignment {
+func (state *assignState) stackAllocate(t *types.Type, name *ir.Name) ABIParamAssignment {
 	return ABIParamAssignment{
 		Type:   t,
+		Name:   name,
 		offset: int32(state.stackSlot(t)),
 	}
 }
@@ -454,15 +463,20 @@ func (state *assignState) regassign(pt *types.Type) bool {
 // of type 'pt' to determine whether it can be register assigned.
 // The result of the analysis is recorded in the result
 // ABIParamResultInfo held in 'state'.
-func (state *assignState) assignParamOrReturn(pt *types.Type, isReturn bool) ABIParamAssignment {
+func (state *assignState) assignParamOrReturn(f *types.Field, isReturn bool) ABIParamAssignment {
+	pt := f.Type
+	var name *ir.Name
+	if f.Nname != nil {
+		name = f.Nname.(*ir.Name)
+	}
 	state.pUsed = RegAmounts{}
 	if pt.Width == types.BADWIDTH {
 		panic("should never happen")
 	} else if pt.Width == 0 {
-		return state.stackAllocate(pt)
+		return state.stackAllocate(pt, name)
 	} else if state.regassign(pt) {
-		return state.regAllocate(pt, isReturn)
+		return state.regAllocate(pt, name, isReturn)
 	} else {
-		return state.stackAllocate(pt)
+		return state.stackAllocate(pt, name)
 	}
 }
