@@ -81,6 +81,7 @@ func isgoexception(info *exceptionrecord, r *context) bool {
 	case _EXCEPTION_FLT_OVERFLOW:
 	case _EXCEPTION_FLT_UNDERFLOW:
 	case _EXCEPTION_BREAKPOINT:
+	case _EXCEPTION_ILLEGAL_INSTRUCTION: // breakpoint arrives this way on arm64
 	}
 	return true
 }
@@ -138,6 +139,7 @@ func exceptionhandler(info *exceptionrecord, r *context, gp *g) int32 {
 		r.set_sp(uintptr(sp))
 		if usesLR {
 			*((*uintptr)(sp)) = r.lr()
+			r.set_lr(r.ip())
 		} else {
 			*((*uintptr)(sp)) = r.ip()
 		}
