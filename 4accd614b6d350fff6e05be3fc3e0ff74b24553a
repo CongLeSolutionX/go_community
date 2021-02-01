@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf182301_1cc8b14c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-01T22:08:28Z",
+      "side": 1,
+      "message": "Let me know what you think of this approach (i.e. the new OINDEXLIST node) to handle multiple type args.  This CL handles something like this:\n\nfunc Print2[T any, U any](val1 T, val2 U) {\n        fmt.Println(val1, val2)\n}\n\nfunc main() {\n        Print2[string,int](\"test\", 4)\n}\n",
+      "revId": "4accd614b6d350fff6e05be3fc3e0ff74b24553a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
