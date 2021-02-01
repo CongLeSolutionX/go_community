@@ -109,6 +109,16 @@ func (a *AuxCall) OffsetOfArg(which int64) int64 {
 	return int64(a.args[which].Offset)
 }
 
+// RegsOfResult returns the register(s) used for result which (indexed 0, 1, etc).
+func (a *AuxCall) RegsOfResult(which int64) []abi.RegIndex {
+	return a.results[which].Reg
+}
+
+// RegsOfArg returns the register(s) used for argument which (indexed 0, 1, etc).
+func (a *AuxCall) RegsOfArg(which int64) []abi.RegIndex {
+	return a.args[which].Reg
+}
+
 // TypeOfResult returns the type of result which (indexed 0, 1, etc).
 func (a *AuxCall) TypeOfResult(which int64) *types.Type {
 	return a.results[which].Type
