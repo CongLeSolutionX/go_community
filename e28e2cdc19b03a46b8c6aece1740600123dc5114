@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35a65de1_eb571e3e",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-01T22:05:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "337993ef_05513ebf",
+      "range": {
+        "startLine": 98,
+        "startChar": 14,
+        "endLine": 98,
+        "endChar": 15
+      },
+      "revId": "e28e2cdc19b03a46b8c6aece1740600123dc5114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1f625c2_8d455260",
