@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "337993ef_05513ebf",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-01T19:59:02Z",
+      "side": 1,
+      "message": "check for a single type argument for now and panic otherwise",
+      "range": {
+        "startLine": 98,
+        "startChar": 14,
+        "endLine": 98,
+        "endChar": 15
+      },
+      "revId": "e28e2cdc19b03a46b8c6aece1740600123dc5114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1f625c2_8d455260",
+        "filename": "src/cmd/compile/internal/noder/helpers.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-01T19:59:02Z",
+      "side": 1,
+      "message": "Add a comment:\n\n// called function is an instantiated generic function\n// TODO this handles just one type argument for now",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 1
+      },
+      "revId": "e28e2cdc19b03a46b8c6aece1740600123dc5114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7b84772_d56f4956",
+        "filename": "src/cmd/compile/internal/noder/helpers.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-01T19:59:02Z",
+      "side": 1,
+      "message": "this should probably panic for now if there\u0027s more than one type argument",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 1
+      },
+      "revId": "e28e2cdc19b03a46b8c6aece1740600123dc5114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2354535_be428e94",
+        "filename": "src/cmd/compile/internal/noder/helpers.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-01T19:59:02Z",
+      "side": 1,
+      "message": "meed to check for presence of inferred type arguments - ok to panic for now if present",
+      "revId": "e28e2cdc19b03a46b8c6aece1740600123dc5114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fbb6f20_36dedef4",
+        "filename": "src/cmd/compile/internal/noder/helpers.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-01T19:59:02Z",
+      "side": 1,
+      "message": "add a comment\n\n// rewrite node depending on use",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 1
+      },
+      "revId": "e28e2cdc19b03a46b8c6aece1740600123dc5114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f3b2a13_f7cd9602",
+        "filename": "src/cmd/compile/internal/noder/helpers.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-01T19:59:02Z",
+      "side": 1,
+      "message": "is this again for just one type argument?",
+      "range": {
+        "startLine": 235,
+        "startChar": 10,
+        "endLine": 235,
+        "endChar": 12
+      },
+      "revId": "e28e2cdc19b03a46b8c6aece1740600123dc5114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cda9a78_ca816836",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-01T19:59:02Z",
+      "side": 1,
+      "message": "this comment is confusing",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 57
+      },
+      "revId": "e28e2cdc19b03a46b8c6aece1740600123dc5114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
