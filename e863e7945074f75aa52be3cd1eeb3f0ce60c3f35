@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a804144_d9e75a42",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-02T15:20:20Z",
+      "side": 1,
+      "message": "This assumes a non- gopkg.in module path.\n\nThat is certainly the more common kind of path (by far!), but perhaps it\u0027s worth emitting a different message for a malformed gopkg.in path?",
+      "range": {
+        "startLine": 494,
+        "startChar": 9,
+        "endLine": 494,
+        "endChar": 105
+      },
+      "revId": "e863e7945074f75aa52be3cd1eeb3f0ce60c3f35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
