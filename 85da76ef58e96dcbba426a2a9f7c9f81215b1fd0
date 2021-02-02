@@ -16,6 +16,23 @@
       "message": "This is a step toward supporting -test.run\u003dFuzzTarget/\u003csomehash\u003e. We need the name of each input loaded from the seed corpus in order to do test filtering.",
       "revId": "85da76ef58e96dcbba426a2a9f7c9f81215b1fd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "664ade6c_7c359270",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-02T16:08:09Z",
+      "side": 1,
+      "message": "We\u0027ll need to do this anyway for supporting structured fuzzing, so LGTM! I am curious how you\u0027ll use Name to support -run with a specific entry, but I\u0027ll wait to see that until your follow-up CL.",
+      "revId": "85da76ef58e96dcbba426a2a9f7c9f81215b1fd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
