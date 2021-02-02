@@ -711,6 +711,9 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 			return false, errors.New("tls: server selected unadvertised ALPN protocol")
 		}
 		c.clientProtocol = hs.serverHello.alpnProtocol
+	} else if hs.serverHello.alpnProtocol == "" && len(hs.hello.alpnProtocols) > 0 {
+		c.sendAlert(alertHandshakeFailure)
+		return false, errors.New("tls: server ignored ALPN extension")
 	}
 
 	c.scts = hs.serverHello.scts
