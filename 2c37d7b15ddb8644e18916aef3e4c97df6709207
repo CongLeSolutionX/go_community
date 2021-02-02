@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2a38a65_2b60bf00",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-02T17:18:59Z",
+      "side": 1,
+      "message": "Can we get rid of goobj.SymFlagTopFrame as part of this patch? Seems as though it is superfluous now. Will require a corresponding loader change too.",
+      "range": {
+        "startLine": 334,
+        "startChar": 10,
+        "endLine": 334,
+        "endChar": 31
+      },
+      "revId": "2c37d7b15ddb8644e18916aef3e4c97df6709207",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
