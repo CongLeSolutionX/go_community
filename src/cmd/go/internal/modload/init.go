@@ -490,6 +490,10 @@ func checkModulePathLax(p string) error {
 		return errorf("contains disallowed path separator character %q", p[i])
 	}
 
+	if _, _, ok := module.SplitPathVersion(p); !ok {
+		return errorf("major version suffixes must be in the form of /vN and are only allowed for v2 or later")
+	}
+
 	// Ensure path.IsAbs and build.IsLocalImport are false, and that the path is
 	// invariant under path.Clean, also to avoid confusing the module cache.
 	if path.IsAbs(p) {

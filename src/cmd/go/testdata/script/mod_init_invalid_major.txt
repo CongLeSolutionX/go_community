@@ -1,0 +1,23 @@
+env GO111MODULE=on
+env GOFLAGS=-mod=mod
+
+! go mod init example.com/user/repo/v0
+stderr '^go: invalid module path "example.com/user/repo/v0": major version suffixes must be in the form of /vN and are only allowed for v2 or later$'
+
+! go mod init example.com/user/repo/v02
+stderr '^go: invalid module path "example.com/user/repo/v02": major version suffixes must be in the form of /vN and are only allowed for v2 or later$'
+
+! go mod init example.com/user/repo/v1
+stderr '^go: invalid module path "example.com/user/repo/v1": major version suffixes must be in the form of /vN and are only allowed for v2 or later$'
+
+! go mod init example.com/user/repo/v2.0
+stderr '^go: invalid module path "example.com/user/repo/v2.0": major version suffixes must be in the form of /vN and are only allowed for v2 or later$'
+
+! go mod init example.com/user/repo/v2.1.4
+stderr '^go: invalid module path "example.com/user/repo/v2.1.4": major version suffixes must be in the form of /vN and are only allowed for v2 or later$'
+
+! go mod init example.com/user/repo/v2.
+stderr '^go: invalid module path "example.com/user/repo/v2.": major version suffixes must be in the form of /vN and are only allowed for v2 or later$'
+
+! go mod init example.com/user/repo/v.2
+stderr '^go: invalid module path "example.com/user/repo/v.2": major version suffixes must be in the form of /vN and are only allowed for v2 or later$'
