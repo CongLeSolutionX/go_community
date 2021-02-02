@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "942c4468_4dad49df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-02T03:01:16Z",
+      "side": 1,
+      "message": "Thank you, Wei! I\u0027ve replied to your updates, PTAL.",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

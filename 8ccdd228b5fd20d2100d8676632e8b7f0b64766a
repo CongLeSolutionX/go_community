@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c5549c1_b842753c",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-02T03:01:16Z",
+      "side": 1,
+      "message": "The point of that explicit synchronization was to ensure that we have predictable behavior, because in the past I found that sleeps introduce flakes which is why I suggested avoiding them outside of the handler. Please see prior flakes with: #35051 and CL 200518 which was fixed with CL 208477. Thank you.",
+      "parentUuid": "858dd293_eba6f7c4",
+      "revId": "8ccdd228b5fd20d2100d8676632e8b7f0b64766a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "166535d1_67498da8",
         "filename": "src/net/http/fs_test.go",
         "patchSetId": 3
