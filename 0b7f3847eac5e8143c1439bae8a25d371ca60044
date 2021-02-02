@@ -33,6 +33,40 @@
       "message": "Also cc-ing Bryan to examine potential flakes, please, and thank you!",
       "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48448ee0_2dbafcae",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-02T15:43:02Z",
+      "side": 1,
+      "message": "A comment for this constant would be helpful. 100ms is quite a long time, especially for a non-parallel test. Does the test really need it to be this long?",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f61c7c3_87032aff",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-02T15:43:02Z",
+      "side": 1,
+      "message": "time.Sleep is generally not reliable for testing — especially not with a factor as small as 2. Is it possible to replace this sleeping with some form of synchronization?\n\nFor example, should the call to Get return before fileServer.ServeHTTP is run? If so, you could close a channel after Get returns, and receive from that channel here in the handler.",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
