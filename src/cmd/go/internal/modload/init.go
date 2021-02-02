@@ -563,6 +563,15 @@ func checkModulePathLax(p string) error {
 		return errorf("contains disallowed path separator character %q", p[i])
 	}
 
+	if _, _, ok := module.SplitPathVersion(p); !ok {
+		if strings.HasPrefix(p, "gopkg.in/") {
+			correction := suggestGopkgIn(p)
+			return errorf("module paths beginning with gopkg.in/ must always have a major version suffix in the form of .vN:\n\tgo mod init %s", correction)
+		}
+		correction := suggestModulePath(p)
+		return errorf("major version suffixes must be in the form of /vN and are only allowed for v2 or later:\n\tgo mod init %s", correction)
+	}
+
 	// Ensure path.IsAbs and build.IsLocalImport are false, and that the path is
 	// invariant under path.Clean, also to avoid confusing the module cache.
 	if path.IsAbs(p) {
@@ -1148,4 +1157,57 @@ const (
 // file is stored in the go.sum file.
 func modkey(m module.Version) module.Version {
 	return module.Version{Path: m.Path, Version: m.Version + "/go.mod"}
+}
+
+func suggestModulePath(path string) string {
+	var m string
+
+	i := len(path)
+	for i > 0 && ('0' <= path[i-1] && path[i-1] <= '9' || path[i-1] == '.') {
+		i--
+	}
+	url := path[:i]
+	url = strings.TrimSuffix(url, "/v")
+	url = strings.TrimSuffix(url, "/")
+
+	f := func(c rune) bool {
+		return c > '9' || c < '0'
+	}
+	s := strings.FieldsFunc(path[i:], f)
+	if len(s) > 0 {
+		m = s[0]
+	}
+	m = strings.TrimLeft(m, "0")
+	if m == "" || m == "1" {
+		return url + "/v2"
+	}
+
+	return url + "/v" + m
+}
+
+func suggestGopkgIn(path string) string {
+	var m string
+	i := len(path)
+	for i > 0 && (('0' <= path[i-1] && path[i-1] <= '9') || (path[i-1] == '.')) {
+		i--
+	}
+	url := path[:i]
+	url = strings.TrimSuffix(url, ".v")
+	url = strings.TrimSuffix(url, "/v")
+	url = strings.TrimSuffix(url, "/")
+
+	f := func(c rune) bool {
+		return c > '9' || c < '0'
+	}
+	s := strings.FieldsFunc(path, f)
+	if len(s) > 0 {
+		m = s[0]
+	}
+
+	m = strings.TrimLeft(m, "0")
+
+	if m == "" {
+		return url + ".v1"
+	}
+	return url + ".v" + m
 }
