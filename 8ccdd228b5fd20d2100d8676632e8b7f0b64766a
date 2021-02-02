@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0560540d_ad7033d1",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-02-02T04:06:55Z",
+      "side": 1,
+      "message": "The link is helpful! It is good pattern for testing ServerReply when Timeout. It uses block channel to let `ctx.Done()` return error. But in this case, it needs server to flush the response to client 😭.\n\nI was thinking that is like\n\n```go\n// the part of the case\n\nstartCh :\u003d make(chan struct{}, 0)\nwaitCh :\u003d make(chan struct{}, 0)\n\ntimeoutHandler :\u003d HandlerFunc(func(rw ResponseWriter, req *Request) {\n    close(startCh)\n    \u003c-waitCh\n    fileServer.ServeHTTP(rw, req)\n})\n\ngo func() {\n   \u003c-startCh\n   time.Sleep(2 * cst.Config.WriteTimeout)\n   close(waitCh)\n}()\n\n...\n```\n\nBut it seems that it is still flaky when builder is busy...",
+      "parentUuid": "2c5549c1_b842753c",
+      "revId": "8ccdd228b5fd20d2100d8676632e8b7f0b64766a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "166535d1_67498da8",
         "filename": "src/net/http/fs_test.go",
         "patchSetId": 3
