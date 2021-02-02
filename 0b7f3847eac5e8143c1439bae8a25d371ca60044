@@ -37,6 +37,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ed15d0c_aec0ac27",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-02-02T18:40:43Z",
+      "side": 1,
+      "message": "I think the test for timeouts should be in net/sendfile_test.go.\n\nThe bug being fixed is in the ReadFrom method of net.TCPConn; the test should be as close to that point as possible.\n\nPerhaps we should also have this test for the net/http package, but testing net/http with files of different sizes to trigger potential bugs in net.TCPConn puts too much distance between the code under test and the test.",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cc768e8_28cdb0b6",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1428,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-02-02T18:40:43Z",
+      "side": 1,
+      "message": "Nit: I\u0027m guessing the \"filename :\u003d file\" is to avoid capturing the loop variable in the closure below. Shadowing the loop var (\"file :\u003d file\") will achieve the same while making it impossible to accidentally reference the wrong variable below.",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "48448ee0_2dbafcae",
         "filename": "src/net/http/fs_test.go",
         "patchSetId": 4
