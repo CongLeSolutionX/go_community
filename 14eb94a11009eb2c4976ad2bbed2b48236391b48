@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8db21ee_4d402215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T00:58:43Z",
+      "side": 1,
+      "message": "Thanks for review!  Did all your suggestions.\n\nAlready have quite simple change to use inferred types as well, will send that out after this one goes in.",
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b56c572_eae63e26",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T00:58:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa1ebfbe_f52f8220",
+      "range": {
+        "startLine": 310,
+        "startChar": 23,
+        "endLine": 310,
+        "endChar": 27
+      },
+      "revId": "4accd614b6d350fff6e05be3fc3e0ff74b24553a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fefbb5c2_78dae76c",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-01T22:11:00Z",
       "side": 1,
       "message": "NewListExpr",
+      "range": {
+        "startLine": 316,
+        "startChar": 5,
+        "endLine": 316,
+        "endChar": 21
+      },
+      "revId": "4accd614b6d350fff6e05be3fc3e0ff74b24553a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aed852f3_aa0507f8",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T00:58:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefbb5c2_78dae76c",
       "range": {
         "startLine": 316,
         "startChar": 5,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "093f59e0_1ba01b55",
+        "filename": "src/cmd/compile/internal/ir/node.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T00:58:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f24ccb7_1b53882f",
+      "range": {
+        "startLine": 193,
+        "startChar": 1,
+        "endLine": 193,
+        "endChar": 11
+      },
+      "revId": "4accd614b6d350fff6e05be3fc3e0ff74b24553a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79be37bc_97cdd40f",
@@ -110,6 +182,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6326da9_eb804e1f",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T00:58:43Z",
+      "side": 1,
+      "message": "OK, added \u0027type instantiation\u0027 to the comment.\n\nWe already deal with only a single type in the ListExpr (g.exprList works fine with only one element in the ElemList).",
+      "parentUuid": "79be37bc_97cdd40f",
+      "range": {
+        "startLine": 104,
+        "startChar": 25,
+        "endLine": 104,
+        "endChar": 32
+      },
+      "revId": "4accd614b6d350fff6e05be3fc3e0ff74b24553a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe9431b2_71939c9b",
@@ -123,6 +219,30 @@
       "writtenOn": "2021-02-01T22:11:00Z",
       "side": 1,
       "message": "no need to introduce an extra variable",
+      "range": {
+        "startLine": 124,
+        "startChar": 3,
+        "endLine": 124,
+        "endChar": 12
+      },
+      "revId": "4accd614b6d350fff6e05be3fc3e0ff74b24553a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd1c0495_498487b8",
+        "filename": "src/cmd/compile/internal/noder/helpers.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T00:58:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe9431b2_71939c9b",
       "range": {
         "startLine": 124,
         "startChar": 3,
