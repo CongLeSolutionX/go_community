@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b134b00c_adf6a0f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-02T15:50:19Z",
+      "side": 1,
+      "message": "Nice catch. There is some ongoing work on ARM on WINE but I\u0027ve never run it:\n\nhttps://source.winehq.org/git/wine.git/?a\u003dsearch\u0026h\u003dHEAD\u0026st\u003dcommit\u0026s\u003d+ARM\n\nHopefully we can delete the Wine path at some point. There\u0027s been a patch in wine-staging for a while to add the PEB reads that the non-Wine path uses, but it still hasn\u0027t been merged, presumably because the approach of spawning a thread to update that variable is slow.",
+      "revId": "65ee8483b535ca78846e488e4110297175251be3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
