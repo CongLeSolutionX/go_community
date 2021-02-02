@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c83b2b8e_ff503630",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2021-02-02T21:23:47Z",
+      "side": 1,
+      "message": "This change is awaiting a review before it can be included in the next minor release.",
+      "revId": "8b9ac298123418c5ae66d145040257e70b7683d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
