@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f96d570_f0bfa9bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-02T04:40:04Z",
+      "side": 1,
+      "message": "should be OLIST now",
+      "range": {
+        "startLine": 7,
+        "startChar": 72,
+        "endLine": 7,
+        "endChar": 82
+      },
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5385b67_305f5255",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-02T04:40:04Z",
+      "side": 1,
+      "message": "This makes me rethink this approach:\n\nMaybe the \"correct\" solution is actually not to add a new OLIST node, but an OINST (or OINSTANCE) node: After all, when we create the IR we have type information etc., so there\u0027s no guessing about what a[x] means: If we have a type or function instantiation, we know. Furthermore, one aspect of the IR is that it can do lowering, and transforming an a[x] expression into the correctly lowered form is probably what needs to happen here. Maybe we should even distinguish between type and function instantiation because it means different things for the backend. So instead we should have an\n\nOTINST(ANCE)  type instantiation node\nOFINST(ANCE)  function instantiation node\n\ninstead? And we may want to introduce those nodes also for implicitly instantiated functions.",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98c3da8f_817dbef6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-02T04:40:04Z",
+      "side": 1,
+      "message": "remove the () - this is for an arbitrary instantiation (could be type or function instantiation)",
+      "range": {
+        "startLine": 14,
+        "startChar": 13,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b8db21ee_4d402215",
@@ -14,6 +83,23 @@
       "writtenOn": "2021-02-02T00:58:43Z",
       "side": 1,
       "message": "Thanks for review!  Did all your suggestions.\n\nAlready have quite simple change to use inferred types as well, will send that out after this one goes in.",
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7446f18_b0f1ca25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-02T04:40:04Z",
+      "side": 1,
+      "message": "I\u0027m having 2nd thoughts about this approach. I think you might be right that here we should actually introduce special new nodes representing correctly lowered forms.\n\n(What you have here works too, but then we have to do the work down the road anyway, so why not doing it early.)\n",
       "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
