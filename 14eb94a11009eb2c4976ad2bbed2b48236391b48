@@ -102,6 +102,40 @@
       "message": "I\u0027m having 2nd thoughts about this approach. I think you might be right that here we should actually introduce special new nodes representing correctly lowered forms.\n\n(What you have here works too, but then we have to do the work down the road anyway, so why not doing it early.)\n",
       "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b2731cd_e706b3d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-02T17:37:57Z",
+      "side": 1,
+      "message": "LGTM per personal discussion and with the understanding that we will introduce explicit\n\nOFUNCINST\nOTYPEINST\n\nnodes in subsequent CLs in favor of the OINDEXEXPR node that uses a type list.",
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45522d68_4988d6f3",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-02T17:37:57Z",
+      "side": 1,
+      "message": "Please add a comment here explaining that we use an IndexExpr in 2 ways, as an index (with expr) and as an instantiation (with type list).\n\nAnd that we plan to change this again.",
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
