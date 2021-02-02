@@ -639,7 +639,7 @@ func TestFoo(t *testing.T) {
 
     <p><!-- CL 246637 -->
       <a href="/pkg/crypto/tls/#Config.Clone"><code>Config.Clone</code></a> now
-      returns nil if the receiver is nil, rather than panicking.
+      returns <code>nil</code> if the receiver is <code>nil</code>, rather than panicking.
     </p>
   </dd>
 </dl><!-- crypto/tls -->
@@ -712,7 +712,7 @@ func TestFoo(t *testing.T) {
       <a href="/pkg/encoding/asn1/#Unmarshal"><code>Unmarshal</code></a> and
       <a href="/pkg/encoding/asn1/#UnmarshalWithParams"><code>UnmarshalWithParams</code></a>
       now return an error instead of panicking when the argument is not
-      a pointer or is nil. This change matches the behavior of other
+      a pointer or is <code>nil</code>. This change matches the behavior of other
       encoding packages such as <a href="/pkg/encoding/json"><code>encoding/json</code></a>.
     </p>
   </dd>
