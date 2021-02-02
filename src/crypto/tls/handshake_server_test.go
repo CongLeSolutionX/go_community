@@ -916,16 +916,9 @@ func TestHandshakeServerALPNNoMatch(t *testing.T) {
 		name: "ALPN-NoMatch",
 		// Note that this needs OpenSSL 1.0.2 because that is the first
 		// version that supports the -alpn flag.
-		command: []string{"openssl", "s_client", "-alpn", "proto2,proto1", "-cipher", "ECDHE-RSA-CHACHA20-POLY1305", "-ciphersuites", "TLS_CHACHA20_POLY1305_SHA256"},
-		config:  config,
-		validate: func(state ConnectionState) error {
-			// Rather than reject the connection, Go doesn't select
-			// a protocol when there is no overlap.
-			if state.NegotiatedProtocol != "" {
-				return fmt.Errorf("Got protocol %q, wanted ''", state.NegotiatedProtocol)
-			}
-			return nil
-		},
+		command:                       []string{"openssl", "s_client", "-alpn", "proto2,proto1", "-cipher", "ECDHE-RSA-CHACHA20-POLY1305", "-ciphersuites", "TLS_CHACHA20_POLY1305_SHA256"},
+		config:                        config,
+		expectHandshakeErrorIncluding: "client requested unsupported application protocol",
 	}
 	runServerTestTLS12(t, test)
 	runServerTestTLS13(t, test)

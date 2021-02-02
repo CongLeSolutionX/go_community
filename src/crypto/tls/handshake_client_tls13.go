@@ -404,6 +404,9 @@ func (hs *clientHandshakeStateTLS13) readServerParameters() error {
 			return errors.New("tls: server selected unadvertised ALPN protocol")
 		}
 		c.clientProtocol = encryptedExtensions.alpnProtocol
+	} else if encryptedExtensions.alpnProtocol == "" && len(hs.hello.alpnProtocols) > 0 {
+		c.sendAlert(alertHandshakeFailure)
+		return errors.New("tls: server ignored ALPN extension")
 	}
 
 	return nil

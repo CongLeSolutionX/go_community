@@ -566,10 +566,13 @@ func (hs *serverHandshakeStateTLS13) sendServerParameters() error {
 	encryptedExtensions := new(encryptedExtensionsMsg)
 
 	if len(hs.clientHello.alpnProtocols) > 0 {
-		if selectedProto := mutualProtocol(hs.clientHello.alpnProtocols, c.config.NextProtos); selectedProto != "" {
-			encryptedExtensions.alpnProtocol = selectedProto
-			c.clientProtocol = selectedProto
+		selectedProto := mutualProtocol(hs.clientHello.alpnProtocols, c.config.NextProtos)
+		if selectedProto == "" {
+			c.sendAlert(alertNoApplicationProtocol)
+			return errors.New("tls: client requested unsupported application protocol")
 		}
+		encryptedExtensions.alpnProtocol = selectedProto
+		c.clientProtocol = selectedProto
 	}
 
 	hs.transcript.Write(encryptedExtensions.marshal())
