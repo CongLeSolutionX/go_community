@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b0ad95_e4a6b9a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T18:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f96d570_f0bfa9bf",
+      "range": {
+        "startLine": 7,
+        "startChar": 72,
+        "endLine": 7,
+        "endChar": 82
+      },
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5385b67_305f5255",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7db64691_186a76b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T18:21:04Z",
+      "side": 1,
+      "message": "Yes, added a comment in the code that we will soon have function/type instantiation nodes that are distinct from OINDEX nodes.",
+      "parentUuid": "b5385b67_305f5255",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98c3da8f_817dbef6",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-02-02T04:40:04Z",
       "side": 1,
       "message": "remove the () - this is for an arbitrary instantiation (could be type or function instantiation)",
+      "range": {
+        "startLine": 14,
+        "startChar": 13,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9583c5ea_d818861d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T18:21:04Z",
+      "side": 1,
+      "message": "Removed this paragraph, added a commnent instead that we will likely go with separate function/type instantiation nodes.",
+      "parentUuid": "98c3da8f_817dbef6",
       "range": {
         "startLine": 14,
         "startChar": 13,
@@ -134,6 +206,24 @@
       "writtenOn": "2021-02-02T17:37:57Z",
       "side": 1,
       "message": "Please add a comment here explaining that we use an IndexExpr in 2 ways, as an index (with expr) and as an instantiation (with type list).\n\nAnd that we plan to change this again.",
+      "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7392f56_e9fd6021",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-02T18:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45522d68_4988d6f3",
       "revId": "14eb94a11009eb2c4976ad2bbed2b48236391b48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
