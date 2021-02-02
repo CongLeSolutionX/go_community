@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06e608da_f4410322",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-02T16:17:44Z",
+      "side": 1,
+      "message": "No R_CALL or R_PCREL on arm64 I guess?",
+      "revId": "2b510bace29bef534009156e06ecb78ec0fa3173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
