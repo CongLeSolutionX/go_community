@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "858dd293_eba6f7c4",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-02-02T02:47:19Z",
+      "side": 1,
+      "message": "Thanks for review!\n\nI updated the filename from response.example to file-bigger-than-512 and used `Subtests` to run cases.\n\nBut I doesn\u0027t use sync.WaitGroup to sync because `time.Sleep` is clear :P.\n\n```go\n// sync goroutine\ngo func() {\n   \u003c-time.After(cst.Config.WriteTimeout * 2)\n   wg.Done()\n}()\n```\n\nEven if the go schedule can make sure that `cst.Client().Get()` and `sync goroutine` can run at the same time, it maybe introduce unpredictable behaviour when `sync goroutine` finish before `cst.Client().Get()`. Therefore, `time.Sleep` in handler is more clear and reliable to me. WDYT?",
+      "parentUuid": "ddda5c9c_565ad901",
+      "revId": "8ccdd228b5fd20d2100d8676632e8b7f0b64766a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "166535d1_67498da8",
         "filename": "src/net/http/fs_test.go",
         "patchSetId": 3
