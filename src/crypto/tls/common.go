@@ -618,7 +618,12 @@ type Config struct {
 	RootCAs *x509.CertPool
 
 	// NextProtos is a list of supported application level protocols, in
-	// order of preference.
+	// order of preference. For servers, if NextProtos is set the server
+	// requires that there is overlap with the protocols advertised by
+	// the client, and if empty ALPN extensions send by the client are
+	// ignored. Clients should check ConnectionState.NegotiatedProtocol
+	// after the handshake if they rely on a specific protocol being
+	// negotiated with the server.
 	NextProtos []string
 
 	// ServerName is used to verify the hostname on the returned
