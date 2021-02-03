@@ -113,6 +113,9 @@ func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
 	// other cases, we rename the ABI0 symbol, since we want
 	// cross-load-module calls to target ABIInternal.
 	//
+	// XXX we also choose the unwrapped runtime.addmoduledata to be
+	// the primary symbol, because it is referenced from .init_array.
+	//
 	// TODO: generalize this for non-ELF (put the rename code in the
 	// loader, and store the rename result in SymExtname).
 	//
@@ -124,12 +127,12 @@ func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
 		if !ldr.IsExternal(x) && ldr.SymType(x) == sym.STEXT {
 			// First case
 			if ldr.SymVersion(x) == sym.SymVerABIInternal {
-				if s2 := ldr.Lookup(sname, sym.SymVerABI0); s2 != 0 && ldr.AttrCgoExportStatic(s2) && ldr.SymType(s2) == sym.STEXT {
+				if s2 := ldr.Lookup(sname, sym.SymVerABI0); s2 != 0 && (ldr.AttrCgoExportStatic(s2) || sname == "runtime.addmoduledata") && ldr.SymType(s2) == sym.STEXT {
 					sname = sname + ".abiinternal"
 				}
 			}
 			// Second case
-			if ldr.SymVersion(x) == sym.SymVerABI0 && !ldr.AttrCgoExportStatic(x) {
+			if ldr.SymVersion(x) == sym.SymVerABI0 && !ldr.AttrCgoExportStatic(x) && sname != "runtime.addmoduledata" {
 				if s2 := ldr.Lookup(sname, sym.SymVerABIInternal); s2 != 0 && ldr.SymType(s2) == sym.STEXT {
 					sname = sname + ".abi0"
 				}
