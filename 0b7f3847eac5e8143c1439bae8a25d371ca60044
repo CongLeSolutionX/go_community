@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6b23d780_f7c5bc00",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-02-03T11:21:20Z",
+      "side": 1,
+      "message": "Thanks! I\u0027m agree. Will add case in sendfile_test.go. I think we can keep both cases. The test case for net/http is like regression, even if it is not close to Sendfile.",
+      "parentUuid": "9ed15d0c_aec0ac27",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cc768e8_28cdb0b6",
         "filename": "src/net/http/fs_test.go",
         "patchSetId": 4
@@ -65,6 +83,24 @@
       "writtenOn": "2021-02-02T18:40:43Z",
       "side": 1,
       "message": "Nit: I\u0027m guessing the \"filename :\u003d file\" is to avoid capturing the loop variable in the closure below. Shadowing the loop var (\"file :\u003d file\") will achieve the same while making it impossible to accidentally reference the wrong variable below.",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00bba3a0_fb92656f",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1428,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-02-03T11:21:20Z",
+      "side": 1,
+      "message": "Got it!. Thank you",
+      "parentUuid": "9cc768e8_28cdb0b6",
       "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -88,6 +124,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "343f08cd_bffc877c",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-02-03T11:21:20Z",
+      "side": 1,
+      "message": "I see. I will update it. Thanks for the suggestion.",
+      "parentUuid": "48448ee0_2dbafcae",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f61c7c3_87032aff",
         "filename": "src/net/http/fs_test.go",
         "patchSetId": 4
@@ -99,6 +153,24 @@
       "writtenOn": "2021-02-02T15:43:02Z",
       "side": 1,
       "message": "time.Sleep is generally not reliable for testing — especially not with a factor as small as 2. Is it possible to replace this sleeping with some form of synchronization?\n\nFor example, should the call to Get return before fileServer.ServeHTTP is run? If so, you could close a channel after Get returns, and receive from that channel here in the handler.",
+      "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa86a8e7_80731269",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-02-03T11:21:20Z",
+      "side": 1,
+      "message": "Yeah. Try to use synchronization instead of time.Sleep here. Will update it later.",
+      "parentUuid": "3f61c7c3_87032aff",
       "revId": "0b7f3847eac5e8143c1439bae8a25d371ca60044",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
