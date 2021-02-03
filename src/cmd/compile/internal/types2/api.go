@@ -99,6 +99,12 @@ type ImporterFrom interface {
 // A Config specifies the configuration for type checking.
 // The zero value for Config is a ready-to-use default configuration.
 type Config struct {
+	// Lang describes the accepted language version; e.g., "go1.12".
+	// If the Lang string is empty, the latest language version is
+	// assumed. If the string is invalid, setting up the typechecker
+	// will panic.
+	Lang string
+
 	// If IgnoreFuncBodies is set, function bodies are not
 	// type-checked.
 	IgnoreFuncBodies bool
