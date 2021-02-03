@@ -88,6 +88,7 @@ type Checker struct {
 	conf *Config
 	pkg  *Package
 	*Info
+	lang   version                     // accepted Go language version
 	nextId uint64                      // unique Id for type parameters (first valid Id is 1)
 	objMap map[Object]*declInfo        // maps package-level objects and (non-interface) methods to declaration info
 	impMap map[importKey]*Package      // maps (import path, source directory) to (complete or fake) package
@@ -182,10 +183,16 @@ func NewChecker(conf *Config, pkg *Package, info *Info) *Checker {
 		info = new(Info)
 	}
 
+	lang, err := parseVersion(conf.Lang)
+	if err != nil {
+		panic(fmt.Sprintf("invalid language version %q (%v)", conf.Lang, err))
+	}
+
 	return &Checker{
 		conf:   conf,
 		pkg:    pkg,
 		Info:   info,
+		lang:   lang,
 		nextId: 1,
 		objMap: make(map[Object]*declInfo),
 		impMap: make(map[importKey]*Package),
