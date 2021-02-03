@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c00dbbb_2b4bac0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-03T23:12:55Z",
+      "side": 1,
+      "message": "Only supports one relocation and I imagine this will have to be reworked later once cgo support is added. But here\u0027s a start, in case it helps the efforts.",
+      "revId": "03306b1b7860625039d604cb5d1c6718c62be3b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
