@@ -22,6 +22,30 @@
       },
       "revId": "e863e7945074f75aa52be3cd1eeb3f0ce60c3f35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b632284_ff1cd583",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-02-03T13:11:00Z",
+      "side": 1,
+      "message": "You\u0027re absolutely right! I added an alternate error message and some more test cases, according to what splitGopkgIn actually checks, let me know how it looks.\n\nDo you think this should be moved in a helper function to keep things cleaner?",
+      "parentUuid": "4a804144_d9e75a42",
+      "range": {
+        "startLine": 494,
+        "startChar": 9,
+        "endLine": 494,
+        "endChar": 105
+      },
+      "revId": "e863e7945074f75aa52be3cd1eeb3f0ce60c3f35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
