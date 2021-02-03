@@ -16,6 +16,24 @@
       "message": "zx2c4@thinkpad ~/Projects/golang-dev/go/src/cmd/compile/internal/ssa/gen $ go run *.go\n2021/02/03 01:40:43 could not find block data for GEnoov\nexit status 1\n\nThis might not be worth the effort trying to backport.",
       "revId": "2ad1b06aa28c60e38ad8fa01ba99ebafd5e413ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9066dc9a_f9749d05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-03T16:24:48Z",
+      "side": 1,
+      "message": "The noov opcodes are introduced in CL https://go-review.googlesource.com/c/go/+/236637, which is rather racent. It seems that CL is not backported. Maybe this is okay as well.",
+      "parentUuid": "72ce8cee_f52e137f",
+      "revId": "2ad1b06aa28c60e38ad8fa01ba99ebafd5e413ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
