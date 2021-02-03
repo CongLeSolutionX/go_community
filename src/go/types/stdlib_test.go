@@ -158,6 +158,8 @@ func TestStdTest(t *testing.T) {
 		"embedfunc.go",   // tests //go:embed
 		"embedvers.go",   // tests //go:embed
 		"linkname2.go",   // go/types doesn't check validity of //go:xxx directives
+		"gen1.go",
+		"gen2.go",
 	)
 }
 
