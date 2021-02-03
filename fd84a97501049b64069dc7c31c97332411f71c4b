@@ -34,6 +34,24 @@
       "parentUuid": "631b3cdb_984ecebd",
       "revId": "fd84a97501049b64069dc7c31c97332411f71c4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55162de4_94f97e86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-03T02:07:26Z",
+      "side": 1,
+      "message": "Understood. I wasn\u0027t familiar with this code, so wanted to read it first.",
+      "parentUuid": "c3c28eb2_53bc74da",
+      "revId": "fd84a97501049b64069dc7c31c97332411f71c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
