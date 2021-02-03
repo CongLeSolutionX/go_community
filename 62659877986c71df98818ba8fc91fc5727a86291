@@ -39,6 +39,30 @@
       },
       "revId": "62659877986c71df98818ba8fc91fc5727a86291",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5c9a444_fca87161",
+        "filename": "src/cmd/go/testdata/script/mod_get_downadd_indirect.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-03T16:41:35Z",
+      "side": 1,
+      "message": "Found it — bug in the test.\n\nMy replace directive for c goes to ./c1 instead of ./c, and mvs.Downgrade intentionally skips versions with fetch errors.",
+      "parentUuid": "e2290327_95e738a1",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "62659877986c71df98818ba8fc91fc5727a86291",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
