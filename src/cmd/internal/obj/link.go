@@ -297,6 +297,7 @@ type Prog struct {
 	Pool     *Prog     // constant pool entry, for arm,arm64 back ends
 	Forwd    *Prog     // for x86 back end
 	Rel      *Prog     // for x86, arm back ends
+	Reloc    *Reloc    // for arm64 back end
 	Pc       int64     // for back ends or assembler: virtual or actual program counter, depending on phase
 	Pos      src.XPos  // source position of this instruction
 	Spadj    int32     // effect of instruction on stack pointer (increment or decrement amount)
