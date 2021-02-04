@@ -251,6 +251,7 @@ func (a *Addr) Target() *Prog {
 	}
 	return nil
 }
+
 func (a *Addr) SetTarget(t *Prog) {
 	if a.Type != TYPE_BRANCH {
 		panic("setting branch target when type is not TYPE_BRANCH")
@@ -264,7 +265,7 @@ func (a *Addr) SetConst(v int64) {
 	a.Offset = v
 }
 
-// Prog describes a single machine instruction.
+// Prog describes a single Go assembly instruction.
 //
 // The general instruction form is:
 //
