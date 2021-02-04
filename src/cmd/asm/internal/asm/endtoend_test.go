@@ -317,8 +317,8 @@ func testErrors(t *testing.T, goarch, file string, flags ...string) {
 			continue
 		}
 		fileline := m[1]
-		if errors[fileline] != "" && errors[fileline] != line {
-			t.Errorf("multiple errors on %s:\n\t%s\n\t%s", fileline, errors[fileline], line)
+		if errors[fileline] != "" {
+			// Just save the first error.
 			continue
 		}
 		errors[fileline] = line

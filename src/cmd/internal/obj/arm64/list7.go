@@ -175,13 +175,6 @@ func rconv(r int) string {
 	return fmt.Sprintf("badreg(%d)", r)
 }
 
-func DRconv(a int) string {
-	if a >= C_NONE && a <= C_NCLASS {
-		return cnames7[a]
-	}
-	return "C_??"
-}
-
 func SPCconv(a int64) string {
 	spc := SpecialOperand(a)
 	if spc >= SPOP_BEGIN && spc < SPOP_END {
