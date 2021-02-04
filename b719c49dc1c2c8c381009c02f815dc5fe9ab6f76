@@ -16,6 +16,57 @@
       "message": "I updated net/http/fs_test.go with connection state hook to set WriteDeadline. It doesn\u0027t need time.Sleep or synchronization. Please take a look. Thanks~",
       "revId": "b719c49dc1c2c8c381009c02f815dc5fe9ab6f76",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4008fba6_a6b93357",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1440,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-04T18:59:23Z",
+      "side": 1,
+      "message": "It\u0027s probably not safe to call t.Fatal here.\n\n(t.Fatal terminates the goroutine it is invoked from, but the ConnState callback is likely to be called on a goroutine other than the one running the test function.)\n\nPerhaps t.Error instead?",
+      "revId": "b719c49dc1c2c8c381009c02f815dc5fe9ab6f76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f168ab95_95e40344",
+        "filename": "src/net/sendfile_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-04T18:59:23Z",
+      "side": 1,
+      "message": "This might be a bit clearer as:\n\n\tgo func(ln Listener) (err error) {\n\t\tdefer func() { errc \u003c- err }()\n\t\t\n\t\tif … {\n\t\t\treturn err\n\t\t}\n\n\t\t…\n\t}(ln)\n\nThen you don\u0027t have to have as much `errc \u003c- err` boilerplate, and also don\u0027t have to bother closing errc (because there is always exactly one send and exactly one receive).",
+      "revId": "b719c49dc1c2c8c381009c02f815dc5fe9ab6f76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dced29f5_d63468a8",
+        "filename": "src/net/sendfile_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-04T18:59:23Z",
+      "side": 1,
+      "message": "Why spawn an inner goroutine here? It looks like the outer goroutine (started at line 328) doesn\u0027t have any further work to do at this point, so it may as well do this work.",
+      "revId": "b719c49dc1c2c8c381009c02f815dc5fe9ab6f76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
