@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c2c4c91a_af2d284f",
+        "filename": "src/cmd/compile/internal/types2/testdata/const0.src",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T22:13:36Z",
+      "side": 1,
+      "message": "\"stolen\" from rsc@",
+      "parentUuid": "5714851c_c460eeca",
+      "range": {
+        "startLine": 354,
+        "startChar": 15,
+        "endLine": 354,
+        "endChar": 70
+      },
+      "revId": "a0ac6a63ad3538765dfb2c1c2e64a0ac8f9291ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e2f1a54c_bc2159f3",
         "filename": "src/cmd/compile/internal/types2/testdata/const0.src",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-04T21:01:53Z",
       "side": 1,
       "message": "This is interesting... this doesn\u0027t fail in the compiler.\nhttps://play.golang.org/p/ip68HtXkCa8",
+      "range": {
+        "startLine": 358,
+        "startChar": 0,
+        "endLine": 358,
+        "endChar": 63
+      },
+      "revId": "a0ac6a63ad3538765dfb2c1c2e64a0ac8f9291ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "356d7513_15522287",
+        "filename": "src/cmd/compile/internal/types2/testdata/const0.src",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T22:13:36Z",
+      "side": 1,
+      "message": "It does in the dev.typeparams branch. I think the code in master hasn\u0027t switched to using go/constant yet, but I haven\u0027t checked.",
+      "parentUuid": "e2f1a54c_bc2159f3",
       "range": {
         "startLine": 358,
         "startChar": 0,
