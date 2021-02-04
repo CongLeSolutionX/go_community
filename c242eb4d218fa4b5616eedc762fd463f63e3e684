@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b799fad2_8b6bd3c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e77de0a3_d9f0fa54",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fdb0629_27a26f13",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "missing period at end",
+      "range": {
+        "startLine": 36,
+        "startChar": 59,
+        "endLine": 36,
+        "endChar": 67
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ff965e5_666f4802",
+        "filename": "src/cmd/compile/internal/ir/package.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fdb0629_27a26f13",
       "range": {
         "startLine": 36,
         "startChar": 59,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdd50c7c_72f08a98",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f8f5fdb_0df94da5",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 73
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05e35479_13283f45",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "let\u0027s move this into a separate file\n\nadd a comment to the file top explaining that this is code that will evolve",
+      "range": {
+        "startLine": 210,
+        "startChar": 3,
+        "endLine": 210,
+        "endChar": 10
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f3b92c_d5fd97c6",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05e35479_13283f45",
       "range": {
         "startLine": 210,
         "startChar": 3,
@@ -116,6 +212,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87c10597_db45e9da",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60cd7950_39d54c05",
+      "range": {
+        "startLine": 218,
+        "startChar": 16,
+        "endLine": 218,
+        "endChar": 17
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dee15d4a_20843be9",
@@ -129,6 +249,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "add header comment: explain the basic algorithm",
+      "range": {
+        "startLine": 222,
+        "startChar": 1,
+        "endLine": 222,
+        "endChar": 2
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe8dda3c_f42710c1",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dee15d4a_20843be9",
       "range": {
         "startLine": 222,
         "startChar": 1,
@@ -162,6 +306,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e8ebcfa_5cef2fc4",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b45f006_a0b6ada4",
+      "range": {
+        "startLine": 225,
+        "startChar": 5,
+        "endLine": 225,
+        "endChar": 6
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d0cfe5c_03a7edfb",
@@ -175,6 +343,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "do\n\nst :\u003d g.target.Stencils[s]\nif st !\u003d nil { ....",
+      "range": {
+        "startLine": 234,
+        "startChar": 6,
+        "endLine": 234,
+        "endChar": 35
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcfab6c8_e4f9990b",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0cfe5c_03a7edfb",
       "range": {
         "startLine": 234,
         "startChar": 6,
@@ -208,6 +400,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9287b8e7_3d4ed6e1",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5faa0eee_c1378a43",
+      "range": {
+        "startLine": 261,
+        "startChar": 10,
+        "endLine": 261,
+        "endChar": 11
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8401bec1_a3ac2fab",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5faa0eee_c1378a43",
+      "range": {
+        "startLine": 261,
+        "startChar": 10,
+        "endLine": 261,
+        "endChar": 11
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51846821_adf6ff5b",
@@ -221,6 +461,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "return a *Sym instead, and use a *Sym in the hash map",
+      "range": {
+        "startLine": 263,
+        "startChar": 7,
+        "endLine": 263,
+        "endChar": 8
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0e1742_00aa1bd2",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51846821_adf6ff5b",
       "range": {
         "startLine": 263,
         "startChar": 7,
@@ -254,6 +518,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "573f562e_14ed7c6d",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b191cc96_038c2ea9",
+      "range": {
+        "startLine": 266,
+        "startChar": 5,
+        "endLine": 266,
+        "endChar": 13
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3282f75_31aee414",
@@ -267,6 +555,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "genericSubst",
+      "range": {
+        "startLine": 275,
+        "startChar": 3,
+        "endLine": 275,
+        "endChar": 15
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1280adfa_4381c21b",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3282f75_31aee414",
       "range": {
         "startLine": 275,
         "startChar": 3,
@@ -300,6 +612,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76454374_88113805",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "978fd326_05e725f3",
+      "range": {
+        "startLine": 277,
+        "startChar": 18,
+        "endLine": 277,
+        "endChar": 26
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43f84857_6a559324",
@@ -313,6 +649,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "// need a closure so we can pass it to EditChildren",
+      "range": {
+        "startLine": 321,
+        "startChar": 27,
+        "endLine": 321,
+        "endChar": 31
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0f9a151_e23902a7",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43f84857_6a559324",
       "range": {
         "startLine": 321,
         "startChar": 27,
@@ -346,6 +706,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99d5f7e8_318a0db6",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f470fa24_fb3b8ac9",
+      "range": {
+        "startLine": 369,
+        "startChar": 1,
+        "endLine": 369,
+        "endChar": 7
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4bcb98e_43ce89b7",
@@ -359,6 +743,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "s/ll/l/\n\nor\n\ns/ll/list/\n\n(not clear why ll)",
+      "range": {
+        "startLine": 372,
+        "startChar": 28,
+        "endLine": 372,
+        "endChar": 30
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ca46a1c_1c139543",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done, changed ll to l.",
+      "parentUuid": "b4bcb98e_43ce89b7",
       "range": {
         "startLine": 372,
         "startChar": 28,
@@ -392,6 +800,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45c65eaa_b0094502",
+        "filename": "test/gen2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done, put them in typeparams and renamed them min.go and add.go",
+      "parentUuid": "db7aa372_b9a37bb7",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "159d9e42_398b4b7f",
@@ -415,6 +847,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b7eedae_65c7c26a",
+        "filename": "test/gen2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "159d9e42_398b4b7f",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 14
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b683093_75b72df8",
@@ -428,6 +884,30 @@
       "writtenOn": "2021-02-04T21:03:10Z",
       "side": 1,
       "message": "define an Abs function (generic!) and then:\n\nif abs(x - y) \u003c eps ...\n\n\nconst eps \u003d 1e-10 or whatever it takes.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 62
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e8c3ddb_6a7356bb",
+        "filename": "test/gen2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-04T23:30:35Z",
+      "side": 1,
+      "message": "Done. Couldn\u0027t do generic Abs function yet, so did a non-generic one for float64.",
+      "parentUuid": "4b683093_75b72df8",
       "range": {
         "startLine": 36,
         "startChar": 0,
