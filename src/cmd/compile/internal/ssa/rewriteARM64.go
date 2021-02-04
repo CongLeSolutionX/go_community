@@ -966,6 +966,8 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpSelect0(v)
 	case OpSelect1:
 		return rewriteValueARM64_OpSelect1(v)
+	case OpSelectN:
+		return rewriteValueARM64_OpSelectN(v)
 	case OpSignExt16to32:
 		v.Op = OpARM64MOVHreg
 		return true
@@ -990,8 +992,7 @@ func rewriteValueARM64(v *Value) bool {
 		v.Op = OpARM64FSQRTD
 		return true
 	case OpStaticCall:
-		v.Op = OpARM64CALLstatic
-		return true
+		return rewriteValueARM64_OpStaticCall(v)
 	case OpStore:
 		return rewriteValueARM64_OpStore(v)
 	case OpSub16:
@@ -25042,6 +25043,23 @@ func rewriteValueARM64_OpSelect1(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueARM64_OpSelectN(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (SelectN <types.TypeMem> [0] x:(CALLstatic _))
+	// result: x
+	for {
+		if v.Type != types.TypeMem || auxIntToInt64(v.AuxInt) != 0 {
+			break
+		}
+		x := v_0
+		if x.Op != OpARM64CALLstatic {
+			break
+		}
+		v.copyOf(x)
+		return true
+	}
+	return false
+}
 func rewriteValueARM64_OpSlicemask(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
@@ -25057,6 +25075,30 @@ func rewriteValueARM64_OpSlicemask(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
+}
+func rewriteValueARM64_OpStaticCall(v *Value) bool {
+	// match: (StaticCall <t> [i] {a} x)
+	// cond: t.IsResults()
+	// result: (CALLstatic <t.FieldType(t.NumFields()-1)> [i] {a} x)
+	for {
+		if len(v.Args) != 1 {
+			break
+		}
+		t := v.Type
+		i := auxIntToInt32(v.AuxInt)
+		a := auxToCall(v.Aux)
+		x := v.Args[0]
+		if !(t.IsResults()) {
+			break
+		}
+		v.reset(OpARM64CALLstatic)
+		v.Type = t.FieldType(t.NumFields() - 1)
+		v.AuxInt = int32ToAuxInt(i)
+		v.Aux = callToAux(a)
+		v.AddArg(x)
+		return true
+	}
+	return false
 }
 func rewriteValueARM64_OpStore(v *Value) bool {
 	v_2 := v.Args[2]

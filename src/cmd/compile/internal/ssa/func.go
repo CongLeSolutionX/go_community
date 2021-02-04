@@ -46,7 +46,8 @@ type Func struct {
 	ruleMatches    map[string]int // number of times countRule was called during compilation for any given string
 	Abi0           *abi.ABIConfig // A copy, for no-sync access
 	Abi1           *abi.ABIConfig // A copy, for no-sync access
-	Abi            *abi.ABIConfig
+	AbiSelf        *abi.ABIConfig
+	AbiDefault     *abi.ABIConfig // For rtcall.
 
 	scheduled   bool  // Values in Blocks are in final order
 	laidout     bool  // Blocks are ordered

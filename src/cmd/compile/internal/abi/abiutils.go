@@ -28,6 +28,8 @@ type ABIParamResultInfo struct {
 	outparams         []ABIParamAssignment
 	offsetToSpillArea int64
 	spillAreaSize     int64
+	inRegistersUsed   int
+	outRegistersUsed  int
 	config            *ABIConfig // to enable String() method
 }
 
@@ -41,6 +43,14 @@ func (a *ABIParamResultInfo) InParams() []ABIParamAssignment {
 
 func (a *ABIParamResultInfo) OutParams() []ABIParamAssignment {
 	return a.outparams
+}
+
+func (a *ABIParamResultInfo) InRegistersUsed() int {
+	return a.inRegistersUsed
+}
+
+func (a *ABIParamResultInfo) OutRegistersUsed() int {
+	return a.outRegistersUsed
 }
 
 func (a *ABIParamResultInfo) InParam(i int) ABIParamAssignment {
@@ -167,6 +177,45 @@ func (a *ABIConfig) NumParamRegs(t *types.Type) int {
 	return n
 }
 
+// ABIAnalyzeTypes takes an optional receiver type, arrays of ins and outs, and returns an ABIParamResultInfo,
+// based on the given configuration.  This is the same result computed by config.ABIAnalyze applied to the
+// corresponding method/function type, except that all the embedded parameter names are nil.
+// This is intended for use by ssagen/ssa.go:(*state).rtcall, for runtime functions that lack a parsed function type.
+func (config *ABIConfig) ABIAnalyzeTypes(rcvr *types.Type, ins, outs []*types.Type) *ABIParamResultInfo {
+	setup()
+	s := assignState{
+		rTotal: config.regAmounts,
+	}
+	result := &ABIParamResultInfo{config: config}
+
+	// Receiver
+	if rcvr != nil {
+		result.inparams = append(result.inparams,
+			s.assignParamOrReturn(rcvr, nil, false))
+	}
+
+	// Inputs
+	for _, t := range ins {
+		result.inparams = append(result.inparams,
+			s.assignParamOrReturn(t, nil, false))
+	}
+	s.stackOffset = types.Rnd(s.stackOffset, int64(types.RegSize))
+	result.inRegistersUsed = s.rUsed.intRegs + s.rUsed.floatRegs
+
+	// Outputs
+	s.rUsed = RegAmounts{}
+	for _, t := range outs {
+		result.outparams = append(result.outparams, s.assignParamOrReturn(t, nil, true))
+	}
+	// The spill area is at a register-aligned offset and its size is rounded up to a register alignment.
+	// TODO in theory could align offset only to minimum required by spilled data types.
+	result.offsetToSpillArea = alignTo(s.stackOffset, types.RegSize)
+	result.spillAreaSize = alignTo(s.spillOffset, types.RegSize)
+	result.outRegistersUsed = s.rUsed.intRegs + s.rUsed.floatRegs
+
+	return result
+}
+
 // ABIAnalyze takes a function type 't' and an ABI rules description
 // 'config' and analyzes the function to determine how its parameters
 // and results will be passed (in registers or on the stack), returning
@@ -181,29 +230,31 @@ func (config *ABIConfig) ABIAnalyze(t *types.Type) *ABIParamResultInfo {
 	// Receiver
 	ft := t.FuncType()
 	if t.NumRecvs() != 0 {
-		rfsl := ft.Receiver.FieldSlice()
+		r := ft.Receiver.FieldSlice()[0]
 		result.inparams = append(result.inparams,
-			s.assignParamOrReturn(rfsl[0], false))
+			s.assignParamOrReturn(r.Type, r.Nname, false))
 	}
 
 	// Inputs
 	ifsl := ft.Params.FieldSlice()
 	for _, f := range ifsl {
 		result.inparams = append(result.inparams,
-			s.assignParamOrReturn(f, false))
+			s.assignParamOrReturn(f.Type, f.Nname, false))
 	}
 	s.stackOffset = types.Rnd(s.stackOffset, int64(types.RegSize))
+	result.inRegistersUsed = s.rUsed.intRegs + s.rUsed.floatRegs
 
 	// Outputs
 	s.rUsed = RegAmounts{}
 	ofsl := ft.Results.FieldSlice()
 	for _, f := range ofsl {
-		result.outparams = append(result.outparams, s.assignParamOrReturn(f, true))
+		result.outparams = append(result.outparams, s.assignParamOrReturn(f.Type, f.Nname, true))
 	}
 	// The spill area is at a register-aligned offset and its size is rounded up to a register alignment.
 	// TODO in theory could align offset only to minimum required by spilled data types.
 	result.offsetToSpillArea = alignTo(s.stackOffset, types.RegSize)
 	result.spillAreaSize = alignTo(s.spillOffset, types.RegSize)
+	result.outRegistersUsed = s.rUsed.intRegs + s.rUsed.floatRegs
 
 	return result
 }
@@ -463,11 +514,10 @@ func (state *assignState) regassign(pt *types.Type) bool {
 // of type 'pt' to determine whether it can be register assigned.
 // The result of the analysis is recorded in the result
 // ABIParamResultInfo held in 'state'.
-func (state *assignState) assignParamOrReturn(f *types.Field, isReturn bool) ABIParamAssignment {
-	pt := f.Type
+func (state *assignState) assignParamOrReturn(pt *types.Type, n types.Object, isReturn bool) ABIParamAssignment {
 	var name *ir.Name
-	if f.Nname != nil {
-		name = f.Nname.(*ir.Name)
+	if n != nil {
+		name = n.(*ir.Name)
 	}
 	state.pUsed = RegAmounts{}
 	if pt.Width == types.BADWIDTH {
