@@ -1,0 +1,441 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e77de0a3_d9f0fa54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "s/added/add/",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fdb0629_27a26f13",
+        "filename": "src/cmd/compile/internal/ir/package.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "missing period at end",
+      "range": {
+        "startLine": 36,
+        "startChar": 59,
+        "endLine": 36,
+        "endChar": 67
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8f5fdb_0df94da5",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "be clearer: these have been stenciled",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 73
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e35479_13283f45",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "let\u0027s move this into a separate file\n\nadd a comment to the file top explaining that this is code that will evolve",
+      "range": {
+        "startLine": 210,
+        "startChar": 3,
+        "endLine": 210,
+        "endChar": 10
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60cd7950_39d54c05",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "- short-circuit with previous if?\n- add comment",
+      "range": {
+        "startLine": 218,
+        "startChar": 16,
+        "endLine": 218,
+        "endChar": 17
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dee15d4a_20843be9",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "add header comment: explain the basic algorithm",
+      "range": {
+        "startLine": 222,
+        "startChar": 1,
+        "endLine": 222,
+        "endChar": 2
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b45f006_a0b6ada4",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "comment please",
+      "range": {
+        "startLine": 225,
+        "startChar": 5,
+        "endLine": 225,
+        "endChar": 6
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d0cfe5c_03a7edfb",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "do\n\nst :\u003d g.target.Stencils[s]\nif st !\u003d nil { ....",
+      "range": {
+        "startLine": 234,
+        "startChar": 6,
+        "endLine": 234,
+        "endChar": 35
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5faa0eee_c1378a43",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "use [ and ]\n\nso we get min[int], and maybe add a # as prefix\n\n#min[int]\n\nso the # indicates a generated name rather than an expression (as it may appear in debugging output)",
+      "range": {
+        "startLine": 261,
+        "startChar": 10,
+        "endLine": 261,
+        "endChar": 11
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51846821_adf6ff5b",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "return a *Sym instead, and use a *Sym in the hash map",
+      "range": {
+        "startLine": 263,
+        "startChar": 7,
+        "endLine": 263,
+        "endChar": 8
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b191cc96_038c2ea9",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "add a comment\n\ncall this: \"subster\"\n\nA subster is the thing that substitutes.",
+      "range": {
+        "startLine": 266,
+        "startChar": 5,
+        "endLine": 266,
+        "endChar": 13
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3282f75_31aee414",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "genericSubst",
+      "range": {
+        "startLine": 275,
+        "startChar": 3,
+        "endLine": 275,
+        "endChar": 15
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "978fd326_05e725f3",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "pass in the symbol instead",
+      "range": {
+        "startLine": 277,
+        "startChar": 18,
+        "endLine": 277,
+        "endChar": 26
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f84857_6a559324",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "// need a closure so we can pass it to EditChildren",
+      "range": {
+        "startLine": 321,
+        "startChar": 27,
+        "endLine": 321,
+        "endChar": 31
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f470fa24_fb3b8ac9",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "maybe add an empty line before this",
+      "range": {
+        "startLine": 369,
+        "startChar": 1,
+        "endLine": 369,
+        "endChar": 7
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4bcb98e_43ce89b7",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "s/ll/l/\n\nor\n\ns/ll/list/\n\n(not clear why ll)",
+      "range": {
+        "startLine": 372,
+        "startChar": 28,
+        "endLine": 372,
+        "endChar": 30
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db7aa372_b9a37bb7",
+        "filename": "test/gen2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "move this and the other file into test/typeparam/\n\nsee if we can give it a better (less generic) name :-)",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "159d9e42_398b4b7f",
+        "filename": "test/gen2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "should probably be vec2[0] + vec2[1]",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 14
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b683093_75b72df8",
+        "filename": "test/gen2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T21:03:10Z",
+      "side": 1,
+      "message": "define an Abs function (generic!) and then:\n\nif abs(x - y) \u003c eps ...\n\n\nconst eps \u003d 1e-10 or whatever it takes.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 62
+      },
+      "revId": "c242eb4d218fa4b5616eedc762fd463f63e3e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
