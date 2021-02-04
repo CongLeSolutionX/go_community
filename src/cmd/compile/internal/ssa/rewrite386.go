@@ -604,6 +604,8 @@ func rewriteValue386(v *Value) bool {
 		return rewriteValue386_OpSelect0(v)
 	case OpSelect1:
 		return rewriteValue386_OpSelect1(v)
+	case OpSelectN:
+		return rewriteValue386_OpSelectN(v)
 	case OpSignExt16to32:
 		v.Op = Op386MOVWLSX
 		return true
@@ -621,8 +623,7 @@ func rewriteValue386(v *Value) bool {
 		v.Op = Op386SQRTSD
 		return true
 	case OpStaticCall:
-		v.Op = Op386CALLstatic
-		return true
+		return rewriteValue386_OpStaticCall(v)
 	case OpStore:
 		return rewriteValue386_OpStore(v)
 	case OpSub16:
@@ -11406,6 +11407,23 @@ func rewriteValue386_OpSelect1(v *Value) bool {
 	}
 	return false
 }
+func rewriteValue386_OpSelectN(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (SelectN <types.TypeMem> [0] x:(CALLstatic _))
+	// result: x
+	for {
+		if v.Type != types.TypeMem || auxIntToInt64(v.AuxInt) != 0 {
+			break
+		}
+		x := v_0
+		if x.Op != Op386CALLstatic {
+			break
+		}
+		v.copyOf(x)
+		return true
+	}
+	return false
+}
 func rewriteValue386_OpSignmask(v *Value) bool {
 	v_0 := v.Args[0]
 	// match: (Signmask x)
@@ -11433,6 +11451,30 @@ func rewriteValue386_OpSlicemask(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
+}
+func rewriteValue386_OpStaticCall(v *Value) bool {
+	// match: (StaticCall <t> [i] {a} x)
+	// cond: t.IsResults()
+	// result: (CALLstatic <t.FieldType(t.NumFields()-1)> [i] {a} x)
+	for {
+		if len(v.Args) != 1 {
+			break
+		}
+		t := v.Type
+		i := auxIntToInt32(v.AuxInt)
+		a := auxToCall(v.Aux)
+		x := v.Args[0]
+		if !(t.IsResults()) {
+			break
+		}
+		v.reset(Op386CALLstatic)
+		v.Type = t.FieldType(t.NumFields() - 1)
+		v.AuxInt = int32ToAuxInt(i)
+		v.Aux = callToAux(a)
+		v.AddArg(x)
+		return true
+	}
+	return false
 }
 func rewriteValue386_OpStore(v *Value) bool {
 	v_2 := v.Args[2]
