@@ -205,3 +205,11 @@ func Addrel(s *LSym) *Reloc {
 	s.R = append(s.R, Reloc{})
 	return &s.R[len(s.R)-1]
 }
+
+func Addrel2(s *LSym) uint32 {
+	if s.R == nil {
+		s.R = make([]Reloc, 0, 4)
+	}
+	s.R = append(s.R, Reloc{})
+	return uint32(len(s.R) - 1)
+}
