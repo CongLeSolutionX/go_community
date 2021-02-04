@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92a847f9_fc3d7d41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2021-02-04T10:33:58Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right fix. The problem isn\u0027t that it\u0027s padded with zeros, that\u0027s just an artefact of the fuzzer and strconv handles that fine, the issue is that the code isn\u0027t checking if the length is too short before slicing. The fuzzer generated an invalid extended header here.\n\nTrimming leading zeros like this will break valid headers that happen to be padded and have a correct length.\n\nThe fix is likely to be just to check that sp+1 \u003c\u003d n-1 after calling strconv.ParseInt.",
+      "revId": "9db5079cb78da18587263375bcb2109bdc734bca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
