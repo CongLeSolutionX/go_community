@@ -793,7 +793,10 @@ func devirtLESym(v *Value, aux Aux, sym Sym, offset int64) *obj.LSym {
 
 func devirtLECall(v *Value, sym *obj.LSym) *Value {
 	v.Op = OpStaticLECall
-	v.Aux.(*AuxCall).Fn = sym
+	auxcall := v.Aux.(*AuxCall)
+	auxcall.Fn = sym
+	// TODO this should not be necessary when fully transition to the new register ABI.
+	auxcall.pri = v.Block.Func.AbiDefault.ABIAnalyzeTypes(nil, ACParamsToTypes(auxcall.args), ACParamsToTypes(auxcall.results))
 	v.RemoveArg(0)
 	return v
 }
