@@ -545,7 +545,14 @@
 (LocalAddr {sym} base _) => (MOVaddr {sym} base)
 
 // Calls
-(StaticCall  ...) => (CALLstatic  ...)
+
+// StaticCall is manyIn->manyOut, but for ABI0 architectures "many == (mem)", arch CALLstatic is mem->mem
+// Requiring SelectN accessor and type match will kick out any missed StaticCall as failure to lower.
+// To convert to register ABI, the rewrite is (StaticCall ...) -> (CALLstatic ...), and the architecture-
+// specific code generator needs to process OpSelectN.
+(StaticCall <t> [i] {a} x) && t.IsResults() => (CALLstatic <t.FieldType(t.NumFields()-1)> [i] {a} x)
+(SelectN <types.TypeMem> [0] x:(CALLstatic _)) => x
+
 (ClosureCall ...) => (CALLclosure ...)
 (InterCall   ...) => (CALLinter   ...)
 
