@@ -35379,7 +35379,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "StaticCall",
 		auxType: auxCallOff,
-		argLen:  1,
+		argLen:  -1,
 		call:    true,
 		generic: true,
 	},
