@@ -16,6 +16,24 @@
       "message": "Thank you for chiming in Tom, and thank you for the review!\n\nI initially independently, started with the fix you suggested but\nI re-read the section of the specification and it accepts decimal lengths,\nof which even strconv.ParseInt clearly allows 0-padded values. Thus the\nsimplest and clearer conclusion based off what was passed in is that decimal\nlengths need to be handled, and hence this fix here.",
       "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af44b2a8_c6927fef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2021-02-04T11:02:48Z",
+      "side": 1,
+      "message": "It\u0027s a really bizarre format quite honestly. I think you might be misreading what little spec there is there. The format is:\n  \"%d %s\u003d%s\\n\", \u003clength\u003e, \u003ckeyword\u003e, \u003cvalue\u003e\nwith the length being from the start of that string to the end (including the newline). If length is padded, then it should be the length from the start of that padding to after the newline. There\u0027s nothing in the spec about the first-non-zero in length.\n\nNeither GNU tar (https://git.savannah.gnu.org/cgit/tar.git/tree/src/xheader.c#n684) or the tar rust crate (https://docs.rs/tar/0.4.32/src/tar/pax.rs.html#53) do any kind of stripping of leading zeros here.",
+      "parentUuid": "6aebeaed_1c70a4c8",
+      "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
