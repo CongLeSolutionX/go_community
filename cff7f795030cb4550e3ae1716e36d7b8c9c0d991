@@ -104,6 +104,24 @@
       "parentUuid": "d3883849_9ffed391",
       "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4784b26_73eb0c89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-04T12:29:01Z",
+      "side": 1,
+      "message": "\u003eNeither GNU tar (https://git.savannah.gnu.org/cgit/tar.git/tree/src/xheader.c#n684) or the tar rust crate (https://docs.rs/tar/0.4.32/src/tar/pax.rs.html#53) do any kind of stripping of leading zeros here.\n\nI believe GNU Tar\u0027s C code seems to allow this PAX record, and here is an exhibit/excerpt:\n\n#include \u003cstdio.h\u003e\n#include \u003cstring.h\u003e\n#include \u003cinttypes.h\u003e\n\nint main() {\n    char *s \u003d \"0000000000000000000000000000000030 mtime\u003d1432668921.098285006\\n30 ctime\u003d2147483649.15163319\";\n    char *end;\n    uintmax_t size \u003d strtoumax(s, \u0026end, 10);\n    printf(\"size: %ju\\nend: %s\\n\", size, end);\n}\n\nWhen you print out end, you\u0027ll see it at \"mtime\u003d1432668921.098285006\\n30 ctime\u003d2147483649.15163319\"\n\nand then when we go into the C code that you posted:\nlen\u003d30, len_max\u003d90, so there isn\u0027t a failure at https://git.savannah.gnu.org/cgit/tar.git/tree/src/xheader.c#n709 and then at line https://git.savannah.gnu.org/cgit/tar.git/tree/src/xheader.c#n719,\nlen_lim is the equivalent of \"end\", and then we\u0027ll have p starting from mtime:\n\nfor (p \u003d len_lim; *p \u003d\u003d \u0027 \u0027 || *p \u003d\u003d \u0027\\t\u0027; p++)\n    continue;\n\nwhich then continues processing normal and parses it out successfully.\n\nI am not proficient at Rust, so I can only comment about the C code. Could you perhaps run this through Rust as well and report your findings? Thank you for the patience, and for walking through.\n\n\u003eAlso because of the use of strconv.ParseInt, here\u0027s another test case that panics at the same place: \"+0000005 x\u003d\\n\"\n\nThat\u0027s a compelling case for your suggested fix, and thanks for raising it! However, it doesn\u0027t seem to match up with the discrepancy where GNU Tar would seem to allow the prior record. Would GNU Tar accept this one though?",
+      "parentUuid": "72494d23_befa720a",
+      "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
