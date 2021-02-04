@@ -265,6 +265,18 @@ func parsePAXRecord(s string) (k, v, r string, err error) {
 		return "", "", s, ErrHeader
 	}
 
+	// The specification under section "pax Extended Header" at
+	//  https://pubs.opengroup.org/onlinepubs/9699919799/utilities/pax.html#tag_20_92_13_03
+	// states that s must be of the format:
+	//  "%d %s=%s\n", <length>, <keyword>, <value>
+	// where <length> is the decimal representation, and of which
+	// decimal representations can contain padding such as: 003 or 03, 0, thus
+	// if 0-padded, trim it and find the index of the first space once again..
+	if oldS, newS := s, strings.TrimLeft(s, "0"); oldS != newS {
+		s = newS
+		sp = strings.IndexByte(s, ' ')
+	}
+
 	// Extract everything between the space and the final newline.
 	rec, nl, rem := s[sp+1:n-1], s[n-1:n], s[n:]
 	if nl != "\n" {
