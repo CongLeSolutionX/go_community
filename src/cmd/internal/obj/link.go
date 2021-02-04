@@ -305,6 +305,7 @@ type Prog struct {
 	RegTo2   int16     // 2nd destination operand
 	Mark     uint16    // bitmask of arch-specific items
 	Optab    uint16    // arch-specific opcode index
+	RelocIdx uint16    // for arm64 back end
 	Scond    uint8     // bits that describe instruction suffixes (e.g. ARM conditions)
 	Back     uint8     // for x86 back end: backwards branch state
 	Ft       uint8     // for x86 back end: type index of Prog.From
