@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aebeaed_1c70a4c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-04T10:37:17Z",
+      "side": 1,
+      "message": "Thank you for chiming in Tom, and thank you for the review!\n\nI initially independently, started with the fix you suggested but\nI re-read the section of the specification and it accepts decimal lengths,\nof which even strconv.ParseInt clearly allows 0-padded values. Thus the\nsimplest and clearer conclusion based off what was passed in is that decimal\nlengths need to be handled, and hence this fix here.",
+      "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
