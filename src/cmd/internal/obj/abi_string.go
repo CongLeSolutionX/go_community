@@ -4,9 +4,19 @@ package obj
 
 import "strconv"
 
-const _ABI_name = "ABI0ABIInternalABICount"
+func _() {
+	// An "invalid array index" compiler error signifies that the constant values have changed.
+	// Re-run the stringer command to generate them again.
+	var x [1]struct{}
+	_ = x[ABI0-0]
+	_ = x[ABIInternal-1]
+	_ = x[ABICpp-2]
+	_ = x[ABICount-3]
+}
 
-var _ABI_index = [...]uint8{0, 4, 15, 23}
+const _ABI_name = "ABI0ABIInternalABICppABICount"
+
+var _ABI_index = [...]uint8{0, 4, 15, 21, 29}
 
 func (i ABI) String() string {
 	if i >= ABI(len(_ABI_index)-1) {

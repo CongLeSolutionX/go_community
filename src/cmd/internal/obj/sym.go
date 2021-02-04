@@ -91,7 +91,7 @@ func (ctxt *Link) LookupABIInit(name string, abi ABI, init func(s *LSym)) *LSym 
 	switch abi {
 	case ABI0:
 		hash = ctxt.hash
-	case ABIInternal:
+	case ABIInternal, ABICpp:
 		hash = ctxt.funchash
 	default:
 		panic("unknown ABI")

@@ -564,6 +564,11 @@ const (
 	// ABIs.
 	ABIInternal
 
+	// ABICpp is the C/C++ ABI for the target. This is intended to be
+	// applied to assembler functions as an indication that they are
+	// going to be called from C (as opposed to called from Go).
+	ABICpp
+
 	ABICount
 )
 
@@ -576,6 +581,8 @@ func ParseABI(abistr string) (ABI, bool) {
 		return ABI0, false
 	case "ABI0":
 		return ABI0, true
+	case "ABICpp":
+		return ABICpp, true
 	case "ABIInternal":
 		return ABIInternal, true
 	}

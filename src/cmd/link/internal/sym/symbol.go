@@ -18,7 +18,7 @@ func ABIToVersion(abi obj.ABI) int {
 	switch abi {
 	case obj.ABI0:
 		return SymVerABI0
-	case obj.ABIInternal:
+	case obj.ABIInternal, obj.ABICpp:
 		return SymVerABIInternal
 	}
 	return -1

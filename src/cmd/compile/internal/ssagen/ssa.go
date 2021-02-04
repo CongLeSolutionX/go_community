@@ -7278,7 +7278,10 @@ func clobberBase(n ir.Node) ir.Node {
 //    directly target the ABI0 symbol (effectively bypassing the
 //    ABIInternal->ABI0 wrapper for 'callee').
 //
-// 3. in all other cases, want the regular ABIInternal linksym
+// 3. If 'called' was declared as ABICpp, we don't want to be seeing
+//    direct calls to it from Go (we signal an error in this situation).
+//
+// 4. in all other cases, want the regular ABIInternal linksym
 //
 func callTargetLSym(callee *ir.Name, callerLSym *obj.LSym) *obj.LSym {
 	lsym := callee.Linksym()
@@ -7296,10 +7299,14 @@ func callTargetLSym(callee *ir.Name, callerLSym *obj.LSym) *obj.LSym {
 			lsym = nlsym
 		}
 	} else {
-		// check for case 2 above
+		// check for cases 2,3 above
 		defABI, hasDefABI := symabiDefs[lsym.Name]
-		if hasDefABI && defABI == obj.ABI0 {
-			lsym = callee.LinksymABI(obj.ABI0)
+		if hasDefABI {
+			if defABI == obj.ABI0 {
+				lsym = callee.LinksymABI(obj.ABI0)
+			} else if defABI == obj.ABICpp {
+				base.Fatalf("Direct call to ABICpp symbol %s", lsym.Name)
+			}
 		}
 	}
 	return lsym

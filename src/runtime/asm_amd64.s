@@ -14,13 +14,13 @@
 TEXT _rt0_amd64(SB),NOSPLIT,$-8
 	MOVQ	0(SP), DI	// argc
 	LEAQ	8(SP), SI	// argv
-	JMP	runtime·rt0_go(SB)
+	JMP	runtime·rt0_go<ABICpp>(SB)
 
 // main is common startup code for most amd64 systems when using
 // external linking. The C startup code will call the symbol "main"
 // passing argc and argv in the usual C ABI registers DI and SI.
 TEXT main(SB),NOSPLIT,$-8
-	JMP	runtime·rt0_go(SB)
+	JMP	runtime·rt0_go<ABICpp>(SB)
 
 // _rt0_amd64_lib is common startup code for most amd64 systems when
 // using -buildmode=c-archive or -buildmode=c-shared. The linker will
@@ -77,16 +77,16 @@ restore:
 TEXT _rt0_amd64_lib_go(SB),NOSPLIT,$0
 	MOVQ	_rt0_amd64_lib_argc<>(SB), DI
 	MOVQ	_rt0_amd64_lib_argv<>(SB), SI
-	JMP	runtime·rt0_go(SB)
+	JMP	runtime·rt0_go<ABICpp>(SB)
 
 DATA _rt0_amd64_lib_argc<>(SB)/8, $0
 GLOBL _rt0_amd64_lib_argc<>(SB),NOPTR, $8
 DATA _rt0_amd64_lib_argv<>(SB)/8, $0
 GLOBL _rt0_amd64_lib_argv<>(SB),NOPTR, $8
 
-// Defined as ABIInternal since it does not use the stack-based Go ABI (and
-// in addition there are no calls to this entry point from Go code).
-TEXT runtime·rt0_go<ABIInternal>(SB),NOSPLIT,$0
+// Defined as ABICpp since it uses the platform C/C++ ABI, not ABI0. In
+// addition there are no calls to this entry point from Go code.
+TEXT runtime·rt0_go<ABICpp>(SB),NOSPLIT,$0
 	// copy arguments forward on an even stack
 	MOVQ	DI, AX		// argc
 	MOVQ	SI, BX		// argv
@@ -1374,7 +1374,7 @@ TEXT runtime·goexit<ABIInternal>(SB),NOSPLIT,$0-0
 	BYTE	$0x90	// NOP
 
 // This is called from .init_array and follows the platform, not Go, ABI.
-TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
+TEXT runtime·addmoduledata<ABICpp>(SB),NOSPLIT,$0-0
 	PUSHQ	R15 // The access to global variables below implicitly uses R15, which is callee-save
 	MOVQ	runtime·lastmoduledatap(SB), AX
 	MOVQ	DI, moduledata_next(AX)

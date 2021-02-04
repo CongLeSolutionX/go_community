@@ -167,6 +167,11 @@ func selectLSym(f *ir.Func, hasBody bool) {
 			// Internal -> ABI0 wrapper.
 			f.LSym = nam.LinksymABI(obj.ABI0)
 			needABIWrapper, wrapperABI = true, obj.ABIInternal
+		} else if hasDefABI && defABI == obj.ABICpp {
+			// This is an assembly function that is written to
+			// be callable from C. We don't want an ABI wrapper
+			// in this case.
+			f.LSym = nam.LinksymABI(obj.ABICpp)
 		} else {
 			f.LSym = nam.Linksym()
 			// No ABI override. Check that the symbol is
@@ -193,7 +198,7 @@ func selectLSym(f *ir.Func, hasBody bool) {
 			// since other packages may "pull" symbols
 			// using linkname and we don't want to create
 			// duplicate ABI wrappers.
-			if f.LSym.ABI() != obj.ABI0 {
+			if f.LSym.ABI() != obj.ABI0 && f.LSym.ABI() != obj.ABICpp {
 				needABIWrapper, wrapperABI = true, obj.ABI0
 			}
 		}
