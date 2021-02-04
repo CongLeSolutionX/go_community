@@ -13,28 +13,39 @@ package ssa
 // See issues 16741 and 39472.
 func tightenTupleSelectors(f *Func) {
 	selectors := make(map[struct {
-		id ID
-		op Op
+		id    ID
+		which int
 	}]*Value)
 	for _, b := range f.Blocks {
 		for _, selector := range b.Values {
-			if selector.Op != OpSelect0 && selector.Op != OpSelect1 {
+			// Key fields for de-duplication
+			var tuple *Value
+			idx := 0
+			if selector.Op == OpSelect0 || selector.Op == OpSelect1 {
+				tuple = selector.Args[0]
+				if selector.Op == OpSelect1 {
+					idx = 1
+				}
+				if !tuple.Type.IsTuple() {
+					f.Fatalf("arg of tuple selector %s is not a tuple: %s", selector.String(), tuple.LongString())
+				}
+			} else if selector.Op == OpSelectN {
+				tuple = selector.Args[0]
+				idx = int(selector.AuxInt)
+				if !tuple.Type.IsResults() {
+					f.Fatalf("arg of result selector %s is not a results: %s", selector.String(), tuple.LongString())
+				}
+			} else {
 				continue
-			}
-
-			// Get the tuple generator to use as a key for de-duplication.
-			tuple := selector.Args[0]
-			if !tuple.Type.IsTuple() {
-				f.Fatalf("arg of tuple selector %s is not a tuple: %s", selector.String(), tuple.LongString())
 			}
 
 			// If there is a pre-existing selector in the target block then
 			// use that. Do this even if the selector is already in the
 			// target block to avoid duplicate tuple selectors.
 			key := struct {
-				id ID
-				op Op
-			}{tuple.ID, selector.Op}
+				id    ID
+				which int
+			}{tuple.ID, idx}
 			if t := selectors[key]; t != nil {
 				if selector != t {
 					selector.copyOf(t)

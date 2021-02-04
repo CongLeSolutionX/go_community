@@ -145,6 +145,10 @@ func main() {
 	if gohostarch == "arm" || gohostarch == "mips64" || gohostarch == "mips64le" {
 		maxbg = min(maxbg, runtime.NumCPU())
 	}
+	if maxprocs := runtime.GOMAXPROCS(0); maxprocs < maxbg {
+		// Use case: GOMAXPROCS=1 for a deterministic build.
+		maxbg = maxprocs
+	}
 	bginit()
 
 	if len(os.Args) > 1 && os.Args[1] == "-check-goarm" {
