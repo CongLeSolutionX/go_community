@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49475e2e_41fd7d2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-02-04T10:09:18Z",
+      "side": 1,
+      "message": "You should use https://pubs.opengroup.org/onlinepubs/9699919799/utilities/pax.html for latest spec.",
+      "revId": "f34c5dc307414d4cadf6949c1dbe6b10cd0fc48c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
