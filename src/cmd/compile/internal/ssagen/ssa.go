@@ -4731,7 +4731,8 @@ func (s *state) openDeferExit() {
 			aux := ssa.ClosureAuxCall(ACArgs, ACResults)
 			call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, v)
 		} else {
-			aux := ssa.StaticAuxCall(fn.(*ir.Name).Linksym(), ACArgs, ACResults, nil) // TODO will need types for this.
+			aux := ssa.StaticAuxCall(fn.(*ir.Name).Linksym(), ACArgs, ACResults,
+				s.f.AbiDefault.ABIAnalyzeTypes(nil, ssa.ACParamsToTypes(ACArgs), ssa.ACParamsToTypes(ACResults)))
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
 		}
 		callArgs = append(callArgs, s.mem())
@@ -4893,7 +4894,8 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 
 		// Call runtime.deferprocStack with pointer to _defer record.
 		ACArgs = append(ACArgs, ssa.Param{Type: types.Types[types.TUINTPTR], Offset: int32(base.Ctxt.FixedFrameSize())})
-		aux := ssa.StaticAuxCall(ir.Syms.DeferprocStack, ACArgs, ACResults, nil)
+		aux := ssa.StaticAuxCall(ir.Syms.DeferprocStack, ACArgs, ACResults,
+			s.f.AbiDefault.ABIAnalyzeTypes(nil, ssa.ACParamsToTypes(ACArgs), ssa.ACParamsToTypes(ACResults)))
 		callArgs = append(callArgs, addr, s.mem())
 		call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
 		call.AddArgs(callArgs...)
@@ -4953,10 +4955,12 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		// call target
 		switch {
 		case k == callDefer:
-			aux := ssa.StaticAuxCall(ir.Syms.Deferproc, ACArgs, ACResults, nil) // TODO paramResultInfo for DeferProc
+			aux := ssa.StaticAuxCall(ir.Syms.Deferproc, ACArgs, ACResults,
+				s.f.AbiDefault.ABIAnalyzeTypes(nil, ssa.ACParamsToTypes(ACArgs), ssa.ACParamsToTypes(ACResults))) // TODO paramResultInfo for DeferProc
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
 		case k == callGo:
-			aux := ssa.StaticAuxCall(ir.Syms.Newproc, ACArgs, ACResults, nil)
+			aux := ssa.StaticAuxCall(ir.Syms.Newproc, ACArgs, ACResults,
+				s.f.AbiDefault.ABIAnalyzeTypes(nil, ssa.ACParamsToTypes(ACArgs), ssa.ACParamsToTypes(ACResults)))
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux) // TODO paramResultInfo for NewProc
 		case closure != nil:
 			// rawLoad because loading the code pointer from a
@@ -5431,6 +5435,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*types.Type, args .
 	var ACArgs []ssa.Param
 	var ACResults []ssa.Param
 	var callArgs []*ssa.Value
+	var callArgTypes []*types.Type
 
 	for _, arg := range args {
 		t := arg.Type
@@ -5438,6 +5443,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*types.Type, args .
 		size := t.Size()
 		ACArgs = append(ACArgs, ssa.Param{Type: t, Offset: int32(off)})
 		callArgs = append(callArgs, arg)
+		callArgTypes = append(callArgTypes, t)
 		off += size
 	}
 	off = types.Rnd(off, int64(types.RegSize))
@@ -5452,7 +5458,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*types.Type, args .
 
 	// Issue call
 	var call *ssa.Value
-	aux := ssa.StaticAuxCall(fn, ACArgs, ACResults, nil) // WILL NEED A TYPE FOR THIS.)
+	aux := ssa.StaticAuxCall(fn, ACArgs, ACResults, s.f.AbiDefault.ABIAnalyzeTypes(nil, callArgTypes, results)) // WILL NEED A TYPE FOR THIS.)
 	callArgs = append(callArgs, s.mem())
 	call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
 	call.AddArgs(callArgs...)

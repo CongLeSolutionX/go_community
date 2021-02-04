@@ -557,6 +557,8 @@ func rewriteValueRISCV64(v *Value) bool {
 		return rewriteValueRISCV64_OpRsh8x64(v)
 	case OpRsh8x8:
 		return rewriteValueRISCV64_OpRsh8x8(v)
+	case OpSelectN:
+		return rewriteValueRISCV64_OpSelectN(v)
 	case OpSignExt16to32:
 		v.Op = OpRISCV64MOVHreg
 		return true
@@ -581,8 +583,7 @@ func rewriteValueRISCV64(v *Value) bool {
 		v.Op = OpRISCV64FSQRTD
 		return true
 	case OpStaticCall:
-		v.Op = OpRISCV64CALLstatic
-		return true
+		return rewriteValueRISCV64_OpStaticCall(v)
 	case OpStore:
 		return rewriteValueRISCV64_OpStore(v)
 	case OpSub16:
@@ -5963,6 +5964,23 @@ func rewriteValueRISCV64_OpRsh8x8(v *Value) bool {
 		return true
 	}
 }
+func rewriteValueRISCV64_OpSelectN(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (SelectN <types.TypeMem> [0] x:(CALLstatic _))
+	// result: x
+	for {
+		if v.Type != types.TypeMem || auxIntToInt64(v.AuxInt) != 0 {
+			break
+		}
+		x := v_0
+		if x.Op != OpRISCV64CALLstatic {
+			break
+		}
+		v.copyOf(x)
+		return true
+	}
+	return false
+}
 func rewriteValueRISCV64_OpSlicemask(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
@@ -5981,6 +5999,30 @@ func rewriteValueRISCV64_OpSlicemask(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
+}
+func rewriteValueRISCV64_OpStaticCall(v *Value) bool {
+	// match: (StaticCall <t> [i] {a} x)
+	// cond: t.IsResults()
+	// result: (CALLstatic <t.FieldType(t.NumFields()-1)> [i] {a} x)
+	for {
+		if len(v.Args) != 1 {
+			break
+		}
+		t := v.Type
+		i := auxIntToInt32(v.AuxInt)
+		a := auxToCall(v.Aux)
+		x := v.Args[0]
+		if !(t.IsResults()) {
+			break
+		}
+		v.reset(OpRISCV64CALLstatic)
+		v.Type = t.FieldType(t.NumFields() - 1)
+		v.AuxInt = int32ToAuxInt(i)
+		v.Aux = callToAux(a)
+		v.AddArg(x)
+		return true
+	}
+	return false
 }
 func rewriteValueRISCV64_OpStore(v *Value) bool {
 	v_2 := v.Args[2]
