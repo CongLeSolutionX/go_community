@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e4be677_3705a2b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T19:50:47Z",
+      "side": 1,
+      "message": "LGTM but I think you left some comments that can go now.",
+      "revId": "2035cb99b74759c407f505ddc79a5e98f9f09e79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0059186f_e1cdf9b8",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-04T19:50:47Z",
+      "side": 1,
+      "message": "This section of comments can go entirely.",
+      "range": {
+        "startLine": 573,
+        "startChar": 14,
+        "endLine": 573,
+        "endChar": 16
+      },
+      "revId": "2035cb99b74759c407f505ddc79a5e98f9f09e79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
