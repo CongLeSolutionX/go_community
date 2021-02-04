@@ -244,6 +244,7 @@ func (a *Addr) Target() *Prog {
 	}
 	return nil
 }
+
 func (a *Addr) SetTarget(t *Prog) {
 	if a.Type != TYPE_BRANCH {
 		panic("setting branch target when type is not TYPE_BRANCH")
@@ -257,7 +258,11 @@ func (a *Addr) SetConst(v int64) {
 	a.Offset = v
 }
 
-// Prog describes a single machine instruction.
+func (a *Addr) ToOprd() Oprd {
+	return Oprd{a.Reg, a.Index, a.Type, a.Offset, a.Val}
+}
+
+// Prog describes a single Go assembly instruction.
 //
 // The general instruction form is:
 //
@@ -297,6 +302,7 @@ type Prog struct {
 	Pool     *Prog     // constant pool entry, for arm,arm64 back ends
 	Forwd    *Prog     // for x86 back end
 	Rel      *Prog     // for x86, arm back ends
+	Insts    []Inst    // for arm64 back end
 	Pc       int64     // for back ends or assembler: virtual or actual program counter, depending on phase
 	Pos      src.XPos  // source position of this instruction
 	Spadj    int32     // effect of instruction on stack pointer (increment or decrement amount)
@@ -305,11 +311,45 @@ type Prog struct {
 	RegTo2   int16     // 2nd destination operand
 	Mark     uint16    // bitmask of arch-specific items
 	Optab    uint16    // arch-specific opcode index
+	RelocIdx uint16    // for arm64 back end
 	Scond    uint8     // bits that describe instruction suffixes (e.g. ARM conditions)
 	Back     uint8     // for x86 back end: backwards branch state
 	Ft       uint8     // for x86 back end: type index of Prog.From
 	Tt       uint8     // for x86 back end: type index of Prog.To
 	Isize    uint8     // for x86 back end: size of the instruction in bytes
+}
+
+// Inst describes a single arch-related machine instruction.
+// Inst only contains fields related to encoding.
+type Inst struct {
+	As    As       // assembler opcode
+	Optab uint16   // arch-specific opcode index
+	Pos   src.XPos // source position of this instruction
+	Args  []Oprd   // operands, in the same order as the machine instruction operands
+}
+
+// Oprd represent a machine instruction operand. It's a subset of the
+// Addr data structure, and the meaning of each field is the same as
+// that of the field with the same name in Addr.
+type Oprd struct {
+	Reg    int16
+	Index  int16
+	Type   AddrType
+	Offset int64
+
+	// argument value:
+	//	for TYPE_SCONST, a string
+	//	for TYPE_FCONST, a float64
+	//	for TYPE_BRANCH, a *Prog (optional)
+	//	for TYPE_TEXTSIZE, an int32 (optional)
+	Val interface{}
+}
+
+func (a *Oprd) Target() *Prog {
+	if a.Type == TYPE_BRANCH && a.Val != nil {
+		return a.Val.(*Prog)
+	}
+	return nil
 }
 
 // Pos indicates whether the oprand is the source or the destination.
