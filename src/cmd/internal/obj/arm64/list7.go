@@ -216,7 +216,7 @@ func rconv(r int) string {
 	return fmt.Sprintf("badreg(%d)", r)
 }
 
-func DRconv(a int) string {
+func DRconv(a argtype) string {
 	if a >= C_NONE && a <= C_NCLASS {
 		return cnames7[a]
 	}
