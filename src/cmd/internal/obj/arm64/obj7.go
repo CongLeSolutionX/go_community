@@ -57,6 +57,23 @@ var noZRreplace = map[obj.As]bool{
 	APRFM: true,
 }
 
+func isADDWop(op obj.As) bool {
+	switch op {
+	case AADDW, AADDSW, ASUBW, ASUBSW, ACMNW, ACMPW:
+		return true
+	}
+	return false
+}
+
+func isANDWop(op obj.As) bool {
+	switch op {
+	case AANDW, AORRW, AEORW, AANDSW, ATSTW,
+		ABICW, AEONW, AORNW, ABICSW:
+		return true
+	}
+	return false
+}
+
 func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	if c.ctxt.Flag_maymorestack != "" {
 		p = c.cursym.Func().SpillRegisterArgs(p, c.newprog)

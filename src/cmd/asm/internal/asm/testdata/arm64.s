@@ -40,8 +40,8 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	SUB	$0xaaaaaa, R2                   // SUB $11184810, R2                      // 42a82ad142a86ad1
 	ADDW	$0x60060, R2                    // ADDW	$393312, R2                       // 4280011142804111
 	ADD	$0x186a0, R2, R5                // ADD	$100000, R2, R5                   // 45801a91a5604091
-	SUB	$0xe7791f700, R3, R1            // SUB	$62135596800, R3, R1              // 1be09ed23bf2aef2db01c0f261001bcb
-	ADD	$0x3fffffffc000, R5             // ADD	$70368744161280, R5               // fb7f72b2a5001b8b
+	SUB	$0xe7791f700, R3, R1            // SUB	$62135596800, R3, R1              // 1be09ed23bf2aef2db01c0f261603bcb
+	ADD	$0x3fffffffc000, R5             // ADD	$70368744161280, R5               // fb7f72b2a5603b8b
 	ADD	R1>>11, R2, R3
 	ADD	R1<<22, R2, R3
 	ADD	R1->33, R2, R3
@@ -338,8 +338,8 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	EONW	$0x6006000060060, R5                // EONW	$1689262177517664, R5           // 1b0c8052db00a072a5003b4a
 	ORNW	$0x6006000060060, R5                // ORNW	$1689262177517664, R5           // 1b0c8052db00a072a5003b2a
 	BICSW	$0x6006000060060, R5                // BICSW	$1689262177517664, R5           // 1b0c8052db00a072a5003b6a
-	AND	$1, ZR                              // fb0340b2ff031b8a
-	ANDW	$1, ZR                              // fb030032ff031b0a
+	AND	$1, ZR                              // 3b0080d2ff031b8a
+	ANDW	$1, ZR                              // 3b008052ff031b0a
 	// TODO: this could have better encoding
 	ANDW	$-1, R10                            // 1b0080124a011b0a
 	AND	$8, R0, RSP                         // 1f007d92
@@ -362,7 +362,7 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	MOVW	$0xaaaaffff, R1               // MOVW	$2863333375, R1             // a1aaaa12
 	MOVW	$0xaaaa, R1                   // MOVW	$43690, R1                  // 41559552
 	MOVW	$0xffffaaaa, R1               // MOVW	$4294945450, R1             // a1aa8a12
-	MOVW	$0xffff0000, R1               // MOVW	$4294901760, R1             // e1ffbf52
+	MOVW	$0xffff0000, R1               // MOVW	$4294901760, R1             // e13f1032
 	MOVD	$0xffff00000000000, R1        // MOVD	$1152903912420802560, R1    // e13f54b2
 	MOVD	$0x1111000000001111, R1       // MOVD	$1229764173248860433, R1    // 212282d22122e2f2
 	MOVD	$0x1111ffff1111ffff, R1       // MOVD	$1230045644216991743, R1    // c1ddbd922122e2f2
@@ -371,7 +371,7 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	MOVD	$0x11110000, R1               // MOVD	$286326784, R1              // 2122a2d2
 	MOVD	$0xaaaa0000aaaa1111, R1       // MOVD	$-6149102338357718767, R1   // 212282d24155b5f24155f5f2
 	MOVD	$0x1111ffff1111aaaa, R1       // MOVD	$1230045644216969898, R1    // a1aa8a922122a2f22122e2f2
-	MOVD	$0, R1                        // 010080d2
+	MOVD	$0, R1                        // e1031faa
 	MOVD	$-1, R1                       // 01008092
 	MOVD	$0x210000, R0                 // MOVD	$2162688, R0                // 2004a0d2
 	MOVD	$0xffffffffffffaaaa, R1       // MOVD	$-21846, R1                 // a1aa8a92
@@ -382,7 +382,7 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	MOVK	$1, R1
 	MOVD	$0x1000100010001000, RSP      // MOVD	$1152939097061330944, RSP   // ff8304b2
 	MOVW	$0x10001000, RSP              // MOVW	$268439552, RSP             // ff830432
-	ADDW	$0x10001000, R1               // ADDW	$268439552, R1              // fb83043221001b0b
+	ADDW	$0x10001000, R1               // ADDW	$268439552, R1              // fb83043221403b0b
 	ADDW	$0x22220000, RSP, R3          // ADDW	$572653568, RSP, R3         // 5b44a452e3433b0b
 
 // move a large constant to a Vd.
@@ -392,10 +392,10 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	VMOVQ	$0x8040201008040202, $0x7040201008040201, V20         // VMOVQ	$-9205322385119247870, $8088500183983456769, V20
 
 // mov(to/from sp)
-	MOVD	$0x1002(RSP), R1              // MOVD	$4098(RSP), R1              // e107409121080091
-	MOVD	$0x1708(RSP), RSP             // MOVD	$5896(RSP), RSP             // ff074091ff231c91
-	MOVD	$0x2001(R7), R1               // MOVD	$8193(R7), R1               // e108409121040091
-	MOVD	$0xffffff(R7), R1             // MOVD	$16777215(R7), R1           // e1fc7f9121fc3f91
+	MOVD	$0x1002(RSP), R1              // MOVD	$4098(RSP), R1              // e10b009121044091
+	MOVD	$0x1708(RSP), RSP             // MOVD	$5896(RSP), RSP             // ff231c91ff074091
+	MOVD	$0x2001(R7), R1               // MOVD	$8193(R7), R1               // e104009121084091
+	MOVD	$0xffffff(R7), R1             // MOVD	$16777215(R7), R1           // e1fc3f9121fc7f91
 	MOVD	$-0x1(R7), R1                 // MOVD	$-1(R7), R1                 // e10400d1
 	MOVD	$-0x30(R7), R1                // MOVD	$-48(R7), R1                // e1c000d1
 	MOVD	$-0x708(R7), R1               // MOVD	$-1800(R7), R1              // e1201cd1
