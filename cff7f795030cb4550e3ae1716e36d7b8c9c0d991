@@ -86,6 +86,24 @@
       "message": "I\u0027ve created and isolated C equivalents of the excerpted code and sees it fails on the fuzz repro! Thanks Tom, I am now convinced about the original course of action, thanks for sticking with me and advocating it. Sending an update up shortly.",
       "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72494d23_befa720a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2021-02-04T12:05:11Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve created and isolated C equivalents of the excerpted code and sees it fails on the fuzz repro! Thanks Tom, I am now convinced about the original course of action, thanks for sticking with me and advocating it. Sending an update up shortly.\n\nNo worries at all! Glad I could help.\n\nI just finished extracting decode_record and testing it as well, and it does fail for me as well, glad we could both confirm our results.",
+      "parentUuid": "d3883849_9ffed391",
+      "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
