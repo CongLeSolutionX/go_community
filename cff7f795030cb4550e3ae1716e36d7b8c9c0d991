@@ -34,6 +34,24 @@
       "parentUuid": "6aebeaed_1c70a4c8",
       "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c1d30c5_5c67d1fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2021-02-04T11:17:55Z",
+      "side": 1,
+      "message": "Also because of the use of strconv.ParseInt, here\u0027s another test case that panics at the same place:\n  \"+0000005 x\u003d\\n\"",
+      "parentUuid": "af44b2a8_c6927fef",
+      "revId": "cff7f795030cb4550e3ae1716e36d7b8c9c0d991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
