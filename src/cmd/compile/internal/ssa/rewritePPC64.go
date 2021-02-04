@@ -720,6 +720,8 @@ func rewriteValuePPC64(v *Value) bool {
 		return rewriteValuePPC64_OpRsh8x64(v)
 	case OpRsh8x8:
 		return rewriteValuePPC64_OpRsh8x8(v)
+	case OpSelectN:
+		return rewriteValuePPC64_OpSelectN(v)
 	case OpSignExt16to32:
 		v.Op = OpPPC64MOVHreg
 		return true
@@ -744,8 +746,7 @@ func rewriteValuePPC64(v *Value) bool {
 		v.Op = OpPPC64FSQRT
 		return true
 	case OpStaticCall:
-		v.Op = OpPPC64CALLstatic
-		return true
+		return rewriteValuePPC64_OpStaticCall(v)
 	case OpStore:
 		return rewriteValuePPC64_OpStore(v)
 	case OpSub16:
@@ -16459,6 +16460,23 @@ func rewriteValuePPC64_OpRsh8x8(v *Value) bool {
 		return true
 	}
 }
+func rewriteValuePPC64_OpSelectN(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (SelectN <types.TypeMem> [0] x:(CALLstatic _))
+	// result: x
+	for {
+		if v.Type != types.TypeMem || auxIntToInt64(v.AuxInt) != 0 {
+			break
+		}
+		x := v_0
+		if x.Op != OpPPC64CALLstatic {
+			break
+		}
+		v.copyOf(x)
+		return true
+	}
+	return false
+}
 func rewriteValuePPC64_OpSlicemask(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
@@ -16474,6 +16492,30 @@ func rewriteValuePPC64_OpSlicemask(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
+}
+func rewriteValuePPC64_OpStaticCall(v *Value) bool {
+	// match: (StaticCall <t> [i] {a} x)
+	// cond: t.IsResults()
+	// result: (CALLstatic <t.FieldType(t.NumFields()-1)> [i] {a} x)
+	for {
+		if len(v.Args) != 1 {
+			break
+		}
+		t := v.Type
+		i := auxIntToInt32(v.AuxInt)
+		a := auxToCall(v.Aux)
+		x := v.Args[0]
+		if !(t.IsResults()) {
+			break
+		}
+		v.reset(OpPPC64CALLstatic)
+		v.Type = t.FieldType(t.NumFields() - 1)
+		v.AuxInt = int32ToAuxInt(i)
+		v.Aux = callToAux(a)
+		v.AddArg(x)
+		return true
+	}
+	return false
 }
 func rewriteValuePPC64_OpStore(v *Value) bool {
 	v_2 := v.Args[2]
