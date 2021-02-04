@@ -69,10 +69,17 @@ func assignments1() {
 
 	// test cases for issue 5800
 	var (
+<<<<<<< HEAD   (c83a43 [dev.go2go] go/*: merge parser and types changes from dev.ty)
 		_ int = nil /* ERROR "untyped nil value" */
 		_ [10]int = nil /* ERROR "untyped nil value" */
 		_ []byte = nil
 		_ struct{} = nil /* ERROR "untyped nil value" */
+=======
+		_ int = nil /* ERROR "cannot convert untyped nil" */
+		_ [10]int = nil /* ERROR "cannot convert untyped nil" */
+		_ []byte = nil
+		_ struct{} = nil /* ERROR "cannot convert untyped nil" */
+>>>>>>> BRANCH (dc122c [dev.typeparams] test: exclude a failing test again (fix 32b)
 		_ func() = nil
 		_ map[int]string = nil
 		_ chan int = nil

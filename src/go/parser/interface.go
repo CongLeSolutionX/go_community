@@ -12,7 +12,7 @@ import (
 	"go/ast"
 	"go/token"
 	"io"
-	"io/ioutil"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -35,11 +35,11 @@ func readSource(filename string, src interface{}) ([]byte, error) {
 				return s.Bytes(), nil
 			}
 		case io.Reader:
-			return ioutil.ReadAll(s)
+			return io.ReadAll(s)
 		}
 		return nil, errors.New("invalid source")
 	}
-	return ioutil.ReadFile(filename)
+	return os.ReadFile(filename)
 }
 
 // A Mode value is a set of flags (or 0).
@@ -124,7 +124,7 @@ func ParseFile(fset *token.FileSet, filename string, src interface{}, mode Mode)
 // directory specified by path and returns a map of package name -> package
 // AST with all the packages found.
 //
-// If filter != nil, only the files with os.FileInfo entries passing through
+// If filter != nil, only the files with fs.FileInfo entries passing through
 // the filter (and ending in ".go") are considered. The mode bits are passed
 // to ParseFile unchanged. Position information is recorded in fset, which
 // must not be nil.
@@ -133,8 +133,8 @@ func ParseFile(fset *token.FileSet, filename string, src interface{}, mode Mode)
 // returned. If a parse error occurred, a non-nil but incomplete map and the
 // first error encountered are returned.
 //
-func ParseDir(fset *token.FileSet, path string, filter func(os.FileInfo) bool, mode Mode) (pkgs map[string]*ast.Package, first error) {
-	list, err := ioutil.ReadDir(path)
+func ParseDir(fset *token.FileSet, path string, filter func(fs.FileInfo) bool, mode Mode) (pkgs map[string]*ast.Package, first error) {
+	list, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -145,9 +145,33 @@ func ParseDir(fset *token.FileSet, path string, filter func(os.FileInfo) bool, m
 			continue
 		}
 		if filter != nil {
+<<<<<<< HEAD   (c83a43 [dev.go2go] go/*: merge parser and types changes from dev.ty)
 			if !filter(d) {
 				continue
+=======
+			info, err := d.Info()
+			if err != nil {
+				return nil, err
+>>>>>>> BRANCH (dc122c [dev.typeparams] test: exclude a failing test again (fix 32b)
 			}
+			if !filter(info) {
+				continue
+			}
+		}
+		filename := filepath.Join(path, d.Name())
+		if src, err := ParseFile(fset, filename, nil, mode); err == nil {
+			name := src.Name.Name
+			pkg, found := pkgs[name]
+			if !found {
+				pkg = &ast.Package{
+					Name:  name,
+					Files: make(map[string]*ast.File),
+				}
+				pkgs[name] = pkg
+			}
+			pkg.Files[filename] = src
+		} else if first == nil {
+			first = err
 		}
 		filename := filepath.Join(path, d.Name())
 		if src, err := ParseFile(fset, filename, nil, mode); err == nil {

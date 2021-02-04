@@ -35,6 +35,10 @@ import (
 	"go/token"
 	"internal/testenv"
 	"io/ioutil"
+<<<<<<< HEAD   (c83a43 [dev.go2go] go/*: merge parser and types changes from dev.ty)
+=======
+	"os"
+>>>>>>> BRANCH (dc122c [dev.typeparams] test: exclude a failing test again (fix 32b)
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -106,7 +110,7 @@ func errMap(t *testing.T, testname string, files []*ast.File) map[string][]strin
 
 	for _, file := range files {
 		filename := fset.Position(file.Package).Filename
-		src, err := ioutil.ReadFile(filename)
+		src, err := os.ReadFile(filename)
 		if err != nil {
 			t.Fatalf("%s: could not read %s", testname, filename)
 		}
@@ -288,7 +292,11 @@ func TestFixedbugs(t *testing.T) { testDir(t, "fixedbugs") }
 func testDir(t *testing.T, dir string) {
 	testenv.MustHaveGoBuild(t)
 
+<<<<<<< HEAD   (c83a43 [dev.go2go] go/*: merge parser and types changes from dev.ty)
 	fis, err := ioutil.ReadDir(dir)
+=======
+	fis, err := os.ReadDir(dir)
+>>>>>>> BRANCH (dc122c [dev.typeparams] test: exclude a failing test again (fix 32b)
 	if err != nil {
 		t.Error(err)
 		return

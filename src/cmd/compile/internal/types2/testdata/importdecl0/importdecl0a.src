@@ -10,7 +10,11 @@ import (
 	// we can have multiple blank imports (was bug)
 	_ "math"
 	_ "net/rpc"
+<<<<<<< HEAD   (c83a43 [dev.go2go] go/*: merge parser and types changes from dev.ty)
 	init /* ERROR "cannot declare init" */ "fmt"
+=======
+	init /* ERROR "cannot import package as init" */ "fmt"
+>>>>>>> BRANCH (dc122c [dev.typeparams] test: exclude a failing test again (fix 32b)
 	// reflect defines a type "flag" which shows up in the gc export data
 	"reflect"
 	. /* ERROR "imported but not used" */ "reflect"

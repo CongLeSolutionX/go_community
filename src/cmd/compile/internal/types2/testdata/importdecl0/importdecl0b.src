@@ -8,7 +8,11 @@ import "math"
 import m "math"
 
 import . "testing" // declares T in file scope
+<<<<<<< HEAD   (c83a43 [dev.go2go] go/*: merge parser and types changes from dev.ty)
 import . /* ERROR "imported but not used" */ "unsafe"
+=======
+import . /* ERROR .unsafe. imported but not used */ "unsafe"
+>>>>>>> BRANCH (dc122c [dev.typeparams] test: exclude a failing test again (fix 32b)
 import . "fmt"     // declares Println in file scope
 
 import (
