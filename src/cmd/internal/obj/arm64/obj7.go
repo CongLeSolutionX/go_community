@@ -57,6 +57,23 @@ var noZRreplace = map[obj.As]bool{
 	APRFM: true,
 }
 
+func isADDWop(op obj.As) bool {
+	switch op {
+	case AADDW, AADDSW, ASUBW, ASUBSW, ACMNW, ACMPW:
+		return true
+	}
+	return false
+}
+
+func isANDWop(op obj.As) bool {
+	switch op {
+	case AANDW, AORRW, AEORW, AANDSW, ATSTW,
+		ABICW, AEONW, AORNW, ABICSW:
+		return true
+	}
+	return false
+}
+
 func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	// MOV	g_stackguard(g), RT1
 	p = obj.Appendp(p, c.newprog)
@@ -1008,9 +1025,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			r := (p.From.Offset >> 16) & 31
 			num := (p.From.Offset >> 10) & 63
 			if num > 4 {
-				// the shift amount is out of range, in order to avoid repeated error
-				// reportings, don't call ctxt.Diag, because asmout case 27 has the
-				// same check.
+				// keep num > 4
 				num = 7
 			}
 			p.From.Type = obj.TYPE_REG
