@@ -253,6 +253,14 @@ func formatPAXTime(ts time.Time) (s string) {
 // If parsing is successful, it will slice off the currently read record and
 // return the remainder as r.
 func parsePAXRecord(s string) (k, v, r string, err error) {
+	// The specification under section "pax Extended Header" at
+	//  https://pubs.opengroup.org/onlinepubs/9699919799/utilities/pax.html#tag_20_92_13_03
+	// states that s is of the format:
+	//  "%d %s=%s\n", <length>, <keyword>, <value>
+	// where <length> is the decimal representation, and of which
+	// decimal representations can contain padding such as: 003 or 03.
+	s = strings.TrimLeft(s, "00")
+
 	// The size field ends at the first space.
 	sp := strings.IndexByte(s, ' ')
 	if sp == -1 {

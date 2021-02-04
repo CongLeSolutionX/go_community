@@ -368,6 +368,10 @@ func TestParsePAXRecord(t *testing.T) {
 		{"16 longkeyname=hahaha\n", "16 longkeyname=hahaha\n", "", "", false},
 		{"3 somelongkey=\n", "3 somelongkey=\n", "", "", false},
 		{"50 tooshort=\n", "50 tooshort=\n", "", "", false},
+		{"0000000000000000000000000000000030 mtime=1432668921.098285006\n30 ctime=2147483649.15163319", "30 ctime=2147483649.15163319", "mtime", "1432668921.098285006", true},
+		{"06 k=v\n", "", "k", "v", true},
+		{"00006 k=v\n", "", "k", "v", true},
+		{"000006 k=v\n", "", "k", "v", true},
 	}
 
 	for _, v := range vectors {
