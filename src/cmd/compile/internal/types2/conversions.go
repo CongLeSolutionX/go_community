@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (c83a43 [dev.go2go] go/*: merge parser and types changes from dev.ty)
 // Copyright 2012 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -56,6 +57,69 @@ func (check *Checker) conversion(x *operand, T Type) {
 		// - For integer to string conversions, keep the argument type.
 		//   (See also the TODO below.)
 		if IsInterface(T) || constArg && !isConstType(T) {
+=======
+// UNREVIEWED
+// Copyright 2012 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file implements typechecking of conversions.
+
+package types2
+
+import (
+	"go/constant"
+	"unicode"
+)
+
+// Conversion type-checks the conversion T(x).
+// The result is in x.
+func (check *Checker) conversion(x *operand, T Type) {
+	constArg := x.mode == constant_
+
+	var ok bool
+	switch {
+	case constArg && isConstType(T):
+		// constant conversion
+		switch t := T.Basic(); {
+		case representableConst(x.val, check, t, &x.val):
+			ok = true
+		case isInteger(x.typ) && isString(t):
+			codepoint := unicode.ReplacementChar
+			if i, ok := constant.Uint64Val(x.val); ok && i <= unicode.MaxRune {
+				codepoint = rune(i)
+			}
+			x.val = constant.MakeString(string(codepoint))
+			ok = true
+		}
+	case x.convertibleTo(check, T):
+		// non-constant conversion
+		x.mode = value
+		ok = true
+	}
+
+	if !ok {
+		check.errorf(x, "cannot convert %s to %s", x, T)
+		x.mode = invalid
+		return
+	}
+
+	// The conversion argument types are final. For untyped values the
+	// conversion provides the type, per the spec: "A constant may be
+	// given a type explicitly by a constant declaration or conversion,...".
+	if isUntyped(x.typ) {
+		final := T
+		// - For conversions to interfaces, except for untyped nil arguments,
+		//   use the argument's default type.
+		// - For conversions of untyped constants to non-constant types, also
+		//   use the default type (e.g., []byte("foo") should report string
+		//   not []byte as type for the constant "foo").
+		// - For integer to string conversions, keep the argument type.
+		//   (See also the TODO below.)
+		if x.typ == Typ[UntypedNil] {
+			// ok
+		} else if IsInterface(T) || constArg && !isConstType(T) {
+>>>>>>> BRANCH (dc122c [dev.typeparams] test: exclude a failing test again (fix 32b)
 			final = Default(x.typ)
 		} else if isInteger(x.typ) && isString(T) {
 			final = x.typ

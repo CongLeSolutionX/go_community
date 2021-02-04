@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (c83a43 [dev.go2go] go/*: merge parser and types changes from dev.ty)
 // Copyright 2018 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -256,3 +257,5 @@ var knownFormats = map[string]string{
 	"uint8 %x":             "",
 	"uintptr %d":           "",
 }
+=======
+>>>>>>> BRANCH (dc122c [dev.typeparams] test: exclude a failing test again (fix 32b)
