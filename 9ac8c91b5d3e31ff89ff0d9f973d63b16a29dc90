@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3695e46a_6079115d",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-05T16:15:00Z",
+      "side": 1,
+      "message": "Can these assignments move into the `else` branch, and perhaps drop the separate `fentry` declaration at line 422?\n\n(Otherwise the `fentry` shadowing at line 422 may be confusing.)",
+      "range": {
+        "startLine": 417,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 25
+      },
+      "revId": "9ac8c91b5d3e31ff89ff0d9f973d63b16a29dc90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faf07ac6_9f7bcc9b",
+        "filename": "src/testing/fstest/testfs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-05T16:15:00Z",
+      "side": 1,
+      "message": "Precede with testenv.MustHaveSymlink(t) ?",
+      "revId": "9ac8c91b5d3e31ff89ff0d9f973d63b16a29dc90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
