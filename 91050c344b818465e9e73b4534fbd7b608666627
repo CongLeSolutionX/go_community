@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d0e724_fd08978b",
+        "filename": "src/cmd/go/testdata/script/mod_get_downadd_indirect.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-05T16:28:08Z",
+      "side": 1,
+      "message": "Added more detail to the comment.",
+      "parentUuid": "e8083e88_c27fb35c",
+      "revId": "91050c344b818465e9e73b4534fbd7b608666627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b8969cf_439efb5d",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-05T15:59:04Z",
       "side": 1,
       "message": "This also doesn\u0027t seem to match the comment.",
+      "revId": "91050c344b818465e9e73b4534fbd7b608666627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8145f45b_53f314f5",
+        "filename": "src/cmd/go/testdata/script/mod_get_downup_indirect.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-05T16:28:08Z",
+      "side": 1,
+      "message": "Updated comment.",
+      "parentUuid": "6b8969cf_439efb5d",
       "revId": "91050c344b818465e9e73b4534fbd7b608666627",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
