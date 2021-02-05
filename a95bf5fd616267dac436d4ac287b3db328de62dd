@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c2a8a58_5f39b7ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-05T02:28:57Z",
+      "side": 1,
+      "message": "Thanks Bryan, Damien and Wei for the updates. Wei, just some nits but otherwise LGTM. ",
+      "revId": "a95bf5fd616267dac436d4ac287b3db328de62dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94fab613_f60a17c3",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-05T02:28:57Z",
+      "side": 1,
+      "message": "We can invert and return early here and avoid this nesting.\n\nif state !\u003d StateNew {\n      return\n}\n\nif err :\u003d conn.SetWriteDeadline(time.Now().Add(-time.Hour); err !\u003d nil {\n      t.Errorf(\"setting writeDeadline: %v\", err)\n}",
+      "revId": "a95bf5fd616267dac436d4ac287b3db328de62dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4fc9f56_122884bb",
+        "filename": "src/net/sendfile_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-05T02:28:57Z",
+      "side": 1,
+      "message": "tests that EOF is returned on Conn write timeouts.\n\nHowever, I don’t see EOF in this test, am I missing something.",
+      "revId": "a95bf5fd616267dac436d4ac287b3db328de62dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ecf0bbe_a9aa25af",
+        "filename": "src/net/sendfile_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-05T02:28:57Z",
+      "side": 1,
+      "message": "Let’s invert this code, and return early:\nif errors.Is(err, os.ErrDeadlineExceeded) {\n   return nil\n}\nif err \u003d\u003d nil {\n   err \u003d errors.New(\"expected ErrDeadlineExceeded, but got nil\")\n}\nreturn err",
+      "revId": "a95bf5fd616267dac436d4ac287b3db328de62dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b421c7_a737433d",
+        "filename": "src/net/sendfile_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-05T02:28:57Z",
+      "side": 1,
+      "message": "conn, err :\u003d Dial(\"tcp\", ln.Addr().String())",
+      "range": {
+        "startLine": 362,
+        "startChar": 1,
+        "endLine": 362,
+        "endChar": 2
+      },
+      "revId": "a95bf5fd616267dac436d4ac287b3db328de62dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cdd2254_b3e5aca4",
+        "filename": "src/net/sendfile_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-05T02:28:57Z",
+      "side": 1,
+      "message": "%d instead of %v",
+      "range": {
+        "startLine": 373,
+        "startChar": 43,
+        "endLine": 373,
+        "endChar": 45
+      },
+      "revId": "a95bf5fd616267dac436d4ac287b3db328de62dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e20e565_58aa4a36",
+        "filename": "src/net/sendfile_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-05T02:28:57Z",
+      "side": 1,
+      "message": "if err :\u003d \u003c-errc; err !\u003d nil {\n      t.Fatal(err)\n}",
+      "range": {
+        "startLine": 376,
+        "startChar": 1,
+        "endLine": 379,
+        "endChar": 2
+      },
+      "revId": "a95bf5fd616267dac436d4ac287b3db328de62dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
