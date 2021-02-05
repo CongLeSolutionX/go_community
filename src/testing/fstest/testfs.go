@@ -404,7 +404,8 @@ func (t *fsTester) checkStat(path string, entry fs.DirEntry) {
 	}
 	fentry := formatEntry(entry)
 	finfo := formatInfoEntry(info)
-	if fentry != finfo {
+	// Note: mismatch here is OK for symlink, because Open dereferences symlink.
+	if fentry != finfo && entry.Type()&fs.ModeSymlink == 0 {
 		t.errorf("%s: mismatch:\n\tentry = %s\n\tfile.Stat() = %s", path, fentry, finfo)
 	}
 
@@ -415,10 +416,21 @@ func (t *fsTester) checkStat(path string, entry fs.DirEntry) {
 	}
 	fentry = formatInfo(einfo)
 	finfo = formatInfo(info)
-	if fentry != finfo {
-		t.errorf("%s: mismatch:\n\tentry.Info() = %s\n\tfile.Stat() = %s\n", path, fentry, finfo)
+	if entry.Type()&fs.ModeSymlink != 0 {
+		// For symlink, just check that entry.Info matches entry on common fields.
+		// Open deferences symlink, so info itself may differ.
+		fentry := formatEntry(entry)
+		feinfo := formatInfoEntry(einfo)
+		if fentry != feinfo {
+			t.errorf("%s: mismatch\n\tentry = %s\n\tentry.Info() = %s\n", path, fentry, feinfo)
+		}
+	} else {
+		if fentry != finfo {
+			t.errorf("%s: mismatch:\n\tentry.Info() = %s\n\tfile.Stat() = %s\n", path, fentry, finfo)
+		}
 	}
 
+	// Stat should be the same as Open+Stat, even for symlinks.
 	info2, err := fs.Stat(t.fsys, path)
 	if err != nil {
 		t.errorf("%s: fs.Stat: %v", path, err)
