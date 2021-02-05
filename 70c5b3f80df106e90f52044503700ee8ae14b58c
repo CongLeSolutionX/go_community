@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc90bd97_d5fd6a4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-05T22:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f20d08e0_bbb2099c",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "70c5b3f80df106e90f52044503700ee8ae14b58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96509b47_fb02a248",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fab5c775_14e338de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-05T22:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96509b47_fb02a248",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "70c5b3f80df106e90f52044503700ee8ae14b58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5049cccf_2e79056e",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-02-05T19:44:54Z",
       "side": 1,
       "message": "is this necessary to make the regabi code work on those OSes, or just a nice-to-have?\n\nsince we keep the g in the TLS also I\u0027m guessing it\u0027s OK?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "70c5b3f80df106e90f52044503700ee8ae14b58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012ec6f1_1382ed3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-05T22:03:42Z",
+      "side": 1,
+      "message": "For this particular CL, it doesn\u0027t affect correctness, so it is just nice-to-have. Other CLs (e.g. CL 289710) may affect correctness, though. We\u0027ll need to address them before we turn on the GOEXPERIMENT by default (for now I only tested on Linux and macOS).",
+      "parentUuid": "5049cccf_2e79056e",
       "range": {
         "startLine": 16,
         "startChar": 0,
