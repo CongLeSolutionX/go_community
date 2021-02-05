@@ -16,6 +16,437 @@
       "message": "Thanks for reviewing.  All suggestions done!",
       "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f230a69_e610c58c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "Good to get started. Thanks.\n\nMostly minor things, nitpicks, and some Go style pattern suggestions.",
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7b3ca7f_6d400f48",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "s/c/call/\n\nThis is a reasonably long lived variable and deserves a longer name.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d914f837_64fc9616",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "Should probably use a string builder here, eventually rather than do all these string concatenations.\n\nI thing string builder cannot be used in the compiler (needs to build with Go 1.4), so use a bytes.Buffer.\n\nFine to add a TODO for now.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dfdb897_0a8a7a3b",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "Rather than add the comma if there\u0027s more to do, add the comma if we\u0027re not in the first iteration. That\u0027s much simpler code.\n\nif i \u003e 0 {\n   s +\u003d \", \"\n}\ns +\u003d targ.Name().Sym().Name\n\n(Also, maybe use \", \" rather than \",\" for nicer looking names when we print them.)",
+      "range": {
+        "startLine": 74,
+        "startChar": 13,
+        "endLine": 74,
+        "endChar": 17
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c4cf2fd_db11dfba",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "just \"subster\" ?",
+      "range": {
+        "startLine": 84,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 15
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29c5bbd0_741049db",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "genericSubst returns a new function of the given name. The function is an instantiation ...\n\n(and then remove the last sentence).",
+      "range": {
+        "startLine": 93,
+        "startChar": 24,
+        "endLine": 93,
+        "endChar": 25
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31fdac9e_085ce05c",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "s/sym/name/",
+      "range": {
+        "startLine": 96,
+        "startChar": 18,
+        "endLine": 96,
+        "endChar": 21
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b68f3ab_e13aa185",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "keep this shorter:\n\n// use closure to capture all state needed by ir.EditChildren argument\n\nput the comment before the var edit decl and keep the var decl and the edit assignment together\n\n(note that one could also create a method object instead of a closure, but the effect is the same)",
+      "range": {
+        "startLine": 141,
+        "startChar": 7,
+        "endLine": 141,
+        "endChar": 11
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be48d734_bc99b84c",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "should one check here if anything changed and return the incoming list if nothing changed?",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 5
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f2c29e6_e9361c66",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "add a blank line before the switch",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 1
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dbb1684_de0027e4",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "better name for dcl?",
+      "range": {
+        "startLine": 256,
+        "startChar": 63,
+        "endLine": 256,
+        "endChar": 66
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11ec1da1_76f51192",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "s/cl/class/ ?",
+      "range": {
+        "startLine": 256,
+        "startChar": 32,
+        "endLine": 256,
+        "endChar": 34
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ac5de7d_57746935",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "var name *ir.Name\nfor _, n :\u003d range dcl {\n   if n.Class \u003d\u003d class {\n      name \u003d n\n   }\n}\n\nand then use name below rather than dcl[i]. Makes for a nicer loop and more efficient code.",
+      "range": {
+        "startLine": 259,
+        "startChar": 7,
+        "endLine": 259,
+        "endChar": 10
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98293127_ce6b7664",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "s/dcl[i]/name/",
+      "range": {
+        "startLine": 268,
+        "startChar": 23,
+        "endLine": 268,
+        "endChar": 26
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3bfca9a_8e83af50",
+        "filename": "test/typeparam/add.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "s/add/sum/ ?",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "186e720f_eabfd3ad",
+        "filename": "test/typeparam/add.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "sum +\u003d elt",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 11
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae07d820_22c314b1",
+        "filename": "test/typeparam/add.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "doesn\u0027t matter here but since this is for floating point code:\n\nreturn f + 0.0 // return 0.0 for -0.0\n\n(because x \u003d\u003d 0 for x \u003d -0).",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1fb2610_1182cca1",
+        "filename": "test/typeparam/add.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "FWIW, in typical tests we do it exactly the other way round:\n\ngot :\u003d ...\nwant :\u003d ...\n\nand then\n\nif got !\u003d want {\n   ... \"got %d, want %d\"",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a1062e4_a0a0e954",
+        "filename": "test/typeparam/min.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-05T01:24:12Z",
+      "side": 1,
+      "message": "likewise, first got, the want",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 5
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
