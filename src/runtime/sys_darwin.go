@@ -102,53 +102,60 @@ func syscallNoErr()
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_attr_init(attr *pthreadattr) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_attr_init_trampoline)), unsafe.Pointer(&attr))
+	return libcCall(unsafe.Pointer(pthread_attr_init_trampoline_addr), unsafe.Pointer(&attr))
 }
-func pthread_attr_init_trampoline()
+
+var pthread_attr_init_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_attr_getstacksize(attr *pthreadattr, size *uintptr) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_attr_getstacksize_trampoline)), unsafe.Pointer(&attr))
+	return libcCall(unsafe.Pointer(pthread_attr_getstacksize_trampoline_addr), unsafe.Pointer(&attr))
 }
-func pthread_attr_getstacksize_trampoline()
+
+var pthread_attr_getstacksize_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_attr_setdetachstate(attr *pthreadattr, state int) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_attr_setdetachstate_trampoline)), unsafe.Pointer(&attr))
+	return libcCall(unsafe.Pointer(pthread_attr_setdetachstate_trampoline_addr), unsafe.Pointer(&attr))
 }
-func pthread_attr_setdetachstate_trampoline()
+
+var pthread_attr_setdetachstate_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_create(attr *pthreadattr, start uintptr, arg unsafe.Pointer) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_create_trampoline)), unsafe.Pointer(&attr))
+	return libcCall(unsafe.Pointer(pthread_create_trampoline_addr), unsafe.Pointer(&attr))
 }
-func pthread_create_trampoline()
+
+var pthread_create_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func raise(sig uint32) {
-	libcCall(unsafe.Pointer(funcPC(raise_trampoline)), unsafe.Pointer(&sig))
+	libcCall(unsafe.Pointer(raise_trampoline_addr), unsafe.Pointer(&sig))
 }
-func raise_trampoline()
+
+var raise_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_self() (t pthread) {
-	libcCall(unsafe.Pointer(funcPC(pthread_self_trampoline)), unsafe.Pointer(&t))
+	libcCall(unsafe.Pointer(pthread_self_trampoline_addr), unsafe.Pointer(&t))
 	return
 }
-func pthread_self_trampoline()
+
+var pthread_self_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_kill(t pthread, sig uint32) {
-	libcCall(unsafe.Pointer(funcPC(pthread_kill_trampoline)), unsafe.Pointer(&t))
+	libcCall(unsafe.Pointer(pthread_kill_trampoline_addr), unsafe.Pointer(&t))
 	return
 }
-func pthread_kill_trampoline()
+
+var pthread_kill_trampoline_addr uintptr
 
 // mmap is used to do low-level memory allocation via mmap. Don't allow stack
 // splits, since this function (used by sysAlloc) is called in a lot of low-level
@@ -163,52 +170,59 @@ func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) (un
 		ret1            unsafe.Pointer
 		ret2            int
 	}{addr, n, prot, flags, fd, off, nil, 0}
-	libcCall(unsafe.Pointer(funcPC(mmap_trampoline)), unsafe.Pointer(&args))
+	libcCall(unsafe.Pointer(mmap_trampoline_addr), unsafe.Pointer(&args))
 	return args.ret1, args.ret2
 }
-func mmap_trampoline()
+
+var mmap_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func munmap(addr unsafe.Pointer, n uintptr) {
-	libcCall(unsafe.Pointer(funcPC(munmap_trampoline)), unsafe.Pointer(&addr))
+	libcCall(unsafe.Pointer(munmap_trampoline_addr), unsafe.Pointer(&addr))
 }
-func munmap_trampoline()
+
+var munmap_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func madvise(addr unsafe.Pointer, n uintptr, flags int32) {
-	libcCall(unsafe.Pointer(funcPC(madvise_trampoline)), unsafe.Pointer(&addr))
+	libcCall(unsafe.Pointer(madvise_trampoline_addr), unsafe.Pointer(&addr))
 }
-func madvise_trampoline()
+
+var madvise_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func mlock(addr unsafe.Pointer, n uintptr) {
-	libcCall(unsafe.Pointer(funcPC(mlock_trampoline)), unsafe.Pointer(&addr))
+	libcCall(unsafe.Pointer(mlock_trampoline_addr), unsafe.Pointer(&addr))
 }
-func mlock_trampoline()
+
+var mlock_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func read(fd int32, p unsafe.Pointer, n int32) int32 {
-	return libcCall(unsafe.Pointer(funcPC(read_trampoline)), unsafe.Pointer(&fd))
+	return libcCall(unsafe.Pointer(read_trampoline_addr), unsafe.Pointer(&fd))
 }
-func read_trampoline()
+
+var read_trampoline_addr uintptr
 
 func pipe() (r, w int32, errno int32) {
 	var p [2]int32
-	errno = libcCall(unsafe.Pointer(funcPC(pipe_trampoline)), noescape(unsafe.Pointer(&p)))
+	errno = libcCall(unsafe.Pointer(pipe_trampoline_addr), noescape(unsafe.Pointer(&p)))
 	return p[0], p[1], errno
 }
-func pipe_trampoline()
+
+var pipe_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func closefd(fd int32) int32 {
-	return libcCall(unsafe.Pointer(funcPC(close_trampoline)), unsafe.Pointer(&fd))
+	return libcCall(unsafe.Pointer(close_trampoline_addr), unsafe.Pointer(&fd))
 }
-func close_trampoline()
+
+var close_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
@@ -216,30 +230,34 @@ func close_trampoline()
 // This is exported via linkname to assembly in runtime/cgo.
 //go:linkname exit
 func exit(code int32) {
-	libcCall(unsafe.Pointer(funcPC(exit_trampoline)), unsafe.Pointer(&code))
+	libcCall(unsafe.Pointer(exit_trampoline_addr), unsafe.Pointer(&code))
 }
-func exit_trampoline()
+
+var exit_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func usleep(usec uint32) {
-	libcCall(unsafe.Pointer(funcPC(usleep_trampoline)), unsafe.Pointer(&usec))
+	libcCall(unsafe.Pointer(usleep_trampoline_addr), unsafe.Pointer(&usec))
 }
-func usleep_trampoline()
+
+var usleep_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func write1(fd uintptr, p unsafe.Pointer, n int32) int32 {
-	return libcCall(unsafe.Pointer(funcPC(write_trampoline)), unsafe.Pointer(&fd))
+	return libcCall(unsafe.Pointer(write_trampoline_addr), unsafe.Pointer(&fd))
 }
-func write_trampoline()
+
+var write_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func open(name *byte, mode, perm int32) (ret int32) {
-	return libcCall(unsafe.Pointer(funcPC(open_trampoline)), unsafe.Pointer(&name))
+	return libcCall(unsafe.Pointer(open_trampoline_addr), unsafe.Pointer(&name))
 }
-func open_trampoline()
+
+var open_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
@@ -248,7 +266,7 @@ func nanotime1() int64 {
 		t            int64  // raw timer
 		numer, denom uint32 // conversion factors. nanoseconds = t * numer / denom.
 	}
-	libcCall(unsafe.Pointer(funcPC(nanotime_trampoline)), unsafe.Pointer(&r))
+	libcCall(unsafe.Pointer(nanotime_trampoline_addr), unsafe.Pointer(&r))
 	// Note: Apple seems unconcerned about overflow here. See
 	// https://developer.apple.com/library/content/qa/qa1398/_index.html
 	// Note also, numer == denom == 1 is common.
@@ -261,30 +279,34 @@ func nanotime1() int64 {
 	}
 	return t
 }
-func nanotime_trampoline()
+
+var nanotime_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func walltime1() (int64, int32) {
 	var t timespec
-	libcCall(unsafe.Pointer(funcPC(walltime_trampoline)), unsafe.Pointer(&t))
+	libcCall(unsafe.Pointer(walltime_trampoline_addr), unsafe.Pointer(&t))
 	return t.tv_sec, int32(t.tv_nsec)
 }
-func walltime_trampoline()
+
+var walltime_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func sigaction(sig uint32, new *usigactiont, old *usigactiont) {
-	libcCall(unsafe.Pointer(funcPC(sigaction_trampoline)), unsafe.Pointer(&sig))
+	libcCall(unsafe.Pointer(sigaction_trampoline_addr), unsafe.Pointer(&sig))
 }
-func sigaction_trampoline()
+
+var sigaction_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func sigprocmask(how uint32, new *sigset, old *sigset) {
-	libcCall(unsafe.Pointer(funcPC(sigprocmask_trampoline)), unsafe.Pointer(&how))
+	libcCall(unsafe.Pointer(sigprocmask_trampoline_addr), unsafe.Pointer(&how))
 }
-func sigprocmask_trampoline()
+
+var sigprocmask_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
@@ -296,108 +318,123 @@ func sigaltstack(new *stackt, old *stackt) {
 		// ref: http://lists.llvm.org/pipermail/llvm-commits/Week-of-Mon-20140421/214296.html
 		new.ss_size = 32768
 	}
-	libcCall(unsafe.Pointer(funcPC(sigaltstack_trampoline)), unsafe.Pointer(&new))
+	libcCall(unsafe.Pointer(sigaltstack_trampoline_addr), unsafe.Pointer(&new))
 }
-func sigaltstack_trampoline()
+
+var sigaltstack_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func raiseproc(sig uint32) {
-	libcCall(unsafe.Pointer(funcPC(raiseproc_trampoline)), unsafe.Pointer(&sig))
+	libcCall(unsafe.Pointer(raiseproc_trampoline_addr), unsafe.Pointer(&sig))
 }
-func raiseproc_trampoline()
+
+var raiseproc_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func setitimer(mode int32, new, old *itimerval) {
-	libcCall(unsafe.Pointer(funcPC(setitimer_trampoline)), unsafe.Pointer(&mode))
+	libcCall(unsafe.Pointer(setitimer_trampoline_addr), unsafe.Pointer(&mode))
 }
-func setitimer_trampoline()
+
+var setitimer_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func sysctl(mib *uint32, miblen uint32, oldp *byte, oldlenp *uintptr, newp *byte, newlen uintptr) int32 {
-	return libcCall(unsafe.Pointer(funcPC(sysctl_trampoline)), unsafe.Pointer(&mib))
+	return libcCall(unsafe.Pointer(sysctl_trampoline_addr), unsafe.Pointer(&mib))
 }
-func sysctl_trampoline()
+
+var sysctl_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func sysctlbyname(name *byte, oldp *byte, oldlenp *uintptr, newp *byte, newlen uintptr) int32 {
-	return libcCall(unsafe.Pointer(funcPC(sysctlbyname_trampoline)), unsafe.Pointer(&name))
+	return libcCall(unsafe.Pointer(sysctlbyname_trampoline_addr), unsafe.Pointer(&name))
 }
-func sysctlbyname_trampoline()
+
+var sysctlbyname_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func fcntl(fd, cmd, arg int32) int32 {
-	return libcCall(unsafe.Pointer(funcPC(fcntl_trampoline)), unsafe.Pointer(&fd))
+	return libcCall(unsafe.Pointer(fcntl_trampoline_addr), unsafe.Pointer(&fd))
 }
-func fcntl_trampoline()
+
+var fcntl_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func kqueue() int32 {
-	v := libcCall(unsafe.Pointer(funcPC(kqueue_trampoline)), nil)
+	v := libcCall(unsafe.Pointer(kqueue_trampoline_addr), nil)
 	return v
 }
-func kqueue_trampoline()
+
+var kqueue_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32 {
-	return libcCall(unsafe.Pointer(funcPC(kevent_trampoline)), unsafe.Pointer(&kq))
+	return libcCall(unsafe.Pointer(kevent_trampoline_addr), unsafe.Pointer(&kq))
 }
-func kevent_trampoline()
+
+var kevent_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_mutex_init(m *pthreadmutex, attr *pthreadmutexattr) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_mutex_init_trampoline)), unsafe.Pointer(&m))
+	return libcCall(unsafe.Pointer(pthread_mutex_init_trampoline_addr), unsafe.Pointer(&m))
 }
-func pthread_mutex_init_trampoline()
+
+var pthread_mutex_init_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_mutex_lock(m *pthreadmutex) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_mutex_lock_trampoline)), unsafe.Pointer(&m))
+	return libcCall(unsafe.Pointer(pthread_mutex_lock_trampoline_addr), unsafe.Pointer(&m))
 }
-func pthread_mutex_lock_trampoline()
+
+var pthread_mutex_lock_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_mutex_unlock(m *pthreadmutex) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_mutex_unlock_trampoline)), unsafe.Pointer(&m))
+	return libcCall(unsafe.Pointer(pthread_mutex_unlock_trampoline_addr), unsafe.Pointer(&m))
 }
-func pthread_mutex_unlock_trampoline()
+
+var pthread_mutex_unlock_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_cond_init(c *pthreadcond, attr *pthreadcondattr) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_cond_init_trampoline)), unsafe.Pointer(&c))
+	return libcCall(unsafe.Pointer(pthread_cond_init_trampoline_addr), unsafe.Pointer(&c))
 }
-func pthread_cond_init_trampoline()
+
+var pthread_cond_init_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_cond_wait(c *pthreadcond, m *pthreadmutex) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_cond_wait_trampoline)), unsafe.Pointer(&c))
+	return libcCall(unsafe.Pointer(pthread_cond_wait_trampoline_addr), unsafe.Pointer(&c))
 }
-func pthread_cond_wait_trampoline()
+
+var pthread_cond_wait_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_cond_timedwait_relative_np(c *pthreadcond, m *pthreadmutex, t *timespec) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_cond_timedwait_relative_np_trampoline)), unsafe.Pointer(&c))
+	return libcCall(unsafe.Pointer(pthread_cond_timedwait_relative_np_trampoline_addr), unsafe.Pointer(&c))
 }
-func pthread_cond_timedwait_relative_np_trampoline()
+
+var pthread_cond_timedwait_relative_np_trampoline_addr uintptr
 
 //go:nosplit
 //go:cgo_unsafe_args
 func pthread_cond_signal(c *pthreadcond) int32 {
-	return libcCall(unsafe.Pointer(funcPC(pthread_cond_signal_trampoline)), unsafe.Pointer(&c))
+	return libcCall(unsafe.Pointer(pthread_cond_signal_trampoline_addr), unsafe.Pointer(&c))
 }
-func pthread_cond_signal_trampoline()
+
+var pthread_cond_signal_trampoline_addr uintptr
 
 // Not used on Darwin, but must be defined.
 func exitThread(wait *uint32) {

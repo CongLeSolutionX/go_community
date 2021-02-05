@@ -15,7 +15,7 @@
 #define CLOCK_REALTIME		0
 
 // Exit the entire program (like C exit)
-TEXT runtime·exit_trampoline<ABIInternal>(SB),NOSPLIT,$0
+TEXT exit_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVL	0(DI), DI		// arg 1 exit status
@@ -24,7 +24,10 @@ TEXT runtime·exit_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·open_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·exit_trampoline_addr(SB), RODATA, $8
+DATA	·exit_trampoline_addr(SB)/8, $exit_trampoline<>(SB)
+
+TEXT open_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVL	8(DI), SI		// arg 2 flags
@@ -35,7 +38,10 @@ TEXT runtime·open_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·close_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·open_trampoline_addr(SB), RODATA, $8
+DATA	·open_trampoline_addr(SB)/8, $open_trampoline<>(SB)
+
+TEXT close_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVL	0(DI), DI		// arg 1 fd
@@ -43,7 +49,10 @@ TEXT runtime·close_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·read_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·close_trampoline_addr(SB), RODATA, $8
+DATA	·close_trampoline_addr(SB)/8, $close_trampoline<>(SB)
+
+TEXT read_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI		// arg 2 buf
@@ -59,7 +68,10 @@ noerr:
 	POPQ	BP
 	RET
 
-TEXT runtime·write_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·read_trampoline_addr(SB), RODATA, $8
+DATA	·read_trampoline_addr(SB)/8, $read_trampoline<>(SB)
+
+TEXT write_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI		// arg 2 buf
@@ -75,7 +87,10 @@ noerr:
 	POPQ	BP
 	RET
 
-TEXT runtime·pipe_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·write_trampoline_addr(SB), RODATA, $8
+DATA	·write_trampoline_addr(SB)/8, $write_trampoline<>(SB)
+
+TEXT pipe_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	CALL	libc_pipe(SB)		// pointer already in DI
@@ -86,7 +101,10 @@ TEXT runtime·pipe_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·setitimer_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pipe_trampoline_addr(SB), RODATA, $8
+DATA	·pipe_trampoline_addr(SB)/8, $pipe_trampoline<>(SB)
+
+TEXT setitimer_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI		// arg 2 new
@@ -96,7 +114,10 @@ TEXT runtime·setitimer_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·madvise_trampoline<ABIInternal>(SB), NOSPLIT, $0
+GLOBL	·setitimer_trampoline_addr(SB), RODATA, $8
+DATA	·setitimer_trampoline_addr(SB)/8, $setitimer_trampoline<>(SB)
+
+TEXT madvise_trampoline<>(SB), NOSPLIT, $0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 len
@@ -107,12 +128,18 @@ TEXT runtime·madvise_trampoline<ABIInternal>(SB), NOSPLIT, $0
 	POPQ	BP
 	RET
 
-TEXT runtime·mlock_trampoline<ABIInternal>(SB), NOSPLIT, $0
+GLOBL	·madvise_trampoline_addr(SB), RODATA, $8
+DATA	·madvise_trampoline_addr(SB)/8, $madvise_trampoline<>(SB)
+
+TEXT mlock_trampoline<>(SB), NOSPLIT, $0
 	UNDEF // unimplemented
+
+GLOBL	·mlock_trampoline_addr(SB), RODATA, $8
+DATA	·mlock_trampoline_addr(SB)/8, $mlock_trampoline<>(SB)
 
 GLOBL timebase<>(SB),NOPTR,$(machTimebaseInfo__size)
 
-TEXT runtime·nanotime_trampoline<ABIInternal>(SB),NOSPLIT,$0
+TEXT nanotime_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	DI, BX
@@ -141,7 +168,10 @@ initialized:
 	POPQ	BP
 	RET
 
-TEXT runtime·walltime_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·nanotime_trampoline_addr(SB), RODATA, $8
+DATA	·nanotime_trampoline_addr(SB)/8, $nanotime_trampoline<>(SB)
+
+TEXT walltime_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP			// make a frame; keep stack aligned
 	MOVQ	SP, BP
 	MOVQ	DI, SI			// arg 2 timespec
@@ -150,7 +180,10 @@ TEXT runtime·walltime_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·sigaction_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·walltime_trampoline_addr(SB), RODATA, $8
+DATA	·walltime_trampoline_addr(SB)/8, $walltime_trampoline<>(SB)
+
+TEXT sigaction_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI		// arg 2 new
@@ -163,7 +196,10 @@ TEXT runtime·sigaction_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·sigprocmask_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·sigaction_trampoline_addr(SB), RODATA, $8
+DATA	·sigaction_trampoline_addr(SB)/8, $sigaction_trampoline<>(SB)
+
+TEXT sigprocmask_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 new
@@ -176,7 +212,10 @@ TEXT runtime·sigprocmask_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·sigaltstack_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·sigprocmask_trampoline_addr(SB), RODATA, $8
+DATA	·sigprocmask_trampoline_addr(SB)/8, $sigprocmask_trampoline<>(SB)
+
+TEXT sigaltstack_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI		// arg 2 old
@@ -188,7 +227,10 @@ TEXT runtime·sigaltstack_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·raiseproc_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·sigaltstack_trampoline_addr(SB), RODATA, $8
+DATA	·sigaltstack_trampoline_addr(SB)/8, $sigaltstack_trampoline<>(SB)
+
+TEXT raiseproc_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVL	0(DI), BX	// signal
@@ -198,6 +240,9 @@ TEXT runtime·raiseproc_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	CALL	libc_kill(SB)
 	POPQ	BP
 	RET
+
+GLOBL	·raiseproc_trampoline_addr(SB), RODATA, $8
+DATA	·raiseproc_trampoline_addr(SB)/8, $raiseproc_trampoline<>(SB)
 
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	fn+0(FP),    AX
@@ -211,6 +256,9 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	BP, SP
 	POPQ	BP
 	RET
+
+GLOBL	·sigfwd_trampoline_addr(SB), RODATA, $8
+DATA	·sigfwd_trampoline_addr(SB)/8, $sigfwd_trampoline<>(SB)
 
 // This is the function registered during sigaction and is invoked when
 // a signal is received. It just redirects to the Go function sigtrampgo.
@@ -322,7 +370,7 @@ sigtrampnog:
 	MOVQ	_cgo_callers(SB), AX
 	JMP	AX
 
-TEXT runtime·mmap_trampoline<ABIInternal>(SB),NOSPLIT,$0
+TEXT mmap_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP			// make a frame; keep stack aligned
 	MOVQ	SP, BP
 	MOVQ	DI, BX
@@ -345,7 +393,10 @@ ok:
 	POPQ	BP
 	RET
 
-TEXT runtime·munmap_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·mmap_trampoline_addr(SB), RODATA, $8
+DATA	·mmap_trampoline_addr(SB)/8, $mmap_trampoline<>(SB)
+
+TEXT munmap_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI		// arg 2 len
@@ -357,7 +408,10 @@ TEXT runtime·munmap_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·usleep_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·munmap_trampoline_addr(SB), RODATA, $8
+DATA	·munmap_trampoline_addr(SB)/8, $munmap_trampoline<>(SB)
+
+TEXT usleep_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVL	0(DI), DI	// arg 1 usec
@@ -365,11 +419,14 @@ TEXT runtime·usleep_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
+GLOBL	·usleep_trampoline_addr(SB), RODATA, $8
+DATA	·usleep_trampoline_addr(SB)/8, $usleep_trampoline<>(SB)
+
 TEXT runtime·settls(SB),NOSPLIT,$32
 	// Nothing to do on Darwin, pthread already set thread-local storage up.
 	RET
 
-TEXT runtime·sysctl_trampoline<ABIInternal>(SB),NOSPLIT,$0
+TEXT sysctl_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVL	8(DI), SI		// arg 2 miblen
@@ -382,7 +439,10 @@ TEXT runtime·sysctl_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·sysctlbyname_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·sysctl_trampoline_addr(SB), RODATA, $8
+DATA	·sysctl_trampoline_addr(SB)/8, $sysctl_trampoline<>(SB)
+
+TEXT sysctlbyname_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI		// arg 2 oldp
@@ -394,14 +454,20 @@ TEXT runtime·sysctlbyname_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·kqueue_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·sysctlbyname_trampoline_addr(SB), RODATA, $8
+DATA	·sysctlbyname_trampoline_addr(SB)/8, $sysctlbyname_trampoline<>(SB)
+
+TEXT kqueue_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	CALL	libc_kqueue(SB)
 	POPQ	BP
 	RET
 
-TEXT runtime·kevent_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·kqueue_trampoline_addr(SB), RODATA, $8
+DATA	·kqueue_trampoline_addr(SB)/8, $kqueue_trampoline<>(SB)
+
+TEXT kevent_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI		// arg 2 keventt
@@ -420,7 +486,10 @@ ok:
 	POPQ	BP
 	RET
 
-TEXT runtime·fcntl_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·kevent_trampoline_addr(SB), RODATA, $8
+DATA	·kevent_trampoline_addr(SB)/8, $kevent_trampoline<>(SB)
+
+TEXT fcntl_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVL	4(DI), SI		// arg 2 cmd
@@ -430,6 +499,9 @@ TEXT runtime·fcntl_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	CALL	libc_fcntl(SB)
 	POPQ	BP
 	RET
+
+GLOBL	·fcntl_trampoline_addr(SB), RODATA, $8
+DATA	·fcntl_trampoline_addr(SB)/8, $fcntl_trampoline<>(SB)
 
 // mstart_stub is the first function executed on a new thread started by pthread_create.
 // It just does some low-level setup and then calls mstart.
@@ -477,7 +549,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$0
 // A pointer to the arguments is passed in DI.
 // A single int32 result is returned in AX.
 // (For more results, make an args/results structure.)
-TEXT runtime·pthread_attr_init_trampoline<ABIInternal>(SB),NOSPLIT,$0
+TEXT pthread_attr_init_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP	// make frame, keep stack 16-byte aligned.
 	MOVQ	SP, BP
 	MOVQ	0(DI), DI // arg 1 attr
@@ -485,7 +557,10 @@ TEXT runtime·pthread_attr_init_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_attr_getstacksize_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_attr_init_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_attr_init_trampoline_addr(SB)/8, $pthread_attr_init_trampoline<>(SB)
+
+TEXT pthread_attr_getstacksize_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 size
@@ -494,7 +569,10 @@ TEXT runtime·pthread_attr_getstacksize_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_attr_setdetachstate_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_attr_getstacksize_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_attr_getstacksize_trampoline_addr(SB)/8, $pthread_attr_getstacksize_trampoline<>(SB)
+
+TEXT pthread_attr_setdetachstate_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 state
@@ -503,7 +581,10 @@ TEXT runtime·pthread_attr_setdetachstate_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_create_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_attr_setdetachstate_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_attr_setdetachstate_trampoline_addr(SB)/8, $pthread_attr_setdetachstate_trampoline<>(SB)
+
+TEXT pthread_create_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	SUBQ	$16, SP
@@ -516,7 +597,10 @@ TEXT runtime·pthread_create_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·raise_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_create_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_create_trampoline_addr(SB)/8, $pthread_create_trampoline<>(SB)
+
+TEXT raise_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVL	0(DI), DI	// arg 1 signal
@@ -524,7 +608,10 @@ TEXT runtime·raise_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_mutex_init_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·raise_trampoline_addr(SB), RODATA, $8
+DATA	·raise_trampoline_addr(SB)/8, $raise_trampoline<>(SB)
+
+TEXT pthread_mutex_init_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 attr
@@ -533,7 +620,10 @@ TEXT runtime·pthread_mutex_init_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_mutex_lock_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_mutex_init_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_mutex_init_trampoline_addr(SB)/8, $pthread_mutex_init_trampoline<>(SB)
+
+TEXT pthread_mutex_lock_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	0(DI), DI	// arg 1 mutex
@@ -541,7 +631,10 @@ TEXT runtime·pthread_mutex_lock_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_mutex_unlock_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_mutex_lock_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_mutex_lock_trampoline_addr(SB)/8, $pthread_mutex_lock_trampoline<>(SB)
+
+TEXT pthread_mutex_unlock_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	0(DI), DI	// arg 1 mutex
@@ -549,7 +642,10 @@ TEXT runtime·pthread_mutex_unlock_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_cond_init_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_mutex_unlock_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_mutex_unlock_trampoline_addr(SB)/8, $pthread_mutex_unlock_trampoline<>(SB)
+
+TEXT pthread_cond_init_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 attr
@@ -558,7 +654,10 @@ TEXT runtime·pthread_cond_init_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_cond_wait_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_cond_init_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_cond_init_trampoline_addr(SB)/8, $pthread_cond_init_trampoline<>(SB)
+
+TEXT pthread_cond_wait_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 mutex
@@ -567,7 +666,10 @@ TEXT runtime·pthread_cond_wait_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_cond_timedwait_relative_np_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_cond_wait_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_cond_wait_trampoline_addr(SB)/8, $pthread_cond_wait_trampoline<>(SB)
+
+TEXT pthread_cond_timedwait_relative_np_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 mutex
@@ -577,7 +679,10 @@ TEXT runtime·pthread_cond_timedwait_relative_np_trampoline<ABIInternal>(SB),NOS
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_cond_signal_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_cond_timedwait_relative_np_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_cond_timedwait_relative_np_trampoline_addr(SB)/8, $pthread_cond_timedwait_relative_np_trampoline<>(SB)
+
+TEXT pthread_cond_signal_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	0(DI), DI	// arg 1 cond
@@ -585,7 +690,10 @@ TEXT runtime·pthread_cond_signal_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_self_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_cond_signal_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_cond_signal_trampoline_addr(SB)/8, $pthread_cond_signal_trampoline<>(SB)
+
+TEXT pthread_self_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	DI, BX		// BX is caller-save
@@ -594,7 +702,10 @@ TEXT runtime·pthread_self_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	POPQ	BP
 	RET
 
-TEXT runtime·pthread_kill_trampoline<ABIInternal>(SB),NOSPLIT,$0
+GLOBL	·pthread_self_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_self_trampoline_addr(SB)/8, $pthread_self_trampoline<>(SB)
+
+TEXT pthread_kill_trampoline<>(SB),NOSPLIT,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
 	MOVQ	8(DI), SI	// arg 2 sig
@@ -602,6 +713,9 @@ TEXT runtime·pthread_kill_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	CALL	libc_pthread_kill(SB)
 	POPQ	BP
 	RET
+
+GLOBL	·pthread_kill_trampoline_addr(SB), RODATA, $8
+DATA	·pthread_kill_trampoline_addr(SB)/8, $pthread_kill_trampoline<>(SB)
 
 // syscall calls a function in libc on behalf of the syscall package.
 // syscall takes a pointer to a struct like:
