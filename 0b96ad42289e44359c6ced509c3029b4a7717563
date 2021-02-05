@@ -105,6 +105,24 @@
       "parentUuid": "296240ef_c25c8494",
       "revId": "0b96ad42289e44359c6ced509c3029b4a7717563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15de1ffc_61f87de2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-05T19:35:15Z",
+      "side": 1,
+      "message": "0.00ns/op indicates that the benchmark was not actually using b.N, so those results are probably not valid.\n\n(Even ~10 instructions would be 1.0 ns/op or more.)",
+      "parentUuid": "0441e498_d730a15a",
+      "revId": "0b96ad42289e44359c6ced509c3029b4a7717563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
