@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8083e88_c27fb35c",
+        "filename": "src/cmd/go/testdata/script/mod_get_downadd_indirect.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-05T15:59:04Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the comment above: should this be b@v0.1.0 or should the comment be different?",
+      "revId": "91050c344b818465e9e73b4534fbd7b608666627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b8969cf_439efb5d",
+        "filename": "src/cmd/go/testdata/script/mod_get_downup_indirect.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-05T15:59:04Z",
+      "side": 1,
+      "message": "This also doesn\u0027t seem to match the comment.",
+      "revId": "91050c344b818465e9e73b4534fbd7b608666627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
