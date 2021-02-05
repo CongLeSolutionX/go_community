@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d34c718_d5c28099",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7b3ca7f_6d400f48",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d914f837_64fc9616",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-02-05T01:24:12Z",
       "side": 1,
       "message": "Should probably use a string builder here, eventually rather than do all these string concatenations.\n\nI thing string builder cannot be used in the compiler (needs to build with Go 1.4), so use a bytes.Buffer.\n\nFine to add a TODO for now.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea5a7bf6_a2312628",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d914f837_64fc9616",
       "range": {
         "startLine": 71,
         "startChar": 4,
@@ -104,6 +152,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d39959e_d36ffb55",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Yes, done, should have noticed the simpler way....",
+      "parentUuid": "3dfdb897_0a8a7a3b",
+      "range": {
+        "startLine": 74,
+        "startChar": 13,
+        "endLine": 74,
+        "endChar": 17
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c4cf2fd_db11dfba",
@@ -117,6 +189,30 @@
       "writtenOn": "2021-02-05T01:24:12Z",
       "side": 1,
       "message": "just \"subster\" ?",
+      "range": {
+        "startLine": 84,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 15
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19fcda47_b8e586e6",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4cf2fd_db11dfba",
       "range": {
         "startLine": 84,
         "startChar": 5,
@@ -150,6 +246,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab92d579_99efd761",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29c5bbd0_741049db",
+      "range": {
+        "startLine": 93,
+        "startChar": 24,
+        "endLine": 93,
+        "endChar": 25
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31fdac9e_085ce05c",
@@ -163,6 +283,30 @@
       "writtenOn": "2021-02-05T01:24:12Z",
       "side": 1,
       "message": "s/sym/name/",
+      "range": {
+        "startLine": 96,
+        "startChar": 18,
+        "endLine": 96,
+        "endChar": 21
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06629000_742c0869",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31fdac9e_085ce05c",
       "range": {
         "startLine": 96,
         "startChar": 18,
@@ -196,6 +340,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb1f026b_a5e591ba",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b68f3ab_e13aa185",
+      "range": {
+        "startLine": 141,
+        "startChar": 7,
+        "endLine": 141,
+        "endChar": 11
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be48d734_bc99b84c",
@@ -219,6 +387,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb69367_5993dc9a",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "The nodes are generally changed, except for LITERALs.  And, we need a separate slice, even if the list is empty or only consists of LITERAL nodes (unlikely), because the list (such as the list of Dcls) may be modified by later parts of the compiler.",
+      "parentUuid": "be48d734_bc99b84c",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 5
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f2c29e6_e9361c66",
@@ -232,6 +424,30 @@
       "writtenOn": "2021-02-05T01:24:12Z",
       "side": 1,
       "message": "add a blank line before the switch",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 1
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39d6c877_f36fc74a",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f2c29e6_e9361c66",
       "range": {
         "startLine": 209,
         "startChar": 0,
@@ -288,6 +504,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "beba6c4a_74a3fb4e",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ec1da1_76f51192",
+      "range": {
+        "startLine": 256,
+        "startChar": 32,
+        "endLine": 256,
+        "endChar": 34
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd56e97d_682495ca",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "I think this name is OK, since dcl is definitely coming from func.Dcl (the list of params and local variables declared in a function)",
+      "parentUuid": "7dbb1684_de0027e4",
+      "range": {
+        "startLine": 256,
+        "startChar": 63,
+        "endLine": 256,
+        "endChar": 66
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ac5de7d_57746935",
@@ -311,6 +575,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af2f6742_2a6b53ab",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "No, the code you suggest doesn\u0027t work.  I\u0027ll add a comment - the point of the first loop is to get the index of the start the PPARAMs or the PPARAMOUTs in Dcl.  But there may be 1 or more than one such PPARAMs/PPARAMOUTs (however many args or results there are) that are matched up with the oldfields fields.",
+      "parentUuid": "3ac5de7d_57746935",
+      "range": {
+        "startLine": 259,
+        "startChar": 7,
+        "endLine": 259,
+        "endChar": 10
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98293127_ce6b7664",
@@ -324,6 +612,30 @@
       "writtenOn": "2021-02-05T01:24:12Z",
       "side": 1,
       "message": "s/dcl[i]/name/",
+      "range": {
+        "startLine": 268,
+        "startChar": 23,
+        "endLine": 268,
+        "endChar": 26
+      },
+      "revId": "05579e95d3e5ed5aa8b49ec5e2a2779680ed2b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdf97d1a_d2016083",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-02-05T02:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98293127_ce6b7664",
       "range": {
         "startLine": 268,
         "startChar": 23,
