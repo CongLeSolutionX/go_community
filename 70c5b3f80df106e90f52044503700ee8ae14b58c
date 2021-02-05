@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f20d08e0_bbb2099c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-05T19:44:54Z",
+      "side": 1,
+      "message": "nit: assembly",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "70c5b3f80df106e90f52044503700ee8ae14b58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96509b47_fb02a248",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-05T19:44:54Z",
+      "side": 1,
+      "message": "nit: ABI0",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "70c5b3f80df106e90f52044503700ee8ae14b58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5049cccf_2e79056e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-05T19:44:54Z",
+      "side": 1,
+      "message": "is this necessary to make the regabi code work on those OSes, or just a nice-to-have?\n\nsince we keep the g in the TLS also I\u0027m guessing it\u0027s OK?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "70c5b3f80df106e90f52044503700ee8ae14b58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f37c20dd_a46bf16d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-05T19:44:54Z",
+      "side": 1,
+      "message": "LGTM, pending one question",
+      "revId": "70c5b3f80df106e90f52044503700ee8ae14b58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
