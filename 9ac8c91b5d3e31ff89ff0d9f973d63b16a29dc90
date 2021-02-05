@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32794927_4aa03d5c",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-05T20:41:49Z",
+      "side": 1,
+      "message": "Done (shadowing is gone).",
+      "parentUuid": "3695e46a_6079115d",
+      "range": {
+        "startLine": 417,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 25
+      },
+      "revId": "9ac8c91b5d3e31ff89ff0d9f973d63b16a29dc90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faf07ac6_9f7bcc9b",
@@ -71,6 +95,24 @@
       "writtenOn": "2021-02-05T16:15:00Z",
       "side": 1,
       "message": "Precede with testenv.MustHaveSymlink(t) ?",
+      "revId": "9ac8c91b5d3e31ff89ff0d9f973d63b16a29dc90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "338452cf_8147d610",
+        "filename": "src/testing/fstest/testfs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-05T20:41:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faf07ac6_9f7bcc9b",
       "revId": "9ac8c91b5d3e31ff89ff0d9f973d63b16a29dc90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
