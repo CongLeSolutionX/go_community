@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69aee848_3b6fd425",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-07T16:54:04Z",
+      "side": 1,
+      "message": "Our primary source of changes is Gerritt, not GitHub.  Write this as https://golang.org/cl/243397 or \"CL 243397\".",
+      "revId": "65660326e02845d8ad529c1cf19865daf53befae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "890dcd62_2b50da06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-07T16:54:04Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "65660326e02845d8ad529c1cf19865daf53befae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a7ecc1f_07a20b24",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-07T16:54:04Z",
+      "side": 1,
+      "message": "This can be briefer.\n\nThe vet tool now warns about incorrectly passing a non-pointer or nil argument to asn1.Unmarshal.",
+      "revId": "65660326e02845d8ad529c1cf19865daf53befae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7675a30_2cd7e73c",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-07T16:54:04Z",
+      "side": 1,
+      "message": "Rather than a second paragraph, I would just add a sentence to this paragraph.\n\nThis is like the existing checks for \u003ca href\u003d\"/pkg/encoding/json/#Unmarshal\"\u003e\u003ccode\u003eencoding/json.Unmarshal\u003c/code\u003e\u003c/a\u003e and \u003ca href\u003d\"/pkg/encoding/xml/#Unmarshal\"\u003e\u003ccode\u003eencoding/xml.Unmarshal\u003c/code\u003e\u003c/a\u003e.",
+      "revId": "65660326e02845d8ad529c1cf19865daf53befae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
