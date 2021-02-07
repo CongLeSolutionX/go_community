@@ -59,11 +59,14 @@
 // as Go double-quoted or back-quoted string literals.
 //
 // If a pattern names a directory, all files in the subtree rooted at that directory are
-// embedded (recursively), so the variable in the above example is equivalent to:
+// embedded (recursively), except that files with names beginning with ‘.’ or ‘_’
+// are excluded. So the variable in the above example is almost equivalent to:
 //
 //	// content is our static web server content.
 //	//go:embed image template html/index.html
 //	var content embed.FS
+//
+// The difference is that ‘image/*’ embeds ‘image/.tempfile’ while ‘image’ does not.
 //
 // The //go:embed directive can be used with both exported and unexported variables,
 // depending on whether the package wants to make the data available to other packages.
@@ -241,6 +244,9 @@ func (f FS) lookup(name string) *file {
 	if name == "." {
 		return dotFile
 	}
+	if f.files == nil {
+		return nil
+	}
 
 	// Binary search to find where name would be in the list,
 	// and then check if name is at that position.
@@ -258,6 +264,9 @@ func (f FS) lookup(name string) *file {
 
 // readDir returns the list of files corresponding to the directory dir.
 func (f FS) readDir(dir string) []file {
+	if f.files == nil {
+		return nil
+	}
 	// Binary search to find where dir starts and ends in the list
 	// and then return that slice of the list.
 	files := *f.files

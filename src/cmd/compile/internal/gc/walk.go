@@ -267,7 +267,7 @@ func walkstmt(n *Node) *Node {
 		if n.List.Len() == 0 {
 			break
 		}
-		if (Curfn.Type.FuncType().Outnamed && n.List.Len() > 1) || paramoutheap(Curfn) {
+		if (Curfn.Type.FuncType().Outnamed && n.List.Len() > 1) || paramoutheap(Curfn) || Curfn.Func.HasDefer() {
 			// assign to the function out parameters,
 			// so that reorder3 can fix up conflicts
 			var rl []*Node
@@ -2233,7 +2233,15 @@ func aliased(r *Node, all []*Node) bool {
 			memwrite = true
 			continue
 
-		case PAUTO, PPARAM, PPARAMOUT:
+		case PPARAMOUT:
+			// Assignments to a result parameter in a function with defers
+			// becomes visible early if evaluation of any later expression
+			// panics (#43835).
+			if Curfn.Func.HasDefer() {
+				return true
+			}
+			fallthrough
+		case PAUTO, PPARAM:
 			if l.Name.Addrtaken() {
 				memwrite = true
 				continue
@@ -3734,9 +3742,12 @@ func usefield(n *Node) {
 	if t.IsPtr() {
 		t = t.Elem()
 	}
-	field := dotField[typeSymKey{t.Orig, n.Sym}]
+	field := n.Opt().(*types.Field)
 	if field == nil {
 		Fatalf("usefield %v %v without paramfld", n.Left.Type, n.Sym)
+	}
+	if field.Sym != n.Sym || field.Offset != n.Xoffset {
+		Fatalf("field inconsistency: %v,%v != %v,%v", field.Sym, field.Offset, n.Sym, n.Xoffset)
 	}
 	if !strings.Contains(field.Note, "go:\"track\"") {
 		return
