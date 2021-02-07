@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0c128cc_72fdcb51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26706
+      },
+      "writtenOn": "2021-02-07T17:08:43Z",
+      "side": 1,
+      "message": "Thank you for reviewing my sentences. It looks better!",
+      "revId": "5adb289fa4a8336fdf2e2c4b238cbbd0e8289a34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
