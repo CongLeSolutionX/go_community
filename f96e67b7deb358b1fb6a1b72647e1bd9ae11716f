@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f255080_4c1e320c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38854
+      },
+      "writtenOn": "2021-02-08T21:11:03Z",
+      "side": 1,
+      "message": "Hi Cherry,\n\nThis CL is a continuation of the old CL (https://go-review.googlesource.com/c/go/+/248739) except it is based on master.\n\nI think I addressed all of your comments on the old CL, except for this comment: https://go-review.googlesource.com/c/go/+/248739/30..35/src/cmd/internal/obj/link.go#b494, because I wasn\u0027t sure which objfile.go you wanted me to move the code to.\n\nAlso, we still need to decide whether to explicitly mark //go:noescape on //go:wasmimport functions that need it, or, to implicitly assume //go:noescape on all //go:wasmimport functions. Right now, //go:noescape is explicitly marked on all //go:wasmimport functions that might need it.\n\nBest,\nVed",
+      "revId": "f96e67b7deb358b1fb6a1b72647e1bd9ae11716f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
