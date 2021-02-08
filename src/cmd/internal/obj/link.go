@@ -37,6 +37,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"cmd/internal/sys"
+	"encoding/binary"
 	"fmt"
 	"sync"
 )
@@ -463,7 +464,9 @@ type FuncInfo struct {
 	StackObjects       *LSym
 	OpenCodedDeferInfo *LSym
 
-	FuncInfoSym *LSym
+	FuncInfoSym   *LSym
+	WasmImportSym *LSym
+	WasmImport    *WasmImport
 }
 
 // NewFuncInfo allocates and returns a FuncInfo for LSym.
@@ -512,6 +515,60 @@ func (s *LSym) File() *FileInfo {
 	f, _ := (*s.Extra).(*FileInfo)
 	return f
 }
+
+type WasmImport struct {
+	Module  string
+	Name    string
+	Params  []WasmField
+	Results []WasmField
+}
+
+func (wi *WasmImport) WriteToSymContent(ctxt *Link, sym *LSym) {
+	var b [4]byte
+	writeByte := func(x byte) {
+		sym.WriteBytes(ctxt, sym.Size, []byte{x})
+	}
+	writeUint32 := func(x uint32) {
+		binary.LittleEndian.PutUint32(b[:], x)
+		sym.WriteBytes(ctxt, sym.Size, b[:])
+	}
+	writeInt64 := func(x int64) {
+		var b [8]byte
+		binary.LittleEndian.PutUint64(b[:], uint64(x))
+		sym.WriteBytes(ctxt, sym.Size, b[:])
+	}
+	writeString := func(s string) {
+		writeUint32(uint32(len(s)))
+		sym.WriteString(ctxt, sym.Size, len(s), s)
+	}
+	writeString(wi.Module)
+	writeString(wi.Name)
+	writeUint32(uint32(len(wi.Params)))
+	for _, f := range wi.Params {
+		writeByte(byte(f.Type))
+		writeInt64(f.Offset)
+	}
+	writeUint32(uint32(len(wi.Results)))
+	for _, f := range wi.Results {
+		writeByte(byte(f.Type))
+		writeInt64(f.Offset)
+	}
+}
+
+type WasmField struct {
+	Type   WasmFieldType
+	Offset int64
+}
+
+type WasmFieldType byte
+
+const (
+	WasmI32 WasmFieldType = iota
+	WasmI64
+	WasmF32
+	WasmF64
+	WasmPtr
+)
 
 type InlMark struct {
 	// When unwinding from an instruction in an inlined body, mark

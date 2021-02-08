@@ -24,6 +24,7 @@ func wasmDiv()
 func wasmTruncS()
 func wasmTruncU()
 
+//go:wasmimport go runtime.wasmExit
 func wasmExit(code int32)
 
 // adjust Gobuf as it if executed a call to fn with context ctxt
