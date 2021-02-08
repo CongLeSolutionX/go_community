@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeca1687_ff40fba6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-02-08T17:14:33Z",
+      "side": 1,
+      "message": "The compiler should perform these optimizations automatically. In fact, on my amd64/linux system before and after this CL I get 100% identical binaries:\n\n   $ sha256sum runtime.test.baseline\n   27acf6ceee9459a4c6dbcf61e1707f7820f54a43c6b42163bc1d38dbdad92ec7  runtime.test.baseline\n\n   $ sha256sum runtime.test.after \n   27acf6ceee9459a4c6dbcf61e1707f7820f54a43c6b42163bc1d38dbdad92ec7  runtime.test.after\n\nAre you seeing different results on your system?",
+      "revId": "d7e9044517811d28095701c9bdf83f12821b0d2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
