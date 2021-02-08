@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "049116fe_d74e0036",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38854
+      },
+      "writtenOn": "2021-02-08T19:42:37Z",
+      "side": 1,
+      "message": "This is a continuation of: https://go-review.googlesource.com/c/go/+/248739, but now the parent branch is master.",
+      "revId": "14c9e55317943867e32cf30adba49d429fa25cc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
