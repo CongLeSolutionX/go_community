@@ -6,6 +6,7 @@ package ir
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
@@ -117,6 +118,12 @@ type Func struct {
 	// function for go:nowritebarrierrec analysis. Only filled in
 	// if nowritebarrierrecCheck != nil.
 	NWBRCalls *[]SymAndPos
+
+	// Used by the //go:wasmimport directive to store info
+	// about a WebAssembly import. These are eventually assembled
+	// into a single WasmImport struct in $GOROOT/src/cmd/compile/ssagen/abi.go
+	Wasmimport *syntax.Wasmimport
+	Wasmfields *obj.FuncWasmfields
 }
 
 func NewFunc(pos src.XPos) *Func {

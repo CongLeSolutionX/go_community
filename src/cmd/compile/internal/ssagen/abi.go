@@ -14,6 +14,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/escape"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/objw"
 	"cmd/compile/internal/staticdata"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -148,6 +149,63 @@ func InitLSym(f *ir.Func, hasBody bool) {
 	if hasBody {
 		setupTextLSym(f, 0)
 	}
+}
+
+func CreateWasmImportWrapper(fn *ir.Func) bool {
+	wi := fn.Wasmimport
+	if wi == nil || objabi.GOARCH != "wasm" {
+		return false
+	}
+
+	// Taken from `enqueueFunc` in "gc" package
+	// Specifically, the `len(fn.Body) == 0` if statement
+	types.CalcSize(fn.Type())
+	a := AbiForFunc(fn)
+	a.ABIAnalyze(fn.Type())
+
+	if wi.Module != "go" {
+		// See `setupTextLSym`
+		fn.Wasmfields = &obj.FuncWasmfields{
+			Params:  toWasmFields(fn.Type().Params().FieldSlice()),
+			Results: toWasmFields(fn.Type().Results().FieldSlice()),
+		}
+	}
+	InitLSym(fn, true)
+	// Go programs cannot call imported WASM functions directly.
+	// For each WASM import, the compiler generates a wrapper function, which
+	// follows the Go calling convention. All calls to the import go through the wrapper.
+	// Create an empty function, the body is generated in $GOROOT/src/cmd/internal/obj/wasm/wasmobj.go
+	pp := objw.NewProgs(fn, 0)
+	defer pp.Free()
+	pp.Text.To.Type = obj.TYPE_TEXTSIZE
+	pp.Text.To.Val = int32(types.Rnd(fn.Type().ArgWidth(), int64(types.RegSize)))
+	// Wrapper functions never need their own stack frame
+	pp.Text.To.Offset = 0
+	pp.Flush()
+	return true
+}
+
+func toWasmFields(fields []*types.Field) []obj.WasmField {
+	wfs := make([]obj.WasmField, len(fields))
+	for i, f := range fields {
+		t := f.Type
+		switch {
+		case t.IsInteger() && t.Width == 4:
+			wfs[i].Type = obj.WasmI32
+		case t.IsInteger() && t.Width == 8:
+			wfs[i].Type = obj.WasmI64
+		case t.IsFloat() && t.Width == 4:
+			wfs[i].Type = obj.WasmF32
+		case t.IsFloat() && t.Width == 8:
+			wfs[i].Type = obj.WasmF64
+		case t.IsPtr():
+			wfs[i].Type = obj.WasmPtr
+		default:
+			base.Fatalf("wasm import has bad function signature")
+		}
+		wfs[i].Offset = f.Offset
+	}
+	return wfs
 }
 
 // selectLSym sets up the LSym for a given function, and
@@ -376,4 +434,39 @@ func setupTextLSym(f *ir.Func, flag int) {
 	}
 
 	base.Ctxt.InitTextSym(f.LSym, flag)
+
+	wi := f.Wasmimport
+	if wi != nil && objabi.GOARCH == "wasm" {
+		if wi.Module == "go" {
+			// Functions that are imported from the "go" module use a special ABI
+			// that just accepts the stack ptr.
+			// Example:
+			// ```
+			// go:wasmimport go add
+			// func importedAdd(a, b uint) uint
+			// ```
+			// will roughly become
+			// (import "go" "add" (func (param i32)))
+			f.LSym.Func().WasmImport = &obj.WasmImport{
+				Module: wi.Module,
+				Name:   wi.Name,
+				Params: []obj.WasmField{{Type: obj.WasmI32}},
+			}
+		} else {
+			// All other imported functions use the normal WASM ABI.
+			// Example:
+			// ```
+			//  //go:wasmimport a_module add
+			//  func importedAdd(a, b uint) uint
+			// ```
+			// will roughly become
+			// (import "a_module" "add" (func (param i32 i32) (result i32)))
+			f.LSym.Func().WasmImport = &obj.WasmImport{
+				Module:  wi.Module,
+				Name:    wi.Name,
+				Params:  f.Wasmfields.Params,
+				Results: f.Wasmfields.Results,
+			}
+		}
+	}
 }
