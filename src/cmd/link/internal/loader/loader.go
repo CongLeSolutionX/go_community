@@ -1634,6 +1634,27 @@ func (l *Loader) Aux(i Sym, j int) Aux {
 	return Aux{r.Aux(li, j), r, l}
 }
 
+// GetFuncWasmImportSym collects and returns the auxilary WebAssembly import
+// symbol associated with a given function symbol. The aux sym only exists for
+// Go function stubs that have been annotated with the //go:wasmimport directive.
+// The aux sym contains the information necessary for the linker to add a WebAssembly
+// import statement. (https://webassembly.github.io/spec/core/syntax/modules.html#imports)
+func (l *Loader) GetFuncWasmImportSym(fnSymIdx Sym) Sym {
+	if l.SymType(fnSymIdx) != sym.STEXT {
+		log.Fatalf("error: non-function sym %d/%s t=%s passed to GetFuncWasmImportSym", fnSymIdx, l.SymName(fnSymIdx), l.SymType(fnSymIdx).String())
+	}
+	r, li := l.toLocal(fnSymIdx)
+	auxs := r.Auxs(li)
+	for i := range auxs {
+		a := &auxs[i]
+		switch a.Type() {
+		case goobj.AuxWasmImport:
+			return l.resolve(r, a.Sym())
+		}
+	}
+	panic("GetFuncWasmImportSym called for func without aux Wasm import sym")
+}
+
 // GetFuncDwarfAuxSyms collects and returns the auxiliary DWARF
 // symbols associated with a given function symbol.  Prior to the
 // introduction of the loader, this was done purely using name
