@@ -207,6 +207,32 @@ func funccompile(fn *Node) {
 	// assign parameter offsets
 	dowidth(fn.Type)
 
+	wi := fn.Func.wasmimport
+	hasWasmImport := wi != nil && objabi.GOARCH == "wasm"
+
+	if hasWasmImport {
+		if wi.module != "go" {
+			// See `initLSym` in $GOROOT/src/cmd/compile/internal/gc/gsubr.go
+			fn.Func.wasmfields = &wasmfields{
+				Params:  toWasmFields(fn.Type.Params().FieldSlice()),
+				Results: toWasmFields(fn.Type.Results().FieldSlice()),
+			}
+		}
+		// Go programs cannot call imported WASM functions directly.
+		// For each WASM import, the compiler generates a wrapper function, which
+		// follows the Go calling convention. All calls to the import go through the wrapper.
+		// Create an empty function, the body is generated in $GOROOT/src/cmd/internal/obj/wasm/wasmobj.go
+		fn.Func.initLSym(true)
+		pp := newProgs(fn, 0)
+		defer pp.Free()
+		pp.Text.To.Type = obj.TYPE_TEXTSIZE
+		pp.Text.To.Val = int32(Rnd(fn.Type.ArgWidth(), int64(Widthreg)))
+		// Wrapper functions never need their own stack frame
+		pp.Text.To.Offset = 0
+		pp.Flush()
+		return
+	}
+
 	if fn.Nbody.Len() == 0 {
 		// Initialize ABI wrappers if necessary.
 		fn.Func.initLSym(false)
@@ -796,3 +822,26 @@ type symByName []*types.Sym
 func (a symByName) Len() int           { return len(a) }
 func (a symByName) Less(i, j int) bool { return a[i].Name < a[j].Name }
 func (a symByName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+
+func toWasmFields(fields []*types.Field) []obj.WasmField {
+	wfs := make([]obj.WasmField, len(fields))
+	for i, f := range fields {
+		t := f.Type
+		switch {
+		case t.IsInteger() && t.Width == 4:
+			wfs[i].Type = obj.WasmI32
+		case t.IsInteger() && t.Width == 8:
+			wfs[i].Type = obj.WasmI64
+		case t.IsFloat() && t.Width == 4:
+			wfs[i].Type = obj.WasmF32
+		case t.IsFloat() && t.Width == 8:
+			wfs[i].Type = obj.WasmF64
+		case t.IsPtr():
+			wfs[i].Type = obj.WasmPtr
+		default:
+			Fatalf("wasm import has bad function signature")
+		}
+		wfs[i].Offset = f.Offset
+	}
+	return wfs
+}
