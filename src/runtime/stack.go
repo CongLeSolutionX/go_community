@@ -269,7 +269,7 @@ func stackcacherefill(c *mcache, order uint8) {
 	var list gclinkptr
 	var size uintptr
 	lock(&stackpool[order].item.mu)
-	for size < _StackCacheSize/2 {
+	for size < _StackCacheSize>>1 {
 		x := stackpoolalloc(order)
 		x.ptr().next = list
 		list = x
@@ -288,7 +288,7 @@ func stackcacherelease(c *mcache, order uint8) {
 	x := c.stackcache[order].list
 	size := c.stackcache[order].size
 	lock(&stackpool[order].item.mu)
-	for size > _StackCacheSize/2 {
+	for size > _StackCacheSize>>1 {
 		y := x.ptr().next
 		stackpoolfree(x, order)
 		x = y
@@ -651,7 +651,7 @@ func adjustframe(frame *stkframe, arg unsafe.Pointer) bool {
 
 	// Adjust saved base pointer if there is one.
 	// TODO what about arm64 frame pointer adjustment?
-	if sys.ArchFamily == sys.AMD64 && frame.argp-frame.varp == 2*sys.RegSize {
+	if sys.ArchFamily == sys.AMD64 && frame.argp-frame.varp == sys.RegSize<<1 {
 		if stackDebug >= 3 {
 			print("      saved bp\n")
 		}
@@ -1047,7 +1047,7 @@ func newstack() {
 
 	// Allocate a bigger segment and move the stack.
 	oldsize := gp.stack.hi - gp.stack.lo
-	newsize := oldsize * 2
+	newsize := oldsize << 1
 
 	// Make sure we grow at least as much as needed to fit the new frame.
 	// (This is just an optimization - the caller of morestack will
@@ -1055,7 +1055,7 @@ func newstack() {
 	if f := findfunc(gp.sched.pc); f.valid() {
 		max := uintptr(funcMaxSPDelta(f))
 		for newsize-oldsize < max+_StackGuard {
-			newsize *= 2
+			newsize <<= 1
 		}
 	}
 
@@ -1157,7 +1157,7 @@ func shrinkstack(gp *g) {
 	}
 
 	oldsize := gp.stack.hi - gp.stack.lo
-	newsize := oldsize / 2
+	newsize := oldsize >> 1
 	// Don't shrink the allocation below the minimum-sized stack
 	// allocation.
 	if newsize < _FixedStack {
