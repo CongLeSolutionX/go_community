@@ -670,6 +670,12 @@ type Func struct {
 	// function for go:nowritebarrierrec analysis. Only filled in
 	// if nowritebarrierrecCheck != nil.
 	nwbrCalls *[]nowritebarrierrecCallSym
+
+	// Used by the //go:wasmimport directive to store info
+	// about a WebAssembly import. These are eventually assembled
+	// into a single WasmImport struct.
+	wasmimport *wasmimport
+	wasmfields *wasmfields
 }
 
 // An Inline holds fields used for function bodies that can be inlined.

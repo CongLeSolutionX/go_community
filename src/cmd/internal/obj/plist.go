@@ -77,7 +77,7 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc, myimportpath string
 
 	// Add reference to Go arguments for C or assembly functions without them.
 	for _, s := range text {
-		if !strings.HasPrefix(s.Name, "\"\".") {
+		if !strings.HasPrefix(s.Name, "\"\".") || s.Func().WasmImport != nil {
 			continue
 		}
 		found := false

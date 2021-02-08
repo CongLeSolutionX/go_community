@@ -11,4 +11,5 @@
 
 package runtime
 
+//go:wasmimport go runtime.nanotime1
 func nanotime1() int64

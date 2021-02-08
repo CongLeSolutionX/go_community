@@ -286,6 +286,25 @@ func (f *Func) initLSym(hasBody bool) {
 	}
 
 	Ctxt.InitTextSym(f.lsym, flag)
+
+	wi := f.wasmimport
+	if wi != nil && objabi.GOARCH == "wasm" {
+		// Functions that are imported from the "go" module use a special ABI
+		if wi.module == "go" {
+			f.lsym.Func().WasmImport = &obj.WasmImport{
+				Module: wi.module,
+				Name:   wi.name,
+				Params: []obj.WasmField{{Type: obj.WasmI32}},
+			}
+		} else {
+			f.lsym.Func().WasmImport = &obj.WasmImport{
+				Module:  wi.module,
+				Name:    wi.name,
+				Params:  f.wasmfields.Params,
+				Results: f.wasmfields.Results,
+			}
+		}
+	}
 }
 
 func ggloblnod(nam *Node) {
