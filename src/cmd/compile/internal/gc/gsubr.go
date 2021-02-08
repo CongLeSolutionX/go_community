@@ -286,6 +286,41 @@ func (f *Func) initLSym(hasBody bool) {
 	}
 
 	Ctxt.InitTextSym(f.lsym, flag)
+
+	wi := f.wasmimport
+	if wi != nil && objabi.GOARCH == "wasm" {
+		if wi.module == "go" {
+			// Functions that are imported from the "go" module use a special ABI
+			// that just accepts the stack ptr.
+			// Example:
+			// ```
+			// go:wasmimport go add
+			// func importedAdd(a, b uint) uint
+			// ```
+			// will roughly become
+			// (import "go" "add" (func (param i32)))
+			f.lsym.Func().WasmImport = &obj.WasmImport{
+				Module: wi.module,
+				Name:   wi.name,
+				Params: []obj.WasmField{{Type: obj.WasmI32}},
+			}
+		} else {
+			// All other imported functions use the normal WASM ABI.
+			// Example:
+			// ```
+			//  //go:wasmimport a_module add
+			//  func importedAdd(a, b uint) uint
+			// ```
+			// will roughly become
+			// (import "a_module" "add" (func (param i32 i32) (result i32)))
+			f.lsym.Func().WasmImport = &obj.WasmImport{
+				Module:  wi.module,
+				Name:    wi.name,
+				Params:  f.wasmfields.Params,
+				Results: f.wasmfields.Results,
+			}
+		}
+	}
 }
 
 func ggloblnod(nam *Node) {
