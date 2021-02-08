@@ -39,6 +39,30 @@
       },
       "revId": "2035cb99b74759c407f505ddc79a5e98f9f09e79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6ed83e0_90dc1b6b",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-08T23:25:23Z",
+      "side": 1,
+      "message": "Oof, my bad. Thanks for catching.",
+      "parentUuid": "0059186f_e1cdf9b8",
+      "range": {
+        "startLine": 573,
+        "startChar": 14,
+        "endLine": 573,
+        "endChar": 16
+      },
+      "revId": "2035cb99b74759c407f505ddc79a5e98f9f09e79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
