@@ -7,6 +7,7 @@ package ssagen
 import (
 	"bufio"
 	"bytes"
+	"cmd/compile/internal/abi"
 	"encoding/binary"
 	"fmt"
 	"go/constant"
@@ -206,6 +207,15 @@ func InitConfig() {
 	ir.Syms.WasmTruncS = typecheck.LookupRuntimeVar("wasmTruncS")
 	ir.Syms.WasmTruncU = typecheck.LookupRuntimeVar("wasmTruncU")
 	ir.Syms.SigPanic = typecheck.LookupRuntimeFunc("sigpanic")
+}
+
+// DefaultAbi returns the default compilation ABI, used to figure out arg/result mapping for bodyless functions.
+func DefaultAbi() *abi.ABIConfig {
+	a := ssaConfig.ABI1
+	if objabi.Regabi_enabled == 0 {
+		a = ssaConfig.ABI0
+	}
+	return a.Copy() // No idea what races will result, be safe
 }
 
 // getParam returns the Field of ith param of node n (which is a
@@ -4731,7 +4741,7 @@ func (s *state) openDeferExit() {
 			v := s.load(r.closure.Type.Elem(), r.closure)
 			s.maybeNilCheckClosure(v, callDefer)
 			codeptr := s.rawLoad(types.Types[types.TUINTPTR], v)
-			aux := ssa.ClosureAuxCall(ACArgs, ACResults)
+			aux := ssa.ClosureAuxCall(ACArgs, ACResults, s.f.ABIDefault.ABIAnalyzeTypes(nil, ssa.ACParamsToTypes(ACArgs), ssa.ACParamsToTypes(ACResults)))
 			call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, v)
 		} else {
 			aux := ssa.StaticAuxCall(fn.(*ir.Name).Linksym(), ACArgs, ACResults,
@@ -4972,10 +4982,10 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 			// critical that we not clobber any arguments already
 			// stored onto the stack.
 			codeptr = s.rawLoad(types.Types[types.TUINTPTR], closure)
-			aux := ssa.ClosureAuxCall(ACArgs, ACResults)
+			aux := ssa.ClosureAuxCall(ACArgs, ACResults, s.f.ABIDefault.ABIAnalyzeTypes(nil, ssa.ACParamsToTypes(ACArgs), ssa.ACParamsToTypes(ACResults)))
 			call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, closure)
 		case codeptr != nil:
-			aux := ssa.InterfaceAuxCall(ACArgs, ACResults)
+			aux := ssa.InterfaceAuxCall(ACArgs, ACResults, s.f.ABIDefault.ABIAnalyzeTypes(nil, ssa.ACParamsToTypes(ACArgs), ssa.ACParamsToTypes(ACResults)))
 			call = s.newValue1A(ssa.OpInterLECall, aux.LateExpansionResultType(), aux, codeptr)
 		case callee != nil:
 			aux := ssa.StaticAuxCall(callTargetLSym(callee, s.curfn.LSym), ACArgs, ACResults, params)
