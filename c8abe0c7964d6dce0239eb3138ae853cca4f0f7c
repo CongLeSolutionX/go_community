@@ -57,6 +57,30 @@
       },
       "revId": "c8abe0c7964d6dce0239eb3138ae853cca4f0f7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fd8effc_5c6af0dd",
+        "filename": "src/archive/tar/strconv.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-09T05:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6b63de9_b4d04b78",
+      "range": {
+        "startLine": 271,
+        "startChar": 54,
+        "endLine": 271,
+        "endChar": 55
+      },
+      "revId": "c8abe0c7964d6dce0239eb3138ae853cca4f0f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
