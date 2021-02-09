@@ -511,6 +511,20 @@ func (check *Checker) constDecl(obj *Const, typ, init ast.Expr, inherited bool) 
 func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init ast.Expr) {
 	assert(obj.typ == nil)
 
+	// If we have undefined variable types due to errors,
+	// mark variables as used to avoid follow-on errors.
+	// Matches compiler behavior.
+	defer func() {
+		if obj.typ == Typ[Invalid] {
+			obj.used = true
+		}
+		for _, lhs := range lhs {
+			if lhs.typ == Typ[Invalid] {
+				lhs.used = true
+			}
+		}
+	}()
+
 	// determine type, if any
 	if typ != nil {
 		obj.typ = check.varType(typ)
@@ -844,7 +858,18 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 	obj.color_ = black
 	fdecl := decl.fdecl
 	check.funcType(sig, fdecl.Recv, fdecl.Type)
+<<<<<<< HEAD   (a360ee [dev.typeparams] cmd/compile/internal/types2: conversions to)
 	obj.color_ = saved
+=======
+	if sig.recv == nil {
+		if obj.name == "init" && (sig.params.Len() > 0 || sig.results.Len() > 0) {
+			check.errorf(fdecl, _InvalidInitDecl, "func init must have no arguments and no return values")
+		} else if obj.name == "main" && check.pkg.name == "main" && (sig.params.Len() > 0 || sig.results.Len() > 0) {
+			check.errorf(fdecl, _InvalidMainDecl, "func main must have no arguments and no return values")
+		}
+		// ok to continue
+	}
+>>>>>>> BRANCH (618e3c [dev.regabi] go/types: consistently report nil type as "unty)
 
 	// function body must be type-checked after global declarations
 	// (functions implemented elsewhere have no body)

@@ -195,13 +195,20 @@ func checkFiles(t *testing.T, sources []string) {
 		t.Fatal("no source files")
 	}
 
+<<<<<<< HEAD   (a360ee [dev.typeparams] cmd/compile/internal/types2: conversions to)
 	mode := parser.AllErrors
 	if strings.HasSuffix(sources[0], ".go2") {
 		mode |= parser.ParseTypeParams
 	}
 
+=======
+>>>>>>> BRANCH (618e3c [dev.regabi] go/types: consistently report nil type as "unty)
 	// parse files and collect parser errors
+<<<<<<< HEAD   (a360ee [dev.typeparams] cmd/compile/internal/types2: conversions to)
 	files, errlist := parseFiles(t, sources, mode)
+=======
+	files, errlist := parseFiles(t, sources)
+>>>>>>> BRANCH (618e3c [dev.regabi] go/types: consistently report nil type as "unty)
 
 	pkgName := "<no package>"
 	if len(files) > 0 {
@@ -283,7 +290,10 @@ func TestCheck(t *testing.T) {
 }
 
 func TestTestdata(t *testing.T)  { DefPredeclaredTestFuncs(); testDir(t, "testdata") }
+<<<<<<< HEAD   (a360ee [dev.typeparams] cmd/compile/internal/types2: conversions to)
 func TestExamples(t *testing.T)  { testDir(t, "examples") }
+=======
+>>>>>>> BRANCH (618e3c [dev.regabi] go/types: consistently report nil type as "unty)
 func TestFixedbugs(t *testing.T) { testDir(t, "fixedbugs") }
 
 func testDir(t *testing.T, dir string) {
