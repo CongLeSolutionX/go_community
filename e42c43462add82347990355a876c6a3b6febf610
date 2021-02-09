@@ -16,6 +16,24 @@
       "message": "I think the \"validEmbedPattern\" function in \"src/cmd/go/internal/load/pkg.go\" needs to be changed as well.",
       "revId": "e42c43462add82347990355a876c6a3b6febf610",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb0981a7_2f839064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-09T21:15:46Z",
+      "side": 1,
+      "message": "I think you\u0027re probably right about that. But perhaps that check ought to be even more restrictive, so that we don\u0027t allow embedded files locally that won\u0027t work in a published module version.\n\nPer https://golang.org/ref/mod#zip-path-size-constraints:\n\u003e File and directory names within a module may consist of Unicode letters,\n\u003e ASCII digits, the ASCII space character (U+0020), and the ASCII\n\u003e punctuation characters !#$%\u0026()+,-.\u003d@[]^_{}~.\n\nSo perhaps validEmbedPattern should call module.CheckFilePath instead of (or in addition to) fs.ValidPath?",
+      "parentUuid": "9333be52_ebd56e2b",
+      "revId": "e42c43462add82347990355a876c6a3b6febf610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
