@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ccb5d81_e36007d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-10T15:21:57Z",
+      "side": 1,
+      "message": "I considered this approach in https://go-review.googlesource.com/c/go/+/259657, and was concerned about all of the documentation duplication, since it\u0027ll be a bit harder to maintain this way. But it sounds like we don\u0027t have much of a choice if we want to get the right behavior, so let\u0027s go ahead and do it. Perhaps you want to make a note in the CL description that this changes the approach in CL 259657 due to new constraints.",
+      "revId": "f36bb60fa0561982ae34b0bbeb5d5fb35dd93822",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
