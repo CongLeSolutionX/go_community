@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bca08cd9_8db697ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36412
+      },
+      "writtenOn": "2021-02-10T18:29:01Z",
+      "side": 1,
+      "message": "\u003e With the extra validation in CL 290809, does that still matter?\n\nYes, because the isBadEmbedName function is used to validate a path element when the pattern has been already splitted (and it is correct that it does so).\n\nThe issue is due to the split of the pattern. The pattern in\n\n//go:embed x\\y\n\non Linux it is splitted in one path element x\\y but on Windows it is splitted in two path elements x and y so they refers to two different files.\n\nFor example if in the package path there is a file named a[1], to embed it you have to write\n\n//go:embed a\\[1\\]\nvar data string\n\nOn Linux, the package compile and data will contains the content of the a[1] file.\n\nOn Windows, the package does not compile because a\\[1\\] is interpreted as the three path elements: a, [1 and ]. But [1 is not a valid pattern so the package does not compile.\n\nWith this other example\n\n//go:embed a\\\\b\nvar data string\n\nOn Linux, the package compile and data will contains the content of the file a\\b\n\nOn Windows, the package compile only if the file b in the a directory exists. If it exists, data will contains the content of the file b in the directory a.\n\n\u003e However, I don\u0027t think that\u0027s particularly relevant to this CL.\n\nThese issues with backslash cannon be reproduced without this CL. Can be reproduces with a colon.",
+      "parentUuid": "db22f10b_e56eb0c3",
+      "revId": "e42c43462add82347990355a876c6a3b6febf610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ef908c9_87f91551",
         "filename": "src/os/file.go",
         "patchSetId": 1
