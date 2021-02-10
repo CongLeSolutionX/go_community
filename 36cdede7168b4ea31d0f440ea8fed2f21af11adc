@@ -16,6 +16,24 @@
       "message": "LGTM but we should also update doc.go in src/cmd/gofmt.",
       "revId": "36cdede7168b4ea31d0f440ea8fed2f21af11adc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02148c41_d6fe27f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-10T23:25:33Z",
+      "side": 1,
+      "message": "Indeed, thanks for catching. Done.",
+      "parentUuid": "712ced81_f128d9a1",
+      "revId": "36cdede7168b4ea31d0f440ea8fed2f21af11adc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
