@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db22f10b_e56eb0c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-10T16:26:05Z",
+      "side": 1,
+      "message": "\u003e I think there is an issue in the current implementation of //go:embed.\n\u003e \n\u003e Let me explain in this comment because it is also related to this CL and to CL 290809.\n\u003e \n\u003e The pattern accepted by filepath.Glob is different from Windows than other OS.\n\u003e \n\u003e On Windows the pattern a\\b means a/b, for the others OS it means ab. The character : in the pattern has a special meaning on Windows, on other OS it does not.\n\u003e \n\u003e The pattern accepted by fs.Glob, after the CL 290512, is the same: a\\b means ab and : has no special meaning.\n\u003e \n\u003e The issue is that the current implementation of //go:embed implements for the pattern the syntax of filepath.Glob instead of fs.Glob. Consequently the same pattern used with //go:embed has a different meaning on Windows than on other OS.\n\nWith the extra validation in CL 290809, does that still matter?\n\nI guess it does, because on Windows we may process an invalid (Windows-specific) glob pattern into list of valid (slash-separated) paths.\n\nHowever, I don\u0027t think that\u0027s particularly relevant to this CL. (It does demonstrate that mixing fs.ValidPath with non-fs filepath.Glob calls is not a great idea, but don\u0027t think that\u0027s a defect in the io/fs API.)",
+      "parentUuid": "6d610184_17e27d74",
+      "revId": "e42c43462add82347990355a876c6a3b6febf610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ef908c9_87f91551",
         "filename": "src/os/file.go",
         "patchSetId": 1
