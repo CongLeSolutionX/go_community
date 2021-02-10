@@ -80,7 +80,7 @@ func makeInstName(inst *ir.InstExpr) *types.Sym {
 		if i > 0 {
 			b.WriteString(",")
 		}
-		b.WriteString(targ.Name().Sym().Name)
+		b.WriteString(targ.Type().String())
 	}
 	b.WriteString("]")
 	return typecheck.Lookup(b.String())
@@ -107,6 +107,7 @@ func genericSubst(name *types.Sym, inst *ir.InstExpr) *ir.Func {
 	newf.Nname = ir.NewNameAt(inst.Pos(), name)
 	newf.Nname.Func = newf
 	newf.Nname.Defn = newf
+	name.Def = newf.Nname
 
 	subst := &subster{
 		newf:    newf,
@@ -160,6 +161,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			m.SetType(newt)
 			m.Curfn = subst.newf
 			m.Class = name.Class
+			m.Func = name.Func
 			subst.vars[name] = m
 			m.SetTypecheck(1)
 			return m
@@ -266,6 +268,9 @@ func (subst *subster) tstruct(t *types.Type) *types.Type {
 
 // typ substitutes any type parameter found with the corresponding type argument.
 func (subst *subster) typ(t *types.Type) *types.Type {
+	if t == nil {
+		return nil
+	}
 	for i, tp := range subst.tparams.Slice() {
 		if tp.Type == t {
 			return subst.targs[i].Type()
