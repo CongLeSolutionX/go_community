@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "712ced81_f128d9a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-10T23:10:32Z",
+      "side": 1,
+      "message": "LGTM but we should also update doc.go in src/cmd/gofmt.",
+      "revId": "36cdede7168b4ea31d0f440ea8fed2f21af11adc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
