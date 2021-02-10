@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7401757d_dda6383c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-10T16:31:09Z",
+      "side": 1,
+      "message": "It would be nice to also add a script test demonstrating the behavior of `//go:embed foo\\bar*.txt` (on both Windows and non-Windows), especially when `foo/bar.txt` and `foobar.txt` both exist.\n\nHowever, I think that can be done as a separate CL.",
+      "revId": "e3750afb211592f01e29f355d43a0bead920dcb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
