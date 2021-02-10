@@ -38,6 +38,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 	"testing"
 
@@ -68,11 +69,18 @@ func splitError(err error) (pos, msg string) {
 	return
 }
 
-func parseFiles(t *testing.T, filenames []string) ([]*ast.File, []error) {
+func parseFiles(t *testing.T, srcmap map[string][]byte) ([]*ast.File, []error) {
 	var files []*ast.File
 	var errlist []error
+	// Sort for deterministic error messages when checking packages with multiple
+	// files.
+	var filenames []string
+	for k := range srcmap {
+		filenames = append(filenames, k)
+	}
+	sort.Strings(filenames)
 	for _, filename := range filenames {
-		file, err := parser.ParseFile(fset, filename, nil, parser.AllErrors)
+		file, err := parser.ParseFile(fset, filename, srcmap[filename], parser.AllErrors)
 		if file == nil {
 			t.Fatalf("%s: %s", filename, err)
 		}
@@ -101,19 +109,18 @@ var errRx = regexp.MustCompile(`^ *ERROR *(HERE)? *"?([^"]*)"?`)
 // errMap collects the regular expressions of ERROR comments found
 // in files and returns them as a map of error positions to error messages.
 //
-func errMap(t *testing.T, testname string, files []*ast.File) map[string][]string {
+func errMap(t *testing.T, files []*ast.File, srcmap map[string][]byte) map[string][]string {
 	// map of position strings to lists of error message patterns
 	errmap := make(map[string][]string)
 
 	for _, file := range files {
-		filename := fset.Position(file.Package).Filename
-		src, err := os.ReadFile(filename)
-		if err != nil {
-			t.Fatalf("%s: could not read %s", testname, filename)
+		tok := fset.File(file.Package)
+		src, ok := srcmap[tok.Name()]
+		if !ok {
+			t.Fatalf("missing source for %q", tok.Name())
 		}
-
 		var s scanner.Scanner
-		s.Init(fset.AddFile(filename, -1, len(src)), src, nil, scanner.ScanComments)
+		s.Init(tok, src, nil, scanner.ScanComments)
 		var prev token.Pos // position of last non-comment, non-semicolon token
 		var here token.Pos // position immediately after the token at position prev
 
@@ -190,13 +197,13 @@ func eliminate(t *testing.T, errmap map[string][]string, errlist []error) {
 	}
 }
 
-func checkFiles(t *testing.T, sources []string) {
-	if len(sources) == 0 {
+func checkFiles(t *testing.T, srcmap map[string][]byte) {
+	if len(srcmap) == 0 {
 		t.Fatal("no source files")
 	}
 
 	// parse files and collect parser errors
-	files, errlist := parseFiles(t, sources)
+	files, errlist := parseFiles(t, srcmap)
 
 	pkgName := "<no package>"
 	if len(files) > 0 {
@@ -214,11 +221,15 @@ func checkFiles(t *testing.T, sources []string) {
 	var conf Config
 
 	// special case for importC.src
-	if len(sources) == 1 && strings.HasSuffix(sources[0], "importC.src") {
-		conf.FakeImportC = true
+	if len(srcmap) == 1 {
+		// range to access only element
+		for path := range srcmap {
+			if strings.HasSuffix(path, "importC.src") {
+				conf.FakeImportC = true
+			}
+		}
 	}
-	// TODO(rFindley) we may need to use the source importer when adding generics
-	// tests.
+
 	conf.Importer = importer.Default()
 	conf.Error = func(err error) {
 		if *haltOnError {
@@ -253,7 +264,7 @@ func checkFiles(t *testing.T, sources []string) {
 
 	// match and eliminate errors;
 	// we are expecting the following errors
-	errmap := errMap(t, pkgName, files)
+	errmap := errMap(t, files, srcmap)
 	eliminate(t, errmap, errlist)
 
 	// there should be no expected errors left
@@ -274,7 +285,16 @@ func TestCheck(t *testing.T) {
 	}
 	testenv.MustHaveGoBuild(t)
 	DefPredeclaredTestFuncs()
-	checkFiles(t, strings.Split(*testFiles, " "))
+	testPkg(t, strings.Split(*testFiles, " "))
+}
+
+func TestLongConstants(t *testing.T) {
+	format := "package longconst\n\nconst _ = %s\nconst _ = %s // ERROR excessively long constant"
+	src := fmt.Sprintf(format, strings.Repeat("1", 9999), strings.Repeat("1", 10001))
+	srcmap := map[string][]byte{
+		"longconst.go": []byte(src),
+	}
+	checkFiles(t, srcmap)
 }
 
 func TestTestdata(t *testing.T)  { DefPredeclaredTestFuncs(); testDir(t, "testdata") }
@@ -293,26 +313,33 @@ func testDir(t *testing.T, dir string) {
 		path := filepath.Join(dir, fi.Name())
 
 		// if fi is a directory, its files make up a single package
-		var files []string
+		var filenames []string
 		if fi.IsDir() {
 			fis, err := ioutil.ReadDir(path)
 			if err != nil {
 				t.Error(err)
 				continue
 			}
-			files = make([]string, len(fis))
-			for i, fi := range fis {
-				// if fi is a directory, checkFiles below will complain
-				files[i] = filepath.Join(path, fi.Name())
-				if testing.Verbose() {
-					fmt.Printf("\t%s\n", files[i])
-				}
+			for _, fi := range fis {
+				filenames = append(filenames, filepath.Join(path, fi.Name()))
 			}
 		} else {
-			files = []string{path}
+			filenames = []string{path}
 		}
 		t.Run(filepath.Base(path), func(t *testing.T) {
-			checkFiles(t, files)
+			testPkg(t, filenames)
 		})
 	}
+}
+
+func testPkg(t *testing.T, paths []string) {
+	srcmap := make(map[string][]byte, len(paths))
+	for _, path := range paths {
+		src, err := os.ReadFile(path)
+		if err != nil {
+			t.Fatalf("could not read %s: %v", path, err)
+		}
+		srcmap[path] = src
+	}
+	checkFiles(t, srcmap)
 }
