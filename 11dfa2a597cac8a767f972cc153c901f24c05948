@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d67396_d159eaf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-10T12:52:02Z",
+      "side": 1,
+      "message": "LGTM, this seems fine. \n\nAs discussed off line, another possibility would be to invent a new special ABI for such wrappers and then mark the wrapper definitions with the new ABI... but doing that seems like more work than this solution.\n",
+      "revId": "11dfa2a597cac8a767f972cc153c901f24c05948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
