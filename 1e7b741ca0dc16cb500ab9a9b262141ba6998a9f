@@ -67,6 +67,24 @@
       "message": "My only concern here is the net/http test, which I don\u0027t really understand.  If someone signs off on that test, I\u0027m fine with the rest of the CL.  Thanks.",
       "revId": "1e7b741ca0dc16cb500ab9a9b262141ba6998a9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82336e87_4b244f9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-02-10T03:41:19Z",
+      "side": 1,
+      "message": "Hi, Ian\n\nSince the timeout(time.Sleep) is not reliable for testing, I use (net/http.Server).ConnState hook to apply WriteDeadline instead of (net/http.Server).WriteTimeout.\n\nThe (net/http.Server).ConnState hook will set WriteDeadline in the past(1 hour ago) when server receives new connection, which is equal to that (net/http.Server).serve applies WriteTimeout to the connection after read request. Therefore, the net.http.FileServer.ServeHTTP will close connection if server flushes data back to client. TestServeContentEOFOnWriteTimeoutExceeded is to verify the write timeout behaviour. \n\nThe issue is found when we use FileServer http handler so I add this test case as regression.\n\nHope it can help! Thanks",
+      "parentUuid": "642f3ced_4534ca4e",
+      "revId": "1e7b741ca0dc16cb500ab9a9b262141ba6998a9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
