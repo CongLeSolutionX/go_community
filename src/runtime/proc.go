@@ -3817,7 +3817,7 @@ func exitsyscall0(gp *g) {
 	dropg()
 	lock(&sched.lock)
 	var _p_ *p
-	if schedEnabled(_g_) {
+	if schedEnabled(gp) {
 		_p_ = pidleget()
 	}
 	if _p_ == nil {
