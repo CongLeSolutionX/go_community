@@ -48,7 +48,8 @@ import (
 var (
 	haltOnError = flag.Bool("halt", false, "halt on error")
 	listErrors  = flag.Bool("errlist", false, "list errors")
-	testFiles   = flag.String("files", "", "space-separated list of test files")
+	testFiles   = flag.String("files", "", "comma-separated list of test files")
+	goVersion   = flag.String("lang", "", "Go language version (e.g. \"go1.12\"")
 )
 
 var fset = token.NewFileSet()
@@ -197,7 +198,21 @@ func eliminate(t *testing.T, errmap map[string][]string, errlist []error) {
 	}
 }
 
-func checkFiles(t *testing.T, srcmap map[string][]byte) {
+// goVersionRx matches a Go version string using '_', e.g. "go1_12".
+var goVersionRx = regexp.MustCompile(`^go[1-9][0-9]*_(0|[1-9][0-9]*)$`)
+
+// asGoVersion returns a regular Go language version string
+// if s is a Go version string using '_' rather than '.' to
+// separate the major and minor version numbers (e.g. "go1_12").
+// Otherwise it returns the empty string.
+func asGoVersion(s string) string {
+	if goVersionRx.MatchString(s) {
+		return strings.Replace(s, "_", ".", 1)
+	}
+	return ""
+}
+
+func checkFiles(t *testing.T, goVersion string, srcmap map[string][]byte) {
 	if len(srcmap) == 0 {
 		t.Fatal("no source files")
 	}
@@ -210,6 +225,11 @@ func checkFiles(t *testing.T, srcmap map[string][]byte) {
 		pkgName = files[0].Name.Name
 	}
 
+	// if no Go version is given, consider the package name
+	if goVersion == "" {
+		goVersion = asGoVersion(pkgName)
+	}
+
 	if *listErrors && len(errlist) > 0 {
 		t.Errorf("--- %s:", pkgName)
 		for _, err := range errlist {
@@ -219,6 +239,7 @@ func checkFiles(t *testing.T, srcmap map[string][]byte) {
 
 	// typecheck and collect typechecker errors
 	var conf Config
+	conf.GoVersion = goVersion
 
 	// special case for importC.src
 	if len(srcmap) == 1 {
@@ -279,13 +300,14 @@ func checkFiles(t *testing.T, srcmap map[string][]byte) {
 }
 
 // TestCheck is for manual testing of selected input files, provided with -files.
+// The accepted Go language version can be controlled with the -lang flag.
 func TestCheck(t *testing.T) {
 	if *testFiles == "" {
 		return
 	}
 	testenv.MustHaveGoBuild(t)
 	DefPredeclaredTestFuncs()
-	testPkg(t, strings.Split(*testFiles, " "))
+	testPkg(t, strings.Split(*testFiles, ","), *goVersion)
 }
 
 func TestLongConstants(t *testing.T) {
@@ -294,7 +316,7 @@ func TestLongConstants(t *testing.T) {
 	srcmap := map[string][]byte{
 		"longconst.go": []byte(src),
 	}
-	checkFiles(t, srcmap)
+	checkFiles(t, "", srcmap)
 }
 
 func TestTestdata(t *testing.T)  { DefPredeclaredTestFuncs(); testDir(t, "testdata") }
@@ -327,12 +349,12 @@ func testDir(t *testing.T, dir string) {
 			filenames = []string{path}
 		}
 		t.Run(filepath.Base(path), func(t *testing.T) {
-			testPkg(t, filenames)
+			testPkg(t, filenames, "")
 		})
 	}
 }
 
-func testPkg(t *testing.T, paths []string) {
+func testPkg(t *testing.T, paths []string, goVersion string) {
 	srcmap := make(map[string][]byte, len(paths))
 	for _, path := range paths {
 		src, err := os.ReadFile(path)
@@ -341,5 +363,5 @@ func testPkg(t *testing.T, paths []string) {
 		}
 		srcmap[path] = src
 	}
-	checkFiles(t, srcmap)
+	checkFiles(t, goVersion, srcmap)
 }
