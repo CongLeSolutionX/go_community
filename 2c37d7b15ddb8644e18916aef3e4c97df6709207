@@ -22,6 +22,30 @@
       },
       "revId": "2c37d7b15ddb8644e18916aef3e4c97df6709207",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9f220b4_6d352443",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-11T04:25:48Z",
+      "side": 1,
+      "message": "I tried but I am not sure in cmd/link/internal/loader/loader.go\u0027s (*loadState).preloadSyms what to replace this code with:\n\n\t\tif osym.TopFrame() {\n\t\t\tl.SetAttrTopFrame(gi, true)\n\t\t}\n\nAt that moment in the code it\u0027s unclear to me how to get to an obj.LSym to look at the attribute over there.\nI agree it seems superfluous or at least redundant - I don\u0027t really understand why there are at least three different encodings of these flags - yet the same should be true of NOSPLIT and LEAF, and goobj.SymFlagNoSplit and goobj.SymFlagLeaf appear above. \n\nSo it seems like probably this code can\u0027t be removed?",
+      "parentUuid": "a2a38a65_2b60bf00",
+      "range": {
+        "startLine": 334,
+        "startChar": 10,
+        "endLine": 334,
+        "endChar": 31
+      },
+      "revId": "2c37d7b15ddb8644e18916aef3e4c97df6709207",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
