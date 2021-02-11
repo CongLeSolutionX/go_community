@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db5e32d9_1df29f00",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3814,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-11T16:47:35Z",
+      "side": 1,
+      "message": "How about replacing the single remaining use of _g_, below, with getg(), and removing _g_ entirely?\n\nFor that matter I think it would be fine to replace the use of _g_ with gp.  This function basically assumes that if _g_.m.lockedg !\u003d 0, then _g_.m.lockedg \u003d\u003d gp.  Which as far as I can see will always be the case.  If it were somehow not the case, if _g_.m.lockedg could be nil but _g_.m.lockedg !\u003d gp, then calling execute(gp, false) would not be correct.\n\nSo perhaps _g_ should be replaced with gp below, with an appropriate comment.",
+      "revId": "c2d5cd0dfbaecd0020e87c44c492f1da091f210a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
