@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2084ff07_a67ca908",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-11T16:14:11Z",
+      "side": 1,
+      "message": "Hi Robert, please take note of the change to deps_test.go. I am only assuming that it is OK to import regexp into go/types (it certainly makes sense that regexp is lower-level).  If not, happy to replace with hand-crafted version parsing.",
+      "revId": "c9c102322eaa5064723baa3bdbda0730fcb3329a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
