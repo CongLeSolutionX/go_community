@@ -46,6 +46,30 @@
       },
       "revId": "2c37d7b15ddb8644e18916aef3e4c97df6709207",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b636825_4e4b8697",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-11T13:06:24Z",
+      "side": 1,
+      "message": "I think the thing to do would be to get rid of SetAttrTopFrame/AttrTopFrame at the loader level and have a FuncInfo method instead, which is a bit more complicated I suppose.  Stay tuned, I\u0027ll send you a diff for that.",
+      "parentUuid": "d9f220b4_6d352443",
+      "range": {
+        "startLine": 334,
+        "startChar": 10,
+        "endLine": 334,
+        "endChar": 31
+      },
+      "revId": "2c37d7b15ddb8644e18916aef3e4c97df6709207",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
