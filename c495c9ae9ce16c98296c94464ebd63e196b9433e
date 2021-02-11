@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe3a6190_16aa59f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-11T15:20:12Z",
+      "side": 1,
+      "message": "Thank you @ianlancetaylor for the quick review!\n\nYour comments addressed; please find updated patch.",
+      "revId": "c495c9ae9ce16c98296c94464ebd63e196b9433e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
