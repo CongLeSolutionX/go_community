@@ -143,6 +143,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b492f6f_64f60257",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-11T01:10:24Z",
+      "side": 1,
+      "message": "What you are saying about the embed glob being OS-specific was true before CL 290512, but I don\u0027t believe it\u0027s true anymore.",
+      "parentUuid": "3cb34bb9_418b5a4d",
+      "revId": "e42c43462add82347990355a876c6a3b6febf610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b01a080e_7e1ceeef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-11T01:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d411ece4_e5c65e32",
+      "revId": "e42c43462add82347990355a876c6a3b6febf610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ef908c9_87f91551",
@@ -156,6 +192,24 @@
       "writtenOn": "2021-02-09T23:21:33Z",
       "side": 1,
       "message": "If os.DirFS returns an fs.ErrInvalid error when name is not valid for additional requirements than those of fs.ValidPath, other implementations of fs.FS would feel authorized to do the same for their own requirements. Is this the intended behavior? An \"fs.ErrNotExist\" error could be returned as an alternative.",
+      "revId": "e42c43462add82347990355a876c6a3b6febf610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4572439_362ec31d",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-11T01:10:24Z",
+      "side": 1,
+      "message": "It is fine for an implementation to report that a name is not valid for that implementation when that is the case.\nfs.ValidPath is a floor not a ceiling.",
+      "parentUuid": "3ef908c9_87f91551",
       "revId": "e42c43462add82347990355a876c6a3b6febf610",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
