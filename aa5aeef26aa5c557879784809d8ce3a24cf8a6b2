@@ -16,6 +16,24 @@
       "message": "Given windows/{arm,arm64} is all PIE, I wonder if it\u0027d be simpler to just drop non-PIE on all platforms.",
       "revId": "aa5aeef26aa5c557879784809d8ce3a24cf8a6b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bef4bedc_e1a62037",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1469,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-11T04:25:48Z",
+      "side": 1,
+      "message": "Maybe but I\u0027m not in this CL trying to change existing x86 behavior, just to isolate it a bit more.",
+      "parentUuid": "b739e928_032310c8",
+      "revId": "aa5aeef26aa5c557879784809d8ce3a24cf8a6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
