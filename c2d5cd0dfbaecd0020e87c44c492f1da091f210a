@@ -34,6 +34,24 @@
       "parentUuid": "db5e32d9_1df29f00",
       "revId": "c2d5cd0dfbaecd0020e87c44c492f1da091f210a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7128c0db_4c99b468",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3814,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-02-11T20:01:01Z",
+      "side": 1,
+      "message": "Oops, this needs to use gp.lockedm, since dropg() will set gp.m to nil.",
+      "parentUuid": "646be21b_e319f732",
+      "revId": "c2d5cd0dfbaecd0020e87c44c492f1da091f210a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
