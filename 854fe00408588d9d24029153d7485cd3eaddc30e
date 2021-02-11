@@ -16,6 +16,24 @@
       "message": "Thanks but lets wait to land this code until we have something that executes it.\n",
       "revId": "854fe00408588d9d24029153d7485cd3eaddc30e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc8757aa_1114551a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-11T11:58:25Z",
+      "side": 1,
+      "message": "What are you talking about exactly? Any old .syso will execute this. In my case, it\u0027s required in order to link windows rsrc files into the binary. My programs won\u0027t build without this patch. So it\u0027s certainly not dead code.",
+      "parentUuid": "7700cdab_552b4088",
+      "revId": "854fe00408588d9d24029153d7485cd3eaddc30e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
