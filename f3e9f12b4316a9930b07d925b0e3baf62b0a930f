@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99653f6e_26fe4f4c",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-02-11T13:14:57Z",
+      "side": 1,
+      "message": "This form means that you don\u0027t have do any copies when no fields have been removed, which is probably the common case. I\u0027ll add a comment.",
+      "parentUuid": "cb9df904_de7a9efe",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "762fb7b0_75c9a456",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-01-21T17:38:20Z",
       "side": 1,
       "message": "I\u0027m a bit sad that we need an extra map to avoid cycles, when cycles are not the norm and this API is otherwise quite cheap. I don\u0027t have a particular suggestion, though.\n\nA bit of a random idea: only add types to the \"visited\" map if len(index)\u003e10. Structs without cycles and without deep nesting would never need to make/alloc the visited map. A struct with a cycle might go through the cycle a few times, but afterwards will start keeping track of pointers and stop soon after. The result should be the same, as byName would prevent duplicates.",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41e7c6e8_e5ddaef9",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-02-11T13:14:57Z",
+      "side": 1,
+      "message": "I don\u0027t think that suggestion works, because when the type is recursive (which is legitimate), you\u0027d end up adding too many elements to w.fields.",
+      "parentUuid": "762fb7b0_75c9a456",
       "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1d133fc_1a25f337",
+        "filename": "src/reflect/visiblefields_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-02-11T13:14:57Z",
+      "side": 1,
+      "message": "I quite like preserving the visible distinction between camel-cased test methods and lower-case  subtest names. Also I think that \"embedded-structs-with-same-fields-at-different-depths\" is a bit more readable than \"EmbeddedStructsWithSameFieldsAtDifferentDepths\". But I\u0027m happy to change it if you like.",
+      "parentUuid": "2670f033_90f96011",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0079b623_ac52bf66",
         "filename": "src/reflect/visiblefields_test.go",
         "patchSetId": 2
@@ -65,6 +119,24 @@
       "writtenOn": "2021-01-21T17:38:20Z",
       "side": 1,
       "message": "any particular reason for all these field tags?",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "331bdf71_b0182f17",
+        "filename": "src/reflect/visiblefields_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-02-11T13:14:57Z",
+      "side": 1,
+      "message": "nope, just a hangover from where the tests were written originally...",
+      "parentUuid": "0079b623_ac52bf66",
       "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
