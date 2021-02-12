@@ -16,6 +16,74 @@
       "message": "Russ - this should be a pretty significant improvement to the entire testing surface, and it now makes sure resources are handled properly for all architectures.",
       "revId": "c870e8442e68467beea7a7faace8156dfb2b2cbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52ed9b2c_3c332d8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-12T15:39:49Z",
+      "side": 1,
+      "message": "Much nicer, thank you.\n",
+      "revId": "c870e8442e68467beea7a7faace8156dfb2b2cbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b6f7f9_fefc3627",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-12T15:39:49Z",
+      "side": 1,
+      "message": "Now that this line has gotten so big, let\u0027s change it to:\n\n    switch c1\u003c\u003c8 | c2 {\n    case 0x4c01, // 386\n        0x6486, // amd64\n        0xc401, // arm\n        0x64aa: // arm64\n\nThanks.",
+      "revId": "c870e8442e68467beea7a7faace8156dfb2b2cbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54b28598_63d7eece",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-12T15:39:49Z",
+      "side": 1,
+      "message": "Please omit the |386 here.\nIf someone uncomments it, then they can update the GOARCH they want.\nAs modified it looks like GOARCH\u003damd64|386 is a valid setting, and it\u0027s not.",
+      "revId": "c870e8442e68467beea7a7faace8156dfb2b2cbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb374b1e_73fa8189",
+        "filename": "src/cmd/link/testdata/testPErsrc-binutils/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-12T15:39:49Z",
+      "side": 1,
+      "message": "Since we\u0027re renaming directories anyway,\nplease shorten and lowercase the names to just pe-gcc and pe-llvm.\n(The \"test\" is not needed since this is a subdirectory of testdata,\nand the \"rsrc\" is in the file names and need not be in the directory too.\nThen the directory can have other things if it needs to.)",
+      "revId": "c870e8442e68467beea7a7faace8156dfb2b2cbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
