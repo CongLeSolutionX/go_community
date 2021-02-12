@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee39c310_c483f263",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-02-12T16:35:49Z",
+      "side": 1,
+      "message": "Huh. It\u0027d swear I tried exactly this. Well, I\u0027m delighted to be wrong. Thanks, Filippo!",
+      "revId": "23a389d8895ec4d23719e439efdd9919eb1d8d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8e3ea90_1966680a",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-02-12T16:35:49Z",
+      "side": 1,
+      "message": "On a second look, ReadFrom could now call readFromUDP to do its work and then check `addr \u003d\u003d nil` at the end. The bodies are identical.",
+      "revId": "23a389d8895ec4d23719e439efdd9919eb1d8d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
