@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "295b0d6a_27d316cb",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-12T15:46:05Z",
+      "side": 1,
+      "message": "Added a TODO. Will do in a follow-up.",
+      "parentUuid": "f52f19d8_00fb1e92",
+      "range": {
+        "startLine": 684,
+        "startChar": 7,
+        "endLine": 684,
+        "endChar": 21
+      },
+      "revId": "0b82c884a512e7359eaeb29118a50ddca98ed213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "042e9e5f_9c5c1898",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-11T23:49:04Z",
       "side": 1,
       "message": "this is called collectMethods in types2",
+      "range": {
+        "startLine": 687,
+        "startChar": 22,
+        "endLine": 687,
+        "endChar": 36
+      },
+      "revId": "0b82c884a512e7359eaeb29118a50ddca98ed213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7ab7f6_84b318e3",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-12T15:46:05Z",
+      "side": 1,
+      "message": "Added a TODO.",
+      "parentUuid": "042e9e5f_9c5c1898",
       "range": {
         "startLine": 687,
         "startChar": 22,
