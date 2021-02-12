@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e02af58_1ec7058f",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-12T10:21:58Z",
+      "side": 1,
+      "message": "Fully agree -- my bad. Fixed.",
+      "parentUuid": "b0b871d1_8059ed65",
+      "revId": "c495c9ae9ce16c98296c94464ebd63e196b9433e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "128141e1_681135b1",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-02-12T01:26:39Z",
       "side": 1,
       "message": "Let\u0027s generate this string in the test rather than putting it in the file directly.",
+      "revId": "c495c9ae9ce16c98296c94464ebd63e196b9433e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4225d938_84666163",
+        "filename": "src/os/user/lookup_unix_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-12T10:21:58Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "128141e1_681135b1",
       "revId": "c495c9ae9ce16c98296c94464ebd63e196b9433e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
