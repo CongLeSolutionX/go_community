@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4bae258_646ce7d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-12T02:48:42Z",
+      "side": 1,
+      "message": "For the record, the right upstream CL is https://go-review.googlesource.com/c/sys/+/289449 (for after the tree reopens).\n",
+      "revId": "86e285e5edf5c6e98b4cbd8ec36281f6863e0f16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
