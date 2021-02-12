@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9511ed3f_7d0bbf9e",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T23:56:33Z",
+      "side": 1,
+      "message": "Maybe we should do the math in uintptr before casting to unsafe.Pointer.",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 22
+      },
+      "revId": "ecf5855b311ef5a42214324f63b21dcb5aaf680c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
