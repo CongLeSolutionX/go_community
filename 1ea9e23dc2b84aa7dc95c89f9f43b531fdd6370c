@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cce39e2_42f8c085",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T21:02:07Z",
+      "side": 1,
+      "message": "This is probably my bad...",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "1ea9e23dc2b84aa7dc95c89f9f43b531fdd6370c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a023fd80_17602c7f",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T21:02:07Z",
+      "side": 1,
+      "message": "Yeah, technically the ABI doesn\u0027t care how FP is related to SP. It only cares FP is chained and it is one word below the LR slot. (I don\u0027t really understand why ARM64 chose FP\u003dSP convention...)",
+      "revId": "1ea9e23dc2b84aa7dc95c89f9f43b531fdd6370c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
