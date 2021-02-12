@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6061784_b31402d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-12T16:15:17Z",
+      "side": 1,
+      "message": "I reverted the change of types.Typ to an array. As harmless as this seems, it\u0027s a breaking API change that I don\u0027t think we can make.\n\nReally glad we have that test!",
+      "revId": "ccc81e2b0b33a607f639cad0ce81f30e655a327d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
