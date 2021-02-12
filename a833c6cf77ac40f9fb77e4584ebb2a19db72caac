@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b182dbf5_2948f63d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T19:24:04Z",
+      "side": 1,
+      "message": "We scan stacks at asynchronous preemptions. That said, morestack is not allowed to be preempted, so the second half of the sentence still apply.",
+      "range": {
+        "startLine": 17,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 35
+      },
+      "revId": "a833c6cf77ac40f9fb77e4584ebb2a19db72caac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
