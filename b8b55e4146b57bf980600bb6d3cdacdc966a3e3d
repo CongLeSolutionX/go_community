@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb0959ad_53103dbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T19:51:53Z",
+      "side": 1,
+      "message": "When Go code calls into C which calls back to Go, we are able to unwind through asmcgocall on the g stack. The SPWRITE bit doesn\u0027t stop that because we now use systemstack_switch\u0027s PC (CL 288799) instead of a PC in asmcgocall as before. Subtle...",
+      "revId": "b8b55e4146b57bf980600bb6d3cdacdc966a3e3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
