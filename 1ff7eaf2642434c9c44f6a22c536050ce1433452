@@ -22,6 +22,30 @@
       },
       "revId": "1ff7eaf2642434c9c44f6a22c536050ce1433452",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ad7574e_9d4ac365",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-12T15:42:15Z",
+      "side": 1,
+      "message": "Oops, yes. Thanks for catching. (I tend to leave TODOs for error codes that need to be decided, and failed to clean this one up).",
+      "parentUuid": "eac9b3f2_57fc2f34",
+      "range": {
+        "startLine": 757,
+        "startChar": 6,
+        "endLine": 757,
+        "endChar": 10
+      },
+      "revId": "1ff7eaf2642434c9c44f6a22c536050ce1433452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
