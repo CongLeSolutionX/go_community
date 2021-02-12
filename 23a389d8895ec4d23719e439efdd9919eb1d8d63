@@ -33,6 +33,24 @@
       "message": "On a second look, ReadFrom could now call readFromUDP to do its work and then check `addr \u003d\u003d nil` at the end. The bodies are identical.",
       "revId": "23a389d8895ec4d23719e439efdd9919eb1d8d63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "479fa831_8db7962b",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-02-12T18:25:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e3ea90_1966680a",
+      "revId": "23a389d8895ec4d23719e439efdd9919eb1d8d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
