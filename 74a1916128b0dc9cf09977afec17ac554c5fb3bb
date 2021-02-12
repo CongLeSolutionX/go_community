@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "318d9a72_e9a4a63f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T18:23:56Z",
+      "side": 1,
+      "message": "Could we have some way to check that SPWRITE auto-marking is working okay? In particular, it shouldn\u0027t mark too many functions. It should mark only assembly functions, never Go functions, right? If so, maybe we can disallow it when ctxt.IsAsm is false.",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "70de3c6a_0bf776a5",
@@ -48,6 +65,57 @@
       "writtenOn": "2021-02-12T17:57:38Z",
       "side": 1,
       "message": "^",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b150fc4b_0c05fb5f",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T18:23:56Z",
+      "side": 1,
+      "message": "Do we still need the attribute, then?",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea8db837_1c575d3d",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T18:23:56Z",
+      "side": 1,
+      "message": "CMP instruction can have SP as p.To and doesn\u0027t actually write to it. The split-stack prologue happens to put SP in From. But it may be better to make it more robust.\n\n(Many other platforms put operands in From and Reg for CMP-like instructions, so it is not a problem there.)",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9656da0_4849445a",
+        "filename": "src/cmd/internal/objabi/funcid.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T18:23:56Z",
+      "side": 1,
+      "message": "Maybe cross-reference runtime/symtab.go, so when we change this, we know we need to change the other.",
       "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
