@@ -16,6 +16,40 @@
       "message": "LGTM",
       "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08f7bbef_bda31127",
+        "filename": "src/cmd/internal/goobj/funcinfo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-12T17:57:38Z",
+      "side": 1,
+      "message": "ReadFuncFlag below masks it by 0xff after shifting, presumably to enforce the remaining two bytes being not part of the flags field. Should this line here do the same?",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76eb32c9_e00cdd3a",
+        "filename": "src/cmd/internal/goobj/funcinfo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-12T17:57:38Z",
+      "side": 1,
+      "message": "^",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
