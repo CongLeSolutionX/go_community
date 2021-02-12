@@ -70,6 +70,30 @@
       },
       "revId": "2c37d7b15ddb8644e18916aef3e4c97df6709207",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39521860_d496e987",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-12T15:00:14Z",
+      "side": 1,
+      "message": "Thanks, added your diff to this CL.",
+      "parentUuid": "1b636825_4e4b8697",
+      "range": {
+        "startLine": 334,
+        "startChar": 10,
+        "endLine": 334,
+        "endChar": 31
+      },
+      "revId": "2c37d7b15ddb8644e18916aef3e4c97df6709207",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
