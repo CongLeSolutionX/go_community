@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "623b2d4d_352c2b47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T20:44:43Z",
+      "side": 1,
+      "message": "Didn\u0027t know there is WINE for ARM. And didn\u0027t know we ever support it...",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "75f98565d8edc6b9d720844be6ae7bff4c6d1043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06fae973_abd33a8f",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-12T20:44:43Z",
+      "side": 1,
+      "message": "The NOFRAME should be automatic, because there is no call in the function. (But it doesn\u0027t hurt to be explicit.)",
+      "range": {
+        "startLine": 420,
+        "startChar": 35,
+        "endLine": 420,
+        "endChar": 42
+      },
+      "revId": "75f98565d8edc6b9d720844be6ae7bff4c6d1043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
