@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc9f22df_3e6b3a4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-02-12T22:59:29Z",
+      "side": 1,
+      "message": "Please add \"in CL 291693.\"",
+      "revId": "ea1edb9ba071f5a7e4d37cf65775f3a38475d21e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62dd2672_4a5cb5ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-02-12T22:59:29Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest",
+      "revId": "ea1edb9ba071f5a7e4d37cf65775f3a38475d21e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
