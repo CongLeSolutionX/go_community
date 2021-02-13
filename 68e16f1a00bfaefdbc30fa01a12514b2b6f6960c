@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f10c8486_4638c98c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-13T00:11:03Z",
+      "side": 1,
+      "message": "run.rc also clears it. run.bash sets it to /dev/null.",
+      "revId": "68e16f1a00bfaefdbc30fa01a12514b2b6f6960c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
