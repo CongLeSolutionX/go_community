@@ -482,7 +482,8 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 		s.vars[memVar] = s.newValue1Apos(ssa.OpVarLive, types.TypeMem, deferBitsTemp, s.mem(), false)
 	}
 
-	params := s.f.ABISelf.ABIAnalyze(fn.Type())
+	var params *abi.ABIParamResultInfo
+	params = s.f.ABISelf.ABIAnalyze(fn.Type())
 
 	// Generate addresses of local declarations
 	s.decladdrs = map[*ir.Name]*ssa.Value{}
@@ -536,7 +537,13 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	// Populate SSAable arguments.
 	for _, n := range fn.Dcl {
 		if n.Class == ir.PPARAM && s.canSSA(n) {
-			v := s.newValue0A(ssa.OpArg, n.Type(), n)
+			var v *ssa.Value
+			if n.Sym().Name == ".fp" {
+				// Race-detector's get-caller-pc incantation is NOT a real Arg.
+				v = s.newValue0(ssa.OpGetCallerPC, n.Type())
+			} else {
+				v = s.newValue0A(ssa.OpArg, n.Type(), n)
+			}
 			s.vars[n] = v
 			s.addNamedValue(n, v) // This helps with debugging information, not needed for compilation itself.
 		}
@@ -7013,8 +7020,17 @@ func CheckLoweredPhi(v *ssa.Value) {
 // That register contains the closure pointer on closure entry.
 func CheckLoweredGetClosurePtr(v *ssa.Value) {
 	entry := v.Block.Func.Entry
+	// TODO register args: not all the register-producing ops can come first.
 	if entry != v.Block || entry.Values[0] != v {
 		base.Fatalf("in %s, badly placed LoweredGetClosurePtr: %v %v", v.Block.Func.Name, v.Block, v)
+	}
+}
+
+// CheckArgReg ensures that v is in the function's entry block.
+func CheckArgReg(v *ssa.Value) {
+	entry := v.Block.Func.Entry
+	if entry != v.Block {
+		base.Fatalf("in %s, badly placed ArgIReg or ArgFReg: %v %v", v.Block.Func.Name, v.Block, v)
 	}
 }
 
