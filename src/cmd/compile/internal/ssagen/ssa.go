@@ -532,7 +532,13 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	// Populate SSAable arguments.
 	for _, n := range fn.Dcl {
 		if n.Class == ir.PPARAM && s.canSSA(n) {
-			v := s.newValue0A(ssa.OpArg, n.Type(), n)
+			var v *ssa.Value
+			if n.Sym().Name == ".fp" {
+				// Race-detector's get-caller-pc incantation is NOT a real Arg.
+				v = s.newValue0(ssa.OpGetCallerPC, n.Type())
+			} else {
+				v = s.newValue0A(ssa.OpArg, n.Type(), n)
+			}
 			s.vars[n] = v
 			s.addNamedValue(n, v) // This helps with debugging information, not needed for compilation itself.
 		}
