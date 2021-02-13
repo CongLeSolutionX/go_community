@@ -1200,9 +1200,7 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 		return nil, errDBClosed
 	}
 	// Check if the context is expired.
-	select {
-	default:
-	case <-ctx.Done():
+	if err := ctx.Err(); err != nil {
 		db.mu.Unlock()
 		return nil, ctx.Err()
 	}
@@ -2101,9 +2099,7 @@ func (tx *Tx) close(err error) {
 var hookTxGrabConn func()
 
 func (tx *Tx) grabConn(ctx context.Context) (*driverConn, releaseConn, error) {
-	select {
-	default:
-	case <-ctx.Done():
+	if err := ctx.Err(); err != nil {
 		return nil, nil, ctx.Err()
 	}
 
