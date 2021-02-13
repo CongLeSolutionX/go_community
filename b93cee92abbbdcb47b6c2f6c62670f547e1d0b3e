@@ -34,6 +34,23 @@
       "parentUuid": "178bcf5f_eab1a34e",
       "revId": "b93cee92abbbdcb47b6c2f6c62670f547e1d0b3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d65dd5_c14b05b5",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-13T00:06:51Z",
+      "side": 1,
+      "message": "(On other platforms we set the base address in architecture-specific files, e.g. FlagTextAddr. Maybe we want to do that for Windows as well at some point. Incidentally, darwin/arm64 requires large base address, too.)",
+      "revId": "b93cee92abbbdcb47b6c2f6c62670f547e1d0b3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
