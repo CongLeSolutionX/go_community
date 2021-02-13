@@ -145,6 +145,13 @@ func (a *ABIConfig) Copy() *ABIConfig {
 	return &b
 }
 
+// FloatIndexFor translates r into an index in the floating point parameter
+// registers.  If the result is negative, the input index was actually for the
+// integer parameter registers.
+func (a *ABIConfig) FloatIndexFor(r RegIndex) int64 {
+	return int64(r) - int64(a.regAmounts.intRegs)
+}
+
 // NumParamRegs returns the number of parameter registers used for a given type,
 // without regard for the number available.
 func (a *ABIConfig) NumParamRegs(t *types.Type) int {
@@ -351,6 +358,86 @@ type assignState struct {
 	pUsed       RegAmounts // regs used by the current param (or pieces therein)
 	stackOffset int64      // current stack offset
 	spillOffset int64      // current spill offset
+}
+
+// Spill encodes information needed to spill/unspill a register; where, width, pointer/signed/float.
+type Spill struct {
+	at    int64
+	width uint8
+	flags uint8
+}
+
+const (
+	// flags values chosen against possibility we smash offset, flags, and size into a single int64; there's adequate range.
+	// could do 56 bits of signed offset, 3 bits of flags, 5 bits of size.
+	isPtr    = 32
+	isFloat  = 64
+	isSigned = 128
+)
+
+func (w Spill) Size() int64 {
+	return int64(w.width)
+}
+
+func (w Spill) Offset() int64 {
+	return int64(w.at)
+}
+
+func (w Spill) IsSigned() bool {
+	return w.flags&isSigned != 0
+}
+
+func (w Spill) IsPointer() bool {
+	return w.flags&isPtr != 0
+}
+
+func (w Spill) IsFloat() bool {
+	return w.flags&isFloat != 0
+}
+
+func spill(t *types.Type, at int64) Spill {
+	f := uint8(0)
+	if t.IsPtrShaped() {
+		f |= isPtr
+	} else if t.IsSigned() {
+		f |= isSigned
+	} else if t.IsFloat() {
+		f |= isFloat
+	} else if t.IsComplex() {
+		panic("Complex types do not have a spill width")
+	} else if !t.IsScalar() {
+		panic(fmt.Errorf("Type %v does not have a pointer width; expected pointer or non-complex scalar", t))
+	}
+	return Spill{at: at, width: uint8(t.Width), flags: f}
+}
+
+// spillState holds the mapping from integer or floating point register index (= RegIndex - len(integer param register count)
+type spillState struct {
+	NextSpill int64
+	ISpills   []Spill
+	FSpills   []Spill
+}
+
+func (s *spillState) spill(t *types.Type) {
+	if s == nil {
+		return
+	}
+	s.align(t)
+	z := t.Width
+	sp := spill(t, s.NextSpill)
+	if t.IsFloat() {
+		s.FSpills = append(s.FSpills, sp)
+	} else {
+		s.ISpills = append(s.FSpills, sp)
+	}
+	s.NextSpill += z
+}
+
+func (s *spillState) align(t *types.Type) {
+	if s == nil {
+		return
+	}
+	s.NextSpill = align(s.NextSpill, t)
 }
 
 // align returns a rounded up to t's alignment
