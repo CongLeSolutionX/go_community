@@ -59,10 +59,8 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (rsa sysc
 	switch err := connectFunc(fd.pfd.Sysfd, ra); err {
 	case syscall.EINPROGRESS, syscall.EALREADY, syscall.EINTR:
 	case nil, syscall.EISCONN:
-		select {
-		case <-ctx.Done():
-			return nil, mapErr(ctx.Err())
-		default:
+		if err := ctx.Err(); err != nil {
+			return nil, mapErr(err)
 		}
 		if err := fd.pfd.Init(fd.net, true); err != nil {
 			return nil, err
@@ -139,10 +137,8 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (rsa sysc
 		// succeeded or failed. See issue 7474 for further
 		// details.
 		if err := fd.pfd.WaitWrite(); err != nil {
-			select {
-			case <-ctx.Done():
-				return nil, mapErr(ctx.Err())
-			default:
+			if err := ctx.Err(); err != nil {
+				return nil, mapErr(err)
 			}
 			return nil, err
 		}

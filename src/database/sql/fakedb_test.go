@@ -763,9 +763,7 @@ func (s *fakeStmt) ExecContext(ctx context.Context, args []driver.NamedValue) (d
 		time.Sleep(s.wait)
 	}
 
-	select {
-	default:
-	case <-ctx.Done():
+	if err := ctx.Err(); err != nil {
 		return nil, ctx.Err()
 	}
 
