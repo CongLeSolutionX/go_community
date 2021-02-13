@@ -808,9 +808,9 @@ func (x *expandState) rewriteArgs(v *Value, firstArg int) *Value {
 		}
 		auxI := int64(i - firstArg)
 		aRegs := aux.RegsOfArg(auxI)
-		aOffset := aux.OffsetOfArg(auxI)
 		aType := aux.TypeOfArg(auxI)
 		if a.Op == OpDereference {
+			aOffset := aux.OffsetOfArg(auxI)
 			if a.MemoryArg() != m0 {
 				x.f.Fatalf("Op...LECall and OpDereference have mismatched mem, %s and %s", v.LongString(), a.LongString())
 			}
@@ -821,13 +821,16 @@ func (x *expandState) rewriteArgs(v *Value, firstArg int) *Value {
 			// TODO this will be more complicated with registers in the picture.
 			mem = x.rewriteDereference(v.Block, x.sp, a, mem, aOffset, aux.SizeOfArg(auxI), aType, pos)
 		} else {
-			if x.debug {
-				fmt.Printf("storeArg %s, %v, %d\n", a.LongString(), aType, aOffset)
-			}
 			var rc registerCursor
 			var result *Value
+			var aOffset int64
 			if len(aRegs) > 0 {
 				result = v.Block.NewValue0(v.Pos.WithNotStmt(), OpMakeResult, nil)
+			} else {
+				aOffset = aux.OffsetOfArg(auxI)
+			}
+			if x.debug {
+				fmt.Printf("storeArg %s, %v, %d\n", a.LongString(), aType, aOffset)
 			}
 			rc.init(aRegs, aux.pri, result)
 			mem = x.storeArgOrLoad(pos, v.Block, x.sp, a, mem, aType, aOffset, 0, rc)
@@ -1203,11 +1206,6 @@ func expandCalls(f *Func) {
 		for _, v := range b.Values {
 			switch v.Op {
 			case OpArg:
-				if v.Aux.(*ir.Name).Sym().Name == ".fp" {
-					// The race detector encodes "our caller's return PC" as an Arg with a tricky offset.
-					// leave it alone.
-					continue
-				}
 				pa := x.prAssignForArg(v)
 				switch len(pa.Registers) {
 				case 0:
@@ -1217,8 +1215,19 @@ func expandCalls(f *Func) {
 							pa.Offset(), frameOff, v.LongString())
 					}
 				case 1:
+					r := pa.Registers[0]
+					i := f.ABISelf.FloatIndexFor(r)
+					// TODO seems like this has implications for debugging. How does this affect the location?
+					if i >= 0 { // float PR
+						v.Op = OpArgFloatReg
+					} else {
+						v.Op = OpArgIntReg
+						i = int64(r)
+					}
+					v.AuxInt = i
+
 				default:
-					panic(badVal("Saw unexpeanded OpArg", v))
+					panic(badVal("Saw unexpanded OpArg", v))
 				}
 
 			case OpStaticLECall:
