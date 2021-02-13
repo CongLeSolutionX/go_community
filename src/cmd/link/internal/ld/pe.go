@@ -399,6 +399,7 @@ func (f *peFile) addSection(name string, sectsize int, filesize int) *peSection 
 		shortName:        name,
 		index:            len(f.sections) + 1,
 		virtualSize:      uint32(sectsize),
+		sizeOfRawData:    uint32(sectsize),
 		virtualAddress:   f.nextSectOffset,
 		pointerToRawData: f.nextFileOffset,
 	}
