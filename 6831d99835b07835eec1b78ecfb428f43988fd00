@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90b361d9_c2a828f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50269
+      },
+      "writtenOn": "2021-02-13T23:25:24Z",
+      "side": 1,
+      "message": "\u003e Without it, the section is lost on final linking and it\u0027s treated as code\n\nIt\u0027s not treated as code per se - the object file section just allocates zero bytes in the .bss section in the output executable, and symbols are placed at their respective offsets from where this zero byte section chunk is laid out. Ie those symbols end up aliasing whatever comes after.",
+      "revId": "6831d99835b07835eec1b78ecfb428f43988fd00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "905bdb1d_8b19ac30",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 50269
+      },
+      "writtenOn": "2021-02-13T23:25:24Z",
+      "side": 1,
+      "message": "To match what gcc/binutils, and llvm, produce, the virtualSize field should be left zero (but I don\u0027t know if that has other consequences, if you have other code that relies on it...)",
+      "revId": "6831d99835b07835eec1b78ecfb428f43988fd00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
