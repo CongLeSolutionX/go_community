@@ -33,6 +33,24 @@
       "message": "To match what gcc/binutils, and llvm, produce, the virtualSize field should be left zero (but I don\u0027t know if that has other consequences, if you have other code that relies on it...)",
       "revId": "6831d99835b07835eec1b78ecfb428f43988fd00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f24ccc61_7ff9a2e2",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-14T13:15:28Z",
+      "side": 1,
+      "message": "That seems to be working. I\u0027ll send a v2.",
+      "parentUuid": "905bdb1d_8b19ac30",
+      "revId": "6831d99835b07835eec1b78ecfb428f43988fd00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
