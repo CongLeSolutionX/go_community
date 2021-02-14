@@ -66,6 +66,7 @@ const (
 	IMAGE_SCN_MEM_WRITE              = 0x80000000
 	IMAGE_SCN_MEM_DISCARDABLE        = 0x2000000
 	IMAGE_SCN_LNK_NRELOC_OVFL        = 0x1000000
+	IMAGE_SCN_ALIGN_8BYTES           = 0x400000
 	IMAGE_SCN_ALIGN_32BYTES          = 0x600000
 )
 
@@ -469,7 +470,7 @@ func (f *peFile) addInitArray(ctxt *Link) *peSection {
 		size = 4
 	}
 	sect := f.addSection(".ctors", size, size)
-	sect.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ
+	sect.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_ALIGN_8BYTES
 	sect.sizeOfRawData = uint32(size)
 	ctxt.Out.SeekSet(int64(sect.pointerToRawData))
 	sect.checkOffset(ctxt.Out.Offset())
