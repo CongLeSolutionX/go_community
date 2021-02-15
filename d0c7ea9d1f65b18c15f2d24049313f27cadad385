@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b3e0812_d75052a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-02-15T23:46:52Z",
+      "side": 1,
+      "message": "Russ, is your plan to submit this documentation-only change in time for Go 1.16, or is this meant for Go 1.17? (If the latter, please add it to #44222.)",
+      "revId": "d0c7ea9d1f65b18c15f2d24049313f27cadad385",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
