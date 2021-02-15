@@ -16,6 +16,24 @@
       "message": "Why this needs noinline?",
       "revId": "45c93041e9befb0259d854f460822169df9437f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92d46961_cc1b632f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:23:11Z",
+      "side": 1,
+      "message": "I think it was an editing leftover. But note that the function really needs not to be inlined, since it calls getcallerpc and getcallersp, and those will not be the intended caller if it is inlined. Maybe the inliner knows not to inline such functions? In any event, I left the //go:noinline and added a comment.",
+      "parentUuid": "1f5b44f6_5ed97bfb",
+      "revId": "45c93041e9befb0259d854f460822169df9437f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
