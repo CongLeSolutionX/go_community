@@ -119,7 +119,8 @@ func abitest(t *testing.T, ft *types.Type, exp expectedDump) {
 	types.CalcSize(ft)
 
 	// Analyze with full set of registers.
-	regRes := configAMD64.ABIAnalyze(ft)
+	regRes, iSpills, fSpills := configAMD64.ABIAnalyze(ft)
+	_, _ = iSpills, fSpills
 	regResString := strings.TrimSpace(regRes.String())
 
 	// Check results.
