@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a76e0af6_bb68acb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:23:11Z",
+      "side": 1,
+      "message": "If it marks too many functions then everything fails very quickly, because stacks don\u0027t get unwound all the way. But I added an explicit check of ctxt.IsAsm too.",
+      "parentUuid": "318d9a72_e9a4a63f",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "70de3c6a_0bf776a5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56e70dc8_38a87865",
+        "filename": "src/cmd/internal/goobj/funcinfo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:23:11Z",
+      "side": 1,
+      "message": "The use of a uint32 here was a dreg. Removed.",
+      "parentUuid": "08f7bbef_bda31127",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76eb32c9_e00cdd3a",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-02-12T17:57:38Z",
       "side": 1,
       "message": "^",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acfea0a4_ed27a12c",
+        "filename": "src/cmd/internal/goobj/funcinfo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:23:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "76eb32c9_e00cdd3a",
       "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "442c6a99_8a356d8a",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:23:11Z",
+      "side": 1,
+      "message": "Deleted. (Had to tweak text attribute printing.)",
+      "parentUuid": "b150fc4b_0c05fb5f",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea8db837_1c575d3d",
@@ -103,6 +175,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38723650_67723a17",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:23:11Z",
+      "side": 1,
+      "message": "Done, although I think this check will necessarily always be a bit conservative.",
+      "parentUuid": "ea8db837_1c575d3d",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9656da0_4849445a",
@@ -116,6 +206,24 @@
       "writtenOn": "2021-02-12T18:23:56Z",
       "side": 1,
       "message": "Maybe cross-reference runtime/symtab.go, so when we change this, we know we need to change the other.",
+      "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66b1a250_bb887a58",
+        "filename": "src/cmd/internal/objabi/funcid.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9656da0_4849445a",
       "revId": "74a1916128b0dc9cf09977afec17ac554c5fb3bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
