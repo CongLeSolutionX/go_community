@@ -22,6 +22,30 @@
       },
       "revId": "7389ec569097c0d595122fbc73f9aa7dd1031e44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7bf8ebb_7edab16a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:23:11Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure what you mean by \u0027technically mcall is a top-of-stack function\u0027, but I added some comments to symtab.go to try to explain the difference between TOPFRAME and SPWRITE.\n\n\t// TOPFRAME indicates a function that appears at the top of its stack.\n\t// The traceback routine stop at such a function and consider that a\n\t// successful, complete traversal of the stack.\n\t// Examples of TOPFRAME functions include goexit, which appears\n\t// at the top of a user goroutine stack, and mstart, which appears\n\t// at the top of a system goroutine stack.\n\tfuncFlag_TOPFRAME funcFlag \u003d 1 \u003c\u003c iota\n\n\t// SPWRITE indicates a function that writes an arbitrary value to SP\n\t// (any write other than adding or subtracting a constant amount).\n\t// The traceback routines cannot encode such changes into the\n\t// pcsp tables, so the function traceback cannot safely unwind past\n\t// SPWRITE functions. Stopping at an SPWRITE function is considered\n\t// to be an incomplete unwinding of the stack. In certain contexts\n\t// (in particular garbage collector stack scans) that is a fatal error.\n\tfuncFlag_SPWRITE",
+      "parentUuid": "6b9ebf0c_0949de06",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "7389ec569097c0d595122fbc73f9aa7dd1031e44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
