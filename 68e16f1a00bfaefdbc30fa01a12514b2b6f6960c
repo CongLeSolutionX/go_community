@@ -34,6 +34,24 @@
       "parentUuid": "f10c8486_4638c98c",
       "revId": "68e16f1a00bfaefdbc30fa01a12514b2b6f6960c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "357347c9_3c03f289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T18:24:32Z",
+      "side": 1,
+      "message": "I changed them all to point to non-existent directories.",
+      "parentUuid": "87411d61_856a3f0c",
+      "revId": "68e16f1a00bfaefdbc30fa01a12514b2b6f6960c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
