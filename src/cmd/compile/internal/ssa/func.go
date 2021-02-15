@@ -48,6 +48,8 @@ type Func struct {
 	Abi1           *abi.ABIConfig // A copy, for no-sync access
 	AbiSelf        *abi.ABIConfig // ABI for function being compiled
 	AbiDefault     *abi.ABIConfig // ABI for rtcall and other no-parsed-signature/pragma functions.
+	ISpills        []abi.Spill
+	FSpills        []abi.Spill
 
 	scheduled   bool  // Values in Blocks are in final order
 	laidout     bool  // Blocks are ordered

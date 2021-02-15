@@ -205,13 +205,13 @@ func (config *ABIConfig) ABIAnalyzeTypes(rcvr *types.Type, ins, outs []*types.Ty
 	// Receiver
 	if rcvr != nil {
 		result.inparams = append(result.inparams,
-			s.assignParamOrReturn(rcvr, nil, false))
+			s.assignParamOrReturn(rcvr, nil, false, nil))
 	}
 
 	// Inputs
 	for _, t := range ins {
 		result.inparams = append(result.inparams,
-			s.assignParamOrReturn(t, nil, false))
+			s.assignParamOrReturn(t, nil, false, nil))
 	}
 	s.stackOffset = types.Rnd(s.stackOffset, int64(types.RegSize))
 	result.inRegistersUsed = s.rUsed.intRegs + s.rUsed.floatRegs
@@ -219,7 +219,7 @@ func (config *ABIConfig) ABIAnalyzeTypes(rcvr *types.Type, ins, outs []*types.Ty
 	// Outputs
 	s.rUsed = RegAmounts{}
 	for _, t := range outs {
-		result.outparams = append(result.outparams, s.assignParamOrReturn(t, nil, true))
+		result.outparams = append(result.outparams, s.assignParamOrReturn(t, nil, true, nil))
 	}
 	// The spill area is at a register-aligned offset and its size is rounded up to a register alignment.
 	// TODO in theory could align offset only to minimum required by spilled data types.
@@ -245,14 +245,14 @@ func (config *ABIConfig) ABIAnalyzeFuncType(ft *types.Func) *ABIParamResultInfo 
 	if ft.Receiver.NumFields() != 0 {
 		r := ft.Receiver.FieldSlice()[0]
 		result.inparams = append(result.inparams,
-			s.assignParamOrReturn(r.Type, r.Nname, false))
+			s.assignParamOrReturn(r.Type, r.Nname, false, nil))
 	}
 
 	// Inputs
 	ifsl := ft.Params.FieldSlice()
 	for _, f := range ifsl {
 		result.inparams = append(result.inparams,
-			s.assignParamOrReturn(f.Type, f.Nname, false))
+			s.assignParamOrReturn(f.Type, f.Nname, false, nil))
 	}
 	s.stackOffset = types.Rnd(s.stackOffset, int64(types.RegSize))
 	result.inRegistersUsed = s.rUsed.intRegs + s.rUsed.floatRegs
@@ -261,7 +261,7 @@ func (config *ABIConfig) ABIAnalyzeFuncType(ft *types.Func) *ABIParamResultInfo 
 	s.rUsed = RegAmounts{}
 	ofsl := ft.Results.FieldSlice()
 	for _, f := range ofsl {
-		result.outparams = append(result.outparams, s.assignParamOrReturn(f.Type, f.Nname, true))
+		result.outparams = append(result.outparams, s.assignParamOrReturn(f.Type, f.Nname, true, nil))
 	}
 	// The spill area is at a register-aligned offset and its size is rounded up to a register alignment.
 	// TODO in theory could align offset only to minimum required by spilled data types.
@@ -271,30 +271,43 @@ func (config *ABIConfig) ABIAnalyzeFuncType(ft *types.Func) *ABIParamResultInfo 
 	return result
 }
 
-// ABIAnalyze returns the same result as ABIAnalyzeFuncTyper, but also
-// updates the offsets of all the receiver, input, and output fields.
-func (config *ABIConfig) ABIAnalyze(t *types.Type) *ABIParamResultInfo {
+// ABIAnalyze returns the same result as ABIAnalyzeFuncType,
+// plus the spill information for integer and float registers,
+// plus updates the offsets of all the receiver, input, and output fields
+// of the function-typed parameter.
+func (config *ABIConfig) ABIAnalyze(t *types.Type) (*ABIParamResultInfo, []Spill, []Spill) {
 	ft := t.FuncType()
 	result := config.ABIAnalyzeFuncType(ft)
+
 	// Fill in the frame offsets for receiver, inputs, results
+	s := &assignState{
+		rTotal: config.regAmounts,
+	}
+	spills := &spillState{NextSpill: result.offsetToSpillArea, state: s}
+
 	k := 0
 	if t.NumRecvs() != 0 {
-		config.updateOffset(result, ft.Receiver.FieldSlice()[0], result.inparams[0], false)
+		config.updateOffset(result, ft.Receiver.FieldSlice()[0], result.inparams[0], false, spills)
 		k++
 	}
 	for i, f := range ft.Params.FieldSlice() {
-		config.updateOffset(result, f, result.inparams[k+i], false)
+		config.updateOffset(result, f, result.inparams[k+i], false, spills)
 	}
 	for i, f := range ft.Results.FieldSlice() {
-		config.updateOffset(result, f, result.outparams[i], true)
+		config.updateOffset(result, f, result.outparams[i], true, nil)
 	}
-	return result
+	return result, spills.ISpills, spills.FSpills
 }
 
-func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field, a ABIParamAssignment, isReturn bool) {
+func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field, a ABIParamAssignment, isReturn bool, spills *spillState) {
 	// Everything except return values in registers has either a frame home (if not in a register) or a frame spill location.
 	if !isReturn || len(a.Registers) == 0 {
 		f.Offset = a.FrameOffset(result)
+	}
+	if nregs := len(a.Registers); nregs > 0 && spills != nil {
+		if !spills.state.regassign(f.Type, spills) {
+			panic("Second run of register parameter assignment could not repeat register allocation")
+		}
 	}
 }
 
@@ -407,10 +420,18 @@ type spillState struct {
 	NextSpill int64
 	ISpills   []Spill
 	FSpills   []Spill
+	state     *assignState
 }
 
 func (s *spillState) spill(t *types.Type) {
 	if s == nil {
+		return
+	}
+	if t.IsComplex() {
+		// This is the simplest place to handle this special case.
+		fl := types.FloatForComplex(t)
+		s.spill(fl)
+		s.spill(fl)
 		return
 	}
 	s.align(t)
@@ -419,7 +440,7 @@ func (s *spillState) spill(t *types.Type) {
 	if t.IsFloat() {
 		s.FSpills = append(s.FSpills, sp)
 	} else {
-		s.ISpills = append(s.FSpills, sp)
+		s.ISpills = append(s.ISpills, sp)
 	}
 	s.NextSpill += z
 }
@@ -518,7 +539,8 @@ func (state *assignState) floatUsed() int {
 // determines whether it can be register-assigned. Returns TRUE if we
 // can register allocate, FALSE otherwise (and updates state
 // accordingly).
-func (state *assignState) regassignIntegral(t *types.Type) bool {
+func (state *assignState) regassignIntegral(t *types.Type, spills *spillState) bool {
+	spills.spill(t)
 	regsNeeded := int(types.Rnd(t.Width, int64(types.PtrSize)) / int64(types.PtrSize))
 	if t.IsComplex() {
 		regsNeeded = 2
@@ -546,10 +568,12 @@ func (state *assignState) regassignIntegral(t *types.Type) bool {
 // regassignArray processes an array type (or array component within some
 // other enclosing type) to determine if it can be register assigned.
 // Returns TRUE if we can register allocate, FALSE otherwise.
-func (state *assignState) regassignArray(t *types.Type) bool {
+func (state *assignState) regassignArray(t *types.Type, spills *spillState) bool {
 
 	nel := t.NumElem()
 	if nel == 0 {
+		// Zero-width parameters are on the stack, that is handled elsewhere.
+		// Zero-width fields do not make a struct ineligible for register allocation.
 		return true
 	}
 	if nel > 1 {
@@ -557,15 +581,15 @@ func (state *assignState) regassignArray(t *types.Type) bool {
 		return false
 	}
 	// Visit element
-	return state.regassign(t.Elem())
+	return state.regassign(t.Elem(), spills)
 }
 
 // regassignStruct processes a struct type (or struct component within
 // some other enclosing type) to determine if it can be register
 // assigned. Returns TRUE if we can register allocate, FALSE otherwise.
-func (state *assignState) regassignStruct(t *types.Type) bool {
+func (state *assignState) regassignStruct(t *types.Type, spills *spillState) bool {
 	for _, field := range t.FieldSlice() {
-		if !state.regassign(field.Type) {
+		if !state.regassign(field.Type, spills) {
 			return false
 		}
 	}
@@ -608,22 +632,23 @@ func setup() {
 // regassign examines a given param type (or component within some
 // composite) to determine if it can be register assigned.  Returns
 // TRUE if we can register allocate, FALSE otherwise.
-func (state *assignState) regassign(pt *types.Type) bool {
+func (state *assignState) regassign(pt *types.Type, spills *spillState) bool {
+	spills.align(pt)
 	typ := pt.Kind()
 	if pt.IsScalar() || pt.IsPtrShaped() {
-		return state.regassignIntegral(pt)
+		return state.regassignIntegral(pt, spills)
 	}
 	switch typ {
 	case types.TARRAY:
-		return state.regassignArray(pt)
+		return state.regassignArray(pt, spills)
 	case types.TSTRUCT:
-		return state.regassignStruct(pt)
+		return state.regassignStruct(pt, spills)
 	case types.TSLICE:
-		return state.regassignStruct(synthSlice)
+		return state.regassignStruct(synthSlice, spills)
 	case types.TSTRING:
-		return state.regassignStruct(synthString)
+		return state.regassignStruct(synthString, spills)
 	case types.TINTER:
-		return state.regassignStruct(synthIface)
+		return state.regassignStruct(synthIface, spills)
 	default:
 		panic("not expected")
 	}
@@ -633,7 +658,7 @@ func (state *assignState) regassign(pt *types.Type) bool {
 // of type 'pt' to determine whether it can be register assigned.
 // The result of the analysis is recorded in the result
 // ABIParamResultInfo held in 'state'.
-func (state *assignState) assignParamOrReturn(pt *types.Type, n types.Object, isReturn bool) ABIParamAssignment {
+func (state *assignState) assignParamOrReturn(pt *types.Type, n types.Object, isReturn bool, spills *spillState) ABIParamAssignment {
 	var name *ir.Name
 	if n != nil {
 		name = n.(*ir.Name)
@@ -643,7 +668,7 @@ func (state *assignState) assignParamOrReturn(pt *types.Type, n types.Object, is
 		panic("should never happen")
 	} else if pt.Width == 0 {
 		return state.stackAllocate(pt, name)
-	} else if state.regassign(pt) {
+	} else if state.regassign(pt, spills) {
 		return state.regAllocate(pt, name, isReturn)
 	} else {
 		return state.stackAllocate(pt, name)
