@@ -166,8 +166,8 @@ func noescape(p unsafe.Pointer) unsafe.Pointer {
 // This in turn calls cgocallbackg, which is where we'll find
 // pointer-declared arguments.
 func cgocallback(fn, frame, ctxt uintptr)
+
 func gogo(buf *gobuf)
-func gosave(buf *gobuf)
 
 //go:noescape
 func jmpdefer(fv *funcval, argp uintptr)

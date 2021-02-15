@@ -295,21 +295,6 @@ TEXT runtime·mcall(SB), NOSPLIT|NOFRAME, $0-8
 	JALR	RA, T1
 	JMP	runtime·badmcall2(SB)
 
-// func gosave(buf *gobuf)
-// save state in Gobuf; setjmp
-TEXT runtime·gosave(SB), NOSPLIT|NOFRAME, $0-8
-	MOV	buf+0(FP), T1
-	MOV	X2, gobuf_sp(T1)
-	MOV	RA, gobuf_pc(T1)
-	MOV	g, gobuf_g(T1)
-	MOV	ZERO, gobuf_lr(T1)
-	MOV	ZERO, gobuf_ret(T1)
-	// Assert ctxt is zero. See func save.
-	MOV	gobuf_ctxt(T1), T1
-	BEQ	T1, ZERO, 2(PC)
-	CALL	runtime·badctxt(SB)
-	RET
-
 // Save state of caller into g->sched,
 // but using fake PC from systemstack_switch.
 // Must only be called from functions with no locals ($0)
