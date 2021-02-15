@@ -16,6 +16,24 @@
       "message": "Got a crasher on 386:\n\ntraceback: unexpected SPWRITE function golang.org/x/crypto/blake2s.hashBlocksSSSE3\nfatal error: traceback\nruntime stack:\nruntime.throw(0x10059a66, 0x9)\nruntime/panic.go:1117 +0x64\nruntime.gentraceback(0xffffffff, 0xffffffff, 0x0, 0x208848c0, 0x0, 0x0, 0x7fffffff, 0x1006cd4c, 0x9b1fbc0, 0x0, ...)\nruntime/traceback.go:234 +0x1699\nruntime.copystack(0x208848c0, 0x2000)\nruntime/stack.go:908 +0x236\nruntime.newstack()\nruntime/stack.go:1078 +0x203\nruntime.morestack()\nruntime/asm_386.s:469 +0x7f",
       "revId": "4aae85dfac07c43f0e73a041b14733c3de571865",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f0e3f02_8f6dc9e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-15T11:42:07Z",
+      "side": 1,
+      "message": "It seems to be identifying the SPWRITE okay though:\n\n# golang.org/x/crypto/blake2s\nauto-SPWRITE: \"\".hashBlocksSSE2 00011 (/home/zx2c4/.go/pkg/mod/golang.org/x/crypto@v0.0.0-20201221181555-eec23a3978ad/blake2s/blake2s_386.s:304)        MOVL      DI, SP\nauto-SPWRITE: \"\".hashBlocksSSSE3 00811 (/home/zx2c4/.go/pkg/mod/golang.org/x/crypto@v0.0.0-20201221181555-eec23a3978ad/blake2s/blake2s_386.s:373)       MOVL      DI, SP",
+      "parentUuid": "e7196ef8_dfbe7969",
+      "revId": "4aae85dfac07c43f0e73a041b14733c3de571865",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
