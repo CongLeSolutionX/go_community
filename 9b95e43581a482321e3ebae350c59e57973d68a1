@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec839ca_73a6c47c",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-15T20:17:21Z",
+      "side": 1,
+      "message": "No need for parentheses here.",
+      "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e1fdbc_63afe582",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-15T20:17:21Z",
+      "side": 1,
+      "message": "This still converts to string unnecessarily.  You want something like\n\nvar wholeLine []byte\nfor {\n    ...\n    wholeLine \u003d append(wholeLine, line)",
+      "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c8cab84_1d253f00",
+        "filename": "src/os/user/lookup_unix_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-15T20:17:21Z",
+      "side": 1,
+      "message": "Rather than setting the var and then editing it in the init function, cleaner to say something like\n\nvar testGroupFile \u003d `\n...\n` + largeGroup()",
+      "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16314b52_e3ffd85e",
+        "filename": "src/os/user/lookup_unix_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-15T20:17:21Z",
+      "side": 1,
+      "message": "Doing string addition like this is quadratic.  It doesn\u0027t much matter in a test, but let\u0027s still model good behavior by using a strings.Builder.",
+      "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
