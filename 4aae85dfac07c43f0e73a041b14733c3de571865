@@ -52,6 +52,24 @@
       "parentUuid": "9f0e3f02_8f6dc9e1",
       "revId": "4aae85dfac07c43f0e73a041b14733c3de571865",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fda23921_a89ddc5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-15T15:37:41Z",
+      "side": 1,
+      "message": "This is a good crash, in that it identified invalid Go assembly that could cause silent memory corruption instead. It is not allowed to adjust SP by a non-fixed value, because then profiling ticks but more importantly the garbage collector cannot unwind the stack properly. \n\nThe assembly should be updated to remove the writes to SP. They are not safe. \nI filed #44269.",
+      "parentUuid": "9c3643be_68a383e8",
+      "revId": "4aae85dfac07c43f0e73a041b14733c3de571865",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
