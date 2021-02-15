@@ -70,6 +70,24 @@
       "parentUuid": "9c3643be_68a383e8",
       "revId": "4aae85dfac07c43f0e73a041b14733c3de571865",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7756ff07_cb4d6e13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-15T17:08:42Z",
+      "side": 1,
+      "message": "That\u0027s what I ultimately figured. Thanks for fixing those in that other series.\n\nIt makes me wonder though... why not enforce that in the assembler where you detect the SPWRITE flag in the first place? That is -- error out on the |\u003dSPWRITE case at assemble-time, unless the function matches a particular whitelist of allowed functions, or has a particular assembler flag, like you added for TOPSTACK. Or, if that\u0027s not appealing, just error out if it\u0027s not coming from the runtime package. What do we gain having this be a runtime-only check, when we already know the rules at compile time?",
+      "parentUuid": "fda23921_a89ddc5f",
+      "revId": "4aae85dfac07c43f0e73a041b14733c3de571865",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
