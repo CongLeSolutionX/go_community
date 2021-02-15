@@ -1406,24 +1406,32 @@ func (f eofReaderFunc) Read(p []byte) (n int, err error) {
 
 func TestReferer(t *testing.T) {
 	tests := []struct {
-		lastReq, newReq string // from -> to URLs
-		want            string
+		lastReq, newReq, lastRef string // from -> to URLs, last Referer value
+		want                     string
 	}{
 		// don't send user:
-		{"http://gopher@test.com", "http://link.com", "http://test.com"},
-		{"https://gopher@test.com", "https://link.com", "https://test.com"},
+		{"http://gopher@test.com", "http://link.com", "", "http://test.com"},
+		{"https://gopher@test.com", "https://link.com", "", "https://test.com"},
 
 		// don't send a user and password:
-		{"http://gopher:go@test.com", "http://link.com", "http://test.com"},
-		{"https://gopher:go@test.com", "https://link.com", "https://test.com"},
+		{"http://gopher:go@test.com", "http://link.com", "", "http://test.com"},
+		{"https://gopher:go@test.com", "https://link.com", "", "https://test.com"},
 
 		// nothing to do:
-		{"http://test.com", "http://link.com", "http://test.com"},
-		{"https://test.com", "https://link.com", "https://test.com"},
+		{"http://test.com", "http://link.com", "", "http://test.com"},
+		{"https://test.com", "https://link.com", "", "https://test.com"},
 
 		// https to http doesn't send a referer:
-		{"https://test.com", "http://link.com", ""},
-		{"https://gopher:go@test.com", "http://link.com", ""},
+		{"https://test.com", "http://link.com", "", ""},
+		{"https://gopher:go@test.com", "http://link.com", "", ""},
+
+		// https to http should remove an existing referer:
+		{"https://test.com", "http://link.com", "https://foo.com", ""},
+		{"https://gopher:go@test.com", "http://link.com", "https://foo.com", ""},
+
+		// don't override an existing referer:
+		{"https://test.com", "https://link.com", "https://foo.com", "https://foo.com"},
+		{"https://gopher:go@test.com", "https://link.com", "https://foo.com", "https://foo.com"},
 	}
 	for _, tt := range tests {
 		l, err := url.Parse(tt.lastReq)
@@ -1434,7 +1442,7 @@ func TestReferer(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		r := ExportRefererForURL(l, n)
+		r := ExportRefererForURL(l, n, tt.lastRef)
 		if r != tt.want {
 			t.Errorf("refererForURL(%q, %q) = %q; want %q", tt.lastReq, tt.newReq, r, tt.want)
 		}
