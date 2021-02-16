@@ -79,6 +79,9 @@ var modinfo string
 // Note that all this complexity does not apply to global run queue as we are not
 // sloppy about thread unparking when submitting to global queue. Also see comments
 // for nmspinning manipulation.
+//
+// While we discuss readying a goroutine above, this same approach applies to
+// other sources of work: new/modified timers and idle-priority GC work,
 
 var (
 	m0           m
@@ -2787,18 +2790,25 @@ stop:
 	pidleput(_p_)
 	unlock(&sched.lock)
 
-	// Delicate dance: thread transitions from spinning to non-spinning state,
-	// potentially concurrently with submission of new goroutines. We must
-	// drop nmspinning first and then check all per-P queues again (with
-	// #StoreLoad memory barrier in between). If we do it the other way around,
-	// another thread can submit a goroutine after we've checked all run queues
-	// but before we drop nmspinning; as a result nobody will unpark a thread
-	// to run the goroutine.
+	// Delicate dance: thread transitions from spinning to non-spinning
+	// state, potentially concurrently with submission of new work. We must
+	// drop nmspinning first and then check all sources again (with
+	// #StoreLoad memory barrier in between). If we do it the other way
+	// around, another thread can submit work after we've checked all
+	// sources but before we drop nmspinning; as a result nobody will
+	// unpark a thread to run the work.
+	//
+	// This applies to the following sources of work:
+	//
+	// * Goroutines added to a per-P run queue.
+	// * New/modified-earlier timers on a per-P timer heap.
+	// * Idle-priority GC work (barring golang.org/issue/19112).
+	//
 	// If we discover new work below, we need to restore m.spinning as a signal
 	// for resetspinning to unpark a new worker thread (because there can be more
 	// than one starving goroutine). However, if after discovering new work
-	// we also observe no idle Ps, it is OK to just park the current thread:
-	// the system is fully loaded so no spinning threads are required.
+	// we also observe no idle Ps, it is OK to skip unparking a new worker
+	// thread: the system is fully loaded so no spinning threads are required.
 	// Also see "Worker thread parking/unparking" comment at the top of the file.
 	wasSpinning := _g_.m.spinning
 	if _g_.m.spinning {
