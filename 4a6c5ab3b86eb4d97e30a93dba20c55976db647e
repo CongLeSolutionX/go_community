@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ca611e4_4091d3b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-02-16T17:09:40Z",
+      "side": 1,
+      "message": "Nit: There\u0027s usually a blank line above the Change-Id footer. It\u0027d help with readability.",
+      "revId": "4a6c5ab3b86eb4d97e30a93dba20c55976db647e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
