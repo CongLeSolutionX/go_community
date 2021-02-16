@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7d63b3b_c5dc005c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-16T13:31:46Z",
+      "side": 1,
+      "message": "LGTM. ",
+      "revId": "3d966a286a312db1119ac05829686593117c47d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc582e67_cc330973",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-16T13:31:46Z",
+      "side": 1,
+      "message": "It seems odd that on this path we set virtualAddress but not virtualSize -- but if this is what works, that\u0027s fine with me.",
+      "revId": "3d966a286a312db1119ac05829686593117c47d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
