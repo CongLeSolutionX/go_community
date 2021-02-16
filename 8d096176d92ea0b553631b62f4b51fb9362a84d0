@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2509a024_49f3b499",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-16T22:17:12Z",
+      "side": 1,
+      "message": "I can wait for the build dashboard on the dev.regabi branch to finish. It should be green there, and that should be enough.",
+      "parentUuid": "5af38087_4d4f0bee",
+      "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "326c15d0_8b6ac20c",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-02-16T22:10:32Z",
       "side": 1,
       "message": "is this intentional? (I know nothing about merges like this)",
+      "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7771822_ca8b2705",
+        "filename": "codereview.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-16T22:17:12Z",
+      "side": 1,
+      "message": "Where is that come from? I didn\u0027t touch that file.\n\nMaybe I should just delete that file?",
+      "parentUuid": "326c15d0_8b6ac20c",
       "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
