@@ -157,6 +157,24 @@
       "parentUuid": "2d72f24e_9ed4cf28",
       "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41f5d0c7_2ed6884d",
+        "filename": "codereview.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-16T22:22:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b567ec06_27b870e5",
+      "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
