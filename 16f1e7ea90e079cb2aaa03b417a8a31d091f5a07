@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "084f154b_09e10617",
+        "filename": "src/cmd/go/testdata/script/mod_get_downup_indirect.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-02-16T20:33:02Z",
+      "side": 1,
+      "message": "This shows a dependency from a to c (right?), but I don\u0027t see one in the module below. Am I misinterpreting it?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "16f1e7ea90e079cb2aaa03b417a8a31d091f5a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e44251dc_feea0ab6",
+        "filename": "src/cmd/go/testdata/script/mod_get_downup_indirect.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-02-16T20:33:02Z",
+      "side": 1,
+      "message": "should we say that that means that we won\u0027t select b or c?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 79
+      },
+      "revId": "16f1e7ea90e079cb2aaa03b417a8a31d091f5a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
