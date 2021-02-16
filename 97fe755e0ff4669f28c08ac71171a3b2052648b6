@@ -16,6 +16,24 @@
       "message": "Thanks for this CL. What compiler do I need to install to test this on windows/arm64? \n",
       "revId": "97fe755e0ff4669f28c08ac71171a3b2052648b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b121b863_cd1e2584",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-16T01:47:57Z",
+      "side": 1,
+      "message": "https://github.com/mstorsjo/llvm-mingw/releases/tag/20201020\n\nEach one of those zips contains compilers for all 4 archs -- very convenient. Given that these are actively maintained, I wonder if we should suggest them on the Go document.\n\nNote that you need the preceding patches in this series for cgo to work with LLD. My testing of exe, pie, and c-shared for amd64 and 386 has thus far been positive.\n\nThis commit is incomplete/broken though. But it\u0027s at least a starting point if you\u0027d like to give arm/arm64 support a stab.",
+      "parentUuid": "897961e6_47b750e5",
+      "revId": "97fe755e0ff4669f28c08ac71171a3b2052648b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
