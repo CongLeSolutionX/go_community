@@ -33,6 +33,24 @@
       "message": "Submitting as per the general sentiment of the CL. Thanks Wei for the report and for the fix, and thanks everyone for the reviews, and for the patience.",
       "revId": "355b84fdcf890f43f9dd30c08631e6694c3bf403",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bba2a541_6c76e575",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27462
+      },
+      "writtenOn": "2021-02-16T11:04:45Z",
+      "side": 1,
+      "message": "Thank you all and for the patience!",
+      "parentUuid": "2cae814f_f1d7aeeb",
+      "revId": "355b84fdcf890f43f9dd30c08631e6694c3bf403",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
