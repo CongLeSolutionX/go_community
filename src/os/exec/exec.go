@@ -33,6 +33,7 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 )
 
 // Error is returned by LookPath when it fails to classify a file as an
@@ -305,14 +306,73 @@ func (c *Cmd) writerDescriptor(w io.Writer) (f *os.File, err error) {
 		return
 	}
 
+	if c.waitDone == nil {
+		c.waitDone = make(chan struct{})
+	}
+	cr := waiterReader{pr, c.waitDone}
 	c.closeAfterStart = append(c.closeAfterStart, pw)
 	c.closeAfterWait = append(c.closeAfterWait, pr)
 	c.goroutine = append(c.goroutine, func() error {
-		_, err := io.Copy(w, pr)
-		pr.Close() // in case io.Copy stopped due to write error
+		_, err := io.Copy(w, cr)
+		cr.Close() // in case io.Copy stopped due to write error
 		return err
 	})
 	return pw, nil
+}
+
+// A waiterReader reads from r until EOF or ch is closed.
+// The r field is always a pipe created by os.Pipe.
+type waiterReader struct {
+	r  *os.File
+	ch chan struct{}
+}
+
+func (wr waiterReader) Read(buf []byte) (int, error) {
+	// In the normal case the pipe, wr.r, will EOF when the child exits.
+	// However, if the child starts a grandchild, and passes the
+	// descriptor down, and the child exits before the grandchild,
+	// then the grandchild will hold the pipe open. In that case
+	// we don't want to wait for the grandchild. We use a timeout
+	// on the read to avoid waiting too long.
+	// See issue #23019 for background.
+	const timeout = 100 * time.Millisecond
+
+	var (
+		nr  int
+		err error
+	)
+	for {
+		// Ignore errors on SetReadDeadline. If we can't set a
+		// deadline on a pipe, we just have to wait.
+		wr.r.SetReadDeadline(time.Now().Add(timeout))
+
+		nr, err = wr.r.Read(buf)
+
+		if err != nil && errors.Is(err, os.ErrDeadlineExceeded) {
+			select {
+			case <-wr.ch:
+				// The child has exited and the read timed out.
+				// Treat this as EOF.
+				return nr, io.EOF
+			default:
+				// The child is still running.
+				if nr == 0 {
+					// Do another read.
+					continue
+				}
+				// Return the data we got, with no error.
+				err = nil
+			}
+		}
+
+		break
+	}
+
+	return nr, err
+}
+
+func (wr waiterReader) Close() error {
+	return wr.r.Close()
 }
 
 func (c *Cmd) closeDescriptors(closers []io.Closer) {
@@ -444,7 +504,9 @@ func (c *Cmd) Start() error {
 	}
 
 	if c.ctx != nil {
-		c.waitDone = make(chan struct{})
+		if c.waitDone == nil {
+			c.waitDone = make(chan struct{})
+		}
 		go func() {
 			select {
 			case <-c.ctx.Done():
