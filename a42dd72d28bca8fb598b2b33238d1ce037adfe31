@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f88104f_e1b0acb3",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2021-02-16T22:56:43Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 297,
+        "startChar": 52,
+        "endLine": 297,
+        "endChar": 54
+      },
+      "revId": "a42dd72d28bca8fb598b2b33238d1ce037adfe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba8b3703_489d14c5",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2021-02-16T22:56:43Z",
+      "side": 1,
+      "message": "use backticks: `gopls`",
+      "range": {
+        "startLine": 298,
+        "startChar": 5,
+        "endLine": 298,
+        "endChar": 10
+      },
+      "revId": "a42dd72d28bca8fb598b2b33238d1ce037adfe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8565b6ef_e72979f5",
+        "filename": "doc/go1.16.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2021-02-16T22:56:43Z",
+      "side": 1,
+      "message": "extra space?",
+      "range": {
+        "startLine": 301,
+        "startChar": 35,
+        "endLine": 301,
+        "endChar": 36
+      },
+      "revId": "a42dd72d28bca8fb598b2b33238d1ce037adfe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e14dc725_b17f607e",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2021-02-16T22:56:43Z",
+      "side": 1,
+      "message": "extra space",
+      "range": {
+        "startLine": 179,
+        "startChar": 26,
+        "endLine": 179,
+        "endChar": 27
+      },
+      "revId": "a42dd72d28bca8fb598b2b33238d1ce037adfe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fbcfa6d_328c5a62",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2021-02-16T22:56:43Z",
+      "side": 1,
+      "message": "maybe put this part first so it\u0027s clear that this isn\u0027t referring to just cgo files?",
+      "range": {
+        "startLine": 180,
+        "startChar": 24,
+        "endLine": 181,
+        "endChar": 49
+      },
+      "revId": "a42dd72d28bca8fb598b2b33238d1ce037adfe31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
