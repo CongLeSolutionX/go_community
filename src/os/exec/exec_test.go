@@ -915,6 +915,16 @@ func TestHelperProcess(*testing.T) {
 	case "sleep":
 		time.Sleep(3 * time.Second)
 		os.Exit(0)
+	case "startgrandchild":
+		cmd := exec.Command(os.Args[0], "-test.run=TestHelperProcess", "--", "sleep")
+		cmd.Stdin = os.Stdin
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Start(); err != nil {
+			fmt.Fprintf(os.Stderr, "Start: %v\n", err)
+			os.Exit(1)
+		}
+		os.Exit(0)
 	default:
 		fmt.Fprintf(os.Stderr, "Unknown command %q\n", cmd)
 		os.Exit(2)
@@ -1172,5 +1182,37 @@ func TestChildCriticalEnv(t *testing.T) {
 	}
 	if strings.TrimSpace(string(out)) == "" {
 		t.Error("no SYSTEMROOT found")
+	}
+}
+
+// Test that if we start a child process with stdout going to
+// something that requires us to create a pipe, and that process
+// starts a grandchild process, and the child process exits, that we
+// don't wait for the grandchild process to exit.
+func TestChildExits(t *testing.T) {
+	if os.Getenv("GO_TEST_TIMEOUT_SCALE") != "" {
+		// Skip this test on slow systems.
+		t.Skipf("skipping because GO_TEST_TIMEOUT_SCALE is set")
+	}
+
+	cmd := helperCommand(t, "startgrandchild")
+	var buf bytes.Buffer
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = &buf
+	cmd.Stderr = &buf
+	now := time.Now()
+	if err := cmd.Run(); err != nil {
+		t.Error(err)
+	}
+	if buf.Len() > 0 {
+		t.Errorf("%s", buf.Bytes())
+	}
+
+	// The child will exit as soon as it has started the grandchild.
+	// The grandchild will sleep for 3 seconds. Run should only
+	// take as long as it takes for the child to exit; it should
+	// not wait for the grandchild to exit. We give it 2.5 seconds.
+	if since := time.Since(now); since > 2500*time.Millisecond {
+		t.Errorf("child took too long: %v", since)
 	}
 }
