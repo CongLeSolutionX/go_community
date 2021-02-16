@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2f1303b_96944073",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2021-02-16T22:37:44Z",
+      "side": 1,
+      "message": "My first version had the effect of enabling external linking whenever CGO_CFLAGS was suspicious even when cgo wasn\u0027t being used, which wasn\u0027t what I intended. Trying again...",
+      "revId": "9842b1f35452eaf8b2ca7252905bc6501a956202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
