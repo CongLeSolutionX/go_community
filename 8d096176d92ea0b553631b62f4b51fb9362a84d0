@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a87c6a03_a3862be8",
+        "filename": "/MERGE_LIST",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-16T22:10:32Z",
+      "side": 1,
+      "message": "gah, sorry :(",
+      "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "56e918c8_92f6fdf3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +31,40 @@
       "writtenOn": "2021-02-16T22:09:20Z",
       "side": 1,
       "message": "Nice work everyone!",
+      "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5af38087_4d4f0bee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-16T22:10:32Z",
+      "side": 1,
+      "message": "might be worth running the regabi slowbot (but probably not necessary, since you just merged master into dev.regabi)",
+      "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "326c15d0_8b6ac20c",
+        "filename": "codereview.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-16T22:10:32Z",
+      "side": 1,
+      "message": "is this intentional? (I know nothing about merges like this)",
       "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
