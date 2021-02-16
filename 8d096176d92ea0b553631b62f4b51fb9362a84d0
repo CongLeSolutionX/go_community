@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "776c443e_8c1b3d63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-16T22:20:51Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "2509a024_49f3b499",
+      "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "326c15d0_8b6ac20c",
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "Okay, that is from CL https://go-review.googlesource.com/c/go/+/279524 . Maybe I do want to delete it.",
       "parentUuid": "f7771822_ca8b2705",
+      "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b567ec06_27b870e5",
+        "filename": "codereview.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-02-16T22:20:51Z",
+      "side": 1,
+      "message": "oh, huh. yeah maybe? it seems like that might confuse tooling on main.",
+      "parentUuid": "2d72f24e_9ed4cf28",
       "revId": "8d096176d92ea0b553631b62f4b51fb9362a84d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
