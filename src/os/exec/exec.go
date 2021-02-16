@@ -33,6 +33,7 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 )
 
 // Error is returned by LookPath when it fails to classify a file as an
@@ -139,6 +140,7 @@ type Cmd struct {
 	childFiles      []*os.File
 	closeAfterStart []io.Closer
 	closeAfterWait  []io.Closer
+	wakeAfterWait   []wakeReader
 	goroutine       []func() error
 	errch           chan error // one send per goroutine
 	waitDone        chan struct{}
@@ -305,14 +307,72 @@ func (c *Cmd) writerDescriptor(w io.Writer) (f *os.File, err error) {
 		return
 	}
 
+	if c.waitDone == nil {
+		c.waitDone = make(chan struct{})
+	}
 	c.closeAfterStart = append(c.closeAfterStart, pw)
 	c.closeAfterWait = append(c.closeAfterWait, pr)
+	wr := wakeReader{pr, c.waitDone}
+	c.wakeAfterWait = append(c.wakeAfterWait, wr)
 	c.goroutine = append(c.goroutine, func() error {
-		_, err := io.Copy(w, pr)
-		pr.Close() // in case io.Copy stopped due to write error
+		_, err := io.Copy(w, wr)
+		wr.Close() // in case io.Copy stopped due to write error
 		return err
 	})
 	return pw, nil
+}
+
+// A wakeReader reads from r until EOF or it is woken via the Wake method.
+// The r field is always a pipe created by os.Pipe. Being woken is treated
+// as EOF on r.
+//
+// This permits the current process to stop reading from a stdout/stderr
+// descriptor after the child exits. In the normal case when the child
+// exits the stdout/stderr pipe will be closed. However, if the child
+// starts a grandchild, and passes the descriptor down, and the child
+// exits before the grandchild, then the grandchild will hold the pipe open.
+// In that case we don't want to wait for the grandchild.
+// The (*Cmd).Wait method will wake a wakeReader when the child is done.
+//
+// The methods on this type are value methods, to save an allocation.
+type wakeReader struct {
+	r  *os.File
+	ch chan struct{}
+}
+
+// Read implements io.Reader.
+func (wr wakeReader) Read(buf []byte) (int, error) {
+	nr, err := wr.r.Read(buf)
+	if err != nil && errors.Is(err, os.ErrDeadlineExceeded) {
+		select {
+		case <-wr.ch:
+			// The child has exited and we have been woken.
+			// Treat this as EOF.
+			err = io.EOF
+		default:
+			// The child has not exited, this is (somehow)
+			// a real deadline error.
+		}
+	}
+	return nr, err
+}
+
+// Close implements io.Closer.
+func (wr wakeReader) Close() error {
+	return wr.r.Close()
+}
+
+// wake wakes up the Read method by setting a deadline.
+// In the normal case the child will exit, the pipe will close, and
+// we will never hit the deadline. If we do hit the deadline, the Read
+// method will turn that into an io.EOF.
+// We don't set the deadline in the past because that may cause the Read
+// to fail with a deadline error before the kernel actually delivers the
+// final bytes written to the pipe.
+func (wr wakeReader) wake() {
+	// Ignore errors. If we can't set a deadline on a pipe,
+	// we'll just have to wait for the grandchild.
+	wr.r.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 }
 
 func (c *Cmd) closeDescriptors(closers []io.Closer) {
@@ -444,7 +504,9 @@ func (c *Cmd) Start() error {
 	}
 
 	if c.ctx != nil {
-		c.waitDone = make(chan struct{})
+		if c.waitDone == nil {
+			c.waitDone = make(chan struct{})
+		}
 		go func() {
 			select {
 			case <-c.ctx.Done():
@@ -509,6 +571,10 @@ func (c *Cmd) Wait() error {
 		close(c.waitDone)
 	}
 	c.ProcessState = state
+
+	for _, wr := range c.wakeAfterWait {
+		wr.wake()
+	}
 
 	var copyError error
 	for range c.goroutine {
