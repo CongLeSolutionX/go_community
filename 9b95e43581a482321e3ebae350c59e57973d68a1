@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e032f5a9_1908ad01",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-16T12:07:16Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "fec839ca_73a6c47c",
+      "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50e1fdbc_63afe582",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-15T20:17:21Z",
       "side": 1,
       "message": "This still converts to string unnecessarily.  You want something like\n\nvar wholeLine []byte\nfor {\n    ...\n    wholeLine \u003d append(wholeLine, line)",
+      "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80a7eb6_b58a5857",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-16T12:07:16Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "50e1fdbc_63afe582",
       "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "540cf28a_da67a3b6",
+        "filename": "src/os/user/lookup_unix_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-16T12:07:16Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "9c8cab84_1d253f00",
+      "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16314b52_e3ffd85e",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-02-15T20:17:21Z",
       "side": 1,
       "message": "Doing string addition like this is quadratic.  It doesn\u0027t much matter in a test, but let\u0027s still model good behavior by using a strings.Builder.",
+      "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f8f1aa4_2a2a89d1",
+        "filename": "src/os/user/lookup_unix_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-16T12:07:16Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "16314b52_e3ffd85e",
       "revId": "9b95e43581a482321e3ebae350c59e57973d68a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
