@@ -16,6 +16,41 @@
       "message": "LGTM. \n\nDo we also need to change IsRuntimePackagePath in dist/build.go? Maybe not, since this only impacts trampoline stuff?",
       "revId": "2e273a4c11314efa4d4acedd0a763780212dbc4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fffc66af_e66ee9b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-16T18:16:36Z",
+      "side": 1,
+      "message": "IsRuntimePackagePath currently only controls the assembly macro. If we have assembly in internal/abi we\u0027ll need that. (But probably not.)",
+      "parentUuid": "915eafa6_b5d2b39d",
+      "revId": "2e273a4c11314efa4d4acedd0a763780212dbc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbfcb9bf_f0bc56f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-16T18:16:36Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "2e273a4c11314efa4d4acedd0a763780212dbc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
