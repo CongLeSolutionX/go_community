@@ -805,7 +805,6 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 
 	s := mem
 	if storeRc.hasRegs() {
-		// TODO(register args)
 		storeRc.addArg(source)
 	} else {
 		dst := x.offsetFrom(storeRc.storeDest, offset, types.NewPtr(t))
@@ -820,7 +819,7 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 // rewriteArgs removes all the Args from a call and converts the call args into appropriate
 // stores (or later, register movement).  Extra args for interface and closure calls are ignored,
 // but removed.
-func (x *expandState) rewriteArgs(v *Value, firstArg int) *Value {
+func (x *expandState) rewriteArgs(v *Value, firstArg int) (*Value, []*Value) {
 	// Thread the stores on the memory arg
 	aux := v.Aux.(*AuxCall)
 	pos := v.Pos.WithNotStmt()
@@ -862,11 +861,10 @@ func (x *expandState) rewriteArgs(v *Value, firstArg int) *Value {
 			}
 			rc.init(aRegs, aux.abiInfo, result, x.sp)
 			mem = x.storeArgOrLoad(pos, v.Block, a, mem, aType, aOffset, 0, rc)
-			// TODO append mem to Result, update type
 		}
 	}
 	v.resetArgs()
-	return mem
+	return mem, allResults
 }
 
 // expandCalls converts LE (Late Expansion) calls that act like they receive value args into a lower-level form
@@ -920,17 +918,30 @@ func expandCalls(f *Func) {
 		for _, v := range b.Values {
 			switch v.Op {
 			case OpStaticLECall:
-				mem := x.rewriteArgs(v, 0)
-				v.SetArgs1(mem)
+				mem, results := x.rewriteArgs(v, 0)
+				v.AddArgs(results...)
+				v.AddArg(mem)
 			case OpClosureLECall:
 				code := v.Args[0]
 				context := v.Args[1]
-				mem := x.rewriteArgs(v, 2)
-				v.SetArgs3(code, context, mem)
+				mem, results := x.rewriteArgs(v, 2)
+				if len(results) == 0 {
+					v.SetArgs3(code, context, mem)
+				} else {
+					v.SetArgs2(code, context)
+					v.AddArgs(results...)
+					v.AddArg(mem)
+				}
 			case OpInterLECall:
 				code := v.Args[0]
-				mem := x.rewriteArgs(v, 1)
-				v.SetArgs2(code, mem)
+				mem, results := x.rewriteArgs(v, 1)
+				if len(results) == 0 {
+					v.SetArgs2(code, mem)
+				} else {
+					v.SetArgs1(code)
+					v.AddArgs(results...)
+					v.AddArg(mem)
+				}
 			}
 		}
 		if isBlockMultiValueExit(b) {
@@ -977,11 +988,10 @@ func expandCalls(f *Func) {
 						result = &allResults
 					}
 					rc.init(aRegs, aux.abiInfo, result, auxBase)
-					// TODO REGISTER
 					mem = x.storeArgOrLoad(v.Pos, b, a, mem, aux.TypeOfResult(i), auxOffset, 0, rc)
-					// TODO append mem to Result, update type
 				}
 			}
+			// TODO REGISTER -- keep the Result for block control, splice in contents of AllResults
 			b.SetControl(mem)
 			v.reset(OpInvalid) // otherwise it can have a mem operand which will fail check(), even though it is dead.
 		}
