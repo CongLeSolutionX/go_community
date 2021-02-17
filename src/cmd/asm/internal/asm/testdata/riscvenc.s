@@ -8,6 +8,52 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 start:
 	// Unprivileged ISA
 
+	// 2.5: Control Transfer Instructions
+
+	// Note: PC-relative jump and branch instructions should be kept
+	// close to the start of the test function so that adding and
+	// removing unrelated instructions does not affect their encoding.
+	//
+	// Indirect jumps (first, just to avoid a PC-relative instruction
+	// jumping to itself).
+	JALR	X6, (X5)				// 67830200
+	JALR	X6, 4(X5)				// 67834200
+	JMP	(X5)					// 67800200
+	JMP	4(X5)					// 67804200
+
+	// PC-relative jumps and branches (including pseudo branches).
+	//
+	// These jumps and branches get printed as a jump or branch
+	// to 2 because they transfer control to the second instruction
+	// in the function (the first instruction being an invisible
+	// stack pointer adjustment).
+	JAL	X5, start	// JAL	X5, 2		// eff21fff
+	JMP	start		// JMP	2		// 6ff0dffe
+	BEQ	X5, X6, start	// BEQ	X5, X6, 2	// e38462fe
+	BNE	X5, X6, start	// BNE	X5, X6, 2	// e39262fe
+	BLT	X5, X6, start	// BLT	X5, X6, 2	// e3c062fe
+	BLTU	X5, X6, start	// BLTU	X5, X6, 2	// e3ee62fc
+	BGE	X5, X6, start	// BGE	X5, X6, 2	// e3dc62fc
+	BGEU	X5, X6, start	// BGEU	X5, X6, 2	// e3fa62fc
+	BEQZ	X5, start	// BEQZ	X5, 2		// e38802fc
+	BGEZ	X5, start	// BGEZ	X5, 2		// e3d602fc
+	BGT	X5, X6, start	// BGT	X5, X6, 2	// e34453fc
+	BGTU	X5, X6, start	// BGTU	X5, X6, 2	// e36253fc
+	BGTZ	X5, start	// BGTZ	X5, 2		// e34050fc
+	BLE	X5, X6, start	// BLE	X5, X6, 2	// e35e53fa
+	BLEU	X5, X6, start	// BLEU	X5, X6, 2	// e37c53fa
+	BLEZ	X5, start	// BLEZ	X5, 2		// e35a50fa
+	BLTZ	X5, start	// BLTZ	X5, 2		// e3c802fa
+	BNEZ	X5, start	// BNEZ	X5, 2		// e39602fa
+
+	// JMP and CALL to symbol are encoded as:
+	//	AUIPC $0, TMP
+	//	JALR $0, TMP
+	// with a R_RISCV_PCREL_ITYPE relocation - the linker resolves the
+	// real address and updates the immediates for both instructions.
+	CALL	asmtest(SB)				// 970f0000
+	JMP	asmtest(SB)				// 970f0000
+
 	// 2.4: Integer Computational Instructions
 
 	ADDI	$2047, X5, X6				// 1383f27f
@@ -84,22 +130,6 @@ start:
 	SRA	X5, X6					// 33535340
 	SRA	$1, X5, X6				// 13d31240
 	SRA	$1, X5					// 93d21240
-
-	// 2.5: Control Transfer Instructions
-
-	// These jumps and branches get printed as a jump or branch
-	// to 2 because they transfer control to the second instruction
-	// in the function (the first instruction being an invisible
-	// stack pointer adjustment).
-	JAL	X5, start	// JAL	X5, 2		// eff25ff0
-	JALR	X6, (X5)				// 67830200
-	JALR	X6, 4(X5)				// 67834200
-	BEQ	X5, X6, start	// BEQ	X5, X6, 2	// e38c62ee
-	BNE	X5, X6, start	// BNE	X5, X6, 2	// e39a62ee
-	BLT	X5, X6, start	// BLT	X5, X6, 2	// e3c862ee
-	BLTU	X5, X6, start	// BLTU	X5, X6, 2	// e3e662ee
-	BGE	X5, X6, start	// BGE	X5, X6, 2	// e3d462ee
-	BGEU	X5, X6, start	// BGEU	X5, X6, 2	// e3f262ee
 
 	// 2.6: Load and Store Instructions
 	LW	(X5), X6				// 03a30200
@@ -321,33 +351,6 @@ start:
 	NEG	X5, X6					// 33035040
 	NEGW	X5					// bb025040
 	NEGW	X5, X6					// 3b035040
-
-	// These jumps can get printed as jumps to 2 because they go to the
-	// second instruction in the function (the first instruction is an
-	// invisible stack pointer adjustment).
-	JMP	start		// JMP	2		// 6ff09fc2
-	JMP	(X5)					// 67800200
-	JMP	4(X5)					// 67804200
-
-	// JMP and CALL to symbol are encoded as:
-	//	AUIPC $0, TMP
-	//	JALR $0, TMP
-	// with a R_RISCV_PCREL_ITYPE relocation - the linker resolves the
-	// real address and updates the immediates for both instructions.
-	CALL	asmtest(SB)				// 970f0000
-	JMP	asmtest(SB)				// 970f0000
-
-	// Branch pseudo-instructions
-	BEQZ	X5, start	// BEQZ	X5, 2		// e38602c0
-	BGEZ	X5, start	// BGEZ	X5, 2		// e3d402c0
-	BGT	X5, X6, start	// BGT	X5, X6, 2	// e34253c0
-	BGTU	X5, X6, start	// BGTU	X5, X6, 2	// e36053c0
-	BGTZ	X5, start	// BGTZ	X5, 2		// e34e50be
-	BLE	X5, X6, start	// BLE	X5, X6, 2	// e35c53be
-	BLEU	X5, X6, start	// BLEU	X5, X6, 2	// e37a53be
-	BLEZ	X5, start	// BLEZ	X5, 2		// e35850be
-	BLTZ	X5, start	// BLTZ	X5, 2		// e3c602be
-	BNEZ	X5, start	// BNEZ	X5, 2		// e39402be
 
 	// Set pseudo-instructions
 	SEQZ	X15, X15				// 93b71700
