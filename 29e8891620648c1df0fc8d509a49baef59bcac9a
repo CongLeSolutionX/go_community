@@ -16,6 +16,24 @@
       "message": "I should also add some integration tests (in this CL and the one below it) to check for a user-visible impact on `go get` when downgrading one dependency causes another dependency to be downgraded and the resulting version adds (or upgrades) a third (transitive or explicit) dependency.",
       "revId": "29e8891620648c1df0fc8d509a49baef59bcac9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1249c004_257a58f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-17T16:18:28Z",
+      "side": 1,
+      "message": "Done (in CL 288535)",
+      "parentUuid": "7d65e025_eae1a15b",
+      "revId": "29e8891620648c1df0fc8d509a49baef59bcac9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
