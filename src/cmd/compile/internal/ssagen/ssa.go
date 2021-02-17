@@ -532,16 +532,28 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 
 	// Populate SSAable arguments.
 	for _, n := range fn.Dcl {
-		if n.Class == ir.PPARAM && s.canSSA(n) {
-			var v *ssa.Value
-			if n.Sym().Name == ".fp" {
-				// Race-detector's get-caller-pc incantation is NOT a real Arg.
-				v = s.newValue0(ssa.OpGetCallerPC, n.Type())
-			} else {
-				v = s.newValue0A(ssa.OpArg, n.Type(), n)
+		if n.Class == ir.PPARAM {
+			if s.canSSA(n) {
+				var v *ssa.Value
+				if n.Sym().Name == ".fp" {
+					// Race-detector's get-caller-pc incantation is NOT a real Arg.
+					v = s.newValue0(ssa.OpGetCallerPC, n.Type())
+				} else {
+					v = s.newValue0A(ssa.OpArg, n.Type(), n)
+				}
+				s.vars[n] = v
+				s.addNamedValue(n, v) // This helps with debugging information, not needed for compilation itself.
+			} else if !s.canSSAName(n) {
+				paramAssignment := ssa.ParamAssignmentForArgName(s.f, n)
+				if len(paramAssignment.Registers) > 0 {
+					if !TypeOK(n.Type()) {
+						// TODO register args -- if v is not an SSA-able type, must decompose, here.
+						panic(fmt.Errorf("Arg in registers is too big to be SSA'd, need to implement decomposition, type=%v, n=%v", n.Type(), n))
+					}
+					v := s.newValue0A(ssa.OpArg, n.Type(), n)
+					s.store(n.Type(), s.decladdrs[n], v)
+				}
 			}
-			s.vars[n] = v
-			s.addNamedValue(n, v) // This helps with debugging information, not needed for compilation itself.
 		}
 	}
 
