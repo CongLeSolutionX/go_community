@@ -1366,7 +1366,102 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 
 		if x.mode == value {
 			if sig := asSignature(x.typ); sig != nil && len(sig.tparams) > 0 {
-				return check.call(x, nil, e)
+				// x is an instance of a generic function type
+				// return check.call(x, nil, e)
+				// If the first argument is a type, assume we have explicit type arguments.
+
+				// check number of type arguments
+				var list []ast.Expr
+				if le, ok := e.Index.(*ast.ListExpr); ok {
+					list = le.List
+				} else {
+					list = []ast.Expr{e.Index}
+				}
+				args, ok := check.exprOrTypeList(list)
+				if !ok {
+					x.mode = invalid
+					x.expr = e
+					return expression
+				}
+				if len(args) > 0 && args[0].mode != typexpr {
+					check.errorf(args[0], _NotAType, "%s is not a type", args[0])
+					ok = false
+				}
+
+				n := len(args)
+				if n > len(sig.tparams) {
+					check.errorf(args[n-1], _Todo, "got %d type arguments but want %d", n, len(sig.tparams))
+					x.mode = invalid
+					x.expr = e
+					return expression
+				}
+
+				// collect types
+				targs := make([]Type, n)
+				// TODO(rFindley) use a positioner here? instantiate would need to be
+				//                updated accordingly.
+				poslist := make([]token.Pos, n)
+				for i, a := range args {
+					if a.mode != typexpr {
+						// error was reported earlier
+						x.mode = invalid
+						x.expr = e
+						return expression
+					}
+					targs[i] = a.typ
+					poslist[i] = a.Pos()
+				}
+
+				// if we don't have enough type arguments, use constraint type inference
+				var inferred bool
+				if n < len(sig.tparams) {
+					var failed int
+					targs, failed = check.inferB(sig.tparams, targs)
+					if targs == nil {
+						// error was already reported
+						x.mode = invalid
+						x.expr = e
+						return expression
+					}
+					if failed >= 0 {
+						// at least one type argument couldn't be inferred
+						assert(targs[failed] == nil)
+						tpar := sig.tparams[failed]
+						ppos := check.fset.Position(tpar.pos).String()
+						check.errorf(inNode(e, e.Rbrack), 0, "cannot infer %s (%s) (%s)", tpar.name, ppos, targs)
+						x.mode = invalid
+						x.expr = e
+						return expression
+					}
+					// all type arguments were inferred sucessfully
+					if debug {
+						for _, targ := range targs {
+							assert(targ != nil)
+						}
+					}
+					n = len(targs)
+					inferred = true
+				}
+				assert(n == len(sig.tparams))
+
+				// instantiate function signature
+				for i, typ := range targs {
+					// some positions may be missing if types are inferred
+					var pos token.Pos
+					if i < len(poslist) {
+						pos = poslist[i]
+					}
+					check.ordinaryType(atPos(pos), typ)
+				}
+				res := check.instantiate(x.Pos(), sig, targs, poslist).(*Signature)
+				assert(res.tparams == nil) // signature is not generic anymore
+				if inferred {
+					check.recordInferred(e, targs, res)
+				}
+				x.typ = res
+				x.mode = value
+				x.expr = e
+				return expression
 			}
 		}
 
@@ -1646,7 +1741,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		x.typ = T
 
 	case *ast.CallExpr:
-		return check.call(x, e, e)
+		return check.call(x, e)
 
 	case *ast.StarExpr:
 		check.exprOrType(x, e.X)

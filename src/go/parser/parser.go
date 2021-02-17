@@ -754,7 +754,8 @@ func (p *parser) parseArrayFieldOrTypeInstance(x *ast.Ident) (*ast.Ident, ast.Ex
 	}
 
 	// x[P], x[P1, P2], ...
-	return nil, &ast.CallExpr{Fun: x, Lparen: lbrack, Args: args, Rparen: rbrack, Brackets: true}
+	// return nil, &ast.CallExpr{Fun: x, Lparen: lbrack, Args: args, Rparen: rbrack, Brackets: true}
+	return nil, &ast.IndexExpr{X: x, Lbrack: lbrack, Index: &ast.ListExpr{List: args}, Rbrack: rbrack}
 }
 
 func (p *parser) parseFieldDecl(scope *ast.Scope) *ast.Field {
@@ -1153,7 +1154,8 @@ func (p *parser) parseMethodSpec(scope *ast.Scope) *ast.Field {
 					p.exprLev--
 				}
 				rbrack := p.expectClosing(token.RBRACK, "type argument list")
-				typ = &ast.CallExpr{Fun: ident, Lparen: lbrack, Args: list, Rparen: rbrack, Brackets: true}
+				// typ = &ast.CallExpr{Fun: ident, Lparen: lbrack, Args: list, Rparen: rbrack, Brackets: true}
+				typ = &ast.IndexExpr{X: ident, Lbrack: lbrack, Index: &ast.ListExpr{List: list}, Rbrack: rbrack}
 			}
 		case p.tok == token.LPAREN:
 			// ordinary method
@@ -1281,7 +1283,8 @@ func (p *parser) parseTypeInstance(typ ast.Expr) ast.Expr {
 
 	closing := p.expectClosing(token.RBRACK, "type argument list")
 
-	return &ast.CallExpr{Fun: typ, Lparen: opening, Args: list, Rparen: closing, Brackets: true}
+	// return &ast.CallExpr{Fun: typ, Lparen: opening, Args: list, Rparen: closing, Brackets: true}
+	return &ast.IndexExpr{X: typ, Lbrack: opening, Index: &ast.ListExpr{List: list}, Rbrack: closing}
 }
 
 // If the result is an identifier, it is not resolved.
@@ -1557,7 +1560,9 @@ func (p *parser) parseIndexOrSliceOrInstance(x ast.Expr) ast.Expr {
 	}
 
 	// instance expression
-	return &ast.CallExpr{Fun: x, Lparen: lbrack, Args: args, Rparen: rbrack, Brackets: true}
+	// return &ast.CallExpr{Fun: x, Lparen: lbrack, Args: args, Rparen: rbrack, Brackets: true}
+	return &ast.IndexExpr{X: x, Lbrack: lbrack, Index: &ast.ListExpr{List: args}, Rbrack: rbrack}
+	// return &ast.ListExpr(Args:)
 }
 
 func (p *parser) parseCallOrConversion(fun ast.Expr) *ast.CallExpr {
@@ -1773,17 +1778,17 @@ func (p *parser) parsePrimaryExpr(lhs bool) (x ast.Expr) {
 			// type; accept it but complain if we have a complit
 			t := unparen(x)
 			// determine if '{' belongs to a composite literal or a block statement
-			switch t := t.(type) {
+			switch t.(type) {
 			case *ast.BadExpr, *ast.Ident, *ast.SelectorExpr:
 				if p.exprLev < 0 {
 					return
 				}
 				// x is possibly a composite literal type
-			case *ast.CallExpr:
-				if !t.Brackets || p.exprLev < 0 {
-					return
-				}
-				// x is possibly a composite literal type
+			// case *ast.CallExpr:
+			// 	if !t.Brackets || p.exprLev < 0 {
+			// 		return
+			// 	}
+			// x is possibly a composite literal type
 			case *ast.IndexExpr:
 				if p.exprLev < 0 {
 					return
