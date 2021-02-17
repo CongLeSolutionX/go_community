@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "181cee2c_a5835a51",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-17T00:01:15Z",
+      "side": 1,
+      "message": "I _think_ the compiler doesn\u0027t inline a function if it calls getcallerpc/getcallersp. (This doesn\u0027t hurt.)",
+      "revId": "5097ad67ee5293b87bf1cfbcf10df94a902ca72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e463b0aa_a9857018",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-17T00:01:15Z",
+      "side": 1,
+      "message": "mstart ?",
+      "range": {
+        "startLine": 1295,
+        "startChar": 30,
+        "endLine": 1295,
+        "endChar": 37
+      },
+      "revId": "5097ad67ee5293b87bf1cfbcf10df94a902ca72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c907555c_cfcc750e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1299,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-17T00:01:15Z",
+      "side": 1,
+      "message": "(and here)",
+      "range": {
+        "startLine": 1299,
+        "startChar": 12,
+        "endLine": 1299,
+        "endChar": 19
+      },
+      "revId": "5097ad67ee5293b87bf1cfbcf10df94a902ca72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
