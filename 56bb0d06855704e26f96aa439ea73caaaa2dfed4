@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05603205_f6ea005b",
+        "filename": "src/cmd/vendor/golang.org/x/sys/windows/types_windows_arm64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-17T17:01:59Z",
+      "side": 1,
+      "message": "2021?",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "56bb0d06855704e26f96aa439ea73caaaa2dfed4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
