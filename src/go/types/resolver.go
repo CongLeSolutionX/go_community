@@ -491,11 +491,19 @@ L: // unpack receiver type
 	// unpack type parameters, if any
 	switch ptyp := rtyp.(type) {
 	case *ast.IndexExpr:
-		panic("unimplemented")
-	case *ast.CallExpr:
-		rtyp = ptyp.Fun
+		// 	panic("unimplemented")
+		// case *ast.CallExpr:
+		// rtyp = ptyp.Fun
+		rtyp = ptyp.X
+		var list []ast.Expr
+		if le, ok := ptyp.Index.(*ast.ListExpr); ok {
+			list = le.List
+		} else {
+			list = []ast.Expr{ptyp.Index}
+		}
 		if unpackParams {
-			for _, arg := range ptyp.Args {
+			// for _, arg := range ptyp.Args {
+			for _, arg := range list {
 				var par *ast.Ident
 				switch arg := arg.(type) {
 				case *ast.Ident:

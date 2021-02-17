@@ -54,7 +54,7 @@ func modeForSource(src string) parser.Mode {
 	return 0
 }
 
-func mayTypecheck(t *testing.T, path, source string, info *Info) (string, error) {
+func mayTypecheck(t *testing.T, path, source string, info *Info) (*token.FileSet, string, error) {
 	fset := token.NewFileSet()
 	mode := modeForSource(source)
 	f, err := parser.ParseFile(fset, path, source, mode)
@@ -66,7 +66,7 @@ func mayTypecheck(t *testing.T, path, source string, info *Info) (string, error)
 		Importer: importer.Default(),
 	}
 	pkg, err := conf.Check(f.Name.Name, fset, []*ast.File{f}, info)
-	return pkg.Name(), err
+	return fset, pkg.Name(), err
 }
 
 func TestValuesInfo(t *testing.T) {
@@ -325,8 +325,8 @@ func TestTypesInfo(t *testing.T) {
 		{broken + `x5; func _() { var x map[string][...]int; x = map[string][...]int{"": {1,2,3}} }`, `x`, `map[string][-1]int`},
 
 		// parameterized functions
-		{genericPkg + `p0; func f[T any](T); var _ = f(int)`, `f`, `func[T₁ interface{}](T₁)`},
-		{genericPkg + `p1; func f[T any](T); var _ = f(int)`, `f(int)`, `func(int)`},
+		{genericPkg + `p0; func f[T any](T); var _ = f[int]`, `f`, `func[T₁ interface{}](T₁)`},
+		{genericPkg + `p1; func f[T any](T); var _ = f[int]`, `f[int]`, `func(int)`},
 		{genericPkg + `p2; func f[T any](T); func _() { f(42) }`, `f`, `func[T₁ interface{}](T₁)`},
 		{genericPkg + `p3; func f[T any](T); func _() { f(42) }`, `f(42)`, `()`},
 
@@ -348,7 +348,7 @@ func TestTypesInfo(t *testing.T) {
 		var name string
 		if strings.HasPrefix(test.src, broken) {
 			var err error
-			name, err = mayTypecheck(t, "TypesInfo", test.src, &info)
+			_, name, err = mayTypecheck(t, "TypesInfo", test.src, &info)
 			if err == nil {
 				t.Errorf("package %s: expected to fail but passed", name)
 				continue
@@ -450,7 +450,7 @@ func TestInferredInfo(t *testing.T) {
 
 	for _, test := range tests {
 		info := Info{Inferred: make(map[ast.Expr]Inferred)}
-		name, err := mayTypecheck(t, "InferredInfo", test.src, &info)
+		fset, name, err := mayTypecheck(t, "InferredInfo", test.src, &info)
 		if err != nil {
 			t.Errorf("package %s: %v", name, err)
 			continue
@@ -467,7 +467,7 @@ func TestInferredInfo(t *testing.T) {
 			case *ast.IndexExpr:
 				fun = x.X
 			default:
-				panic(fmt.Sprintf("unexpected call expression type %T", call))
+				panic(fmt.Sprintf("unexpected call expression type %v (%T) at %v", call, call, fset.Position(call.Pos())))
 			}
 			if ExprString(fun) == test.fun {
 				targs = inf.Targs

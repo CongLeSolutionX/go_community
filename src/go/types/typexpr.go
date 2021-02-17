@@ -460,14 +460,20 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 		}
 
 	case *ast.IndexExpr:
-		return check.instantiatedType(e.X, []ast.Expr{e.Index}, def)
+		var list []ast.Expr
+		if le, ok := e.Index.(*ast.ListExpr); ok {
+			list = le.List
+		} else {
+			list = []ast.Expr{e.Index}
+		}
+		return check.instantiatedType(e.X, list, def)
 
 	case *ast.CallExpr:
-		if e.Brackets {
-			return check.instantiatedType(e.Fun, e.Args, def)
-		} else {
-			check.errorf(e0, _NotAType, "%s is not a type", e0)
-		}
+		// if e.Brackets {
+		// 	return check.instantiatedType(e.Fun, e.Args, def)
+		// } else {
+		check.errorf(e0, _NotAType, "%s is not a type", e0)
+		// }
 
 	case *ast.ParenExpr:
 		// Generic types must be instantiated before they can be used in any form.
@@ -1137,10 +1143,10 @@ func embeddedFieldIdent(e ast.Expr) *ast.Ident {
 		return e.Sel
 	case *ast.IndexExpr:
 		return embeddedFieldIdent(e.X)
-	case *ast.CallExpr:
-		if e.Brackets {
-			return embeddedFieldIdent(e.Fun)
-		}
+		// case *ast.CallExpr:
+		// if e.Brackets {
+		// 	return embeddedFieldIdent(e.Fun)
+		// }
 	}
 	return nil // invalid embedded field
 }
