@@ -1315,7 +1315,12 @@ const (
 	//  }
 	_InvalidGo
 
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 	// _Todo is a placeholder for error codes that have not been decided.
 	// TODO(rFindley) remove this error code after deciding on errors for generics code.
 	_Todo
+=======
+	// _BadDecl occurs when a declaration has invalid syntax.
+	_BadDecl
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 )
