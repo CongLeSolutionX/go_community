@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46aef5eb_e02774e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-17T00:11:30Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "4132132b55d46fc56831b1a4494924563fda3e77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e980a4_d7c2f255",
+        "filename": "src/cmd/internal/goobj/funcinfo.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-17T00:11:30Z",
+      "side": 1,
+      "message": "Should be two readUint8 ?\n\n(This function might be not used anywhere. I probably should delete it.)",
+      "revId": "4132132b55d46fc56831b1a4494924563fda3e77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
