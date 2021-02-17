@@ -1507,6 +1507,7 @@ var (
 		"mips64":  {"GOMIPS64", "hardfloat", "softfloat"},
 		"ppc64":   {"GOPPC64", "power8", "power9"},
 		"ppc64le": {"GOPPC64", "power8", "power9"},
+		"riscv64": {},
 		"s390x":   {},
 		"wasm":    {},
 	}

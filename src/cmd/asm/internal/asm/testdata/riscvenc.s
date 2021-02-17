@@ -232,6 +232,10 @@ start:
 	FMINS	F1, F0, F2				// 53011028
 	FMAXS	F1, F0, F2				// 53111028
 	FSQRTS	F0, F1					// d3000058
+	FMADDS	F2, F1, F3, F4				// 43822018
+	FMSUBS	F2, F1, F3, F4				// 47822018
+	FNMSUBS	F2, F1, F3, F4				// 4b822018
+	FNMADDS	F2, F1, F3, F4				// 4f822018
 
 	// 11.7: Single-Precision Floating-Point Conversion and Move Instructions
 	FCVTWS	F0, X5					// d31200c0
@@ -272,6 +276,10 @@ start:
 	FMIND	F1, F0, F2				// 5301102a
 	FMAXD	F1, F0, F2				// 5311102a
 	FSQRTD	F0, F1					// d300005a
+	FMADDD	F2, F1, F3, F4				// 4382201a
+	FMSUBD	F2, F1, F3, F4				// 4782201a
+	FNMSUBD	F2, F1, F3, F4				// 4b82201a
+	FNMADDD	F2, F1, F3, F4				// 4f82201a
 
 	// 12.5: Double-Precision Floating-Point Conversion and Move Instructions
 	FCVTWD	F0, X5					// d31200c2
