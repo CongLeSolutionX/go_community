@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cc503b0_ce8a9a79",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-17T21:48:44Z",
+      "side": 1,
+      "message": "If you view this diffing Auto Merge -\u003e Patchset 1, \nit still doesn\u0027t quite show the right base \n(maybe Gerrit and Git have different auto merges).\nThese lines come from the \"deleted\" file reflect.go,\nwhich Git properly handled but Gerrit\u0027s auto merge is not.\n\nThe manual changes were s/localpkg/types.LocalPkg/\nand s/myimportpath/base.Ctxt.Pkgpath/ below.\n(Both of those renamings happened in the dev.regabi branch\nduring the freeze.)",
+      "revId": "0f210b75f9d8707f4e8a34ce23b778df33e9b501",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
