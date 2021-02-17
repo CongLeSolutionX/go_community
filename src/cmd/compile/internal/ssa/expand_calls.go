@@ -172,6 +172,7 @@ type expandState struct {
 	namedSelects map[*Value][]namedVal
 	sdom         SparseTree
 	common       map[selKey]*Value
+	commonArgs   map[selKey]*Value
 	offsets      map[offsetKey]*Value
 	memForCall   map[ID]*Value // For a call, need to know the unique selector that gets the mem.
 }
@@ -247,6 +248,16 @@ func (x *expandState) prAssignForArg(v *Value) abi.ABIParamAssignment {
 	panic(fmt.Errorf("Did not match param %v in prInfo %+v", name, fPri.InParams()))
 }
 
+func ParamAssignmentForArgName(f *Func, name *ir.Name) abi.ABIParamAssignment {
+	fPri := f.OwnAux.pri
+	for _, a := range fPri.InParams() {
+		if a.Name == name {
+			return a
+		}
+	}
+	panic(fmt.Errorf("Did not match param %v in prInfo %+v", name, fPri.InParams()))
+}
+
 // Calls that need lowering have some number of inputs, including a memory input,
 // and produce a tuple of (value1, value2, ..., mem) where valueK may or may not be SSA-able.
 
@@ -283,7 +294,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 	case OpArg:
 		if !x.isAlreadyExpandedAggregateType(selector.Type) {
 			if leafType == selector.Type { // OpIData leads us here, sometimes.
-				leaf.copyOf(selector)
+				x.newArgToMemOrRegs(selector, leaf, offset, regOffset, leafType, leaf.Pos)
 			} else {
 				x.f.Fatalf("Unexpected OpArg type, selector=%s, leaf=%s\n", selector.LongString(), leaf.LongString())
 			}
@@ -296,20 +307,8 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 		case OpIData, OpStructSelect, OpArraySelect:
 			leafType = removeTrivialWrapperTypes(leaf.Type)
 		}
-		aux := selector.Aux
-		auxInt := selector.AuxInt + offset
-		if leaf.Block == selector.Block {
-			leaf.reset(OpArg)
-			leaf.Aux = aux
-			leaf.AuxInt = auxInt
-			leaf.Type = leafType
-		} else {
-			w := selector.Block.NewValue0IA(leaf.Pos, OpArg, leafType, auxInt, aux)
-			leaf.copyOf(w)
-			if x.debug {
-				fmt.Printf("\tnew %s\n", w.LongString())
-			}
-		}
+		x.newArgToMemOrRegs(selector, leaf, offset, regOffset, leafType, leaf.Pos)
+
 		for _, s := range x.namedSelects[selector] {
 			locs = append(locs, x.f.Names[s.locIndex])
 		}
@@ -529,7 +528,7 @@ func (x *expandState) decomposeArgOrLoad(pos src.XPos, b *Block, base, source, m
 		elemRO := x.regWidth(elem)
 		for i := int64(0); i < u.NumElem(); i++ {
 			elemOff := i * elem.Size()
-			mem = decomposeOne(x, pos, b, base, source, mem, elem, source.AuxInt+elemOff, offset+elemOff, loadRegOffset, storeRc.next(elem))
+			mem = decomposeOne(x, pos, b, base, source, mem, elem, elemOff, offset+elemOff, loadRegOffset, storeRc.next(elem))
 			loadRegOffset += elemRO
 			pos = pos.WithNotStmt()
 		}
@@ -537,7 +536,7 @@ func (x *expandState) decomposeArgOrLoad(pos src.XPos, b *Block, base, source, m
 	case types.TSTRUCT:
 		for i := 0; i < u.NumFields(); i++ {
 			fld := u.Field(i)
-			mem = decomposeOne(x, pos, b, base, source, mem, fld.Type, source.AuxInt+fld.Offset, offset+fld.Offset, loadRegOffset, storeRc.next(fld.Type))
+			mem = decomposeOne(x, pos, b, base, source, mem, fld.Type, fld.Offset, offset+fld.Offset, loadRegOffset, storeRc.next(fld.Type))
 			loadRegOffset += x.regWidth(fld.Type)
 			pos = pos.WithNotStmt()
 		}
@@ -547,22 +546,22 @@ func (x *expandState) decomposeArgOrLoad(pos src.XPos, b *Block, base, source, m
 			break
 		}
 		tHi, tLo := x.intPairTypes(t.Kind())
-		mem = decomposeOne(x, pos, b, base, source, mem, tHi, source.AuxInt+x.hiOffset, offset+x.hiOffset, loadRegOffset+x.hiRo, storeRc.plus(x.hiRo))
+		mem = decomposeOne(x, pos, b, base, source, mem, tHi, x.hiOffset, offset+x.hiOffset, loadRegOffset+x.hiRo, storeRc.plus(x.hiRo))
 		pos = pos.WithNotStmt()
-		return decomposeOne(x, pos, b, base, source, mem, tLo, source.AuxInt+x.lowOffset, offset+x.lowOffset, loadRegOffset+x.loRo, storeRc.plus(x.loRo))
+		return decomposeOne(x, pos, b, base, source, mem, tLo, x.lowOffset, offset+x.lowOffset, loadRegOffset+x.loRo, storeRc.plus(x.loRo))
 	case types.TINTER:
-		return decomposeTwo(x, pos, b, base, source, mem, x.typs.Uintptr, x.typs.BytePtr, source.AuxInt, offset, loadRegOffset, storeRc)
+		return decomposeTwo(x, pos, b, base, source, mem, x.typs.Uintptr, x.typs.BytePtr, 0, offset, loadRegOffset, storeRc)
 	case types.TSTRING:
-		return decomposeTwo(x, pos, b, base, source, mem, x.typs.BytePtr, x.typs.Int, source.AuxInt, offset, loadRegOffset, storeRc)
+		return decomposeTwo(x, pos, b, base, source, mem, x.typs.BytePtr, x.typs.Int, 0, offset, loadRegOffset, storeRc)
 	case types.TCOMPLEX64:
-		return decomposeTwo(x, pos, b, base, source, mem, x.typs.Float32, x.typs.Float32, source.AuxInt, offset, loadRegOffset, storeRc)
+		return decomposeTwo(x, pos, b, base, source, mem, x.typs.Float32, x.typs.Float32, 0, offset, loadRegOffset, storeRc)
 	case types.TCOMPLEX128:
-		return decomposeTwo(x, pos, b, base, source, mem, x.typs.Float64, x.typs.Float64, source.AuxInt, offset, loadRegOffset, storeRc)
+		return decomposeTwo(x, pos, b, base, source, mem, x.typs.Float64, x.typs.Float64, 0, offset, loadRegOffset, storeRc)
 	case types.TSLICE:
 		//mem = decomposeTwo(x, pos, b, base, source, mem, x.typs.BytePtr, x.typs.Int, source.AuxInt, offset)
 		//return decomposeOne(x, pos, b, base, source, mem, x.typs.Int, source.AuxInt+2*x.ptrSize, offset+2*x.ptrSize)
-		mem = decomposeOne(x, pos, b, base, source, mem, x.typs.BytePtr, source.AuxInt, offset, loadRegOffset, storeRc.next(x.typs.BytePtr))
-		return decomposeTwo(x, pos, b, base, source, mem, x.typs.Int, x.typs.Int, source.AuxInt+x.ptrSize, offset+x.ptrSize, loadRegOffset+RO_slice_len, storeRc)
+		mem = decomposeOne(x, pos, b, base, source, mem, x.typs.BytePtr, 0, offset, loadRegOffset, storeRc.next(x.typs.BytePtr))
+		return decomposeTwo(x, pos, b, base, source, mem, x.typs.Int, x.typs.Int, x.ptrSize, offset+x.ptrSize, loadRegOffset+RO_slice_len, storeRc)
 	}
 	return nil
 }
@@ -571,10 +570,11 @@ func (x *expandState) decomposeArgOrLoad(pos src.XPos, b *Block, base, source, m
 // pos and b locate the store instruction, base is the base of the store target, source is the "base" of the value input,
 // mem is the input mem, t is the type in question, and offArg and offStore are the offsets from the respective bases.
 func storeOneArg(x *expandState, pos src.XPos, b *Block, base, source, mem *Value, t *types.Type, offArg, offStore int64, loadRegOffset Abi1RO, storeRc registerCursor) *Value {
-	w := x.common[selKey{source, offArg, t.Width, t}]
+	w := x.commonArgs[selKey{source, offArg, t.Width, t}]
 	if w == nil {
-		w = source.Block.NewValue0IA(source.Pos, OpArg, t, offArg, source.Aux)
-		x.common[selKey{source, offArg, t.Width, t}] = w
+		// w = source.Block.NewValue0IA(source.Pos, OpArg, t, offArg, source.Aux)
+		w = x.newArgToMemOrRegs(source, w, offArg, loadRegOffset, t, pos)
+		// x.commonArgs[selKey{source, offArg, t.Width, t}] = w
 	}
 	return x.storeArgOrLoad(pos, b, base, w, mem, t, offStore, loadRegOffset, storeRc)
 }
@@ -867,7 +867,7 @@ func expandCalls(f *Func) {
 		ptrSize:      f.Config.PtrSize,
 		namedSelects: make(map[*Value][]namedVal),
 		sdom:         f.Sdom(),
-		common:       make(map[selKey]*Value),
+		commonArgs:   make(map[selKey]*Value),
 		offsets:      make(map[offsetKey]*Value),
 		memForCall:   make(map[ID]*Value),
 	}
@@ -1206,30 +1206,7 @@ func expandCalls(f *Func) {
 		for _, v := range b.Values {
 			switch v.Op {
 			case OpArg:
-				pa := x.prAssignForArg(v)
-				switch len(pa.Registers) {
-				case 0:
-					frameOff := v.Aux.(*ir.Name).FrameOffset()
-					if pa.Offset() != int32(frameOff) {
-						fmt.Printf("Parameter assignment %d and OpArg.Aux frameOffset %d disagree, op=%s\n",
-							pa.Offset(), frameOff, v.LongString())
-					}
-				case 1:
-					r := pa.Registers[0]
-					i := f.ABISelf.FloatIndexFor(r)
-					// TODO seems like this has implications for debugging. How does this affect the location?
-					if i >= 0 { // float PR
-						v.Op = OpArgFloatReg
-					} else {
-						v.Op = OpArgIntReg
-						i = int64(r)
-					}
-					v.AuxInt = i
-
-				default:
-					panic(badVal("Saw unexpanded OpArg", v))
-				}
-
+				x.rewriteArgToMemOrRegs(v)
 			case OpStaticLECall:
 				v.Op = OpStaticCall
 				// TODO need to insert all the register types.
@@ -1259,6 +1236,108 @@ func expandCalls(f *Func) {
 					a = b
 				}
 			}
+		}
+	}
+}
+
+func (x *expandState) rewriteArgToMemOrRegs(v *Value) *Value {
+	pa := x.prAssignForArg(v)
+	switch len(pa.Registers) {
+	case 0:
+		frameOff := v.Aux.(*ir.Name).FrameOffset()
+		if pa.Offset() != int32(frameOff) {
+			panic(fmt.Errorf("Parameter assignment %d and OpArg.Aux frameOffset %d disagree, op=%s",
+				pa.Offset(), frameOff, v.LongString()))
+		}
+	case 1:
+		r := pa.Registers[0]
+		i := x.f.ABISelf.FloatIndexFor(r)
+		// TODO seems like this has implications for debugging. How does this affect the location?
+		if i >= 0 { // float PR
+			v.Op = OpArgFloatReg
+		} else {
+			v.Op = OpArgIntReg
+			i = int64(r)
+		}
+		v.Aux = &AuxNameInt{v.Aux.(*ir.Name), 0}
+		v.AuxInt = i
+
+	default:
+		panic(badVal("Saw unexpanded OpArg", v))
+	}
+	return v
+}
+
+func (x *expandState) newArgToMemOrRegs(a, toReplace *Value, offset int64, regOffset Abi1RO, t *types.Type, pos src.XPos) *Value {
+	//if a.AuxInt != 0 {
+	//	fmt.Printf("newArgToMemOrRegs, a.AuxInt=%d, offset=%d\n", a.AuxInt, offset)
+	//}
+	key := selKey{a, offset, t.Width, t}
+	w := x.commonArgs[key]
+	if w != nil {
+		if toReplace != nil {
+			toReplace.copyOf(w)
+		}
+		return w
+	}
+
+	pa := x.prAssignForArg(a)
+	switch len(pa.Registers) {
+	case 0:
+		frameOff := a.Aux.(*ir.Name).FrameOffset()
+		if pa.Offset() != int32(frameOff) {
+			panic(fmt.Errorf("Parameter assignment %d and OpArg.Aux frameOffset %d disagree, op=%s",
+				pa.Offset(), frameOff, a.LongString()))
+		}
+
+		aux := a.Aux
+		auxInt := a.AuxInt + offset
+		if toReplace != nil && toReplace.Block == a.Block {
+			toReplace.reset(OpArg)
+			toReplace.Aux = aux
+			toReplace.AuxInt = auxInt
+			toReplace.Type = t
+			x.commonArgs[key] = toReplace
+			return toReplace
+		} else {
+			w := a.Block.NewValue0IA(pos, OpArg, t, auxInt, aux)
+			x.commonArgs[key] = w
+			if x.debug {
+				fmt.Printf("\tnew %s\n", w.LongString())
+			}
+			if toReplace != nil {
+				toReplace.copyOf(w)
+			}
+			return w
+		}
+
+	default:
+		r := pa.Registers[regOffset]
+		auxInt := x.f.ABISelf.FloatIndexFor(r)
+		op := OpArgFloatReg
+		// TODO seems like this has implications for debugging. How does this affect the location?
+		if auxInt < 0 { // int PR
+			op = OpArgIntReg
+			auxInt = int64(r)
+		}
+		aux := &AuxNameInt{a.Aux.(*ir.Name), a.AuxInt + offset}
+		if toReplace != nil && toReplace.Block == a.Block {
+			toReplace.reset(op)
+			toReplace.Aux = aux
+			toReplace.AuxInt = auxInt
+			toReplace.Type = t
+			x.commonArgs[key] = toReplace
+			return toReplace
+		} else {
+			w := a.Block.NewValue0IA(pos, op, t, auxInt, aux)
+			if x.debug {
+				fmt.Printf("\tnew %s\n", w.LongString())
+			}
+			x.commonArgs[key] = w
+			if toReplace != nil {
+				toReplace.copyOf(w)
+			}
+			return w
 		}
 	}
 }
