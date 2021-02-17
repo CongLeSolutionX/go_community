@@ -46,6 +46,30 @@
       },
       "revId": "7389ec569097c0d595122fbc73f9aa7dd1031e44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb102ec8_ccc7162f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-17T16:36:38Z",
+      "side": 1,
+      "message": "I just meant to say, mcall effectively starts a new stack on g0, in the sense that the callee\u0027s frame has nothing to do with whatever on the g0 stack above it.\n\nThe comments LGTM. Thanks.",
+      "parentUuid": "e7bf8ebb_7edab16a",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "7389ec569097c0d595122fbc73f9aa7dd1031e44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
