@@ -1366,7 +1366,8 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 
 		if x.mode == value {
 			if sig := asSignature(x.typ); sig != nil && len(sig.tparams) > 0 {
-				return check.call(x, nil, e)
+				check.funcInst(x, e)
+				return expression
 			}
 		}
 
@@ -1646,7 +1647,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		x.typ = T
 
 	case *ast.CallExpr:
-		return check.call(x, e, e)
+		return check.call(x, e)
 
 	case *ast.StarExpr:
 		check.exprOrType(x, e.X)
