@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffbfb582_28b9da54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-17T05:36:04Z",
+      "side": 1,
+      "message": "I\u0027m don\u0027t understand this. Please clarify what needs to be fixed.",
+      "revId": "055e60237225f0810b383327352c8bd2fb82f50a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
