@@ -359,6 +359,10 @@ start:
 	// F extension
 	FNEGS	F0, F1					// d3100020
 	FNES	F0, F1, X7				// d3a300a093c31300
+	FMADDS	F1, F2, F3, F4				// 43822018
+	FMSUBS	F1, F2, F3, F4				// 47822018
+	FNMSUBS	F1, F2, F3, F4				// 4b822018
+	FNMADDS	F1, F2, F3, F4				// 4f822018
 
 	// D extension
 	FNEGD	F0, F1					// d3100022
@@ -366,3 +370,7 @@ start:
 	FLTD	F0, F1, X5				// d39200a2
 	FLED	F0, F1, X5				// d38200a2
 	FEQD	F0, F1, X5				// d3a200a2
+	FMADDD	F1, F2, F3, F4				// 4382201a
+	FMSUBD	F1, F2, F3, F4				// 4782201a
+	FNMSUBD	F1, F2, F3, F4				// 4b82201a
+	FNMADDD	F1, F2, F3, F4				// 4f82201a
