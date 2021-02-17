@@ -64,7 +64,7 @@ type registerCursor struct {
 	regsLen   int
 	nextSlice Abi1RO
 	config    *abi.ABIConfig
-	result    *Value
+	result    *[]*Value
 }
 
 func (rc *registerCursor) String() string {
@@ -74,9 +74,14 @@ func (rc *registerCursor) String() string {
 	}
 	result := "<no result value>"
 	if rc.result != nil {
-		result = rc.result.LongString()
+		for i, x := range *rc.result {
+			if i > 0 {
+				result = result + "; "
+			}
+			result = result + x.LongString()
+		}
 	}
-	return fmt.Sprintf("RCSR{storedest=%v, regsLen=%d, nextSlice=%d, result=%s, config=%v", dest, rc.regsLen, rc.nextSlice, result, rc.config)
+	return fmt.Sprintf("RCSR{storedest=%v, regsLen=%d, nextSlice=%d, result=[%s], config=%v", dest, rc.regsLen, rc.nextSlice, result, rc.config)
 }
 
 // next effectively post-increments the register cursor; the receiver is advanced,
@@ -151,7 +156,7 @@ func (c *registerCursor) at(t *types.Type, i int) registerCursor {
 	panic("Haven't implemented this case yet, do I need to?")
 }
 
-func (c *registerCursor) init(regs []abi.RegIndex, info *abi.ABIParamResultInfo, result, storeDest *Value) {
+func (c *registerCursor) init(regs []abi.RegIndex, info *abi.ABIParamResultInfo, result *[]*Value, storeDest *Value) {
 	c.regsLen = len(regs)
 	c.nextSlice = 0
 	if len(regs) == 0 {
@@ -163,7 +168,7 @@ func (c *registerCursor) init(regs []abi.RegIndex, info *abi.ABIParamResultInfo,
 }
 
 func (c *registerCursor) addArg(v *Value) {
-	c.result.AddArg(v)
+	*c.result = append(*c.result, v)
 }
 
 func (c *registerCursor) hasRegs() bool {
@@ -786,9 +791,8 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 		return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float64, offset+8, loadRegOffset+RO_complex_imag, storeRc)
 	}
 
-	var s *Value
+	s := mem
 	if storeRc.hasRegs() {
-		// TODO REGISTER
 		storeRc.addArg(source)
 	} else {
 		dst := x.offsetFrom(storeRc.storeDest, offset, types.NewPtr(t))
@@ -803,12 +807,13 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 // rewriteArgs removes all the Args from a call and converts the call args into appropriate
 // stores (or later, register movement).  Extra args for interface and closure calls are ignored,
 // but removed.
-func (x *expandState) rewriteArgs(v *Value, firstArg int) *Value {
+func (x *expandState) rewriteArgs(v *Value, firstArg int) (*Value, []*Value) {
 	// Thread the stores on the memory arg
 	aux := v.Aux.(*AuxCall)
 	pos := v.Pos.WithNotStmt()
 	m0 := v.MemoryArg()
 	mem := m0
+	allResults := []*Value{}
 	for i, a := range v.Args {
 		if i < firstArg {
 			continue
@@ -828,14 +833,14 @@ func (x *expandState) rewriteArgs(v *Value, firstArg int) *Value {
 				x.f.Fatalf("Not implemented yet, not-SSA-type %v passed in registers", aType)
 			}
 			// "Dereference" of addressed (probably not-SSA-eligible) value becomes Move
-			// TODO this will be more complicated with registers in the picture.
+			// TODO register args this will be more complicated with registers in the picture.
 			mem = x.rewriteDereference(v.Block, x.sp, a, mem, aOffset, aux.SizeOfArg(auxI), aType, pos)
 		} else {
 			var rc registerCursor
-			var result *Value
+			var result *[]*Value
 			var aOffset int64
 			if len(aRegs) > 0 {
-				result = v.Block.NewValue0(v.Pos.WithNotStmt(), OpMakeResult, nil)
+				result = &allResults
 			} else {
 				aOffset = aux.OffsetOfArg(auxI)
 			}
@@ -844,11 +849,10 @@ func (x *expandState) rewriteArgs(v *Value, firstArg int) *Value {
 			}
 			rc.init(aRegs, aux.pri, result, x.sp)
 			mem = x.storeArgOrLoad(pos, v.Block, a, mem, aType, aOffset, 0, rc)
-			// TODO append mem to Result, update type
 		}
 	}
 	v.resetArgs()
-	return mem
+	return mem, allResults
 }
 
 // expandCalls converts LE (Late Expansion) calls that act like they receive value args into a lower-level form
@@ -902,17 +906,30 @@ func expandCalls(f *Func) {
 		for _, v := range b.Values {
 			switch v.Op {
 			case OpStaticLECall:
-				mem := x.rewriteArgs(v, 0)
-				v.SetArgs1(mem)
+				mem, results := x.rewriteArgs(v, 0)
+				v.AddArgs(results...)
+				v.AddArg(mem)
 			case OpClosureLECall:
 				code := v.Args[0]
 				context := v.Args[1]
-				mem := x.rewriteArgs(v, 2)
-				v.SetArgs3(code, context, mem)
+				mem, results := x.rewriteArgs(v, 2)
+				if len(results) == 0 {
+					v.SetArgs3(code, context, mem)
+				} else {
+					v.SetArgs2(code, context)
+					v.AddArgs(results...)
+					v.AddArg(mem)
+				}
 			case OpInterLECall:
 				code := v.Args[0]
-				mem := x.rewriteArgs(v, 1)
-				v.SetArgs2(code, mem)
+				mem, results := x.rewriteArgs(v, 1)
+				if len(results) == 0 {
+					v.SetArgs2(code, mem)
+				} else {
+					v.SetArgs1(code)
+					v.AddArgs(results...)
+					v.AddArg(mem)
+				}
 			}
 		}
 		if isBlockMultiValueExit(b) {
@@ -922,6 +939,7 @@ func expandCalls(f *Func) {
 			mem := m0
 			aux := f.OwnAux
 			pos := v.Pos.WithNotStmt()
+			allResults := []*Value{}
 			for j, a := range v.Args {
 				i := int64(j)
 				if a == m0 {
@@ -953,16 +971,15 @@ func expandCalls(f *Func) {
 						}
 					}
 					var rc registerCursor
-					var result *Value
+					var result *[]*Value
 					if len(aRegs) > 0 {
-						result = v.Block.NewValue0(v.Pos.WithNotStmt(), OpMakeResult, nil)
+						result = &allResults
 					}
 					rc.init(aRegs, aux.pri, result, auxBase)
-					// TODO REGISTER
 					mem = x.storeArgOrLoad(v.Pos, b, a, mem, aux.TypeOfResult(i), auxOffset, 0, rc)
-					// TODO append mem to Result, update type
 				}
 			}
+			// TODO REGISTER -- keep the Result for block control, splice in contents of AllResults
 			b.SetControl(mem)
 			v.reset(OpInvalid) // otherwise it can have a mem operand which will fail check(), even though it is dead.
 		}
