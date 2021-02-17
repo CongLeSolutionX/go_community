@@ -34,6 +34,24 @@
       "parentUuid": "1f5b44f6_5ed97bfb",
       "revId": "45c93041e9befb0259d854f460822169df9437f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecf107c8_8f8bbdd6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-17T00:14:03Z",
+      "side": 1,
+      "message": "Yeah, I think the inliner knows them. This is fine.",
+      "parentUuid": "92d46961_cc1b632f",
+      "revId": "45c93041e9befb0259d854f460822169df9437f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
