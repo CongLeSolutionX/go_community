@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (1aea1b [dev.boringcrypto] misc/boring: support codereview.cfg in me)
 // Copyright 2009 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -1922,3 +1923,5 @@ func zeroaddr(size int64) *Node {
 	z.SetTypecheck(1)
 	return z
 }
+=======
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
