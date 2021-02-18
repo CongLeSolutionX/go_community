@@ -15,6 +15,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
 	"runtime"
 	"sync"
 )
@@ -40,7 +41,7 @@ import (
 //
 // If a crash occurs, the function will return an error containing information
 // about the crash, which can be reported to the user.
-func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, corpusDir, cacheDir string) (err error) {
+func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, types []reflect.Type, corpusDir, cacheDir string) (err error) {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
@@ -49,12 +50,22 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, co
 	}
 
 	sharedMemSize := 100 << 20 // 100 MB
-	corpus, err := readCache(seed, cacheDir)
+	// Make sure all of the seed corpus has marshalled data.
+	for i := range seed {
+		if seed[i].Data == nil {
+			seed[i].Data = marshalCorpusFile(seed[i].Values...)
+		}
+	}
+	corpus, err := readCache(seed, types, cacheDir)
 	if err != nil {
 		return err
 	}
 	if len(corpus.entries) == 0 {
-		corpus.entries = []CorpusEntry{{Data: []byte{}}}
+		var vals []interface{}
+		for _, t := range types {
+			vals = append(vals, zeroValue(t))
+		}
+		corpus.entries = append(corpus.entries, CorpusEntry{Data: marshalCorpusFile(vals...), Values: vals})
 	}
 
 	// TODO(jayconrod): do we want to support fuzzing different binaries?
@@ -224,10 +235,8 @@ type CorpusEntry = struct {
 	// Data is the raw data loaded from a corpus file.
 	Data []byte
 
-	// TODO(jayconrod,katiehockman): support multiple values of different types
-	// added with f.Add with a Values []interface{} field. We'll need marhsalling
-	// and unmarshalling functions, and we'll need to figure out what to do
-	// in the mutator.
+	// Values is the unmarshaled values from a corpus file.
+	Values []interface{}
 }
 
 type crasherEntry struct {
@@ -262,20 +271,25 @@ type coordinator struct {
 	errC chan error
 }
 
-// readCache creates a combined corpus from seed values, values in the
-// corpus directory (in testdata), and values in the cache (in GOCACHE/fuzz).
+// readCache creates a combined corpus from seed values and values in the cache
+// (in GOCACHE/fuzz).
 //
-// TODO(jayconrod,katiehockman): if a value in the cache has the wrong type,
-// ignore it instead of reporting an error. Cached values may be used for
-// the same package at a different version or in a different module.
 // TODO(jayconrod,katiehockman): need a mechanism that can remove values that
 // aren't useful anymore, for example, because they have the wrong type.
-func readCache(seed []CorpusEntry, cacheDir string) (corpus, error) {
+func readCache(seed []CorpusEntry, types []reflect.Type, cacheDir string) (corpus, error) {
 	var c corpus
 	c.entries = append(c.entries, seed...)
-	entries, err := ReadCorpus(cacheDir)
-	if err != nil {
-		return corpus{}, err
+	// Only add cached corpus entries of the right type.
+	for _, e := range c.entries {
+		if len(e.Values) != len(types) {
+			continue
+		}
+		for i := range types {
+			if reflect.TypeOf(e.Values[i]) != types[i] {
+				continue
+			}
+		}
+		c.entries = append(c.entries, e)
 	}
 	c.entries = append(c.entries, entries...)
 	return c, nil
@@ -300,11 +314,18 @@ func ReadCorpus(dir string) ([]CorpusEntry, error) {
 		if file.IsDir() {
 			continue
 		}
-		bytes, err := ioutil.ReadFile(filepath.Join(dir, file.Name()))
+		filename := filepath.Join(dir, file.Name())
+		data, err := ioutil.ReadFile(filename)
 		if err != nil {
 			return nil, fmt.Errorf("testing: failed to read corpus file: %v", err)
 		}
-		corpus = append(corpus, CorpusEntry{Name: file.Name(), Data: bytes})
+		vals, err := unmarshalCorpusFile(data)
+		if err != nil {
+			// Should we just skip corpus files that we can't unmarshal if in
+			// the cache directory?
+			return nil, fmt.Errorf("testing: failed to unmarshal corpus file %q: %v", filename, err)
+		}
+		corpus = append(corpus, CorpusEntry{Name: file.Name(), Data: data, Values: vals})
 	}
 	return corpus, nil
 }
@@ -324,4 +345,33 @@ func writeToCorpus(b []byte, dir string) (name string, err error) {
 		return "", err
 	}
 	return name, nil
+}
+
+func zeroValue(t reflect.Type) interface{} {
+	for _, v := range zeroVals {
+		if reflect.TypeOf(v) == t {
+			return v
+		}
+	}
+	panic(fmt.Sprintf("unsupported type: %v", t))
+}
+
+var zeroVals []interface{} = []interface{}{
+	[]byte(""),
+	string(""),
+	false,
+	byte(0),
+	rune(0),
+	float32(0),
+	float64(0),
+	int(0),
+	int8(0),
+	int16(0),
+	int32(0),
+	int64(0),
+	uint(0),
+	uint8(0),
+	uint16(0),
+	uint32(0),
+	uint64(0),
 }
