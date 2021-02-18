@@ -16,6 +16,24 @@
       "message": "Are these enough? We don\u0027t need BRANCH or any PC-relative relocations?\n\nThese are only for external linking. We don\u0027t yet support external linking, right? Then it doesn\u0027t really matter.",
       "revId": "b0da13a24955465ca5de24f587f39f33978f2641",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8e4e2b9_6ae526d9",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:00:12Z",
+      "side": 1,
+      "message": "Yes, I believe that\u0027s correct (I was surprised too). External linking is yet to come, and we can add more as we find test cases for them.",
+      "parentUuid": "5553b22c_3135c8de",
+      "revId": "b0da13a24955465ca5de24f587f39f33978f2641",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
