@@ -33,6 +33,24 @@
       "message": "Should be two readUint8 ?\n\n(This function might be not used anywhere. I probably should delete it.)",
       "revId": "4132132b55d46fc56831b1a4494924563fda3e77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f28f96_64bcba4d",
+        "filename": "src/cmd/internal/goobj/funcinfo.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:00:12Z",
+      "side": 1,
+      "message": "Deleted it for you. Thanks.",
+      "parentUuid": "50e980a4_d7c2f255",
+      "revId": "4132132b55d46fc56831b1a4494924563fda3e77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
