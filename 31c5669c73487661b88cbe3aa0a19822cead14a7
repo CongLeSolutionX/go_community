@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c4421ef_ebc2a5fc",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e65ca43_aef20382",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 8
+      },
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15cd0c47_30c3101a",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-02-18T15:14:50Z",
       "side": 1,
       "message": "Does this function need to follow C calling convention? Why we need to preserve these two registers?",
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42821c59_95b26cf6",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "Maybe not? We call it with asmcgocall, whose purpose is to call C-convention functions, but since it is _only_ called from asmcgocall, and since asmcgocall does not today depend on any callee-saved registers actually being preserved during the call, we could potentially remove these. But I\u0027m not entirely sure that would be a good idea in case at some future time asmcgocall changes to keep some state in a callee-save register across the call.",
+      "parentUuid": "15cd0c47_30c3101a",
       "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +100,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5707906_79762f12",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "Indeed, this is wrong. Maybe we got lucky and the Windows DLL did not overwrite R28 between the time of the fault and calling into sigtramp. Fixed.",
+      "parentUuid": "88cbb178_58d0d588",
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "627b60fa_e862797c",
@@ -75,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9d1e7fd_b7f4d504",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "I think I\u0027m jumping past the saved frame pointer too. Commented.",
+      "parentUuid": "627b60fa_e862797c",
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc6a1c76_4c48d6c0",
@@ -88,6 +166,30 @@
       "writtenOn": "2021-02-18T15:14:50Z",
       "side": 1,
       "message": "ARM64 ?",
+      "range": {
+        "startLine": 242,
+        "startChar": 15,
+        "endLine": 242,
+        "endChar": 18
+      },
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "410f8c23_a87421a8",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc6a1c76_4c48d6c0",
       "range": {
         "startLine": 242,
         "startChar": 15,
@@ -121,6 +223,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2977ef37_0999723d",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "Done.\nRenamed \u0027returntramp\u0027 to \u0027sigresume\u0027.",
+      "parentUuid": "46d34b50_f6a916dc",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 46
+      },
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16d0d373_bac95be0",
@@ -134,6 +260,24 @@
       "writtenOn": "2021-02-18T15:14:50Z",
       "side": 1,
       "message": "What is this for?",
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0172c416_6f4b0ebf",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "Leftover from debugging. Deleted.",
+      "parentUuid": "16d0d373_bac95be0",
       "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -161,6 +305,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d2ed313_0dcbb310",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e443f3c9_146b569e",
+      "range": {
+        "startLine": 373,
+        "startChar": 50,
+        "endLine": 373,
+        "endChar": 53
+      },
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "829e2345_59836b65",
@@ -174,6 +342,30 @@
       "writtenOn": "2021-02-18T15:14:50Z",
       "side": 1,
       "message": "Are these addresses correct on ARM64 as well?",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 31
+      },
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91650556_e58a10cd",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:54:59Z",
+      "side": 1,
+      "message": "Astonishingly, yes.\nI believe this is part of why the ARM64 binaries have to be linked above 4GB.",
+      "parentUuid": "829e2345_59836b65",
       "range": {
         "startLine": 473,
         "startChar": 0,
