@@ -404,7 +404,7 @@
 (ConstBool [c]) => (MOVLconst [b2i32(c)])
 
 // Lowering calls
-(StaticCall ...) => (CALLstatic ...)
+(StaticCall ...) => (CALLstatic ... )
 (ClosureCall ...) => (CALLclosure ...)
 (InterCall ...) => (CALLinter ...)
 
