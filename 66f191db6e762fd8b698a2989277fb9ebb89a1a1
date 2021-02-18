@@ -22,6 +22,30 @@
       },
       "revId": "66f191db6e762fd8b698a2989277fb9ebb89a1a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86464f3d_3abe582c",
+        "filename": "src/syscall/types_windows_arm64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:00:12Z",
+      "side": 1,
+      "message": "Yes, exactly - file copy.",
+      "parentUuid": "f9b260f2_8569fdc4",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "66f191db6e762fd8b698a2989277fb9ebb89a1a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
