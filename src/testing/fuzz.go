@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"reflect"
 	"runtime"
 	"sync/atomic"
 	"time"
@@ -57,8 +58,9 @@ var _ TB = (*F)(nil)
 // We use a type alias because we don't want to export this type, and we can't
 // importing internal/fuzz from testing.
 type corpusEntry = struct {
-	Name string
-	Data []byte
+	Name   string
+	Data   []byte
+	Values []interface{}
 }
 
 // Cleanup registers a function to be called when the test and all its
@@ -183,20 +185,39 @@ func (f *F) TempDir() string {
 // be a no-op if called after or within the Fuzz function. The args must match
 // those in the Fuzz function.
 func (f *F) Add(args ...interface{}) {
-	if len(args) == 0 {
-		panic("testing: Add must have at least one argument")
+	var values []interface{}
+	for i := range args {
+		if t := reflect.TypeOf(args[i]); !supportedTypes[t] {
+			panic(fmt.Sprintf("testing: unsupported type to Add %v", t))
+		}
+		values = append(values, args[i])
 	}
-	if len(args) != 1 {
-		// TODO: support more than one argument
-		panic("testing: Add only supports one argument currently")
-	}
-	switch v := args[0].(type) {
-	case []byte:
-		f.corpus = append(f.corpus, corpusEntry{Data: v})
-	// TODO: support other types
-	default:
-		panic("testing: Add only supports []byte currently")
-	}
+	f.corpus = append(f.corpus, corpusEntry{Values: values})
+}
+
+// maxArgsToFuzz is the maximum number of arguments that can be fuzzed.
+// TODO(katiehockman,jayconrod): this is arbitrary, so pick a better number.
+const maxArgsToFuzz = 10
+
+// supportedTypes represents all of the supported types which can be fuzzed.
+var supportedTypes = map[reflect.Type]bool{
+	reflect.TypeOf(([]byte)("")):  true,
+	reflect.TypeOf((string)("")):  true,
+	reflect.TypeOf((bool)(false)): true,
+	reflect.TypeOf((byte)(0)):     true,
+	reflect.TypeOf((rune)(0)):     true,
+	reflect.TypeOf((float32)(0)):  true,
+	reflect.TypeOf((float64)(0)):  true,
+	reflect.TypeOf((int)(0)):      true,
+	reflect.TypeOf((int8)(0)):     true,
+	reflect.TypeOf((int16)(0)):    true,
+	reflect.TypeOf((int32)(0)):    true,
+	reflect.TypeOf((int64)(0)):    true,
+	reflect.TypeOf((uint)(0)):     true,
+	reflect.TypeOf((uint8)(0)):    true,
+	reflect.TypeOf((uint16)(0)):   true,
+	reflect.TypeOf((uint32)(0)):   true,
+	reflect.TypeOf((uint64)(0)):   true,
 }
 
 // Fuzz runs the fuzz function, ff, for fuzz testing. If ff fails for a set of
@@ -211,9 +232,24 @@ func (f *F) Fuzz(ff interface{}) {
 	}
 	f.fuzzCalled = true
 
-	fn, ok := ff.(func(*T, []byte))
-	if !ok {
-		panic("testing: Fuzz function must have type func(*testing.T, []byte)")
+	// ff should be in the form func(*testing.T, ...interface{})
+	fn := reflect.ValueOf(ff)
+	fnType := fn.Type()
+	if fnType.NumIn() < 2 || fnType.In(0) != reflect.TypeOf((*T)(nil)) {
+		panic("testing: F.Fuzz function must receive at least two arguments, where the first argument is a *T")
+	}
+	if numArgs := fnType.NumIn() - 1; numArgs > maxArgsToFuzz {
+		panic(fmt.Sprintf("testing: number of arguments to fuzz exceeds the limit of %d", numArgs))
+	}
+
+	// Save the types of the function to compare against the corpus.
+	var types []reflect.Type
+	for i := 1; i < fnType.NumIn(); i++ {
+		t := fnType.In(i)
+		if !supportedTypes[t] {
+			panic(fmt.Sprintf("testing: unsupported type for fuzzing %v", t))
+		}
+		types = append(types, t)
 	}
 	f.Helper()
 
@@ -224,6 +260,18 @@ func (f *F) Fuzz(ff interface{}) {
 	}
 	f.corpus = append(f.corpus, c...)
 
+	// Validate seed corpus
+	for _, c := range f.corpus {
+		if len(c.Values) != len(types) {
+			f.Fatalf("wrong number of values in seed corpus entry: %d, want %d", len(c.Values), len(types))
+		}
+		for i := range types {
+			if cType := reflect.TypeOf(c.Values[i]); cType != types[i] {
+				f.Fatalf("seed corpus entry type differs from f.Fuzz function arguments: %v, want %v", cType, types[i])
+			}
+		}
+	}
+
 	// run calls fn on a given input, as a subtest with its own T.
 	// run is analogous to T.Run. The test filtering and cleanup works similarly.
 	// fn is called in its own goroutine.
@@ -231,6 +279,11 @@ func (f *F) Fuzz(ff interface{}) {
 	// TODO(jayconrod,katiehockman): dedupe testdata corpus with entries from f.Add
 	// TODO(jayconrod,katiehockman): handle T.Parallel calls within fuzz function.
 	run := func(e corpusEntry) error {
+		if e.Values == nil {
+			// Every code path should have already unmarshaled Data into Values.
+			// It's our fault if it didn't.
+			panic(fmt.Sprintf("corpus file %q was not unmarshaled", e.Name))
+		}
 		testName, ok, _ := f.testContext.match.fullName(&f.common, e.Name)
 		if !ok || shouldFailFast() {
 			return nil
@@ -257,7 +310,13 @@ func (f *F) Fuzz(ff interface{}) {
 			t.chatty.Updatef(t.name, "=== RUN  %s\n", t.name)
 		}
 		f.inFuzzFn = true
-		go tRunner(t, func(t *T) { fn(t, e.Data) })
+		go tRunner(t, func(t *T) {
+			args := []reflect.Value{reflect.ValueOf(t)}
+			for _, v := range e.Values {
+				args = append(args, reflect.ValueOf(v))
+			}
+			fn.Call(args)
+		})
 		<-t.signal
 		f.inFuzzFn = false
 		if t.Failed() {
@@ -273,7 +332,7 @@ func (f *F) Fuzz(ff interface{}) {
 		// actual fuzzing.
 		corpusTargetDir := filepath.Join(corpusDir, f.name)
 		cacheTargetDir := filepath.Join(*fuzzCacheDir, f.name)
-		err := f.fuzzContext.coordinateFuzzing(*fuzzDuration, *parallel, f.corpus, corpusTargetDir, cacheTargetDir)
+		err := f.fuzzContext.coordinateFuzzing(*fuzzDuration, *parallel, f.corpus, types, corpusTargetDir, cacheTargetDir)
 		if err != nil {
 			f.result = FuzzResult{Error: err}
 			f.Error(err)
@@ -365,7 +424,7 @@ type fuzzCrashError interface {
 // fuzzContext holds all fields that are common to all fuzz targets.
 type fuzzContext struct {
 	importPath        func() string
-	coordinateFuzzing func(time.Duration, int, []corpusEntry, string, string) error
+	coordinateFuzzing func(time.Duration, int, []corpusEntry, []reflect.Type, string, string) error
 	runFuzzWorker     func(func(corpusEntry) error) error
 	readCorpus        func(string) ([]corpusEntry, error)
 }
