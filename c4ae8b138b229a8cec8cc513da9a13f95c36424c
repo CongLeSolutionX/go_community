@@ -16,6 +16,24 @@
       "message": "I already deleted it on dev.regabi branch. It should be gone on master as well when you rebase.",
       "revId": "c4ae8b138b229a8cec8cc513da9a13f95c36424c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfeb046b_83131471",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-18T15:00:12Z",
+      "side": 1,
+      "message": "Thanks. This CL is now just updating stale comments.",
+      "parentUuid": "9a870c6e_3150c6ce",
+      "revId": "c4ae8b138b229a8cec8cc513da9a13f95c36424c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
