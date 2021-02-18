@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92c562ae_ae7fe7f5",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-02-18T18:44:29Z",
+      "side": 1,
+      "message": "Could we add a little bit to the comment to say where we need to consider the whole build list? \n\nMaybe something like \"we need to run algorithm 4 on the whole build list rather than just the set of direct dependencies returned by reqs.Required\"?",
+      "range": {
+        "startLine": 383,
+        "startChar": 49,
+        "endLine": 384,
+        "endChar": 19
+      },
+      "revId": "f5d31be7fd9fe24fe9e1f420629cd9f85474f00f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f847a13b_fa660e01",
+        "filename": "src/cmd/go/testdata/script/mod_load_badchain.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-02-18T18:44:29Z",
+      "side": 1,
+      "message": "I\u0027m not as familiar with the messages here. What\u0027s the difference between the previous message and this one?",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "f5d31be7fd9fe24fe9e1f420629cd9f85474f00f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
