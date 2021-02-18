@@ -1267,6 +1267,9 @@ func expandCalls(f *Func) {
 	}
 }
 
+func (x *expandState) updateCallTypeAndInfo(v *Value) {
+}
+
 func (x *expandState) rewriteArgToMemOrRegs(v *Value) *Value {
 	pa := x.prAssignForArg(v)
 	switch len(pa.Registers) {

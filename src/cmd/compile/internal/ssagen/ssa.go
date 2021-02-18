@@ -479,7 +479,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	}
 
 	var params *abi.ABIParamResultInfo
-	params, s.f.ISpills, s.f.FSpills = s.f.AbiSelf.ABIAnalyze(fn.Type())
+	params, s.f.Spills = s.f.AbiSelf.ABIAnalyze(fn.Type())
 
 	// Generate addresses of local declarations
 	s.decladdrs = map[*ir.Name]*ssa.Value{}
@@ -4863,7 +4863,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		abi = s.f.Abi0
 	}
 
-	params, _, _ := abi.ABIAnalyze(n.X.Type())
+	params, _ := abi.ABIAnalyze(n.X.Type())
 
 	res := n.X.Type().Results()
 	if k == callNormal {
@@ -6555,7 +6555,7 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 				// input args need no code
 			case ssa.OpSP, ssa.OpSB:
 				// nothing to do
-			case ssa.OpSelect0, ssa.OpSelect1:
+			case ssa.OpSelect0, ssa.OpSelect1, ssa.OpSelectN:
 				// nothing to do
 			case ssa.OpGetG:
 				// nothing to do when there's a g register,

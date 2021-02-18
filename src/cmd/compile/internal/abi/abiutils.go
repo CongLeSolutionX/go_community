@@ -275,7 +275,7 @@ func (config *ABIConfig) ABIAnalyzeFuncType(ft *types.Func) *ABIParamResultInfo 
 // plus the spill information for integer and float registers,
 // plus updates the offsets of all the receiver, input, and output fields
 // of the function-typed parameter.
-func (config *ABIConfig) ABIAnalyze(t *types.Type) (*ABIParamResultInfo, []Spill, []Spill) {
+func (config *ABIConfig) ABIAnalyze(t *types.Type) (*ABIParamResultInfo, []Spill) {
 	ft := t.FuncType()
 	result := config.ABIAnalyzeFuncType(ft)
 
@@ -296,7 +296,7 @@ func (config *ABIConfig) ABIAnalyze(t *types.Type) (*ABIParamResultInfo, []Spill
 	for i, f := range ft.Results.FieldSlice() {
 		config.updateOffset(result, f, result.outparams[i], true, nil)
 	}
-	return result, spills.ISpills, spills.FSpills
+	return result, spills.AllSpills
 }
 
 func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field, a ABIParamAssignment, isReturn bool, spills *spillState) {
@@ -357,11 +357,13 @@ func (ri *ABIParamResultInfo) String() string {
 // assignState holds intermediate state during the register assigning process
 // for a given function signature.
 type assignState struct {
-	rTotal      RegAmounts // total reg amounts from ABI rules
-	rUsed       RegAmounts // regs used by params completely assigned so far
-	pUsed       RegAmounts // regs used by the current param (or pieces therein)
-	stackOffset int64      // current stack offset
-	spillOffset int64      // current spill offset
+	rTotal       RegAmounts // total reg amounts from ABI rules
+	rUsed        RegAmounts // regs used by params completely assigned so far
+	pUsed        RegAmounts // regs used by the current param (or pieces therein)
+	inFloatMask  uint64     // input regis
+	outFloatMask uint64
+	stackOffset  int64 // current stack offset
+	spillOffset  int64 // current spill offset
 }
 
 // Spill encodes information needed to spill/unspill a register; where, width, pointer/signed/float.
@@ -418,8 +420,7 @@ func spill(t *types.Type, at int64) Spill {
 // spillState holds the mapping from integer or floating point register index (= RegIndex - len(integer param register count)
 type spillState struct {
 	NextSpill int64
-	ISpills   []Spill
-	FSpills   []Spill
+	AllSpills []Spill
 	state     *assignState
 }
 
@@ -437,11 +438,7 @@ func (s *spillState) spill(t *types.Type) {
 	s.align(t)
 	z := t.Width
 	sp := spill(t, s.NextSpill)
-	if t.IsFloat() {
-		s.FSpills = append(s.FSpills, sp)
-	} else {
-		s.ISpills = append(s.ISpills, sp)
-	}
+	s.AllSpills = append(s.AllSpills, sp)
 	s.NextSpill += z
 }
 
