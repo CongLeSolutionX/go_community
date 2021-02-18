@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d9fa3b9_a940012c",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-18T16:22:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure either. If we want to preserve registers we need to preserve R21-R25 in the stack args case as well (or use other registers).\n\nCurrently (on other platforms) there are a number of assembly wrapper functions that are called from asmcgocall. I\u0027m not sure they all preserve C callee-saved registers (maybe they do). Maybe it is fine to not preserve registers (perhaps drop a comment in asmcgocall).",
+      "parentUuid": "42821c59_95b26cf6",
+      "revId": "31c5669c73487661b88cbe3aa0a19822cead14a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88cbb178_58d0d588",
         "filename": "src/runtime/sys_windows_arm64.s",
         "patchSetId": 7
