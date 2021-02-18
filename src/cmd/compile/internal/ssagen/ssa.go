@@ -6559,7 +6559,7 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 				// input args need no code
 			case ssa.OpSP, ssa.OpSB:
 				// nothing to do
-			case ssa.OpSelect0, ssa.OpSelect1:
+			case ssa.OpSelect0, ssa.OpSelect1, ssa.OpSelectN:
 				// nothing to do
 			case ssa.OpGetG:
 				// nothing to do when there's a g register,
