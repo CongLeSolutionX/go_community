@@ -33,6 +33,24 @@
       "message": "+2 in any case, but let me know if it changes and needs another look.",
       "revId": "80b0fef3067d5799b1f7e6c642f202ec43a160ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "689c3901_4da18603",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-18T22:15:54Z",
+      "side": 1,
+      "message": "Pretty sure it is sync-branch. But it won\u0027t let me do it when there is an existing CL, so I\u0027ll just submit this and try it",
+      "parentUuid": "4a7b132c_173a57d3",
+      "revId": "80b0fef3067d5799b1f7e6c642f202ec43a160ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
