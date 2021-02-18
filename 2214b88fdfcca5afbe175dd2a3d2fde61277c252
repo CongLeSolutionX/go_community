@@ -22,6 +22,30 @@
       },
       "revId": "2214b88fdfcca5afbe175dd2a3d2fde61277c252",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb364d3a_25e6fb02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-18T17:03:29Z",
+      "side": 1,
+      "message": "Agreed, normally I am used to seeing what you describe (no calls to function -\u003e gets deadcoded by linker). So perhaps this is something new with the way closures are handled or marked.",
+      "parentUuid": "19f48884_841b0a39",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "2214b88fdfcca5afbe175dd2a3d2fde61277c252",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
