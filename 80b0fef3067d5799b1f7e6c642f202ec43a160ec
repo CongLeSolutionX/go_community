@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f6f0e2_badb54c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-18T21:24:16Z",
+      "side": 1,
+      "message": "Maybe hold off for a bit on this. I am not actually finding this elusive `git-codereview merge` tool. Based this off of https://github.com/golang/go/commit/325e03a64fdea0dce391378383334d331c8f67ee after discussions with Filippo.",
+      "revId": "80b0fef3067d5799b1f7e6c642f202ec43a160ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
