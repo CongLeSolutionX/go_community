@@ -1091,7 +1091,8 @@ func rewriteValueAMD64(v *Value) bool {
 		v.Op = OpAMD64SQRTSD
 		return true
 	case OpStaticCall:
-		return rewriteValueAMD64_OpStaticCall(v)
+		v.Op = OpAMD64CALLstatic
+		return true
 	case OpStore:
 		return rewriteValueAMD64_OpStore(v)
 	case OpSub16:
@@ -33783,7 +33784,7 @@ func rewriteValueAMD64_OpSelectN(v *Value) bool {
 			break
 		}
 		x := v_0
-		if x.Op != OpAMD64CALLstatic {
+		if x.Op != OpAMD64CALLstatic || len(x.Args) != 1 {
 			break
 		}
 		v.copyOf(x)
@@ -33844,30 +33845,6 @@ func rewriteValueAMD64_OpSpectreSliceIndex(v *Value) bool {
 		v.AddArg3(x, v0, v1)
 		return true
 	}
-}
-func rewriteValueAMD64_OpStaticCall(v *Value) bool {
-	// match: (StaticCall <t> [i] {a} x)
-	// cond: t.IsResults()
-	// result: (CALLstatic <t.FieldType(t.NumFields()-1)> [i] {a} x )
-	for {
-		if len(v.Args) != 1 {
-			break
-		}
-		t := v.Type
-		i := auxIntToInt32(v.AuxInt)
-		a := auxToCall(v.Aux)
-		x := v.Args[0]
-		if !(t.IsResults()) {
-			break
-		}
-		v.reset(OpAMD64CALLstatic)
-		v.Type = t.FieldType(t.NumFields() - 1)
-		v.AuxInt = int32ToAuxInt(i)
-		v.Aux = callToAux(a)
-		v.AddArg(x)
-		return true
-	}
-	return false
 }
 func rewriteValueAMD64_OpStore(v *Value) bool {
 	v_2 := v.Args[2]
