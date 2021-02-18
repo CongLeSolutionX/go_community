@@ -13227,7 +13227,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:         "CALLstatic",
 		auxType:      auxCallOff,
-		argLen:       1,
+		argLen:       -1,
 		clobberFlags: true,
 		call:         true,
 		reg: regInfo{

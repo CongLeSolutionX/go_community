@@ -818,9 +818,8 @@ func (s *regAllocState) regspec(v *Value) regInfo {
 		return regInfo{outputs: []outputInfo{{regs: 1 << uint(reg)}}}
 	}
 	if op.IsCall() {
-		// TODO Panic if not okay
 		if ac, ok := v.Aux.(*AuxCall); ok && ac.reg != nil {
-			return *ac.reg
+			return *ac.Reg(&opcodeTable[op].reg, s.f.Config)
 		}
 	}
 	return opcodeTable[op].reg
@@ -1456,7 +1455,8 @@ func (s *regAllocState) regalloc(f *Func) {
 
 			// Pick registers for outputs.
 			{
-				outRegs := [2]register{noRegister, noRegister}
+				outRegs := [32]register{} // Bias registers stoed in outRegs by +1 so that zero is the no-value value; 0 minus 1 = noRegister
+				maxOutIdx := -1
 				var used regMask
 				for _, out := range regspec.outputs {
 					mask := out.regs & s.allocatable &^ used
@@ -1502,26 +1502,36 @@ func (s *regAllocState) regalloc(f *Func) {
 						mask &^= desired.avoid
 					}
 					r := s.allocReg(mask, v)
-					outRegs[out.idx] = r
+					if out.idx > maxOutIdx {
+						maxOutIdx = out.idx
+					}
+					outRegs[out.idx] = r + 1
 					used |= regMask(1) << r
 					s.tmpused |= regMask(1) << r
 				}
 				// Record register choices
 				if v.Type.IsTuple() {
 					var outLocs LocPair
-					if r := outRegs[0]; r != noRegister {
+					if r := outRegs[0] - 1; r != noRegister {
 						outLocs[0] = &s.registers[r]
 					}
-					if r := outRegs[1]; r != noRegister {
+					if r := outRegs[1] - 1; r != noRegister {
 						outLocs[1] = &s.registers[r]
 					}
 					s.f.setHome(v, outLocs)
 					// Note that subsequent SelectX instructions will do the assignReg calls.
 				} else if v.Type.IsResults() {
-					// TODO register arguments need to make this work
-					panic("Oops, implement this.")
+					// preallocate outLocs to the right size, which is maxOutIdx+1
+					// recall that registers stored in outRegs are biased +1 so that default zero value. minus one, equals noRegister (-1)
+					outLocs := make(LocResults, maxOutIdx+1, maxOutIdx+1)
+					for i := 0; i <= maxOutIdx; i++ {
+						if r := outRegs[i] - 1; r != noRegister {
+							outLocs[i] = &s.registers[r]
+						}
+					}
+					s.f.setHome(v, outLocs)
 				} else {
-					if r := outRegs[0]; r != noRegister {
+					if r := outRegs[0] - 1; r != noRegister {
 						s.assignReg(r, v, v)
 					}
 				}
