@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "179cb7d7_ab66798c",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-18T19:49:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "24e05420_e5fffff6",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 377,
+        "endChar": 1
+      },
+      "revId": "c310b872ad43961ab6c6434221b7a6c3a874a2d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "907aa50c_adc4becf",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-18T17:02:36Z",
       "side": 1,
       "message": "I would flip this around to make the pre-condition for the ElemList index explicit rather than implicit, and to match the other similar cases.\n\nif len(x.ElemList) \u003e 0 {\n   return x.ElemList[0].Pos()\n}\nreturn token.NoPos",
+      "range": {
+        "startLine": 498,
+        "startChar": 10,
+        "endLine": 498,
+        "endChar": 18
+      },
+      "revId": "c310b872ad43961ab6c6434221b7a6c3a874a2d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b571a890_2883ed2f",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-18T19:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907aa50c_adc4becf",
       "range": {
         "startLine": 498,
         "startChar": 10,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ac32cce_1f9f81ad",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-18T19:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89fa25fb_fa1560d1",
+      "range": {
+        "startLine": 537,
+        "startChar": 10,
+        "endLine": 537,
+        "endChar": 18
+      },
+      "revId": "c310b872ad43961ab6c6434221b7a6c3a874a2d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc096148_a2b669ae",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-02-18T17:02:36Z",
       "side": 1,
       "message": "doc string\n\n// funcInst type-checks a function instantiaton inst and returns the result in x.\n// The operand x must be the evaluation of inst.X and its type must be a signature.",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "c310b872ad43961ab6c6434221b7a6c3a874a2d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc5f3109_d474efbf",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-18T19:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc096148_a2b669ae",
       "range": {
         "startLine": 17,
         "startChar": 6,
@@ -116,6 +212,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97aa412b_d22d9cba",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-18T19:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbb32ee3_0f98dd60",
+      "range": {
+        "startLine": 18,
+        "startChar": 19,
+        "endLine": 18,
+        "endChar": 20
+      },
+      "revId": "c310b872ad43961ab6c6434221b7a6c3a874a2d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4151fc81_ce837bfe",
@@ -139,6 +259,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de86409a_bd6341c5",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-18T19:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4151fc81_ce837bfe",
+      "range": {
+        "startLine": 497,
+        "startChar": 8,
+        "endLine": 497,
+        "endChar": 12
+      },
+      "revId": "c310b872ad43961ab6c6434221b7a6c3a874a2d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b294954d_1f5fd5eb",
@@ -152,6 +296,30 @@
       "writtenOn": "2021-02-18T17:02:36Z",
       "side": 1,
       "message": "remove comment?",
+      "range": {
+        "startLine": 247,
+        "startChar": 26,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "c310b872ad43961ab6c6434221b7a6c3a874a2d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b17d9c0_d2814027",
+        "filename": "src/go/types/testdata/issues.go2",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-18T19:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b294954d_1f5fd5eb",
       "range": {
         "startLine": 247,
         "startChar": 26,
