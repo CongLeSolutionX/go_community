@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08b261f9_64d7c3cd",
+        "filename": "src/go/printer/gobuild.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-18T21:46:01Z",
+      "side": 1,
+      "message": "Nit: 2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9050fd3d_b8af7300",
+        "filename": "src/go/printer/gobuild.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-18T21:46:01Z",
+      "side": 1,
+      "message": "TODO still needed?",
+      "range": {
+        "startLine": 62,
+        "startChar": 51,
+        "endLine": 62,
+        "endChar": 76
+      },
+      "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b84f4f4_550cf833",
+        "filename": "src/go/printer/gobuild.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-18T21:46:01Z",
+      "side": 1,
+      "message": "Just to confirm: are these lines already bracketed by tabwriter.Escape?",
+      "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5832ccf8_7150456c",
+        "filename": "src/go/printer/gobuild.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-18T21:46:01Z",
+      "side": 1,
+      "message": "Quick comment here? The condition is a lot to read.",
+      "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
