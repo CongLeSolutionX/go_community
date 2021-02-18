@@ -46,6 +46,30 @@
       },
       "revId": "2214b88fdfcca5afbe175dd2a3d2fde61277c252",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95ff0a22_a8938a87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-02-18T17:36:42Z",
+      "side": 1,
+      "message": "Yeah, now we skip separately compiling function literals if they ended up not needed (e.g., either because of inlining all calls or early dead code elimination).",
+      "parentUuid": "eb364d3a_25e6fb02",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "2214b88fdfcca5afbe175dd2a3d2fde61277c252",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
