@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19f48884_841b0a39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-18T16:48:25Z",
+      "side": 1,
+      "message": "This can only happen with closures, right? For top-level functions we always compile an outlined copy (which the linker may discard). Didn\u0027t know we do that for closures.",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "2214b88fdfcca5afbe175dd2a3d2fde61277c252",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
