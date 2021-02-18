@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc98568e_f86dbf9e",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-18T20:48:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92c562ae_ae7fe7f5",
+      "range": {
+        "startLine": 383,
+        "startChar": 49,
+        "endLine": 384,
+        "endChar": 19
+      },
+      "revId": "f5d31be7fd9fe24fe9e1f420629cd9f85474f00f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f847a13b_fa660e01",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-18T18:44:29Z",
       "side": 1,
       "message": "I\u0027m not as familiar with the messages here. What\u0027s the difference between the previous message and this one?",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "f5d31be7fd9fe24fe9e1f420629cd9f85474f00f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "321d725a_d94ff1fe",
+        "filename": "src/cmd/go/testdata/script/mod_load_badchain.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-18T20:48:07Z",
+      "side": 1,
+      "message": "This one shows the latest version of module example.com/badchain/a (the path requested on the command line) as the root of the error, rather than the previously-selected version of that module.\n\n(Both are arguably correct, because we are indeed updating from example.com/badchain/a@v1.0.0 to example.com/badchain/a@v1.1.0, but the thing the user actually requested is the latter.)",
+      "parentUuid": "f847a13b_fa660e01",
       "range": {
         "startLine": 77,
         "startChar": 0,
