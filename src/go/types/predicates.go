@@ -6,6 +6,7 @@
 
 package types
 
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 import (
 	"go/token"
 	"sort"
@@ -13,6 +14,8 @@ import (
 
 // isNamed reports whether typ has a name.
 // isNamed may be called with types that are not fully set up.
+=======
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 func isNamed(typ Type) bool {
 	switch typ.(type) {
 	case *Basic, *Named, *TypeParam, *instance:
@@ -330,8 +333,8 @@ func (check *Checker) identical0(x, y Type, cmpTags bool, p *ifacePair) bool {
 					p = p.prev
 				}
 				if debug {
-					assert(sort.IsSorted(byUniqueMethodName(a)))
-					assert(sort.IsSorted(byUniqueMethodName(b)))
+					assertSortedMethods(a)
+					assertSortedMethods(b)
 				}
 				for i, f := range a {
 					g := b[i]

@@ -193,8 +193,12 @@ func (check *Checker) objDecl(obj Object, def *Named) {
 		check.varDecl(obj, d.lhs, d.vtyp, d.init)
 	case *TypeName:
 		// invalid recursive types are detected via path
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 		check.typeDecl(obj, d.tdecl, def)
 		check.collectMethods(obj) // methods can only be added to top-level types
+=======
+		check.typeDecl(obj, d.typ, def, d.aliasPos)
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 	case *Func:
 		// functions may be recursive - no need to track dependencies
 		check.funcDecl(obj, d)
@@ -239,7 +243,11 @@ func (check *Checker) cycle(obj Object) (isCycle bool) {
 			// this information explicitly in the object.
 			var alias bool
 			if d := check.objMap[obj]; d != nil {
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 				alias = d.tdecl.Assign.IsValid() // package-level object
+=======
+				alias = d.aliasPos.IsValid() // package-level object
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 			} else {
 				alias = obj.IsAlias() // function local object
 			}
@@ -511,20 +519,6 @@ func (check *Checker) constDecl(obj *Const, typ, init ast.Expr, inherited bool) 
 func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init ast.Expr) {
 	assert(obj.typ == nil)
 
-	// If we have undefined variable types due to errors,
-	// mark variables as used to avoid follow-on errors.
-	// Matches compiler behavior.
-	defer func() {
-		if obj.typ == Typ[Invalid] {
-			obj.used = true
-		}
-		for _, lhs := range lhs {
-			if lhs.typ == Typ[Invalid] {
-				lhs.used = true
-			}
-		}
-	}()
-
 	// determine type, if any
 	if typ != nil {
 		obj.typ = check.varType(typ)
@@ -651,13 +645,18 @@ func (n *Named) setUnderlying(typ Type) {
 	}
 }
 
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *Named) {
+=======
+func (check *Checker) typeDecl(obj *TypeName, typ ast.Expr, def *Named, aliasPos token.Pos) {
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 	assert(obj.typ == nil)
 
 	check.later(func() {
 		check.validType(obj.typ, nil)
 	})
 
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 	alias := tdecl.Assign.IsValid()
 	if alias && tdecl.TParams != nil {
 		// The parser will ensure this but we may still get an invalid AST.
@@ -668,6 +667,12 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *Named) {
 
 	if alias {
 		// type alias declaration
+=======
+	if aliasPos.IsValid() {
+		if !check.allowVersion(obj.pkg, 1, 9) {
+			check.errorf(atPos(aliasPos), _BadDecl, "type aliases requires go1.9 or later")
+		}
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 
 		obj.typ = Typ[Invalid]
 		obj.typ = check.anyType(tdecl.Type)
@@ -706,8 +711,15 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *Named) {
 		named.underlying = under(named)
 	}
 
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
+=======
+	// TODO(rFindley): move to the callsite, as this is only needed for top-level
+	//                 decls.
+	check.addMethodDecls(obj)
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 }
 
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 func (check *Checker) collectTypeParams(list *ast.FieldList) (tparams []*TypeName) {
 	// Type parameter lists should not be empty. The parser will
 	// complain but we still may get an incorrect AST: ignore it.
@@ -780,6 +792,10 @@ func (check *Checker) declareTypeParams(tparams []*TypeName, names []*ast.Ident)
 }
 
 func (check *Checker) collectMethods(obj *TypeName) {
+=======
+// TODO(rFindley): rename to collectMethods, to be consistent with types2.
+func (check *Checker) addMethodDecls(obj *TypeName) {
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 	// get associated methods
 	// (Checker.collectObjects only collects methods with non-blank names;
 	// Checker.resolveBaseTypeName ensures that obj is not an alias name
@@ -789,7 +805,11 @@ func (check *Checker) collectMethods(obj *TypeName) {
 		return
 	}
 	delete(check.methods, obj)
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 	assert(!check.objMap[obj].tdecl.Assign.IsValid()) // don't use TypeName.IsAlias (requires fully set up object)
+=======
+	assert(!check.objMap[obj].aliasPos.IsValid()) // don't use TypeName.IsAlias (requires fully set up object)
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 
 	// use an objset to check for name conflicts
 	var mset objset
@@ -964,7 +984,11 @@ func (check *Checker) declStmt(d ast.Decl) {
 			check.declare(check.scope, d.spec.Name, obj, scopePos)
 			// mark and unmark type before calling typeDecl; its type is still nil (see Checker.objDecl)
 			obj.setColor(grey + color(check.push(obj)))
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 			check.typeDecl(obj, d.spec, nil)
+=======
+			check.typeDecl(obj, d.spec.Type, nil, d.spec.Assign)
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 			check.pop().setColor(black)
 		default:
 			check.invalidAST(d.node(), "unknown ast.Decl node %T", d.node())

@@ -4,12 +4,15 @@
 
 package types
 
+<<<<<<< HEAD   (e196cb [dev.typeparams] cmd/dist:  disable -G=3 on the std go tests)
 import (
 	"fmt"
 	"go/token"
 	"sort"
 )
 
+=======
+>>>>>>> BRANCH (2f0da6 go/types: revert "no 'declared but not used' errors for inva)
 // A Type represents a type of Go.
 // All types implement the Type interface.
 type Type interface {
@@ -393,8 +396,8 @@ func NewInterfaceType(methods []*Func, embeddeds []Type) *Interface {
 	}
 
 	// sort for API stability
-	sort.Sort(byUniqueMethodName(methods))
-	sort.Stable(byUniqueTypeName(embeddeds))
+	sortMethods(methods)
+	sortTypes(embeddeds)
 
 	typ.methods = methods
 	typ.embeddeds = embeddeds
@@ -591,7 +594,7 @@ func (t *Interface) Complete() *Interface {
 	}
 
 	if methods != nil {
-		sort.Sort(byUniqueMethodName(methods))
+		sortMethods(methods)
 		t.allMethods = methods
 	}
 	t.allTypes = allTypes
