@@ -34,6 +34,24 @@
       "parentUuid": "64265bd9_2f0bd31b",
       "revId": "74cf07c0507d55b123314fa64d122243e33648ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da0a3ee8_e37b648e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-18T01:36:54Z",
+      "side": 1,
+      "message": "I think the x/tools error was fixed in https://golang.org/cl/292751.",
+      "parentUuid": "9d6719e1_b385aa39",
+      "revId": "74cf07c0507d55b123314fa64d122243e33648ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
