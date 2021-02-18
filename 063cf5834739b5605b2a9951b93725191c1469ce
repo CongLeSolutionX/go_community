@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3298bc1b_74211ec9",
+        "filename": "src/os/exec/lp_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-18T20:00:09Z",
+      "side": 1,
+      "message": "Maybe do local assignments to work around loop variable capture? (It is okay as they are running sequentially. Maybe still good to have? Up to you.)",
+      "revId": "063cf5834739b5605b2a9951b93725191c1469ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
