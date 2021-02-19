@@ -987,7 +987,12 @@ func (r *importReader) node() ir.Node {
 		r.allClosureVars = append(r.allClosureVars, cvars...)
 
 		fn.Dcl = r.readFuncDcls(fn)
+		outerfn := r.curfn
+		// Temporarily set new curfn inside the closure, so closure
+		// variables are captured correctly.
+		r.curfn = fn
 		body := r.stmtList()
+		r.curfn = outerfn
 		ir.FinishCaptureNames(pos, r.curfn, fn)
 
 		clo := ir.NewClosureExpr(pos, fn)
