@@ -135,7 +135,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 			p.To.Index = REG_NONE
 		}
 	} else {
-		// load_g_cx, below, always inserts the 1-instruction sequence. Rewrite it
+		// load_g, below, always inserts the 1-instruction sequence. Rewrite it
 		// as the 2-instruction sequence if necessary.
 		//	MOVQ 0(TLS), BX
 		// becomes
@@ -644,8 +644,11 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			regg = REGG // use the g register directly in ABIInternal
 		} else {
 			p = obj.Appendp(p, newprog)
-			p = load_g_cx(ctxt, p, newprog) // load g into CX
 			regg = REG_CX
+			if ctxt.Arch.Family == sys.AMD64 {
+				regg = REG_R14 // For transition to Register ABI, cannot step on CX
+			}
+			p = load_g(ctxt, p, newprog, regg) // load g into regg
 		}
 	}
 
@@ -963,7 +966,7 @@ func indir_cx(ctxt *obj.Link, a *obj.Addr) {
 // Overwriting p is unusual but it lets use this in both the
 // prologue (caller must call appendp first) and in the epilogue.
 // Returns last new instruction.
-func load_g_cx(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) *obj.Prog {
+func load_g(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc, rg int16) *obj.Prog {
 	p.As = AMOVQ
 	if ctxt.Arch.PtrSize == 4 {
 		p.As = AMOVL
@@ -972,7 +975,7 @@ func load_g_cx(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) *obj.Prog {
 	p.From.Reg = REG_TLS
 	p.From.Offset = 0
 	p.To.Type = obj.TYPE_REG
-	p.To.Reg = REG_CX
+	p.To.Reg = rg
 
 	next := p.Link
 	progedit(ctxt, p, newprog)
@@ -1027,9 +1030,13 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 		// unnecessarily. See issue #35470.
 		p = ctxt.StartUnsafePoint(p, newprog)
 	} else if framesize <= objabi.StackBig {
+		tmp := int16(REG_AX) // was AX, use R13 for register ABI testing.
+		if ctxt.Arch.Family == sys.AMD64 {
+			tmp = int16(REG_R13) // was AX, use R13 for register ABI testing.
+		}
 		// large stack: SP-framesize <= stackguard-StackSmall
-		//	LEAQ -xxx(SP), AX
-		//	CMPQ AX, stackguard
+		//	LEAQ -xxx(SP), tmp
+		//	CMPQ tmp, stackguard
 		p = obj.Appendp(p, newprog)
 
 		p.As = lea
@@ -1037,12 +1044,12 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 		p.From.Reg = REG_SP
 		p.From.Offset = -(int64(framesize) - objabi.StackSmall)
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = REG_AX
+		p.To.Reg = tmp
 
 		p = obj.Appendp(p, newprog)
 		p.As = cmp
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = REG_AX
+		p.From.Reg = tmp
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = rg
 		p.To.Offset = 2 * int64(ctxt.Arch.PtrSize) // G.stackguard0
@@ -1052,6 +1059,12 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 
 		p = ctxt.StartUnsafePoint(p, newprog) // see the comment above
 	} else {
+		tmp1 := int16(REG_SI)
+		tmp2 := int16(REG_AX)
+		if ctxt.Arch.Family == sys.AMD64 {
+			tmp1 = int16(REG_R13) // was SI, use R13 for register ABI testing.
+			tmp2 = int16(REG_R12) // was AX, use R12 for register ABI testing.
+		}
 		// Such a large stack we need to protect against wraparound.
 		// If SP is close to zero:
 		//	SP-stackguard+StackGuard <= framesize + (StackGuard-StackSmall)
@@ -1060,12 +1073,12 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 		//
 		// Preemption sets stackguard to StackPreempt, a very large value.
 		// That breaks the math above, so we have to check for that explicitly.
-		//	MOVQ	stackguard, SI
+		//	MOVQ	stackguard, tmp1
 		//	CMPQ	SI, $StackPreempt
 		//	JEQ	label-of-call-to-morestack
-		//	LEAQ	StackGuard(SP), AX
-		//	SUBQ	SI, AX
-		//	CMPQ	AX, $(framesize+(StackGuard-StackSmall))
+		//	LEAQ	StackGuard(SP), tmp2
+		//	SUBQ	tmp1, tmp2
+		//	CMPQ	tmp2, $(framesize+(StackGuard-StackSmall))
 
 		p = obj.Appendp(p, newprog)
 
@@ -1077,14 +1090,14 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 			p.From.Offset = 3 * int64(ctxt.Arch.PtrSize) // G.stackguard1
 		}
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = REG_SI
+		p.To.Reg = tmp1
 
 		p = ctxt.StartUnsafePoint(p, newprog) // see the comment above
 
 		p = obj.Appendp(p, newprog)
 		p.As = cmp
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = REG_SI
+		p.From.Reg = tmp1
 		p.To.Type = obj.TYPE_CONST
 		p.To.Offset = objabi.StackPreempt
 		if ctxt.Arch.Family == sys.I386 {
@@ -1102,19 +1115,19 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 		p.From.Reg = REG_SP
 		p.From.Offset = int64(objabi.StackGuard)
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = REG_AX
+		p.To.Reg = tmp2
 
 		p = obj.Appendp(p, newprog)
 		p.As = sub
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = REG_SI
+		p.From.Reg = tmp1
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = REG_AX
+		p.To.Reg = tmp2
 
 		p = obj.Appendp(p, newprog)
 		p.As = cmp
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = REG_AX
+		p.From.Reg = tmp2
 		p.To.Type = obj.TYPE_CONST
 		p.To.Offset = int64(framesize) + (int64(objabi.StackGuard) - objabi.StackSmall)
 	}
