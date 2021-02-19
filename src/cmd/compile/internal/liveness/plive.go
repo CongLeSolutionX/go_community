@@ -297,6 +297,10 @@ func affectedVar(v *ssa.Value) (*ir.Name, ssa.SymEffect) {
 		n, _ := ssa.AutoVar(v)
 		return n, ssa.SymWrite
 
+	case ssa.OpArgIntReg:
+		n, _ := ssa.AutoVar(v)
+		return n, ssa.SymRead
+
 	case ssa.OpVarLive:
 		return v.Aux.(*ir.Name), ssa.SymRead
 	case ssa.OpVarDef, ssa.OpVarKill:
