@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72429f6f_7fa7a6ee",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-02-19T16:16:33Z",
+      "side": 1,
+      "message": "One bounds check per 64MB of heap used is not worth the extra complexity here.",
+      "revId": "cf3be3b2e4e0332de3f6d9da2ae206ad1ad15bbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
