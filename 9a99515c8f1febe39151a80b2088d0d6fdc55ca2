@@ -16,6 +16,24 @@
       "message": "Is codereview.cfg supposed to appear in the diff here?",
       "revId": "9a99515c8f1febe39151a80b2088d0d6fdc55ca2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "267c1451_90720d3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-19T20:46:57Z",
+      "side": 1,
+      "message": "Well, I patched the CL and see the correct codereview.cfg, so LGTM.",
+      "parentUuid": "86b64111_d11989ee",
+      "revId": "9a99515c8f1febe39151a80b2088d0d6fdc55ca2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
