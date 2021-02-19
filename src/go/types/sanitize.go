@@ -13,27 +13,42 @@ func sanitizeInfo(info *Info) {
 	// If modified, they must be assigned back.
 
 	for e, tv := range info.Types {
-		tv.Type = s.typ(tv.Type)
-		info.Types[e] = tv
+		if typ := s.typ(tv.Type); typ != tv.Type {
+			tv.Type = typ
+			info.Types[e] = tv
+		}
 	}
 
 	for e, inf := range info.Inferred {
+		changed := false
 		for i, targ := range inf.Targs {
-			inf.Targs[i] = s.typ(targ)
+			if typ := s.typ(targ); typ != targ {
+				inf.Targs[i] = typ
+				changed = true
+			}
 		}
-		inf.Sig = s.typ(inf.Sig).(*Signature)
-		info.Inferred[e] = inf
+		if typ := s.typ(inf.Sig); typ != inf.Sig {
+			inf.Sig = typ.(*Signature)
+			changed = true
+		}
+		if changed {
+			info.Inferred[e] = inf
+		}
 	}
 
 	for _, obj := range info.Defs {
 		if obj != nil {
-			obj.setType(s.typ(obj.Type()))
+			if typ := s.typ(obj.Type()); typ != obj.Type() {
+				obj.setType(typ)
+			}
 		}
 	}
 
 	for _, obj := range info.Uses {
 		if obj != nil {
-			obj.setType(s.typ(obj.Type()))
+			if typ := s.typ(obj.Type()); typ != obj.Type() {
+				obj.setType(typ)
+			}
 		}
 	}
 
@@ -57,16 +72,22 @@ func (s sanitizer) typ(typ Type) Type {
 		// nothing to do
 
 	case *Array:
-		t.elem = s.typ(t.elem)
+		if elem := s.typ(t.elem); elem != t.elem {
+			t.elem = elem
+		}
 
 	case *Slice:
-		t.elem = s.typ(t.elem)
+		if elem := s.typ(t.elem); elem != t.elem {
+			t.elem = elem
+		}
 
 	case *Struct:
 		s.varList(t.fields)
 
 	case *Pointer:
-		t.base = s.typ(t.base)
+		if base := s.typ(t.base); base != t.base {
+			t.base = base
+		}
 
 	case *Tuple:
 		s.tuple(t)
@@ -87,20 +108,32 @@ func (s sanitizer) typ(typ Type) Type {
 		s.typ(t.allTypes)
 
 	case *Map:
-		t.key = s.typ(t.key)
-		t.elem = s.typ(t.elem)
+		if key := s.typ(t.key); key != t.key {
+			t.key = key
+		}
+		if elem := s.typ(t.elem); elem != t.elem {
+			t.elem = elem
+		}
 
 	case *Chan:
-		t.elem = s.typ(t.elem)
+		if elem := s.typ(t.elem); elem != t.elem {
+			t.elem = elem
+		}
 
 	case *Named:
-		t.orig = s.typ(t.orig)
-		t.underlying = s.typ(t.underlying)
+		if orig := s.typ(t.orig); orig != t.orig {
+			t.orig = orig
+		}
+		if under := s.typ(t.underlying); under != t.underlying {
+			t.underlying = under
+		}
 		s.typeList(t.targs)
 		s.funcList(t.methods)
 
 	case *TypeParam:
-		t.bound = s.typ(t.bound)
+		if bound := s.typ(t.bound); bound != t.bound {
+			t.bound = bound
+		}
 
 	case *instance:
 		typ = t.expand()
@@ -115,7 +148,9 @@ func (s sanitizer) typ(typ Type) Type {
 
 func (s sanitizer) var_(v *Var) {
 	if v != nil {
-		v.typ = s.typ(v.typ)
+		if typ := s.typ(v.typ); typ != v.typ {
+			v.typ = typ
+		}
 	}
 }
 
@@ -133,7 +168,9 @@ func (s sanitizer) tuple(t *Tuple) {
 
 func (s sanitizer) func_(f *Func) {
 	if f != nil {
-		f.typ = s.typ(f.typ)
+		if typ := s.typ(f.typ); typ != f.typ {
+			f.typ = typ
+		}
 	}
 }
 
@@ -145,6 +182,8 @@ func (s sanitizer) funcList(list []*Func) {
 
 func (s sanitizer) typeList(list []Type) {
 	for i, t := range list {
-		list[i] = s.typ(t)
+		if typ := s.typ(t); typ != t {
+			list[i] = typ
+		}
 	}
 }
