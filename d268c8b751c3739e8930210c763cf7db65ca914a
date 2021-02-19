@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02c6cfd6_e0604db4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-02-19T17:25:20Z",
+      "side": 1,
+      "message": "You should probably check via a profiler if any of the code you\u0027re touching actually uses nontrivial amounts of CPU before optimizing it.\n",
+      "revId": "d268c8b751c3739e8930210c763cf7db65ca914a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ce95504_97e9dfd5",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-02-19T17:25:20Z",
+      "side": 1,
+      "message": "This never runs in a regular program.",
+      "range": {
+        "startLine": 111,
+        "startChar": 60,
+        "endLine": 112,
+        "endChar": 24
+      },
+      "revId": "d268c8b751c3739e8930210c763cf7db65ca914a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
