@@ -5,6 +5,7 @@
 package abi
 
 import (
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
@@ -320,7 +321,11 @@ func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field
 	if !isReturn || len(a.Registers) == 0 {
 		// The type frame offset DOES NOT show effects of minimum frame size.
 		// Getting this wrong breaks stackmaps, see liveness/plive.go:WriteFuncMap and typebits/typebits.go:Set
-		f.Offset = a.FrameOffset(result)-config.LocalsOffset()
+		off := a.FrameOffset(result) - config.LocalsOffset()
+		f.Offset = off
+		if f.Nname != nil {
+			f.Nname.(*ir.Name).SetFrameOffset(off)
+		}
 	}
 }
 
