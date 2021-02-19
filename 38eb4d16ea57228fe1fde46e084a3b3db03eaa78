@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "101b0ced_42a4670e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-02-19T02:24:31Z",
+      "side": 1,
+      "message": "NOW https://go-review.googlesource.com/c/go/+/260539",
+      "revId": "38eb4d16ea57228fe1fde46e084a3b3db03eaa78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
