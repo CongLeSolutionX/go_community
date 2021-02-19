@@ -271,10 +271,11 @@ func tcCompLit(n *ir.CompLitExpr) (res ir.Node) {
 			l := l.(*ir.KeyExpr)
 
 			r := l.Key
+			val := ir.ConstValue(r)
 			r = pushtype(r, t.Key())
 			r = Expr(r)
 			l.Key = AssignConv(r, t.Key(), "map key")
-			cs.add(base.Pos, l.Key, "key", "map literal")
+			cs.add(base.Pos, l.Key, val, "key", "map literal")
 
 			r = l.Value
 			r = pushtype(r, t.Elem())

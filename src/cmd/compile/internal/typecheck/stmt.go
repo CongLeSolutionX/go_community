@@ -537,7 +537,7 @@ func tcSwitchExpr(n *ir.SwitchStmt) {
 			//       case GOARCH == "arm":
 			//     which would both evaluate to false for non-ARM compiles.
 			if !n1.Type().IsBoolean() {
-				cs.add(ncase.Pos(), n1, "case", "switch")
+				cs.add(ncase.Pos(), n1, ir.ConstValue(n1), "case", "switch")
 			}
 		}
 

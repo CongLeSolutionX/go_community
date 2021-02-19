@@ -786,7 +786,7 @@ type constSetKey struct {
 // where are used in the error message.
 //
 // n must not be an untyped constant.
-func (s *constSet) add(pos src.XPos, n ir.Node, what, where string) {
+func (s *constSet) add(pos src.XPos, n ir.Node, val interface{}, what, where string) {
 	if conv := n; conv.Op() == ir.OCONVIFACE {
 		conv := conv.(*ir.ConvExpr)
 		if conv.Implicit() {
@@ -823,7 +823,7 @@ func (s *constSet) add(pos src.XPos, n ir.Node, what, where string) {
 	case types.RuneType:
 		typ = types.Types[types.TINT32]
 	}
-	k := constSetKey{typ, ir.ConstValue(n)}
+	k := constSetKey{typ, val}
 
 	if ir.HasUniquePos(n) {
 		pos = n.Pos()
@@ -835,7 +835,7 @@ func (s *constSet) add(pos src.XPos, n ir.Node, what, where string) {
 
 	if prevPos, isDup := s.m[k]; isDup {
 		base.ErrorfAt(pos, "duplicate %s %s in %s\n\tprevious %s at %v",
-			what, nodeAndVal(n), where,
+			what, nodeAndVal(n, val), where,
 			what, base.FmtPos(prevPos))
 	} else {
 		s.m[k] = pos
@@ -846,9 +846,8 @@ func (s *constSet) add(pos src.XPos, n ir.Node, what, where string) {
 // the latter is non-obvious.
 //
 // TODO(mdempsky): This could probably be a fmt.go flag.
-func nodeAndVal(n ir.Node) string {
+func nodeAndVal(n ir.Node, val interface{}) string {
 	show := fmt.Sprint(n)
-	val := ir.ConstValue(n)
 	if s := fmt.Sprintf("%#v", val); show != s {
 		show += " (value " + s + ")"
 	}
