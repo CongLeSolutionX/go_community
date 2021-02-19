@@ -33,6 +33,52 @@
       "message": "TRY\u003dmips32,mips32le",
       "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cea149f9_50119269",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-19T15:57:01Z",
+      "side": 1,
+      "message": "I think it\u0027s better to move those to line comments in the const block, so it is easier to match comment and definition. Either\n\nMIPS_FPABI_NONE \u003d 0 // ...\nMIPS_FPABI_ANY  \u003d 1 // ...\n\nOr\n\n// ...\nMIPS_FPABI_NONE \u003d 0\n\n// ...\nMIPS_FPABI_ANY \u003d 1",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 532,
+        "endChar": 88
+      },
+      "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "011c4ce8_db9ec7b4",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-19T15:57:01Z",
+      "side": 1,
+      "message": "This needs some comment. Why ANY?",
+      "range": {
+        "startLine": 1558,
+        "startChar": 26,
+        "endLine": 1558,
+        "endChar": 40
+      },
+      "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
