@@ -312,7 +312,6 @@ func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field
 		off := a.FrameOffset(result)
 		f.Offset = off
 		if f.Nname != nil {
-			// fmt.Printf("Updated frameoffet of %v to %d\n", f.Nname.(*ir.Name).Sym().Name, off)
 			f.Nname.(*ir.Name).SetFrameOffset(off)
 		}
 	}
