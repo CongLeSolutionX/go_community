@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d1cf608_e4cc3f61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-19T18:56:22Z",
+      "side": 1,
+      "message": "User visible API changes should normally go through the proposal process (https://golang.org/s/proposal).\n\nIn this case I don\u0027t see a reason for the change.  No normal program should ever see this error, so there is no reason to export it.  The error exists to report buggy implementations of io.Writer.  I can\u0027t see any reason why a program would ever want to test whether it received an error reporting a buggy implementation of io.Writer.  I hope that the programmer would instead for the Write method so that the error stops occurring.",
+      "revId": "dfd8d7f6cdedc993b7a3d1c055db7f6035d68733",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
