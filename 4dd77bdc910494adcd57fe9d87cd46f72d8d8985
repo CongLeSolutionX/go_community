@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0f5d6ab_a2194e46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-02-19T16:09:39Z",
+      "side": 1,
+      "message": "This seems to have resulted in breakage across several platforms, including openbsd/arm, netbsd/arm and netbsd/amd64:\n\nhttps://build.golang.org/log/ffaaecfe34f8c3e27fd35d9443f8be85b7183b32\nhttps://build.golang.org/log/7879e2fecdb400eee616294285e1f952e5b17301\nhttps://build.golang.org/log/705c25128c22cf94a3822e30d865b4ce82d8315e\n\nWhile this is repairable (I\u0027ll send a CL for openbsd/arm shortly), manual stack pointer adjustment is fairly common, particularly in syscall assembly - I presume all of these will need to be found and fixed, otherwise it will break whenever we end up running a traceback at the \"wrong\" time.\n\nFrom a super quick look this would include darwin/amd64 and openbsd/mips64, at least in the syscall package.",
+      "revId": "4dd77bdc910494adcd57fe9d87cd46f72d8d8985",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
