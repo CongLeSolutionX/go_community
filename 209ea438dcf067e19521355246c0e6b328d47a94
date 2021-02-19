@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb32afa8_cf76c12b",
+        "filename": "src/go/printer/gobuild.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-19T14:24:42Z",
+      "side": 1,
+      "message": "It\u0027s been sitting here since 2020. Not worth fixing.",
+      "parentUuid": "08b261f9_64d7c3cd",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9050fd3d_b8af7300",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-18T21:46:01Z",
       "side": 1,
       "message": "TODO still needed?",
+      "range": {
+        "startLine": 62,
+        "startChar": 51,
+        "endLine": 62,
+        "endChar": 76
+      },
+      "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3b3b3f0_7c69aeaa",
+        "filename": "src/go/printer/gobuild.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-19T14:24:42Z",
+      "side": 1,
+      "message": "No. I looked in my old local commits and found that originally I called this function build.Constraint, and the TODO was to move it to its own package. So it\u0027s done. Thanks.",
+      "parentUuid": "9050fd3d_b8af7300",
       "range": {
         "startLine": 62,
         "startChar": 51,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "249c31b0_2a71af37",
+        "filename": "src/go/printer/gobuild.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-19T14:24:42Z",
+      "side": 1,
+      "message": "Yes, because they\u0027re slices of p.output, which is tabwriter-escaped.\n(And if the offsets we are using were not for the tabwriter-escaped form \nthe tests would fail by moving slightly misaligned chunks of input.)\nAdded a comment.",
+      "parentUuid": "6b84f4f4_550cf833",
+      "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5832ccf8_7150456c",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-02-18T21:46:01Z",
       "side": 1,
       "message": "Quick comment here? The condition is a lot to read.",
+      "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04780026_b77b9728",
+        "filename": "src/go/printer/gobuild.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-19T14:24:42Z",
+      "side": 1,
+      "message": "Done and restructured a bit to be clearer.",
+      "parentUuid": "5832ccf8_7150456c",
       "revId": "209ea438dcf067e19521355246c0e6b328d47a94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
