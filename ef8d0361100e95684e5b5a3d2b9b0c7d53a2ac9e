@@ -16,6 +16,24 @@
       "message": "Is it okay there\u0027s no tracking issue being opened for this?",
       "revId": "ef8d0361100e95684e5b5a3d2b9b0c7d53a2ac9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97367df7_a97d194c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-02-19T22:12:48Z",
+      "side": 1,
+      "message": "I think it\u0027s OK for now. I half-suspect it is a Mac M1 issue, and the link to the build failure details is as precise as an issue.\n\n(If we had to disable pprof entirely on Macs then I would definitely want an issue for that.)",
+      "parentUuid": "da95c157_6ecbc62e",
+      "revId": "ef8d0361100e95684e5b5a3d2b9b0c7d53a2ac9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
