@@ -387,7 +387,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 
 	s.f.AbiDefault = s.f.ABI1 // Default ABI for function calls with no parsed signature for a pragma, e.g. rtcall
 	// TODO(register args) -- remove this conditional entirely when register ABI is not an experiment.
-	if !regabiEnabledForAllCompilation()  {
+	if !regabiEnabledForAllCompilation() {
 		s.f.AbiDefault = s.f.Abi0 // reset
 	}
 	s.f.ABISelf = s.f.AbiDefault
