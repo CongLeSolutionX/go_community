@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c802e816_82959349",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-02-19T19:56:17Z",
+      "side": 1,
+      "message": "Thanks, Cuong! I just skimmed through this CL stack, and it looks good. I\u0027ll take a closer look shortly. (But since tree doesn\u0027t open until next week, I figure there\u0027s no rush just yet.)",
+      "revId": "7319a79f57ebd2afd8d4b4d81dd3951b3472cbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
