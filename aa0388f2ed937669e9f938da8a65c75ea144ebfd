@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a08fbeb_ce1933ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-02-19T06:07:30Z",
+      "side": 1,
+      "message": "This CL breaks mips64x (both big and little)\n\nhttps://build.golang.org/log/95f9a0eff6f06cdd22807bab9f5b1795c5f5bb26",
+      "revId": "aa0388f2ed937669e9f938da8a65c75ea144ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
