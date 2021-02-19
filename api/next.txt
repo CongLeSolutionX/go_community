@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (563a6c [dev.fuzz] go/build: add missing dependencies)
 pkg archive/zip, method (*ReadCloser) Open(string) (fs.File, error)
 pkg archive/zip, method (*Reader) Open(string) (fs.File, error)
 pkg debug/elf, const DT_ADDRRNGHI = 1879047935
@@ -483,3 +484,5 @@ pkg unicode, var Chorasmian *RangeTable
 pkg unicode, var Dives_Akuru *RangeTable
 pkg unicode, var Khitan_Small_Script *RangeTable
 pkg unicode, var Yezidi *RangeTable
+=======
+>>>>>>> BRANCH (7764ee runtime: fix invalid nil g check for for mips64x)
