@@ -102,7 +102,7 @@ TEXT runtime·gogo(SB), NOSPLIT|NOFRAME, $0-8
 	JMP	gogo<>(SB)
 
 TEXT gogo<>(SB), NOSPLIT|NOFRAME, $0
-	MOVV	R5, g
+	MOVV	R4, g
 	JAL	runtime·save_g(SB)
 
 	MOVV	0(g), R2
