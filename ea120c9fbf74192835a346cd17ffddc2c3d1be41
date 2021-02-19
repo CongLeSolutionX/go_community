@@ -16,6 +16,24 @@
       "message": "For the four operand R4-type instructions (specifically the fused multiply-add instructions) should the operand order in assembly be [RS3, RS2, RS1, RD], [RS2, RS1, RS3, RD] or [RS1, RS2, RS3, RD]? Currently for three operand R-type instructions we are using [RS2, RS1, RD].",
       "revId": "ea120c9fbf74192835a346cd17ffddc2c3d1be41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31964a4f_fd381575",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-02-19T17:37:21Z",
+      "side": 1,
+      "message": "IMO we should use the least surprising version, which is to match the documentation - I believe that would be RS1, RS2, RS3, RD (as in FMADD would be RD \u003d (RS1 * RS2) + RS3).\n\nRegarding existing instructions, I would like to see at least some of these fixed - in particular SUB is nasty (I\u0027ve caught myself out on that previously), whereas SRL/SLL is probably tolerable. We generally have fewer guarantees around assembly, but Cherry may be able to advise further.",
+      "parentUuid": "9176b6f3_ad72f355",
+      "revId": "ea120c9fbf74192835a346cd17ffddc2c3d1be41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
