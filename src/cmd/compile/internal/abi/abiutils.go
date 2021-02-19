@@ -302,7 +302,12 @@ func (config *ABIConfig) ABIAnalyze(t *types.Type) (*ABIParamResultInfo, []Spill
 func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field, a ABIParamAssignment, isReturn bool, spills *spillState) {
 	// Everything except return values in registers has either a frame home (if not in a register) or a frame spill location.
 	if !isReturn || len(a.Registers) == 0 {
-		f.Offset = a.FrameOffset(result)
+		off := a.FrameOffset(result)
+		f.Offset = off
+		if f.Nname != nil {
+			// fmt.Printf("Updated frameoffet of %v to %d\n", f.Nname.(*ir.Name).Sym().Name, off)
+			f.Nname.(*ir.Name).SetFrameOffset(off)
+		}
 	}
 	if nregs := len(a.Registers); nregs > 0 && spills != nil {
 		if !spills.state.regassign(f.Type, spills) {

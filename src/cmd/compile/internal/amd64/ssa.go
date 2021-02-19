@@ -1014,6 +1014,24 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpArgIReg, ssa.OpArgFReg:
+		// The assembler needs to wrap the entry safepoint/stack growth code with spill/unspill
+		// The loop only runs once.
+		for _, ap := range v.Block.Func.RegArgs {
+			//// Tell a pleasing story to the liveness code so that the memory versions of the arguments
+			//// are live in the prologue.
+			//if ap.Type().IsPtrShaped() {
+			//	p := s.Prog(obj.AVARLIVE)
+			//	ssagen.AddrForParamSlot(ap.Mem(), &p.From)
+			//}
+
+			// Pass the spill/unspill information along to the assembler, offset by size of return PC pushed on stack.
+			addr := ssagen.SpillSlotAddr(ap.Mem(), x86.REG_SP, v.Block.Func.Config.PtrSize)
+			ctxt := v.Block.Func.Config.Ctxt()
+			ctxt.RegArgs = append(ctxt.RegArgs,
+				obj.RegArg{Reg: ap.Reg(), Addr: addr, Unspill: loadByType(ap.Type()), Spill: storeByType(ap.Type())})
+
+		}
+		v.Block.Func.RegArgs = nil
 		ssagen.CheckArgReg(v)
 	case ssa.OpAMD64LoweredGetClosurePtr:
 		// Closure pointer is DX.

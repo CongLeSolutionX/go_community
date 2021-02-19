@@ -209,10 +209,15 @@ func InitConfig() {
 	ir.Syms.SigPanic = typecheck.LookupRuntimeFunc("sigpanic")
 }
 
+func regabiEnabledForAllCompilation() bool {
+	// TODO compiler does not yet change behavior for GOEXPERIMENT=regabi
+	return false && objabi.Regabi_enabled != 0
+}
+
 // DefaultAbi returns the default compilation ABI, used to figure out arg/result mapping for bodyless functions.
 func DefaultAbi() *abi.ABIConfig {
 	a := ssaConfig.Abi1
-	if objabi.Regabi_enabled == 0 {
+	if !regabiEnabledForAllCompilation() {
 		a = ssaConfig.Abi0
 	}
 	return a.Copy() // No idea what races will result, be safe
@@ -381,7 +386,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	s.f.Abi0 = ssaConfig.Abi0.Copy() // Avoid racy map operations in type-width cache.
 	s.f.Abi1 = ssaConfig.Abi1.Copy()
 	s.f.AbiDefault = s.f.Abi1 // Also used for rtcall, which has no parsed signature
-	if objabi.Regabi_enabled == 0 {
+	if !regabiEnabledForAllCompilation() {
 		s.f.AbiDefault = s.f.Abi0
 	}
 	s.f.AbiSelf = s.f.AbiDefault
@@ -7470,6 +7475,55 @@ func deferstruct(stksize int64) *types.Type {
 	s.SetNoalg(true)
 	types.CalcStructSize(s)
 	return s
+}
+
+func AutoSlot(v *ssa.Value) ssa.LocalSlot {
+	loc := v.Block.Func.RegAlloc[v.ID].(ssa.LocalSlot)
+	if v.Type.Size() > loc.Type.Size() {
+		v.Fatalf("spill/restore type %s doesn't fit in slot type %s", v.Type, loc.Type)
+	}
+	return loc
+}
+
+func SlotAutoVar(slot *ssa.LocalSlot) (*ir.Name, int64) {
+	return slot.N, slot.Off
+}
+
+// SlotAddr uses LocalSlot information to initialize an obj.Addr
+// The resulting addr is used in a non-standard context -- in the prologue
+// of a function, before the frame has been constructed, so the standard
+// addressing for the parameters will be wrong.
+func SpillSlotAddr(slot *ssa.LocalSlot, baseReg int16, extraOffset int64) obj.Addr {
+	n, off := slot.N, slot.Off
+	var a obj.Addr
+	a.Type = obj.TYPE_MEM
+	a.Reg = baseReg
+	// TODO does it help in any way to initialize Node and Sym?
+	a.Offset = off
+	if n.Class == ir.PPARAM || n.Class == ir.PPARAMOUT {
+		a.Name = obj.NAME_NONE
+		a.Offset += n.FrameOffset()
+	} else {
+		panic("Only expected to see param and returns here")
+	}
+	a.Offset += extraOffset
+	return a
+}
+
+// addrForSlot fills in an Addr appropriately for a Spill,
+// Restore, or VARLIVE.
+func AddrForParamSlot(slot *ssa.LocalSlot, addr *obj.Addr) {
+	// TODO replace this boilerplate in a couple of places.
+	n, off := SlotAutoVar(slot)
+	addr.Type = obj.TYPE_MEM
+	addr.Sym = n.Linksym()
+	addr.Offset = off
+	if n.Class == ir.PPARAM || n.Class == ir.PPARAMOUT {
+		addr.Name = obj.NAME_PARAM
+		addr.Offset += n.FrameOffset()
+	} else {
+		addr.Name = obj.NAME_AUTO
+	}
 }
 
 var (
