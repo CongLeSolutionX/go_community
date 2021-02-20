@@ -118,6 +118,30 @@
       },
       "revId": "94cc70c131c7691e525b924b077e613621ed976e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34183a62_d8908e4c",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-20T23:02:51Z",
+      "side": 1,
+      "message": "Oh, I\u0027m sorry - I misunderstood your question.\n\nIndeed it\u0027s up to the caller to make sure that the additional raw handles are already part of the parent process. This is, in fact, the only way that this API is useful. When you duplicate a handle, the integer value of it changes, which means it can\u0027t be passed to a new process as part of a command line. That means we must not call duplicatehandle on handles passed in.",
+      "parentUuid": "9a7e5d22_aa4bdc0f",
+      "range": {
+        "startLine": 351,
+        "startChar": 17,
+        "endLine": 351,
+        "endChar": 47
+      },
+      "revId": "94cc70c131c7691e525b924b077e613621ed976e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
