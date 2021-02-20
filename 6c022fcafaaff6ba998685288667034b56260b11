@@ -33,6 +33,23 @@
       "message": "Just dropping GODEBUG\u003dscavenge LGTM. Thanks. (As Michael pointed out, this will have to wait until 1.17 opens to be merged.)",
       "revId": "6c022fcafaaff6ba998685288667034b56260b11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2225eece_595b1a5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2021-02-20T04:34:46Z",
+      "side": 1,
+      "message": "Thank you. \nI\u0027m sorry to bother you. \nGo1.16 has been released.\nIs this MR now a suitable time to merge?",
+      "revId": "6c022fcafaaff6ba998685288667034b56260b11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
