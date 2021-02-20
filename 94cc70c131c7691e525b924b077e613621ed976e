@@ -94,6 +94,30 @@
       },
       "revId": "94cc70c131c7691e525b924b077e613621ed976e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a7e5d22_aa4bdc0f",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-02-20T22:36:54Z",
+      "side": 1,
+      "message": "If you mean DuplicateHandle on line 323, then it is only applied on handles in attr.Files. sys.AdditionalInheritedHandles and not listed in attr.Files. Should sys.AdditionalInheritedHandles handles should also be adjusted when parent change?",
+      "parentUuid": "2efbcaba_0ce00cfb",
+      "range": {
+        "startLine": 351,
+        "startChar": 17,
+        "endLine": 351,
+        "endChar": 47
+      },
+      "revId": "94cc70c131c7691e525b924b077e613621ed976e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
