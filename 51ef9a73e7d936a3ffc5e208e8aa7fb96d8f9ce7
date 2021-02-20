@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2404e576_3a25d8c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-02-20T05:52:19Z",
+      "side": 1,
+      "message": "LGTM\n\nWhen Go tree opens.\n\nThank you.\n\nAlex",
+      "revId": "51ef9a73e7d936a3ffc5e208e8aa7fb96d8f9ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
