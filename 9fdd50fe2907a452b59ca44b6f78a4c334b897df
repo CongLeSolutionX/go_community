@@ -79,6 +79,30 @@
       },
       "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06c18a14_0755a40d",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2021-02-20T08:03:41Z",
+      "side": 1,
+      "message": "It may be a bad naming.\nMIPS_FPABI_ANY means the old style paired float/double register schaming.\nCurrently, go are not make sure that non-odd-number-fpr is used.\nSo we have to assume that the FPABI_ANY is used.\n\nThis patch is just to make sure that the kernel can recognize the binary correctly.\n\nIn future, we will switch the whole go stack to FPXX, and then FP64.",
+      "parentUuid": "011c4ce8_db9ec7b4",
+      "range": {
+        "startLine": 1558,
+        "startChar": 26,
+        "endLine": 1558,
+        "endChar": 40
+      },
+      "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
