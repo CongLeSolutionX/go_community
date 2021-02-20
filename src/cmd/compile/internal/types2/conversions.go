@@ -1,11 +1,10 @@
-// UNREVIEWED
 // Copyright 2012 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of conversions.
 
-package types2
+package types
 
 import (
 	"go/constant"
@@ -39,7 +38,7 @@ func (check *Checker) conversion(x *operand, T Type) {
 	}
 
 	if !ok {
-		check.errorf(x, "cannot convert %s to %s", x, T)
+		check.errorf(x, _InvalidConversion, "cannot convert %s to %s", x, T)
 		x.mode = invalid
 		return
 	}
@@ -49,17 +48,15 @@ func (check *Checker) conversion(x *operand, T Type) {
 	// given a type explicitly by a constant declaration or conversion,...".
 	if isUntyped(x.typ) {
 		final := T
-		// - For conversions to interfaces, except for untyped nil arguments,
-		//   use the argument's default type.
+		// - For conversions to interfaces, use the argument's default type.
 		// - For conversions of untyped constants to non-constant types, also
 		//   use the default type (e.g., []byte("foo") should report string
 		//   not []byte as type for the constant "foo").
+		// - Keep untyped nil for untyped nil arguments.
 		// - For integer to string conversions, keep the argument type.
 		//   (See also the TODO below.)
-		if x.typ == Typ[UntypedNil] {
-			// ok
-		} else if IsInterface(T) || constArg && !isConstType(T) {
-			final = Default(x.typ)
+		if IsInterface(T) || constArg && !isConstType(T) || x.isNil() {
+			final = Default(x.typ) // default type of untyped nil is untyped nil
 		} else if isInteger(x.typ) && isString(T) {
 			final = x.typ
 		}
@@ -84,7 +81,7 @@ func (check *Checker) conversion(x *operand, T Type) {
 // exported API call, i.e., when all methods have been type-checked.
 func (x *operand) convertibleTo(check *Checker, T Type) bool {
 	// "x is assignable to T"
-	if x.assignableTo(check, T, nil) {
+	if ok, _ := x.assignableTo(check, T, nil); ok {
 		return true
 	}
 
@@ -145,7 +142,7 @@ func isUintptr(typ Type) bool {
 }
 
 func isUnsafePointer(typ Type) bool {
-	// TODO(gri): Is this asBasic(typ) instead of typ.(*Basic) correct?
+	// TODO(gri): Is this asBasic() instead of typ.(*Basic) correct?
 	//            (The former calls under(), while the latter doesn't.)
 	//            The spec does not say so, but gc claims it is. See also
 	//            issue 6326.
