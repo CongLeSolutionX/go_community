@@ -46,6 +46,30 @@
       },
       "revId": "94cc70c131c7691e525b924b077e613621ed976e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f361a712_278fc60c",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-02-20T22:16:08Z",
+      "side": 1,
+      "message": "I did look again. I still don\u0027t see how sys.AdditionalInheritedHandles are adjusted for different parent. Which lines do adjusting?",
+      "parentUuid": "7b91fef7_2438b1a6",
+      "range": {
+        "startLine": 351,
+        "startChar": 17,
+        "endLine": 351,
+        "endChar": 47
+      },
+      "revId": "94cc70c131c7691e525b924b077e613621ed976e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
