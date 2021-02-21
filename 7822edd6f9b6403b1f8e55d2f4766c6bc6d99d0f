@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19331d81_fe91bed5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49879
+      },
+      "writtenOn": "2021-02-21T03:14:54Z",
+      "side": 1,
+      "message": "hi~ i make a PR, can you help view it ? thanks!",
+      "revId": "7822edd6f9b6403b1f8e55d2f4766c6bc6d99d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
