@@ -34,6 +34,205 @@
       "parentUuid": "25bad324_3dfde232",
       "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a996071f_4f48d225",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "Add paragraph for types.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e27d08d_d5697f72",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "I think we still need to call ReadCorpus(cacheDir), then range over that result.",
+      "range": {
+        "startLine": 283,
+        "startChar": 19,
+        "endLine": 283,
+        "endChar": 28
+      },
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ae2a848_2d7aea22",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "Could this validation code be moved into ReadCorpus (adding the types parameter there)? The testing package needs to do something pretty similar.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6028a9a1_c3d8f9d5",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "We should skip files in the cache but fail on files in the seed corpus.\n\nMaybe define a structured error type for this so the caller can decide what to do?",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52a6a356_1aa564c5",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "Let\u0027s avoid mentioning the testing package in error messages. testing should add that itself when it prints errors from ReadCorpus and other exported functions. It will be hard to consistently add that prefix to all errors returned from this package.\n\nIdeally, this package can be decoupled from testing: it might be possible to build fuzzing tools without testing and \u0027go test\u0027. Not sure if that will happen, but let\u0027s keep them as separate as we can.",
+      "range": {
+        "startLine": 325,
+        "startChar": 27,
+        "endLine": 325,
+        "endChar": 36
+      },
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad52fc6e_0d5a0449",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "Could we separate unmarshaling from mutation? I think this is going to be called in a pretty tight loop, and it would be good to avoid unmarshaling again if we can.\n\nI guess we\u0027ll still need to marshal it back to shared memory though.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e59f792_c4fb5c8d",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "Check maxArgsToFuzz. Better to panic sooner rather than later.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e6d8738_6e2c10b7",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "Do we actually need to limit this?",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729c16a3_5628d786",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "Check fnType.Kind() \u003d\u003d reflect.Func first. NumIn panic if it\u0027s not a function, but we can probably give a better panic message.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3d4e329_8eeb064c",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "Nit: let\u0027s move this f.Helper call up to L234. It should be near the top of the function.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee8b64a_f1c49443",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-22T19:48:50Z",
+      "side": 1,
+      "message": "If an entry came from testdata, let\u0027s make sure the error gives the file name so the user can fix or delete it. It\u0027s probably best if fuzz.ReadCorpus takes the type list and returns an error with all the bad files.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
