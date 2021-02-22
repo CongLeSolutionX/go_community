@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "524c6eca_f6e8795b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-22T15:11:38Z",
+      "side": 1,
+      "message": "It really isn\u0027t just arm64 and race+amd64. The regular amd64 builders are hitting it too, just not as frequently.\n\n(There have been failures on at least the 10_14 and 10_12 builders; see #44418.)",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "a8942d2cffd80c68febe1c908a0eb464d2f5bb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
