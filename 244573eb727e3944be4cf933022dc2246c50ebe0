@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d5aa6dc_26191ccc",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a996071f_4f48d225",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e27d08d_d5697f72",
@@ -66,6 +84,30 @@
       "writtenOn": "2021-02-22T19:48:50Z",
       "side": 1,
       "message": "I think we still need to call ReadCorpus(cacheDir), then range over that result.",
+      "range": {
+        "startLine": 283,
+        "startChar": 19,
+        "endLine": 283,
+        "endChar": 28
+      },
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56469f80_94429a54",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Good catch. This was just a mistake when handling merge conflicts, not intended behavior.",
+      "parentUuid": "8e27d08d_d5697f72",
       "range": {
         "startLine": 283,
         "startChar": 19,
@@ -93,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b507cafc_a7681622",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ae2a848_2d7aea22",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6028a9a1_c3d8f9d5",
@@ -106,6 +166,24 @@
       "writtenOn": "2021-02-22T19:48:50Z",
       "side": 1,
       "message": "We should skip files in the cache but fail on files in the seed corpus.\n\nMaybe define a structured error type for this so the caller can decide what to do?",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8ba52c_3113b7de",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "I went ahead and followed this suggestion, with a little extra to try to make the error messages as helpful as possible. LMK what you think.\n\nI messed around with a couple different ways to do this after I read your comment. At first I thought we could just have a bool passed to ReadCorpus named something like \"strict\", which would tell us whether or not to return upon the first malformed corpus entry we find. But in the case of several errors, that would be unhelpful. For example, if there are 10 bad files, then someone might have to run this 10 times, fixing each file one-at-a-time.\n\nInstead, I went ahead and made a custom type that stores a map which lumps all files with the same error together when it\u0027s printed. The alternative would be to just return the first error found and all of the files that are broken. But that seems a bit misleading if some failed for different reasons. This way it should be very clear what failed and why.\n\nI also think we may consider printing a warning saying something like\n\n   unable to read %d files in \u003cinsert cache dir\u003e, skipped\n\nso that we aren\u0027t just silently skipping files that the devs aren\u0027t aware of. I added a TODO to consider that.",
+      "parentUuid": "6028a9a1_c3d8f9d5",
       "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -133,6 +211,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef62f74e_af2fab6b",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Yep you\u0027re right. Done.",
+      "parentUuid": "52a6a356_1aa564c5",
+      "range": {
+        "startLine": 325,
+        "startChar": 27,
+        "endLine": 325,
+        "endChar": 36
+      },
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad52fc6e_0d5a0449",
@@ -146,6 +248,24 @@
       "writtenOn": "2021-02-22T19:48:50Z",
       "side": 1,
       "message": "Could we separate unmarshaling from mutation? I think this is going to be called in a pretty tight loop, and it would be good to avoid unmarshaling again if we can.\n\nI guess we\u0027ll still need to marshal it back to shared memory though.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6757dbd5_b33e4c0b",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Yep good idea. We\u0027ll still have to marshal it for the shared memory, like you said, but we don\u0027t have to unmarshal it every time.",
+      "parentUuid": "ad52fc6e_0d5a0449",
       "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -167,6 +287,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "694c4f08_18e035c7",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "n/a",
+      "parentUuid": "5e59f792_c4fb5c8d",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e6d8738_6e2c10b7",
@@ -180,6 +318,24 @@
       "writtenOn": "2021-02-22T19:48:50Z",
       "side": 1,
       "message": "Do we actually need to limit this?",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c100673_e6a63d21",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Maybe? At the very least we will want to document something to set expectations. I\u0027m imaging someone trying to fuzz a ridiculous number of inputs at once (like 20), and being disappointed that the mutator doesn\u0027t work well. I\u0027ll just remove it for now, since we can always document it and deal with it later.",
+      "parentUuid": "8e6d8738_6e2c10b7",
       "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -201,6 +357,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5058e160_8160343d",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Done. (My first iteration did that, then I figured it would just panic anyway so it was fine, but you\u0027re right that we can give a better error message)",
+      "parentUuid": "729c16a3_5628d786",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3d4e329_8eeb064c",
@@ -218,6 +392,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fdbb558_32f99b91",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d4e329_8eeb064c",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ee8b64a_f1c49443",
@@ -231,6 +423,24 @@
       "writtenOn": "2021-02-22T19:48:50Z",
       "side": 1,
       "message": "If an entry came from testdata, let\u0027s make sure the error gives the file name so the user can fix or delete it. It\u0027s probably best if fuzz.ReadCorpus takes the type list and returns an error with all the bad files.",
+      "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c71d90eb_65b631f8",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-22T23:38:12Z",
+      "side": 1,
+      "message": "Agreed. See other comment.",
+      "parentUuid": "1ee8b64a_f1c49443",
       "revId": "244573eb727e3944be4cf933022dc2246c50ebe0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
