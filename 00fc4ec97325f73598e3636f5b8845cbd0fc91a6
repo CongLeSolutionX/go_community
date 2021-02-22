@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62625d48_99ed08c6",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-02-22T15:47:39Z",
+      "side": 1,
+      "message": "\u003c-chan struct{}",
+      "revId": "00fc4ec97325f73598e3636f5b8845cbd0fc91a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "606ab7c1_8d5e1877",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-02-22T15:47:39Z",
+      "side": 1,
+      "message": "this seems super scary/racy at first read.\n\nsounds like we have 100ms for the kernel to do something, otherwise this is incorrect?",
+      "range": {
+        "startLine": 369,
+        "startChar": 3,
+        "endLine": 375,
+        "endChar": 60
+      },
+      "revId": "00fc4ec97325f73598e3636f5b8845cbd0fc91a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
