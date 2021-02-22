@@ -81,6 +81,30 @@
       },
       "revId": "bb84383e2f73ca49edf0b075f4d89f2c83da12b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2d7c2b8_ee4c43fa",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-22T18:41:38Z",
+      "side": 1,
+      "message": "The latter is all I meant. Using 0 for default is fine. Plus two local, named constants for 1 and 2.",
+      "parentUuid": "15624653_2227aeea",
+      "range": {
+        "startLine": 424,
+        "startChar": 63,
+        "endLine": 424,
+        "endChar": 64
+      },
+      "revId": "bb84383e2f73ca49edf0b075f4d89f2c83da12b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
