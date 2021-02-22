@@ -30,7 +30,7 @@ func LoadPackage(filenames []string) {
 	base.Timer.Start("fe", "parse")
 
 	mode := syntax.CheckBranches
-	if base.Flag.G != 0 {
+	if base.Flag.G >= 2 {
 		mode |= syntax.AllowGenerics
 	}
 
@@ -72,7 +72,7 @@ func LoadPackage(filenames []string) {
 	}
 	base.Timer.AddEvent(int64(lines), "lines")
 
-	if base.Flag.G != 0 {
+	if base.Flag.G >= 1 {
 		// Use types2 to type-check and possibly generate IR.
 		check2(noders)
 		return

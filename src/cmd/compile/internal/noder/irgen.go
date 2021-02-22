@@ -6,7 +6,6 @@ package noder
 
 import (
 	"fmt"
-	"os"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/dwarfgen"
@@ -72,9 +71,6 @@ func check2(noders []*noder) {
 		base.FatalfAt(src.NoXPos, "conf.Check error: %v", err)
 	}
 	base.ExitIfErrors()
-	if base.Flag.G < 2 {
-		os.Exit(0)
-	}
 
 	g := irgen{
 		target: typecheck.Target,
@@ -85,10 +81,6 @@ func check2(noders []*noder) {
 		typs:   make(map[types2.Type]*types.Type),
 	}
 	g.generate(noders)
-
-	if base.Flag.G < 3 {
-		os.Exit(0)
-	}
 }
 
 type irgen struct {

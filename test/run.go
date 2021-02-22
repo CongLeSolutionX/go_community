@@ -789,7 +789,7 @@ func (t *test) run() {
 		}
 
 		// Run errorcheck again with -G option (new typechecker).
-		cmdline = []string{goTool(), "tool", "compile", "-G=3", "-C", "-e", "-o", "a.o"}
+		cmdline = []string{goTool(), "tool", "compile", "-G=2", "-C", "-e", "-o", "a.o"}
 		// No need to add -dynlink even if linkshared if we're just checking for errors...
 		cmdline = append(cmdline, flags...)
 		cmdline = append(cmdline, long)
