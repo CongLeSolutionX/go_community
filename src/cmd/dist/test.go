@@ -309,14 +309,14 @@ var (
 	benchMatches []string
 )
 
-func (t *tester) registerStdTest(pkg string, useG3 bool) {
+func (t *tester) registerStdTest(pkg string, flagG int) {
 	heading := "Testing packages."
 	testPrefix := "go_test:"
 	gcflags := gogcflags
-	if useG3 {
-		heading = "Testing packages with -G=3."
-		testPrefix = "go_test_g3:"
-		gcflags += " -G=3"
+	if flagG != 0 {
+		heading = fmt.Sprintf("Testing packages with -G=%v.", flagG)
+		testPrefix = fmt.Sprintf("go_test_g%v:", flagG)
+		gcflags += fmt.Sprintf(" -G=%v", flagG)
 	}
 
 	testName := testPrefix + pkg
@@ -418,10 +418,10 @@ func (t *tester) registerTests() {
 	if len(t.runNames) > 0 {
 		for _, name := range t.runNames {
 			if strings.HasPrefix(name, "go_test:") {
-				t.registerStdTest(strings.TrimPrefix(name, "go_test:"), false)
+				t.registerStdTest(strings.TrimPrefix(name, "go_test:"), 0)
 			}
-			if strings.HasPrefix(name, "go_test_g3:") {
-				t.registerStdTest(strings.TrimPrefix(name, "go_test_g3:"), true)
+			if strings.HasPrefix(name, "go_test_g2:") {
+				t.registerStdTest(strings.TrimPrefix(name, "go_test_g2:"), 2)
 			}
 			if strings.HasPrefix(name, "go_test_bench:") {
 				t.registerRaceBenchTest(strings.TrimPrefix(name, "go_test_bench:"))
@@ -445,14 +445,14 @@ func (t *tester) registerTests() {
 		}
 		pkgs := strings.Fields(string(all))
 		if false {
-			// Disable -G=3 option for standard tests for now, since
+			// Disable -G=2 option for standard tests for now, since
 			// they are flaky on the builder.
 			for _, pkg := range pkgs {
-				t.registerStdTest(pkg, true /* -G=3 flag */)
+				t.registerStdTest(pkg, 2 /* -G=2 flag */)
 			}
 		}
 		for _, pkg := range pkgs {
-			t.registerStdTest(pkg, false)
+			t.registerStdTest(pkg, 0)
 		}
 		if t.race {
 			for _, pkg := range pkgs {
