@@ -6,7 +6,6 @@ package noder
 
 import (
 	"fmt"
-	"os"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/dwarfgen"
@@ -68,12 +67,9 @@ func check2(noders []*noder) {
 	}
 	pkg, err := conf.Check(base.Ctxt.Pkgpath, files, &info)
 	files = nil
+	base.ExitIfErrors()
 	if err != nil {
 		base.FatalfAt(src.NoXPos, "conf.Check error: %v", err)
-	}
-	base.ExitIfErrors()
-	if base.Flag.G < 2 {
-		os.Exit(0)
 	}
 
 	g := irgen{
@@ -85,10 +81,6 @@ func check2(noders []*noder) {
 		typs:   make(map[types2.Type]*types.Type),
 	}
 	g.generate(noders)
-
-	if base.Flag.G < 3 {
-		os.Exit(0)
-	}
 }
 
 type irgen struct {

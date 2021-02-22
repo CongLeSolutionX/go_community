@@ -49,6 +49,7 @@ type DebugFlags struct {
 	SoftFloat     int    `help:"force compiler to emit soft-float code"`
 	TypeAssert    int    `help:"print information about type assertion inlining"`
 	TypecheckInl  int    `help:"eager typechecking of inline function bodies"`
+	TypecheckOnly int    `help:"exit after typeechecking"`
 	WB            int    `help:"print information about write barriers"`
 	ABIWrap       int    `help:"print information about ABI wrapper generation"`
 

@@ -185,6 +185,9 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 
 	// Parse and typecheck input.
 	noder.LoadPackage(flag.Args())
+	if base.Debug.TypecheckOnly != 0 {
+		base.Exit(0)
+	}
 
 	dwarfgen.RecordPackageName()
 	ssagen.CgoSymABIs()
