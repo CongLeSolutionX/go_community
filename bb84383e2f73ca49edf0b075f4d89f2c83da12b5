@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60fafbd1_bb95843a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-02-22T18:39:43Z",
+      "side": 1,
+      "message": "-g seems reasonable to me. It would also help smoke out if anywhere\u0027s still using -G with the old values.",
+      "parentUuid": "b19cffbb_749bc6fb",
+      "revId": "bb84383e2f73ca49edf0b075f4d89f2c83da12b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f670a4a_9d0c0fbb",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-22T18:27:50Z",
       "side": 1,
       "message": "maybe define suitable constants and use them instead?\n\n(If we ever change these values again, we might easily miss one)",
+      "range": {
+        "startLine": 424,
+        "startChar": 63,
+        "endLine": 424,
+        "endChar": 64
+      },
+      "revId": "bb84383e2f73ca49edf0b075f4d89f2c83da12b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15624653_2227aeea",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-02-22T18:39:43Z",
+      "side": 1,
+      "message": "Do you mind elaborating on what you\u0027re envisioning here?\n\nDo you mean constants shared between cmd/compile and cmd/dist? If so, I think we currently rely on cmd/dist being possible to compile fully standalone.\n\nI\u0027m happy to just define some local constant values though, if that\u0027s all you meant.",
+      "parentUuid": "1f670a4a_9d0c0fbb",
       "range": {
         "startLine": 424,
         "startChar": 63,
