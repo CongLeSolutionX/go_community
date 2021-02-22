@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64754bcc_520f2bc7",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-22T16:57:28Z",
+      "side": 1,
+      "message": "I don\u0027t think this part is actually necessary.",
+      "range": {
+        "startLine": 524,
+        "startChar": 3,
+        "endLine": 524,
+        "endChar": 25
+      },
+      "revId": "7ddbe7fddf7f7b0cb18cf5829ee89cfc9b7c4480",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
