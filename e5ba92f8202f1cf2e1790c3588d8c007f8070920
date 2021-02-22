@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ce90ba_3158cc80",
+        "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-02-22T20:14:40Z",
+      "side": 1,
+      "message": "Reference the issue number.",
+      "revId": "e5ba92f8202f1cf2e1790c3588d8c007f8070920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
