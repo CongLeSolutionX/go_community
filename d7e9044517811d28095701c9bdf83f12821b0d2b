@@ -34,6 +34,41 @@
       "parentUuid": "eeca1687_ff40fba6",
       "revId": "d7e9044517811d28095701c9bdf83f12821b0d2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd6bdff3_b5a25063",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2021-02-22T11:33:48Z",
+      "side": 1,
+      "message": "Friendly ping on this CL. I found that dividing by 2 is not optimized in the compiler.Should I submit an issue?",
+      "revId": "d7e9044517811d28095701c9bdf83f12821b0d2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3656fa2_7a0528d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38047
+      },
+      "writtenOn": "2021-02-22T11:33:48Z",
+      "side": 1,
+      "message": "Maybe it was my test error. I tried to use GOSSAFUNC to view the a\u003da*2 and a\u003da\u003c\u003c1 commands. Found that they are not the same in genssa.",
+      "parentUuid": "32e01d03_b7f2d580",
+      "revId": "d7e9044517811d28095701c9bdf83f12821b0d2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
