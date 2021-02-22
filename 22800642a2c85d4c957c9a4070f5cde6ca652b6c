@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5fd4327_2a11017a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-22T16:40:23Z",
+      "side": 1,
+      "message": "Whoops, looks like gopherbot beat me to it in terms of assigning reviewers.  I\u0027m going to trim the reviewer set down to something a bit more reasonable-- please add yourself back in if you still want to review.",
+      "revId": "22800642a2c85d4c957c9a4070f5cde6ca652b6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
