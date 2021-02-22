@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25546d60_7efbbd6d",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-02-22T22:56:55Z",
+      "side": 1,
+      "message": "Comments about what these mean would be good, though I can guess (and they were like this when you found them).",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "44daca32f0a52410f68657feb35ba6f78a66ab94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
