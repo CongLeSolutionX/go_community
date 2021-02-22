@@ -302,9 +302,11 @@ const (
 	// gcMarkWorkerFractionalMode indicates that a P is currently
 	// running the "fractional" mark worker. The fractional worker
 	// is necessary when GOMAXPROCS*gcBackgroundUtilization is not
-	// an integer. The fractional worker should run until it is
-	// preempted and will be scheduled to pick up the fractional
-	// part of GOMAXPROCS*gcBackgroundUtilization.
+	// an integer and the utilization too far away from the
+	// gcBackgroundUtilization when round the number.
+	// The fractional worker should run until it is preempted and
+	// will be scheduled to pick up the fractional part of
+	// GOMAXPROCS*gcBackgroundUtilization.
 	gcMarkWorkerFractionalMode
 
 	// gcMarkWorkerIdleMode indicates that a P is running the mark
