@@ -69,6 +69,24 @@
       "parentUuid": "32e01d03_b7f2d580",
       "revId": "d7e9044517811d28095701c9bdf83f12821b0d2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f4629ef_5a77ba8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2021-02-22T11:41:56Z",
+      "side": 1,
+      "message": "/2 can be optimised to \u003e\u003e 1 if the variable is unsigned. If you\u0027re seeing a difference with unsigned division by 2, please file a new issue. Thanks",
+      "parentUuid": "bd6bdff3_b5a25063",
+      "revId": "d7e9044517811d28095701c9bdf83f12821b0d2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
