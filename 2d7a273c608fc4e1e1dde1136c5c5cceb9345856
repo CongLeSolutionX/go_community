@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d53a81d_069ab879",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-23T21:10:14Z",
+      "side": 1,
+      "message": "resolved",
+      "parentUuid": "55f4caa7_dfb95e7a",
+      "range": {
+        "startLine": 53,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 2
+      },
+      "revId": "2d7a273c608fc4e1e1dde1136c5c5cceb9345856",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66b4e0c6_6976ae85",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-18T21:07:53Z",
       "side": 1,
       "message": "We could probably use testdeps to avoid this dependency, but I think it\u0027ll be a pretty big pain. LMK what you think.",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "2d7a273c608fc4e1e1dde1136c5c5cceb9345856",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c22cbea_728f50d2",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-02-23T21:10:14Z",
+      "side": 1,
+      "message": "resolved",
+      "parentUuid": "66b4e0c6_6976ae85",
       "range": {
         "startLine": 13,
         "startChar": 1,
