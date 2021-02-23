@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8d738b13_17904f28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 49879
+      },
+      "writtenOn": "2021-02-23T03:18:35Z",
+      "side": 1,
+      "message": "thanks, i get it, fixed",
+      "parentUuid": "660b952f_4d6917fd",
+      "revId": "d9cf21e509ba92681fcd7b58c139a58ccffe2a0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9359699d_172460fc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8881bfd_5ac9273a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49879
+      },
+      "writtenOn": "2021-02-23T03:18:35Z",
+      "side": 1,
+      "message": "thanks! fixed",
+      "parentUuid": "6d08a05c_14934bf4",
+      "revId": "cf628c451b2a83da082da4e608094d563fbf8ec0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3e98053_c5f3a8e5",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-22T22:43:08Z",
       "side": 1,
       "message": "Perhaps \"and using only dedicated workers would result in utilization too far from the target of gcBackgroundUtilization.\"",
+      "range": {
+        "startLine": 305,
+        "startChar": 15,
+        "endLine": 306,
+        "endChar": 50
+      },
+      "revId": "cf628c451b2a83da082da4e608094d563fbf8ec0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d5b71af_ae474101",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 49879
+      },
+      "writtenOn": "2021-02-23T03:18:35Z",
+      "side": 1,
+      "message": "thanks,I have adopted your suggestion. fixed",
+      "parentUuid": "e3e98053_c5f3a8e5",
       "range": {
         "startLine": 305,
         "startChar": 15,
