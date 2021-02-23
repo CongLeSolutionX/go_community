@@ -16,6 +16,23 @@
       "message": "TRY\u003dlongtest,windows-amd64-longtest",
       "revId": "21b9ffd2b51388ac5e173c380a73ddedfe4f30ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed0fc199_7851cfd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-23T17:38:51Z",
+      "side": 1,
+      "message": "Looks good, thanks!",
+      "revId": "21b9ffd2b51388ac5e173c380a73ddedfe4f30ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
