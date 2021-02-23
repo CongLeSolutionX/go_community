@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acd1222e_22613820",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-02-23T23:36:09Z",
+      "side": 0,
+      "message": "Does this actually remove the bounds check?\nFor the removal to be safe, the analysis needs to know that v.Args was not reassigned by the Reg() call.\n\nMaybe it would know that if Reg() is inlined? I suspect not, but I\u0027m willing to be pleasantly surprised.",
+      "revId": "e9c96835971044aa4ace37c7787de231bbde05d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
