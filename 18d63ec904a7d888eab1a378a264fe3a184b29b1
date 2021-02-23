@@ -86,6 +86,24 @@
       "message": "should i close this one? or still working on?",
       "revId": "18d63ec904a7d888eab1a378a264fe3a184b29b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f554f833_c3c77b78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-02-23T22:51:31Z",
+      "side": 1,
+      "message": "I agree with Cherry that there\u0027s not much performance benefit here.\n\nI do like the idea of better organizing the assembly tables, they are kind of a mess and inscrutable at the moment. This CL is a small step in the right direction in that respect. But maybe there\u0027s a machine transformation that could automate reorganizing the tables? That solves 2 problems at once:\n 1) this CL is only for x86, and all the ports have similar issues (although x86 really is worse than the others)\n 2) Machine transformation means no hand-editing bugs which could be very hard to find.\n\nI\u0027m kind of on the fence about this one. Seems a reasonable small step, but without a larger plan (complete assembler rewrite, anyone?) not sure it\u0027s worth doing by itself.",
+      "parentUuid": "895751a2_9f25f69f",
+      "revId": "18d63ec904a7d888eab1a378a264fe3a184b29b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
