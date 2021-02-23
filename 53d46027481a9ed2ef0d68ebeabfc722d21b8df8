@@ -34,6 +34,23 @@
       "parentUuid": "9163a30c_f80e100a",
       "revId": "53d46027481a9ed2ef0d68ebeabfc722d21b8df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93cea71c_ddbd6335",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T00:59:08Z",
+      "side": 1,
+      "message": "Hi, since the tree is now open for general development for the Go 1.17 changes, can we submit this CL?",
+      "revId": "53d46027481a9ed2ef0d68ebeabfc722d21b8df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
