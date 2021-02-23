@@ -16,6 +16,24 @@
       "message": "Do we need to add equivalent guards as go/types here, to prevent a race in case of concurrent type checking?",
       "revId": "b8c85a71f00990fd2124a4b0a45ac494b8dac125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "944a9aeb_7d4ddcc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-23T04:23:35Z",
+      "side": 1,
+      "message": "Of course - thanks for catching this. Updated.\n\nPTAL.",
+      "parentUuid": "df52544a_a4eab7f6",
+      "revId": "b8c85a71f00990fd2124a4b0a45ac494b8dac125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
