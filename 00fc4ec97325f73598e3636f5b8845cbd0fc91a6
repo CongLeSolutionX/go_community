@@ -39,6 +39,30 @@
       },
       "revId": "00fc4ec97325f73598e3636f5b8845cbd0fc91a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79397417_17242081",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-23T05:23:57Z",
+      "side": 1,
+      "message": "Yes, sorry, I jumped the gun on adding you as a reviewer.  This CL isn\u0027t ready.",
+      "parentUuid": "606ab7c1_8d5e1877",
+      "range": {
+        "startLine": 369,
+        "startChar": 3,
+        "endLine": 375,
+        "endChar": 60
+      },
+      "revId": "00fc4ec97325f73598e3636f5b8845cbd0fc91a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
