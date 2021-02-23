@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce7413f2_5dfecda9",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-23T15:36:54Z",
+      "side": 1,
+      "message": "s/type/types/",
+      "range": {
+        "startLine": 37,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 7
+      },
+      "revId": "645b4fd6f5c51eef54a63efbb90197b174fd055c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e60be28a_85adfa77",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-23T15:36:54Z",
+      "side": 1,
+      "message": "The order here will be random; better for error messages to be deterministic if possible.\n\nProbably easier to just track []error? Most of the errors will be unique and will already have a file path as part of the message, so we don\u0027t need to store anything else.",
+      "revId": "645b4fd6f5c51eef54a63efbb90197b174fd055c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8773b42b_392ee761",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-02-23T15:36:54Z",
+      "side": 1,
+      "message": "Just a heads up: this is going to allocate a ton of memory, so we\u0027ll probably see a lot of GC overhead.\n\nThe TODO above already covers reducing allocation, so no need to change anything now. We might want to look into a way to reuse previously allocated buffers later on though.",
+      "revId": "645b4fd6f5c51eef54a63efbb90197b174fd055c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
