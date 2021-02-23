@@ -16,6 +16,23 @@
       "message": "Hi Lan, since the 1.17 tree is now open, shall we resume this CL?",
       "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a018b32e_032f25ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T00:58:18Z",
+      "side": 1,
+      "message": "Hi, since the tree is now open for general development for the Go 1.17 changes, can we resume this CL?",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
