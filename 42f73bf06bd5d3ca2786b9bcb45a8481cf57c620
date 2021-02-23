@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6c9ae60_2f51a116",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T05:46:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0066bfe_21e64857",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e8e5392_d3551231",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-02-23T04:07:19Z",
       "side": 1,
       "message": "This will be clearer if you rewrite newPipe to just return a single result of type *splicePipe.  Both of the other results are unnecessary.",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c97b3b_0efc0aaf",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T05:46:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e8e5392_d3551231",
       "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +122,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46b15ed9_8735992e",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T05:46:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1b3caf5_149e2e8f",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16044ccb_1f5f0f0f",
@@ -99,6 +153,24 @@
       "writtenOn": "2021-02-23T04:07:19Z",
       "side": 1,
       "message": "This comment doesn\u0027t add anything to the code.",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "590ac63f_884e1625",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T05:46:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16044ccb_1f5f0f0f",
       "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +192,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e201f4ea_2d9f6c77",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T05:46:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b72cbf2e_89bc885d",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9eea8c0f_dd0efe61",
@@ -137,6 +227,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a096643f_27f0afcf",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T05:46:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9eea8c0f_dd0efe61",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "777710a4_1e4c93af",
@@ -150,6 +258,24 @@
       "writtenOn": "2021-02-23T04:07:19Z",
       "side": 1,
       "message": "Why try this more than once when not in short mode?",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0bd972f_a4645fb3",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-23T05:46:14Z",
+      "side": 1,
+      "message": "I took it from https://go.googlesource.com/go/+/refs/tags/go1.16/src/sync/pool_test.go#108.",
+      "parentUuid": "777710a4_1e4c93af",
       "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
