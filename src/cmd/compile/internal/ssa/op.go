@@ -138,6 +138,24 @@ func (a *AuxCall) Reg(i *regInfo, c *Config) *regInfo {
 	return a.reg
 }
 
+func (a *AuxCall) ResultReg(c *Config) *regInfo {
+	if a.pri.OutRegistersUsed() == 0 {
+		return a.reg
+	}
+	if len(a.reg.inputs) > 0 {
+		return a.reg
+	}
+	k := 0
+	for _, p := range a.pri.OutParams() {
+		for _, r := range p.Registers {
+			m := archRegForAbiReg(r, c)
+			a.reg.inputs = append(a.reg.inputs, inputInfo{idx: k, regs: (1 << m)})
+			k++
+		}
+	}
+	return a.reg
+}
+
 func archRegForAbiReg(r abi.RegIndex, c *Config) uint8 {
 	var m int8
 	if int(r) < len(c.intParamRegs) {
@@ -286,7 +304,11 @@ func (*AuxCall) CanBeAnSSAAux() {}
 
 func OwnAuxCall(fn *obj.LSym, args []Param, results []Param, paramResultInfo *abi.ABIParamResultInfo) *AuxCall {
 	// TODO if this remains identical to ClosureAuxCall above after new ABI is done, should deduplicate.
-	return &AuxCall{Fn: fn, args: args, results: results, pri: paramResultInfo}
+	var reg *regInfo
+	if paramResultInfo.InRegistersUsed()+paramResultInfo.OutRegistersUsed() > 0 {
+		reg = &regInfo{}
+	}
+	return &AuxCall{Fn: fn, args: args, results: results, pri: paramResultInfo, reg: reg}
 }
 
 const (

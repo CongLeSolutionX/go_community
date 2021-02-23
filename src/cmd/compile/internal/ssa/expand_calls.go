@@ -375,6 +375,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 		// if applied to Op-mumble-call, the Aux tells us which result, regOffset specifies offset within result.  If a register, should rewrite to OpSelectN for new call.
 		// TODO these may be duplicated. Should memoize. Intermediate selectors will go dead, no worries there.
 		call := selector.Args[0]
+		call0 := call
 		aux := call.Aux.(*AuxCall)
 		which := selector.AuxInt
 		if which == aux.NResults() { // mem is after the results.
@@ -401,7 +402,6 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 			leafType := removeTrivialWrapperTypes(leaf.Type)
 			if x.canSSAType(leafType) {
 				pt := types.NewPtr(leafType)
-				off := x.offsetFrom(x.sp, offset+aux.OffsetOfResult(which), pt)
 				// Any selection right out of the arg area/registers has to be same Block as call, use call as mem input.
 				if call.Op == OpStaticLECall { // TODO this is temporary until all calls are register-able
 					// Create a "mem" for any loads that need to occur.
@@ -416,15 +416,30 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 						call = mem
 					}
 				}
-				if leaf.Block == call.Block {
-					leaf.reset(OpLoad)
-					leaf.SetArgs2(off, call)
-					leaf.Type = leafType
+				outParam := aux.pri.OutParam(int(which))
+				if len(outParam.Registers) > 0 {
+					reg := int64(outParam.Registers[regOffset])
+					if leaf.Block == call.Block {
+						leaf.reset(OpSelectN)
+						leaf.SetArgs1(call0)
+						leaf.Type = leafType
+						leaf.AuxInt = reg
+					} else {
+						w := call.Block.NewValue1I(leaf.Pos, OpSelectN, leafType, reg, call0)
+						leaf.copyOf(w)
+					}
 				} else {
-					w := call.Block.NewValue2(leaf.Pos, OpLoad, leafType, off, call)
-					leaf.copyOf(w)
-					if x.debug {
-						fmt.Printf("\tnew %s\n", w.LongString())
+					off := x.offsetFrom(x.sp, offset+aux.OffsetOfResult(which), pt)
+					if leaf.Block == call.Block {
+						leaf.reset(OpLoad)
+						leaf.SetArgs2(off, call)
+						leaf.Type = leafType
+					} else {
+						w := call.Block.NewValue2(leaf.Pos, OpLoad, leafType, off, call)
+						leaf.copyOf(w)
+						if x.debug {
+							fmt.Printf("\tnew %s\n", w.LongString())
+						}
 					}
 				}
 				for _, s := range x.namedSelects[selector] {
@@ -980,9 +995,11 @@ func expandCalls(f *Func) {
 					mem = x.storeArgOrLoad(v.Pos, b, a, mem, aux.TypeOfResult(i), auxOffset, 0, rc)
 				}
 			}
-			// TODO REGISTER -- keep the Result for block control, splice in contents of AllResults
-			b.SetControl(mem)
-			v.reset(OpInvalid) // otherwise it can have a mem operand which will fail check(), even though it is dead.
+			v.resetArgs()
+			v.AddArgs(allResults...)
+			v.AddArg(mem)
+			v.Type = types.NewResults(append(abi.RegisterTypes(aux.pri.OutParams()), types.TypeMem))
+			b.SetControl(v)
 		}
 	}
 
@@ -1167,7 +1184,7 @@ func expandCalls(f *Func) {
 		case OpArraySelect:
 			offset = size * v.AuxInt
 		case OpSelectN:
-			offset = w.Aux.(*AuxCall).OffsetOfResult(v.AuxInt)
+			offset = v.AuxInt // w.Aux.(*AuxCall).OffsetOfResult(v.AuxInt)
 		case OpInt64Hi:
 			offset = x.hiOffset
 		case OpInt64Lo:
@@ -1237,8 +1254,9 @@ func expandCalls(f *Func) {
 				x.rewriteArgToMemOrRegs(v)
 			case OpStaticLECall:
 				v.Op = OpStaticCall
+				rts := abi.RegisterTypes(v.Aux.(*AuxCall).pri.OutParams())
 				// TODO need to insert all the register types.
-				v.Type = types.NewResults([]*types.Type{types.TypeMem})
+				v.Type = types.NewResults(append(rts, types.TypeMem))
 			case OpClosureLECall:
 				v.Op = OpClosureCall
 				v.Type = types.TypeMem
