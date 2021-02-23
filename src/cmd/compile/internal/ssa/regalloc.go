@@ -822,6 +822,9 @@ func (s *regAllocState) regspec(v *Value) regInfo {
 			return *ac.Reg(&opcodeTable[op].reg, s.f.Config)
 		}
 	}
+	if op == OpMakeResult && s.f.OwnAux.reg != nil {
+		return *s.f.OwnAux.ResultReg(s.f.Config)
+	}
 	return opcodeTable[op].reg
 }
 
@@ -1227,13 +1230,15 @@ func (s *regAllocState) regalloc(f *Func) {
 			}
 			if v.Op == OpSelect0 || v.Op == OpSelect1 || v.Op == OpSelectN {
 				if s.values[v.ID].needReg {
-					var i = 0
-					if v.Op == OpSelect1 {
-						i = 1
-					} else if v.Op == OpSelectN {
-						i = int(v.AuxInt)
+					if v.Op == OpSelectN {
+						s.assignReg(register(s.f.getHome(v.Args[0].ID).(LocResults)[int(v.AuxInt)].(*Register).num), v, v)
+					} else {
+						var i = 0
+						if v.Op == OpSelect1 {
+							i = 1
+						}
+						s.assignReg(register(s.f.getHome(v.Args[0].ID).(LocPair)[i].(*Register).num), v, v)
 					}
-					s.assignReg(register(s.f.getHome(v.Args[0].ID).(LocPair)[i].(*Register).num), v, v)
 				}
 				b.Values = append(b.Values, v)
 				s.advanceUses(v)

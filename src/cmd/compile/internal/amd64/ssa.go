@@ -1025,6 +1025,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		}
 		v.Block.Func.RegArgs = nil
 		ssagen.CheckArgReg(v)
+	case ssa.OpMakeResult:
+		// do nothing.
 	case ssa.OpAMD64LoweredGetClosurePtr:
 		// Closure pointer is DX.
 		ssagen.CheckLoweredGetClosurePtr(v)
