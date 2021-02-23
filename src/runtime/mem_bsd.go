@@ -24,7 +24,11 @@ func sysAlloc(n uintptr, sysStat *sysMemStat) unsafe.Pointer {
 }
 
 func sysUnused(v unsafe.Pointer, n uintptr) {
-	madvise(v, n, _MADV_FREE)
+	if debug.madvdontneed != 0 {
+		madvise(v, n, _MADV_DONTNEED)
+	} else {
+		madvise(v, n, _MADV_FREE)
+	}
 }
 
 func sysUsed(v unsafe.Pointer, n uintptr) {
