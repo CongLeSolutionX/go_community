@@ -106,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1129d420_3f845d26",
+        "filename": "src/reflect/visiblefields_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-02-23T10:28:45Z",
+      "side": 1,
+      "message": "Actually, I just noticed that lots of other tests use the camel-case convention, so I changed it to be consistent.",
+      "parentUuid": "f1d133fc_1a25f337",
+      "revId": "f3e9f12b4316a9930b07d925b0e3baf62b0a930f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0079b623_ac52bf66",
