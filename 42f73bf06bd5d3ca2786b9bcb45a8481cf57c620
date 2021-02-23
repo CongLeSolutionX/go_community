@@ -33,6 +33,125 @@
       "message": "Hi, since the tree is now open for general development for the Go 1.17 changes, can we resume this CL?",
       "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0066bfe_21e64857",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-23T04:07:19Z",
+      "side": 1,
+      "message": "Period at the end of this line.  Start the next line with a capital letter (\"The garbage collector...\").  Change \"the Finalizer\" to \"a finalizer\".",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e8e5392_d3551231",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-23T04:07:19Z",
+      "side": 1,
+      "message": "This will be clearer if you rewrite newPipe to just return a single result of type *splicePipe.  Both of the other results are unnecessary.",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1b3caf5_149e2e8f",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-23T04:07:19Z",
+      "side": 1,
+      "message": "Indent the error case, not the normal case.\n\nSimilarly below.",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16044ccb_1f5f0f0f",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-23T04:07:19Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t add anything to the code.",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b72cbf2e_89bc885d",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-23T04:07:19Z",
+      "side": 1,
+      "message": "This function should have a comment explaining what the result means.",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eea8c0f_dd0efe61",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-23T04:07:19Z",
+      "side": 1,
+      "message": "Just call the local fcntl function.",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "777710a4_1e4c93af",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-23T04:07:19Z",
+      "side": 1,
+      "message": "Why try this more than once when not in short mode?",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
