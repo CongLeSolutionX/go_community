@@ -34,6 +34,24 @@
       "parentUuid": "c9e237e4_7890075a",
       "revId": "585144d494377c4d44a74c8439e153f2842a8d85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "219936cb_c291055c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-23T12:44:24Z",
+      "side": 1,
+      "message": "\"minimal\" was inspired by https://gcc.gnu.org/legacy-ml/gcc-patches/2011-04/msg02075.html",
+      "parentUuid": "9d036107_d1debdf3",
+      "revId": "585144d494377c4d44a74c8439e153f2842a8d85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
