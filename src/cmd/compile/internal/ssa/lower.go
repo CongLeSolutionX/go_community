@@ -4,6 +4,8 @@
 
 package ssa
 
+import "fmt"
+
 // convert to machine-dependent ops
 func lower(f *Func) {
 	// repeat rewrites until we find no more rewrites
@@ -24,7 +26,7 @@ func checkLower(f *Func) {
 			case OpSP, OpSB, OpInitMem, OpArg, OpArgIntReg, OpArgFloatReg, OpPhi, OpVarDef, OpVarKill, OpVarLive, OpKeepAlive, OpSelect0, OpSelect1, OpSelectN, OpConvert, OpInlMark:
 				continue // ok not to lower
 			case OpMakeResult:
-				if len(b.Controls) == 1 && b.Controls[0] == v {
+				if b.Controls[0] == v {
 					continue
 				}
 			case OpGetG:
@@ -33,7 +35,8 @@ func checkLower(f *Func) {
 					continue // ok not to lower
 				}
 			}
-			s := "not lowered: " + v.String() + ", " + v.Op.String() + " " + v.Type.SimpleString()
+			s := fmt.Sprintf("not lowered: v=%s, v.Block=b%d\n%s\n", v.LongString(), v.Block.ID, b.LongString())
+
 			for _, a := range v.Args {
 				s += " " + a.Type.SimpleString()
 			}
