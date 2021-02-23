@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d648070_1638ffd3",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-23T23:47:33Z",
+      "side": 1,
+      "message": "remove this comment: this is not realistically something we want to do. It\u0027s hard or not possible in cases.",
+      "range": {
+        "startLine": 430,
+        "startChar": 23,
+        "endLine": 430,
+        "endChar": 35
+      },
+      "revId": "c0b6cdeab293bf6cac45eb3c3566348d2fc1fab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
