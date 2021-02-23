@@ -101,6 +101,55 @@ func (a *ABIParamAssignment) Offset() int32 {
 	return a.offset
 }
 
+// RegisterTypes returns a slice of the types of the registers
+// corresponding to a slice of parameters.  The returned slice
+// has capacity for one more, likely a memory type.
+func RegisterTypes(apa []ABIParamAssignment) []*types.Type {
+	rcount := 0
+	for _, pa := range apa {
+		rcount += len(pa.Registers)
+	}
+	if rcount == 0 {
+		return make([]*types.Type, 0, 1)
+	}
+	rts := make([]*types.Type, 0, rcount+1)
+	for _, pa := range apa {
+		if len(pa.Registers) == 0 {
+			continue
+		}
+		rts = appendParamRegs(rts, pa.Type)
+	}
+	return rts
+}
+
+func appendParamRegs(rts []*types.Type, t *types.Type) []*types.Type {
+	if t.IsScalar() || t.IsPtrShaped() {
+		if t.IsComplex() {
+			c := types.FloatForComplex(t)
+			return append(rts, c, c)
+		} else {
+			return append(rts, t)
+		}
+	} else {
+		typ := t.Kind()
+		switch typ {
+		case types.TARRAY:
+			return appendParamRegs(rts, t.Elem())
+		case types.TSTRUCT:
+			for _, f := range t.FieldSlice() {
+				rts = appendParamRegs(rts, f.Type)
+			}
+		case types.TSLICE:
+			return appendParamRegs(rts, synthSlice)
+		case types.TSTRING:
+			return appendParamRegs(rts, synthString)
+		case types.TINTER:
+			return appendParamRegs(rts, synthIface)
+		}
+	}
+	return rts
+}
+
 // SpillOffset returns the offset *within the spill area* for the parameter that "a" describes.
 // Registers will be spilled here; if a memory home is needed (for a pointer method e.g.)
 // then that will be the address.
