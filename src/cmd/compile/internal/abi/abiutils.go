@@ -117,12 +117,22 @@ func RegisterTypes(apa []ABIParamAssignment) []*types.Type {
 		if len(pa.Registers) == 0 {
 			continue
 		}
-		rts = appendParamRegs(rts, pa.Type)
+		rts = appendParamTypes(rts, pa.Type)
 	}
 	return rts
 }
 
-func appendParamRegs(rts []*types.Type, t *types.Type) []*types.Type {
+func (pa *ABIParamAssignment) RegisterTypesAndOffsets() ([]*types.Type, []int64) {
+	l := len(pa.Registers)
+	if l == 0 {
+		return nil, nil
+	}
+	typs := make([]*types.Type, 0, l)
+	offs := make([]int64, 0, l)
+	return appendParamTypes(typs, pa.Type), appendParamOffsets(offs, 0, pa.Type)
+}
+
+func appendParamTypes(rts []*types.Type, t *types.Type) []*types.Type {
 	if t.IsScalar() || t.IsPtrShaped() {
 		if t.IsComplex() {
 			c := types.FloatForComplex(t)
@@ -134,20 +144,60 @@ func appendParamRegs(rts []*types.Type, t *types.Type) []*types.Type {
 		typ := t.Kind()
 		switch typ {
 		case types.TARRAY:
-			return appendParamRegs(rts, t.Elem())
+			if t.NumElem() == 0 {
+				return rts
+			}
+			return appendParamTypes(rts, t.Elem())
 		case types.TSTRUCT:
 			for _, f := range t.FieldSlice() {
-				rts = appendParamRegs(rts, f.Type)
+				rts = appendParamTypes(rts, f.Type)
 			}
 		case types.TSLICE:
-			return appendParamRegs(rts, synthSlice)
+			return appendParamTypes(rts, synthSlice)
 		case types.TSTRING:
-			return appendParamRegs(rts, synthString)
+			return appendParamTypes(rts, synthString)
 		case types.TINTER:
-			return appendParamRegs(rts, synthIface)
+			return appendParamTypes(rts, synthIface)
 		}
 	}
 	return rts
+}
+
+func appendParamOffsets(offsets []int64, at int64, t *types.Type) []int64 {
+	// For reasons unclear, types seems to pun a struct that is an arg with the struct of the args.
+	// At least that seems to be true....  Therefore, because the offsets of args are trashed to
+	// prevent types from telling stories, recalculate here, for now.
+	// TODO split "struct" into "struct" and "argstruct" in types, because this is crazy-making.
+	at = align(at, t)
+	if t.IsScalar() || t.IsPtrShaped() {
+		if t.IsComplex() {
+			s := t.Width / 2
+			return append(offsets, at, at+s)
+		} else {
+			return append(offsets, at)
+		}
+	} else {
+		typ := t.Kind()
+		switch typ {
+		case types.TARRAY: // singleton
+			if t.NumElem() == 0 {
+				return offsets
+			}
+			return appendParamOffsets(offsets, at, t.Elem())
+		case types.TSTRUCT:
+			for _, f := range t.FieldSlice() {
+				offsets = appendParamOffsets(offsets, at, f.Type)
+				at += f.Type.Width
+			}
+		case types.TSLICE:
+			return appendParamOffsets(offsets, at, synthSlice)
+		case types.TSTRING:
+			return appendParamOffsets(offsets, at, synthString)
+		case types.TINTER:
+			return appendParamOffsets(offsets, at, synthIface)
+		}
+	}
+	return offsets
 }
 
 // SpillOffset returns the offset *within the spill area* for the parameter that "a" describes.
