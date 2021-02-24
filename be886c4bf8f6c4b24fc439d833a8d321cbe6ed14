@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1066e0c_72834cd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:04:29Z",
+      "side": 1,
+      "message": "I\u0027m not so sure anymore about this. We may change the way we represent type lists which may affect at least ast.InterfaceType.\n\nPerhaps better to say that we\u0027re looking at the ast API separately.",
+      "range": {
+        "startLine": 24,
+        "startChar": 41,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "be886c4bf8f6c4b24fc439d833a8d321cbe6ed14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afd4851c_d052fbc5",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:04:29Z",
+      "side": 1,
+      "message": "so here we always enable generics formatting - is that what we want?",
+      "revId": "be886c4bf8f6c4b24fc439d833a8d321cbe6ed14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
