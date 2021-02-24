@@ -278,6 +278,24 @@
       "parentUuid": "777710a4_1e4c93af",
       "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80492147_be36c508",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-24T16:22:08Z",
+      "side": 1,
+      "message": "Ah, OK, let\u0027s not do that.  It might be useful for testing the behavior of sync.Pool itself, but that\u0027s not what we are doing here.",
+      "parentUuid": "d0bd972f_a4645fb3",
+      "revId": "42f73bf06bd5d3ca2786b9bcb45a8481cf57c620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
