@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7f231eb_078a7e5c",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-02-24T21:56:06Z",
+      "side": 1,
+      "message": "Maybe this is more generally useful, and should live in cmd/compile/internal/ssagen?",
+      "revId": "03b1c9599a7a57fbbf9ac0c3e98051354f3683b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
