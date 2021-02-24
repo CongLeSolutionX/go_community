@@ -33,6 +33,23 @@
       "message": "\u003e Failed on plan9-arm: https://storage.googleapis.com/go-build-log/29ddbdd4/plan9-arm_e80844a0.log\n\nLooking at build.golang.org, plan9-arm is independently broken.",
       "revId": "29ddbdd4e8849733affcf8c2864dff48c354f3b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "955d8ca2_7028aa72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-02-24T21:49:00Z",
+      "side": 1,
+      "message": "LGTM, thank you Josh. Please rebase from the master branch, and let’s run those trybots.\nWe shall also later on need to add a release note.",
+      "revId": "29ddbdd4e8849733affcf8c2864dff48c354f3b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
