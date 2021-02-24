@@ -1,4 +1,3 @@
-// skip
 // runindir -gcflags=-c=1
 // +build !windows
 
