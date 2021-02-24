@@ -10,3 +10,5 @@ require (
 	golang.org/x/sys v0.0.0-20210218145245-beda7e5e158e // indirect
 	golang.org/x/tools v0.1.1-0.20210220032852-2363391a5b2f
 )
+
+replace golang.org/x/mod => /Users/jayconrod/go/src/golang.org/x/mod

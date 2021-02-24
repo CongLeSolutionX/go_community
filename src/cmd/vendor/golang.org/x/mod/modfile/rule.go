@@ -125,6 +125,14 @@ func (f *File) AddComment(text string) {
 
 type VersionFixer func(path, version string) (string, error)
 
+// errDontFix is returned by a VersionFixer to indicate the version should be
+// left alone, even if it's not canonical.
+var errDontFix = errors.New("don't fix")
+
+var dontFixRetract VersionFixer = func(string, string) (string, error) {
+	return "", errDontFix
+}
+
 // Parse parses the data, reported in errors as being from file,
 // into a File struct. It applies fix, if non-nil, to canonicalize all module versions found.
 func Parse(file string, data []byte, fix VersionFixer) (*File, error) {
@@ -142,7 +150,7 @@ func ParseLax(file string, data []byte, fix VersionFixer) (*File, error) {
 	return parseToFile(file, data, fix, false)
 }
 
-func parseToFile(file string, data []byte, fix VersionFixer, strict bool) (*File, error) {
+func parseToFile(file string, data []byte, fix VersionFixer, strict bool) (parsed *File, err error) {
 	fs, err := parse(file, data)
 	if err != nil {
 		return nil, err
@@ -150,8 +158,18 @@ func parseToFile(file string, data []byte, fix VersionFixer, strict bool) (*File
 	f := &File{
 		Syntax: fs,
 	}
-
 	var errs ErrorList
+
+	// fix versions in retract directives after the file is parsed.
+	// We need the module path to fix versions, and it might be at the end.
+	defer func() {
+		oldLen := len(errs)
+		f.fixRetract(fix, &errs)
+		if len(errs) > oldLen {
+			parsed, err = nil, errs
+		}
+	}()
+
 	for _, x := range fs.Stmt {
 		switch x := x.(type) {
 		case *Line:
@@ -370,7 +388,7 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 
 	case "retract":
 		rationale := parseRetractRationale(block, line)
-		vi, err := parseVersionInterval(verb, &args, fix)
+		vi, err := parseVersionInterval(verb, "", &args, dontFixRetract)
 		if err != nil {
 			if strict {
 				wrapError(err)
@@ -394,6 +412,47 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 			Syntax:          line,
 		}
 		f.Retract = append(f.Retract, retract)
+	}
+}
+
+// fixRetract applies fix to each retract directive in f, appending any errors
+// to errs.
+//
+// Most versions are fixed as we parse the file, but for retract directives,
+// the relevant module path is the one specified with the module directive,
+// and that might appear at the end of the file (or not at all).
+func (f *File) fixRetract(fix VersionFixer, errs *ErrorList) {
+	if fix == nil {
+		return
+	}
+	path := ""
+	if f.Module != nil {
+		path = f.Module.Mod.Path
+	}
+	var r *Retract
+	wrapError := func(err error) {
+		*errs = append(*errs, Error{
+			Filename: f.Syntax.Name,
+			Pos:      r.Syntax.Start,
+			Err:      err,
+		})
+	}
+
+	for _, r = range f.Retract {
+		if path == "" {
+			wrapError(errors.New("no module directive found, so retract cannot be used"))
+			return // only print the first one of these
+		}
+
+		args := r.Syntax.Token
+		if args[0] == "retract" {
+			args = args[1:]
+		}
+		vi, err := parseVersionInterval("retract", path, &args, fix)
+		if err != nil {
+			wrapError(err)
+		}
+		r.VersionInterval = vi
 	}
 }
 
@@ -491,13 +550,13 @@ func AutoQuote(s string) string {
 	return s
 }
 
-func parseVersionInterval(verb string, args *[]string, fix VersionFixer) (VersionInterval, error) {
+func parseVersionInterval(verb string, path string, args *[]string, fix VersionFixer) (VersionInterval, error) {
 	toks := *args
 	if len(toks) == 0 || toks[0] == "(" {
 		return VersionInterval{}, fmt.Errorf("expected '[' or version")
 	}
 	if toks[0] != "[" {
-		v, err := parseVersion(verb, "", &toks[0], fix)
+		v, err := parseVersion(verb, path, &toks[0], fix)
 		if err != nil {
 			return VersionInterval{}, err
 		}
@@ -509,7 +568,7 @@ func parseVersionInterval(verb string, args *[]string, fix VersionFixer) (Versio
 	if len(toks) == 0 {
 		return VersionInterval{}, fmt.Errorf("expected version after '['")
 	}
-	low, err := parseVersion(verb, "", &toks[0], fix)
+	low, err := parseVersion(verb, path, &toks[0], fix)
 	if err != nil {
 		return VersionInterval{}, err
 	}
@@ -523,7 +582,7 @@ func parseVersionInterval(verb string, args *[]string, fix VersionFixer) (Versio
 	if len(toks) == 0 {
 		return VersionInterval{}, fmt.Errorf("expected version after ','")
 	}
-	high, err := parseVersion(verb, "", &toks[0], fix)
+	high, err := parseVersion(verb, path, &toks[0], fix)
 	if err != nil {
 		return VersionInterval{}, err
 	}
@@ -631,9 +690,11 @@ func parseVersion(verb string, path string, s *string, fix VersionFixer) (string
 		}
 	}
 	if fix != nil {
-		var err error
-		t, err = fix(path, t)
+		fixed, err := fix(path, t)
 		if err != nil {
+			if err == errDontFix {
+				return t, nil
+			}
 			if err, ok := err.(*module.ModuleError); ok {
 				return "", &Error{
 					Verb:    verb,
@@ -643,6 +704,7 @@ func parseVersion(verb string, path string, s *string, fix VersionFixer) (string
 			}
 			return "", err
 		}
+		t = fixed
 	}
 	if v := module.CanonicalVersion(t); v != "" {
 		*s = v
