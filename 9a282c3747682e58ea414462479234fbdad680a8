@@ -16,6 +16,23 @@
       "message": "Hi Lan, could you trigger a trybot for this CL?",
       "revId": "9a282c3747682e58ea414462479234fbdad680a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2109b4a_65e94a38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-02-24T04:05:02Z",
+      "side": 1,
+      "message": "A failure occurs on non-linux platform openbsd which seems to be irrelevant to this CL:https://storage.googleapis.com/go-build-log/9a282c37/openbsd-amd64-68_62d21270.log, all linux platforms passed.\n\nLan, do you have any idea why this is happening?",
+      "revId": "9a282c3747682e58ea414462479234fbdad680a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
