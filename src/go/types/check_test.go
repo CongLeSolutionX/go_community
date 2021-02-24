@@ -210,7 +210,8 @@ func checkFiles(t *testing.T, goVersion string, filenames []string, srcs [][]byt
 
 	mode := parser.AllErrors
 	if strings.HasSuffix(filenames[0], ".go2") {
-		mode |= parser.ParseTypeParams
+		const parseTypeParams = 1 << 63 // keep in sync with ../parser/interface.go
+		mode |= parseTypeParams
 	}
 
 	// parse files and collect parser errors

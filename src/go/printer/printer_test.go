@@ -41,8 +41,9 @@ const (
 // src is syntactically correct, and returns the resulting src or an error
 // if any.
 func format(src []byte, mode checkMode) ([]byte, error) {
+	const parseTypeParams = 1 << 63 // keep in sync with ../parser/interface.go
 	// parse src
-	f, err := parser.ParseFile(fset, "", src, parser.ParseComments|parser.ParseTypeParams)
+	f, err := parser.ParseFile(fset, "", src, parser.ParseComments|parseTypeParams)
 	if err != nil {
 		return nil, fmt.Errorf("parse: %s\n%s", err, src)
 	}
@@ -70,7 +71,7 @@ func format(src []byte, mode checkMode) ([]byte, error) {
 
 	// make sure formatted output is syntactically correct
 	res := buf.Bytes()
-	if _, err := parser.ParseFile(fset, "", res, parser.ParseTypeParams); err != nil {
+	if _, err := parser.ParseFile(fset, "", res, parseTypeParams); err != nil {
 		return nil, fmt.Errorf("re-parse: %s\n%s", err, buf.Bytes())
 	}
 
