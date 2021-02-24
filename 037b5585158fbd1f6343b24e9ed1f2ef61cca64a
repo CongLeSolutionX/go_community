@@ -22,6 +22,30 @@
       },
       "revId": "037b5585158fbd1f6343b24e9ed1f2ef61cca64a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e7baad0_f3f28210",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2021-02-24T01:47:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c666e8f_baa132c2",
+      "range": {
+        "startLine": 524,
+        "startChar": 1,
+        "endLine": 524,
+        "endChar": 3
+      },
+      "revId": "037b5585158fbd1f6343b24e9ed1f2ef61cca64a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

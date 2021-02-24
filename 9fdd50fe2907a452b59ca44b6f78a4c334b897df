@@ -199,6 +199,30 @@
       },
       "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49435992_675acc51",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 36739
+      },
+      "writtenOn": "2021-02-24T01:47:14Z",
+      "side": 1,
+      "message": "We does use odd-numbered FPR on 32bit MIPS.\nSee mips/asm0.go, the AMOVF is implemented with lwc1/swc1.\n\nIn the FR\u003d0 mode, if we want to move a DOUBLE from FPR, we need\n    lwc1 $f0, address\n    lwc1 $f1, address+4\nthe reason is that it is said that go cannot make sure 8byte aligned for DOUBLE,\nso we cannot use `ldc1\u0027 to load DOUBLE.\n\nThese 2 `lwc1\u0027 instructions cannot work with FR\u003d1 mode, in FR\u003d1 mode, we need\n    lwc1  $f0, address\n    lw    $t1, address+4\n    mfhc1 $f0, $t1\nWhile, the problem is that `mfhc1\u0027 is introduced from MIPS32r2, while currently,\nthe baseline of golang is MIPS32r1.\n\n\nIf we mark the output to be FPXX, the kernel may use FR\u003d1 mode for this program.\nthen we get some error.",
+      "parentUuid": "82743120_6f090e9a",
+      "range": {
+        "startLine": 1558,
+        "startChar": 26,
+        "endLine": 1558,
+        "endChar": 40
+      },
+      "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
