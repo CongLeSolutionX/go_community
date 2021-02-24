@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea3c75e_4a9e74f3",
+        "filename": "src/internal/poll/export_linux_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-24T15:11:23Z",
+      "side": 1,
+      "message": "It\u0027s been a while, and it\u0027s 2021 now.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "149a70ada618fc90259e12a2020c47973fb66d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a93cf90_4df98027",
+        "filename": "src/internal/poll/export_linux_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-24T15:11:23Z",
+      "side": 1,
+      "message": "No reason for this to be a var, it can be a func.",
+      "revId": "149a70ada618fc90259e12a2020c47973fb66d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bec8569_cbf25f88",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-24T15:11:23Z",
+      "side": 1,
+      "message": "Let\u0027s move the New function to be a real function, rather than a function literal.  It can be newPoolPipe or something.  And there\u0027s no real reason to use a named result parameter.",
+      "revId": "149a70ada618fc90259e12a2020c47973fb66d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb972178_58e98fd9",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-24T15:11:23Z",
+      "side": 1,
+      "message": "v :\u003d splicePipePool.Get\nif v \u003d\u003d nil {\n    ...\n}",
+      "revId": "149a70ada618fc90259e12a2020c47973fb66d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b893f2e_c46f704e",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-24T15:11:23Z",
+      "side": 1,
+      "message": "Seems easier if fds is just []int.  Nothing uses the fact that they come in pairs.",
+      "revId": "149a70ada618fc90259e12a2020c47973fb66d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26d5d7b_97cf7b45",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-24T15:11:23Z",
+      "side": 1,
+      "message": "Why the loop?",
+      "revId": "149a70ada618fc90259e12a2020c47973fb66d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
