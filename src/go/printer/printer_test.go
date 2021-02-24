@@ -19,6 +19,10 @@ import (
 	"time"
 )
 
+// parseTypeParams tells go/parser to parse type parameters. Must be kept in
+// sync with go/parser/interface.go.
+const parseTypeParams parser.Mode = 1 << 30
+
 const (
 	dataDir  = "testdata"
 	tabwidth = 8
@@ -42,7 +46,7 @@ const (
 // if any.
 func format(src []byte, mode checkMode) ([]byte, error) {
 	// parse src
-	f, err := parser.ParseFile(fset, "", src, parser.ParseComments|parser.ParseTypeParams)
+	f, err := parser.ParseFile(fset, "", src, parser.ParseComments|parseTypeParams)
 	if err != nil {
 		return nil, fmt.Errorf("parse: %s\n%s", err, src)
 	}
@@ -70,7 +74,7 @@ func format(src []byte, mode checkMode) ([]byte, error) {
 
 	// make sure formatted output is syntactically correct
 	res := buf.Bytes()
-	if _, err := parser.ParseFile(fset, "", res, parser.ParseTypeParams); err != nil {
+	if _, err := parser.ParseFile(fset, "", res, parseTypeParams); err != nil {
 		return nil, fmt.Errorf("re-parse: %s\n%s", err, buf.Bytes())
 	}
 
