@@ -175,6 +175,30 @@
       },
       "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82743120_6f090e9a",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-24T00:42:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the comment. It is a TODO but doesn\u0027t explain why we use ANY now.\n\nAlso, I believe currently we don\u0027t use odd-numbered FP registers on 32-bit MIPS.",
+      "parentUuid": "cd648a33_f7b2cbc9",
+      "range": {
+        "startLine": 1558,
+        "startChar": 26,
+        "endLine": 1558,
+        "endChar": 40
+      },
+      "revId": "9fdd50fe2907a452b59ca44b6f78a4c334b897df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

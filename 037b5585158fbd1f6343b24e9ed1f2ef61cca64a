@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c666e8f_baa132c2",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-02-24T00:42:18Z",
+      "side": 1,
+      "message": "Minor: add a space after //.",
+      "range": {
+        "startLine": 524,
+        "startChar": 1,
+        "endLine": 524,
+        "endChar": 3
+      },
+      "revId": "037b5585158fbd1f6343b24e9ed1f2ef61cca64a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
