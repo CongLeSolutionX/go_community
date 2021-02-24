@@ -52,6 +52,24 @@
       "parentUuid": "9d036107_d1debdf3",
       "revId": "585144d494377c4d44a74c8439e153f2842a8d85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "533d4b1f_7022b33c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-24T04:36:40Z",
+      "side": 1,
+      "message": "Well, that change uses \"mlt\" for \"minimum line tables.\"  My concern is that -minimaldwarf sounds like it generates smaller DWARF debug info, which isn\u0027t what this change does.",
+      "parentUuid": "219936cb_c291055c",
+      "revId": "585144d494377c4d44a74c8439e153f2842a8d85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
