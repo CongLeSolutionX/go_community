@@ -70,6 +70,30 @@
       },
       "revId": "adb467ffd2d82b796de12bdd8effa2cfefe01f29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df3c22c4_733420fa",
+        "filename": "test/inline.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-24T19:17:23Z",
+      "side": 1,
+      "message": "Thanks for the quick turnaround!",
+      "parentUuid": "0f25a342_86081eae",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 0
+      },
+      "revId": "adb467ffd2d82b796de12bdd8effa2cfefe01f29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
