@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0708ab59_56e80d86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-24T22:35:58Z",
+      "side": 1,
+      "message": "Please use https://go-review.googlesource.com/c/go/+/296149/ instead, which reverts and fixes the issue differently.",
+      "revId": "0bdeb0bb1b8afa7f44387852baf142cc6f95359f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
