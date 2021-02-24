@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "836863ac_24f1b319",
+        "filename": "test/inline.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-24T18:42:56Z",
+      "side": 1,
+      "message": "This test case  is failing on the linux-amd64-noopt builder:\nhttps://build.golang.org/log/f16b8e137e78bc95677d7ef049b6a415ba7a62cc",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 0
+      },
+      "revId": "adb467ffd2d82b796de12bdd8effa2cfefe01f29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
