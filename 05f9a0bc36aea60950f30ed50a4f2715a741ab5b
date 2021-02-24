@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8712268c_8a15a764",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "this can just be isTyped(typ)",
+      "range": {
+        "startLine": 102,
+        "startChar": 24,
+        "endLine": 102,
+        "endChar": 25
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bad1f175_0527605d",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "no need for this - see below",
+      "range": {
+        "startLine": 193,
+        "startChar": 9,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aec7be4_1b822ad3",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "this can just be\n\nisUnsigned(x.typ)",
+      "range": {
+        "startLine": 195,
+        "startChar": 5,
+        "endLine": 195,
+        "endChar": 15
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c48adb14_4ae8e61d",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "s/typ/x.typ/",
+      "range": {
+        "startLine": 196,
+        "startChar": 33,
+        "endLine": 196,
+        "endChar": 36
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a3edbd7_8cbf1979",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "this should never be nil if we don\u0027t have an error - replace with assertion?",
+      "range": {
+        "startLine": 405,
+        "startChar": 15,
+        "endLine": 405,
+        "endChar": 16
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94364265_3f996c18",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "add a doc string",
+      "range": {
+        "startLine": 410,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 4
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a7ad28d_83cb27d2",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "should say something about the constant value being returned",
+      "range": {
+        "startLine": 595,
+        "startChar": 16,
+        "endLine": 595,
+        "endChar": 23
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aabba763_b2bfaf91",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "no need for this line - see comment below",
+      "range": {
+        "startLine": 996,
+        "startChar": 9,
+        "endLine": 996,
+        "endChar": 16
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "361594b0_025b3a44",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-24T20:34:33Z",
+      "side": 1,
+      "message": "this can just be\n\nisInteger(x.typ)",
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
