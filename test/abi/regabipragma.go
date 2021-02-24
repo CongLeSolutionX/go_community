@@ -1,6 +1,6 @@
-// skip
 // runindir -gcflags=-c=1
-// +build !windows
+//go:build !windows && !wasm
+// +build !windows,!wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
