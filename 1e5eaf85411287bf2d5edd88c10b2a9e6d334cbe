@@ -16,6 +16,24 @@
       "message": "I was hoping they would see it before it was released, but it looks like it has been released.",
       "revId": "1e5eaf85411287bf2d5edd88c10b2a9e6d334cbe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2083d628_8f26e68d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-02-25T02:51:58Z",
+      "side": 1,
+      "message": "Thanks for sending the change.\n\nI considered it before the release, but found that even after this change there\u0027s one more instance still using nil without being wrapped in \u003ccode\u003e. When I thought about whether it should be updated or not, I started to see that there isn\u0027t a definitively \"consistent\" way.\n\nSometimes \"nil\" is used in the sense of the nil predeclared identifier, other times it\u0027s used as the English word nil meaning zero or nonexistent, and sometimes it\u0027s a suble mix of both. Our previous release notes also had a mixture of these.\n\nIn the the end, I thought the release notes were okay as is and I needed to focus on the rest of the release process, so I didn\u0027t have time to write this comment then.\n\nThe other inconsistencies you\u0027ve fixed were very helpful and I appreciate your attention to detail, thank you.",
+      "parentUuid": "08c09730_3b151c87",
+      "revId": "1e5eaf85411287bf2d5edd88c10b2a9e6d334cbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
