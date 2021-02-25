@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c37ac89_a9f1c5d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-25T17:59:16Z",
+      "side": 1,
+      "message": "I\u0027ve rebased this now on master, and split it out into its own standalone commit, so make merging more palpable.\n\nThis is a necessary change to support resources on arm64, just as we have on arm, x86, and amd64. This is useful regardless of whether or not cgo for arm64 and arm lands.",
+      "revId": "a95092052c5c5b1a66e1dcea2c630cc6359e549c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
