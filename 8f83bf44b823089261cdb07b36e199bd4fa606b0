@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbc29091_6f022d6a",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-25T16:14:21Z",
+      "side": 1,
+      "message": "This is an internal function and in fact it is never called with readCols \u003d\u003d 0, and I can\u0027t think of any reason why it ever would be.  I don\u0027t think there is any reason to support that case.",
+      "revId": "8f83bf44b823089261cdb07b36e199bd4fa606b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b7dc8cc_05f85852",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-25T16:14:21Z",
+      "side": 1,
+      "message": "Let\u0027s make readCols an int.  Go style is to use int even for values that can\u0027t be negative.  Also that avoids a type conversion below.",
+      "range": {
+        "startLine": 41,
+        "startChar": 54,
+        "endLine": 41,
+        "endChar": 58
+      },
+      "revId": "8f83bf44b823089261cdb07b36e199bd4fa606b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0045e87_b5065269",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-25T16:14:21Z",
+      "side": 1,
+      "message": "Avoid the parentheses around the comparisons.  For a case like this use a []byte composite literal.  Also if don\u0027t permit readCols \u003d\u003d 0 we can simplify further.\n    bytes.Count(wholeLine, []byte{\u0027:\u0027}) \u003e\u003d readCols\n\nAnd then we don\u0027t need a line break after \"||\".",
+      "revId": "8f83bf44b823089261cdb07b36e199bd4fa606b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
