@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db53693_23faa969",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-02-25T17:33:47Z",
+      "side": 1,
+      "message": "This is a transformation the compiler should already be doing when it\u0027s safe, and doing it by hand reduces readability. As Robert mentioned, we\u0027d need evidence that this actually improves performance, and even then the next step would be to figure out why and ideally fix this in the compiler.",
+      "revId": "12c7811e6b2f789df31ce3b15d1caa6711e77092",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3eccc084_22b422bf",
