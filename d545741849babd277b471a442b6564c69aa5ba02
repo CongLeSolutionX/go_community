@@ -16,6 +16,23 @@
       "message": "TRY\u003dlongtest,windows-amd64-longtest",
       "revId": "d545741849babd277b471a442b6564c69aa5ba02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef4ce93b_371abeb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-25T22:03:47Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1:\n\u003e \n\u003e Build is still in progress...\n\u003e This change failed on windows-amd64-longtest:\n\u003e See https://storage.googleapis.com/go-build-log/d5457418/windows-amd64-longtest_88868fdf.log\n\nThis failure looks real.\n\nWhen the `go` command is run within `GOROOT/src`, the `std` module is a read module and its vendored dependencies (in `GOROOT/src/vendor`) are the real module dependencies, not special packages internal to `std`.\n\nIs there some other location where we could run the `go` command instead?",
+      "revId": "d545741849babd277b471a442b6564c69aa5ba02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
