@@ -16,6 +16,92 @@
       "message": "Aligning to CL 279439",
       "revId": "12c7811e6b2f789df31ce3b15d1caa6711e77092",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aa8342f_19e0b833",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-25T04:33:39Z",
+      "side": 1,
+      "message": "A change such as this needs to be accompanied with benchmarks showing this makes a real difference. Otherwise the change is not worth it (reduces readability).\n\nAt least two changes are certain to not have any performance impact.",
+      "revId": "12c7811e6b2f789df31ce3b15d1caa6711e77092",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eccc084_22b422bf",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-25T04:33:39Z",
+      "side": 1,
+      "message": "there\u0027s no difference here - bufferSize / 2 is a compile time operation",
+      "range": {
+        "startLine": 152,
+        "startChar": 14,
+        "endLine": 152,
+        "endChar": 24
+      },
+      "revId": "12c7811e6b2f789df31ce3b15d1caa6711e77092",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c83c76b_ee0f2738",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-25T04:33:39Z",
+      "side": 1,
+      "message": "I doubt this makes any difference in benchmarks and it\u0027s less clear. The Write operation is far more dominant.",
+      "range": {
+        "startLine": 161,
+        "startChar": 7,
+        "endLine": 161,
+        "endChar": 14
+      },
+      "revId": "12c7811e6b2f789df31ce3b15d1caa6711e77092",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e037b74c_9c7659c5",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-02-25T04:33:39Z",
+      "side": 1,
+      "message": "I like to see a benchmark showing this makes a difference.\n\nAs an aside, the compiler may be able to prove that i \u003e 0 and than this change makes no difference.",
+      "range": {
+        "startLine": 1335,
+        "startChar": 27,
+        "endLine": 1335,
+        "endChar": 28
+      },
+      "revId": "12c7811e6b2f789df31ce3b15d1caa6711e77092",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
