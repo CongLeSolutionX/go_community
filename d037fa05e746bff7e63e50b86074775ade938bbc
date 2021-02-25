@@ -16,6 +16,23 @@
       "message": "RELNOTE\u003dyes",
       "revId": "d037fa05e746bff7e63e50b86074775ade938bbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dccc2d3_6292e64f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-02-25T19:41:55Z",
+      "side": 1,
+      "message": "trybot failure is unrelated",
+      "revId": "d037fa05e746bff7e63e50b86074775ade938bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
