@@ -16,6 +16,24 @@
       "message": "Maybe this is more generally useful, and should live in cmd/compile/internal/ssagen?",
       "revId": "03b1c9599a7a57fbbf9ac0c3e98051354f3683b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48fdeb25_ba5f16bc",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-02-25T20:44:34Z",
+      "side": 1,
+      "message": "It does look more generally useful.\n\nI\u0027ve added Prog.SetFrom3Reg and Prog.SetFrom3Const directly to package obj. I\u0027m curious what you think.",
+      "parentUuid": "f7f231eb_078a7e5c",
+      "revId": "03b1c9599a7a57fbbf9ac0c3e98051354f3683b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
