@@ -119,6 +119,9 @@ func (t *fsTester) openDir(dir string) fs.ReadDirFile {
 		t.errorf("%s: Open: %v", dir, err)
 		return nil
 	}
+	if _, err := f.Read(make([]byte, 4)); err == nil {
+		t.errorf("%s: Read on a directory should return an error", dir)
+	}
 	d, ok := f.(fs.ReadDirFile)
 	if !ok {
 		f.Close()
@@ -512,6 +515,12 @@ func (t *fsTester) checkFile(file string) {
 	if err != nil {
 		t.errorf("%s: Open: %v", file, err)
 		return
+	}
+
+	if dir, ok := f.(fs.ReadDirFile); ok {
+		if _, err := dir.ReadDir(-1); err == nil {
+			t.errorf("%s: ReadDir of non-dir file should return an error", file)
+		}
 	}
 
 	data, err := ioutil.ReadAll(f)
