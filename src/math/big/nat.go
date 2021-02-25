@@ -1332,7 +1332,7 @@ func (z nat) expNNWindowed(x, y, m nat) nat {
 	powers[0] = natOne
 	powers[1] = x
 	for i := 2; i < 1<<n; i += 2 {
-		p2, p, p1 := &powers[i/2], &powers[i], &powers[i+1]
+		p2, p, p1 := &powers[i>>1], &powers[i], &powers[i+1]
 		*p = p.sqr(*p2)
 		zz, r = zz.div(r, *p, m)
 		*p, r = r, *p

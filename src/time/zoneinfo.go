@@ -160,7 +160,7 @@ func (l *Location) lookup(sec int64) (name string, offset int, start, end int64)
 	lo := 0
 	hi := len(tx)
 	for hi-lo > 1 {
-		m := lo + (hi-lo)/2
+		m := lo + (hi-lo)>>1
 		lim := tx[m].when
 		if sec < lim {
 			end = lim

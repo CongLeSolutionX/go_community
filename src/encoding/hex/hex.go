@@ -149,8 +149,8 @@ func NewEncoder(w io.Writer) io.Writer {
 }
 
 func (e *encoder) Write(p []byte) (n int, err error) {
+	chunkSize := bufferSize >> 1
 	for len(p) > 0 && e.err == nil {
-		chunkSize := bufferSize / 2
 		if len(p) < chunkSize {
 			chunkSize = len(p)
 		}
@@ -158,7 +158,7 @@ func (e *encoder) Write(p []byte) (n int, err error) {
 		var written int
 		encoded := Encode(e.out[:], p[:chunkSize])
 		written, e.err = e.w.Write(e.out[:encoded])
-		n += written / 2
+		n += written >> 1
 		p = p[chunkSize:]
 	}
 	return n, e.err

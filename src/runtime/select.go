@@ -188,7 +188,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 		// Start with the pollorder to permute cases on the same channel.
 		c := scases[pollorder[i]].c
 		for j > 0 && scases[lockorder[(j-1)/2]].c.sortkey() < c.sortkey() {
-			k := (j - 1) / 2
+			k := (j - 1) >> 1
 			lockorder[j] = lockorder[k]
 			j = k
 		}
