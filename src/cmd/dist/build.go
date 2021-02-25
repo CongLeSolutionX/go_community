@@ -111,9 +111,6 @@ func xinit() {
 		fatalf("$GOROOT must be set")
 	}
 	goroot = filepath.Clean(b)
-	if modRoot := findModuleRoot(goroot); modRoot != "" {
-		fatalf("found go.mod file in %s: $GOROOT must not be inside a module", modRoot)
-	}
 
 	b = os.Getenv("GOROOT_FINAL")
 	if b == "" {
@@ -1505,11 +1502,12 @@ func goCmd(goBinary string, cmd string, args ...string) {
 		goCmd = append(goCmd, "-p=1")
 	}
 
-	run(goroot, ShowOutput|CheckExit, append(goCmd, args...)...)
+	run(pathf("%s/src", goroot), ShowOutput|CheckExit, append(goCmd, args...)...)
 }
 
 func checkNotStale(goBinary string, targets ...string) {
-	out := run(goroot, CheckExit,
+	dir := pathf("%s/src", goroot)
+	out := run(dir, CheckExit,
 		append([]string{
 			goBinary,
 			"list", "-gcflags=all=" + gogcflags, "-ldflags=all=" + goldflags,
@@ -1519,7 +1517,7 @@ func checkNotStale(goBinary string, targets ...string) {
 		os.Setenv("GODEBUG", "gocachehash=1")
 		for _, target := range []string{"runtime/internal/sys", "cmd/dist", "cmd/link"} {
 			if strings.Contains(out, "STALE "+target) {
-				run(goroot, ShowOutput|CheckExit, goBinary, "list", "-f={{.ImportPath}} {{.Stale}}", target)
+				run(dir, ShowOutput|CheckExit, goBinary, "list", "-f={{.ImportPath}} {{.Stale}}", target)
 				break
 			}
 		}
@@ -1613,20 +1611,6 @@ func checkCC() {
 			"To set a C compiler, set CC=the-compiler.\n"+
 			"To disable cgo, set CGO_ENABLED=0.\n%s%s", defaultcc[""], err, outputHdr, output)
 	}
-}
-
-func findModuleRoot(dir string) (root string) {
-	for {
-		if fi, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil && !fi.IsDir() {
-			return dir
-		}
-		d := filepath.Dir(dir)
-		if d == dir {
-			break
-		}
-		dir = d
-	}
-	return ""
 }
 
 func defaulttarg() string {
