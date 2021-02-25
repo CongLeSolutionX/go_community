@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5da53842_419a6cde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-25T02:20:38Z",
+      "side": 1,
+      "message": "FWIW, I think it would also be ok to wait to tag v0.4.2 until near the Go 1.16.1 release. (I don\u0027t feel strongly about it either way, though — if we discover any more bugs after this, we can always add another patch tag.)",
+      "revId": "88b7f2d9d1fa6641b8add7428c01a78874b7e02c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bc10d22_be299241",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-25T02:20:38Z",
+      "side": 1,
+      "message": "LGTM modulo wiring in the actual x/mod commit.",
+      "revId": "88b7f2d9d1fa6641b8add7428c01a78874b7e02c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "decacfca_04ab1a4f",
+        "filename": "src/cmd/go/testdata/script/mod_retract_fix_version.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-02-25T02:20:38Z",
+      "side": 1,
+      "message": "Stray comment?",
+      "revId": "88b7f2d9d1fa6641b8add7428c01a78874b7e02c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
