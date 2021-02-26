@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06ca4ee9_4dc68e91",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-26T02:15:51Z",
+      "side": 1,
+      "message": "Seems appropriate to check that t.Kind() \u003d\u003d Struct here, rather than panicking in the NumField call.",
+      "revId": "dff4580f73898f06b79e69128c6f93a8e63f2db9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f60de92_33d57add",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-26T02:15:51Z",
+      "side": 1,
+      "message": "We usually omit a leading 0 in a slice expression.",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "dff4580f73898f06b79e69128c6f93a8e63f2db9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cad635d_2d398a7c",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-26T02:15:51Z",
+      "side": 1,
+      "message": "I\u0027m concerned that this will cause the wrong thing to happen for a case like\n\ntype S1 struct { i int }\ntype S2 struct { S1 }\ntype S3 struct { S2; S1 }\n\nWill we see that S3.i is the one from S1, not the one from S2?",
+      "revId": "dff4580f73898f06b79e69128c6f93a8e63f2db9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27dd80e2_3986f653",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-02-26T02:15:51Z",
+      "side": 1,
+      "message": "It\u0027s a bit confusing to shadow the index parameter here.  I think it would be clearer to call this one fieldIndex or something.",
+      "revId": "dff4580f73898f06b79e69128c6f93a8e63f2db9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
