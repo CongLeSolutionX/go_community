@@ -13,12 +13,110 @@ import (
 	"io"
 	"math"
 	"os"
+	"strconv"
 	"strings"
 )
 
 type writeSyncer interface {
 	io.Writer
 	Sync() error
+}
+
+type MatchCounter struct {
+	mask           uint64
+	match          uint64
+	evname, evhash string
+}
+
+func MakeMatchCounter(evname, evhash string) MatchCounter {
+	var mc MatchCounter
+	b, err := strconv.ParseUint(evhash, 2, 64)
+	if err != nil {
+		panic(fmt.Errorf("Bad value %s for environment variable %s, was expecting [YyNn]?(0|1)*", evhash, evname))
+	}
+	mc.match = b
+	mc.mask = 1<<uint(len(evhash)) - 1
+	mc.evname = evname
+	mc.evhash = evhash
+	return mc
+}
+
+type TestCounter struct {
+	f        *Func // nil for never trigger
+	counter  uint64
+	matchers []MatchCounter // empty for always trigger (if f == nil)
+	lastTest int            // -1 = no, 0 = default yes, k+1 >= EV k matched
+}
+
+// Test increments the per-function counter, and returns "true"
+// either if no GOSSAHASHOPnn EV exists, or if at least one of
+// those variables matched.
+func (t *TestCounter) Test() bool {
+	t.counter++
+	t.lastTest = t.isSet()
+	return t.lastTest >= 0
+}
+
+// LastTest returns the outcome of the previous call to Test()
+func (t *TestCounter) LastTest() bool {
+	return t.lastTest >= 0
+}
+
+// Log emits a message in the proper format for the automated failure
+// search program "gossahash" (currently github.com/dr2chase/gossahash),
+// provided that the most recent Test returned a not-default true
+// (i.e. $GOSSAHASHOP matched a counter, or $GOSSAHASHOP[0] = y or Y)
+func (t *TestCounter) Log(s string) {
+	if t.lastTest > 0 {
+		evname := t.matchers[t.lastTest-1].evname
+		t.f.logDebugHashMatch(evname, s)
+	}
+}
+
+// isSet returns -1 if no matcher matches, 0 for default-on, k+1 > 0 for matcher k matches the count
+func (t *TestCounter) isSet() int {
+	if t.f == nil {
+		return -1
+	}
+	if t == nil || len(t.matchers) == 0 {
+		return 0
+	}
+	for i := range t.matchers {
+		pt := &t.matchers[i]
+		if (t.counter & pt.mask) == pt.match {
+			return i + 1
+		}
+	}
+	return -1
+}
+
+func NewTestCounter(f *Func, evname string) *TestCounter {
+	evhash := os.Getenv(evname)
+	var tc TestCounter
+	tc.f = f
+	if len(evhash) == 0 {
+		return &tc
+	}
+	switch evhash[0] {
+	case 'y', 'Y': // default is on; do nothing
+		tc.matchers = append(tc.matchers, MatchCounter{evname: "GOSSAHASHOP=Y"})
+		return &tc
+	case 'n', 'N':
+		tc.f = nil
+		return &tc
+	}
+	tc.matchers = append(tc.matchers, MakeMatchCounter(evname, evhash))
+
+	// Iteratively record additional hashes to allow tests for multi-point failure.
+	for i := 0; true; i++ {
+		ev := fmt.Sprintf("%s%d", evname, i)
+		evv := os.Getenv(ev)
+		if evv == "" {
+			break
+		}
+		tc.matchers = append(tc.matchers, MakeMatchCounter(ev, evv))
+	}
+	return &tc
 }
 
 // A Func represents a Go func declaration (or function literal) and its body.
@@ -40,9 +138,10 @@ type Func struct {
 	// Given an environment variable used for debug hash match,
 	// what file (if any) receives the yes/no logging?
 	logfiles       map[string]writeSyncer
-	HTMLWriter     *HTMLWriter    // html writer, for debugging
-	DebugTest      bool           // default true unless $GOSSAHASH != ""; as a debugging aid, make new code conditional on this and use GOSSAHASH to binary search for failing cases
-	PrintOrHtmlSSA bool           // true if GOSSAFUNC matches, true even if fe.Log() (spew phase results to stdout) is false.
+	HTMLWriter     *HTMLWriter // html writer, for debugging
+	DebugTest      bool        // default true unless $GOSSAHASH != ""; as a debugging aid, make new code conditional on this and use GOSSAHASH to binary search for failing cases
+	PrintOrHtmlSSA bool        // true if GOSSAFUNC matches, true even if fe.Log() (spew phase results to stdout) is false.
+	DebugOpTest    *TestCounter
 	ruleMatches    map[string]int // number of times countRule was called during compilation for any given string
 	ABI0           *abi.ABIConfig // A copy, for no-sync access
 	ABI1           *abi.ABIConfig // A copy, for no-sync access
