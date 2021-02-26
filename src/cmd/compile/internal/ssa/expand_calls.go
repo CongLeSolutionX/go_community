@@ -222,7 +222,7 @@ func (x *expandState) isAlreadyExpandedAggregateType(t *types.Type) bool {
 
 // offsetFrom creates an offset from a pointer, simplifying chained offsets and offsets from SP
 // TODO should also optimize offsets from SB?
-func (x *expandState) offsetFrom(from *Value, offset int64, pt *types.Type) *Value {
+func (x *expandState) offsetFrom(b *Block, from *Value, offset int64, pt *types.Type) *Value {
 	if offset == 0 && from.Type == pt { // this is not actually likely
 		return from
 	}
@@ -234,13 +234,13 @@ func (x *expandState) offsetFrom(from *Value, offset int64, pt *types.Type) *Val
 	if from == x.sp {
 		return x.f.ConstOffPtrSP(pt, offset, x.sp)
 	}
-	key := offsetKey{from, offset, pt}
-	v := x.offsets[key]
-	if v != nil {
-		return v
-	}
-	v = from.Block.NewValue1I(from.Pos.WithNotStmt(), OpOffPtr, pt, offset, from)
-	x.offsets[key] = v
+	//key := offsetKey{from, offset, pt}
+	//v := x.offsets[key]
+	//if v != nil {
+	//	return v
+	//}
+	v := b.NewValue1I(from.Pos.WithNotStmt(), OpOffPtr, pt, offset, from)
+	//x.offsets[key] = v
 	return v
 }
 
@@ -254,7 +254,7 @@ func (x *expandState) splitSlots(ls []LocalSlot, sfx string, offset int64, ty *t
 }
 
 // prAssignForArg returns the ABIParamAssignment for v, assumed to be an OpArg.
-func (x *expandState) prAssignForArg(v *Value) abi.ABIParamAssignment {
+func (x *expandState) prAssignForArg(v *Value) *abi.ABIParamAssignment {
 	if v.Op != OpArg {
 		panic(badVal("Wanted OpArg, instead saw", v))
 	}
@@ -262,13 +262,12 @@ func (x *expandState) prAssignForArg(v *Value) abi.ABIParamAssignment {
 }
 
 // ParamAssignmentForArgName returns the ABIParamAssignment for f's arg with matching name.
-func ParamAssignmentForArgName(f *Func, name *ir.Name) abi.ABIParamAssignment {
+func ParamAssignmentForArgName(f *Func, name *ir.Name) *abi.ABIParamAssignment {
 	abiInfo := f.OwnAux.abiInfo
-	// This is unfortunate, but apparently the only way.
-	// TODO after register args stabilize, find a better way
-	for _, a := range abiInfo.InParams() {
+	ip := abiInfo.InParams()
+	for i, a := range ip {
 		if a.Name == name {
-			return a
+			return &ip[i]
 		}
 	}
 	panic(fmt.Errorf("Did not match param %v in prInfo %+v", name, abiInfo.InParams()))
@@ -396,7 +395,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 			}
 		} else {
 			leafType := removeTrivialWrapperTypes(leaf.Type)
-			if x.canSSAType(leafType) {
+			if true || x.canSSAType(leafType) {
 				pt := types.NewPtr(leafType)
 				// Any selection right out of the arg area/registers has to be same Block as call, use call as mem input.
 				if call.Op == OpStaticLECall { // TODO this is temporary until all calls are register-able
@@ -425,7 +424,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 						leaf.copyOf(w)
 					}
 				} else {
-					off := x.offsetFrom(x.sp, offset+aux.OffsetOfResult(which), pt)
+					off := x.offsetFrom(x.f.Entry, x.sp, offset+aux.OffsetOfResult(which), pt)
 					if leaf.Block == call.Block {
 						leaf.reset(OpLoad)
 						leaf.SetArgs2(off, call)
@@ -530,7 +529,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 
 func (x *expandState) rewriteDereference(b *Block, base, a, mem *Value, offset, size int64, typ *types.Type, pos src.XPos) *Value {
 	source := a.Args[0]
-	dst := x.offsetFrom(base, offset, source.Type)
+	dst := x.offsetFrom(b, base, offset, source.Type)
 	if a.Uses == 1 && a.Block == b {
 		a.reset(OpMove)
 		a.Pos = pos
@@ -623,7 +622,7 @@ func storeOneArg(x *expandState, pos src.XPos, b *Block, source, mem *Value, t *
 
 // storeOneLoad creates a decomposed (one step) load that is then stored.
 func storeOneLoad(x *expandState, pos src.XPos, b *Block, source, mem *Value, t *types.Type, offArg, offStore int64, loadRegOffset Abi1RO, storeRc registerCursor) *Value {
-	from := x.offsetFrom(source.Args[0], offArg, types.NewPtr(t))
+	from := x.offsetFrom(b, source.Args[0], offArg, types.NewPtr(t))
 	w := source.Block.NewValue2(source.Pos, OpLoad, t, from, mem)
 	return x.storeArgOrLoad(pos, b, w, mem, t, offStore, loadRegOffset, storeRc)
 }
@@ -652,6 +651,7 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 		fmt.Printf("\tstoreArgOrLoad(%s;  %s;  %s; %d; %s)\n", source.LongString(), mem.String(), t.String(), offset, storeRc.String())
 	}
 
+	// Start with Opcodes that can be disassembled
 	switch source.Op {
 	case OpCopy:
 		return x.storeArgOrLoad(pos, b, source.Args[0], mem, t, offset, loadRegOffset, storeRc)
@@ -825,7 +825,7 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 	if storeRc.hasRegs() {
 		storeRc.addArg(source)
 	} else {
-		dst := x.offsetFrom(storeRc.storeDest, offset, types.NewPtr(t))
+		dst := x.offsetFrom(b, storeRc.storeDest, offset, types.NewPtr(t))
 		s = b.NewValue3A(pos, OpStore, types.TypeMem, t, dst, source, mem)
 	}
 	if x.debug {
@@ -1041,14 +1041,9 @@ func expandCalls(f *Func) {
 						t = tSrc
 					}
 				}
-				if iAEATt {
-					if x.debug {
-						fmt.Printf("Splitting store %s\n", v.LongString())
-					}
-					dst, mem := v.Args[0], v.Args[2]
-					mem = x.storeArgOrLoad(v.Pos, b, source, mem, t, 0, 0, registerCursor{storeDest: dst})
-					v.copyOf(mem)
-				}
+				dst, mem := v.Args[0], v.Args[2]
+				mem = x.storeArgOrLoad(v.Pos, b, source, mem, t, 0, 0, registerCursor{storeDest: dst})
+				v.copyOf(mem)
 			}
 		}
 	}
@@ -1106,7 +1101,7 @@ func expandCalls(f *Func) {
 				which := v.AuxInt
 				aux := call.Aux.(*AuxCall)
 				pt := v.Type
-				off := x.offsetFrom(x.sp, aux.OffsetOfResult(which), pt)
+				off := x.offsetFrom(x.f.Entry, x.sp, aux.OffsetOfResult(which), pt)
 				v.copyOf(off)
 			}
 		}
@@ -1338,14 +1333,12 @@ func (x *expandState) newArgToMemOrRegs(baseArg, toReplace *Value, offset int64,
 	}
 
 	pa := x.prAssignForArg(baseArg)
-	switch len(pa.Registers) {
-	case 0:
+	if len(pa.Registers) == 0 { // Arg is on stack
 		frameOff := baseArg.Aux.(*ir.Name).FrameOffset()
 		if pa.Offset() != int32(frameOff) {
 			panic(fmt.Errorf("Parameter assignment %d and OpArg.Aux frameOffset %d disagree, op=%s",
 				pa.Offset(), frameOff, baseArg.LongString()))
 		}
-
 		aux := baseArg.Aux
 		auxInt := baseArg.AuxInt + offset
 		if toReplace != nil && toReplace.Block == baseArg.Block {
@@ -1366,35 +1359,34 @@ func (x *expandState) newArgToMemOrRegs(baseArg, toReplace *Value, offset int64,
 			}
 			return w
 		}
-
-	default:
-		r := pa.Registers[regOffset]
-		auxInt := x.f.ABISelf.FloatIndexFor(r)
-		op := OpArgFloatReg
-		// TODO seems like this has implications for debugging. How does this affect the location?
-		if auxInt < 0 { // int (not float) parameter register
-			op = OpArgIntReg
-			auxInt = int64(r)
+	}
+	// Arg is in registers
+	r := pa.Registers[regOffset]
+	auxInt := x.f.ABISelf.FloatIndexFor(r)
+	op := OpArgFloatReg
+	// TODO seems like this has implications for debugging. How does this affect the location?
+	if auxInt < 0 { // int PR
+		op = OpArgIntReg
+		auxInt = int64(r)
+	}
+	aux := &AuxNameOffset{baseArg.Aux.(*ir.Name), baseArg.AuxInt + offset}
+	if toReplace != nil && toReplace.Block == baseArg.Block {
+		toReplace.reset(op)
+		toReplace.Aux = aux
+		toReplace.AuxInt = auxInt
+		toReplace.Type = t
+		x.commonArgs[key] = toReplace
+		return toReplace
+	} else {
+		w := baseArg.Block.NewValue0IA(pos, op, t, auxInt, aux)
+		if x.debug {
+			fmt.Printf("\tnew %s\n", w.LongString())
 		}
-		aux := &AuxNameOffset{baseArg.Aux.(*ir.Name), baseArg.AuxInt + offset}
-		if toReplace != nil && toReplace.Block == baseArg.Block {
-			toReplace.reset(op)
-			toReplace.Aux = aux
-			toReplace.AuxInt = auxInt
-			toReplace.Type = t
-			x.commonArgs[key] = toReplace
-			return toReplace
-		} else {
-			w := baseArg.Block.NewValue0IA(pos, op, t, auxInt, aux)
-			if x.debug {
-				fmt.Printf("\tnew %s\n", w.LongString())
-			}
-			x.commonArgs[key] = w
-			if toReplace != nil {
-				toReplace.copyOf(w)
-			}
-			return w
+		x.commonArgs[key] = w
+		if toReplace != nil {
+			toReplace.copyOf(w)
 		}
+		return w
 	}
 }
 
