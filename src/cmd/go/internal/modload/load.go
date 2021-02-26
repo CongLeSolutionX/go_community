@@ -170,6 +170,15 @@ type PackageOpts struct {
 	// that occur while loading packages. SilenceErrors implies AllowErrors.
 	SilenceErrors bool
 
+	// SilenceNoGoErrors indicates that LoadPackages should not print
+	// imports.ErrNoGo errors.
+	// This allows the caller to invoke LoadPackages (and report other errors)
+	// without knowing whether the requested packages exist for the given tags.
+	//
+	// Note that if a requested package does not exist *at all*, it will fail
+	// during module resolution and the error will not be suppressed.
+	SilenceNoGoErrors bool
+
 	// SilenceUnmatchedWarnings suppresses the warnings normally emitted for
 	// patterns that did not match any packages.
 	SilenceUnmatchedWarnings bool
@@ -288,7 +297,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 				}
 			}
 
-			if !opts.SilenceErrors {
+			if !opts.SilenceErrors && (!opts.SilenceNoGoErrors || !errors.Is(pkg.err, imports.ErrNoGo)) {
 				if opts.AllowErrors {
 					fmt.Fprintf(os.Stderr, "%s: %v\n", pkg.stackText(), pkg.err)
 				} else {
