@@ -1458,9 +1458,13 @@ func (m *M) Run() (code int) {
 	if *matchFuzz != "" && !fuzzingRan {
 		fmt.Fprintln(os.Stderr, "testing: warning: no targets to fuzz")
 	}
-	if !fuzzingOk && !*isFuzzWorker {
+	if !fuzzingOk {
 		fmt.Println("FAIL")
-		m.exitCode = 1
+		if *isFuzzWorker {
+			m.exitCode = fuzzWorkerExitCode
+		} else {
+			m.exitCode = 1
+		}
 		return
 	}
 

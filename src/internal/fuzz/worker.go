@@ -26,6 +26,11 @@ const (
 	// workerTimeoutDuration is the amount of time a worker can go without
 	// responding to the coordinator before being stopped.
 	workerTimeoutDuration = 1 * time.Second
+
+	// workerExitCode is used as an exit code by fuzz worker processes after an internal error.
+	// This distinguishes internal errors from uncontrolled panics and other crashes.
+	// Keep in sync with internal/fuzz.workerExitCode.
+	workerExitCode = 70
 )
 
 // worker manages a worker process running a test binary. The worker object
@@ -96,10 +101,10 @@ func (w *worker) runFuzzing() error {
 				w.stop()
 				return nil
 			}
-			if w.waitErr == nil {
-				// Worker exited 0.
+			if exitErr, ok := w.waitErr.(*exec.ExitError); ok && exitErr.ExitCode() == workerExitCode {
 				w.stop()
-				return fmt.Errorf("worker exited unexpectedly with status 0")
+				return fmt.Errorf("worker exited unexpectedly due to an internal failure")
+				// TODO(jayconrod,katiehockman): record and return stderr.
 			}
 
 			// Unexpected termination. Inform the coordinator about the crash.
