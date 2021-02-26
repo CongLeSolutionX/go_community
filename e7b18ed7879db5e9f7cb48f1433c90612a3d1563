@@ -39,6 +39,30 @@
       },
       "revId": "e7b18ed7879db5e9f7cb48f1433c90612a3d1563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "945f024a_9cb99372",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-02-26T18:25:51Z",
+      "side": 1,
+      "message": "\"exist in new process parent\" doesn\u0027t seem grammatically correct and I\u0027m not sure what meaning you\u0027re trying to convey. I\u0027ll see what I can come up with though.",
+      "parentUuid": "825475cc_53210624",
+      "range": {
+        "startLine": 246,
+        "startChar": 200,
+        "endLine": 246,
+        "endChar": 204
+      },
+      "revId": "e7b18ed7879db5e9f7cb48f1433c90612a3d1563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
