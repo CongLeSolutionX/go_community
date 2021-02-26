@@ -16,6 +16,46 @@
       "message": "I\u0027ve rebased this now on master, and split it out into its own standalone commit, so make merging more palpable.\n\nThis is a necessary change to support resources on arm64, just as we have on arm, x86, and amd64. This is useful regardless of whether or not cgo for arm64 and arm lands.",
       "revId": "a95092052c5c5b1a66e1dcea2c630cc6359e549c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67e207f1_4c322ba2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-26T12:43:20Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "a95092052c5c5b1a66e1dcea2c630cc6359e549c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6110f75c_c09214ba",
+        "filename": "src/cmd/link/testdata/pe-llvm/main.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-02-26T12:43:20Z",
+      "side": 1,
+      "message": "I assume this is some sort of wrapper that invokes llvm-rc.exe?",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "a95092052c5c5b1a66e1dcea2c630cc6359e549c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
