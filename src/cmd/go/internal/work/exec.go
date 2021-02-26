@@ -286,6 +286,7 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 			"GOSSAFUNC",
 			"GO_SSA_PHI_LOC_CUTOFF",
 			"GOSSAHASH",
+			"GOSSAHASHOP",
 		}
 		for _, env := range magic {
 			if x := os.Getenv(env); x != "" {
