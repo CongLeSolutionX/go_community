@@ -193,7 +193,7 @@ func (w *worker) start() (err error) {
 
 	cmd := exec.Command(w.binPath, w.args...)
 	cmd.Dir = w.dir
-	cmd.Env = w.env
+	cmd.Env = w.env[:len(w.env):len(w.env)]
 	// TODO(jayconrod): set stdout and stderr to nil or buffer. A large number
 	// of workers may be very noisy, but for now, this output is useful for
 	// debugging.
