@@ -380,6 +380,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	s.f.Cache.Reset()
 	s.f.Name = name
 	s.f.DebugTest = s.f.DebugHashMatch("GOSSAHASH")
+	s.f.DebugOpTest = ssa.NewTestCounter(s.f, "GOSSAHASHOP")
 	s.f.PrintOrHtmlSSA = printssa
 	if fn.Pragma&ir.Nosplit != 0 {
 		s.f.NoSplit = true
