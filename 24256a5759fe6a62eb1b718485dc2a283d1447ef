@@ -16,6 +16,23 @@
       "message": "Please let me know if there is anything else I can do to improve the change.",
       "revId": "24256a5759fe6a62eb1b718485dc2a283d1447ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b4fe873_26e7fe02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-02-26T09:47:59Z",
+      "side": 1,
+      "message": "Norman, could you please rebase your PR? Then we can run CI and merge on green. The patch looks good to me.",
+      "revId": "24256a5759fe6a62eb1b718485dc2a283d1447ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
