@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb403967_6290d9e0",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-26T16:40:20Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "dbc29091_6f022d6a",
+      "revId": "8f83bf44b823089261cdb07b36e199bd4fa606b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b7dc8cc_05f85852",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "824738d5_bca4d9ba",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-26T16:40:20Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "0b7dc8cc_05f85852",
+      "range": {
+        "startLine": 41,
+        "startChar": 54,
+        "endLine": 41,
+        "endChar": 58
+      },
+      "revId": "8f83bf44b823089261cdb07b36e199bd4fa606b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0045e87_b5065269",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-02-25T16:14:21Z",
       "side": 1,
       "message": "Avoid the parentheses around the comparisons.  For a case like this use a []byte composite literal.  Also if don\u0027t permit readCols \u003d\u003d 0 we can simplify further.\n    bytes.Count(wholeLine, []byte{\u0027:\u0027}) \u003e\u003d readCols\n\nAnd then we don\u0027t need a line break after \"||\".",
+      "revId": "8f83bf44b823089261cdb07b36e199bd4fa606b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9049ae0c_9176e718",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-02-26T16:40:20Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "b0045e87_b5065269",
       "revId": "8f83bf44b823089261cdb07b36e199bd4fa606b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
