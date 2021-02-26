@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cf92932_a15fb127",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-02-26T17:21:41Z",
+      "side": 1,
+      "message": "PTAL - I had one outstanding question about adding -G to gofmt.",
+      "revId": "191b8fa246cd2f4c5eb68a8d42032eb641cf50d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
