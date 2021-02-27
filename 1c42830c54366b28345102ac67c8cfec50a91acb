@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed860e6_aeb58d31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-02-27T13:37:09Z",
+      "side": 1,
+      "message": "s/pointer maps seem to be right/fix pointer maps for/ ???",
+      "revId": "1c42830c54366b28345102ac67c8cfec50a91acb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
