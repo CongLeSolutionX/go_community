@@ -16,6 +16,63 @@
       "message": "TRY\u003dppc64le,arm64\n",
       "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9057fbc4_28ac535a",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T23:02:33Z",
+      "side": 1,
+      "message": "Not really sure if this belongs here. I guess technically you could say the reserved space is part of the ABI, and in theory different ABIs could have different stack layout. Maybe this is fine.",
+      "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deb5287d_ddce5e6d",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4933,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T23:02:33Z",
+      "side": 1,
+      "message": "Is this still argStart, or argExtra?",
+      "range": {
+        "startLine": 4933,
+        "startChar": 85,
+        "endLine": 4933,
+        "endChar": 93
+      },
+      "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "676a87a1_b4b7e9ab",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4944,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T23:02:33Z",
+      "side": 1,
+      "message": "Maybe delete. The code is probably wrong, if it is supposed to be argExtra.",
+      "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
