@@ -46,6 +46,30 @@
       },
       "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da07ea81_2c489395",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-01T22:45:32Z",
+      "side": 0,
+      "message": "Since the final format of type parameter lists is still in flux, let\u0027s leave this out.\n\nFrom a practical point of view, it would be good to have a gofmt that can handle generic code, but one can build a special version and store away the binary.",
+      "parentUuid": "c49e4758_c92b7291",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "05f9a0bc36aea60950f30ed50a4f2715a741ab5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
