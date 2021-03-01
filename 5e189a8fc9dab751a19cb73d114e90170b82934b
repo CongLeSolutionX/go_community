@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a493ae49_53b51628",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T21:49:13Z",
+      "side": 1,
+      "message": "Could you show an example? That sounds like something needs to be fixed.",
+      "range": {
+        "startLine": 167,
+        "startChar": 25,
+        "endLine": 167,
+        "endChar": 96
+      },
+      "revId": "5e189a8fc9dab751a19cb73d114e90170b82934b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44dae6a9_0f350ea2",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1393,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T21:49:13Z",
+      "side": 1,
+      "message": "Typo.",
+      "range": {
+        "startLine": 1393,
+        "startChar": 32,
+        "endLine": 1393,
+        "endChar": 36
+      },
+      "revId": "5e189a8fc9dab751a19cb73d114e90170b82934b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
