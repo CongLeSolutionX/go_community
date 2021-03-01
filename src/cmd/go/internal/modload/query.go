@@ -747,6 +747,7 @@ func queryPrefixModules(ctx context.Context, candidateModules []string, queryMod
 		noPackage   *PackageNotInModuleError
 		noVersion   *NoMatchingVersionError
 		noPatchBase *NoPatchBaseError
+		invalidPath *module.InvalidPathError
 		notExistErr error
 	)
 	for _, r := range results {
@@ -766,6 +767,13 @@ func queryPrefixModules(ctx context.Context, candidateModules []string, queryMod
 		case *NoPatchBaseError:
 			if noPatchBase == nil {
 				noPatchBase = rErr
+			}
+		case *module.InvalidPathError:
+			// The prefix was not a valid module path, and there was no replacement;
+			// a shorter prefix may be a valid module path and may contain a valid
+			// import path.
+			if invalidPath == nil {
+				invalidPath = rErr
 			}
 		default:
 			if errors.Is(rErr, fs.ErrNotExist) {
@@ -800,6 +808,8 @@ func queryPrefixModules(ctx context.Context, candidateModules []string, queryMod
 			err = noVersion
 		case noPatchBase != nil:
 			err = noPatchBase
+		case invalidPath != nil:
+			err = invalidPath
 		case notExistErr != nil:
 			err = notExistErr
 		default:
