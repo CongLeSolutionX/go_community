@@ -701,7 +701,7 @@ func modulePrefixesExcludingTarget(path string) []string {
 
 	for {
 		if path != targetPrefix {
-			if _, _, ok := module.SplitPathVersion(path); ok {
+			if err := module.CheckPath(path); err == nil {
 				prefixes = append(prefixes, path)
 			}
 		}
