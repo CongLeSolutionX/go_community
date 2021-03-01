@@ -23,6 +23,15 @@ cd $WORK/gopath/src/badname
 ! go list .
 stderr 'invalid module path'
 
+# Test that an import path containing an element with a leading dot is valid,
+# but such a module path is not.
+# Verifies #43985.
+cd $WORK/gopath/src/dotname
+go list .
+stdout '^example.com/.dot$'
+! go list -m example.com/.dot@latest
+stderr '^go list -m: example.com/.dot@latest: malformed module path "example.com/.dot": leading dot in path element$'
+
 -- mod/go.mod --
 
 -- mod/foo.go --
@@ -38,3 +47,8 @@ module .\.
 -- badname/foo.go --
 package badname
 
+-- dotname/go.mod --
+module example.com/.dot
+
+-- dotname/dot.go --
+package dot
