@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9319d8d_11572e1c",
+        "filename": "src/cmd/go/internal/get/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-01T22:46:11Z",
+      "side": 0,
+      "message": "Rather than removing the flag entirely, let\u0027s print an error message if it\u0027s set, explaining that it\u0027s no longer supported and GOINSECURE should be used instead.",
+      "revId": "5ff7ec98b7727b3641df25200345b1aa50b6ff35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec3009f_0bd0a4b0",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-01T22:46:11Z",
+      "side": 0,
+      "message": "Same deal: let\u0027s print an error if this is set.",
+      "revId": "5ff7ec98b7727b3641df25200345b1aa50b6ff35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

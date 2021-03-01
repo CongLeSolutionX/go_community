@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d38b479_1c75c183",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-01T22:46:11Z",
+      "side": 1,
+      "message": "Couple small notes, but this looks really good. Thanks for following this all the way through.\n\nTRY\u003dlinux-amd64-longtest",
+      "revId": "415e2852f1817be3a0cdf4cb36bca6cc8ed7743b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fcf9733_6f183151",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-01T22:46:11Z",
+      "side": 1,
+      "message": "Please also add a release note in doc/go1.17.html under the \"Go command\" section. I think this will be the first note for 1.17, so check doc/go1.16.html for the format.",
+      "revId": "415e2852f1817be3a0cdf4cb36bca6cc8ed7743b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
