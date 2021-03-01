@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd52d84_94db52f8",
+        "filename": "test/abi/f_ret_z_not.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T22:10:38Z",
+      "side": 1,
+      "message": "The code below doesn\u0027t seem to be gofmt\u0027d. Could you do that?",
+      "revId": "ff40aaa74f3d182b27f64f7299fb62ae9541a15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f037f6d2_8c4d2989",
+        "filename": "test/abi/f_ret_z_not.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T22:10:38Z",
+      "side": 1,
+      "message": "Why wasm is a problem?",
+      "revId": "ff40aaa74f3d182b27f64f7299fb62ae9541a15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dba8362_e70bdd7d",
+        "filename": "test/abi/many_int_input.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T22:10:38Z",
+      "side": 1,
+      "message": "Same here, why wasm? Also, gofmt, thanks.",
+      "revId": "ff40aaa74f3d182b27f64f7299fb62ae9541a15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4155a39_2eabd57c",
+        "filename": "test/abi/struct_3_string_input.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T22:10:38Z",
+      "side": 1,
+      "message": "Maybe remove the print.",
+      "revId": "ff40aaa74f3d182b27f64f7299fb62ae9541a15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
