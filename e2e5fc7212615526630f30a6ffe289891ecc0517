@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36405145_a0151f91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-03-01T19:56:21Z",
+      "side": 1,
+      "message": "We should be able to add a test that where the setup code reports an error with F.Fail\nbefore calling F.Fuzz, and check that it doesn\u0027t log a crash. Wdyt?",
+      "revId": "e2e5fc7212615526630f30a6ffe289891ecc0517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
