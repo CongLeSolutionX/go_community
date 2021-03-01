@@ -16,6 +16,23 @@
       "message": "\u003e Patch Set 21: TryBot-Result-1\n\u003e \n\u003e 2 of 25 SlowBots failed:\n\u003e Failed on linux-mips64le-mengzhuo: https://storage.googleapis.com/go-build-log/be007c39/linux-mips64le-mengzhuo_3ce76ce4.log\n\u003e Failed on linux-mips64-rtrk: https://storage.googleapis.com/go-build-log/be007c39/linux-mips64-rtrk_3b304809.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\u003e \n\u003e SlowBot builds that ran:\n\u003e * linux-mips-rtrk\n\u003e * linux-mips64-rtrk\n\u003e * linux-mips64le-mengzhuo\n\u003e * linux-mipsle-rtrk\n\nI run test on my desktop. I can work well.",
       "revId": "240d19f304fd704a25895bccfb149bdc6c778671",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d178bbf_eeb5e19f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T22:31:24Z",
+      "side": 1,
+      "message": "TRY\u003dmips,mipsle,mips64,mips64le\n",
+      "revId": "240d19f304fd704a25895bccfb149bdc6c778671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
