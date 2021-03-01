@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d87941_3bd8da33",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T20:13:38Z",
+      "side": 1,
+      "message": "(Eventually we might need to handle int64 decomposition on 32-bit.)",
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d0c7e6_8460f667",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T20:13:38Z",
+      "side": 1,
+      "message": "Maybe check array size. It can be 1 or 0 for now, maybe we\u0027ll have more in the future.",
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a784018b_f2e29dfb",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T20:13:38Z",
+      "side": 1,
+      "message": "Does OpLoad work for non-SSA\u0027able values? I thought OpDereference is only for non-SSA\u0027able values?\n\nAlso, does it belong to this CL (i.e. has anything to do with results)?",
+      "range": {
+        "startLine": 823,
+        "startChar": 0,
+        "endLine": 825,
+        "endChar": 2
+      },
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2784af4_91ae1dd3",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T20:13:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure I followed this change...",
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a622a7cc_02038954",
+        "filename": "src/cmd/compile/internal/ssa/lower.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T20:13:38Z",
+      "side": 1,
+      "message": "The new format doesn\u0027t seem to work well with them.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 4
+      },
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
