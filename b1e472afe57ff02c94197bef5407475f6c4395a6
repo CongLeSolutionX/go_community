@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e44162_bb01f679",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T22:01:27Z",
+      "side": 1,
+      "message": "What happens with non-SSA\u0027able in-memory args? The code below seems to generate OpLoad. Is that okay?",
+      "range": {
+        "startLine": 392,
+        "startChar": 6,
+        "endLine": 392,
+        "endChar": 36
+      },
+      "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4751c583_600a9d37",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T22:01:27Z",
+      "side": 1,
+      "message": "Undo the change of the comment.",
+      "range": {
+        "startLine": 1352,
+        "startChar": 24,
+        "endLine": 1352,
+        "endChar": 26
+      },
+      "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4af301e_da58a918",
+        "filename": "test/abi/too_big_to_ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T22:01:27Z",
+      "side": 1,
+      "message": "Maybe just remove the prints?",
+      "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
