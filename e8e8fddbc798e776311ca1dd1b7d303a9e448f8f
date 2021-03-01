@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b809fb0_04a9c8b1",
+        "filename": "src/cmd/compile/internal/liveness/plive.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T19:29:12Z",
+      "side": 1,
+      "message": "(See another comment) OpArgIntReg is a use of the register, which doesn\u0027t necessarily read the spill slot. I\u0027m not sure I followed.",
+      "revId": "e8e8fddbc798e776311ca1dd1b7d303a9e448f8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3279b81_84e98793",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-01T19:29:12Z",
+      "side": 1,
+      "message": "Live at what point?\n\nNormally the spill slot doesn\u0027t need to be live if we only use the register, and must not be live if we never spill into it (do we pre-zero the slot? probably not).",
+      "range": {
+        "startLine": 526,
+        "startChar": 70,
+        "endLine": 526,
+        "endChar": 74
+      },
+      "revId": "e8e8fddbc798e776311ca1dd1b7d303a9e448f8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
