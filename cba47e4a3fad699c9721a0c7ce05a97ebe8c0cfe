@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8774b190_c609b2c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "Looks good overall. I guess it could work. As long as we have enough stack space in nosplit limit.\n",
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2f16d06_b4e0eee1",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "Does it work with (reflectRegArgs__size*2+32) ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 55,
+        "endLine": 26,
+        "endChar": 58
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a499790_e647b632",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "Use tab here. Below as well.",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8732d475_d5231026",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "I guess you want to reference spillArg function in runtime/asm_amd64.s? It wouldn\u0027t work this way (even with linknames, which has no effect to assembly). If this is the case, I think what you want is define it as non-static in runtime (i.e. with \u003cABIInternal\u003e instead of \u003c\u003e, with middle-dot prefix), and referece here as runtime·spillArg\u003cABIInternal\u003e. Or define the assembly code in internal/abi.",
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1647d358_35da7aec",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "Remove \u003c\u003e, or change it to \u003cABIInternal\u003e. This is not static function.",
+      "range": {
+        "startLine": 32,
+        "startChar": 29,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc00b14_1f7fbf51",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "You may need to pre-zero the pointer slots in the RegArgs structure, as it will be scanned. Or zero them in moveMakeFuncArgPtrs.",
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78123ea4_5ead6171",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "(reflectRegArgs__size+32) if possible.",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 12
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06f72b78_e5de8207",
+        "filename": "src/reflect/makefunc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 25
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4877c77_2418b168",
+        "filename": "src/reflect/makefunc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "stack args and results?",
+      "range": {
+        "startLine": 148,
+        "startChar": 39,
+        "endLine": 148,
+        "endChar": 55
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbacfea5_e9290587",
+        "filename": "src/reflect/makefunc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "Ptrs ?",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 166,
+        "endChar": 18
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "917b014c_fbc5c79b",
+        "filename": "src/reflect/rt_asm_amd64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T20:26:53Z",
+      "side": 1,
+      "message": "Why/where do you need them?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 0
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
