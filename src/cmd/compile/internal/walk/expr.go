@@ -158,7 +158,12 @@ func walkExpr1(n ir.Node, init *ir.Nodes) ir.Node {
 
 	case ir.ORECOVER:
 		n := n.(*ir.CallExpr)
-		return mkcall("gorecover", n.Type(), init, typecheck.NodAddr(ir.RegFP))
+		var fp ir.Node = mkcall("getcallersp", types.Types[types.TUINTPTR], init)
+		if off := base.Ctxt.FixedFrameSize(); off != 0 {
+			fp = ir.NewBinaryExpr(fp.Pos(), ir.OADD, fp, ir.NewInt(off))
+		}
+		fp = ir.NewConvExpr(fp.Pos(), ir.OCONVNOP, types.NewPtr(types.Types[types.TINT32]), fp)
+		return mkcall("gorecover", n.Type(), init, fp)
 
 	case ir.OCFUNC:
 		return n
