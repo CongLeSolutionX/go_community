@@ -16,6 +16,24 @@
       "message": "This is failing on tests that use replacements that aren\u0027t valid module paths like \"m\".\n\nI think I need to revert this change and adjust queryPrefixModules instead. lookupRepo calls module.CheckPath, and queryPrefixModules returns unclassified errors, even if there are other matches.\n\nThat means golang.org/x/mod/module will need a defined type for \"malformed module path\" so queryPrefixModules can classify it. We should probably have that anyway though.",
       "revId": "b13e1b5b0a1146d8e45d8511dbee9600d034363e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "570d27ab_6a92f2e3",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-02T17:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf4a3907_ac8ed7b9",
+      "revId": "b13e1b5b0a1146d8e45d8511dbee9600d034363e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
