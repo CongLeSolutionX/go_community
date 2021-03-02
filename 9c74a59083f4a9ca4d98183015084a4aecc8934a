@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8502c6d_d8539854",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-02T16:00:18Z",
+      "side": 1,
+      "message": "Looks good. Verified this works, both with go.mod in \"$GOROOT\" and \"$GOROOT/..\". Also verified this doesn\u0027t open new staleness issues (#44725).",
+      "revId": "9c74a59083f4a9ca4d98183015084a4aecc8934a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
