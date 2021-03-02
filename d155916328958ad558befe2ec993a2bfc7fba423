@@ -16,6 +16,23 @@
       "message": "TRY\u003dlinux-arm-aws,linux-ppc64le\n",
       "revId": "d155916328958ad558befe2ec993a2bfc7fba423",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad24cc8_13dd9299",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T23:45:26Z",
+      "side": 1,
+      "message": "Note to reviewer: this is not a clean cherry-pick, because the 1.15 linker and 1.16 linker are a bit different. It is straightforward to port the logic, though. Thanks.\n",
+      "revId": "d155916328958ad558befe2ec993a2bfc7fba423",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
