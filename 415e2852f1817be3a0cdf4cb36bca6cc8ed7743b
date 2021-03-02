@@ -33,6 +33,23 @@
       "message": "Please also add a release note in doc/go1.17.html under the \"Go command\" section. I think this will be the first note for 1.17, so check doc/go1.16.html for the format.",
       "revId": "415e2852f1817be3a0cdf4cb36bca6cc8ed7743b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3805fd0_bef0709f",
+        "filename": "src/cmd/go/testdata/script/get_insecure.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-02T04:05:44Z",
+      "side": 1,
+      "message": "GONOSUMDB shouldn\u0027t matter in GOPATH mode, which we are in here due to line 10.",
+      "revId": "415e2852f1817be3a0cdf4cb36bca6cc8ed7743b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
