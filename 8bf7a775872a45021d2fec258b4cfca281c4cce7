@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ef94201_20f27882",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-02T15:11:57Z",
+      "side": 1,
+      "message": "What made me decide that this was the place, was that this means there\u0027s only one place to put it.  Otherwise, we need to apply frame-offset corrections everywhere to abi information is used -- which turns out to be 10 (in addition to the two for initializing ABI0 and ABI1) in ssa and ssagen.  (plus, about 50 more in all the machine-dependent code).",
+      "parentUuid": "9057fbc4_28ac535a",
+      "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "deb5287d_ddce5e6d",
@@ -58,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cfc9850_0711bfc3",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4933,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-02T15:11:57Z",
+      "side": 1,
+      "message": "argStart, but I threw in some comments to make it \"clearer\".  Goal is that when we fix go func and defer func, this will get much simpler.  Failing that, I concoct a type list for the special cases.",
+      "parentUuid": "deb5287d_ddce5e6d",
+      "range": {
+        "startLine": 4933,
+        "startChar": 85,
+        "endLine": 4933,
+        "endChar": 93
+      },
+      "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "676a87a1_b4b7e9ab",
@@ -71,6 +113,24 @@
       "writtenOn": "2021-03-01T23:02:33Z",
       "side": 1,
       "message": "Maybe delete. The code is probably wrong, if it is supposed to be argExtra.",
+      "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "334ae63a_a9d67cc6",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4944,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-02T15:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "676a87a1_b4b7e9ab",
       "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
