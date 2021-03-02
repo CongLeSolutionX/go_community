@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2c9198_4738145c",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T15:16:29Z",
+      "side": 1,
+      "message": "Okay, SGTM. Thanks.",
+      "parentUuid": "9ef94201_20f27882",
+      "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "deb5287d_ddce5e6d",
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "argStart, but I threw in some comments to make it \"clearer\".  Goal is that when we fix go func and defer func, this will get much simpler.  Failing that, I concoct a type list for the special cases.",
       "parentUuid": "deb5287d_ddce5e6d",
+      "range": {
+        "startLine": 4933,
+        "startChar": 85,
+        "endLine": 4933,
+        "endChar": 93
+      },
+      "revId": "8bf7a775872a45021d2fec258b4cfca281c4cce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63b2866d_804792ec",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4933,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-02T15:16:29Z",
+      "side": 1,
+      "message": "Okay, I guess they are not argExtra because go/defer calls are still handled more or less the old way.",
+      "parentUuid": "7cfc9850_0711bfc3",
       "range": {
         "startLine": 4933,
         "startChar": 85,
