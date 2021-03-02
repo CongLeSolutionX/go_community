@@ -335,6 +335,10 @@ var (
 var nl = []byte{'\n'}
 
 func runList(ctx context.Context, cmd *base.Command, args []string) {
+	if *listFmt != "" && *listJson == true {
+		base.Fatalf("go list -f and -json are mutually exclusive")
+	}
+
 	load.ModResolveTests = *listTest
 	work.BuildInit()
 	out := newTrackingWriter(os.Stdout)
