@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f3c3d42_9b977ef9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2021-03-02T21:12:42Z",
+      "side": 1,
+      "message": "Thanks - I have updated as discussed. I thought it best for each go get command to have its own separate flag, rather than re-introducing cfg.Insecure just to print an error message. Happy to change if you\u0027d prefer though.",
+      "revId": "60c9f099dfb84110a527515a31511a1b0bd58e9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

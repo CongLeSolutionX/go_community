@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9922643_ca1851a9",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2021-03-02T21:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fcf9733_6f183151",
+      "revId": "415e2852f1817be3a0cdf4cb36bca6cc8ed7743b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3805fd0_bef0709f",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-03-02T04:05:44Z",
       "side": 1,
       "message": "GONOSUMDB shouldn\u0027t matter in GOPATH mode, which we are in here due to line 10.",
+      "revId": "415e2852f1817be3a0cdf4cb36bca6cc8ed7743b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eafe996a_12212fcb",
+        "filename": "src/cmd/go/testdata/script/get_insecure.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 34459
+      },
+      "writtenOn": "2021-03-02T21:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3805fd0_bef0709f",
       "revId": "415e2852f1817be3a0cdf4cb36bca6cc8ed7743b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
