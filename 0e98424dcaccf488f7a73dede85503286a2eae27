@@ -16,6 +16,23 @@
       "message": "TRY\u003dlinux-amd64-longtest",
       "revId": "0e98424dcaccf488f7a73dede85503286a2eae27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29e019af_f01673b1",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-02T18:11:20Z",
+      "side": 1,
+      "message": "Do you want to backport CL 297089 to internal-branch.go1.16-vendor, or do we plan to ask the release team to just move the branch head to c8bb1b?\n\n(I\u0027m fine with either approach — the only changes in x/mod so far are ones that should be backported anyway.)",
+      "revId": "0e98424dcaccf488f7a73dede85503286a2eae27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
