@@ -1,0 +1,16 @@
+[short] skip
+
+go list -json ./...
+go list -f '{{.}}' ./...
+
+# Using a custom flag mixed with regular 'go test' flags should be OK.
+! go list -json -f '{{.}}' ./...
+stderr '^go list -f cannot be used with -json$'
+
+# Using a custom flag mixed with regular 'go test' flags should be OK.
+! go list -f '{{.}}' -json ./...
+stderr '^go list -f cannot be used with -json$'
+-- go.mod --
+module m
+-- list_test.go --
+package list_test
