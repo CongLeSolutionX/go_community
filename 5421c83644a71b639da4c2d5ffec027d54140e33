@@ -16,6 +16,24 @@
       "message": "LGTM.\n\nOne issue is the dev.go2go branch: presumably go/go2go won\u0027t build anymore once we sync that branch with master?",
       "revId": "5421c83644a71b639da4c2d5ffec027d54140e33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f79d5e70_db5a4a4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-03-02T01:50:06Z",
+      "side": 1,
+      "message": "As discussed, I think it will be possible to maintain additional files in dev.go2go that allow the go2go tool to function. I\u0027ll give it a shot, and might have to tweak the changes here.",
+      "parentUuid": "08bc3b35_ea507ca6",
+      "revId": "5421c83644a71b639da4c2d5ffec027d54140e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
