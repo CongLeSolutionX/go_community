@@ -71,9 +71,14 @@ func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 		SilenceMissingStdImports: true,
 	}, "all")
 
-	modload.TidyBuildList()
-	modload.TrimGoSum()
+	modload.TidyBuildList(ctx)
+	modload.TrimGoSum(ctx)
 
 	modload.AllowWriteGoMod()
-	modload.WriteGoMod()
+
+	// TODO(#40775): Toggling global state for AllowWriteGoMod makes it hard to
+	// reason about. Instead, either make DisallowWriteGoMod an explicit
+	// PackageOpts field, or add a Tidy argument to modload.LoadPackages so that
+	// Tidy is just one call into the module loader, or perhaps both.
+	modload.WriteGoMod(ctx)
 }
