@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7ed3216_65fef533",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T17:18:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54964bc9_936d2acf",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34b0a55b_83bbfff9",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc7744c7_42708e0e",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T17:18:04Z",
+      "side": 1,
+      "message": "I think if I go that route, I would first create a new not-a-Field type for function and method parameters; the overloading of two different things has caused a bit of friction in the register-ABI work.  But I think it makes more sense to reorder, and put the ABI stuff early.",
+      "parentUuid": "34b0a55b_83bbfff9",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d442cde_6bb71468",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-03-03T16:58:16Z",
       "side": 1,
       "message": "Comment.\n\n// Set the Offset the first time. After that, we may recompute it, but it should never change.",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ebb3024_950fe47e",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T17:18:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d442cde_6bb71468",
       "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -92,6 +146,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3a7998b_3895942e",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T17:18:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bef607c_e756d1b3",
+      "range": {
+        "startLine": 339,
+        "startChar": 21,
+        "endLine": 339,
+        "endChar": 61
+      },
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6659ceb4_f5d317db",
@@ -105,6 +183,24 @@
       "writtenOn": "2021-03-03T16:58:16Z",
       "side": 1,
       "message": "Undo?",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c363de_3c2caf37",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T17:18:04Z",
+      "side": 1,
+      "message": "I\u0027ll try, git may fight with me over the need to format.",
+      "parentUuid": "6659ceb4_f5d317db",
       "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
