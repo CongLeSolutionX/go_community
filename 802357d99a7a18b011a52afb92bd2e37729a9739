@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db04c99c_b1a528b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-03-03T00:23:52Z",
+      "side": 1,
+      "message": "Minor: If you want to be more precise, can update this to say CL 298009 instead.",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "802357d99a7a18b011a52afb92bd2e37729a9739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
