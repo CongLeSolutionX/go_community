@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "956d9afa_a8c32918",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-03T17:28:18Z",
+      "side": 1,
+      "message": "I think this should be set outside of the if statement, like where SetType(nil) used to be? Though I\u0027m not sure it will matter in practice.",
+      "revId": "d709f9b3c0efdf5fbe8c22f3782a19a40669a8ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
