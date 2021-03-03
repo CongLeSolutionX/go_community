@@ -91,6 +91,30 @@
       },
       "revId": "eada9d0cb84f9d3eba0c023673bb1ffc15d88cfa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fde3e9a8_3ecf920a",
+        "filename": "src/cmd/compile/internal/types2/testdata/issue44688.go2",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-03-03T18:18:12Z",
+      "side": 1,
+      "message": "Oops, B2 is an interface, but I still think it might be worthwhile to add a test with deeper embedding.",
+      "parentUuid": "88161298_3d9afd48",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "eada9d0cb84f9d3eba0c023673bb1ffc15d88cfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
