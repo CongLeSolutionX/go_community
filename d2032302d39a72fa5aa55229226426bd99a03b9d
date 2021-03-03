@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "245ca6d0_f0b54909",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-03T15:49:13Z",
+      "side": 1,
+      "message": "Partially. This is preparing for the next patch to introduce simplified 5 argument RLWNM (and like) to match the ISA encoding. There are some 6 arg ISA 3.1 instructions, so this will help if we choose to implement them.",
+      "parentUuid": "3b3dd908_7fafae74",
+      "revId": "d2032302d39a72fa5aa55229226426bd99a03b9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e60d62c2_b4e05c20",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
