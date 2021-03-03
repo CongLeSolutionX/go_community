@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47d9fd83_23027c7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T16:42:55Z",
+      "side": 1,
+      "message": "This also picks up a gratuitous formatting fix that somehow got swept in; there\u0027s something in the \"git rw / git rebase --continue\" flow that lets them in, so I have been re-formatting pretty aggressively.",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
