@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1550d89e_0b5b59c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T20:43:29Z",
+      "side": 1,
+      "message": "The spill code arrived in an earlier CL copying things over from the register experiment -- that was one of the tricky parts.\n\nYou\u0027ll see it now because of the fix for the wrong use of (shared) obj.Ctxt instead of per-function FuncInfo.  I probably ought to bring the tests that work, forward.",
+      "parentUuid": "757d6cc3_a2ca05cd",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60a1bb7b_20053fbb",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-03-01T19:19:56Z",
       "side": 1,
       "message": "I don\u0027t understand how this works. ctxt is global, but this is per-function.",
+      "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "434dfec9_350b6689",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T20:43:29Z",
+      "side": 1,
+      "message": "Ah, then that would be a bug....\nFixed, attached it to FuncInfo, plumbed around.",
+      "parentUuid": "60a1bb7b_20053fbb",
       "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b3e2c2a_d7affa99",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T20:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b746b79c_4b285aae",
+      "range": {
+        "startLine": 172,
+        "startChar": 26,
+        "endLine": 172,
+        "endChar": 35
+      },
+      "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20dbb474_362f298f",
@@ -81,6 +147,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d33cff4a_2d8c4cbf",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T20:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20dbb474_362f298f",
+      "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "661fcb2f_80fc7400",
@@ -94,6 +178,30 @@
       "writtenOn": "2021-03-01T19:19:56Z",
       "side": 1,
       "message": "Should this be NAME_PARAM?",
+      "range": {
+        "startLine": 7483,
+        "startChar": 14,
+        "endLine": 7483,
+        "endChar": 23
+      },
+      "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a532c399_69ebc781",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 7483,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T20:43:29Z",
+      "side": 1,
+      "message": "That apparently works fine, so probably yes.",
+      "parentUuid": "661fcb2f_80fc7400",
       "range": {
         "startLine": 7483,
         "startChar": 14,
@@ -127,6 +235,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04621a28_12f5f717",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T20:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64a8bc94_43182c58",
+      "range": {
+        "startLine": 650,
+        "startChar": 11,
+        "endLine": 650,
+        "endChar": 18
+      },
+      "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80e339a6_2493ff74",
@@ -140,6 +272,30 @@
       "writtenOn": "2021-03-01T19:19:56Z",
       "side": 1,
       "message": "No need for this comment. It\u0027s fine to just change it.",
+      "range": {
+        "startLine": 1067,
+        "startChar": 24,
+        "endLine": 1067,
+        "endChar": 69
+      },
+      "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af50da02_b6d51f7b",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T20:43:29Z",
+      "side": 1,
+      "message": "I made it less specific to current conditions, I think it doesn\u0027t hurt to mention why the change (\"register ABI uses REG_SI and REG_AX for parameters\").",
+      "parentUuid": "80e339a6_2493ff74",
       "range": {
         "startLine": 1067,
         "startChar": 24,
