@@ -49,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc20da43_795ec880",
+        "filename": "src/cmd/compile/internal/types2/testdata/issue44688.go2",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-03-03T18:15:53Z",
+      "side": 1,
+      "message": "Should this be in the \u0027fixedbugs\u0027 directory?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 9
+      },
+      "revId": "eada9d0cb84f9d3eba0c023673bb1ffc15d88cfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88161298_3d9afd48",
         "filename": "src/cmd/compile/internal/types2/testdata/issue44688.go2",
         "patchSetId": 1
