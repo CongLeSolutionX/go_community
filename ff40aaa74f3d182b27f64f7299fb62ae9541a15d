@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0557354_2df46157",
+        "filename": "test/abi/f_ret_z_not.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T17:31:27Z",
+      "side": 1,
+      "message": "I think that on wasm stdout and stderr are combined into a single stream, and thus the register-abi-detected chit-chat interferes with the expected output.  If/when we decide to do register ABI on wasm....",
+      "parentUuid": "f037f6d2_8c4d2989",
+      "revId": "ff40aaa74f3d182b27f64f7299fb62ae9541a15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2dba8362_e70bdd7d",
         "filename": "test/abi/many_int_input.go",
         "patchSetId": 3
