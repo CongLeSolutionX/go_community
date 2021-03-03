@@ -16,6 +16,97 @@
       "message": "This also picks up a gratuitous formatting fix that somehow got swept in; there\u0027s something in the \"git rw / git rebase --continue\" flow that lets them in, so I have been re-formatting pretty aggressively.",
       "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54964bc9_936d2acf",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-03T16:58:16Z",
+      "side": 1,
+      "message": "Doc comment. What does this protect?",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34b0a55b_83bbfff9",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-03T16:58:16Z",
+      "side": 1,
+      "message": "I assume since the goal is to reorder things such that it is safe to access the offset directly again, that there\u0027s no point in trying to unexport this field now?",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d442cde_6bb71468",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-03T16:58:16Z",
+      "side": 1,
+      "message": "Comment.\n\n// Set the Offset the first time. After that, we may recompute it, but it should never change.",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bef607c_e756d1b3",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-03T16:58:16Z",
+      "side": 1,
+      "message": "Perhaps \"Offset changed from %d to %d\"?",
+      "range": {
+        "startLine": 339,
+        "startChar": 21,
+        "endLine": 339,
+        "endChar": 61
+      },
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6659ceb4_f5d317db",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-03T16:58:16Z",
+      "side": 1,
+      "message": "Undo?",
+      "revId": "7a03ef8304412cfac404ebe127799ce7e06cfc6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
