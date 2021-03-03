@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e25261e_64a79a4a",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-03T18:52:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9419d04_5bbf6a42",
+      "revId": "7a0fcb60ec74e6b3101cfeea5e67d857b1cf0204",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb827ae1_755f2076",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-22T22:19:37Z",
       "side": 1,
       "message": "I\u0027m not a fan of hard-coding a “reasonable” date range — it\u0027s possible (although rare) that someone might want to run the `go` command on a machine with its clock set incorrectly, and we don\u0027t necessarily have a firm bound on how incorrect the user\u0027s system clock may be.\n\nFortunately, I think we can adapt that approach to work with the existing hard-coded trimInterval to avoid depending on any particular absolute time range.\n\nTimestamps in the distant past will already fail the trimInterval check for staleness, resulting in now.Sub(lastTime) \u003e\u003d trimInterval. But we should also check that lastTrim is not in the future, because that could be a symptom of an invalid system clock that has subsequently been corrected, and we don\u0027t want that to cause the cache to persist until the year 2100!\n\nIf we bound the clock correction to -mtimeInterval, that simplifies the check to:\n\n\tlastTrim :\u003d time.Unix(t, 0)\n\tif d :\u003d now.Sub(lastTrim); d \u003c lastTrim \u0026\u0026 d \u003e -mtimeInterval {\n\t\treturn\n\t}\n\nFor the same reason, we may also want to modify trimSubdir (now or in a separate CL) to remove any file whose ModTime is too far in the future.",
+      "revId": "7a0fcb60ec74e6b3101cfeea5e67d857b1cf0204",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "502db040_8f4ad7dd",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-03T18:52:50Z",
+      "side": 1,
+      "message": "did you mean d \u003c trimInterval in the condition?",
+      "parentUuid": "cb827ae1_755f2076",
       "revId": "7a0fcb60ec74e6b3101cfeea5e67d857b1cf0204",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
