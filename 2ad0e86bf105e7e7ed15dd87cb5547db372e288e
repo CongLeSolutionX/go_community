@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f45911_00892fef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-03T17:28:41Z",
+      "side": 1,
+      "message": "Please also add an integration test in cmd/go/testdata/script.\n\n(See https://github.com/golang/go/blob/cd6f3a54e4aa1c608f27275cdbb23f8b2a839faa/src/cmd/go/testdata/script/test_flag.txt#L9-L18 for an example of a similar test.)",
+      "revId": "2ad0e86bf105e7e7ed15dd87cb5547db372e288e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3237961f_8e852108",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-03T17:28:41Z",
+      "side": 1,
+      "message": "Please follow the same \"cannot be used with\" phrasing as below (409–428).",
+      "range": {
+        "startLine": 339,
+        "startChar": 36,
+        "endLine": 339,
+        "endChar": 58
+      },
+      "revId": "2ad0e86bf105e7e7ed15dd87cb5547db372e288e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
