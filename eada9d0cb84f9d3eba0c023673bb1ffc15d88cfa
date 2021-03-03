@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7626de1c_bda3c255",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-03-03T16:53:27Z",
+      "side": 1,
+      "message": "This comment reads to me like \"The embedded type is always a pointer to a struct\", but you mean \"The embedded type is always a struct or pointer to a struct\". Consider rephrasing.",
+      "range": {
+        "startLine": 613,
+        "startChar": 7,
+        "endLine": 613,
+        "endChar": 58
+      },
+      "revId": "eada9d0cb84f9d3eba0c023673bb1ffc15d88cfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88161298_3d9afd48",
+        "filename": "src/cmd/compile/internal/types2/testdata/issue44688.go2",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-03-03T16:53:27Z",
+      "side": 1,
+      "message": "Probably worth adding some coverage for embeddings with longer index. Perhaps just embed B1 into B2, and exercise both b2.m2 and b2.m1 below?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "eada9d0cb84f9d3eba0c023673bb1ffc15d88cfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
