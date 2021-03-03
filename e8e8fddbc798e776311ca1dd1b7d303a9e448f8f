@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d2b9571_be830075",
+        "filename": "src/cmd/compile/internal/liveness/plive.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T22:22:39Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment here.  Doing this causes the spill slot for the register to be live at the safe point, up till this point. If GC/stack-growth occurs at the safepoint, then it is precise, and the spill slot also contains the right value.",
+      "parentUuid": "4b809fb0_04a9c8b1",
+      "revId": "e8e8fddbc798e776311ca1dd1b7d303a9e448f8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3279b81_84e98793",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-03-01T19:29:12Z",
       "side": 1,
       "message": "Live at what point?\n\nNormally the spill slot doesn\u0027t need to be live if we only use the register, and must not be live if we never spill into it (do we pre-zero the slot? probably not).",
+      "range": {
+        "startLine": 526,
+        "startChar": 70,
+        "endLine": 526,
+        "endChar": 74
+      },
+      "revId": "e8e8fddbc798e776311ca1dd1b7d303a9e448f8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "767ab213_75dbdb18",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T22:22:39Z",
+      "side": 1,
+      "message": "My understanding (and I will write a test to verify this) is that one of the following holds for a function F with register arg X:\n0) No GC (so we don\u0027t care)\n1) GC at entry of F.  GC is precise (X is spilled to its defined spill location)\n2) GC within F.  This has to be from preemption, and thus GC is conservative, so we don\u0027t care about what\u0027s in the spill slot.\n3) GC within G, transitively called from F\n   a) X is live at call site, therefore is spilled, to its spill slot (which is live because of subsequent LoadReg).\n   b) X is not live at call site -- but neither is its spill slot.  I need to verify that the spill slot goes dead at the OpArg*Reg that reads it, if the register is never spilled.",
+      "parentUuid": "d3279b81_84e98793",
       "range": {
         "startLine": 526,
         "startChar": 70,

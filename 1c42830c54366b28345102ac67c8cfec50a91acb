@@ -16,6 +16,24 @@
       "message": "s/pointer maps seem to be right/fix pointer maps for/ ???",
       "revId": "1c42830c54366b28345102ac67c8cfec50a91acb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a23d818_f3ccb30d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-03T22:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ed860e6_aeb58d31",
+      "revId": "1c42830c54366b28345102ac67c8cfec50a91acb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
