@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2b2e00a_c3969dfc",
+        "filename": "src/cmd/compile/internal/typecheck/const.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-03T17:21:47Z",
+      "side": 1,
+      "message": "Can we just add \"|| n.Type() \u003d\u003d nil\" here instead?\n\nI don\u0027t think it\u0027s important that `map[string]int{1: 1, 1: 1}` reports about duplicate keys when those keys aren\u0027t valid anyway.",
+      "revId": "1ab27c0339975e5ed2655cbb8fb3e15209fa705c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
