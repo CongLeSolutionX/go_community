@@ -30,6 +30,7 @@ type miniExpr struct {
 	typ   *types.Type
 	init  Nodes // TODO(rsc): Don't require every Node to have an init
 	flags bitset8
+	pad   [7]uint8 // round up to a multiple of 8 bytes
 }
 
 const (

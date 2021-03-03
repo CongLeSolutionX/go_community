@@ -10,6 +10,7 @@ import (
 	"cmd/internal/src"
 	"fmt"
 	"sync"
+	"sync/atomic"
 )
 
 //......................................................................
@@ -415,15 +416,25 @@ func (config *ABIConfig) ABIAnalyze(t *types.Type) *ABIParamResultInfo {
 	return result
 }
 
+var mu sync.Mutex
+
 func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field, a ABIParamAssignment, isReturn bool) {
 	// Everything except return values in registers has either a frame home (if not in a register) or a frame spill location.
 	if !isReturn || len(a.Registers) == 0 {
 		// The type frame offset DOES NOT show effects of minimum frame size.
 		// Getting this wrong breaks stackmaps, see liveness/plive.go:WriteFuncMap and typebits/typebits.go:Set
 		off := a.FrameOffset(result) - config.LocalsOffset()
-		f.Offset = off
-		if f.Nname != nil {
-			f.Nname.(*ir.Name).SetFrameOffset(off)
+		fOffset := atomic.LoadInt64(&f.Offset)
+		if fOffset == types.BOGUS_FUNARG_OFFSET {
+			mu.Lock()
+			defer mu.Unlock()
+			// f.Offset = off
+			atomic.StoreInt64(&f.Offset, off)
+			if f.Nname != nil {
+				atomic.StoreInt64(&f.Nname.(*ir.Name).Offset_, off)
+			}
+		} else if fOffset != off {
+			panic(fmt.Errorf("Expected either %d or %d, saw %d instead", types.BOGUS_FUNARG_OFFSET, off, fOffset))
 		}
 	}
 }

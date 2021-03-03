@@ -397,9 +397,14 @@ type Slice struct {
 // A Field represents a field in a struct or a method in an interface or
 // associated with a named type.
 type Field struct {
-	flags bitset8
+	// Offset in bytes of this field or method within its enclosing struct
+	// or interface Type.  Exception: if field is function receiver, arg or
+	// result, then this is BOGUS_FUNARG_OFFSET; types does not know the Abi.
+	Offset int64
 
-	Embedded uint8 // embedded field
+	flags    bitset8
+	Embedded uint8    // embedded field
+	pad      [6]uint8 // so that an array of Field is properly aligned.
 
 	Pos  src.XPos
 	Sym  *Sym
@@ -409,11 +414,6 @@ type Field struct {
 	// For fields that represent function parameters, Nname points
 	// to the associated ONAME Node.
 	Nname Object
-
-	// Offset in bytes of this field or method within its enclosing struct
-	// or interface Type.  Exception: if field is function receiver, arg or
-	// result, then this is BOGUS_FUNARG_OFFSET; types does not know the Abi.
-	Offset int64
 }
 
 const (

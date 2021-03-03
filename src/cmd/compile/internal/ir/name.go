@@ -11,6 +11,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"fmt"
+	"sync/atomic"
 
 	"go/constant"
 )
@@ -36,13 +37,13 @@ func (*Ident) CanBeNtype() {}
 // Name holds Node fields used only by named nodes (ONAME, OTYPE, some OLITERAL).
 type Name struct {
 	miniExpr
+	Offset_   int64      // it's 8-byte-aligned here.
 	BuiltinOp Op         // uint8
 	Class     Class      // uint8
 	pragma    PragmaFlag // int16
 	flags     bitset16
 	sym       *types.Sym
 	Func      *Func
-	Offset_   int64
 	val       constant.Value
 	Opt       interface{} // for use by escape analysis
 	Embed     *[]Embed    // list of embedded files, for ONAME var
@@ -214,8 +215,8 @@ func (n *Name) SetOffset(x int64) {
 		panic("Name.SetOffset")
 	}
 }
-func (n *Name) FrameOffset() int64     { return n.Offset_ }
-func (n *Name) SetFrameOffset(x int64) { n.Offset_ = x }
+func (n *Name) FrameOffset() int64     { return atomic.LoadInt64(&n.Offset_) }
+func (n *Name) SetFrameOffset(x int64) { atomic.StoreInt64(&n.Offset_, x) }
 func (n *Name) Iota() int64            { return n.Offset_ }
 func (n *Name) SetIota(x int64)        { n.Offset_ = x }
 func (n *Name) Walkdef() uint8         { return n.bits.get2(miniWalkdefShift) }
