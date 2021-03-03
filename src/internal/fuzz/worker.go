@@ -470,16 +470,121 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) fuzzResponse {
 			return fuzzResponse{Interesting: true}
 		default:
 			vals = ws.m.mutate(vals, cap(mem.valueRef()))
-			b := marshalCorpusFile(vals...)
-			mem.setValueLen(len(b))
-			mem.setValue(b)
+			writeToMem(vals, mem)
 			if err := ws.fuzzFn(CorpusEntry{Values: vals}); err != nil {
+				if minErr := ws.minimize(vals, mem); minErr != nil {
+					// Minimization found a different error, so use that one.
+					writeToMem(vals, mem)
+					err = minErr
+				}
 				return fuzzResponse{Crashed: true, Err: err.Error()}
 			}
 			// TODO(jayconrod,katiehockman): return early if we find an
 			// interesting value.
 		}
 	}
+}
+
+// minimizeInput applies a series of minimizing transformations on the provided
+// vals, ensuring that each minimization still causes an error in fuzzFn. Before
+// every call to fuzzFn, it marshals the new vals and writes it to the provided
+// mem just in case an unrecoverable error occurs. It runs for a maximum of one
+// minute, and returns the last error it found.
+func (ws *workerServer) minimize(vals []interface{}, mem *sharedMem) error {
+	var retErr error
+	// TODO(jayconrod,katiehockman): consider making maxTime customizable with a
+	// go command flag.
+	maxTime := 1 * time.Minute
+	start := time.Now()
+	for valI := range vals {
+		switch v := vals[valI].(type) {
+		case bool, byte, rune:
+			continue // can't minimize
+		case string, int, int8, int16, int64, uint, uint16, uint32, uint64, float32, float64:
+			// TODO(jayconrod,katiehockman): support minimizing other types
+		case []byte:
+			// First, try to cut the tail.
+			for n := 1024; n != 0; n /= 2 {
+				for len(v) > n {
+					if time.Since(start) > maxTime {
+						return retErr
+					}
+					vals[valI] = v[:len(v)-n]
+					writeToMem(vals, mem)
+					err := ws.fuzzFn(CorpusEntry{Values: vals})
+					if err == nil {
+						// The fuzz function succeeded, so return the value back
+						// to the previously failing input and try the next n.
+						vals[valI] = v
+						break
+					}
+					retErr = err
+					// Set v to the new value to continue iterating.
+					v = v[:len(v)-n]
+				}
+			}
+
+			// Then, try to remove each individual byte.
+			tmp := make([]byte, len(v))
+			for i := 0; i < len(v)-1; i++ {
+				if time.Since(start) > maxTime {
+					return retErr
+				}
+				candidate := tmp[:len(v)-1]
+				copy(candidate[:i], v[:i])
+				copy(candidate[i:], v[i+1:])
+				vals[valI] = candidate
+				writeToMem(vals, mem)
+				err := ws.fuzzFn(CorpusEntry{Values: vals})
+				if err == nil {
+					vals[valI] = v
+					continue
+				}
+				retErr = err
+				// Update v to delete the value at index i.
+				copy(v[i:], v[i+1:])
+				v = v[:len(candidate)]
+				// v[i] is now different, so decrement i to redo this iteration
+				// of the loop with the new value.
+				i--
+			}
+
+			// Then, try to remove each possible subset of bytes.
+			for i := 0; i < len(v)-1; i++ {
+				copy(tmp, v[:i])
+				for j := len(v); j > i+1; j-- {
+					if time.Since(start) > maxTime {
+						return retErr
+					}
+					candidate := tmp[:len(v)-j+i]
+					copy(candidate[i:], v[j:])
+					vals[valI] = candidate
+					writeToMem(vals, mem)
+					err := ws.fuzzFn(CorpusEntry{Values: vals})
+					if err == nil {
+						vals[valI] = v
+						continue
+					}
+					retErr = err
+					// Update v and reset the loop with the new length.
+					copy(v[i:], v[j:])
+					v = v[:len(candidate)]
+					j = len(v)
+				}
+			}
+			// TODO(jayconrod,katiehockman): consider adding canonicalization
+			// which replaces each individual byte with '0'
+		default:
+			panic("unreachable")
+		}
+	}
+	return retErr
+}
+
+func writeToMem(vals []interface{}, mem *sharedMem) {
+	b := marshalCorpusFile(vals...)
+	mem.setValueLen(len(b))
+	mem.setValue(b)
 }
 
 // workerClient is a minimalist RPC client. The coordinator process uses a
