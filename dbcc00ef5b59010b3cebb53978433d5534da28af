@@ -212,6 +212,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50e7bb97_66e9e9b0",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 7483,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T01:33:09Z",
+      "side": 1,
+      "message": "Actually apparently does NOT work, whoops.  Change to NAME_SP causes all the offsets to get adjusted to incorrect values in the non-standard stack environment of calling morestack.",
+      "parentUuid": "a532c399_69ebc781",
+      "range": {
+        "startLine": 7483,
+        "startChar": 14,
+        "endLine": 7483,
+        "endChar": 23
+      },
+      "revId": "dbcc00ef5b59010b3cebb53978433d5534da28af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64a8bc94_43182c58",
