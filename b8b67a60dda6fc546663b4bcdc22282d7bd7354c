@@ -51,6 +51,24 @@
       "parentUuid": "86772c20_43e69e7f",
       "revId": "b8b67a60dda6fc546663b4bcdc22282d7bd7354c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cd1454f_a4a7fe55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-03-04T19:24:32Z",
+      "side": 1,
+      "message": "Yes, that part I get.  My concern is that the change might break some other test on another platform (pick your favorite obscure builder). I would suggest doing a slowbots run with a larger set of trybots (see https://github.com/golang/go/wiki/SlowBots)",
+      "parentUuid": "4b1bbd30_86b165cb",
+      "revId": "b8b67a60dda6fc546663b4bcdc22282d7bd7354c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
