@@ -186,6 +186,9 @@ assignOK:
 			if r.Type() != nil {
 				base.ErrorfAt(stmt.Pos(), "assignment mismatch: %d variable%s but %v returns %d value%s", len(lhs), plural(len(lhs)), r.X, cr, plural(cr))
 			}
+		} else if r, ok := rhs[0].(*ir.TypeSwitchGuard); ok && len(rhs) == 1 && r.Diag() {
+			// If the only rhs is a type switch guard, and it's diaged,
+			// then we don't have to report meaningless error.
 		} else {
 			base.ErrorfAt(stmt.Pos(), "assignment mismatch: %d variable%s but %v value%s", len(lhs), plural(len(lhs)), len(rhs), plural(len(rhs)))
 		}
