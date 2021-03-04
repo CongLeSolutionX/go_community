@@ -445,7 +445,7 @@ func typecheck(n ir.Node, top int) (res ir.Node) {
 
 	case top&(ctxType|ctxExpr) == ctxType && n.Op() != ir.OTYPE && n.Op() != ir.ONONAME && (t != nil || n.Op() == ir.ONAME):
 		base.Errorf("%v is not a type", n)
-		if t != nil {
+		if t != nil && n.Op() != ir.ONAME {
 			n.SetType(nil)
 		}
 
