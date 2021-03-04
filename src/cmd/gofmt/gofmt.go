@@ -33,6 +33,10 @@ var (
 	doDiff      = flag.Bool("d", false, "display diffs instead of rewriting files")
 	allErrors   = flag.Bool("e", false, "report all errors (not just the first 10 on different lines)")
 
+	// allowTypeParams controls whether type parameters are allowed in the code
+	// being formatted. It is enabled for go1.18 in gofmt_go1.18.go.
+	allowTypeParams = false
+
 	// debugging
 	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to this file")
 )
@@ -47,6 +51,10 @@ const (
 	//
 	// This value is defined in go/printer specifically for go/format and cmd/gofmt.
 	printerNormalizeNumbers = 1 << 30
+
+	// parseTypeParams tells go/parser to parse type parameters. Must be kept in
+	// sync with go/parser/interface.go.
+	parseTypeParams parser.Mode = 1 << 30
 )
 
 var (
@@ -71,6 +79,9 @@ func initParserMode() {
 	parserMode = parser.ParseComments | parser.ParseTypeParams
 	if *allErrors {
 		parserMode |= parser.AllErrors
+	}
+	if allowTypeParams {
+		parserMode |= parseTypeParams
 	}
 }
 
