@@ -100,6 +100,8 @@ var DebugSSA func(phase, flag string, val int, valString string) string
 
 // parseDebug parses the -d debug string argument.
 func parseDebug(debugstr string) {
+	// Enabled -d=panic
+	Debug.Panic = 1
 	// parse -d argument
 	if debugstr == "" {
 		return
