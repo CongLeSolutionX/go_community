@@ -1439,26 +1439,29 @@ func (m *M) Run() (code int) {
 
 	m.before()
 	defer m.after()
-	deadline := m.startAlarm()
-	haveExamples = len(m.examples) > 0
-	testRan, testOk := runTests(m.deps.MatchString, m.tests, deadline)
-	fuzzTargetsRan, fuzzTargetsOk := runFuzzTargets(m.deps, m.fuzzTargets)
-	exampleRan, exampleOk := runExamples(m.deps.MatchString, m.examples)
-	m.stopAlarm()
-	if !testRan && !exampleRan && !fuzzTargetsRan && *matchBenchmarks == "" && *matchFuzz == "" {
-		fmt.Fprintln(os.Stderr, "testing: warning: no tests to run")
-	}
-	if !testOk || !exampleOk || !fuzzTargetsOk || !runBenchmarks(m.deps.ImportPath(), m.deps.MatchString, m.benchmarks) || race.Errors() > 0 {
-		fmt.Println("FAIL")
-		m.exitCode = 1
-		return
+	if !*isFuzzWorker {
+		// Only the single coordinator process should run other tests.
+		deadline := m.startAlarm()
+		haveExamples = len(m.examples) > 0
+		testRan, testOk := runTests(m.deps.MatchString, m.tests, deadline)
+		fuzzTargetsRan, fuzzTargetsOk := runFuzzTargets(m.deps, m.fuzzTargets)
+		exampleRan, exampleOk := runExamples(m.deps.MatchString, m.examples)
+		m.stopAlarm()
+		if !testRan && !exampleRan && !fuzzTargetsRan && *matchBenchmarks == "" && *matchFuzz == "" {
+			fmt.Fprintln(os.Stderr, "testing: warning: no tests to run")
+		}
+		if !testOk || !exampleOk || !fuzzTargetsOk || !runBenchmarks(m.deps.ImportPath(), m.deps.MatchString, m.benchmarks) || race.Errors() > 0 {
+			fmt.Println("FAIL")
+			m.exitCode = 1
+			return
+		}
 	}
 
 	fuzzingRan, fuzzingOk := runFuzzing(m.deps, m.fuzzTargets)
 	if *matchFuzz != "" && !fuzzingRan {
 		fmt.Fprintln(os.Stderr, "testing: warning: no targets to fuzz")
 	}
-	if !fuzzingOk && !*isFuzzWorker {
+	if !*isFuzzWorker && !fuzzingOk {
 		fmt.Println("FAIL")
 		m.exitCode = 1
 		return
