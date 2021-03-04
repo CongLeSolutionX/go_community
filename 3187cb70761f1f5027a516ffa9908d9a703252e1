@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bdcf198_4a588380",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-04T02:36:19Z",
+      "side": 1,
+      "message": "Oh i think this change should be higher up on the stack. I\u0027ll remove it for now.",
+      "parentUuid": "71fd7c06_799e35eb",
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a22e7017_3709b016",
@@ -48,6 +66,30 @@
       "writtenOn": "2020-12-23T05:41:15Z",
       "side": 1,
       "message": "I don\u0027t understand this comment — why isn\u0027t the write of the .mod file necessarily complete before this code runs?\n\n(It should be complete in program order, just not necessarily committed to the disk by the kernel yet.)",
+      "range": {
+        "startLine": 602,
+        "startChar": 0,
+        "endLine": 604,
+        "endChar": 23
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e99547f3_3f33ebb9",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-04T02:36:19Z",
+      "side": 1,
+      "message": "I was confused when writing this. Removing.",
+      "parentUuid": "b4407a91_2e50d452",
       "range": {
         "startLine": 602,
         "startChar": 0,
