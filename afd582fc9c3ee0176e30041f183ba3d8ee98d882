@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1bbceb7_068c0666",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-04T20:27:08Z",
+      "side": 1,
+      "message": "Is there an issue or proposal for this work?\n\nI added the support for -msan a few years ago.  At the time there didn\u0027t seem to be any reason to add support for -asan.  Go code is inherently asan-safe, unless people intentionally use the unsafe package, in which case they are on their own.  Linking Go code with C code compiled with -fsanitize\u003daddress does seem to required any special attention.\n\nSo I think it would be appropriate to at least open an issue for discussion here.  Thanks.",
+      "revId": "afd582fc9c3ee0176e30041f183ba3d8ee98d882",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
