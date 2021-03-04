@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8239485_f279e6e7",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T01:31:13Z",
+      "side": 1,
+      "message": "That is a glitch; I put it back.",
+      "parentUuid": "d7e44162_bb01f679",
+      "range": {
+        "startLine": 392,
+        "startChar": 6,
+        "endLine": 392,
+        "endChar": 36
+      },
+      "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4751c583_600a9d37",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d69e62d_5f30862e",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T01:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4751c583_600a9d37",
+      "range": {
+        "startLine": 1352,
+        "startChar": 24,
+        "endLine": 1352,
+        "endChar": 26
+      },
+      "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4af301e_da58a918",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-03-01T22:01:27Z",
       "side": 1,
       "message": "Maybe just remove the prints?",
+      "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b04587ef_52328442",
+        "filename": "test/abi/too_big_to_ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T01:31:13Z",
+      "side": 1,
+      "message": "I sort of like them, and they\u0027re a bit of a double-check on the compiler.",
+      "parentUuid": "d4af301e_da58a918",
       "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
