@@ -33,6 +33,24 @@
       "message": "gofmt.",
       "revId": "88f065a7b006880628fe47bb61987989849f2719",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de3daa42_10b8e7ba",
+        "filename": "test/abi/many_int_input.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T16:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4d96d78_58b65b30",
+      "revId": "88f065a7b006880628fe47bb61987989849f2719",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
