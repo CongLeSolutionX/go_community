@@ -33,6 +33,24 @@
       "message": "This looks good to me. What have you done in terms of testing for this CL? Thanks.",
       "revId": "b8b67a60dda6fc546663b4bcdc22282d7bd7354c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b1bbd30_86b165cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-03-04T18:39:57Z",
+      "side": 1,
+      "message": "The `libgcc(.text): relocation target ___chkstk_ms not defined` warning goes away. I am still working on the other issues with modern mingw and the race detector, though, but was waiting on https://github.com/golang/go/issues/44579\n\nSo hopefully I\u0027ll have this CL as part of a series soon enough.",
+      "parentUuid": "86772c20_43e69e7f",
+      "revId": "b8b67a60dda6fc546663b4bcdc22282d7bd7354c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
