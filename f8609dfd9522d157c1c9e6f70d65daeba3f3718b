@@ -118,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5081b7ee_cb96fb54",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T16:44:03Z",
+      "side": 1,
+      "message": "If OpLoad with non-SSA-able values only live within this pass, it is probably okay. Other passes may not like it, but they won\u0027t see it.\n\nBut I still don\u0027t quite understand why we want to do this. This CL doesn\u0027t handle non-SSA-able results yet, right? They why it matters? Thanks.",
+      "parentUuid": "4a30feab_827dfb86",
+      "range": {
+        "startLine": 823,
+        "startChar": 0,
+        "endLine": 825,
+        "endChar": 2
+      },
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2784af4_91ae1dd3",
@@ -149,6 +173,24 @@
       "side": 1,
       "message": "I\u0027ll add a comment -- it is just a key for a map, so the offset doesn\u0027t need to be real.  OffsetOfResult is now less defined.",
       "parentUuid": "a2784af4_91ae1dd3",
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f3e7719_623738d7",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T16:44:03Z",
+      "side": 1,
+      "message": "Okay, then it makes sense.",
+      "parentUuid": "bca8918a_e904901e",
       "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -190,6 +232,30 @@
       "side": 1,
       "message": "I don\u0027t understand, but I can put it back like it was.\nThis was just so I could figure out some mistake of mine.",
       "parentUuid": "a622a7cc_02038954",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 4
+      },
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db436797_b982408b",
+        "filename": "src/cmd/compile/internal/ssa/lower.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T16:44:03Z",
+      "side": 1,
+      "message": "I just meant: the arg types are supposed to be print right after v.Op and v.Type. With the change it prints after b, which doesn\u0027t make much sense.",
+      "parentUuid": "8edc7764_4c6841ce",
       "range": {
         "startLine": 40,
         "startChar": 0,
