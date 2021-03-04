@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97894af4_46192ec6",
+        "filename": "src/cmd/compile/internal/liveness/plive.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T16:05:50Z",
+      "side": 1,
+      "message": "Okay, the comment is helpful. I think I follow now. I think this is correct, though a bit subtle/indirect. The tricky part is 4a, which assumes safe points (a.k.a calls) clobber all registers (which is true currently), so an ArgIntReg won\u0027t be live after a safe point (the underlying value may be live, but it will be a LoadReg, not ArgIntReg).",
+      "parentUuid": "6d2b9571_be830075",
+      "revId": "e8e8fddbc798e776311ca1dd1b7d303a9e448f8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3279b81_84e98793",
