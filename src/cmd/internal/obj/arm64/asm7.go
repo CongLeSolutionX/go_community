@@ -1196,19 +1196,16 @@ func (c *ctxt7) flushpool(p *obj.Prog, skip int) {
 // addpool128 adds a 128-bit constant to literal pool by two consecutive DWORD
 // instructions, the 128-bit constant is formed by ah.Offset<<64+al.Offset.
 func (c *ctxt7) addpool128(p *obj.Prog, al, ah *obj.Addr) {
-	lit := al.Offset
 	q := c.newprog()
 	q.As = ADWORD
 	q.To.Type = obj.TYPE_CONST
-	q.To.Offset = lit
-	q.Pc = int64(c.pool.size)
+	q.To.Offset = al.Offset
 
-	lit = ah.Offset
 	t := c.newprog()
 	t.As = ADWORD
 	t.To.Type = obj.TYPE_CONST
-	t.To.Offset = lit
-	t.Pc = int64(c.pool.size + 8)
+	t.To.Offset = ah.Offset
+
 	q.Link = t
 
 	if c.blitrl == nil {
@@ -1219,6 +1216,7 @@ func (c *ctxt7) addpool128(p *obj.Prog, al, ah *obj.Addr) {
 	}
 
 	c.elitrl = t
+	c.pool.size += -c.pool.size & 7
 	c.pool.size += 16
 	p.Pool = q
 }
@@ -1263,7 +1261,6 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 
 	q := c.newprog()
 	*q = *t
-	q.Pc = int64(c.pool.size)
 	if c.blitrl == nil {
 		c.blitrl = q
 		c.pool.start = uint32(p.Pc)
@@ -1271,7 +1268,12 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 		c.elitrl.Link = q
 	}
 	c.elitrl = q
-	c.pool.size = -c.pool.size & (funcAlign - 1)
+	if q.As == ADWORD {
+		// make DWORD 8-byte aligned, this is not required by ISA,
+		// just to avoid performance penalties when loading from
+		// the constant pool across a cache line.
+		c.pool.size += -c.pool.size & 7
+	}
 	c.pool.size += uint32(sz)
 	p.Pool = q
 }
