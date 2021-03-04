@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729a8faa_5b5a6335",
+        "filename": "test/abi/f_ret_z_not.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T16:46:15Z",
+      "side": 1,
+      "message": "Remove the trailing whitespace. (gofmt will do that.)  Apply to all files.",
+      "revId": "2fa06a3e6310c3255e127596c205d27226acab27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
