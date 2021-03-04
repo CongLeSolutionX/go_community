@@ -489,7 +489,7 @@ func tcCall(n *ir.CallExpr, top int) ir.Node {
 		// It isn't necessary, so just do a sanity check.
 		tp := t.Recv().Type
 
-		if l.X == nil || !types.Identical(l.X.Type(), tp) {
+		if l.X == nil || l.X.Type() != nil && !types.Identical(l.X.Type(), tp) {
 			base.Fatalf("method receiver")
 		}
 
