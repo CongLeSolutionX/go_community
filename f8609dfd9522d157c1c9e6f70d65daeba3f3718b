@@ -166,6 +166,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "153c0f72_dbebb325",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T17:27:26Z",
+      "side": 1,
+      "message": "It appears to be not necessary, I added a test to verify this, and will move it into the next CL (where I am pretty sure it is required)",
+      "parentUuid": "05f9b1ea_6a017537",
+      "range": {
+        "startLine": 823,
+        "startChar": 0,
+        "endLine": 825,
+        "endChar": 2
+      },
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2784af4_91ae1dd3",
