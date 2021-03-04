@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f24a5f1_31c3877d",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T00:32:38Z",
+      "side": 1,
+      "message": "I\u0027ll remove the comment because I don\u0027t know for sure, but this adds to the pile of reasons why I want parameters to be treated like \"fields\" of a structure, because this was confusing.  I don\u0027t have a great example -- it was just a case of trying writing code to get the offsets for parameters, and failing to what I expected.",
+      "parentUuid": "a493ae49_53b51628",
+      "range": {
+        "startLine": 167,
+        "startChar": 25,
+        "endLine": 167,
+        "endChar": 96
+      },
+      "revId": "5e189a8fc9dab751a19cb73d114e90170b82934b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44dae6a9_0f350ea2",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-01T21:49:13Z",
       "side": 1,
       "message": "Typo.",
+      "range": {
+        "startLine": 1393,
+        "startChar": 32,
+        "endLine": 1393,
+        "endChar": 36
+      },
+      "revId": "5e189a8fc9dab751a19cb73d114e90170b82934b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "169cb0ab_d9a78e7f",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1393,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T00:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44dae6a9_0f350ea2",
       "range": {
         "startLine": 1393,
         "startChar": 32,
