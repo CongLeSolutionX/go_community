@@ -190,6 +190,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a87ecf1_4659fcf0",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T18:55:03Z",
+      "side": 1,
+      "message": "It would be good to understand why we need that, especially given that the next CL (CL 297029) handles OpDereference the same as OpLoad in some places.",
+      "parentUuid": "153c0f72_dbebb325",
+      "range": {
+        "startLine": 823,
+        "startChar": 0,
+        "endLine": 825,
+        "endChar": 2
+      },
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2784af4_91ae1dd3",
