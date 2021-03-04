@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42cff1c3_3f6a226e",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T00:01:05Z",
+      "side": 1,
+      "message": "I went ahead and added that, not clear it is correct but there is a TODO about endianness.",
+      "parentUuid": "a6d87941_3bd8da33",
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69d0c7e6_8460f667",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-01T20:13:38Z",
       "side": 1,
       "message": "Maybe check array size. It can be 1 or 0 for now, maybe we\u0027ll have more in the future.",
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "225dc9fe_a2caca59",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T00:01:05Z",
+      "side": 1,
+      "message": "Done. Zero, for sure.",
+      "parentUuid": "69d0c7e6_8460f667",
       "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a30feab_827dfb86",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T00:01:05Z",
+      "side": 1,
+      "message": "Non-SSA-able OpLoad works here, for sure.  ExpandCalls uses recursion to take aggregates apart and doesn\u0027t construct StructMake/StructSelect intermediates.\n\nFor returning (larger) results, OpDereference(address) is fed to a MakeResults which is the Control of the return block.",
+      "parentUuid": "a784018b_f2e29dfb",
+      "range": {
+        "startLine": 823,
+        "startChar": 0,
+        "endLine": 825,
+        "endChar": 2
+      },
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2784af4_91ae1dd3",
@@ -75,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca8918a_e904901e",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T00:01:05Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment -- it is just a key for a map, so the offset doesn\u0027t need to be real.  OffsetOfResult is now less defined.",
+      "parentUuid": "a2784af4_91ae1dd3",
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a622a7cc_02038954",
@@ -88,6 +166,30 @@
       "writtenOn": "2021-03-01T20:13:38Z",
       "side": 1,
       "message": "The new format doesn\u0027t seem to work well with them.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 4
+      },
+      "revId": "f8609dfd9522d157c1c9e6f70d65daeba3f3718b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8edc7764_4c6841ce",
+        "filename": "src/cmd/compile/internal/ssa/lower.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-04T00:01:05Z",
+      "side": 1,
+      "message": "I don\u0027t understand, but I can put it back like it was.\nThis was just so I could figure out some mistake of mine.",
+      "parentUuid": "a622a7cc_02038954",
       "range": {
         "startLine": 40,
         "startChar": 0,
