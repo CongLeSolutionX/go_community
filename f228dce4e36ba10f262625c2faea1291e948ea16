@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e86a50b6_91c36b90",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_chatty.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-04T18:13:31Z",
+      "side": 1,
+      "message": "Not sure if there\u0027s a cleaner way to do it, but adding this line would cause the test to fail if it were printed more than once:\n\n  ! stdout \u0027(?s)logged foo.*logged foo\u0027",
+      "revId": "f228dce4e36ba10f262625c2faea1291e948ea16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
