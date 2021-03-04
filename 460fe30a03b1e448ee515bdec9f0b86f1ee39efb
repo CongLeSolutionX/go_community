@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb579c6a_a102bbe8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-04T17:46:07Z",
+      "side": 1,
+      "message": "I\u0027m going to hold off on merging this until after CL 298749 is in.\n\nThat one seems more important to backport, and there will almost certainly be merge conflicts between the two.",
+      "revId": "460fe30a03b1e448ee515bdec9f0b86f1ee39efb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
