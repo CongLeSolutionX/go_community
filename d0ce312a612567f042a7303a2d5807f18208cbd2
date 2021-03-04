@@ -16,6 +16,24 @@
       "message": "If you initialize \"add :\u003d true\" above, then you don\u0027t need this else clause.  After all, true is the normal case.",
       "revId": "d0ce312a612567f042a7303a2d5807f18208cbd2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da439545_e7da2346",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-03-04T23:26:59Z",
+      "side": 1,
+      "message": "I\u0027ll do it tomorrow, but it doesn\u0027t make a big difference - if you lose this else, you gain one earlier. There are exactly two true cases and two false cases.",
+      "parentUuid": "e22993b1_5b1a9fed",
+      "revId": "d0ce312a612567f042a7303a2d5807f18208cbd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
