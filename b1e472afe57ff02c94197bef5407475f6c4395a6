@@ -128,6 +128,24 @@
       "parentUuid": "d4af301e_da58a918",
       "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c86bfe66_177d95be",
+        "filename": "test/abi/too_big_to_ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T19:27:56Z",
+      "side": 1,
+      "message": "Okay, that\u0027s fine.",
+      "parentUuid": "b04587ef_52328442",
+      "revId": "b1e472afe57ff02c94197bef5407475f6c4395a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

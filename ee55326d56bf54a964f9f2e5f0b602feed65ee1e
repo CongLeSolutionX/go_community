@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89327320_a503b3f6",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3192,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T19:27:56Z",
+      "side": 1,
+      "message": "This is non-SSA-able type, but registerized? I think this could happen, with \"medium\"-sized results. Maybe combine with above (removing line 3182-3184).",
+      "range": {
+        "startLine": 3191,
+        "startChar": 0,
+        "endLine": 3192,
+        "endChar": 45
+      },
+      "revId": "ee55326d56bf54a964f9f2e5f0b602feed65ee1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25bf66b2_e19cde75",
+        "filename": "test/abi/too_big_to_ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-04T19:27:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure you really want the check function to be registerparams.",
+      "revId": "ee55326d56bf54a964f9f2e5f0b602feed65ee1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
