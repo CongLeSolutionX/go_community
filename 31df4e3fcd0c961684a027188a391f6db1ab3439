@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d509bec_0493666b",
+        "filename": "src/net/net.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-05T16:06:16Z",
+      "side": 0,
+      "message": "This occurrence of “that that” looks grammatically correct to me. Revert this file?",
+      "range": {
+        "startLine": 578,
+        "startChar": 27,
+        "endLine": 578,
+        "endChar": 37
+      },
+      "revId": "31df4e3fcd0c961684a027188a391f6db1ab3439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
