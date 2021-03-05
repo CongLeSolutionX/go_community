@@ -16,6 +16,24 @@
       "message": "It\u0027s strange that this\u0027s passed many code review round ^^",
       "revId": "d20ae8d64c40a3dcd62405acc050db8bb6a1f931",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4109442a_557c7a44",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-05T06:12:49Z",
+      "side": 0,
+      "message": "Oops.",
+      "parentUuid": "e736008f_e7e39454",
+      "revId": "d20ae8d64c40a3dcd62405acc050db8bb6a1f931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
