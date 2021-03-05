@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d03d8ec_6f70f389",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-05T02:49:09Z",
+      "side": 1,
+      "message": "Marked wait-issue per https://go-review.googlesource.com/c/go/+/298610/1#message-28deaffd0c995389d6c2c690c4d8ded849315edc.",
+      "revId": "4f2d42568d8915e7297cc39a6c19017e9d8bfd4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
