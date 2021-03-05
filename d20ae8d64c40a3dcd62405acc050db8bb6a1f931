@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e736008f_e7e39454",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-03-05T03:49:25Z",
+      "side": 0,
+      "message": "It\u0027s strange that this\u0027s passed many code review round ^^",
+      "revId": "d20ae8d64c40a3dcd62405acc050db8bb6a1f931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
