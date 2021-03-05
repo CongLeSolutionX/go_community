@@ -34,6 +34,24 @@
       "parentUuid": "1c0ee5d1_d701e658",
       "revId": "27b0d641d2c55bce469e548cbc0654fb8214e46b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac430b62_153d4ea5",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-03-05T11:15:53Z",
+      "side": 1,
+      "message": "Hmm, or I think in tcCall, it\u0027s safer to save l.X.Type() before calling typecheckargs, then re-assign the old type if l.X.Type() is nil after typecheckargs?",
+      "parentUuid": "5f4acad1_eef45f39",
+      "revId": "27b0d641d2c55bce469e548cbc0654fb8214e46b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
