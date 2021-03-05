@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d5a429e_515563b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-05T05:58:45Z",
+      "side": 1,
+      "message": "Well, this change is an alagamation of CL 250178 and CL 266097, whereby the first CL added a test that was buggy and causing failures for https://github.com/golang/go/issues/42259",
+      "parentUuid": "46320151_3289ae70",
+      "revId": "606de68f58fed522cc4ae68bff803e1a51b716de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1ad6fe89_d3ea7271",
@@ -35,6 +53,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36f74ac7_07cbf733",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-05T05:58:45Z",
+      "side": 1,
+      "message": "Thank you for the comments, Carlos and Dmitri! Dmitri, I\u0027ve replied to your questions, please take a look.",
+      "revId": "606de68f58fed522cc4ae68bff803e1a51b716de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9ac7c56_68bef91e",
@@ -48,6 +83,24 @@
       "writtenOn": "2021-02-02T21:46:50Z",
       "side": 1,
       "message": "If this is meant to be a backport of CL 250178, there seems to be a difference here. That CL makes use of ErrTxDone in this test, but not in this CL. Is that intentional?",
+      "revId": "606de68f58fed522cc4ae68bff803e1a51b716de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73e56964_48c1989a",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2836,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-05T05:58:45Z",
+      "side": 1,
+      "message": "This change is a mix of CL 250178 (the prior test was buggy) as well as CL 266097 which fixed the test.",
+      "parentUuid": "c9ac7c56_68bef91e",
       "revId": "606de68f58fed522cc4ae68bff803e1a51b716de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
