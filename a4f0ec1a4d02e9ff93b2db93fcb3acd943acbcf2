@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53627f4b_fd780f13",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-05T05:55:26Z",
+      "side": 1,
+      "message": "This should have been caught by the check at L472 above.\n\nI think the real issue is that the \"is not a type\" error is clobbering f\u0027s Type.",
+      "range": {
+        "startLine": 492,
+        "startChar": 19,
+        "endLine": 492,
+        "endChar": 36
+      },
+      "revId": "a4f0ec1a4d02e9ff93b2db93fcb3acd943acbcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
