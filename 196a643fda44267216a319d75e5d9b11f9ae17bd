@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30c19eb7_bab313f6",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-05T15:27:33Z",
+      "side": 1,
+      "message": "A minute is a pretty long time, and we want to make sure this can be cancelled with ^C or a timeout, so make sure to wire in the ctx passed to workerServer.fuzz here. You can set a timeout on top of that with context.WithTimeout.\n\nThis will probably be different than the child context we create inside workerServer.fuzz; I think that timeout is only 100ms.",
+      "revId": "196a643fda44267216a319d75e5d9b11f9ae17bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3438a11d_2e756cd1",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-05T15:27:33Z",
+      "side": 1,
+      "message": "Maybe we can group the timeout check, the writeToMem call, and the fuzzFn call into a helper function? I think those always need to be done together, and it would be easy to miss one.",
+      "revId": "196a643fda44267216a319d75e5d9b11f9ae17bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
