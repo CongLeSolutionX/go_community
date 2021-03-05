@@ -51,6 +51,29 @@
       "parentUuid": "a0ae4516_182e4075",
       "revId": "983b5a458faf7a0be08c2368c1692439b378e255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e53db601_cdf8bd51",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-05T14:47:08Z",
+      "side": 1,
+      "message": "Maybe add a comment, // replace leading \"\" with package name\nand then write as\n  objabi.PathToPrefix(myimportpath) + varSym.Name[len(`\"\"`):]\ni.e., is the \".\" that is removed the same as the \".\" that is replaced, or is one of those something tricky like a middle dot (u+00b7)?\n(in which case definitely mention it)",
+      "range": {
+        "startLine": 417,
+        "startChar": 12,
+        "endLine": 417,
+        "endChar": 78
+      },
+      "revId": "983b5a458faf7a0be08c2368c1692439b378e255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
