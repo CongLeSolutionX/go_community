@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebcfcc55_f6309a14",
+        "filename": "src/cmd/compile/internal/typecheck/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-05T06:11:15Z",
+      "side": 1,
+      "message": "I\u0027d probably skip this, and just emit a second error for the test case. We emit two errors for\n\n    func f(i interface{}) {\n\tx, ok :\u003d *i\n    }\n\nso I think it\u0027s consistent to report two for \"x, ok :\u003d i.(type)\".\n\nThough it looks like -G\u003d3 reports only one error in both cases, so maybe we\u0027ll want to revisit this in a followup CL. For now, I\u0027d just add this to the list of exceptions in test/run.go if it causes you any problems.",
+      "revId": "fd5b097d40c3246cbaf794b8b20ef55a65040ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
