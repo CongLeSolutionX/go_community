@@ -70,6 +70,24 @@
       "parentUuid": "ac430b62_153d4ea5",
       "revId": "27b0d641d2c55bce469e548cbc0654fb8214e46b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd730e52_e688e591",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-05T17:59:22Z",
+      "side": 1,
+      "message": "Still a little sketchy, because the type isn\u0027t actually broken. It\u0027s just being used in an incorrect way.\n\nBut I think it\u0027s worth a shot.",
+      "parentUuid": "427cf4db_9ad456ab",
+      "revId": "27b0d641d2c55bce469e548cbc0654fb8214e46b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
