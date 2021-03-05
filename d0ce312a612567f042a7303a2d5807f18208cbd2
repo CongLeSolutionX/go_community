@@ -34,6 +34,24 @@
       "parentUuid": "e22993b1_5b1a9fed",
       "revId": "d0ce312a612567f042a7303a2d5807f18208cbd2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b532feb_1b6832ce",
+        "filename": "src/reflect/visiblefields.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-03-05T10:53:17Z",
+      "side": 1,
+      "message": "Done. A tad nicer, as it allows for a comment in the \"else\" case.",
+      "parentUuid": "da439545_e7da2346",
+      "revId": "d0ce312a612567f042a7303a2d5807f18208cbd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
