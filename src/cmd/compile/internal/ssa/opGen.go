@@ -13239,7 +13239,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:         "CALLclosure",
 		auxType:      auxCallOff,
-		argLen:       3,
+		argLen:       -1,
 		clobberFlags: true,
 		call:         true,
 		reg: regInfo{
@@ -13253,7 +13253,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:         "CALLinter",
 		auxType:      auxCallOff,
-		argLen:       2,
+		argLen:       -1,
 		clobberFlags: true,
 		call:         true,
 		reg: regInfo{
@@ -35560,7 +35560,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "ClosureCall",
 		auxType: auxCallOff,
-		argLen:  3,
+		argLen:  -1,
 		call:    true,
 		generic: true,
 	},
@@ -35574,7 +35574,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "InterCall",
 		auxType: auxCallOff,
-		argLen:  2,
+		argLen:  -1,
 		call:    true,
 		generic: true,
 	},
