@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c0ee5d1_d701e658",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-05T10:07:15Z",
+      "side": 1,
+      "message": "What happens now if you write:\n\n    var a string\n    var b a \u003d 0\n\n? Do we still just get the \"a is not a type\" error, or do we now also get an error about trying to assign 0 to string?",
+      "revId": "27b0d641d2c55bce469e548cbc0654fb8214e46b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
