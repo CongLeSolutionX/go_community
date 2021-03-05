@@ -575,7 +575,7 @@ func (e InvalidAddrError) Temporary() bool { return false }
 // It is also used when Dialer.Deadline is exceeded.
 //
 // TODO(iant): We could consider changing this to os.ErrDeadlineExceeded
-// in the future, but note that that would conflict with the TODO
+// in the future, but note that would conflict with the TODO
 // at mapErr that suggests changing it to context.DeadlineExceeded.
 var errTimeout error = &timeoutError{}
 
