@@ -16,6 +16,23 @@
       "message": "Having recently been bit by my own accidental races, have you race tested this?\n\n./make.bash ; go install -race cmd/compile ; ./run.bash\n\n(it\u0027s slow)\n\nand hopefully you won\u0027t find any I left in there.\n\n",
       "revId": "983b5a458faf7a0be08c2368c1692439b378e255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11355bd2_0c8e4902",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-05T14:36:41Z",
+      "side": 1,
+      "message": "Oh never mind, this looks minimal and similar to what came before.",
+      "revId": "983b5a458faf7a0be08c2368c1692439b378e255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
