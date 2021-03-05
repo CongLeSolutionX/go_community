@@ -46,6 +46,30 @@
       },
       "revId": "a4f0ec1a4d02e9ff93b2db93fcb3acd943acbcf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91875391_cae4a72a",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-05T06:19:42Z",
+      "side": 1,
+      "message": "Right, but l.X.Type() shouldn\u0027t be nil if l.Type() is non-nil.\n\nThe issue is that typechecking the function arguments caused l.X.Type() to get set to nil incorrectly.",
+      "parentUuid": "0aea70e4_2d6513c8",
+      "range": {
+        "startLine": 492,
+        "startChar": 19,
+        "endLine": 492,
+        "endChar": 36
+      },
+      "revId": "a4f0ec1a4d02e9ff93b2db93fcb3acd943acbcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
