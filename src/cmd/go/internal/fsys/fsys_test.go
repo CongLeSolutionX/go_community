@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"runtime"
 	"testing"
 )
 
@@ -1090,5 +1091,124 @@ func TestStatSymlink(t *testing.T) {
 
 	if fi.Size() != 11 {
 		t.Errorf("Stat(%q).Size(): got %v, want 11", f, fi.Size())
+	}
+}
+
+func TestChmod(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("no chmod on Windows")
+	}
+	testenv.MustHaveSymlink(t)
+
+	type file struct {
+		name string
+		mode os.FileMode // mode & (os.ModeDir|0x700): only check 'user' permissions
+	}
+
+	testCases := []struct {
+		name    string
+		overlay string
+		path    string
+		mode    os.FileMode
+
+		want    file
+		wantErr bool
+	}{
+		{
+			"regular_file",
+			`{}
+-- file.txt --
+contents`,
+			"file.txt",
+			0600,
+			file{"file.txt", 0600},
+			false,
+		},
+		{
+			"new_file_in_overlay",
+			`{"Replace": {"file.txt": "dummy.txt"}}
+-- dummy.txt --
+contents`,
+			"file.txt",
+			0644,
+			file{"file.txt", 0644},
+			false,
+		},
+		{
+			"file_replaced_in_overlay",
+			`{"Replace": {"file.txt": "dummy.txt"}}
+-- file.txt --
+-- dummy.txt --
+contents`,
+			"file.txt",
+			0700,
+			file{"file.txt", 0700},
+			false,
+		},
+		{
+			"file_cant_exist",
+			`{"Replace": {"deleted": "dummy.txt"}}
+-- deleted/file.txt --
+-- dummy.txt --
+`,
+			"deleted/file.txt",
+			0,
+			file{},
+			true,
+		},
+		{
+			"deleted",
+			`{"Replace": {"deleted": ""}}
+-- deleted --
+`,
+			"deleted",
+			0,
+			file{},
+			true,
+		},
+		{
+			"dir_on_disk",
+			`{}
+-- dir/foo.txt --
+`,
+			"dir",
+			0700,
+			file{"dir", 0700 | os.ModeDir},
+			false,
+		},
+		{
+			"dir_in_overlay",
+			`{"Replace": {"dir/file.txt": "dummy.txt"}}
+-- dummy.txt --
+`,
+			"dir",
+			0500,
+			file{"dir", 0500 | os.ModeDir},
+			false,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			initOverlay(t, tc.overlay)
+			err := Chmod(tc.path, tc.mode)
+			if tc.wantErr {
+				if err == nil {
+					t.Errorf("Chmod(%q): got no error, want error", tc.path)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("Chmod(%q): got error %v, want no error", tc.path, err)
+			}
+
+			got, _ := Stat(tc.path)
+			if got.Name() != tc.want.name {
+				t.Errorf("Chmod(%q).Name(): got %q, want %q", tc.path, got.Name(), tc.want.name)
+			}
+			if got.Mode()&(os.ModeDir|0777) != tc.want.mode {
+				t.Errorf("Chmod(%q).Mode()&(os.ModeDir|0777): got %v, want %v", tc.path, got.Mode()&(os.ModeDir|0700), tc.want.mode)
+			}
+		})
 	}
 }
