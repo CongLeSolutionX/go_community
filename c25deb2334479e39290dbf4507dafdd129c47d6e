@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd3e4b76_b32cab71",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-05T21:21:33Z",
+      "side": 1,
+      "message": "This might want a comment.  The name of the variable is a bit of a hint, but I think it needs more.  Perhaps just\n\n  // FP of this frame is equal to caller\u0027s SP plus FixedFrameSize()",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 165,
+        "endChar": 89
+      },
+      "revId": "c25deb2334479e39290dbf4507dafdd129c47d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
