@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7332052c_9b220ff1",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-05T02:15:36Z",
+      "side": 1,
+      "message": "I think we could do one better on these error messages. Could the error message suggest the corrected version of what the user actually entered, so that they can just copy and paste it to try again?",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 497,
+        "endChar": 105
+      },
+      "revId": "6af6187b97358d7a4013224103dbf8f3d51dd533",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
