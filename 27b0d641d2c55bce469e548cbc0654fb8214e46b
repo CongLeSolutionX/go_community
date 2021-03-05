@@ -16,6 +16,24 @@
       "message": "What happens now if you write:\n\n    var a string\n    var b a \u003d 0\n\n? Do we still just get the \"a is not a type\" error, or do we now also get an error about trying to assign 0 to string?",
       "revId": "27b0d641d2c55bce469e548cbc0654fb8214e46b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f4acad1_eef45f39",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-03-05T11:11:55Z",
+      "side": 1,
+      "message": "Yeah, we got 2 errors now:\n\n```\np.go:4:5: a is not a type\np.go:4:5: cannot use 0 (type untyped int) as type string in assignment\n```\n\nMaybe we should set diag?",
+      "parentUuid": "1c0ee5d1_d701e658",
+      "revId": "27b0d641d2c55bce469e548cbc0654fb8214e46b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
