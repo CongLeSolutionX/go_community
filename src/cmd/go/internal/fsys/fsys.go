@@ -486,6 +486,30 @@ func overlayStat(path string, osStat func(string) (fs.FileInfo, error), opName s
 	}
 }
 
+// Chmod implements a version of os.Chmod that operates on the overlay filesystem.
+func Chmod(path string, mode os.FileMode) error {
+	cpath := canonicalize(path)
+
+	if _, ok := parentIsOverlayFile(filepath.Dir(cpath)); ok {
+		return &fs.PathError{Op: "chmod", Path: cpath, Err: fs.ErrNotExist}
+	}
+
+	node, ok := overlay[cpath]
+	if !ok {
+		// The file or directory is not overlaid.
+		return os.Chmod(path, mode)
+	}
+
+	switch {
+	case node.isDeleted():
+		return &fs.PathError{Op: "chmod", Path: cpath, Err: fs.ErrNotExist}
+	case node.isDir():
+		return nil
+	default:
+		return os.Chmod(node.actualFilePath, mode)
+	}
+}
+
 // fakeFile provides an fs.FileInfo implementation for an overlaid file,
 // so that the file has the name of the overlaid file, but takes all
 // other characteristics of the replacement file.
