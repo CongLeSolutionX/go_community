@@ -16,6 +16,24 @@
       "message": "I don\u0027t think we want -d\u003dpanic on by default all the time. For now, let\u0027s just have test/run.go add it for errorcheck (and errorcheckandfoo) tests.\n\nAlso, as a followup CL, we should remove all the -d\u003dpanic lines added to tests by the previous CLs. But we should wait a day or two to make sure all the builders are okay, in case we need to revert any CLs.",
       "revId": "29c88133299dd6fde47f3b904a96ae6eba4429ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39da2ba8_638df8c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-03-05T06:19:29Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we want -d\u003dpanic on by default all the time. For now, let\u0027s just have test/run.go add it for errorcheck (and errorcheckandfoo) tests.\n\u003e \n\u003e Also, as a followup CL, we should remove all the -d\u003dpanic lines added to tests by the previous CLs. But we should wait a day or two to make sure all the builders are okay, in case we need to revert any CLs.\n\nAck.\n\nJust do this because of your comment in https://github.com/golang/go/issues/43311#issuecomment-749831015 😊",
+      "parentUuid": "7f309c0d_09cb9b19",
+      "revId": "29c88133299dd6fde47f3b904a96ae6eba4429ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
