@@ -16,6 +16,23 @@
       "message": "LGTM\nThis CL fixed the bug in our internal service.",
       "revId": "db85ccaf30c9320faf0c7719578973c748cb903b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f796b1_2fde5e59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-03-05T07:24:45Z",
+      "side": 1,
+      "message": "Hi, Keith\nCould you review this CL?\nThanks",
+      "revId": "db85ccaf30c9320faf0c7719578973c748cb903b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
