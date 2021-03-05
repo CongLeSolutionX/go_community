@@ -16,6 +16,24 @@
       "message": "We should be able to add a test that where the setup code reports an error with F.Fail\nbefore calling F.Fuzz, and check that it doesn\u0027t log a crash. Wdyt?",
       "revId": "e2e5fc7212615526630f30a6ffe289891ecc0517",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "822eca3f_da574d03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-05T18:24:51Z",
+      "side": 1,
+      "message": "Done, good idea, this turned up a new problem which is now fixed: the coordinator couldn\u0027t distinguish between unexpected terminations before or after F.Fuzz was called. Added a separate ping RPC to check that the worker at least gets that far.",
+      "parentUuid": "36405145_a0151f91",
+      "revId": "e2e5fc7212615526630f30a6ffe289891ecc0517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
