@@ -22,6 +22,30 @@
       },
       "revId": "a4f0ec1a4d02e9ff93b2db93fcb3acd943acbcf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aea70e4_2d6513c8",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-03-05T06:00:07Z",
+      "side": 1,
+      "message": "Hmm, L472 is about l.Type(), this one is l.X.Type(), or I missed something :think:",
+      "parentUuid": "53627f4b_fd780f13",
+      "range": {
+        "startLine": 492,
+        "startChar": 19,
+        "endLine": 492,
+        "endChar": 36
+      },
+      "revId": "a4f0ec1a4d02e9ff93b2db93fcb3acd943acbcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
