@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f309c0d_09cb9b19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-05T06:17:13Z",
+      "side": 1,
+      "message": "I don\u0027t think we want -d\u003dpanic on by default all the time. For now, let\u0027s just have test/run.go add it for errorcheck (and errorcheckandfoo) tests.\n\nAlso, as a followup CL, we should remove all the -d\u003dpanic lines added to tests by the previous CLs. But we should wait a day or two to make sure all the builders are okay, in case we need to revert any CLs.",
+      "revId": "29c88133299dd6fde47f3b904a96ae6eba4429ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
