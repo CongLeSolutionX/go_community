@@ -16,6 +16,23 @@
       "message": "Thanks, this will be for 1.17.",
       "revId": "0382e9eb181de15f081fd1e6533c51b13f3c2c90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aad113b3_d6fe137b",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2836,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-06T08:23:10Z",
+      "side": 1,
+      "message": "nit: We typically refer to an array\u0027s \"length\", not its \"count\". Even method Len refers to its length, not its count.\n\nI think we should probably rename the parameter from \"count\" to \"length\", and change the error message to just \"reflect.ArrayOf: negative length\".",
+      "revId": "0382e9eb181de15f081fd1e6533c51b13f3c2c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
