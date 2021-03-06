@@ -84,6 +84,24 @@
       "message": "Thanks!",
       "revId": "a973331f559087991716d51cf7484c70613bd9d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1cbd176_a62579d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-03-06T02:09:46Z",
+      "side": 1,
+      "message": "Bravo, shall we merge this CL?",
+      "parentUuid": "4351dd9a_72e27e7c",
+      "revId": "a973331f559087991716d51cf7484c70613bd9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
