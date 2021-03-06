@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d5aa9d4_ddd0db34",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-06T21:38:46Z",
+      "side": 1,
+      "message": "document other return value",
+      "range": {
+        "startLine": 184,
+        "startChar": 49,
+        "endLine": 184,
+        "endChar": 50
+      },
+      "revId": "37b6f1419a42af480a24affe84f0cd30a997a164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faae7b28_ccab3297",
+        "filename": "test/abi/bad_internal_offsets.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-06T21:38:46Z",
+      "side": 1,
+      "message": "is this file generated, and if not, should it be gofmt\u0027d?",
+      "revId": "37b6f1419a42af480a24affe84f0cd30a997a164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
