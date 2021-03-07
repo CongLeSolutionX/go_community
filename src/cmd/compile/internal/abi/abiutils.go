@@ -86,10 +86,11 @@ type RegIndex uint8
 // non-negative stack offset. The values in 'Registers' are indices
 // (as described above), not architected registers.
 type ABIParamAssignment struct {
-	Type      *types.Type
-	Name      types.Object // should always be *ir.Name, used to match with a particular ssa.OpArg.
-	Registers []RegIndex
-	offset    int32
+	Type          *types.Type
+	Name          types.Object // should always be *ir.Name, used to match with a particular ssa.OpArg.
+	Registers     []RegIndex
+	RegisterIndex uint32 // the first register of this parameter is where, among all the parameter registers?
+	offset        int32
 }
 
 // Offset returns the stack offset for addressing the parameter that "a" describes.
@@ -568,11 +569,13 @@ func (state *assignState) regAllocate(t *types.Type, name types.Object, isReturn
 		spillLoc = align(state.spillOffset, t)
 		state.spillOffset = spillLoc + t.Size()
 	}
+	firstIndex := state.regsPreceding() // allocateRegs will advance this
 	return ABIParamAssignment{
-		Type:      t,
-		Name:      name,
-		Registers: state.allocateRegs(),
-		offset:    int32(spillLoc),
+		Type:          t,
+		Name:          name,
+		Registers:     state.allocateRegs(),
+		RegisterIndex: firstIndex,
+		offset:        int32(spillLoc),
 	}
 }
 
@@ -597,6 +600,10 @@ func (state *assignState) intUsed() int {
 // a given point within an assignment stage.
 func (state *assignState) floatUsed() int {
 	return state.rUsed.floatRegs + state.pUsed.floatRegs
+}
+
+func (state *assignState) regsPreceding() uint32 {
+	return uint32(state.rUsed.intRegs + state.rUsed.floatRegs)
 }
 
 // regassignIntegral examines a param/result of integral type 't' to

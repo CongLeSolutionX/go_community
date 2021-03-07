@@ -424,7 +424,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 				}
 				outParam := aux.abiInfo.OutParam(int(which))
 				if len(outParam.Registers) > 0 {
-					reg := int64(outParam.Registers[regOffset])
+					reg := int64(regOffset + Abi1RO(outParam.RegisterIndex))
 					if leaf.Block == call.Block {
 						leaf.reset(OpSelectN)
 						leaf.SetArgs1(call0)
