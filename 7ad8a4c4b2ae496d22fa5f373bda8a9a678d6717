@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1cddec1_dacb2607",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-07T05:22:05Z",
+      "side": 1,
+      "message": "Thank you for the review, Dmitri, I\u0027ve made the updates, PTAL.",
+      "revId": "7ad8a4c4b2ae496d22fa5f373bda8a9a678d6717",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
