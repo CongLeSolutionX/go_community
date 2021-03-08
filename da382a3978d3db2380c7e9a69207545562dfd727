@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3892110_6141c3d2",
+        "filename": "src/syscall/syscall_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-03-08T12:55:26Z",
+      "side": 1,
+      "message": "Does this usage violate unsafe rule 2, as it converts from uintptr back to unsafe pointer?",
+      "revId": "da382a3978d3db2380c7e9a69207545562dfd727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
