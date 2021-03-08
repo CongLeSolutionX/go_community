@@ -102,6 +102,24 @@
       "parentUuid": "4351dd9a_72e27e7c",
       "revId": "a973331f559087991716d51cf7484c70613bd9d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "870df013_f2772492",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-08T20:54:46Z",
+      "side": 1,
+      "message": "Someone needs to give it a Trust+1 (see https://golang.org/doc/contribute#votes).",
+      "parentUuid": "c1cbd176_a62579d3",
+      "revId": "a973331f559087991716d51cf7484c70613bd9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
