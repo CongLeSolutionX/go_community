@@ -18,11 +18,18 @@ import (
 // nil, and index is 0. Otherwise, types is the list of inferred type arguments, and index is
 // the index of the first type argument in that list that couldn't be inferred (and thus is nil).
 // If all type arguments were inferred successfully, index is < 0.
-func (check *Checker) infer(tparams []*TypeName, params *Tuple, args []*operand) (types []Type, index int) {
+func (check *Checker) infer(tparams []*TypeName, params *Tuple, args []*operand, targs []Type) (types []Type, index int) {
 	assert(params.Len() == len(args))
 
 	u := newUnifier(check, false)
 	u.x.init(tparams)
+
+	// Set the type arguments which we know already.
+	for i, targ := range targs {
+		if targ != nil {
+			u.x.set(i, targ)
+		}
+	}
 
 	errorf := func(kind string, tpar, targ Type, arg *operand) {
 		// provide a better error message if we can
@@ -273,6 +280,9 @@ func (w *tpWalker) isParameterizedList(list []Type) bool {
 // first type argument in that list that couldn't be inferred (and thus is nil). If all
 // type arguments where inferred successfully, index is < 0. The number of type arguments
 // provided may be less than the number of type parameters, but there must be at least one.
+//
+// TODO(rFindley): the interface to type inference should probably be
+//                 consolidated on a single infer method.
 func (check *Checker) inferB(tparams []*TypeName, targs []Type) (types []Type, index int) {
 	assert(len(tparams) >= len(targs) && len(targs) > 0)
 

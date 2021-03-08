@@ -73,6 +73,22 @@ func isUntyped(typ Type) bool {
 	return !isTyped(typ)
 }
 
+// isTypeParam reports whether a type is a type parameter without expanding its
+// argument.
+//
+// This function is subtly incorrect, as it won't correctly follow cycles such
+// as
+//  type N[T any] T
+//
+// TODO(rFindley): fix this by factoring out the type traversal of under().
+func isTypeParam(typ Type) bool {
+	// isTypeParam is called with types that are not fully set up. Must not call
+	// asTypeParam!
+
+	tparam, _ := typ.Underlying().(*_TypeParam)
+	return tparam != nil
+}
+
 func isOrdered(typ Type) bool { return is(typ, IsOrdered) }
 
 func isConstType(typ Type) bool {
