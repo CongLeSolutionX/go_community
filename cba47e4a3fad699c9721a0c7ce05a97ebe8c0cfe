@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31abdb30_0de55564",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2f16d06_b4e0eee1",
+      "range": {
+        "startLine": 26,
+        "startChar": 55,
+        "endLine": 26,
+        "endChar": 58
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a499790_e647b632",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-02T20:26:53Z",
       "side": 1,
       "message": "Use tab here. Below as well.",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0de3906_b55fef59",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a499790_e647b632",
       "range": {
         "startLine": 28,
         "startChar": 5,
@@ -81,6 +129,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d176308_cc902c68",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "I think moving it to internal/abi might be a good idea... especially given that it references internals to that package.\n\ndone otherwise.",
+      "parentUuid": "8732d475_d5231026",
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1647d358_35da7aec",
@@ -94,6 +160,30 @@
       "writtenOn": "2021-03-02T20:26:53Z",
       "side": 1,
       "message": "Remove \u003c\u003e, or change it to \u003cABIInternal\u003e. This is not static function.",
+      "range": {
+        "startLine": 32,
+        "startChar": 29,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11f51095_d9889d27",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1647d358_35da7aec",
       "range": {
         "startLine": 32,
         "startChar": 29,
@@ -121,6 +211,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "add7457c_abcb2fc4",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc00b14_1f7fbf51",
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78123ea4_5ead6171",
@@ -134,6 +242,30 @@
       "writtenOn": "2021-03-02T20:26:53Z",
       "side": 1,
       "message": "(reflectRegArgs__size+32) if possible.",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 12
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8afeb737_c5256c09",
+        "filename": "src/reflect/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78123ea4_5ead6171",
       "range": {
         "startLine": 39,
         "startChar": 9,
@@ -167,6 +299,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c16830_9475f140",
+        "filename": "src/reflect/makefunc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "clarified offline: can\u0027t actually promote embedded fields this way. fixed.",
+      "parentUuid": "06f72b78_e5de8207",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 25
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4877c77_2418b168",
@@ -180,6 +336,30 @@
       "writtenOn": "2021-03-02T20:26:53Z",
       "side": 1,
       "message": "stack args and results?",
+      "range": {
+        "startLine": 148,
+        "startChar": 39,
+        "endLine": 148,
+        "endChar": 55
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c70cd8a2_5e722375",
+        "filename": "src/reflect/makefunc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4877c77_2418b168",
       "range": {
         "startLine": 148,
         "startChar": 39,
@@ -213,6 +393,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4dffcd4_2b2f22af",
+        "filename": "src/reflect/makefunc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbacfea5_e9290587",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 166,
+        "endChar": 18
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "917b014c_fbc5c79b",
@@ -226,6 +430,30 @@
       "writtenOn": "2021-03-02T20:26:53Z",
       "side": 1,
       "message": "Why/where do you need them?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 0
+      },
+      "revId": "cba47e4a3fad699c9721a0c7ce05a97ebe8c0cfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "285592f5_1e3963bb",
+        "filename": "src/reflect/rt_asm_amd64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-08T22:47:59Z",
+      "side": 1,
+      "message": "deleted.",
+      "parentUuid": "917b014c_fbc5c79b",
       "range": {
         "startLine": 7,
         "startChar": 0,
