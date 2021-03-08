@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "471b5514_8fb2f1aa",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-08T23:56:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a22e7017_3709b016",
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4407a91_2e50d452",
@@ -125,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2adac570_7b2eef62",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-08T23:56:03Z",
+      "side": 1,
+      "message": "Is that true for ioutil.TempFile? io.TempFile doesn\u0027t exist, and os.TempFile does something different.",
+      "parentUuid": "8437ecd3_8182c4ea",
+      "range": {
+        "startLine": 228,
+        "startChar": 11,
+        "endLine": 228,
+        "endChar": 17
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8422e8d2_d444dfe1",
         "filename": "src/cmd/go/internal/modfetch/fetch.go",
         "patchSetId": 12
@@ -136,6 +178,30 @@
       "writtenOn": "2020-12-23T05:41:15Z",
       "side": 1,
       "message": "update comment",
+      "range": {
+        "startLine": 288,
+        "startChar": 40,
+        "endLine": 288,
+        "endChar": 77
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a82b8248_d523ee2c",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-08T23:56:03Z",
+      "side": 1,
+      "message": "How\u0027s this?",
+      "parentUuid": "8422e8d2_d444dfe1",
       "range": {
         "startLine": 288,
         "startChar": 40,
@@ -163,6 +229,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af581fe7_ab92d229",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-08T23:56:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1de25e0_e6598baa",
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "173879a3_2c741209",
@@ -176,6 +260,30 @@
       "writtenOn": "2020-12-23T05:41:15Z",
       "side": 1,
       "message": "I think it was reasonable to assume that a missing ziphash was due to user intervention when we were using renameio to write it, because renameio was syncing it to the disk — it should not have been lost due to (say) a power failure.\n\nNow that we are no longer syncing the file to disk, I think we should either treat a missing ziphash as fatal (and error out until the user cleans up the cache corruption explicitly), or attempt to reconstruct the missing file.\n\nPerhaps this should be split into a separate CL, because I think this part of the change can be independent of the other fsync changes.",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 484,
+        "endChar": 2
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b005195_512e9e5c",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-08T23:56:03Z",
+      "side": 1,
+      "message": "How\u0027s this?",
+      "parentUuid": "173879a3_2c741209",
       "range": {
         "startLine": 473,
         "startChar": 0,
@@ -209,6 +317,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c4403b0_9b3af892",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-08T23:56:03Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "baf87923_92e6d3d7",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 0
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80780859_2d34f99f",
@@ -222,6 +354,30 @@
       "writtenOn": "2020-12-23T05:41:15Z",
       "side": 1,
       "message": "Please retain patternSuffix here, or else change renameio.Pattern to also use the hard-coded constant.\n\n(The two functions must remain in sync, or else the Pattern function becomes useless.)\n\n―\n\nGAH, we already broke the synchronization in CL 175958. 😩",
+      "range": {
+        "startLine": 67,
+        "startChar": 72,
+        "endLine": 67,
+        "endChar": 78
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b528ea_14659c87",
+        "filename": "src/cmd/go/internal/renameio/renameio.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-08T23:56:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80780859_2d34f99f",
       "range": {
         "startLine": 67,
         "startChar": 72,
