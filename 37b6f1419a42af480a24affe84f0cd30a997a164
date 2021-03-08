@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8be43d9_4a03d9f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-08T19:49:49Z",
+      "side": 1,
+      "message": "thanks, all done.",
+      "revId": "37b6f1419a42af480a24affe84f0cd30a997a164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d5aa9d4_ddd0db34",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-03-06T21:38:46Z",
       "side": 1,
       "message": "document other return value",
+      "range": {
+        "startLine": 184,
+        "startChar": 49,
+        "endLine": 184,
+        "endChar": 50
+      },
+      "revId": "37b6f1419a42af480a24affe84f0cd30a997a164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7cd8e7b_ec723ece",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-08T19:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d5aa9d4_ddd0db34",
       "range": {
         "startLine": 184,
         "startChar": 49,
@@ -49,6 +90,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f6a9566b_38eabe99",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-08T19:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "178946e1_50e2dfbe",
+      "range": {
+        "startLine": 625,
+        "startChar": 4,
+        "endLine": 625,
+        "endChar": 10
+      },
+      "revId": "37b6f1419a42af480a24affe84f0cd30a997a164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "faae7b28_ccab3297",
         "filename": "test/abi/bad_internal_offsets.go",
         "patchSetId": 1
@@ -60,6 +125,24 @@
       "writtenOn": "2021-03-06T21:38:46Z",
       "side": 1,
       "message": "is this file generated, and if not, should it be gofmt\u0027d?",
+      "revId": "37b6f1419a42af480a24affe84f0cd30a997a164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26b36d7e_8771ba29",
+        "filename": "test/abi/bad_internal_offsets.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-08T19:49:49Z",
+      "side": 1,
+      "message": "gofmt\u0027d, and done",
+      "parentUuid": "faae7b28_ccab3297",
       "revId": "37b6f1419a42af480a24affe84f0cd30a997a164",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
