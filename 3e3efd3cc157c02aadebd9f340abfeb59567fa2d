@@ -33,6 +33,24 @@
       "message": "Should we do\n\nANDQ    $~15, SP        // alignment as per Windows requirement\n\nsimilar to runtime.usleep2 to make this work regardless of what our current stack is?",
       "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c40b3a26_99ef42c0",
+        "filename": "src/runtime/rt0_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 50463
+      },
+      "writtenOn": "2021-03-08T03:22:40Z",
+      "side": 1,
+      "message": "The runtime.usleep2 case is calling Windows API from g0 (go stack). While _rt0_amd64_windows_lib is put into init array, like __attribute__((constructor)), and called by C runtime, I don\u0027t think we need to re-align the stack.",
+      "parentUuid": "6eec234a_85868da9",
+      "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
