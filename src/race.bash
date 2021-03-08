@@ -20,7 +20,7 @@ case $(uname) in
 	fi
 	;;
 "Linux")
-	if [ $(uname -m) != "x86_64" ] && [ $(uname -m) != "ppc64le" ] && [ $(uname -m) != "aarch64" ]; then
+	if [ $(uname -m) != "x86_64" ] && [ $(uname -m) != "ppc64le" ] && [ $(uname -m) != "aarch64" ]&& [ $(uname -m) != "mips64" ]; then
 		usage
 	fi
 	;;

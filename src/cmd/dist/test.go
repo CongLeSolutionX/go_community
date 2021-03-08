@@ -1622,15 +1622,18 @@ func (t *tester) runPrecompiledStdTest(timeout time.Duration) error {
 // raceDetectorSupported is a copy of the function
 // cmd/internal/sys.RaceDetectorSupported, which can't be used here
 // because cmd/dist has to be buildable by Go 1.4.
-// The race detector only supports 48-bit VMA on arm64. But we don't have
-// a good solution to check VMA size(See https://golang.org/issue/29948)
-// raceDetectorSupported will always return true for arm64. But race
-// detector tests may abort on non 48-bit VMA configuration, the tests
-// will be marked as "skipped" in this case.
+// The race detector now supports:
+// 48-bit VMA on arm64
+// 47-bit VMA on mips64{,le}
+// But we don't have a good solution to check VMA size
+// (See https://golang.org/issue/29948)
+// raceDetectorSupported will always return true for arm64,mips64,mips64le.
+// But race detector tests may abort on non supported VMA configuration,
+// the tests will be marked as "skipped" in this case.
 func raceDetectorSupported(goos, goarch string) bool {
 	switch goos {
 	case "linux":
-		return goarch == "amd64" || goarch == "ppc64le" || goarch == "arm64"
+		return goarch == "amd64" || goarch == "ppc64le" || goarch == "arm64" || goarch == "mips64le"
 	case "darwin":
 		return goarch == "amd64" || goarch == "arm64"
 	case "freebsd", "netbsd", "openbsd", "windows":
