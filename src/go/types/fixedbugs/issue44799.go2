@@ -1,0 +1,15 @@
+package p
+
+func Map[F, T any](s []F, f func(F) T) []T {
+	panic("not implemented")
+}
+
+func Reduce[Elem1, Elem2 any](s []Elem1, initializer Elem2, f func(Elem2, Elem1) Elem2) Elem2 {
+        panic("not implemented")
+}
+
+func _() {
+	s := []int{1, 2, 3}
+	_ = Map[int](s, func(i int) float64 { return float64(i) })
+	_ = Reduce[int](s, 0, func(f float64, i int) float64 { return float64(i) * 2.5 + f })
+}

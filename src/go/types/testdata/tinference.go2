@@ -8,43 +8,35 @@ import "strconv"
 
 type any interface{}
 
-// TODO(rFindley) the below partially applied function types should probably
-//                not be permitted (spec question).
-
 func f0[A any, B interface{type C}, C interface{type D}, D interface{type A}](A, B, C, D)
 func _() {
-	f := f0[string]
-	f("a", "b", "c", "d")
+	f0[string]("a", "b", "c", "d")
 	f0("a", "b", "c", "d")
 }
 
 func f1[A any, B interface{type A}](A, B)
 func _() {
-	f := f1[int]
-	f(int(0), int(0))
+	f1[int](int(0), int(0))
 	f1(int(0), int(0))
 }
 
 func f2[A any, B interface{type []A}](A, B)
 func _() {
-	f := f2[byte]
-	f(byte(0), []byte{})
+	f2[byte](byte(0), []byte{})
 	f2(byte(0), []byte{})
 }
 
 func f3[A any, B interface{type C}, C interface{type *A}](A, B, C)
 func _() {
-	f := f3[int]
 	var x int
-	f(x, &x, &x)
+	f3[int](x, &x, &x)
 	f3(x, &x, &x)
 }
 
 func f4[A any, B interface{type []C}, C interface{type *A}](A, B, C)
 func _() {
-	f := f4[int]
 	var x int
-	f(x, []*int{}, &x)
+	f4[int](x, []*int{}, &x)
 	f4(x, []*int{}, &x)
 }
 

@@ -162,7 +162,7 @@ func operandString(x *operand, qf Qualifier) string {
 			switch {
 			case isGeneric(x.typ):
 				intro = " of generic type "
-			case asTypeParam(x.typ) != nil:
+			case isTypeParam(x.typ):
 				intro = " of type parameter type "
 			default:
 				intro = " of type "
