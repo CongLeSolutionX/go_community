@@ -778,7 +778,7 @@ func optype(typ Type) Type {
 type instance struct {
 	check   *Checker    // for lazy instantiation
 	pos     token.Pos   // position of type instantiation; for error reporting only
-	base    *Named      // parameterized type to be instantiated
+	base    Type        // parameterized type to be instantiated
 	targs   []Type      // type arguments
 	poslist []token.Pos // position of each targ; for error reporting only
 	value   Type        // base(targs...) after instantiation or Typ[Invalid]; nil if not yet set
@@ -798,7 +798,11 @@ func (t *instance) expand() Type {
 	}
 	// After instantiation we must have an invalid or a *Named type.
 	if debug && v != Typ[Invalid] {
-		_ = v.(*Named)
+		switch v.(type) {
+		case *Named, *Signature:
+		default:
+			unreachable()
+		}
 	}
 	return v
 }

@@ -18,11 +18,31 @@ import (
 // nil, and index is 0. Otherwise, types is the list of inferred type arguments, and index is
 // the index of the first type argument in that list that couldn't be inferred (and thus is nil).
 // If all type arguments were inferred successfully, index is < 0.
-func (check *Checker) infer(tparams []*TypeName, params *Tuple, args []*operand) (types []Type, index int) {
+func (check *Checker) infer(tparams []*TypeName, params *Tuple, args []*operand, targs []Type) (types []Type, index int) {
 	assert(params.Len() == len(args))
 
 	u := newUnifier(check, false)
 	u.x.init(tparams)
+
+	// Set the type arguments which we know already.
+	for i, targ := range targs {
+		if targ != nil {
+			u.x.set(i, targ)
+		}
+	}
+
+	// Unify type parameters with their structural constraints, if any.
+	// TODO: why not?
+	// for _, tpar := range tparams {
+	// 	typ := tpar.typ.(*_TypeParam)
+	// 	sbound := check.structuralType(typ.bound)
+	// 	if sbound != nil {
+	// 		if !u.unify(typ, sbound) {
+	// 			check.errorf(tpar, 0, "%s does not match %s", tpar, sbound)
+	// 			return nil, 0
+	// 		}
+	// 	}
+	// }
 
 	errorf := func(kind string, tpar, targ Type, arg *operand) {
 		// provide a better error message if we can
@@ -282,6 +302,7 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type) (types []Type, i
 	u.x.init(tparams)
 	u.y = u.x // type parameters between LHS and RHS of unification are identical
 
+	// TODO remove this unnecessary stuff
 	// Set the type arguments which we know already.
 	for i, targ := range targs {
 		if targ != nil {

@@ -28,6 +28,12 @@ func isGeneric(typ Type) bool {
 	return named != nil && named.obj != nil && named.tparams != nil && named.targs == nil
 }
 
+func isTypeParam(typ Type) bool {
+	// TODO: fix this
+	tparam, _ := typ.Underlying().(*_TypeParam)
+	return tparam != nil
+}
+
 func is(typ Type, what BasicInfo) bool {
 	switch t := optype(typ).(type) {
 	case *Basic:

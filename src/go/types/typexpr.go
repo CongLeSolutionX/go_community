@@ -638,6 +638,7 @@ func (check *Checker) instantiatedType(x ast.Expr, targs []ast.Expr, def *Named)
 
 	// make sure we check instantiation works at least once
 	// and that the resulting type is valid
+	// TODO: we should be able to change to check.later
 	check.atEnd(func() {
 		t := typ.expand()
 		check.validType(t, nil)

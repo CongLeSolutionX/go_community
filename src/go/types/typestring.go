@@ -288,7 +288,15 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 
 	case *instance:
 		buf.WriteByte(instanceMarker) // indicate "non-evaluated" syntactic instance
-		writeTypeName(buf, t.base.obj, qf)
+		switch base := t.base.(type) {
+		case *Named:
+			writeTypeName(buf, base.obj, qf)
+		case *Signature:
+			writeSignature(buf, base, qf, visited)
+			// panic("writing signature not implemented")
+		default:
+			unreachable()
+		}
 		buf.WriteByte('[')
 		writeTypeList(buf, t.targs, qf, visited)
 		buf.WriteByte(']')
