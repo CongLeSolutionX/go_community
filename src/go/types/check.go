@@ -393,9 +393,16 @@ func (check *Checker) recordCommaOkTypes(x ast.Expr, a [2]Type) {
 	}
 }
 
-func (check *Checker) recordInferred(call ast.Expr, targs []Type, sig *Signature) {
+func (check *Checker) recordInferred(call *ast.CallExpr, targs []Type, sig *Signature) {
 	assert(call != nil)
 	assert(sig != nil)
+	if m := check.Types; m != nil {
+		if inst, _ := m[call.Fun].Type.(*instance); inst != nil {
+			// Short circuit expansion, so that Info types can be correctly
+			// fixed during sanitizeInfo.
+			inst.value = sig
+		}
+	}
 	if m := check._Inferred; m != nil {
 		m[call] = _Inferred{targs, sig}
 	}

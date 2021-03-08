@@ -329,6 +329,8 @@ func TestTypesInfo(t *testing.T) {
 		{genericPkg + `p1; func f[T any](T); var _ = f[int]`, `f[int]`, `func(int)`},
 		{genericPkg + `p2; func f[T any](T); func _() { f(42) }`, `f`, `func[T₁ interface{}](T₁)`},
 		{genericPkg + `p3; func f[T any](T); func _() { f(42) }`, `f(42)`, `()`},
+		{genericPkg + `p4; func f[T1, T2 any](T1, T2); func _() { f[int, string](42, "hello") }`, `f[int, string]`, `func(int, string)`},
+		{genericPkg + `p5; func f[T1, T2 any](T1, T2); func _() { f[int](42, "hello") }`, `f[int]`, `func(int, string)`},
 
 		// type parameters
 		{genericPkg + `t0; type t[] int; var _ t`, `t`, `generic_t0.t`}, // t[] is a syntax error that is ignored in this test in favor of t
