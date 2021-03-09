@@ -16,6 +16,23 @@
       "message": "TRY\u003dstaticlockranking",
       "revId": "280aa4d496cd07890b3afb0a6cc9f115673cf090",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a008536b_39d571c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-09T16:36:58Z",
+      "side": 1,
+      "message": "Thanks for doing this!\n",
+      "revId": "280aa4d496cd07890b3afb0a6cc9f115673cf090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
