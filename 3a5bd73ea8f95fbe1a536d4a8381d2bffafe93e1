@@ -46,6 +46,30 @@
       },
       "revId": "3a5bd73ea8f95fbe1a536d4a8381d2bffafe93e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "261584b5_898e1136",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 36366
+      },
+      "writtenOn": "2021-03-09T11:43:25Z",
+      "side": 1,
+      "message": "I went with Robert\u0027s suggestion.",
+      "parentUuid": "ce6f1b51_e0ba153e",
+      "range": {
+        "startLine": 86,
+        "startChar": 32,
+        "endLine": 87,
+        "endChar": 20
+      },
+      "revId": "3a5bd73ea8f95fbe1a536d4a8381d2bffafe93e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

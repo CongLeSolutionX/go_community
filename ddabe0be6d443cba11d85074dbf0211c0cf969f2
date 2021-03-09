@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5b5cae6_8b423057",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36366
+      },
+      "writtenOn": "2021-03-09T11:43:25Z",
+      "side": 1,
+      "message": "Should the flag description also be updated or should it be kept terse?\nhttps://github.com/golang/go/blob/9a555fc24c318bf1b07bdc07d5c02e372681e401/src/cmd/compile/internal/base/flag.go#L72",
+      "revId": "ddabe0be6d443cba11d85074dbf0211c0cf969f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
