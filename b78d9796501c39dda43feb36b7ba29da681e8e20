@@ -16,6 +16,120 @@
       "message": "TRY\u003dlinux-amd64-regabi",
       "revId": "b78d9796501c39dda43feb36b7ba29da681e8e20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2d9c53d_be2a9d0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T23:12:37Z",
+      "side": 1,
+      "message": "LGTM overall. Thanks.\n",
+      "revId": "b78d9796501c39dda43feb36b7ba29da681e8e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3572b579_9ace502e",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T23:12:37Z",
+      "side": 1,
+      "message": "Maybe \u0026reg.Ints (without [0]) will make the compiler happy...",
+      "revId": "b78d9796501c39dda43feb36b7ba29da681e8e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75c0d78d_02c732ec",
+        "filename": "src/runtime/mfinal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T23:12:37Z",
+      "side": 1,
+      "message": "Maybe check the value of the arg. We want to test that we pass argument correctly.",
+      "revId": "b78d9796501c39dda43feb36b7ba29da681e8e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc2f26d2_21a8b654",
+        "filename": "src/runtime/mfinal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T23:12:37Z",
+      "side": 1,
+      "message": "It is still deterministic, right?",
+      "range": {
+        "startLine": 290,
+        "startChar": 19,
+        "endLine": 290,
+        "endChar": 47
+      },
+      "revId": "b78d9796501c39dda43feb36b7ba29da681e8e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b9f3344_bd033131",
+        "filename": "src/runtime/mfinal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T23:12:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this comment applies to.",
+      "revId": "b78d9796501c39dda43feb36b7ba29da681e8e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be9c6eec_f20891e2",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T23:12:37Z",
+      "side": 1,
+      "message": "Can it take two pointer args?",
+      "range": {
+        "startLine": 413,
+        "startChar": 12,
+        "endLine": 413,
+        "endChar": 27
+      },
+      "revId": "b78d9796501c39dda43feb36b7ba29da681e8e20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
