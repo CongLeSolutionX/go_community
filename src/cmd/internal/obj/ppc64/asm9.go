@@ -638,6 +638,7 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 	var otxt int64
 	var q *obj.Prog
+	var out [6]uint32
 	for bflag != 0 {
 		bflag = 0
 		pc = 0
@@ -649,23 +650,66 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			if (o.type_ == 16 || o.type_ == 17) && p.To.Target() != nil {
 				otxt = p.To.Target().Pc - pc
 				if otxt < -(1<<15)+10 || otxt >= (1<<15)-10 {
-					q = c.newprog()
-					q.Link = p.Link
-					p.Link = q
-					q.As = ABR
-					q.To.Type = obj.TYPE_BRANCH
-					q.To.SetTarget(p.To.Target())
-					p.To.SetTarget(q)
-					q = c.newprog()
-					q.Link = p.Link
-					p.Link = q
-					q.As = ABR
-					q.To.Type = obj.TYPE_BRANCH
-					q.To.SetTarget(q.Link.Link)
+					// Assemble the instruction with a target not too far to figure out BI + BH
+					// The overwhelming majority (likely all practical cases) allow us to invert
+					// the branch condition. The exception is when both CTR and BI are tested.
+					tgt := p.To.Target()
+					p.To.SetTarget(p.Link)
+					c.asmout(p, o, out[:])
+					p.To.SetTarget(tgt)
 
-					//addnop(p->link);
-					//addnop(p);
-					bflag = 1
+					bo := int64(out[0]>>21) & 31
+					bi := int16((out[0] >> 16) & 31)
+					invertible := false
+
+					if bo&0x14 == 0x14 {
+						// A silly, and unlikely case.  A conditional branch that is
+						// always taken. Rewrite as an unconditonal jump.
+						p.As = ABR
+					} else if bo&0x10 == 0x10 {
+						// decrement ctr and test ctr against zero.
+						bo ^= 0x2
+						invertible = true
+					} else if bo&0x04 == 0x04 {
+						// Only BI (a CR bit) is tested
+						bo ^= 0x8
+						invertible = true
+					}
+
+					if invertible {
+						// If the conditional branch is invertible, update the target
+						// to the next instruction, and insert a jump inbetween them to
+						// the original branch target.
+						p.As = ABC
+						p.From = obj.Addr{Type: obj.TYPE_CONST, Name: obj.NAME_NONE, Offset: bo}
+						q = c.newprog()
+						q.As = ABR
+						q.To.Type = obj.TYPE_BRANCH
+						q.To.SetTarget(p.To.Target())
+						q.Link = p.Link
+						p.To.SetTarget(p.Link)
+						p.Link = q
+						p.Reg = bi // TODO: This is a hack since BI bits are not enumerated as registers
+						bflag = 1
+					} else {
+						// Otherwise, insert two jumps after the branch. The branch conditional remains
+						// unchanged.  The first jump targets immediately after the second jump, and
+						// the second jump targets the original target of the branch.
+						q = c.newprog()
+						q.Link = p.Link
+						p.Link = q
+						q.As = ABR
+						q.To.Type = obj.TYPE_BRANCH
+						q.To.SetTarget(p.To.Target())
+						p.To.SetTarget(q)
+						q = c.newprog()
+						q.Link = p.Link
+						p.Link = q
+						q.As = ABR
+						q.To.Type = obj.TYPE_BRANCH
+						q.To.SetTarget(q.Link.Link)
+						bflag = 1
+					}
 				}
 			}
 
@@ -702,7 +746,6 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 	bp := c.cursym.P
 	var i int32
-	var out [6]uint32
 	for p := c.cursym.Func().Text.Link; p != nil; p = p.Link {
 		c.pc = p.Pc
 		o = c.oplook(p)
