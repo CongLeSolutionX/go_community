@@ -33,6 +33,23 @@
       "message": "Thanks for doing this!\n",
       "revId": "280aa4d496cd07890b3afb0a6cc9f115673cf090",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff58d466_9744049b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-03-09T16:42:59Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-staticlockranking",
+      "revId": "280aa4d496cd07890b3afb0a6cc9f115673cf090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
