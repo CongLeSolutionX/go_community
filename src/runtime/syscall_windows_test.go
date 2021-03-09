@@ -7,6 +7,7 @@ package runtime_test
 import (
 	"bytes"
 	"fmt"
+	"internal/abi"
 	"internal/syscall/windows/sysdll"
 	"internal/testenv"
 	"io"
@@ -346,48 +347,91 @@ func (f cbFunc) testOne(t *testing.T, dll *syscall.DLL, cdecl bool, cb uintptr) 
 
 type uint8Pair struct{ x, y uint8 }
 
-var cbFuncs = []cbFunc{
-	{func(i1, i2 uintptr) uintptr {
-		return i1 + i2
-	}},
-	{func(i1, i2, i3 uintptr) uintptr {
-		return i1 + i2 + i3
-	}},
-	{func(i1, i2, i3, i4 uintptr) uintptr {
-		return i1 + i2 + i3 + i4
-	}},
-	{func(i1, i2, i3, i4, i5 uintptr) uintptr {
-		return i1 + i2 + i3 + i4 + i5
-	}},
-	{func(i1, i2, i3, i4, i5, i6 uintptr) uintptr {
-		return i1 + i2 + i3 + i4 + i5 + i6
-	}},
-	{func(i1, i2, i3, i4, i5, i6, i7 uintptr) uintptr {
-		return i1 + i2 + i3 + i4 + i5 + i6 + i7
-	}},
-	{func(i1, i2, i3, i4, i5, i6, i7, i8 uintptr) uintptr {
-		return i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8
-	}},
-	{func(i1, i2, i3, i4, i5, i6, i7, i8, i9 uintptr) uintptr {
-		return i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9
-	}},
+//go:registerparams
+func sum2(i1, i2 uintptr) uintptr {
+	return i1 + i2
+}
 
-	// Non-uintptr parameters.
-	{func(i1, i2, i3, i4, i5, i6, i7, i8, i9 uint8) uintptr {
-		return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
-	}},
-	{func(i1, i2, i3, i4, i5, i6, i7, i8, i9 uint16) uintptr {
-		return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
-	}},
-	{func(i1, i2, i3, i4, i5, i6, i7, i8, i9 int8) uintptr {
-		return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
-	}},
-	{func(i1 int8, i2 int16, i3 int32, i4, i5 uintptr) uintptr {
-		return uintptr(i1) + uintptr(i2) + uintptr(i3) + i4 + i5
-	}},
-	{func(i1, i2, i3, i4, i5 uint8Pair) uintptr {
-		return uintptr(i1.x + i1.y + i2.x + i2.y + i3.x + i3.y + i4.x + i4.y + i5.x + i5.y)
-	}},
+//go:registerparams
+func sum3(i1, i2, i3 uintptr) uintptr {
+	return i1 + i2 + i3
+}
+
+//go:registerparams
+func sum4(i1, i2, i3, i4 uintptr) uintptr {
+	return i1 + i2 + i3 + i4
+}
+
+//go:registerparams
+func sum5(i1, i2, i3, i4, i5 uintptr) uintptr {
+	return i1 + i2 + i3 + i4 + i5
+}
+
+//go:registerparams
+func sum6(i1, i2, i3, i4, i5, i6 uintptr) uintptr {
+	return i1 + i2 + i3 + i4 + i5 + i6
+}
+
+//go:registerparams
+func sum7(i1, i2, i3, i4, i5, i6, i7 uintptr) uintptr {
+	return i1 + i2 + i3 + i4 + i5 + i6 + i7
+}
+
+//go:registerparams
+func sum8(i1, i2, i3, i4, i5, i6, i7, i8 uintptr) uintptr {
+	return i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8
+}
+
+//go:registerparams
+func sum9(i1, i2, i3, i4, i5, i6, i7, i8, i9 uintptr) uintptr {
+	return i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9
+}
+
+//go:registerparams
+func sum10(i1, i2, i3, i4, i5, i6, i7, i8, i9, i10 uintptr) uintptr {
+	return i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9 + i10
+}
+
+//go:registerparams
+func sum9uint16(i1, i2, i3, i4, i5, i6, i7, i8, i9 uint8) uintptr {
+	return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
+}
+
+//go:registerparams
+func sum9uint16(i1, i2, i3, i4, i5, i6, i7, i8, i9 uint16) uintptr {
+	return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
+}
+
+//go:registerparams
+func sum9int8(i1, i2, i3, i4, i5, i6, i7, i8, i9 int8) uintptr {
+	return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
+}
+
+//go:registerparams
+func sum5mix(i1 int8, i2 int16, i3 int32, i4, i5 uintptr) uintptr {
+	return uintptr(i1) + uintptr(i2) + uintptr(i3) + i4 + i5
+}
+
+//go:registerparams
+func sum5andPair(i1, i2, i3, i4, i5 uint8Pair) uintptr {
+	return uintptr(i1.x + i1.y + i2.x + i2.y + i3.x + i3.y + i4.x + i4.y + i5.x + i5.y)
+}
+
+var cbFuncs = []cbFunc{
+	{sum2},
+	{sum3},
+	{sum4},
+	{sum5},
+	{sum6},
+	{sum7},
+	{sum8},
+	{sum9},
+	{sum10},
+	{sum9uint16},
+	{sum9uint16},
+	{sum9int8},
+	{sum5mix},
+	{sum5andPair},
 }
 
 type cbDLL struct {
@@ -450,6 +494,9 @@ func TestStdcallAndCDeclCallbacks(t *testing.T) {
 		t.Fatal("TempDir failed: ", err)
 	}
 	defer os.RemoveAll(tmp)
+
+	oldRegs := SetIntArgRegs(abi.IntArgRegs)
+	defer SetIntArgRegs(oldRegs)
 
 	for _, dll := range cbDLLs {
 		t.Run(dll.name, func(t *testing.T) {
