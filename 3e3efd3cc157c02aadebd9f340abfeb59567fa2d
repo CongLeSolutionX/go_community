@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e72bb9_8b5edb18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11675
+      },
+      "writtenOn": "2021-03-09T16:24:19Z",
+      "side": 1,
+      "message": "This looks sane to me.",
+      "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eec234a_85868da9",
