@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ecfabb_1e3c6f37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-03-09T15:03:58Z",
+      "side": 1,
+      "message": "This change seems reasonable to me. However, I\u0027m adding Christopher Nelson to the reviewer\u0027s list, in case he can supply his original rationale for saving and restoring those registers.",
+      "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eec234a_85868da9",
@@ -85,6 +102,24 @@
       "side": 1,
       "message": "I have learned CL 168351 carefully before submitting my change.\n\nThe change introduced in CL 168351 increased frame size from 0x28 to 0x48 to reserve a scratch area of 4 GPRs at the top of the stack frame, which is required by ABI.\n\nYou can find documentation about this homing area at https://docs.microsoft.com/en-us/cpp/build/stack-usage#stack-allocation, and its design purpose at https://devblogs.microsoft.com/oldnewthing/20160623-00/?p\u003d93735.\n\nMy change reduced frame size from 0x48 to 0x20 by removing redundant register save/restore. The scratch area is still reserved and conformant to ABI. That\u0027s why I kept the two-line comment there. And I don\u0027t think my change will break their program.\n\nThank you.",
       "parentUuid": "068a9c89_c183edba",
+      "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b689dbf5_003d52ae",
+        "filename": "src/runtime/rt0_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-03-09T15:03:58Z",
+      "side": 1,
+      "message": "Alex - I don\u0027t find your suggestions sensible. The CL you pointed to just increases the framesize to hold four pointers. That says nothing about the original justification to save and restore these registers.",
+      "parentUuid": "a5337aaa_14eb1758",
       "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
