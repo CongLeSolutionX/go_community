@@ -69,6 +69,24 @@
       "parentUuid": "c40b3a26_99ef42c0",
       "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5337aaa_14eb1758",
+        "filename": "src/runtime/rt0_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 50463
+      },
+      "writtenOn": "2021-03-09T10:00:11Z",
+      "side": 1,
+      "message": "I have learned CL 168351 carefully before submitting my change.\n\nThe change introduced in CL 168351 increased frame size from 0x28 to 0x48 to reserve a scratch area of 4 GPRs at the top of the stack frame, which is required by ABI.\n\nYou can find documentation about this homing area at https://docs.microsoft.com/en-us/cpp/build/stack-usage#stack-allocation, and its design purpose at https://devblogs.microsoft.com/oldnewthing/20160623-00/?p\u003d93735.\n\nMy change reduced frame size from 0x48 to 0x20 by removing redundant register save/restore. The scratch area is still reserved and conformant to ABI. That\u0027s why I kept the two-line comment there. And I don\u0027t think my change will break their program.\n\nThank you.",
+      "parentUuid": "068a9c89_c183edba",
+      "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
