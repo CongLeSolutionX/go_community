@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7a48206_29133f37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T17:47:59Z",
+      "side": 1,
+      "message": "LGTM. Thanks.",
+      "revId": "2e1721e23722b7c8432d9430f0fc2a074ba5aedd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c449b96f_68e3cd6e",
+        "filename": "test/abi/bad_internal_offsets.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T17:47:59Z",
+      "side": 1,
+      "message": "Is this helpful in any ways?",
+      "range": {
+        "startLine": 60,
+        "startChar": 22,
+        "endLine": 60,
+        "endChar": 42
+      },
+      "revId": "2e1721e23722b7c8432d9430f0fc2a074ba5aedd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
