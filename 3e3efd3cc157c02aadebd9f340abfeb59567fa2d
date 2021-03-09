@@ -51,6 +51,24 @@
       "parentUuid": "6eec234a_85868da9",
       "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "068a9c89_c183edba",
+        "filename": "src/runtime/rt0_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-03-09T09:34:39Z",
+      "side": 1,
+      "message": "I just looked at git history of this source file. And the change was introduced by\n\nhttps://go-review.googlesource.com/c/go/+/168351\n\nThe change was to\n\n// Leave space for four pointers on the stack as required\n// by the Windows amd64 calling convention.\n\nand you want to remove their change.\n\nI suspect you will revert their fix, and break their program.\n\nSo, please, leave everything as is, and just add alignment that you require.\n\nBasically do what I suggested at\n\nhttps://github.com/golang/go/issues/41075#issuecomment-691435028\n\nThank you.",
+      "parentUuid": "c40b3a26_99ef42c0",
+      "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
