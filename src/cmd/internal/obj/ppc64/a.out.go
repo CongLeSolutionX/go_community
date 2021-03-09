@@ -79,8 +79,10 @@ const (
 	REG_R30
 	REG_R31
 
-	/* F0=4128 ... F31=4159 */
-	REG_F0
+	/* Align FPR and VSR vectors such that when masked with 0x3F they produce
+	   an equivalent VSX register. */
+	/* F0=5120 ... F31=5151 */
+	REG_F0 = obj.RBasePPC64 + iota + 32
 	REG_F1
 	REG_F2
 	REG_F3
