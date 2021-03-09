@@ -665,10 +665,13 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	LXSIWAX (R3)(R4), VS1           // 7c241898
 	STXSIWX VS1, (R3)(R4)           // 7c241918
 	MFVSRD VS1, R3                  // 7c230066
+	MFVSRD F1, R3                   // 7c230066
 	MTFPRD R3, F0                   // 7c030166
 	MFVRD V0, R3                    // 7c030067
 	MFVSRLD VS63,R4                 // 7fe40267
+	MFVSRLD V31,R4                  // 7fe40267
 	MFVSRWZ VS33,R4                 // 7c2400e7
+	MFVSRWZ V1,R4                   // 7c2400e7
 	MTVSRD R3, VS1                  // 7c230166
 	MTVRD R3, V13                   // 7da30167
 	MTVSRWA R4, VS31                // 7fe401a6
