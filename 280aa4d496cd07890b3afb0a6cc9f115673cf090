@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01ef9447_2d3a7c17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-03-09T16:15:07Z",
+      "side": 1,
+      "message": "TRY\u003dstaticlockranking",
+      "revId": "280aa4d496cd07890b3afb0a6cc9f115673cf090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
