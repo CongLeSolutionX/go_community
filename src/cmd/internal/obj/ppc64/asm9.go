@@ -429,14 +429,10 @@ var optab = []Optab{
 
 	/* VSX move from VSR */
 	{as: AMFVSRD, a1: C_VSREG, a6: C_REG, type_: 88, size: 4}, /* vsx move from vsr, xx1-form */
-	{as: AMFVSRD, a1: C_FREG, a6: C_REG, type_: 88, size: 4},
-	{as: AMFVSRD, a1: C_VREG, a6: C_REG, type_: 88, size: 4},
 
 	/* VSX move to VSR */
-	{as: AMTVSRD, a1: C_REG, a6: C_VSREG, type_: 88, size: 4}, /* vsx move to vsr, xx1-form */
-	{as: AMTVSRD, a1: C_REG, a2: C_REG, a6: C_VSREG, type_: 88, size: 4},
-	{as: AMTVSRD, a1: C_REG, a6: C_FREG, type_: 88, size: 4},
-	{as: AMTVSRD, a1: C_REG, a6: C_VREG, type_: 88, size: 4},
+	{as: AMTVSRD, a1: C_REG, a6: C_VSREG, type_: 104, size: 4}, /* vsx move to vsr, xx1-form */
+	{as: AMTVSRDD, a1: C_REG, a2: C_REG, a6: C_VSREG, type_: 104, size: 4},
 
 	/* VSX logical */
 	{as: AXXLAND, a1: C_VSREG, a2: C_VSREG, a6: C_VSREG, type_: 90, size: 4}, /* vsx and, xx3-form */
@@ -1064,6 +1060,12 @@ func cmp(a int, b int) bool {
 			return r0iszero != 0 /*TypeKind(100016)*/
 		}
 
+	case C_VSREG:
+		/* Any FPR or VR can be used as an VSR operand. */
+		if b == C_FREG || b == C_VREG {
+			return true
+		}
+
 	case C_ANY:
 		return true
 	}
@@ -1542,7 +1544,6 @@ func buildop(ctxt *obj.Link) {
 			opset(AMTVRD, r0)
 			opset(AMTVSRWA, r0)
 			opset(AMTVSRWZ, r0)
-			opset(AMTVSRDD, r0)
 			opset(AMTVSRWS, r0)
 
 		case AXXLAND: /* xxland, xxlandc, xxleqv, xxlnand */
@@ -1925,6 +1926,7 @@ func buildop(ctxt *obj.Link) {
 			ACMPEQB,
 			AECIWX,
 			ACLRLSLWI,
+			AMTVSRDD,
 			obj.ANOP,
 			obj.ATEXT,
 			obj.AUNDEF,
@@ -2023,50 +2025,32 @@ func AOP_IR(op uint32, d uint32, simm uint32) uint32 {
 }
 
 /* XX1-form 3-register operands, 1 VSR operand */
-func AOP_XX1(op uint32, d uint32, a uint32, b uint32) uint32 {
-	/* For the XX-form encodings, we need the VSX register number to be exactly */
-	/* between 0-63, so we can properly set the rightmost bits. */
-	r := d - REG_VS0
+func AOP_XX1(op uint32, r uint32, a uint32, b uint32) uint32 {
 	return op | (r&31)<<21 | (a&31)<<16 | (b&31)<<11 | (r&32)>>5
 }
 
 /* XX2-form 3-register operands, 2 VSR operands */
-func AOP_XX2(op uint32, d uint32, a uint32, b uint32) uint32 {
-	xt := d - REG_VS0
-	xb := b - REG_VS0
+func AOP_XX2(op uint32, xt uint32, a uint32, xb uint32) uint32 {
 	return op | (xt&31)<<21 | (a&3)<<16 | (xb&31)<<11 | (xb&32)>>4 | (xt&32)>>5
 }
 
 /* XX3-form 3 VSR operands */
-func AOP_XX3(op uint32, d uint32, a uint32, b uint32) uint32 {
-	xt := d - REG_VS0
-	xa := a - REG_VS0
-	xb := b - REG_VS0
+func AOP_XX3(op uint32, xt uint32, xa uint32, xb uint32) uint32 {
 	return op | (xt&31)<<21 | (xa&31)<<16 | (xb&31)<<11 | (xa&32)>>3 | (xb&32)>>4 | (xt&32)>>5
 }
 
 /* XX3-form 3 VSR operands + immediate */
-func AOP_XX3I(op uint32, d uint32, a uint32, b uint32, c uint32) uint32 {
-	xt := d - REG_VS0
-	xa := a - REG_VS0
-	xb := b - REG_VS0
+func AOP_XX3I(op uint32, xt uint32, xa uint32, xb uint32, c uint32) uint32 {
 	return op | (xt&31)<<21 | (xa&31)<<16 | (xb&31)<<11 | (c&3)<<8 | (xa&32)>>3 | (xb&32)>>4 | (xt&32)>>5
 }
 
 /* XX4-form, 4 VSR operands */
-func AOP_XX4(op uint32, d uint32, a uint32, b uint32, c uint32) uint32 {
-	xt := d - REG_VS0
-	xa := a - REG_VS0
-	xb := b - REG_VS0
-	xc := c - REG_VS0
+func AOP_XX4(op uint32, xt uint32, xa uint32, xb uint32, xc uint32) uint32 {
 	return op | (xt&31)<<21 | (xa&31)<<16 | (xb&31)<<11 | (xc&31)<<6 | (xc&32)>>2 | (xa&32)>>3 | (xb&32)>>4 | (xt&32)>>5
 }
 
 /* DQ-form, VSR register, register + offset operands */
-func AOP_DQ(op uint32, d uint32, a uint32, b uint32) uint32 {
-	/* For the DQ-form encodings, we need the VSX register number to be exactly */
-	/* between 0-63, so we can properly set the SX bit. */
-	r := d - REG_VS0
+func AOP_DQ(op uint32, xt uint32, a uint32, b uint32) uint32 {
 	/* The EA for this instruction form is (RA) + DQ << 4, where DQ is a 12-bit signed integer. */
 	/* In order to match the output of the GNU objdump (and make the usage in Go asm easier), the */
 	/* instruction is called using the sign extended value (i.e. a valid offset would be -32752 or 32752, */
@@ -2074,7 +2058,7 @@ func AOP_DQ(op uint32, d uint32, a uint32, b uint32) uint32 {
 	/* bits 0 to 3 in 'dq' need to be zero, otherwise this will generate an illegal instruction. */
 	/* If in doubt how this instruction form is encoded, refer to ISA 3.0b, pages 492 and 507. */
 	dq := b >> 4
-	return op | (r&31)<<21 | (a&31)<<16 | (dq&4095)<<4 | (r&32)>>2
+	return op | (xt&31)<<21 | (a&31)<<16 | (dq&4095)<<4 | (xt&32)>>2
 }
 
 /* Z23-form, 3-register operands + CY field */
@@ -3534,33 +3518,8 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		/* 3-register operand order: (RB)(RA*1), XT */
 		o1 = AOP_XX1(c.oploadx(p.As), uint32(p.To.Reg), uint32(p.From.Index), uint32(p.From.Reg))
 
-	case 88: /* VSX instructions, XX1-form */
-		/* reg reg none OR reg reg reg */
-		/* 3-register operand order: RA, RB, XT */
-		/* 2-register operand order: XS, RA or RA, XT */
-		xt := int32(p.To.Reg)
-		xs := int32(p.From.Reg)
-		/* We need to treat the special case of extended mnemonics that may have a FREG/VREG as an argument */
-		if REG_V0 <= xt && xt <= REG_V31 {
-			/* Convert V0-V31 to VS32-VS63 */
-			xt = xt + 64
-			o1 = AOP_XX1(c.oprrr(p.As), uint32(xt), uint32(p.From.Reg), uint32(p.Reg))
-		} else if REG_F0 <= xt && xt <= REG_F31 {
-			/* Convert F0-F31 to VS0-VS31 */
-			xt = xt + 64
-			o1 = AOP_XX1(c.oprrr(p.As), uint32(xt), uint32(p.From.Reg), uint32(p.Reg))
-		} else if REG_VS0 <= xt && xt <= REG_VS63 {
-			o1 = AOP_XX1(c.oprrr(p.As), uint32(xt), uint32(p.From.Reg), uint32(p.Reg))
-		} else if REG_V0 <= xs && xs <= REG_V31 {
-			/* Likewise for XS */
-			xs = xs + 64
-			o1 = AOP_XX1(c.oprrr(p.As), uint32(xs), uint32(p.To.Reg), uint32(p.Reg))
-		} else if REG_F0 <= xs && xs <= REG_F31 {
-			xs = xs + 64
-			o1 = AOP_XX1(c.oprrr(p.As), uint32(xs), uint32(p.To.Reg), uint32(p.Reg))
-		} else if REG_VS0 <= xs && xs <= REG_VS63 {
-			o1 = AOP_XX1(c.oprrr(p.As), uint32(xs), uint32(p.To.Reg), uint32(p.Reg))
-		}
+	case 88: /* VSX mfvsr* instructions, XX1-form XS,RA */
+		o1 = AOP_XX1(c.oprrr(p.As), uint32(p.From.Reg), uint32(p.To.Reg), uint32(p.Reg))
 
 	case 89: /* VSX instructions, XX2-form */
 		/* reg none reg OR reg imm reg */
@@ -3691,6 +3650,9 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		mb := uint32(c.regoff(&p.RestArgs[0].Addr))
 		me := uint32(c.regoff(&p.RestArgs[1].Addr))
 		o1 = OP_RLW(c.oprrr(p.As), uint32(p.To.Reg), uint32(p.Reg), uint32(p.From.Reg), mb, me)
+
+	case 104: /* VSX mtvsr* instructions, XX1-form RA,RB,XT */
+		o1 = AOP_XX1(c.oprrr(p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg))
 	}
 
 	out[0] = o1
