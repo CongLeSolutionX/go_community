@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b22231a_99775672",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "Any reason this is specific to little-endian? Could we do both?",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ad9bba27_ccdd8e09",
@@ -14,6 +37,252 @@
       "writtenOn": "2021-03-09T14:03:46Z",
       "side": 1,
       "message": "TRY\u003dmips64,mips64le,mips,mipsle",
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e1c9c6f_493b1379",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1630,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "Add a space after comma.",
+      "range": {
+        "startLine": 1630,
+        "startChar": 58,
+        "endLine": 1630,
+        "endChar": 59
+      },
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b3d8018_d967b76a",
+        "filename": "src/race.bash",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "Add a space before \u0026\u0026.",
+      "range": {
+        "startLine": 23,
+        "startChar": 94,
+        "endLine": 23,
+        "endChar": 97
+      },
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1907d68f_e4aea5bc",
+        "filename": "src/runtime/asm_mips64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "Why is this change? If cgo is not enabled, I don\u0027t think we need to save G to TLS (and I\u0027m not sure if it works).",
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06721d10_4c3e118c",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "\"The\" is not necessary.",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aba3af9_5cb2ff07",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "What is this line for?",
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6becb47c_92c9dfa1",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "Mixing Go and C style function signature looks weird. Let\u0027s stick to one.",
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be1de2cb_47b88081",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "This function is no longer necessary. Delete.",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 24
+      },
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fa4b650_8dc7603f",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "Specify argument size. $0-12 for this one. Also below.",
+      "range": {
+        "startLine": 191,
+        "startChar": 42,
+        "endLine": 191,
+        "endChar": 43
+      },
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6337edc0_56a516d6",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "MOVW? This is 32-bit. Also next one.",
+      "range": {
+        "startLine": 274,
+        "startChar": 1,
+        "endLine": 274,
+        "endChar": 5
+      },
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "414d4f42_ab88f6bd",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e2de9b3_60169e15",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "This needs comment.",
+      "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9610ed41_f4a80f58",
+        "filename": "src/runtime/race_mips64le.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-09T18:55:38Z",
+      "side": 1,
+      "message": "Add a space after g.",
+      "range": {
+        "startLine": 428,
+        "startChar": 44,
+        "endLine": 428,
+        "endChar": 50
+      },
       "revId": "b2f51e8e90139ecc6009f21905143020989dc936",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
