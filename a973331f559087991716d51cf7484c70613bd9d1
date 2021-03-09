@@ -138,6 +138,23 @@
       "parentUuid": "870df013_f2772492",
       "revId": "a973331f559087991716d51cf7484c70613bd9d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ea76f78_069a2b25",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-03-09T03:50:55Z",
+      "side": 1,
+      "message": "I\u0027d document these result parameters, per https://github.com/golang/go/wiki/CodeReviewComments#named-result-parameters ... the signature isn\u0027t obvious. In particular, that string is a mystery. Even reading the func body it\u0027s a mystery. It can be \"splice\" or \"\" but ... why?",
+      "revId": "a973331f559087991716d51cf7484c70613bd9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
