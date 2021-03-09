@@ -39,6 +39,7 @@ TEXT runtime·rt0_go(SB),NOSPLIT|TOPFRAME,$0
 	JAL	(R25)
 
 nocgo:
+	JAL	runtime·save_g(SB)
 	// update stackguard after _cgo_init
 	MOVV	(g_stack+stack_lo)(g), R1
 	ADDV	$const__StackGuard, R1
