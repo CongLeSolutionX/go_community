@@ -16,6 +16,75 @@
       "message": "TRY\u003dlinux-amd64-longtest",
       "revId": "d6ef86dc12e35f52fa0cec9200606709a8b29d7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81534a92_60d3ddc7",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_mutate_fail.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-03-09T17:40:56Z",
+      "side": 1,
+      "message": "Maybe a FuzzNilPanic test too, since that\u0027s a slightly different code path iirc",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 1
+      },
+      "revId": "d6ef86dc12e35f52fa0cec9200606709a8b29d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7612ce7_0246fcee",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-03-09T17:40:56Z",
+      "side": 1,
+      "message": "Perhaps \"blocks until ready to fuzz next input\" or something, since it is being used for more than one purpose now.",
+      "range": {
+        "startLine": 81,
+        "startChar": 33,
+        "endLine": 81,
+        "endChar": 76
+      },
+      "revId": "d6ef86dc12e35f52fa0cec9200606709a8b29d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0985d684_e3a14e90",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-03-09T17:40:56Z",
+      "side": 1,
+      "message": "It appears to do something. Looks like this was copied from ping() above, so maybe it just needs updated",
+      "range": {
+        "startLine": 604,
+        "startChar": 0,
+        "endLine": 605,
+        "endChar": 41
+      },
+      "revId": "d6ef86dc12e35f52fa0cec9200606709a8b29d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
