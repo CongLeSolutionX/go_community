@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38e616ad_f320e334",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T03:06:12Z",
+      "side": 1,
+      "message": "Might be worth a comment somewhere around here explaining why we\u0027re querying known-invalid paths in the first place, instead of pruning them out of candidateModules.\n\n(If I understand correctly, that\u0027s because the invalid paths may be slotted in via `replace` directives, in which case they will be treated as valid.)",
+      "revId": "1047fc075c89d88858b29d500c9bf8db7aec94ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
