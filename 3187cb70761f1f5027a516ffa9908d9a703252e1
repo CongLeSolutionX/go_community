@@ -189,6 +189,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18886592_c9732fc2",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-10T23:28:56Z",
+      "side": 1,
+      "message": "aha, Done.",
+      "parentUuid": "faa377b8_62e9c72e",
+      "range": {
+        "startLine": 228,
+        "startChar": 11,
+        "endLine": 228,
+        "endChar": 17
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8422e8d2_d444dfe1",
