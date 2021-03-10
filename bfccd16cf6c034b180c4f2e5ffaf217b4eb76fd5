@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a892055_cfcfa63b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-10T21:27:07Z",
+      "side": 1,
+      "message": "Nice job tracking this down so quickly.",
+      "revId": "bfccd16cf6c034b180c4f2e5ffaf217b4eb76fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63a31f8e_0780f8bf",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-10T21:27:07Z",
+      "side": 1,
+      "message": "Not sure you need the line break in this comment.",
+      "revId": "bfccd16cf6c034b180c4f2e5ffaf217b4eb76fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8616e1d8_3a4aa566",
+        "filename": "src/time/sleep_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-10T21:27:07Z",
+      "side": 1,
+      "message": "We usually write \"2*Second\" so that it reads as \"2 seconds\".",
+      "range": {
+        "startLine": 524,
+        "startChar": 30,
+        "endLine": 524,
+        "endChar": 38
+      },
+      "revId": "bfccd16cf6c034b180c4f2e5ffaf217b4eb76fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
