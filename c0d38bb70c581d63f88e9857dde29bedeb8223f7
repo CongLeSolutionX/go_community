@@ -16,6 +16,69 @@
       "message": "Easy review, but let me know if this behavior is expected - that I have to use the IndexExpr to lookup in g.info.Inferred[] if it is only partially expressed type args (hence partially inferred too).",
       "revId": "c0d38bb70c581d63f88e9857dde29bedeb8223f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2b665b9_0429cb56",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-10T22:50:05Z",
+      "side": 1,
+      "message": "maybe add:\n\n// TODO(gri) Should types2 always record the call expr as key?",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 5
+      },
+      "revId": "c0d38bb70c581d63f88e9857dde29bedeb8223f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2e2b897_4e34e2e8",
+        "filename": "test/typeparam/settable.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-10T22:50:05Z",
+      "side": 1,
+      "message": "The reason this is panicking is that we call Set on a receiver of type T, but that receiver happens to be nil for T \u003d *SettableInt. Maybe add a line comment?\n\n// panics if T is a pointer type because receiver is T(nil)",
+      "revId": "c0d38bb70c581d63f88e9857dde29bedeb8223f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85880d1e_166d4047",
+        "filename": "test/typeparam/settable.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-10T22:50:05Z",
+      "side": 1,
+      "message": "s/partial type inference/constraint type inference/",
+      "range": {
+        "startLine": 82,
+        "startChar": 13,
+        "endLine": 82,
+        "endChar": 35
+      },
+      "revId": "c0d38bb70c581d63f88e9857dde29bedeb8223f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
