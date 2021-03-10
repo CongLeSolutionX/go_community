@@ -70,6 +70,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c310267_3d8327bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-03-10T09:19:39Z",
+      "side": 1,
+      "message": "Leaving for Jason to submit when ready.\n\nThank you.\n\nAlex",
+      "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eec234a_85868da9",
@@ -155,6 +172,24 @@
       "side": 1,
       "message": "Alex - I don\u0027t find your suggestions sensible. The CL you pointed to just increases the framesize to hold four pointers. That says nothing about the original justification to save and restore these registers.",
       "parentUuid": "a5337aaa_14eb1758",
+      "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c902660b_311fd244",
+        "filename": "src/runtime/rt0_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-03-10T09:19:39Z",
+      "side": 1,
+      "message": "Thanks for explaining Youfu.\n\nI missed the fact that your function frame size is 0x20. So, yes, you did leave room for 4 GPRs as required.\n\nI agree about removing saving and restoring registers. That is not needed.",
+      "parentUuid": "b689dbf5_003d52ae",
       "revId": "3e3efd3cc157c02aadebd9f340abfeb59567fa2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
