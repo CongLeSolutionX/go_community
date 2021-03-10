@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "102edd74_4ceef8bc",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-10T19:40:04Z",
+      "side": 1,
+      "message": "Added a couple comments. Definitely merits an explanation.\n\nMy initial draft just filtered out invalid paths in modulePrefixesExcludingTarget, but that ran into replacement problems. It\u0027s surprising that we get all the way to queryProxy before resolving replacements, but I\u0027m not sure there\u0027s a better way do that.",
+      "parentUuid": "38e616ad_f320e334",
+      "revId": "1047fc075c89d88858b29d500c9bf8db7aec94ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91a4c3ac_ca63311b",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-10T15:28:54Z",
       "side": 1,
       "message": "Note to self: also fix TODO in mod_invalid_path_plus from CL 300176.",
+      "revId": "1047fc075c89d88858b29d500c9bf8db7aec94ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86e7c6cf_a097a49e",
+        "filename": "src/cmd/go/testdata/script/mod_invalid_path_dotname.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-10T19:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91a4c3ac_ca63311b",
       "revId": "1047fc075c89d88858b29d500c9bf8db7aec94ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
