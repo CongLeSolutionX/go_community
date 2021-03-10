@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87dac13d_44430c4a",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-10T23:45:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2b665b9_0429cb56",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 5
+      },
+      "revId": "c0d38bb70c581d63f88e9857dde29bedeb8223f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2e2b897_4e34e2e8",
@@ -58,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5cc3d4c_b797ece8",
+        "filename": "test/typeparam/settable.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-10T23:45:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2e2b897_4e34e2e8",
+      "revId": "c0d38bb70c581d63f88e9857dde29bedeb8223f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85880d1e_166d4047",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-03-10T22:50:05Z",
       "side": 1,
       "message": "s/partial type inference/constraint type inference/",
+      "range": {
+        "startLine": 82,
+        "startChar": 13,
+        "endLine": 82,
+        "endChar": 35
+      },
+      "revId": "c0d38bb70c581d63f88e9857dde29bedeb8223f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f01c99b_d1b4f0d3",
+        "filename": "test/typeparam/settable.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-10T23:45:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85880d1e_166d4047",
       "range": {
         "startLine": 82,
         "startChar": 13,
