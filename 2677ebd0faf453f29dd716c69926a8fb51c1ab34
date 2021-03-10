@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ac6661c5_0050154c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-10T01:40:40Z",
+      "side": 1,
+      "message": "last arg type, will clarify.",
+      "parentUuid": "8427cabf_3b3e76d2",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "27bc3ace_26407621",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -64,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9307a733_bf17c6b7",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-10T01:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "418a05aa_254a3f86",
+      "range": {
+        "startLine": 392,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 59
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf68271f_15cafe20",
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e72ad408_d69792a0",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-10T01:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf68271f_15cafe20",
+      "range": {
+        "startLine": 776,
+        "startChar": 226,
+        "endLine": 776,
+        "endChar": 236
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "116a9fc1_972adcf3",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-03-09T22:19:32Z",
       "side": 1,
       "message": "Update comment. Also below.",
+      "range": {
+        "startLine": 400,
+        "startChar": 109,
+        "endLine": 400,
+        "endChar": 121
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b30475_aa029d92",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-10T01:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "116a9fc1_972adcf3",
       "range": {
         "startLine": 400,
         "startChar": 109,
@@ -135,6 +231,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "490c087d_9396a844",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-10T01:40:40Z",
+      "side": 1,
+      "message": "Oh yes -- unless I removed all the parameter registers used from the ones for code and/or closure pointers.  Sometimes it chooses wrong if you do the order wrong, and for a single instruction there\u0027s no option to spill or backtrace, so it crashes.\n\nThis is documented somewhere, but the documentation didn\u0027t really make the consequences clear.",
+      "parentUuid": "696c16cc_80652288",
+      "range": {
+        "startLine": 150,
+        "startChar": 50,
+        "endLine": 150,
+        "endChar": 102
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea5e6ba9_9faa5754",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 6
@@ -158,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f308fde_89c4e74e",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-10T01:40:40Z",
+      "side": 1,
+      "message": "\"No Later Than 2021-04-15\" (5 weeks from now).\nThis is a TODO with an expiration date.",
+      "parentUuid": "ea5e6ba9_9faa5754",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 220,
+        "endChar": 24
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1caba1cf_de3dc631",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 6
@@ -169,6 +313,30 @@
       "writtenOn": "2021-03-09T22:19:32Z",
       "side": 1,
       "message": "Maybe separate this part to a new CL. We could submit the rest and keep this around (unsubmitted) for testing.",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 66
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d061a0b_f83c3557",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-10T01:40:40Z",
+      "side": 1,
+      "message": "Maybe?  I think messing with cherry-picks and special builds just adds chances for operator error, so I am inclined to submit it, but temporarily.  I could prepare the reversing CL and have it ready to go,.",
+      "parentUuid": "1caba1cf_de3dc631",
       "range": {
         "startLine": 221,
         "startChar": 0,
