@@ -401,6 +401,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1122b467_8f0f278f",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "(I think this comment may be superseded by https://go-review.googlesource.com/c/go/+/277412/12..17/src/cmd/go/internal/modfetch/fetch.go#655.)",
+      "parentUuid": "e7e4dd50_383f3976",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70d8b9cf_10e35374",
         "filename": "src/cmd/go/internal/modfetch/fetch.go",
         "patchSetId": 7

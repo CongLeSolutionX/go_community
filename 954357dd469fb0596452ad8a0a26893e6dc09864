@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abb8d40f_cece6e4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "Let me know if you\u0027d like another look after syncing past CL 298352. (That merge could get a bit gnarly.)",
+      "revId": "954357dd469fb0596452ad8a0a26893e6dc09864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31b279e3_950ed970",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "(stray newline)",
+      "revId": "954357dd469fb0596452ad8a0a26893e6dc09864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a6e0ec_67426b66",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "s/fill/file/\n\n(This is my own typo carried over from my comment. 😞)",
+      "range": {
+        "startLine": 645,
+        "startChar": 25,
+        "endLine": 645,
+        "endChar": 29
+      },
+      "revId": "954357dd469fb0596452ad8a0a26893e6dc09864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bab43336_636cd8d5",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "This comment is duplicated at 302–303. Maybe prune out one copy of it?",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 287,
+        "endChar": 55
+      },
+      "revId": "954357dd469fb0596452ad8a0a26893e6dc09864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bce5576_82a8a0f0",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "When you rebase, I\u0027m pretty sure this will conflict with CL 298352.\n\nFortunately, I think this is homologous to the hashZip function from that CL.",
+      "revId": "954357dd469fb0596452ad8a0a26893e6dc09864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2159e2f8_c5c19804",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "s/tho/to/",
+      "range": {
+        "startLine": 495,
+        "startChar": 54,
+        "endLine": 495,
+        "endChar": 57
+      },
+      "revId": "954357dd469fb0596452ad8a0a26893e6dc09864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3c372b3_14d6217b",
+        "filename": "src/cmd/go/internal/renameio/renameio.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "Change comment back to `os.WriteFile`. (The baseline moved on you, I think. 😉)",
+      "range": {
+        "startLine": 28,
+        "startChar": 21,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "954357dd469fb0596452ad8a0a26893e6dc09864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

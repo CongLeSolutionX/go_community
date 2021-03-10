@@ -69,6 +69,24 @@
       "parentUuid": "cb827ae1_755f2076",
       "revId": "7a0fcb60ec74e6b3101cfeea5e67d857b1cf0204",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7256f9e_3bc81b56",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "\u003e did you mean d \u003c trimInterval in the condition?\n\nYep.",
+      "parentUuid": "502db040_8f4ad7dd",
+      "revId": "7a0fcb60ec74e6b3101cfeea5e67d857b1cf0204",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

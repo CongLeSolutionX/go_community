@@ -167,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "faa377b8_62e9c72e",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "Looks like it became `os.CreateTemp`.¹\n\n¹https://tip.golang.org/pkg/os/#CreateTemp",
+      "parentUuid": "2adac570_7b2eef62",
+      "range": {
+        "startLine": 228,
+        "startChar": 11,
+        "endLine": 228,
+        "endChar": 17
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8422e8d2_d444dfe1",
         "filename": "src/cmd/go/internal/modfetch/fetch.go",
         "patchSetId": 12
@@ -284,6 +308,30 @@
       "side": 1,
       "message": "How\u0027s this?",
       "parentUuid": "173879a3_2c741209",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 484,
+        "endChar": 2
+      },
+      "revId": "3187cb70761f1f5027a516ffa9908d9a703252e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c3098b_3d235d99",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-10T02:08:26Z",
+      "side": 1,
+      "message": "Much better.",
+      "parentUuid": "5b005195_512e9e5c",
       "range": {
         "startLine": 473,
         "startChar": 0,
