@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab9b604_6670f9dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-11T14:54:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86c970a2_6729c9b5",
+      "revId": "5a5c5bb030e62f1d74992c6967d71c4dd627886d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ff5bc1f_02e7831e",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50c789f9_a3341b6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-11T14:54:13Z",
+      "side": 1,
+      "message": "That was bad editing, s/also locates//. With a few months hindsight, this paragraph would benefit from more editing.\n\nI\u0027ll update this to \"The updated code loads each block once per iteration instead of once per round.\"",
+      "parentUuid": "1ff5bc1f_02e7831e",
+      "revId": "5a5c5bb030e62f1d74992c6967d71c4dd627886d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab687c20_5a33fc51",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-03-11T13:45:22Z",
       "side": 1,
       "message": "Would be good to mention that you enhanced the testcase. Also, can you post the benchstat comparison for before and after in the commit message and also whether it was done on power8 or 9?",
+      "revId": "5a5c5bb030e62f1d74992c6967d71c4dd627886d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae31379c_2347fab0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-11T14:54:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ab687c20_5a33fc51",
       "revId": "5a5c5bb030e62f1d74992c6967d71c4dd627886d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
