@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "684f309f_467bd7c2",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-11T18:40:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32865eb5_19fc897f",
+      "revId": "ed6c97e777cfd6d7603fa80412ca4c0ab20c1c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbe687c1_ae3772a2",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "670f7d25_6e8e3dad",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-11T18:40:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbe687c1_ae3772a2",
+      "revId": "ed6c97e777cfd6d7603fa80412ca4c0ab20c1c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b43c394a_101ba1a8",
@@ -65,6 +101,30 @@
       "writtenOn": "2021-03-11T15:49:02Z",
       "side": 1,
       "message": "Why this last condition? I think this would mean that lastTrim is more than an hour in the future.",
+      "range": {
+        "startLine": 322,
+        "startChar": 46,
+        "endLine": 322,
+        "endChar": 68
+      },
+      "revId": "ed6c97e777cfd6d7603fa80412ca4c0ab20c1c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bfe5474_09a906f0",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-11T18:40:06Z",
+      "side": 1,
+      "message": "Right: now - lastTrim \u003e -mtimeInterval \u003c\u003d\u003e lastTrim \u003c now + mtimeInterval so we only return (meaning that it\u0027s not time to trim yet) if lastTrim is less than an hour in the future.\n\nlastTrim is more than an hour in the future, the time stamp is probably corrupt. Basically if lastTrim doesn\u0027t satisfy ( now - trimInterval \u003c lastTrim \u003c now + mtimeInterval ) we consider it to be corrupt.\n\nModified the comment",
+      "parentUuid": "b43c394a_101ba1a8",
       "range": {
         "startLine": 322,
         "startChar": 46,
