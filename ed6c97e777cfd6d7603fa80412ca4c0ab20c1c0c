@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea697636_d2427c3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-11T15:15:36Z",
+      "side": 1,
+      "message": "Still LGTM.",
+      "revId": "ed6c97e777cfd6d7603fa80412ca4c0ab20c1c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95bcc91e_052e8104",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-11T15:15:36Z",
+      "side": 1,
+      "message": "Given that we are now recomputing the checksum in checkMod if the file is corrupted, I wonder if this check in DownloadDir is still needed.\n\nIt feels a bit redundant to me, but perhaps the two checks serve slightly different purposes: the one here marks the ziphash file as needing to be repopulated even if we aren\u0027t verifying the checksum, which I suppose could happen if someone runs `go mod download example.com/some/module@specific-version` and `example.com/some/module` happens to match an entry in `GONOSUMDB` or `GOPRIVATE`.\n\nEither way, it might be helpful to add a comment here explaining the overlap (or lack thereof).",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 2
+      },
+      "revId": "ed6c97e777cfd6d7603fa80412ca4c0ab20c1c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
