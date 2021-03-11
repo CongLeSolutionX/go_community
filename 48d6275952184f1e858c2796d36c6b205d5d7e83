@@ -34,6 +34,24 @@
       "parentUuid": "d77295ba_f5992e4d",
       "revId": "48d6275952184f1e858c2796d36c6b205d5d7e83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a0cd51_a4b1c8c9",
+        "filename": "src/cmd/go/internal/renameio/renameio.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-11T15:49:02Z",
+      "side": 0,
+      "message": "Resolved",
+      "parentUuid": "d96ee02e_d5c34630",
+      "revId": "48d6275952184f1e858c2796d36c6b205d5d7e83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

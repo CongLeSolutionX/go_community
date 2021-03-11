@@ -364,6 +364,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77cb2dbb_03ac1d12",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-11T15:49:02Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "5350e0ea_4dd9e31c",
+      "range": {
+        "startLine": 472,
+        "startChar": 18,
+        "endLine": 472,
+        "endChar": 33
+      },
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ad49b72_5ca7f066",
@@ -413,6 +437,24 @@
       "side": 1,
       "message": "(I think this comment may be superseded by https://go-review.googlesource.com/c/go/+/277412/12..17/src/cmd/go/internal/modfetch/fetch.go#655.)",
       "parentUuid": "e7e4dd50_383f3976",
+      "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c1f9a14_27140c58",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-03-11T15:49:02Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "1122b467_8f0f278f",
       "revId": "2c48d6b1280e4f4404f74277c2ec553605f64fd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
