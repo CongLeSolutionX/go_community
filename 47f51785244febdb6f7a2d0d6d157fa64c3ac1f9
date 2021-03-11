@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "915b7485_05fed458",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-11T15:50:12Z",
+      "side": 1,
+      "message": "Hmmm, as the Pc is set later, does the alignment actually do anything? Do we need to insert a padding instruction in case we need to align it?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 74
+      },
+      "revId": "47f51785244febdb6f7a2d0d6d157fa64c3ac1f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "302ccc8e_b0b251c7",
