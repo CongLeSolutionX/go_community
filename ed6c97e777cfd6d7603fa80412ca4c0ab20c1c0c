@@ -156,6 +156,30 @@
       },
       "revId": "ed6c97e777cfd6d7603fa80412ca4c0ab20c1c0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9b7efa8_00d03db5",
+        "filename": "src/cmd/go/internal/modfetch/cache.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-03-11T18:57:12Z",
+      "side": 1,
+      "message": "how\u0027s this?",
+      "parentUuid": "95bcc91e_052e8104",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 2
+      },
+      "revId": "ed6c97e777cfd6d7603fa80412ca4c0ab20c1c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
