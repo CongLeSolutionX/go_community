@@ -16,6 +16,23 @@
       "message": "LGTM.",
       "revId": "87286dd2817efee62f869433018b4eabaf60ad95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91870fe0_96410a12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-11T14:39:41Z",
+      "side": 1,
+      "message": "Nice. This worked out more cleanly than I would have expected.\n\nThe code LGTM, but I don\u0027t think I\u0027d know if you had missed things. You mentioned in the issue that you thought there were a few loose ends. Maybe it would be helpful to get someone from the go tool team to take a look?",
+      "revId": "87286dd2817efee62f869433018b4eabaf60ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
