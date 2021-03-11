@@ -164,6 +164,12 @@ func archRegForAbiReg(r abi.RegIndex, c *Config) uint8 {
 	return uint8(m)
 }
 
+// ArgWidth returns the stack width of all the STACK input and outputs to a function or method.
+// The name is taken from the old function-type arg width, which is "wrong", meaning possibly too large.
+func (a *AuxCall) ArgWidth() int64 {
+	return a.abiInfo.ArgWidth()
+}
+
 // OffsetOfResult returns the SP offset of result which (indexed 0, 1, etc).
 func (a *AuxCall) ParamAssignmentForResult(which int64) *abi.ABIParamAssignment {
 	return a.abiInfo.OutParam(int(which))
