@@ -16,6 +16,24 @@
       "message": "I have a slight preference for precomputing this and putting it in the class so that this function is more just printing info (even though it does already compute some things). unfortunately that means you may need to pass minAligns through which is a little annoying. I don\u0027t feel too strongly about this, though,",
       "revId": "8531e450ad61f0e96b253663cf3b13151b3ee395",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cdfea4b_67953454",
+        "filename": "src/runtime/mksizeclasses.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-12T17:41:48Z",
+      "side": 1,
+      "message": "Ack. I think I\u0027m going to just leave as-is to avoid needing to worry about threading any extra state around. It doesn\u0027t seem like this code gets touched that often, and we really only care about the output it generates, so I think this should be fine.",
+      "parentUuid": "ae553352_b92c83de",
+      "revId": "8531e450ad61f0e96b253663cf3b13151b3ee395",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
