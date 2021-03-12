@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "804d4bc6_e27585a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-12T19:12:55Z",
+      "side": 1,
+      "message": "Text formatting is hard. 😞",
+      "revId": "05bf92fc0044f07daa5849418b52f62f8a74138d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
