@@ -300,6 +300,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63e7d2fb_72e5bfd4",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-12T16:05:02Z",
+      "side": 1,
+      "message": "Okay, thanks.",
+      "parentUuid": "8f308fde_89c4e74e",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 220,
+        "endChar": 24
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1caba1cf_de3dc631",
@@ -337,6 +361,30 @@
       "side": 1,
       "message": "Maybe?  I think messing with cherry-picks and special builds just adds chances for operator error, so I am inclined to submit it, but temporarily.  I could prepare the reversing CL and have it ready to go,.",
       "parentUuid": "1caba1cf_de3dc631",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 66
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "795508f5_f49a1202",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-12T16:05:02Z",
+      "side": 1,
+      "message": "Yeah, messing with git isn\u0027t easy. It\u0027s fine if you want to keep it (temporarily).",
+      "parentUuid": "7d061a0b_f83c3557",
       "range": {
         "startLine": 221,
         "startChar": 0,
