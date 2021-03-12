@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e353739_7ccc2f93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-03-12T01:14:44Z",
+      "side": 1,
+      "message": "This CL doesn\u0027t remove the alignment, padding instruction is inserted in span7. This CL only corrects the calculation of the size of the pool and deletes the setting of Pc in addpool and addpool128, since it\u0027s not necessary.",
+      "parentUuid": "915b7485_05fed458",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 74
+      },
+      "revId": "47f51785244febdb6f7a2d0d6d157fa64c3ac1f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "302ccc8e_b0b251c7",
