@@ -34,6 +34,24 @@
       "parentUuid": "6899bdbf_d804e4c3",
       "revId": "735647d92e839f9ac3a91864a2c34263338a35e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af59e40_6cf0c2ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-12T23:48:07Z",
+      "side": 1,
+      "message": "Our pages are always 8KiB aligned (we get 64MiB-aligned blocks from the OS and carve those up), but Cherry\u0027s right that 8KiB is really the maximum alignment.",
+      "parentUuid": "49e37d63_66c4d0f2",
+      "revId": "735647d92e839f9ac3a91864a2c34263338a35e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
