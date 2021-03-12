@@ -253,6 +253,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c14eab7_fe30c9c4",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-12T16:51:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "490c087d_9396a844",
+      "range": {
+        "startLine": 150,
+        "startChar": 50,
+        "endLine": 150,
+        "endChar": 102
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea5e6ba9_9faa5754",
@@ -385,6 +409,30 @@
       "side": 1,
       "message": "Yeah, messing with git isn\u0027t easy. It\u0027s fine if you want to keep it (temporarily).",
       "parentUuid": "7d061a0b_f83c3557",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 66
+      },
+      "revId": "2677ebd0faf453f29dd716c69926a8fb51c1ab34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75108712_00ccb989",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-12T16:51:27Z",
+      "side": 1,
+      "message": "I created a reverting CL, I\u0027ll put it up with the typo repairs.",
+      "parentUuid": "795508f5_f49a1202",
       "range": {
         "startLine": 221,
         "startChar": 0,

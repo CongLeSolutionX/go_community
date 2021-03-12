@@ -22,6 +22,30 @@
       },
       "revId": "b0c4926d359148175129c17326943eb264fd411b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4467f10c_d3883246",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-12T16:51:27Z",
+      "side": 1,
+      "message": "yup.  I reworded some more, I think it is better now.",
+      "parentUuid": "ee73aee8_f12129fb",
+      "range": {
+        "startLine": 402,
+        "startChar": 75,
+        "endLine": 402,
+        "endChar": 82
+      },
+      "revId": "b0c4926d359148175129c17326943eb264fd411b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
