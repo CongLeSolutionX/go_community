@@ -34,6 +34,24 @@
       "parentUuid": "c5b5cae6_8b423057",
       "revId": "ddabe0be6d443cba11d85074dbf0211c0cf969f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eca28fc6_2876e952",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-12T15:39:40Z",
+      "side": 1,
+      "message": "I think we keep that terse to match the other flags listed there.",
+      "parentUuid": "2325d27b_6a2949f8",
+      "revId": "ddabe0be6d443cba11d85074dbf0211c0cf969f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
