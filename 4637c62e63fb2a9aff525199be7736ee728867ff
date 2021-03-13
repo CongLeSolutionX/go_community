@@ -16,6 +16,23 @@
       "message": "\u003e Patch Set 2:\n\u003e \n\u003e Build is still in progress...\n\u003e This change failed on android-amd64-emu:\n\u003e See https://storage.googleapis.com/go-build-log/4637c62e/android-amd64-emu_6918d69c.log\n\nhttps://golang.org/issue/30938",
       "revId": "4637c62e63fb2a9aff525199be7736ee728867ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad863fb0_17cd9859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-13T11:10:27Z",
+      "side": 1,
+      "message": "Thanks, John for the change, please take a look at Bryan’s comment, then we can submit.\nThank you Michael, and Bryan for the review.",
+      "revId": "4637c62e63fb2a9aff525199be7736ee728867ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
