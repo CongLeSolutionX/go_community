@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3803c60f_ee3f851c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-13T10:51:01Z",
+      "side": 1,
+      "message": "Minor nit, s/count/length/g",
+      "revId": "666c6507a1eac06f86ec719a53ce3846bba6be6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1d4a273b_05a83b7d",
@@ -14,6 +31,23 @@
       "writtenOn": "2021-03-12T22:44:41Z",
       "side": 1,
       "message": "Sorry for the belated response. I think you\u0027re right, it makes more sense that way. I changed the \u0027count\u0027 occurrences in the docstring, the function body and the new test. \n\nInitially I wasn\u0027t sure about the Compatibility Promise stance on parameter names, but I understand that it will not cause any changes in the way that Go programs are compiled and executed.",
+      "revId": "666c6507a1eac06f86ec719a53ce3846bba6be6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e8dc2f7_a17f9a85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-13T10:51:01Z",
+      "side": 1,
+      "message": "Thank you for this change Paschalis, and thanks for the review, Matthew.",
       "revId": "666c6507a1eac06f86ec719a53ce3846bba6be6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
