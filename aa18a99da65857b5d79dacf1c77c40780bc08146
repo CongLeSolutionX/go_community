@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d87ccea8_1377626e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-15T19:10:25Z",
+      "side": 1,
+      "message": "These instructions are in MIPS32r2 but not earlier, right?\n\nOur compatibility docs: https://github.com/golang/go/wiki/MinimumRequirements#mips64-big-endian\n\nFor 32 bit, we only require MIPS32r1, so I don\u0027t think we can use these instructions (at least, unguarded - see how POPCNT is used in amd64 for an example).\nFor 64 bit, we require MIPS III or higher. Do the shifts exist in that revision?",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bba2f4d_a08ab1db",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-15T19:10:25Z",
+      "side": 1,
+      "message": "I\u0027d rather do these in an order-independent way\n\n(RotateLeft32 x y) \u003d\u003e (ROTR x (NEG \u003cy.Type\u003e y))\n(ROTR x (MOVWconst [c])) \u003d\u003e (ROTRconst [c\u002631] x)\n\nIt looks like Rotate isn\u0027t currently generated with a non-constant amount to rotate. That\u0027s probably why the rules are currently as is, it didn\u0027t need to handle non-constant rotates before.",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7785d430_afce2fd5",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-15T19:10:25Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2b1a1eb_4fe0bba2",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-15T19:10:25Z",
+      "side": 1,
+      "message": "64?",
+      "range": {
+        "startLine": 211,
+        "startChar": 109,
+        "endLine": 211,
+        "endChar": 111
+      },
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74770b94_c483b6a0",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4402,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-15T19:10:25Z",
+      "side": 1,
+      "message": "Add mips64 here?",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
