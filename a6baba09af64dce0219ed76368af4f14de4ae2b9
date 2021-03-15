@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcba2c10_e571764f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-15T18:55:29Z",
+      "side": 1,
+      "message": "Upload latest version?\n\nAlso, I think \"is a pointer to an array\" reads nicer than \"pointer-to-array type\" (even if the former may be less precise prose).",
+      "parentUuid": "13ca7eb0_ad3738b9",
+      "revId": "a6baba09af64dce0219ed76368af4f14de4ae2b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c26e7436_fc2ab752",
