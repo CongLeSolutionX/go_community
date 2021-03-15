@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e77235_8491d145",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-15T19:11:24Z",
+      "side": 1,
+      "message": "The other option is to bump our minimum arch. Not to be done lightly, but we could consider it.",
+      "parentUuid": "d87ccea8_1377626e",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bba2f4d_a08ab1db",
