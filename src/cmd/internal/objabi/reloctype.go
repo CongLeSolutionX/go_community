@@ -167,8 +167,8 @@ const (
 
 	// R_POWER_TLS_LE is used to implement the "local exec" model for tls
 	// access. It resolves to the offset of the thread-local symbol from the
-	// thread pointer (R13) and inserts this value into the low 16 bits of an
-	// instruction word.
+	// thread pointer (R13) and is split against a pair of instructions to
+	// support a 32 bit displacement.
 	R_POWER_TLS_LE
 
 	// R_POWER_TLS_IE is used to implement the "initial exec" model for tls access. It
