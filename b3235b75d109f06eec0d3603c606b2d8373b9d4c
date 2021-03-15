@@ -16,6 +16,23 @@
       "message": "This looked correct - it\u0027s read \"red\" zero.\n\nPerhaps better overall would be something like:\n\"If a write has happened since the last read, or, if the last read returned either an error or read zero bytes, UnreadByte returns an error.\"",
       "revId": "b3235b75d109f06eec0d3603c606b2d8373b9d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b7cf440_48129e2c",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-15T17:04:18Z",
+      "side": 0,
+      "message": "Thanks, sent https://golang.org/cl/301830.",
+      "revId": "b3235b75d109f06eec0d3603c606b2d8373b9d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
