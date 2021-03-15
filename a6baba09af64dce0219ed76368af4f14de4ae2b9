@@ -258,6 +258,29 @@
       },
       "revId": "a6baba09af64dce0219ed76368af4f14de4ae2b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61a89b54_551b0380",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 4323,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-15T19:30:43Z",
+      "side": 1,
+      "message": "Have we considered using length here instead of capacity?\nUsing capacity is safe. But I often envision the space between length and cap to be \"uninitialized\" storage. This lets you access those elements without reslicing first.",
+      "range": {
+        "startLine": 4323,
+        "startChar": 7,
+        "endLine": 4323,
+        "endChar": 15
+      },
+      "revId": "a6baba09af64dce0219ed76368af4f14de4ae2b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
