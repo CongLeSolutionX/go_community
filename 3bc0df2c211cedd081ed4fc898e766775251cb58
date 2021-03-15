@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc3c3459_202061e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-15T17:34:27Z",
+      "side": 1,
+      "message": "Thanks.\n\nMight be nice to have a test but I don\u0027t see a straightforward approach.",
+      "revId": "3bc0df2c211cedd081ed4fc898e766775251cb58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
