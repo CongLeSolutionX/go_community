@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "427e5378_903fe524",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-15T04:24:46Z",
+      "side": 1,
+      "message": "nit: remove this, and replace with \"Fixes #NNNN.\" after filing an issue.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 18
+      },
+      "revId": "5e2a61d9d3c1cc843c2e1d200932c16ef39991a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0196a563_6f8d217a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-03-15T04:24:46Z",
+      "side": 1,
+      "message": "It seems like this should be backported to the Go 1.16 release branch and included in Go 1.16.3. Can you please file an issue for this at golang.org/issue/new so we can mark it for backport? Thanks.",
+      "revId": "5e2a61d9d3c1cc843c2e1d200932c16ef39991a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
