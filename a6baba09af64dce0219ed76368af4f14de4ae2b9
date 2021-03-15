@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "681cec03_b7cdec03",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-03-15T19:31:13Z",
+      "side": 1,
+      "message": "Uploaded (oops). I\u0027m OK either way, although I weakly prefer the more readable, less precise version. I\u0027m going to leave it as-is until there is a decision.",
+      "parentUuid": "94e0334a_be5e8e33",
+      "revId": "a6baba09af64dce0219ed76368af4f14de4ae2b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c26e7436_fc2ab752",
