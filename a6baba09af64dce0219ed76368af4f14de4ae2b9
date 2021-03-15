@@ -299,6 +299,30 @@
       },
       "revId": "a6baba09af64dce0219ed76368af4f14de4ae2b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5473b21_bbf85c66",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 4323,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-03-15T19:37:09Z",
+      "side": 1,
+      "message": "On another read of the proposal, it is ambiguous, and people use both len and cap in the discussion. I\u0027ll raise this question there to get resolution.",
+      "parentUuid": "61a89b54_551b0380",
+      "range": {
+        "startLine": 4323,
+        "startChar": 7,
+        "endLine": 4323,
+        "endChar": 15
+      },
+      "revId": "a6baba09af64dce0219ed76368af4f14de4ae2b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
