@@ -33,6 +33,40 @@
       "message": "Hi Ian — a gentle ping...\n\nIf everything is OK for now, perhaps bots can be started and the patch merged? You put a lot of efforts already to make my code nicer — would be unreasonable to stop now. 😊\n\nThanks!",
       "revId": "65029beff013b02dc2d44f75da34ec4635e5225a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3236ddb5_59960ff9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-15T16:40:03Z",
+      "side": 1,
+      "message": "Thanks for the ping.",
+      "revId": "65029beff013b02dc2d44f75da34ec4635e5225a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eee6bdf7_964bd197",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-15T16:40:03Z",
+      "side": 1,
+      "message": "This paragraph can be shorter now, and can probably be just one sentence, something like \"readCols is the minimum number of colon-separated fields that will be passed to fn; in a long line additional fields may be silently discarded.\"",
+      "revId": "65029beff013b02dc2d44f75da34ec4635e5225a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
