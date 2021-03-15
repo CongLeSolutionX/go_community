@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e92153b6_8b578247",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-15T20:10:38Z",
+      "side": 1,
+      "message": "Done.  I had to export types2.AsInterface() to do the check.  Added a TODO(gri) about providing some more standard API for testing for \"comparable\".",
+      "parentUuid": "42497246_b271a05d",
+      "range": {
+        "startLine": 189,
+        "startChar": 16,
+        "endLine": 189,
+        "endChar": 24
+      },
+      "revId": "a8806668b938b9e6065882ef4f068f2a67f9ce61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41044c40_644898d4",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-03-15T17:55:02Z",
       "side": 1,
       "message": "remove extra spaces",
+      "revId": "a8806668b938b9e6065882ef4f068f2a67f9ce61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6fb091b_a6958948",
+        "filename": "test/typeparam/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-15T20:10:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41044c40_644898d4",
       "revId": "a8806668b938b9e6065882ef4f068f2a67f9ce61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
