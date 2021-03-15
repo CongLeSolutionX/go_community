@@ -31,10 +31,10 @@ func genasm386Amd64() {
 // CALL instruction in runtime·callbackasm. This determines
 // which Go callback function is executed later on.
 
-TEXT runtime·callbackasm(SB),7,$0
+TEXT runtime·callbackasm<ABIInternal>(SB),7,$0
 `)
 	for i := 0; i < maxCallback; i++ {
-		buf.WriteString("\tCALL\truntime·callbackasm1(SB)\n")
+		buf.WriteString("\tCALL\truntime·callbackasm1<ABIInternal>(SB)\n")
 	}
 
 	filename := fmt.Sprintf("zcallback_windows.s")
@@ -59,11 +59,11 @@ func genasmArm() {
 // It then calls the Go implementation for that callback.
 #include "textflag.h"
 
-TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·callbackasm<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 `)
 	for i := 0; i < maxCallback; i++ {
 		buf.WriteString(fmt.Sprintf("\tMOVW\t$%d, R12\n", i))
-		buf.WriteString("\tB\truntime·callbackasm1(SB)\n")
+		buf.WriteString("\tB\truntime·callbackasm1<ABIInternal>(SB)\n")
 	}
 
 	err := os.WriteFile("zcallback_windows_arm.s", buf.Bytes(), 0666)
@@ -87,11 +87,11 @@ func genasmArm64() {
 // It then calls the Go implementation for that callback.
 #include "textflag.h"
 
-TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·callbackasm<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 `)
 	for i := 0; i < maxCallback; i++ {
 		buf.WriteString(fmt.Sprintf("\tMOVD\t$%d, R12\n", i))
-		buf.WriteString("\tB\truntime·callbackasm1(SB)\n")
+		buf.WriteString("\tB\truntime·callbackasm1<ABIInternal>(SB)\n")
 	}
 
 	err := os.WriteFile("zcallback_windows_arm64.s", buf.Bytes(), 0666)
