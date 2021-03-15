@@ -181,11 +181,22 @@ func (g *irgen) typ0(typ types2.Type) *types.Type {
 
 	case *types2.Interface:
 		embeddeds := make([]*types.Field, typ.NumEmbeddeds())
+		j := 0
 		for i := range embeddeds {
 			// TODO(mdempsky): Get embedding position.
 			e := typ.EmbeddedType(i)
-			embeddeds[i] = types.NewField(src.NoXPos, nil, g.typ1(e))
+			name := types2.AsNamed(e)
+			// Ignore an embedded type named "comparable" in an
+			// interface (which would only be for a type constraint) -
+			// that is more like a type list and has no methods.
+			// TODO(gri) - should this be exposed as an embedded?
+			if name != nil && name.Obj().Name() == "comparable" {
+				continue
+			}
+			embeddeds[j] = types.NewField(src.NoXPos, nil, g.typ1(e))
+			j++
 		}
+		embeddeds = embeddeds[:j]
 
 		methods := make([]*types.Field, typ.NumExplicitMethods())
 		for i := range methods {
