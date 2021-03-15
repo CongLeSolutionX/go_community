@@ -1953,7 +1953,11 @@ func oneNewExtraM() {
 	gp.lockedm.set(mp)
 	gp.goid = int64(atomic.Xadd64(&sched.goidgen, 1))
 	if raceenabled {
-		gp.racectx = racegostart(funcPC(newextram) + sys.PCQuantum)
+		spq := uintptr(sys.PCQuantum)
+		if GOARCH == "mips64" || GOARCH == "mips64le" {
+			spq *= 2 // mips64x requires more offset due to delay solt.
+		}
+		gp.racectx = racegostart(funcPC(newextram) + spq)
 	}
 	// put on allg for garbage collector
 	allgadd(gp)
