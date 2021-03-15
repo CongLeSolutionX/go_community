@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0d79ecc_49266278",
+        "filename": "test/typeparam/orderedmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-15T20:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27276aa9_7156223e",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "ddf8a9999fdb5759acfe8a5b7ee6625340c2494f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a82028ac_135d9b45",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0c717ad_90a81c2d",
+        "filename": "test/typeparam/orderedmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-15T20:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a82028ac_135d9b45",
+      "revId": "ddf8a9999fdb5759acfe8a5b7ee6625340c2494f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce23b57e_7a7110bb",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-03-15T17:50:59Z",
       "side": 1,
       "message": "I\u0027d swap \u003c with \u003e here and then leave the results in the same order as for Min. Seems a bit more straight-forward. (I know you didn\u0027t write the original code.)",
+      "range": {
+        "startLine": 31,
+        "startChar": 12,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "ddf8a9999fdb5759acfe8a5b7ee6625340c2494f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fa3be32_9ec4c0f2",
+        "filename": "test/typeparam/slices.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-15T20:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce23b57e_7a7110bb",
       "range": {
         "startLine": 31,
         "startChar": 12,
