@@ -16,6 +16,23 @@
       "message": "Thank you!\n\nRELNOTE\u003dyes",
       "revId": "76f84115c9893a4a3b1a7b7ac610ce58c25a5a40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03457101_226af05f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-15T23:49:24Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "76f84115c9893a4a3b1a7b7ac610ce58c25a5a40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
