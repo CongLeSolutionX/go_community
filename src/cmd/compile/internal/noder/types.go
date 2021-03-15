@@ -181,11 +181,27 @@ func (g *irgen) typ0(typ types2.Type) *types.Type {
 
 	case *types2.Interface:
 		embeddeds := make([]*types.Field, typ.NumEmbeddeds())
+		j := 0
 		for i := range embeddeds {
 			// TODO(mdempsky): Get embedding position.
 			e := typ.EmbeddedType(i)
-			embeddeds[i] = types.NewField(src.NoXPos, nil, g.typ1(e))
+			name := types2.AsNamed(e)
+			// Ignore an embedded type with single method "==". This
+			// would be the predefined type "comparable", whose name
+			// we won't resolve.
+			// TODO(gri) - maybe provide a more standard API for
+			// testing for "comparable".
+			if name != nil {
+				interf := types2.AsInterface(name.Underlying())
+				if interf != nil && interf.NumMethods() == 1 &&
+					interf.Method(0).Name() == "==" {
+					continue
+				}
+			}
+			embeddeds[j] = types.NewField(src.NoXPos, nil, g.typ1(e))
+			j++
 		}
+		embeddeds = embeddeds[:j]
 
 		methods := make([]*types.Field, typ.NumExplicitMethods())
 		for i := range methods {
