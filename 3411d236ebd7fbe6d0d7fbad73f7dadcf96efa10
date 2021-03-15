@@ -16,6 +16,23 @@
       "message": "ping. Thank you.",
       "revId": "3411d236ebd7fbe6d0d7fbad73f7dadcf96efa10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e811e64_9ad1765f",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-15T21:21:28Z",
+      "side": 1,
+      "message": "This loop is still linear in the depth of the dominator tree. We call this function for a linear number of blocks, so that\u0027s quadratic in total. I\u0027d like to avoid that if possible.\n\nI was thinking you could use the sparse dominator tree to calculate b0 \u003d LCA(pb0, pb1) in constant time. Then the two successors of b0 should each dominate one or the other of pb0 and pb1, which you can also test in constant time.\n\nAnother option is to stop the loop and give up after a small constant number of iterations, if that catches most optimizations we care about.",
+      "revId": "3411d236ebd7fbe6d0d7fbad73f7dadcf96efa10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
