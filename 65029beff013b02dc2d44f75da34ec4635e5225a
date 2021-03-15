@@ -16,6 +16,23 @@
       "message": "@ianlancetaylor, thanks again!\n\nAll three comments fixed, patch updated.",
       "revId": "65029beff013b02dc2d44f75da34ec4635e5225a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "509afe5d_6ce7ba38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2021-03-15T15:52:39Z",
+      "side": 1,
+      "message": "Hi Ian — a gentle ping...\n\nIf everything is OK for now, perhaps bots can be started and the patch merged? You put a lot of efforts already to make my code nicer — would be unreasonable to stop now. 😊\n\nThanks!",
+      "revId": "65029beff013b02dc2d44f75da34ec4635e5225a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
