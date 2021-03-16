@@ -33,6 +33,23 @@
       "message": "TRY\u003dppc64,ppc64le,aix-ppc64,linux-ppc64le-power9osu",
       "revId": "ba0738f0fae3d4065e222510c33d633e6c982e78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be639c52_2482c88d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-16T14:41:30Z",
+      "side": 1,
+      "message": "@Clemont does AIX XCOFF support 32b TLS LE relocations? If so, would you have advice on how to fixup the translation in xcoffreloc1?",
+      "revId": "ba0738f0fae3d4065e222510c33d633e6c982e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
