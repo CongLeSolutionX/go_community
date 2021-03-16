@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d563c422_3563e5bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50943
+      },
+      "writtenOn": "2021-03-16T08:10:04Z",
+      "side": 1,
+      "message": "Yes, those are instructions in the MIPS32r2 ISA. Too bad, I really thought the minimum requirement was already MIPS32r2.\n\nWell in this case I personally would prefer to go the GOMIPS env value path. I think we would need to take a proposal round for this, aren\u0027t we?\n\nI\u0027ve also found an older proposal where the discussion was to introduce the same for GOMIPS64, e.g. \"GOMIPS64\u003dsoftfloat,2\" which has been abandoned: https://github.com/golang/go/issues/35008\n\nThe consensus there was, that it wasn\u0027t clear if the added complexity would be worth the benefits. Maybe the benchstat showed in this CL might change the consensus because of the clear high impact on the crypto performance by introducing the ROTR instructions.\n\nRegarding MIPS64: ROTR and ROTRV are the 32bit rotations, those should already be in MIPS64 ISA (which is newer than MIPSIII). MIPS64r2 also added the 64bit equivalents (DROTR \u0026 DROTRV), which we could additionally use to intrinsify `bits.RotateLeft64`.\nTherefore we would also have to use at least the MIPS64 ISA on GOARCH\u003dmips64 to intrinsify `bits.RotateLeft32` on mips64.\n\nShould I create a new proposal to add an ISA instruction version to GOMIPS and GOMIPS64 similar to GOARM? Or should I comment to the old closed proposal?",
+      "parentUuid": "07b9b8a7_de2ad8a0",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bba2f4d_a08ab1db",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
         "patchSetId": 1
