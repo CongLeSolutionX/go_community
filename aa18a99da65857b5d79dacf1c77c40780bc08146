@@ -142,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb3c9a6_6def6c4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50943
+      },
+      "writtenOn": "2021-03-16T10:37:29Z",
+      "side": 1,
+      "message": "Thanks for the reference to your CL. If I might ask, what\u0027s the meaning of the FMA flag for GOMIPS? (I\u0027m completely new to the Go compiler internals)\n\nI\u0027ve tried to take a look into the code but could only find one reference where the flag will be set to false for GOOS\u003d\u003d\"plan9\". I must have overlooked something, will this flag be set dependent on the ISA version the cpu supports?",
+      "parentUuid": "95a94050_a3de0abf",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bba2f4d_a08ab1db",
