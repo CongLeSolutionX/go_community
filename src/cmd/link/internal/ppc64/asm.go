@@ -453,12 +453,18 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	case objabi.R_POWER_TLS:
 		out.Write64(uint64(elf.R_PPC64_TLS) | uint64(elfsym)<<32)
 	case objabi.R_POWER_TLS_LE:
-		out.Write64(uint64(elf.R_PPC64_TPREL16) | uint64(elfsym)<<32)
+		out.Write64(uint64(elf.R_PPC64_TPREL16_HA) | uint64(elfsym)<<32)
+		out.Write64(uint64(r.Xadd))
+		out.Write64(uint64(sectoff + 4))
+		out.Write64(uint64(elf.R_PPC64_TPREL16_LO) | uint64(elfsym)<<32)
 	case objabi.R_POWER_TLS_IE:
 		out.Write64(uint64(elf.R_PPC64_GOT_TPREL16_HA) | uint64(elfsym)<<32)
 		out.Write64(uint64(r.Xadd))
 		out.Write64(uint64(sectoff + 4))
 		out.Write64(uint64(elf.R_PPC64_GOT_TPREL16_LO_DS) | uint64(elfsym)<<32)
+		out.Write64(uint64(r.Xadd))
+		out.Write64(uint64(sectoff + 8))
+		out.Write64(uint64(elf.R_PPC64_TLS) | uint64(elfsym)<<32)
 	case objabi.R_ADDRPOWER:
 		out.Write64(uint64(elf.R_PPC64_ADDR16_HA) | uint64(elfsym)<<32)
 		out.Write64(uint64(r.Xadd))
@@ -794,9 +800,9 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 			}
 		case objabi.R_POWER_TLS, objabi.R_POWER_TLS_LE, objabi.R_POWER_TLS_IE:
 			// check Outer is nil, Type is TLSBSS?
-			nExtReloc = 1
+			nExtReloc = 2
 			if rt == objabi.R_POWER_TLS_IE {
-				nExtReloc = 2 // need two ELF relocations, see elfreloc1
+				nExtReloc = 3
 			}
 			return val, nExtReloc, true
 		case objabi.R_ADDRPOWER,
@@ -850,10 +856,26 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 			// the TLS.
 			v -= 0x800
 		}
-		if int64(int16(v)) != v {
+
+		var o1, o2 uint32
+		if int64(int32(v)) != v {
 			ldr.Errorf(s, "TLS offset out of range %d", v)
 		}
-		return (val &^ 0xffff) | (v & 0xffff), nExtReloc, true
+		if target.IsBigEndian() {
+			o1 = uint32(val >> 32)
+			o2 = uint32(val)
+		} else {
+			o1 = uint32(val)
+			o2 = uint32(val >> 32)
+		}
+
+		o1 |= uint32(((v + 0x8000) >> 16) & 0xFFFF)
+		o2 |= uint32(v & 0xFFFF)
+
+		if target.IsBigEndian() {
+			return int64(o1)<<32 | int64(o2), nExtReloc, true
+		}
+		return int64(o2)<<32 | int64(o1), nExtReloc, true
 	}
 
 	return val, nExtReloc, false
