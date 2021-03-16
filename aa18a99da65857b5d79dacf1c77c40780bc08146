@@ -216,6 +216,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67ce5b6d_3fa6b0cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-16T15:05:15Z",
+      "side": 1,
+      "message": "Yes, If you think we should bump the minimum ISA or add a GOMIPS value, that would require a proposal.\n#35008 was for GOMIPS64, not GOMIPS, so we\u0027ll need a new issue. Do include a reference to that issue, though.\n\nI\u0027m kinda on the fence for this. The performance gains are pretty good, but at the same time it is pretty specialized code. It might even warrant its own assembly (lots of other archs have assembly for this).\n\nAnother data point that would be useful is to see if guarded instructions, ala x86\u0027s POPCNT, would perform reasonably well. I realize that might take some work. A hacky way to do it might be to take your ROTR patch, generate the assembly, then modify the assembly with dummy load/compare/branch instructions before every ROTR.",
+      "parentUuid": "769be8f0_5bf95d17",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bba2f4d_a08ab1db",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
         "patchSetId": 1
