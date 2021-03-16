@@ -160,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79de5e83_6cc7a620",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-03-16T12:35:39Z",
+      "side": 1,
+      "message": "If your target is mips(32) only, you can do intrinsic for mips only.\nThe minimum requirement for mips is mipsr2 (has ROTR) while mips64 is mips iii(no ROTR)\n\nMaybe you can wait for my CL got merged instead mixing asm/ssa together.",
+      "parentUuid": "beb3c9a6_6def6c4e",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bba2f4d_a08ab1db",
