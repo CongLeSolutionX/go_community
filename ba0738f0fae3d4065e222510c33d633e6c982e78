@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3614567a_82fe3dc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-16T13:46:21Z",
+      "side": 1,
+      "message": "I suspect this needs aix specific changes, so this is not final yet.\n\nDo we need to preserve the existing behavior of go relocations? That is, should I be emitting an objabi.R_POWER_TLS instead of expanding R_POWER_TLS_LE into 3 external relocs?",
+      "revId": "ba0738f0fae3d4065e222510c33d633e6c982e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
