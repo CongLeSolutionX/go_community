@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c658f872_51f5f3cc",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-16T16:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7e234ce_15f8c77c",
+      "range": {
+        "startLine": 188,
+        "startChar": 18,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "11275a6f4e7cd076ebb2047c79062f42037257a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90c90478_b6258fbf",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-16T16:30:11Z",
       "side": 1,
       "message": "This code can be simplified to:\n\nif t :\u003d types2.AsInterface(e); t !\u003d nil \u0026\u0026 t.IsComparable() {\n   continue\n}",
+      "range": {
+        "startLine": 189,
+        "startChar": 24,
+        "endLine": 189,
+        "endChar": 25
+      },
+      "revId": "11275a6f4e7cd076ebb2047c79062f42037257a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a980d466_f5ac8548",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-16T16:57:09Z",
+      "side": 1,
+      "message": "Great, glad we already have the API.  Removed the TODO.  Thanks!",
+      "parentUuid": "90c90478_b6258fbf",
       "range": {
         "startLine": 189,
         "startChar": 24,
