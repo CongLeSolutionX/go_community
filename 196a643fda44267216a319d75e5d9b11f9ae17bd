@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e95a860d_fc83d8e1",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-03-16T21:21:21Z",
+      "side": 1,
+      "message": "Done. Take a look at my implementation of that and LMK if you know a more elegant way to do this.",
+      "parentUuid": "30c19eb7_bab313f6",
+      "revId": "196a643fda44267216a319d75e5d9b11f9ae17bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3438a11d_2e756cd1",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-05T15:27:33Z",
       "side": 1,
       "message": "Maybe we can group the timeout check, the writeToMem call, and the fuzzFn call into a helper function? I think those always need to be done together, and it would be easy to miss one.",
+      "revId": "196a643fda44267216a319d75e5d9b11f9ae17bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e73ad08f_5fb6a53c",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-03-16T21:21:21Z",
+      "side": 1,
+      "message": "Done. It ended up requiring redundant code when I included the timeout check, but I think it looks better overall even without that.",
+      "parentUuid": "3438a11d_2e756cd1",
       "revId": "196a643fda44267216a319d75e5d9b11f9ae17bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
