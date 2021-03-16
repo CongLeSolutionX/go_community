@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "725adcb4_cb43a663",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-03-16T17:46:18Z",
+      "side": 1,
+      "message": "I think the commit message could be much clearer if you add an example of how the output was broken before, and how it\u0027s much nicer with the change. Ideally if you use an interface method in std, which can be easy to reproduce.",
+      "revId": "13f4c9dd84b39be76d7c39ff11aafde353a480fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b746f7be_6c04ecdb",
@@ -14,6 +31,74 @@
       "writtenOn": "2021-01-29T03:24:29Z",
       "side": 1,
       "message": "Hi Robert, I realize you are perhaps completely swamped with dev.typeparams. Just wanted to check your availability for a review on this one 😊.",
+      "revId": "13f4c9dd84b39be76d7c39ff11aafde353a480fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d9bb7f9_4450db47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-03-16T17:46:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand why the previous code seemed to avoid go/format or go/printer on purpose. Are there other places in cmd/doc where this choice is made?\n\nThe change looks good to me in principle. I left some minor comments; I can +2 and submit in a week\u0027s time unless more reviews come in.",
+      "revId": "13f4c9dd84b39be76d7c39ff11aafde353a480fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23e47d99_3105cad9",
+        "filename": "src/cmd/doc/doc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-03-16T17:46:18Z",
+      "side": 1,
+      "message": "not sure what\u0027s the point of this comment",
+      "revId": "13f4c9dd84b39be76d7c39ff11aafde353a480fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "070bde07_62d44fb2",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-03-16T17:46:18Z",
+      "side": 1,
+      "message": "this adds an alloc and copy for all interface types, when I imagine only a small minority will have a matching method. I\u0027d make the alloc+copy inside the \"if match\" below when origMethods \u003d\u003d nil.",
+      "revId": "13f4c9dd84b39be76d7c39ff11aafde353a480fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ca7e815_34e0c52e",
+        "filename": "src/cmd/doc/testdata/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-03-16T17:46:18Z",
+      "side": 1,
+      "message": "maybe it\u0027s just me, but this code block in a comment looks a bit weird. I think an empty line before the indented block, plus a bit more extra indentation, makes it more readable in plaintext:\n\n\t// Comment before exported method.\n\t//\n\t//    // Code block showing how to use ExportedMethod\n\t//    func DoSomething() error {\n\t//        ExportedMethod()\n\t//        return nil\n\t//    }\n\nUp to you if you want to mix tabs and spaces in the indented block. I personally prefer not to mix them :)",
       "revId": "13f4c9dd84b39be76d7c39ff11aafde353a480fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
