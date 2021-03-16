@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e1b04b1_4e6e6021",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-16T17:15:28Z",
+      "side": 1,
+      "message": "This comment should probably be adjusted. Also, we haven\u0027t quite decided if \"comparable\" is an interface with a type list. Maybe just:\n\nIgnore embedded predeclared interface \"comparable\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "afadff54481d517d51f4796d7a54371ec83543f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2621d555_9a43febb",
