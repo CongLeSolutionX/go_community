@@ -180,6 +180,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d511b383_993cc694",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50943
+      },
+      "writtenOn": "2021-03-16T12:47:38Z",
+      "side": 1,
+      "message": "As soon as your CL https://go-review.googlesource.com/c/go/+/280114 has been merged, we could remove all the asm from this CL, which is great.\n\nBut I\u0027m still confused about the minimum requirement for mips32. You mention mips32r2 is the minimal requirement for mips32, but as mentioned earlier by Keith the link https://github.com/golang/go/wiki/MinimumRequirements#mips-big-endian-and-mipsle-little-endian mentions mips32r1 as minimal requirement for mips32.",
+      "parentUuid": "79de5e83_6cc7a620",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bba2f4d_a08ab1db",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
         "patchSetId": 1
