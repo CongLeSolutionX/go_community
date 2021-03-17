@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde31749_4feb100e",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-17T16:20:27Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to pass in pb0 and pb1. You can just do pb0 :\u003d b0.Succs[0].b, same for pb1.\n\nThese are really sb0 and sb1 in the pictures though, right?\n\nsb0 :\u003d b0.Succs[0].b\nsb1 :\u003d b0.Succs[1].b\npb0 :\u003d b.Preds[0].b\npb1 :\u003d b.Preds[1].b\n\n// If b0 \u003d\u003d lca(pb0, pb1), it must be the case that sb0 dominates pb0 and sb1 dominates pb1, or sb0 dominates pb1 and sb1 dominates pb0. I think. Not sure about the degenerate cases though.\n\nreverse :\u003d v.Args[0].AuxInt \u003d\u003d 0 // handle (Phi false true)\nif sdom.IsAncestorEq(sb0, pb1) {\n   reverse \u003d 1 - reverse\n}",
+      "range": {
+        "startLine": 304,
+        "startChar": 17,
+        "endLine": 304,
+        "endChar": 26
+      },
+      "revId": "afeea1ba452faa17a555d4713c78bfd771b5fea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4df8ad85_957a9d75",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-17T16:20:27Z",
+      "side": 1,
+      "message": "This check can probably go up where we look for the OpPhi in the first place.\nNo point in going through the LCA computation if we have (OpPhi false false).",
+      "range": {
+        "startLine": 315,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 55
+      },
+      "revId": "afeea1ba452faa17a555d4713c78bfd771b5fea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d3cdd7_84ade99c",
+        "filename": "src/cmd/compile/internal/ssa/sparsetree.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-17T16:20:27Z",
+      "side": 1,
+      "message": "This is still potentially linear in the size of the graph.\nI think sparsetreemap.go has the code you need. If you read the initial comments in that file, it says it can do LCA lookup in logrithmic time.\nIt may take some massaging to get the interface you need, it\u0027s kind of special purpose at the moment and could probably use some API cleanup.",
+      "revId": "afeea1ba452faa17a555d4713c78bfd771b5fea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
