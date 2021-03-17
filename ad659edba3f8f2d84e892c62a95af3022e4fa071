@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b91ef67_4dd0ff41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-17T17:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c628d29_efd8ce14",
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1472b534_271da455",
@@ -83,6 +101,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b29d093_b9d555f9",
+        "filename": "src/crypto/tls/handshake_client_tls13.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-17T17:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6854b27_c87c56af",
+      "range": {
+        "startLine": 407,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 2
+      },
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73ceda2a_d252ca04",
@@ -100,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd72e3c6_621a38ee",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-17T17:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ceda2a_d252ca04",
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f230cb9a_e4824579",
@@ -113,6 +173,42 @@
       "writtenOn": "2021-03-17T12:33:52Z",
       "side": 1,
       "message": "Include the protocols requested by the client in the error message.",
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c04baa5_d5b5121a",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-17T17:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f230cb9a_e4824579",
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8a02d56_2c510b8e",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-17T17:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f230cb9a_e4824579",
       "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
