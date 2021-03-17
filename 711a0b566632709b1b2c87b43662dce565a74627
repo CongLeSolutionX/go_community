@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b811325_2a20b9d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2021-03-17T09:54:15Z",
+      "side": 1,
+      "message": "Yes, -shared isn\u0027t supported for now. But when linking without external linker, we can do whatever we wish including creating relocations which aren\u0027t official as long as there are fully resolved at link time. \nI guess removing \"a static binary\" would be clearer.",
+      "parentUuid": "3ada3272_9231f0e7",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4d50bc2d_b9a54ff9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -99,6 +117,23 @@
       "writtenOn": "2021-03-16T19:03:36Z",
       "side": 1,
       "message": "TRY\u003dppc64,ppc64le,aix-ppc64,linux-ppc64le-power9osu",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca7abd8d_30adde84",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2021-03-17T09:54:15Z",
+      "side": 1,
+      "message": "Is it still a TODO ? I don\u0027t look like.",
       "revId": "711a0b566632709b1b2c87b43662dce565a74627",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
