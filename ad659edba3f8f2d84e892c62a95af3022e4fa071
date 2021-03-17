@@ -16,6 +16,81 @@
       "message": "Also, needs a release note.",
       "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c628d29_efd8ce14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-17T12:33:52Z",
+      "side": 1,
+      "message": "Unresolving.",
+      "parentUuid": "17449237_0b2dd810",
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1472b534_271da455",
+        "filename": "src/crypto/tls/handshake_client_tls13.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-17T12:33:52Z",
+      "side": 1,
+      "message": "I don\u0027t think we can do this. ALPN is not a MTI extension, so this will break any connection that attempts to negotiate ALPN with a server that doesn\u0027t support it.",
+      "range": {
+        "startLine": 407,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 2
+      },
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73ceda2a_d252ca04",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-17T12:33:52Z",
+      "side": 1,
+      "message": "If Config.NextProtos is empty (which is the default), this will break all connections that advertise ALPN. I don\u0027t think that\u0027s what we want.\n\n1) gate this can the TLS 1.2 equivalent behind len(c.config.NextProtos) \u003e 0\n2) document in Config.NextProtos that if empty the ALPN extension is ignored, and if set connections with ALPN but without overlap will be rejected\n3) add a test for the default empty Config.NextProtos case with a client sending ALPN",
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f230cb9a_e4824579",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-17T12:33:52Z",
+      "side": 1,
+      "message": "Include the protocols requested by the client in the error message.",
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
