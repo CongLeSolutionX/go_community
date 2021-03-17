@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73937e58_ef23416c",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-03-17T11:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2904ab1_48801243",
+      "range": {
+        "startLine": 14,
+        "startChar": 49,
+        "endLine": 14,
+        "endChar": 50
+      },
+      "revId": "8cf73f89bd42e0a6307dbb73d777a5c9be88a25c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df416a02_ab388162",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-15T23:30:41Z",
       "side": 1,
       "message": "This doesn\u0027t make any sense to me.\npk.i is which edge goes from p to b.\na \"branch\" is an enum.\nMaybe this is a clever way to get the enum from an index, but I\u0027d rather it be explicit.\npbranch :\u003d positive\nif pk.i \u003d\u003d 1 {\n  pbranch \u003d negative\n}",
+      "range": {
+        "startLine": 50,
+        "startChar": 14,
+        "endLine": 50,
+        "endChar": 30
+      },
+      "revId": "8cf73f89bd42e0a6307dbb73d777a5c9be88a25c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57ea8be6_938c054e",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-03-17T11:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df416a02_ab388162",
       "range": {
         "startLine": 50,
         "startChar": 14,
@@ -81,6 +129,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68f3ebbc_2757ec62",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-03-17T11:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "498fdadb_3a27127e",
+      "revId": "8cf73f89bd42e0a6307dbb73d777a5c9be88a25c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a0f90dc_749bf937",
@@ -104,6 +170,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ef6d555_365d989e",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-03-17T11:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a0f90dc_749bf937",
+      "range": {
+        "startLine": 66,
+        "startChar": 22,
+        "endLine": 66,
+        "endChar": 32
+      },
+      "revId": "8cf73f89bd42e0a6307dbb73d777a5c9be88a25c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06f8a2e7_aa113852",
@@ -117,6 +207,24 @@
       "writtenOn": "2021-03-15T23:30:41Z",
       "side": 1,
       "message": "You\u0027re reaching into the implementation of a factsTable.\nThis cleanup should probably be wrapped inside a facts table method (and live in prove.go).",
+      "revId": "8cf73f89bd42e0a6307dbb73d777a5c9be88a25c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be2fa61f_de9fdc26",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-03-17T11:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06f8a2e7_aa113852",
       "revId": "8cf73f89bd42e0a6307dbb73d777a5c9be88a25c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

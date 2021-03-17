@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "27e73801_91bf1757",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Hi, this patch optimizes If branch structure, would you mind take a look? Thanks.",
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "23e556be_821b2ac4",
         "filename": "/PATCHSET_LEVEL",
@@ -31,10 +32,10 @@
       "side": 1,
       "message": "If we put this optimization in shortcircuit, it breaks some fuseIntegerComparisons cases, so I put it in late fuse",
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "24932f7d_d68fc311",
         "filename": "/PATCHSET_LEVEL",
@@ -48,10 +49,10 @@
       "side": 1,
       "message": "I have quite a lot happening at the moment, so I am unlikely to be able to review this soon.\n\nOne quick question: Why do you need to enumerate all the different kinds of control values? It seems to me that if you do this after CSE, then you can check whether the values are equal.",
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "578572a1_a4d4f604",
         "filename": "/PATCHSET_LEVEL",
@@ -66,10 +67,10 @@
       "message": "Thanks, I did not expect thi, I will see if it is easier to do this after cse. A cursory look at cse, it seems that it only deals with the case where the ops of the two values are the same. But this optimization is suitable for more situations, such as if \"OpLess v1 v2\" is true, then \"OpLeq v1 v2\" is also true.",
       "parentUuid": "24932f7d_d68fc311",
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "9bd8b3dc_05217dac",
         "filename": "/PATCHSET_LEVEL",
@@ -84,10 +85,10 @@
       "message": "Ah, I see. That kind of inference usually happens in the prove pass. Perhaps an alternative approach would be to teach the prove pass to reason about situations like this. I don’t know the prove pass well enough to say offhand whether this can be conveniently slotted in. If not, I’d recommend starting with just the easy case—identical control values—and then subsequently add support for inferences between different control values. Incremental improvements are easier to code, easier to code review, easier to test, and easier to preserve when bugs get found later.",
       "parentUuid": "578572a1_a4d4f604",
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "b064c41f_b1a0a780",
         "filename": "/PATCHSET_LEVEL",
@@ -102,10 +103,10 @@
       "message": "Thanks, prove is indeed doing something similar. But prove deals with the case of a single predecessor, and the processing of deducible branches is deletion. And this CL deals cases with multiple predecessors, and the processing method is redirection, so this CL may be more like fuse. Since there are too many cases covered by prove pass, the code is relatively complicated. So I think it is possible but not easy to implement in prove, it needs to be very careful and requires more effort. This CL is much simple, so if the current practice is acceptable, I am more inclined to the current approach, we can add cases bit by bit.",
       "parentUuid": "9bd8b3dc_05217dac",
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e64950cc_0f67fc83",
         "filename": "/PATCHSET_LEVEL",
@@ -119,10 +120,10 @@
       "side": 1,
       "message": "ping",
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9fd0858b_f06ddc50",
         "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
@@ -142,10 +143,34 @@
         "endChar": 23
       },
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a34ce24_88db643d",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-03-17T11:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd0858b_f06ddc50",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b187568e_7ece6a5b",
         "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
@@ -165,8 +190,31 @@
         "endChar": 3
       },
       "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c79d0223_11c0b266",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-03-17T11:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b187568e_7ece6a5b",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "4e2b4e2d2cdab3279dff362130aeeb4165119a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
