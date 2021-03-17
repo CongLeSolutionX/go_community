@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1da5fece_5c08f338",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38854
+      },
+      "writtenOn": "2021-03-17T00:51:07Z",
+      "side": 1,
+      "message": "Hi Cherry,\n\nI rebased the CL on the latest version of master. Can you take a look at it?\n\nBest,\nVed",
+      "revId": "d9417f09dfca211ee710bba5c9582c7a78a12610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
