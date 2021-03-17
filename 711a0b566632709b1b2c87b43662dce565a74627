@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c45cb62_d8b27200",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-17T14:17:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "510c348c_f2032498",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4af8e1fb_7e7fe8d6",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5789098_69a27fce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-17T14:17:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4af8e1fb_7e7fe8d6",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "becad732_e221bf0e",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-03-16T21:42:23Z",
       "side": 1,
       "message": "What shared code do you mean? Code compiled with -shared or code that is common to several uses.",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbf539f5_7455da0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-17T14:17:10Z",
+      "side": 1,
+      "message": "My wording is unclear, that should read \"when compiling PIC\"",
+      "parentUuid": "becad732_e221bf0e",
       "revId": "711a0b566632709b1b2c87b43662dce565a74627",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -87,6 +141,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab3243a1_15da1601",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-17T14:17:10Z",
+      "side": 1,
+      "message": "Indirectly to AIX. But as much as I could find, XCOFF provides no way to specify a larger TLS LE relocation, and shouldn\u0027t need one for now.",
+      "parentUuid": "3ada3272_9231f0e7",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d50bc2d_b9a54ff9",
@@ -100,6 +172,24 @@
       "writtenOn": "2021-03-16T21:42:23Z",
       "side": 1,
       "message": "We still see one error on this test after this fix goes in I believe. Use \u0027Updates\u0027 instead of \u0027Fixes\u0027 so the issue doesn\u0027t close and we can address the other error.",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81dd6601_cb3efd4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-17T14:17:10Z",
+      "side": 1,
+      "message": "Can you update the issue title to reflect it is more than just a relocation failure causing the test failures? This does fix the linker errors.",
+      "parentUuid": "4d50bc2d_b9a54ff9",
       "revId": "711a0b566632709b1b2c87b43662dce565a74627",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -138,6 +228,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a797bf5_0d86731f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-17T14:17:10Z",
+      "side": 1,
+      "message": "I am not sure XCOFF doesn\u0027t support larger LE relocations. This is still a hack to prevent breaking it.  Anyhow, I\u0027ll remove the TODO.",
+      "parentUuid": "ca7abd8d_30adde84",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "baf2ff89_85bbc75b",
@@ -151,6 +259,24 @@
       "writtenOn": "2021-03-16T21:42:23Z",
       "side": 1,
       "message": "I don\u0027t think this is just an offset to TLS anymore. R10 now contains the full address of the tls_g slot including the R13 value.",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e85b3c94_55cab809",
+        "filename": "src/runtime/race_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-17T14:17:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "baf2ff89_85bbc75b",
       "revId": "711a0b566632709b1b2c87b43662dce565a74627",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
