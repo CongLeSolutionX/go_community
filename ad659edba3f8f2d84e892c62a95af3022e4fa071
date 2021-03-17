@@ -61,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6854b27_c87c56af",
+        "filename": "src/crypto/tls/handshake_client_tls13.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-17T17:13:38Z",
+      "side": 1,
+      "message": "That\u0027s reasonable, probably we should document this behavior though since I might expect that if I requested an ALPN extension, but a protocol was not negotiated, there might be some signal (i.e. I need to explicitly check the negotiated protocol after the handshake if I\u0027m going to rely on it).",
+      "parentUuid": "1472b534_271da455",
+      "range": {
+        "startLine": 407,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 2
+      },
+      "revId": "ad659edba3f8f2d84e892c62a95af3022e4fa071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "73ceda2a_d252ca04",
         "filename": "src/crypto/tls/handshake_server_tls13.go",
         "patchSetId": 2
