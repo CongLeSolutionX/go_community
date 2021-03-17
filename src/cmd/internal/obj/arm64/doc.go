@@ -96,6 +96,16 @@ And for a 128-bit interger, it take two 64-bit operands, for the high and low pa
     VMOVD $0x1122334455667788, V1
     VMOVQ $0x1122334455667788, $8877665544332211, V2   // V2=0x11223344556677888877665544332211
 
+8. Move an optionally-shifted 16-bit immediate to a register.
+
+Go defines a different assembly syntax, op $<uimm16>, $<shift>, <Rd>, for MOVK/MOVKW, NOVZ/MOVZW and MOVN/MOVNW instructions.
+For the 32-bit variant, <shift> is 0 or 16. For the 64-bit variant, <shift> is 0, 16, 32 or 48.
+
+  Examples:
+    MOVK $10, $32, R20      <=>      movk $(10<<32), x20
+    MOVK $0, $0, R10        <=>      movk $0, x20
+    MOVZW $16, $0, R8       <=>      movz $16, w8
+
 Special Cases.
 
 (1) umov is written as VMOV.
