@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbde7d4a_96076ed5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-17T00:11:18Z",
+      "side": 1,
+      "message": "crypto/rsa: fix salt length calculation with PSSSaltLengthAuto",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 103
+      },
+      "revId": "a0d540e9c9f01b0f9def69290538ded56df05e29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e9aaf37_f3a67247",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-17T00:11:18Z",
+      "side": 1,
+      "message": "When PSSSaltLength is set, the maximum salt length must equal:\n\n    modulus_key_size/8 - hash_length - 2\n\nand for example, with a 4096 bit modulus key, and a SHA-1 hash,\nit should be:\n    \n     4096/8 - 20 - 2 \u003d 490\n\nPreviously we\u0027d encounter this error:\n\n     crypto/rsa: key size too small for PSS signature",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "a0d540e9c9f01b0f9def69290538ded56df05e29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aae3b20_8f7b0366",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-17T00:11:18Z",
+      "side": 1,
+      "message": "Thank you for this change Himanshu, and congratulations on your first change as a Go contributor.\nDelighted to have you, and thank you for the sharp eyes!\n\nCould you please also add a test. Let\u0027s adapt Filippo\u0027s suggestion to make this test that can add at the bottom of crypto/rsa/pss_test.go\n\n// Ensure that we don\u0027t encounter an error when\n// signing with PSS signatures.\n// See issue https://golang.org/org/issues/42741.\nfunc TestSignWithPSSSaltLengthAuto(t *testing.T) {\n    key, err :\u003d GenerateKey(rand.Reader, 2049)\n    if err !\u003d nil {\n        t.Fatal(err)\n    }\n    digest :\u003d sha256.Sum256([]byte(\"message\"))\n    signature, err :\u003d key.Sign(rand.Reader, digest[:], \u0026PSSOptions{\n        SaltLength: PSSSaltLengthAuto,\n        Hash:       crypto.SHA256,\n    })\n    if err !\u003d nil {\n        t.Fatal(err)\n    }\n\n    if len(signature) \u003d\u003d 0 {\n        t.Fatal(\"empty signature returned\")\n    }\n}",
+      "revId": "a0d540e9c9f01b0f9def69290538ded56df05e29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
