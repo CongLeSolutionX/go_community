@@ -16,6 +16,24 @@
       "message": "This creates a context that cancels after a minute or when the parent context cancels, whichever happens first. The parent context finishes after 100ms, so this won\u0027t have much effect.\n\nI wonder if we should bump up the duration for the fuzz RPC to a minute as well? That would make it harder to detect a timeout though.\n\nAnother option: the worker could respond to the \"fuzz\" RPC with the unminimized crasher, then the coordinator could send another \"minimize\" RPC with a different duration. That would also give the coordinator a chance to tell the user something happened. We might also want to stop other workers.",
       "revId": "3c241a992d32a844c0410d52398f07403b13d656",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb317e2_032b192d",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-03-18T16:07:13Z",
+      "side": 1,
+      "message": "We discussed this internally, and this is working correctly.\n\nIn the long term, we will need to rework this a bit to be able to re-run non-recoverable errors, but that refactor can come later.",
+      "parentUuid": "7d85f7bd_2c0f85d9",
+      "revId": "3c241a992d32a844c0410d52398f07403b13d656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
