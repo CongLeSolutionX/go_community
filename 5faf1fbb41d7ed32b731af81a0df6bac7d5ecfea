@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a3f71b8_9d6986ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-18T12:49:23Z",
+      "side": 1,
+      "message": "Thank you for the PR. I think we\u0027d rather wait for native fuzzing to start adding fuzzers to the standard library, though. See https://golang.org/issue/44551.",
+      "revId": "5faf1fbb41d7ed32b731af81a0df6bac7d5ecfea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
