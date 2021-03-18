@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21bc8fe3_2b84aca4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-18T15:12:39Z",
+      "side": 1,
+      "message": "crypto/tls: enforce ALPN overlap when negotiated on both sides",
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34aaa767_65d2e15c",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-18T15:12:39Z",
+      "side": 1,
+      "message": ", if any.",
+      "range": {
+        "startLine": 102,
+        "startChar": 26,
+        "endLine": 102,
+        "endChar": 27
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad472383_c1995300",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-18T15:12:39Z",
+      "side": 1,
+      "message": "required by",
+      "range": {
+        "startLine": 103,
+        "startChar": 34,
+        "endLine": 103,
+        "endChar": 46
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14ca435e_bf3f9b12",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-18T15:12:39Z",
+      "side": 1,
+      "message": "the connection is closed with the ... alert",
+      "range": {
+        "startLine": 102,
+        "startChar": 51,
+        "endLine": 103,
+        "endChar": 29
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b6f1dab_0513c645",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-18T15:12:39Z",
+      "side": 1,
+      "message": "It\u0027s not really that the overlap is not enforced, but that the server can not negotiate anything. NegotiatedProtocol will either match or be empty. (If this is not correct, we should fix it. We should also have a test about this.)",
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a933f59d_d01a0f9c",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-18T15:12:39Z",
+      "side": 1,
+      "message": "config.NextProtos \u003d nil\n\njust to be explicit",
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
