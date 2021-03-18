@@ -1363,3 +1363,8 @@ func osPreemptExtEnter(mp *m) {
 func osPreemptExtExit(mp *m) {
 	atomic.Store(&mp.preemptExtLock, 0)
 }
+
+// osSetupTLS is called by needm to set up TLS for non-Go threads.
+//
+// Defined in assembly.
+func osSetupTLS(mp *m)
