@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54afd765_15e0cbed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-18T08:45:50Z",
+      "side": 1,
+      "message": "Hi all, tis patch is a copy of CL 276092. Because Junchen has changed to another project, I will follow up on this patch. Please help to review this patch. Thank you.",
+      "revId": "7fa04d93927deb0dfbbbceb1b435786c74f689a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
