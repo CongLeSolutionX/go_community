@@ -70,6 +70,30 @@
       },
       "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53c5769c_c9b23c86",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-18T16:36:10Z",
+      "side": 1,
+      "message": "Yes, we should be able to assert that. Go shifts can be negative, just not negative constants:\n\nfunc test(x int32) int32 {\n   s :\u003d -2\n   return x\u003c\u003cs\n}\n\n(Negative shifts will panic.)\n\nBut we\u0027re talking about the architecture shift instruction, not the Go one. Checks for negative shift amounts, or large shift amounts, and the Go semantics of such things, are already taken care of by the SSA builder.\n\nSo we can ensure that the constant argument of a SLLconst is always 0 to 63. Just have to make sure we declare it so in the Ops.go file, and enforce it during any rule that generates it.\n\n(SLL x (MOVDconst [c])) \u003d\u003e (SLLconst [c\u002663] x)\n\nBecause the semantics of SLL (not a Go shift) are that it only uses the low 6 bits.\n\n\nSince there are a lot of places that check the range, we should definitely go the route of enforcing that the constant shift operations always have an in-range shift amount. I suspect it\u0027s already the case, but we should document it and check all the rules that generate one to make sure we maintain that invariant. Then we can just delete the lc \u003c 32 conditions.",
+      "parentUuid": "303671c6_474dd02d",
+      "range": {
+        "startLine": 1785,
+        "startChar": 31,
+        "endLine": 1785,
+        "endChar": 38
+      },
+      "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
