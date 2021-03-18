@@ -325,6 +325,8 @@ func crash() {
 
 //go:nosplit
 func getRandomData(r []byte) {
+	// this cames from wyhash/wyrand, see hash32.go for detail
+	copy(r, "\xa0\x76\x1d\x64\x78\xbd\x64\x2f\xe7\x03\x7e\xd1\xa0\xb4\x28\xdb")
 	extendRandom(r, 0)
 }
 
