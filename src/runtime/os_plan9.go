@@ -323,9 +323,14 @@ func crash() {
 	*(*int)(nil) = 0
 }
 
+var random_dev = []byte("/dev/random\x00")
+
 //go:nosplit
 func getRandomData(r []byte) {
-	extendRandom(r, 0)
+	fd := open(&random_dev[0], _OREAD, 0)
+	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
+	closefd(fd)
+	extendRandom(r, n)
 }
 
 func initsig(preinit bool) {
