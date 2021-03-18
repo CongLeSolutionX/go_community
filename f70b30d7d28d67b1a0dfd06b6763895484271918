@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c78b2403_f54aba6a",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-03-18T09:41:30Z",
+      "side": 1,
+      "message": "why not do\n\nif origMethods \u003d\u003d nil {\n  origMethods \u003d ...\n  copy ...\n  inter.Methods.List \u003d nil\n}\ninter.Methods \u003d append(inter.Methods.List, iMethod)\n\nthen you don\u0027t need n and don\u0027t need to truncate the list.\n\n\nbut you could do better still:\n\ninstead of origMethods, just call it methods\n\nif match(method, name) {\n   methods \u003d append(methods, iMethod)\n   found \u003d true\n}\n\nthen in the block below,\n\nif found {\n   inter.Methods.List, methods \u003d methods, inter.Methods.List\n   format it\n   inter.Methods.List \u003d methods\n}\n\nfinally, this whole thing needs a brief introductory comment. it\u0027s subtle.\n\nbefore the for:\n\n// Collect and print only the methods that match.",
+      "revId": "f70b30d7d28d67b1a0dfd06b6763895484271918",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21ef0740_ba1607ad",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-03-18T09:41:30Z",
+      "side": 1,
+      "message": "s/ing/e/",
+      "revId": "f70b30d7d28d67b1a0dfd06b6763895484271918",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
