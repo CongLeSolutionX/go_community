@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81df9059_798f07b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-18T17:01:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21bc8fe3_2b84aca4",
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34aaa767_65d2e15c",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-03-18T15:12:39Z",
       "side": 1,
       "message": ", if any.",
+      "range": {
+        "startLine": 102,
+        "startChar": 26,
+        "endLine": 102,
+        "endChar": 27
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ab8d5f8_aa730678",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-18T17:01:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34aaa767_65d2e15c",
       "range": {
         "startLine": 102,
         "startChar": 26,
@@ -87,6 +129,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b0e2785_54f7946c",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-18T17:01:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad472383_c1995300",
+      "range": {
+        "startLine": 103,
+        "startChar": 34,
+        "endLine": 103,
+        "endChar": 46
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b61dee60_2b83eb8b",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-18T17:01:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14ca435e_bf3f9b12",
+      "range": {
+        "startLine": 102,
+        "startChar": 51,
+        "endLine": 103,
+        "endChar": 29
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b6f1dab_0513c645",
@@ -104,6 +194,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b476c75_dd70ed0f",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-18T17:01:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b6f1dab_0513c645",
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a933f59d_d01a0f9c",
@@ -117,6 +225,24 @@
       "writtenOn": "2021-03-18T15:12:39Z",
       "side": 1,
       "message": "config.NextProtos \u003d nil\n\njust to be explicit",
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "304daa85_dca036b3",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-03-18T17:01:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a933f59d_d01a0f9c",
       "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
