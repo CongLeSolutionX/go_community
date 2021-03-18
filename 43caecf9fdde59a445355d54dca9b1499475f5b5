@@ -46,6 +46,30 @@
       },
       "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "303671c6_474dd02d",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-18T07:09:37Z",
+      "side": 1,
+      "message": "Hi Keith, I find that there are so many rules with SLLconst op that do not add \"0\u003c\u003dlc\" as a constraint. For example, the rule on line 1781. Do we need to also add the constraint as \"0 \u003c\u003d lc \u0026\u0026 lc \u003c32\"? \n\nAnd I have another question. For the following go code, the compiler will report that the negative shift number is invalid. So can we assert that the shift amount is in the range [0, 63]?\n   // go code.\n   func test(x int32) int32 { return x \u003c\u003c -2 }\n   // error message.\n   constant -2 overflows uint\n  \nThank you.",
+      "parentUuid": "484f776a_a8fac1e5",
+      "range": {
+        "startLine": 1785,
+        "startChar": 31,
+        "endLine": 1785,
+        "endChar": 38
+      },
+      "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
