@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb0fd5f4_6c68a4db",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2021-03-18T17:49:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c78b2403_f54aba6a",
+      "revId": "f70b30d7d28d67b1a0dfd06b6763895484271918",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21ef0740_ba1607ad",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-18T09:41:30Z",
       "side": 1,
       "message": "s/ing/e/",
+      "revId": "f70b30d7d28d67b1a0dfd06b6763895484271918",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79b08765_b5246386",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2021-03-18T17:49:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21ef0740_ba1607ad",
       "revId": "f70b30d7d28d67b1a0dfd06b6763895484271918",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
