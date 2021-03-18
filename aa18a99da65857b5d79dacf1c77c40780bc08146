@@ -252,6 +252,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9523252b_86b6e783",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-18T13:39:45Z",
+      "side": 1,
+      "message": "\u003e It might even warrant its own assembly (lots of other archs have assembly for this).\n\nGenerally, I\u0027d like us to move in the direction of replacing crypto assembly with Go as {compiler, intrinsics, inliner} get better, rather than the other way around, so if this code could be made performant without custom assembly I would really appreciate it.",
+      "parentUuid": "f668efda_4c53d537",
+      "revId": "aa18a99da65857b5d79dacf1c77c40780bc08146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bba2f4d_a08ab1db",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS.rules",
         "patchSetId": 1
