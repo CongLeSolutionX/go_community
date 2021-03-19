@@ -18,6 +18,7 @@ import (
 	"reflect"
 	"runtime"
 	"strings"
+	"time"
 )
 
 // CoordinateFuzzing creates several worker processes and communicates with
@@ -26,6 +27,9 @@ import (
 // same environment variables as the coordinator process. Workers also run
 // with the same arguments as the coordinator, except with the -test.fuzzworker
 // flag prepended to the argument list.
+//
+// timeout is the amount of wall clock time to spend fuzzing after the corpus
+// has loaded.
 //
 // parallel is the number of worker processes to run in parallel. If parallel
 // is 0, CoordinateFuzzing will run GOMAXPROCS workers.
@@ -43,7 +47,7 @@ import (
 //
 // If a crash occurs, the function will return an error containing information
 // about the crash, which can be reported to the user.
-func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, types []reflect.Type, corpusDir, cacheDir string) (err error) {
+func CoordinateFuzzing(ctx context.Context, timeout time.Duration, parallel int, seed []CorpusEntry, types []reflect.Type, corpusDir, cacheDir string) (err error) {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
@@ -70,6 +74,12 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 		corpus.entries = append(corpus.entries, CorpusEntry{Data: marshalCorpusFile(vals...), Values: vals})
 	}
 
+	if timeout > 0 {
+		var cancel func()
+		ctx, cancel = context.WithTimeout(ctx, timeout)
+		defer cancel()
+	}
+
 	// TODO(jayconrod): do we want to support fuzzing different binaries?
 	dir := "" // same as self
 	binPath := os.Args[0]
@@ -77,13 +87,13 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 	env := os.Environ() // same as self
 
 	c := &coordinator{
-		doneC:        make(chan struct{}),
 		inputC:       make(chan CorpusEntry),
 		interestingC: make(chan CorpusEntry),
 		crasherC:     make(chan crasherEntry),
 	}
 	errC := make(chan error)
 
+	// newWorker creates a worker but doesn't start it yet.
 	newWorker := func() (*worker, error) {
 		mem, err := sharedMemTempFile(sharedMemSize)
 		if err != nil {
@@ -101,17 +111,30 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 		}, nil
 	}
 
+	// fuzzCtx is used to stop workers, for example, after finding a crasher.
+	fuzzCtx, cancelWorkers := context.WithCancel(ctx)
+	defer cancelWorkers()
+	doneC := ctx.Done()
+
+	// stop is called when a worker encounters a fatal error.
 	var fuzzErr error
 	stopping := false
 	stop := func(err error) {
-		if fuzzErr == nil || fuzzErr == ctx.Err() {
+		if err == fuzzCtx.Err() || isInterruptError(err) {
+			// Suppress cancellation errors and terminations due to SIGINT.
+			// The messages are not helpful since either the user triggered the error
+			// (with ^C) or another more helpful message will be printed (a crasher).
+			err = nil
+		}
+		if err != nil && (fuzzErr == nil || fuzzErr == ctx.Err()) {
 			fuzzErr = err
 		}
 		if stopping {
 			return
 		}
 		stopping = true
-		close(c.doneC)
+		cancelWorkers()
+		doneC = nil
 	}
 
 	// Start workers.
@@ -126,7 +149,7 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 	for i := range workers {
 		w := workers[i]
 		go func() {
-			err := w.runFuzzing()
+			err := w.coordinate(fuzzCtx)
 			cleanErr := w.cleanup()
 			if err == nil {
 				err = cleanErr
@@ -137,17 +160,14 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 
 	// Main event loop.
 	// Do not return until all workers have terminated. We avoid a deadlock by
-	// receiving messages from workers even after closing c.doneC.
+	// receiving messages from workers even after ctx is canceled.
 	activeWorkers := len(workers)
 	i := 0
 	for {
 		select {
-		case <-ctx.Done():
+		case <-doneC:
 			// Interrupted, cancelled, or timed out.
-			// TODO(jayconrod,katiehockman): On Windows, ^C only interrupts 'go test',
-			// not the coordinator or worker processes. 'go test' will stop running
-			// actions, but it won't interrupt its child processes. This makes it
-			// difficult to stop fuzzing on Windows without a timeout.
+			// stop sets doneC so we don't busy wait here.
 			stop(ctx.Err())
 
 		case crasher := <-c.crasherC:
@@ -250,11 +270,6 @@ type crasherEntry struct {
 // coordinator holds channels that workers can use to communicate with
 // the coordinator.
 type coordinator struct {
-	// doneC is closed to indicate fuzzing is done and workers should stop.
-	// doneC may be closed due to a time limit expiring or a fatal error in
-	// a worker.
-	doneC chan struct{}
-
 	// inputC is sent values to fuzz by the coordinator. Any worker may receive
 	// values from this channel.
 	inputC chan CorpusEntry
