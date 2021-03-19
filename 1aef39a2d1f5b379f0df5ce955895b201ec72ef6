@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89a1a953_a8a28770",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-19T18:27:39Z",
+      "side": 1,
+      "message": "Is this related to clobberdead?",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 437,
+        "endChar": 52
+      },
+      "revId": "1aef39a2d1f5b379f0df5ce955895b201ec72ef6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
