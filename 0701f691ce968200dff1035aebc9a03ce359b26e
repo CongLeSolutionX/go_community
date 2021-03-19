@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b83efe_875b2589",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-03-19T17:37:04Z",
+      "side": 1,
+      "message": "Maybe a more descriptive term like \"unused\" rather than \"bogus\"?",
+      "revId": "0701f691ce968200dff1035aebc9a03ce359b26e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "401c3b5a_b6279ed9",
