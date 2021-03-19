@@ -16,6 +16,24 @@
       "message": "please put the comment above the declaration, which is part of the code being commented",
       "revId": "7616024ecb8bbd53e595d6dcbb2f866c2006e8ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a29e88b_ebcf5004",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2021-03-19T03:00:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7f3b54d_b89aaee1",
+      "revId": "7616024ecb8bbd53e595d6dcbb2f866c2006e8ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
