@@ -77,13 +77,13 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 	env := os.Environ() // same as self
 
 	c := &coordinator{
-		doneC:        make(chan struct{}),
 		inputC:       make(chan CorpusEntry),
 		interestingC: make(chan CorpusEntry),
 		crasherC:     make(chan crasherEntry),
 	}
 	errC := make(chan error)
 
+	// newWorker creates a worker but doesn't start it yet.
 	newWorker := func() (*worker, error) {
 		mem, err := sharedMemTempFile(sharedMemSize)
 		if err != nil {
@@ -101,17 +101,28 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 		}, nil
 	}
 
+	// fuzzCtx is used to stop workers, for example, after finding a crasher.
+	fuzzCtx, cancelWorkers := context.WithCancel(ctx)
+	defer cancelWorkers()
+
+	// stop is called when a worker encounters a fatal error.
 	var fuzzErr error
 	stopping := false
 	stop := func(err error) {
-		if fuzzErr == nil || fuzzErr == ctx.Err() {
+		if err == fuzzCtx.Err() || isInterruptError(err) {
+			// Suppress cancellation errors and terminations due to SIGINT.
+			// The messages are not helpful since either the user triggered the error
+			// (with ^C) or another more helpful message will be printed (a crasher).
+			err = nil
+		}
+		if err != nil && (fuzzErr == nil || fuzzErr == ctx.Err()) {
 			fuzzErr = err
 		}
 		if stopping {
 			return
 		}
 		stopping = true
-		close(c.doneC)
+		cancelWorkers()
 	}
 
 	// Start workers.
@@ -126,7 +137,7 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 	for i := range workers {
 		w := workers[i]
 		go func() {
-			err := w.runFuzzing()
+			err := w.coordinate(fuzzCtx)
 			cleanErr := w.cleanup()
 			if err == nil {
 				err = cleanErr
@@ -137,7 +148,7 @@ func CoordinateFuzzing(ctx context.Context, parallel int, seed []CorpusEntry, ty
 
 	// Main event loop.
 	// Do not return until all workers have terminated. We avoid a deadlock by
-	// receiving messages from workers even after closing c.doneC.
+	// receiving messages from workers even after ctx is canceled.
 	activeWorkers := len(workers)
 	i := 0
 	for {
@@ -250,11 +261,6 @@ type crasherEntry struct {
 // coordinator holds channels that workers can use to communicate with
 // the coordinator.
 type coordinator struct {
-	// doneC is closed to indicate fuzzing is done and workers should stop.
-	// doneC may be closed due to a time limit expiring or a fatal error in
-	// a worker.
-	doneC chan struct{}
-
 	// inputC is sent values to fuzz by the coordinator. Any worker may receive
 	// values from this channel.
 	inputC chan CorpusEntry
