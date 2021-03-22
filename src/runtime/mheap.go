@@ -1854,9 +1854,14 @@ func setprofilebucket(p unsafe.Pointer, b *bucket) {
 	}
 }
 
-// Do whatever cleanup needs to be done to deallocate s. It has
-// already been unlinked from the mspan specials list.
-func freespecial(s *special, p unsafe.Pointer, size uintptr) {
+// freeSpecial unlinks s from the specials list, performs any cleanup
+// that needs to be done, and deallocates s. It returns the next
+// special in the list.
+func freeSpecial(s *special, pprev **special, p unsafe.Pointer, size uintptr) *special {
+	// Unlink s.
+	next := s.next
+	*pprev = next
+
 	switch s.kind {
 	case _KindSpecialFinalizer:
 		sf := (*specialfinalizer)(unsafe.Pointer(s))
@@ -1874,6 +1879,8 @@ func freespecial(s *special, p unsafe.Pointer, size uintptr) {
 		throw("bad special kind")
 		panic("not reached")
 	}
+
+	return next
 }
 
 // gcBits is an alloc/mark bitmap. This is always used as *gcBits.

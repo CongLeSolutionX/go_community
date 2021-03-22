@@ -382,11 +382,7 @@ func (s *mspan) sweep(preserve bool) bool {
 				// (as opposed to object beginning).
 				p := s.base() + uintptr(special.offset)
 				if special.kind == _KindSpecialFinalizer || !hasFin {
-					// Splice out special record.
-					y := special
-					special = special.next
-					*specialp = special
-					freespecial(y, unsafe.Pointer(p), size)
+					special = freeSpecial(special, specialp, unsafe.Pointer(p), size)
 				} else {
 					// This is profile record, but the object has finalizers (so kept alive).
 					// Keep special record.
