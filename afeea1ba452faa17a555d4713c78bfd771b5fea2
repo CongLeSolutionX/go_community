@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89ed74e6_aa006bc5",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-22T11:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde31749_4feb100e",
+      "range": {
+        "startLine": 304,
+        "startChar": 17,
+        "endLine": 304,
+        "endChar": 26
+      },
+      "revId": "afeea1ba452faa17a555d4713c78bfd771b5fea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4df8ad85_957a9d75",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11e1a1b7_d725aaef",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-22T11:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4df8ad85_957a9d75",
+      "range": {
+        "startLine": 315,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 55
+      },
+      "revId": "afeea1ba452faa17a555d4713c78bfd771b5fea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30d3cdd7_84ade99c",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-03-17T16:20:27Z",
       "side": 1,
       "message": "This is still potentially linear in the size of the graph.\nI think sparsetreemap.go has the code you need. If you read the initial comments in that file, it says it can do LCA lookup in logrithmic time.\nIt may take some massaging to get the interface you need, it\u0027s kind of special purpose at the moment and could probably use some API cleanup.",
+      "revId": "afeea1ba452faa17a555d4713c78bfd771b5fea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be00ab38_dea44578",
+        "filename": "src/cmd/compile/internal/ssa/sparsetree.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-22T11:17:29Z",
+      "side": 1,
+      "message": "Hi Keith, I used the existed *lcaRange.find() function to get the LCA of two blocks. I do not know if its time complexity is acceptable. If it is not ok, I will use the Sparse Table to get LCA. Thank you.",
+      "parentUuid": "30d3cdd7_84ade99c",
       "revId": "afeea1ba452faa17a555d4713c78bfd771b5fea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
