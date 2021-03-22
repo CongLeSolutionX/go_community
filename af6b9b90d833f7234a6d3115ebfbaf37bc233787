@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7961b429_cbd9a898",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-22T20:36:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f43a73d1_491dcabd",
+      "range": {
+        "startLine": 33,
+        "startChar": 66,
+        "endLine": 33,
+        "endChar": 68
+      },
+      "revId": "af6b9b90d833f7234a6d3115ebfbaf37bc233787",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "163dd943_617db6d3",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-03-22T17:15:16Z",
       "side": 1,
       "message": "Func, Map, Chan? Maybe  we can assume them never happen.",
+      "revId": "af6b9b90d833f7234a6d3115ebfbaf37bc233787",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abe6a603_9b75a5fe",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-22T20:36:57Z",
+      "side": 1,
+      "message": "Austin suggested it\u0027s not supported, that\u0027s why they\u0027re excluded here. a comment would probably be good, though.",
+      "parentUuid": "163dd943_617db6d3",
       "revId": "af6b9b90d833f7234a6d3115ebfbaf37bc233787",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -71,6 +113,24 @@
       "writtenOn": "2021-03-22T17:15:16Z",
       "side": 1,
       "message": "This is the condition for passing result on stack? I\u0027m not sure I understand why it looks like this. Why these can be not equal?",
+      "revId": "af6b9b90d833f7234a6d3115ebfbaf37bc233787",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0ddda79_c1a10d21",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-22T20:36:57Z",
+      "side": 1,
+      "message": "yeah, there\u0027s only ever one word reserved for the return value on the stack (there is _always_ one return result of that size). if it\u0027s on the stack, then there should be a difference between these two. added a comment.",
+      "parentUuid": "b0ed78ff_ee346689",
       "revId": "af6b9b90d833f7234a6d3115ebfbaf37bc233787",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
