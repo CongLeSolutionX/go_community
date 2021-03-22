@@ -118,6 +118,30 @@
       },
       "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f4a74de_7cfde44f",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-22T11:06:24Z",
+      "side": 1,
+      "message": "The action patch https://go-review.googlesource.com/c/go/+/303569. Please help to review it. Thank you.",
+      "parentUuid": "5a42a6a1_fafcf653",
+      "range": {
+        "startLine": 1785,
+        "startChar": 31,
+        "endLine": 1785,
+        "endChar": 38
+      },
+      "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
