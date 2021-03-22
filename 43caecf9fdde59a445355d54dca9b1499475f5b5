@@ -94,6 +94,30 @@
       },
       "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a42a6a1_fafcf653",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-22T03:37:39Z",
+      "side": 1,
+      "message": "Hi Keith. Sorry for the late reply. Thank you for the explanation.\n\nAnd I have a question. In some rewritten rules, the expression of shift has guaranteed that its range is in [0, 63]. For example, in the following rule, the return result of log64() function is always in [0, 63].\n\n (MUL x (MOVDconst [c])) \u0026\u0026 isPowerOfTwo64(c) \u003d\u003e (SLLconst [log64(c)] x)\n\nMy question is whether we still need to add \"\u002663\" operation for shift number? Thank you.",
+      "parentUuid": "53c5769c_c9b23c86",
+      "range": {
+        "startLine": 1785,
+        "startChar": 31,
+        "endLine": 1785,
+        "endChar": 38
+      },
+      "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
