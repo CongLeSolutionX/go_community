@@ -33,6 +33,40 @@
       "message": "Thanks!",
       "revId": "b947a7ae7d038ed8b372dcbf9d37982d4f742676",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "564aa704_0fc6571b",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-22T15:12:00Z",
+      "side": 1,
+      "message": "Technically I think this is supposed to be\n\n    (priv.N.BitLen()-1+7)/8 - 2 - hash.Size()",
+      "revId": "b947a7ae7d038ed8b372dcbf9d37982d4f742676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "095f863c_57cef86b",
+        "filename": "src/crypto/rsa/pss_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-03-22T15:12:00Z",
+      "side": 1,
+      "message": "Running GenerateKey at every test run is pretty expensive. Instead, hardcode a 2049 bit key, and add a comment saying it\u0027s intentionally 2049 bits as a test for Issue 42741. Thank you!",
+      "revId": "b947a7ae7d038ed8b372dcbf9d37982d4f742676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
