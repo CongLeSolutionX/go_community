@@ -16,6 +16,23 @@
       "message": "@Cherry, Reimplemented this patch according to your suggestion. Could you help to review it? Thank you.",
       "revId": "1782775b8ac3ac835d064dd72f9cce062a3a2d1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94d279f5_feee2b24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-22T05:43:39Z",
+      "side": 1,
+      "message": "ping Cherry. Thank you.",
+      "revId": "1782775b8ac3ac835d064dd72f9cce062a3a2d1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
