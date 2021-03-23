@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"internal/abi"
 	"internal/bytealg"
 	"internal/cpu"
 	"runtime/internal/atomic"
@@ -1937,7 +1938,7 @@ func oneNewExtraM() {
 	// the goroutine stack ends.
 	mp := allocm(nil, nil, -1)
 	gp := malg(4096)
-	gp.sched.pc = funcPC(goexit) + sys.PCQuantum
+	gp.sched.pc = abi.FuncPC(goexit) + sys.PCQuantum
 	gp.sched.sp = gp.stack.hi
 	gp.sched.sp -= 4 * sys.PtrSize // extra space in case of reads slightly beyond frame
 	gp.sched.lr = 0
@@ -4109,7 +4110,7 @@ func newproc1(fn *funcval, argp unsafe.Pointer, narg int32, callergp *g, callerp
 	memclrNoHeapPointers(unsafe.Pointer(&newg.sched), unsafe.Sizeof(newg.sched))
 	newg.sched.sp = sp
 	newg.stktopsp = sp
-	newg.sched.pc = funcPC(goexit) + sys.PCQuantum // +PCQuantum so that previous instruction is in same function
+	newg.sched.pc = abi.FuncPC(goexit) + sys.PCQuantum // +PCQuantum so that previous instruction is in same function
 	newg.sched.g = guintptr(unsafe.Pointer(newg))
 	gostartcallfn(&newg.sched, fn)
 	newg.gopc = callerpc

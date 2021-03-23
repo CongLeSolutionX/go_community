@@ -12,6 +12,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/reflectdata"
+	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/staticdata"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -498,6 +499,29 @@ func walkCall(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 
 	if n.Op() == ir.OCALLFUNC && n.X.Op() == ir.OCLOSURE {
 		directClosureCall(n)
+	}
+
+	if isFuncPCIntrinsic(n) {
+		// For internal/abi.FuncPC(fn), if fn is a defined function, rewrite
+		// it to the address of the function of the ABI fn is defined.
+		arg := n.Args[0]
+		if arg.Op() == ir.OCONVIFACE && arg.(*ir.ConvExpr).X.Op() == ir.ONAME && arg.(*ir.ConvExpr).X.(*ir.Name).Class == ir.PFUNC {
+			s := arg.(*ir.ConvExpr).X.(*ir.Name).Sym()
+			abi := ssagen.FuncABI(s.Linksym().Name)
+			var e ir.Node = ir.NewLinksymExpr(n.Pos(), s.LinksymABI(abi), types.Types[types.TUINTPTR])
+			e = ir.NewAddrExpr(n.Pos(), e)
+			e.SetType(n.Type().PtrTo())
+			e = ir.NewConvExpr(n.Pos(), ir.OCONVNOP, n.Type(), e)
+			return e
+		}
+		// fn is not a defined function. Read the address from func value,
+		// i.e. *(*uintptr)(idata(fn)).
+		arg = walkExpr(arg, init)
+		var e ir.Node = ir.NewUnaryExpr(n.Pos(), ir.OIDATA, arg)
+		e.SetType(n.Type().PtrTo())
+		e = ir.NewStarExpr(n.Pos(), e)
+		e.SetType(n.Type())
+		return e
 	}
 
 	walkCall1(n, init)
