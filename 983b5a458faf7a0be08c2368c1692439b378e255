@@ -74,6 +74,30 @@
       },
       "revId": "983b5a458faf7a0be08c2368c1692439b378e255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d6b68c_a6fd966a",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-03-23T00:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e53db601_cdf8bd51",
+      "range": {
+        "startLine": 417,
+        "startChar": 12,
+        "endLine": 417,
+        "endChar": 78
+      },
+      "revId": "983b5a458faf7a0be08c2368c1692439b378e255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
