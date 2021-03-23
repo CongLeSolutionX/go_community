@@ -377,3 +377,11 @@ func setupTextLSym(f *ir.Func, flag int) {
 
 	base.Ctxt.InitTextSym(f.LSym, flag)
 }
+
+func FuncABI(name string) obj.ABI {
+	defABI, hasDefABI := symabiDefs[name]
+	if hasDefABI {
+		return defABI
+	}
+	return obj.ABIInternal
+}
