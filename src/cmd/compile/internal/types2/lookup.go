@@ -1,11 +1,12 @@
-// UNREVIEWED
 // Copyright 2013 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements various field and method lookup functions.
 
-package types2
+package types
+
+import "go/token"
 
 // LookupFieldOrMethod looks up a field or method with given package and name
 // in T and returns the corresponding *Var or *Func, an index sequence, and a
@@ -106,7 +107,7 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 		var next []embeddedType // embedded types found at current depth
 
 		// look for (pkg, name) in all types at current depth
-		var tpar *TypeParam // set if obj receiver is a type parameter
+		var tpar *_TypeParam // set if obj receiver is a type parameter
 		for _, e := range current {
 			typ := e.typ
 
@@ -141,7 +142,7 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 
 				// continue with underlying type, but only if it's not a type parameter
 				// TODO(gri) is this what we want to do for type parameters? (spec question)
-				typ = under(named)
+				typ = named.under()
 				if asTypeParam(typ) != nil {
 					continue
 				}
@@ -183,7 +184,7 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 			case *Interface:
 				// look for a matching method
 				// TODO(gri) t.allMethods is sorted - use binary search
-				check.completeInterface(nopos, t)
+				check.completeInterface(token.NoPos, t)
 				if i, m := lookupMethod(t.allMethods, pkg, name); m != nil {
 					assert(m.typ != nil)
 					index = concat(e.index, i)
@@ -194,7 +195,9 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 					indirect = e.indirect
 				}
 
-			case *TypeParam:
+			case *_TypeParam:
+				// only consider explicit methods in the type parameter bound, not
+				// methods that may be common to all types in the type list.
 				if i, m := lookupMethod(t.Bound().allMethods, pkg, name); m != nil {
 					assert(m.typ != nil)
 					index = concat(e.index, i)
@@ -204,12 +207,6 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 					tpar = t
 					obj = m
 					indirect = e.indirect
-				}
-				if obj == nil {
-					// At this point we're not (yet) looking into methods
-					// that any underlyng type of the types in the type list
-					// migth have.
-					// TODO(gri) Do we want to specify the language that way?
 				}
 			}
 		}
@@ -307,7 +304,7 @@ func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType b
 // To improve error messages, also report the wrong signature
 // when the method exists on *V instead of V.
 func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, wrongType *Func) {
-	check.completeInterface(nopos, T)
+	check.completeInterface(token.NoPos, T)
 
 	// fast path for common case
 	if T.Empty() {
@@ -315,7 +312,7 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 	}
 
 	if ityp := asInterface(V); ityp != nil {
-		check.completeInterface(nopos, ityp)
+		check.completeInterface(token.NoPos, ityp)
 		// TODO(gri) allMethods is sorted - can do this more efficiently
 		for _, m := range T.allMethods {
 			_, f := lookupMethod(ityp.allMethods, m.pkg, m.name)
@@ -328,7 +325,6 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 				return m, f
 			}
 
-			// both methods must have the same number of type parameters
 			ftyp := f.typ.(*Signature)
 			mtyp := m.typ.(*Signature)
 			if len(ftyp.tparams) != len(mtyp.tparams) {
@@ -405,7 +401,7 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 			if len(ftyp.rparams) != len(Vn.targs) {
 				return
 			}
-			ftyp = check.subst(nopos, ftyp, makeSubstMap(ftyp.rparams, Vn.targs)).(*Signature)
+			ftyp = check.subst(token.NoPos, ftyp, makeSubstMap(ftyp.rparams, Vn.targs)).(*Signature)
 		}
 
 		// If the methods have type parameters we don't care whether they
@@ -428,13 +424,13 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 // method required by V and whether it is missing or just has the wrong type.
 // The receiver may be nil if assertableTo is invoked through an exported API call
 // (such as AssertableTo), i.e., when all methods have been type-checked.
-// If strict (or the global constant forceStrict) is set, assertions that
-// are known to fail are not permitted.
-func (check *Checker) assertableTo(V *Interface, T Type, strict bool) (method, wrongType *Func) {
+// If the global constant forceStrict is set, assertions that are known to fail
+// are not permitted.
+func (check *Checker) assertableTo(V *Interface, T Type) (method, wrongType *Func) {
 	// no static check is required if T is an interface
 	// spec: "If T is an interface type, x.(T) asserts that the
 	//        dynamic type of x implements the interface T."
-	if asInterface(T) != nil && !(strict || forceStrict) {
+	if asInterface(T) != nil && !forceStrict {
 		return
 	}
 	return check.missingMethod(T, V, false)
@@ -490,23 +486,4 @@ func lookupMethod(methods []*Func, pkg *Package, name string) (int, *Func) {
 		}
 	}
 	return -1, nil
-}
-
-// ptrRecv reports whether the receiver is of the form *T.
-func ptrRecv(f *Func) bool {
-	// If a method's receiver type is set, use that as the source of truth for the receiver.
-	// Caution: Checker.funcDecl (decl.go) marks a function by setting its type to an empty
-	// signature. We may reach here before the signature is fully set up: we must explicitly
-	// check if the receiver is set (we cannot just look for non-nil f.typ).
-	if sig, _ := f.typ.(*Signature); sig != nil && sig.recv != nil {
-		_, isPtr := deref(sig.recv.typ)
-		return isPtr
-	}
-
-	// If a method's type is not set it may be a method/function that is:
-	// 1) client-supplied (via NewFunc with no signature), or
-	// 2) internally created but not yet type-checked.
-	// For case 1) we can't do anything; the client must know what they are doing.
-	// For case 2) we can use the information gathered by the resolver.
-	return f.hasPtrRecv
 }
