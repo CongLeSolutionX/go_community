@@ -19,6 +19,7 @@ const (
 	RV_POWER_HI
 	RV_POWER_HA
 	RV_POWER_DS
+	RV_POWER_CALL
 
 	// RV_390_DBL is a s390x-specific relocation variant that indicates that
 	// the value to be placed into the relocatable field should first be

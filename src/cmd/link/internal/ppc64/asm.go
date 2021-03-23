@@ -121,16 +121,9 @@ func genplt(ctxt *ld.Link, ldr *loader.Loader) {
 			// Update the relocation to use the call stub
 			r.SetSym(stub.Sym())
 
-			// make sure the data is writeable
-			if ldr.AttrReadOnly(s) {
-				panic("can't write to read-only sym data")
-			}
-
-			// Restore TOC after bl. The compiler put a
-			// nop here for us to overwrite.
-			sp := ldr.Data(s)
-			const o1 = 0xe8410018 // ld r2,24(r1)
-			ctxt.Arch.ByteOrder.PutUint32(sp[r.Off()+4:], o1)
+			// This is a cross-module call. Mark the relocation as requiring a TOC
+			// restoration.
+			ldr.SetRelocVariant(s, i, sym.RV_POWER_CALL)
 		}
 	}
 	// Put call stubs at the beginning (instead of the end).
@@ -945,6 +938,17 @@ func archrelocvariant(target *ld.Target, ldr *loader.Loader, r loader.Reloc, rv 
 			goto overflow
 		}
 		return int64(o1)&0x3 | int64(int16(t))
+
+	case sym.RV_POWER_CALL:
+		// Restore TOC pointer after external module call. We assume little endian.
+		nop := binary.LittleEndian.Uint32(p[r.Off()+4:])
+		if nop != 0x60000000 {
+			ldr.Errorf(s, "Expected nop for TOC relocation after call, got 0x%x", uint32(nop))
+		}
+		const o1 = 0xe8410018 // ld r2,24(r1)
+		binary.LittleEndian.PutUint32(p[r.Off()+4:], o1)
+		return t
+
 	}
 
 overflow:
