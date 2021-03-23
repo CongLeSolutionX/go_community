@@ -16,6 +16,24 @@
       "message": "Adding Michael Matloob to confirm, but this doesn\u0027t seem right to me. cmd/go shouldn\u0027t modify files in the overlay, so the fsys package probably shouldn\u0027t have functions to modify files.\n\nIt looks like we\u0027re using Chmod here to lock the file. Maybe instead we should skip locking overlaid go.mod files?",
       "revId": "32ec0ec1c47f2db6c7c6339e62a6d663f5e5f9d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaf05c51_8f4b319f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2021-03-23T04:51:19Z",
+      "side": 1,
+      "message": "Plan 9 uses a mode bit instead of explicit lock/unlock syscalls. so cmd/go should set it before we call OpenFile. It\u0027s a special case I think.",
+      "parentUuid": "d19e33c0_ec95de7c",
+      "revId": "32ec0ec1c47f2db6c7c6339e62a6d663f5e5f9d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
