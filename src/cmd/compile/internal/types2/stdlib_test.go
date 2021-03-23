@@ -1,4 +1,3 @@
-// UNREVIEWED
 // Copyright 2013 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -14,7 +13,6 @@ import (
 	"fmt"
 	"go/build"
 	"internal/testenv"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -91,7 +89,7 @@ func firstComment(filename string) (first string) {
 }
 
 func testTestDir(t *testing.T, path string, ignore ...string) {
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -298,7 +296,7 @@ func (w *walker) walk(dir string) {
 		return
 	}
 
-	fis, err := ioutil.ReadDir(dir)
+	files, err := os.ReadDir(dir)
 	if err != nil {
 		w.errh(err)
 		return
@@ -318,9 +316,9 @@ func (w *walker) walk(dir string) {
 	}
 
 	// traverse subdirectories, but don't walk into testdata
-	for _, fi := range fis {
-		if fi.IsDir() && fi.Name() != "testdata" {
-			w.walk(filepath.Join(dir, fi.Name()))
+	for _, f := range files {
+		if f.IsDir() && f.Name() != "testdata" {
+			w.walk(filepath.Join(dir, f.Name()))
 		}
 	}
 }
