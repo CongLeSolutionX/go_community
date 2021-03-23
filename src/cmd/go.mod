@@ -11,3 +11,5 @@ require (
 	golang.org/x/term v0.0.0-20210220032956-6a3ed077a48d // indirect
 	golang.org/x/tools v0.1.1-0.20210312185553-8e4f4c86593a
 )
+
+replace golang.org/x/mod => /Users/jayconrod/go/src/golang.org/x/mod
