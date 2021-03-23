@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "512d6624_1040483b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-23T16:47:12Z",
+      "side": 1,
+      "message": "Can I add a trust vote to my own CL?  We\u0027ll see.",
+      "revId": "a635fd52cb498977d6c7248bf7350d1cc5c5ea7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
