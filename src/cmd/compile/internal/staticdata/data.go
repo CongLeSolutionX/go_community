@@ -276,9 +276,9 @@ func NeedFuncSym(s *types.Sym) {
 	if s.IsBlank() {
 		return
 	}
-	if base.Flag.CompilingRuntime && (s.Name == "getg" || s.Name == "getclosureptr" || s.Name == "getcallerpc" || s.Name == "getcallersp") {
-		// runtime.getg(), getclosureptr(), getcallerpc(), and
-		// getcallersp() are not real functions and so do not
+	if base.Flag.CompilingRuntime && (s.Name == "getg" || s.Name == "getclosureptr" || s.Name == "getcallerpc" || s.Name == "getcallersp") || (base.Ctxt.Pkgpath == "internal/abi" && s.Name == "FuncPC") {
+		// runtime.getg(), getclosureptr(), getcallerpc(), getcallersp(),
+		// and internal/abi.FuncPC() are not real functions and so do not
 		// get funcsyms.
 		return
 	}
