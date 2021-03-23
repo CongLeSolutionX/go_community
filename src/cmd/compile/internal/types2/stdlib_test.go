@@ -1,4 +1,3 @@
-// UNREVIEWED
 // Copyright 2013 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -6,15 +5,17 @@
 // This file tests types.Check by using it to
 // typecheck the standard library and tests.
 
-package types2_test
+package types_test
 
 import (
-	"bytes"
-	"cmd/compile/internal/syntax"
 	"fmt"
+	"go/ast"
 	"go/build"
+	"go/importer"
+	"go/parser"
+	"go/scanner"
+	"go/token"
 	"internal/testenv"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -22,10 +23,12 @@ import (
 	"testing"
 	"time"
 
-	. "cmd/compile/internal/types2"
+	. "go/types"
 )
 
-var stdLibImporter = defaultImporter()
+// Use the same importer for all std lib tests to
+// avoid repeated importing of the same packages.
+var stdLibImporter = importer.Default()
 
 func TestStdlib(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
@@ -44,54 +47,46 @@ func TestStdlib(t *testing.T) {
 // firstComment returns the contents of the first non-empty comment in
 // the given file, "skip", or the empty string. No matter the present
 // comments, if any of them contains a build tag, the result is always
-// "skip". Only comments within the first 4K of the file are considered.
-// TODO(gri) should only read until we see "package" token.
-func firstComment(filename string) (first string) {
+// "skip". Only comments before the "package" token and within the first
+// 4K of the file are considered.
+func firstComment(filename string) string {
 	f, err := os.Open(filename)
 	if err != nil {
 		return ""
 	}
 	defer f.Close()
 
-	// read at most 4KB
-	var buf [4 << 10]byte
-	n, _ := f.Read(buf[:])
-	src := bytes.NewBuffer(buf[:n])
+	var src [4 << 10]byte // read at most 4KB
+	n, _ := f.Read(src[:])
 
-	// TODO(gri) we need a better way to terminate CommentsDo
-	defer func() {
-		if p := recover(); p != nil {
-			if s, ok := p.(string); ok {
-				first = s
+	var first string
+	var s scanner.Scanner
+	s.Init(fset.AddFile("", fset.Base(), n), src[:n], nil /* ignore errors */, scanner.ScanComments)
+	for {
+		_, tok, lit := s.Scan()
+		switch tok {
+		case token.COMMENT:
+			// remove trailing */ of multi-line comment
+			if lit[1] == '*' {
+				lit = lit[:len(lit)-2]
 			}
-		}
-	}()
+			contents := strings.TrimSpace(lit[2:])
+			if strings.HasPrefix(contents, "+build ") {
+				return "skip"
+			}
+			if first == "" {
+				first = contents // contents may be "" but that's ok
+			}
+			// continue as we may still see build tags
 
-	syntax.CommentsDo(src, func(_, _ uint, text string) {
-		if text[0] != '/' {
-			return // not a comment
+		case token.PACKAGE, token.EOF:
+			return first
 		}
-
-		// extract comment text
-		if text[1] == '*' {
-			text = text[:len(text)-2]
-		}
-		text = strings.TrimSpace(text[2:])
-
-		if strings.HasPrefix(text, "+build ") {
-			panic("skip")
-		}
-		if first == "" {
-			first = text // text may be "" but that's ok
-		}
-		// continue as we may still see build tags
-	})
-
-	return
+	}
 }
 
 func testTestDir(t *testing.T, path string, ignore ...string) {
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -101,6 +96,7 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 		excluded[filename] = true
 	}
 
+	fset := token.NewFileSet()
 	for _, f := range files {
 		// filter directory contents
 		if f.IsDir() || !strings.HasSuffix(f.Name(), ".go") || excluded[f.Name()] {
@@ -136,13 +132,10 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 		}
 
 		// parse and type-check file
-		if testing.Verbose() {
-			fmt.Println("\t", filename)
-		}
-		file, err := syntax.ParseFile(filename, nil, nil, 0)
+		file, err := parser.ParseFile(fset, filename, nil, 0)
 		if err == nil {
 			conf := Config{GoVersion: goVersion, Importer: stdLibImporter}
-			_, err = conf.Check(filename, []*syntax.File{file}, nil)
+			_, err = conf.Check(filename, fset, []*ast.File{file}, nil)
 		}
 
 		if expectErrors {
@@ -169,7 +162,7 @@ func TestStdTest(t *testing.T) {
 		"directive.go",   // tests compiler rejection of bad directive placement - ignore
 		"embedfunc.go",   // tests //go:embed
 		"embedvers.go",   // tests //go:embed
-		"linkname2.go",   // types2 doesn't check validity of //go:xxx directives
+		"linkname2.go",   // go/types doesn't check validity of //go:xxx directives
 	)
 }
 
@@ -192,9 +185,9 @@ func TestStdFixed(t *testing.T) {
 		"issue22200b.go", // go/types does not have constraints on stack size
 		"issue25507.go",  // go/types does not have constraints on stack size
 		"issue20780.go",  // go/types does not have constraints on stack size
+		"bug251.go",      // issue #34333 which was exposed with fix for #34151
 		"issue42058a.go", // go/types does not have constraints on channel element size
 		"issue42058b.go", // go/types does not have constraints on channel element size
-		"bug251.go",      // issue #34333 which was exposed with fix for #34151
 	)
 }
 
@@ -211,18 +204,27 @@ var excluded = map[string]bool{
 
 // typecheck typechecks the given package files.
 func typecheck(t *testing.T, path string, filenames []string) {
+	fset := token.NewFileSet()
+
 	// parse package files
-	var files []*syntax.File
+	var files []*ast.File
 	for _, filename := range filenames {
-		errh := func(err error) { t.Error(err) }
-		file, err := syntax.ParseFile(filename, errh, nil, 0)
+		file, err := parser.ParseFile(fset, filename, nil, parser.AllErrors)
 		if err != nil {
+			// the parser error may be a list of individual errors; report them all
+			if list, ok := err.(scanner.ErrorList); ok {
+				for _, err := range list {
+					t.Error(err)
+				}
+				return
+			}
+			t.Error(err)
 			return
 		}
 
 		if testing.Verbose() {
 			if len(files) == 0 {
-				fmt.Println("package", file.PkgName.Value)
+				fmt.Println("package", file.Name.Name)
 			}
 			fmt.Println("\t", filename)
 		}
@@ -235,8 +237,8 @@ func typecheck(t *testing.T, path string, filenames []string) {
 		Error:    func(err error) { t.Error(err) },
 		Importer: stdLibImporter,
 	}
-	info := Info{Uses: make(map[*syntax.Name]Object)}
-	conf.Check(path, files, &info)
+	info := Info{Uses: make(map[*ast.Ident]Object)}
+	conf.Check(path, fset, files, &info)
 
 	// Perform checks of API invariants.
 
@@ -245,7 +247,7 @@ func typecheck(t *testing.T, path string, filenames []string) {
 	for id, obj := range info.Uses {
 		predeclared := obj == Universe.Lookup(obj.Name()) || obj == errorError
 		if predeclared == (obj.Pkg() != nil) {
-			posn := id.Pos()
+			posn := fset.Position(id.Pos())
 			if predeclared {
 				t.Errorf("%s: predeclared object with package: %s", posn, obj)
 			} else {
@@ -298,7 +300,7 @@ func (w *walker) walk(dir string) {
 		return
 	}
 
-	fis, err := ioutil.ReadDir(dir)
+	files, err := os.ReadDir(dir)
 	if err != nil {
 		w.errh(err)
 		return
@@ -318,9 +320,9 @@ func (w *walker) walk(dir string) {
 	}
 
 	// traverse subdirectories, but don't walk into testdata
-	for _, fi := range fis {
-		if fi.IsDir() && fi.Name() != "testdata" {
-			w.walk(filepath.Join(dir, fi.Name()))
+	for _, f := range files {
+		if f.IsDir() && f.Name() != "testdata" {
+			w.walk(filepath.Join(dir, f.Name()))
 		}
 	}
 }
