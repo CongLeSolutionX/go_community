@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74653146_dd04f33d",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 50898
+      },
+      "writtenOn": "2021-03-23T17:42:15Z",
+      "side": 1,
+      "message": "Agreed. This is the better fix. Thanks.\nI have done the changes. \nPlease review.",
+      "parentUuid": "564aa704_0fc6571b",
+      "revId": "b947a7ae7d038ed8b372dcbf9d37982d4f742676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "095f863c_57cef86b",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-03-22T15:12:00Z",
       "side": 1,
       "message": "Running GenerateKey at every test run is pretty expensive. Instead, hardcode a 2049 bit key, and add a comment saying it\u0027s intentionally 2049 bits as a test for Issue 42741. Thank you!",
+      "revId": "b947a7ae7d038ed8b372dcbf9d37982d4f742676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca14fee1_1e9a5d12",
+        "filename": "src/crypto/rsa/pss_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 50898
+      },
+      "writtenOn": "2021-03-23T17:42:15Z",
+      "side": 1,
+      "message": "This issue is also reproducible when the size of the key is 513 etc.\nWill it be fine if I use key length of 513 here as this will be very less expensive \ntask in comparison to generate key of length 2049.\n\nI am avoiding hard-coding of key to make code simple and avoid any functionality break with GenerateKey in future.",
+      "parentUuid": "095f863c_57cef86b",
       "revId": "b947a7ae7d038ed8b372dcbf9d37982d4f742676",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
