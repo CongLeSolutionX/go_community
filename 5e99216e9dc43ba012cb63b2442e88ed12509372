@@ -52,6 +52,24 @@
       "parentUuid": "8820243e_6af27956",
       "revId": "5e99216e9dc43ba012cb63b2442e88ed12509372",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94c8e8d1_354cc126",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-24T14:36:00Z",
+      "side": 1,
+      "message": "At the moment I cannot think of any case where we want the wrapper. We could replace all runtime.funcPC to abi.FuncPC. Or we could just start with the necessary ones and leave runtime.funcPC around.",
+      "parentUuid": "7fba76b3_14011024",
+      "revId": "5e99216e9dc43ba012cb63b2442e88ed12509372",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
