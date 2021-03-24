@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41523045_8fdcd9cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-24T07:04:25Z",
+      "side": 1,
+      "message": "Did you mean to reverse the Fixes and updates? #40213 is already closed and was for Go1.16. #45076 is for Go1.15 that this CL is meant to close.",
+      "revId": "2fbf10cc4d4d6e0bc2c30bd1ec928780f88d5920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c28906f0_5ed733b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-24T07:04:25Z",
+      "side": 1,
+      "message": "LGTM, thank you Michael, but with some comments.\n\nKindly help me with a Trust+1 if you may, Dmitri?",
+      "revId": "2fbf10cc4d4d6e0bc2c30bd1ec928780f88d5920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
