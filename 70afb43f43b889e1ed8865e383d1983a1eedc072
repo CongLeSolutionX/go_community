@@ -16,6 +16,23 @@
       "message": "TRY\u003daix-ppc64,ppc64,ppc64le,linux-ppc64le-power9osu",
       "revId": "70afb43f43b889e1ed8865e383d1983a1eedc072",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92f19c91_94500090",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-03-24T23:00:07Z",
+      "side": 1,
+      "message": "Do you have future plans to clean up the code under case 66? I see mention of mtdcr and mfdcr, which I don\u0027t see defined anywhere and hard encoding of the opcode bits for mtspr and mfspr instead of using OP_MTSPR and OP_MFSPR.",
+      "revId": "70afb43f43b889e1ed8865e383d1983a1eedc072",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
