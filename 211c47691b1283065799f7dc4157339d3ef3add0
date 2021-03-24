@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "569fe188_55c00874",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-24T22:31:25Z",
+      "side": 1,
+      "message": "Alternatively, you could just copy it to writeable memory. See https://tip.golang.org/src/cmd/link/internal/amd64/asm.go#L132 for an example.\n\n(I\u0027m slightly inclined to just making it writeable than introducing more reloc variant. Unless the variant is/will be useful in other places.)",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "211c47691b1283065799f7dc4157339d3ef3add0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4247e6be_aa1ae663",
+        "filename": "src/cmd/link/internal/sym/reloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-24T22:31:25Z",
+      "side": 1,
+      "message": "Add some comment about what this does.\n\nMaybe name it RV_POWER_RESTORE_TOC or something? \"CALL\" doesn\u0027t seem to indicate much information.",
+      "revId": "211c47691b1283065799f7dc4157339d3ef3add0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
