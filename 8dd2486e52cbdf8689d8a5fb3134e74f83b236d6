@@ -16,6 +16,23 @@
       "message": "TRY\u003dlinux-amd64-longtest\n",
       "revId": "8dd2486e52cbdf8689d8a5fb3134e74f83b236d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "961778c4_4ddcf2cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-24T15:51:21Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "8dd2486e52cbdf8689d8a5fb3134e74f83b236d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
