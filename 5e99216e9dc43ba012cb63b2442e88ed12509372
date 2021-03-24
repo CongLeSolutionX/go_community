@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8b8a808_6e3eecf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-03-24T11:47:51Z",
+      "side": 1,
+      "message": "This looks good overall. I like this approach.\n\nI pulled the patch and spent a little time messing around with it.\n\nA couple of things.\n\nFirst, if we do add ABI to the export data, is the intent that this feature work across package boundaries? That is, can I say\n\n  pc :\u003d abi.FuncPc(someotherpackage.AsmFunction)\n\nand it will do the right thing? (E.g. give ABI0 func address, not wrapper address)?  Just asking out of curiosity, since the we don\u0027t have ABI in the export data at the moment.\n\nSecond, I wonder what the behavior should be when applying abi.FuncPC to things that are not functions. I modified the test to try this:\n\n        var G int64 // global\n\n\t// Integer expression evaluating to a constant\n\ta :\u003d int64(3)\n\tb :\u003d int64(8)\n\tfmt.Fprintf(os.Stderr, \"abi.FuncPC(a+b) \u003d %+v\\n\", abi.FuncPC(a+b))\n\n\t// Integer expression evaluating to a non-constant\n\tfmt.Fprintf(os.Stderr, \"abi.FuncPC(a+G) \u003d %+v\\n\", abi.FuncPC(a+G))\n\n\t// Variable\n\tfmt.Fprintf(os.Stderr, \"abi.FuncPC(G) \u003d %+v\\n\", abi.FuncPC(G))\n\nThe semantics seem to be that if it\u0027s not a function, the compiler just leaves it as an interface value. I am wondering whether it might be better over the longer term (Hyrums law and so on) to issue an error instead, so that if someone accidentally writes the wrong symbol name (something not a function) it will trigger an error instead of just silently converting to empty interface.\n\nFinally, I tried modifying the test as follows:\n\n- added an exported asm function to abi_test.s:\n\n   TEXT\t·AsmFunc(SB),NOSPLIT,$0-0\n\tRET\n\n- added a Go declaration for AsmFunc in export_test.go:\n\n  func AsmFunc()\n\n- added this code to abi_test.go:\n\n\tfmt.Fprintf(os.Stderr, \"abi.FuncPC(abi.AsmFunc) \u003d %x\\n\", abi.FuncPC(abi.AsmFunc))\n\tfmt.Fprintf(os.Stderr, \"abi.AsmFunc \u003d %p\\n\", abi.AsmFunc)\n\n\nWhen I run the test, I see this:\n\nabi.FuncPC(abi.AsmFunc) \u003d 403520\nabi.AsmFunc \u003d 0x403520\n\nwhich is not what I expected. I figured the first Fprintf would give the underlying func address, and the second would be the wrapper.  I probably did something wrong, but I am not sure what.\n\nMore info: \n\n$ GOEXPERIMENT\u003dregabi go test -i -o t.exe .\n$ objdump -t t.exe | fgrep AsmFunc\n0000000000567e58 l     O .rodata\t0000000000000008 internal/abi.AsmFunc.args_stackmap\n0000000000403500 g     F .text\t0000000000000001 internal/abi.AsmFunc.abi0\n0000000000403520 g     F .text\t0000000000000013 internal/abi.AsmFunc\n$\n\nSo it looks as though I am still getting the wrapper... maybe this is some sort of testing artifact?\n",
+      "revId": "5e99216e9dc43ba012cb63b2442e88ed12509372",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
