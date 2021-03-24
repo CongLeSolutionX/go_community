@@ -202,6 +202,77 @@ func TestGcZombieReporting(t *testing.T) {
 	}
 }
 
+func TestGCTestMoveStackOnNextCall(t *testing.T) {
+	t.Parallel()
+	var onStack int
+	runtime.GCTestMoveStackOnNextCall()
+	moveStackCheck(t, &onStack, uintptr(unsafe.Pointer(&onStack)))
+}
+
+// This must not be inlined because the point is to force a stack
+// growth check and move the stack.
+//
+//go:noinline
+func moveStackCheck(t *testing.T, new *int, old uintptr) {
+	// new should have been updated by the stack move;
+	// old should not have.
+	moved := uintptr(unsafe.Pointer(new)) != old
+	t.Logf("stack pointer moved from %x to %x", old, uintptr(unsafe.Pointer(new)))
+	if !moved {
+		// Check that we didn't screw up the test's escape analysis.
+		if cls := runtime.GCTestPointerClass(unsafe.Pointer(new)); cls != "stack" {
+			t.Fatalf("test bug: new (%#x) should be a stack pointer, not %s", uintptr(unsafe.Pointer(new)), cls)
+		}
+		// This was a real failure.
+		t.Fatal("stack did not move")
+	}
+}
+
+func TestGCTestIsReachable(t *testing.T) {
+	var all, half []unsafe.Pointer
+	var want uint64
+	for i := 0; i < 16; i++ {
+		// The tiny allocator muddies things, so we use a
+		// scannable type.
+		p := unsafe.Pointer(new(*int))
+		all = append(all, p)
+		if i%2 == 0 {
+			half = append(half, p)
+			want |= 1 << i
+		}
+	}
+
+	got := runtime.GCTestIsReachable(all...)
+	if want != got {
+		t.Fatalf("did not get expected reachable set; want %b, got %b", want, got)
+	}
+	runtime.KeepAlive(half)
+}
+
+var pointerClassSink *int
+var pointerClassData = 42
+
+func TestGCTestPointerClass(t *testing.T) {
+	t.Parallel()
+	check := func(p unsafe.Pointer, want string) {
+		t.Helper()
+		got := runtime.GCTestPointerClass(p)
+		if got != want {
+			// Convert the pointer to a uintptr to avoid
+			// escaping it.
+			t.Errorf("for %#x, want class %s, got %s", uintptr(p), want, got)
+		}
+	}
+	var onStack int
+	var notOnStack int
+	pointerClassSink = &notOnStack
+	check(unsafe.Pointer(&onStack), "stack")
+	check(unsafe.Pointer(&notOnStack), "heap")
+	check(unsafe.Pointer(&pointerClassSink), "bss")
+	check(unsafe.Pointer(&pointerClassData), "data")
+	check(nil, "other")
+}
+
 func BenchmarkSetTypePtr(b *testing.B) {
 	benchSetType(b, new(*byte))
 }

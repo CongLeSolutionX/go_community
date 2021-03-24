@@ -1244,3 +1244,15 @@ func FinalizerGAsleep() bool {
 	unlock(&finlock)
 	return result
 }
+
+func GCTestMoveStackOnNextCall() {
+	gcTestMoveStackOnNextCall()
+}
+
+func GCTestIsReachable(ptrs ...unsafe.Pointer) (mask uint64) {
+	return gcTestIsReachable(ptrs...)
+}
+
+func GCTestPointerClass(p unsafe.Pointer) string {
+	return gcTestPointerClass(p)
+}

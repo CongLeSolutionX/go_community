@@ -391,9 +391,15 @@ func (s *mspan) sweep(preserve bool) bool {
 				}
 			}
 		} else {
-			// object is still live: keep special record
-			specialp = &special.next
-			special = *specialp
+			// object is still live
+			if special.kind == _KindSpecialReachable {
+				(*specialReachable)(unsafe.Pointer(special)).reachable = true
+				special = freeSpecial(special, specialp, unsafe.Pointer(p), size)
+			} else {
+				// keep special record
+				specialp = &special.next
+				special = *specialp
+			}
 		}
 	}
 	if hadSpecials && s.specials == nil {
