@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1032e67d_dda1af39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-03-25T19:35:59Z",
+      "side": 1,
+      "message": "Copied this comment from the proposal, just adding here for visibility.\n\nI am thinking about the best way to handle cases where the Location field has a double quote character or emoji or other character that needs escaping.\n\nOne solution would be to call strconv.AppendQuote which would add a dependency on strconv in the time package.\n\nAnother solution would be to copy the parts of AppendQuote that we need (we can simplify appendEscapedRune a little bit since we are only invoking it one way) into the time package and use them there.\n\nAnother one would be to copy the parts of AppendQuote that we need into internal/bytealg and then call it from there. Other packages in the standard library call strconv.Quote or strconv.AppendQuote, but all of them also call other functions in the strconv package so this wouldn\u0027t save us very much in terms of dependencies or compilation time.\n\nOr some other solution involving omitting unprintable fields to avoid the need to take a dependency. This is an edge case of an edge case; most times are going to be UTC or Local and most zones in the tzdata database should contain characters that do not need escaping.\n\nI\u0027m not sure how strongly you feel about taking additional dependencies vs. copying code.",
+      "revId": "906f28bb596cc797f2a0a1974ae397b263122887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
