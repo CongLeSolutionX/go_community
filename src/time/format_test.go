@@ -10,6 +10,7 @@ import (
 	"strings"
 	"testing"
 	"testing/quick"
+	"time"
 	. "time"
 )
 
@@ -125,6 +126,32 @@ func TestFormat(t *testing.T) {
 		result := time.Format(test.format)
 		if result != test.result {
 			t.Errorf("%s expected %q got %q", test.name, test.result, result)
+		}
+	}
+}
+
+var goStringTests = []struct {
+	in   Time
+	want string
+}{
+	{time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.UTC),
+		"time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.UTC)"},
+	{time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.Local),
+		"time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.Local)"},
+	{time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.FixedZone("Europe/Berlin", 3*60*60)),
+		`time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.Location("Europe/Berlin"))`,
+	},
+	{time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.FixedZone("Non-ASCII character ⏰", 3*60*60)),
+		`time.Date(2009, time.February, 5, 5, 0, 57, 12345600, time.Location("Non-ASCII character \xe2\x8f\xb0"))`,
+	},
+}
+
+func TestGoString(t *testing.T) {
+	// The numeric time represents Thu Feb  4 21:00:57.012345600 PST 2009
+	for _, tt := range goStringTests {
+		if tt.in.GoString() != tt.want {
+			fmt.Printf("%s", tt.in.GoString())
+			t.Errorf("GoString (%q): got %q want %q", tt.in, tt.in.GoString(), tt.want)
 		}
 	}
 }
@@ -796,10 +823,12 @@ func TestQuote(t *testing.T) {
 		{`abc"xyz"`, `"abc\"xyz\""`},
 		{"", `""`},
 		{"abc", `"abc"`},
+		{`☺`, `"\xe2\x98\xba"`},
+		{"\x04", `"\x04"`},
 	}
 	for _, tt := range tests {
 		if q := Quote(tt.s); q != tt.want {
-			t.Errorf("Quote(%q) = %q, want %q", tt.s, q, tt.want)
+			t.Errorf("Quote(%q) = got %q, want %q", tt.s, q, tt.want)
 		}
 	}
 
