@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "196ca4c6_7039b0bc",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-25T21:22:00Z",
+      "side": 1,
+      "message": "Ah yes, I thought we had constant-time LCA in this package somewhere.\nHowever, makeLCArange is O(n), only find is O(1). But maybe you can makeLCArange once at the start, instead of at each block? The only worry I have about that is that we\u0027re doing CFG graph surgery in here, so it may invalidate the results. Not sure.",
+      "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2705f682_2a6f7040",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-25T21:22:00Z",
+      "side": 1,
+      "message": "if b.Kind !\u003d BlockIf { continue } // or break?\nThen outdent the rest.\n\nI think you want break here. If b0 isn\u0027t an If block, it won\u0027t be for any of the other Phis in this block.",
+      "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78da8adb_a9f9ff79",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-25T21:22:00Z",
+      "side": 1,
+      "message": "Same here, invert the condition and break, then outdent the body.",
+      "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be1e4889_cfbf30ca",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-25T21:22:00Z",
+      "side": 1,
+      "message": "this could use a better name. replaceWithControlOf?",
+      "range": {
+        "startLine": 311,
+        "startChar": 5,
+        "endLine": 311,
+        "endChar": 12
+      },
+      "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
