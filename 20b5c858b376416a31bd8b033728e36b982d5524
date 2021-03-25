@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9587a64_46fc4147",
+        "filename": "src/net/http/httptest/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-25T20:18:11Z",
+      "side": 1,
+      "message": "A bit more detail in this comment would be helpful — I don\u0027t see any `go` statements in this function, so why do we need to block the WaitGroup here?\n\n(I guess this because the call to forgetConn belowe can drop the count to 0 before we invoke oldHook?)",
+      "revId": "20b5c858b376416a31bd8b033728e36b982d5524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
