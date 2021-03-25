@@ -4,7 +4,9 @@
 
 package time
 
-import "errors"
+import (
+	"errors"
+)
 
 // These are predefined layouts for use in Time.Format and time.Parse.
 // The reference time used in the layouts is the specific time:
@@ -377,11 +379,20 @@ func appendInt(b []byte, x int, width int) []byte {
 	for u >= 10 {
 		i--
 		q := u / 10
-		buf[i] = byte('0' + u - q*10)
+		v := byte(u - q*10)
+		if v <= 9 {
+			buf[i] = '0' + v
+		} else {
+			buf[i] = 'a' + v - 10
+		}
 		u = q
 	}
 	i--
-	buf[i] = byte('0' + u)
+	if u <= 9 {
+		buf[i] = byte('0' + u)
+	} else {
+		buf[i] = byte('a' + u - 10)
+	}
 
 	// Add 0-padding.
 	for w := len(buf) - i; w < width; w++ {
@@ -475,6 +486,59 @@ func (t Time) String() string {
 		s += string(buf)
 	}
 	return s
+}
+
+// GoString implements the fmt.GoStringer interface and formats t to be printed
+// Goin source code.
+func (t Time) GoString() string {
+	buf := []byte("time.Date(")
+	buf = appendInt(buf, t.Year(), 0)
+	month := t.Month()
+	if January <= month && month <= December {
+		buf = append(buf, ", time."...)
+		buf = append(buf, []byte(t.Month().String())...)
+	} else {
+		// It's difficult to construct a time.Time with a date outside the
+		// standard range but we might as well try to handle the case.
+		buf = appendInt(buf, int(month), 0)
+	}
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Day(), 0)
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Hour(), 0)
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Minute(), 0)
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Second(), 0)
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Nanosecond(), 0)
+	buf = append(buf, ", "...)
+	switch loc := t.Location(); loc {
+	case nil:
+		// same behavior as loc.get()
+		fallthrough
+	case UTC:
+		buf = append(buf, "time.UTC"...)
+	case Local:
+		buf = append(buf, "time.Local"...)
+	default:
+		// there are several options for how we could display this, none of
+		// which are great:
+		// - use Location(loc.name), which is not technically valid syntax
+		// - use LoadLocation(loc.name), which will cause a syntax error when
+		// embedded and also would require us to escape the string without
+		// importing fmt or strconv
+		// - try to use FixedZone, which would also require escaping the name
+		// and would represent e.g. "America/Los_Angeles" daylight saving time
+		// shifts inaccurately
+		// - use the pointer format, which is no worse than you'd get with the
+		// old fmt.Sprintf("%#v", t) format.
+		buf = append(buf, `time.Location("`...)
+		buf = append(buf, []byte(loc.name)...)
+		buf = append(buf, `")`...)
+	}
+	buf = append(buf, ')')
+	return string(buf)
 }
 
 // Format returns a textual representation of the time value formatted
