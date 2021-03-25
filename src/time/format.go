@@ -4,7 +4,9 @@
 
 package time
 
-import "errors"
+import (
+	"errors"
+)
 
 // These are predefined layouts for use in Time.Format and time.Parse.
 // The reference time used in the layouts is the specific time:
@@ -377,11 +379,20 @@ func appendInt(b []byte, x int, width int) []byte {
 	for u >= 10 {
 		i--
 		q := u / 10
-		buf[i] = byte('0' + u - q*10)
+		v := byte(u - q*10)
+		if v <= 9 {
+			buf[i] = '0' + v
+		} else {
+			buf[i] = 'a' + v - 10
+		}
 		u = q
 	}
 	i--
-	buf[i] = byte('0' + u)
+	if u <= 9 {
+		buf[i] = byte('0' + u)
+	} else {
+		buf[i] = byte('a' + u - 10)
+	}
 
 	// Add 0-padding.
 	for w := len(buf) - i; w < width; w++ {
@@ -475,6 +486,59 @@ func (t Time) String() string {
 		s += string(buf)
 	}
 	return s
+}
+
+// GoString implements the fmt.GoStringer interface and formats t to be printed
+// Goin source code.
+func (t Time) GoString() string {
+	buf := []byte("time.Date(")
+	buf = appendInt(buf, t.Year(), 0)
+	month := t.Month()
+	if January <= month && month <= December {
+		buf = append(buf, ", time."...)
+		buf = append(buf, []byte(t.Month().String())...)
+	} else {
+		// It's difficult to construct a time.Time with a date outside the
+		// standard range but we might as well try to handle the case.
+		buf = appendInt(buf, int(month), 0)
+	}
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Day(), 0)
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Hour(), 0)
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Minute(), 0)
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Second(), 0)
+	buf = append(buf, ", "...)
+	buf = appendInt(buf, t.Nanosecond(), 0)
+	buf = append(buf, ", "...)
+	switch loc := t.Location(); loc {
+	case nil:
+		// same behavior as loc.get()
+		fallthrough
+	case UTC:
+		buf = append(buf, "time.UTC"...)
+	case Local:
+		buf = append(buf, "time.Local"...)
+	default:
+		// there are several options for how we could display this, none of
+		// which are great:
+		// - use Location(loc.name), which is not technically valid syntax
+		// - use LoadLocation(loc.name), which will cause a syntax error when
+		// embedded and also would require us to escape the string without
+		// importing fmt or strconv
+		// - try to use FixedZone, which would also require escaping the name
+		// and would represent e.g. "America/Los_Angeles" daylight saving time
+		// shifts inaccurately
+		// - use the pointer format, which is no worse than you'd get with the
+		// old fmt.Sprintf("%#v", t) format.
+		buf = append(buf, `time.Location(`...)
+		buf = append(buf, []byte(quote(loc.name))...)
+		buf = append(buf, `)`...)
+	}
+	buf = append(buf, ')')
+	return string(buf)
 }
 
 // Format returns a textual representation of the time value formatted
@@ -688,14 +752,73 @@ type ParseError struct {
 	Message    string
 }
 
+// These are borrowed from unicode/utf8 and strconv and replicate behavior in
+// that package, since we can't take a dependency on either.
+const runeSelf = 0x80
+const lowerhex = "0123456789abcdef"
+
+const (
+	xx = 0xF1 // invalid: size 1
+	as = 0xF0 // ASCII: size 1
+	s1 = 0x02 // accept 0, size 2
+	s2 = 0x13 // accept 1, size 3
+	s3 = 0x03 // accept 0, size 3
+	s4 = 0x23 // accept 2, size 3
+	s5 = 0x34 // accept 3, size 4
+	s6 = 0x04 // accept 0, size 4
+	s7 = 0x44 // accept 4, size 4
+)
+
+// first is information about the first byte in a UTF-8 sequence.
+var first = [256]uint8{
+	//   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+	as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, // 0x00-0x0F
+	as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, // 0x10-0x1F
+	as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, // 0x20-0x2F
+	as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, // 0x30-0x3F
+	as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, // 0x40-0x4F
+	as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, // 0x50-0x5F
+	as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, // 0x60-0x6F
+	as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, as, // 0x70-0x7F
+	//   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+	xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, // 0x80-0x8F
+	xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, // 0x90-0x9F
+	xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, // 0xA0-0xAF
+	xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, // 0xB0-0xBF
+	xx, xx, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, // 0xC0-0xCF
+	s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, s1, // 0xD0-0xDF
+	s2, s3, s3, s3, s3, s3, s3, s3, s3, s3, s3, s3, s3, s4, s3, s3, // 0xE0-0xEF
+	s5, s6, s6, s6, s7, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, // 0xF0-0xFF
+}
+
 func quote(s string) string {
-	buf := make([]byte, 0, len(s)+2) // +2 for surrounding quotes
+	buf := make([]byte, 0)
 	buf = append(buf, '"')
-	for _, c := range s {
-		if c == '"' || c == '\\' {
-			buf = append(buf, '\\')
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if c >= runeSelf || c < ' ' {
+			// This means you are asking us to parse a time.Duration or
+			// time.Location with unprintable or non-ASCII characters in it.
+			// We don't expect to hit this case very often. We could try to
+			// reproduce strconv.Quote's behavior with full fidelity but
+			// given how rarely we expect to hit these edge cases, speed and
+			// conciseness are better.
+			x := first[c]
+			sz := int(x & 7)
+			adv := 0
+			for j := 0; (j == 0 || j < sz) && i+j < len(s); j++ {
+				buf = append(buf, `\x`...)
+				buf = append(buf, lowerhex[s[i+j]>>4])
+				buf = append(buf, lowerhex[s[i+j]&0xF])
+				adv++
+			}
+			i += adv
+		} else {
+			if c == '"' || c == '\\' {
+				buf = append(buf, '\\')
+			}
+			buf = append(buf, string(c)...)
 		}
-		buf = append(buf, string(c)...)
 	}
 	buf = append(buf, '"')
 	return string(buf)
