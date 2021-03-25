@@ -22,6 +22,30 @@
       },
       "revId": "1806439eb3e25521938fa339b880632c51b37b56",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39da501d_111676ad",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T19:16:01Z",
+      "side": 1,
+      "message": "Sounds good. Will remove in sep. CL.",
+      "parentUuid": "205273d6_92f61c8a",
+      "range": {
+        "startLine": 432,
+        "startChar": 55,
+        "endLine": 432,
+        "endChar": 68
+      },
+      "revId": "1806439eb3e25521938fa339b880632c51b37b56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
