@@ -18,12 +18,12 @@ const debugResolve = false
 // If declErr is non-nil, it is used to report declaration errors during
 // resolution. tok is used to format position in error messages.
 func resolveFile(file *ast.File, handle *token.File, declErr func(token.Pos, string)) {
-	topScope := ast.NewScope(nil)
+	pkgScope := ast.NewScope(nil)
 	r := &resolver{
 		handle:   handle,
 		declErr:  declErr,
-		topScope: topScope,
-		pkgScope: topScope,
+		topScope: pkgScope,
+		pkgScope: pkgScope,
 	}
 
 	for _, decl := range file.Decls {
@@ -115,7 +115,11 @@ func (r *resolver) closeLabelScope() {
 	r.labelScope = r.labelScope.Outer
 }
 
-func (r *resolver) declare(decl, data interface{}, scope *ast.Scope, kind ast.ObjKind, idents ...*ast.Ident) {
+type inserter interface {
+	Insert(*ast.Object) *ast.Object
+}
+
+func (r *resolver) declare(decl, data interface{}, scope inserter, kind ast.ObjKind, idents ...*ast.Ident) {
 	for _, ident := range idents {
 		// "type" is used for type lists in interfaces, and is otherwise an invalid
 		// identifier. The 'type' identifier is also artificially duplicated in the
@@ -244,9 +248,10 @@ func (r *resolver) Visit(node ast.Node) ast.Visitor {
 		r.resolve(n, true)
 
 	case *ast.FuncLit:
-		functionScope := ast.NewScope(r.topScope)
-		r.walkFuncType(functionScope, n.Type)
-		r.walkBody(functionScope, n.Body)
+		r.openScope(n.Pos())
+		defer r.closeScope()
+		r.walkFuncType(n.Type)
+		r.walkBody(n.Body)
 
 	case *ast.SelectorExpr:
 		ast.Walk(r, n.X)
@@ -258,8 +263,9 @@ func (r *resolver) Visit(node ast.Node) ast.Visitor {
 		r.walkFieldList(scope, n.Fields, ast.Var)
 
 	case *ast.FuncType:
-		scope := ast.NewScope(r.topScope)
-		r.walkFuncType(scope, n)
+		r.openScope(n.Pos())
+		defer r.closeScope()
+		r.walkFuncType(n)
 
 	case *ast.CompositeLit:
 		if n.Type != nil {
@@ -453,17 +459,36 @@ func (r *resolver) Visit(node ast.Node) ast.Visitor {
 				if spec.TParams != nil {
 					r.openScope(spec.Pos())
 					defer r.closeScope()
-					r.walkFieldList(r.topScope, spec.TParams, ast.Typ)
+					r.walkTParams(spec.TParams)
 				}
 				ast.Walk(r, spec.Type)
 			}
 		}
 
 	case *ast.FuncDecl:
-		scope := ast.NewScope(r.topScope)
-		r.walkFieldList(scope, n.Recv, ast.Var)
-		r.walkFuncType(scope, n.Type)
-		r.walkBody(scope, n.Body)
+		// Open the function scope.
+		r.openScope(n.Pos())
+		defer r.closeScope()
+
+		// Resolve the receiver first, without declaring
+		r.resolveList(n.Recv)
+
+		// Type parameters are walked normally: they can reference eachother, and
+		// can be referenced by normal parameters.
+		if n.Type.TParams != nil {
+			r.walkTParams(n.Type.TParams)
+			// TODO(rFindley): need to address receiver type parameters.
+		}
+
+		// Resolve and declare parameters in a specific order to get duplicate
+		// declaraion errors in the correct location.
+		r.resolveList(n.Type.Params)
+		r.resolveList(n.Type.Results)
+		r.declareList(r.topScope, n.Recv, ast.Var)
+		r.declareList(r.topScope, n.Type.Params, ast.Var)
+		r.declareList(r.topScope, n.Type.Results, ast.Var)
+
+		r.walkBody(n.Body)
 		if n.Recv == nil && n.Name.Name != "init" {
 			r.declare(n, nil, r.pkgScope, ast.Fun, n.Name)
 		}
@@ -475,13 +500,35 @@ func (r *resolver) Visit(node ast.Node) ast.Visitor {
 	return nil
 }
 
-func (r *resolver) walkFuncType(scope *ast.Scope, typ *ast.FuncType) {
-	r.walkFieldList(scope, typ.TParams, ast.Typ)
-	r.walkFieldList(scope, typ.Params, ast.Var)
-	r.walkFieldList(scope, typ.Results, ast.Var)
+func (r *resolver) walkFuncType(typ *ast.FuncType) {
+	// typ.TParams must be walked separately for FuncDecls.
+	r.resolveList(typ.Params)
+	r.resolveList(typ.Results)
+	r.declareList(r.topScope, typ.Params, ast.Var)
+	r.declareList(r.topScope, typ.Results, ast.Var)
 }
 
-func (r *resolver) walkFieldList(scope *ast.Scope, list *ast.FieldList, kind ast.ObjKind) {
+func (r *resolver) resolveList(list *ast.FieldList) {
+	if list == nil {
+		return
+	}
+	for _, f := range list.List {
+		if f.Type != nil {
+			ast.Walk(r, f.Type)
+		}
+	}
+}
+
+func (r *resolver) declareList(scope inserter, list *ast.FieldList, kind ast.ObjKind) {
+	if list == nil {
+		return
+	}
+	for _, f := range list.List {
+		r.declare(f, nil, scope, kind, f.Names...)
+	}
+}
+
+func (r *resolver) walkFieldList(scope inserter, list *ast.FieldList, kind ast.ObjKind) {
 	if list == nil {
 		return
 	}
@@ -493,12 +540,18 @@ func (r *resolver) walkFieldList(scope *ast.Scope, list *ast.FieldList, kind ast
 	}
 }
 
-func (r *resolver) walkBody(scope *ast.Scope, body *ast.BlockStmt) {
+// walkTParams is like walkFieldList, but declares type parameters eagerly so
+// that they may be resolved in the constraint expressions held in the field
+// Type.
+func (r *resolver) walkTParams(tparams *ast.FieldList) {
+	r.declareList(r.topScope, tparams, ast.Typ)
+	r.resolveList(tparams)
+}
+
+func (r *resolver) walkBody(body *ast.BlockStmt) {
 	if body == nil {
 		return
 	}
-	r.topScope = scope // open function scope
-	defer r.closeScope()
 	r.openLabelScope()
 	defer r.closeLabelScope()
 	r.walkStmts(body.List)
