@@ -22,6 +22,30 @@
       },
       "revId": "2da36f43331f127674ff8c94719b91acc3e79756",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dd3b5de_8305a883",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T19:20:39Z",
+      "side": 1,
+      "message": "Thanks for the reminder. Will update CL desc.",
+      "parentUuid": "8c9b2470_a5ade3d3",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "2da36f43331f127674ff8c94719b91acc3e79756",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
