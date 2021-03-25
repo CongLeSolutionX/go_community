@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe892896_16259e13",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Good suggestion!  Added an assertion to each of the transform functions on expressions. Caught a few places where I wasn\u0027t setting type in the expected order (but it hadn\u0027t mattered).",
+      "parentUuid": "3cfb616a_7e6ce0fc",
+      "range": {
+        "startLine": 15,
+        "startChar": 66,
+        "endLine": 15,
+        "endChar": 68
+      },
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24b44d17_98d4241e",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-03-25T21:33:15Z",
       "side": 1,
       "message": "do you want to keep this comment?",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9670c07d_f577ef56",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24b44d17_98d4241e",
       "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -75,6 +117,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9073e735_8da3a878",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbdd7f0e_944d62a1",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "283b9a96_d38a4897",
@@ -92,6 +152,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eeff5ae_793e1036",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283b9a96_d38a4897",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a65a39ce_1b0fee47",
@@ -105,6 +183,24 @@
       "writtenOn": "2021-03-25T21:33:15Z",
       "side": 1,
       "message": "empty line after switch for consistency? (you have one before, and it helps seeing the switch as a unit)",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04833fab_d742e4be",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a65a39ce_1b0fee47",
       "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -132,6 +228,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b7cbb5c_d127b3a1",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70173258_eb5ad32a",
+      "range": {
+        "startLine": 667,
+        "startChar": 2,
+        "endLine": 667,
+        "endChar": 8
+      },
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7da44d55_6da1e74a",
@@ -145,6 +265,24 @@
       "writtenOn": "2021-03-25T21:33:15Z",
       "side": 1,
       "message": "remove empty line",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13745be6_a480b6f9",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7da44d55_6da1e74a",
       "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -172,6 +310,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc5eddc5_a5d28115",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d783684_43470693",
+      "range": {
+        "startLine": 730,
+        "startChar": 9,
+        "endLine": 730,
+        "endChar": 14
+      },
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "208c8199_ff03f72e",
@@ -185,6 +347,24 @@
       "writtenOn": "2021-03-25T21:33:15Z",
       "side": 1,
       "message": "empty line after switch, for consistency",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "566bab52_3fc5bd4a",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "208c8199_ff03f72e",
       "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -206,6 +386,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d456a069_2810f397",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c21a7b67_352c62ac",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8f9b5da_61ee43f0",
@@ -219,6 +417,24 @@
       "writtenOn": "2021-03-25T21:33:15Z",
       "side": 1,
       "message": "leave these white lines between the outer switch cases",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19bdb58b_6c99eb58",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8f9b5da_61ee43f0",
       "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -246,6 +462,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cda1e2e6_7c183167",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4469c7a_329307b1",
+      "range": {
+        "startLine": 804,
+        "startChar": 9,
+        "endLine": 804,
+        "endChar": 14
+      },
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c233e485_6942a4c2",
@@ -259,6 +499,24 @@
       "writtenOn": "2021-03-25T21:33:15Z",
       "side": 1,
       "message": "insert empty line after switch, for consistency",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eb90786_d0ebea86",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-25T22:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c233e485_6942a4c2",
       "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
