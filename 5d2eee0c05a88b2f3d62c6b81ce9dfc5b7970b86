@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d25fb7a1_0df85a66",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-03-25T03:14:26Z",
+      "side": 1,
+      "message": "Was this committed accidentally?",
+      "range": {
+        "startLine": 19,
+        "startChar": 14,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "5d2eee0c05a88b2f3d62c6b81ce9dfc5b7970b86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42fcb483_49c537e8",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-03-25T03:14:26Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be false?",
+      "range": {
+        "startLine": 37,
+        "startChar": 27,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "5d2eee0c05a88b2f3d62c6b81ce9dfc5b7970b86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
