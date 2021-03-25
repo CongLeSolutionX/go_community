@@ -1,0 +1,266 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbfb9367_ba7cec51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "Mostly comments of cosmetic nature.",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cfb616a_7e6ce0fc",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "Can this be asserted explicitly in the code? If so, I\u0027d do that as well.",
+      "range": {
+        "startLine": 15,
+        "startChar": 66,
+        "endLine": 15,
+        "endChar": 68
+      },
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24b44d17_98d4241e",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "do you want to keep this comment?",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbdd7f0e_944d62a1",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "remove this empty line - this switch is very small",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "283b9a96_d38a4897",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "replace with a panic that prints the type found\n\npanic(fmt.Sprintf(\"transformComplex: unexpected type %s\", l))\n\n(need to check correct %-verb and argument)",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a65a39ce_1b0fee47",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "empty line after switch for consistency? (you have one before, and it helps seeing the switch as a unit)",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70173258_eb5ad32a",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "- same here: replace with a panic and suitable error message\n- also, I\u0027d put the default at the end, it\u0027s not the most important things to reads",
+      "range": {
+        "startLine": 667,
+        "startChar": 2,
+        "endLine": 667,
+        "endChar": 8
+      },
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7da44d55_6da1e74a",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d783684_43470693",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "replace with panic",
+      "range": {
+        "startLine": 730,
+        "startChar": 9,
+        "endLine": 730,
+        "endChar": 14
+      },
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "208c8199_ff03f72e",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "empty line after switch, for consistency",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c21a7b67_352c62ac",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "for these inner switch cases, since each case contains just a single return, I\u0027d leave away the empty line between cases",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8f9b5da_61ee43f0",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "leave these white lines between the outer switch cases",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4469c7a_329307b1",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "use panic",
+      "range": {
+        "startLine": 804,
+        "startChar": 9,
+        "endLine": 804,
+        "endChar": 14
+      },
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c233e485_6942a4c2",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-25T21:33:15Z",
+      "side": 1,
+      "message": "insert empty line after switch, for consistency",
+      "revId": "63055f2ec906d9f768ef873def3abc27c5d345e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
