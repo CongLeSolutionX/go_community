@@ -16,6 +16,23 @@
       "message": "TRY\u003dlongtest,windows-amd64-longtest",
       "revId": "e6e6a9eb6dc66a9710a6c25f0eb09fb66bf72ca0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42a392f6_cf49eb7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-03-26T05:12:21Z",
+      "side": 1,
+      "message": "(This change is loosely based on a draft in patchset 36 of CL 265777.)",
+      "revId": "e6e6a9eb6dc66a9710a6c25f0eb09fb66bf72ca0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
