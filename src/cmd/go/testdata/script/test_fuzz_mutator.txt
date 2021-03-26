@@ -20,14 +20,27 @@ stdout FAIL
 stdout 'mutator found enough unique mutations'
 
 # Test that minimization is working for recoverable errors.
-! go test -v -fuzz=FuzzMinimizerRecoverable -run=FuzzMinimizerRecoverable -parallel=1 -fuzztime=10s minimizer_test.go
+! go test -fuzz=FuzzMinimizerRecoverable -run=FuzzMinimizerRecoverable -parallel=1 -fuzztime=10s minimizer_test.go
 ! stdout '^ok'
 stdout 'got the minimum size!'
 stdout 'contains a letter'
 stdout FAIL
 
+# Check that the bytes written to testdata are of length 100 (the minimum size)
+go run check_testdata.go FuzzMinimizerRecoverable 100
+
 # Test that re-running the minimized value causes a crash.
 ! go test -run=FuzzMinimizerRecoverable minimizer_test.go
+
+# Test that minimization is working for non-recoverable errors.
+! go test -fuzz=FuzzMinimizerNonrecoverable -run=FuzzMinimizerNonrecoverable -parallel=1 -fuzztime=10s minimizer_test.go
+! stdout '^ok'
+stdout 'got the minimum size!'
+stdout 'contains a letter'
+stdout FAIL
+
+# Check that the bytes written to testdata are of length 100 (the minimum size)
+go run check_testdata.go FuzzMinimizerNonrecoverable 100
 
 -- go.mod --
 module m
@@ -91,13 +104,30 @@ func FuzzMinimizerRecoverable(f *testing.F) {
 			// Make sure that b is large enough that it can be minimized
 			return
 		}
-		if len(b) == 100 {
-			t.Logf("got the minimum size!")
-		}
+		// Given the randomness of the mutations, this should allow the
+		// minimizer to trim down the value a bit.
 		if bytes.ContainsAny(b, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") {
-			// Given the randomness of the mutations, this should allow the
-			// minimizer to trim down the value quite a bit.
+			if len(b) == 100 {
+				t.Logf("got the minimum size!")
+			}
 			t.Errorf("contains a letter")
+		}
+	})
+}
+
+func FuzzMinimizerNonrecoverable(f *testing.F) {
+	f.Fuzz(func(t *testing.T, b []byte) {
+		if len(b) < 100 {
+			// Make sure that b is large enough that it can be minimized
+			return
+		}
+		// Given the randomness of the mutations, this should allow the
+		// minimizer to trim down the value quite a bit.
+		if bytes.ContainsAny(b, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+			if len(b) == 100 {
+				t.Logf("got the minimum size!")
+			}
+			panic("contains a letter")
 		}
 	})
 }
@@ -195,7 +225,59 @@ func checkWorkerLog(r io.Reader) error {
 	}
 	return nil
 }
+-- check_testdata.go --
+// +build ignore
 
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strconv"
+)
+
+func main() {
+	target := os.Args[1]
+	numBytes, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	// Open the file in testdata (there should only be one)
+	dir := fmt.Sprintf("testdata/corpus/%s", target)
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	if len(files) != 1 {
+		fmt.Fprintf(os.Stderr, "expected one file, got %d", len(files))
+		os.Exit(1)
+	}
+	got, err := ioutil.ReadFile(filepath.Join(dir, files[0].Name()))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	// Make sure that there were exactly 100 bytes written to the corpus entry
+	prefix := []byte("[]byte(")
+	i := bytes.Index(got, prefix)
+	gotBytes := got[i+len(prefix) : len(got)-1]
+	s, err := strconv.Unquote(string(gotBytes))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	if want, got := numBytes, len(s); want != got {
+		fmt.Fprintf(os.Stderr, "want %d bytes, got %d", want, got)
+		os.Exit(1)
+	}
+}
 -- mutator_test.go --
 package fuzz_test
 

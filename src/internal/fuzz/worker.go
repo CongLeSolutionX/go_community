@@ -163,17 +163,9 @@ func (w *worker) coordinate(ctx context.Context) error {
 					return nil
 				}
 
-				// Unexpected termination. Inform the coordinator about the crash.
+				// Unexpected termination. Attempt to minimize.
 				// TODO(jayconrod,katiehockman): if -keepfuzzing, restart worker.
-				mem := <-w.memMu
-				value := mem.valueCopy()
-				w.memMu <- mem
-				message := fmt.Sprintf("fuzzing process terminated unexpectedly: %v", w.waitErr)
-				w.coordinator.resultC <- fuzzResult{
-					entry:      CorpusEntry{Data: value},
-					crasherMsg: message,
-				}
-				return w.waitErr
+				return w.minimize(ctx)
 			}
 
 			result := fuzzResult{
@@ -191,6 +183,57 @@ func (w *worker) coordinate(ctx context.Context) error {
 			w.coordinator.resultC <- result
 		}
 	}
+}
+
+// minimize asks a workerServer to attempt to minimize what is currently in
+// shared memory. It runs for a maxium of 1 minute.
+func (w *worker) minimize(ctx context.Context) (retErr error) {
+	w.coordinator.minimizing = true
+	defer func() {
+		mem := <-w.memMu
+		value := mem.valueCopy()
+		w.memMu <- mem
+		w.stop()
+		// TODO(jayconrod,katiehockman): w.waitErr is often nil by this point,
+		// so this isn't always a particularly helpful error message.
+		message := fmt.Sprintf("fuzzing process terminated unexpectedly: %v", w.waitErr)
+		// Even if minimization was cancelled due to an interrupt, still report
+		// the last crasher that we found to the coordinator.
+		w.coordinator.resultC <- fuzzResult{
+			entry:      CorpusEntry{Data: value},
+			crasherMsg: message,
+		}
+		retErr = w.waitErr
+		w.coordinator.minimizing = false
+	}()
+
+	fmt.Fprint(os.Stdout, "found a crash, currently minimizing for up to 1 minute\n")
+	minimizeDeadline := time.Now().Add(time.Minute)
+	for rem := time.Until(minimizeDeadline); rem > 0; {
+		// Restart the worker.
+		if err := w.start(); err != nil {
+			return w.stop()
+		}
+		args := minimizeArgs{Duration: rem}
+		err := w.client.minimize(ctx, args)
+		if err == nil {
+			// Minimization finished successfully, meaning that it
+			// couldn't find any smaller inputs that caused a crash,
+			// so stop trying.
+			break
+		}
+		w.stop()
+		// Minimization will return an error for a non-recoverable problem, so
+		// a non-nil error is expected. However, make sure it didn't fail for
+		// some other reason which should cause us to stop minimizing.
+		if ctx.Err() != nil || w.interrupted || isInterruptError(w.waitErr) {
+			return
+		}
+	}
+	return
+	// TODO(jayconrod,katiehockman): while minimizing, every panic message is
+	// logged to STDOUT. We should probably suppress all but the last one to
+	// lower the noise.
 }
 
 // start runs a new worker process.
@@ -370,8 +413,15 @@ func RunFuzzWorker(ctx context.Context, fn func(CorpusEntry) error) error {
 // a minimalist RPC mechanism. Exactly one of its fields must be set to indicate
 // which method to call.
 type call struct {
-	Ping *pingArgs
-	Fuzz *fuzzArgs
+	Ping     *pingArgs
+	Fuzz     *fuzzArgs
+	Minimize *minimizeArgs
+}
+
+// minimizeArgs contains arguments to workerServer.minimize. The value to
+// minimize is already in shared memory.
+type minimizeArgs struct {
+	Duration time.Duration
 }
 
 // fuzzArgs contains arguments to workerServer.fuzz. The value to fuzz is
@@ -412,6 +462,9 @@ type pingArgs struct{}
 
 // pingResponse contains results from workerServer.ping.
 type pingResponse struct{}
+
+// minimizeResponse contains results from workerServer.minimize.
+type minimizeResponse struct{}
 
 // workerComm holds pipes and shared memory used for communication
 // between the coordinator process (client) and a worker process (server).
@@ -479,6 +532,8 @@ func (ws *workerServer) serve(ctx context.Context) error {
 			switch {
 			case c.Fuzz != nil:
 				resp = ws.fuzz(ctx, *c.Fuzz)
+			case c.Minimize != nil:
+				resp = ws.minimize(ctx, *c.Minimize)
 			case c.Ping != nil:
 				resp = ws.ping(ctx, *c.Ping)
 			default:
@@ -534,11 +589,12 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 			ws.m.mutate(vals, cap(mem.valueRef()))
 			writeToMem(vals, mem)
 			if err := ws.fuzzFn(CorpusEntry{Values: vals}); err != nil {
+				fmt.Fprint(os.Stdout, "found a crash, currently minimizing for up to 1 minute\n")
 				// TODO(jayconrod,katiehockman): consider making the maximum minimization
 				// time customizable with a go command flag.
 				minCtx, minCancel := context.WithTimeout(ctx, time.Minute)
 				defer minCancel()
-				if minErr := ws.minimize(minCtx, vals, mem); minErr != nil {
+				if minErr := ws.minimizeInput(minCtx, vals, mem); minErr != nil {
 					// Minimization found a different error, so use that one.
 					err = minErr
 				}
@@ -561,12 +617,26 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	}
 }
 
-// minimize applies a series of minimizing transformations on the provided
+func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) minimizeResponse {
+	mem := <-ws.memMu
+	defer func() { ws.memMu <- mem }()
+	vals, err := unmarshalCorpusFile(mem.valueCopy())
+	if err != nil {
+		panic(err)
+	}
+	minCtx, minCancel := context.WithTimeout(ctx, args.Duration)
+	defer minCancel()
+	ws.minimizeInput(minCtx, vals, mem)
+	return minimizeResponse{}
+}
+
+// minimizeInput applies a series of minimizing transformations on the provided
 // vals, ensuring that each minimization still causes an error in fuzzFn. Before
 // every call to fuzzFn, it marshals the new vals and writes it to the provided
-// mem just in case an unrecoverable error occurs. It runs for a maximum of one
-// minute, and returns the last error it found.
-func (ws *workerServer) minimize(ctx context.Context, vals []interface{}, mem *sharedMem) (retErr error) {
+// mem just in case an unrecoverable error occurs. It uses the context to
+// determine how long to run, stopping once closed. It returns the last error it
+// found.
+func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, mem *sharedMem) (retErr error) {
 	// Make sure the last crashing value is written to mem.
 	defer writeToMem(vals, mem)
 
@@ -719,6 +789,16 @@ func (wc *workerClient) Close() error {
 // This error should not be reported. It indicates the operation was
 // interrupted.
 var errSharedMemClosed = errors.New("internal error: shared memory was closed and unmapped")
+
+// minimize tells the worker to call the minimize method. See
+// workerServer.minimize.
+func (wc *workerClient) minimize(ctx context.Context, args minimizeArgs) (err error) {
+	wc.mu.Lock()
+	defer wc.mu.Unlock()
+	c := call{Minimize: &args}
+	var resp minimizeResponse
+	return wc.call(ctx, c, &resp)
+}
 
 // fuzz tells the worker to call the fuzz method. See workerServer.fuzz.
 func (wc *workerClient) fuzz(ctx context.Context, valueIn []byte, args fuzzArgs) (valueOut []byte, resp fuzzResponse, err error) {

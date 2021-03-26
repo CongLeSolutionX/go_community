@@ -126,6 +126,7 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 	// stop is called when a worker encounters a fatal error.
 	var fuzzErr error
 	stopping := false
+	minimizing := false
 	stop := func(err error) {
 		if err == fuzzCtx.Err() || isInterruptError(err) {
 			// Suppress cancellation errors and terminations due to SIGINT.
@@ -221,7 +222,7 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 				}
 			}
 
-			if inputC == nil && !stopping {
+			if inputC == nil && !stopping && !minimizing {
 				// inputC was disabled earlier because we hit the limit on the number
 				// of inputs to fuzz (nextInput returned false).
 				// Workers can do less work than requested though, so we might be
@@ -246,7 +247,9 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 			}
 
 		case <-statTicker.C:
-			c.logStats()
+			if !minimizing {
+				c.logStats()
+			}
 		}
 	}
 
@@ -341,6 +344,11 @@ type coordinator struct {
 	// inputC is sent values to fuzz by the coordinator. Any worker may receive
 	// values from this channel.
 	inputC chan fuzzInput
+
+	// minimizing is set when one of the workers is minimizing some input,
+	// indicating to the coordinator that it shouldn't pass new values to other
+	// workers to fuzz.
+	minimizing bool
 
 	// resultC is sent results of fuzzing by workers. The coordinator
 	// receives these. Multiple types of messages are allowed.
