@@ -8,137 +8,187 @@ import (
 	"context"
 	"sort"
 
-	"cmd/go/internal/mvs"
-
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
 )
 
-// editBuildList returns an edited version of initial such that:
-//
-// 	1. Each module version in mustSelect is selected.
-//
-// 	2. Each module version in tryUpgrade is upgraded toward the indicated
-// 	   version as far as can be done without violating (1).
-//
-// 	3. Each module version in initial is downgraded from its original version
-// 	   only to the extent needed to satisfy (1), or upgraded only to the extent
-// 	   needed to satisfy (1) and (2).
-//
-// 	4. No module is upgraded above the maximum version of its path found in the
-// 	   combined dependency graph of list, tryUpgrade, and mustSelect.
-func editBuildList(ctx context.Context, initial, tryUpgrade, mustSelect []module.Version) ([]module.Version, error) {
-	// Per https://research.swtch.com/vgo-mvs#algorithm_4:
-	// “To avoid an unnecessary downgrade to E 1.1, we must also add a new
-	// requirement on E 1.2. We can apply Algorithm R to find the minimal set of
-	// new requirements to write to go.mod.”
-	//
-	// In order to generate those new requirements, we need consider versions for
-	// every module in the existing build list, plus every module being directly
-	// added by the edit. However, modules added only as dependencies of tentative
-	// versions should not be retained if they end up being upgraded or downgraded
-	// away due to versions in mustSelect.
-
-	// When we downgrade modules in order to reach mustSelect, we don't want to
-	// upgrade any existing module above the version that would be selected if we
-	// just added all of the new requirements and *didn't* downgrade.
-	//
-	// So we'll do exactly that: just add all of the new requirements and not
-	// downgrade, and return the resulting versions as an upper bound. This
-	// intentionally limits our solution space so that edits that the user
-	// percieves as “downgrades” will not also result in upgrades.
-	max := make(map[string]string)
-	maxes, err := mvs.Upgrade(Target, &mvsReqs{
-		buildList: append(capVersionSlice(initial), mustSelect...),
-	}, tryUpgrade...)
+func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSelect []module.Version) (edited *Requirements, changed bool, err error) {
+	mg, err := rs.Graph(ctx)
 	if err != nil {
-		return nil, err
-	}
-	for _, m := range maxes {
-		max[m.Path] = m.Version
-	}
-	// The versions in mustSelect override whatever we would naively select —
-	// we will downgrade other modules as needed in order to meet them.
-	for _, m := range mustSelect {
-		max[m.Path] = m.Version
+		return rs, false, err
 	}
 
-	limiter := newVersionLimiter(max)
-
-	var conflicts []Conflict
-	for _, m := range mustSelect {
-		dq := limiter.check(m)
-		switch {
-		case dq.err != nil:
-			return nil, err
-		case dq.conflict != module.Version{}:
-			conflicts = append(conflicts, Conflict{
-				Source: m,
-				Dep:    dq.conflict,
-				Constraint: module.Version{
-					Path:    dq.conflict.Path,
-					Version: limiter.max[dq.conflict.Path],
-				},
-			})
+	limiter := newVersionLimiter()
+	if rs.depth == lazy {
+		// The go.mod file records every relevant module explicitly.
+		//
+		// If we need to downgrade an existing root or a new root found in
+		// tryUpgrade, we don't want to allow that downgrade to incidentally upgrade
+		// a relevant module to some arbitrary version. However, we don't care about
+		// arbitrary upgrades to otherwise-irrelevant modules.
+		for _, m := range rs.rootModules {
+			v := mg.Selected(m.Path)
+			limiter.limitTo(module.Version{Path: m.Path, Version: v})
 		}
-		limiter.selected[m.Path] = m.Version
-	}
-	if len(conflicts) > 0 {
-		return nil, &ConstraintError{Conflicts: conflicts}
+	} else {
+		// Eager go.mod files don't indicate which transitive dependencies are
+		// actually relevant to the main module, so we have to assume that any
+		// module that could have provided any package — that is, any module whose
+		// selected version was not "none" — may be relevant.
+		for _, m := range mg.BuildList() {
+			limiter.limitTo(m)
+		}
 	}
 
-	// For each module, we want to get as close as we can to either the upgrade
-	// version or the previously-selected version in the build list, whichever is
-	// higher. We can compute those in either order, but the upgrades will tend to
-	// be higher than the build list, so we arbitrarily start with those.
+	var eagerUpgrades []module.Version
+	if rs.depth == lazy {
+		for _, m := range tryUpgrade {
+			if m.Path == Target.Path {
+				// Target is already considered to be higher than any possible m, so we
+				// won't be upgrading to it anyway and there is no point scanning its
+				// dependencies.
+				continue
+			}
+
+			summary, err := goModSummary(m)
+			if err != nil {
+				return rs, false, err
+			}
+			if summary.depth() == eager {
+				// For efficiency, we'll load all of the eager upgrades as one big
+				// graph, rather than loading the (potentially-overlapping) subgraph for
+				// each upgrade individually.
+				eagerUpgrades = append(eagerUpgrades, m)
+				continue
+			}
+
+			for _, r := range summary.require {
+				limiter.allow(r)
+			}
+		}
+	} else {
+		eagerUpgrades = tryUpgrade
+	}
+
+	// Compute the max versions for eager upgrades all together.
+	// Since these modules are eager, we'll end up scanning all of their
+	// transitive dependencies no matter which versions end up selected,
+	// and since we have a large dependency graph to scan we might get
+	// a significant benefit from not revisiting dependencies that are at
+	// common versions among multiple upgrades.
+	if len(eagerUpgrades) > 0 {
+		upgradeGraph, err := readModGraph(ctx, eager, eagerUpgrades)
+		if err != nil {
+			if go117LazyTODO {
+				// Compute the requirement path from a module path in tryUpgrade to the
+				// error, and the requirement path (if any) from rs.rootModules to the
+				// tryUpgrade module path. Return a *mvs.BuildListError showing the
+				// concatenation of the paths (with an upgrade in the middle).
+			}
+			return rs, false, err
+		}
+
+		for _, r := range upgradeGraph.BuildList() {
+			// Upgrading to m would upgrade to r, and the caller requested that we
+			// try to upgrade to m, so it's ok to upgrade to r.
+			limiter.allow(r)
+		}
+	}
+
+	if len(mustSelect) > 0 {
+		mustGraph, err := readModGraph(ctx, rs.depth, mustSelect)
+		if err != nil {
+			return rs, false, err
+		}
+
+		for _, r := range mustGraph.BuildList() {
+			limiter.allow(r)
+		}
+
+		// The versions in mustSelect override whatever we would naively select —
+		// we will downgrade other modules as needed in order to meet them.
+		for _, m := range mustSelect {
+			limiter.limitTo(m)
+		}
+
+		var conflicts []Conflict
+		for _, m := range mustSelect {
+			dq := limiter.check(m, rs.depth)
+			switch {
+			case dq.err != nil:
+				return rs, false, err
+			case dq.conflict != module.Version{}:
+				conflicts = append(conflicts, Conflict{
+					Source: m,
+					Dep:    dq.conflict,
+					Constraint: module.Version{
+						Path:    dq.conflict.Path,
+						Version: limiter.max[dq.conflict.Path],
+					},
+				})
+			}
+			limiter.selected[m.Path] = m.Version
+		}
+		if len(conflicts) > 0 {
+			return rs, false, &ConstraintError{Conflicts: conflicts}
+		}
+	}
+
 	for _, m := range tryUpgrade {
-		if err := limiter.upgradeToward(ctx, m); err != nil {
-			return nil, err
+		if err := limiter.upgradeToward(ctx, m, rs.depth); err != nil {
+			return rs, false, err
 		}
 	}
-	for _, m := range initial {
-		if err := limiter.upgradeToward(ctx, m); err != nil {
-			return nil, err
-		}
-	}
-
-	// We've identified acceptable versions for each of the modules, but those
-	// versions are not necessarily consistent with each other: one upgraded or
-	// downgraded module may require a higher (but still allowed) version of
-	// another. The lower version may require extraneous dependencies that aren't
-	// actually relevant, so we need to compute the actual selected versions.
-	adjusted := make([]module.Version, 0, len(maxes))
-	for _, m := range maxes {
-		if v, ok := limiter.selected[m.Path]; ok {
-			adjusted = append(adjusted, module.Version{Path: m.Path, Version: v})
-		}
-	}
-	consistent, err := mvs.BuildList(Target, &mvsReqs{buildList: adjusted})
-	if err != nil {
-		return nil, err
-	}
-
-	// We have the correct selected versions. Now we need to re-run MVS with only
-	// the actually-selected versions in order to eliminate extraneous
-	// dependencies from lower-than-selected ones.
-	compacted := consistent[:0]
-	for _, m := range consistent {
-		if _, ok := limiter.selected[m.Path]; ok {
-			// The fact that the limiter has a version for m.Path indicates that we
-			// care about retaining that path, even if the version was upgraded for
-			// consistency.
-			compacted = append(compacted, m)
+	for _, m := range rs.rootModules {
+		if err := limiter.upgradeToward(ctx, m, rs.depth); err != nil {
+			return rs, false, err
 		}
 	}
 
-	return mvs.BuildList(Target, &mvsReqs{buildList: compacted})
+	rootModules := make([]module.Version, 0, len(limiter.selected))
+	for path, v := range limiter.selected {
+		if path == Target.Path {
+			continue
+		}
+
+		if v != "none" {
+			rootModules = append(rootModules, module.Version{Path: path, Version: v})
+		}
+
+		if !changed {
+			if v != mg.Selected(path) {
+				changed = true
+			}
+		}
+	}
+	if !changed {
+		return rs, false, nil
+	}
+	module.Sort(rootModules)
+
+	// A module that is not even in the build list necessarily cannot provide
+	// any imported packages. Mark as direct only the direct modules that are
+	// still in the build list.
+	//
+	// TODO(bcmills): Would it make more sense to leave the direct map as-is
+	// but allow it to refer to modules that are no longer in the build list?
+	// That might complicate updateRoots, but it may be cleaner in other ways.
+	direct := make(map[string]bool, len(rs.direct))
+	for _, m := range rootModules {
+		if rs.direct[m.Path] {
+			direct[m.Path] = true
+		}
+	}
+	return newRequirements(rs.depth, rootModules, direct), true, nil
 }
 
 // A versionLimiter tracks the versions that may be selected for each module
 // subject to constraints on the maximum versions of transitive dependencies.
 type versionLimiter struct {
 	// max maps each module path to the maximum version that may be selected for
-	// that path. Paths with no entry are unrestricted.
+	// that path. Paths with no entry are unrestricted and assumed to be
+	// irrelevant; irrelevant dependencies of lazy modules will not be followed
+	// to check for conflicts.
 	max map[string]string
 
 	// selected maps each module path to a version of that path (if known) whose
@@ -183,18 +233,42 @@ func (dq dqState) isDisqualified() bool {
 	return dq != dqState{}
 }
 
-func newVersionLimiter(max map[string]string) *versionLimiter {
+func newVersionLimiter() *versionLimiter {
 	return &versionLimiter{
 		selected:  map[string]string{Target.Path: Target.Version},
-		max:       max,
+		max:       map[string]string{},
 		dqReason:  map[module.Version]dqState{},
 		requiring: map[module.Version][]module.Version{},
 	}
 }
 
+// allow raises the limit for m.Path to at least m.Version.
+//
+// This may undo a previous call to limitTo.
+func (l *versionLimiter) allow(m module.Version) {
+	v, ok := l.max[m.Path]
+	if !ok {
+		// m.Path is already unlimited.
+		return
+	}
+	if cmpVersion(v, m.Version) < 0 {
+		l.max[m.Path] = m.Version
+	}
+}
+
+// limitTo reduces the limit for m.Path to no higher than m.Version.
+//
+// This may undo a previous call to allow.
+func (l *versionLimiter) limitTo(m module.Version) {
+	v, ok := l.max[m.Path]
+	if !ok || cmpVersion(v, m.Version) > 0 {
+		l.max[m.Path] = m.Version
+	}
+}
+
 // upgradeToward attempts to upgrade the selected version of m.Path as close as
 // possible to m.Version without violating l's maximum version limits.
-func (l *versionLimiter) upgradeToward(ctx context.Context, m module.Version) error {
+func (l *versionLimiter) upgradeToward(ctx context.Context, m module.Version, depth modDepth) error {
 	selected, ok := l.selected[m.Path]
 	if ok {
 		if cmpVersion(selected, m.Version) >= 0 {
@@ -205,7 +279,7 @@ func (l *versionLimiter) upgradeToward(ctx context.Context, m module.Version) er
 		selected = "none"
 	}
 
-	if l.check(m).isDisqualified() {
+	if l.check(m, depth).isDisqualified() {
 		candidates, err := versions(ctx, m.Path, CheckAllowed)
 		if err != nil {
 			// This is likely a transient error reaching the repository,
@@ -222,7 +296,7 @@ func (l *versionLimiter) upgradeToward(ctx context.Context, m module.Version) er
 		})
 		candidates = candidates[:i]
 
-		for l.check(m).isDisqualified() {
+		for l.check(m, depth).isDisqualified() {
 			n := len(candidates)
 			if n == 0 || cmpVersion(selected, candidates[n-1]) >= 0 {
 				// We couldn't find a suitable candidate above the already-selected version.
@@ -239,7 +313,7 @@ func (l *versionLimiter) upgradeToward(ctx context.Context, m module.Version) er
 
 // check determines whether m (or its transitive dependencies) would violate l's
 // maximum version limits if added to the module requirement graph.
-func (l *versionLimiter) check(m module.Version) dqState {
+func (l *versionLimiter) check(m module.Version, depth modDepth) dqState {
 	if m.Version == "none" || m == Target {
 		// version "none" has no requirements, and the dependencies of Target are
 		// tautological.
@@ -270,8 +344,19 @@ func (l *versionLimiter) check(m module.Version) dqState {
 		return l.disqualify(m, dqState{err: err})
 	}
 
+	if summary.depth() == eager {
+		depth = eager
+	}
 	for _, r := range summary.require {
-		if dq := l.check(r); dq.isDisqualified() {
+		if depth == lazy {
+			if _, relevant := l.max[r.Path]; !relevant {
+				// r.Path is irrelevant, so we don't care at what version it is selected.
+				// Because m is lazy, r's dependencies won't be followed.
+				continue
+			}
+		}
+
+		if dq := l.check(r, depth); dq.isDisqualified() {
 			return l.disqualify(m, dq)
 		}
 
