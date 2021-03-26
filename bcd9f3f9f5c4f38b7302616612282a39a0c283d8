@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a33bf87e_e9c0285f",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-03-26T16:07:46Z",
+      "side": 1,
+      "message": "Can we make this only if needed?\nvar lca *lcaRange\n\nThen later, when we need it:\n\nif lca \u003d\u003d nil {\n   lca \u003d makeLCArange(f)\n}\n\nthat way unless we find a candidate (Phi true false) we won\u0027t need to do this work.",
+      "revId": "bcd9f3f9f5c4f38b7302616612282a39a0c283d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
