@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b12d77ef_39864f86",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-26T08:12:55Z",
+      "side": 1,
+      "message": "\u003e The only worry I have about that is that we\u0027re doing CFG graph surgery in here, so it may invalidate the results. Not sure.\n\nHi Keith. I do not understand why it may invalidate the results. Because the CFG layout is not changed in all this phase. Thank you.",
+      "parentUuid": "196ca4c6_7039b0bc",
+      "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2705f682_2a6f7040",
         "filename": "src/cmd/compile/internal/ssa/phiopt.go",
         "patchSetId": 14
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-25T21:22:00Z",
       "side": 1,
       "message": "if b.Kind !\u003d BlockIf { continue } // or break?\nThen outdent the rest.\n\nI think you want break here. If b0 isn\u0027t an If block, it won\u0027t be for any of the other Phis in this block.",
+      "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "454574a0_77fe82bd",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-26T08:12:55Z",
+      "side": 1,
+      "message": "Done. Thank you.",
+      "parentUuid": "2705f682_2a6f7040",
       "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e193e3c6_355a60d9",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-26T08:12:55Z",
+      "side": 1,
+      "message": "Done. Thank you.",
+      "parentUuid": "78da8adb_a9f9ff79",
+      "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be1e4889_cfbf30ca",
@@ -65,6 +119,30 @@
       "writtenOn": "2021-03-25T21:22:00Z",
       "side": 1,
       "message": "this could use a better name. replaceWithControlOf?",
+      "range": {
+        "startLine": 311,
+        "startChar": 5,
+        "endLine": 311,
+        "endChar": 12
+      },
+      "revId": "21a37f009e918eea3e9747fcc87f2c8f4787a969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eaf4642_9d990568",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-26T08:12:55Z",
+      "side": 1,
+      "message": "How about convertPhi? Done. Thank you.",
+      "parentUuid": "be1e4889_cfbf30ca",
       "range": {
         "startLine": 311,
         "startChar": 5,
