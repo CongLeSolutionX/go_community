@@ -9,10 +9,116 @@ import (
 	"sort"
 
 	"cmd/go/internal/mvs"
+	"cmd/go/internal/par"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
 )
+
+func editRequirements2(ctx context.Context, work *par.Queue, rs *Requirements, tryUpgrade, mustSelect []module.Version) (edited *Requirements, changed bool, err error) {
+	mg, err := rs.Graph(ctx)
+	if err != nil {
+		return rs, false, err
+	}
+
+	max := make(map[string]string)
+	if go117LazyTODO {
+		// The go.mod file records every relevant module explicitly.
+		//
+		// If we need to downgrade an existing root or a new root found in
+		// tryUpgrade, we don't want to allow that downgrade to incidentally upgrade
+		// a relevant module to some arbitrary version. However, we don't care about
+		// arbitrary upgrades to otherwise-irrelevant modules.
+		for _, m := range rs.rootModules {
+			max[m.Path] = mg.Selected(m.Path)
+		}
+	} else {
+		// Eager go.mod files don't indicate which transitive dependencies are
+		// actually relevant to the main module, so we have to assume that any
+		// module that could have provided any package — that is, any module whose
+		// selected version was not "none" — may be relevant.
+		for _, m := range mg.BuildList() {
+			max[m.Path] = m.Version
+		}
+	}
+
+	var eagerUpgrades []module.Version
+	for _, m := range tryUpgrade {
+		if m.Path == Target.Path {
+			// Target is already considered to be higher than any possible m, so we
+			// won't be upgrading to it anyway and there is no point scanning its
+			// dependencies.
+			continue
+		}
+
+		if !go117LazyTODO { // if summary.depth() == eager {
+			// For efficiency, we'll load all of the eager upgrades as one big
+			// graph, rather than loading the (potentially-overlapping) subgraph for
+			// each upgrade individually.
+			eagerUpgrades = append(eagerUpgrades, m)
+			continue
+		}
+
+		summary, err := goModSummary(m)
+		if err != nil {
+			return rs, false, err
+		}
+		for _, r := range summary.require {
+			v, ok := max[r.Path]
+			if !ok {
+				// r does not appear to be relevant to the main module, so we don't
+				// care what version it ends up at.
+				continue
+			}
+			if cmpVersion(v, r.Version) < 0 {
+				// Upgrading to m would upgrade to r, and the caller requested that we
+				// try to upgrade to m, so it's ok to upgrade r.Path to any version up
+				// to r.Version that does not conflict with mustSelect.
+				max[r.Path] = r.Version
+			}
+		}
+	}
+
+	if len(tryUpgrade) > 0 {
+		upgradeGraph, err := readModGraph(ctx, tryUpgrade)
+		if err != nil {
+			if go117LazyTODO {
+				// Compute the requirement path from a module path in tryUpgrade to the
+				// error, and the requirement path from rs.rootModules to the tryUpgrade
+				// module. Return a *mvs.BuildListError showing the concatenation of the
+				// paths (with an upgrade in the middle).
+			}
+			return rs, false, err
+		}
+		for _, m := range upgradeGraph.BuildList() {
+			if v, ok := max[m.Path]; !ok || cmpVersion(v, m.Version) < 0 {
+				max[m.Path] = m.Version
+			}
+		}
+	}
+
+	if len(mustSelect) > 0 {
+		mustGraph, err := readModGraph(ctx, mustSelect)
+		if err != nil {
+			return rs, false, err
+		}
+		for _, m := range mustGraph.BuildList() {
+			if v, ok := max[m.Path]; !ok || cmpVersion(v, m.Version) < 0 {
+				max[m.Path] = m.Version
+			}
+		}
+
+		// The versions in mustSelect override whatever we would naively select —
+		// we will downgrade other modules as needed in order to meet them.
+		for _, m := range mustSelect {
+			max[m.Path] = m.Version
+		}
+	}
+
+	limiter := newVersionLimiter(max)
+
+	return TODO, TODO, nil
+}
 
 // editBuildList returns an edited version of initial such that:
 //
