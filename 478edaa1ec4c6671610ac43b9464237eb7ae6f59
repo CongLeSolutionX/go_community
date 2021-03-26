@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85585d81_62ab6141",
+        "filename": "src/syscall/asan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-03-26T09:24:38Z",
+      "side": 1,
+      "message": "Please add a //go:build line above as well\n\n  //go:build asan\n  // +build asan\n\nYou may run gofmt from gotip to automatically add it based on the // +build line.",
+      "revId": "478edaa1ec4c6671610ac43b9464237eb7ae6f59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90e64a1c_de6ee239",
+        "filename": "src/syscall/asan0.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-03-26T09:24:38Z",
+      "side": 1,
+      "message": "Same here, please add a //go:build line above.",
+      "revId": "478edaa1ec4c6671610ac43b9464237eb7ae6f59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
