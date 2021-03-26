@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9e9cf6f_05009f58",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4800,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-26T23:44:24Z",
+      "side": 0,
+      "message": "Please revert this, intentionally a select.",
+      "range": {
+        "startLine": 4797,
+        "startChar": 0,
+        "endLine": 4800,
+        "endChar": 0
+      },
+      "revId": "37ca84a9cd6a8a76dfe91263a17d2b92b17a24b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d8358f6_8313b434",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5856,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-03-26T23:44:24Z",
+      "side": 0,
+      "message": "If we got this route and just replace singly, we\u0027ve got to check for:\na) context.Canceled\nb) err !\u003d nil, could be deadline exceeded and if so we need to figure out why\nc) allow err \u003d\u003d nil\n\nand at that point it becomes a tedious check. Perhaps you can do this\n\n   if err :\u003d r.Context().Err(); err !\u003d nil {\n         t.Errorf(\"context unexpectedly expired: %v\", err)\n   }",
+      "range": {
+        "startLine": 5853,
+        "startChar": 2,
+        "endLine": 5856,
+        "endChar": 10
+      },
+      "revId": "37ca84a9cd6a8a76dfe91263a17d2b92b17a24b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
