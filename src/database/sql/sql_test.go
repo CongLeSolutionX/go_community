@@ -337,14 +337,11 @@ func TestQueryContext(t *testing.T) {
 		got = append(got, r)
 		index++
 	}
-	select {
-	case <-ctx.Done():
-		if err := ctx.Err(); err != context.Canceled {
-			t.Fatalf("context err = %v; want context.Canceled", err)
-		}
-	default:
-		t.Fatalf("context err = nil; want context.Canceled")
+
+	if err := ctx.Err(); err != context.Cancelled {
+		t.Fatalf("context err = %v; want context.Canceled", err)
 	}
+
 	want := []row{
 		{age: 1, name: "Alice"},
 		{age: 2, name: "Bob"},
@@ -2957,10 +2954,9 @@ func TestIssue20575(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	select {
-	default:
-	case <-ctx.Done():
-		t.Fatal("timeout: failed to rollback query without closing rows:", ctx.Err())
+
+	if err := ctx.Err(); err != nil {
+		t.Fatal("timeout: failed to rollback query without closing rows:", err)
 	}
 }
 
