@@ -5850,10 +5850,8 @@ func TestServerHijackGetsBackgroundByte(t *testing.T) {
 			t.Errorf("Peek = %q, %v; want foo, nil", peek, err)
 		}
 
-		select {
-		case <-r.Context().Done():
-			t.Error("context unexpectedly canceled")
-		default:
+		if err := r.Context().Err(); err != nil {
+			t.Errorf("context unexpectedly expired: %v", err)
 		}
 	}))
 	defer ts.Close()
