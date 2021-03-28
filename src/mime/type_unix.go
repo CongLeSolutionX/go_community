@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || (js && wasm) || linux || netbsd || openbsd || solaris
-// +build aix darwin dragonfly freebsd js,wasm linux netbsd openbsd solaris
+//go:build aix || dragonfly || freebsd || (js && wasm) || linux || netbsd || openbsd || solaris
+// +build aix dragonfly freebsd js,wasm linux netbsd openbsd solaris
 
 package mime
 
@@ -18,10 +18,8 @@ func init() {
 }
 
 var typeFiles = []string{
-	"/etc/mime.types",
-	"/etc/apache2/mime.types",
-	"/etc/apache/mime.types",
-	"/etc/httpd/conf/mime.types",
+	"/usr/local/share/mime/globs",
+	"/usr/share/mime/globs", // Fallback for unix systems that don't use /usr/local.
 }
 
 func loadMimeFile(filename string) {
@@ -32,18 +30,19 @@ func loadMimeFile(filename string) {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
+	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
-		fields := strings.Fields(scanner.Text())
-		if len(fields) <= 1 || fields[0][0] == '#' {
+		if scanner.Text() == "" || scanner.Text()[0] == '#' {
 			continue
 		}
-		mimeType := fields[0]
-		for _, ext := range fields[1:] {
-			if ext[0] == '#' {
-				break
-			}
-			setExtensionType("."+ext, mimeType)
+
+		// Each line should be of format: mimetype:*.ext
+		fields := strings.Split(scanner.Text(), ":")
+		if fields[1][0] != '*' {
+			continue // We only support getting mimetypes for extensions, not for filenames.
 		}
+
+		setExtensionType(fields[1][1:], fields[0])
 	}
 	if err := scanner.Err(); err != nil {
 		panic(err)

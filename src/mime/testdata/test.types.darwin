@@ -3,6 +3,6 @@
 # license that can be found in the LICENSE file.
 
 
-# mime package test
-application/test:*.t1
-text/test:*.t2
+ # mime package test
+application/test	t1	# Simple test
+text/test		t2	# Text test
