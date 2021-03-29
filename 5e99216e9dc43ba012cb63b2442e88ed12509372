@@ -70,6 +70,24 @@
       "parentUuid": "7fba76b3_14011024",
       "revId": "5e99216e9dc43ba012cb63b2442e88ed12509372",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67fea3a9_a9bbab65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-29T22:01:10Z",
+      "side": 1,
+      "message": "I\u0027d prefer not to have both runtime.funcPC and abi.FuncPC, especially if they\u0027re subtly different.\n\n\u003e This is exactly because the ABI is not exported, so it does not work across package boundaries.\n\nIt is now. :)",
+      "parentUuid": "94c8e8d1_354cc126",
+      "revId": "5e99216e9dc43ba012cb63b2442e88ed12509372",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
