@@ -142,6 +142,30 @@
       },
       "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80dcf7b9_38b00912",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-29T03:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f4a74de_7cfde44f",
+      "range": {
+        "startLine": 1785,
+        "startChar": 31,
+        "endLine": 1785,
+        "endChar": 38
+      },
+      "revId": "43caecf9fdde59a445355d54dca9b1499475f5b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
