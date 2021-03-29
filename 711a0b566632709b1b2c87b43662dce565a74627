@@ -124,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8cdba66_dc948143",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-03-29T17:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70fb0a15_ca41876a",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ada3272_9231f0e7",
@@ -208,6 +226,24 @@
       "side": 1,
       "message": "Can you update the issue title to reflect it is more than just a relocation failure causing the test failures? This does fix the linker errors.",
       "parentUuid": "4d50bc2d_b9a54ff9",
+      "revId": "711a0b566632709b1b2c87b43662dce565a74627",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6ad1e85_2f813e03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-03-29T17:33:15Z",
+      "side": 1,
+      "message": "Yes I will.",
+      "parentUuid": "81dd6601_cb3efd4e",
       "revId": "711a0b566632709b1b2c87b43662dce565a74627",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
