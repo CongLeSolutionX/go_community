@@ -16,6 +16,23 @@
       "message": "Note to reviewers. I did some further testing and it looks to me like it is better to keep the old system as a fallback. All my testing had been done on using the Gnome and Mate desktops, which uses the shared mime-info database, while some other system installations do not. This is now updated to make that happen. Sorry for any confusion.",
       "revId": "8d7569245a0f213c6107b27ec69272dcf2fc7d50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a54bf1f5_e16417c5",
+        "filename": "src/mime/type_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-29T18:05:33Z",
+      "side": 1,
+      "message": "Check len(fields[0]) and len(fields[2]) to avoid panicking on a line like \"::\".",
+      "revId": "8d7569245a0f213c6107b27ec69272dcf2fc7d50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
