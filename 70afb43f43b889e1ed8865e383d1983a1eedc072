@@ -33,6 +33,24 @@
       "message": "Do you have future plans to clean up the code under case 66? I see mention of mtdcr and mfdcr, which I don\u0027t see defined anywhere and hard encoding of the opcode bits for mtspr and mfspr instead of using OP_MTSPR and OP_MFSPR.",
       "revId": "70afb43f43b889e1ed8865e383d1983a1eedc072",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35fba26f_95f79a08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-03-29T21:11:09Z",
+      "side": 1,
+      "message": "I don\u0027t have any patches queued, but I think that, along with the REG_DCR0 range can be removed without issue.",
+      "parentUuid": "92f19c91_94500090",
+      "revId": "70afb43f43b889e1ed8865e383d1983a1eedc072",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
