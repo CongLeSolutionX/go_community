@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "923cbf06_b7cde89c",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-29T18:43:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57436826_d88e27e4",
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3b7c2aa_d3c0aa61",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-29T17:13:41Z",
       "side": 1,
       "message": "panic/throw if this returns false? This should only be possible if ptrs contains a duplicate address, which in theory is fine, but we don\u0027t have the logic to ensure that we duplicate the result in the second bit in mask.",
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17087044_4bccfd85",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2367,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-29T18:43:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3b7c2aa_d3c0aa61",
       "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -75,6 +111,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1acbb2f_ca7f5e0e",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-29T18:43:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78c295f4_55575bd1",
+      "range": {
+        "startLine": 387,
+        "startChar": 8,
+        "endLine": 387,
+        "endChar": 30
+      },
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e97f482_a9de82d6",
@@ -88,6 +148,24 @@
       "writtenOn": "2021-03-29T17:13:41Z",
       "side": 1,
       "message": "FWIW, I think reasoning about the **special argument to freeSpecial and the effects it has on this function is awkward enough that I\u0027d rather see the splicing duplicated here. (i.e., drop golang.org/cl/305329).",
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa9fb020_cadfc3ad",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-29T18:43:25Z",
+      "side": 1,
+      "message": "You are obviously way less allergic to linked list manipulation than I am. :) I sent a different approach. PTAL.",
+      "parentUuid": "2e97f482_a9de82d6",
       "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
