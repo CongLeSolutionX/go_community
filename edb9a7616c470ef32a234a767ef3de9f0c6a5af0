@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57436826_d88e27e4",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-03-29T17:13:41Z",
+      "side": 1,
+      "message": "mini-nit: throw if len(ptrs) \u003e 64?",
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b7c2aa_d3c0aa61",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2367,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-03-29T17:13:41Z",
+      "side": 1,
+      "message": "panic/throw if this returns false? This should only be possible if ptrs contains a duplicate address, which in theory is fine, but we don\u0027t have the logic to ensure that we duplicate the result in the second bit in mask.",
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95c46823_a1227e55",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2380,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-03-29T17:13:41Z",
+      "side": 1,
+      "message": "Can we store the pointer in the special as a uintptr so we can log its address here?",
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78c295f4_55575bd1",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-03-29T17:13:41Z",
+      "side": 1,
+      "message": "Out of date",
+      "range": {
+        "startLine": 387,
+        "startChar": 8,
+        "endLine": 387,
+        "endChar": 30
+      },
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e97f482_a9de82d6",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-03-29T17:13:41Z",
+      "side": 1,
+      "message": "FWIW, I think reasoning about the **special argument to freeSpecial and the effects it has on this function is awkward enough that I\u0027d rather see the splicing duplicated here. (i.e., drop golang.org/cl/305329).",
+      "revId": "edb9a7616c470ef32a234a767ef3de9f0c6a5af0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
