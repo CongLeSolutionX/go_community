@@ -16,6 +16,29 @@
       "message": "Also added test. PTAL. Thanks.",
       "revId": "593534994653ed40fbba97c51ec2b66065222f73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b724023_f03e828f",
+        "filename": "test/abi/store_reg_args.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-03-30T21:33:52Z",
+      "side": 1,
+      "message": "another",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "593534994653ed40fbba97c51ec2b66065222f73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
