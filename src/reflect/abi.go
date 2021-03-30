@@ -122,6 +122,8 @@ func (a *abiSeq) stepsForValue(i int) []abiStep {
 // abiStep describing that translation, and nil otherwise.
 func (a *abiSeq) addArg(t *rtype) *abiStep {
 	pStart := len(a.steps)
+	iregStart := a.iregs
+	fregStart := a.fregs
 	a.valueStart = append(a.valueStart, pStart)
 	if t.size == 0 {
 		// If the size of the argument type is zero, then
@@ -143,6 +145,8 @@ func (a *abiSeq) addArg(t *rtype) *abiStep {
 	}
 	if !a.regAssign(t, 0) {
 		a.steps = a.steps[:pStart]
+		a.iregs = iregStart
+		a.fregs = fregStart
 		a.stackAssign(t.size, uintptr(t.align))
 		return &a.steps[len(a.steps)-1]
 	}
