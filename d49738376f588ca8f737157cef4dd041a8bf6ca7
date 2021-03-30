@@ -52,6 +52,24 @@
       "parentUuid": "2795444e_cbb73600",
       "revId": "d49738376f588ca8f737157cef4dd041a8bf6ca7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0be62cd4_33b9d5d9",
+        "filename": "src/net/sendfile_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 34474
+      },
+      "writtenOn": "2021-03-30T00:38:01Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "0ef6caec_bf58eb3a",
+      "revId": "d49738376f588ca8f737157cef4dd041a8bf6ca7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
