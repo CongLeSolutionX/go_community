@@ -16,6 +16,24 @@
       "message": "Hmm. I was going to suggest we should define REGENTRYTMP0/1 for 386, too, but I guess these constants don\u0027t distinguish. That may come back to bite us when we try to do the register ABI on 386.",
       "revId": "8596886fe0eee156d2bb669e8cd8fa0a54a42835",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74952b0a_24b7bce5",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-03-30T16:17:43Z",
+      "side": 1,
+      "message": "yeah that\u0027s what I wanted to do, but you can\u0027t really do that statically (it _can\u0027t_ be R12/R13 on i386). maybe that\u0027s something that should change to align the two a bit better?",
+      "parentUuid": "28e443b6_814e7708",
+      "revId": "8596886fe0eee156d2bb669e8cd8fa0a54a42835",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
