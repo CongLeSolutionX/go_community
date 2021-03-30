@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bb39b26_17f05706",
+        "filename": "test/typeparam/interfacearg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T00:55:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "541bbcab_6d425db8",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "d4762b31e39c835fc830f09cbadabbd6175abdef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "028fd075_87344c72",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-30T00:46:40Z",
       "side": 1,
       "message": "this comment seems out of place - this is not a generic function after all - what am I missing?",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "d4762b31e39c835fc830f09cbadabbd6175abdef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81033940_5dccfaf1",
+        "filename": "test/typeparam/interfacearg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T00:55:55Z",
+      "side": 1,
+      "message": "No, this is testing exporting of a type (_S[I]) that was instantiated from a generic type _S.  That was causing a panic, because of the missing t.nod value. We don\u0027t currently export generic functions, but we do export functions that have explicit instantiations of generic types.\n\nI\u0027ll adjust the comment a bit to make it clearer that F is NOT generic, but has an instantiated type.",
+      "parentUuid": "028fd075_87344c72",
       "range": {
         "startLine": 15,
         "startChar": 40,
