@@ -152,6 +152,30 @@
       },
       "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "536cefd5_c1d39294",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-30T17:42:35Z",
+      "side": 1,
+      "message": "LGTM. Maybe add a comment mentioning that R12 is a scratch register whereas DI can hold argument.",
+      "parentUuid": "6da0a188_dddb365d",
+      "range": {
+        "startLine": 105,
+        "startChar": 86,
+        "endLine": 105,
+        "endChar": 92
+      },
+      "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
