@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa4beb5c_df07d4aa",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T19:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fdf624c_95fedcb6",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 19
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f22ce658_1702062b",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-03-30T17:20:46Z",
       "side": 1,
       "message": "I don\u0027t think you need this conversion. Just use expr below. (You do it for IndexExpr.)",
+      "range": {
+        "startLine": 100,
+        "startChar": 9,
+        "endLine": 100,
+        "endChar": 15
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aac8bee_88fdd57a",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T19:16:41Z",
+      "side": 1,
+      "message": "Good point, done!",
+      "parentUuid": "f22ce658_1702062b",
       "range": {
         "startLine": 100,
         "startChar": 9,
@@ -98,6 +146,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99aa5404_6f749a51",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T19:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a96bf80_de00e12f",
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e4e0575_58c63dc8",
@@ -111,6 +177,30 @@
       "writtenOn": "2021-03-30T17:20:46Z",
       "side": 1,
       "message": "... can be inferred from other type arguments (without using the types of the function arguments).",
+      "range": {
+        "startLine": 129,
+        "startChar": 13,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d5a3b7d_e5caa49a",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T19:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e4e0575_58c63dc8",
       "range": {
         "startLine": 129,
         "startChar": 13,
@@ -144,6 +234,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e35f1c19_87a90653",
+        "filename": "test/typeparam/typelist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T19:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "553a0e7d_e060fa3f",
+      "range": {
+        "startLine": 80,
+        "startChar": 10,
+        "endLine": 80,
+        "endChar": 13
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5b0f479_8ee396db",
@@ -167,6 +281,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "caef0015_d5e410bf",
+        "filename": "test/typeparam/typelist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T19:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5b0f479_8ee396db",
+      "range": {
+        "startLine": 81,
+        "startChar": 15,
+        "endLine": 81,
+        "endChar": 16
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b283624d_7e52c128",
@@ -180,6 +318,30 @@
       "writtenOn": "2021-03-30T17:20:46Z",
       "side": 1,
       "message": "s/byte(0)/0/\n\nshould be ok.\nAdd both versions.",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 8
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4456b3b9_9e4e0321",
+        "filename": "test/typeparam/typelist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T19:16:41Z",
+      "side": 1,
+      "message": "No, that doesn\u0027t work.  Error message is:\n\ntypelist.go:88:4: []byte does not satisfy interface{type []A} ([]byte not found in []int)\n\nLet me know if I should file a bug, or if that now makes sense.  But getting rid of int above worked.",
+      "parentUuid": "b283624d_7e52c128",
       "range": {
         "startLine": 87,
         "startChar": 7,
