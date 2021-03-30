@@ -219,13 +219,7 @@ redo:
 	case '*':
 		s.nextch()
 		s.op, s.prec = Mul, precMul
-		// don't goto assignop - want _Star token
-		if s.ch == '=' {
-			s.nextch()
-			s.tok = _AssignOp
-			break
-		}
-		s.tok = _Star
+		goto assignop
 
 	case '/':
 		s.nextch()

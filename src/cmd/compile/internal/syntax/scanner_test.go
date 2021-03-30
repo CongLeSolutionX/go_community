@@ -248,7 +248,7 @@ var sampleTokens = [...]struct {
 	{_Operator, "|", Or, precAdd},
 	{_Operator, "^", Xor, precAdd},
 
-	{_Star, "*", Mul, precMul},
+	{_Operator, "*", Mul, precMul},
 	{_Operator, "/", Div, precMul},
 	{_Operator, "%", Rem, precMul},
 	{_Operator, "&", And, precMul},

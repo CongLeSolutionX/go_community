@@ -731,7 +731,7 @@ func (p *parser) binaryExpr(prec int) Expr {
 	// don't trace binaryExpr - only leads to overly nested trace output
 
 	x := p.unaryExpr()
-	for (p.tok == _Operator || p.tok == _Star) && p.prec > prec {
+	for p.tok == _Operator && p.prec > prec {
 		t := new(Operation)
 		t.pos = p.pos()
 		t.Op = p.op
@@ -751,7 +751,7 @@ func (p *parser) unaryExpr() Expr {
 	}
 
 	switch p.tok {
-	case _Operator, _Star:
+	case _Operator:
 		switch p.op {
 		case Mul, Add, Sub, Not, Xor:
 			x := new(Operation)
@@ -1213,10 +1213,12 @@ func (p *parser) typeOrNil() Expr {
 
 	pos := p.pos()
 	switch p.tok {
-	case _Star:
-		// ptrtype
-		p.next()
-		return newIndirect(pos, p.type_())
+	case _Operator:
+		if p.op == Mul {
+			// ptrtype
+			p.next()
+			return newIndirect(pos, p.type_())
+		}
 
 	case _Arrow:
 		// recvchantype
@@ -1503,7 +1505,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 			typ := p.qualifiedName(name)
 			tag := p.oliteral()
 			p.addField(styp, pos, nil, typ, tag)
-			break
+			return
 		}
 
 		// name1, name2, ... Type [ tag ]
@@ -1519,7 +1521,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 				typ.X = name // name == names[0]
 				tag := p.oliteral()
 				p.addField(styp, pos, nil, typ, tag)
-				break
+				return
 			}
 		} else {
 			// T P
@@ -1531,28 +1533,32 @@ func (p *parser) fieldDecl(styp *StructType) {
 		for _, name := range names {
 			p.addField(styp, name.Pos(), name, typ, tag)
 		}
+		return
 
-	case _Star:
-		p.next()
-		var typ Expr
-		if p.tok == _Lparen {
-			// *(T)
-			p.syntaxError("cannot parenthesize embedded type")
+	case _Operator:
+		if p.op == Mul {
 			p.next()
-			typ = p.qualifiedName(nil)
-			p.got(_Rparen) // no need to complain if missing
-		} else {
-			// *T
-			typ = p.qualifiedName(nil)
+			var typ Expr
+			if p.tok == _Lparen {
+				// *(T)
+				p.syntaxError("cannot parenthesize embedded type")
+				p.next()
+				typ = p.qualifiedName(nil)
+				p.got(_Rparen) // no need to complain if missing
+			} else {
+				// *T
+				typ = p.qualifiedName(nil)
+			}
+			tag := p.oliteral()
+			p.addField(styp, pos, nil, newIndirect(pos, typ), tag)
+			return
 		}
-		tag := p.oliteral()
-		p.addField(styp, pos, nil, newIndirect(pos, typ), tag)
 
 	case _Lparen:
 		p.syntaxError("cannot parenthesize embedded type")
 		p.next()
 		var typ Expr
-		if p.tok == _Star {
+		if p.tok == _Operator && p.op == Mul {
 			// (*T)
 			pos := p.pos()
 			p.next()
@@ -1564,11 +1570,11 @@ func (p *parser) fieldDecl(styp *StructType) {
 		p.got(_Rparen) // no need to complain if missing
 		tag := p.oliteral()
 		p.addField(styp, pos, nil, typ, tag)
-
-	default:
-		p.syntaxError("expecting field name or embedded type")
-		p.advance(_Semi, _Rbrace)
+		return
 	}
+
+	p.syntaxError("expecting field name or embedded type")
+	p.advance(_Semi, _Rbrace)
 }
 
 func (p *parser) arrayOrTArgs() Expr {
@@ -2358,7 +2364,7 @@ func (p *parser) stmtOrNil() Stmt {
 	case _Lbrace:
 		return p.blockStmt("")
 
-	case _Operator, _Star:
+	case _Operator:
 		switch p.op {
 		case Add, Sub, Mul, And, Xor, Not:
 			return p.simpleStmt(nil, 0) // unary operators
