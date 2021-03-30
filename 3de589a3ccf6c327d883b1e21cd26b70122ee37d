@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7e6a04c_1f5d10dd",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-30T18:54:04Z",
+      "side": 1,
+      "message": "Could we check here as well?",
+      "revId": "3de589a3ccf6c327d883b1e21cd26b70122ee37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c4fe539_f7a36eb2",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-30T18:54:04Z",
+      "side": 1,
+      "message": "Here (or somewhere in this code path) as well?",
+      "revId": "3de589a3ccf6c327d883b1e21cd26b70122ee37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
