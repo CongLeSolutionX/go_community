@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a438433_1f4e8bc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-30T16:30:56Z",
+      "side": 1,
+      "message": "Hi Robert:  I think this makes sense why g.info.Deferred[] keys on either CallExpr (if func args are required to infer types) or IndexExpr (if func args not required to partially infer types).  Let me know if this all makes sense, or there is better explanation or logic.",
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
