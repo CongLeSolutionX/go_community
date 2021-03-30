@@ -16,6 +16,178 @@
       "message": "Hi Robert:  I think this makes sense why g.info.Deferred[] keys on either CallExpr (if func args are required to infer types) or IndexExpr (if func args not required to partially infer types).  Let me know if this all makes sense, or there is better explanation or logic.",
       "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff837e2_424331fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T17:20:46Z",
+      "side": 1,
+      "message": "Looks reasonable to me.\n\nNote that we currently have an outstanding bug in types2 where type inference doesn\u0027t work as expected: It\u0027s situations where we use function arguments to infer _some_ of the type arguments, and then use those inferred type arguments to infer the remaining type arguments.\n\nI don\u0027t know yet what this means for the Inferred map. Just a heads-up that this code may need to be adjusted in the near future.\n",
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fdf624c_95fedcb6",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T17:20:46Z",
+      "side": 1,
+      "message": "s/requires/required/",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 19
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f22ce658_1702062b",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T17:20:46Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this conversion. Just use expr below. (You do it for IndexExpr.)",
+      "range": {
+        "startLine": 100,
+        "startChar": 9,
+        "endLine": 100,
+        "endChar": 15
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a96bf80_de00e12f",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T17:20:46Z",
+      "side": 1,
+      "message": "s/key/expr/",
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e4e0575_58c63dc8",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T17:20:46Z",
+      "side": 1,
+      "message": "... can be inferred from other type arguments (without using the types of the function arguments).",
+      "range": {
+        "startLine": 129,
+        "startChar": 13,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "553a0e7d_e060fa3f",
+        "filename": "test/typeparam/typelist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T17:20:46Z",
+      "side": 1,
+      "message": "This doesn\u0027t need the int conversion.",
+      "range": {
+        "startLine": 80,
+        "startChar": 10,
+        "endLine": 80,
+        "endChar": 13
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5b0f479_8ee396db",
+        "filename": "test/typeparam/typelist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T17:20:46Z",
+      "side": 1,
+      "message": "This should also work w/o int conversion; it\u0027s using the default type for 0, which is int.\n\nAdd both variants (with and w/o conversion).",
+      "range": {
+        "startLine": 81,
+        "startChar": 15,
+        "endLine": 81,
+        "endChar": 16
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b283624d_7e52c128",
+        "filename": "test/typeparam/typelist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T17:20:46Z",
+      "side": 1,
+      "message": "s/byte(0)/0/\n\nshould be ok.\nAdd both versions.",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 8
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
