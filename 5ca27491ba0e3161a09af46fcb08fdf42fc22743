@@ -104,6 +104,30 @@
       },
       "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "278fc9e8_f38886e0",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-30T17:32:09Z",
+      "side": 1,
+      "message": "It only triggers with specific sizes, probably not a common case.\n\nYou can change the duffzero code.\n\nFeel free to leave this to me.",
+      "parentUuid": "c8b64e72_a8bd895e",
+      "range": {
+        "startLine": 105,
+        "startChar": 86,
+        "endLine": 105,
+        "endChar": 92
+      },
+      "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
