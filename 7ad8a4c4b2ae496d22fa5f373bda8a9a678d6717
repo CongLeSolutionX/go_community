@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4c5c2081_17bd7b12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-03-30T21:36:01Z",
+      "side": 1,
+      "message": "Without the original headers, it\u0027s quite hard to determine what CL is being cherry-picked, so we should include them when making a cherry-pick CL.\n\nIt\u0027s also preferable to reuse the Change-Id if possible, since that makes navigating between the related changes (on different branches) easier.\n\nI\u0027ll try to fix this up before submitting.",
+      "revId": "7ad8a4c4b2ae496d22fa5f373bda8a9a678d6717",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b1cddec1_dacb2607",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -14,6 +31,46 @@
       "writtenOn": "2021-03-07T05:22:05Z",
       "side": 1,
       "message": "Thank you for the review, Dmitri, I\u0027ve made the updates, PTAL.",
+      "revId": "7ad8a4c4b2ae496d22fa5f373bda8a9a678d6717",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ce7e127_1a8155f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-03-30T21:36:01Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "7ad8a4c4b2ae496d22fa5f373bda8a9a678d6717",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2711e66a_3610e8a5",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2831,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-03-30T21:36:01Z",
+      "side": 1,
+      "message": "This extra dot wasn\u0027t there in CL 266097 and doesn\u0027t seem intentional. It\u0027s quite harmless though.",
+      "range": {
+        "startLine": 2831,
+        "startChar": 45,
+        "endLine": 2831,
+        "endChar": 46
+      },
       "revId": "7ad8a4c4b2ae496d22fa5f373bda8a9a678d6717",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
