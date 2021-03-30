@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "541bbcab_6d425db8",
+        "filename": "test/typeparam/interfacearg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T00:46:40Z",
+      "side": 1,
+      "message": "s/2020/2021/",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "d4762b31e39c835fc830f09cbadabbd6175abdef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "028fd075_87344c72",
+        "filename": "test/typeparam/interfacearg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T00:46:40Z",
+      "side": 1,
+      "message": "this comment seems out of place - this is not a generic function after all - what am I missing?",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "d4762b31e39c835fc830f09cbadabbd6175abdef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
