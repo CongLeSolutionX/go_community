@@ -535,11 +535,11 @@ func (p *printer) printRawNode(n Node) {
 
 	case *ChanType:
 		if n.Dir == RecvOnly {
-			p.print(_Arrow)
+			p.print(Recv)
 		}
 		p.print(_Chan)
 		if n.Dir == SendOnly {
-			p.print(_Arrow)
+			p.print(Recv)
 		}
 		p.print(blank)
 		if e, _ := n.Elem.(*ChanType); n.Dir == 0 && e != nil && e.Dir == RecvOnly {
@@ -565,7 +565,7 @@ func (p *printer) printRawNode(n Node) {
 		p.print(n.X)
 
 	case *SendStmt:
-		p.print(n.Chan, blank, _Arrow, blank, n.Value)
+		p.print(n.Chan, blank, Recv, blank, n.Value)
 
 	case *AssignStmt:
 		p.print(n.Lhs)

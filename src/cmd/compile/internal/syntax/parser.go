@@ -731,7 +731,7 @@ func (p *parser) binaryExpr(prec int) Expr {
 	// don't trace binaryExpr - only leads to overly nested trace output
 
 	x := p.unaryExpr()
-	for (p.tok == _Operator || p.tok == _Star) && p.prec > prec {
+	for p.tok == _Operator && p.prec > prec {
 		t := new(Operation)
 		t.pos = p.pos()
 		t.Op = p.op
@@ -750,8 +750,7 @@ func (p *parser) unaryExpr() Expr {
 		defer p.trace("unaryExpr")()
 	}
 
-	switch p.tok {
-	case _Operator, _Star:
+	if p.tok == _Operator {
 		switch p.op {
 		case Mul, Add, Sub, Not, Xor:
 			x := new(Operation)
@@ -770,64 +769,64 @@ func (p *parser) unaryExpr() Expr {
 			// (see comment in operand) - remove parentheses if any
 			x.X = unparen(p.unaryExpr())
 			return x
-		}
 
-	case _Arrow:
-		// receive op (<-x) or receive-only channel (<-chan E)
-		pos := p.pos()
-		p.next()
+		case Recv:
+			// receive op (<-x) or receive-only channel (<-chan E)
+			pos := p.pos()
+			p.next()
 
-		// If the next token is _Chan we still don't know if it is
-		// a channel (<-chan int) or a receive op (<-chan int(ch)).
-		// We only know once we have found the end of the unaryExpr.
+			// If the next token is _Chan we still don't know if it is
+			// a channel (<-chan int) or a receive op (<-chan int(ch)).
+			// We only know once we have found the end of the unaryExpr.
 
-		x := p.unaryExpr()
+			x := p.unaryExpr()
 
-		// There are two cases:
-		//
-		//   <-chan...  => <-x is a channel type
-		//   <-x        => <-x is a receive operation
-		//
-		// In the first case, <- must be re-associated with
-		// the channel type parsed already:
-		//
-		//   <-(chan E)   =>  (<-chan E)
-		//   <-(chan<-E)  =>  (<-chan (<-E))
+			// There are two cases:
+			//
+			//   <-chan...  => <-x is a channel type
+			//   <-x        => <-x is a receive operation
+			//
+			// In the first case, <- must be re-associated with
+			// the channel type parsed already:
+			//
+			//   <-(chan E)   =>  (<-chan E)
+			//   <-(chan<-E)  =>  (<-chan (<-E))
 
-		if _, ok := x.(*ChanType); ok {
-			// x is a channel type => re-associate <-
-			dir := SendOnly
-			t := x
-			for dir == SendOnly {
-				c, ok := t.(*ChanType)
-				if !ok {
-					break
+			if _, ok := x.(*ChanType); ok {
+				// x is a channel type => re-associate <-
+				dir := SendOnly
+				t := x
+				for dir == SendOnly {
+					c, ok := t.(*ChanType)
+					if !ok {
+						break
+					}
+					dir = c.Dir
+					if dir == RecvOnly {
+						// t is type <-chan E but <-<-chan E is not permitted
+						// (report same error as for "type _ <-<-chan E")
+						p.syntaxError("unexpected <-, expecting chan")
+						// already progressed, no need to advance
+					}
+					c.Dir = RecvOnly
+					t = c.Elem
 				}
-				dir = c.Dir
-				if dir == RecvOnly {
-					// t is type <-chan E but <-<-chan E is not permitted
-					// (report same error as for "type _ <-<-chan E")
-					p.syntaxError("unexpected <-, expecting chan")
+				if dir == SendOnly {
+					// channel dir is <- but channel element E is not a channel
+					// (report same error as for "type _ <-chan<-E")
+					p.syntaxError(fmt.Sprintf("unexpected %s, expecting chan", String(t)))
 					// already progressed, no need to advance
 				}
-				c.Dir = RecvOnly
-				t = c.Elem
+				return x
 			}
-			if dir == SendOnly {
-				// channel dir is <- but channel element E is not a channel
-				// (report same error as for "type _ <-chan<-E")
-				p.syntaxError(fmt.Sprintf("unexpected %s, expecting chan", String(t)))
-				// already progressed, no need to advance
-			}
-			return x
-		}
 
-		// x is not a channel type => we have a receive op
-		o := new(Operation)
-		o.pos = pos
-		o.Op = Recv
-		o.X = x
-		return o
+			// x is not a channel type => we have a receive op
+			o := new(Operation)
+			o.pos = pos
+			o.Op = Recv
+			o.X = x
+			return o
+		}
 	}
 
 	// TODO(mdempsky): We need parens here so we can report an
@@ -1213,20 +1212,23 @@ func (p *parser) typeOrNil() Expr {
 
 	pos := p.pos()
 	switch p.tok {
-	case _Star:
-		// ptrtype
-		p.next()
-		return newIndirect(pos, p.type_())
+	case _Operator:
+		switch p.op {
+		case Mul:
+			// ptrtype
+			p.next()
+			return newIndirect(pos, p.type_())
 
-	case _Arrow:
-		// recvchantype
-		p.next()
-		p.want(_Chan)
-		t := new(ChanType)
-		t.pos = pos
-		t.Dir = RecvOnly
-		t.Elem = p.chanElem()
-		return t
+		case Recv:
+			// recvchantype
+			p.next()
+			p.want(_Chan)
+			t := new(ChanType)
+			t.pos = pos
+			t.Dir = RecvOnly
+			t.Elem = p.chanElem()
+			return t
+		}
 
 	case _Func:
 		// fntype
@@ -1248,7 +1250,8 @@ func (p *parser) typeOrNil() Expr {
 		p.next()
 		t := new(ChanType)
 		t.pos = pos
-		if p.got(_Arrow) {
+		if p.tok == _Operator && p.op == Recv {
+			p.next()
 			t.Dir = SendOnly
 		}
 		t.Elem = p.chanElem()
@@ -1503,7 +1506,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 			typ := p.qualifiedName(name)
 			tag := p.oliteral()
 			p.addField(styp, pos, nil, typ, tag)
-			break
+			return
 		}
 
 		// name1, name2, ... Type [ tag ]
@@ -1519,7 +1522,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 				typ.X = name // name == names[0]
 				tag := p.oliteral()
 				p.addField(styp, pos, nil, typ, tag)
-				break
+				return
 			}
 		} else {
 			// T P
@@ -1531,28 +1534,32 @@ func (p *parser) fieldDecl(styp *StructType) {
 		for _, name := range names {
 			p.addField(styp, name.Pos(), name, typ, tag)
 		}
+		return
 
-	case _Star:
-		p.next()
-		var typ Expr
-		if p.tok == _Lparen {
-			// *(T)
-			p.syntaxError("cannot parenthesize embedded type")
+	case _Operator:
+		if p.op == Mul {
 			p.next()
-			typ = p.qualifiedName(nil)
-			p.got(_Rparen) // no need to complain if missing
-		} else {
-			// *T
-			typ = p.qualifiedName(nil)
+			var typ Expr
+			if p.tok == _Lparen {
+				// *(T)
+				p.syntaxError("cannot parenthesize embedded type")
+				p.next()
+				typ = p.qualifiedName(nil)
+				p.got(_Rparen) // no need to complain if missing
+			} else {
+				// *T
+				typ = p.qualifiedName(nil)
+			}
+			tag := p.oliteral()
+			p.addField(styp, pos, nil, newIndirect(pos, typ), tag)
+			return
 		}
-		tag := p.oliteral()
-		p.addField(styp, pos, nil, newIndirect(pos, typ), tag)
 
 	case _Lparen:
 		p.syntaxError("cannot parenthesize embedded type")
 		p.next()
 		var typ Expr
-		if p.tok == _Star {
+		if p.tok == _Operator && p.op == Mul {
 			// (*T)
 			pos := p.pos()
 			p.next()
@@ -1564,11 +1571,11 @@ func (p *parser) fieldDecl(styp *StructType) {
 		p.got(_Rparen) // no need to complain if missing
 		tag := p.oliteral()
 		p.addField(styp, pos, nil, typ, tag)
-
-	default:
-		p.syntaxError("expecting field name or embedded type")
-		p.advance(_Semi, _Rbrace)
+		return
 	}
+
+	p.syntaxError("expecting field name or embedded type")
+	p.advance(_Semi, _Rbrace)
 }
 
 func (p *parser) arrayOrTArgs() Expr {
@@ -1908,14 +1915,16 @@ func (p *parser) simpleStmt(lhs Expr, keyword token) SimpleStmt {
 			p.next()
 			return p.newAssignStmt(pos, op, lhs, nil)
 
-		case _Arrow:
-			// lhs <- rhs
-			s := new(SendStmt)
-			s.pos = pos
-			p.next()
-			s.Chan = lhs
-			s.Value = p.expr()
-			return s
+		case _Operator:
+			if p.op == Recv {
+				// lhs <- rhs
+				s := new(SendStmt)
+				s.pos = pos
+				p.next()
+				s.Chan = lhs
+				s.Value = p.expr()
+				return s
+			}
 
 		default:
 			// expr
@@ -2358,15 +2367,14 @@ func (p *parser) stmtOrNil() Stmt {
 	case _Lbrace:
 		return p.blockStmt("")
 
-	case _Operator, _Star:
+	case _Operator:
 		switch p.op {
-		case Add, Sub, Mul, And, Xor, Not:
+		case Add, Sub, Mul, And, Xor, Not, Recv:
 			return p.simpleStmt(nil, 0) // unary operators
 		}
 
 	case _Literal, _Func, _Lparen, // operands
-		_Lbrack, _Struct, _Map, _Chan, _Interface, // composite types
-		_Arrow: // receive operator
+		_Lbrack, _Struct, _Map, _Chan, _Interface: // composite types
 		return p.simpleStmt(nil, 0)
 
 	case _For:
