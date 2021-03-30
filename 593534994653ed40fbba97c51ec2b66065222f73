@@ -39,6 +39,30 @@
       },
       "revId": "593534994653ed40fbba97c51ec2b66065222f73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "344f9705_e7099f2d",
+        "filename": "test/abi/store_reg_args.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-30T22:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b724023_f03e828f",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "593534994653ed40fbba97c51ec2b66065222f73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
