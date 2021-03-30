@@ -16,6 +16,24 @@
       "message": "Don\u0027t remove the existing instruction. There may be existing code that uses it, and it works correctly for nonzero shifts. Just add a new one, and keep the old one. Thanks.",
       "revId": "23ffb5b9ae9e6e313df648d8bf6ab7b8f5ff0cf1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb9608b_f774305a",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-03-30T02:53:37Z",
+      "side": 0,
+      "message": "Actually, the current assembler also does not work for nonzero shifts correctly.\n\nFor example, if user writes an instruction \"MOVK $(0x12\u003c\u003c50), R23\", the current assembler encodes it as binary 0x1709e0f2, which is \"MOVK $(0X48\u003c\u003c48), R23\", I think the correct behavior is to report the error, not to enconde it as another instruction.\n\nThe cause is we save the the finall result of shift into p.From.Offset(0x48000000000000), the movcon() returns the field index 3.\n\nIs this encoding acceptable? Thank you.",
+      "parentUuid": "bc9c12cb_551c2d2c",
+      "revId": "23ffb5b9ae9e6e313df648d8bf6ab7b8f5ff0cf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
