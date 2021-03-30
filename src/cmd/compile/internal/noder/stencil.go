@@ -876,11 +876,18 @@ func (subst *subster) fields(class ir.Class, oldfields []*types.Field, dcl []*ir
 	// Create newfields nodes that are copies of the oldfields nodes, but
 	// with substitution for any type params, and with Nname set to be the node in
 	// Dcl for the corresponding PPARAM or PPARAMOUT.
+	numdcls := len(dcl)
 	for j := range oldfields {
 		newfields[j] = oldfields[j].Copy()
 		newfields[j].Type = subst.typ(oldfields[j].Type)
-		newfields[j].Nname = dcl[i]
-		i++
+		// A param field will be missing from dcl if its name is
+		// unspecified or specified as "_". So, we compare the dcl sym
+		// with the field sym. If they don't match, this dcl (if there is
+		// one left) must apply to later field.
+		if i < numdcls && dcl[i].Sym() == oldfields[j].Sym {
+			newfields[j].Nname = dcl[i]
+			i++
+		}
 	}
 	return newfields
 }
