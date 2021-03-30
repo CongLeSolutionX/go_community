@@ -302,6 +302,7 @@ var abiCallTestCases = []interface{}{
 	passStruct13,
 	pass2Struct1,
 	passEmptyStruct,
+	passStruct10AndSmall,
 }
 
 // Functions for testing reflect function call functionality.
@@ -532,6 +533,12 @@ func passEmptyStruct(a int, b struct{}, c float64) (int, struct{}, float64) {
 	return a, b, c
 }
 
+//go:registerparams
+//go:noinline
+func passStruct10AndSmall(a Struct10, b byte, c uint) (Struct10, byte, uint) {
+	return a, b, c
+}
+
 var abiMakeFuncTestCases = []interface{}{
 	callArgsNone,
 	callArgsInt,
@@ -574,6 +581,7 @@ var abiMakeFuncTestCases = []interface{}{
 	callArgsStruct13,
 	callArgs2Struct1,
 	callArgsEmptyStruct,
+	callArgsStruct10AndSmall,
 }
 
 //go:registerparams
@@ -801,6 +809,12 @@ func callArgs2Struct1(f func(Struct1, Struct1, MagicLastTypeNameForTestingRegist
 //go:registerparams
 //go:noinline
 func callArgsEmptyStruct(f func(int, struct{}, float64, MagicLastTypeNameForTestingRegisterABI) (int, struct{}, float64), a0 int, a1 struct{}, a2 float64) (int, struct{}, float64) {
+	return f(a0, a1, a2, MagicLastTypeNameForTestingRegisterABI{})
+}
+
+//go:registerparams
+//go:noinline
+func callArgsStruct10AndSmall(f func(Struct10, byte, uint, MagicLastTypeNameForTestingRegisterABI) (Struct10, byte, uint), a0 Struct10, a1 byte, a2 uint) (Struct10, byte, uint) {
 	return f(a0, a1, a2, MagicLastTypeNameForTestingRegisterABI{})
 }
 
