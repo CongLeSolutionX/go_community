@@ -94,7 +94,7 @@ var exprs = []test{
 
 	{"AssertExpr", `x@.(T)`},
 
-	{"Operation", `@*b`},
+	{"StarExpr", `@*b`},
 	{"Operation", `@+b`},
 	{"Operation", `@-b`},
 	{"Operation", `@!b`},
@@ -117,8 +117,8 @@ var exprs = []test{
 }
 
 var types = []test{
-	{"Operation", `@*T`},
-	{"Operation", `@*struct{}`},
+	{"StarExpr", `@*T`},
+	{"StarExpr", `@*struct{}`},
 
 	{"ArrayType", `@[10]T`},
 	{"ArrayType", `@[...]T`},

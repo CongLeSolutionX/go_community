@@ -245,6 +245,12 @@ type (
 		expr
 	}
 
+	// *X
+	StarExpr struct {
+		X Expr
+		expr
+	}
+
 	// [Len]Elem
 	ArrayType struct {
 		// TODO(gri) consider using Name{"..."} instead of nil (permits attaching of comments)

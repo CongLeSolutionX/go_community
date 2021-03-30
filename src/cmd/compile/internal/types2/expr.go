@@ -508,7 +508,7 @@ func (check *Checker) updateExprType(x syntax.Expr, typ Type, final bool) {
 		*syntax.IndexExpr,
 		*syntax.SliceExpr,
 		*syntax.AssertExpr,
-		//*syntax.StarExpr,
+		*syntax.StarExpr,
 		*syntax.KeyValueExpr,
 		*syntax.ArrayType,
 		*syntax.StructType,
@@ -552,14 +552,7 @@ func (check *Checker) updateExprType(x syntax.Expr, typ Type, final bool) {
 	case *syntax.Operation:
 		if x.Y == nil {
 			// unary expression
-			if x.Op == syntax.Mul {
-				// see commented out code for StarExpr above
-				// TODO(gri) needs cleanup
-				if debug {
-					unimplemented()
-				}
-				return
-			}
+			assert(x.Op != syntax.Mul)
 			// If x is a constant, the operands were constants.
 			// The operands don't need to be updated since they
 			// never get "materialized" into a typed value. If
@@ -1802,6 +1795,23 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 	case *syntax.CallExpr:
 		return check.call(x, e)
 
+	case *syntax.StarExpr:
+		check.exprOrType(x, e.X)
+		switch x.mode {
+		case invalid:
+			goto Error
+		case typexpr:
+			x.typ = &Pointer{base: x.typ}
+		default:
+			if typ := asPointer(x.typ); typ != nil {
+				x.mode = variable
+				x.typ = typ.base
+			} else {
+				check.errorf(x, invalidOp+"cannot indirect %s", x)
+				goto Error
+			}
+		}
+
 	// case *syntax.UnaryExpr:
 	// 	check.expr(x, e.X)
 	// 	if x.mode == invalid {
@@ -1825,26 +1835,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 	case *syntax.Operation:
 		if e.Y == nil {
 			// unary expression
-			if e.Op == syntax.Mul {
-				// pointer indirection
-				check.exprOrType(x, e.X)
-				switch x.mode {
-				case invalid:
-					goto Error
-				case typexpr:
-					x.typ = &Pointer{base: x.typ}
-				default:
-					if typ := asPointer(x.typ); typ != nil {
-						x.mode = variable
-						x.typ = typ.base
-					} else {
-						check.errorf(x, invalidOp+"cannot indirect %s", x)
-						goto Error
-					}
-				}
-				break
-			}
-
+			assert(e.Op != syntax.Mul)
 			check.unary(x, e)
 			if x.mode == invalid {
 				goto Error

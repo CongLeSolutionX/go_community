@@ -145,6 +145,9 @@ func (w *walker) node(n Node) {
 		w.exprList(n.ElemList)
 
 	// types
+	case *StarExpr:
+		w.node(n.X)
+
 	case *ArrayType:
 		if n.Len != nil {
 			w.node(n.Len)
