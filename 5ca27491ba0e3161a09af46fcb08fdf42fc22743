@@ -56,6 +56,30 @@
       },
       "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "267445bc_3e8b90dc",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-03-30T14:50:13Z",
+      "side": 1,
+      "message": "Hmm. This is problematic-- has to be REG_DI because that is what duffzero expects. \n\nMaybe I can save off DI to scratch, then do the duffzero call, then restore. It\u0027s hacky (relies on specific duffzero implementation details) but it should work.",
+      "parentUuid": "0984d08b_752a51f5",
+      "range": {
+        "startLine": 105,
+        "startChar": 86,
+        "endLine": 105,
+        "endChar": 92
+      },
+      "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
