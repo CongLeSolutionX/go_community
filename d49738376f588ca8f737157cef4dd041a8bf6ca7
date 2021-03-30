@@ -16,6 +16,24 @@
       "message": "In the normal case I think this will replace a second sendfile system call (that sends zero bytes) with a stat system call and an lseek system call.  Is that normally a good tradeoff?",
       "revId": "d49738376f588ca8f737157cef4dd041a8bf6ca7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2795444e_cbb73600",
+        "filename": "src/net/sendfile_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 34474
+      },
+      "writtenOn": "2021-03-30T00:13:45Z",
+      "side": 1,
+      "message": "Sorry, I can\u0027t tell.",
+      "parentUuid": "99b5e780_bd42af6c",
+      "revId": "d49738376f588ca8f737157cef4dd041a8bf6ca7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
