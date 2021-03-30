@@ -228,6 +228,10 @@ func deferproc(siz int32, fn *funcval) { // arguments of fn follow fn
 		throw("defer on system stack")
 	}
 
+	if experimentRegabiDefer && siz != 0 {
+		throw("defer with non-empty frame")
+	}
+
 	// the arguments of fn are in a perilous state. The stack map
 	// for deferproc does not describe them. So we can't let garbage
 	// collection or stack copying trigger until we've copied them out
