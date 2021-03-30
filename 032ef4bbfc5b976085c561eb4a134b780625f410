@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f8717f5_0f5caecf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-03-30T05:40:54Z",
+      "side": 1,
+      "message": "Hi Dan, naming is hard so I thought help is welcome.\n\nIf you are already happy with the naming, please ignore. But I had the feeling you had trouble coming up with one here while I read the code and thought I should give it a shot. ",
+      "revId": "032ef4bbfc5b976085c561eb4a134b780625f410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56857079_51b8ff11",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-03-30T05:40:54Z",
+      "side": 1,
+      "message": "Could you rethink the name? It says \"return some symbol with some name\" to me what decribes the mechanism not the purpose/semantics.\n\nI would have expected something like \"newIncompleteType\" or \"newUnresolvedType\" or \"newForwardReference\" or a bit more verbose \"newForwardReferenceToIncompleteType\". That would communicate the intent and may make the comments explaining this unnecessary/smaller.",
+      "revId": "032ef4bbfc5b976085c561eb4a134b780625f410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
