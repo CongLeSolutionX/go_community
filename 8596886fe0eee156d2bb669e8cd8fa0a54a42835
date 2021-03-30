@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28e443b6_814e7708",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-03-30T00:10:17Z",
+      "side": 1,
+      "message": "Hmm. I was going to suggest we should define REGENTRYTMP0/1 for 386, too, but I guess these constants don\u0027t distinguish. That may come back to bite us when we try to do the register ABI on 386.",
+      "revId": "8596886fe0eee156d2bb669e8cd8fa0a54a42835",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
