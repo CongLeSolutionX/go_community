@@ -22,6 +22,30 @@
       },
       "revId": "4a6be8b747e89722a118c39e92100c4de88fc549",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a741ff46_edb692f0",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-30T20:45:07Z",
+      "side": 1,
+      "message": "rewriteArgToMemOrRegs is only called in one place (step 4 in the main function), and it is called on each OpArg once. So it shouldn\u0027t see one Arg multiple times. (But I guess it doesn\u0027t hurt to update the map. The performance overhead is tiny.)",
+      "parentUuid": "27aec22f_187d2e65",
+      "range": {
+        "startLine": 1407,
+        "startChar": 35,
+        "endLine": 1407,
+        "endChar": 67
+      },
+      "revId": "4a6be8b747e89722a118c39e92100c4de88fc549",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
