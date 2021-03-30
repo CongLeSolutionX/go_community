@@ -350,6 +350,30 @@
       },
       "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf76a976_4629c05f",
+        "filename": "test/typeparam/typelist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-30T19:32:29Z",
+      "side": 1,
+      "message": "My bad. It should report an error per the proposal\u0027s definition of how type inference works.",
+      "parentUuid": "4456b3b9_9e4e0321",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 8
+      },
+      "revId": "27326f74fff01ef4dda8acb7b934c6114e410571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
