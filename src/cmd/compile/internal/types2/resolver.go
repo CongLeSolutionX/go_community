@@ -504,13 +504,7 @@ L: // unpack receiver type
 		switch t := rtyp.(type) {
 		case *syntax.ParenExpr:
 			rtyp = t.X
-		// case *ast.StarExpr:
-		//      ptr = true
-		// 	rtyp = t.X
-		case *syntax.Operation:
-			if t.Op != syntax.Mul || t.Y != nil {
-				break
-			}
+		case *syntax.StarExpr:
 			ptr = true
 			rtyp = t.X
 		default:
@@ -567,8 +561,7 @@ func (check *Checker) resolveBaseTypeName(seenPtr bool, typ syntax.Expr) (ptr bo
 		typ = unparen(typ)
 
 		// check if we have a pointer type
-		// if pexpr, _ := typ.(*ast.StarExpr); pexpr != nil {
-		if pexpr, _ := typ.(*syntax.Operation); pexpr != nil && pexpr.Op == syntax.Mul && pexpr.Y == nil {
+		if pexpr, _ := typ.(*syntax.StarExpr); pexpr != nil {
 			// if we've already seen a pointer, we're done
 			if ptr {
 				return false, nil

@@ -162,6 +162,9 @@ func (g *irgen) expr0(typ types2.Type, expr syntax.Expr) ir.Node {
 	case *syntax.SliceExpr:
 		return Slice(pos, g.typ(typ), g.expr(expr.X), g.expr(expr.Index[0]), g.expr(expr.Index[1]), g.expr(expr.Index[2]))
 
+	case *syntax.StarExpr:
+		return Deref(pos, g.typ(typ), g.expr(expr.X))
+
 	case *syntax.Operation:
 		if expr.Y == nil {
 			return Unary(pos, g.typ(typ), g.op(expr.Op, unOps[:]), g.expr(expr.X))

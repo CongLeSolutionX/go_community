@@ -742,11 +742,8 @@ func (p *noder) expr(expr syntax.Expr) ir.Node {
 		x := p.expr(expr.X)
 		if expr.Y == nil {
 			pos, op := p.pos(expr), p.unOp(expr.Op)
-			switch op {
-			case ir.OADDR:
+			if op == ir.OADDR {
 				return typecheck.NodAddrAt(pos, x)
-			case ir.ODEREF:
-				return ir.NewStarExpr(pos, x)
 			}
 			return ir.NewUnaryExpr(pos, op, x)
 		}
@@ -762,6 +759,8 @@ func (p *noder) expr(expr syntax.Expr) ir.Node {
 		n.IsDDD = expr.HasDots
 		return n
 
+	case *syntax.StarExpr:
+		return ir.NewStarExpr(p.pos(expr), p.expr(expr.X))
 	case *syntax.ArrayType:
 		var len ir.Node
 		if expr.Len != nil {
@@ -980,12 +979,9 @@ func (p *noder) packname(expr syntax.Expr) *types.Sym {
 }
 
 func (p *noder) embedded(typ syntax.Expr) *ir.Field {
-	op, isStar := typ.(*syntax.Operation)
+	ptr, isStar := typ.(*syntax.StarExpr)
 	if isStar {
-		if op.Op != syntax.Mul || op.Y != nil {
-			panic("unexpected Operation")
-		}
-		typ = op.X
+		typ = ptr.X
 	}
 
 	sym := p.packname(typ)
@@ -993,7 +989,7 @@ func (p *noder) embedded(typ syntax.Expr) *ir.Field {
 	n.Embedded = true
 
 	if isStar {
-		n.Ntype = ir.NewStarExpr(p.pos(op), n.Ntype)
+		n.Ntype = ir.NewStarExpr(p.pos(ptr), n.Ntype)
 	}
 	return n
 }
@@ -1369,7 +1365,6 @@ func (p *noder) labeledStmt(label *syntax.LabeledStmt, fallOK bool) ir.Node {
 
 var unOps = [...]ir.Op{
 	syntax.Recv: ir.ORECV,
-	syntax.Mul:  ir.ODEREF,
 	syntax.And:  ir.OADDR,
 
 	syntax.Not: ir.ONOT,

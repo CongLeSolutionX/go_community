@@ -203,21 +203,12 @@ func isubst(x syntax.Expr, smap map[*syntax.Name]*syntax.Name) syntax.Expr {
 		if alt := smap[n]; alt != nil {
 			return alt
 		}
-	// case *syntax.StarExpr:
-	// 	X := isubst(n.X, smap)
-	// 	if X != n.X {
-	// 		new := *n
-	// 		new.X = X
-	// 		return &new
-	// 	}
-	case *syntax.Operation:
-		if n.Op == syntax.Mul && n.Y == nil {
-			X := isubst(n.X, smap)
-			if X != n.X {
-				new := *n
-				new.X = X
-				return &new
-			}
+	case *syntax.StarExpr:
+		X := isubst(n.X, smap)
+		if X != n.X {
+			new := *n
+			new.X = X
+			return &new
 		}
 	case *syntax.IndexExpr:
 		Index := isubst(n.Index, smap)
@@ -535,16 +526,11 @@ func (check *Checker) typInternal(e0 syntax.Expr, def *Named) (T Type) {
 		check.structType(typ, e)
 		return typ
 
-	case *syntax.Operation:
-		if e.Op == syntax.Mul && e.Y == nil {
-			typ := new(Pointer)
-			def.setUnderlying(typ)
-			typ.base = check.varType(e.X)
-			return typ
-		}
-
-		check.errorf(e0, "%s is not a type", e0)
-		check.use(e0)
+	case *syntax.StarExpr:
+		typ := new(Pointer)
+		def.setUnderlying(typ)
+		typ.base = check.varType(e.X)
+		return typ
 
 	case *syntax.FuncType:
 		typ := new(Signature)
@@ -1201,12 +1187,10 @@ func embeddedFieldIdent(e syntax.Expr) *syntax.Name {
 	switch e := e.(type) {
 	case *syntax.Name:
 		return e
-	case *syntax.Operation:
-		if base := ptrBase(e); base != nil {
-			// *T is valid, but **T is not
-			if op, _ := base.(*syntax.Operation); op == nil || ptrBase(op) == nil {
-				return embeddedFieldIdent(e.X)
-			}
+	case *syntax.StarExpr:
+		// *T is valid, but **T is not
+		if _, ok := e.X.(*syntax.StarExpr); !ok {
+			return embeddedFieldIdent(e.X)
 		}
 	case *syntax.SelectorExpr:
 		return e.Sel
@@ -1252,11 +1236,4 @@ func includes(list []Type, typ Type) bool {
 		}
 	}
 	return false
-}
-
-func ptrBase(x *syntax.Operation) syntax.Expr {
-	if x.Op == syntax.Mul && x.Y == nil {
-		return x.X
-	}
-	return nil
 }

@@ -750,12 +750,17 @@ func (p *parser) unaryExpr() Expr {
 		defer p.trace("unaryExpr")()
 	}
 
+	pos := p.pos()
 	switch p.tok {
-	case _Operator, _Star:
+	case _Star:
+		p.next()
+		return newIndirect(pos, p.unaryExpr())
+
+	case _Operator:
 		switch p.op {
 		case Mul, Add, Sub, Not, Xor:
 			x := new(Operation)
-			x.pos = p.pos()
+			x.pos = pos
 			x.Op = p.op
 			p.next()
 			x.X = p.unaryExpr()
@@ -763,7 +768,7 @@ func (p *parser) unaryExpr() Expr {
 
 		case And:
 			x := new(Operation)
-			x.pos = p.pos()
+			x.pos = pos
 			x.Op = And
 			p.next()
 			// unaryExpr may have returned a parenthesized composite literal
@@ -774,7 +779,6 @@ func (p *parser) unaryExpr() Expr {
 
 	case _Arrow:
 		// receive op (<-x) or receive-only channel (<-chan E)
-		pos := p.pos()
 		p.next()
 
 		// If the next token is _Chan we still don't know if it is
@@ -1192,11 +1196,10 @@ func (p *parser) type_() Expr {
 }
 
 func newIndirect(pos Pos, typ Expr) Expr {
-	o := new(Operation)
-	o.pos = pos
-	o.Op = Mul
-	o.X = typ
-	return o
+	p := new(StarExpr)
+	p.pos = pos
+	p.X = typ
+	return p
 }
 
 // typeOrNil is like type_ but it returns nil if there was no type
@@ -1214,7 +1217,6 @@ func (p *parser) typeOrNil() Expr {
 	pos := p.pos()
 	switch p.tok {
 	case _Star:
-		// ptrtype
 		p.next()
 		return newIndirect(pos, p.type_())
 

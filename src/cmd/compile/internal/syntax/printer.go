@@ -459,6 +459,9 @@ func (p *printer) printRawNode(n Node) {
 	case *ListExpr:
 		p.printExprList(n.ElemList)
 
+	case *StarExpr:
+		p.print(_Star, n.X)
+
 	case *ArrayType:
 		var len interface{} = _DotDotDot
 		if n.Len != nil {

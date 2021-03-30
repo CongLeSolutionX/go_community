@@ -293,11 +293,8 @@ func Slice(pos src.XPos, typ *types.Type, x, low, high, max ir.Node) ir.Node {
 }
 
 func Unary(pos src.XPos, typ *types.Type, op ir.Op, x ir.Node) ir.Node {
-	switch op {
-	case ir.OADDR:
+	if op == ir.OADDR {
 		return Addr(pos, x)
-	case ir.ODEREF:
-		return Deref(pos, typ, x)
 	}
 
 	if op == ir.ORECV {
