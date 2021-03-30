@@ -16,6 +16,46 @@
       "message": "TRY\u003dlinux-amd64-regabi",
       "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e2ceaa6_9e3d68d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-30T14:14:34Z",
+      "side": 1,
+      "message": "Good catch.",
+      "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0984d08b_752a51f5",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-30T14:14:34Z",
+      "side": 1,
+      "message": "This can clobber DI. Maybe fix this as well.",
+      "range": {
+        "startLine": 105,
+        "startChar": 86,
+        "endLine": 105,
+        "endChar": 92
+      },
+      "revId": "5ca27491ba0e3161a09af46fcb08fdf42fc22743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
