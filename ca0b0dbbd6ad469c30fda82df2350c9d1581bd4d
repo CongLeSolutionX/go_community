@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f990de73_e725e556",
+        "filename": "src/mime/testdata/test.types.globs2",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-03-30T20:58:42Z",
+      "side": 1,
+      "message": "If I\u0027m reading the code correctly, adding this file and changing the test support means that we will only get data from this file, not from the test.types file.  We need to retain a test for the test.types file.",
+      "revId": "ca0b0dbbd6ad469c30fda82df2350c9d1581bd4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
