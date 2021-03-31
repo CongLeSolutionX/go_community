@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e14addf_954dbf3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-31T15:39:15Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "746fb482028344a709e239c8ba4c38ff71f9023b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae1441b2_8af1789c",
+        "filename": "src/reflect/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-31T15:39:15Z",
+      "side": 1,
+      "message": "Is there any problem to update it upfront? regAssign or stackAssign doesn\u0027t seem to change it, so aOld.valueStart and a.valueStart are always equal, right?",
+      "revId": "746fb482028344a709e239c8ba4c38ff71f9023b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
