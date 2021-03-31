@@ -208,7 +208,7 @@ func (c *gcControllerState) startCycle() {
 // is when assists are enabled and the necessary statistics are
 // available).
 func (c *gcControllerState) revise() {
-	gcpercent := gcpercent
+	gcpercent := gcPercent
 	if gcpercent < 0 {
 		// If GC is disabled but we're running a forced GC,
 		// act like GOGC is huge for the below calculations.
@@ -485,7 +485,7 @@ func (c *gcControllerState) findRunnableGCWorker(_p_ *p) *g {
 // This can be called any time. If GC is the in the middle of a
 // concurrent phase, it will adjust the pacing of that phase.
 //
-// This depends on gcpercent, memstats.heap_marked, and
+// This depends on gcPercent, memstats.heap_marked, and
 // memstats.heap_live. These must be up to date.
 //
 // mheap_.lock must be held or the world must be stopped.
@@ -496,13 +496,13 @@ func gcSetTriggerRatio(triggerRatio float64) {
 	// has grown by GOGC/100 over the heap marked by the last
 	// cycle.
 	goal := ^uint64(0)
-	if gcpercent >= 0 {
-		goal = memstats.heap_marked + memstats.heap_marked*uint64(gcpercent)/100
+	if gcPercent >= 0 {
+		goal = memstats.heap_marked + memstats.heap_marked*uint64(gcPercent)/100
 	}
 
 	// Set the trigger ratio, capped to reasonable bounds.
-	if gcpercent >= 0 {
-		scalingFactor := float64(gcpercent) / 100
+	if gcPercent >= 0 {
+		scalingFactor := float64(gcPercent) / 100
 		// Ensure there's always a little margin so that the
 		// mutator assist ratio isn't infinity.
 		maxTriggerRatio := 0.95 * scalingFactor
@@ -527,9 +527,9 @@ func gcSetTriggerRatio(triggerRatio float64) {
 			triggerRatio = minTriggerRatio
 		}
 	} else if triggerRatio < 0 {
-		// gcpercent < 0, so just make sure we're not getting a negative
+		// gcPercent < 0, so just make sure we're not getting a negative
 		// triggerRatio. This case isn't expected to happen in practice,
-		// and doesn't really matter because if gcpercent < 0 then we won't
+		// and doesn't really matter because if gcPercent < 0 then we won't
 		// ever consume triggerRatio further on in this function, but let's
 		// just be defensive here; the triggerRatio being negative is almost
 		// certainly undesirable.
@@ -542,10 +542,10 @@ func gcSetTriggerRatio(triggerRatio float64) {
 	// We trigger the next GC cycle when the allocated heap has
 	// grown by the trigger ratio over the marked heap size.
 	trigger := ^uint64(0)
-	if gcpercent >= 0 {
+	if gcPercent >= 0 {
 		trigger = uint64(float64(memstats.heap_marked) * (1 + triggerRatio))
 		// Don't trigger below the minimum heap size.
-		minTrigger := heapminimum
+		minTrigger := heapMinimum
 		if !isSweepDone() {
 			// Concurrent sweep happens in the heap growth
 			// from heap_live to gc_trigger, so ensure
@@ -625,9 +625,9 @@ func gcSetTriggerRatio(triggerRatio float64) {
 // ratio (GOGC/100) based on heap_marked from the previous GC and
 // next_gc for the current GC.
 //
-// This may differ from gcpercent/100 because of various upper and
-// lower bounds on gcpercent. For example, if the heap is smaller than
-// heapminimum, this can be higher than gcpercent/100.
+// This may differ from gcPercent/100 because of various upper and
+// lower bounds on gcPercent. For example, if the heap is smaller than
+// heapMinimum, this can be higher than gcPercent/100.
 //
 // mheap_.lock must be held or the world must be stopped.
 func gcEffectiveGrowthRatio() float64 {
@@ -646,13 +646,13 @@ func setGCPercent(in int32) (out int32) {
 	// Run on the system stack since we grab the heap lock.
 	systemstack(func() {
 		lock(&mheap_.lock)
-		out = gcpercent
+		out = gcPercent
 		if in < 0 {
 			in = -1
 		}
-		gcpercent = in
-		heapminimum = defaultHeapMinimum * uint64(gcpercent) / 100
-		// Update pacing in response to gcpercent change.
+		gcPercent = in
+		heapMinimum = defaultHeapMinimum * uint64(gcPercent) / 100
+		// Update pacing in response to gcPercent change.
 		gcSetTriggerRatio(memstats.triggerRatio)
 		unlock(&mheap_.lock)
 	})
@@ -666,7 +666,7 @@ func setGCPercent(in int32) (out int32) {
 	return out
 }
 
-func readgogc() int32 {
+func readGOGC() int32 {
 	p := gogetenv("GOGC")
 	if p == "off" {
 		return -1
@@ -712,12 +712,12 @@ const (
 	// assist by pre-paying for this many bytes of future allocations.
 	gcOverAssistWork = 64 << 10
 
-	// defaultHeapMinimum is the value of heapminimum for GOGC==100.
+	// defaultHeapMinimum is the value of heapMinimum for GOGC==100.
 	defaultHeapMinimum = 4 << 20
 )
 
 var (
-	// heapminimum is the minimum heap size at which to trigger GC.
+	// heapMinimum is the minimum heap size at which to trigger GC.
 	// For small heaps, this overrides the usual GOGC*live set rule.
 	//
 	// When there is a very small live set but a lot of allocation, simply
@@ -726,11 +726,11 @@ var (
 	// per-GC overhead while keeping the heap reasonably small.
 	//
 	// During initialization this is set to 4MB*GOGC/100. In the case of
-	// GOGC==0, this will set heapminimum to 0, resulting in constant
+	// GOGC==0, this will set heapMinimum to 0, resulting in constant
 	// collection even when the heap size is small, which is useful for
 	// debugging.
-	heapminimum uint64 = defaultHeapMinimum
+	heapMinimum uint64 = defaultHeapMinimum
 
 	// Initialized from $GOGC.  GOGC=off means no GC.
-	gcpercent int32
+	gcPercent int32
 )
