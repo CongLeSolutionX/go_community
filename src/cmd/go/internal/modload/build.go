@@ -152,6 +152,19 @@ func addRetraction(ctx context.Context, m *modinfo.ModulePublic) {
 	}
 }
 
+// addDeprecation fills in m.Deprecated if the module was deprecated by its
+// author. m.Error is set if there's an error loading deprecation information.
+func addDeprecation(ctx context.Context, m *modinfo.ModulePublic) {
+	deprecation, err := CheckDeprecation(ctx, module.Version{Path: m.Path, Version: m.Version})
+	if err != nil {
+		if m.Error == nil {
+			m.Error = &modinfo.ModuleError{Err: err.Error()}
+		}
+		return
+	}
+	m.Deprecated = deprecation
+}
+
 // moduleInfo returns information about module m, loaded from the requirements
 // in rs (which may be nil to indicate that m was not loaded from a requirement
 // graph).
