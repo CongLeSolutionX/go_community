@@ -47,8 +47,9 @@ type File struct {
 
 // A Module is the module statement.
 type Module struct {
-	Mod    module.Version
-	Syntax *Line
+	Mod        module.Version
+	Deprecated string
+	Syntax     *Line
 }
 
 // A Go is the go statement.
@@ -271,7 +272,11 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 			errorf("repeated module statement")
 			return
 		}
-		f.Module = &Module{Syntax: line}
+		deprecated := parseDeprecation(block, line)
+		f.Module = &Module{
+			Syntax:     line,
+			Deprecated: deprecated,
+		}
 		if len(args) != 1 {
 			errorf("usage: module module/path")
 			return
@@ -385,7 +390,7 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 		})
 
 	case "retract":
-		rationale := parseRetractRationale(block, line)
+		rationale := parseDirectiveComment(block, line)
 		vi, err := parseVersionInterval(verb, "", &args, dontFixRetract)
 		if err != nil {
 			if strict {
@@ -612,10 +617,41 @@ func parseString(s *string) (string, error) {
 	return t, nil
 }
 
-// parseRetractRationale extracts the rationale for a retract directive from the
-// surrounding comments. If the line does not have comments and is part of a
-// block that does have comments, the block's comments are used.
-func parseRetractRationale(block *LineBlock, line *Line) string {
+// parseDeprecation extracts the text of comments on a "module" directive
+// and extracts a deprecation message from that.
+//
+// A deprecation message start with "Deprecated:" at the beginning of a comment,
+// possibly preceded by spaces and other lines, and runs until the end of the
+// paragraph (until the next blank line or the end of the extracted text).
+// The returned message does not include "Deprecated:".
+func parseDeprecation(block *LineBlock, line *Line) string {
+	// Do the comments contain a deprecation notice?
+	// If so, trim everything before it.
+	const deprecated = "Deprecated:"
+	text := parseDirectiveComment(block, line)
+	begin := strings.Index(text, deprecated)
+	if begin < 0 {
+		return ""
+	}
+	for i := begin - 1; i >= 0 && text[i] != '\n'; i-- {
+		if text[i] != ' ' && text[i] != '\t' {
+			return ""
+		}
+	}
+	text = text[begin+len(deprecated):]
+
+	// Trim paragraphs after it.
+	// parseDirectiveComment already trims space on each line.
+	if end := strings.Index(text, "\n\n"); end >= 0 {
+		text = text[:end]
+	}
+	return strings.TrimSpace(text)
+}
+
+// parseDirectiveComment extracts the text of comments on a directive.
+// If the directive's line does not have comments and is part of a block that
+// does have comments, the block's comments are used.
+func parseDirectiveComment(block *LineBlock, line *Line) string {
 	comments := line.Comment()
 	if block != nil && len(comments.Before) == 0 && len(comments.Suffix) == 0 {
 		comments = block.Comment()
