@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e229dc4_d0afe3eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-03-31T00:17:37Z",
+      "side": 1,
+      "message": "Nit: 44816 is the tracking issue where we dump test cases that break with regabi. I think you want to cite #40724, which is the overall regabi issue. Or both.",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "31f4a33e1470f887eb29209a72b594d5437f4326",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7dd87884_31d26651",
         "filename": "src/reflect/abi.go",
         "patchSetId": 1
