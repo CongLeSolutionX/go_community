@@ -1359,7 +1359,32 @@ func expandCalls(f *Func) {
 		}
 	}
 
-	// Step 5: elide any copies introduced.
+	// Step 5: dedup OpArgXXXReg values. Mostly it is already dedup'd by commonArgs,
+	// but there are cases that we have same OpArgXXXReg values with different types.
+	// E.g. string is sometimes decomposed as { *int8, int }, sometimes as { unsafe.Pointer, uintptr }.
+	// (Can we avoid that?)
+	var IArg, FArg [32]*Value
+	for _, v := range f.Entry.Values {
+		switch v.Op {
+		case OpArgIntReg:
+			i := v.AuxInt
+			if IArg[i] != nil {
+				// TODO: don't dedup pointer and scalar? Rewrite to OpConvert? Can it happen?
+				v.copyOf(IArg[i])
+			} else {
+				IArg[i] = v
+			}
+		case OpArgFloatReg:
+			i := v.AuxInt
+			if FArg[i] != nil {
+				v.copyOf(FArg[i])
+			} else {
+				FArg[i] = v
+			}
+		}
+	}
+
+	// Step 6: elide any copies introduced.
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			for i, a := range v.Args {
