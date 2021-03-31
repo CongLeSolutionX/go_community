@@ -33,6 +33,92 @@
       "message": "Build failure is due to a test that Austin recently added, seems flaky (and is showing up on the dashboard).  Meant to ask him about it today.\n",
       "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94a87915_6a178b5a",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-31T00:06:07Z",
+      "side": 1,
+      "message": "move this declaration down, to before the loop at 880. That\u0027s where it\u0027s used first.",
+      "range": {
+        "startLine": 865,
+        "startChar": 1,
+        "endLine": 865,
+        "endChar": 10
+      },
+      "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3efa7921_bb250eba",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-31T00:06:07Z",
+      "side": 1,
+      "message": "Move this declaration down, to just before the loop at 870 (and after the comment). The \"i\" and that loop belong together.",
+      "range": {
+        "startLine": 866,
+        "startChar": 7,
+        "endLine": 866,
+        "endChar": 10
+      },
+      "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b0a4202_db30bd20",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-31T00:06:07Z",
+      "side": 1,
+      "message": "len(dcl) doesn\u0027t change in the for loop (I think), so I\u0027d just use len(dcl) instead of introducing numdcls. I don\u0027t think matters, speed-wise. And unless numdcls is in a register, the code may be virtually the same.",
+      "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8740e5a_f1f1284d",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-03-31T00:06:07Z",
+      "side": 1,
+      "message": "s/to later/to a later/ ?",
+      "range": {
+        "startLine": 886,
+        "startChar": 29,
+        "endLine": 886,
+        "endChar": 34
+      },
+      "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
