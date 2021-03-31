@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40bae3ee_760de317",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-31T00:30:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94a87915_6a178b5a",
+      "range": {
+        "startLine": 865,
+        "startChar": 1,
+        "endLine": 865,
+        "endChar": 10
+      },
+      "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3efa7921_bb250eba",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-03-31T00:06:07Z",
       "side": 1,
       "message": "Move this declaration down, to just before the loop at 870 (and after the comment). The \"i\" and that loop belong together.",
+      "range": {
+        "startLine": 866,
+        "startChar": 7,
+        "endLine": 866,
+        "endChar": 10
+      },
+      "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d7ff560_79b3ce3e",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-31T00:30:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3efa7921_bb250eba",
       "range": {
         "startLine": 866,
         "startChar": 7,
@@ -98,6 +146,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6a6bf5f_51e3b414",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-31T00:30:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b0a4202_db30bd20",
+      "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8740e5a_f1f1284d",
@@ -111,6 +177,30 @@
       "writtenOn": "2021-03-31T00:06:07Z",
       "side": 1,
       "message": "s/to later/to a later/ ?",
+      "range": {
+        "startLine": 886,
+        "startChar": 29,
+        "endLine": 886,
+        "endChar": 34
+      },
+      "revId": "f621366bc1483f81b79f645a864f0ae7fe39348a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bda42e6_4239bf83",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-03-31T00:30:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8740e5a_f1f1284d",
       "range": {
         "startLine": 886,
         "startChar": 29,
