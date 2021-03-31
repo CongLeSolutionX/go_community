@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23a9ad98_6723ea05",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4891,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-03-31T22:09:37Z",
+      "side": 1,
+      "message": "When fn.Func is nil? The special cases you mentioned earlier (e.g. generated equality functions)? A comment might be good.",
+      "range": {
+        "startLine": 4891,
+        "startChar": 7,
+        "endLine": 4891,
+        "endChar": 21
+      },
+      "revId": "829d9e0b9f8c94efb37f1b184dbabe01dfb622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
