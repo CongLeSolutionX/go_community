@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9209a80_6e8bae97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-31T17:29:02Z",
+      "side": 1,
+      "message": "I think there\u0027s a corner case that ought not ever happen,\nbut I\u0027d like it to not have the chance.\n",
+      "revId": "9cd0242065bbe3b8ee3760803d87cd89fdee864d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b71c23b_cfb66001",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-31T17:29:02Z",
+      "side": 1,
+      "message": "We need to be sure to \"promote\" the type of w if it is an unsafe.Ptr -- in rare cases some pointer types have special tags, though I am not sure that can ever make it to this place.",
+      "range": {
+        "startLine": 1376,
+        "startChar": 4,
+        "endLine": 1376,
+        "endChar": 15
+      },
+      "revId": "9cd0242065bbe3b8ee3760803d87cd89fdee864d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
