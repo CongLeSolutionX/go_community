@@ -1420,9 +1420,15 @@ func (x *expandState) rewriteArgToMemOrRegs(v *Value) *Value {
 // with offset, regOffset, and t to determine which portion of it to reference (either all or a part, in memory or in registers).
 func (x *expandState) newArgToMemOrRegs(baseArg, toReplace *Value, offset int64, regOffset Abi1RO, t *types.Type, pos src.XPos) *Value {
 	if x.debug {
+		lsornil := func(v *Value) string {
+			if v == nil {
+				return "<nil>"
+			}
+			return v.LongString()
+		}
 		x.indent(3)
 		defer x.indent(-3)
-		x.Printf("newArgToMemOrRegs(base=%s; toReplace=%s; t=%s; memOff=%d; regOff=%d)\n", baseArg.String(), toReplace.LongString(), t, offset, regOffset)
+		x.Printf("newArgToMemOrRegs(base=%s; toReplace=%s; t=%v; memOff=%d; regOff=%d)\n", baseArg.String(), lsornil(toReplace), t, offset, regOffset)
 	}
 	key := selKey{baseArg, offset, t.Width, t}
 	w := x.commonArgs[key]
