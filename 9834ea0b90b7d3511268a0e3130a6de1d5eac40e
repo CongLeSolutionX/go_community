@@ -16,6 +16,24 @@
       "message": "CL 305672 changes (*Value).LongString to not panic. I\u0027m fine either way. Up to you.",
       "revId": "9834ea0b90b7d3511268a0e3130a6de1d5eac40e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fff8d99a_7e954d08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-03-31T14:17:34Z",
+      "side": 1,
+      "message": "Ah, ok. No need for this then, David\u0027s CL will do the trick. Thanks.",
+      "parentUuid": "4dca36b9_ce9d75b9",
+      "revId": "9834ea0b90b7d3511268a0e3130a6de1d5eac40e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
