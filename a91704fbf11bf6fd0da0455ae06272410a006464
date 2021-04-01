@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f80940a_9ba3e62f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-01T23:40:13Z",
+      "side": 1,
+      "message": "The Windows failure is interesting. syscall.loadlibrary is a function defined in runtime and linkname\u0027d to the syscall package. It is also cgo_unsafe_args. With this CL, in the runtime it gets an ABI0 TEXT symbol. In the syscall package, there is a Go declaration (bodyless), Go reference, and a dummy assembly reference. Somehow this triggers generation of ABI alias, so it gets an ABI0 ABIALIAS symbol. The two ABI0 symbols confuses the linker.\n\nCL 306709 removes the dummy assembly reference, and it makes it work. (I don\u0027t see why we need the dummy reference.)",
+      "parentUuid": "5ef82038_7f972cf2",
+      "revId": "a91704fbf11bf6fd0da0455ae06272410a006464",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0deb97c8_9d45ee53",
