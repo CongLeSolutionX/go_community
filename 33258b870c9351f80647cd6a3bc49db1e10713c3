@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d48326d0_1b2c15b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-01T17:17:06Z",
+      "side": 1,
+      "message": "Is it possible to get a TLDR summary of what alignment checks are necessary for the rule(s)?\nI think I need this change; it appears to be blocking movement towards register ABI stuff.\nI\u0027m working on a test case to be sure, but if this turns out to be the fix, I\u0027d like it to be\nright and able to go in Real Soon (like today, or Friday).",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a504d14_6730c903",
