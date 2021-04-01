@@ -232,6 +232,12 @@ func abiForFunc(fn *ir.Func, abi0, abi1 *abi.ABIConfig) *abi.ABIConfig {
 		if fn == nil {
 			return abi1
 		}
+		if fn.Pragma&ir.CgoUnsafeArgs != 0 {
+			// CgoUnsafeArgs indicates the function (or its callee) uses
+			// offsets to dispatch arguments, which currently using ABI0
+			// frame layout. Pin it to ABI0.
+			return abi0
+		}
 		switch fn.ABI {
 		case obj.ABI0:
 			return abi0
