@@ -16,6 +16,63 @@
       "message": "TRY\u003dlinux-amd64-regabi\n",
       "revId": "7abd82e9037105e0ca7ec1cb2dfb7470741cbaaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082ac884_f73e59c0",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-01T19:17:23Z",
+      "side": 1,
+      "message": "Ah, interesting... I know this condition currently protects several things in this file, and this kind of suggests to me that the condition needs to be different everywhere. It seems like it was just luck that we weren\u0027t hitting this path before in ABI0 functions and I don\u0027t think we want to depend on that anywhere else. Maybe everywhere we use X15 needs to be protected by both the current function\u0027s ABI and the experiment?",
+      "revId": "7abd82e9037105e0ca7ec1cb2dfb7470741cbaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35694a85_e4092610",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-01T19:17:23Z",
+      "side": 1,
+      "message": "This is also interesting. I\u0027m okay with thinking of cgo_unsafe_args functions as \"no, really, these are ABI0 functions\" even though they could theoretically be somewhere in-between. Mostly I worry about introducing a third case that\u0027s kind of ABI0 and kind of ABIInternal but doesn\u0027t get exercised that much, particularly if/when we start shifting ABIInternal further away from ABI0.",
+      "range": {
+        "startLine": 830,
+        "startChar": 18,
+        "endLine": 831,
+        "endChar": 45
+      },
+      "revId": "7abd82e9037105e0ca7ec1cb2dfb7470741cbaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6034493_b6a52742",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-01T19:17:23Z",
+      "side": 1,
+      "message": "Maybe move the CgoUnsafeArgs check up here with the other fn.ABI assignment?",
+      "revId": "7abd82e9037105e0ca7ec1cb2dfb7470741cbaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
