@@ -824,10 +824,12 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Reg = v.Args[0].Reg()
 		ssagen.AddAux2(&p.To, v, sc.Off64())
 	case ssa.OpAMD64MOVOstorezero:
-		if s.ABI != obj.ABIInternal {
-			v.Fatalf("MOVOstorezero can be only used in ABIInternal functions")
-		}
-		if !objabi.Experiment.RegabiG {
+		if !objabi.Experiment.RegabiG || s.ABI != obj.ABIInternal {
+			// XXX s.ABI != obj.ABIInternal can only happen for ABI wrappers
+			// or cgo_unsafe_args functions. I don't think wrappers contain
+			// zeroing op. For cgo_unsafe_args functions it is actually Go
+			// function so X15 should already be zero.
+			//
 			// zero X15 manually
 			opregreg(s, x86.AXORPS, x86.REG_X15, x86.REG_X15)
 		}

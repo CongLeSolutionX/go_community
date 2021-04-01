@@ -167,6 +167,13 @@ func (s *SymABIs) GenABIWrappers() {
 			fn.ABIRefs |= obj.ABISetCallable
 		}
 
+		if fn.Pragma&ir.CgoUnsafeArgs != 0 {
+			// CgoUnsafeArgs indicates the function (or its callee) uses
+			// offsets to dispatch arguments, which currently using ABI0
+			// frame layout. Pin it to ABI0.
+			fn.ABI = obj.ABI0
+		}
+
 		if !objabi.Experiment.RegabiWrappers {
 			// We'll generate ABI aliases instead of
 			// wrappers once we have LSyms in InitLSym.
