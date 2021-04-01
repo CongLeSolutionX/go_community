@@ -33,6 +33,69 @@
       "message": "ping",
       "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01262160_5ddf49f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-01T22:05:06Z",
+      "side": 1,
+      "message": "LGTM, but others should approve as well.",
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0b66aab_9d9499cf",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-01T22:05:06Z",
+      "side": 1,
+      "message": "nit: remember to update before merging",
+      "range": {
+        "startLine": 3,
+        "startChar": 25,
+        "endLine": 3,
+        "endChar": 31
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b208b3_222d996d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4320,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-01T22:05:06Z",
+      "side": 1,
+      "message": "nit: \"from slice *to* pointer-to-array type\"",
+      "range": {
+        "startLine": 4320,
+        "startChar": 76,
+        "endLine": 4320,
+        "endChar": 77
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
