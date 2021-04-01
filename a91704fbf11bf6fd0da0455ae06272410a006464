@@ -50,6 +50,24 @@
       "message": "Should we also guard this with s.ABI so this can appear in ABI0 functions? Or do you think we should just eliminate LoweredGetG when we commit to regabig?",
       "revId": "a91704fbf11bf6fd0da0455ae06272410a006464",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "129a1e3b_02f9ae5b",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-01T22:32:26Z",
+      "side": 1,
+      "message": "Good point. I guess we should guard this, and also the rewriting rule that lowers GetG. Done.",
+      "parentUuid": "0deb97c8_9d45ee53",
+      "revId": "a91704fbf11bf6fd0da0455ae06272410a006464",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
