@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04d445ce_f146fa1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-01T17:49:16Z",
+      "side": 1,
+      "message": "Awesome, thank you very much.\nI just (seconds ago) confirmed that it is one way to clear our problem, though perhaps not the best way.",
+      "parentUuid": "5ab87f3b_4459420c",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a504d14_6730c903",
