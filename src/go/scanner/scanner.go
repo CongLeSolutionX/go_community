@@ -48,7 +48,10 @@ type Scanner struct {
 	ErrorCount int // number of errors encountered
 }
 
-const bom = 0xFEFF // byte order mark, only permitted as very first character
+const (
+	bom = 0xFEFF // byte order mark, only permitted as very first character
+	eof = -1     // end of file
+)
 
 // Read the next Unicode char into s.ch.
 // s.ch < 0 means end-of-file.
@@ -60,28 +63,36 @@ func (s *Scanner) next() {
 			s.lineOffset = s.offset
 			s.file.AddLine(s.offset)
 		}
+		b := s.src[s.rdOffset]
 		r, w := rune(s.src[s.rdOffset]), 1
-		switch {
-		case r == 0:
-			s.error(s.offset, "illegal character NUL")
-		case r >= utf8.RuneSelf:
+		if b >= utf8.RuneSelf {
 			// not ASCII
 			r, w = utf8.DecodeRune(s.src[s.rdOffset:])
-			if r == utf8.RuneError && w == 1 {
-				s.error(s.offset, "illegal UTF-8 encoding")
-			} else if r == bom && s.offset > 0 {
-				s.error(s.offset, "illegal byte order mark")
-			}
 		}
 		s.rdOffset += w
 		s.ch = r
+		if r == 0 || r == utf8.RuneError || r == bom {
+			s.checkChar(w)
+		}
 	} else {
 		s.offset = len(s.src)
 		if s.ch == '\n' {
 			s.lineOffset = s.offset
 			s.file.AddLine(s.offset)
 		}
-		s.ch = -1 // eof
+		s.ch = eof
+	}
+}
+
+// checkChar validates the rune r at offset, with the width given by
+// utf8.DecodeRune. It returns an error message, or "" if no error is detected.
+func (s *Scanner) checkChar(width int) {
+	if s.ch == 0 {
+		s.error(s.offset, "illegal character NUL")
+	} else if s.ch == utf8.RuneError && width == 1 {
+		s.error(s.offset, "illegal UTF-8 encoding")
+	} else if s.ch == bom && s.offset > 0 {
+		s.error(s.offset, "illegal byte order mark")
 	}
 }
 
@@ -339,18 +350,57 @@ func (s *Scanner) findLineEnd() bool {
 	return false
 }
 
-func isLetter(ch rune) bool {
-	return 'a' <= lower(ch) && lower(ch) <= 'z' || ch == '_' || ch >= utf8.RuneSelf && unicode.IsLetter(ch)
-}
-
-func isDigit(ch rune) bool {
-	return isDecimal(ch) || ch >= utf8.RuneSelf && unicode.IsDigit(ch)
-}
-
+// scanIdentifier reads the string of valid identifier characters at s.offset.
+// It must only be called when s.ch is known to be a valid letter.
+//
+// Be careful when making changes to this function: it is optimized and affects
+// scanning performance significantly.
 func (s *Scanner) scanIdentifier() string {
 	offs := s.offset
-	for isLetter(s.ch) || isDigit(s.ch) {
-		s.next()
+
+	// Some tricks to eliminate bounds checks:
+	// 1. Use a local src slice so the compiler can prove that 0 <= rdOffset <
+	// len(src).
+	src := s.src[s.rdOffset:]
+	// 2. Use a uint read offset so that the compiler doesn't get confused about
+	// negative bounds when incrementing by character width.
+	var rdOffset uint
+	srclen := uint(len(src))
+
+	var r rune    // set to the next rune after the identifier is scanned
+	var w int = 1 // character width
+	var b byte    // next byte
+
+	for ; rdOffset < srclen; rdOffset += uint(w) {
+		b, w = src[rdOffset], 1
+		if 'a' <= b && b <= 'z' || 'A' <= b && b <= 'Z' || b == '_' || '0' <= b && b <= '9' {
+			// Avoid assigning a rune for the common case of an ascii character.
+			continue
+		}
+		if b < utf8.RuneSelf {
+			r = rune(b)
+			break
+		}
+		r, w = utf8.DecodeRune(src[rdOffset:])
+		if !unicode.IsLetter(r) && !unicode.IsDigit(r) {
+			break
+		}
+	}
+
+	// There are two possibilities at this point: either we've read past the end
+	// of src, or exited the loop above early, in which case rdOffset will be the
+	// offset of the current (not next) character.
+	if rdOffset >= srclen {
+		s.offset = len(s.src)
+		s.rdOffset = len(s.src)
+		s.ch = eof
+	} else {
+		s.offset = s.rdOffset + int(rdOffset)
+		s.rdOffset = s.offset + w
+		s.ch = r
+		if r == 0 || r == utf8.RuneError || r == bom {
+			s.checkChar(w)
+		}
 	}
 	return string(s.src[offs:s.offset])
 }
@@ -789,7 +839,7 @@ scanAgain:
 	// determine token value
 	insertSemi := false
 	switch ch := s.ch; {
-	case isLetter(ch):
+	case 'a' <= lower(ch) && lower(ch) <= 'z' || ch == '_' || ch >= utf8.RuneSelf && unicode.IsLetter(ch):
 		lit = s.scanIdentifier()
 		if len(lit) > 1 {
 			// keywords are longer than one letter - avoid lookup otherwise
