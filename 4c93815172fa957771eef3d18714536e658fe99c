@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47bc79f9_c6038e0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-01T17:28:35Z",
+      "side": 1,
+      "message": "This line doesn\u0027t add anything to the topic line.  Please remove it.",
+      "revId": "4c93815172fa957771eef3d18714536e658fe99c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
