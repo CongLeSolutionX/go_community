@@ -16,6 +16,40 @@
       "message": "Still need to fix Windows failures...",
       "revId": "a91704fbf11bf6fd0da0455ae06272410a006464",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef82038_7f972cf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-01T22:04:30Z",
+      "side": 1,
+      "message": "LGTM modulo Windows failures.",
+      "revId": "a91704fbf11bf6fd0da0455ae06272410a006464",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0deb97c8_9d45ee53",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-01T22:04:30Z",
+      "side": 1,
+      "message": "Should we also guard this with s.ABI so this can appear in ABI0 functions? Or do you think we should just eliminate LoweredGetG when we commit to regabig?",
+      "revId": "a91704fbf11bf6fd0da0455ae06272410a006464",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
