@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ab87f3b_4459420c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-01T17:27:31Z",
+      "side": 1,
+      "message": "The purpose of CL 299789 was to handle this issue without needing alignment checks in the rules. Since that CL has been merged you should be able to remove the alignment check from the first Store rule in this CL.",
+      "parentUuid": "d48326d0_1b2c15b9",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a504d14_6730c903",
