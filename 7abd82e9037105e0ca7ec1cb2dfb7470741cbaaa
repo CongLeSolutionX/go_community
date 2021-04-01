@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18ea25a2_5b2ed8f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-01T17:12:39Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-regabi\n",
+      "revId": "7abd82e9037105e0ca7ec1cb2dfb7470741cbaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
