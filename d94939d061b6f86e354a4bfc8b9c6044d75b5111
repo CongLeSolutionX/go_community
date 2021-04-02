@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef267dad_1c34df85",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-02T21:50:25Z",
+      "side": 1,
+      "message": "Looks like this part (changing from global to receiver) of the change should technically be in the earlier heap_live move CL?",
+      "range": {
+        "startLine": 243,
+        "startChar": 15,
+        "endLine": 243,
+        "endChar": 16
+      },
+      "revId": "d94939d061b6f86e354a4bfc8b9c6044d75b5111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e27b9364_78df5851",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-02T21:50:25Z",
+      "side": 1,
+      "message": "I don\u0027t think the name is load-bearing, so you should be able to change that.\n\nAt minimum, internal/trace/parser.go:EvNextGC needs its comment updated as well.",
+      "revId": "d94939d061b6f86e354a4bfc8b9c6044d75b5111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
