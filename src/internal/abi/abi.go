@@ -51,3 +51,18 @@ func (b *IntArgRegBitmap) Set(i int) {
 func (b *IntArgRegBitmap) Get(i int) bool {
 	return b[i/8]&(uint8(1)<<(i%8)) != 0
 }
+
+// FuncPC returns the entry PC of the function f.
+// It assumes that f is a func value. Otherwise the behavior is undefined.
+// If f is a direct reference of a defined function, FuncPC returns the
+// entry PC of f of the ABI that f is defined (i.e. not the ABI wrapper,
+// if any).
+//
+// CAREFUL: In programs with plugins, FuncPC can return different values
+// for the same function (because there are actually multiple copies of
+// the same function in the address space). To be safe, don't use the
+// results of this function in any == expression. It is only safe to
+// use the result as an address at which to start executing code.
+//
+// Implemented as a compile intrinsic.
+func FuncPC(f interface{}) uintptr
