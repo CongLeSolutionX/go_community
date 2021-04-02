@@ -22,6 +22,30 @@
       },
       "revId": "45870c288d9d0ee4464e713c1a3100378662c4b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "915cf840_12e5c6e0",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-02T16:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d2804b8_168f8800",
+      "range": {
+        "startLine": 1002,
+        "startChar": 46,
+        "endLine": 1002,
+        "endChar": 53
+      },
+      "revId": "45870c288d9d0ee4464e713c1a3100378662c4b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
