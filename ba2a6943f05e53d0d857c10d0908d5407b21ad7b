@@ -16,6 +16,24 @@
       "message": "Just out of curiosity, is there a tool out there somewhere that detects these (dead fields) automatically? ",
       "revId": "ba2a6943f05e53d0d857c10d0908d5407b21ad7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1b92128_c81a8d95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-02T14:40:31Z",
+      "side": 1,
+      "message": "I used one in the past, when I worked on protos. I think it just assumes exported fields are always reachable, though (without understanding internal packages). I haven\u0027t used that for a long time.\n\nI found this one by hand. I was trying to do print debugging, printed this field, and is always empty.",
+      "parentUuid": "a87de161_c066aeac",
+      "revId": "ba2a6943f05e53d0d857c10d0908d5407b21ad7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
