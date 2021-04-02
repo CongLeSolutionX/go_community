@@ -7,8 +7,10 @@ package modconv
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"internal/testenv"
+	"io/fs"
 	"log"
 	"os"
 	"os/exec"
@@ -147,6 +149,28 @@ func TestConvertLegacyConfig(t *testing.T) {
 	}
 
 	ctx := context.Background()
+	queryPackage := func(path, rev string) (m module.Version, err error) {
+		err = modfetch.TryProxies(func(proxy string) error {
+			for {
+				repo := modfetch.Lookup(proxy, path)
+				info, err := repo.Stat(rev)
+				if err != nil {
+					if errors.Is(err, fs.ErrNotExist) {
+						j := strings.LastIndexByte(path, '/')
+						if j > 0 {
+							path = path[:j]
+							continue
+						}
+					}
+					return err
+				}
+				m.Path = repo.ModulePath()
+				m.Version = info.Version
+				return nil
+			}
+		})
+		return m, err
+	}
 
 	for _, tt := range tests {
 		t.Run(strings.ReplaceAll(tt.path, "/", "_")+"_"+tt.vers, func(t *testing.T) {
@@ -170,7 +194,7 @@ func TestConvertLegacyConfig(t *testing.T) {
 				if err == nil {
 					f := new(modfile.File)
 					f.AddModuleStmt(tt.path)
-					if err := ConvertLegacyConfig(f, filepath.ToSlash(file), data); err != nil {
+					if err := ConvertLegacyConfig(f, filepath.ToSlash(file), data, queryPackage); err != nil {
 						t.Fatal(err)
 					}
 					out, err := f.Format()

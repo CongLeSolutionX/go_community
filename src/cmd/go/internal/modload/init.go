@@ -736,6 +736,15 @@ func setDefaultBuildMod() {
 // convertLegacyConfig imports module requirements from a legacy vendoring
 // configuration file, if one is present.
 func convertLegacyConfig(modPath string) (from string, err error) {
+	noneSelected := func(path string) (version string) { return "none" }
+	queryPackage := func(path, rev string) (module.Version, error) {
+		qrs, err := QueryPackages(context.Background(), path, rev, noneSelected, nil)
+		if err != nil {
+			return module.Version{}, err
+		}
+
+		return qrs[0].Mod, nil
+	}
 	for _, name := range altConfigs {
 		cfg := filepath.Join(modRoot, name)
 		data, err := os.ReadFile(cfg)
@@ -745,7 +754,7 @@ func convertLegacyConfig(modPath string) (from string, err error) {
 				return "", nil
 			}
 			cfg = filepath.ToSlash(cfg)
-			err := modconv.ConvertLegacyConfig(modFile, cfg, data)
+			err := modconv.ConvertLegacyConfig(modFile, cfg, data, queryPackage)
 			return name, err
 		}
 	}
