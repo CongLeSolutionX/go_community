@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a87de161_c066aeac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-02T11:15:08Z",
+      "side": 1,
+      "message": "Just out of curiosity, is there a tool out there somewhere that detects these (dead fields) automatically? ",
+      "revId": "ba2a6943f05e53d0d857c10d0908d5407b21ad7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
