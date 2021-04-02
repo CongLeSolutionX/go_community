@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89608955_687a59ec",
+        "filename": "src/syscall/asan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-04-02T08:50:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85585d81_62ab6141",
+      "revId": "478edaa1ec4c6671610ac43b9464237eb7ae6f59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90e64a1c_de6ee239",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-26T09:24:38Z",
       "side": 1,
       "message": "Same here, please add a //go:build line above.",
+      "revId": "478edaa1ec4c6671610ac43b9464237eb7ae6f59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "090eb51c_02417414",
+        "filename": "src/syscall/asan0.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-04-02T08:50:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90e64a1c_de6ee239",
       "revId": "478edaa1ec4c6671610ac43b9464237eb7ae6f59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
