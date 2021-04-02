@@ -88,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4132b432_108c0c81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-02T04:07:15Z",
+      "side": 1,
+      "message": "It\u0027s fixed here, https://go-review.googlesource.com/c/go/+/306669, and there is a small test case.  I may revise this CL soonish, too, though arguably the root cause of this is somewhat surprising treatment of direct interfaces in SSA.",
+      "parentUuid": "35b9ccdb_f71a769c",
+      "revId": "33258b870c9351f80647cd6a3bc49db1e10713c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a504d14_6730c903",
