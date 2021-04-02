@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d93ab5b1_954d50b4",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-02T21:35:52Z",
+      "side": 1,
+      "message": "You could set defaultHeapMinimum here, dunno which is better.",
+      "revId": "0134c1080e13a5dcf92396f1b4384cc3e303aac0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8545aaf7_13f24843",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-02T21:35:52Z",
+      "side": 1,
+      "message": "byte",
+      "range": {
+        "startLine": 32,
+        "startChar": 54,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "0134c1080e13a5dcf92396f1b4384cc3e303aac0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
