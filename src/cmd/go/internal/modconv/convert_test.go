@@ -147,6 +147,19 @@ func TestConvertLegacyConfig(t *testing.T) {
 	}
 
 	ctx := context.Background()
+	queryPackage := func(path, rev string) (m module.Version, err error) {
+		err = modfetch.TryProxies(func(proxy string) error {
+			repo := modfetch.Lookup(proxy, path)
+			info, err := repo.Stat(rev)
+			if err != nil {
+				return err
+			}
+			m.Path = repo.ModulePath()
+			m.Version = info.Version
+			return nil
+		})
+		return m, err
+	}
 
 	for _, tt := range tests {
 		t.Run(strings.ReplaceAll(tt.path, "/", "_")+"_"+tt.vers, func(t *testing.T) {
@@ -170,7 +183,7 @@ func TestConvertLegacyConfig(t *testing.T) {
 				if err == nil {
 					f := new(modfile.File)
 					f.AddModuleStmt(tt.path)
-					if err := ConvertLegacyConfig(f, filepath.ToSlash(file), data); err != nil {
+					if err := ConvertLegacyConfig(f, filepath.ToSlash(file), data, queryPackage); err != nil {
 						t.Fatal(err)
 					}
 					out, err := f.Format()
