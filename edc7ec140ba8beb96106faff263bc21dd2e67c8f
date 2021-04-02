@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b70afab3_369cbcc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-04-02T22:49:35Z",
+      "side": 1,
+      "message": "Thanks for following up on this! I like the new name much better. \n\nJust a new typo in a comment. ",
+      "revId": "edc7ec140ba8beb96106faff263bc21dd2e67c8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05881b4_96f26341",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-04-02T22:49:35Z",
+      "side": 1,
+      "message": "s/SetUnderling/SetUnderlying/",
+      "revId": "edc7ec140ba8beb96106faff263bc21dd2e67c8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
