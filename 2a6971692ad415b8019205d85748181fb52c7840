@@ -33,6 +33,23 @@
       "message": "Thanks for working on this. The fix looks good, and I\u0027m glad to be rid of that extra code in modfetch.\n\nIt looks like a couple tests need to be updated.\n\nmod_init_glide.txt is failing because it\u0027s trying to connect to a local test sumdb that\u0027s only available through the test proxy. It\u0027s probably best to set \u0027env GOSUMDB\u003d\u0027 there to set it to the default value.\n\nmod_convert_tsv_insecure.txt is failing because it\u0027s trying to find a real commit on the local test proxy. Setting \u0027env GOPROXY\u003ddirect\u0027 should fix that. It may also need \u0027env GOSUMDB\u003d\u0027.",
       "revId": "2a6971692ad415b8019205d85748181fb52c7840",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46378ccb_c75e2b27",
+        "filename": "src/cmd/go/testdata/script/mod_init_dep.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-02T15:18:39Z",
+      "side": 1,
+      "message": "This passed without setting GOPROXY\u003ddirect, so I don\u0027t think it really needs the network. You may be able to remove this line.",
+      "revId": "2a6971692ad415b8019205d85748181fb52c7840",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
