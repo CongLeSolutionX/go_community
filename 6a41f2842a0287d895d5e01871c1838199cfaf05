@@ -16,6 +16,24 @@
       "message": "Oops. I guess I missed these when I removed similar symbols in runtime/asm.s in CL 179862. Maybe cite that CL in the commit message?\n\nI have a very vague recollection that these were referenced from x/sys or something and that\u0027s why they needed the wrappers, but you\u0027re right that those wrappers will get generated anyway at this point (the wrapper rules were different when I wrote this file).",
       "revId": "6a41f2842a0287d895d5e01871c1838199cfaf05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7063583c_1bd5e0c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-02T16:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38239a5c_04d35177",
+      "revId": "6a41f2842a0287d895d5e01871c1838199cfaf05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
