@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e635d5a3_46f8a6c3",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-02T21:40:48Z",
+      "side": 1,
+      "message": "micronit: don\u0027t wrap so aggressively here?",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 161,
+        "endChar": 28
+      },
+      "revId": "ed76934a0a7394999171c80230cf482c782797d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
