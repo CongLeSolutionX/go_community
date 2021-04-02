@@ -501,6 +501,19 @@ func (o *orderState) call(nn ir.Node) {
 
 	n := nn.(*ir.CallExpr)
 	typecheck.FixVariadicCall(n)
+
+	if isFuncPCIntrinsic(n) {
+		// For internal/abi.FuncPC(fn), if fn is a defined function, do not
+		// introduce temporaries here, so it is easier to rewrite it to
+		// symbol address reference later in walk.
+		arg := n.Args[0]
+		if arg.Op() == ir.OCONVIFACE &&
+			arg.(*ir.ConvExpr).X.Op() == ir.ONAME &&
+			arg.(*ir.ConvExpr).X.(*ir.Name).Class == ir.PFUNC {
+			return
+		}
+	}
+
 	n.X = o.expr(n.X, nil)
 	o.exprList(n.Args)
 
@@ -1740,4 +1753,14 @@ func (o *orderState) wrapGoDefer(n *ir.GoDeferStmt) {
 
 	// Finally, point the defer statement at the newly generated call.
 	n.Call = topcall
+}
+
+// isFuncPCIntrinsic returns whether n is a direct call of internal/abi.FuncPC.
+func isFuncPCIntrinsic(n *ir.CallExpr) bool {
+	if n.Op() != ir.OCALLFUNC || n.X.Op() != ir.ONAME {
+		return false
+	}
+	fn := n.X.(*ir.Name).Sym()
+	return fn.Name == "FuncPC" &&
+		(fn.Pkg.Path == "internal/abi" || fn.Pkg == types.LocalPkg && base.Ctxt.Pkgpath == "internal/abi")
 }
