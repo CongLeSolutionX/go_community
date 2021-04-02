@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a358caf3_46124a42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-02T16:13:19Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2: TryBot-Result-1\n\u003e \n\u003e 2 of 22 SlowBots failed:\n\u003e Failed on android-amd64-emu: https://storage.googleapis.com/go-build-log/c7809a34/android-amd64-emu_408891e8.log\n\u003e Failed on linux-amd64-longtest: https://storage.googleapis.com/go-build-log/c7809a34/linux-amd64-longtest_3a0d3325.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\u003e \n\u003e SlowBot builds that ran:\n\u003e * linux-amd64-longtest\n\nShould GOSUMDB be set to off? I think it\u0027s harmless to do that here.",
+      "revId": "c7809a34a4bb19f5442538a8c5318a22bbf7f411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
