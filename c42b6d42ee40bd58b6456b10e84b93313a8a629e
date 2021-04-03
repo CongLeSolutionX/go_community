@@ -16,6 +16,24 @@
       "message": "It would be better to change the title to \"fix outdated comment\"\n\n",
       "revId": "c42b6d42ee40bd58b6456b10e84b93313a8a629e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e16f3316_866bbb5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2021-04-03T13:48:39Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "7f82bc53_3b7973ee",
+      "revId": "c42b6d42ee40bd58b6456b10e84b93313a8a629e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
