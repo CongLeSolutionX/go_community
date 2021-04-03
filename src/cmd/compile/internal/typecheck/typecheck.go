@@ -472,7 +472,7 @@ func indexlit(n ir.Node) ir.Node {
 	return n
 }
 
-// typecheck1 should ONLY be called from typecheck.
+// typecheck1 should ONLY be called from typecheck or tcCall.
 func typecheck1(n ir.Node, top int) ir.Node {
 	if n, ok := n.(*ir.Name); ok {
 		typecheckdef(n)
