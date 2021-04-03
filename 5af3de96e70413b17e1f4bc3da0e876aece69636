@@ -92,6 +92,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6401f6f_82ef2960",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-03T18:54:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e0b66aab_9d9499cf",
+      "range": {
+        "startLine": 3,
+        "startChar": 25,
+        "endLine": 3,
+        "endChar": 31
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1b208b3_222d996d",
@@ -138,6 +162,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb3d2211_a942af1c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4320,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-03T18:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1b208b3_222d996d",
+      "range": {
+        "startLine": 4320,
+        "startChar": 76,
+        "endLine": 4320,
+        "endChar": 77
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32e86179_50f0fff7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4320,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-03T18:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a519317_e21f3765",
+      "range": {
+        "startLine": 4320,
+        "startChar": 8,
+        "endLine": 4320,
+        "endChar": 52
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cafd195_3715b3f5",
@@ -151,6 +223,30 @@
       "writtenOn": "2021-04-01T22:20:35Z",
       "side": 1,
       "message": "In the rest of the spec we leave at least 2 spaces before line comments.",
+      "range": {
+        "startLine": 4330,
+        "startChar": 20,
+        "endLine": 4330,
+        "endChar": 21
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af4a942e_8a859c14",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4330,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-03T18:54:42Z",
+      "side": 1,
+      "message": "Looks like the style is \"align with longest line in block + two spaces\". Did that.",
+      "parentUuid": "6cafd195_3715b3f5",
       "range": {
         "startLine": 4330,
         "startChar": 20,
@@ -184,6 +280,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddfaf0fd_3e55585b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4331,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-03T18:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93c3bee6_7b3ee256",
+      "range": {
+        "startLine": 4331,
+        "startChar": 23,
+        "endLine": 4331,
+        "endChar": 24
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dce690fe_cb54d217",
@@ -197,6 +317,30 @@
       "writtenOn": "2021-04-01T22:20:35Z",
       "side": 1,
       "message": "explain the panic (see e.g. line 3613):\n\n// panics: len([4]byte) \u003e len(s)",
+      "range": {
+        "startLine": 4332,
+        "startChar": 23,
+        "endLine": 4332,
+        "endChar": 29
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f322e4b_ca01eb73",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4332,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-03T18:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dce690fe_cb54d217",
       "range": {
         "startLine": 4332,
         "startChar": 23,
@@ -230,6 +374,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f70fea_c5e2743c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4335,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-03T18:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68e1da81_c79659b8",
+      "range": {
+        "startLine": 4335,
+        "startChar": 22,
+        "endLine": 4335,
+        "endChar": 23
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83d219d8_e6fce96b",
@@ -243,6 +411,30 @@
       "writtenOn": "2021-04-01T22:20:35Z",
       "side": 1,
       "message": "explain the panic (see above)",
+      "range": {
+        "startLine": 4336,
+        "startChar": 25,
+        "endLine": 4336,
+        "endChar": 31
+      },
+      "revId": "5af3de96e70413b17e1f4bc3da0e876aece69636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec7ae474_93693d02",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4336,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-03T18:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d219d8_e6fce96b",
       "range": {
         "startLine": 4336,
         "startChar": 25,
