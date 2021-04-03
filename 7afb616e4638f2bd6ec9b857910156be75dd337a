@@ -33,6 +33,23 @@
       "message": "Looking even better now. ",
       "revId": "7afb616e4638f2bd6ec9b857910156be75dd337a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec558c8_a95a266f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-03T18:14:48Z",
+      "side": 1,
+      "message": "Thanks for the reviews and the +2!",
+      "revId": "7afb616e4638f2bd6ec9b857910156be75dd337a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
