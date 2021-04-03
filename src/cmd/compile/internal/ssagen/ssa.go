@@ -468,7 +468,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	s.fwdVars = map[ir.Node]*ssa.Value{}
 	s.startmem = s.entryNewValue0(ssa.OpInitMem, types.TypeMem)
 
-	s.hasOpenDefers = base.Flag.N == 0 && s.hasdefer && !s.curfn.OpenCodedDeferDisallowed()
+	s.hasOpenDefers = base.Flag.N == 0 && base.Debug.NoOpenDefer == 0 && s.hasdefer && !s.curfn.OpenCodedDeferDisallowed()
 	switch {
 	case s.hasOpenDefers && (base.Ctxt.Flag_shared || base.Ctxt.Flag_dynlink) && base.Ctxt.Arch.Name == "386":
 		// Don't support open-coded defers for 386 ONLY when using shared
