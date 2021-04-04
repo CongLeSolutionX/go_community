@@ -290,6 +290,20 @@ func makeABIWrapper(f *ir.Func, wrapperABI obj.ABI) {
 	fn.SetABIWrapper(true)
 	fn.SetDupok(true)
 
+	fnname := fn.Nname.Sym().Name
+	if (base.Ctxt.Pkgpath == "runtime" && fnname == "reflectcall") ||
+		(base.Ctxt.Pkgpath == "reflect" && (fnname == "callReflect" || fnname == "callMethod")) {
+		// Setting Wrapper flag enables the panic+recover handling for wrappers.
+		// For most ABI wrappers we don't need it because we're never going to
+		// defer an ABI wrapper for a function that then recovers, so that's would
+		// just be unnecessary code in the ABI wrapper.
+		//
+		// However, for functions that could be on the path of invoking a deferred
+		// function that can recover (runtime.reflectcall, reflect.callReflect,
+		// and reflect.callMethod), we do want the panic+recover handling.
+		fn.SetWrapper(true)
+	}
+
 	// ABI0-to-ABIInternal wrappers will be mainly loading params from
 	// stack into registers (and/or storing stack locations back to
 	// registers after the wrapped call); in most cases they won't
