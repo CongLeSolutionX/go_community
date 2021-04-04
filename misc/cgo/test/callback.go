@@ -179,6 +179,7 @@ func testCallbackCallers(t *testing.T) {
 	pc := make([]uintptr, 100)
 	n := 0
 	name := []string{
+		"runtime.abi0Call",
 		"runtime.cgocallbackg1",
 		"runtime.cgocallbackg",
 		"runtime.cgocallback",

@@ -170,6 +170,9 @@ func noescape(p unsafe.Pointer) unsafe.Pointer {
 // pointer-declared arguments.
 func cgocallback(fn, frame, ctxt uintptr)
 
+// Call fn(frame) using ABI0.
+func abi0Call(fn, frame unsafe.Pointer)
+
 func gogo(buf *gobuf)
 
 //go:noescape

@@ -945,6 +945,16 @@ done:
 	// Done!
 	RET
 
+// func abi0Call(fn, frame unsafe.Pointer)
+// Call fn(frame) using ABI0.
+TEXT ·abi0Call(SB),NOSPLIT,$8-16
+	NO_LOCAL_POINTERS
+	MOVQ	fn+0(FP), AX
+	MOVQ	frame+8(FP), BX
+	MOVQ	BX, (SP)
+	CALL	AX
+RET
+
 // func setg(gg *g)
 // set g. for use by needm.
 TEXT runtime·setg(SB), NOSPLIT, $0-8
