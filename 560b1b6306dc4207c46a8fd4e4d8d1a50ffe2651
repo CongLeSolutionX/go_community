@@ -34,6 +34,24 @@
       "parentUuid": "675f708b_dab4aee1",
       "revId": "560b1b6306dc4207c46a8fd4e4d8d1a50ffe2651",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b098ffa_498fb8c7",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-05T22:30:52Z",
+      "side": 1,
+      "message": "I think I was confused by setupTextLSym and ABI wrappers myself. I was thinking we wouldn\u0027t call setupTextLSym for ABI wrappers because they don\u0027t have a body, but they *do* have a synthetic body, so we do call setupTextLSym on them. So just ignore my comment about InitLSym. :)",
+      "parentUuid": "548047b0_e8f7c96f",
+      "revId": "560b1b6306dc4207c46a8fd4e4d8d1a50ffe2651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
