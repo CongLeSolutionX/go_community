@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62f85b5_37cd65bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-05T03:13:20Z",
+      "side": 1,
+      "message": "Hi Matt:  let me know what you think of this change.  I think it is quite a bit clearer if the methods of the interfaces are accessed via AllMethods(), rather than Fields(), but it does require a number of changes.  I\u0027m also fine if you don\u0027t like this cleanup -- in that case, I will at least put comments on Fields/Fields() and allMethods/AllMethods() to clarify what Fields means for interfaces, and that allMethods is not used for interfaces.\n",
+      "revId": "3505afe3ce852e9f0d69d8da85aff9d726c28416",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
