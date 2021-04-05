@@ -16,6 +16,58 @@
       "message": "I\u0027m not convinced this is better. This code isn\u0027t performance sensitive, and the string concatenation version seems perfectly clear.",
       "revId": "efbf281d26d970cdd8ce09af33c82fdc39d36721",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c71b7387_2147a93d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-05T17:08:57Z",
+      "side": 1,
+      "message": "I\u0027m OK with this kind of change as long as it remains equally clear.  It\u0027s not important here but it does model good code.",
+      "parentUuid": "6f3f7380_ff7cc190",
+      "revId": "efbf281d26d970cdd8ce09af33c82fdc39d36721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3154a661_dd8b01df",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-05T17:08:57Z",
+      "side": 1,
+      "message": "May as well just change fmt.Sprintf to fmt.Fprintf.",
+      "revId": "efbf281d26d970cdd8ce09af33c82fdc39d36721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8d52bc7_0bd360fe",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-05T17:08:57Z",
+      "side": 1,
+      "message": "A strings.Builder is an io.Writer, so change\n    fmt.Sprintf(...)\nto\n    fmt.Fprintf(\u0026b, ...)",
+      "revId": "efbf281d26d970cdd8ce09af33c82fdc39d36721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
