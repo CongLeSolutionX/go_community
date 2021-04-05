@@ -16,6 +16,24 @@
       "message": "Would it be better to lift the handling already in setupTextLSym into InitLSym? Presumably any case where we want to mark the definition as a WRAPPER we also want to mark its ABI wrapper.",
       "revId": "560b1b6306dc4207c46a8fd4e4d8d1a50ffe2651",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "548047b0_e8f7c96f",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-05T22:12:05Z",
+      "side": 1,
+      "message": "I combined the change into setupTextLSym, which I think should work for wrappers as well. I think this is better. Thanks.\n\nI\u0027m not really sure I followed the setupTextLSym vs. InitLSym part, though.",
+      "parentUuid": "675f708b_dab4aee1",
+      "revId": "560b1b6306dc4207c46a8fd4e4d8d1a50ffe2651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
