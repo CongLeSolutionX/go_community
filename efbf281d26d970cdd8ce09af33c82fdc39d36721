@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95a69074_d63574b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51448
+      },
+      "writtenOn": "2021-04-05T18:31:50Z",
+      "side": 1,
+      "message": "Yes, the motivation isn\u0027t for performance (I agree it\u0027s unimportant here) but rather that the implementation follow best practice for situations like this.",
+      "parentUuid": "c71b7387_2147a93d",
+      "revId": "efbf281d26d970cdd8ce09af33c82fdc39d36721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3154a661_dd8b01df",
@@ -53,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee017b7c_5e351fb1",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 51448
+      },
+      "writtenOn": "2021-04-05T18:31:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3154a661_dd8b01df",
+      "revId": "efbf281d26d970cdd8ce09af33c82fdc39d36721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8d52bc7_0bd360fe",
@@ -66,6 +102,24 @@
       "writtenOn": "2021-04-05T17:08:57Z",
       "side": 1,
       "message": "A strings.Builder is an io.Writer, so change\n    fmt.Sprintf(...)\nto\n    fmt.Fprintf(\u0026b, ...)",
+      "revId": "efbf281d26d970cdd8ce09af33c82fdc39d36721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7d1f085_902cd443",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 51448
+      },
+      "writtenOn": "2021-04-05T18:31:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8d52bc7_0bd360fe",
       "revId": "efbf281d26d970cdd8ce09af33c82fdc39d36721",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
