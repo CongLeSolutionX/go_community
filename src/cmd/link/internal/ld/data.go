@@ -2303,7 +2303,14 @@ func assignAddress(ctxt *Link, sect *sym.Section, n int, s loader.Sym, va uint64
 
 			// Create new section, set the starting Vaddr
 			sect = addsection(ctxt.loader, ctxt.Arch, &Segtext, ".text", 05)
+
+			// Align next text section to the worst case function alignment as
+			// the alignment requirements may increase as we process further symbols.
+			ppc64maxFuncalign := int64(64)
+			va = uint64(Rnd(int64(va), ppc64maxFuncalign))
+
 			sect.Vaddr = va
+			sect.Align = int32(ppc64maxFuncalign)
 			ldr.SetSymSect(s, sect)
 
 			// Create a symbol for the start of the secondary text sections
