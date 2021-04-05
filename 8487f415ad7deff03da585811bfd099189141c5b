@@ -34,6 +34,23 @@
       "parentUuid": "7cb4b576_fd2f5bc1",
       "revId": "8487f415ad7deff03da585811bfd099189141c5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2fc0f44_ac8afecb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45023
+      },
+      "writtenOn": "2021-04-05T23:56:37Z",
+      "side": 1,
+      "message": "Ah thanks! Didn\u0027t look into this here and wondered if this was attempting to get it into the latest release branch.\n\nI guess given it\u0027s a new feature, strictly speaking it\u0027ll be lined up for a v1.17 release?\n\nThanks!",
+      "revId": "8487f415ad7deff03da585811bfd099189141c5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
