@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "292c12e5_21a133d9",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-05T17:00:47Z",
+      "side": 1,
+      "message": "Folded and changed.\n\nmdempsky, you were concerned with the original formulation (\"T is a pointer to an array\"). Does this new phrasing sit OK with you?",
+      "parentUuid": "ab0b51ce_ee239e3e",
+      "revId": "78fa1a43b94ba911309b7ff0dec582fbd020f5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f00d0b4e_5846cbcf",
         "filename": "doc/go_spec.html",
         "patchSetId": 9
@@ -71,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c380a57e_60eca470",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 4323,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-05T17:00:47Z",
+      "side": 1,
+      "message": "Done. Also changed the heading wording three lines up to \"Conversions from slice to type pointer to array\".\n\nAgain, mdempsky, you OK with this?",
+      "parentUuid": "f00d0b4e_5846cbcf",
+      "revId": "78fa1a43b94ba911309b7ff0dec582fbd020f5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56dddb80_f911ac7b",
         "filename": "doc/go_spec.html",
         "patchSetId": 9
@@ -82,6 +118,24 @@
       "writtenOn": "2021-04-04T21:37:44Z",
       "side": 1,
       "message": "parallelism\n\nif the length of the array is less than the length of the slice,",
+      "revId": "78fa1a43b94ba911309b7ff0dec582fbd020f5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd848514_ab50dcf1",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 4324,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-05T17:00:47Z",
+      "side": 1,
+      "message": "Switched to \"if the length of the slice is less than the length of the array\".\n\n(Would you prefer \"length of the array is greater than the length of the slice\"?)",
+      "parentUuid": "56dddb80_f911ac7b",
       "revId": "78fa1a43b94ba911309b7ff0dec582fbd020f5f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
