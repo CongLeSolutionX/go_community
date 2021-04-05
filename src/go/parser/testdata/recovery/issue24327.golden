@@ -1,0 +1,8 @@
+package issue24327
+
+func f() {
+}
+
+func _() {
+	f(BadExpr)
+}
