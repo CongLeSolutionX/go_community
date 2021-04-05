@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e0d3899_738594e1",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-05T13:12:51Z",
+      "side": 1,
+      "message": "It might be a littler clearer as another switch case that forces it to false? (e.g., \"case base.Debug.NoOpenDefer !\u003d 0: s.hasOpenDefers\u003dfalse\")",
+      "revId": "fef3a8d5c2434cd827fae7d1feb88308300eadb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
