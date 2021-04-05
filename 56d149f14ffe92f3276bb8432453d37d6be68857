@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d63b2c6_2252ed60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-05T22:36:23Z",
+      "side": 1,
+      "message": "The SSA generation for open-coded defer vs. non-open defers are different. For non-open defers, the recovery return path is part of the control flow. We use a \"BlockDefer\" control op connecting the deferproc call to the deferreturn block. The latter contains the deferreturn call and a normal return (including putting the results to the right places).\n\nFor open-coded defer it is not part of the CFG. We generate this code (deferreturn call + RET) as a special handling, late in SSA-to-Prog generation, which this CL is changing.\n\nI added some words in the CL description. PTAL. Thanks.",
+      "parentUuid": "0f18789e_8505171d",
+      "revId": "56d149f14ffe92f3276bb8432453d37d6be68857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "975157b7_4bf06d12",
         "filename": "test/abi/defer_recover_results.go",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-05T18:17:36Z",
       "side": 1,
       "message": "Add a comment explaining what this is testing.",
+      "revId": "56d149f14ffe92f3276bb8432453d37d6be68857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93cb4572_cc61d593",
+        "filename": "test/abi/defer_recover_results.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-05T22:36:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "975157b7_4bf06d12",
       "revId": "56d149f14ffe92f3276bb8432453d37d6be68857",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
