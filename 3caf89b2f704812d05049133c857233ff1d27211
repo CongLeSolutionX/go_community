@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d8c1750_01fcac28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-05T21:26:10Z",
+      "side": 1,
+      "message": "First pass. I still need to look at worker.go more closely. There is some code duplication (ie. some of the same checks but slightly altered) that make it a little hard to follow. I can give more concrete examples of this tomorrow when I can look more closely.",
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b317e991_5cb48842",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-05T21:26:10Z",
+      "side": 1,
+      "message": "Should this be !isInterruptError(err) ?\nOr for consistency with below:\n\n   if !w.interrupted \u0026\u0026 (err \u003d\u003d nil || isInterruptError(err))\n\nIf not, then this is confusing to me. It seems to meet the condition if it\u0027s not interrupted, or if it is an interrupt error, which seems contradictory. (ie. I read this as \"if !interrupted \u0026\u0026 interrupted\")",
+      "range": {
+        "startLine": 100,
+        "startChar": 20,
+        "endLine": 100,
+        "endChar": 59
+      },
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e31e36c_23ddc8ba",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-05T21:26:10Z",
+      "side": 1,
+      "message": "Alternatively, for readability\n\n   unexpectedProcessExit :\u003d w.waitErr !\u003d nil \u0026\u0026 !isInterruptError(w.waitErr)\n   \n   if unexpectedProcessExit {\n        return fmt.Errorf(\"fuzzing process terminated...\n   } else if !w.interrupted {\n      // Worker stopped, either by exiting with status 0...\n      ...\n   }\n\nOr something similar. You could maybe even do this right before the select, then just use it throughout, since you do a similar but slightly different check at 141.",
+      "range": {
+        "startLine": 112,
+        "startChar": 3,
+        "endLine": 127,
+        "endChar": 4
+      },
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04b7de07_cd5bf67c",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-05T21:26:10Z",
+      "side": 1,
+      "message": "maybe move this after the comment",
+      "range": {
+        "startLine": 313,
+        "startChar": 3,
+        "endLine": 313,
+        "endChar": 23
+      },
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
