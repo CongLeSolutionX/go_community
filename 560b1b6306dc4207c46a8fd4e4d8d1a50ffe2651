@@ -52,6 +52,24 @@
       "parentUuid": "548047b0_e8f7c96f",
       "revId": "560b1b6306dc4207c46a8fd4e4d8d1a50ffe2651",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98144a66_deb02297",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-05T22:38:41Z",
+      "side": 1,
+      "message": "Okay. Thanks.",
+      "parentUuid": "1b098ffa_498fb8c7",
+      "revId": "560b1b6306dc4207c46a8fd4e4d8d1a50ffe2651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
