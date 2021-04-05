@@ -338,30 +338,32 @@ func assert(cond bool, msg string) {
 
 // advance consumes tokens until the current token p.tok
 // is in the 'to' set, or token.EOF. For error recovery.
-func (p *parser) advance(to map[token.Token]bool) {
+func (p *parser) advance(followSets ...map[token.Token]bool) {
 	for ; p.tok != token.EOF; p.next() {
-		if to[p.tok] {
-			// Return only if parser made some progress since last
-			// sync or if it has not reached 10 advance calls without
-			// progress. Otherwise consume at least one token to
-			// avoid an endless parser loop (it is possible that
-			// both parseOperand and parseStmt call advance and
-			// correctly do not advance, thus the need for the
-			// invocation limit p.syncCnt).
-			if p.pos == p.syncPos && p.syncCnt < 10 {
-				p.syncCnt++
-				return
+		for _, to := range followSets {
+			if to[p.tok] {
+				// Return only if parser made some progress since last
+				// sync or if it has not reached 10 advance calls without
+				// progress. Otherwise consume at least one token to
+				// avoid an endless parser loop (it is possible that
+				// both parseOperand and parseStmt call advance and
+				// correctly do not advance, thus the need for the
+				// invocation limit p.syncCnt).
+				if p.pos == p.syncPos && p.syncCnt < 10 {
+					p.syncCnt++
+					return
+				}
+				if p.pos > p.syncPos {
+					p.syncPos = p.pos
+					p.syncCnt = 0
+					return
+				}
+				// Reaching here indicates a parser bug, likely an
+				// incorrect token list in this function, but it only
+				// leads to skipping of possibly correct code if a
+				// previous error is present, and thus is preferred
+				// over a non-terminating parse.
 			}
-			if p.pos > p.syncPos {
-				p.syncPos = p.pos
-				p.syncCnt = 0
-				return
-			}
-			// Reaching here indicates a parser bug, likely an
-			// incorrect token list in this function, but it only
-			// leads to skipping of possibly correct code if a
-			// previous error is present, and thus is preferred
-			// over a non-terminating parse.
 		}
 	}
 }
@@ -396,6 +398,12 @@ var exprEnd = map[token.Token]bool{
 	token.RPAREN:    true,
 	token.RBRACK:    true,
 	token.RBRACE:    true,
+}
+
+var operandEnd = map[token.Token]bool{
+	token.RPAREN: true,
+	token.RBRACK: true,
+	token.RBRACE: true,
 }
 
 // safePos returns a valid file position for a given position: If pos
@@ -1245,20 +1253,15 @@ func (p *parser) parseOperand() ast.Expr {
 
 	case token.FUNC:
 		return p.parseFuncTypeOrLit()
+	case token.LBRACK, token.CHAN, token.MAP, token.STRUCT, token.INTERFACE:
+		return p.parseType()
+	default:
+		// we have an error
+		pos := p.pos
+		p.errorExpected(pos, "operand")
+		p.advance(stmtStart, operandEnd)
+		return &ast.BadExpr{From: pos, To: p.pos}
 	}
-
-	if typ := p.tryIdentOrType(); typ != nil { // do not consume trailing type parameters
-		// could be type for composite literal or conversion
-		_, isIdent := typ.(*ast.Ident)
-		assert(!isIdent, "type cannot be identifier")
-		return typ
-	}
-
-	// we have an error
-	pos := p.pos
-	p.errorExpected(pos, "operand")
-	p.advance(stmtStart)
-	return &ast.BadExpr{From: pos, To: p.pos}
 }
 
 func (p *parser) parseSelector(x ast.Expr) ast.Expr {
