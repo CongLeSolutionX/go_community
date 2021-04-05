@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e3b2169_7a80536b",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-05T18:17:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ba31f3b9_8ff0cf5b",
+      "revId": "77f1e7fe2f1c828c067a1a55766e984e5b986dd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c37ee95f_1a3b787a",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "\u003e Is this ensuring that all register-assigned results have been written back to the appropriate result registers if they\u0027re currently in memory?\n\nYes. Extended comment. (See also another review comment.)",
       "parentUuid": "c37ee95f_1a3b787a",
+      "range": {
+        "startLine": 43,
+        "startChar": 49,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "77f1e7fe2f1c828c067a1a55766e984e5b986dd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3109a6dd_a1b42ad6",
+        "filename": "src/cmd/compile/internal/ssagen/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-05T18:17:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b280d69c_e3c1f3c2",
       "range": {
         "startLine": 43,
         "startChar": 49,

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f18789e_8505171d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-05T18:17:36Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand what\u0027s special about open-coded defers that makes this necessary. Why does this happen already for other returns, but not for this return? (Might be worthwhile to answer this in the commit message.)",
+      "revId": "56d149f14ffe92f3276bb8432453d37d6be68857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "975157b7_4bf06d12",
+        "filename": "test/abi/defer_recover_results.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-05T18:17:36Z",
+      "side": 1,
+      "message": "Add a comment explaining what this is testing.",
+      "revId": "56d149f14ffe92f3276bb8432453d37d6be68857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
