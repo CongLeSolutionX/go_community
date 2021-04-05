@@ -16,6 +16,24 @@
       "message": "I’m late to the party, but do we also need to fix complex64? also, I think it’d be worth making isFloatLike methods on type.Type.",
       "revId": "cf148f3d468f4d0648e7fc6d2858d2afdc37f70d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be36f02e_29a5bfdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-05T21:58:24Z",
+      "side": 1,
+      "message": "Good point. I don\u0027t think this is really necessary for now, as complex64 does not have the same alignment as uint64, so we wouldn\u0027t be using convT64 either way. It will be necessary when we get to 32-bit.",
+      "parentUuid": "ad580320_a5f41eb9",
+      "revId": "cf148f3d468f4d0648e7fc6d2858d2afdc37f70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
