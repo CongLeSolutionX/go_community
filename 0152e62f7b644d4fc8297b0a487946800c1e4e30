@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2960526b_6e480d54",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-05T13:10:18Z",
+      "side": 1,
+      "message": "Are mapdelete_fast{32,64} going to have the same problem?",
+      "revId": "0152e62f7b644d4fc8297b0a487946800c1e4e30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9367f153_673a7432",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-05T13:10:18Z",
+      "side": 1,
+      "message": "Add a comment explaining why we need to do this (or maybe in builtin/runtime.go, but I think here\u0027s probably better)",
+      "revId": "0152e62f7b644d4fc8297b0a487946800c1e4e30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
