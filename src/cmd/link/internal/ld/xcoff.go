@@ -28,8 +28,11 @@ const (
 	// Total amount of space to reserve at the start of the file
 	// for File Header, Auxiliary Header, and Section Headers.
 	// May waste some.
-	XCOFFHDRRESERVE       = FILHSZ_64 + AOUTHSZ_EXEC64 + SCNHSZ_64*23
-	XCOFFSECTALIGN  int64 = 32 // base on dump -o
+	XCOFFHDRRESERVE = FILHSZ_64 + AOUTHSZ_EXEC64 + SCNHSZ_64*23
+
+	// base on dump -o, then rounded from 32B to 64B to
+	// match worst case elf text section alignment on ppc64.
+	XCOFFSECTALIGN int64 = 64
 
 	// XCOFF binaries should normally have all its sections position-independent.
 	// However, this is not yet possible for .text because of some R_ADDR relocations
