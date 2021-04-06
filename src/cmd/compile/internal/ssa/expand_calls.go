@@ -948,8 +948,9 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 
 // rewriteArgs removes all the Args from a call and converts the call args into appropriate
 // stores (or later, register movement).  Extra args for interface and closure calls are ignored,
-// but removed.
-func (x *expandState) rewriteArgs(v *Value, firstArg int) (*Value, []*Value) {
+// but removed.  Returns the new mem, any register values to be attached to the call, and the old
+// args (that might have use counts of zero and should be marked Invalid)
+func (x *expandState) rewriteArgs(v *Value, firstArg int) (*Value, []*Value, []*Value) {
 	if x.debug {
 		x.indent(3)
 		defer x.indent(-3)
@@ -961,7 +962,9 @@ func (x *expandState) rewriteArgs(v *Value, firstArg int) (*Value, []*Value) {
 	m0 := v.MemoryArg()
 	mem := m0
 	allResults := []*Value{}
+	var oldArgs []*Value
 	for i, a := range v.Args[firstArg : len(v.Args)-1] { // skip leading non-parameter SSA Args and trailing mem SSA Arg.
+		oldArgs = append(oldArgs, a)
 		auxI := int64(i)
 		aRegs := aux.RegsOfArg(auxI)
 		aType := aux.TypeOfArg(auxI)
@@ -990,7 +993,7 @@ func (x *expandState) rewriteArgs(v *Value, firstArg int) (*Value, []*Value) {
 		}
 	}
 	v.resetArgs()
-	return mem, allResults
+	return mem, allResults, oldArgs
 }
 
 // expandCalls converts LE (Late Expansion) calls that act like they receive value args into a lower-level form
@@ -1041,31 +1044,43 @@ func expandCalls(f *Func) {
 	// Step 0: rewrite the calls to convert args to calls into stores/register movement.
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
+			var mem *Value
+			var newArgs, oldArgs []*Value
 			switch v.Op {
 			case OpStaticLECall:
-				mem, results := x.rewriteArgs(v, 0)
-				v.AddArgs(results...)
+				mem, newArgs, oldArgs = x.rewriteArgs(v, 0)
+				v.AddArgs(newArgs...)
 				v.AddArg(mem)
 			case OpClosureLECall:
 				code := v.Args[0]
 				context := v.Args[1]
-				mem, results := x.rewriteArgs(v, 2)
-				if len(results) == 0 {
+				mem, newArgs, oldArgs = x.rewriteArgs(v, 2)
+				if len(newArgs) == 0 {
 					v.SetArgs3(code, context, mem)
 				} else {
 					v.SetArgs2(code, context)
-					v.AddArgs(results...)
+					v.AddArgs(newArgs...)
 					v.AddArg(mem)
 				}
 			case OpInterLECall:
 				code := v.Args[0]
-				mem, results := x.rewriteArgs(v, 1)
-				if len(results) == 0 {
+				mem, newArgs, oldArgs = x.rewriteArgs(v, 1)
+				if len(newArgs) == 0 {
 					v.SetArgs2(code, mem)
 				} else {
 					v.SetArgs1(code)
-					v.AddArgs(results...)
+					v.AddArgs(newArgs...)
 					v.AddArg(mem)
+				}
+			default:
+				continue
+			}
+			for _, a := range oldArgs {
+				if a.Uses == 0 {
+					if x.debug {
+						x.Printf("...marking %v unused\n", a.LongString())
+					}
+					a.reset(OpInvalid)
 				}
 			}
 		}
@@ -1407,7 +1422,7 @@ func expandCalls(f *Func) {
 			i := v.AuxInt
 			if w := IArg[i]; w != nil {
 				if w.Type.Width != v.Type.Width {
-					f.Fatalf("incompatible OpArgIntReg [%d]: %v and %v", i, v, w)
+					f.Fatalf("incompatible OpArgIntReg [%d]: %s and %s", i, v.LongString(), w.LongString())
 				}
 				if w.Type.IsUnsafePtr() && !v.Type.IsUnsafePtr() {
 					// Update unsafe.Pointer type if we know the actual pointer type.
