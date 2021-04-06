@@ -51,6 +51,24 @@
       "parentUuid": "f9bf1a7a_086222d0",
       "revId": "7cc0337ab57979b60a75c9729c594bc6b11e8e3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5df0799c_d9948fec",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2309,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-06T13:12:43Z",
+      "side": 1,
+      "message": "Please mention PCALIGN here because that can also affect the alignment of a function in case there are plans to increase it. I don\u0027t think we want to choose a huge value, it should just be enough to satisfy the max so I think 64 is good. Just trying to understand and have documented what it should be.",
+      "parentUuid": "b0bfdbe3_28dfd571",
+      "revId": "7cc0337ab57979b60a75c9729c594bc6b11e8e3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
