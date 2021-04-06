@@ -18,15 +18,17 @@ import (
 //
 // (This is not necessarily the set of experiments the compiler itself
 // was built with.)
-var Experiment = goexperiment.DefaultFlags
+var Experiment goexperiment.Flags = parseExperiments()
 
 // EnabledExperiments is a list of enabled experiments, as lower-cased
 // experiment names.
-var EnabledExperiments []string
+var EnabledExperiments []string = expList(&Experiment, nil)
 
 // GOEXPERIMENT is a comma-separated list of enabled or disabled
 // experiments that differ from the default experiment settings.
-var GOEXPERIMENT string
+// GOEXPERIMENT is exactly what a user would set on the command line
+// to get the set of enabled experiments.
+var GOEXPERIMENT string = strings.Join(expList(&Experiment, &goexperiment.DefaultFlags), ",")
 
 // FramePointerEnabled enables the use of platform conventions for
 // saving frame pointers.
@@ -37,16 +39,17 @@ var GOEXPERIMENT string
 // Note: must agree with runtime.framepointer_enabled.
 var FramePointerEnabled = GOARCH == "amd64" || GOARCH == "arm64"
 
-func init() {
+func parseExperiments() goexperiment.Flags {
+	flags := goexperiment.DefaultFlags
 	env := envOr("GOEXPERIMENT", defaultGOEXPERIMENT)
 
 	// GOEXPERIMENT=none disables all experiments.
 	if env == "none" {
-		Experiment = goexperiment.Flags{}
+		flags = goexperiment.Flags{}
 	} else {
 		// Create a map of known experiment names.
 		names := make(map[string]reflect.Value)
-		rv := reflect.ValueOf(&Experiment).Elem()
+		rv := reflect.ValueOf(&flags).Elem()
 		rt := rv.Type()
 		for i := 0; i < rt.NumField(); i++ {
 			field := rv.Field(i)
@@ -73,54 +76,58 @@ func init() {
 
 	// regabi is only supported on amd64.
 	if GOARCH != "amd64" {
-		Experiment.Regabi = false
-		Experiment.RegabiWrappers = false
-		Experiment.RegabiG = false
-		Experiment.RegabiReflect = false
-		Experiment.RegabiDefer = false
-		Experiment.RegabiArgs = false
+		flags.Regabi = false
+		flags.RegabiWrappers = false
+		flags.RegabiG = false
+		flags.RegabiReflect = false
+		flags.RegabiDefer = false
+		flags.RegabiArgs = false
 	}
 	// Setting regabi sets working sub-experiments.
-	if Experiment.Regabi {
-		Experiment.RegabiWrappers = true
-		Experiment.RegabiG = true
-		Experiment.RegabiReflect = true
-		Experiment.RegabiDefer = true
+	if flags.Regabi {
+		flags.RegabiWrappers = true
+		flags.RegabiG = true
+		flags.RegabiReflect = true
+		flags.RegabiDefer = true
 		// Not ready yet:
-		//Experiment.RegabiArgs = true
+		//flags.RegabiArgs = true
 	}
 	// Check regabi dependencies.
-	if Experiment.RegabiG && !Experiment.RegabiWrappers {
+	if flags.RegabiG && !flags.RegabiWrappers {
 		panic("GOEXPERIMENT regabig requires regabiwrappers")
 	}
-	if Experiment.RegabiArgs && !(Experiment.RegabiWrappers && Experiment.RegabiG && Experiment.RegabiReflect && Experiment.RegabiDefer) {
+	if flags.RegabiArgs && !(flags.RegabiWrappers && flags.RegabiG && flags.RegabiReflect && flags.RegabiDefer) {
 		panic("GOEXPERIMENT regabiargs requires regabiwrappers,regabig,regabireflect,regabidefer")
 	}
 
-	// Now that all experiment flags are set, get the list of
-	// enabled experiments, and the different-from-default list.
-	var diff []string
-	rv := reflect.ValueOf(&Experiment).Elem()
-	rDef := reflect.ValueOf(&goexperiment.DefaultFlags).Elem()
+	return flags
+}
+
+// expList returns the list of lower-cased experiment names for
+// experiments that differ from base. base may be nil to indicate no
+// experiments.
+func expList(exp, base *goexperiment.Flags) []string {
+	var list []string
+	rv := reflect.ValueOf(exp).Elem()
+	var rBase reflect.Value
+	if base != nil {
+		rBase = reflect.ValueOf(base).Elem()
+	}
 	rt := rv.Type()
 	for i := 0; i < rt.NumField(); i++ {
 		name := strings.ToLower(rt.Field(i).Name)
 		val := rv.Field(i).Bool()
-		if val {
-			EnabledExperiments = append(EnabledExperiments, name)
+		baseVal := false
+		if base != nil {
+			baseVal = rBase.Field(i).Bool()
 		}
-		if val != rDef.Field(i).Bool() {
+		if val != baseVal {
 			if val {
-				diff = append(diff, name)
+				list = append(list, name)
 			} else {
-				diff = append(diff, "no"+name)
+				list = append(list, "no"+name)
 			}
 		}
-
 	}
-
-	// Set GOEXPERIMENT to the delta from the default experiments.
-	// This way, GOEXPERIMENT is exactly what a user would set on
-	// the command line to get the set of enabled experiments.
-	GOEXPERIMENT = strings.Join(diff, ",")
+	return list
 }
