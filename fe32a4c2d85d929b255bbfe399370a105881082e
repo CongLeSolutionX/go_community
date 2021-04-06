@@ -16,6 +16,213 @@
       "message": "TRY\u003dlinux-amd64-longtest,windows-amd64-longtest",
       "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a4a3988_30d05435",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_fuzztime.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "\"...with a unique corpus entry on each...\" ?",
+      "range": {
+        "startLine": 20,
+        "startChar": 49,
+        "endLine": 20,
+        "endChar": 50
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb49256b_6e1d976c",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_fuzztime.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "I guess we assume that the randomness isn\u0027t going to create the same entry more than once in 1000 runs?",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8efb7ec9_a2edcaf2",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "// Don\u0027t start more workers than we need\n\n?",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 23
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64c7cbca_028aa6e2",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "It took me a little while to realize that workers get new inputs in the main loop b/c of these few lines, ie. because input is set at line 208 and then read at line 221. The comment almost makes this sound like these lines are a safeguard against something, whereas it\u0027s actually the core part of the functionality for non-failing mutations IIUC. Maybe just update the comment to something like \"The worker responded with success, so re-enable inputC and load the next input.\"",
+      "range": {
+        "startLine": 207,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 73
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef98ebd_87be8963",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 300,
+        "startChar": 43,
+        "endLine": 300,
+        "endChar": 45
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "150cbb8e_3492fd78",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "perhaps keep the comment:\n// Make sure all of the seed corpus has marshalled data.",
+      "range": {
+        "startLine": 358,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 2
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca581e65_81d1695a",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "Maybe consider (with whatever variable name makes the most sense):\n\n\t\tmaxPerWorker :\u003d c.countRequested-c.count-c.countWaiting\n\t\tif n \u003e maxPerWorker {\n\t\t\tn \u003d maxPerWorker\n\t\t}",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 3
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "867698e2_ac2af4bd",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "When I was playing around with this before, I found that resp.Err might be empty. So L178 of fuzz/fuzz.go might not work in that case.\n\nie. for something like this:\n\n    func FuzzFoo(f *testing.F) {\n      f.Fuzz(func(t *testing.T, b []byte) {\n        t.Fail()\n      }\n    }\n\nMaybe just double check that the tests pass for that.",
+      "range": {
+        "startLine": 175,
+        "startChar": 24,
+        "endLine": 175,
+        "endChar": 32
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3471ee5_d524fb1f",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T18:24:32Z",
+      "side": 1,
+      "message": "You can delete this one here, since it\u0027s just a placeholder above anyway (and we already set it above when we\u0027ve timed out). That way we\u0027re also testing more of the coordinator code :shrug:",
+      "range": {
+        "startLine": 534,
+        "startChar": 0,
+        "endLine": 536,
+        "endChar": 27
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
