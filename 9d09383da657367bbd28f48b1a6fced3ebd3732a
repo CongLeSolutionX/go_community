@@ -142,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd5c2b29_f781077c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2021-04-06T14:50:53Z",
+      "side": 1,
+      "message": "XCOFF requires that all the read-only \"sections\" are actually merged into a single .text section. Thus, be sure the new alignment doesn\u0027t add a tiny offset somewhere which isn\u0027t taken into account when computing the size of Segtext. If the problematic relocation is the last one and its address is greater than (Segtext.Vaddr + Segtext.size), then it should be that. \nI\u0027ll take a look at it tomorrow, anyway.",
+      "parentUuid": "7669d68c_929ea198",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5dffcc15_ca9ba79a",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 2
