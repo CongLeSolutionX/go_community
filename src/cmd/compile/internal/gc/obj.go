@@ -18,6 +18,7 @@ import (
 	"cmd/internal/objabi"
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 // These modes say which kind of object file to generate.
@@ -70,7 +71,7 @@ func dumpobj1(outfile string, mode int) {
 }
 
 func printObjHeader(bout *bio.Writer) {
-	fmt.Fprintf(bout, "go object %s %s %s %s\n", objabi.GOOS, objabi.GOARCH, objabi.Version, objabi.Expstring())
+	fmt.Fprintf(bout, "go object %s %s %s X:%s\n", objabi.GOOS, objabi.GOARCH, objabi.Version, strings.Join(objabi.EnabledExperiments, ","))
 	if base.Flag.BuildID != "" {
 		fmt.Fprintf(bout, "build id %q\n", base.Flag.BuildID)
 	}

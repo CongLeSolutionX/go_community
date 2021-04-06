@@ -78,3 +78,7 @@ type Flags struct {
 	// register arguments to defer/go).
 	RegabiArgs bool
 }
+
+// DefaultFlags specifies the experiments that are enabled by default
+// in the current toolchain.
+var DefaultFlags = Flags{}

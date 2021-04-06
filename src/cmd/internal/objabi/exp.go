@@ -18,18 +18,15 @@ import (
 //
 // (This is not necessarily the set of experiments the compiler itself
 // was built with.)
-var Experiment = goexperiment.Flags{}
+var Experiment = goexperiment.DefaultFlags
 
 // EnabledExperiments is a list of enabled experiments, as lower-cased
 // experiment names.
 var EnabledExperiments []string
 
-// GOEXPERIMENT is a comma-separated list of enabled experiments.
-// This is derived from the GOEXPERIMENT environment variable if set,
-// or the value of GOEXPERIMENT when make.bash was run if not.
-var GOEXPERIMENT string // Set by package init
-
-var defaultExpstring string // Set by package init
+// GOEXPERIMENT is a comma-separated list of enabled or disabled
+// experiments that differ from the default experiment settings.
+var GOEXPERIMENT string
 
 // FramePointerEnabled enables the use of platform conventions for
 // saving frame pointers.
@@ -41,13 +38,12 @@ var defaultExpstring string // Set by package init
 var FramePointerEnabled = GOARCH == "amd64" || GOARCH == "arm64"
 
 func init() {
-	// Capture "default" experiments.
-	defaultExpstring = Expstring()
+	env := envOr("GOEXPERIMENT", defaultGOEXPERIMENT)
 
-	goexperiment := envOr("GOEXPERIMENT", defaultGOEXPERIMENT)
-
-	// GOEXPERIMENT=none overrides all experiments enabled at dist time.
-	if goexperiment != "none" {
+	// GOEXPERIMENT=none disables all experiments.
+	if env == "none" {
+		Experiment = goexperiment.Flags{}
+	} else {
 		// Create a map of known experiment names.
 		names := make(map[string]reflect.Value)
 		rv := reflect.ValueOf(&Experiment).Elem()
@@ -58,7 +54,7 @@ func init() {
 		}
 
 		// Parse names.
-		for _, f := range strings.Split(goexperiment, ",") {
+		for _, f := range strings.Split(env, ",") {
 			if f == "" {
 				continue
 			}
@@ -101,34 +97,30 @@ func init() {
 		panic("GOEXPERIMENT regabiargs requires regabiwrappers,regabig,regabireflect,regabidefer")
 	}
 
-	// Get the list of enabled experiments.
-	EnabledExperiments = expList(&Experiment)
-
-	// Set GOEXPERIMENT to the parsed and canonicalized set of experiments.
-	GOEXPERIMENT = strings.Join(EnabledExperiments, ",")
-}
-
-// expList returns the list of enabled GOEXPERIMENTs names.
-func expList(flags *goexperiment.Flags) []string {
-	var list []string
+	// Now that all experiment flags are set, get the list of
+	// enabled experiments, and the different-from-default list.
+	var diff []string
 	rv := reflect.ValueOf(&Experiment).Elem()
+	rDef := reflect.ValueOf(&goexperiment.DefaultFlags).Elem()
 	rt := rv.Type()
 	for i := 0; i < rt.NumField(); i++ {
+		name := strings.ToLower(rt.Field(i).Name)
 		val := rv.Field(i).Bool()
 		if val {
-			field := rt.Field(i)
-			list = append(list, strings.ToLower(field.Name))
+			EnabledExperiments = append(EnabledExperiments, name)
 		}
-	}
-	return list
-}
+		if val != rDef.Field(i).Bool() {
+			if val {
+				diff = append(diff, name)
+			} else {
+				diff = append(diff, "no"+name)
+			}
+		}
 
-// Expstring returns the GOEXPERIMENT string that should appear in Go
-// version signatures. This always starts with "X:".
-func Expstring() string {
-	list := expList(&Experiment)
-	if len(list) == 0 {
-		return "X:none"
 	}
-	return "X:" + strings.Join(list, ",")
+
+	// Set GOEXPERIMENT to the delta from the default experiments.
+	// This way, GOEXPERIMENT is exactly what a user would set on
+	// the command line to get the set of enabled experiments.
+	GOEXPERIMENT = strings.Join(diff, ",")
 }
