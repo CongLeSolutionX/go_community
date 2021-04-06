@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d49bc9d_be286f69",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-06T22:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bbf1486_63944013",
+      "range": {
+        "startLine": 31,
+        "startChar": 75,
+        "endLine": 31,
+        "endChar": 78
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcdcb927_60f29f50",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-04-06T21:05:54Z",
       "side": 1,
       "message": "comma after PrintableString",
+      "range": {
+        "startLine": 53,
+        "startChar": 60,
+        "endLine": 53,
+        "endChar": 75
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af80ef4c_d55a7e04",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-06T22:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcdcb927_60f29f50",
       "range": {
         "startLine": 53,
         "startChar": 60,
@@ -104,6 +152,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fddcf679_d5e38a15",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-06T22:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69cd4b48_bbb479ba",
+      "range": {
+        "startLine": 113,
+        "startChar": 27,
+        "endLine": 113,
+        "endChar": 52
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e6c87b5_d3506bb6",
@@ -117,6 +189,30 @@
       "writtenOn": "2021-04-06T21:05:54Z",
       "side": 1,
       "message": "Add a TODO to make that change once the other issue is closed, so we don\u0027t forget.",
+      "range": {
+        "startLine": 166,
+        "startChar": 3,
+        "endLine": 191,
+        "endChar": 4
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04fdb498_1478a297",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-06T22:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e6c87b5_d3506bb6",
       "range": {
         "startLine": 166,
         "startChar": 3,
@@ -150,6 +246,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e161afe0_88df098f",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-06T22:00:44Z",
+      "side": 1,
+      "message": "In order to get the right thing for the Raw/RawTBSCertificate fields we need to first extract the ASN1 bytes including the leading length and tag bytes. Once we\u0027ve got those, in order to continue parsing we then need to trim the length and tag bytes. There might be clearer way to do this, but I couldn\u0027t find a nice one at the time.\n\nTried to make it slightly clearer in the code + added a comment explaining what is going on.",
+      "parentUuid": "78dc5193_e01c3a0f",
+      "range": {
+        "startLine": 820,
+        "startChar": 0,
+        "endLine": 822,
+        "endChar": 2
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18efd544_0896c154",
@@ -173,6 +293,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a091b6_424743d6",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-06T22:00:44Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s all a bit confusing. This is checking that we\u0027re not parsing a certificate version from the future. v3 is represented as \u00272\u0027 in the specification, because they zero indexed it, but for historical reasons crypto/x509 uses one indexed versions. We could use a const to represent the version, but I think this is the only place it is actually used.",
+      "parentUuid": "18efd544_0896c154",
+      "range": {
+        "startLine": 833,
+        "startChar": 0,
+        "endLine": 833,
+        "endChar": 22
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cbb3158_ea5419ae",
@@ -186,6 +330,30 @@
       "writtenOn": "2021-04-06T21:05:54Z",
       "side": 1,
       "message": "why read it twice? (same question as above)",
+      "range": {
+        "startLine": 904,
+        "startChar": 0,
+        "endLine": 906,
+        "endChar": 2
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b580ad3e_fc95f4ea",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-06T22:00:44Z",
+      "side": 1,
+      "message": "Same reason as above, we need the raw ASN.1 bytes, then we need to unwrap them to actually operate on the bytes.",
+      "parentUuid": "3cbb3158_ea5419ae",
       "range": {
         "startLine": 904,
         "startChar": 0,
