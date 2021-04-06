@@ -16,6 +16,23 @@
       "message": "Funny, I was just thinking about something like that.\n\nLGTM, although I don\u0027t know the details of the debug logger very well.\n",
       "revId": "4b1adacabbc3bce066d8acf42e95f7b7401ff2f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "346538bb_e6d186b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-06T03:07:21Z",
+      "side": 1,
+      "message": "Also known as, \"why I make all my checks panic instead of Fatalf\".",
+      "revId": "4b1adacabbc3bce066d8acf42e95f7b7401ff2f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
