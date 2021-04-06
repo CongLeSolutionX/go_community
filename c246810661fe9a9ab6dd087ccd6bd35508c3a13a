@@ -16,6 +16,184 @@
       "message": "Could still use some polish in places, but may as well get it out now for thoughts on the overall structure.",
       "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d296ebbe_3ab571c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T21:05:54Z",
+      "side": 1,
+      "message": "Did a quick scan, but definitely get review from Filippo since it\u0027s a big change and he knows the code a lot better :)",
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bbf1486_63944013",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T21:05:54Z",
+      "side": 1,
+      "message": "add a period\n\nAlso worth a note in this comment that it\u0027s take from encoding/asn1.isPrintable",
+      "range": {
+        "startLine": 31,
+        "startChar": 75,
+        "endLine": 31,
+        "endChar": 78
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcdcb927_60f29f50",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T21:05:54Z",
+      "side": 1,
+      "message": "comma after PrintableString",
+      "range": {
+        "startLine": 53,
+        "startChar": 60,
+        "endLine": 53,
+        "endChar": 75
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69cd4b48_bbb479ba",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T21:05:54Z",
+      "side": 1,
+      "message": "can/should we give more specific error messages here and below, or is that a security risk if it goes to the client?",
+      "range": {
+        "startLine": 113,
+        "startChar": 27,
+        "endLine": 113,
+        "endChar": 52
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e6c87b5_d3506bb6",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T21:05:54Z",
+      "side": 1,
+      "message": "Add a TODO to make that change once the other issue is closed, so we don\u0027t forget.",
+      "range": {
+        "startLine": 166,
+        "startChar": 3,
+        "endLine": 191,
+        "endChar": 4
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78dc5193_e01c3a0f",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T21:05:54Z",
+      "side": 1,
+      "message": "why read it twice?",
+      "range": {
+        "startLine": 820,
+        "startChar": 0,
+        "endLine": 822,
+        "endChar": 2
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18efd544_0896c154",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T21:05:54Z",
+      "side": 1,
+      "message": "Just to double check, this should be \u003e 3, not \u003e\u003d 3, correct? Just looking at https://github.com/golang/gofrontend/blob/c7dcc3393018d55bf0e2740e1d423b80f48acf9f/libgo/go/crypto/x509/x509.go#L769 makes it a bit unclear. I assume it\u0027s okay because you one-index it, but wanted to double check.",
+      "range": {
+        "startLine": 833,
+        "startChar": 0,
+        "endLine": 833,
+        "endChar": 22
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cbb3158_ea5419ae",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T21:05:54Z",
+      "side": 1,
+      "message": "why read it twice? (same question as above)",
+      "range": {
+        "startLine": 904,
+        "startChar": 0,
+        "endLine": 906,
+        "endChar": 2
+      },
+      "revId": "c246810661fe9a9ab6dd087ccd6bd35508c3a13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
