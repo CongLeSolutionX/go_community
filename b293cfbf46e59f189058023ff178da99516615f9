@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure why tcCall calls typecheck1 instead of typecheck. It probably shouldn\u0027t. I don\u0027t think it matters in the end, as it is typechecking a brand new Node and they are both equivalent in that case. In fact, it should probably call tcConv directly, going through the big switch in typecheck1 is probably pointless.",
       "revId": "b293cfbf46e59f189058023ff178da99516615f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ffd3265_cbdf6099",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2021-04-06T03:27:55Z",
+      "side": 1,
+      "message": "i have change it to call tcConv directly.",
+      "parentUuid": "abea1aa4_941486fa",
+      "revId": "b293cfbf46e59f189058023ff178da99516615f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
