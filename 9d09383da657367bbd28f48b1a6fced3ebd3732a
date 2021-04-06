@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f7bcd25a_799520f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-06T14:10:41Z",
+      "side": 1,
+      "message": "Section alignment is adjusted upwards as stricter alignment is encountered while assigning VAs. This happens a few lines above the code to split sections.  With a single text section, it doesn\u0027t fail since the starting VA is explicitly aligned to 64K on ppc64le.",
+      "parentUuid": "76f4dcda_9adcfe65",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "105eab7a_991ae73c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-06T12:51:42Z",
       "side": 1,
       "message": "This should clarify what the section start address is being rounded up to and how you decided on the rounded value. Your statement that some text data is lost and some relocations are wrong  make it sound like your change doesn\u0027t quite work. Or are you saying that as long as the text section is rounded up to the max necessary alignment then these problems don\u0027t occur?",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a2f1bd1_6fc6809d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-06T14:10:41Z",
+      "side": 1,
+      "message": "The latter. As long as we ensure the start of the section is sufficiently aligned, this should never happen. The relocations are all correct, it is the section starting address which quietly shifts up.  The code to split relocations uses the starting VA of the next text segment to determine when to stop adding relocations to the current text section.",
+      "parentUuid": "105eab7a_991ae73c",
       "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a26bbcfc_2b7e760b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-06T14:10:41Z",
+      "side": 1,
+      "message": "It is my admission this is an imperfect solution, similarly alignment requirements may need to increase in the future for whatever reason.",
+      "parentUuid": "e16ea376_ca1e8ae7",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "36bd04de_efb40d5b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -65,6 +119,23 @@
       "writtenOn": "2021-04-05T22:30:01Z",
       "side": 1,
       "message": "TRY\u003daix-ppc64,ppc64le,ppc64",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7669d68c_929ea198",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-06T14:10:41Z",
+      "side": 1,
+      "message": "@clemont, I am still looking into why aix fails with this change.  Would you have a moment to help me understand what I need to fix?",
       "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -82,6 +153,24 @@
       "writtenOn": "2021-04-06T13:12:43Z",
       "side": 1,
       "message": "I\u0027m not sure if you are saying there are other cases of text data that could affect the alignment or if prefixed instructions are the only one? And when you say symbols do you mean only the symbols for functions or are there others?",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b706b10b_9fea7bd4",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2303,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-06T14:10:41Z",
+      "side": 1,
+      "message": "I think these are only symbols for functions. I don\u0027t know if that is always true.\n\nPCALIGN also affects alignment, but on today\u0027s code, it will not break code. It may reduce performance in some cases if we don\u0027t respect it.",
+      "parentUuid": "5dffcc15_ca9ba79a",
       "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
