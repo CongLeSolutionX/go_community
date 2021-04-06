@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "76f4dcda_9adcfe65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-06T12:51:42Z",
+      "side": 1,
+      "message": "Is this correct? I thought we currently increase the alignment for individual functions, but don\u0027t change the section\u0027s alignment. When there is only one section it should be sufficiently aligned, and it is only when we split the sections due to excessively large text sections that it might not be.",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "105eab7a_991ae73c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-06T12:51:42Z",
+      "side": 1,
+      "message": "This should clarify what the section start address is being rounded up to and how you decided on the rounded value. Your statement that some text data is lost and some relocations are wrong  make it sound like your change doesn\u0027t quite work. Or are you saying that as long as the text section is rounded up to the max necessary alignment then these problems don\u0027t occur?",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e16ea376_ca1e8ae7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-06T12:51:42Z",
+      "side": 1,
+      "message": "What do you mean by \"For now\". Is there is a better solution for the future?",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "36bd04de_efb40d5b",
