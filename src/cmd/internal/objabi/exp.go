@@ -18,13 +18,13 @@ import (
 //
 // (This is not necessarily the set of experiments the compiler itself
 // was built with.)
-var Experiment goexperiment.Flags
+var Experiment goexperiment.Flags = parseExperiments()
 
 // GOEXPERIMENT is a comma-separated list of enabled or disabled
 // experiments that differ from the baseline experiment configuration.
 // GOEXPERIMENT is exactly what a user would set on the command line
 // to get the set of enabled experiments.
-var GOEXPERIMENT string
+var GOEXPERIMENT string = strings.Join(expList(&Experiment, &goexperiment.BaselineFlags), ",")
 
 // FramePointerEnabled enables the use of platform conventions for
 // saving frame pointers.
@@ -35,9 +35,9 @@ var GOEXPERIMENT string
 // Note: must agree with runtime.framepointer_enabled.
 var FramePointerEnabled = GOARCH == "amd64" || GOARCH == "arm64"
 
-func init() {
-	// Start with the baseline configuration.
-	Experiment = goexperiment.BaselineFlags
+func parseExperiments() goexperiment.Flags {
+	// Start with the statically enabled set of experiments.
+	flags := goexperiment.BaselineFlags
 
 	// Pick up any changes to the baseline configuration from the
 	// GOEXPERIMENT environment. This can be set at make.bash time
@@ -47,7 +47,7 @@ func init() {
 	if env != "" {
 		// Create a map of known experiment names.
 		names := make(map[string]reflect.Value)
-		rv := reflect.ValueOf(&Experiment).Elem()
+		rv := reflect.ValueOf(&flags).Elem()
 		rt := rv.Type()
 		for i := 0; i < rt.NumField(); i++ {
 			field := rv.Field(i)
@@ -62,7 +62,7 @@ func init() {
 			if f == "none" {
 				// GOEXPERIMENT=none restores the baseline configuration.
 				// (This is useful for overriding make.bash-time settings.)
-				Experiment = goexperiment.BaselineFlags
+				flags = goexperiment.BaselineFlags
 				continue
 			}
 			val := true
@@ -80,60 +80,57 @@ func init() {
 
 	// regabi is only supported on amd64.
 	if GOARCH != "amd64" {
-		Experiment.Regabi = false
-		Experiment.RegabiWrappers = false
-		Experiment.RegabiG = false
-		Experiment.RegabiReflect = false
-		Experiment.RegabiDefer = false
-		Experiment.RegabiArgs = false
+		flags.Regabi = false
+		flags.RegabiWrappers = false
+		flags.RegabiG = false
+		flags.RegabiReflect = false
+		flags.RegabiDefer = false
+		flags.RegabiArgs = false
 	}
 	// Setting regabi sets working sub-experiments.
-	if Experiment.Regabi {
-		Experiment.RegabiWrappers = true
-		Experiment.RegabiG = true
-		Experiment.RegabiReflect = true
-		Experiment.RegabiDefer = true
+	if flags.Regabi {
+		flags.RegabiWrappers = true
+		flags.RegabiG = true
+		flags.RegabiReflect = true
+		flags.RegabiDefer = true
 		// Not ready yet:
-		//Experiment.RegabiArgs = true
+		//flags.RegabiArgs = true
 	}
 	// Check regabi dependencies.
-	if Experiment.RegabiG && !Experiment.RegabiWrappers {
+	if flags.RegabiG && !flags.RegabiWrappers {
 		panic("GOEXPERIMENT regabig requires regabiwrappers")
 	}
-	if Experiment.RegabiArgs && !(Experiment.RegabiWrappers && Experiment.RegabiG && Experiment.RegabiReflect && Experiment.RegabiDefer) {
+	if flags.RegabiArgs && !(flags.RegabiWrappers && flags.RegabiG && flags.RegabiReflect && flags.RegabiDefer) {
 		panic("GOEXPERIMENT regabiargs requires regabiwrappers,regabig,regabireflect,regabidefer")
 	}
 
-	// Now that all experiment flags are set, set GOEXPERIMENT to
-	// the delta from the baseline configuration.
-	var diff []string
-	rv := reflect.ValueOf(&Experiment).Elem()
-	rBase := reflect.ValueOf(&goexperiment.BaselineFlags).Elem()
+	return flags
+}
+
+// expList returns the list of lower-cased experiment names for
+// experiments that differ from base. base may be nil to indicate no
+// experiments.
+func expList(exp, base *goexperiment.Flags) []string {
+	var list []string
+	rv := reflect.ValueOf(exp).Elem()
+	var rBase reflect.Value
+	if base != nil {
+		rBase = reflect.ValueOf(base).Elem()
+	}
 	rt := rv.Type()
 	for i := 0; i < rt.NumField(); i++ {
 		name := strings.ToLower(rt.Field(i).Name)
 		val := rv.Field(i).Bool()
-		if val != rBase.Field(i).Bool() {
-			if val {
-				diff = append(diff, name)
-			} else {
-				diff = append(diff, "no"+name)
-			}
+		baseVal := false
+		if base != nil {
+			baseVal = rBase.Field(i).Bool()
 		}
-	}
-	GOEXPERIMENT = strings.Join(diff, ",")
-}
-
-// expList returns the list of enabled GOEXPERIMENTs names.
-func expList(flags *goexperiment.Flags) []string {
-	var list []string
-	rv := reflect.ValueOf(&Experiment).Elem()
-	rt := rv.Type()
-	for i := 0; i < rt.NumField(); i++ {
-		val := rv.Field(i).Bool()
-		if val {
-			field := rt.Field(i)
-			list = append(list, strings.ToLower(field.Name))
+		if val != baseVal {
+			if val {
+				list = append(list, name)
+			} else {
+				list = append(list, "no"+name)
+			}
 		}
 	}
 	return list
@@ -142,5 +139,5 @@ func expList(flags *goexperiment.Flags) []string {
 // EnabledExperiments returns a list of enabled experiments, as
 // lower-cased experiment names.
 func EnabledExperiments() []string {
-	return expList(&Experiment)
+	return expList(&Experiment, nil)
 }
