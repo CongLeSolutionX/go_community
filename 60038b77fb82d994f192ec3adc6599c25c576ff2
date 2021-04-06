@@ -51,6 +51,24 @@
       "message": "Maybe just kill them within rewriteArgs?",
       "revId": "60038b77fb82d994f192ec3adc6599c25c576ff2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd5f458e_6b767697",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-06T20:06:22Z",
+      "side": 1,
+      "message": "Done, with more rewriting.  It isn\u0027t safe to do this early because it\u0027s not known how oldArgs and newArgs overlap -- the newArgs need to be attached to the call instruction to get their Uses correct.\n\nSo I did all that, which resulted in some more code reorg.",
+      "parentUuid": "95cfbf1f_bf38ca52",
+      "revId": "60038b77fb82d994f192ec3adc6599c25c576ff2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
