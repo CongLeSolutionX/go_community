@@ -16,6 +16,24 @@
       "message": "Looks like some tests are failing: we\u0027re producing go.mod files with raw commits instead of canonical versions. Not really clear to me why that\u0027s happening; some debugging may be needed.",
       "revId": "0245417fce96a16394324950c2ca94994f0a5b28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd73e4ba_4553de6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-06T16:22:02Z",
+      "side": 1,
+      "message": "The latest patch set should fix the test.\n\nIt seems that we can\u0027t completely get rid of modfetch.ImportRepoRev this time, modconv.TestConvertLegacyConfig still needs it.",
+      "parentUuid": "f3c3ab35_25928879",
+      "revId": "0245417fce96a16394324950c2ca94994f0a5b28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
