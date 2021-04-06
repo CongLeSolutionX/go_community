@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a63bc4e4_22fecdb0",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T16:19:46Z",
+      "side": 1,
+      "message": "The second suggestion I gave won\u0027t work, so ignore that one 😊\n\nBut I am still wondering if this should be !isInterruptError(err) ?",
+      "parentUuid": "b317e991_5cb48842",
+      "range": {
+        "startLine": 100,
+        "startChar": 20,
+        "endLine": 100,
+        "endChar": 59
+      },
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e31e36c_23ddc8ba",
         "filename": "src/internal/fuzz/worker.go",
         "patchSetId": 5
