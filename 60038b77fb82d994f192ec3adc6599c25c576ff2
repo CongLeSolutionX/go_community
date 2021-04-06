@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a0be130_bb57d29e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-06T18:40:30Z",
+      "side": 1,
+      "message": "Maybe in the duplicates-removal we could just skip dead values (and rewrite them to OpInvalid).",
+      "parentUuid": "d3e317f8_4bdad62d",
+      "revId": "60038b77fb82d994f192ec3adc6599c25c576ff2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95cfbf1f_bf38ca52",
