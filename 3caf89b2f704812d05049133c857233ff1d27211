@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef980b3c_5d3ff545",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T16:28:18Z",
+      "side": 1,
+      "message": "Got some rest, looked at it again, and it makes more sense this time around :) I think a few helper variables in the places I described would be nice, but otherwise this looks good to me!",
+      "parentUuid": "1d8c1750_01fcac28",
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b317e991_5cb48842",
@@ -78,6 +96,30 @@
       "writtenOn": "2021-04-05T21:26:10Z",
       "side": 1,
       "message": "Alternatively, for readability\n\n   unexpectedProcessExit :\u003d w.waitErr !\u003d nil \u0026\u0026 !isInterruptError(w.waitErr)\n   \n   if unexpectedProcessExit {\n        return fmt.Errorf(\"fuzzing process terminated...\n   } else if !w.interrupted {\n      // Worker stopped, either by exiting with status 0...\n      ...\n   }\n\nOr something similar. You could maybe even do this right before the select, then just use it throughout, since you do a similar but slightly different check at 141.",
+      "range": {
+        "startLine": 112,
+        "startChar": 3,
+        "endLine": 127,
+        "endChar": 4
+      },
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220c5f22_0f523127",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-06T16:28:18Z",
+      "side": 1,
+      "message": "I suppose it can\u0027t be defined before w.stop() is called, since that could impact w.waitErr\u0027s value, IIUC. But still think a variable here might help make it a bit clearer what\u0027s going on.",
+      "parentUuid": "6e31e36c_23ddc8ba",
       "range": {
         "startLine": 112,
         "startChar": 3,
