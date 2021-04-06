@@ -51,6 +51,24 @@
       "message": "Ah thanks! Didn\u0027t look into this here and wondered if this was attempting to get it into the latest release branch.\n\nI guess given it\u0027s a new feature, strictly speaking it\u0027ll be lined up for a v1.17 release?\n\nThanks!",
       "revId": "8487f415ad7deff03da585811bfd099189141c5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04e7fb38_daa5f223",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-06T04:49:01Z",
+      "side": 1,
+      "message": "Yes, the new time.Time.IsDST method will be in 1.17.",
+      "parentUuid": "b2fc0f44_ac8afecb",
+      "revId": "8487f415ad7deff03da585811bfd099189141c5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
