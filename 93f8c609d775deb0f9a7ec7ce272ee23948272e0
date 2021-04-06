@@ -16,6 +16,52 @@
       "message": "TRY\u003daix-ppc64,ppc64le,ppc64",
       "revId": "93f8c609d775deb0f9a7ec7ce272ee23948272e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1daf426_11f0fb36",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2306,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-06T21:48:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure I followed the \"likewise\". Is PCALIGN the only way that we can increase function alignment?",
+      "range": {
+        "startLine": 2306,
+        "startChar": 6,
+        "endLine": 2306,
+        "endChar": 14
+      },
+      "revId": "93f8c609d775deb0f9a7ec7ce272ee23948272e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6ff09af_0f939b88",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2308,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-06T21:48:26Z",
+      "side": 1,
+      "message": "Minor: const ppc64maxFuncalign \u003d 64.",
+      "range": {
+        "startLine": 2308,
+        "startChar": 3,
+        "endLine": 2308,
+        "endChar": 33
+      },
+      "revId": "93f8c609d775deb0f9a7ec7ce272ee23948272e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
