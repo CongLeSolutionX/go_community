@@ -16,6 +16,23 @@
       "message": "Same as what was done for the rewrite just below these calls; a stale pre-expansion value was gunking up the duplicates-removal.",
       "revId": "60038b77fb82d994f192ec3adc6599c25c576ff2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95cfbf1f_bf38ca52",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-06T18:39:17Z",
+      "side": 1,
+      "message": "Maybe just kill them within rewriteArgs?",
+      "revId": "60038b77fb82d994f192ec3adc6599c25c576ff2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
