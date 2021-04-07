@@ -2744,17 +2744,11 @@ stop:
 		}
 	}
 
-	delta := int64(-1)
-	if pollUntil != 0 {
-		// checkTimers ensures that polluntil > now.
-		delta = pollUntil - now
-	}
-
 	// wasm only:
 	// If a callback returned and no other goroutine is awake,
 	// then wake event handler goroutine which pauses execution
 	// until a callback was triggered.
-	gp, otherReady := beforeIdle(delta)
+	gp, otherReady := beforeIdle(now, pollUntil)
 	if gp != nil {
 		casgstatus(gp, _Gwaiting, _Grunnable)
 		if trace.enabled {
@@ -2844,15 +2838,6 @@ stop:
 			}
 		}
 	}
-	if pollUntil != 0 {
-		if now == 0 {
-			now = nanotime()
-		}
-		delta = pollUntil - now
-		if delta < 0 {
-			delta = 0
-		}
-	}
 
 	// Check for idle-priority GC work again.
 	//
@@ -2910,6 +2895,16 @@ stop:
 		}
 		if _g_.m.spinning {
 			throw("findrunnable: netpoll with spinning")
+		}
+		delta := int64(-1)
+		if pollUntil != 0 {
+			if now == 0 {
+				now = nanotime()
+			}
+			delta = pollUntil - now
+			if delta < 0 {
+				delta = 0
+			}
 		}
 		if faketime != 0 {
 			// When using fake time, just poll.
