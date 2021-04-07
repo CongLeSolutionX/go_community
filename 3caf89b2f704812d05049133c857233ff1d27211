@@ -83,6 +83,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "365035bf_c0188dc7",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-07T22:32:19Z",
+      "side": 1,
+      "message": "You\u0027re right, there should be a ! in there.",
+      "parentUuid": "a63bc4e4_22fecdb0",
+      "range": {
+        "startLine": 100,
+        "startChar": 20,
+        "endLine": 100,
+        "endChar": 59
+      },
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e31e36c_23ddc8ba",
@@ -130,6 +154,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef5847fc_6b781851",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-07T22:32:19Z",
+      "side": 1,
+      "message": "I think I simplified this a bit, see what you think.\n\nIt was definitely more complicated than it needed to be. w.interrupted should always be false for this case, since w.stop() shouldn\u0027t send an interrupt signal after the process has terminated, so I added an assertion for that at the top.",
+      "parentUuid": "220c5f22_0f523127",
+      "range": {
+        "startLine": 112,
+        "startChar": 3,
+        "endLine": 127,
+        "endChar": 4
+      },
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04b7de07_cd5bf67c",
@@ -143,6 +191,30 @@
       "writtenOn": "2021-04-05T21:26:10Z",
       "side": 1,
       "message": "maybe move this after the comment",
+      "range": {
+        "startLine": 313,
+        "startChar": 3,
+        "endLine": 313,
+        "endChar": 23
+      },
+      "revId": "3caf89b2f704812d05049133c857233ff1d27211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aad3312_21a858fd",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-07T22:32:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04b7de07_cd5bf67c",
       "range": {
         "startLine": 313,
         "startChar": 3,
