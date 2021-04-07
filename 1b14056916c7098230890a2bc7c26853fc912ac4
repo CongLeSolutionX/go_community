@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e4c7b9d_329ef447",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:21:35Z",
+      "side": 1,
+      "message": "Maybe put a comment like \"// experiments enabled by default:\" within the composite literal, so that it\u0027s forced to multiple lines?\n\nI read this multiple times as \"goexperiment.Flags()\" before realizing it was a composite literal, not a function call.",
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92155033_effd569f",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:21:35Z",
+      "side": 1,
+      "message": "It makes me a little nervous to have multiple variables like this, which are just different representations of the same logical value. I think it ends up leading to confusion about which is authoritative.\n\nE.g., I\u0027d slightly prefer this were instead `func EnabledExperiments() []string { return expList(\u0026Experiment) }`.",
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2aeabe5_1967b0cb",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:21:35Z",
+      "side": 1,
+      "message": "Couldn\u0027t this be left as objabi.GOEXPERIMENT?",
+      "range": {
+        "startLine": 121,
+        "startChar": 56,
+        "endLine": 121,
+        "endChar": 100
+      },
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d60c5c2_d4f4c9e7",
+        "filename": "src/internal/goexperiment/flags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:21:35Z",
+      "side": 1,
+      "message": "nit: goexperiment",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
