@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a77805d_b9749774",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-07T14:57:27Z",
+      "side": 1,
+      "message": "Great! We can finally get rid of modfetch.ImportRepoRev! ＼(￣▽￣)／\n\nIncidentally, since modload is the only user of modconv and they\u0027re closely related, perhaps eventually modconv should be merged into modload.",
+      "revId": "c475e10c898d504e35a5296065e0b4995fa30198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

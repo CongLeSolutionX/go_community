@@ -16,6 +16,24 @@
       "message": "Ah, that\u0027s why I couldn\u0027t see why this was failing yesterday; I forgot it was stubbed out.\n\nThe test should do something very similar to what the real code does, so let\u0027s avoid using ImportRepoRev. maybe we can define queryPackage like this:\n\n  queryPackage :\u003d func(path, rev string) (m module.Version, err error) {\n    err \u003d modfetch.TryProxies(func(proxy string) error) {\n      info, err :\u003d modfetch.Lookup(proxy, path).Stat(rev)\n      if err !\u003d nil {\n        return err\n      }\n      m \u003d info.Version\n      return nil\n    }\n    return m, err\n  }\n\nThat would let us still remove ImportRepoRev.\n\nIt\u0027s unfortunate that this only works for module paths, not package paths. Ideally, we could use modload.QueryPackage directly, but that would require reversing the relationship between modload and modconv. That\u0027s probably the right thing to do eventually, but let\u0027s not worry about it in this CL.",
       "revId": "31c803fd381e80f8ff3ab4f408aeeb13853610aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec0efa3d_b3aed484",
+        "filename": "src/cmd/go/internal/modconv/convert_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-07T14:57:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6ce5d5_c91c8e2a",
+      "revId": "31c803fd381e80f8ff3ab4f408aeeb13853610aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
