@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a75b094_7f8233fe",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2021-04-07T10:19:27Z",
+      "side": 0,
+      "message": "Here is the fix (you can change the comment if it\u0027s not clear enough)\n\n\t// In external linking with trampolines, the alignment added when\n\t// creating a new .text section isn\u0027t added in the size of the\n\t// last symbol of the previous section. Thus, there is a small\n\t// difference between the size of this section and the sum of\n\t// its symbols\u0027 size which we are currently using.\n\t// However, in external linking, we are merging all .text sections\n\t// in a single csect. Thus, we can use the sum of the sections\u0027\n\t// size instead of the sum of the size all the section\u0027s symbols.\n\t// NOTE: This won\u0027t work anymore once external linking generation\n\t// as been fixed (cf TODO in writeSymbolFunc).\n\tif ctxt.LinkMode \u003d\u003d LinkExternal {\n\t\tcurrSymSrcFile.csectSize \u003d 0\n\t\tfor _, s :\u003d range Segtext.Sections {\n\t\t\tif s.Name !\u003d \".text\" {\n\t\t\t\tbreak\n\t\t\t}\n\t\t\tcurrSymSrcFile.csectSize +\u003d int64(s.Length)\n\t\t}\n\t}",
+      "revId": "51dd668fe736c51453d9572deb8b3ae84a5616ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
