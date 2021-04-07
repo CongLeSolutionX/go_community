@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e8d82a49_ed189d93",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T12:41:00Z",
+      "side": 1,
+      "message": "Since I introduce a different mechanism for default flags in a later CL, I\u0027ll just make this\n\n  var Experiment goexperiment.Flags\n\nso it\u0027s more obvious.",
+      "parentUuid": "7e4c7b9d_329ef447",
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "92155033_effd569f",
         "filename": "src/cmd/internal/objabi/exp.go",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-07T00:21:35Z",
       "side": 1,
       "message": "It makes me a little nervous to have multiple variables like this, which are just different representations of the same logical value. I think it ends up leading to confusion about which is authoritative.\n\nE.g., I\u0027d slightly prefer this were instead `func EnabledExperiments() []string { return expList(\u0026Experiment) }`.",
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62493e66_9055bab0",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T12:41:00Z",
+      "side": 1,
+      "message": "Sure, that seems reasonable. Any thoughts on the Experiment and GOEXPERIMENT variables? Arguably those have the same problem, but GOEXPERIMENT is consistent with the other package-level \"environment\" variables. But I could make that a function, too.",
+      "parentUuid": "92155033_effd569f",
       "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -60,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a7ef51c3_a76eb5f5",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T12:41:00Z",
+      "side": 1,
+      "message": "Either way. A later CL changes the meaning of objabi.GOEXPERIMENT, but nothing actually consumes sys.GOEXPERIMENT, so really we can make it whatever we want.\n\nCounter-proposal: since nothing consumes sys.GOEXPERIMENT now that haveexperiment is gone, how about we eliminate it?",
+      "parentUuid": "b2aeabe5_1967b0cb",
+      "range": {
+        "startLine": 121,
+        "startChar": 56,
+        "endLine": 121,
+        "endChar": 100
+      },
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4d60c5c2_d4f4c9e7",
         "filename": "src/internal/goexperiment/flags.go",
         "patchSetId": 1
@@ -71,6 +131,30 @@
       "writtenOn": "2021-04-07T00:21:35Z",
       "side": 1,
       "message": "nit: goexperiment",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52458697_ad1e9649",
+        "filename": "src/internal/goexperiment/flags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T12:41:00Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "4d60c5c2_d4f4c9e7",
       "range": {
         "startLine": 5,
         "startChar": 11,
