@@ -1,0 +1,11 @@
+goos: linux
+goarch: amd64
+pkg: go/scanner
+cpu: Intel(R) Xeon(R) CPU E5-1650 v4 @ 3.60GHz
+BenchmarkScanFile-12    	    1356	    753279 ns/op	  73.48 MB/s	   47947 B/op	    3871 allocs/op
+BenchmarkScanFile-12    	    1618	    768918 ns/op	  71.98 MB/s	   47940 B/op	    3871 allocs/op
+BenchmarkScanFile-12    	    1491	    743182 ns/op	  74.47 MB/s	   47943 B/op	    3871 allocs/op
+BenchmarkScanFile-12    	    1608	    707079 ns/op	  78.28 MB/s	   47940 B/op	    3871 allocs/op
+BenchmarkScanFile-12    	    1588	    748923 ns/op	  73.90 MB/s	   47941 B/op	    3871 allocs/op
+PASS
+ok  	go/scanner	8.130s

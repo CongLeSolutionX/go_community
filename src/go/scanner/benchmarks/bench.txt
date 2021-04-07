@@ -1,0 +1,23 @@
+goos: linux
+goarch: amd64
+pkg: go/scanner
+cpu: Intel(R) Xeon(R) CPU E5-1650 v4 @ 3.60GHz
+BenchmarkScanFile-12    	    3367	    332649 ns/op	  79.18 MB/s	   21472 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3148	    343911 ns/op	  76.59 MB/s	   21473 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3574	    335037 ns/op	  78.62 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3303	    352559 ns/op	  74.71 MB/s	   21472 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3751	    342435 ns/op	  76.92 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3582	    331341 ns/op	  79.50 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3812	    325484 ns/op	  80.93 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3030	    330796 ns/op	  79.63 MB/s	   21472 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3001	    353478 ns/op	  74.52 MB/s	   21472 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3892	    334462 ns/op	  78.75 MB/s	   21470 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3944	    335186 ns/op	  78.58 MB/s	   21470 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3757	    334885 ns/op	  78.65 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3127	    331869 ns/op	  79.37 MB/s	   21472 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3613	    344762 ns/op	  76.40 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3618	    318842 ns/op	  82.61 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3571	    357135 ns/op	  73.75 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3423	    344863 ns/op	  76.38 MB/s	   21471 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	    3292	    355281 ns/op	  74.14 MB/s	   21472 B/op	    2109 allocs/op
+BenchmarkScanFile-12    	
