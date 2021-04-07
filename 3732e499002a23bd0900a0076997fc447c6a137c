@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de78aa6f_75494043",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-07T05:27:40Z",
+      "side": 1,
+      "message": "This is not better than what we had before. It adds more steps but it\u0027s not complete, and making it complete doesn\u0027t help much as the high-level code is pretty well documented.\n\nThe existing comment is just here to give the big picture overview:\n\n- read arguments\n- parse source\n- typecheck source\n- compile code for functions\n- write out to disk\n\nLet\u0027s leave it as is. Otherwise we have to update this comment every time some new step is added.",
+      "revId": "3732e499002a23bd0900a0076997fc447c6a137c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
