@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d82fb50_74c42636",
+        "filename": "src/cmd/compile/internal/noder/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:40:11Z",
+      "side": 1,
+      "message": "It probably makes sense to refactor this as objabi.HeaderString(), but we can leave that for a later CL too.",
+      "range": {
+        "startLine": 246,
+        "startChar": 6,
+        "endLine": 246,
+        "endChar": 126
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aee2b16b_1e3e1cf5",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:40:11Z",
+      "side": 1,
+      "message": "Do we still need to fallback to this? It seems like it\u0027s redundant with initializing Experiment to goexperiment.DefaultFlags above?",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2923e329_c98e38fe",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:40:11Z",
+      "side": 1,
+      "message": "WDYT about putting this in the loop below as `if f \u003d\u003d \"none\" { ... }` instead, so that users can set `GOEXPERIMENT\u003dnone,X` if they want to ensure exactly X is set, regardless of the default GOEXPERIMENT?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 35
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e8054d6_0697c95a",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:40:11Z",
+      "side": 1,
+      "message": "nit: remove blank line",
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "745acea6_2996eb78",
+        "filename": "src/cmd/internal/objabi/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:40:11Z",
+      "side": 1,
+      "message": "nit: just \"\u003d\" instead?",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 6
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
