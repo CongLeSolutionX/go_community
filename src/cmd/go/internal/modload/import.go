@@ -296,88 +296,103 @@ func importFromModules(ctx context.Context, path string, rs *Requirements) (m mo
 	// will tend to remain smallish (if for no other reason than filesystem
 	// path limitations).
 	var mg *ModuleGraph
-	if go117LazyTODO {
-		// Pull the prefix-matching loop below into another (new) loop.
-		// If the main module is lazy, try it once with mg == nil, and then load mg
-		// and try again.
-	} else {
+	if rs.depth == eager {
 		mg, err = rs.Graph(ctx)
 		if err != nil {
 			return module.Version{}, "", &ImportMissingError{Path: path, QueryErr: err}
 		}
 	}
 
-	var sumErrMods []module.Version
-	for prefix := path; prefix != "."; prefix = pathpkg.Dir(prefix) {
-		v := mg.Selected(prefix)
-		if v == "none" {
-			continue
-		}
-		m := module.Version{Path: prefix, Version: v}
-
-		needSum := true
-		root, isLocal, err := fetch(ctx, m, needSum)
-		if err != nil {
-			if sumErr := (*sumMissingError)(nil); errors.As(err, &sumErr) {
-				// We are missing a sum needed to fetch a module in the build list.
-				// We can't verify that the package is unique, and we may not find
-				// the package at all. Keep checking other modules to decide which
-				// error to report. Multiple sums may be missing if we need to look in
-				// multiple nested modules to resolve the import; we'll report them all.
-				sumErrMods = append(sumErrMods, m)
+	for {
+		var sumErrMods []module.Version
+		for prefix := path; prefix != "."; prefix = pathpkg.Dir(prefix) {
+			var (
+				v  string
+				ok bool
+			)
+			if mg == nil {
+				v, ok = rs.rootSelected(prefix)
+			} else {
+				v, ok = mg.Selected(prefix), true
+			}
+			if !ok || v == "none" {
 				continue
 			}
-			// Report fetch error.
-			// Note that we don't know for sure this module is necessary,
-			// but it certainly _could_ provide the package, and even if we
-			// continue the loop and find the package in some other module,
-			// we need to look at this module to make sure the import is
-			// not ambiguous.
-			return module.Version{}, "", err
-		}
-		if dir, ok, err := dirInModule(path, m.Path, root, isLocal); err != nil {
-			return module.Version{}, "", err
-		} else if ok {
-			mods = append(mods, m)
-			dirs = append(dirs, dir)
-		}
-	}
+			m := module.Version{Path: prefix, Version: v}
 
-	if len(mods) > 1 {
-		// We produce the list of directories from longest to shortest candidate
-		// module path, but the AmbiguousImportError should report them from
-		// shortest to longest. Reverse them now.
-		for i := 0; i < len(mods)/2; i++ {
-			j := len(mods) - 1 - i
-			mods[i], mods[j] = mods[j], mods[i]
-			dirs[i], dirs[j] = dirs[j], dirs[i]
+			needSum := true
+			root, isLocal, err := fetch(ctx, m, needSum)
+			if err != nil {
+				if sumErr := (*sumMissingError)(nil); errors.As(err, &sumErr) {
+					// We are missing a sum needed to fetch a module in the build list.
+					// We can't verify that the package is unique, and we may not find
+					// the package at all. Keep checking other modules to decide which
+					// error to report. Multiple sums may be missing if we need to look in
+					// multiple nested modules to resolve the import; we'll report them all.
+					sumErrMods = append(sumErrMods, m)
+					continue
+				}
+				// Report fetch error.
+				// Note that we don't know for sure this module is necessary,
+				// but it certainly _could_ provide the package, and even if we
+				// continue the loop and find the package in some other module,
+				// we need to look at this module to make sure the import is
+				// not ambiguous.
+				return module.Version{}, "", err
+			}
+			if dir, ok, err := dirInModule(path, m.Path, root, isLocal); err != nil {
+				return module.Version{}, "", err
+			} else if ok {
+				mods = append(mods, m)
+				dirs = append(dirs, dir)
+			}
 		}
-		return module.Version{}, "", &AmbiguousImportError{importPath: path, Dirs: dirs, Modules: mods}
-	}
 
-	if len(sumErrMods) > 0 {
-		for i := 0; i < len(sumErrMods)/2; i++ {
-			j := len(sumErrMods) - 1 - i
-			sumErrMods[i], sumErrMods[j] = sumErrMods[j], sumErrMods[i]
+		if len(mods) > 1 {
+			// We produce the list of directories from longest to shortest candidate
+			// module path, but the AmbiguousImportError should report them from
+			// shortest to longest. Reverse them now.
+			for i := 0; i < len(mods)/2; i++ {
+				j := len(mods) - 1 - i
+				mods[i], mods[j] = mods[j], mods[i]
+				dirs[i], dirs[j] = dirs[j], dirs[i]
+			}
+			return module.Version{}, "", &AmbiguousImportError{importPath: path, Dirs: dirs, Modules: mods}
 		}
-		return module.Version{}, "", &ImportMissingSumError{
-			importPath: path,
-			mods:       sumErrMods,
-			found:      len(mods) > 0,
+
+		if len(sumErrMods) > 0 {
+			for i := 0; i < len(sumErrMods)/2; i++ {
+				j := len(sumErrMods) - 1 - i
+				sumErrMods[i], sumErrMods[j] = sumErrMods[j], sumErrMods[i]
+			}
+			return module.Version{}, "", &ImportMissingSumError{
+				importPath: path,
+				mods:       sumErrMods,
+				found:      len(mods) > 0,
+			}
+		}
+
+		if len(mods) == 1 {
+			return mods[0], dirs[0], nil
+		}
+
+		if mg != nil {
+			// We checked the full module graph and still didn't find the
+			// requested package.
+			var queryErr error
+			if !HasModRoot() {
+				queryErr = ErrNoModRoot
+			}
+			return module.Version{}, "", &ImportMissingError{Path: path, QueryErr: queryErr, isStd: pathIsStd}
+		}
+
+		// So far we've checked the root dependencies.
+		// Load the full module graph and try again.
+		mg, err = rs.Graph(ctx)
+		if err != nil {
+			return module.Version{}, "", &ImportMissingError{Path: path, QueryErr: err}
 		}
 	}
-
-	if len(mods) == 1 {
-		return mods[0], dirs[0], nil
-	}
-
-	// We checked the full module graph and still didn't find the
-	// requested package.
-	var queryErr error
-	if !HasModRoot() {
-		queryErr = ErrNoModRoot
-	}
-	return module.Version{}, "", &ImportMissingError{Path: path, QueryErr: queryErr, isStd: pathIsStd}
 }
 
 // queryImport attempts to locate a module that can be added to the current
