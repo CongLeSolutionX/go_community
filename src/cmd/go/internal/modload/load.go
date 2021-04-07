@@ -890,6 +890,18 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 		work:         par.NewQueue(runtime.GOMAXPROCS(0)),
 	}
 
+	if ld.requirements.depth == eager {
+		var err error
+		ld.requirements, _, err = expandGraph(ctx, ld.requirements)
+		if err != nil && !ld.SilenceErrors {
+			if ld.AllowErrors {
+				fmt.Fprintf(os.Stderr, "go: %v\n", err)
+			} else {
+				base.Fatalf("go: %v", err)
+			}
+		}
+	}
+
 	for {
 		ld.reset()
 
@@ -1044,7 +1056,19 @@ func (ld *loader) updateRequirements(ctx context.Context, add []module.Version) 
 	}
 
 	rs, err := updateRoots(ctx, direct, rs, add)
-	if err == nil {
+	if err != nil {
+		// We don't actually know what even the root requirements are supposed to be,
+		// so we can't proceed with loading. Return the error to the caller
+		return err
+	}
+	if rs != ld.requirements {
+		if _, err := rs.Graph(ctx); err != nil && !ld.SilenceErrors {
+			if ld.AllowErrors {
+				fmt.Fprintf(os.Stderr, "go: %v\n", err)
+			} else {
+				base.Fatalf("go: %v", err)
+			}
+		}
 		ld.requirements = rs
 	}
 	return err
@@ -1217,7 +1241,24 @@ func (ld *loader) load(ctx context.Context, pkg *loadPkg) {
 		return
 	}
 
-	pkg.mod, pkg.dir, pkg.err = importFromModules(ctx, pkg.path, ld.requirements)
+	var mg *ModuleGraph
+	if ld.requirements.depth == eager {
+		var err error
+		mg, err = ld.requirements.Graph(ctx)
+		if err != nil {
+			// We already checked the error from Graph in loadFromRoots and/or
+			// updateRequirements, so we ignored the error on purpose and we should
+			// keep trying to push past it.
+			//
+			// However, because mg may be incomplete (and thus may select inaccurate
+			// versions), we shouldn't use it to load packages. Instead, we pass a nil
+			// *ModuleGraph, which will cause mg to first try loading from only the
+			// main module and root dependencies.
+			mg = nil
+		}
+	}
+
+	pkg.mod, pkg.dir, pkg.err = importFromModules(ctx, pkg.path, ld.requirements, mg)
 	if pkg.dir == "" {
 		return
 	}
