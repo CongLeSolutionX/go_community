@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92cb510e_de639e62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-07T21:55:34Z",
+      "side": 1,
+      "message": "nit: maybe \"move beforeIdle and netpoll delta computations closer to use\" ? just looking for something a little more specific",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "ebfa8ee2fe8a6df72a30272cef1a400649477345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
