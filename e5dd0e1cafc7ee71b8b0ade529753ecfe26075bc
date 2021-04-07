@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ea7c5fe_94ff897a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:53:45Z",
+      "side": 1,
+      "message": "I think this is fine, though I\u0027d also support just turning the dependent variables into functions (as mentioned in the earlier CL).",
+      "revId": "e5dd0e1cafc7ee71b8b0ade529753ecfe26075bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
