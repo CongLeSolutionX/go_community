@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c091dedc_0eec9707",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-07T22:34:22Z",
+      "side": 1,
+      "message": "do you mean \"any remaining spans\"? the condition, more precisely, is that \"all spans are either swept or have begun sweeping\" right?",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ada8db07_c35a0dfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-07T22:34:22Z",
+      "side": 1,
+      "message": "my only other comment is that it would be nice to write down you commit message and consolidate the sweep done conditions... but that\u0027s the next CL ;)",
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e145da8_e7a34c4b",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-07T22:34:22Z",
+      "side": 1,
+      "message": "maybe \"noMoreWork\" or something? this doesn\u0027t mean it\u0027s _truly_ the final sweeper.",
+      "range": {
+        "startLine": 270,
+        "startChar": 5,
+        "endLine": 270,
+        "endChar": 17
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
