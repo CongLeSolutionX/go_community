@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a9595d_bebb1865",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-07T14:10:17Z",
+      "side": 1,
+      "message": "Didn\u0027t catch this before, but I think this should be `ctx.Err() !\u003d nil`. ctx.Done() returns a chan, and it should always be non-nil.",
+      "range": {
+        "startLine": 569,
+        "startChar": 8,
+        "endLine": 569,
+        "endChar": 25
+      },
+      "revId": "2d566347ef2e6e91d715eda398b8b2ece4393dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
