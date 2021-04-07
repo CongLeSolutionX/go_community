@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89b206d1_cfa3e203",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2794,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-07T22:16:25Z",
+      "side": 1,
+      "message": "I have a slight preference for checking _p_ instead of gp here, because that\u0027s what the original check did. I realize it\u0027s the same either way; they\u0027re either both nil or both not, so up to you.",
+      "range": {
+        "startLine": 2794,
+        "startChar": 4,
+        "endLine": 2794,
+        "endChar": 6
+      },
+      "revId": "ab3e85a01b80e6ec9eda4cbd425da82d2f37446e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
