@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd77795d_a5577b18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7850
+      },
+      "writtenOn": "2021-04-07T21:45:06Z",
+      "side": 1,
+      "message": "Nice clarifications.",
+      "revId": "50168a20f3d356213d961e2250556c13ef469613",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ddeb7a8_82250a21",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2810,
+      "author": {
+        "id": 7850
+      },
+      "writtenOn": "2021-04-07T21:45:06Z",
+      "side": 1,
+      "message": "I think we should remove the comma on this line. I don\u0027t think the \"if after ...\" clause is parenthetical but rather a condition that gates the decision to skip unparking a new worker.",
+      "revId": "50168a20f3d356213d961e2250556c13ef469613",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
