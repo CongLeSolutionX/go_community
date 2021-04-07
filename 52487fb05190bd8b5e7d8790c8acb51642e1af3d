@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2188ae92_9851c1b7",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-07T00:46:06Z",
+      "side": 1,
+      "message": "Oh wait, defaultGOEXPERIMENT is the defaults set at make.bash time, but goexperiment.DefaultFlags are the defaults that we statically set in source, right?\n\nThe naming collision seems unfortunate if we can avoid it. I don\u0027t immediately have ideas for better names though.",
+      "parentUuid": "aee2b16b_1e3e1cf5",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2923e329_c98e38fe",
         "filename": "src/cmd/internal/objabi/exp.go",
         "patchSetId": 1
