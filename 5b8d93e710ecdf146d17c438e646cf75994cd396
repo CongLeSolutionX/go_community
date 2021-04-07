@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "907161a3_5dc14326",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-04-07T15:10:56Z",
+      "side": 1,
+      "message": "In walk/range.go, it mentions reflect.go, which could also use a repoint to ../reflectdata/reflect.go.\n",
+      "revId": "5b8d93e710ecdf146d17c438e646cf75994cd396",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
