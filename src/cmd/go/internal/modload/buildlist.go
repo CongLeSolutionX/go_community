@@ -633,11 +633,10 @@ func updateRoots(ctx context.Context, direct map[string]bool, rs *Requirements, 
 	if err != nil {
 		return rs, err
 	}
-
-	// Note: if it turns out that we spend a lot of time reconstructing module
-	// graphs after this point, we could make some effort here to detect whether
-	// the root set is the same as the original root set in rs and recycle its
-	// module graph and build list, if they have already been loaded.
-
+	if reflect.DeepEqual(min, rs.rootModules) && reflect.DeepEqual(direct, rs.direct) {
+		// The root set is unchanged, so keep rs to preserve its cached ModuleGraph
+		// (if any).
+		return rs, nil
+	}
 	return newRequirements(rs.depth, min, direct), nil
 }
