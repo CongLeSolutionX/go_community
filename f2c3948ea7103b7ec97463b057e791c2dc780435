@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23bceb1b_f811da3a",
+        "filename": "src/runtime/cgo/handle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 8455
+      },
+      "writtenOn": "2021-04-07T22:34:44Z",
+      "side": 1,
+      "message": "This is much clearer, thank you!  Would it be too hard to also change the code example below to make it pass a pointer to struct with a pointer in it instead of just a pointer to an int?  If it would, I could try and send a CL myself a bit later.",
+      "revId": "f2c3948ea7103b7ec97463b057e791c2dc780435",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
