@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10628dae_b6cb67ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-07T22:49:49Z",
+      "side": 1,
+      "message": "This sentence just repeats the topic sentence, and can be omitted.",
+      "revId": "f86aa176de0ab49452b2cfe3e02d06e5f6d84165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b27b56f2_6098a362",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-07T22:49:49Z",
+      "side": 1,
+      "message": "Please don\u0027t mix style changes and functional changes.  Thanks.",
+      "revId": "f86aa176de0ab49452b2cfe3e02d06e5f6d84165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4198da3_249b6f1c",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-07T22:49:49Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this comment.",
+      "revId": "f86aa176de0ab49452b2cfe3e02d06e5f6d84165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
