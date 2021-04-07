@@ -37,12 +37,7 @@ func testWinSplitListTestIsValid(t *testing.T, ti int, tt SplitListTest,
 		perm    fs.FileMode = 0700
 	)
 
-	tmp, err := os.MkdirTemp("", "testWinSplitListTestIsValid")
-	if err != nil {
-		t.Fatalf("TempDir failed: %v", err)
-	}
-	defer os.RemoveAll(tmp)
-
+	tmp := t.TempDir()
 	for i, d := range tt.result {
 		if d == "" {
 			continue
@@ -103,11 +98,7 @@ func testWinSplitListTestIsValid(t *testing.T, ti int, tt SplitListTest,
 func TestWindowsEvalSymlinks(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
-	tmpDir, err := os.MkdirTemp("", "TestWindowsEvalSymlinks")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpDir)
+	tmpDir := t.TempDir()
 
 	// /tmp may itself be a symlink! Avoid the confusion, although
 	// it means trusting the thing we're testing.
@@ -161,18 +152,7 @@ func TestWindowsEvalSymlinks(t *testing.T) {
 // TestEvalSymlinksCanonicalNames verify that EvalSymlinks
 // returns "canonical" path names on windows.
 func TestEvalSymlinksCanonicalNames(t *testing.T) {
-	tmp, err := os.MkdirTemp("", "evalsymlinkcanonical")
-	if err != nil {
-		t.Fatal("creating temp dir:", err)
-	}
-	defer os.RemoveAll(tmp)
-
-	// os.MkdirTemp might return "non-canonical" name.
-	cTmpName, err := filepath.EvalSymlinks(tmp)
-	if err != nil {
-		t.Errorf("EvalSymlinks(%q) error: %v", tmp, err)
-	}
-
+	ctmp := tempDirCanonical()
 	dirs := []string{
 		"test",
 		"test/dir",
@@ -181,7 +161,7 @@ func TestEvalSymlinksCanonicalNames(t *testing.T) {
 	}
 
 	for _, d := range dirs {
-		dir := filepath.Join(cTmpName, d)
+		dir := filepath.Join(ctmp, d)
 		err := os.Mkdir(dir, 0755)
 		if err != nil {
 			t.Fatal(err)
@@ -417,23 +397,7 @@ func TestToNorm(t *testing.T) {
 		{".", `\\localhost\c$`, `\\localhost\c$`},
 	}
 
-	tmp, err := os.MkdirTemp("", "testToNorm")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer func() {
-		err := os.RemoveAll(tmp)
-		if err != nil {
-			t.Fatal(err)
-		}
-	}()
-
-	// os.MkdirTemp might return "non-canonical" name.
-	ctmp, err := filepath.EvalSymlinks(tmp)
-	if err != nil {
-		t.Fatal(err)
-	}
-
+	ctmp := tempDirCanonical()
 	err = os.MkdirAll(strings.ReplaceAll(testPath, "{{tmp}}", ctmp), 0777)
 	if err != nil {
 		t.Fatal(err)
@@ -526,11 +490,7 @@ func TestNTNamespaceSymlink(t *testing.T) {
 		t.Skip("skipping test because mklink command does not support junctions")
 	}
 
-	tmpdir, err := os.MkdirTemp("", "TestNTNamespaceSymlink")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpdir)
+	tmpdir := t.TempDir()
 
 	// Make sure tmpdir is not a symlink, otherwise tests will fail.
 	tmpdir, err = filepath.EvalSymlinks(tmpdir)

@@ -449,6 +449,20 @@ func chtmpdir(t *testing.T) (restore func()) {
 	}
 }
 
+// tempDirCanonical returns a temporary directory for the test to use, ensuring
+// that the returned name is not a symlink.
+func tempDirCanonical(t *testing.T) string {
+	dir := t.TempDir()
+
+	// t.TempDir might return "non-canonical" name.
+	cdir, err := filepath.EvalSymlinks(dir)
+	if err != nil {
+		t.Errorf("tempDirCanonical: %v", err)
+	}
+
+	return cdir
+}
+
 func TestWalk(t *testing.T) {
 	walk := func(root string, fn fs.WalkDirFunc) error {
 		return filepath.Walk(root, func(path string, info fs.FileInfo, err error) error {
