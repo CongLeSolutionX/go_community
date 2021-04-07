@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4621e49_962f641b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-07T01:08:32Z",
+      "side": 1,
+      "message": "I\u0027ve got a slightly reformatted commit message ready, with better wrapping.",
+      "revId": "723b596f9e280a63d3f11dfa9247a5a067afb66e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
