@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a897e830_5e1dd34a",
+        "filename": "src/cmd/compile/internal/noder/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T13:51:02Z",
+      "side": 1,
+      "message": "Done. Added just before this CL.",
+      "parentUuid": "4d82fb50_74c42636",
+      "range": {
+        "startLine": 246,
+        "startChar": 6,
+        "endLine": 246,
+        "endChar": 126
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aee2b16b_1e3e1cf5",
@@ -73,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df56bdde_b5ad6c98",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T13:51:02Z",
+      "side": 1,
+      "message": "Oh, that is confusing. Though, to be fair, that confusion was already there, so I\u0027m not making it worse. :)\n\nI would consider renaming defaultGOEXPERIMENT to bootstrapGOEXPERIMENT, but there are a whole bunch of these constants.\n\nI\u0027ve added some comments. Let me know if you think it\u0027s enough.",
+      "parentUuid": "2188ae92_9851c1b7",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2923e329_c98e38fe",
         "filename": "src/cmd/internal/objabi/exp.go",
         "patchSetId": 1
@@ -84,6 +132,30 @@
       "writtenOn": "2021-04-07T00:40:11Z",
       "side": 1,
       "message": "WDYT about putting this in the loop below as `if f \u003d\u003d \"none\" { ... }` instead, so that users can set `GOEXPERIMENT\u003dnone,X` if they want to ensure exactly X is set, regardless of the default GOEXPERIMENT?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 35
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f373e3a_0188c2e7",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T13:51:02Z",
+      "side": 1,
+      "message": "Sure. The syntax is a little weird, but this seems like a reasonable thing to be able to do. (And not to be confused with disabling the \"ne\" experiment.)",
+      "parentUuid": "2923e329_c98e38fe",
       "range": {
         "startLine": 44,
         "startChar": 0,
@@ -111,6 +183,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a87fa866_b481305d",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T13:51:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e8054d6_0697c95a",
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745acea6_2996eb78",
@@ -124,6 +214,30 @@
       "writtenOn": "2021-04-07T00:40:11Z",
       "side": 1,
       "message": "nit: just \"\u003d\" instead?",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 6
+      },
+      "revId": "52487fb05190bd8b5e7d8790c8acb51642e1af3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e574928_9decff56",
+        "filename": "src/cmd/internal/objabi/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T13:51:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "745acea6_2996eb78",
       "range": {
         "startLine": 99,
         "startChar": 4,
