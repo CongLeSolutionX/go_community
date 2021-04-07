@@ -36,6 +36,7 @@ import (
 	mathrand "math/rand"
 	"net"
 	"net/http/httptrace"
+	"net/http/internal"
 	"net/textproto"
 	"net/url"
 	"os"
@@ -3095,12 +3096,15 @@ func http2buildCommonHeaderMaps() {
 	}
 }
 
-func http2lowerHeader(v string) string {
+func http2lowerHeader(v string) (lower string, ascii bool) {
+	if !internal.IsASCIIPrint(v) {
+		return "", false
+	}
 	http2buildCommonHeaderMapsOnce()
 	if s, ok := http2commonLowerHeader[v]; ok {
-		return s
+		return s, true
 	}
-	return strings.ToLower(v)
+	return strings.ToLower(v), true
 }
 
 var (
@@ -6361,8 +6365,12 @@ func (w *http2responseWriter) Push(target string, opts *PushOptions) error {
 		// but PUSH_PROMISE requests cannot have a body.
 		// http://tools.ietf.org/html/rfc7540#section-8.2
 		// Also disallow Host, since the promised URL must be absolute.
-		switch strings.ToLower(k) {
-		case "content-length", "content-encoding", "trailer", "te", "expect", "host":
+		if internal.ASCIIEqualFold(k, "content-length") ||
+			internal.ASCIIEqualFold(k, "content-encoding") ||
+			internal.ASCIIEqualFold(k, "trailer") ||
+			internal.ASCIIEqualFold(k, "te") ||
+			internal.ASCIIEqualFold(k, "expect") ||
+			internal.ASCIIEqualFold(k, "host") {
 			return fmt.Errorf("promised request headers cannot include %q", k)
 		}
 	}
@@ -7525,7 +7533,8 @@ func http2checkConnHeaders(req *Request) error {
 	if vv := req.Header["Transfer-Encoding"]; len(vv) > 0 && (len(vv) > 1 || vv[0] != "" && vv[0] != "chunked") {
 		return fmt.Errorf("http2: invalid Transfer-Encoding request header: %q", vv)
 	}
-	if vv := req.Header["Connection"]; len(vv) > 0 && (len(vv) > 1 || vv[0] != "" && !strings.EqualFold(vv[0], "close") && !strings.EqualFold(vv[0], "keep-alive")) {
+	if vv := req.Header["Connection"]; len(vv) > 0 && (len(vv) > 1 || vv[0] != "" &&
+		!internal.ASCIIEqualFold(vv[0], "close") && !internal.ASCIIEqualFold(vv[0], "keep-alive")) {
 		return fmt.Errorf("http2: invalid Connection request header: %q", vv)
 	}
 	return nil
@@ -8051,19 +8060,19 @@ func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trail
 
 		var didUA bool
 		for k, vv := range req.Header {
-			if strings.EqualFold(k, "host") || strings.EqualFold(k, "content-length") {
+			if internal.ASCIIEqualFold(k, "host") || internal.ASCIIEqualFold(k, "content-length") {
 				// Host is :authority, already sent.
 				// Content-Length is automatic, set below.
 				continue
-			} else if strings.EqualFold(k, "connection") || strings.EqualFold(k, "proxy-connection") ||
-				strings.EqualFold(k, "transfer-encoding") || strings.EqualFold(k, "upgrade") ||
-				strings.EqualFold(k, "keep-alive") {
+			} else if internal.ASCIIEqualFold(k, "connection") || internal.ASCIIEqualFold(k, "proxy-connection") ||
+				internal.ASCIIEqualFold(k, "transfer-encoding") || internal.ASCIIEqualFold(k, "upgrade") ||
+				internal.ASCIIEqualFold(k, "keep-alive") {
 				// Per 8.1.2.2 Connection-Specific Header
 				// Fields, don't send connection-specific
 				// fields. We have already checked if any
 				// are error-worthy so just ignore the rest.
 				continue
-			} else if strings.EqualFold(k, "user-agent") {
+			} else if internal.ASCIIEqualFold(k, "user-agent") {
 				// Match Go's http1 behavior: at most one
 				// User-Agent. If set to nil or empty string,
 				// then omit it. Otherwise if not mentioned,
@@ -8076,7 +8085,7 @@ func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trail
 				if vv[0] == "" {
 					continue
 				}
-			} else if strings.EqualFold(k, "cookie") {
+			} else if internal.ASCIIEqualFold(k, "cookie") {
 				// Per 8.1.2.5 To allow for better compression efficiency, the
 				// Cookie header field MAY be split into separate header fields,
 				// each with one or more cookie-pairs.
@@ -8135,6 +8144,12 @@ func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trail
 
 	// Header list size is ok. Write the headers.
 	enumerateHeaders(func(name, value string) {
+		// As per https://tools.ietf.org/html/rfc7540#section-8.1.2 header field
+		// names have to be ASCII characters (just as in HTTP1/x).
+		if !internal.IsASCIIPrint(name) {
+			// Do not write invalid headers.
+			return
+		}
 		name = strings.ToLower(name)
 		cc.writeHeader(name, value)
 		if traceHeaders {
@@ -8183,6 +8198,12 @@ func (cc *http2ClientConn) encodeTrailers(req *Request) ([]byte, error) {
 	}
 
 	for k, vv := range req.Trailer {
+		// As per https://tools.ietf.org/html/rfc7540#section-8.1.2 header field
+		// names have to be ASCII characters (just as in HTTP1/x).
+		if !internal.IsASCIIPrint(k) {
+			// Do not write invalid headers.
+			continue
+		}
 		// Transfer-Encoding, etc.. have already been filtered at the
 		// start of RoundTrip
 		lowKey := strings.ToLower(k)
@@ -9608,8 +9629,8 @@ func http2encodeHeaders(enc *hpack.Encoder, h Header, keys []string) {
 	}
 	for _, k := range keys {
 		vv := h[k]
-		k = http2lowerHeader(k)
-		if !http2validWireHeaderFieldName(k) {
+		k, ascii := http2lowerHeader(k)
+		if !ascii || !http2validWireHeaderFieldName(k) {
 			// Skip it as backup paranoia. Per
 			// golang.org/issue/14048, these should
 			// already be rejected at a higher level.
