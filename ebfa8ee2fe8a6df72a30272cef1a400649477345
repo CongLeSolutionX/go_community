@@ -22,6 +22,23 @@
       },
       "revId": "ebfa8ee2fe8a6df72a30272cef1a400649477345",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74344eee_444ea18a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2899,
+      "author": {
+        "id": 7850
+      },
+      "writtenOn": "2021-04-07T23:17:56Z",
+      "side": 1,
+      "message": "Consider renaming delta to delay which is a closer match to the semantics of the variable and also matches the name used for the same value in the js version of beforeIdle.",
+      "revId": "ebfa8ee2fe8a6df72a30272cef1a400649477345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
