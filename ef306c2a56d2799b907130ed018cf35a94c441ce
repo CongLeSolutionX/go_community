@@ -16,6 +16,24 @@
       "message": "I tripped over this comment the first time reading it because I mistakenly read it as \"If work, [which is] a P, and a worker G ...\". Consider adding some context about what \"work\" means here. Perhaps \"If some GC work, a P, ...\"",
       "revId": "ef306c2a56d2799b907130ed018cf35a94c441ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a53ef99f_8c8cf3f1",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3011,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-07T21:28:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a1b0cb_57422242",
+      "revId": "ef306c2a56d2799b907130ed018cf35a94c441ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
