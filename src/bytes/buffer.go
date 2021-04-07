@@ -46,11 +46,25 @@ var errNegativeRead = errors.New("bytes.Buffer: reader returned negative count f
 
 const maxInt = int(^uint(0) >> 1)
 
-// Bytes returns a slice of length b.Len() holding the unread portion of the buffer.
-// The slice is valid for use only until the next buffer modification (that is,
-// only until the next call to a method like Read, Write, Reset, or Truncate).
-// The slice aliases the buffer content at least until the next buffer modification,
-// so immediate changes to the slice will affect the result of future reads.
+// Bytes returns a slice holding the unread portion of the buffer with the
+// remaining capacity being the unwritten portion. The slice aliases the buffer
+// content at least until the next stateful method call (e.g., Read, Write,
+// Reset, Truncate, etc.) after which the slice is no longer valid for use.
+//
+// Mutations to the unread portion will affect the result of future reads.
+// For example:
+//
+//	p := b.Bytes()
+//	... // mutate any bytes within p[:len(p)]
+//	b.Read(...) // earlier mutations to p observable in read data
+//
+// Data may be appended to the unwritten portion and passed to Write as a
+// potentially allocation-free and copy-free way to append into the buffer.
+// For example:
+//
+//	p := b.Bytes()[b.Len():]
+//	p = append(p, ...) // append to the unwritten portion
+//	b.Write(p)
 func (b *Buffer) Bytes() []byte { return b.buf[b.off:] }
 
 // String returns the contents of the unread portion of the buffer
