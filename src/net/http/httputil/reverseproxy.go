@@ -13,6 +13,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/http/internal"
 	"net/textproto"
 	"net/url"
 	"strings"
@@ -538,7 +539,13 @@ func upgradeType(h http.Header) string {
 	if !httpguts.HeaderValuesContainsToken(h["Connection"], "Upgrade") {
 		return ""
 	}
-	return strings.ToLower(h.Get("Upgrade"))
+	upg := h.Get("Upgrade")
+	if !internal.IsASCIIPrint(upg) {
+		// This is an invalid Upgrade value. To avoid misbehaving and causing Unicode
+		// lowercasing issues we do nothing and just let it through.
+		return upg
+	}
+	return strings.ToLower(upg)
 }
 
 func (p *ReverseProxy) handleUpgradeResponse(rw http.ResponseWriter, req *http.Request, res *http.Response) {
