@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d733582c_817bc828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-07T21:15:33Z",
+      "side": 1,
+      "message": "This sentence just repeats the topic, and can be omitted.",
+      "revId": "8a855ac9b56547c6dc5fcc4fa368a7f5bb24c4f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
