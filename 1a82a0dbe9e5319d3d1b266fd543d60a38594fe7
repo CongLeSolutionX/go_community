@@ -16,6 +16,24 @@
       "message": "I don\u0027t understand why you need the [b.Len():] here.  What happens if you omit it?",
       "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "995e4215_35793a4f",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-04-07T22:05:48Z",
+      "side": 1,
+      "message": "It\u0027s there to truncate off the unread portion, otherwise you will accidentally write it again.\n\nConsider the following:\n* https://play.golang.org/p/oOBNgazUa7-\n* https://play.golang.org/p/VD6U4IW5Zo0",
+      "parentUuid": "40ed019c_04893d7b",
+      "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
