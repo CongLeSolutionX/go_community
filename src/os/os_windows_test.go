@@ -626,12 +626,9 @@ func TestOpenVolumeName(t *testing.T) {
 }
 
 func TestDeleteReadOnly(t *testing.T) {
-	tmpdir, err := os.MkdirTemp("", "TestDeleteReadOnly")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpdir)
+	tmpdir := t.TempDir()
 	p := filepath.Join(tmpdir, "a")
+
 	// This sets FILE_ATTRIBUTE_READONLY.
 	f, err := os.OpenFile(p, os.O_CREATE, 0400)
 	if err != nil {
@@ -796,11 +793,7 @@ func compareCommandLineToArgvWithSyscall(t *testing.T, cmd string) {
 }
 
 func TestCmdArgs(t *testing.T) {
-	tmpdir, err := os.MkdirTemp("", "TestCmdArgs")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpdir)
+	tmpdir := t.TempDir()
 
 	const prog = `
 package main
@@ -963,12 +956,7 @@ func TestSymlinkCreation(t *testing.T) {
 	}
 	t.Parallel()
 
-	temp, err := os.MkdirTemp("", "TestSymlinkCreation")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(temp)
-
+	temp := t.TempFile()
 	dummyFile := filepath.Join(temp, "file")
 	err = os.WriteFile(dummyFile, []byte(""), 0644)
 	if err != nil {

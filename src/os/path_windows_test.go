@@ -50,11 +50,7 @@ func TestFixLongPath(t *testing.T) {
 }
 
 func TestMkdirAllLongPath(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "TestMkdirAllLongPath")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpDir)
+	tmpDir := t.TempDir()
 	path := tmpDir
 	for i := 0; i < 100; i++ {
 		path += `\another-path-component`
@@ -70,11 +66,7 @@ func TestMkdirAllLongPath(t *testing.T) {
 }
 
 func TestMkdirAllExtendedLength(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "TestMkdirAllExtendedLength")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpDir)
+	tmpDir := t.TempDir()
 
 	const prefix = `\\?\`
 	if len(tmpDir) < 4 || tmpDir[:4] != prefix {
