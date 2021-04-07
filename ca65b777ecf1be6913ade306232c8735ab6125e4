@@ -22,6 +22,30 @@
       },
       "revId": "ca65b777ecf1be6913ade306232c8735ab6125e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "920a1078_71caf401",
+        "filename": "src/internal/goexperiment/flags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-07T16:33:47Z",
+      "side": 1,
+      "message": "You\u0027re right, this is all pretty confusing.\n\nWe have three potential sources for experiment configuration:\n\n1. The static set of defaults (goexperiment.DefaultFlags)\n\n2. make.bash-time GOEXPERIMENT (defaultGOEXPERIMENT)\n\n3. build-time GOEXPERIMENT\n\nRight now 3 overrides 2. That makes sense for things like GOARCH that aren\u0027t cumulative, but for GOEXPERIMENT it results in the weird rule 1 + (3 || 2).\n\nSince GOEXPERIMENT is cumulative, maybe it makes more sense to just accumulate all of these sources: 1 + 2 + 3. That would work especially well if \"none\" (or maybe \"default\") in the list means \"override everything\".\n\nWDYT?\n\n\u003e I\u0027m also wondering now if \"none\" should actually mean DefaultFlags, rather than all-flags-zero?\n\nThat would be consistent with the interpretation that once an experiment is statically enabled, it becomes the control and the noX version becomes the experiment.\n\nOr maybe \"none\" is the wrong word? \"default\"?",
+      "parentUuid": "3a1ecf4d_fdb79caa",
+      "range": {
+        "startLine": 33,
+        "startChar": 48,
+        "endLine": 33,
+        "endChar": 71
+      },
+      "revId": "ca65b777ecf1be6913ade306232c8735ab6125e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
