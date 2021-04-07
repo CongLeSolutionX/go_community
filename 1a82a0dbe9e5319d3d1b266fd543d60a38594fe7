@@ -34,6 +34,24 @@
       "parentUuid": "40ed019c_04893d7b",
       "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03bc5a4b_d2fb5340",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-07T22:28:28Z",
+      "side": 1,
+      "message": "Thanks.  This seems rather tricky.  Do we really want to commit to supporting this?  Is this really what Buffer is for?",
+      "parentUuid": "995e4215_35793a4f",
+      "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
