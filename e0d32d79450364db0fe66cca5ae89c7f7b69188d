@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84eaca26_8dadcc28",
+        "filename": "src/net/http/internal/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-07T22:45:12Z",
+      "side": 1,
+      "message": "We generally do not name packages \"internal\".  Instead we would use something like net/http/internal/ascii, with functions like ascii.EqualFold and ascii.IsPrint.",
+      "revId": "e0d32d79450364db0fe66cca5ae89c7f7b69188d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
