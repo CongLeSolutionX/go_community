@@ -1815,6 +1815,14 @@ func PtraceSeize(pid int) (err error) { return ptrace(PTRACE_SEIZE, pid, 0, 0) }
 
 func PtraceDetach(pid int) (err error) { return ptrace(PTRACE_DETACH, pid, 0, 0) }
 
+func PtraceSetSiginfo(pid int, siginfo *int32) (err error) {
+	return ptrace(PTRACE_SETSIGINFO, pid, 0, uintptr(unsafe.Pointer(siginfo)))
+}
+
+func PtraceGetSiginfo(pid int, siginfo *int32) (err error) {
+	return ptrace(PTRACE_GETSIGINFO, pid, 0, uintptr(unsafe.Pointer(siginfo)))
+}
+
 //sys	reboot(magic1 uint, magic2 uint, cmd int, arg string) (err error)
 
 func Reboot(cmd int) (err error) {
