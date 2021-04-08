@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1486ae19_b8d8b7a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-08T14:34:30Z",
+      "side": 1,
+      "message": "Fix LGTM.",
+      "revId": "c0224400acf73ecc276f2d0487d0181180b60213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b398e7c_570683d5",
+        "filename": "test/abi/bad_select_crash.dir/.idea/.gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-08T14:34:30Z",
+      "side": 1,
+      "message": "This and the other files in .idea should be pruned out..",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 23
+      },
+      "revId": "c0224400acf73ecc276f2d0487d0181180b60213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deaa2997_6d613f98",
+        "filename": "test/abi/bad_select_crash.dir/genChecker42/genChecker42.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-08T14:34:30Z",
+      "side": 1,
+      "message": "I think you can probably remove the remaining contents of this file and still keep it buildable.",
+      "revId": "c0224400acf73ecc276f2d0487d0181180b60213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
