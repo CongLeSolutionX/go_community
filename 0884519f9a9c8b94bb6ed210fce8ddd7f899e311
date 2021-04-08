@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de60d6be_a4076f16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-04-08T20:45:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef475d06_3c78e2e7",
+      "revId": "0884519f9a9c8b94bb6ed210fce8ddd7f899e311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60d72740_1cf14511",
@@ -66,6 +84,24 @@
       "writtenOn": "2021-04-08T20:05:40Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "60d72740_1cf14511",
+      "revId": "0884519f9a9c8b94bb6ed210fce8ddd7f899e311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7ef2482_08150e38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-04-08T20:45:21Z",
+      "side": 1,
+      "message": "I have removed the 4 empty lines added to make the code more readable.\n\nHowever I haven\u0027t touched the changes that remove the local err variable (that is no more necessary). I\u0027m not sure if this can be considered a style change.\n\nThanks.",
       "parentUuid": "60d72740_1cf14511",
       "revId": "0884519f9a9c8b94bb6ed210fce8ddd7f899e311",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
