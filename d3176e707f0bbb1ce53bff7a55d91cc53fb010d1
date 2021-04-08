@@ -41,6 +41,75 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10d2fd75_76be2409",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-08T13:52:19Z",
+      "side": 1,
+      "message": "nit: it seems like \u0027blocking\u0027 would be more clear?",
+      "range": {
+        "startLine": 194,
+        "startChar": 1,
+        "endLine": 194,
+        "endChar": 8
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ae6d458_1ffb9178",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-08T13:52:19Z",
+      "side": 1,
+      "message": "why t?",
+      "range": {
+        "startLine": 210,
+        "startChar": 6,
+        "endLine": 210,
+        "endChar": 7
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4b35c0a_c53d5076",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-08T13:52:19Z",
+      "side": 1,
+      "message": "Unrelated to this CL, but I think it would be nice someday to make this something like:\n\natomic.Cas(\u0026s.sweepgen, t.sweepGen+spanNeedSweep, t.sweepGen+spanInSweep)",
+      "range": {
+        "startLine": 219,
+        "startChar": 29,
+        "endLine": 219,
+        "endChar": 41
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e145da8_e7a34c4b",
