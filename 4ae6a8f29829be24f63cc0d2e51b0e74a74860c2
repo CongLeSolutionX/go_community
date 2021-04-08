@@ -33,6 +33,24 @@
       "message": "Not entirely sure if this makes any difference from the previous one.\nIf people are talking about real-world example, the test case I added in https://go-review.googlesource.com/c/go/+/295369/13/misc/cgo/test/test.go\nthose use channels is the one really from a real case.\n\nBut I submitted the previous `int` example just to not complicating the document and keep it dry. Otherwise, an ExampleHandle would be better (but there is also no way to demonstrate C side code.)",
       "revId": "4ae6a8f29829be24f63cc0d2e51b0e74a74860c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "222dba44_b0d25ca5",
+        "filename": "src/runtime/cgo/handle.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-08T20:24:05Z",
+      "side": 1,
+      "message": "I think string is a little better than int because we can already safely pass ints through C to Go, but we can\u0027t do that for string.  This doesn\u0027t complicate the example but it shows code that can\u0027t be trivially written without using the new Handle type.",
+      "parentUuid": "c78bd5db_7b02fe03",
+      "revId": "4ae6a8f29829be24f63cc0d2e51b0e74a74860c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
