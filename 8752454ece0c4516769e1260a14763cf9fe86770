@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a9e47a_a7077ab3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10420
+      },
+      "writtenOn": "2021-04-08T06:50:03Z",
+      "side": 1,
+      "message": "Just confirm, can\u0027t compile go runtime after merge this(or more) CL. can compile at least 307990.\nWhat change?",
+      "revId": "8752454ece0c4516769e1260a14763cf9fe86770",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
