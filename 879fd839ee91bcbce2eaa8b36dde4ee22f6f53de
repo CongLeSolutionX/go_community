@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af1646b4_819ecd6d",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-08T17:25:58Z",
+      "side": 1,
+      "message": "I think this needs a negation.",
+      "revId": "879fd839ee91bcbce2eaa8b36dde4ee22f6f53de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
