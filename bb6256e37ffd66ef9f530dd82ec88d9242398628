@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56cc3ae3_b9befa6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-08T17:17:54Z",
+      "side": 1,
+      "message": "Hi Robert, we don\u0027t have to do this, and certainly not now, but this is the result of my investigation into scanner performance. Worth doing?",
+      "revId": "bb6256e37ffd66ef9f530dd82ec88d9242398628",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
