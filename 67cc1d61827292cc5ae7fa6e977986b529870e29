@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb7e845_0a3c0bf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-08T06:15:54Z",
+      "side": 1,
+      "message": "A conjecture: those fds of pipes were actually closed, but they were reused later on, which results in those build failures.\n\nMaybe F_GETPIPE_SZ is the better choice than F_GETFD in the test code?",
+      "revId": "67cc1d61827292cc5ae7fa6e977986b529870e29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
