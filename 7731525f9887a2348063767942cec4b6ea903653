@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "481eccb0_30b80124",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-08T21:57:17Z",
+      "side": 1,
+      "message": "unix: add PtraceGetSiginfo and PtraceSetSiginfo",
+      "revId": "7731525f9887a2348063767942cec4b6ea903653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "820b890d_8c035bd7",
+        "filename": "src/cmd/vendor/golang.org/x/sys/unix/syscall_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1818,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-08T21:57:17Z",
+      "side": 1,
+      "message": "Looks to me like these operations take a value of type siginfo_t, which is not int32.  Describing siginfo_t in Go might be a bit of pain, but this code is definitely wrong.  On amd64 GNU/Linu siginfo_t is 128 bytes long.  Using int32 here will lead to memory corruption.",
+      "revId": "7731525f9887a2348063767942cec4b6ea903653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
