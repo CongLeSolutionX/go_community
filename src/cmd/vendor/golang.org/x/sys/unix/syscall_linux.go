@@ -1815,6 +1815,67 @@ func PtraceSeize(pid int) (err error) { return ptrace(PTRACE_SEIZE, pid, 0, 0) }
 
 func PtraceDetach(pid int) (err error) { return ptrace(PTRACE_DETACH, pid, 0, 0) }
 
+// The siginfo_t structure contains a union, which is very complex.
+// This is a tentative implementation.
+// Note that the order of Errno and Code is reversed in Mips.
+type Siginfo struct {
+	Signo int32
+	Errno int32
+	Code  int32
+	_pad  [29]int32
+}
+
+// It will need to be rewritten in the future when the implementation of
+// siginfo_t becomes more strict.
+func PtraceSetSiginfo(pid int, siginfo *Siginfo) (err error) {
+	var sig [32]int32
+	psig := &sig[0]
+
+	sig[0] = siginfo.Signo
+	var arch = runtime.GOARCH
+	if arch[:4] == "mips" {
+		sig[1] = siginfo.Code
+		sig[2] = siginfo.Errno
+	} else {
+		sig[1] = siginfo.Errno
+		sig[2] = siginfo.Code
+	}
+
+	for i := 0; i < 29; i++ {
+		sig[i+3] = siginfo._pad[i]
+	}
+
+	return ptrace(PTRACE_SETSIGINFO, pid, 0, uintptr(unsafe.Pointer(psig)))
+}
+
+// It will need to be rewritten in the future when the implementation of
+// siginfo_t becomes more strict.
+// When accessing si_addr etc, the user needs to parse the structure.
+func PtraceGetSiginfo(pid int, siginfo *Siginfo) (err error) {
+	var sig [32]int32
+	psig := &sig[0]
+
+	err = ptrace(PTRACE_GETSIGINFO, pid, 0, uintptr(unsafe.Pointer(psig)))
+	if err != nil {
+		return err
+	}
+
+	siginfo.Signo = sig[0]
+	var arch = runtime.GOARCH
+	if arch[:4] == "mips" {
+		siginfo.Code = sig[1]
+		siginfo.Errno = sig[2]
+	} else {
+		siginfo.Errno = sig[1]
+		siginfo.Code = sig[2]
+	}
+
+	for i := 0; i < 29; i++ {
+		siginfo._pad[i] = sig[i+3]
+	}
+	return nil
+}
+
 //sys	reboot(magic1 uint, magic2 uint, cmd int, arg string) (err error)
 
 func Reboot(cmd int) (err error) {
