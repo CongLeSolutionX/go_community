@@ -396,6 +396,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa19d1c6_28140173",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-08T15:15:15Z",
+      "side": 1,
+      "message": "I couldn\u0027t actually find a path where resp.Err would be empty. Do you know what causes that? T.Fail() still shows some output (\"--- FAIL\" log lines).",
+      "parentUuid": "75e4f223_20233198",
+      "range": {
+        "startLine": 175,
+        "startChar": 24,
+        "endLine": 175,
+        "endChar": 32
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3471ee5_d524fb1f",
         "filename": "src/internal/fuzz/worker.go",
         "patchSetId": 3
