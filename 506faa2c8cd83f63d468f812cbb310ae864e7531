@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31221a82_534482f2",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-08T15:21:08Z",
+      "side": 1,
+      "message": "I think you also want to clear the \"R13 is already zeroed\" bit.",
+      "revId": "506faa2c8cd83f63d468f812cbb310ae864e7531",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d66b25_767a0181",
+        "filename": "src/cmd/compile/internal/amd64/zerorange_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-08T15:21:08Z",
+      "side": 1,
+      "message": "Could you add the tests to cmd/compile/internal/test/zerorange_test.go (if not already) ? It doesn\u0027t need to be AMD64 specific, as it should work on all platforms.",
+      "revId": "506faa2c8cd83f63d468f812cbb310ae864e7531",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
