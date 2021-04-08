@@ -16,7 +16,7 @@ import (
 func checkPipes(fds []int) bool {
 	for _, fd := range fds {
 		// Check if each pipe fd has been closed.
-		err := syscall.FcntlFlock(uintptr(fd), syscall.F_GETFD, nil)
+		err := syscall.FcntlFlock(uintptr(fd), syscall.F_GETPIPE_SZ, nil)
 		if err == nil {
 			return false
 		}
@@ -37,8 +37,8 @@ func TestSplicePipePool(t *testing.T) {
 		if err != nil {
 			t.Skip("failed to create pipe, skip this test")
 		}
-		prfd, pwfd := poll.GetPipeFds(p)
-		fds = append(fds, prfd, pwfd)
+		_, pwfd := poll.GetPipeFds(p)
+		fds = append(fds, pwfd)
 		ps = append(ps, p)
 	}
 	for _, p = range ps {
@@ -49,7 +49,7 @@ func TestSplicePipePool(t *testing.T) {
 	var ok bool
 	// Trigger garbage collection to free the pipes in sync.Pool and check whether or not
 	// those pipe buffers have been closed as we expected.
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 50; i++ {
 		runtime.GC()
 		time.Sleep(time.Duration(i*100+10) * time.Millisecond)
 		if ok = checkPipes(fds); ok {
