@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7988a7a2_23d3b253",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-08T16:47:53Z",
+      "side": 1,
+      "message": "I think you can remove this line",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3459313_d44958e7",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-08T16:47:53Z",
+      "side": 1,
+      "message": "three?",
+      "range": {
+        "startLine": 54,
+        "startChar": 28,
+        "endLine": 54,
+        "endChar": 31
+      },
+      "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da680968_a050705d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-08T16:47:53Z",
+      "side": 1,
+      "message": "you don\u0027t continue this list so this should probably just be removed. :)",
+      "range": {
+        "startLine": 58,
+        "startChar": 56,
+        "endLine": 58,
+        "endChar": 60
+      },
+      "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "536d85f2_40ae55e3",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-08T16:47:53Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 11
+      },
+      "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33255067_c5c8c511",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-08T16:47:53Z",
+      "side": 1,
+      "message": "\"spin on looking\" ?",
+      "range": {
+        "startLine": 64,
+        "startChar": 39,
+        "endLine": 64,
+        "endChar": 63
+      },
+      "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a9e813_dad920c4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-08T16:47:53Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 81,
+        "startChar": 17,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55eb04c8_923f2cf0",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-08T16:47:53Z",
+      "side": 1,
+      "message": "I get what you mean, but it reads a little awkwardly.\n\nmaybe \"local run queue or timer queue\"?",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
