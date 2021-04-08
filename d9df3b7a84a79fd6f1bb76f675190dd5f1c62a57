@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62eb1f61_39ed0a17",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-08T17:50:07Z",
+      "side": 1,
+      "message": "FWIW, the Go spec uses the phrase \"pointer to array\" 6 times already, but doesn\u0027t use \"array pointer\" at all.\n\nSee also the unresolved comments on patchset 9.",
+      "parentUuid": "3d331581_ef409414",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e0160e0_afb3fdf6",
         "filename": "doc/go_spec.html",
         "patchSetId": 10
