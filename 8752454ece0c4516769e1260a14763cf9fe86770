@@ -34,6 +34,24 @@
       "parentUuid": "d9a9e47a_a7077ab3",
       "revId": "8752454ece0c4516769e1260a14763cf9fe86770",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60c75748_0de2c6be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10420
+      },
+      "writtenOn": "2021-04-08T08:04:50Z",
+      "side": 1,
+      "message": "Ah, yes use GOEXPERIMENT.\n\n$ git rev-parse --verify HEAD\na7e16abb22f1b249d2691b32a5d20206282898f2\n\nrepro command is here:\n\n$ GOROOT_BOOTSTRAP\u003d~/sdk/go1.16.3 GOEXPERIMENT\u003d\u0027regabi\u0027 ./make.bash -a -d -v -no-banner\n$ GOROOT_BOOTSTRAP\u003d~/sdk/go1.16.3 GOEXPERIMENT\u003d\u0027staticlockranking\u0027 ./make.bash -a -d -v -no-banner\n\nHASH[build runtime/internal/sys]\nHASH[build runtime/internal/sys]: \"devel go1.17-a7e16abb22 Thu Apr 8 07:33:58 2021 +0000 X:regabi,regabiwrappers,regabig,regabireflect,regabidefer\"\nHASH[build runtime/internal/sys]: \"compile\\n\"\nHASH[build runtime/internal/sys]: \"goos darwin goarch amd64\\n\"\nHASH[build runtime/internal/sys]: \"import \\\"runtime/internal/sys\\\"\\n\"\nHASH[build runtime/internal/sys]: \"omitdebug false standard true local false prefix \\\"\\\"\\n\"\nHASH[build runtime/internal/sys]: \"modinfo \\\"\\\"\\n\"\nHASH[build runtime/internal/sys]: \"compile XKf66D8YA5JrEXpG97GQ [] []\\n\"\nHASH[build runtime/internal/sys]: \"\u003d\\n\"\nHASH[build runtime/internal/sys]: \"GOEXPERIMENT\u003d\\\"regabi,regabiwrappers,regabig,regabireflect,regabidefer\\\"\\n\"\nHASH /usr/local/go/src/runtime/internal/sys/arch.go: ce22176d2caf2b8aa9bbf63da6fc175efb8439ae1ba0e2d45eac8c05cb3a3054\nHASH[build runtime/internal/sys]: \"file arch.go ziIXbSyvK4qpu_Y9pvwX\\n\"\nHASH /usr/local/go/src/runtime/internal/sys/arch_amd64.go: fadc2d5c6b829c35f310447c02396703879b092febc190c5c84f8422ee74af1f\nHASH[build runtime/internal/sys]: \"file arch_amd64.go -twtXGuCnDXzEER8Ajln\\n\"\nHASH /usr/local/go/src/runtime/internal/sys/intrinsics.go: a3850aaa0f87059d181640ae9024e1762d073a195c2004b5a76c69f09fb2d0a5\nHASH[build runtime/internal/sys]: \"file intrinsics.go o4UKqg-HBZ0YFkCukCTh\\n\"\nHASH /usr/local/go/src/runtime/internal/sys/intrinsics_common.go: b009ab2f510e179af3cd495b904b9f9ccc0484e9e6afd163199b587bfbc87741\nHASH[build runtime/internal/sys]: \"file intrinsics_common.go sAmrL1EOF5rzzUlbkEuf\\n\"\nHASH /usr/local/go/src/runtime/internal/sys/sys.go: 55e021891200a7e6a5c371c8a1ab71b6c15aeb16ea6c1b192185d17df8c8b18f\nHASH[build runtime/internal/sys]: \"file sys.go VeAhiRIAp-alw3HIoatx\\n\"\nHASH /usr/local/go/src/runtime/internal/sys/zgoarch_amd64.go: c6755168cd4207e7e370beb4e0512da5eba2bcb31427fddb67c7042a24bc61d4\nHASH[build runtime/internal/sys]: \"file zgoarch_amd64.go xnVRaM1CB-fjcL604FEt\\n\"\nHASH /usr/local/go/src/runtime/internal/sys/zgoos_darwin.go: a949f3e3bd5cc5ab2a675d7a8b8d07e6f81053651381e73e8e8ba9c7da68e544\nHASH[build runtime/internal/sys]: \"file zgoos_darwin.go qUnz471cxasqZ116i40H\\n\"\nHASH /usr/local/go/src/runtime/internal/sys/zversion.go: 8816974d6529db506967989004b9024d127f5d3346d5ac08e6975e3edcc73e05\nHASH[build runtime/internal/sys]: \"file zversion.go iBaXTWUp21BpZ5iQBLkC\\n\"\nHASH[build runtime/internal/sys]: 12b36f00b92fcc494fa6012aff6960c943ef427e0822e24217cc6893d1916d7a\nruntime/internal/sys true\ngo tool dist: unexpected stale targets reported by /usr/local/go/bin/go list -gcflags\u003d\"\" -ldflags\u003d\"\" for [std cmd]:\n        STALE archive/tar: stale dependency: internal/cpu\n        STALE archive/zip: stale dependency: internal/cpu\n        STALE bufio: stale dependency: internal/cpu\n        STALE bytes: stale dependency: internal/cpu\n        STALE compress/bzip2: stale dependency: internal/cpu\n        STALE compress/flate: stale dependency: internal/cpu\n        STALE compress/gzip: stale dependency: internal/cpu\n        STALE compress/lzw: stale dependency: internal/cpu\n        STALE compress/zlib: stale dependency: internal/cpu\n        STALE container/heap: stale dependency: internal/cpu\n        STALE container/list: build ID mismatch\n        STALE container/ring: build ID mismatch\n        STALE context: stale dependency: internal/cpu\n        STALE crypto: stale dependency: internal/cpu\n# same error\n.\n.\n.\n\n---\n\nnot repro:\n\n$ GOROOT_BOOTSTRAP\u003d~/sdk/go1.16.3 GOEXPERIMENT\u003d\u0027\u0027 ./make.bash -a -d -v -no-banner\n\n---\n\nI\u0027ll create issue thread later.",
+      "parentUuid": "d9d7e21c_0500be13",
+      "revId": "8752454ece0c4516769e1260a14763cf9fe86770",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
