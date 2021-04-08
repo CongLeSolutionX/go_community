@@ -106,6 +106,24 @@
       "parentUuid": "72d04d1a_8f4217fc",
       "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e810c385_ab5c3c0c",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-04-08T22:49:08Z",
+      "side": 1,
+      "message": "We could add:\n\n\t// BytesUnused returns an empty slice with possibly non-empty capacity.\n\t// The caller may append to this slice and pass it back to Write.\n\tfunc (b *Buffer) BytesUnused() []byte {\n\t\treturn b.Bytes()[b.Len():]\n\t}\n\nthat would take care of truncating off the unread portion. Thus usage would be more readable as:\n\n\tp :\u003d b.BytesUnused()\n\tp \u003d append(p, \"world\\n\"...)\n\tb.Write(p)",
+      "parentUuid": "cdc30af9_b0509ce1",
+      "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
