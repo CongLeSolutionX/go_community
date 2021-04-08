@@ -22,6 +22,30 @@
       },
       "revId": "b20919b45c5d40acd5b3e4936d02086016deb498",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23dee30c_b63de426",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2941,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-08T16:09:36Z",
+      "side": 1,
+      "message": "This patch has been in my stack for a while, and I\u0027m not sure what I was thinking. now is certainly not guaranteed to be non-zero here. PTAL.",
+      "parentUuid": "8b1710ea_58154b95",
+      "range": {
+        "startLine": 2941,
+        "startChar": 3,
+        "endLine": 2941,
+        "endChar": 27
+      },
+      "revId": "b20919b45c5d40acd5b3e4936d02086016deb498",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
