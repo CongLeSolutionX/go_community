@@ -160,6 +160,30 @@
       },
       "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cb064a7_0f1e21ae",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 7850
+      },
+      "writtenOn": "2021-04-08T17:37:00Z",
+      "side": 1,
+      "message": "Consider breaking out the pattern sequences into numbered lists. I suspect it will help highlight their importance and be easier to visually scan.",
+      "parentUuid": "55eb04c8_923f2cf0",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "df01d5b779bf65f8329e0d2bc62ca94651a0bf04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
