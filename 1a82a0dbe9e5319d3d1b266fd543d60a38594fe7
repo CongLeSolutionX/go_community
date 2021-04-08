@@ -70,6 +70,24 @@
       "parentUuid": "03bc5a4b_d2fb5340",
       "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72d04d1a_8f4217fc",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-08T22:36:41Z",
+      "side": 1,
+      "message": "\u003e We should avoid any semantic that would prevent Buffer from making changes to its internal implementation. However, in this situation, the Bytes API already leaks the fact that Buffer uses a single contiguous buffer (as opposed to segmented buffers or a ring buffer). Thus, I don\u0027t believe guaranteeing this semantic ties our hands in any particular way that we\u0027ll regret.\n\nAgreed, but the way that this code uses append and then passes the buffer back to Write seems somewhat convoluted.\n\n\n\u003e \u003e Is this really what Buffer is for?\n\u003e \n\u003e In a situation where some code has a bytes.Buffer on hand and wants to write into it, there is currently no way to write into the Buffer without allocating a separate buffer of your own that is then passed to bytes.Buffer.Write. This CL aims to document that it\u0027s permissible to append directly into the Buffer. This would codify that existing patterns doing this are correct.\n\nWhat do you think of something like\n\nfunc (b *Buffer) Append(p ...byte) (n int, err error) {\n\tb.lastRead \u003d opInvalid\n\tif len(b.buf) + len(p) \u003c\u003d cap(b.buf) {\n\t\tb.buf \u003d append(b.buf, p...)\n\t\treturn len(p), nil\n\t}\n\treturn b.Write(p)\n}\n\nOr do you particularly want to support computing p and then setting p[0], p[1], etc.?",
+      "parentUuid": "5513fe80_1d99a743",
+      "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
