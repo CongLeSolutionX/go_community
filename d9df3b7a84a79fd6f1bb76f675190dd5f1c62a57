@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d331581_ef409414",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-08T16:58:03Z",
+      "side": 1,
+      "message": "T is an array pointer (pointer to an array),\n\n(None of the other bullets say \"T has type\", in part because T is not a value.)",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e0160e0_afb3fdf6",
         "filename": "doc/go_spec.html",
         "patchSetId": 10
@@ -50,6 +67,41 @@
       "side": 1,
       "message": "The previous two subheaders are \"Conversions between numeric types\" and \"Conversions to and from a string type\".",
       "parentUuid": "4e0160e0_afb3fdf6",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d34ba60c_2318b7ca",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4321,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-08T16:58:03Z",
+      "side": 1,
+      "message": "Conversion from slice to array pointer",
+      "parentUuid": "9fbf3437_153993f6",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4ba5df3_07809ae9",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4324,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-08T16:58:03Z",
+      "side": 1,
+      "message": "s/pointer to an array/array pointer/\n\n(The problem with all of these is the doubled \"to\", which makes it hard to parse.)",
       "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
