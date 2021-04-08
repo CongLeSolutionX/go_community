@@ -88,6 +88,24 @@
       "parentUuid": "5513fe80_1d99a743",
       "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdc30af9_b0509ce1",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-04-08T22:44:44Z",
+      "side": 1,
+      "message": "\u003e seems somewhat convoluted.\n\nAgreed.\n\n\u003e What do you think of something like ... Buffer.Append\n\nHow would this method interoperate with append-like functionality such as strconv.AppendFloat, hash.Hash.Sum, or proto.MarshalOptions.MarshalAppend?\n\nThese functions take in a []byte, append to it, and return back a []byte. That seems to suggest that we need 1) a way to get a []byte from the Buffer (which we can do with Bytes), and 2) a way to inform Buffer that we appended some number of bytes (which we can do with Write).",
+      "parentUuid": "72d04d1a_8f4217fc",
+      "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
