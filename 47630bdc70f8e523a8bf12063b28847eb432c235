@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e95f8b2_8c00b288",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-08T14:06:19Z",
+      "side": 1,
+      "message": "I think this test is inherently fragile: a sync.Pool is not guaranteed to ever actually free anything stored in it.\n\nPer https://pkg.go.dev/sync#Pool (emphasis mine):\n\n\u003e Any item stored in the Pool *may* be removed automatically at any time without notification. If the Pool holds the only reference when this happens, the item *might* be deallocated.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 55
+      },
+      "revId": "47630bdc70f8e523a8bf12063b28847eb432c235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a561ab7_6742b24e",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-08T14:06:19Z",
+      "side": 1,
+      "message": "Instead of a hard-coded number of iterations with hard-coded timeouts, how about using the test\u0027s deadline?\n\nPerhaps something like:\n\n\tvar expired \u003c-chan time.Time\n\tif d, ok :\u003d t.Deadline(); ok {\n\t\td -\u003d d / 10 // Leave 10% headroom for cleanup.\n\t\ttimer :\u003d time.NewTimer(d)\n\t\tdefer timer.Stop()\n\t\texpired \u003d timer.C\n\t}\n\n\tfor {\n\t\ttime.Sleep(1 * time.Millisecond)\n\t\truntime.GC()\n\t\tif ok :\u003d checkPipes(fds); ok {\n\t\t\tbreak\n\t\t}\n\t\tselect {\n\t\tcase \u003c-expired:\n\t\t\tt.Fatal(\"at least one pipe is still open\")\n\t\tdefault:\n\t\t}\n\t}",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 56
+      },
+      "revId": "47630bdc70f8e523a8bf12063b28847eb432c235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
