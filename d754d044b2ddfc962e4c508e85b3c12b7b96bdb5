@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b44feefc_430b44b3",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-08T19:53:23Z",
+      "side": 1,
+      "message": "Hmmm, sorry for not noticing this before, but we shouldn\u0027t be using FcntlFlock here.  That function is for F_GETLK, F_SETLK or F_SETLKW.  This should be calling\n    syscall.Syscall(unix.FcntlSyscall, uintptr(fd), syscall.F_GETPIPE_SZ, 0)\nusing the internal/syscall/unix package.",
+      "revId": "d754d044b2ddfc962e4c508e85b3c12b7b96bdb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02ebf8fc_f66e7d3a",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-08T19:53:23Z",
+      "side": 1,
+      "message": "time.Hour seems a bit much.  How about 5 * time.Minute.",
+      "revId": "d754d044b2ddfc962e4c508e85b3c12b7b96bdb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a58765e_9b5d950f",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-08T19:53:23Z",
+      "side": 1,
+      "message": "This seems awkward, I suggest computing the timeout and then calling time.NewTimer once after the conditional.",
+      "revId": "d754d044b2ddfc962e4c508e85b3c12b7b96bdb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "634dc7f7_8db200df",
+        "filename": "src/internal/poll/splice_linux_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-08T19:53:23Z",
+      "side": 1,
+      "message": "This can just be\n    if checkPipes(fds) {\n        break\n    }",
+      "revId": "d754d044b2ddfc962e4c508e85b3c12b7b96bdb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
