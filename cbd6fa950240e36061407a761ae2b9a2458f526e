@@ -16,6 +16,24 @@
       "message": "Should I wait on this until after your other refactoring changes?",
       "revId": "cbd6fa950240e36061407a761ae2b9a2458f526e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfadac2d_92224fd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-08T14:37:15Z",
+      "side": 1,
+      "message": "They don\u0027t really conflict and where they do it is easy to update, so there\u0027s no harm in this. That said, the other refactoring is certainly more important to look at. I\u0027ll also later have _p_ and _g_ versions of this CL coming, but those are much more involved.",
+      "parentUuid": "8ec6cf88_15bdf920",
+      "revId": "cbd6fa950240e36061407a761ae2b9a2458f526e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
