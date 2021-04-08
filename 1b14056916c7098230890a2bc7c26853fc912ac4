@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5976380e_d3f5169a",
+        "filename": "src/cmd/internal/objabi/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-08T00:15:43Z",
+      "side": 1,
+      "message": "Changed GOEXPERIMENT to a function.",
+      "parentUuid": "72dd1a8c_6fc655d1",
+      "revId": "1b14056916c7098230890a2bc7c26853fc912ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2aeabe5_1967b0cb",
