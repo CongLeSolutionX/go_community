@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e68cd55_992f110d",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-08T22:06:07Z",
+      "side": 0,
+      "message": "just keep the\n\n\u0027a\u0027 \u003c\u003d lower(ch) \u0026\u0026 lower(ch) \u003c\u003d \u0027z\u0027 || ch \u003d\u003d \u0027_\u0027\n\nportion in this function (which may then be inlined) and then you can still use it.",
+      "range": {
+        "startLine": 343,
+        "startChar": 61,
+        "endLine": 343,
+        "endChar": 63
+      },
+      "revId": "300b34491c7e84f47cfe82bdb28ee50cc213c9c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9db5f86_70776c45",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-08T22:06:07Z",
+      "side": 0,
+      "message": "ditto",
+      "range": {
+        "startLine": 347,
+        "startChar": 31,
+        "endLine": 347,
+        "endChar": 35
+      },
+      "revId": "300b34491c7e84f47cfe82bdb28ee50cc213c9c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
