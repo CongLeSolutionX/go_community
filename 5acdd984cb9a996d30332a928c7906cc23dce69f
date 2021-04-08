@@ -189,6 +189,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7e557c1_d6666abc",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-08T20:16:38Z",
+      "side": 1,
+      "message": "Ack. I missed that key is not always monotonically increasing and we want the max value, essentially.",
+      "parentUuid": "efe82511_7caf2363",
+      "range": {
+        "startLine": 853,
+        "startChar": 8,
+        "endLine": 853,
+        "endChar": 14
+      },
+      "revId": "5acdd984cb9a996d30332a928c7906cc23dce69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1707bd9_4e6a066a",
