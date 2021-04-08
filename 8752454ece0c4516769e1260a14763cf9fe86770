@@ -52,6 +52,24 @@
       "parentUuid": "d9d7e21c_0500be13",
       "revId": "8752454ece0c4516769e1260a14763cf9fe86770",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e061fc3_21133e64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10420
+      },
+      "writtenOn": "2021-04-08T08:06:19Z",
+      "side": 1,
+      "message": "forgot.\noccur both of `regabi` and `staticlockranking`.",
+      "parentUuid": "60c75748_0de2c6be",
+      "revId": "8752454ece0c4516769e1260a14763cf9fe86770",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
