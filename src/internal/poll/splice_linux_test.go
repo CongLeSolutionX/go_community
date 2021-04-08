@@ -49,7 +49,7 @@ func TestSplicePipePool(t *testing.T) {
 	var ok bool
 	// Trigger garbage collection to free the pipes in sync.Pool and check whether or not
 	// those pipe buffers have been closed as we expected.
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 50; i++ {
 		runtime.GC()
 		time.Sleep(time.Duration(i*100+10) * time.Millisecond)
 		if ok = checkPipes(fds); ok {
