@@ -33,6 +33,23 @@
       "message": "TRY\u003dwindows",
       "revId": "07f85631e325d373ad0c99ec30141278eb29a968",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cea0ff2_3045b8f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-09T17:09:16Z",
+      "side": 1,
+      "message": "This test-disable works.",
+      "revId": "07f85631e325d373ad0c99ec30141278eb29a968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
