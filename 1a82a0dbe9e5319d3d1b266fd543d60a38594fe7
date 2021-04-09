@@ -124,6 +124,24 @@
       "parentUuid": "cdc30af9_b0509ce1",
       "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6893e63c_3769ba39",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-09T17:44:28Z",
+      "side": 1,
+      "message": "I guess I\u0027m worried that bytes.Buffer right now is a fairly simple type, at least if we ignore UnreadByte and UnreadRune which may have been mistakes.  bytes.Buffer is a kind of wrapper around []byte that lets you easily append data to a slice in various forms, and then pull the data out again.\n\nThis new functionality is a way to make bytes.Buffer more efficient for certain cases, but it\u0027s not general.  It can only be used in a very stylized way, in which you get the byte slice and then call Write.  It doesn\u0027t seem to be part of the basic idea of layering over a []byte.  It\u0027s kind of a way of switching back and forth between a bytes.Buffer and a []byte.  Why not pick one or the other?\n\nSince this seems to be about switching back and forth, what about\n    p :\u003d b.Bytes()\n    p \u003d append(p, \"...\")\n    b.Set(p)\n?",
+      "parentUuid": "e810c385_ab5c3c0c",
+      "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
