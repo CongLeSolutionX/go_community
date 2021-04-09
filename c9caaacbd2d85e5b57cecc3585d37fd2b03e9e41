@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5578718_09aa1896",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T17:42:28Z",
+      "side": 1,
+      "message": "I don\u0027t think it is a good idea for clobbering the G register within the function body. In the current implementation it probably works, because we need to load G from TLS on signals anyway. But on some architectures where we have only the G register, no TLS, it is a problem. Maybe we don\u0027t encourage that usage anyway. (Up to you.)",
+      "range": {
+        "startLine": 411,
+        "startChar": 35,
+        "endLine": 411,
+        "endChar": 42
+      },
+      "revId": "c9caaacbd2d85e5b57cecc3585d37fd2b03e9e41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
