@@ -5,6 +5,7 @@
 package abi
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
@@ -429,6 +430,7 @@ func (config *ABIConfig) ABIAnalyzeFuncType(ft *types.Func) *ABIParamResultInfo 
 func (config *ABIConfig) ABIAnalyze(t *types.Type, setNname bool) *ABIParamResultInfo {
 	ft := t.FuncType()
 	result := config.ABIAnalyzeFuncType(ft)
+
 	// Fill in the frame offsets for receiver, inputs, results
 	k := 0
 	if t.NumRecvs() != 0 {
@@ -472,7 +474,7 @@ func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field
 				f.Nname.(*ir.Name).SetIsOutputParamInRegisters(false)
 			}
 		} else if fOffset != off {
-			panic(fmt.Errorf("Offset changed from %d to %d", fOffset, off))
+			panic(fmt.Errorf("Offset for %s at %s changed from %d to %d", f.Sym.Name, base.FmtPos(f.Pos), fOffset, off))
 		}
 	} else {
 		if setNname && f.Nname != nil {

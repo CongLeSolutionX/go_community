@@ -1,0 +1,10 @@
+{
+    "go.alternateTools": {
+        "go": "/Users/drchase/work/go/bin/go",
+            // Build a separate set of tools. For golang/vscode-go#294.
+        },
+        "go.toolsGopath": "~/.vscode/godev",
+            // Don't reformat HTML files since we have a custom style.
+        "html.format.enable": false,
+        "go.useLanguageServer": true,
+}
