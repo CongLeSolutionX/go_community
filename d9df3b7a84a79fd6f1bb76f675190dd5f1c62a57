@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "334c1c4b_c250c117",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-09T13:09:55Z",
+      "side": 1,
+      "message": "Please do not land implementation CLs before the spec lands.",
+      "parentUuid": "23bd0a55_cccac03d",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d331581_ef409414",
         "filename": "doc/go_spec.html",
         "patchSetId": 10
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "The spec also uses \"pointer to an array\" another 4 times for referring to values. (\"pointer to array\" is always used to refer to types.) I don\u0027t see any uses of \"X pointer\" to mean \"pointer to X\".\n\nBy Rob\u0027s earlier \"new stylistic form\" criteria (Apr 4 comment), \"array pointer\" seems to me an even more novel form than \"pointer-to-array\" (hyphenating an existing phrase for use as an adjective).",
       "parentUuid": "62eb1f61_39ed0a17",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5af89686_7722d12f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-09T13:09:55Z",
+      "side": 1,
+      "message": "I have no problem with pointer-to-array instead.",
+      "parentUuid": "65be3de0_64e133a8",
       "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
