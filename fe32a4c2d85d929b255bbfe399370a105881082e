@@ -395,6 +395,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "454238a7_01f5e01b",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-09T18:16:18Z",
+      "side": 1,
+      "message": "Ah, I misunderstood. Seemed a little verbose :)\n\n`maxPerWorker` doesn\u0027t seem quite right though, since this isn\u0027t divided by the number of workers. I went with `remaining` instead.",
+      "parentUuid": "0133433a_37d3923b",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 3
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "867698e2_ac2af4bd",
