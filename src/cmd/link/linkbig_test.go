@@ -80,26 +80,30 @@ func TestLargeText(t *testing.T) {
 	}
 
 	// Build and run with internal linking.
-	os.Chdir(tmpdir)
 	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "bigtext")
+	cmd.Dir = tmpdir
+	cmd.Env = append(os.Environ(), "GO111MODULE=off")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("Build failed for big text program with internal linking: %v, output: %s", err, out)
 	}
-	cmd = exec.Command(tmpdir + "/bigtext")
+	cmd = exec.Command("./bigtext")
+	cmd.Dir = tmpdir
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("Program built with internal linking failed to run with err %v, output: %s", err, out)
 	}
 
 	// Build and run with external linking
-	os.Chdir(tmpdir)
 	cmd = exec.Command(testenv.GoToolPath(t), "build", "-o", "bigtext", "-ldflags", "'-linkmode=external'")
+	cmd.Dir = tmpdir
+	cmd.Env = append(os.Environ(), "GO111MODULE=off")
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("Build failed for big text program with external linking: %v, output: %s", err, out)
 	}
-	cmd = exec.Command(tmpdir + "/bigtext")
+	cmd = exec.Command("./bigtext")
+	cmd.Dir = tmpdir
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("Program built with external linking failed to run with err %v, output: %s", err, out)
