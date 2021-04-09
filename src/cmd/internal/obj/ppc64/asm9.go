@@ -581,8 +581,8 @@ func addpad(pc, a int64, ctxt *obj.Link, cursym *obj.LSym) int {
 		// the function alignment is not changed which might
 		// result in 16 byte alignment but that is still fine.
 		// TODO: alignment on AIX
-		if ctxt.Headtype != objabi.Haix && cursym.Func().Align < 32 {
-			cursym.Func().Align = 32
+		if ctxt.Headtype != objabi.Haix && cursym.Align < 32 {
+			cursym.Align = 32
 		}
 	default:
 		ctxt.Diag("Unexpected alignment: %d for PCALIGN directive\n", a)
