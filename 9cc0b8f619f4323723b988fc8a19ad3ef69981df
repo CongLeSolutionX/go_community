@@ -66,6 +66,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0f566363_ade3b15a",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T17:59:54Z",
+      "side": 1,
+      "message": "I think the register needs to be zeroed when regabig is enabled (regabiargs may not be enabled). (Also other places.)",
+      "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "25614fbf_edb5f578",
         "filename": "src/runtime/stubs.go",
         "patchSetId": 1
