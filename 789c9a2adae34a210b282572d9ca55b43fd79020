@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e252e60e_b3a149fa",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-09T16:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e62cfd3e_484e4372",
+      "range": {
+        "startLine": 952,
+        "startChar": 1,
+        "endLine": 953,
+        "endChar": 16
+      },
+      "revId": "789c9a2adae34a210b282572d9ca55b43fd79020",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8755a9ce_b3c35e7c",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f284b5_340c4859",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-09T16:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8755a9ce_b3c35e7c",
+      "range": {
+        "startLine": 955,
+        "startChar": 20,
+        "endLine": 955,
+        "endChar": 21
+      },
+      "revId": "789c9a2adae34a210b282572d9ca55b43fd79020",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc04378c_421de94a",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-04-09T16:29:36Z",
       "side": 1,
       "message": "just checking, but we didn\u0027t bump up between size classes, did we?",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "789c9a2adae34a210b282572d9ca55b43fd79020",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15391545_e9438556",
+        "filename": "src/runtime/sizeof_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-09T16:55:03Z",
+      "side": 1,
+      "message": "If I\u0027m reading https://cs.opensource.google/go/go/+/master:src/runtime/sizeclasses.go correctly, then we did.\n\n32-bit went from class 16 (224 bytes) to 17 (240 bytes). That\u0027s 8-bytes wasted vs 4-bytes wasted?\n\n64-bit went from class 22 (384 bytes) to 23 (416 bytes). That\u0027s 8-bytes wasted vs 24-bytes wasted?\n\nI don\u0027t have a good sense for how much of a problem this is.\n\nThe other immediate problem is that externalthreadhandler on windows-arm now exceeds the nosplit stack size (it puts a g and m on the stack). Dunno why this doesn\u0027t affect windows-amd64.",
+      "parentUuid": "cc04378c_421de94a",
       "range": {
         "startLine": 24,
         "startChar": 16,
