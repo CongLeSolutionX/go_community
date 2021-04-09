@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d93d182_9efe0f24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-04-09T10:06:03Z",
+      "side": 1,
+      "message": "There were a lot of errors in the test for windows, sorry; I fixed them.\n\nI modified the path_windows_test.go file to use the tempDirCanonical function.\n\nI modified the tempDirCanonical function documentation replacing \"returned name is not a symlink\" with \"returned path does not contain symlinks\", since it is just the /tmp directory that can be a symlink.   \n\nFinally, I have updated the commit message.",
+      "revId": "b4cbc2090181dbd8cb2370e015c52ec1ef541136",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
