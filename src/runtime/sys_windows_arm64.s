@@ -309,6 +309,9 @@ TEXT runtime·profileloop<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 
 // externalthreadhander called with R0 = uint32 arg, R1 = Go function f.
 // Need to call f(arg), which returns a uint32, and return it in R0.
+//
+// nosplit because this is not safe for stack split, but this is on a new OS
+// thread stack, so there is plenty of stack space.
 TEXT runtime·externalthreadhandler<ABIInternal>(SB),NOSPLIT|TOPFRAME,$96-0
 	NO_LOCAL_POINTERS
 
@@ -316,7 +319,7 @@ TEXT runtime·externalthreadhandler<ABIInternal>(SB),NOSPLIT|TOPFRAME,$96-0
 	SAVE_R19_TO_R28(-10*8)
 
 	// Allocate space for args, saved R0+R1, g, and m structures.
-	// Hide from nosplit check.
+	// Hide from nosplit check, as this is too large for nosplit.
 	#define extra ((64+g__size+m__size+15)&~15)
 	SUB	$extra, RSP, R2	// hide from nosplit overflow check
 	MOVD	R2, RSP
