@@ -16,6 +16,23 @@
       "message": "TRY\u003dlinux-amd64-regabi",
       "revId": "91458850c78d0e89cf7f758abda69c72e5c68479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c2c71aa_6bc10952",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T14:49:29Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "91458850c78d0e89cf7f758abda69c72e5c68479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
