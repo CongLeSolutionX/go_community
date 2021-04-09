@@ -271,6 +271,7 @@ func ggloblnod(nam *ir.Name) {
 		flags |= obj.NOPTR
 	}
 	base.Ctxt.Globl(s, nam.Type().Width, flags)
+	s.Align = int32(nam.Type().Alignment())
 	if nam.LibfuzzerExtraCounter() {
 		s.Type = objabi.SLIBFUZZER_EXTRA_COUNTER
 	}
