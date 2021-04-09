@@ -344,17 +344,13 @@ func (w *writer) Sym(s *LSym) {
 	if strings.HasPrefix(name, "gofile..") {
 		name = filepath.ToSlash(name)
 	}
-	var align uint32
-	if fn := s.Func(); fn != nil {
-		align = uint32(fn.Align)
-	}
-	if s.ContentAddressable() {
+	align := uint32(s.Align)
+	// TODO(mdempsky): Compiler should always provide alignment.
+	if align == 0 && s.ContentAddressable() {
 		// We generally assume data symbols are natually aligned,
 		// except for strings. If we dedup a string symbol and a
 		// non-string symbol with the same content, we should keep
 		// the largest alignment.
-		// TODO: maybe the compiler could set the alignment for all
-		// data symbols more carefully.
 		if s.Size != 0 && !strings.HasPrefix(s.Name, "go.string.") {
 			switch {
 			case w.ctxt.Arch.PtrSize == 8 && s.Size%8 == 0:

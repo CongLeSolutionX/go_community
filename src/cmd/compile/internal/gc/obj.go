@@ -271,6 +271,11 @@ func ggloblnod(nam *ir.Name) {
 		flags |= obj.NOPTR
 	}
 	base.Ctxt.Globl(s, nam.Type().Width, flags)
+	// Set alignment if it's greater than pointer-sized;
+	// otherwise, let the linker continue handling it for now.
+	if align := int32(nam.Type().Alignment()); align > int32(types.PtrSize) {
+		s.Align = align
+	}
 	if nam.LibfuzzerExtraCounter() {
 		s.Type = objabi.SLIBFUZZER_EXTRA_COUNTER
 	}
