@@ -112,6 +112,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "371a20fc_27d68914",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_fuzztime.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-09T14:33:36Z",
+      "side": 1,
+      "message": "Ah I see. Gotcha 👍",
+      "parentUuid": "37c018ff_8cf1d183",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8efb7ec9_a2edcaf2",
@@ -349,6 +373,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0133433a_37d3923b",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-09T14:33:36Z",
+      "side": 1,
+      "message": "Ah I think naming it `n` was fine. I can clarify. I meant something like this: (of course still optional)\n\n\tvar n int64\n\tif c.countRequested \u003e 0 {\n\t\tn \u003d c.countRequested / int64(c.parallel)\n\t\tif c.countRequested%int64(c.parallel) \u003e 0 {\n\t\t\tn++\n\t\t}\n\t\tmaxPerWorker :\u003d c.countRequested-c.count-c.countWaiting\n\t\tif n \u003e maxPerWorker {\n\t\t\tn \u003d maxPerWorker\n\t\t}\n\t\tc.countWaiting +\u003d n\n\t}\n\treturn fuzzInput{entry: e, countRequested: n}, true",
+      "parentUuid": "3ffe7843_c028d6ef",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 3
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "867698e2_ac2af4bd",
         "filename": "src/internal/fuzz/worker.go",
         "patchSetId": 3
@@ -408,6 +456,30 @@
       "side": 1,
       "message": "I couldn\u0027t actually find a path where resp.Err would be empty. Do you know what causes that? T.Fail() still shows some output (\"--- FAIL\" log lines).",
       "parentUuid": "75e4f223_20233198",
+      "range": {
+        "startLine": 175,
+        "startChar": 24,
+        "endLine": 175,
+        "endChar": 32
+      },
+      "revId": "fe32a4c2d85d929b255bbfe399370a105881082e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f55fd856_d52f211e",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-09T14:33:36Z",
+      "side": 1,
+      "message": "This was probably before we had fixed the issue with the log messages being included in the error text. Sounds like that won\u0027t happen now that we\u0027ve fixed it. Probably still good to have the check though, like you did, just in case.",
+      "parentUuid": "aa19d1c6_28140173",
       "range": {
         "startLine": 175,
         "startChar": 24,
