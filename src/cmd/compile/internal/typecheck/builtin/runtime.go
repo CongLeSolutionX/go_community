@@ -87,13 +87,11 @@ func convI2I(typ *byte, elem any) (ret any)
 
 // Specialized type-to-interface conversion.
 // These return only a data pointer.
-func convT16(val any) unsafe.Pointer     // val must be uint16-like (same size and alignment as a uint16)
-func convT32(val any) unsafe.Pointer     // val must be uint32-like (same size and alignment as a uint32)
-func convT32F(val any) unsafe.Pointer    // val must be float32-like
-func convT64(val any) unsafe.Pointer     // val must be uint64-like (same size and alignment as a uint64 and contains no pointers)
-func convT64F(val any) unsafe.Pointer    // val must be float64-like
-func convTstring(val any) unsafe.Pointer // val must be a string
-func convTslice(val any) unsafe.Pointer  // val must be a slice
+func convT16(val uint16) unsafe.Pointer     // val must be uint16-like (same size and alignment as a uint16)
+func convT32(val uint32) unsafe.Pointer     // val must be uint32-like (same size and alignment as a uint32)
+func convT64(val uint64) unsafe.Pointer     // val must be uint64-like (same size and alignment as a uint64 and contains no pointers)
+func convTstring(val string) unsafe.Pointer // val must be a string
+func convTslice(val []uint8) unsafe.Pointer // val must be a slice
 
 // Type to empty-interface conversion.
 func convT2E(typ *byte, elem *any) (ret any)
