@@ -69,6 +69,24 @@
       "parentUuid": "2ace9068_dc6bfa66",
       "revId": "7731525f9887a2348063767942cec4b6ea903653",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f39ee38a_27607b14",
+        "filename": "src/cmd/vendor/golang.org/x/sys/unix/syscall_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1818,
+      "author": {
+        "id": 51460
+      },
+      "writtenOn": "2021-04-09T03:18:43Z",
+      "side": 1,
+      "message": "For example,When union was not supported, Rust\u0027s implementation looked like this\n\npub struct siginfo_t {\n    pub si_signo: c_int,\n    pub si_errno: c_int,\n    pub si_code: c_int,\n    pub _pad: [c_int; 29],\n    // some fields omitted\n}\nhttps://doc.rust-jp.rs/the-rust-programming-language-ja/1.9/libc/struct.siginfo_t.html\nSince it is difficult to fully implement the siginfo_t structure, how about the above as a tentative implementation?",
+      "parentUuid": "f3cfd3bc_be0149f4",
+      "revId": "7731525f9887a2348063767942cec4b6ea903653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
