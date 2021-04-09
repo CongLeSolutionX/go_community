@@ -460,13 +460,13 @@ type LSym struct {
 	Pkg    string
 	PkgIdx int32
 	SymIdx int32
+	Align  int32
 }
 
 // A FuncInfo contains extra fields for STEXT symbols.
 type FuncInfo struct {
 	Args     int32
 	Locals   int32
-	Align    int32
 	FuncID   objabi.FuncID
 	FuncFlag objabi.FuncFlag
 	Text     *Prog

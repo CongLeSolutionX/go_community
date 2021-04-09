@@ -978,8 +978,8 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				alignedValue := p.From.Offset
 				m = pcAlignPadLength(pc, alignedValue, ctxt)
 				// Update the current text symbol alignment value.
-				if int32(alignedValue) > cursym.Func().Align {
-					cursym.Func().Align = int32(alignedValue)
+				if int32(alignedValue) > cursym.Align {
+					cursym.Align = int32(alignedValue)
 				}
 				break
 			case obj.ANOP, obj.AFUNCDATA, obj.APCDATA:
