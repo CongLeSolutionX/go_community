@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f43910f4_ed4b5d92",
+        "filename": "src/cmd/.vscode/settings.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-09T22:29:59Z",
+      "side": 1,
+      "message": "Remove.",
+      "revId": "55bc2f18142f2a9bb97437118c7e6684dbdb7f5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0afe23eb_f825aad2",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-09T22:29:59Z",
+      "side": 1,
+      "message": "nit/preexisting: Why not use base.Fatalf? Also, error message should start with a lower-case letter.",
+      "range": {
+        "startLine": 477,
+        "startChar": 3,
+        "endLine": 477,
+        "endChar": 19
+      },
+      "revId": "55bc2f18142f2a9bb97437118c7e6684dbdb7f5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
