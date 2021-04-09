@@ -81,6 +81,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fba34bee_9051f2f1",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-09T18:09:26Z",
+      "side": 1,
+      "message": "Oh, you\u0027re right, because we\u0027re calling this an ABIInternal function regardless of experiment configuration now. Done.\n\nPTAL.",
+      "parentUuid": "0f566363_ade3b15a",
+      "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25614fbf_edb5f578",
