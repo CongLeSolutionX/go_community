@@ -262,9 +262,17 @@ TEXT runtime·profileloop<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 // 0 | slot for LR    |
 //   +----------------+
 //
+// nosplit because this is not safe for stack split, but this is on a new OS
+// thread stack, so there is plenty of stack space.
 TEXT runtime·externalthreadhandler<ABIInternal>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	MOVM.DB.W [R4-R11, R14], (R13)		// push {r4-r11, lr}
-	SUB	$(m__size + g__size + 20), R13	// space for locals
+
+	// Allocate space for args, saved R0+R1, g, and m structures.
+	// Hide from nosplit check, as this may be too large for nosplit.
+	#define extra (m__size + g__size + 20)
+	SUB	$extra, R13, R2	// hide from nosplit overflow check
+	MOVW	R2, R13
+
 	MOVW	R14, 0(R13)			// push LR again for anything unwinding the stack
 	MOVW	R0, 12(R13)
 	MOVW	R1, 16(R13)
@@ -304,8 +312,13 @@ TEXT runtime·externalthreadhandler<ABIInternal>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	MOVW	$0, g
 	BL	runtime·save_g(SB)
 
-	MOVW	8(R13), R0			// load return value
-	ADD	$(m__size + g__size + 20), R13	// free locals
+	// Load return value (save_g would have smashed)
+	MOVW	8(R13), R0
+
+	ADD	$extra, R13, R2
+	MOVW	R2, R13
+	#undef extra
+
 	MOVM.IA.W (R13), [R4-R11, R15]		// pop {r4-r11, pc}
 
 GLOBL runtime·cbctxts(SB), NOPTR, $4

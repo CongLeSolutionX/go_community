@@ -215,6 +215,8 @@ TEXT runtime·profileloop<ABIInternal>(SB),NOSPLIT|NOFRAME,$8
 	CALL	runtime·externalthreadhandler<ABIInternal>(SB)
 	RET
 
+// nosplit because this is not safe for stack split, but this is on a new OS
+// thread stack, so there is plenty of stack space.
 TEXT runtime·externalthreadhandler<ABIInternal>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	PUSHQ	BP
 	MOVQ	SP, BP
@@ -224,7 +226,11 @@ TEXT runtime·externalthreadhandler<ABIInternal>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	PUSHQ	0x28(GS)
 	MOVQ	SP, DX
 
-	// setup dummy m, g
+	// Setup dummy m, g.
+	//
+	// These are too big for the nosplit check (though there is plenty of
+	// stack space), but the nosplit check doesn't detect this stack
+	// adjustment.
 	SUBQ	$m__size, SP		// space for M
 	MOVQ	SP, 0(SP)
 	MOVQ	$m__size, 8(SP)

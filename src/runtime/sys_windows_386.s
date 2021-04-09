@@ -174,6 +174,8 @@ TEXT runtime·profileloop<ABIInternal>(SB),NOSPLIT,$0
 	ADDL	$12, SP
 	JMP	CX
 
+// nosplit because this is not safe for stack split, but this is on a new OS
+// thread stack, so there is plenty of stack space.
 TEXT runtime·externalthreadhandler<ABIInternal>(SB),NOSPLIT|TOPFRAME,$0
 	PUSHL	BP
 	MOVL	SP, BP
@@ -183,7 +185,11 @@ TEXT runtime·externalthreadhandler<ABIInternal>(SB),NOSPLIT|TOPFRAME,$0
 	PUSHL	0x14(FS)
 	MOVL	SP, DX
 
-	// setup dummy m, g
+	// Setup dummy m, g.
+	//
+	// These may be too big for the nosplit check (though there is plenty
+	// of stack space), but the nosplit check doesn't detect this stack
+	// adjustment.
 	SUBL	$m__size, SP		// space for M
 	MOVL	SP, 0(SP)
 	MOVL	$m__size, 4(SP)
