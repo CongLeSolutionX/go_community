@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "487c136a_c844c54c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-09T14:44:29Z",
+      "side": 1,
+      "message": "Hi Robert: another quick review hopefully.  We now don\u0027t need to create/set Ntype nodes anymore, as expected, now that we\u0027re not using the old typechecker anywhere in the noder2 pass.  Should save a bit of memory.",
+      "revId": "53fe12391cdf937264f2710d1a0b6dc76684c373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
