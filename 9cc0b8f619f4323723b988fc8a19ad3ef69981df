@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "00ffca50_b51707a0",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T19:58:29Z",
+      "side": 1,
+      "message": "I _think_ the spill slots are actually included, so this will be 24 for regabiargs. This is what I saw on the compiler side. I still haven\u0027t thought carefully what it implies.\n\nStack  scanning at morestack might need that, but these are all nosplit. Defer is another case where argument size matters, but we now only defer argument-less functions. Maybe  it doesn\u0027t matter.",
+      "parentUuid": "ae697b84_3c9f1ef4",
+      "range": {
+        "startLine": 1014,
+        "startChar": 49,
+        "endLine": 1014,
+        "endChar": 51
+      },
+      "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "789293ff_abd21aae",
