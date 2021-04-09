@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d62852d_88449939",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T14:42:17Z",
+      "side": 1,
+      "message": "With this CL, make.bash no longer works with regabiargs.\n\n$ GOEXPERIMENT\u003dregabi,regabiargs ./make.bash \nBuilding Go cmd/dist using /Users/cherryyz/src/go1.16. (go1.16.2 darwin/amd64)\nBuilding Go toolchain1 using /Users/cherryyz/src/go1.16.\nBuilding Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.\nBuilding Go toolchain2 using go_bootstrap and Go toolchain1.\nBuilding Go toolchain3 using go_bootstrap and Go toolchain2.\n# runtime\n/Users/cherryyz/src/go/src/runtime/plugin.go:104:25: cannot use (*_func)(unsafe.Pointer(\u0026md.pclntable[md.ftab[i].funcoff])) (type *_func) as type _func in field value\n/Users/cherryyz/src/go/src/runtime/symtab.go:266:18: cannot use fn (type *_func) as type _func in field value\n/Users/cherryyz/src/go/src/runtime/symtab.go:573:27: cannot use (*_func)(unsafe.Pointer(\u0026datap.pclntable[datap.ftab[i].funcoff])) (type *_func) as type _func in field value\n/Users/cherryyz/src/go/src/runtime/symtab.go:574:27: cannot use (*_func)(unsafe.Pointer(\u0026datap.pclntable[datap.ftab[i + 1].funcoff])) (type *_func) as type _func in field value\n/Users/cherryyz/src/go/src/runtime/symtab.go:581:74: cannot use (*_func)(unsafe.Pointer(\u0026datap.pclntable[datap.ftab[j].funcoff])) (type *_func) as type _func in field value\n/Users/cherryyz/src/go/src/runtime/symtab.go:695:17: invalid operation: f._func !\u003d nil (mismatched types _func and nil)\n/Users/cherryyz/src/go/src/runtime/symtab.go:699:31: cannot convert f._func (type _func) to type unsafe.Pointer\n/Users/cherryyz/src/go/src/runtime/symtab.go:753:26: cannot use (*_func)(unsafe.Pointer(\u0026datap.pclntable[funcoff])) (type *_func) as type _func in field value\n/Users/cherryyz/src/go/src/runtime/symtab.go:1002:28: cannot convert f._func (type _func) to type unsafe.Pointer\n/Users/cherryyz/src/go/src/runtime/traceback.go:425:29: cannot use \u0026inlFunc (type *_func) as type _func in field value\n/Users/cherryyz/src/go/src/runtime/traceback.go:425:29: too many errors\n\nIt works without this CL.\n",
+      "revId": "a690a5d75fee3b23e9ab80bd7b48cafb52ce4615",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
