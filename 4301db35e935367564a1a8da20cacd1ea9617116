@@ -16,6 +16,41 @@
       "message": "LGTM. \n\nWho uses softfloat mode?",
       "revId": "4301db35e935367564a1a8da20cacd1ea9617116",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd0620d_8634f316",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T00:11:22Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "4301db35e935367564a1a8da20cacd1ea9617116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ffae641_644614e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T00:11:22Z",
+      "side": 1,
+      "message": "It is used on some architectures, GOARM\u003d5, GOMIPS\u003dsoftfloat, and GO386\u003dsoftfloat. The implementation is portable so it \"works\" on AMD64 as well (except that we use FP registers in many other places).",
+      "parentUuid": "7f47851e_cf112d40",
+      "revId": "4301db35e935367564a1a8da20cacd1ea9617116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
