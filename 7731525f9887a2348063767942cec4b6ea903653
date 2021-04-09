@@ -87,6 +87,24 @@
       "parentUuid": "f3cfd3bc_be0149f4",
       "revId": "7731525f9887a2348063767942cec4b6ea903653",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c1d90b8_4f6c07cb",
+        "filename": "src/cmd/vendor/golang.org/x/sys/unix/syscall_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1818,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-09T04:11:54Z",
+      "side": 1,
+      "message": "I\u0027m fairly sure that that definition is not correct for MIPS.\n\nOther than that I would be OK if we started with an approach like that.",
+      "parentUuid": "f39ee38a_27607b14",
+      "revId": "7731525f9887a2348063767942cec4b6ea903653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
