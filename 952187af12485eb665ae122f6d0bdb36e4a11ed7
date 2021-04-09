@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b551075_c4448523",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32857
+      },
+      "writtenOn": "2021-04-09T20:20:19Z",
+      "side": 1,
+      "message": "306333: cmd/go: upgrade and vendor golang.org/x/mod | https://go-review.googlesource.com/c/go/+/306333",
+      "revId": "952187af12485eb665ae122f6d0bdb36e4a11ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
