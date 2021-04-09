@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a78ac4e9_66633061",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-09T14:27:10Z",
+      "side": 1,
+      "message": "Consider simplifying this a bit to something like the following:\n\n   if w.interrupted {\n     return fmt.Errorf(\"communicating with fuzzing process: %v\", err)\n   } else if w.waitErr \u003d\u003d nil || isInterruptError(w.waitErr) {\n     return nil\n   }",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 5
+      },
+      "revId": "b56b081efe2182af8a03e819ea69291d38516161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
