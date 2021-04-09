@@ -142,6 +142,24 @@
       "parentUuid": "e810c385_ab5c3c0c",
       "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68148a19_31804d4d",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-04-09T19:58:31Z",
+      "side": 1,
+      "message": "\u003e what about ... Buffer.Set\n\nI like the API simplicity of that, but I suspect it would have unintended performance detriments.\n\nThe Buffer is functionally split into 3 segments:\n* The read portion in b.buf[0:b.off]\n* The unread portion in b.buf[b.off:len(b.buf)]\n* The unwritten portion in b.buf[len(b.buf):cap(b.buf)]\n\nThe Buffer.Bytes API only returns the unread and unwritten portions, while the already read portion is truncated off.\n\nThus:\n\n    p :\u003d b.Bytes()\n    p \u003d append(p, \"...\")\n    b.Set(p)\n\nwould cause the capacity for the already read portion to be lost. When a subsequent Buffer.Reset call occurs, it would not be able to reuse that lost capacity.",
+      "parentUuid": "6893e63c_3769ba39",
+      "revId": "1a82a0dbe9e5319d3d1b266fd543d60a38594fe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
