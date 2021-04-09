@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "063b4560_fbf468be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-09T16:11:23Z",
+      "side": 1,
+      "message": "FYI, I\u0027ve uploaded a clean cherry-pick of golang.org/cl/247048 as patch set 1, so the diff from that patch set will make it easy to see the changes.",
+      "revId": "eb2b771fdface8fa3e57139ec40be11cf5ab0199",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
