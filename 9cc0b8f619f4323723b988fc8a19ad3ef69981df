@@ -16,6 +16,69 @@
       "message": "TRY\u003dlinux-amd64-regabi",
       "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68f7826a_718b7451",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T17:58:16Z",
+      "side": 1,
+      "message": "For register ABI, the frame size does not include the result. (Not sure how much it matters.) (Also below.",
+      "range": {
+        "startLine": 1014,
+        "startChar": 49,
+        "endLine": 1014,
+        "endChar": 51
+      },
+      "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "789293ff_abd21aae",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T17:58:16Z",
+      "side": 1,
+      "message": "I guess this is fine, but a little weird for an ifdef block that contains only comments.",
+      "range": {
+        "startLine": 1015,
+        "startChar": 0,
+        "endLine": 1019,
+        "endChar": 6
+      },
+      "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25614fbf_edb5f578",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-09T17:58:16Z",
+      "side": 1,
+      "message": "How do you feed about just breaking them...",
+      "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
