@@ -22,6 +22,30 @@
       },
       "revId": "c9caaacbd2d85e5b57cecc3585d37fd2b03e9e41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb874303_b649df39",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-09T17:57:41Z",
+      "side": 1,
+      "message": "Interesting. I\u0027m happy to declare that this is just fixed for consistency and simplicity, even though we could define it differently on different arches. Sent https://go-review.googlesource.com/c/go/+/309009",
+      "parentUuid": "e5578718_09aa1896",
+      "range": {
+        "startLine": 411,
+        "startChar": 35,
+        "endLine": 411,
+        "endChar": 42
+      },
+      "revId": "c9caaacbd2d85e5b57cecc3585d37fd2b03e9e41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
