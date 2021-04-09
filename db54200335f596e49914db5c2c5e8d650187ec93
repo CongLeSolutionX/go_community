@@ -16,6 +16,24 @@
       "message": "Will there be tests that catch this in the future?",
       "revId": "db54200335f596e49914db5c2c5e8d650187ec93",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c65d94fa_a6a77547",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-09T13:18:53Z",
+      "side": 1,
+      "message": "Yes: I noticed it because it was causing a number of test failures at CL 308517.",
+      "parentUuid": "ba722f97_66e6a953",
+      "revId": "db54200335f596e49914db5c2c5e8d650187ec93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
