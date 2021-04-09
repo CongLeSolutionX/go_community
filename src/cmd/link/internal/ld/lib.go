@@ -2379,6 +2379,10 @@ func (sc *stkChk) check(up *chain, depth int) int {
 			sc.broke(up, int(int32(limit)-pcsp.Value))
 			return -1
 		}
+		if false && sc.ctxt.HeadType == objabi.Hwindows {
+			fmt.Printf("%s: at PC %#x\n", ldr.SymName(s), pcsp.PC)
+			sc.print(up, int(int32(limit)-pcsp.Value))
+		}
 
 		// Process calls in this span.
 		for ; ri < relocs.Count(); ri++ {
