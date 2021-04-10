@@ -1060,27 +1060,6 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 	// that version is selected).
 	keep := make(map[module.Version]bool)
 
-	if go117LazyTODO {
-		// If the main module is lazy, avoid loading the module graph if it hasn't
-		// already been loaded.
-	}
-
-	mg, _ := rs.Graph(ctx)
-	mg.WalkBreadthFirst(func(m module.Version) {
-		if _, ok := mg.RequiredBy(m); ok {
-			// The requirements from m's go.mod file are present in the module graph,
-			// so they are relevant to the MVS result regardless of whether m was
-			// actually selected.
-			keep[modkey(resolveReplacement(m))] = true
-		}
-	})
-
-	if which == addBuildListZipSums {
-		for _, m := range mg.BuildList() {
-			keep[resolveReplacement(m)] = true
-		}
-	}
-
 	// Add entries for modules in the build list with paths that are prefixes of
 	// paths of loaded packages. We need to retain sums for all of these modules —
 	// not just the modules containing the actual packages — in order to rule out
@@ -1106,11 +1085,43 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 				}
 			}
 
+			mg, _ := rs.Graph(ctx)
 			for prefix := pkg.path; prefix != "."; prefix = path.Dir(prefix) {
 				if v := mg.Selected(prefix); v != "none" {
 					m := module.Version{Path: prefix, Version: v}
 					keep[resolveReplacement(m)] = true
 				}
+			}
+		}
+	}
+
+	if rs.depth == lazy && rs.graph.Load() == nil {
+		// The main module is lazy and we haven't needed to load the module graph so
+		// far. Don't incur the cost of loading it now — since we haven't loaded the
+		// graph, we probably don't have any checksums to contribute to the distant
+		// parts of the graph anyway. Instead, just request sums for the roots that
+		// we know about.
+		for _, m := range rs.rootModules {
+			r := resolveReplacement(m)
+			keep[modkey(r)] = true
+			if which == addBuildListZipSums {
+				keep[r] = true
+			}
+		}
+	} else {
+		mg, _ := rs.Graph(ctx)
+		mg.WalkBreadthFirst(func(m module.Version) {
+			if _, ok := mg.RequiredBy(m); ok {
+				// The requirements from m's go.mod file are present in the module graph,
+				// so they are relevant to the MVS result regardless of whether m was
+				// actually selected.
+				keep[modkey(resolveReplacement(m))] = true
+			}
+		})
+
+		if which == addBuildListZipSums {
+			for _, m := range mg.BuildList() {
+				keep[resolveReplacement(m)] = true
 			}
 		}
 	}
