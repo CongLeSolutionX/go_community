@@ -98,6 +98,30 @@
       },
       "revId": "55bc2f18142f2a9bb97437118c7e6684dbdb7f5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ee1535_add35cdf",
+        "filename": "src/cmd/compile/internal/abi/abiutils.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-10T01:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b623148_c1112e08",
+      "range": {
+        "startLine": 477,
+        "startChar": 3,
+        "endLine": 477,
+        "endChar": 19
+      },
+      "revId": "55bc2f18142f2a9bb97437118c7e6684dbdb7f5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
