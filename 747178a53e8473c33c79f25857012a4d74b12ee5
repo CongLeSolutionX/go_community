@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee0190e9_bf3bf501",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "Please don\u0027t use markdown in the commit message (i.e. unquote rcvmsg and MSG_CMSG_CLOEXEC), see https://golang.org/wiki/CommitMessage\n\nAlso mention the fall-back for systems which don\u0027t support MSG_CMSG_CLOEXEC.",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bc729a5_ef2bf294",
+        "filename": "src/net/unixsock_readmsg_linux.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "s/2020/2021/",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0051ed90_67b1dd5f",
+        "filename": "src/net/unixsock_readmsg_linux.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "Please also add the new //go:build lines. You can run go fmt from tip to add them automatically based on existing // +build lines.\n\nSame for other files with // +build lines added by this CL.",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef15e674_f914ebf6",
+        "filename": "src/net/unixsock_readmsg_posix.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "Rename this to setCloseOnExec. It\u0027s not much longer and corresponds to syscall.CloseOnExec.",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1660386e_a2454afd",
+        "filename": "src/net/unixsock_readmsg_posix.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "Let\u0027s move this check out of the function and only call it if oobn \u003e 0 and pass oob[:oobn].",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6e7d980_16894475",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "I think the read deadline should be set on ucr instead.",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ba01333_08fc524a",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "The common format for test failures is \"got foo, expected bar\", see https://golang.org/wiki/CodeReviewComments#useful-test-failures\n\nSame for other failures below.",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54a711b4_16f48e8d",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "Use t.Fatalf instead of log.Fatalf here.",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67e55271_2170179f",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "The err returned by syscall.Syscall is not an error type, so better rename this to errno.",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b15969dd_157a8bf3",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "Change this to \"errno !\u003d 0\", no need for the type conversion.",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a65f634_6dbb5582",
+        "filename": "src/syscall/creds_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-10T17:05:36Z",
+      "side": 1,
+      "message": "Report the value of syscall.MSG_CMSG_CLOEXEC in the message, i.e.\n\n  t.Fatalf(\"ReadMsgUnix flags \u003d %#x, want %#x (MSG_CMSG_CLOEXEC)\", flags, syscall.MSG_CMSG_CLOEXEC)",
+      "revId": "747178a53e8473c33c79f25857012a4d74b12ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
