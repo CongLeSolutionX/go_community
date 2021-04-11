@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66faa838_4c81b6e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "TRY\u003djs-wasm,plan9",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eec1ef0a_7ec2b21e",
+        "filename": "src/net/unixsock_readmsg_linux.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "You still need to retain the // +build lines here and in the other added files. Take a look at existing files in this module for examples.",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edb4d472_16ef0a04",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "Declare this before the function using it.",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15fcf095_6f4001f9",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "We need to defer close the sockets here, otherwise we might leak file descriptors:\n\n  defer syscall.Close(fds[0])\n  defer syscall.Close(fds[1])",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6203c0aa_b235255e",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "Move this after creating cw, otherwise this will not be closed if FileConn fails for cr.",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "882674f9_157c861c",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "This should use the \"got foo, want bar\" format: https://golang.org/wiki/CodeReviewComments#useful-test-failures",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00024e3c_71995788",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04b136cd_0c69110c",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "Declare this before the call making use of it.",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83349880_5ab4670e",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "I think the name oldFlags is misleading, there\u0027s nothing old about the flags. Just name this \"flags\".",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "579befe2_b9d83397",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:44:06Z",
+      "side": 1,
+      "message": "Change this to something shorter like:\n\n  t.Fatalf(\"want FD_CLOEXEC (%#x) set in flags, got %#x\", FD_CLOEXEC, flags)",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
