@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47572cb7_54ac4894",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T21:32:03Z",
+      "side": 1,
+      "message": "Please test your changes before sending them: https://golang.org/doc/contribute#testing",
+      "revId": "389ecd8f376b6630b77a83f0333abb5c250c2f15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eec1ef0a_7ec2b21e",
