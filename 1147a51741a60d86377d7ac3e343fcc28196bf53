@@ -16,6 +16,23 @@
       "message": "I\u0027m not very experienced with the HTTP/1.1 spec, so feel free to correct me.\n\nAfter looking into the RFC, and how other popular tools (cURL, Firefox, Chrome) are handling Referer headers, I tried to replicate the behavior of _not_ overriding the header with the last request\u0027s URL, but respecting its value if it is set.\n\nI understand the spec is a little vague, but it does mention the following at https://tools.ietf.org/html/rfc7231#section-5.5.2\n\n\u003e An intermediary SHOULD NOT modify or delete the Referer header field when the field value shares the same scheme and host as the request target.\n\nAnother solution would be to implement this weaker check for lastReq\u0027s and newReq\u0027s scheme and host, but the aforementioned tools maintain the header even when redirecting to different domains.",
       "revId": "1147a51741a60d86377d7ac3e343fcc28196bf53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a0620d8_5ec6f138",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-11T21:58:03Z",
+      "side": 1,
+      "message": "Sorry for the ping, but could I get a review on this when there\u0027s some time? Thanks a lot in advance!",
+      "revId": "1147a51741a60d86377d7ac3e343fcc28196bf53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
