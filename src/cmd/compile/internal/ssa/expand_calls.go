@@ -1449,6 +1449,15 @@ func expandCalls(f *Func) {
 	}
 
 	// Step 6: elide any copies introduced.
+	// Update named values.
+	for _, name := range f.Names {
+		values := f.NamedValues[name]
+		for i, v := range values {
+			if v.Op == OpCopy {
+				values[i] = v.Args[0]
+			}
+		}
+	}
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			for i, a := range v.Args {
