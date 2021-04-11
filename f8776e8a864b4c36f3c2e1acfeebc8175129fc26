@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de048bfc_fd01d681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-11T17:44:22Z",
+      "side": 1,
+      "message": "database/sql: add NullUint64\n\nUpdates #40082.",
+      "revId": "f8776e8a864b4c36f3c2e1acfeebc8175129fc26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e772fee0_5ee133c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-11T17:44:22Z",
+      "side": 1,
+      "message": "Howdy Alexander, thank you for this change!\n\nThis is an API addition but I don’t see any approved proposal for it.\nI only see #40082 which was approved for NullByte and NullInt16. I am going to\ntemporarily add a -2 until there is a discussion and approval to add this type.\nI do understand that it is for parity, but perhaps start with the approved ones,\ndiscuss on the issue why you want to add others and then we can reflect and adapt.",
+      "revId": "f8776e8a864b4c36f3c2e1acfeebc8175129fc26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
