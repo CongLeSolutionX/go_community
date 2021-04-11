@@ -88,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46151a1d_0338de8e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-11T01:04:47Z",
+      "side": 1,
+      "message": "This thread got split into two. I\u0027ll continue it in the other half.",
+      "parentUuid": "b2d85f45_cc6e7191",
+      "revId": "78fa1a43b94ba911309b7ff0dec582fbd020f5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f00d0b4e_5846cbcf",
@@ -141,6 +159,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5811c0a_1d875317",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 4323,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-11T01:04:47Z",
+      "side": 1,
+      "message": "I\u0027m trying again with language that is IMO simple and clear, if less technically precise.",
+      "parentUuid": "434ac5a9_298d156e",
+      "revId": "78fa1a43b94ba911309b7ff0dec582fbd020f5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56dddb80_f911ac7b",
@@ -172,6 +208,24 @@
       "side": 1,
       "message": "Switched to \"if the length of the slice is less than the length of the array\".\n\n(Would you prefer \"length of the array is greater than the length of the slice\"?)",
       "parentUuid": "56dddb80_f911ac7b",
+      "revId": "78fa1a43b94ba911309b7ff0dec582fbd020f5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca5a34d8_cf5d47f7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 4324,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-11T01:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd848514_ab50dcf1",
       "revId": "78fa1a43b94ba911309b7ff0dec582fbd020f5f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

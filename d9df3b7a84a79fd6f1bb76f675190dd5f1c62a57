@@ -36,6 +36,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56bf7283_ce202d88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-11T01:04:47Z",
+      "side": 1,
+      "message": "I\u0027m optimistically marking all conversations as resolved. I\u0027m sure you\u0027ll let me know in which cases I\u0027m wrong. :)",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d331581_ef409414",
@@ -103,6 +120,24 @@
       "side": 1,
       "message": "I have no problem with pointer-to-array instead.",
       "parentUuid": "65be3de0_64e133a8",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61042467_40f85b78",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-11T01:04:47Z",
+      "side": 1,
+      "message": "I\u0027ve been delaying replying to this in  this hopes that y\u0027all would reach consensus.\n\nAs that has not happened, I\u0027m going to try again with the original phrasing I used:\n\n\u003e x is a slice, T is a pointer to an array, and the slice and array types have identical element types.\n\nIn my opinion this is both readable and clear in context.\n\n\nThere\u0027s a concern we use \"a pointer to an array\" to describe values, not types. But  the prologue that precedes the list of types of conversions reads:\n\n\u003e A non-constant value x can be converted to type T in any of these cases:\n\nSo we state explicitly that T is a type.\n\nAnd the immediately preceding bullet reads:\n\n\u003e x is a string and T is a slice of bytes or runes.\n\nBut T is not actually a slice, it\u0027s a type. This hasn\u0027t been a problem in practice,  because the meaning is clear in context. So we have precedent for this kind of simple formulation.\n\n\nThat said, I don\u0027t feel strongly. I care only that we pick something so that we can move forward.",
+      "parentUuid": "5af89686_7722d12f",
       "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -178,6 +213,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5da30538_492fd387",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4321,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-11T01:04:47Z",
+      "side": 1,
+      "message": "Done, except I used the plural \"Conversions\" to match the preceding subheaders. \n\n(Again, this is a reversion to the original wording I used, sans some indefinite articles.)",
+      "parentUuid": "d34ba60c_2318b7ca",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4ba5df3_07809ae9",
@@ -191,6 +244,24 @@
       "writtenOn": "2021-04-08T16:58:03Z",
       "side": 1,
       "message": "s/pointer to an array/array pointer/\n\n(The problem with all of these is the doubled \"to\", which makes it hard to parse.)",
+      "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdaa418_4dc9a03e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4324,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-04-11T01:04:47Z",
+      "side": 1,
+      "message": "Done.\n\n(Again, this reverts to the original wording I proposed. I take that to be a good sign for readability.)",
+      "parentUuid": "a4ba5df3_07809ae9",
       "revId": "d9df3b7a84a79fd6f1bb76f675190dd5f1c62a57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
