@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf914bab_7aa2e0b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-11T18:45:35Z",
+      "side": 1,
+      "message": "This still reads \"Pass\" instead of \"pass\" in the latest revision. When sending the change using GitHub, you\u0027ll need to adjust the PR title, see https://golang.org/wiki/GerritBot",
+      "parentUuid": "c2fd5b68_b4117c69",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "37699216e7e22487b315774ba5fb0cbc1ac162cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0734f3f1_2781d0ab",
