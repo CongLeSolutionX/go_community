@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bc72983_b68f23cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-12T17:09:40Z",
+      "side": 1,
+      "message": "Sorry I\u0027ve opened CL 309449 before noticing this CL.",
+      "revId": "89593f183ebf611c7dd6740c3bf1b5830c3d80f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
