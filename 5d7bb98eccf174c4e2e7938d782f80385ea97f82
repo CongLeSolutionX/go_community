@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6c940287_64631dfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-12T15:37:34Z",
+      "side": 1,
+      "message": "They don\u0027t exist yet, but the next CL allows the runtime to specify additional alignment constraints on variables.",
+      "parentUuid": "5028a6a2_f9980ad0",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "5d7bb98eccf174c4e2e7938d782f80385ea97f82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5dafd4ec_0edd431e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -55,6 +79,41 @@
       "side": 1,
       "message": "I think this is good. If the compiler can provide alignment for all symbols, I think that would be better than using the heuristics.\n\nI think the only downside is the increase of the size of LSym. But I don\u0027t think it\u0027s a big deal.",
       "parentUuid": "5dafd4ec_0edd431e",
+      "revId": "5d7bb98eccf174c4e2e7938d782f80385ea97f82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5818433b_aa1f8176",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-12T15:37:34Z",
+      "side": 1,
+      "message": "\u003e I think the only downside is the increase of the size of LSym. But I don\u0027t think it\u0027s a big deal.\n\nAck. It looks like there are some free bytes between SymKind and Attribute, so we can probably store lg2(Align) there. I\u0027ll look into that as a followup optimization.",
+      "parentUuid": "6c6db911_a035a44f",
+      "revId": "5d7bb98eccf174c4e2e7938d782f80385ea97f82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03a3f88a_0a1e710e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-12T15:37:34Z",
+      "side": 1,
+      "message": "Thanks!",
       "revId": "5d7bb98eccf174c4e2e7938d782f80385ea97f82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
