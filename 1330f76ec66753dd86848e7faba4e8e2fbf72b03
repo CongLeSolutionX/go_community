@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06ca1713_7eb1235b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-12T17:51:11Z",
+      "side": 1,
+      "message": "Looks really good. Would be good for Michael to approve as well; I expect he\u0027ll have more context.",
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d9a548_70d582eb",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-12T17:51:11Z",
+      "side": 1,
+      "message": "Add doc comment, mostly just to describe parameters.",
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2874c405_26201509",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-12T17:51:11Z",
+      "side": 1,
+      "message": "Add a brief doc comment?\n\nI\u0027m not sure I understand the motivation here, but I think the comment in the lazy branch is the essence of it: if we\u0027re downgrading something, we don\u0027t want to incidentally upgrade another relevant module, right?",
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ba17e5_1ff69dc5",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-12T17:51:11Z",
+      "side": 1,
+      "message": "partial comment?",
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220f2068_cfbf68f1",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-12T17:51:11Z",
+      "side": 1,
+      "message": "s/upgradeToward/UpgradeToward/g",
+      "range": {
+        "startLine": 314,
+        "startChar": 48,
+        "endLine": 314,
+        "endChar": 61
+      },
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
