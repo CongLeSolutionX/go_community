@@ -33,6 +33,75 @@
       "message": "Ping, @cherry would you be able to review/trust?",
       "revId": "65c16be27a2b1bbc21e1b2ac8521df23549ad4cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4feaa5_f3918332",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T18:30:02Z",
+      "side": 1,
+      "message": "This comment needs update.",
+      "range": {
+        "startLine": 181,
+        "startChar": 53,
+        "endLine": 181,
+        "endChar": 75
+      },
+      "revId": "65c16be27a2b1bbc21e1b2ac8521df23549ad4cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d40b42e_dedb7468",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T18:30:02Z",
+      "side": 1,
+      "message": "Maybe say \"in archreloc\".",
+      "range": {
+        "startLine": 421,
+        "startChar": 57,
+        "endLine": 421,
+        "endChar": 64
+      },
+      "revId": "65c16be27a2b1bbc21e1b2ac8521df23549ad4cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce1ea127_62cd53f2",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T18:30:02Z",
+      "side": 1,
+      "message": "What \"val\" this is expecting? Add some comment. Maybe also check \"val\" is the right instruction before rewriting.",
+      "range": {
+        "startLine": 810,
+        "startChar": 41,
+        "endLine": 810,
+        "endChar": 55
+      },
+      "revId": "65c16be27a2b1bbc21e1b2ac8521df23549ad4cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
