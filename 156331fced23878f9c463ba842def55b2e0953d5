@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2293ad_49b2546a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-12T18:54:08Z",
+      "side": 1,
+      "message": "Resolving Daniel\u0027s comment: https://go-review.googlesource.com/c/go/+/306334/8/src/cmd/go/internal/modcmd/edit.go#89",
+      "revId": "156331fced23878f9c463ba842def55b2e0953d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
