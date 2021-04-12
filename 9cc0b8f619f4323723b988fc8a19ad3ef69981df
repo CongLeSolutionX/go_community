@@ -163,6 +163,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4cfff760_fc72ca12",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T15:54:47Z",
+      "side": 1,
+      "message": "Why 8? I think it is 24, for the spill slots of three args. Also for the functions below, just one fewer word for the result.\n\nAlso memmove and memclr in the other files. I think the arg area size is the same for both ABIs.",
+      "parentUuid": "f23af27f_88b3e739",
+      "range": {
+        "startLine": 1014,
+        "startChar": 49,
+        "endLine": 1014,
+        "endChar": 51
+      },
+      "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "789293ff_abd21aae",
         "filename": "src/runtime/asm_amd64.s",
         "patchSetId": 1
