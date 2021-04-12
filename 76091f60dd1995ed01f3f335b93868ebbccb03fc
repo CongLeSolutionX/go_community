@@ -22,6 +22,30 @@
       },
       "revId": "76091f60dd1995ed01f3f335b93868ebbccb03fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9ed3c3a_e1589c60",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T18:39:13Z",
+      "side": 1,
+      "message": "OCONVNOP means really no code needs to be generated. We may need to generate code here (e.g. move from FP register to integer register, or a store then load). So we can\u0027t.\n\nFor the pattern, at least I\u0027ll need something similar for map functions. I guess in the past we just don\u0027t need to do this a lot.",
+      "parentUuid": "769b9629_00f35944",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 0
+      },
+      "revId": "76091f60dd1995ed01f3f335b93868ebbccb03fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
