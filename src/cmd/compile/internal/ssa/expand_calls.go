@@ -330,7 +330,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 	case OpArg:
 		if !x.isAlreadyExpandedAggregateType(selector.Type) {
 			if leafType == selector.Type { // OpIData leads us here, sometimes.
-				x.newArgToMemOrRegs(selector, leaf, offset, regOffset, leafType, leaf.Pos)
+				x.newArgToMemOrRegs(selector, leaf, offset, regOffset, leafType)
 			} else {
 				x.f.Fatalf("Unexpected OpArg type, selector=%s, leaf=%s\n", selector.LongString(), leaf.LongString())
 			}
@@ -343,7 +343,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 		case OpIData, OpStructSelect, OpArraySelect:
 			leafType = removeTrivialWrapperTypes(leaf.Type)
 		}
-		x.newArgToMemOrRegs(selector, leaf, offset, regOffset, leafType, leaf.Pos)
+		x.newArgToMemOrRegs(selector, leaf, offset, regOffset, leafType)
 
 		for _, s := range x.namedSelects[selector] {
 			locs = append(locs, x.f.Names[s.locIndex])
@@ -608,7 +608,7 @@ func (x *expandState) decomposeArg(pos src.XPos, b *Block, source, mem *Value, t
 			off := offs[i]
 			w := x.commonArgs[selKey{source, off, rt.Width, rt}]
 			if w == nil {
-				w = x.newArgToMemOrRegs(source, w, off, i, rt, pos)
+				w = x.newArgToMemOrRegs(source, w, off, i, rt)
 			}
 			if t.IsPtrShaped() {
 				// Preserve the original store type. This ensures pointer type
@@ -737,7 +737,7 @@ func storeOneArg(x *expandState, pos src.XPos, b *Block, source, mem *Value, t *
 
 	w := x.commonArgs[selKey{source, argOffset, t.Width, t}]
 	if w == nil {
-		w = x.newArgToMemOrRegs(source, w, argOffset, loadRegOffset, t, pos)
+		w = x.newArgToMemOrRegs(source, w, argOffset, loadRegOffset, t)
 	}
 	return x.storeArgOrLoad(pos, b, w, mem, t, storeOffset, loadRegOffset, storeRc)
 }
@@ -1523,7 +1523,7 @@ func (x *expandState) rewriteArgToMemOrRegs(v *Value) *Value {
 // newArgToMemOrRegs either rewrites toReplace into an OpArg referencing memory or into an OpArgXXXReg to a register,
 // or rewrites it into a copy of the appropriate OpArgXXX.  The actual OpArgXXX is determined by combining baseArg (an OpArg)
 // with offset, regOffset, and t to determine which portion of it to reference (either all or a part, in memory or in registers).
-func (x *expandState) newArgToMemOrRegs(baseArg, toReplace *Value, offset int64, regOffset Abi1RO, t *types.Type, pos src.XPos) *Value {
+func (x *expandState) newArgToMemOrRegs(baseArg, toReplace *Value, offset int64, regOffset Abi1RO, t *types.Type) *Value {
 	if x.debug {
 		x.indent(3)
 		defer x.indent(-3)
@@ -1554,7 +1554,7 @@ func (x *expandState) newArgToMemOrRegs(baseArg, toReplace *Value, offset int64,
 			toReplace.Type = t
 			w = toReplace
 		} else {
-			w = baseArg.Block.NewValue0IA(pos, OpArg, t, auxInt, aux)
+			w = baseArg.Block.NewValue0IA(baseArg.Pos, OpArg, t, auxInt, aux)
 		}
 		x.commonArgs[key] = w
 		if toReplace != nil {
@@ -1582,7 +1582,7 @@ func (x *expandState) newArgToMemOrRegs(baseArg, toReplace *Value, offset int64,
 		toReplace.Type = t
 		w = toReplace
 	} else {
-		w = baseArg.Block.NewValue0IA(pos, op, t, auxInt, aux)
+		w = baseArg.Block.NewValue0IA(baseArg.Pos, op, t, auxInt, aux)
 	}
 	x.commonArgs[key] = w
 	if toReplace != nil {
