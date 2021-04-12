@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a0239e_0153e9fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-12T14:21:21Z",
+      "side": 1,
+      "message": "LGTM, although this not my area of expertise.",
+      "revId": "00bfb5f36b24cc57d8f6246d1fe23d69e4d7170c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a125aba_6aad9a2e",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2069,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-12T14:21:21Z",
+      "side": 1,
+      "message": "rookie question, for my own education, why is this condition needed? seems that we shouldn\u0027t care whether these things are used elsewhere. Just curious.",
+      "range": {
+        "startLine": 2069,
+        "startChar": 4,
+        "endLine": 2069,
+        "endChar": 48
+      },
+      "revId": "00bfb5f36b24cc57d8f6246d1fe23d69e4d7170c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "848b9827_5623f9a6",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2077,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-12T14:21:21Z",
+      "side": 1,
+      "message": "here the use is the new mem from the call, I assume?\n\nI assume this is here just to speed up the compiler, not for correctness, right (since runtime.memmove doesn\u0027t return a result)",
+      "range": {
+        "startLine": 2077,
+        "startChar": 4,
+        "endLine": 2077,
+        "endChar": 18
+      },
+      "revId": "00bfb5f36b24cc57d8f6246d1fe23d69e4d7170c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
