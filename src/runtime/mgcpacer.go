@@ -182,6 +182,12 @@ type gcControllerState struct {
 	// Read and updated atomically.
 	stackSize uint64
 
+	// globalsScan is the total amount of global variable space
+	// that is scannable.
+	//
+	// Read and updated atomically.
+	globalsScan uint64
+
 	// heapMarked is the number of bytes marked by the previous
 	// GC. After mark termination, heapLive == heapMarked, but
 	// unlike heapLive, heapMarked does not change until the
@@ -715,6 +721,10 @@ func (c *gcControllerState) update(dHeapLive, dHeapScan int64) {
 
 func (c *gcControllerState) addStack(amount int64) {
 	atomic.Xadd64(&c.stackSize, amount)
+}
+
+func (c *gcControllerState) addGlobals(amount int64) {
+	atomic.Xadd64(&c.globalsScan, amount)
 }
 
 // commit sets the trigger ratio and updates everything
