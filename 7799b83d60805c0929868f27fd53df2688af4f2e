@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed5d8bb9_0a12534a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-12T20:47:41Z",
+      "side": 1,
+      "message": "LGTM.\n\nIt\u0027s confusing even with the better comments... I had to compile a small example with a callback in order to be sure I was understanding this. FWIW.",
+      "revId": "7799b83d60805c0929868f27fd53df2688af4f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
