@@ -47,6 +47,10 @@ const (
 
 	// defaultHeapMinimum is the value of heapMinimum for GOGC==100.
 	defaultHeapMinimum = 4 << 20
+
+	// stackSizeSlack is the bytes of stack space allocated or freed
+	// that can accumulate on a P before updating gcController.stackSize.
+	stackSizeSlack = 8 << 10
 )
 
 func init() {
@@ -165,6 +169,18 @@ type gcControllerState struct {
 	//
 	// Read and written atomically or with the world stopped.
 	heapScan uint64
+
+	// stackScan is a snapshot of stackSize taken at each GC
+	// STW pause and is used in pacing decisions.
+	//
+	// Updated only while the world is stopped.
+	stackScan uint64
+
+	// stackSize is the amount of allocated goroutine stack space in
+	// use by goroutines.
+	//
+	// Read and updated atomically.
+	stackSize uint64
 
 	// heapMarked is the number of bytes marked by the previous
 	// GC. After mark termination, heapLive == heapMarked, but
@@ -286,6 +302,7 @@ func (c *gcControllerState) startCycle(markStartTime int64) {
 	c.fractionalMarkTime = 0
 	c.idleMarkTime = 0
 	c.markStartTime = markStartTime
+	c.stackScan = c.stackSize
 
 	// Ensure that the heap goal is at least a little larger than
 	// the current live heap size. This may not be the case if GC
@@ -694,6 +711,10 @@ func (c *gcControllerState) update(dHeapLive, dHeapScan int64) {
 		// gcController.heapLive and heapScan changed.
 		c.revise()
 	}
+}
+
+func (c *gcControllerState) addStack(amount int64) {
+	atomic.Xadd64(&c.stackSize, amount)
 }
 
 // commit sets the trigger ratio and updates everything

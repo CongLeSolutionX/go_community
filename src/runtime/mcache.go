@@ -22,6 +22,7 @@ type mcache struct {
 	// so they are grouped here for better caching.
 	nextSample uintptr // trigger heap sample after allocating this many bytes
 	scanAlloc  uintptr // bytes of scannable heap allocated
+	stackAlloc int64   // bytes of stack allocated and/or freed
 
 	// Allocator cache for tiny objects w/o pointers.
 	// See "Tiny allocator" comment in malloc.go.

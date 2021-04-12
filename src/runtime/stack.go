@@ -357,6 +357,9 @@ func stackalloc(n uint32) stack {
 		if v == nil {
 			throw("out of memory (stackalloc)")
 		}
+		// The previous operation was expensive enough that just
+		// flushing directly is fine.
+		gcController.addStack(int64(n))
 		return stack{uintptr(v), uintptr(v) + uintptr(n)}
 	}
 
@@ -378,6 +381,8 @@ func stackalloc(n uint32) stack {
 			// Also don't touch stackcache during gc
 			// as it's flushed concurrently.
 			lock(&stackpool[order].item.mu)
+			// We're locking anyway and this case is rare, so just flush directly.
+			gcController.addStack(int64(n))
 			x = stackpoolalloc(order)
 			unlock(&stackpool[order].item.mu)
 		} else {
@@ -389,6 +394,13 @@ func stackalloc(n uint32) stack {
 			}
 			c.stackcache[order].list = x.ptr().next
 			c.stackcache[order].size -= uintptr(n)
+
+			// Track total stack allocation.
+			c.stackAlloc += int64(n)
+			if c.stackAlloc <= -stackSizeSlack || c.stackAlloc >= stackSizeSlack {
+				gcController.addStack(c.stackAlloc)
+				c.stackAlloc = 0
+			}
 		}
 		v = unsafe.Pointer(x)
 	} else {
@@ -416,6 +428,10 @@ func stackalloc(n uint32) stack {
 			s.elemsize = uintptr(n)
 		}
 		v = unsafe.Pointer(s.base())
+
+		// Allocating stacks this large is expensive enough that
+		// it makes sense to just flush directly.
+		gcController.addStack(int64(n))
 	}
 
 	if raceenabled {
@@ -471,6 +487,8 @@ func stackfree(stk stack) {
 		x := gclinkptr(v)
 		if stackNoCache != 0 || gp.m.p == 0 || gp.m.preemptoff != "" {
 			lock(&stackpool[order].item.mu)
+			// We're locking anyway and this case is rare, so just flush directly.
+			gcController.addStack(-int64(n))
 			stackpoolfree(x, order)
 			unlock(&stackpool[order].item.mu)
 		} else {
@@ -481,6 +499,13 @@ func stackfree(stk stack) {
 			x.ptr().next = c.stackcache[order].list
 			c.stackcache[order].list = x
 			c.stackcache[order].size += n
+
+			// Track total stack allocation.
+			c.stackAlloc -= int64(n)
+			if c.stackAlloc <= -stackSizeSlack || c.stackAlloc >= stackSizeSlack {
+				gcController.addStack(c.stackAlloc)
+				c.stackAlloc = 0
+			}
 		}
 	} else {
 		s := spanOfUnchecked(uintptr(v))
@@ -504,6 +529,9 @@ func stackfree(stk stack) {
 			stackLarge.free[log2npage].insert(s)
 			unlock(&stackLarge.lock)
 		}
+		// Freeing stacks this large is expensive enough that
+		// it makes sense to just flush directly.
+		gcController.addStack(-int64(n))
 	}
 }
 
