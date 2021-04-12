@@ -187,6 +187,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9a1361c1_aa8b05b9",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-12T17:01:23Z",
+      "side": 1,
+      "message": "Restored the original argument sizes to keep vet happy. ¯\\_(ツ)_/¯",
+      "parentUuid": "4cfff760_fc72ca12",
+      "range": {
+        "startLine": 1014,
+        "startChar": 49,
+        "endLine": 1014,
+        "endChar": 51
+      },
+      "revId": "9cc0b8f619f4323723b988fc8a19ad3ef69981df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "789293ff_abd21aae",
         "filename": "src/runtime/asm_amd64.s",
         "patchSetId": 1
