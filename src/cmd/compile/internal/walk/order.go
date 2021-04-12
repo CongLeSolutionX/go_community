@@ -269,10 +269,37 @@ func (o *orderState) addrTemp(n ir.Node) ir.Node {
 func (o *orderState) mapKeyTemp(t *types.Type, n ir.Node) ir.Node {
 	// Most map calls need to take the address of the key.
 	// Exception: map*_fast* calls. See golang.org/issue/19015.
-	if mapfast(t) == mapslow {
+	alg := mapfast(t)
+	if alg == mapslow {
 		return o.addrTemp(n)
 	}
-	return n
+	var kt *types.Type
+	switch alg {
+	case mapfast32, mapfast32ptr:
+		kt = types.Types[types.TUINT32]
+	case mapfast64, mapfast64ptr:
+		kt = types.Types[types.TUINT64]
+	case mapfaststr:
+		kt = types.Types[types.TSTRING]
+	}
+	nt := n.Type()
+	switch {
+	case nt == kt:
+		return n
+	case nt.Kind() == kt.Kind(), nt.IsPtrShaped() && kt.IsPtrShaped():
+		// can directly convert (e.g. named type to underlying type, or one pointer to another)
+		return typecheck.Expr(ir.NewConvExpr(n.Pos(), ir.OCONVNOP, kt, n))
+	case nt.IsInteger() && kt.IsInteger():
+		// can directly convert (e.g. int32 to uint32)
+		return typecheck.Expr(ir.NewConvExpr(n.Pos(), ir.OCONV, kt, n))
+	default:
+		// unsafe cast through memory
+		var e ir.Node = o.addrTemp(n)
+		e = typecheck.NodAddr(e)
+		e = ir.NewConvExpr(n.Pos(), ir.OCONVNOP, kt.PtrTo(), e)
+		e = ir.NewStarExpr(n.Pos(), e)
+		return typecheck.Expr(e)
+	}
 }
 
 // mapKeyReplaceStrConv replaces OBYTES2STR by OBYTES2STRTMP
