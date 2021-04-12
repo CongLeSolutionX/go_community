@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c1832410_aab3357e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-12T18:23:16Z",
+      "side": 1,
+      "message": "I think that\u0027s equivalent? If it\u0027s done sweeping a span, it had to begin sweeping that span.\n\nAnyway, changed to \"All spans are either swept or have begun sweeping.\"",
+      "parentUuid": "c091dedc_0eec9707",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ada8db07_c35a0dfc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -66,6 +90,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a5563438_beece92d",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-12T18:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d2fd75_76be2409",
+      "range": {
+        "startLine": 194,
+        "startChar": 1,
+        "endLine": 194,
+        "endChar": 8
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1ae6d458_1ffb9178",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 1
@@ -77,6 +125,30 @@
       "writtenOn": "2021-04-08T13:52:19Z",
       "side": 1,
       "message": "why t?",
+      "range": {
+        "startLine": 210,
+        "startChar": 6,
+        "endLine": 210,
+        "endChar": 7
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b18727_03ae1d05",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-12T18:23:16Z",
+      "side": 1,
+      "message": "Hah, because it used to be sweepTracker. Changed to l for \"locker\".",
+      "parentUuid": "1ae6d458_1ffb9178",
       "range": {
         "startLine": 210,
         "startChar": 6,
@@ -110,6 +182,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2c86f29_7df00d17",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-12T18:23:16Z",
+      "side": 1,
+      "message": "Or methods on sweepGen :o",
+      "parentUuid": "f4b35c0a_c53d5076",
+      "range": {
+        "startLine": 219,
+        "startChar": 29,
+        "endLine": 219,
+        "endChar": 41
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e145da8_e7a34c4b",
@@ -123,6 +219,30 @@
       "writtenOn": "2021-04-07T22:34:22Z",
       "side": 1,
       "message": "maybe \"noMoreWork\" or something? this doesn\u0027t mean it\u0027s _truly_ the final sweeper.",
+      "range": {
+        "startLine": 270,
+        "startChar": 5,
+        "endLine": 270,
+        "endChar": 17
+      },
+      "revId": "d3176e707f0bbb1ce53bff7a55d91cc53fb010d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a925524_319eacbf",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-12T18:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e145da8_e7a34c4b",
       "range": {
         "startLine": 270,
         "startChar": 5,
