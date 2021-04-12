@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "921a74c1_21d622eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-12T17:28:37Z",
+      "side": 1,
+      "message": "Got your point here.",
+      "parentUuid": "2e305ede_e216cee8",
+      "revId": "89593f183ebf611c7dd6740c3bf1b5830c3d80f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3bc72983_b68f23cf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -66,6 +84,23 @@
       "writtenOn": "2021-04-12T17:12:00Z",
       "side": 1,
       "message": "So we should just skip the nil result instead of check it in putPipe() and destroyPipe()?",
+      "revId": "89593f183ebf611c7dd6740c3bf1b5830c3d80f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ed6553c_d9bbf22e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-12T17:28:37Z",
+      "side": 1,
+      "message": "LGTM",
       "revId": "89593f183ebf611c7dd6740c3bf1b5830c3d80f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
