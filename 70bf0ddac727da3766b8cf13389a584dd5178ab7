@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f17f03_6fd42f79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T16:27:45Z",
+      "side": 1,
+      "message": "\u003e Patch Set 5: TryBot-Result-1\n\u003e \n\u003e 13 of 24 SlowBots failed:\n\u003e Failed on freebsd-amd64-12_0: https://storage.googleapis.com/go-build-log/70bf0dda/freebsd-amd64-12_0_b980c408.log\n\u003e Failed on misc-compile-darwin: https://storage.googleapis.com/go-build-log/70bf0dda/misc-compile-darwin_23b0a536.log\n\u003e Failed on linux-amd64-regabi: https://storage.googleapis.com/go-build-log/70bf0dda/linux-amd64-regabi_77eea346.log\n\u003e Failed on linux-amd64: https://storage.googleapis.com/go-build-log/70bf0dda/linux-amd64_c15efe41.log\n\u003e Failed on windows-amd64-2016: https://storage.googleapis.com/go-build-log/70bf0dda/windows-amd64-2016_62a364ab.log\n\u003e Failed on openbsd-amd64-68: https://storage.googleapis.com/go-build-log/70bf0dda/openbsd-amd64-68_f039a498.log\n\u003e Failed on android-amd64-emu: https://storage.googleapis.com/go-build-log/70bf0dda/android-amd64-emu_d23fdf53.log\n\u003e Failed on linux-amd64-race: https://storage.googleapis.com/go-build-log/70bf0dda/linux-amd64-race_c7cc0250.log\n\u003e Failed on misc-compile-solaris: https://storage.googleapis.com/go-build-log/70bf0dda/misc-compile-solaris_c93f24ee.log\n\u003e Failed on misc-compile-plan9: https://storage.googleapis.com/go-build-log/70bf0dda/misc-compile-plan9_14bd7e23.log\n\u003e Failed on misc-compile-other: https://storage.googleapis.com/go-build-log/70bf0dda/misc-compile-other_485dd8a6.log\n\u003e Failed on misc-compile-netbsd: https://storage.googleapis.com/go-build-log/70bf0dda/misc-compile-netbsd_38957ff7.log\n\u003e Failed on misc-compile-openbsd: https://storage.googleapis.com/go-build-log/70bf0dda/misc-compile-openbsd_ff91750a.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\u003e \n\u003e SlowBot builds that ran:\n\u003e * linux-amd64-regabi\n\nApparently vet doesn\u0027t know how to compute ABIInternal argument area size, but it still does check it (!). For now we could just leave them unchanged, and I think that is fine for the moment.",
+      "revId": "70bf0ddac727da3766b8cf13389a584dd5178ab7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
