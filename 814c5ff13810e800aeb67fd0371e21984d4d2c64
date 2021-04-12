@@ -16,6 +16,24 @@
       "message": "was this a mistake? surely removing the Version field is a backwards-incompatible change :)",
       "revId": "814c5ff13810e800aeb67fd0371e21984d4d2c64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8da36ee_44c293cf",
+        "filename": "src/cmd/go/internal/modcmd/edit.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-12T13:57:45Z",
+      "side": 1,
+      "message": "This is a mistake in the documentation. Thanks for pointing this out.\n\n...but I don\u0027t think it\u0027s a mistake to use the editModuleJSON type without a Version below. The module directive can\u0027t have a version.\n\nI\u0027ll send a CL soon to fix this.",
+      "parentUuid": "f756bda2_ab4ef81f",
+      "revId": "814c5ff13810e800aeb67fd0371e21984d4d2c64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
