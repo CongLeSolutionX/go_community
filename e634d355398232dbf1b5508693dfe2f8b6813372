@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bedd864_2dfefa7a",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1452,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-12T14:29:46Z",
+      "side": 1,
+      "message": "LGTM.   Would it help to do this iteratively, in case there is a chain of copies?\n\nAlso, are there other places in the compiler where we do something similar?",
+      "revId": "e634d355398232dbf1b5508693dfe2f8b6813372",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
