@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2e305ede_e216cee8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-12T17:23:37Z",
+      "side": 1,
+      "message": "I think newPoolPipe got confused about nil pointers and nil interfaces.  If newPipe fails (returns nil) then newPoolPipe should return a nil interface{} value.  But that wasn\u0027t happening.  It was returning a non-nil interface{} value that contained a nil pointer.",
+      "parentUuid": "a319a16a_0a5e9910",
+      "revId": "89593f183ebf611c7dd6740c3bf1b5830c3d80f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3bc72983_b68f23cf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
