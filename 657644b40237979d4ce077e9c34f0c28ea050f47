@@ -16,6 +16,23 @@
       "message": "\u003e Patch Set 6: TryBot-Result-1\n\u003e \n\u003e 22 of 24 SlowBots failed:\n\u003e Failed on linux-amd64-longtest: https://storage.googleapis.com/go-build-log/c475e10c/linux-amd64-longtest_37a0aaea.log\n\u003e Failed on freebsd-amd64-12_0: https://storage.googleapis.com/go-build-log/c475e10c/freebsd-amd64-12_0_f5d5423c.log\n\u003e Failed on misc-compile-linuxarm: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-linuxarm_0b077bd3.log\n\u003e Failed on misc-compile-darwin: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-darwin_1a6cc6f8.log\n\u003e Failed on misc-compile-darwinarm64: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-darwinarm64_07afb269.log\n\u003e Failed on linux-386: https://storage.googleapis.com/go-build-log/c475e10c/linux-386_514b155f.log\n\u003e Failed on linux-arm64-aws: https://storage.googleapis.com/go-build-log/c475e10c/linux-arm64-aws_555451fa.log\n\u003e Failed on linux-amd64: https://storage.googleapis.com/go-build-log/c475e10c/linux-amd64_4844018a.log\n\u003e Failed on windows-amd64-2016: https://storage.googleapis.com/go-build-log/c475e10c/windows-amd64-2016_8349a6ab.log\n\u003e Failed on linux-arm-aws: https://storage.googleapis.com/go-build-log/c475e10c/linux-arm-aws_8858fab4.log\n\u003e Failed on misc-compile-solaris: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-solaris_bc58fa44.log\n\u003e Failed on openbsd-amd64-68: https://storage.googleapis.com/go-build-log/c475e10c/openbsd-amd64-68_532425be.log\n\u003e Failed on android-amd64-emu: https://storage.googleapis.com/go-build-log/c475e10c/android-amd64-emu_140c717f.log\n\u003e Failed on windows-386-2008: https://storage.googleapis.com/go-build-log/c475e10c/windows-386-2008_94caa03a.log\n\u003e Failed on misc-compile-plan9: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-plan9_e90a6bb4.log\n\u003e Failed on linux-amd64-race: https://storage.googleapis.com/go-build-log/c475e10c/linux-amd64-race_1b333bcb.log\n\u003e Failed on misc-compile-freebsd: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-freebsd_b3577f64.log\n\u003e Failed on misc-compile-ppc: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-ppc_55cbf4cf.log\n\u003e Failed on misc-compile-mips: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-mips_9a060e86.log\n\u003e Failed on misc-compile-other: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-other_4b3390d6.log\n\u003e Failed on misc-compile-netbsd: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-netbsd_63dc54a8.log\n\u003e Failed on misc-compile-openbsd: https://storage.googleapis.com/go-build-log/c475e10c/misc-compile-openbsd_67e35f52.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\u003e \n\u003e SlowBot builds that ran:\n\u003e * linux-amd64-longtest\n\nAh... my bad, I should test your snippet locally before sending it.\n\nThe Patchset 7 fixed this.",
       "revId": "657644b40237979d4ce077e9c34f0c28ea050f47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "025951e9_93a92829",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-12T22:17:25Z",
+      "side": 1,
+      "message": "\u003e Patch Set 7: TryBot-Result-1\n\u003e \n\u003e 1 of 24 SlowBots failed:\n\u003e Failed on linux-amd64-longtest: https://storage.googleapis.com/go-build-log/657644b4/linux-amd64-longtest_5cff97d9.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\u003e \n\u003e SlowBot builds that ran:\n\u003e * linux-amd64-longtest\n\nIt looks like modfetch.Lookup doesn\u0027t know how to resolve a package path to a module path. Back to modfetch.ImportRepoRev?",
+      "revId": "657644b40237979d4ce077e9c34f0c28ea050f47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
