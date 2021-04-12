@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "706e09ba_54b38d7d",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-12T18:34:02Z",
+      "side": 1,
+      "message": "Each time we convert between string and []byte, we\u0027ll allocate a copy, so this will get expensive.\n\nInstead, let\u0027s keep a []byte somewhere (maybe in mutator) that we mutate repeatedly. Then we can use unsafe and reflect.StringHeader to create a read-only view of that slice.\n\nHere\u0027s some sample code that does this: https://github.com/mina86/unsafeConvert/blob/4dde7f529f51/unsafeConvert.go#L30\n\nWe\u0027ll need to document that fuzz functions must not save strings (or any part of them), since a saved string will change over multiple calls. That\u0027s not really allowed, but the performance advantage is a pretty strong justification.\n\n(Up to you if you want to do this in a follow-up CL; this one\u0027s already pretty big)",
+      "revId": "057378cd5d22d5eee481467fe30740a0adb93ab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
