@@ -20,6 +20,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "86fcd365_3efa0f95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T16:03:45Z",
+      "side": 1,
+      "message": "Thanks for review.\n",
+      "revId": "00bfb5f36b24cc57d8f6246d1fe23d69e4d7170c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9a125aba_6aad9a2e",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
@@ -43,6 +60,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2b57f760_12c476af",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2069,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T16:03:45Z",
+      "side": 1,
+      "message": "When the rule does fire, we\u0027ll elide the call along with the stores. So if there are other uses of the stores things will be bad.",
+      "parentUuid": "9a125aba_6aad9a2e",
+      "range": {
+        "startLine": 2069,
+        "startChar": 4,
+        "endLine": 2069,
+        "endChar": 48
+      },
+      "revId": "00bfb5f36b24cc57d8f6246d1fe23d69e4d7170c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "848b9827_5623f9a6",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
@@ -54,6 +95,30 @@
       "writtenOn": "2021-04-12T14:21:21Z",
       "side": 1,
       "message": "here the use is the new mem from the call, I assume?\n\nI assume this is here just to speed up the compiler, not for correctness, right (since runtime.memmove doesn\u0027t return a result)",
+      "range": {
+        "startLine": 2077,
+        "startChar": 4,
+        "endLine": 2077,
+        "endChar": 18
+      },
+      "revId": "00bfb5f36b24cc57d8f6246d1fe23d69e4d7170c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37ef793_2828fdd8",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2077,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-12T16:03:45Z",
+      "side": 1,
+      "message": "Yeah, probably. Maybe also guarding the case if memmove\u0027s signature ever changes... (I just borrowed it from line 2087 below.)",
+      "parentUuid": "848b9827_5623f9a6",
       "range": {
         "startLine": 2077,
         "startChar": 4,
