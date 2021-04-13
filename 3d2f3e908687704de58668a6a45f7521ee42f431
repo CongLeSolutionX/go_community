@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f033fa89_1273b066",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-13T00:51:55Z",
+      "side": 1,
+      "message": "And one more question, should we use QueryPattern instead of QueryPackages here? That way we can use modOnly when there are no pkgMods.",
+      "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
