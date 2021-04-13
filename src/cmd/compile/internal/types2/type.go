@@ -7,6 +7,7 @@ package types2
 import (
 	"cmd/compile/internal/syntax"
 	"fmt"
+	"sync/atomic"
 )
 
 // A Type represents a type of Go.
@@ -718,6 +719,19 @@ func (t *Named) AddMethod(m *Func) {
 	}
 }
 
+// Note: This is a uint32 rather than a uint64 because the
+// respective 64 bit atomic instructions are not available
+// on all platforms.
+var lastId uint32
+
+// NextId returns a value increasing monotonically by 1 with
+// each call, starting with 1. It may be called concurrently.
+func NextId() uint64 { return uint64(atomic.AddUint32(&lastId, 1)) }
+
+// Upon calling ResetId, NextId starts with 1 again.
+// It may be called concurrently.
+func ResetId() { atomic.StoreUint32(&lastId, 0) }
+
 // A TypeParam represents a type parameter type.
 type TypeParam struct {
 	check *Checker  // for lazy type bound completion
@@ -733,8 +747,7 @@ func (t *TypeParam) Obj() *TypeName { return t.obj }
 // NewTypeParam returns a new TypeParam.
 func (check *Checker) NewTypeParam(obj *TypeName, index int, bound Type) *TypeParam {
 	assert(bound != nil)
-	typ := &TypeParam{check: check, id: check.nextId, obj: obj, index: index, bound: bound}
-	check.nextId++
+	typ := &TypeParam{check: check, id: NextId(), obj: obj, index: index, bound: bound}
 	if obj.typ == nil {
 		obj.typ = typ
 	}
