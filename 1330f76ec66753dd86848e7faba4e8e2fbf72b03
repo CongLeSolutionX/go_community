@@ -54,6 +54,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b981eef_f4f3d9aa",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-04-13T01:20:30Z",
+      "side": 1,
+      "message": "I feel we should have a doc comment here too.",
+      "range": {
+        "startLine": 244,
+        "startChar": 5,
+        "endLine": 244,
+        "endChar": 27
+      },
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03ba17e5_1ff69dc5",
         "filename": "src/cmd/go/internal/modload/edit.go",
         "patchSetId": 7
@@ -87,6 +110,52 @@
         "startChar": 48,
         "endLine": 314,
         "endChar": 61
+      },
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbc29a7b_a128d7c3",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-04-13T01:20:30Z",
+      "side": 1,
+      "message": "irrelevant means not in \u0027-test all\u0027 for lazy loading mode, right?",
+      "range": {
+        "startLine": 361,
+        "startChar": 20,
+        "endLine": 361,
+        "endChar": 30
+      },
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05a46ae2_15c6fb86",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-04-13T01:20:30Z",
+      "side": 1,
+      "message": "I feel there should be a sentence here explaining why we don\u0027t have to follow them.\n\nMy understanding is that if depth is lazy we\u0027re in lazy loading mode, and if m is lazy, don\u0027t need to load any of its module dependencies\u0027 dependencies (because all relevant dependencies for the build have already been pulled up. So they wouldn\u0027t need to be checked. And that means we only need to check m\u0027s dependencies (which could make it into the build) that have been restricted to make sure they satisfy the restrictions.\n\nIs that right?",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 77
       },
       "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
