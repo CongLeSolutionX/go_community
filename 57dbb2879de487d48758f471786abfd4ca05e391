@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b40a11a2_17c26658",
+        "filename": "src/net/unixsock_readmsg_other.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-13T09:26:55Z",
+      "side": 1,
+      "message": "As written in the previous review, please retain the // +build lines in addition to the //go:build lines in all the newly added files.\n\n`go fmt` (with Go built from tip) will do the right thing for you.",
+      "revId": "57dbb2879de487d48758f471786abfd4ca05e391",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
