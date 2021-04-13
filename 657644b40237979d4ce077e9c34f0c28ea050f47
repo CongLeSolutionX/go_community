@@ -33,6 +33,24 @@
       "message": "\u003e Patch Set 7: TryBot-Result-1\n\u003e \n\u003e 1 of 24 SlowBots failed:\n\u003e Failed on linux-amd64-longtest: https://storage.googleapis.com/go-build-log/657644b4/linux-amd64-longtest_5cff97d9.log\n\u003e \n\u003e Consult https://build.golang.org/ to see whether they are new failures. Keep in mind that TryBots currently test *exactly* your git commit, without rebasing. If your commit\u0027s git parent is old, the failure might\u0027ve already been fixed.\n\u003e \n\u003e SlowBot builds that ran:\n\u003e * linux-amd64-longtest\n\nIt looks like modfetch.Lookup doesn\u0027t know how to resolve a package path to a module path. Back to modfetch.ImportRepoRev?",
       "revId": "657644b40237979d4ce077e9c34f0c28ea050f47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67adc490_cd6f26bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-13T00:27:59Z",
+      "side": 1,
+      "message": "No, not back to modfetch.ImportRepoRev.\n\nI think I found a workaround, similar to modload.queryPrefixModules. Plese see the patch set 8.",
+      "parentUuid": "025951e9_93a92829",
+      "revId": "657644b40237979d4ce077e9c34f0c28ea050f47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
