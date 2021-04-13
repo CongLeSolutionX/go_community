@@ -708,6 +708,21 @@ func (r *importReader) typ1() *types.Type {
 		// Ensure we expand the interface in the frontend (#25055).
 		types.CheckSize(t)
 		return t
+
+	case typeParamType:
+		pkg := r.pkg()
+		pos := r.pos()
+		name := r.string()
+		sym := pkg.Lookup(name)
+		if sym.Def != nil {
+			return sym.Def.(*ir.Name).Type()
+		}
+		t := types.NewTypeParam(pkg)
+		t.SetSym(sym)
+		nname := ir.NewNameAt(pos, sym)
+		nname.SetType(t)
+		sym.Def = nname
+		return t
 	}
 }
 
@@ -718,10 +733,11 @@ func (r *importReader) kind() itag {
 func (r *importReader) signature(recv *types.Field) *types.Type {
 	params := r.paramList()
 	results := r.paramList()
+	tparams := r.paramList()
 	if n := len(params); n > 0 {
 		params[n-1].SetIsDDD(r.bool())
 	}
-	return types.NewSignature(r.currPkg, recv, nil, params, results)
+	return types.NewSignature(r.currPkg, recv, tparams, params, results)
 }
 
 func (r *importReader) paramList() []*types.Field {

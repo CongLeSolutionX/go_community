@@ -66,8 +66,12 @@ func (g *irgen) expr(expr syntax.Expr) ir.Node {
 	if n.Typecheck() != 1 && n.Typecheck() != 3 {
 		base.FatalfAt(g.pos(expr), "missed typecheck: %+v", n)
 	}
-	if !g.match(n.Type(), typ, tv.HasOk()) {
-		base.FatalfAt(g.pos(expr), "expected %L to have type %v", n, typ)
+	// We don't do the match for a name with generic types that is imported
+	// from another package, since the type name subscripts likely won't match.
+	if nm, ok := n.(*ir.Name); !(ok && nm.Sym().Pkg != types.LocalPkg && nm.Type().HasTParam()) {
+		if !g.match(n.Type(), typ, tv.HasOk()) {
+			base.FatalfAt(g.pos(expr), "expected %L to have type %v", n, typ)
+		}
 	}
 	return n
 }

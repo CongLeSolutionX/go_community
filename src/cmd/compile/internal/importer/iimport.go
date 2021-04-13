@@ -57,6 +57,7 @@ const (
 	signatureType
 	structType
 	interfaceType
+	typeParamType
 )
 
 const io_SeekCurrent = 1 // io.SeekCurrent (not defined in Go 1.4)
@@ -554,6 +555,16 @@ func (r *importReader) doType(base *types2.Named) types2.Type {
 		typ := types2.NewInterfaceType(methods, embeddeds)
 		r.p.interfaceList = append(r.p.interfaceList, typ)
 		return typ
+
+	case typeParamType:
+		pkg := r.pkg()
+		pos := r.pos()
+		name := r.string()
+		// XXX Make bound be empty interface for now
+		bound := types2.NewInterfaceType(nil, nil)
+		tn := types2.NewTypeName(pos, pkg, name, nil)
+		t := (*types2.Checker)(nil).NewTypeParam(tn, 0, bound)
+		return t
 	}
 }
 
@@ -564,8 +575,19 @@ func (r *importReader) kind() itag {
 func (r *importReader) signature(recv *types2.Var) *types2.Signature {
 	params := r.paramList()
 	results := r.paramList()
+	tparams := r.paramList()
 	variadic := params.Len() > 0 && r.bool()
-	return types2.NewSignature(recv, params, results, variadic)
+	sig := types2.NewSignature(recv, params, results, variadic)
+	// sig.TParams remains as nil (not zero-length slice) if there are no tparams.
+	if tparams.Len() > 0 {
+		tparams2 := make([]*types2.TypeName, tparams.Len())
+		for i := range tparams2 {
+			v := tparams.At(i)
+			tparams2[i] = types2.AsTypeParam(v.Type()).Obj()
+		}
+		sig.SetTParams(tparams2)
+	}
+	return sig
 }
 
 func (r *importReader) paramList() *types2.Tuple {

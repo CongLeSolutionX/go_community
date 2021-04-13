@@ -180,6 +180,15 @@ func (g *irgen) getInstantiationForNode(inst *ir.InstExpr) *ir.Func {
 // with the type arguments targs. If the instantiated function is not already
 // cached, then it calls genericSubst to create the new instantiation.
 func (g *irgen) getInstantiation(nameNode *ir.Name, targs []ir.Node, isMeth bool) *ir.Func {
+	if nameNode.Func.Body == nil && nameNode.Func.Inl != nil {
+		// If there is no body yet but Func.Inl exists, then we can can
+		// import the whole generic body.
+		assert(nameNode.Func.Inl.Cost == 1 && nameNode.Sym().Pkg != types.LocalPkg)
+		typecheck.ImportBody(nameNode.Func)
+		assert(nameNode.Func.Inl.Body != nil)
+		nameNode.Func.Body = nameNode.Func.Inl.Body
+		nameNode.Func.Dcl = nameNode.Func.Inl.Dcl
+	}
 	sym := makeInstName(nameNode.Sym(), targs, isMeth)
 	st := g.target.Stencils[sym]
 	if st == nil {
@@ -881,7 +890,11 @@ func (subst *subster) fields(class ir.Class, oldfields []*types.Field, dcl []*ir
 		// unspecified or specified as "_". So, we compare the dcl sym
 		// with the field sym. If they don't match, this dcl (if there is
 		// one left) must apply to a later field.
-		if i < len(dcl) && dcl[i].Sym() == oldfields[j].Sym {
+		//
+		// TODO(danscales) Clean up - don't do the sym match for return
+		// values (or maybe for just ~r2 type of return values), since
+		// DCLs like ~r2 can be dropped if unneeded.
+		if i < len(dcl) && (class == ir.PPARAMOUT || dcl[i].Sym() == oldfields[j].Sym) {
 			newfields[j].Nname = dcl[i]
 			i++
 		}

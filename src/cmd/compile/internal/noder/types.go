@@ -204,11 +204,19 @@ func (g *irgen) typ0(typ types2.Type) *types.Type {
 		return types.NewInterface(g.tpkg(typ), append(embeddeds, methods...))
 
 	case *types2.TypeParam:
-		tp := types.NewTypeParam(g.tpkg(typ))
 		// Save the name of the type parameter in the sym of the type.
 		// Include the types2 subscript in the sym name
-		sym := g.pkg(typ.Obj().Pkg()).Lookup(types2.TypeString(typ, func(*types2.Package) string { return "" }))
+		name := types2.TypeString(typ, func(*types2.Package) string { return "" })
+		sym := g.pkg(typ.Obj().Pkg()).Lookup(name)
+		if sym.Def != nil {
+			// Typeparam was already created, maybe during types1 import.
+			return sym.Def.(*ir.Name).Type()
+		}
+		tp := types.NewTypeParam(g.tpkg(typ))
 		tp.SetSym(sym)
+		nname := ir.NewNameAt(g.pos(typ.Obj().Pos()), sym)
+		nname.SetType(tp)
+		sym.Def = nname
 		// Set g.typs[typ] in case the bound methods reference typ.
 		g.typs[typ] = tp
 
@@ -346,7 +354,7 @@ func (g *irgen) selector(obj types2.Object) *types.Sym {
 	return pkg.Lookup(name)
 }
 
-// tpkg returns the package that a function, interface, or struct type
+// tpkg returns the package that a function, interface, struct, or typeparam type
 // expression appeared in.
 //
 // Caveat: For the degenerate types "func()", "interface{}", and
@@ -376,6 +384,8 @@ func (g *irgen) tpkg(typ types2.Type) *types.Pkg {
 			if typ.NumExplicitMethods() > 0 {
 				return typ.ExplicitMethod(0)
 			}
+		case *types2.TypeParam:
+			return typ.Obj()
 		}
 		return nil
 	}

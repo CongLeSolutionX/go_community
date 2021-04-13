@@ -55,6 +55,7 @@ const (
 	signatureType
 	structType
 	interfaceType
+	typeParamType
 )
 
 // iImportData imports a package from the serialized package data
@@ -548,6 +549,10 @@ func (r *importReader) doType(base *types.Named) types.Type {
 		typ := types.NewInterfaceType(methods, embeddeds)
 		r.p.interfaceList = append(r.p.interfaceList, typ)
 		return typ
+
+	case typeParamType:
+		errorf("do not handle tparams yet")
+		return nil
 	}
 }
 
@@ -558,6 +563,11 @@ func (r *importReader) kind() itag {
 func (r *importReader) signature(recv *types.Var) *types.Signature {
 	params := r.paramList()
 	results := r.paramList()
+	numTparams := r.uint64()
+	if numTparams > 0 {
+		errorf("unexpected tparam")
+		return nil
+	}
 	variadic := params.Len() > 0 && r.bool()
 	return types.NewSignature(recv, params, results, variadic)
 }

@@ -212,6 +212,7 @@ import (
 	"math/big"
 	"sort"
 	"strings"
+	"unicode/utf8"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
@@ -244,6 +245,7 @@ const (
 	signatureType
 	structType
 	interfaceType
+	typeParamType
 )
 
 const (
@@ -793,8 +795,31 @@ func (w *exportWriter) startType(k itag) {
 	w.data.uint64(uint64(k))
 }
 
+// removeSubscript removes any trailing subscript runes on name and returns the
+// resulting string. It gives an error if name has any non-subscript runes after
+// subscript runes.
+func removeSubscript(name string) string {
+	foundSub := -1
+	for i, w := 0, 0; i < len(name); i += w {
+		runeValue, width := utf8.DecodeRuneInString(name[i:])
+		w = width
+		if runeValue >= '₀' {
+			if foundSub == -1 {
+				foundSub = i
+			}
+		} else if foundSub >= 0 {
+			// Found a non-subscript rune after a subscript
+			base.Fatalf("bad typename format")
+		}
+	}
+	if foundSub >= 0 {
+		name = name[:foundSub]
+	}
+	return name
+}
+
 func (w *exportWriter) doTyp(t *types.Type) {
-	if t.Sym() != nil {
+	if t.Kind() != types.TTYPEPARAM && t.Sym() != nil {
 		if t.Sym().Pkg == types.BuiltinPkg || t.Sym().Pkg == ir.Pkgs.Unsafe {
 			base.Fatalf("builtin type missing from typIndex: %v", t)
 		}
@@ -872,6 +897,17 @@ func (w *exportWriter) doTyp(t *types.Type) {
 			w.signature(f.Type)
 		}
 
+	case types.TTYPEPARAM:
+		w.startType(typeParamType)
+		// This is similar to the defined type case (using qualifiedIdent)
+		// at the top of the function - write out the pkg and name of the
+		// symbol (as well as the position).
+		s := t.Sym()
+		w.pkg(s.Pkg)
+		w.pos(t.Pos())
+		name := removeSubscript(s.Name)
+		w.string(name)
+
 	default:
 		base.Fatalf("unexpected type: %v", t)
 	}
@@ -892,6 +928,7 @@ func (w *exportWriter) setPkg(pkg *types.Pkg, write bool) {
 func (w *exportWriter) signature(t *types.Type) {
 	w.paramList(t.Params().FieldSlice())
 	w.paramList(t.Results().FieldSlice())
+	w.paramList(t.TParams().FieldSlice())
 	if n := t.Params().NumFields(); n > 0 {
 		w.bool(t.Params().Field(n - 1).IsDDD())
 	}
@@ -1177,9 +1214,21 @@ func (w *exportWriter) funcExt(n *ir.Name) {
 	}
 
 	// Inline body.
+	if n.Type().HasTParam() {
+		if n.Func.Inl != nil {
+			base.Fatalf("Generic function is marked inlineable")
+		}
+		// Populate n.Func.Inl, so body of exported generic function will
+		// be written out.
+		n.Func.Inl = &ir.Inline{
+			Cost: 1,
+			Dcl:  n.Func.Dcl,
+			Body: n.Func.Body,
+		}
+	}
 	if n.Func.Inl != nil {
 		w.uint64(1 + uint64(n.Func.Inl.Cost))
-		if n.Func.ExportInline() {
+		if n.Func.ExportInline() || n.Type().HasTParam() {
 			w.p.doInline(n)
 		}
 
