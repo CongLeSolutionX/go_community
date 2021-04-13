@@ -33,6 +33,42 @@
       "message": "There is also some documentation in cmd/cgo/doc.go.  There is an \"implementation details\" comment that does not appear at https://golang.org/cmd/cgo.",
       "revId": "7799b83d60805c0929868f27fd53df2688af4f2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "495a89ed_d21eedd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-13T18:46:00Z",
+      "side": 1,
+      "message": "What did you learn from the small example that was helpful in understanding this? Would it help if this first explained a bit about the C and Go wrappers, or was it some other context that was missing?",
+      "parentUuid": "ed5d8bb9_0a12534a",
+      "revId": "7799b83d60805c0929868f27fd53df2688af4f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca18eb1_b74ab262",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-13T18:46:00Z",
+      "side": 1,
+      "message": "I read the documentation in doc.go multiple times while figuring out what was going on here. :) That documentation is definitely useful, but it only tells you what the directives do, not why they\u0027re being used the way they are here.",
+      "parentUuid": "cab5f70b_d7d4f7d1",
+      "revId": "7799b83d60805c0929868f27fd53df2688af4f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
