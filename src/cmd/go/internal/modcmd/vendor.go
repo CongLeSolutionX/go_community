@@ -60,6 +60,9 @@ func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) != 0 {
 		base.Fatalf("go mod vendor: vendor takes no arguments")
 	}
+	// TODO(#45551): report an error if go.mod or go.sum needs to be updated.
+	cfg.BuildMod = "mod"
+	cfg.BuildModExplicit = true
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
 

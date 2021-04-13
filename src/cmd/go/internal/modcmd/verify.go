@@ -14,6 +14,7 @@ import (
 	"runtime"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/modload"
 
@@ -46,6 +47,9 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 		// NOTE(rsc): Could take a module pattern.
 		base.Fatalf("go mod verify: verify takes no arguments")
 	}
+	// TODO(#45551): report an error if go.mod or go.sum needs to be updated.
+	cfg.BuildMod = "mod"
+	cfg.BuildModExplicit = true
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
 
