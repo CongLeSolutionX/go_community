@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c079607_0a4a00c6",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-13T23:50:43Z",
+      "side": 1,
+      "message": "This should not need to be exported.",
+      "range": {
+        "startLine": 729,
+        "startChar": 5,
+        "endLine": 729,
+        "endChar": 11
+      },
+      "revId": "8384766ed8c7500170ed403e3120157b274c9876",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
