@@ -148,11 +148,14 @@ func (g *irgen) typeDecl(out *ir.Nodes, decl *syntax.TypeDecl) {
 	// [mdempsky: Subtleties like these are why I always vehemently
 	// object to new type pragmas.]
 	ntyp.SetUnderlying(g.typeExpr(decl.Type))
-	if len(decl.TParamList) > 0 {
-		// Set HasTParam if there are any tparams, even if no tparams are
-		// used in the type itself (e.g., if it is an empty struct, or no
-		// fields in the struct use the tparam).
-		ntyp.SetHasTParam(true)
+
+	if len(types2.AsNamed(otyp).TParams()) > 0 {
+		rparams := make([]*types.Type, len(types2.AsNamed(otyp).TParams()))
+		for i := range rparams {
+			rparams[i] = g.typ(types2.AsNamed(otyp).TParams()[i].Type())
+		}
+		// This will set hasTParam flag if any rparams are not concrete types.
+		ntyp.SetRParams(rparams)
 	}
 	types.ResumeCheckSize()
 

@@ -281,6 +281,10 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 	case *TypeParam:
 		s := "?"
 		if t.obj != nil {
+			// Optionally write out package for typeparams (like Named).
+			if t.obj.pkg != nil {
+				writePackage(buf, t.obj.pkg, qf)
+			}
 			s = t.obj.name
 		}
 		buf.WriteString(s + subscript(t.id))
