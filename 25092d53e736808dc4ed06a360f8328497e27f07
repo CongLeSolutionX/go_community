@@ -16,6 +16,29 @@
       "message": "This is ready for review now. Thanks!",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b2ddaee_56fe0821",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-13T21:39:06Z",
+      "side": 1,
+      "message": "FYI, it ends up looking something like this, which hides useful info like \"found a crash, currently minimizing for up to 1 minute\" and the elapsed time. Every time it minimizes it and finds a new crash, it prints the panic. That means it could be potentially hundreds of times, which, gross.\n\n       ~ go test foo -fuzz\u003dFuzzFoo -run\u003dFuzzFoo\n\n\t--- FAIL: FuzzFoo (0.00s)\n\t--- FAIL: FuzzFoo/#44 (0.00s)\n\tpanic: contains a letter [recovered]\n\t\t\tpanic: contains a letter\n\t\n\tgoroutine 87 [running]:\n\ttesting.tRunner.func1.2(0x11b3820, 0x1227c00)\n\t\t\t/Users/katiehockman/godev/src/testing/testing.go:1154 +0x34b\n\ttesting.tRunner.func1(0xc000203c80)\n\t\t\t/Users/katiehockman/godev/src/testing/testing.go:1157 +0x4b6\n\tpanic(0x11b3820, 0x1227c00)\n\t\t\t/Users/katiehockman/godev/src/runtime/panic.go:972 +0x1d4\n\treflect.Value.call(0x11b6880, 0x11fc228, 0x13, 0x11ef21b, 0x4, 0xc0000991d0, 0x2, 0x2, 0x2, 0x18, ...)\n\t\t\t/Users/katiehockman/godev/src/reflect/value.go:541 +0xaf4\n\treflect.Value.Call(0x11b6880, 0x11fc228, 0x13, 0xc0000991d0, 0x2, 0x2, 0x1, 0x2, 0xc000200000)\n\t\t\t/Users/katiehockman/godev/src/reflect/value.go:338 +0xb9\n\ttesting.(*F).Fuzz.func1.1(0xc000203c80)\n\t\t\t/Users/katiehockman/godev/src/testing/fuzz.go:343 +0x225\n\ttesting.tRunner(0xc000203c80, 0xc000093320)\n\t\t\t/Users/katiehockman/godev/src/testing/testing.go:1204 +0xef\n\tcreated by testing.(*F).Fuzz.func1\n\t\t\t/Users/katiehockman/godev/src/testing/fuzz.go:338 +0x370\n\tfound a crash, currently minimizing for up to 1 minute\n\t--- FAIL: FuzzFoo (0.00s)\n\t\t--- FAIL: FuzzFoo/#05 (0.00s)\n\t\t\tfoo_test.go:24: got the minimum size!\n\tpanic: contains a letter [recovered]\n\t\t\tpanic: contains a letter\n\t\n\tgoroutine 41 [running]:\n\ttesting.tRunner.func1.2(0x11b3820, 0x1227c00)\n\t\t\t/Users/katiehockman/godev/src/testing/testing.go:1154 +0x34b\n\ttesting.tRunner.func1(0xc000180f00)\n\t\t\t/Users/katiehockman/godev/src/testing/testing.go:1157 +0x4b6\n\tpanic(0x11b3820, 0x1227c00)\n\t\t\t/Users/katiehockman/godev/src/runtime/panic.go:972 +0x1d4\n\treflect.Value.call(0x11b6880, 0x11fc228, 0x13, 0x11ef21b, 0x4, 0xc000196750, 0x2, 0x2, 0x2, 0x18, ...)\n\t\t\t/Users/katiehockman/godev/src/reflect/value.go:541 +0xaf4\n\treflect.Value.Call(0x11b6880, 0x11fc228, 0x13, 0xc000196750, 0x2, 0x2, 0x1, 0x2, 0xc000080000)\n\t\t\t/Users/katiehockman/godev/src/reflect/value.go:338 +0xb9\n\ttesting.(*F).Fuzz.func1.1(0xc000180f00)\n\t\t\t/Users/katiehockman/godev/src/testing/fuzz.go:343 +0x225\n\ttesting.tRunner(0xc000180f00, 0xc000190540)\n\t\t\t/Users/katiehockman/godev/src/testing/testing.go:1204 +0xef\n\tcreated by testing.(*F).Fuzz.func1\n\t\t\t/Users/katiehockman/godev/src/testing/fuzz.go:338 +0x370\n\telapsed: 1.1s, execs: 0 (0/sec), workers: 1\n\t--- FAIL: FuzzFoo (1.09s)\n\t\tfuzzing process terminated unexpectedly: \u003cnil\u003e\n\t\tCrash written to testdata/corpus/FuzzFoo/15c1421e020dc3bbc2ab9d9be12ef662a5605133c5291d12f485e953e66ea736\n\t\tTo re-run:\n\t\tgo test foo -run\u003dFuzzFoo/15c1421e020dc3bbc2ab9d9be12ef662a5605133c5291d12f485e953e66ea736\n\tFAIL\n\tFAIL    foo      1.191s\n\tFAIL",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 20
+      },
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
