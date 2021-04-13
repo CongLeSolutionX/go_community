@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e199ce1d_82de78c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-13T10:01:44Z",
+      "side": 1,
+      "message": "Sorry, the build lines are still not correct. You need _both_ build tag lines: // +build as well as //go:build, see https://golang.org/design/draft-gobuild#transition for details.\n\nAs noted previously, running `go fmt` (built from latest tip) will add the correct //go:build lines based on the // +build lines.",
+      "revId": "f1df1485d193c88c9100a8ccf270451b309eb84d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
