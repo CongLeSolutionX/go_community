@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "285ca2a0_8aae4524",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-13T01:06:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is the best plan.  I was looking at the failure to define enough line numbers in the output, and came up with a CL that relies on the \"wrong\" line numbers being attached to OpArgXXXReg and moves them to better places -- otherwise , they are lost for good.\n\nSee CL 309649.\n\nThat CL could perhaps be modified to normalize line numbers on OpArg after we\u0027re done.",
+      "revId": "d154df8c1ce424bb1293acf4385f10d2d8bf11d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
