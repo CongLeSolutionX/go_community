@@ -951,8 +951,11 @@ func writeType(t *types.Type) *obj.LSym {
 	}
 
 	if base.Ctxt.Pkgpath != "runtime" || (tbase != types.Types[tbase.Kind()] && tbase != types.ByteType && tbase != types.RuneType && tbase != types.ErrorType) { // int, float, etc
-		// named types from other files are defined only by those files
-		if tbase.Sym() != nil && tbase.Sym().Pkg != types.LocalPkg {
+		// Named types from other files are defined only by those files.
+		// However, as an exception, we can put instantiated types in the
+		// local package, even though they came from another package.
+		if tbase.Sym() != nil && tbase.Sym().Pkg != types.LocalPkg &&
+			len(tbase.RParams()) == 0 {
 			if i := typecheck.BaseTypeIndex(t); i >= 0 {
 				lsym.Pkg = tbase.Sym().Pkg.Prefix
 				lsym.SymIdx = int32(i)
