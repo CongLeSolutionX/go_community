@@ -87,6 +87,23 @@
       "parentUuid": "a944552c_45c6b828",
       "revId": "e39c520608aa1fbcc27fbd855c5c5d9c71bca28e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a213e56_54c9e8cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-13T00:31:25Z",
+      "side": 1,
+      "message": "I took a look at this.  I think that sigblockall is crashing because thread local storage has not been initialized.  I didn\u0027t look but I assume that on Dragonfly thread local storage is set up by the dynamic linker, not by libc.\n\nI sent CL 309571 as an alternative.",
+      "revId": "e39c520608aa1fbcc27fbd855c5c5d9c71bca28e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
