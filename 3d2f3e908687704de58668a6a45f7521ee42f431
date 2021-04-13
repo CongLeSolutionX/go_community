@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb0b72a1_4fbfb641",
+        "filename": "src/cmd/go/internal/modconv/convert_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-13T13:21:57Z",
+      "side": 1,
+      "message": "I\u0027m concerned that this test is getting too unrealistic. Would it be feasible to remove these test cases from convert_test.go and replace them with equivalent script tests?\n\nPerhaps something like:\n\n\n[short] skip\nenv GOPROXY\u003d\n\nmkdir Godeps\ngo mod download github.com/docker/distribution@v0.0.0-20150410205453-85de3967aa93\ncp $GOPATH/pkg/mod/github.com/docker/distribution@v0.0.0-20150410205453-85de3967aa93 Godeps/Godeps.json\n\ngo mod init github.com/docker/distribution\n\ncmpenv go.mod go.mod.want",
+      "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f033fa89_1273b066",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 8
