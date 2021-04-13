@@ -37,6 +37,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2aa701a0_e65aed10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-13T21:17:58Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "b19b3e7dd8fed2efad775e00c86a5882621ca8a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8dc017cc_af3178c9",
         "filename": "src/cmd/compile/internal/walk/order.go",
         "patchSetId": 6
@@ -48,6 +65,24 @@
       "writtenOn": "2021-04-13T21:08:01Z",
       "side": 1,
       "message": "Having the temp address-taken means that it may become non-SSA-able, correct? If so then hopefully this won\u0027t have too many performance consequences.",
+      "revId": "b19b3e7dd8fed2efad775e00c86a5882621ca8a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f1e11c4_3ab00361",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-13T21:17:58Z",
+      "side": 1,
+      "message": "The optimizer can still optimize it out in most cases. It can optimize a load immediately following a store.",
+      "parentUuid": "8dc017cc_af3178c9",
       "revId": "b19b3e7dd8fed2efad775e00c86a5882621ca8a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
