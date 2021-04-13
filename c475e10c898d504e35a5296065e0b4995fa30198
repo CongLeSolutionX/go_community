@@ -16,6 +16,24 @@
       "message": "Great! We can finally get rid of modfetch.ImportRepoRev! ＼(￣▽￣)／\n\nIncidentally, since modload is the only user of modconv and they\u0027re closely related, perhaps eventually modconv should be merged into modload.",
       "revId": "c475e10c898d504e35a5296065e0b4995fa30198",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "425c035d_0cbe2da9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-13T14:10:36Z",
+      "side": 1,
+      "message": "I think they should stay separate packages, but modconv should import modload, rather than the other way around. Then we wouldn\u0027t need to inject QueryPackages; we could just call it. \u0027go mod init\u0027 could import modconv and do its work there.\n\n(Not sure how much work that is, maybe quite a bit.)",
+      "parentUuid": "9a77805d_b9749774",
+      "revId": "c475e10c898d504e35a5296065e0b4995fa30198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9421e446_6ec394f2",
+        "filename": "src/cmd/go/internal/modconv/convert_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-13T14:10:36Z",
+      "side": 1,
+      "message": "This seems like the right approach; I\u0027m also worried we\u0027re overfitting to convert_test.go.",
+      "parentUuid": "fb0b72a1_4fbfb641",
+      "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f033fa89_1273b066",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-13T00:51:55Z",
       "side": 1,
       "message": "And one more question, should we use QueryPattern instead of QueryPackages here? That way we can use modOnly when there are no pkgMods.",
+      "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4da6d9f4_ca80627f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-13T14:10:36Z",
+      "side": 1,
+      "message": "The main distinction between the two is that QueryPattern allows \"...\" wildcards. I don\u0027t think they should be used in modconv though.",
+      "parentUuid": "f033fa89_1273b066",
       "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
