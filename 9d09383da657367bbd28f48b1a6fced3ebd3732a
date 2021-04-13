@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01c99820_b9570950",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-13T13:49:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f7bcd25a_799520f0",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "105eab7a_991ae73c",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "The latter. As long as we ensure the start of the section is sufficiently aligned, this should never happen. The relocations are all correct, it is the section starting address which quietly shifts up.  The code to split relocations uses the starting VA of the next text segment to determine when to stop adding relocations to the current text section.",
       "parentUuid": "105eab7a_991ae73c",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c11263_ee95b5de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-13T13:49:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0a2f1bd1_6fc6809d",
       "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -207,6 +243,24 @@
       "side": 1,
       "message": "I think these are only symbols for functions. I don\u0027t know if that is always true.\n\nPCALIGN also affects alignment, but on today\u0027s code, it will not break code. It may reduce performance in some cases if we don\u0027t respect it.",
       "parentUuid": "5dffcc15_ca9ba79a",
+      "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "146b7a92_ed844403",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2303,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-13T13:49:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b706b10b_9fea7bd4",
       "revId": "9d09383da657367bbd28f48b1a6fced3ebd3732a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
