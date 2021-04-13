@@ -8,6 +8,7 @@ package modcmd
 
 import (
 	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
 	"cmd/go/internal/modload"
 	"context"
 )
@@ -46,6 +47,8 @@ func runInit(ctx context.Context, cmd *base.Command, args []string) {
 		modPath = args[0]
 	}
 
+	cfg.BuildMod = "mod"
+	cfg.BuildModExplicit = true
 	modload.ForceUseModules = true
 	modload.CreateModFile(ctx, modPath) // does all the hard work
 }

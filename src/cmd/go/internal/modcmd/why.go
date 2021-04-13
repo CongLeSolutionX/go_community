@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modload"
 
@@ -64,6 +65,10 @@ func init() {
 }
 
 func runWhy(ctx context.Context, cmd *base.Command, args []string) {
+	// TODO(#45551): report an error if go.mod needs to be updated.
+	// Ignore missing sums.
+	cfg.BuildMod = "mod"
+	cfg.BuildModExplicit = true
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
 

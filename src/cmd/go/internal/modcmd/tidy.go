@@ -61,6 +61,8 @@ func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
 	modload.DisallowWriteGoMod() // Suppress writing until we've tidied the file.
+	cfg.BuildMod = "mod"
+	cfg.BuildModExplicit = true
 
 	modload.LoadPackages(ctx, modload.PackageOpts{
 		Tags:                     imports.AnyTags(),

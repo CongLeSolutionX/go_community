@@ -81,6 +81,12 @@ type moduleJSON struct {
 }
 
 func runDownload(ctx context.Context, cmd *base.Command, args []string) {
+	// Enable updating go.mod and go.sum.
+	// TODO(#45551): don't update go.mod. Only add sums for explicitly requested
+	// modules to go.sum.
+	cfg.BuildMod = "mod"
+	cfg.BuildModExplicit = true
+
 	// Check whether modules are enabled and whether we're in a module.
 	modload.ForceUseModules = true
 	if !modload.HasModRoot() && len(args) == 0 {
