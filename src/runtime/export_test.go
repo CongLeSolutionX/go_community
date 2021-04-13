@@ -1285,7 +1285,9 @@ type GCControllerReviseDelta struct {
 func (c *GCController) Revise(d GCControllerReviseDelta) {
 	c.heapLive += uint64(d.HeapLive)
 	c.heapScan += uint64(d.HeapScan)
-	c.scanWork += d.HeapScanWork + d.StackScanWork + d.GlobalsScanWork
+	c.heapScanWork += d.HeapScanWork
+	c.stackScanWork += d.StackScanWork
+	c.globalsScanWork += d.GlobalsScanWork
 	c.revise()
 }
 
