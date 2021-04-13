@@ -161,9 +161,14 @@ func (g *irgen) stencil() {
 func (g *irgen) instantiateMethods() {
 	for i := 0; i < len(g.instTypeList); i++ {
 		typ := g.instTypeList[i]
-		// Get the base generic type by looking up the symbol of the
-		// generic (uninstantiated) name.
-		baseSym := typ.Sym().Pkg.Lookup(genericTypeName(typ.Sym()))
+		// Mark runtime type as needed, since this ensures that the
+		// compiler puts out the needed DWARF symbols, when this
+		// instantiated type has a different package from the local
+		// package.
+		typecheck.NeedRuntimeType(typ)
+		// Lookup the method on the base generic type, since methods may
+		// not be set on imported instantiated types.
+		baseSym := typ.OrigSym
 		baseType := baseSym.Def.(*ir.Name).Type()
 		for j, m := range typ.Methods().Slice() {
 			targs := make([]ir.Node, len(typ.RParams()))
@@ -200,6 +205,15 @@ func (g *irgen) getInstantiationForNode(inst *ir.InstExpr) *ir.Func {
 // with the type arguments targs. If the instantiated function is not already
 // cached, then it calls genericSubst to create the new instantiation.
 func (g *irgen) getInstantiation(nameNode *ir.Name, targs []ir.Node, isMeth bool) *ir.Func {
+	if nameNode.Func.Body == nil && nameNode.Func.Inl != nil {
+		// If there is no body yet but Func.Inl exists, then we can can
+		// import the whole generic body.
+		assert(nameNode.Func.Inl.Cost == 1 && nameNode.Sym().Pkg != types.LocalPkg)
+		typecheck.ImportBody(nameNode.Func)
+		assert(nameNode.Func.Inl.Body != nil)
+		nameNode.Func.Body = nameNode.Func.Inl.Body
+		nameNode.Func.Dcl = nameNode.Func.Inl.Dcl
+	}
 	sym := makeInstName(nameNode.Sym(), targs, isMeth)
 	st := g.target.Stencils[sym]
 	if st == nil {
@@ -216,7 +230,7 @@ func (g *irgen) getInstantiation(nameNode *ir.Name, targs []ir.Node, isMeth bool
 }
 
 // makeInstName makes the unique name for a stenciled generic function or method,
-// based on the name of the function fy=nsym and the targs. It replaces any
+// based on the name of the function fnsym and the targs. It replaces any
 // existing bracket type list in the name. makeInstName asserts that fnsym has
 // brackets in its name if and only if hasBrackets is true.
 // TODO(danscales): remove the assertions and the hasBrackets argument later.
@@ -251,7 +265,7 @@ func makeInstName(fnsym *types.Sym, targs []ir.Node, hasBrackets bool) *types.Sy
 		assert(i2 >= 0)
 		b.WriteString(name[i+i2+1:])
 	}
-	return typecheck.Lookup(b.String())
+	return fnsym.Pkg.Lookup(b.String())
 }
 
 // Struct containing info needed for doing the substitution as we create the
@@ -756,6 +770,10 @@ func (subst *subster) typ(t *types.Type) *types.Type {
 		forw = newIncompleteNamedType(t.Pos(), newsym)
 		//println("Creating new type by sub", newsym.Name, forw.HasTParam())
 		forw.SetRParams(neededTargs)
+		// Copy the OrigSym from the re-instantiated type (which is the sym of
+		// the base generic type).
+		assert(t.OrigSym != nil)
+		forw.OrigSym = t.OrigSym
 	}
 
 	var newt *types.Type
@@ -913,11 +931,14 @@ func (subst *subster) fields(class ir.Class, oldfields []*types.Field, dcl []*ir
 	for j := range oldfields {
 		newfields[j] = oldfields[j].Copy()
 		newfields[j].Type = subst.typ(oldfields[j].Type)
-		// A param field will be missing from dcl if its name is
+		// A PPARAM field will be missing from dcl if its name is
 		// unspecified or specified as "_". So, we compare the dcl sym
-		// with the field sym. If they don't match, this dcl (if there is
-		// one left) must apply to a later field.
-		if i < len(dcl) && dcl[i].Sym() == oldfields[j].Sym {
+		// with the field sym (or sym of the field's Nname node). (Unnamed
+		// results still have a name like ~r2 in their Nname node.) If
+		// they don't match, this dcl (if there is one left) must apply to
+		// a later field.
+		if i < len(dcl) && (dcl[i].Sym() == oldfields[j].Sym ||
+			(oldfields[j].Nname != nil && dcl[i].Sym() == oldfields[j].Nname.Sym())) {
 			newfields[j].Nname = dcl[i]
 			i++
 		}

@@ -173,6 +173,8 @@
 //     }
 //
 //
+//  TODO(danscales): fill in doc for 'type TypeParamType' and 'type InstType'
+//
 //     type Signature struct {
 //         Params   []Param
 //         Results  []Param
@@ -244,6 +246,8 @@ const (
 	signatureType
 	structType
 	interfaceType
+	typeParamType
+	instType
 )
 
 const (
@@ -437,6 +441,27 @@ type exportWriter struct {
 	maxClosureVarIndex int
 }
 
+// tparamList writes out the type params in the field slice fs
+func (w *exportWriter) tparamList(fs []*types.Field) {
+	w.uint64(uint64(len(fs)))
+	for _, f := range fs {
+		if f.Type.Kind() != types.TTYPEPARAM {
+			base.Fatalf("unexpected non-typeparam")
+		}
+		w.typ(f.Type)
+	}
+}
+
+// typeList writes out the types in ts. These could be the typeparams of a generic
+// type, or could be type arguments instantiating a generic type (and so could be
+// typeparams or concrete types).
+func (w *exportWriter) typeList(ts []*types.Type) {
+	w.uint64(uint64(len(ts)))
+	for _, rparam := range ts {
+		w.typ(rparam)
+	}
+}
+
 func (p *iexporter) doDecl(n *ir.Name) {
 	w := p.newWriter()
 	w.setPkg(n.Sym().Pkg, false)
@@ -459,6 +484,13 @@ func (p *iexporter) doDecl(n *ir.Name) {
 			// Function.
 			w.tag('F')
 			w.pos(n.Pos())
+			// The tparam list of the function type is essentially the
+			// declaration of the type params. So, write out the type
+			// params right now. Then those type params will be
+			// referenced via their type offset (via typOff) in all
+			// other places in the signature and function that they
+			// are used.
+			w.tparamList(n.Type().TParams().FieldSlice())
 			w.signature(n.Type())
 			w.funcExt(n)
 
@@ -491,6 +523,8 @@ func (p *iexporter) doDecl(n *ir.Name) {
 		w.tag('T')
 		w.pos(n.Pos())
 
+		// Export any new typeparams needed for this type
+		w.typeList(n.Type().RParams())
 		underlying := n.Type().Underlying()
 		if underlying == types.ErrorType.Underlying() {
 			// For "type T error", use error as the
@@ -803,8 +837,45 @@ func (w *exportWriter) startType(k itag) {
 }
 
 func (w *exportWriter) doTyp(t *types.Type) {
-	if t.Sym() != nil {
-		if t.Sym().Pkg == types.BuiltinPkg || t.Sym().Pkg == ir.Pkgs.Unsafe {
+	if t.Kind() == types.TTYPEPARAM {
+		// A typeparam has a name, but doesn't have an underlying type.
+		// Just write out the details of the type param here. All other
+		// uses of this typeparam type will be written out as its unique
+		// type offset.
+		w.startType(typeParamType)
+		s := t.Sym()
+		w.setPkg(s.Pkg, true)
+		w.pos(t.Pos())
+
+		// We are writing out the name with the subscript, so that the
+		// typeparam name is unique.
+		w.string(s.Name)
+		w.int64(int64(t.Index()))
+
+		w.typ(t.Bound())
+		return
+	}
+
+	s := t.Sym()
+	if s != nil && t.OrigSym != nil {
+		// This is an instantiated type - could be a re-instantiation like
+		// Value[T2] or a full instantiation like Value[int].
+		if strings.Index(s.Name, "[") < 0 {
+			base.Fatalf("incorrect name for instantiated type")
+		}
+		w.startType(instType)
+		w.pos(t.Pos())
+		// Export the type arguments for the instantiated type. May be new
+		// typeparams or may be concrete types.
+		w.typeList(t.RParams())
+		// Export a reference to the base type.
+		baseType := t.OrigSym.Def.(*ir.Name).Type()
+		w.typ(baseType)
+		return
+	}
+
+	if s != nil {
+		if s.Pkg == types.BuiltinPkg || s.Pkg == ir.Pkgs.Unsafe {
 			base.Fatalf("builtin type missing from typIndex: %v", t)
 		}
 
@@ -1186,9 +1257,21 @@ func (w *exportWriter) funcExt(n *ir.Name) {
 	}
 
 	// Inline body.
+	if n.Type().HasTParam() {
+		if n.Func.Inl != nil {
+			base.FatalfAt(n.Pos(), "generic function is marked inlineable")
+		}
+		// Populate n.Func.Inl, so body of exported generic function will
+		// be written out.
+		n.Func.Inl = &ir.Inline{
+			Cost: 1,
+			Dcl:  n.Func.Dcl,
+			Body: n.Func.Body,
+		}
+	}
 	if n.Func.Inl != nil {
 		w.uint64(1 + uint64(n.Func.Inl.Cost))
-		if n.Func.ExportInline() {
+		if n.Func.ExportInline() || n.Type().HasTParam() {
 			w.p.doInline(n)
 		}
 
@@ -1588,9 +1671,8 @@ func (w *exportWriter) expr(n ir.Node) {
 	case ir.OXDOT, ir.ODOT, ir.ODOTPTR, ir.ODOTINTER, ir.ODOTMETH, ir.OCALLPART, ir.OMETHEXPR:
 		n := n.(*ir.SelectorExpr)
 		if go117ExportTypes {
-			if n.Op() == ir.OXDOT {
-				base.Fatalf("shouldn't encounter XDOT  in new exporter")
-			}
+			// For go117ExportTypes, we usually see all ops except
+			// OXDOT, but we can see OXDOT for generic functions.
 			w.op(n.Op())
 		} else {
 			w.op(ir.OXDOT)
@@ -1604,7 +1686,8 @@ func (w *exportWriter) expr(n ir.Node) {
 				w.exoticField(n.Selection)
 			}
 			// n.Selection is not required for OMETHEXPR, ODOTMETH, and OCALLPART. It will
-			// be reconstructed during import.
+			// be reconstructed during import.  n.Selection is computed during
+			// transformDot() for OXDOT.
 		}
 
 	case ir.ODOTTYPE, ir.ODOTTYPE2:
