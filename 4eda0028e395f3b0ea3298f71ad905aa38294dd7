@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe7b7ef8_1a5459ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-13T16:34:28Z",
+      "side": 1,
+      "message": "\\^o^/ Nice! Never thought it could be done like this.",
+      "revId": "4eda0028e395f3b0ea3298f71ad905aa38294dd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
