@@ -16,6 +16,63 @@
       "message": "I don\u0027t object to the current wording.",
       "revId": "9087d96cf21719d593eb8cacbf654691d87d804d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b4b73c_2986e5be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-13T23:58:21Z",
+      "side": 1,
+      "message": "LGTM but I think there\u0027s a minor grammar mistake.",
+      "revId": "9087d96cf21719d593eb8cacbf654691d87d804d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a07e21d4_9d4c4da8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-13T23:58:21Z",
+      "side": 1,
+      "message": "up-date",
+      "revId": "9087d96cf21719d593eb8cacbf654691d87d804d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ab4b316_0de5641f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 4325,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-13T23:58:21Z",
+      "side": 1,
+      "message": "s/than/than the/",
+      "range": {
+        "startLine": 4325,
+        "startChar": 70,
+        "endLine": 4325,
+        "endChar": 74
+      },
+      "revId": "9087d96cf21719d593eb8cacbf654691d87d804d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
