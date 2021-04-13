@@ -83,4 +83,7 @@ type Flags struct {
 	// Requires wrappers (to do ABI translation), and reflect (so
 	// reflection calls use registers).
 	RegabiArgs bool
+
+	// PacerRedesign enables the new GC pacer in the runtime.
+	PacerRedesign bool
 }
