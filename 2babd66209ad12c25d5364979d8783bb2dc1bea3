@@ -16,6 +16,52 @@
       "message": "TRY\u003dppc64,ppc64le,ppc64lep9,aix-ppc64",
       "revId": "2babd66209ad12c25d5364979d8783bb2dc1bea3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d80ad63c_6a44bddf",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-13T22:10:14Z",
+      "side": 1,
+      "message": "This looks OK.  The name of the branch target may not be entirely accurate.",
+      "range": {
+        "startLine": 101,
+        "startChar": 28,
+        "endLine": 101,
+        "endChar": 51
+      },
+      "revId": "2babd66209ad12c25d5364979d8783bb2dc1bea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09a2645f_c29f3dcf",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-13T22:10:14Z",
+      "side": 1,
+      "message": "Should that read align down addr to 16B?",
+      "range": {
+        "startLine": 104,
+        "startChar": 28,
+        "endLine": 104,
+        "endChar": 60
+      },
+      "revId": "2babd66209ad12c25d5364979d8783bb2dc1bea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

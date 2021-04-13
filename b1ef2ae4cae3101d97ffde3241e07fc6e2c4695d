@@ -16,6 +16,69 @@
       "message": "TRY\u003dppc64,ppc64le,ppc64lep9,aix-ppc64",
       "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "064540a7_23b158b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-13T22:10:14Z",
+      "side": 1,
+      "message": "A few initial comments.  I am still digesting this.  It might be helpful to provide a high level summary of how this algo works in the commit message.",
+      "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a37b4e_24939827",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-13T22:10:14Z",
+      "side": 1,
+      "message": "Isn\u0027t this always true since bytealg.MaxLen restricts us to a separator of at most 32B?",
+      "range": {
+        "startLine": 347,
+        "startChar": 1,
+        "endLine": 347,
+        "endChar": 12
+      },
+      "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdd47a34_c1925aa6",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-13T22:10:14Z",
+      "side": 1,
+      "message": "Is this case reachable if len(sep) is guaranteed to be 32 or less?",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 460,
+        "endChar": 11
+      },
+      "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
