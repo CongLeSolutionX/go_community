@@ -16,6 +16,40 @@
       "message": "I reworked the \"unsafe cast\" part, to ensure sufficient alignment. PTAL. Thanks.",
       "revId": "b19b3e7dd8fed2efad775e00c86a5882621ca8a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c0cdab9_5b858ef0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-13T21:08:01Z",
+      "side": 1,
+      "message": "Still LGTM.\n\n",
+      "revId": "b19b3e7dd8fed2efad775e00c86a5882621ca8a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dc017cc_af3178c9",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-13T21:08:01Z",
+      "side": 1,
+      "message": "Having the temp address-taken means that it may become non-SSA-able, correct? If so then hopefully this won\u0027t have too many performance consequences.",
+      "revId": "b19b3e7dd8fed2efad775e00c86a5882621ca8a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
