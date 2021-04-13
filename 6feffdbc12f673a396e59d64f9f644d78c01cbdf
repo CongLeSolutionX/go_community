@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aed68f3_ebd2b379",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-13T17:01:21Z",
+      "side": 1,
+      "message": "This should no longer be necessary with golang.org/cl/309634, since that deletes externalthreadhandler.",
+      "revId": "6feffdbc12f673a396e59d64f9f644d78c01cbdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
