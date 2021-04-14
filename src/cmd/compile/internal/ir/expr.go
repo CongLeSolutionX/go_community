@@ -749,12 +749,7 @@ func IsAddressable(n Node) bool {
 		return true
 
 	case OXDOT:
-		// TODO(danscales): remove this case as we remove calls to the old
-		// typechecker in (*irgen).funcBody().
-		if base.Flag.G == 0 {
-			return false
-		}
-		fallthrough
+		return false
 	case ODOT:
 		n := n.(*SelectorExpr)
 		return IsAddressable(n.X)

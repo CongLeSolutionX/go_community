@@ -53,11 +53,12 @@ func (g *irgen) stencil() {
 				continue
 			}
 
-		case ir.OAS:
-
-		case ir.OAS2:
+		case ir.OAS, ir.OAS2, ir.OAS2DOTTYPE, ir.OAS2FUNC, ir.OAS2MAPR, ir.OAS2RECV, ir.OASOP:
 
 		default:
+			// The other possible ops at the top level are ODCLCONST
+			// and ODCLTYPE, which don't have any function
+			// instantiations.
 			continue
 		}
 
