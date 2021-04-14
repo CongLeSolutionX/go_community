@@ -650,7 +650,7 @@ type Named struct {
 	check      *Checker    // for Named.under implementation
 	info       typeInfo    // for cycle detection
 	obj        *TypeName   // corresponding declared object
-	orig       Type        // type (on RHS of declaration) this *Named type is derived of (for cycle reporting)
+	origRHS    Type        // type (on RHS of declaration) this *Named type is derived of (for cycle reporting)
 	underlying Type        // possibly a *Named during setup; never a *Named once set up completely
 	tparams    []*TypeName // type parameters, or nil
 	targs      []Type      // type arguments (after instantiation), or nil
@@ -664,7 +664,7 @@ func NewNamed(obj *TypeName, underlying Type, methods []*Func) *Named {
 	if _, ok := underlying.(*Named); ok {
 		panic("types.NewNamed: underlying type must not be *Named")
 	}
-	typ := &Named{obj: obj, orig: underlying, underlying: underlying, methods: methods}
+	typ := &Named{obj: obj, origRHS: underlying, underlying: underlying, methods: methods}
 	if obj.typ == nil {
 		obj.typ = typ
 	}
@@ -672,7 +672,7 @@ func NewNamed(obj *TypeName, underlying Type, methods []*Func) *Named {
 }
 
 func (check *Checker) NewNamed(obj *TypeName, underlying Type, methods []*Func) *Named {
-	typ := &Named{check: check, obj: obj, orig: underlying, underlying: underlying, methods: methods}
+	typ := &Named{check: check, obj: obj, origRHS: underlying, underlying: underlying, methods: methods}
 	if obj.typ == nil {
 		obj.typ = typ
 	}

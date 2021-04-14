@@ -333,7 +333,7 @@ func (check *Checker) validType(typ Type, path []Object) typeInfo {
 		switch t.info {
 		case unknown:
 			t.info = marked
-			t.info = check.validType(t.orig, append(path, t.obj)) // only types of current package added to path
+			t.info = check.validType(t.origRHS, append(path, t.obj)) // only types of current package added to path
 		case marked:
 			// cycle detected
 			for i, tn := range path {
@@ -622,7 +622,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *Named
 		}
 
 		// determine underlying type of named
-		named.orig = check.definedType(tdecl.Type, named)
+		named.origRHS = check.definedType(tdecl.Type, named)
 
 		// The underlying type of named may be itself a named type that is
 		// incomplete:
@@ -637,7 +637,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *Named
 		// and which has as its underlying type the named type B.
 		// Determine the (final, unnamed) underlying type by resolving
 		// any forward chain.
-		// TODO(gri) Investigate if we can just use named.origin here
+		// TODO(gri) Investigate if we can just use named.origRHS here
 		//           and rely on lazy computation of the underlying type.
 		named.underlying = under(named)
 	}
