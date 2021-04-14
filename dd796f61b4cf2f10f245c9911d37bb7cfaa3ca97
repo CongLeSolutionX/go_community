@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eafc919_5c843d69",
+        "filename": "src/reflect/makefunc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-14T13:10:28Z",
+      "side": 1,
+      "message": "Would it make sense to inline this into moveMakeFuncArgPtrs\u0027 caller?",
+      "revId": "dd796f61b4cf2f10f245c9911d37bb7cfaa3ca97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83fd17cf_034ce0ff",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-14T13:10:28Z",
+      "side": 1,
+      "message": "Delete",
+      "revId": "dd796f61b4cf2f10f245c9911d37bb7cfaa3ca97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73a736ea_097d13b9",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-14T13:10:28Z",
+      "side": 1,
+      "message": "Maybe add a comment here about not being preempted until moveRegPtrs?",
+      "revId": "dd796f61b4cf2f10f245c9911d37bb7cfaa3ca97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d836bee_41b842d6",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-14T13:10:28Z",
+      "side": 1,
+      "message": "I\u0027m not totally clear where valueRegs needs to be alive to this point, but it\u0027s okay for them to be dead after this point. Does it technically have to be kept alive until the unspillArgs in methodValueCall, but there\u0027s no chance for preemption between here and the unspillArgs?",
+      "revId": "dd796f61b4cf2f10f245c9911d37bb7cfaa3ca97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4c64d24_9cf3e71b",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-14T13:10:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this. Since methodValueCall is an assembly function, what does it mean for it to have a stack object?",
+      "range": {
+        "startLine": 1069,
+        "startChar": 40,
+        "endLine": 1069,
+        "endChar": 57
+      },
+      "revId": "dd796f61b4cf2f10f245c9911d37bb7cfaa3ca97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
