@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37557f1e_fe2513b1",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-14T19:17:25Z",
+      "side": 1,
+      "message": "Actually we can use check.newNamed here. Fixed.",
+      "parentUuid": "258d74cd_d33878a7",
+      "range": {
+        "startLine": 616,
+        "startChar": 2,
+        "endLine": 616,
+        "endChar": 17
+      },
+      "revId": "993c2fcf5650fe23b871e7edf06c1f5b0ec792eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "406e2ac4_f71fe2cb",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-14T18:42:36Z",
       "side": 1,
       "message": "origRHS is OK, but it\u0027s a little confusing to have orig and origRHS. Maybe call this \u0027def\u0027, as in the definition of this defined type?",
+      "range": {
+        "startLine": 654,
+        "startChar": 1,
+        "endLine": 654,
+        "endChar": 8
+      },
+      "revId": "993c2fcf5650fe23b871e7edf06c1f5b0ec792eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a897a643_b564d8ff",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-14T19:17:25Z",
+      "side": 1,
+      "message": "Changed to fromRHS for now - it really is just the underlying type but not quite because the underlying type is not quite set up in the beginning when we might see a cycle. Needs to be cleaned up.\n\nAdded TODO.",
+      "parentUuid": "406e2ac4_f71fe2cb",
       "range": {
         "startLine": 654,
         "startChar": 1,
