@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a29ebc8d_3b81f7bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-14T03:53:15Z",
+      "side": 1,
+      "message": "Looks good.  Thanks for doing this!",
+      "revId": "9ee515b1ae226edac8119dbbdb2144e8ba802091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab3793ef_58898d13",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-14T03:53:15Z",
+      "side": 1,
+      "message": "did you mean NewNamed, instead of NewGeneric?\n\nNit: to be more precise, you could change to \"but with a *Checker argument and an orig argument.)",
+      "revId": "9ee515b1ae226edac8119dbbdb2144e8ba802091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8200e1a_ccc350c6",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-14T03:53:15Z",
+      "side": 1,
+      "message": "Nit: FYI, I had to look up what fltr mean (from left to right, right?).",
+      "revId": "9ee515b1ae226edac8119dbbdb2144e8ba802091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
