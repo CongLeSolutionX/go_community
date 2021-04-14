@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff55d40_3e782b63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-14T04:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e6e1bbc_1b5a12fe",
+      "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "150b4275_21fbb25b",
@@ -69,6 +87,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24b7762b_46d5387c",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-14T04:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c84f483e_341fa5f5",
+      "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "794dc9d2_966552d9",
@@ -82,6 +118,24 @@
       "writtenOn": "2021-04-13T19:40:38Z",
       "side": 1,
       "message": "Most of these tests use types defines in this package.  Is is necessary to define these types in different packages?\n\nAnd if they are in different packages, I don\u0027t see any reason that they must both be \"package example\".",
+      "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b4f94d3_b4e4b840",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-14T04:23:07Z",
+      "side": 1,
+      "message": "\u003e Is is necessary to define these types in different packages?\n\nIt is not Convertible if it is defined in same package.\n\n\u003e I don\u0027t see any reason that they must both be \"package example\".\n\nThanks for the suggestion, renamed the package name to `example1` and `example2`",
+      "parentUuid": "794dc9d2_966552d9",
       "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -105,6 +159,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a6e4be8_4a094dd1",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7242,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-14T04:23:07Z",
+      "side": 1,
+      "message": "Added a test case to the pull request, if two structs having same structure, we can use reflect Convert one to another, e.g:\n\n```\nfunc TestConvertibleTo(t *testing.T) {\n\tt1 :\u003d ValueOf(example1.MyStruct{}).Type()\n\tt2 :\u003d ValueOf(example2.MyStruct{}).Type()\n\tif !t1.ConvertibleTo(t2) {\n\t\tt.Fatalf(\"(%s).ConvertibleTo(%s) \u003d false, want true\", t1, t2)\n\t}\n\n\tv1 :\u003d example1.MyStruct{\n\t\tName: \"hello\",\n\t\tMyStruct: \u0026example1.MyStruct{\n\t\t\tName: \"world\",\n\t\t},\n\t\tMyStructs: []example1.MyStruct{\n\t\t\t{Name: \"hello world 1\"},\n\t\t\t{Name: \"hello world 2\"},\n\t\t},\n\t}\n\n\tv2, ok :\u003d ValueOf(v1).Convert(t2).Interface().(example2.MyStruct)\n\n\tif !ok {\n\t\tt.Fatalf(\"(%s).Convert(%s) failed\", t1, t2)\n\t}\n\n\tif fmt.Sprintf(\"%+v\", v2) !\u003d fmt.Sprintf(\"%+v\", v1) {\n\t\tt.Fatalf(\"(%s).Convert(%s) got %+v, expecting %+v\", t1, t2, v2, v1)\n\t}\n}\n```",
+      "parentUuid": "33981fb5_01bb1a0f",
+      "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2bece643_30e8fc65",
         "filename": "src/reflect/type.go",
         "patchSetId": 3
@@ -116,6 +188,24 @@
       "writtenOn": "2021-04-13T19:40:38Z",
       "side": 1,
       "message": "You are mapping to bool and you only store true, so just write\n    if compared[ckey] {",
+      "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d071627_805f323f",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-14T04:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bece643_30e8fc65",
       "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -133,6 +223,24 @@
       "writtenOn": "2021-04-13T19:40:38Z",
       "side": 1,
       "message": "No need for \"else\" after \"continue\".",
+      "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4d8a7c4_a7b7156f",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-14T04:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "165f440a_34d28161",
       "revId": "1f048977fd33a49b551243e9cfe3ea25776f1912",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
