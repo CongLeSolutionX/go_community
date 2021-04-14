@@ -16,6 +16,69 @@
       "message": "TRY\u003dppc64,ppc64le,ppc64lep9,aix-ppc64",
       "revId": "084749e38496ff305559c464f8773f75f8b64642",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6164faf0_60387f89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-14T20:09:59Z",
+      "side": 1,
+      "message": "I think the ASM looks OK.  A couple minor comments inlined.",
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a7ea25_b0adc931",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-14T20:09:59Z",
+      "side": 1,
+      "message": "Could these be moved into a macro? I assume they can be replaced by LXV on power9/ppc64le?",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 45
+      },
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d014b63_84cc6c60",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-14T20:09:59Z",
+      "side": 1,
+      "message": "Trivial quibble, can you fixup the tabbing vs spacing in this file? There seems to a mix throughout the file.  It can throw off some editors.",
+      "range": {
+        "startLine": 237,
+        "startChar": 1,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
