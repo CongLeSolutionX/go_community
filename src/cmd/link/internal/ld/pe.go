@@ -566,7 +566,8 @@ func (f *peFile) emitRelocations(ctxt *Link) {
 			}
 		}
 		sect.Rellen = uint64(ctxt.Out.Offset()) - sect.Reloff
-		return nrelocs
+		const relocLen = 4 + 4 + 2
+		return int(sect.Rellen / relocLen)
 	}
 
 	sects := []struct {
