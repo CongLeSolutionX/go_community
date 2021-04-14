@@ -55,6 +55,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2dbd55fe_d020b766",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-14T22:00:13Z",
+      "side": 1,
+      "message": "You can omit seed: 0, that is the default anyhow.\n\nI suggest changing the field from \"off\" to \"on\", so that the zero value is the one that does nothing (see discussion at https://golang.org/doc/effective_go#allocation_new).",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e024f44_2c8982ae",
         "filename": "src/cmd/go/internal/test/testflag.go",
         "patchSetId": 2
