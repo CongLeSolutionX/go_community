@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "715f17af_035b156f",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-14T03:59:09Z",
+      "side": 1,
+      "message": "Indeed. Was a mindless copy. Fixed.",
+      "parentUuid": "ab3793ef_58898d13",
+      "revId": "9ee515b1ae226edac8119dbbdb2144e8ba802091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8200e1a_ccc350c6",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-04-14T03:53:15Z",
       "side": 1,
       "message": "Nit: FYI, I had to look up what fltr mean (from left to right, right?).",
+      "revId": "9ee515b1ae226edac8119dbbdb2144e8ba802091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a505f6e5_9db11ae3",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-14T03:59:09Z",
+      "side": 1,
+      "message": "changed for clarity",
+      "parentUuid": "f8200e1a_ccc350c6",
       "revId": "9ee515b1ae226edac8119dbbdb2144e8ba802091",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
