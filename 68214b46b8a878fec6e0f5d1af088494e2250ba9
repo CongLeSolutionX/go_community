@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f3e75b5_2e57d5bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-14T01:59:47Z",
+      "side": 1,
+      "message": "LGTM.\nAlso seems to clear up some annoying remaining bugs.",
+      "revId": "68214b46b8a878fec6e0f5d1af088494e2250ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff403095_62dde845",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-14T01:59:47Z",
+      "side": 1,
+      "message": "I still think this is a good idea, but the TODO is no longer properly located, and could perhaps just go away.",
+      "range": {
+        "startLine": 561,
+        "startChar": 7,
+        "endLine": 561,
+        "endChar": 92
+      },
+      "revId": "68214b46b8a878fec6e0f5d1af088494e2250ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "495ebc00_a1c108bf",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-14T01:59:47Z",
+      "side": 1,
+      "message": "Seems like this could go.",
+      "range": {
+        "startLine": 562,
+        "startChar": 4,
+        "endLine": 565,
+        "endChar": 7
+      },
+      "revId": "68214b46b8a878fec6e0f5d1af088494e2250ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ac0f439_3e244f4b",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6443,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-14T01:59:47Z",
+      "side": 1,
+      "message": "???",
+      "range": {
+        "startLine": 6443,
+        "startChar": 4,
+        "endLine": 6443,
+        "endChar": 7
+      },
+      "revId": "68214b46b8a878fec6e0f5d1af088494e2250ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
