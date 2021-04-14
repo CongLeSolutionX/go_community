@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09056600_ac0e7555",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-14T20:01:48Z",
+      "side": 0,
+      "message": "huh. how did this work before? is it because the FP on 386 is \"virtual\"?",
+      "range": {
+        "startLine": 424,
+        "startChar": 10,
+        "endLine": 424,
+        "endChar": 14
+      },
+      "revId": "e1c8242bd3d220deb902ec55697077a27f17575e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
