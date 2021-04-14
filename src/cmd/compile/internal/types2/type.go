@@ -224,10 +224,10 @@ func NewSignature(recv *Var, params, results *Tuple, variadic bool) *Signature {
 	if variadic {
 		n := params.Len()
 		if n == 0 {
-			panic("types.NewSignature: variadic function must have at least one parameter")
+			panic("types2.NewSignature: variadic function must have at least one parameter")
 		}
 		if _, ok := params.At(n - 1).typ.(*Slice); !ok {
-			panic("types.NewSignature: variadic parameter must be of unnamed slice type")
+			panic("types2.NewSignature: variadic parameter must be of unnamed slice type")
 		}
 	}
 	return &Signature{recv: recv, params: params, results: results, variadic: variadic}
@@ -650,7 +650,8 @@ type Named struct {
 	check      *Checker    // for Named.under implementation
 	info       typeInfo    // for cycle detection
 	obj        *TypeName   // corresponding declared object
-	orig       Type        // type (on RHS of declaration) this *Named type is derived of (for cycle reporting)
+	orig       *Named      // original, uninstantiated type
+	origRHS    Type        // type (on RHS of declaration) this *Named type is derived of (for cycle reporting)
 	underlying Type        // possibly a *Named during setup; never a *Named once set up completely
 	tparams    []*TypeName // type parameters, or nil
 	targs      []Type      // type arguments (after instantiation), or nil
@@ -662,17 +663,17 @@ type Named struct {
 // The underlying type must not be a *Named.
 func NewNamed(obj *TypeName, underlying Type, methods []*Func) *Named {
 	if _, ok := underlying.(*Named); ok {
-		panic("types.NewNamed: underlying type must not be *Named")
+		panic("types2.NewNamed: underlying type must not be *Named")
 	}
-	typ := &Named{obj: obj, orig: underlying, underlying: underlying, methods: methods}
-	if obj.typ == nil {
-		obj.typ = typ
-	}
-	return typ
+	return (*Checker)(nil).newNamed(obj, nil, underlying, nil, methods)
 }
 
-func (check *Checker) NewNamed(obj *TypeName, underlying Type, methods []*Func) *Named {
-	typ := &Named{check: check, obj: obj, orig: underlying, underlying: underlying, methods: methods}
+// newNamed is like NewNamed but with a *Checker receiver and additional orig argument.
+func (check *Checker) newNamed(obj *TypeName, orig *Named, underlying Type, tparams []*TypeName, methods []*Func) *Named {
+	typ := &Named{check: check, obj: obj, orig: orig, origRHS: underlying, underlying: underlying, tparams: tparams, methods: methods}
+	if typ.orig == nil {
+		typ.orig = typ
+	}
 	if obj.typ == nil {
 		obj.typ = typ
 	}
@@ -682,6 +683,10 @@ func (check *Checker) NewNamed(obj *TypeName, underlying Type, methods []*Func) 
 // Obj returns the type name for the named type t.
 func (t *Named) Obj() *TypeName { return t.obj }
 
+// Orig returns the original generic type an instantiated type is derived from.
+// If t is not an instantiated type, the result is t.
+func (t *Named) Orig() *Named { return t.orig }
+
 // TODO(gri) Come up with a better representation and API to distinguish
 //           between parameterized instantiated and non-instantiated types.
 
@@ -689,10 +694,13 @@ func (t *Named) Obj() *TypeName { return t.obj }
 // The result is non-nil for an (originally) parameterized type even if it is instantiated.
 func (t *Named) TParams() []*TypeName { return t.tparams }
 
+// SetTParams sets the type parameters of the named type t.
+func (t *Named) SetTParams(tparams []*TypeName) { t.tparams = tparams }
+
 // TArgs returns the type arguments after instantiation of the named type t, or nil if not instantiated.
 func (t *Named) TArgs() []Type { return t.targs }
 
-// SetTArgs sets the type arguments of Named.
+// SetTArgs sets the type arguments of the named type t.
 func (t *Named) SetTArgs(args []Type) { t.targs = args }
 
 // NumMethods returns the number of explicit methods whose receiver is named type t.
@@ -704,10 +712,10 @@ func (t *Named) Method(i int) *Func { return t.methods[i] }
 // SetUnderlying sets the underlying type and marks t as complete.
 func (t *Named) SetUnderlying(underlying Type) {
 	if underlying == nil {
-		panic("types.Named.SetUnderlying: underlying type must not be nil")
+		panic("types2.Named.SetUnderlying: underlying type must not be nil")
 	}
 	if _, ok := underlying.(*Named); ok {
-		panic("types.Named.SetUnderlying: underlying type must not be *Named")
+		panic("types2.Named.SetUnderlying: underlying type must not be *Named")
 	}
 	t.underlying = underlying
 }
@@ -731,9 +739,9 @@ func nextId() uint64 { return uint64(atomic.AddUint32(&lastId, 1)) }
 // A TypeParam represents a type parameter type.
 type TypeParam struct {
 	check *Checker  // for lazy type bound completion
-	id    uint64    // unique id
+	id    uint64    // unique id, for debugging only
 	obj   *TypeName // corresponding type name
-	index int       // parameter index
+	index int       // type parameter index in source order, starting at 0
 	bound Type      // *Named or *Interface; underlying type is always *Interface
 }
 
