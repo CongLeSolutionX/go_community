@@ -16,6 +16,24 @@
       "message": "It would be great to have this in 1.17, if you have time to rebase :) ",
       "revId": "d3ff68769dd951379d5ecb600caa2f33c99a4bcd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3a44331_2a2d6783",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-14T19:08:24Z",
+      "side": 1,
+      "message": "Thanks. It is not just the rebasing: we have to decide if this is correct (it might be confusing to see packages fully qualified in one error message and not in another). I think some variant of this CL is necessary, but we\u0027ve yet to hash out the ideal behavior.\n\nBut it is on our list to follow up on for 1.17.",
+      "parentUuid": "1fd059a7_84c46136",
+      "revId": "d3ff68769dd951379d5ecb600caa2f33c99a4bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
