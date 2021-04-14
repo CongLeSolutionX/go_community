@@ -543,8 +543,7 @@ func TestImportDirNotExist(t *testing.T) {
 func TestImportVendor(t *testing.T) {
 	testenv.MustHaveGoBuild(t) // really must just have source
 
-	defer os.Setenv("GO111MODULE", os.Getenv("GO111MODULE"))
-	os.Setenv("GO111MODULE", "off")
+	t.Setenv("GO111MODULE", "off")
 
 	ctxt := Default
 	wd, err := os.Getwd()
@@ -565,8 +564,7 @@ func TestImportVendor(t *testing.T) {
 func TestImportVendorFailure(t *testing.T) {
 	testenv.MustHaveGoBuild(t) // really must just have source
 
-	defer os.Setenv("GO111MODULE", os.Getenv("GO111MODULE"))
-	os.Setenv("GO111MODULE", "off")
+	t.Setenv("GO111MODULE", "off")
 
 	ctxt := Default
 	wd, err := os.Getwd()
@@ -588,8 +586,7 @@ func TestImportVendorFailure(t *testing.T) {
 func TestImportVendorParentFailure(t *testing.T) {
 	testenv.MustHaveGoBuild(t) // really must just have source
 
-	defer os.Setenv("GO111MODULE", os.Getenv("GO111MODULE"))
-	os.Setenv("GO111MODULE", "off")
+	t.Setenv("GO111MODULE", "off")
 
 	ctxt := Default
 	wd, err := os.Getwd()
@@ -619,8 +616,7 @@ func TestImportPackageOutsideModule(t *testing.T) {
 
 	// Disable module fetching for this test so that 'go list' fails quickly
 	// without trying to find the latest version of a module.
-	defer os.Setenv("GOPROXY", os.Getenv("GOPROXY"))
-	os.Setenv("GOPROXY", "off")
+	t.Setenv("GOPROXY", "off")
 
 	// Create a GOPATH in a temporary directory. We don't use testdata
 	// because it's in GOROOT, which interferes with the module heuristic.
@@ -636,10 +632,8 @@ func TestImportPackageOutsideModule(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	defer os.Setenv("GO111MODULE", os.Getenv("GO111MODULE"))
-	os.Setenv("GO111MODULE", "on")
-	defer os.Setenv("GOPATH", os.Getenv("GOPATH"))
-	os.Setenv("GOPATH", gopath)
+	t.Setenv("GO111MODULE", "on")
+	t.Setenv("GOPATH", gopath)
 	ctxt := Default
 	ctxt.GOPATH = gopath
 	ctxt.Dir = filepath.Join(gopath, "src/example.com/p")
@@ -696,12 +690,9 @@ func TestMissingImportErrorRepetition(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(tmp, "go.mod"), []byte("module m"), 0666); err != nil {
 		t.Fatal(err)
 	}
-	defer os.Setenv("GO111MODULE", os.Getenv("GO111MODULE"))
-	os.Setenv("GO111MODULE", "on")
-	defer os.Setenv("GOPROXY", os.Getenv("GOPROXY"))
-	os.Setenv("GOPROXY", "off")
-	defer os.Setenv("GONOPROXY", os.Getenv("GONOPROXY"))
-	os.Setenv("GONOPROXY", "none")
+	t.Setenv("GO111MODULE", "on")
+	t.Setenv("GOPROXY", "off")
+	t.Setenv("GONOPROXY", "none")
 
 	ctxt := Default
 	ctxt.Dir = tmp
