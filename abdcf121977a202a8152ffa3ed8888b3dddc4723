@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3bfa762_ea667456",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-14T23:55:11Z",
+      "side": 1,
+      "message": "Good catch!  Yes, removing OXDOT completely is fine (which is what the original code was before I added the -G\u003d3 case).",
+      "parentUuid": "d22a653b_19faf581",
+      "range": {
+        "startLine": 751,
+        "startChar": 6,
+        "endLine": 751,
+        "endChar": 11
+      },
+      "revId": "abdcf121977a202a8152ffa3ed8888b3dddc4723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff782719_6ef88343",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19555d80_1f71debf",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-14T23:55:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff782719_6ef88343",
+      "revId": "abdcf121977a202a8152ffa3ed8888b3dddc4723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f54b6714_54471867",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-04-14T23:23:02Z",
       "side": 1,
       "message": "not a culprit anymore - remove this and the above comment? (or elaborate)",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "abdcf121977a202a8152ffa3ed8888b3dddc4723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee3d5668_41cbd0aa",
+        "filename": "test/typeparam/issue45547.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-04-14T23:55:11Z",
+      "side": 1,
+      "message": "Good suggestion.  Added comments explaining these are tests for function instantiation on the right hand side of multi-value assignments (both within and outside a function).",
+      "parentUuid": "f54b6714_54471867",
       "range": {
         "startLine": 15,
         "startChar": 27,
