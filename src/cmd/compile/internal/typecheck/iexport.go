@@ -223,9 +223,22 @@ import (
 )
 
 // Current indexed export format version. Increase with each format change.
-// 1: added column details to Pos
 // 0: Go1.11 encoding
-const iexportVersion = 1
+// 1: added column details to Pos
+// 2: added information for generic function/types (currently unstable)
+const (
+	IexportVersionGo1_11   = 0
+	IexportVersionPosCol   = 1
+	IexportVersionGenerics = 2
+
+	// Start of the unstable series of versions
+	IexportVersionUnstableStart = 100
+
+	// Current unstable version number we are using
+	IexportVersionUnstableCurrent = 101
+
+	IexportVersion = IexportVersionUnstableCurrent
+)
 
 // predeclReserved is the number of type offsets reserved for types
 // implicitly declared in the universe block.
@@ -297,7 +310,7 @@ func WriteExports(out *bufio.Writer) {
 	// Assemble header.
 	var hdr intWriter
 	hdr.WriteByte('i')
-	hdr.uint64(iexportVersion)
+	hdr.uint64(IexportVersion)
 	hdr.uint64(uint64(p.strings.Len()))
 	hdr.uint64(dataLen)
 
