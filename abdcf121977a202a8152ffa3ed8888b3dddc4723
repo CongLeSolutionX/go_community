@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d22a653b_19faf581",
+        "filename": "src/cmd/compile/internal/ir/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-14T23:23:02Z",
+      "side": 1,
+      "message": "remove case entirely since the \"default\" is already return false? (alternatively, if you think it should be here for documentation, use break instead of return)",
+      "range": {
+        "startLine": 751,
+        "startChar": 6,
+        "endLine": 751,
+        "endChar": 11
+      },
+      "revId": "abdcf121977a202a8152ffa3ed8888b3dddc4723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff782719_6ef88343",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-14T23:23:02Z",
+      "side": 1,
+      "message": "could use a comment in this case body",
+      "revId": "abdcf121977a202a8152ffa3ed8888b3dddc4723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f54b6714_54471867",
+        "filename": "test/typeparam/issue45547.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-14T23:23:02Z",
+      "side": 1,
+      "message": "not a culprit anymore - remove this and the above comment? (or elaborate)",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "abdcf121977a202a8152ffa3ed8888b3dddc4723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
