@@ -1,0 +1,66 @@
+# Shuffle order of tests and benchmarks
+
+# Run tests
+go test -v foo_test.go
+stdout '(?s)TestOne(.*)TestTwo(.*)TestThree'
+
+go test -v -shuffle=off foo_test.go
+stdout '(?s)TestOne(.*)TestTwo(.*)TestThree'
+
+go test -v -shuffle=42 foo_test.go
+stdout '(?s)TestThree(.*)TestOne(.*)TestTwo'
+
+go test -v -shuffle=43 foo_test.go
+stdout '(?s)TestThree(.*)TestTwo(.*)TestOne'
+
+go test -v -shuffle=44 foo_test.go
+stdout '(?s)TestOne(.*)TestThree(.*)TestTwo'
+
+go test -v -shuffle=on foo_test.go
+stdout -count=2 'TestOne'
+stdout -count=2 'TestTwo'
+stdout -count=2 'TestThree'
+
+# Run tests and benchmarks
+go test -v -bench=. foo_test.go
+stdout '(?s)TestOne(.*)TestTwo(.*)TestThree(.*)BenchmarkOne(.*)BenchmarkTwo(.*)BenchmarkThree'
+
+go test -v -bench=. -shuffle=off foo_test.go
+stdout '(?s)TestOne(.*)TestTwo(.*)TestThree(.*)BenchmarkOne(.*)BenchmarkTwo(.*)BenchmarkThree'
+
+go test -v -bench=. -shuffle=42 foo_test.go
+stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)BenchmarkThree(.*)BenchmarkOne(.*)BenchmarkTwo'
+
+go test -v -bench=. -shuffle=43 foo_test.go
+stdout '(?s)TestThree(.*)TestTwo(.*)TestOne(.*)BenchmarkThree(.*)BenchmarkOne(.*)BenchmarkTwo'
+
+go test -v -bench=. -shuffle=44 foo_test.go
+stdout '(?s)TestOne(.*)TestThree(.*)TestTwo(.*)BenchmarkTwo(.*)BenchmarkOne(.*)BenchmarkThree'
+
+go test -v -bench=. -shuffle=on foo_test.go
+stdout -count=2 'TestOne'
+stdout -count=2 'TestTwo'
+stdout -count=2 'TestThree'
+stdout -count=2 'BenchmarkOne'
+stdout -count=2 'BenchmarkTwo'
+stdout -count=2 'BenchmarkThree'
+
+-- go.mod --
+module m
+
+go 1.16
+-- foo_test.go --
+package foo
+
+import "testing"
+
+func TestOne(t *testing.T)   {}
+func TestTwo(t *testing.T)   {}
+func TestThree(t *testing.T) {}
+
+func BenchmarkOne(b *testing.B)   {}
+func BenchmarkTwo(b *testing.B)   {}
+func BenchmarkThree(b *testing.B) {}
+
+-- foo.go --
+package foo

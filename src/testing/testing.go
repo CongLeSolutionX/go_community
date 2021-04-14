@@ -242,6 +242,7 @@ import (
 	"fmt"
 	"internal/race"
 	"io"
+	"math/rand"
 	"os"
 	"runtime"
 	"runtime/debug"
@@ -299,6 +300,7 @@ func Init() {
 	cpuListStr = flag.String("test.cpu", "", "comma-separated `list` of cpu counts to run each test with")
 	parallel = flag.Int("test.parallel", runtime.GOMAXPROCS(0), "run at most `n` tests in parallel")
 	testlog = flag.String("test.testlogfile", "", "write test action log to `file` (for use only by cmd/go)")
+	shuffle = flag.String("test.shuffle", "off", "randomize the execution order of tests and benchmarks")
 
 	initBenchmarkFlags()
 }
@@ -325,6 +327,7 @@ var (
 	timeout              *time.Duration
 	cpuListStr           *string
 	parallel             *int
+	shuffle              *string
 	testlog              *string
 
 	haveExamples bool // are there examples?
@@ -1448,6 +1451,14 @@ func (m *M) Run() (code int) {
 		listTests(m.deps.MatchString, m.tests, m.benchmarks, m.examples)
 		m.exitCode = 0
 		return
+	}
+
+	if *shuffle != "off" {
+		n, _ := strconv.ParseInt(*shuffle, 10, 64)
+		fmt.Println("SEED\t", n)
+		rand.Seed(n)
+		rand.Shuffle(len(m.tests), func(i, j int) { m.tests[i], m.tests[j] = m.tests[j], m.tests[i] })
+		rand.Shuffle(len(m.benchmarks), func(i, j int) { m.benchmarks[i], m.benchmarks[j] = m.benchmarks[j], m.benchmarks[i] })
 	}
 
 	parseCpuList()
