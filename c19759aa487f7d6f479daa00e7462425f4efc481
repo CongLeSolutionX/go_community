@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e38e0391_0f59b916",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-04-14T09:54:55Z",
+      "side": 1,
+      "message": "I also like changes that only delete code.\n\nThank you very much.\n\nAlex",
+      "revId": "c19759aa487f7d6f479daa00e7462425f4efc481",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
