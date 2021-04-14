@@ -165,10 +165,20 @@ type makeFuncCtxt struct {
 // memory.
 //go:nosplit
 func moveMakeFuncArgPtrs(ctxt *makeFuncCtxt, args *abi.RegArgs) {
+	moveRegPtrs(ctxt.regPtrs, args)
+}
+
+// moveRegPtrs uses regPtrs to copy integer pointer arguments in args.Ints
+// to args.Ptrs where the GC can see them.
+//
+// Must be nosplit because it is called in nosplit context callers, e.g. in
+// moveMakeFuncArgPtrs, and in a special place in callMethod.
+//go:nosplit
+func moveRegPtrs(regPtrs abi.IntArgRegBitmap, args *abi.RegArgs) {
 	for i, arg := range args.Ints {
 		// Avoid write barriers! Because our write barrier enqueues what
 		// was there before, we might enqueue garbage.
-		if ctxt.regPtrs.Get(i) {
+		if regPtrs.Get(i) {
 			*(*uintptr)(unsafe.Pointer(&args.Ptrs[i])) = arg
 		} else {
 			// We *must* zero this space ourselves because it's defined in

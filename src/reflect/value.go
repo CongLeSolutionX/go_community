@@ -1023,6 +1023,8 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool, regs *a
 	methodFrameSize = align(methodFrameSize, ptrSize)
 	methodFrameSize += methodABI.spill
 
+	//valueABI.dump()
+
 	// Call.
 	// Call copies the arguments from scratch to the stack, calls fn,
 	// and then copies the results back into scratch.
@@ -1039,6 +1041,9 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool, regs *a
 	// because the arguments may be laid out differently.
 	if valueRegs != nil {
 		*valueRegs = methodRegs
+		// Set pointer slots so the GC can see them. (The "call" above doesn't set them.)
+		// Must not be preempted (i.e. split stack) until pointer slots are set.
+		moveRegPtrs(valueABI.outRegPtrs, valueRegs)
 	}
 	if retSize := methodFrameType.size - methodABI.retOffset; retSize > 0 {
 		valueRet := add(valueFrame, valueABI.retOffset, "valueFrame's size > retOffset")
@@ -1059,6 +1064,11 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool, regs *a
 
 	// See the comment in callReflect.
 	runtime.KeepAlive(ctxt)
+
+	// Keep valueRegs alive because it may hold live pointer results.
+	// The caller (methodValueCall) has it as a stack object, which is only
+	// scanned when there is a reference to it.
+	runtime.KeepAlive(valueRegs)
 }
 
 // funcName returns the name of f, for use in error messages.
