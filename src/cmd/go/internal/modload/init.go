@@ -365,8 +365,8 @@ var errGoModDirty error = goModDirtyError{}
 // build list from its go.mod file.
 //
 // LoadModFile may make changes in memory, like adding a go directive and
-// ensuring requirements are consistent. WriteGoMod should be called later to
-// write changes out to disk or report errors in readonly mode.
+// ensuring requirements are consistent, and will write those changes back to
+// disk unless DisallowWriteGoMod is in effect.
 //
 // As a side-effect, LoadModFile may change cfg.BuildMod to "vendor" if
 // -mod wasn't set explicitly and automatic vendoring should be enabled.
@@ -379,6 +379,19 @@ var errGoModDirty error = goModDirtyError{}
 // it for global consistency. Most callers outside of the modload package should
 // use LoadModGraph instead.
 func LoadModFile(ctx context.Context) *Requirements {
+	rs := loadModFile(ctx)
+
+	// If the roots were inconsistent, fix up the go.mod file on disk.
+	commitRequirements(ctx, rs)
+	return rs
+}
+
+// loadModFile is like LoadModFile, but does not implicitly commit the
+// requirements back to disk after fixing inconsistencies.
+//
+// The caller should invoke commitRequirements explicitly after making any other
+// needed changes to the returned requirements.
+func loadModFile(ctx context.Context) *Requirements {
 	if requirements != nil {
 		return requirements
 	}
@@ -388,7 +401,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 		Target = module.Version{Path: "command-line-arguments"}
 		targetPrefix = "command-line-arguments"
 		rawGoVersion.Store(Target, latestGoVersion())
-		commitRequirements(ctx, newRequirements(index.depth(), nil, nil))
+		requirements = newRequirements(index.depth(), nil, nil)
 		return requirements
 	}
 
@@ -450,8 +463,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 		}
 	}
 
-	// Fix up roots if inconsistent.
-	commitRequirements(ctx, rs)
+	requirements = rs
 	return requirements
 }
 
@@ -1114,9 +1126,4 @@ const (
 // file is stored in the go.sum file.
 func modkey(m module.Version) module.Version {
 	return module.Version{Path: m.Path, Version: m.Version + "/go.mod"}
-}
-
-func TrimGoSum(ctx context.Context) {
-	rs := LoadModFile(ctx)
-	modfetch.TrimGoSum(keepSums(ctx, loaded, rs, loadedZipSumsOnly))
 }
