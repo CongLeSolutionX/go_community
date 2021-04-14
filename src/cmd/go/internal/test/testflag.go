@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 
@@ -68,6 +69,7 @@ func init() {
 	cf.DurationVar(&testTimeout, "timeout", 10*time.Minute, "")
 	cf.StringVar(&testTrace, "trace", "", "")
 	cf.BoolVar(&testV, "v", false, "")
+	cf.Var(&testShuffle, "shuffle", "")
 
 	for name, _ := range passFlagToTest {
 		cf.Var(cf.Lookup(name).Value, "test."+name, "")
@@ -192,6 +194,40 @@ func (f *vetFlag) Set(value string) error {
 		f.flags = append(f.flags, "-"+arg)
 	}
 	return nil
+}
+
+type shuffleFlag struct {
+	off  bool
+	seed int64
+}
+
+func (f *shuffleFlag) String() string {
+	if f.off {
+		return "off"
+	}
+	n := strconv.FormatInt(f.seed, 10)
+
+	return n
+}
+
+func (f *shuffleFlag) Set(value string) error {
+	if value == "" || value == "off" {
+		*f = shuffleFlag{off: true}
+		return nil
+	}
+
+	if value == "on" {
+		*f = shuffleFlag{off: false, seed: time.Now().UnixNano()}
+		return nil
+	}
+
+	n, err := strconv.ParseInt(value, 10, 64)
+	if err == nil {
+		*f = shuffleFlag{off: false, seed: n}
+		return nil
+	}
+
+	return fmt.Errorf("-shuffle argument must be 'on', 'off', or an int64")
 }
 
 // testFlags processes the command line, grabbing -x and -c, rewriting known flags
