@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "258d74cd_d33878a7",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-14T18:42:36Z",
+      "side": 1,
+      "message": "Err, this is the reason we can\u0027t use check.newNamed here, right (we must always set obj.typ)? Would you mind adding a bit more commentary? The set up of named types is rather tricky.",
+      "range": {
+        "startLine": 616,
+        "startChar": 2,
+        "endLine": 616,
+        "endChar": 17
+      },
+      "revId": "993c2fcf5650fe23b871e7edf06c1f5b0ec792eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "406e2ac4_f71fe2cb",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-14T18:42:36Z",
+      "side": 1,
+      "message": "origRHS is OK, but it\u0027s a little confusing to have orig and origRHS. Maybe call this \u0027def\u0027, as in the definition of this defined type?",
+      "range": {
+        "startLine": 654,
+        "startChar": 1,
+        "endLine": 654,
+        "endChar": 8
+      },
+      "revId": "993c2fcf5650fe23b871e7edf06c1f5b0ec792eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
