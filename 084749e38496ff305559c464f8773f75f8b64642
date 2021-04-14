@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "418fe8eb_6ccdb88f",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T21:34:08Z",
+      "side": 1,
+      "message": "Patchset 4-\u003e5 shows the latest changes and then patchset 6 was just run through asmfmt.",
+      "parentUuid": "ab702537_4572a065",
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d5b9ac6_b5cd06ed",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-04-14T20:15:46Z",
       "side": 1,
       "message": "Maybe lxv is preferrable on POWER9?",
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ad34ec3_f33192b3",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T21:34:08Z",
+      "side": 1,
+      "message": "I had it working with LXVB16X since that gave me the same order, but I didn\u0027t have a Power9 BE (AIX) to do any testing. If I flip the load order with LXV then other changes are needed with some compares and the VCLZD. Or I could just not do it for BE on Power9.",
+      "parentUuid": "7d5b9ac6_b5cd06ed",
       "revId": "084749e38496ff305559c464f8773f75f8b64642",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -92,6 +128,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f79c7ed_df32649d",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T21:34:08Z",
+      "side": 1,
+      "message": "On Power9 I used LXVB16X to get the same order on LE.\nYes I could do a macro.",
+      "parentUuid": "53a7ea25_b0adc931",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 45
+      },
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d014b63_84cc6c60",
@@ -105,6 +165,30 @@
       "writtenOn": "2021-04-14T20:09:59Z",
       "side": 1,
       "message": "Trivial quibble, can you fixup the tabbing vs spacing in this file? There seems to a mix throughout the file.  It can throw off some editors.",
+      "range": {
+        "startLine": 237,
+        "startChar": 1,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "165b0c71_168c46ff",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T21:34:08Z",
+      "side": 1,
+      "message": "Actually there is an asmfmt tool which I have used. Patchset 4-\u003e5 will show the latest changes and 6 is run through asmfmt.",
+      "parentUuid": "4d014b63_84cc6c60",
       "range": {
         "startLine": 237,
         "startChar": 1,

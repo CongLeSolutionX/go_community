@@ -145,6 +145,30 @@
       },
       "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "770d591f_8b32a3b3",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T21:34:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad46e1e1_d33979a1",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 460,
+        "endChar": 11
+      },
+      "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
