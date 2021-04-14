@@ -16,6 +16,24 @@
       "message": "This is one of my first more \u0027complete\u0027 features for Go, so I\u0027m looking for your input on this PoC eg. if you think of a better way to achieve this.\n\nSome the questions/issues currently\n\n- There is a cyclical dependency between the `math/rand` and `testing` packages.\nI\u0027m thinking there are three solutions, but I\u0027m not sure which would be preferred.\na) use some other method to seed and shuffle the slices. Maybe use runtime.fastrand and a new shuffling function?\nb) //go:linkname the `rand.Seed` and `rand.Shuffle` functions so that they can be used here\nc) move the `math/rand` tests in a `rand_testing` package; this entails duplication of variables and making the tests less readable\n\n- I haven\u0027t used the JSON output very extensively, so I don\u0027t know if it would make sense to introduce a new Action in `test2json` for setting the seed\n\n- Are we okay with `-shuffle\u003don` using the system clock for seeding, or should we use a shorter/more readable seed?\n\n\nLooking forward to your input!\n",
       "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cb3201f_750d4491",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-14T21:56:21Z",
+      "side": 1,
+      "message": "Break the cyclical dependency between testing and math/rand by moving the math/rand tests into package rand_test.  The same pattern can be seen in pretty much every package that the testing package imports, such as the flag or os packages.\n\nI don\u0027t think anything different needs to appear in the JSON output.  The JSON output shouldn\u0027t care which order tests are run in.\n\nI think that the system clock is a good random seed.",
+      "parentUuid": "ec1c44d4_586616e0",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
