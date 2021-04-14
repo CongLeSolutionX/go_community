@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffc2f59f_b886cdf8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-14T13:22:15Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "68214b46b8a878fec6e0f5d1af088494e2250ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff403095_62dde845",
@@ -82,6 +99,52 @@
         "startChar": 4,
         "endLine": 6443,
         "endChar": 7
+      },
+      "revId": "68214b46b8a878fec6e0f5d1af088494e2250ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67b753d9_bf6710f8",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6876,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-14T13:22:15Z",
+      "side": 1,
+      "message": "named lost?",
+      "range": {
+        "startLine": 6876,
+        "startChar": 23,
+        "endLine": 6876,
+        "endChar": 33
+      },
+      "revId": "68214b46b8a878fec6e0f5d1af088494e2250ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eef229da_e6f46e29",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6893,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-14T13:22:15Z",
+      "side": 1,
+      "message": "This code looks at what\u0027s being stored, but doesn\u0027t look at the address being stored to. Is the idea that only the register allocator would introduce such a store, hence the location being stored to is guaranteed to be the reg\u0027s spill slot?",
+      "range": {
+        "startLine": 6893,
+        "startChar": 0,
+        "endLine": 6893,
+        "endChar": 65
       },
       "revId": "68214b46b8a878fec6e0f5d1af088494e2250ba9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
