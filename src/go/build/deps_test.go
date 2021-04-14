@@ -500,7 +500,7 @@ var depsRules = `
 	FMT, flag, math/rand
 	< testing/quick;
 
-	FMT, flag, runtime/debug, runtime/trace, internal/sysinfo
+	FMT, flag, runtime/debug, runtime/trace, internal/sysinfo, math/rand
 	< testing;
 
 	internal/testlog, runtime/pprof, regexp
