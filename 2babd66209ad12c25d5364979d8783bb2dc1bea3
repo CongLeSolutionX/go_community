@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "239acd4d_ee9b6f5c",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T13:52:42Z",
+      "side": 1,
+      "message": "Yes, leftover comment I should have removed.",
+      "parentUuid": "d80ad63c_6a44bddf",
+      "range": {
+        "startLine": 101,
+        "startChar": 28,
+        "endLine": 101,
+        "endChar": 51
+      },
+      "revId": "2babd66209ad12c25d5364979d8783bb2dc1bea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09a2645f_c29f3dcf",
         "filename": "src/internal/bytealg/index_ppc64x.s",
         "patchSetId": 1
@@ -54,6 +78,30 @@
       "writtenOn": "2021-04-13T22:10:14Z",
       "side": 1,
       "message": "Should that read align down addr to 16B?",
+      "range": {
+        "startLine": 104,
+        "startChar": 28,
+        "endLine": 104,
+        "endChar": 60
+      },
+      "revId": "2babd66209ad12c25d5364979d8783bb2dc1bea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0366bd66_df7a51a1",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T13:52:42Z",
+      "side": 1,
+      "message": "The idea here was that not only was the address aligned to 16 but the remaining separator does not cross the next 16 byte boundary.",
+      "parentUuid": "09a2645f_c29f3dcf",
       "range": {
         "startLine": 104,
         "startChar": 28,

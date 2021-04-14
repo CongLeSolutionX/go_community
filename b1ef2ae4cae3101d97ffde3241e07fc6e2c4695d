@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cad58ca_7d88a353",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T13:52:42Z",
+      "side": 1,
+      "message": "I don\u0027t think design details belong in the commit message in most cases. The commit message should mostly identify what the change is doing. Design information goes with the code so it will be seen later when debugging or reviewing the code.",
+      "parentUuid": "064540a7_23b158b9",
+      "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38a37b4e_24939827",
@@ -60,6 +78,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80cd0451_c5f89a30",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T13:52:42Z",
+      "side": 1,
+      "message": "Bad on me. Originally I had MaxLen\u003d64 but later analysis showed that 32 was better in most cases. But I didn\u0027t change this code.",
+      "parentUuid": "38a37b4e_24939827",
+      "range": {
+        "startLine": 347,
+        "startChar": 1,
+        "endLine": 347,
+        "endChar": 12
+      },
+      "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdd47a34_c1925aa6",
         "filename": "src/internal/bytealg/index_ppc64x.s",
         "patchSetId": 2
@@ -71,6 +113,30 @@
       "writtenOn": "2021-04-13T22:10:14Z",
       "side": 1,
       "message": "Is this case reachable if len(sep) is guaranteed to be 32 or less?",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 460,
+        "endChar": 11
+      },
+      "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad46e1e1_d33979a1",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-14T13:52:42Z",
+      "side": 1,
+      "message": "Nope, I will resolve these leftovers for MaxLen\u003e32.",
+      "parentUuid": "fdd47a34_c1925aa6",
       "range": {
         "startLine": 460,
         "startChar": 0,
