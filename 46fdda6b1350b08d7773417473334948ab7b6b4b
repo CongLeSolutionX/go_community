@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00d048aa_1d7db493",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-14T19:46:50Z",
+      "side": 1,
+      "message": "net/http/h2_bundle.go is a generated file.  This needs to be fixed in the upstream code in golang.org/x/net/http2.  Then we can regenerate this file.  Otherwise this change will be lost the next time the file is generated.",
+      "revId": "46fdda6b1350b08d7773417473334948ab7b6b4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
