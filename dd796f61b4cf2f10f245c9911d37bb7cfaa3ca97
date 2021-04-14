@@ -137,6 +137,30 @@
       },
       "revId": "dd796f61b4cf2f10f245c9911d37bb7cfaa3ca97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98d89eae_1635fbc3",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-14T13:15:59Z",
+      "side": 1,
+      "message": "Oh! That really is a stack objects map. TIL.",
+      "parentUuid": "7582755b_c90120da",
+      "range": {
+        "startLine": 1069,
+        "startChar": 40,
+        "endLine": 1069,
+        "endChar": 57
+      },
+      "revId": "dd796f61b4cf2f10f245c9911d37bb7cfaa3ca97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
