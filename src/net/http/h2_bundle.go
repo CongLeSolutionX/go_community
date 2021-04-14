@@ -30,7 +30,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"math"
 	mathrand "math/rand"
@@ -9057,7 +9056,7 @@ func (t *http2Transport) logf(format string, args ...interface{}) {
 	log.Printf(format, args...)
 }
 
-var http2noBody io.ReadCloser = ioutil.NopCloser(bytes.NewReader(nil))
+var http2noBody io.ReadCloser = io.NopCloser(bytes.NewReader(nil))
 
 func http2strSliceContains(ss []string, s string) bool {
 	for _, v := range ss {
