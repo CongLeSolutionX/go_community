@@ -33,6 +33,24 @@
       "message": "PS2 looks much better, thanks!",
       "revId": "29bad52821892c1e8e4a9c4ee5612593feb443dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fdc35cc_b8302df0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-14T16:35:48Z",
+      "side": 1,
+      "message": "Thanks for review.",
+      "parentUuid": "2f669947_75b429b1",
+      "revId": "29bad52821892c1e8e4a9c4ee5612593feb443dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
