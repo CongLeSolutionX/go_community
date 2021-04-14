@@ -37,6 +37,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab702537_4572a065",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2021-04-14T20:15:46Z",
+      "side": 1,
+      "message": "There\u0027s a mix of tabs and spaces across this file.",
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d5b9ac6_b5cd06ed",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2021-04-14T20:15:46Z",
+      "side": 1,
+      "message": "Maybe lxv is preferrable on POWER9?",
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53a7ea25_b0adc931",
         "filename": "src/internal/bytealg/index_ppc64x.s",
         "patchSetId": 4
