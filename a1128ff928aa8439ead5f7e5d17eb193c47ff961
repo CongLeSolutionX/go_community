@@ -34,6 +34,92 @@
       "parentUuid": "ec1c44d4_586616e0",
       "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f46a3cf_7aba705c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-14T21:57:19Z",
+      "side": 1,
+      "message": "Thank you for working on this change Paschalis and congrats! I\u0027ve added some comments, please take a look.",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e024f44_2c8982ae",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-14T21:57:19Z",
+      "side": 1,
+      "message": "seed",
+      "range": {
+        "startLine": 224,
+        "startChar": 1,
+        "endLine": 224,
+        "endChar": 2
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5e9f8f_77f84e3a",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-14T21:57:19Z",
+      "side": 1,
+      "message": "Perhaps we should also return the error in here by:\n\n\nreturn fmt.Errorf(\"-shuffle argument must be \u0027on\u0027, \u0027off\u0027, or an int64: %v\", err)",
+      "range": {
+        "startLine": 230,
+        "startChar": 70,
+        "endLine": 230,
+        "endChar": 72
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c2f9af4_fb0e07da",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-14T21:57:19Z",
+      "side": 1,
+      "message": "We need to properly parse -shuffle as you did for it in cmd/* and not ignore this error.\n\nThis code also unfortunately changes the global rand, perhaps make an *Rand by:\n\nseed, err :\u003d strconv.ParseInt(*shuffle, 10, 63)\nif err !\u003d nil {\n     // TODO: Handle the error here\n     m.exitCode \u003d 1\n     return\n}\nrng :\u003d math.New(math.NewSource(seed))\nrng.Shuffle(len(m.tests), func(i, j int) {\n     m.tests[i], m.tests[j] \u003d m.tests[j], m.tests[i]\n})\nrng.Shuffle(len(m.benchmarks), func(i, j int) {\n     m.benchmarks[i], m.benchmarks[j] \u003d m.benchmarks[j], m.benchmarks[i]\n})",
+      "range": {
+        "startLine": 1456,
+        "startChar": 1,
+        "endLine": 1462,
+        "endChar": 2
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

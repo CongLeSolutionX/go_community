@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2005870f_cca46ac9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-14T21:57:19Z",
+      "side": 1,
+      "message": "This seems redundant, as -shuffle is already a flag so perhaps:\n\ntesting: add -shuffle\u003doff|on|N to alter the execution order",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "91a566118c84ffb21ae05a4c073d575644ce8544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9301a036_b4e6dc0c",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-14T21:57:19Z",
+      "side": 1,
+      "message": "Perhaps let us us \"N\" as n is more of a variable for loops, while this is an incoming variable.",
+      "range": {
+        "startLine": 275,
+        "startChar": 17,
+        "endLine": 275,
+        "endChar": 18
+      },
+      "revId": "91a566118c84ffb21ae05a4c073d575644ce8544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81a08536_d5c1b4ea",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-14T21:57:19Z",
+      "side": 1,
+      "message": "N",
+      "range": {
+        "startLine": 279,
+        "startChar": 52,
+        "endLine": 279,
+        "endChar": 53
+      },
+      "revId": "91a566118c84ffb21ae05a4c073d575644ce8544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a651a60f_e2938797",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-14T21:57:19Z",
+      "side": 1,
+      "message": "Can be simplified, but also \"n\" is an odd variable name for a string. Could we instead even use fmt.Sprintf:\n\n      return strconv.FormatInt(f.seed, 10)\n\nOR\n\n      return fmt.Sprintf(\"%d\", f.seed)",
+      "range": {
+        "startLine": 208,
+        "startChar": 1,
+        "endLine": 210,
+        "endChar": 9
+      },
+      "revId": "91a566118c84ffb21ae05a4c073d575644ce8544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
