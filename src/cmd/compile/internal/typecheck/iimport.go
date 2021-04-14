@@ -115,8 +115,14 @@ func ReadImports(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintT
 	ird := &intReader{in, pkg}
 
 	version := ird.uint64()
-	if version != iexportVersion {
-		base.Errorf("import %q: unknown export format version %d", pkg.Path, version)
+	switch version {
+	case IexportVersion, IexportVersionPosCol, IexportVersionGo1_11:
+	default:
+		if version >= IexportVersionUnstableStart {
+			base.Errorf("import %q: unstable export format version %d, just recompile", pkg.Path, version)
+		} else {
+			base.Errorf("import %q: unknown export format version %d", pkg.Path, version)
+		}
 		base.ErrorExit()
 	}
 
@@ -137,7 +143,8 @@ func ReadImports(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintT
 	in.MustSeek(int64(sLen+dLen), os.SEEK_CUR)
 
 	p := &iimporter{
-		ipkg: pkg,
+		exportVersion: version,
+		ipkg:          pkg,
 
 		pkgCache:     map[uint64]*types.Pkg{},
 		posBaseCache: map[uint64]*src.PosBase{},
@@ -206,7 +213,8 @@ func ReadImports(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintT
 }
 
 type iimporter struct {
-	ipkg *types.Pkg
+	exportVersion uint64
+	ipkg          *types.Pkg
 
 	pkgCache     map[uint64]*types.Pkg
 	posBaseCache map[uint64]*src.PosBase
@@ -710,6 +718,9 @@ func (r *importReader) typ1() *types.Type {
 		return t
 
 	case typeParamType:
+		if r.p.exportVersion != IexportVersion {
+			base.Fatalf("unexpected type param type")
+		}
 		pkg := r.pkg()
 		pos := r.pos()
 		name := r.string()
@@ -733,7 +744,10 @@ func (r *importReader) kind() itag {
 func (r *importReader) signature(recv *types.Field) *types.Type {
 	params := r.paramList()
 	results := r.paramList()
-	tparams := r.paramList()
+	var tparams []*types.Field
+	if r.p.exportVersion == IexportVersion {
+		tparams = r.paramList()
+	}
 	if n := len(params); n > 0 {
 		params[n-1].SetIsDDD(r.bool())
 	}

@@ -11,6 +11,7 @@ package importer
 import (
 	"bytes"
 	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types2"
 	"encoding/binary"
 	"fmt"
@@ -67,7 +68,7 @@ const io_SeekCurrent = 1 // io.SeekCurrent (not defined in Go 1.4)
 // If the export data version is not recognized or the format is otherwise
 // compromised, an error is returned.
 func iImportData(imports map[string]*types2.Package, data []byte, path string) (_ int, pkg *types2.Package, err error) {
-	const currentVersion = 1
+	const currentVersion = typecheck.IexportVersion
 	version := int64(-1)
 	defer func() {
 		if e := recover(); e != nil {
@@ -83,9 +84,13 @@ func iImportData(imports map[string]*types2.Package, data []byte, path string) (
 
 	version = int64(r.uint64())
 	switch version {
-	case currentVersion, 0:
+	case currentVersion, typecheck.IexportVersionPosCol, typecheck.IexportVersionGo1_11:
 	default:
-		errorf("unknown iexport format version %d", version)
+		if version >= typecheck.IexportVersionUnstableStart {
+			errorf("unstable iexport format version %d, just recompile", version)
+		} else {
+			errorf("unknown iexport format version %d", version)
+		}
 	}
 
 	sLen := int64(r.uint64())
@@ -97,8 +102,9 @@ func iImportData(imports map[string]*types2.Package, data []byte, path string) (
 	r.Seek(sLen+dLen, io_SeekCurrent)
 
 	p := iimporter{
-		ipath:   path,
-		version: int(version),
+		exportVersion: version,
+		ipath:         path,
+		version:       int(version),
 
 		stringData:  stringData,
 		stringCache: make(map[uint64]string),
@@ -171,8 +177,9 @@ func iImportData(imports map[string]*types2.Package, data []byte, path string) (
 }
 
 type iimporter struct {
-	ipath   string
-	version int
+	exportVersion int64
+	ipath         string
+	version       int
 
 	stringData  []byte
 	stringCache map[uint64]string
@@ -557,6 +564,9 @@ func (r *importReader) doType(base *types2.Named) types2.Type {
 		return typ
 
 	case typeParamType:
+		if r.p.exportVersion != typecheck.IexportVersion {
+			errorf("unexpected type param type")
+		}
 		pkg := r.pkg()
 		pos := r.pos()
 		name := r.string()
@@ -575,7 +585,10 @@ func (r *importReader) kind() itag {
 func (r *importReader) signature(recv *types2.Var) *types2.Signature {
 	params := r.paramList()
 	results := r.paramList()
-	tparams := r.paramList()
+	var tparams *types2.Tuple
+	if r.p.exportVersion == typecheck.IexportVersion {
+		tparams = r.paramList()
+	}
 	variadic := params.Len() > 0 && r.bool()
 	sig := types2.NewSignature(recv, params, results, variadic)
 	// sig.TParams remains as nil (not zero-length slice) if there are no tparams.

@@ -63,7 +63,7 @@ const (
 // If the export data version is not recognized or the format is otherwise
 // compromised, an error is returned.
 func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []byte, path string) (_ int, pkg *types.Package, err error) {
-	const currentVersion = 1
+	const currentVersion = 101 // 101 is the current typecheck.IexportVersion
 	version := int64(-1)
 	defer func() {
 		if e := recover(); e != nil {
@@ -79,9 +79,15 @@ func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 
 	version = int64(r.uint64())
 	switch version {
-	case currentVersion, 0:
+	// We currently accept typecheck.IexportVersion, typecheck.IexportVersionPosCol,
+	// typecheck.IexportVersionGo11.
+	case currentVersion, 1, 0:
 	default:
-		errorf("unknown iexport format version %d", version)
+		if version >= 100 { // 100 is typecheck.IexportVersionUnstableStart
+			errorf("unstable iexport format version %d, just recompile", version)
+		} else {
+			errorf("unknown iexport format version %d", version)
+		}
 	}
 
 	sLen := int64(r.uint64())
@@ -93,8 +99,9 @@ func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 	r.Seek(sLen+dLen, io.SeekCurrent)
 
 	p := iimporter{
-		ipath:   path,
-		version: int(version),
+		exportVersion: version,
+		ipath:         path,
+		version:       int(version),
 
 		stringData:  stringData,
 		stringCache: make(map[uint64]string),
@@ -172,8 +179,9 @@ func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 }
 
 type iimporter struct {
-	ipath   string
-	version int
+	exportVersion int64
+	ipath         string
+	version       int
 
 	stringData  []byte
 	stringCache map[uint64]string
@@ -551,7 +559,7 @@ func (r *importReader) doType(base *types.Named) types.Type {
 		return typ
 
 	case typeParamType:
-		errorf("do not handle tparams yet")
+		errorf("do not handle type param types yet")
 		return nil
 	}
 }
@@ -563,10 +571,12 @@ func (r *importReader) kind() itag {
 func (r *importReader) signature(recv *types.Var) *types.Signature {
 	params := r.paramList()
 	results := r.paramList()
-	numTparams := r.uint64()
-	if numTparams > 0 {
-		errorf("unexpected tparam")
-		return nil
+	if r.p.exportVersion == 101 { // 101 is the current typecheck.IexportVersion
+		numTparams := r.uint64()
+		if numTparams > 0 {
+			errorf("unexpected tparam")
+			return nil
+		}
 	}
 	variadic := params.Len() > 0 && r.bool()
 	return types.NewSignature(recv, params, results, variadic)
