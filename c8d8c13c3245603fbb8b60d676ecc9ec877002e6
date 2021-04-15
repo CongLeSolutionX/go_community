@@ -53,6 +53,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c9428b0_a06ea625",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-15T19:20:52Z",
+      "side": 1,
+      "message": "I\u0027ll take it that you agree this is roughly the right fix? I\u0027ll add tests and polish it up tomorrow.",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a05adf45_9e1465ed",
@@ -89,6 +106,48 @@
         "endLine": 100,
         "endChar": 67
       },
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8e915df_198f2dfc",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-15T19:20:52Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "dc967da1_d4eeb5e8",
+      "range": {
+        "startLine": 100,
+        "startChar": 34,
+        "endLine": 100,
+        "endChar": 67
+      },
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e0b676_2dc515eb",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-15T19:20:52Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s what I meant earlier about this dot check being lazy.",
+      "parentUuid": "a05adf45_9e1465ed",
       "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
