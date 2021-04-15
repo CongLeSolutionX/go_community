@@ -159,6 +159,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22c21c64_e761e71f",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-15T17:31:55Z",
+      "side": 1,
+      "message": "AIX is available on power9, so that is the BE case I need to be careful with.",
+      "parentUuid": "2a83063e_2d175e32",
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53a7ea25_b0adc931",
