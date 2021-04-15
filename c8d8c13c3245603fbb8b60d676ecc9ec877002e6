@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e415646e_91dfb83b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-15T20:21:45Z",
+      "side": 1,
+      "message": "I honestly don\u0027t know gcimporter well enough to say.\n\nI had a quick look through the code, but there is a weird discontinuity: the caller in go/importer¹ has a comment that says `\"\" /* no vendoring */`, implying that that caller expects the path to resolve vendoring using the path, but then nothing in go/internal/gcimporter actually seems to take GOPATH-mode vendoring into account anyway. And, to top it all off, I don\u0027t see anything in gcimporter.FindPkg that would know anything about standard-library vendoring either. So I don\u0027t see how ImportFrom could even work at all. 🤷\n\nSo probably gcimporter is also broken for vendoring in GOPATH mode, and for standard-library vendoring when the lookup function is nil. And then it seems inconsistent to un-break it only for the case of a non-nil lookup function, but I dunno, maybe that\u0027s ok..?\n\n\nI do notice that the comment on `go/importer.ForCompiler` says “A lookup function must be provided for correct module-aware operation.” That comes from CL 74354, and the commit message on that CL seems to imply that Russ thinks that the caller ought to have already canonicalized the import map (and applied vendoring transformations) by the time this function is called either way.\n\nSo I\u0027m left to conclude that the ImportFrom method on the gcimporter is incoherent, in that it expects the caller to have canonicalized paths (which seems reasonable), but *also* canonicalizes certain paths (relative imports and absolute paths) on behalf of the caller.\n\nI don\u0027t actually know who the caller is or what the caller is doing, so I don\u0027t know how to resolve that incoherence. I suspect that the doc comment on importer.ForCompiler needs to be updated either way.\n\n\n¹https://github.com/golang/go/blob/7ed6d1f2fb2e092f59ec56e0d16b1f9da33992a4/src/go/importer/importer.go#L95",
+      "parentUuid": "3c9428b0_a06ea625",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a05adf45_9e1465ed",
         "filename": "src/go/internal/gcimporter/gcimporter.go",
         "patchSetId": 1
