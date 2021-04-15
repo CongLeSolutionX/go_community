@@ -141,6 +141,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a83063e_2d175e32",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2021-04-15T17:05:59Z",
+      "side": 1,
+      "message": "It\u0027s probably a good idea to start thinking about how to properly separate BE/LE implementations in the future, since there\u0027s no BE ppc64 support on Linux for new processors anymore.",
+      "parentUuid": "2a89ae27_98490b49",
+      "revId": "084749e38496ff305559c464f8773f75f8b64642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53a7ea25_b0adc931",
