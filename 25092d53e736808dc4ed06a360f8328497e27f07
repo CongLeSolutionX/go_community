@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "37e790a8_6f0633da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "I haven\u0027t entirely thought this out, but WDYT of implementing minimization with the fuzz RPC, but with a flag that tells the mutator to minimize instead of doing its normal thing?\n\nI think most of the difficulty with either approach is communicating with the coordinator and staying responsive to the user. This might avoid the need for an extra RPC though.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d9837c92_dbaa9e29",
@@ -14,6 +31,165 @@
       "writtenOn": "2021-04-13T16:59:52Z",
       "side": 1,
       "message": "This is ready for review now. Thanks!",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f34d95fa_e073a0ef",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "How does this interact with c.minimizing?",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "682e9c17_724cdcf9",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "Mention here that the worker must not be running.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2d9924f_04fdf8b7",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "1 minute is a fine default, but I think this should *also* be limited by -fuzztime (either duration or count).",
+      "range": {
+        "startLine": 189,
+        "startChar": 42,
+        "endLine": 189,
+        "endChar": 51
+      },
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "683fcb42_4d5d498f",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "This is racy: it\u0027s not safe for multiple workers to read and write this. It would be better to set this by sending something through fuzzResult.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bd528d8_d6b00122",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "Maybe set this only if retErr is nil?",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45150e7b_cbd96624",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "Use w.coordinator.opts.Log instead of os.Stdout.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e975710d_ddc8bde4",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "Maybe return err here? stop is already called in the defer.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3592054b_98051303",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "Again, let\u0027s let the defer handle this.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf7b3b67_eb806b71",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "return nil (or return ctx.Err()?)",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -37,6 +213,81 @@
         "endLine": 236,
         "endChar": 20
       },
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec3aca1_d5d49f2a",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "What happens if you press ^C during that time? Does the crash still get logged in whatever state it\u0027s in?",
+      "parentUuid": "0b2ddaee_56fe0821",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 20
+      },
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f230996_c0f0de34",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "Move right below minimizeArgs: let\u0027s keep the args / response types paired.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1986251a_a462f865",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "(Feel free to leave a TODO):\n\nI think the coordinator should print this, not the workers. It\u0027s quite likely we\u0027ll want to suppress or process stdout and stderr from workers, so this may not get seen.\n\nI think a better pattern would be to respond to the coordinator as soon as we find a crash, then wait for the coordinator to call the minimize RPC with the same value. That lets us do similar things in the recoverable / non-recoverable cases; the main difference is whether we need to restart.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f679ecf_1259209b",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T17:56:22Z",
+      "side": 1,
+      "message": "Nit: rename to ctx, cancel (shadowing the ctx parameter). That prevents us from accidentally using ctx without the timeout.",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
