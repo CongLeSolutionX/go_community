@@ -33,6 +33,24 @@
       "message": "I should also note that this is far simpler than what FindPkg does with its \"walk vendor directories\" logic. Maybe we want to reuse that instead?",
       "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "675b3f7f_f708acda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-15T18:38:52Z",
+      "side": 1,
+      "message": "Err, I forgot that FindPkg goes through go/build.Import, which is a pretty big hammer. So probably not.",
+      "parentUuid": "9ae9178e_c9bf0987",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
