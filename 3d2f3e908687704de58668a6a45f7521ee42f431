@@ -87,6 +87,24 @@
       "parentUuid": "f033fa89_1273b066",
       "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7021dee_133b980f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-15T02:17:26Z",
+      "side": 1,
+      "message": "Sorry I forgot that I changed it to QueryPattern in my latest code (I\u0027ll send the changes later). Somehow https://storage.googleapis.com/go-build-log/4eda0028/linux-amd64-longtest_c05e87eb.log is caused by QueryPackages.",
+      "parentUuid": "4da6d9f4_ca80627f",
+      "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
