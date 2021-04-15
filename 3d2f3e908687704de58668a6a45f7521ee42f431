@@ -105,6 +105,24 @@
       "parentUuid": "4da6d9f4_ca80627f",
       "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3689b4f_d4c58590",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-15T02:29:21Z",
+      "side": 1,
+      "message": "Somehow using QueryPattern instead of QueryPackages can solve that failure. Maybe modOnly is sometimes needed during modconv.\n\nqueryPackage :\u003d func(path, rev string) (module.Version, error) {\n        pkgMods, modOnly, err :\u003d QueryPattern(context.Background(), path, rev, noneSelected, nil)\n        if err !\u003d nil {\n                return module.Version{}, err\n        }\n        if len(pkgMods) \u003e 0 {\n                return pkgMods[0].Mod, nil\n        }\n        return modOnly.Mod, nil\n}",
+      "parentUuid": "d7021dee_133b980f",
+      "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
