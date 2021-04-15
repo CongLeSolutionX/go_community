@@ -141,6 +141,24 @@
       "parentUuid": "b3689b4f_d4c58590",
       "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c6dcbe_2f8a9eac",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 51113
+      },
+      "writtenOn": "2021-04-15T14:00:50Z",
+      "side": 1,
+      "message": "Well, since I\u0027ve tested the second approach, so I\u0027ll choose it. To me QueryPattern feels more like a right approach (maybe I\u0027m wrong).",
+      "parentUuid": "cdd317c7_192a81a2",
+      "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
