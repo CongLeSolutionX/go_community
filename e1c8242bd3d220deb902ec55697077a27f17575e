@@ -22,6 +22,30 @@
       },
       "revId": "e1c8242bd3d220deb902ec55697077a27f17575e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f26bf410_d11aa239",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-15T04:36:38Z",
+      "side": 0,
+      "message": "Yes. Actually, FP is virtual on all architectures. But what\u0027s much weirder here is that we\u0027re using Go-ish virtual-FP offsets to access Go-ish arguments that were even declared in a Go signature for this function... but this function is called with the C ABI. It just happened that the 386 ABI aligned well enough with the Go ABI in this case that that worked out.",
+      "parentUuid": "09056600_ac0e7555",
+      "range": {
+        "startLine": 424,
+        "startChar": 10,
+        "endLine": 424,
+        "endChar": 14
+      },
+      "revId": "e1c8242bd3d220deb902ec55697077a27f17575e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
