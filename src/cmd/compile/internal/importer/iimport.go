@@ -567,12 +567,29 @@ func (r *importReader) doType(base *types2.Named) types2.Type {
 		if r.p.exportVersion != typecheck.IexportVersion {
 			errorf("unexpected type param type")
 		}
-		pkg := r.pkg()
+		r.currPkg = r.pkg()
 		pos := r.pos()
 		name := r.string()
-		// XXX Make bound be empty interface for now
-		bound := types2.NewInterfaceType(nil, nil)
-		tn := types2.NewTypeName(pos, pkg, name, nil)
+		// TODO(danscales): this is just prototype code for now.
+		// Especially with type sets (which are coming soon), a typeparam
+		// bound needs to be a full interface, which can include embedded
+		// interface, union elements, etc.
+		methods := make([]*types2.Func, r.uint64())
+		for i := range methods {
+			mpos := r.pos()
+			mname := r.ident()
+			var recv *types2.Var
+			if base != nil {
+				recv = types2.NewVar(syntax.Pos{}, r.currPkg, "", base)
+			}
+			msig := r.signature(recv)
+			methods[i] = types2.NewFunc(mpos, r.currPkg, mname, msig)
+		}
+
+		// XXX Bound doesn't include type lists, etc. yet.
+		bound := types2.NewInterfaceType(methods, nil)
+		bound.Complete()
+		tn := types2.NewTypeName(pos, r.currPkg, name, nil)
 		t := (*types2.Checker)(nil).NewTypeParam(tn, 0, bound)
 		return t
 	}

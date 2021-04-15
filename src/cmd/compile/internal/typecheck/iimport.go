@@ -733,6 +733,16 @@ func (r *importReader) typ1() *types.Type {
 		nname := ir.NewNameAt(pos, sym)
 		nname.SetType(t)
 		sym.Def = nname
+
+		methods := make([]*types.Field, r.uint64())
+		for i := range methods {
+			pos := r.pos()
+			sym := r.selector()
+			typ := r.signature(fakeRecvField())
+
+			methods[i] = types.NewField(pos, sym, typ)
+		}
+		t.Methods().Set(methods)
 		return t
 	}
 }
@@ -1212,35 +1222,32 @@ func (r *importReader) node() ir.Node {
 	// case OSTRUCTKEY:
 	//	unreachable - handled in case OSTRUCTLIT by elemList
 
-	case ir.OXDOT:
-		// see parser.new_dotname
-		if go117ExportTypes {
-			base.Fatalf("shouldn't encounter XDOT in new importer")
-		}
-		return ir.NewSelectorExpr(r.pos(), ir.OXDOT, r.expr(), r.exoticSelector())
-
-	case ir.ODOT, ir.ODOTPTR, ir.ODOTINTER, ir.ODOTMETH, ir.OCALLPART, ir.OMETHEXPR:
-		if !go117ExportTypes {
-			// unreachable - mapped to case OXDOT by exporter
+	case ir.OXDOT, ir.ODOT, ir.ODOTPTR, ir.ODOTINTER, ir.ODOTMETH, ir.OCALLPART, ir.OMETHEXPR:
+		// For !go117ExportTypes,  we should only see OXDOT.
+		// For go117ExportTypes, we usually see all the other ops, but can see
+		// OXDOT for generic functions.
+		if op != ir.OXDOT && !go117ExportTypes {
 			goto error
 		}
 		pos := r.pos()
 		expr := r.expr()
 		sel := r.exoticSelector()
 		n := ir.NewSelectorExpr(pos, op, expr, sel)
-		n.SetType(r.exoticType())
-		switch op {
-		case ir.ODOT, ir.ODOTPTR, ir.ODOTINTER:
-			n.Selection = r.exoticParam()
-		case ir.ODOTMETH, ir.OCALLPART, ir.OMETHEXPR:
-			// These require a Lookup to link to the correct declaration.
-			rcvrType := expr.Type()
-			typ := n.Type()
-			n.Selection = Lookdot(n, rcvrType, 1)
-			if op == ir.OCALLPART || op == ir.OMETHEXPR {
-				// Lookdot clobbers the opcode and type, undo that.
-				n.SetOp(op)
-				n.SetType(typ)
+		if go117ExportTypes {
+			n.SetType(r.exoticType())
+			switch op {
+			case ir.ODOT, ir.ODOTPTR, ir.ODOTINTER:
+				n.Selection = r.exoticParam()
+			case ir.ODOTMETH, ir.OCALLPART, ir.OMETHEXPR:
+				// These require a Lookup to link to the correct declaration.
+				rcvrType := expr.Type()
+				typ := n.Type()
+				n.Selection = Lookdot(n, rcvrType, 1)
+				if op == ir.OCALLPART || op == ir.OMETHEXPR {
+					// Lookdot clobbers the opcode and type, undo that.
+					n.SetOp(op)
+					n.SetType(typ)
+				}
 			}
 		}
 		return n

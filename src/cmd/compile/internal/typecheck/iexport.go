@@ -916,10 +916,21 @@ func (w *exportWriter) doTyp(t *types.Type) {
 		// at the top of the function - write out the pkg and name of the
 		// symbol (as well as the position).
 		s := t.Sym()
-		w.pkg(s.Pkg)
+		w.setPkg(s.Pkg, true)
 		w.pos(t.Pos())
 		name := removeSubscript(s.Name)
 		w.string(name)
+
+		// TODO(danscales): this is just prototype code for now.
+		// Especially with type sets (which are coming soon), a typeparam
+		// bound needs to be a full interface, which can include embedded
+		// interface, union elements, etc.
+		w.uint64(uint64(t.Methods().Len()))
+		for _, f := range t.Methods().Slice() {
+			w.pos(f.Pos)
+			w.selector(f.Sym)
+			w.signature(f.Type)
+		}
 
 	default:
 		base.Fatalf("unexpected type: %v", t)
@@ -1641,9 +1652,8 @@ func (w *exportWriter) expr(n ir.Node) {
 	case ir.OXDOT, ir.ODOT, ir.ODOTPTR, ir.ODOTINTER, ir.ODOTMETH, ir.OCALLPART, ir.OMETHEXPR:
 		n := n.(*ir.SelectorExpr)
 		if go117ExportTypes {
-			if n.Op() == ir.OXDOT {
-				base.Fatalf("shouldn't encounter XDOT  in new exporter")
-			}
+			// For go117ExportTypes, we usually see all ops except
+			// OXDOT, but we can see OXDOT for generic functions.
 			w.op(n.Op())
 		} else {
 			w.op(ir.OXDOT)
@@ -1657,7 +1667,8 @@ func (w *exportWriter) expr(n ir.Node) {
 				w.exoticParam(n.Selection)
 			}
 			// n.Selection is not required for OMETHEXPR, ODOTMETH, and OCALLPART. It will
-			// be reconstructed during import.
+			// be reconstructed during import.  n.Selection is computed during
+			// transformDot() for OXDOT.
 		}
 
 	case ir.ODOTTYPE, ir.ODOTTYPE2:
