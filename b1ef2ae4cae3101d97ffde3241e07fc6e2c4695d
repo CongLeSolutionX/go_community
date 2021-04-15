@@ -100,6 +100,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ac732a_0ab1d744",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-15T13:10:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "80cd0451_c5f89a30",
+      "range": {
+        "startLine": 347,
+        "startChar": 1,
+        "endLine": 347,
+        "endChar": 12
+      },
+      "revId": "b1ef2ae4cae3101d97ffde3241e07fc6e2c4695d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdd47a34_c1925aa6",
