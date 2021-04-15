@@ -123,6 +123,24 @@
       "parentUuid": "d7021dee_133b980f",
       "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd317c7_192a81a2",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-15T13:41:56Z",
+      "side": 1,
+      "message": "The entries in Gopkg.lock appear to be indexed by repository rather than package.¹ So it seems to me that we could take one of two approaches: we can either iterate over every package in the list individually, resolving each tuple of ⟨repo, package, revision⟩ to a module using QueryPackages; or, we can use QueryPattern to resolve the overall ⟨repo, revision⟩ entry to a module assuming that the module is at the repo root.\n\nThe “iterate over packages” approach is probably more robust in case of nested modules, but the QueryPattern approach may be fine too.\n\n¹https://github.com/fishy/gcsbucket/blob/618d60fe84e06f5e695a7be52566b40d198191a5/Gopkg.lock#L29-L40",
+      "parentUuid": "b3689b4f_d4c58590",
+      "revId": "3d2f3e908687704de58668a6a45f7521ee42f431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
