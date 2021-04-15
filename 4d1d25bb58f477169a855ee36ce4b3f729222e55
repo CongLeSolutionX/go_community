@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6049be0d_694d7e03",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-15T15:13:13Z",
+      "side": 1,
+      "message": "(optional)\n\nYou could instead retain connCh but make its payload a slice instead of a single connection:\n\n\tconnCh :\u003d make(chan []net.Conn, 1)\n\tconnCh \u003c- nil\n\t…\n\t\tconnCh \u003c- append(\u003c-connCh, c)\n\t…\n\tfor _, c :\u003d range \u003c-connCh {\n\t\tc.Close()\n\t}\n\tconnCh \u003c- nil",
+      "revId": "4d1d25bb58f477169a855ee36ce4b3f729222e55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
