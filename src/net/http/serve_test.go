@@ -6507,3 +6507,31 @@ func TestDisableKeepAliveUpgrade(t *testing.T) {
 		t.Fatalf("unexpected value read from body:\ngot: %q\nwant: %q", b, "hello")
 	}
 }
+
+func TestServerMaxBodyBytes(t *testing.T) {
+	t.Parallel()
+	expectedErr := "http: request body too large"
+	srv := &Server{
+		MaxBodyBytes: 1,
+		Handler: HandlerFunc(func(w ResponseWriter, r *Request) {
+			_, err := io.ReadAll(r.Body)
+			if err == nil {
+				t.Fatal("read beyond MaxBodyBytes")
+			} else if err.Error() != expectedErr {
+				t.Fatalf("unexpected error: got %q, want %q", err, expectedErr)
+			}
+			w.WriteHeader(StatusOK)
+		}),
+	}
+	c := &rwTestConn{
+		Reader: bytes.NewReader(reqBytes(`POST / HTTP/1.1
+Host: yes
+Content-Length: 5
+
+hello`)),
+		Writer: io.Discard,
+		closec: make(chan bool, 1),
+	}
+	go srv.Serve(&oneConnListener{conn: c})
+	<-c.closec
+}

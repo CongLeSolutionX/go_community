@@ -1942,6 +1942,10 @@ func (c *conn) serve(ctx context.Context) {
 			w.conn.r.startBackgroundRead()
 		}
 
+		if c.server.MaxBodyBytes != 0 {
+			w.req.Body = MaxBytesReader(w, w.req.Body, int64(c.server.MaxBodyBytes))
+		}
+
 		// HTTP cannot have multiple simultaneous active requests.[*]
 		// Until the server replies to this request, it can't read another,
 		// so we might as well run the handler in this goroutine.
@@ -2601,6 +2605,11 @@ type Server struct {
 	// size of the request body.
 	// If zero, DefaultMaxHeaderBytes is used.
 	MaxHeaderBytes int
+
+	// MaxBodyBytes controls the maximum number of bytes the
+	// server will read from the request body.
+	// If zero, there is no limit.
+	MaxBodyBytes int
 
 	// TLSNextProto optionally specifies a function to take over
 	// ownership of the provided TLS connection when an ALPN
