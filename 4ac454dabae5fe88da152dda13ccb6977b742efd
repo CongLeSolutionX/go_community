@@ -18,6 +18,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1b4ce96_d4092c60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-15T12:23:53Z",
+      "side": 1,
+      "message": "I\u0027m running the math benchmarks now and will post the results once I have them.",
+      "revId": "4ac454dabae5fe88da152dda13ccb6977b742efd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99678feb_877f4fa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-15T12:23:53Z",
+      "side": 1,
+      "message": "Thanks :)",
+      "parentUuid": "b60ff4aa_084099eb",
+      "revId": "4ac454dabae5fe88da152dda13ccb6977b742efd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "806cde43_82c343d7",
@@ -31,6 +66,24 @@
       "writtenOn": "2021-04-15T05:22:43Z",
       "side": 1,
       "message": "I’m AFK now but if recollection serves, the inliner will be more generous if you spell this:\n\nif have {\n  return arch()\n} else {\n  return purego()\n}\n\nbecause it gets analyzed in an early phase and the if-else form can be trivially trimmed.\n\nMight not matter in practice.",
+      "revId": "4ac454dabae5fe88da152dda13ccb6977b742efd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1648f279_0dd09f75",
+        "filename": "src/math/asin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-15T12:23:53Z",
+      "side": 1,
+      "message": "I just checked this for Sin (no assembly on amd64) and Exp (assembly on amd64) and the inline cost is 61 in all cases. Since have is always a const, early deadcode will recognize the if { return } and cut the rest of the body (oddly, it leaves behind an empty `if have { }`, but inlining also recognizes that the condition is const and doesn\u0027t count it).",
+      "parentUuid": "806cde43_82c343d7",
       "revId": "4ac454dabae5fe88da152dda13ccb6977b742efd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
