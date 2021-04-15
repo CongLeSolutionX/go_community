@@ -144,6 +144,15 @@ that can be used to pass values between C and Go safely. See
     with the <a href="/pkg/net/http/#Request"><code>Request</code></a> context
     when performing TLS handshakes in the client or server.
   </p>
+
+  <p>
+    The <a href="/pkg/net/http#Server"><code>Server</code></a> type has a new field,
+    <a href="/pkg/net/http#MaxBodyBytes"><code>MaxBodyBytes</code></a>. If set, the
+    <code>Body</code> of the <a href="/pkg/net/http#Request"><code>Request</code></a>
+    passed to <code>Server.Handler.ServeHTTP</code> will be wrapped with a
+    <a href="/pkg/net/http#MaxBytesReader"><code>MaxBytesReader</code></a>, limiting
+    the number of bytes that can be read.
+  </p>
 </dl><!-- net/http -->
 
 <p>
