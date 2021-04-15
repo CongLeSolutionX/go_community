@@ -51,6 +51,46 @@
       "parentUuid": "9ae9178e_c9bf0987",
       "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a05adf45_9e1465ed",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-15T19:03:30Z",
+      "side": 1,
+      "message": "FWIW, the condition that the \u0027go\u0027 command currently uses is here:\nhttps://github.com/golang/go/blob/ddd8d7c0a6859114f1f9bfbb3c56fb63f870badc/src/cmd/go/internal/search/search.go#L554-L561\n\nand the call site is here:\nhttps://github.com/golang/go/blob/ddd8d7c0a6859114f1f9bfbb3c56fb63f870badc/src/cmd/go/internal/modload/load.go#L1296-L1331\n\nAFAICT the main difference is that search.IsStandardImportPath only searches the first element for the dot.",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc967da1_d4eeb5e8",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-15T19:03:30Z",
+      "side": 1,
+      "message": "To be pedantic, I think you may need to check for GOROOT/src as a prefix, not just GOROOT.\n\n(Otherwise you could theoretically get erroneous results for the module in `GOROOT/misc`, depending on whether that ever ends up depending on external modules and, if so, whether it ends up vendoring them. The vendored dependencies of the `misc` repo would presumably not be special in the way that the standard-library ones are.)",
+      "range": {
+        "startLine": 100,
+        "startChar": 34,
+        "endLine": 100,
+        "endChar": 67
+      },
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
