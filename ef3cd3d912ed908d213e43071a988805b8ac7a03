@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e43cd116_200d4de7",
+        "filename": "src/net/fd_posix.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-15T21:52:07Z",
+      "side": 1,
+      "message": "The first occurrence of flags on this line should be named retflags.  Then the return two lines down should return retflags rather than flags.",
+      "range": {
+        "startLine": 68,
+        "startChar": 10,
+        "endLine": 68,
+        "endChar": 15
+      },
+      "revId": "ef3cd3d912ed908d213e43071a988805b8ac7a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "044e406d_9d347764",
+        "filename": "src/net/unixsock_readmsg_linux.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-15T21:52:07Z",
+      "side": 1,
+      "message": "Sorry about this, but it looks like you have an exact duplicate of the readMsg method that only differs in the flag value passed to c.fd.readMsg.  Instead of doing that, write something like\n\nconst readMsgFlags \u003d syscall_MSG_CMSG_CLOEXEC\nfunc setReadMsgCloseOnExec(...) {}\n\nin a linux file, in the non-Linux, non-Unix file use\n\nconst readMsgFlags \u003d 0\n\nand in the non-Linux, Unix give a real definition of setReadMsgCloseOnExec.  Add the call to setReadMsgCloseOnExec to the single readMsg implementation.",
+      "revId": "ef3cd3d912ed908d213e43071a988805b8ac7a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb985bb1_eda579c8",
+        "filename": "src/net/unixsock_readmsg_posix.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-15T21:52:07Z",
+      "side": 1,
+      "message": "Don\u0027t break the line.",
+      "revId": "ef3cd3d912ed908d213e43071a988805b8ac7a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1decdbe_5aa7a32a",
+        "filename": "src/net/unixsock_readmsg_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-15T21:52:07Z",
+      "side": 1,
+      "message": "Don\u0027t break the line.",
+      "revId": "ef3cd3d912ed908d213e43071a988805b8ac7a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
