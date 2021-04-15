@@ -160,6 +160,9 @@ type makeFuncCtxt struct {
 // This is similar to what reflectcallmove does in the runtime, except
 // that happens on the return path, whereas this happens on the call path.
 //
+// Must not modify arguments. The caller (methodValueCall and methodValueCall)
+// assumes the argument slots are unmodified.
+//
 // nosplit because pointers are being held in uintptr slots in args, so
 // having our stack scanned now could lead to accidentally freeing
 // memory.

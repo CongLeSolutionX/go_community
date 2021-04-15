@@ -930,7 +930,7 @@ func (lv *liveness) enableClobber() {
 		// Otherwise, giant functions make this experiment generate too much code.
 		return
 	}
-	if lv.f.Name == "forkAndExecInChild" || lv.f.Name == "wbBufFlush" {
+	if lv.f.Name == "forkAndExecInChild" || lv.f.Name == "wbBufFlush" || lv.f.Name == "moveMakeFuncArgPtrs" {
 		// forkAndExecInChild calls vfork on some platforms.
 		// The code we add here clobbers parts of the stack in the child.
 		// When the parent resumes, it is using the same stack frame. But the
@@ -939,6 +939,10 @@ func (lv *liveness) enableClobber() {
 		//
 		// runtime.wbBufFlush must not modify its arguments. See the comments
 		// in runtime/mwbbuf.go:wbBufFlush.
+		//
+		// reflect.moveMakeFuncArgPtrs is called from assembly function
+		// makeFuncStub and methodValueCall, which assume the argument slots
+		// are not modified by moveMakeFuncArgPtrs.
 		return
 	}
 	if h := os.Getenv("GOCLOBBERDEADHASH"); h != "" {
