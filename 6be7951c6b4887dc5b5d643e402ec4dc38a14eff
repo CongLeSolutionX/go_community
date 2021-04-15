@@ -33,6 +33,24 @@
       "message": "I think this might be fixed already, your version seems old? https://go-review.googlesource.com/c/go/+/310077",
       "revId": "6be7951c6b4887dc5b5d643e402ec4dc38a14eff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35ff6c90_ac1f0c7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-15T21:42:14Z",
+      "side": 1,
+      "message": "Oops! Well, I like my fix better, so maybe I\u0027ll rebase it as a simplification.",
+      "parentUuid": "d64f0814_939a7120",
+      "revId": "6be7951c6b4887dc5b5d643e402ec4dc38a14eff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
