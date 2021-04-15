@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3478a71_c65f1cba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2021-04-15T12:49:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "006ace1a_293140ca",
+      "revId": "46dfc9fe1edad6924da94e6e35430b997301879d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd29ed6f_f45ebf82",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-15T05:42:33Z",
       "side": 1,
       "message": "Make this \"Updates #45570\", since it won\u0027t fix the root cause of the test failure, just improve reporting if it happens again.",
+      "revId": "46dfc9fe1edad6924da94e6e35430b997301879d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dd01dae_3298815d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2021-04-15T12:49:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fd29ed6f_f45ebf82",
       "revId": "46dfc9fe1edad6924da94e6e35430b997301879d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -82,6 +118,24 @@
       "writtenOn": "2021-04-15T05:37:58Z",
       "side": 1,
       "message": "This might be simpler as a mutex-guarded []net.Conn.",
+      "revId": "46dfc9fe1edad6924da94e6e35430b997301879d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3867586_82c04edb",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2021-04-15T12:49:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "46cf24a1_32a118fb",
       "revId": "46dfc9fe1edad6924da94e6e35430b997301879d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
