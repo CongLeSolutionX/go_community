@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56581162_a458aae3",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2537,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T22:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfddc6cc_e64c7cc0",
+      "range": {
+        "startLine": 2537,
+        "startChar": 42,
+        "endLine": 2537,
+        "endChar": 46
+      },
+      "revId": "c944581fba4d4ba41268a67380618f6f9b1f8388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04f12dfa_9c4a6df8",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-15T20:43:53Z",
       "side": 1,
       "message": "This sequence seems a bit off to me. We\u0027re loading all of the packages matching args (including, presumably, their dependencies), but then discarding the non-main packages.\n\nThat matches what we did before, but if we\u0027re moving the implementation into the \"load\" package itself I think we could do better.\n\nI think we should try to structure the new API in the \"load\" package such that it could in theory avoid resolving the transitive dependencies of non-main packages, even if it does not do that as implemented today. Perhaps that implies that the “main packages only” option should be an option passed to `PackagesAndErrorsOutsideModule`?",
+      "range": {
+        "startLine": 767,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 50
+      },
+      "revId": "c944581fba4d4ba41268a67380618f6f9b1f8388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc86be4e_870f2c8f",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-15T22:32:09Z",
+      "side": 1,
+      "message": "This seems like a good time to pass an option struct to load.PackagesAndErrors and a few other functions. I stacked CL 310669 before this one. Killed two more globals in the process. :)",
+      "parentUuid": "04f12dfa_9c4a6df8",
       "range": {
         "startLine": 767,
         "startChar": 0,
