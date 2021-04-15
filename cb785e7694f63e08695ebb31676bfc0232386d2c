@@ -34,6 +34,24 @@
       "parentUuid": "6ab4a6be_58ba19e8",
       "revId": "cb785e7694f63e08695ebb31676bfc0232386d2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f1ebb57_ad3e3677",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-15T18:49:51Z",
+      "side": 1,
+      "message": "I wouldn\u0027t spend hours on it, but if your first or second try demos the bug, that might be worthwhile.",
+      "parentUuid": "769fd011_98acb238",
+      "revId": "cb785e7694f63e08695ebb31676bfc0232386d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
