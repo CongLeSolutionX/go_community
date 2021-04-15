@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcf6ce03_9964c7cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-15T04:13:05Z",
+      "side": 1,
+      "message": "TRY\u003d386 amd64 arm arm64 mips64 mips64le mips mipsle ppc64 ppc64le s390x wasm",
+      "revId": "51d8a351e5b147e64326654983ca181c0bd23458",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
