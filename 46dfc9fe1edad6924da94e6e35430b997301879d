@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfdbeb18_5812a0b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-04-15T05:37:58Z",
+      "side": 1,
+      "message": "I don\u0027t know that this fixes #45570, but it should convert whatever went wrong there to a test failure rather than a panic.",
+      "revId": "46dfc9fe1edad6924da94e6e35430b997301879d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46cf24a1_32a118fb",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-04-15T05:37:58Z",
+      "side": 1,
+      "message": "This might be simpler as a mutex-guarded []net.Conn.",
+      "revId": "46dfc9fe1edad6924da94e6e35430b997301879d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
