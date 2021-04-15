@@ -14,6 +14,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -93,7 +94,16 @@ func Import(fset *token.FileSet, packages map[string]*types.Package, path, srcDi
 		if path == "unsafe" {
 			return types.Unsafe, nil
 		}
+
 		id = path
+		goroot := runtime.GOROOT()
+		if strings.Contains(id, ".") && strings.HasPrefix(srcDir, goroot) {
+			if strings.HasPrefix(srcDir, goroot+"/src/cmd") {
+				id = "cmd/vendor/" + id
+			} else {
+				id = "vendor/" + id
+			}
+		}
 
 		// No need to re-import if the package was imported completely before.
 		if pkg = packages[id]; pkg != nil && pkg.Complete() {
