@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70aeb481_e4d07960",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-15T09:19:54Z",
+      "side": 1,
+      "message": "LGTM, thank you Tobias!",
+      "revId": "40c38815371d97091c9801addc17b3e55c599dee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
