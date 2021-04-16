@@ -348,21 +348,15 @@ func (t *tester) registerStdTest(pkg string, useG3 bool) {
 			if t.shouldUsePrecompiledStdTest() {
 				return t.runPrecompiledStdTest(t.timeoutDuration(timeoutSec))
 			}
-			args := []string{
-				"test",
-				"-short=" + short(),
-				t.tags(),
+			args := append(t.goTest(),
 				t.timeout(timeoutSec),
-				"-gcflags=all=" + gcflags,
-			}
+				"-gcflags=all="+gcflags,
+			)
 			if t.race {
 				args = append(args, "-race")
 			}
-			if t.compileOnly {
-				args = append(args, "-run=^$")
-			}
 			args = append(args, stdMatches...)
-			cmd := exec.Command("go", args...)
+			cmd := exec.Command(args[0], args[1:]...)
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
 			return cmd.Run()
@@ -386,20 +380,18 @@ func (t *tester) registerRaceBenchTest(pkg string) {
 			timelog("start", dt.name)
 			defer timelog("end", dt.name)
 			ranGoBench = true
-			args := []string{
-				"test",
-				"-short=" + short(),
+			args := append(t.goTest(),
 				"-race",
 				t.timeout(1200), // longer timeout for race with benchmarks
 				"-run=^$",       // nothing. only benchmarks.
 				"-benchtime=.1s",
 				"-cpu=4",
-			}
+			)
 			if !t.compileOnly {
 				args = append(args, "-bench=.*")
 			}
 			args = append(args, benchMatches...)
-			cmd := exec.Command("go", args...)
+			cmd := exec.Command(args[0], args[1:]...)
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
 			return cmd.Run()
@@ -546,7 +538,8 @@ func (t *tester) registerTests() {
 					fmt.Println("skipping terminal test; stdout/stderr not terminals")
 					return nil
 				}
-				cmd := exec.Command("go", "test")
+				args := t.goTest()
+				cmd := exec.Command(args[0], args[1:]...)
 				cmd.Dir = filepath.Join(os.Getenv("GOROOT"), "src/cmd/go/testdata/testterminal18153")
 				cmd.Stdout = os.Stdout
 				cmd.Stderr = os.Stderr
