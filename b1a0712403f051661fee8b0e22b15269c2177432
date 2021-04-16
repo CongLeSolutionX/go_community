@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c82f8a92_2d0b1362",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-16T21:13:39Z",
+      "side": 1,
+      "message": "Thank you for this change Paschalis!",
+      "revId": "b1a0712403f051661fee8b0e22b15269c2177432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93ad1bb_d2106592",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-16T21:13:39Z",
+      "side": 1,
+      "message": "Minor nit, we can reverse this condition to keep the normal flow of error conditions in Go so:\n\n\tif err !\u003d nil {\n\t\treturn fmt.Errorf(`-shuffle argument must be \"on\", \"off\", or an int64: %v`, err)\n\t}\n\n        *f \u003d shuffleFlag{on: true, seed: \u0026seed}\n        return nil",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 81
+      },
+      "revId": "b1a0712403f051661fee8b0e22b15269c2177432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
