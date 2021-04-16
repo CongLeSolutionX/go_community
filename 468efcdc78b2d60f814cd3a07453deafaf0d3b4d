@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf030601_389fb222",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:42:42Z",
+      "side": 1,
+      "message": "\"toolchain\"?",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 25
+      },
+      "revId": "468efcdc78b2d60f814cd3a07453deafaf0d3b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "337db656_81325ee2",
         "filename": "src/go/build/build.go",
         "patchSetId": 3
@@ -14,6 +37,40 @@
       "writtenOn": "2021-04-16T15:26:47Z",
       "side": 1,
       "message": "Should we copy the slice here out of caution? It looks like we do with defaultReleaseTags on L330.",
+      "revId": "468efcdc78b2d60f814cd3a07453deafaf0d3b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb8052bb_d070422d",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:42:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand how this is related to the overall change.",
+      "revId": "468efcdc78b2d60f814cd3a07453deafaf0d3b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37eb137c_586cfbcb",
+        "filename": "test/run.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:42:42Z",
+      "side": 1,
+      "message": "Yay!",
       "revId": "468efcdc78b2d60f814cd3a07453deafaf0d3b4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
