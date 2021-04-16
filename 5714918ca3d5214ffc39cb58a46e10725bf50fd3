@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f6a9a25_ac9e78fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-16T21:59:14Z",
+      "side": 1,
+      "message": "Thanks. Maybe I could limit this for only AMD64 for now. In the compiler clobberdead is implemented only on AMD64 anyway.",
+      "parentUuid": "3eb0a5a5_ac72e2a8",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 54
+      },
+      "revId": "5714918ca3d5214ffc39cb58a46e10725bf50fd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "92d385ca_2a3f559b",
