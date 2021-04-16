@@ -16,6 +16,23 @@
       "message": "TRY\u003dwindows-amd64-regabi",
       "revId": "57b2e2db6ac81c6ca027a378c9236d5a6ccf5c82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d36d55_13519cab",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-16T14:12:39Z",
+      "side": 1,
+      "message": "stdcall1 is probably fine without it. But I guess we could do that for consistency.",
+      "revId": "57b2e2db6ac81c6ca027a378c9236d5a6ccf5c82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
