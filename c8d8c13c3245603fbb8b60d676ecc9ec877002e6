@@ -125,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31e032ff_1b8ff8fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-16T15:03:12Z",
+      "side": 1,
+      "message": "Sorry, it\u0027s taken me an hour or so to wrap my head around this, as I\u0027m not that familiar with the full historing of vanity imports, vendoring, std vendoring, etc.\n\nI think the comment in gcimporter that import paths should have already been canonicalized is misleading / erroneous. AFAICT, there is no canonicalization going on in go/types.  Also, if the path were already canonical in ImporterFrom, we wouldn\u0027t need the srcDir, right? (that\u0027s not a rhetorical question: I\u0027m checking my understanding).\n\nBTW, per my searching \"canonical import path\" or \"package id\" is not actually fully defined anywhere, and in fact may mean different things in different contexts: I think the gcimporter code simply means that e.g. \"unsafe/\" has already been cleaned up. Elsewhere, it means that vendoring has been resolved. Elsewhere, it refers to go1.4 custom import path...\n\nSo while I think this logic is approximately correct, per my understanding of std vendoring (modulo edge cases mentioned in other comments), I feel like things are, as Bryan put it, incoherent.\n\nWe need to answer the following questions:\n - What *precisely* is the definition of canonical import path. (certainly it must be *normalized* (i.e. not unsafe//), but what about vendoring? What about vanity imports?\n - What state must the import path be in when ImportFrom is called?\n - Is it possible to canonicalize the import path *before* calling Lookup? (I\u0027m a bit confused by that: canonicalization involves scanning vendor directories, which seems contrary to the purpose of a lookup function).\n\nI don\u0027t feel qualified to answer these questions.",
+      "parentUuid": "2b9b2db9_41aca479",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a05adf45_9e1465ed",
         "filename": "src/go/internal/gcimporter/gcimporter.go",
         "patchSetId": 1
@@ -201,6 +219,30 @@
       "side": 1,
       "message": "Yeah, that\u0027s what I meant earlier about this dot check being lazy.",
       "parentUuid": "a05adf45_9e1465ed",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6280838d_825c96ac",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-16T15:03:12Z",
+      "side": 1,
+      "message": "To be extra pedantic, you should check\n\nstrings.HasPrefix(srcDir + \"/\", runtime.GOROOT() + \"/src/\")\n\nElse you\u0027d match $GOROOT/srcbutnot.",
+      "parentUuid": "a8e915df_198f2dfc",
+      "range": {
+        "startLine": 100,
+        "startChar": 34,
+        "endLine": 100,
+        "endChar": 67
+      },
       "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
