@@ -160,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fe7a69a_20ad8e9a",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T18:50:07Z",
+      "side": 1,
+      "message": "I guess I\u0027m not quite sure where the line is. Does any binary that uses GOARM/GOMIPS/etc have to make sure it calls Check (or checks Error)? For example, does cmd/cgo have to call Check because it uses GOMIPS, or do we lean on the assumption that it will only be invoked by a build system that also checks? Perhaps I\u0027d just like to see the comment on Error or Check give guidance on where it should be called. (FTR, cmd/cgo is the only thing I found that references one of these globals without checking the error.)\n\n\u003e It\u0027s difficult to change these to functions because they are used to initialize globals in other programs. There\u0027d be a ton more error checking.\n\nMaybe this is too gross, but I was thinking that as functions they would log.Fatal (like before). Making them functions would simply delay that check until when and if they were actually used. You\u0027d probably still parse and initialize everything at buildcfg init time, and the functions would check the error and return the pre-parsed value.",
+      "parentUuid": "ed2898d4_7ac6604c",
+      "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60c404f3_3bf4f912",
         "filename": "src/internal/buildcfg/cfg.go",
         "patchSetId": 2
