@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35c031c7_c3ef5d62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-16T21:01:15Z",
+      "side": 1,
+      "message": "I apologize, but I think I\u0027m changing my mind again. The docs say:\n\n\u003e The lookup function is called each time the resulting importer needs to resolve an import path. In this mode the importer can only be invoked with canonical import paths (not relative or absolute ones); it is assumed that the translation to canonical import paths is being done by the client of the importer. \n\nThis is consistent with how gcimporter\u0027s ImportFrom works today. When lookup\u003d\u003dnil, paths are canonicalized by go/build.Import. Otherwise, it\u0027s the caller\u0027s responsibility to canonicalize, including differentiating between an external golang.org/x/foo and a special std-vendored vendor/golang.x/foo.\n\nYou\u0027re right that srcDir is useless when lookup!\u003dnil, but it needs to be there when lookup\u003d\u003dnil. I guess one could have split the method in two, but here we are.\n\nMy earlier point about ImportFrom being more consistent to always canonicalize doesn\u0027t really hold water by itself, if it goes against what the docs have said for years.\n\nThe only bit that troubles me is that ImportFrom is a hard API to call from go/types. It receives a types.Importer, so it can\u0027t even tell if lookup was used. It can\u0027t know if it should be in charge of canonicalizing paths or not.\n\nSo it almost seems like it should be on me, the end user setting lookup, to deal with this. I made a terrible hack that just so happens to work:\n\ntype importerWithMap func(path, dir string, mode types.ImportMode) (*types.Package, error)\n                \nfunc (fn importerWithMap) Import(path string) (*types.Package, error) {     \n        panic(\"should never be called\")\n}\n                                        \nfunc (fn importerWithMap) ImportFrom(path, dir string, mode types.ImportMode) (*types.Package, error) {                                                                                             \n        if path2 :\u003d curPkg.ImportMap[path]; path2 !\u003d \"\" {\n                path \u003d path2                                                                      \n        }                                    \n        return fn(path, dir, mode)                                                 \n}                                                                                     \n\ncurPkg.ImportMap is the same ImportMap that \"go list -json\" gives. This importer wraps go/importer.ForCompiler with a lookup func, so in between go/types and gcimporter, I am able to sneakily canonicalize the path.\n\nI\u0027m not even sure if this is the right solution, but it passes all tests for the nasty edge cases. I\u0027m not even bothered about relative or absolute package paths, to be honest.\n\nBut I think this solution might actually be better than completely changing the API contract for ImportFrom.",
+      "parentUuid": "ddeb2b6e_5177b6ee",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a05adf45_9e1465ed",
         "filename": "src/go/internal/gcimporter/gcimporter.go",
         "patchSetId": 1
@@ -279,6 +297,48 @@
       "side": 1,
       "message": "I think the laziness  is actually important here, because if the passed-in path is _already_ `cmd/vendor/golang.org/…` we don\u0027t want to double-escape it.",
       "parentUuid": "d7e0b676_2dc515eb",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddb4114f_2d2fc00c",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-16T21:01:15Z",
+      "side": 1,
+      "message": "Indeed, I didn\u0027t mean to say it\u0027s not important - just that I was taking a shortcut for the sake of the proof of concept.",
+      "parentUuid": "7c37fa28_5a9a02c9",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "443158ef_3482d039",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-16T21:01:15Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "6280838d_825c96ac",
+      "range": {
+        "startLine": 100,
+        "startChar": 34,
+        "endLine": 100,
+        "endChar": 67
+      },
       "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
