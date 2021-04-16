@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a813188_4ea83423",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-16T11:24:58Z",
+      "side": 1,
+      "message": "TODO: Move this into buildcfg.Check and call it explicitly in the programs that should do it.\nRight now it is a bit too precarious: if cmd/go lost the one incidental use of objabi it would stop checking for these errors.",
+      "revId": "1d626b0a82e86ba47fc9b46b1f6d9cb53babea79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
