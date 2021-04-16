@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ebad64f_c44524d7",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-16T20:32:50Z",
+      "side": 1,
+      "message": "(reverted)",
+      "parentUuid": "be4aa37c_2446516e",
+      "range": {
+        "startLine": 67,
+        "startChar": 17,
+        "endLine": 67,
+        "endChar": 20
+      },
+      "revId": "1fa933dcf9b33d883b87fc0b3c42ae7a6a11969f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e529950c_39ef3bbb",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-08T22:06:07Z",
       "side": 1,
       "message": "only do the r \u003d\u003d 0 check here? the others are only needed if b \u003e\u003d utf8.RuneSelf, I think\n\n(or does that make next() too large?)",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 13
+      },
+      "revId": "1fa933dcf9b33d883b87fc0b3c42ae7a6a11969f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e558aa0_fc059e32",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-16T20:32:50Z",
+      "side": 1,
+      "message": "(reverted)",
+      "parentUuid": "e529950c_39ef3bbb",
       "range": {
         "startLine": 74,
         "startChar": 12,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8abb94a9_3ba7d59d",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-16T20:32:50Z",
+      "side": 1,
+      "message": "That was an excellent suggestion, thank you.\n\nThis simplified things quite a bit below. We could simplify further by removing the b \u003c utf8.RuneSelf short-cut, but that saves around 3-5% of scanning time.\n\nIn the latest (simplified) patch set, performance actually _improved_, because I was able to revert my changes to next() and the corresponding factoring out of checkChar.\n\nThe inlining of isLetter in Scan() actually saved around 1-2% of scan time, but I did not consider that worth the cost of duplication, so went back to calling isLetter.",
+      "parentUuid": "251a68a2_2a8b3de5",
+      "range": {
+        "startLine": 358,
+        "startChar": 18,
+        "endLine": 358,
+        "endChar": 32
+      },
+      "revId": "1fa933dcf9b33d883b87fc0b3c42ae7a6a11969f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18efa35c_8910405e",
@@ -87,6 +159,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c75332e1_b821f698",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-16T20:32:50Z",
+      "side": 1,
+      "message": "Ack. This is no longer necessary to explain, as now we can range over the slice (since we only consider bytes).",
+      "parentUuid": "18efa35c_8910405e",
+      "revId": "1fa933dcf9b33d883b87fc0b3c42ae7a6a11969f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5534269_3abbee0a",
@@ -100,6 +190,24 @@
       "writtenOn": "2021-04-08T22:06:07Z",
       "side": 1,
       "message": "use lower here?",
+      "revId": "1fa933dcf9b33d883b87fc0b3c42ae7a6a11969f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e8b8ec6_a657b291",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-16T20:32:50Z",
+      "side": 1,
+      "message": "I can\u0027t without converting to rune. Didn\u0027t seem worth it. WDYT?",
+      "parentUuid": "e5534269_3abbee0a",
       "revId": "1fa933dcf9b33d883b87fc0b3c42ae7a6a11969f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
