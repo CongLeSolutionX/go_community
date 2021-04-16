@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eb0a5a5_ac72e2a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-16T21:17:48Z",
+      "side": 1,
+      "message": "ahhh I see. to be clear, I\u0027m OK with not having the check be behind a flag, I just thought it already was. the mapping doesn\u0027t even need to be behind a flag either.\n\nI think you\u0027re right that on virtually every 64-bit system 0xdeaddeaddeaddead is going to be unmappable (maybe like... AIX or some other ppc64 system with the crazy inverted page table... but I doubt Linux would do that).\n\nwe could just map the page just on 32-bit? it does mean we\u0027ll have a hole in the address space, but I\u0027m not sure it matters.",
+      "parentUuid": "8196f0c9_080a2031",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 54
+      },
+      "revId": "5714918ca3d5214ffc39cb58a46e10725bf50fd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "92d385ca_2a3f559b",
