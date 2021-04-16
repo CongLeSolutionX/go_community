@@ -39,6 +39,30 @@
       },
       "revId": "98bc6ce07957d8294ca202abf08eb874bab0e696",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cf15cc5_450b3f44",
+        "filename": "src/math/rand/export_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T23:46:25Z",
+      "side": 1,
+      "message": "Sorry for this. Fixed",
+      "parentUuid": "ad6223e2_52075cde",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "98bc6ce07957d8294ca202abf08eb874bab0e696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
