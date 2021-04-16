@@ -87,6 +87,30 @@
       },
       "revId": "b1a0712403f051661fee8b0e22b15269c2177432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "887e05a9_4a6c084a",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T23:00:42Z",
+      "side": 1,
+      "message": "Oh, I should have thought of that, thanks for the suggestion! I used the same method to also bring over some parameters instead of copy/pasting them to the new package!\n\nCould I please ask for a TryBot re-trigger when you have some time?",
+      "parentUuid": "44dfef13_d5c5cf91",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 81
+      },
+      "revId": "b1a0712403f051661fee8b0e22b15269c2177432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
