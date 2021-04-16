@@ -33,6 +33,40 @@
       "message": "Sorry for the ping, but could I get a review on this when there\u0027s some time? Thanks a lot in advance!",
       "revId": "1147a51741a60d86377d7ac3e343fcc28196bf53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b68ad1_a894d4d0",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-04-16T16:16:51Z",
+      "side": 1,
+      "message": "document lastRef?\n\nBut is this really \"last\"? It\u0027s more \"explicit Referer\" from the original HTTP request the user sent out, right? Is it ever the case that lastRef is non-empty and not the original explicit referer that was set from the user\u0027s http.Request?",
+      "revId": "1147a51741a60d86377d7ac3e343fcc28196bf53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3eb965_6eb87f3a",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-04-16T16:16:51Z",
+      "side": 1,
+      "message": "The unkeyed structs with all the same types were borderline dubious before but with 4 unkeyed strings in a row, this gets a little hard to read \u0026 easy to transpose things.\n\nType to add field names to these and omit lastRef when it\u0027s empty.",
+      "revId": "1147a51741a60d86377d7ac3e343fcc28196bf53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
