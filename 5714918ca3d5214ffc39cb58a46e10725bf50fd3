@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8196f0c9_080a2031",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-16T21:07:35Z",
+      "side": 1,
+      "message": "\u003e it\u0027s behind a debug flag anyway so I think it\u0027s OK.\n\nIt\u0027s not currently. -clobberdead is a compiler flag, but the runtime doesn\u0027t know. (debug.invalidptr is on by default.) I\u0027m thinking we could introduce another one, something like debug.crashondead or something.\n\nWe could try to map that page. I\u0027m not sure 0xdeaddead is always a valid user-space address on all platforms. (I think the 64-bit version, 0xdeaddeaddeaddead is not valid on AMD64?)\n\nOr, if we use a debug flag, we could just hope for the best (without mapping the address). I assume it won\u0027t be widely used anyway.",
+      "parentUuid": "b2c93088_cc8637b9",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 54
+      },
+      "revId": "5714918ca3d5214ffc39cb58a46e10725bf50fd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "92d385ca_2a3f559b",
