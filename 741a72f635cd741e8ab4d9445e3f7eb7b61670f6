@@ -176,6 +176,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f260cc8b_5f560d2e",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-16T18:57:13Z",
+      "side": 1,
+      "message": "I\u0027ll add cgo, but I\u0027m going to leave the log.Fatal out.\nRight now go/build (and most of std) is prohibited from importing \"log\"\nby go/build.TestDeps and it seems better to keep it that way.",
+      "parentUuid": "8fe7a69a_20ad8e9a",
+      "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60c404f3_3bf4f912",
