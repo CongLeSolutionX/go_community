@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "70c954a6_a4a6053f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-16T21:18:23Z",
+      "side": 1,
+      "message": "The one thing I\u0027m convinced of is that go/types is not (and should not be) able to resolve this.\n\nIt seems reasonable to wrap the importer to canonicalize the path before delegating to the gcimporter.",
+      "parentUuid": "35c031c7_c3ef5d62",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a05adf45_9e1465ed",
         "filename": "src/go/internal/gcimporter/gcimporter.go",
         "patchSetId": 1
