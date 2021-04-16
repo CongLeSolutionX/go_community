@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bcddf22_9e9309ee",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-16T18:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf030601_389fb222",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 25
+      },
+      "revId": "468efcdc78b2d60f814cd3a07453deafaf0d3b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "337db656_81325ee2",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "191f06f7_1f2f254c",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-16T18:57:13Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "337db656_81325ee2",
+      "revId": "468efcdc78b2d60f814cd3a07453deafaf0d3b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb8052bb_d070422d",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-04-16T17:42:42Z",
       "side": 1,
       "message": "I\u0027m not sure I understand how this is related to the overall change.",
+      "revId": "468efcdc78b2d60f814cd3a07453deafaf0d3b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6be5a780_50ec6ffb",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-16T18:57:13Z",
+      "side": 1,
+      "message": "That wasn\u0027t supposed to leak into this change. Thanks.",
+      "parentUuid": "cb8052bb_d070422d",
       "revId": "468efcdc78b2d60f814cd3a07453deafaf0d3b4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
