@@ -16,6 +16,114 @@
       "message": "I think you clobbered the generated rewrite*.go files. You need to change objabi -\u003e buildcfg in gen/*.rules, update gen/*.go for the imports, and rerun gen/*.go.",
       "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a89f69fe_a08c4da3",
+        "filename": "src/cmd/dist/buildruntime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:39:18Z",
+      "side": 1,
+      "message": "Missing defaultGO_LDSO. I\u0027m not sure this comment really has much value, though, and it seems like it\u0027s asking to get out of sync with the code.",
+      "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a637a6e_2555d203",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:39:18Z",
+      "side": 1,
+      "message": "buildcfg.Check could take the command name as an argument and then you could use it here.",
+      "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1458cc39_a9e99d8e",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:39:18Z",
+      "side": 1,
+      "message": "It seems like it would be really easy to forget to call this. Like, I\u0027m not at all sure we\u0027re currently checking Error in all of the necessary binaries. Though I\u0027m not sure what the right answer is. We changed GOEXPERIMENT to a function. Maybe we should change all of these to functions?",
+      "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60c404f3_3bf4f912",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:39:18Z",
+      "side": 1,
+      "message": "Could crash with out of bounds. I\u0027m not sure there\u0027s much value in trying to come up with an answer if it\u0027s not one we recognize.",
+      "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d18abbd_dd61ce65",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:39:18Z",
+      "side": 1,
+      "message": "Could crash with out of bounds",
+      "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f039857a_6b2297ac",
+        "filename": "src/internal/goexperiment/flags.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-04-16T17:39:18Z",
+      "side": 1,
+      "message": "buildcfg?",
+      "range": {
+        "startLine": 42,
+        "startChar": 39,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "741a72f635cd741e8ab4d9445e3f7eb7b61670f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
