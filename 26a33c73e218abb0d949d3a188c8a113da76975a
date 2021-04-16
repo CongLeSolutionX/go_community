@@ -16,6 +16,24 @@
       "message": "I don\u0027t know if this needs a proposal (https://github.com/golang/proposal#readme), but in both cases, it needs a test.",
       "revId": "26a33c73e218abb0d949d3a188c8a113da76975a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba7d0873_f08dd082",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26852
+      },
+      "writtenOn": "2021-04-16T16:19:21Z",
+      "side": 1,
+      "message": "I added tests for the specific case that was not handled by IsOnCurve alone.",
+      "parentUuid": "41a43e51_6682d392",
+      "revId": "26a33c73e218abb0d949d3a188c8a113da76975a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
