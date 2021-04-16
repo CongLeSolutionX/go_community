@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aee9606d_976ab1a1",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-04-16T18:27:09Z",
+      "side": 1,
+      "message": "Nit: could minimize return fuzzResult instead of *fuzzResult? If it\u0027s a pointer, it makes me worry that it\u0027s stateful.",
+      "range": {
+        "startLine": 186,
+        "startChar": 29,
+        "endLine": 186,
+        "endChar": 33
+      },
+      "revId": "98f8e5583252c536d687435ce9a281072ff268b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
