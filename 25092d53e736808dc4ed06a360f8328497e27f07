@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7bdad4a3_02046ca6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "I thought about that too. Since it\u0027s not a lot of extra code, it seemed cleaner to me to just set up another RPC, since it doesn\u0027t share any code with the server\u0027s fuzzing/mutating logic. I think there\u0027s a good chance we\u0027ll want other RPCs in the future too (e.g. for the coordinator to inform the worker that it should update its local coverage information when a different worker expands coverage). But LMK if you think this is overkill.",
+      "parentUuid": "37e790a8_6f0633da",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d9837c92_dbaa9e29",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "writtenOn": "2021-04-15T17:56:22Z",
       "side": 1,
       "message": "How does this interact with c.minimizing?",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d1b7709_e245ed91",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Left over code. Deleted.",
+      "parentUuid": "f34d95fa_e073a0ef",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -92,6 +128,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c5fa3da_e2451fe0",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682e9c17_724cdcf9",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1f07e70_0d0c60f7",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "It already does for duration. CoordinateFuzzing creates a context with a timeout that is based on -fuzztime, and that context should kill the worker once it\u0027s hit. Since we\u0027re watching context while minimizing, that works. I added a test to verify.\n\nI\u0027m not sure it should work for the count, though. I took that to mean \"x number of mutations\", not \"x number of calls to the fuzzFn\". We call the fuzzFn *a lot* while minimizing, since it calls it after every cut, so if we include those in the count, we\u0027ll exhaust the # of calls pretty much immediately. LMK if you disagree.",
+      "parentUuid": "f2d9924f_04fdf8b7",
+      "range": {
+        "startLine": 189,
+        "startChar": 42,
+        "endLine": 189,
+        "endChar": 51
+      },
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "683fcb42_4d5d498f",
@@ -105,6 +183,24 @@
       "writtenOn": "2021-04-15T17:56:22Z",
       "side": 1,
       "message": "This is racy: it\u0027s not safe for multiple workers to read and write this. It would be better to set this by sending something through fuzzResult.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a332978b_a6831ffd",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Yep you\u0027re right. Ripped it out. (see other comment for context)",
+      "parentUuid": "683fcb42_4d5d498f",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -126,6 +222,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d1eefee_a2afea11",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bd528d8_d6b00122",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45150e7b_cbd96624",
@@ -143,6 +257,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d06902de_e7e04ed3",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45150e7b_cbd96624",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e975710d_ddc8bde4",
@@ -156,6 +288,24 @@
       "writtenOn": "2021-04-15T17:56:22Z",
       "side": 1,
       "message": "Maybe return err here? stop is already called in the defer.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1fa0f5f_5fd0908d",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e975710d_ddc8bde4",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -179,6 +329,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8d1cf328_67eea822",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Moved it down instead. If it crashed in a non-recoverable way, we should still stop and fully restart the worker before the next iteration of the loop, since the process is dead, right?",
+      "parentUuid": "3592054b_98051303",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf7b3b67_eb806b71",
         "filename": "src/internal/fuzz/worker.go",
         "patchSetId": 4
@@ -190,6 +358,24 @@
       "writtenOn": "2021-04-15T17:56:22Z",
       "side": 1,
       "message": "return nil (or return ctx.Err()?)",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6430d99_372831b1",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Done (here and below)",
+      "parentUuid": "bf7b3b67_eb806b71",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -241,6 +427,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9b0dd4b_7d1425af",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Good catch, it actually wasn\u0027t, but that\u0027s a different bug. I fixed the code so that it is correctly sending the last confirmed crash over to the coordinator, even in the case of an interrupt.\n(I\u0027d like to test this, but need to think about how... I\u0027ll add a TODO in the test)\n\nThe issue with printing multiple times still stands though, and needs to be fixed. It might be an ugly fix though, which is why I think it would be best handled in a different CL).",
+      "parentUuid": "5ec3aca1_d5d49f2a",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 20
+      },
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f230996_c0f0de34",
@@ -254,6 +464,24 @@
       "writtenOn": "2021-04-15T17:56:22Z",
       "side": 1,
       "message": "Move right below minimizeArgs: let\u0027s keep the args / response types paired.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86f1f99b_8c45a88f",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f230996_c0f0de34",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -275,6 +503,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a50d649b_63424df2",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Agreed. Added a TODO.\n\nI spent a while trying to work this out, to make sure that one and only one worker is minimizing at a time, and all others should block, but it ended up being complex and buggy. For now, I at least added a check in internal/fuzz/fuzz.go which makes sure only one crasher is written. Ugly, but workable until the TODO is fixed.\n\nOne thought I had was that we don\u0027t really care too much if several workers are trying to minimize at the same time. Whichever returns first wins, and only the winning entry is written to the corpus. And while it\u0027s running, other workers might be able to expand coverage and write new interesting inputs to the on-disk corpus, which is nice for the next time it\u0027s run. So this solution works, but it wastes resources, so the TODO is worth considering.\n\nMy brain isn\u0027t working well today, but I will re-evaluate this another day 👍",
+      "parentUuid": "1986251a_a462f865",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f679ecf_1259209b",
@@ -288,6 +534,24 @@
       "writtenOn": "2021-04-15T17:56:22Z",
       "side": 1,
       "message": "Nit: rename to ctx, cancel (shadowing the ctx parameter). That prevents us from accidentally using ctx without the timeout.",
+      "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b1e7d11_f5b3f8a9",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-16T17:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f679ecf_1259209b",
       "revId": "25092d53e736808dc4ed06a360f8328497e27f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
