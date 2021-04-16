@@ -53,6 +53,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "391ca091_b55d02ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Thanks a lot for the detailed feedback and encouragement; here\u0027s a new patchset!\n\nI\u0027ve added a comment outlining my thoughts on how -shuffle and -count should interact with each other; let me know what you think.\n\nAlso, I\u0027ve broken the cyclical dependency by moving the math/rand tests in a new rand_test package.\nI now need to figure out the best way to continue testing the unexported `rand.int31n` method.",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dbd55fe_d020b766",
@@ -70,6 +87,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd488ad_81ca3c7c",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Done. I agree with both suggestions. I initially chose \u0027off\u0027 to mimic other flags for readability, but this is better.",
+      "parentUuid": "2dbd55fe_d020b766",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aec98725_dbed6105",
@@ -83,6 +118,30 @@
       "writtenOn": "2021-04-15T14:55:28Z",
       "side": 1,
       "message": "Instead of treating the empty string as \"off\", I think we should treat it as an error, and explicitly set the default to \"off\" at registration time.\n\nI don\u0027t think I can reasonably infer a user\u0027s intent from a command line line `go test -shuffle\u003d\u0027\u0027`",
+      "range": {
+        "startLine": 214,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 18
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26ed3e71_cfe2c7ad",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec98725_dbed6105",
       "range": {
         "startLine": 214,
         "startChar": 4,
@@ -116,6 +175,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a2f5c59_25478f38",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Done; I\u0027ve also added a couple of tests to check that the behavior from the binary is the same.",
+      "parentUuid": "25abe94c_02cb5fcd",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 2
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e024f44_2c8982ae",
@@ -129,6 +212,30 @@
       "writtenOn": "2021-04-14T21:57:19Z",
       "side": 1,
       "message": "seed",
+      "range": {
+        "startLine": 224,
+        "startChar": 1,
+        "endLine": 224,
+        "endChar": 2
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25b7539f_5fb00fc4",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e024f44_2c8982ae",
       "range": {
         "startLine": 224,
         "startChar": 1,
@@ -162,6 +269,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8396726_c1c2182c",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a5e9f8f_77f84e3a",
+      "range": {
+        "startLine": 230,
+        "startChar": 70,
+        "endLine": 230,
+        "endChar": 72
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ccbf9b3_dc7eab99",
@@ -181,6 +312,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "097d3a28_046b72e9",
+        "filename": "src/cmd/go/testdata/script/test_shuffle.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "I\u0027ve added some test cases for -count.\n\nMy 2 cents would be that -count should _not_ reshuffle tests, but maintain the initial shuffled order.\n\nAs you said in your first sentence, each run should be independent, start after the previous one has finished, in the same order.\n\nI feel this would make it easier to spot flakiness arising from a specific seed value; otherwise the extra randomness would make it even harder to spot the root cause of the failure.\n\nWhat do you think on that?",
+      "parentUuid": "7ccbf9b3_dc7eab99",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf9434cc_46dbe276",
         "filename": "src/cmd/go/testdata/script/test_shuffle.txt",
         "patchSetId": 2
@@ -192,6 +341,24 @@
       "writtenOn": "2021-04-15T14:55:28Z",
       "side": 1,
       "message": "Please add `stdout` assertions for the logging of the test seeds.",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6661b27_437a875c",
+        "filename": "src/cmd/go/testdata/script/test_shuffle.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9434cc_46dbe276",
       "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -221,6 +388,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9ab1dda_dc1c60e6",
+        "filename": "src/cmd/go/testdata/script/test_shuffle.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure about these tests to be honest, as setting -shuffle\u003don doesn\u0027t have a predictable seed, so we can\u0027t perform the same assertions on the order they\u0027re run in.\n\nThe -count\u003d2 was an easy way to check that for each test there would be a line like \u0027\u003d\u003d\u003d RUN   TestOne\u0027 and a line like \u0027--- PASS: TestOne\u0027. I\u0027ve changed the regexes a little to make this more obvious.\n\nDo you have any better checks in mind for the -shuffle\u003don case?",
+      "parentUuid": "feeb62df_c27b02d0",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1bb6b9c2_17470f71",
         "filename": "src/testing/testing.go",
         "patchSetId": 2
@@ -232,6 +423,24 @@
       "writtenOn": "2021-04-15T14:55:28Z",
       "side": 1,
       "message": "This message should more clearly indicate its relationship to the `-shuffle` flag.\n\nPerhaps:\n\n\tfmt.Printf(\"-test.shuffle\u003d%v\", n)",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9a9d97e_2dd02c93",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1458,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Good point, done. \nI thought the capital 4-letter word would match \"PASS\", \"FAIL\" etcetera, but this is better for readability; I personally wouldn\u0027t go as far as making it a full sentence.\n\nI\u0027ve used fmt.Println() so this is hidden on success without the -v flag; fmt.Printf doesn\u0027t have this behavior and appears always (both with and without the -v flag on successful runs)",
+      "parentUuid": "1bb6b9c2_17470f71",
       "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -249,6 +458,30 @@
       "writtenOn": "2021-04-14T21:57:19Z",
       "side": 1,
       "message": "We need to properly parse -shuffle as you did for it in cmd/* and not ignore this error.\n\nThis code also unfortunately changes the global rand, perhaps make an *Rand by:\n\nseed, err :\u003d strconv.ParseInt(*shuffle, 10, 63)\nif err !\u003d nil {\n     // TODO: Handle the error here\n     m.exitCode \u003d 1\n     return\n}\nrng :\u003d math.New(math.NewSource(seed))\nrng.Shuffle(len(m.tests), func(i, j int) {\n     m.tests[i], m.tests[j] \u003d m.tests[j], m.tests[i]\n})\nrng.Shuffle(len(m.benchmarks), func(i, j int) {\n     m.benchmarks[i], m.benchmarks[j] \u003d m.benchmarks[j], m.benchmarks[i]\n})",
+      "range": {
+        "startLine": 1456,
+        "startChar": 1,
+        "endLine": 1462,
+        "endChar": 2
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d21ad34_5a47aa2a",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:06:57Z",
+      "side": 1,
+      "message": "Done. If it fails to parse, we set the exit code to 2, as is the case with erroneous \u0027parallel\u0027 flag.\n\nThanks for letting me know about the global rand, we\u0027re now creating a new source and also moved the seeding logic when -shuffle\u003don in here.",
+      "parentUuid": "6c2f9af4_fb0e07da",
       "range": {
         "startLine": 1456,
         "startChar": 1,
