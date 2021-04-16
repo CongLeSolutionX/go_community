@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5289a99a_2bd3453d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2021-04-16T15:44:08Z",
+      "side": 1,
+      "message": "In the current GC process, the value of nFlushCacheRoots always is 0. \nI think the relevant code has been moved to gcMarkTermination  \nfunc gcMarkTermination(nextTriggerRatio float64) {\n  systemstack(func() {\n    forEachP(func(_p_ *p) {\n      _p_.mcache.prepareForSweep()\n    })\n  })\n}\n\nSo we can delete it safely, right?",
+      "revId": "40623411dd41c822e2334e8902e5fc5fa4d04d09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
