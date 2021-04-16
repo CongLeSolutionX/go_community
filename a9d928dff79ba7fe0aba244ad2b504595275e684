@@ -16,6 +16,24 @@
       "message": "I\u0027m sorry, I just don\u0027t see how this is the right track.\n\ntf.typ.str is an offset to a name that must be interpreted with regard to tf.typ, as in tf.typ.nameOff(tf.typ.str).  That will give an encoded type name.  I don\u0027t see how comparing the offset values here is right.  Even comparing the encoded type names isn\u0027t necessarily right.  The point of haveIdenticalUnderlyingType is to look for identical underlying types.  I don\u0027t see any reason to believe that tf.typ.str \u003d\u003d vf.typ.str is required for underlying types.\n\nYour example is a good one, but the key to your example is that the types look exactly the same except that they are defined in different packages.\n\nWhat happens if we change haveIdenticalType to also check T.PkgPath() \u003d\u003d V.PkgPath()?",
       "revId": "a9d928dff79ba7fe0aba244ad2b504595275e684",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f59a52d_6442740f",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1682,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-16T04:56:29Z",
+      "side": 1,
+      "message": "Hi Ian,\n\n\n\u003e The point of haveIdenticalUnderlyingType is to look for identical underlying types.  I don\u0027t see any reason to believe that tf.typ.str \u003d\u003d vf.typ.str is required for underlying types.\n\n\n`tf.typ.str \u003d\u003d vf.typ.str` only checked if the field\u0027s type is not a `Struct`, from my understanding/testing, other kinds of the field type can\u0027t be converted unless they are using the same one?\n\nSo we are checking the value of `str` here to make sure the field\u0027s type is the same one unless the field\u0027s type is a `Struct`, is it the right way?\n\n\n\u003e Your example is a good one, but the key to your example is that the types look exactly the same except that they are defined in different packages.\n\n\nStack overflow only raise when the types exactly same and defined in different packages.\n\n\n\u003e What happens if we change haveIdenticalType to also check T.PkgPath() \u003d\u003d V.PkgPath()?\n\n\nThis will break the following case?\n\n```\npackage main\n\nimport (\n\texample1 \"play.ground/example1\"\n\texample2 \"play.ground/example2\"\n\t\"reflect\"\n)\n\nfunc main() {\n\tvar v1 example1.MyStruct\n\t_ \u003d example2.MyStruct(v1)\n\n\tt2 :\u003d reflect.ValueOf(example2.MyStruct{}).Type()\n\t_ \u003d reflect.ValueOf(v1).Convert(t2).Interface().(example2.MyStruct)\n}\n-- go.mod --\nmodule play.ground\n-- example1/a.go --\npackage example\n\ntype MyStruct struct {\n\tName string\n}\n-- example2/a.go --\npackage example\n\ntype MyStruct struct {\n\tName string\n}\n```\n\nThank you.",
+      "parentUuid": "00a0080c_25552fbc",
+      "revId": "a9d928dff79ba7fe0aba244ad2b504595275e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
