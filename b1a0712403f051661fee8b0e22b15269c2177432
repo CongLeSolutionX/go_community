@@ -63,6 +63,30 @@
       },
       "revId": "b1a0712403f051661fee8b0e22b15269c2177432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44dfef13_d5c5cf91",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-16T21:46:59Z",
+      "side": 1,
+      "message": "We can create a fresh file \"export_test.go\" in which you export such symbols, given that they can ONLY be used in _test.go files,\n\nso\n\ncat math/rand/export_test.go\n// Copyright 2021 The Go Authors. All rights reserved.\n// Use of this source code is governed by a BSD-style\n// license that can be found in the LICENSE file.\n\npackage rand\n\nfunc (r *Rand) Int31nForTest(n int32) int32 {\n        return r.int31n(n)\n}\n\n\nand then use r.Int31nForTest in the place of r.int31n",
+      "parentUuid": "6e8a25f0_2a7c33c4",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 81
+      },
+      "revId": "b1a0712403f051661fee8b0e22b15269c2177432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
