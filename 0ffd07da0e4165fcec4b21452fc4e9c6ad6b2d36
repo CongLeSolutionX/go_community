@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fd72434_eb29be7b",
+        "filename": "src/net/unixsock_readmsg.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-16T10:32:21Z",
+      "side": 1,
+      "message": "Why move this into a separate file? Just keep this in src/net/unixsock_posix.go and add the call to setCloseOnExec.",
+      "revId": "0ffd07da0e4165fcec4b21452fc4e9c6ad6b2d36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d5bc97_c95b0a3a",
+        "filename": "src/net/unixsock_readmsg.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-16T10:32:21Z",
+      "side": 1,
+      "message": "Rename the function to setReadMsgCloseOnExec as suggested by Ian.",
+      "revId": "0ffd07da0e4165fcec4b21452fc4e9c6ad6b2d36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012685e7_9d7eb348",
+        "filename": "src/net/unixsock_readmsg_posix.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-16T10:32:21Z",
+      "side": 1,
+      "message": "I see you moved this check back into this function and added the oobn argument again. What\u0027s the reason for that? I think this check can be done in the caller like in the previous patch revision.\n\nAlso, in the current revision oobn is not used to slice oob like it was previously done.",
+      "revId": "0ffd07da0e4165fcec4b21452fc4e9c6ad6b2d36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
