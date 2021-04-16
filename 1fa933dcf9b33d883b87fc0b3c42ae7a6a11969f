@@ -210,6 +210,24 @@
       "parentUuid": "e5534269_3abbee0a",
       "revId": "1fa933dcf9b33d883b87fc0b3c42ae7a6a11969f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e81f758_e51ac70e",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-16T23:36:10Z",
+      "side": 1,
+      "message": "I\u0027d make a lowerASCII and see if it helps some more with performance.",
+      "parentUuid": "7e8b8ec6_a657b291",
+      "revId": "1fa933dcf9b33d883b87fc0b3c42ae7a6a11969f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
