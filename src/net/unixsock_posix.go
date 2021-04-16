@@ -111,18 +111,6 @@ func (c *UnixConn) readFrom(b []byte) (int, *UnixAddr, error) {
 	return n, addr, err
 }
 
-func (c *UnixConn) readMsg(b, oob []byte) (n, oobn, flags int, addr *UnixAddr, err error) {
-	var sa syscall.Sockaddr
-	n, oobn, flags, sa, err = c.fd.readMsg(b, oob)
-	switch sa := sa.(type) {
-	case *syscall.SockaddrUnix:
-		if sa.Name != "" {
-			addr = &UnixAddr{Name: sa.Name, Net: sotypeToNet(c.fd.sotype)}
-		}
-	}
-	return
-}
-
 func (c *UnixConn) writeTo(b []byte, addr *UnixAddr) (int, error) {
 	if c.fd.isConnected {
 		return 0, ErrWriteToConnected
@@ -221,4 +209,20 @@ func (sl *sysListener) listenUnixgram(ctx context.Context, laddr *UnixAddr) (*Un
 		return nil, err
 	}
 	return newUnixConn(fd), nil
+}
+
+func (c *UnixConn) readMsg(b, oob []byte) (n, oobn, flags int, addr *UnixAddr, err error) {
+	var sa syscall.Sockaddr
+	n, oobn, flags, sa, err = c.fd.readMsg(b, oob, readMsgFlags)
+	if oobn > 0 {
+		setReadMsgCloseOnExec(oob[:oobn])
+	}
+
+	switch sa := sa.(type) {
+	case *syscall.SockaddrUnix:
+		if sa.Name != "" {
+			addr = &UnixAddr{Name: sa.Name, Net: sotypeToNet(c.fd.sotype)}
+		}
+	}
+	return
 }
