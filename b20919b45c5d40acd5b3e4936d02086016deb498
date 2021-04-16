@@ -46,6 +46,30 @@
       },
       "revId": "b20919b45c5d40acd5b3e4936d02086016deb498",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b68112c_b3db767c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2941,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-16T21:08:55Z",
+      "side": 1,
+      "message": "huh. I definitely audited this before and looked good. I wonder what changed, if anything (maybe I just missed it).",
+      "parentUuid": "23dee30c_b63de426",
+      "range": {
+        "startLine": 2941,
+        "startChar": 3,
+        "endLine": 2941,
+        "endChar": 27
+      },
+      "revId": "b20919b45c5d40acd5b3e4936d02086016deb498",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
