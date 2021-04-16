@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ddeb2b6e_5177b6ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-16T15:39:15Z",
+      "side": 1,
+      "message": "\u003e For clarity, the non-lookup-func path uses go/build.Import, which *does* know how to use vendor folders, as far as I can tell:\n\nAh, I see what you mean. Yes, I agree that that probably does already take various kinds of vendoring into account. So this at least seems to make things more consistent.\n\n\n\u003e if the path were already canonical in ImporterFrom, we wouldn\u0027t need the srcDir, right?\n\nCorrect! But it\u0027s possible that this is some weird degenerate case, where something requires ImporterFrom to be present but doesn\u0027t actually rely on the parts of it that are semantically different from plain old Import.\n\n\n\u003e - What *precisely* is the definition of canonical import path?\n\nFor the purpose here, I believe it is: “what is the unique path to the package that will actually be imported by an import statement with the given string?”\n\n\nI don\u0027t know the answers to the other questions.",
+      "parentUuid": "31e032ff_1b8ff8fd",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a05adf45_9e1465ed",
         "filename": "src/go/internal/gcimporter/gcimporter.go",
         "patchSetId": 1
@@ -243,6 +261,24 @@
         "endLine": 100,
         "endChar": 67
       },
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c37fa28_5a9a02c9",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-16T15:39:15Z",
+      "side": 1,
+      "message": "I think the laziness  is actually important here, because if the passed-in path is _already_ `cmd/vendor/golang.org/…` we don\u0027t want to double-escape it.",
+      "parentUuid": "d7e0b676_2dc515eb",
       "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
