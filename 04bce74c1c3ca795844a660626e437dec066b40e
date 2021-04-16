@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e7d2059_f1472821",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-16T11:13:31Z",
+      "side": 1,
+      "message": "First patchset forgot to actually use ToolTags in deciding build tags, and to expose ToolTags in context, but both are fixed, so that at the top of this stack now:\n\n% go list -f \u0027{{context.ToolTags}}\u0027 runtime\n[goexperiment.regabiwrappers]\n% go list -f \u0027{{join .GoFiles \"\\n\"}}\u0027 internal/goexperiment | grep _on\nexp_regabiwrappers_on.go\n% \n\n",
+      "revId": "04bce74c1c3ca795844a660626e437dec066b40e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
