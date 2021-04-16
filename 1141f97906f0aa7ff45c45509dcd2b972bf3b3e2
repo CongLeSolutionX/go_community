@@ -16,6 +16,24 @@
       "message": "I believe that this will give the wrong result in some cases if cmpTags is false.  See this test case: https://play.golang.org/p/tNz_qMVqU6s .",
       "revId": "1141f97906f0aa7ff45c45509dcd2b972bf3b3e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5722b01e_b6c47cfc",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1682,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-16T00:41:18Z",
+      "side": 1,
+      "message": "Fixed the issue, thank you for pointing it out.",
+      "parentUuid": "e05d6946_ccf8ac60",
+      "revId": "1141f97906f0aa7ff45c45509dcd2b972bf3b3e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
