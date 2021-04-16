@@ -88,6 +88,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08080ac1_6848ca63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-16T08:52:45Z",
+      "side": 1,
+      "message": "Alan\u0027s google account seems to be dead, so I tried CCing his personal email.",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b9b2db9_41aca479",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-16T08:52:45Z",
+      "side": 1,
+      "message": "For clarity, the non-lookup-func path uses go/build.Import, which *does* know how to use vendor folders, as far as I can tell: https://golang.org/src/go/build/build.go#L631\n\nSo I do think it\u0027s at least more consistent to make the lookup func path also treat vendored packages properly. And I think we had agreed earlier that go/types didn\u0027t seem to have a bug, as it provided ImportFrom with all the information necessary to figure out what to do.\n\nRobert and Alan are listed as owners of go/importer. Perhaps one of them can provide some brief guidance? :)",
+      "parentUuid": "e415646e_91dfb83b",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a05adf45_9e1465ed",
