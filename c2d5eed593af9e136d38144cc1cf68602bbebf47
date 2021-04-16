@@ -33,6 +33,23 @@
       "message": "\u003e Patch Set 1: TryBot-Result-1\n\u003e \n\u003e 1 of 24 SlowBots failed:\n\u003e Failed on windows-amd64-2016: https://storage.googleapis.com/go-build-log/c2d5eed5/windows-amd64-2016_ca9e6aa0.log\n\nI\u0027m not sure what happened there, but it\u0027s definitely not related to this CL.",
       "revId": "c2d5eed593af9e136d38144cc1cf68602bbebf47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9c188e9_a30a5956",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-16T11:12:17Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "c2d5eed593af9e136d38144cc1cf68602bbebf47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
