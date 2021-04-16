@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00a0080c_25552fbc",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1682,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-16T03:02:25Z",
+      "side": 1,
+      "message": "I\u0027m sorry, I just don\u0027t see how this is the right track.\n\ntf.typ.str is an offset to a name that must be interpreted with regard to tf.typ, as in tf.typ.nameOff(tf.typ.str).  That will give an encoded type name.  I don\u0027t see how comparing the offset values here is right.  Even comparing the encoded type names isn\u0027t necessarily right.  The point of haveIdenticalUnderlyingType is to look for identical underlying types.  I don\u0027t see any reason to believe that tf.typ.str \u003d\u003d vf.typ.str is required for underlying types.\n\nYour example is a good one, but the key to your example is that the types look exactly the same except that they are defined in different packages.\n\nWhat happens if we change haveIdenticalType to also check T.PkgPath() \u003d\u003d V.PkgPath()?",
+      "revId": "a9d928dff79ba7fe0aba244ad2b504595275e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
