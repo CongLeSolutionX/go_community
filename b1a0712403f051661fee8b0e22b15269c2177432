@@ -39,6 +39,30 @@
       },
       "revId": "b1a0712403f051661fee8b0e22b15269c2177432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e8a25f0_2a7c33c4",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-16T21:35:41Z",
+      "side": 1,
+      "message": "Done, it should be more readable now!\n\nI still have to figure out a good way to test the unexported rand.int31n method from the new `rand_test` package. Do you reckon a //go:linkname would be a good option here? 😕",
+      "parentUuid": "d93ad1bb_d2106592",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 81
+      },
+      "revId": "b1a0712403f051661fee8b0e22b15269c2177432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
