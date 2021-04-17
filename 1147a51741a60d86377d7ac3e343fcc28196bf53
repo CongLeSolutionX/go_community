@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "588a9446_eb6de5c3",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-17T19:45:08Z",
+      "side": 1,
+      "message": "If you mean a part of the redirect chain \u0027hijacking/modifying\u0027 the Referer header, I\u0027ve never seen that happen. So \u0027explicit\u0027 is a better name indeed.\n\nI\u0027ve changed the variable name and updated the docstring to provide some clarity, please let me know what you think!",
+      "parentUuid": "c8b68ad1_a894d4d0",
+      "revId": "1147a51741a60d86377d7ac3e343fcc28196bf53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb3eb965_6eb87f3a",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-04-16T16:16:51Z",
       "side": 1,
       "message": "The unkeyed structs with all the same types were borderline dubious before but with 4 unkeyed strings in a row, this gets a little hard to read \u0026 easy to transpose things.\n\nType to add field names to these and omit lastRef when it\u0027s empty.",
+      "revId": "1147a51741a60d86377d7ac3e343fcc28196bf53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be2c6d19_b62a8efa",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-17T19:45:08Z",
+      "side": 1,
+      "message": "You\u0027re right; done. I didn\u0027t omit the `want` field so it\u0027s more obvious what the test result should be.",
+      "parentUuid": "eb3eb965_6eb87f3a",
       "revId": "1147a51741a60d86377d7ac3e343fcc28196bf53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
