@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e5551c_6e0e7c7b",
+        "filename": "LICENSE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 51719
+      },
+      "writtenOn": "2021-04-17T22:26:51Z",
+      "side": 0,
+      "message": "Out dated Copyright\nsuggested \nCopyright (c) 2009-2021 The Go Authors. All rights reserved.",
+      "revId": "6de014b9e2a655e093c2e3b5617a90b97d66c152",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
