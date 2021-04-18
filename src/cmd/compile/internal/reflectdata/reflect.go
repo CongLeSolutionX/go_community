@@ -5,13 +5,6 @@
 package reflectdata
 
 import (
-	"fmt"
-	"internal/buildcfg"
-	"os"
-	"sort"
-	"strings"
-	"sync"
-
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/bitvec"
 	"cmd/compile/internal/escape"
@@ -25,6 +18,12 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
+	"fmt"
+	"internal/buildcfg"
+	"os"
+	"sort"
+	"strings"
+	"sync"
 )
 
 type itabEntry struct {
@@ -1837,6 +1836,10 @@ func MarkTypeUsedInInterface(t *types.Type, from *obj.LSym) {
 // MarkUsedIfaceMethod marks that an interface method is used in the current
 // function. n is OCALLINTER node.
 func MarkUsedIfaceMethod(n *ir.CallExpr) {
+	// skip unnamed functions (func _())
+	if ir.CurFunc.LSym == nil {
+		return
+	}
 	dot := n.X.(*ir.SelectorExpr)
 	ityp := dot.X.Type()
 	tsym := TypeLinksym(ityp)
