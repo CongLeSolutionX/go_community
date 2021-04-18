@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5560938_6235e139",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-04-18T02:05:58Z",
+      "side": 1,
+      "message": "I just realized why this change feels a bit odd to me: this is the first http.Server tunable field that can be done with an http.Handler wrapper instead.\n\nHistorically we\u0027ve only added knobs to Server when there was no other choice, but in this case anybody who can configure the http.Server can already wrap its Handler with a Handler that sets MaxBytesReader.\n\nSo I\u0027m not super hot on this change. I don\u0027t dislike it enough to argue strongly against it, but I want to make sure others agree with this breaking of precedent before we do this.\n\n",
+      "revId": "e15586d860e21ae13d482f2e9bd3a3c839ea4ab1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
