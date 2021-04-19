@@ -107,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b869372e_a64f79d1",
+        "filename": "src/net/unixsock_readmsg_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-19T21:27:09Z",
+      "side": 1,
+      "message": "Because there is no reason to make it typed.  It\u0027s a pure constant.  It\u0027s fine to pass it to a function which expects int, and it\u0027s fine to pass it directly to syscall.Syscall which expects uintptr.  Of course in this case the type doesn\u0027t matter, but in general untyped constants shouldn\u0027t be given a type.",
+      "parentUuid": "48db9350_43514a47",
+      "revId": "f116739530a3cb44aabdd6fde438c0bdc6970d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52bfbe5e_b3b6afe1",
