@@ -16,6 +16,23 @@
       "message": "\u003e Patch Set 37: TryBot-Result-1\n\u003e \n\u003e 1 of 24 SlowBots failed:\n\u003e Failed on plan9-arm: https://storage.googleapis.com/go-build-log/f1167395/plan9-arm_47b642e1.log\n\nThe failure looks unrelated to this CL.",
       "revId": "f116739530a3cb44aabdd6fde438c0bdc6970d2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1979c3f_a4f847d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-04-19T16:10:28Z",
+      "side": 1,
+      "message": "Thanks for your patience with this.\n\nLooks good to me, leaving for Ian to confirm/submit.",
+      "revId": "f116739530a3cb44aabdd6fde438c0bdc6970d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
