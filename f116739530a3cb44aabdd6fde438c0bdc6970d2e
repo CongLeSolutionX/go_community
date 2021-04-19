@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48db9350_43514a47",
+        "filename": "src/net/unixsock_readmsg_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-04-19T18:08:29Z",
+      "side": 1,
+      "message": "Sorry I didn\u0027t know that this kind of constant is normally untyped. I have changed it to untyped, and would you mind that ask you the reason that this kind of constant is untyped here?",
+      "parentUuid": "ac7f7e47_ff8752ba",
+      "revId": "f116739530a3cb44aabdd6fde438c0bdc6970d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52bfbe5e_b3b6afe1",
@@ -106,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8faa9876_002d4cd6",
+        "filename": "src/net/unixsock_readmsg_other.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-04-19T18:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52bfbe5e_b3b6afe1",
+      "revId": "f116739530a3cb44aabdd6fde438c0bdc6970d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b141a025_8e261f64",
@@ -119,6 +155,24 @@
       "writtenOn": "2021-04-19T17:17:58Z",
       "side": 1,
       "message": "No need for \"int\".",
+      "revId": "f116739530a3cb44aabdd6fde438c0bdc6970d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9375de62_65305734",
+        "filename": "src/net/unixsock_readmsg_posix.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-04-19T18:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b141a025_8e261f64",
       "revId": "f116739530a3cb44aabdd6fde438c0bdc6970d2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
