@@ -34,6 +34,24 @@
       "parentUuid": "00a0080c_25552fbc",
       "revId": "a9d928dff79ba7fe0aba244ad2b504595275e684",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8da26e1e_53f992ae",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1682,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-19T17:48:25Z",
+      "side": 1,
+      "message": "As far as I can tell, changing haveIdenticalType to say\n\n\tif T.Name() !\u003d V.Name() || T.Kind() !\u003d V.Kind() || T.PkgPath() !\u003d V.PkgPath() {\n\t\treturn false\n\t}\n\ndoes not break that example.",
+      "parentUuid": "5f59a52d_6442740f",
+      "revId": "a9d928dff79ba7fe0aba244ad2b504595275e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
