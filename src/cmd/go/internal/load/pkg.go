@@ -2127,7 +2127,13 @@ func validEmbedPattern(pattern string) bool {
 // can't or won't be included in modules and therefore shouldn't be treated
 // as existing for embedding.
 func isBadEmbedName(name string) bool {
-	if err := module.CheckFilePath(name); err != nil {
+	check := name
+	if len(check) > 0 && check[0] == '-' {
+		// module.CheckFilePath rejects a leading dash,
+		// but it's OK here.
+		check = strings.TrimLeft(check, "-")
+	}
+	if err := module.CheckFilePath(check); err != nil {
 		return true
 	}
 	switch name {
