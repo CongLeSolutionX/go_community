@@ -255,7 +255,7 @@ func (m *mutator) mutateBytes(ptrB *[]byte) {
 
 	numIters := 1 + m.r.exp2()
 	for iter := 0; iter < numIters; iter++ {
-		switch m.rand(10) {
+		switch m.rand(14) {
 		case 0:
 			// Remove a range of bytes.
 			if len(b) <= 1 {
@@ -269,7 +269,7 @@ func (m *mutator) mutateBytes(ptrB *[]byte) {
 		case 1:
 			// Insert a range of random bytes.
 			pos := m.rand(len(b) + 1)
-			n := m.chooseLen(10)
+			n := m.chooseLen(1024)
 			if len(b)+n >= cap(b) {
 				iter--
 				continue
