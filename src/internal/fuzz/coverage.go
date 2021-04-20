@@ -16,6 +16,11 @@ import (
 func coverage() []byte {
 	addr := unsafe.Pointer(&_counters)
 	size := uintptr(unsafe.Pointer(&_ecounters)) - uintptr(addr)
+	if size == 0 {
+		// Test binary was built on a platform that doesn't support coverage
+		// instrumentation.
+		return []byte{}
+	}
 
 	var res []byte
 	*(*unsafeheader.Slice)(unsafe.Pointer(&res)) = unsafeheader.Slice{
@@ -24,6 +29,15 @@ func coverage() []byte {
 		Cap:  int(size),
 	}
 	return res
+}
+
+// resetCovereage sets all of the counters for each edge of the instrumented
+// source code to 0.
+func resetCoverage() {
+	cov := coverage()
+	for i := range cov {
+		cov[i] = 0
+	}
 }
 
 // _counters and _ecounters mark the start and end, respectively, of where
