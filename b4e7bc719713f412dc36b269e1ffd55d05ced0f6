@@ -21,6 +21,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "787794b4_f5f5d8a6",
+        "filename": "misc/cgo/test/issue8148.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-20T21:35:32Z",
+      "side": 1,
+      "message": "Why 8142 instead of 8148?",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "b4e7bc719713f412dc36b269e1ffd55d05ced0f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22d87962_31a7ee79",
         "filename": "misc/cgo/test/testx.c",
         "patchSetId": 1
