@@ -70,6 +70,10 @@ func TestReadMetrics(t *testing.T) {
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.BuckHashSys)
 		case "/memory/classes/total:bytes":
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.Sys)
+		case "/gc/heap/allocs:bytes":
+			checkUint64(t, name, samples[i].Value.Uint64(), mstats.TotalAlloc)
+		case "/gc/heap/allocs:objects":
+			checkUint64(t, name, samples[i].Value.Uint64(), mstats.Mallocs)
 		case "/gc/heap/allocs-by-size:bytes":
 			hist := samples[i].Value.Float64Histogram()
 			// Skip size class 0 in BySize, because it's always empty and not represented
@@ -84,6 +88,10 @@ func TestReadMetrics(t *testing.T) {
 					t.Errorf("histogram counts do not much BySize for class %d: got %d, want %d", i, c, m)
 				}
 			}
+		case "/gc/heap/frees:bytes":
+			checkUint64(t, name, samples[i].Value.Uint64(), mstats.TotalAlloc-mstats.HeapAlloc)
+		case "/gc/heap/frees:objects":
+			checkUint64(t, name, samples[i].Value.Uint64(), mstats.Frees)
 		case "/gc/heap/frees-by-size:bytes":
 			hist := samples[i].Value.Float64Histogram()
 			// Skip size class 0 in BySize, because it's always empty and not represented
@@ -132,8 +140,10 @@ func TestReadMetricsConsistency(t *testing.T) {
 		got, want uint64
 	}
 	var objects struct {
-		alloc, free *metrics.Float64Histogram
-		total       uint64
+		alloc, free             *metrics.Float64Histogram
+		allocs, frees           uint64
+		allocdBytes, freedBytes uint64
+		total, totalBytes       uint64
 	}
 	var gc struct {
 		numGC  uint64
@@ -159,10 +169,20 @@ func TestReadMetricsConsistency(t *testing.T) {
 		switch samples[i].Name {
 		case "/memory/classes/total:bytes":
 			totalVirtual.got = samples[i].Value.Uint64()
+		case "/memory/classes/heap/objects:bytes":
+			objects.totalBytes = samples[i].Value.Uint64()
 		case "/gc/heap/objects:objects":
 			objects.total = samples[i].Value.Uint64()
+		case "/gc/heap/allocs:bytes":
+			objects.allocdBytes = samples[i].Value.Uint64()
+		case "/gc/heap/allocs:objects":
+			objects.allocs = samples[i].Value.Uint64()
 		case "/gc/heap/allocs-by-size:bytes":
 			objects.alloc = samples[i].Value.Float64Histogram()
+		case "/gc/heap/frees:bytes":
+			objects.freedBytes = samples[i].Value.Uint64()
+		case "/gc/heap/frees:objects":
+			objects.frees = samples[i].Value.Uint64()
 		case "/gc/heap/frees-by-size:bytes":
 			objects.free = samples[i].Value.Float64Histogram()
 		case "/gc/cycles:gc-cycles":
@@ -181,6 +201,12 @@ func TestReadMetricsConsistency(t *testing.T) {
 	}
 	if totalVirtual.got != totalVirtual.want {
 		t.Errorf(`"/memory/classes/total:bytes" does not match sum of /memory/classes/**: got %d, want %d`, totalVirtual.got, totalVirtual.want)
+	}
+	if got, want := objects.allocs-objects.frees, objects.total; got != want {
+		t.Errorf("mismatch between object alloc/free tallies and total: got %d, want %d", got, want)
+	}
+	if got, want := objects.allocdBytes-objects.freedBytes, objects.totalBytes; got != want {
+		t.Errorf("mismatch between object alloc/free tallies and total: got %d, want %d", got, want)
 	}
 	if b, c := len(objects.alloc.Buckets), len(objects.alloc.Counts); b != c+1 {
 		t.Errorf("allocs-by-size has wrong bucket or counts length: %d buckets, %d counts", b, c)
@@ -201,16 +227,24 @@ func TestReadMetricsConsistency(t *testing.T) {
 			}
 		}
 		if !t.Failed() {
-			got, want := uint64(0), objects.total
+			var gotAlloc, gotFree uint64
+			want := objects.total
 			for i := range objects.alloc.Counts {
 				if objects.alloc.Counts[i] < objects.free.Counts[i] {
 					t.Errorf("found more allocs than frees in object dist bucket %d", i)
 					continue
 				}
-				got += objects.alloc.Counts[i] - objects.free.Counts[i]
+				gotAlloc += objects.alloc.Counts[i]
+				gotFree += objects.free.Counts[i]
 			}
-			if got != want {
+			if got := gotAlloc - gotFree; got != want {
 				t.Errorf("object distribution counts don't match count of live objects: got %d, want %d", got, want)
+			}
+			if gotAlloc != objects.allocs {
+				t.Errorf("object distribution counts don't match total allocs: got %d, want %d", gotAlloc, objects.allocs)
+			}
+			if gotFree != objects.frees {
+				t.Errorf("object distribution counts don't match total allocs: got %d, want %d", gotFree, objects.frees)
 			}
 		}
 	}

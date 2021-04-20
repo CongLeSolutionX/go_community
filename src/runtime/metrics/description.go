@@ -70,9 +70,33 @@ var allDesc = []Description{
 		Cumulative:  true,
 	},
 	{
+		Name:        "/gc/heap/allocs:bytes",
+		Description: "Total memory allocated to the heap by the application.",
+		Kind:        KindUint64,
+		Cumulative:  true,
+	},
+	{
+		Name:        "/gc/heap/allocs:objects",
+		Description: "Count of objects allocated to the heap by the application.",
+		Kind:        KindUint64,
+		Cumulative:  true,
+	},
+	{
 		Name:        "/gc/heap/allocs-by-size:bytes",
 		Description: "Distribution of all objects allocated by approximate size.",
 		Kind:        KindFloat64Histogram,
+		Cumulative:  true,
+	},
+	{
+		Name:        "/gc/heap/frees:bytes",
+		Description: "Total heap memory freed by the garbage collector.",
+		Kind:        KindUint64,
+		Cumulative:  true,
+	},
+	{
+		Name:        "/gc/heap/frees:objects",
+		Description: "Count of objects whose storage was freed by the garbage collector.",
+		Kind:        KindUint64,
 		Cumulative:  true,
 	},
 	{
