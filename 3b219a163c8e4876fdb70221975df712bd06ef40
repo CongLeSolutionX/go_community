@@ -53,6 +53,23 @@
       "message": "Thanks.",
       "revId": "3b219a163c8e4876fdb70221975df712bd06ef40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b95f40e9_18de88b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-04-20T00:49:09Z",
+      "side": 1,
+      "message": "Thank you Yury for this change, thank you Ian for the review, here is your Trust+1!",
+      "revId": "3b219a163c8e4876fdb70221975df712bd06ef40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
