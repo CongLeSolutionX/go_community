@@ -762,6 +762,15 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
+	// Inform the compiler that it should instrument the binary at build-time
+	// when fuzzing is enabled.
+	if testFuzz != "" {
+		// TODO(katiehockman): This is instrumenting every package included in
+		// the build, including internal/fuzz and testing. Don't instrument
+		// those.
+		load.BuildGcflags.Set("all=-d=libfuzzer")
+	}
+
 	// Prepare build + run + print actions for all packages being tested.
 	for _, p := range pkgs {
 		// sync/atomic import is inserted by the cover tool. See #18486
