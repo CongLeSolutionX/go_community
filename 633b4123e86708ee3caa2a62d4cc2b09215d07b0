@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71e941de_b44a52ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6535
+      },
+      "writtenOn": "2021-04-20T18:14:21Z",
+      "side": 1,
+      "message": "Let\u0027s see if getting a review on this gets it moving again…",
+      "revId": "633b4123e86708ee3caa2a62d4cc2b09215d07b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "428b3555_4b9603a3",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 6535
+      },
+      "writtenOn": "2021-04-20T18:14:21Z",
+      "side": 1,
+      "message": "It is more idiomatic to represent a set as map[string]struct{} or map[string]bool.\n\nBut I wonder if it would be simpler to iterate over raw, and return an unsupportedTEError if any of the values isn\u0027t \"chunked\".",
+      "revId": "633b4123e86708ee3caa2a62d4cc2b09215d07b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
