@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a09edc13_5fe96955",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-20T20:44:43Z",
+      "side": 1,
+      "message": "s/Fixes/Updates/\n\nThis seems like a strictly positive change (and thanks for including a test!), but it doesn\u0027t address some of the other failure modes that can occur when running \u0027go generate\u0027 on a package (such as renaming a file that itself contains a `go:generate` directive, which IIUC would currently cause that directive to be skipped entirely).\n\n(Probably for the long term we should scan the go:generate directives in all of the source files before we execute any of them, and then it won\u0027t matter whether one of those files is deleted by the generator.)",
+      "revId": "3e5be13f0ea311ff2116319044249e84b20aa871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c3b180_ad41299a",
+        "filename": "src/cmd/go/testdata/script/generate_removed.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-20T20:44:43Z",
+      "side": 1,
+      "message": "This needs an [exec:rm] constraint. (Otherwise the test will fail on platforms that do not provide an `rm` binary.)",
+      "revId": "3e5be13f0ea311ff2116319044249e84b20aa871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
