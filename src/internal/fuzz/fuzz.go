@@ -167,6 +167,10 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 		}()
 	}
 
+	// Clear any leftover coverage data from previously run tests.
+	resetCoverage()
+	coverageData := coverageCopy()
+
 	// Main event loop.
 	// Do not return until all workers have terminated. We avoid a deadlock by
 	// receiving messages from workers even after ctx is cancelled.
@@ -210,22 +214,50 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 				// TODO(jayconrod,katiehockman): if -keepfuzzing, report the error to
 				// the user and restart the crashed worker.
 				stop(err)
-			} else if result.isInteresting {
-				// Found an interesting value that expanded coverage.
-				// This is not a crasher, but we should minimize it, add it to the
-				// on-disk corpus, and prioritize it for future fuzzing.
-				// TODO(jayconrod, katiehockman): Prioritize fuzzing these values which
-				// expanded coverage.
-				// TODO(jayconrod, katiehockman): Don't write a value that's already
-				// in the corpus.
-				c.corpus.entries = append(c.corpus.entries, result.entry)
-				if opts.CacheDir != "" {
-					if _, err := writeToCorpus(result.entry.Data, opts.CacheDir); err != nil {
-						stop(err)
+			} else if result.coverageData != nil {
+				doUpdate := true
+				foundNew := expandsCoverage(coverageData, result.coverageData, doUpdate)
+				if foundNew && !c.coverageOnlyRun() {
+					// Found an interesting value that expanded coverage.
+					// This is not a crasher, but we should add it to the
+					// on-disk corpus, and prioritize it for future fuzzing.
+					// TODO(jayconrod, katiehockman): Prioritize fuzzing these values which
+					// expanded coverage.
+					// TODO(jayconrod, katiehockman): Don't write a value that's already
+					// in the corpus.
+					c.interestingCount++
+					c.corpus.entries = append(c.corpus.entries, result.entry)
+					if opts.CacheDir != "" {
+						if _, err := writeToCorpus(result.entry.Data, opts.CacheDir); err != nil {
+							stop(err)
+						}
+					}
+					if err := c.updateWorkerCoverageData(ctx, coverageData, workers); err != nil {
+						errC <- err
+						// continue the main event loop and don't unblock
+						// inputC
+						continue
+					}
+				}
+				if c.coverageOnlyRun() {
+					c.numCovOnlyInputsLeft--
+					if c.numCovOnlyInputsLeft == 0 {
+						// The coordinator has finished getting a baseline for
+						// coverage. Tell all of the workers to inialize their
+						// baseline coverage data, and unblock inputC to start
+						// fuzzing.
+						if err := c.updateWorkerCoverageData(ctx, coverageData, workers); err != nil {
+							errC <- err
+							// continue the main event loop and don't unblock
+							// inputC
+							continue
+						}
+						if input, ok = c.nextInput(); ok {
+							inputC = c.inputC
+						}
 					}
 				}
 			}
-
 			if inputC == nil && !stopping {
 				// inputC was disabled earlier because we hit the limit on the number
 				// of inputs to fuzz (nextInput returned false).
@@ -246,7 +278,15 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 
 		case inputC <- input:
 			// Send the next input to any worker.
-			if input, ok = c.nextInput(); !ok {
+			if c.corpusIndex == 0 && c.coverageOnlyRun() {
+				// The coordinator is currently trying to run all of the corpus
+				// entries to gather baseline coverage data, and all of the
+				// inputs have been passed to inputC (since c.corpusIndex == 0
+				// indicates that c.nextInput() has iterated through all corpus
+				// entries and is starting back at the zeroeth index). Block any
+				// more inputs from being passed to the workers for now.
+				inputC = nil
+			} else if input, ok = c.nextInput(); !ok {
 				inputC = nil
 			}
 
@@ -257,6 +297,15 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 
 	// TODO(jayconrod,katiehockman): if a crasher can't be written to the corpus,
 	// write to the cache instead.
+}
+
+func (c *coordinator) updateWorkerCoverageData(ctx context.Context, coverageData []byte, workers []*worker) error {
+	for _, w := range workers {
+		if err := w.client.coverage(ctx, coverageData); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // crashError wraps a crasher written to the seed corpus. It saves the name
@@ -310,6 +359,11 @@ type fuzzInput struct {
 	// countRequested is the number of values to test. If non-zero, the worker
 	// will stop after testing this many values, if it hasn't already stopped.
 	countRequested int64
+
+	// doFuzz indicates whether or not this input should be fuzzed. If false,
+	// that means this is a coverage-only run, and the input should not be
+	// mutated.
+	doFuzz bool
 }
 
 type fuzzResult struct {
@@ -319,9 +373,8 @@ type fuzzResult struct {
 	// crasherMsg is an error message from a crash. It's "" if no crash was found.
 	crasherMsg string
 
-	// isInteresting is true if the worker found new coverage. We should minimize
-	// the value, cache it, and prioritize it for further fuzzing.
-	isInteresting bool
+	// coverageData is set if the worker found new coverage.
+	coverageData []byte
 
 	// countRequested is the number of values the coordinator asked the worker
 	// to test. 0 if there was no limit.
@@ -353,6 +406,15 @@ type coordinator struct {
 
 	// count is the number of values fuzzed so far.
 	count int64
+
+	// count is the number of discovered interesting values which have been
+	// written to the on-disk corpus so far.
+	interestingCount int64
+
+	// numCovOnlyInputsLeft is the number of entries in the corpus which still
+	// need to be sent to coordinator to gather baseline coverage data for the
+	// coordinator.
+	numCovOnlyInputsLeft int
 
 	// duration is the time spent fuzzing inside workers, not counting time
 	// starting up or tearing down.
@@ -391,11 +453,12 @@ func newCoordinator(opts CoordinateFuzzingOpts) (*coordinator, error) {
 		corpus.entries = append(corpus.entries, CorpusEntry{Data: marshalCorpusFile(vals...), Values: vals})
 	}
 	c := &coordinator{
-		opts:      opts,
-		startTime: time.Now(),
-		inputC:    make(chan fuzzInput),
-		resultC:   make(chan fuzzResult),
-		corpus:    corpus,
+		opts:                 opts,
+		startTime:            time.Now(),
+		inputC:               make(chan fuzzInput),
+		resultC:              make(chan fuzzResult),
+		corpus:               corpus,
+		numCovOnlyInputsLeft: len(corpus.entries),
 	}
 
 	return c, nil
@@ -410,8 +473,12 @@ func (c *coordinator) updateStats(result fuzzResult) {
 
 func (c *coordinator) logStats() {
 	elapsed := time.Since(c.startTime)
-	rate := float64(c.count) / elapsed.Seconds()
-	fmt.Fprintf(c.opts.Log, "elapsed: %.1fs, execs: %d (%.0f/sec), workers: %d\n", elapsed.Seconds(), c.count, rate, c.opts.Parallel)
+	if c.coverageOnlyRun() {
+		fmt.Fprintf(c.opts.Log, "getting baseline coverage data - elapsed: %.1fs, workers: %d\n", elapsed.Seconds(), c.opts.Parallel)
+	} else {
+		rate := float64(c.count) / elapsed.Seconds()
+		fmt.Fprintf(c.opts.Log, "fuzzing - elapsed: %.1fs, execs: %d (%.0f/sec), workers: %d, interesting: %d\n", elapsed.Seconds(), c.count, rate, c.opts.Parallel, c.interestingCount)
+	}
 }
 
 // nextInput returns the next value that should be sent to workers.
@@ -426,6 +493,11 @@ func (c *coordinator) nextInput() (fuzzInput, bool) {
 
 	e := c.corpus.entries[c.corpusIndex]
 	c.corpusIndex = (c.corpusIndex + 1) % (len(c.corpus.entries))
+	if c.coverageOnlyRun() {
+		// There is a coverage-only run, so this input shouldn't be fuzzed,
+		// and shouldn't be included in the count of generated values.
+		return fuzzInput{entry: e, countRequested: 0, doFuzz: false}, true
+	}
 	var n int64
 	if c.opts.Count > 0 {
 		n = c.opts.Count / int64(c.opts.Parallel)
@@ -438,7 +510,11 @@ func (c *coordinator) nextInput() (fuzzInput, bool) {
 		}
 		c.countWaiting += n
 	}
-	return fuzzInput{entry: e, countRequested: n}, true
+	return fuzzInput{entry: e, countRequested: n, doFuzz: true}, true
+}
+
+func (c *coordinator) coverageOnlyRun() bool {
+	return c.numCovOnlyInputsLeft > 0
 }
 
 // readCache creates a combined corpus from seed values and values in the cache
