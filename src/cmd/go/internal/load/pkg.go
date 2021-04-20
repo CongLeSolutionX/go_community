@@ -2494,7 +2494,12 @@ func CheckPackageErrors(pkgs []*Package) {
 func setToolFlags(pkgs ...*Package) {
 	for _, p := range PackageList(pkgs) {
 		p.Internal.Asmflags = BuildAsmflags.For(p)
-		p.Internal.Gcflags = BuildGcflags.For(p)
+		// TODO(jayconrod,katiehockman): Figure out a nicer way to do this.
+		// If this check is removed, then the p.Internal.Gcflags that were
+		// previously set for coverage instrumentation will be cleared.
+		if len(p.Internal.Gcflags) == 0 {
+			p.Internal.Gcflags = BuildGcflags.For(p)
+		}
 		p.Internal.Ldflags = BuildLdflags.For(p)
 		p.Internal.Gccgoflags = BuildGccgoflags.For(p)
 	}
