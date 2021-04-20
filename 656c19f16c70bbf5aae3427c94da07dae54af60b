@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34a60520_f8a1c548",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-04-20T22:00:46Z",
+      "side": 1,
+      "message": "I\u0027m asking you to improve your comment so it is a bit clearer as to what\u0027s happening with regard to the setting of the alignment of the section. Basically if the alignment for the section is increased but the VA for that section is not also updated so it is in sync with that alignment, then bad things will happen. You talk about about increasing and adjusting alignment but in one case you mean the section\u0027s alignment and in the other you mean the alignment of the VA for the section. They are two different things but they sound like the same thing and that\u0027s confusing because then how could they be out of sync.",
+      "parentUuid": "aa23f0cd_e3d211f6",
+      "revId": "656c19f16c70bbf5aae3427c94da07dae54af60b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "212e6034_3864454a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
