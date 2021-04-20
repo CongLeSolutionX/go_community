@@ -98,6 +98,32 @@ func (w *worker) coordinate(ctx context.Context) error {
 		// TODO(jayconrod,katiehockman): record and return stderr.
 	}
 
+	handleClientError := func(err error) (e error, expectedErr bool) {
+		w.stop()
+		if ctx.Err() != nil {
+			// Timeout or interruption.
+			return ctx.Err(), true
+		}
+		if w.interrupted {
+			// Communication error before we stopped the worker.
+			// Report an error, but don't record a crasher.
+			return fmt.Errorf("communicating with fuzzing process: %v", err), true
+		}
+		if w.waitErr == nil || isInterruptError(w.waitErr) {
+			// Worker stopped, either by exiting with status 0 or after being
+			// interrupted with a signal (not sent by coordinator). See comment in
+			// termC case above.
+			//
+			// Since we expect I/O errors around interrupts, ignore this error.
+			return nil, true
+		}
+		return nil, false
+	}
+
+	// interestingCount starts at -1, like the coordinator does, so that the
+	// worker client's coverage data is updated after a coverage-only run.
+	interestingCount := int64(-1)
+
 	// Main event loop.
 	for {
 		select {
@@ -134,35 +160,30 @@ func (w *worker) coordinate(ctx context.Context) error {
 				return fmt.Errorf("fuzzing process exited unexpectedly due to an internal failure: %w", err)
 			}
 			// Worker exited non-zero or was terminated by a non-interrupt signal
-			// (for example, SIGSEGV).
+			// (for example, SIGSEGV) while fuzzing.
 			return fmt.Errorf("fuzzing process terminated unexpectedly: %w", err)
+			// TODO(jayconrod,katiehockman): if -keepfuzzing, restart worker.
 			// TODO(jayconrod,katiehockman): record and return stderr.
 
 		case input := <-w.coordinator.inputC:
 			// Received input from coordinator.
-			args := fuzzArgs{Count: input.countRequested, Duration: workerFuzzDuration}
+			if interestingCount < input.interestingCount {
+				// The coordinator's coverage data has changed, so update
+				// the client's local coverage data to match.
+				interestingCount = input.interestingCount
+				if err := w.client.updateCoverage(ctx, w.coordinator.readCoverage()); err != nil {
+					err, _ = handleClientError(err)
+					return err
+				}
+			}
+			args := fuzzArgs{Count: input.countRequested, Duration: workerFuzzDuration, DoFuzz: input.doFuzz}
 			value, resp, err := w.client.fuzz(ctx, input.entry.Data, args)
 			if err != nil {
 				// Error communicating with worker.
-				w.stop()
-				if ctx.Err() != nil {
-					// Timeout or interruption.
-					return ctx.Err()
+				err, expectedError := handleClientError(err)
+				if expectedError {
+					return err
 				}
-				if w.interrupted {
-					// Communication error before we stopped the worker.
-					// Report an error, but don't record a crasher.
-					return fmt.Errorf("communicating with fuzzing process: %v", err)
-				}
-				if w.waitErr == nil || isInterruptError(w.waitErr) {
-					// Worker stopped, either by exiting with status 0 or after being
-					// interrupted with a signal (not sent by coordinator). See comment in
-					// termC case above.
-					//
-					// Since we expect I/O errors around interrupts, ignore this error.
-					return nil
-				}
-
 				// Unexpected termination. Attempt to minimize, then inform the
 				// coordinator about the crash.
 				// TODO(jayconrod,katiehockman): if -keepfuzzing, restart worker.
@@ -191,12 +212,12 @@ func (w *worker) coordinate(ctx context.Context) error {
 				count:          resp.Count,
 				duration:       resp.Duration,
 			}
-			if resp.Crashed {
+			if resp.Err != "" {
 				result.entry = CorpusEntry{Data: value}
 				result.crasherMsg = resp.Err
-			} else if resp.Interesting {
+			} else if resp.CoverageData != nil {
 				result.entry = CorpusEntry{Data: value}
-				result.isInteresting = true
+				result.coverageData = resp.CoverageData
 			}
 			w.coordinator.resultC <- result
 		}
@@ -433,6 +454,7 @@ type call struct {
 	Ping     *pingArgs
 	Fuzz     *fuzzArgs
 	Minimize *minimizeArgs
+	Coverage *coverageArgs
 }
 
 // minimizeArgs contains arguments to workerServer.minimize. The value to
@@ -454,6 +476,9 @@ type fuzzArgs struct {
 	// Count is the number of values to test, without spending more time
 	// than Duration.
 	Count int64
+
+	// DoFuzz is true if the worker should fuzz
+	DoFuzz bool
 }
 
 // fuzzResponse contains results from workerServer.fuzz.
@@ -464,16 +489,12 @@ type fuzzResponse struct {
 	// Count is the number of values tested.
 	Count int64
 
-	// Interesting indicates the value in shared memory may be interesting to
-	// the coordinator (for example, because it expanded coverage).
-	Interesting bool
+	// CoverageData is set if the value in shared memory expands coverage
+	// and therefore may be interesting to the coordinator.
+	CoverageData []byte
 
-	// Crashed indicates the value in shared memory caused a crash.
-	Crashed bool
-
-	// Err is the error string caused by the value in shared memory. This alone
-	// cannot be used to determine whether this value caused a crash, since a
-	// crash can occur without any output (e.g. with t.Fail()).
+	// Err is the error string caused by the value in shared memory, which is
+	// non-empty if the value in shared memory caused a crash.
 	Err string
 }
 
@@ -482,6 +503,13 @@ type pingArgs struct{}
 
 // pingResponse contains results from workerServer.ping.
 type pingResponse struct{}
+
+type coverageArgs struct {
+	// Data is the coverage data.
+	Data []byte
+}
+
+type coverageResponse struct{}
 
 // workerComm holds pipes and shared memory used for communication
 // between the coordinator process (client) and a worker process (server).
@@ -505,6 +533,9 @@ type workerComm struct {
 type workerServer struct {
 	workerComm
 	m *mutator
+
+	// coverage NEEDS DOCS
+	coverageData []byte
 
 	// fuzzFn runs the worker's fuzz function on the given input and returns
 	// an error if it finds a crasher (the process may also exit or crash).
@@ -553,6 +584,8 @@ func (ws *workerServer) serve(ctx context.Context) error {
 				resp = ws.minimize(ctx, *c.Minimize)
 			case c.Ping != nil:
 				resp = ws.ping(ctx, *c.Ping)
+			case c.Coverage != nil:
+				resp = ws.setCoverage(ctx, *c.Coverage)
 			default:
 				errC <- errors.New("no arguments provided for any call")
 				return
@@ -576,6 +609,11 @@ func (ws *workerServer) serve(ctx context.Context) error {
 	}
 }
 
+func (ws *workerServer) setCoverage(ctx context.Context, args coverageArgs) (resp coverageResponse) {
+	ws.coverageData = args.Data
+	return coverageResponse{}
+}
+
 // fuzz runs the test function on random variations of a given input value for
 // a given amount of time. fuzz returns early if it finds an input that crashes
 // the fuzz function or an input that expands coverage.
@@ -593,42 +631,50 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 		panic(err)
 	}
 
+	// If args.DoFuzz is false, then just run the fuzz function with the
+	// provided input, since the coverage data is currently being collected.
+	if !args.DoFuzz {
+		// Reset the coverage each time before running the fuzzFn.
+		resetCoverage()
+		ws.fuzzFn(CorpusEntry{Values: vals})
+		resp.CoverageData = coverage()
+		return resp
+	}
+
 	for {
 		select {
 		case <-fuzzCtx.Done():
-			// TODO(jayconrod,katiehockman): this value is not interesting. Use a
-			// real heuristic once we have one.
-			resp.Interesting = true
 			return resp
 
 		default:
 			resp.Count++
 			ws.m.mutate(vals, cap(mem.valueRef()))
 			writeToMem(vals, mem)
+			resetCoverage()
 			if err := ws.fuzzFn(CorpusEntry{Values: vals}); err != nil {
-				// TODO(jayconrod,katiehockman): consider making the maximum minimization
-				// time customizable with a go command flag.
+				// TODO(jayconrod,katiehockman): consider making the maximum
+				// minimization time customizable with a go command flag.
 				minCtx, minCancel := context.WithTimeout(ctx, time.Minute)
 				defer minCancel()
 				if minErr := ws.minimizeInput(minCtx, vals, mem); minErr != nil {
 					// Minimization found a different error, so use that one.
 					err = minErr
 				}
-				resp.Crashed = true
 				resp.Err = err.Error()
 				if resp.Err == "" {
 					resp.Err = "fuzz function failed with no output"
 				}
 				return resp
 			}
-			if args.Count > 0 && resp.Count == args.Count {
-				// TODO(jayconrod,katiehockman): this value is not interesting. Use a
-				// real heuristic once we have one.
-				resp.Interesting = true
+			newCov := coverage()
+			doUpdate := false
+			if interesting := expandsCoverage(ws.coverageData, newCov, doUpdate); interesting {
+				resp.CoverageData = newCov
 				return resp
 			}
-			// TODO(jayconrod,katiehockman): return early if we find an
-			// interesting value.
+			if args.Count > 0 && resp.Count == args.Count {
+				return resp
+			}
 		}
 	}
 }
@@ -853,6 +899,12 @@ func (wc *workerClient) fuzz(ctx context.Context, valueIn []byte, args fuzzArgs)
 func (wc *workerClient) ping(ctx context.Context) error {
 	c := call{Ping: &pingArgs{}}
 	var resp pingResponse
+	return wc.call(ctx, c, &resp)
+}
+
+func (wc *workerClient) updateCoverage(ctx context.Context, cov []byte) error {
+	c := call{Coverage: &coverageArgs{Data: cov}}
+	var resp coverageResponse
 	return wc.call(ctx, c, &resp)
 }
 
