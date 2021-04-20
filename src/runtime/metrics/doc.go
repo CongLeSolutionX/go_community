@@ -63,8 +63,20 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/gc/heap/allocs-by-size:bytes
 		Distribution of all objects allocated by approximate size.
 
+	/gc/heap/allocs:bytes
+		Total memory allocated to the heap by the application.
+
+	/gc/heap/allocs:objects
+		Count of objects allocated to the heap by the application.
+
 	/gc/heap/frees-by-size:bytes
 		Distribution of all objects freed by approximate size.
+
+	/gc/heap/frees:bytes
+		Total heap memory freed by the garbage collector.
+
+	/gc/heap/frees:objects
+		Count of objects whose storage was freed by the garbage collector.
 
 	/gc/heap/goal:bytes
 		Heap size target for the end of the GC cycle.
