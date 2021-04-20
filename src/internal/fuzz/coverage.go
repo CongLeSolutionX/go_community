@@ -5,9 +5,53 @@
 package fuzz
 
 import (
+	"fmt"
 	"internal/unsafeheader"
 	"unsafe"
 )
+
+// coverageCopy returns a copy of the current bytes provided by coverage().
+func coverageCopy() []byte {
+	cov := coverage()
+	ret := make([]byte, len(cov))
+	copy(ret, cov)
+	return ret
+}
+
+// resetCovereage sets all of the counters for each edge of the instrumented
+// source code to 0.
+func resetCoverage() {
+	cov := coverage()
+	for i := range cov {
+		cov[i] = 0
+	}
+}
+
+// expandsCoverage returns true if newCov expands coverage (ie. a new edge was
+// hit). If doUpdate is true, then for every edge, if newCov shows a counter
+// value that's larger than the current counter value in cov, then cov will be
+// updated with this larger value.
+func expandsCoverage(cov, newCov []byte, doUpdate bool) bool {
+	if len(newCov) != len(cov) {
+		panic(fmt.Sprintf("num edges changed at runtime: %d, expected %d", len(newCov), len(cov)))
+	}
+	newEdge := false
+	for i := range cov {
+		if newCov[i] > cov[i] {
+			if cov[i] == 0 {
+				newEdge = true
+				if !doUpdate {
+					// A new edge was hit, and cov does not need to be updated, so
+					// return early indicating that newCov expands coverage.
+					return true
+
+				}
+			}
+			cov[i] = newCov[i]
+		}
+	}
+	return newEdge
+}
 
 // coverage returns a []byte containing unique 8-bit counters for each edge of
 // the instrumented source code. This coverage data will only be generated if
@@ -16,6 +60,9 @@ import (
 func coverage() []byte {
 	addr := unsafe.Pointer(&_counters)
 	size := uintptr(unsafe.Pointer(&_ecounters)) - uintptr(addr)
+	if size == 0 {
+		panic("coverage counters were not instrumented using `-d=libfuzer. Have you run `./make.bash`?")
+	}
 
 	var res []byte
 	*(*unsafeheader.Slice)(unsafe.Pointer(&res)) = unsafeheader.Slice{
