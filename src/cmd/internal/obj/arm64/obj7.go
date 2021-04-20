@@ -988,6 +988,17 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				}
 			}
 		}
+		if p.From.Type == obj.TYPE_SHIFT && (p.To.Reg == REG_RSP || p.Reg == REG_RSP) {
+			shift := (p.From.Offset >> 22) & 3
+			if shift != 0 {
+				ctxt.Diag("illegal combination: %v", p)
+			}
+			p.From.Type = obj.TYPE_REG
+			r := (p.From.Offset >> 16) & 31
+			num := (p.From.Offset >> 10) & 7
+			p.From.Reg = int16(REG_LSL + r + num<<5)
+			p.From.Offset = 0
+		}
 	}
 }
 
