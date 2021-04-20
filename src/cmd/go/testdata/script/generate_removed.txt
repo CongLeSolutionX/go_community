@@ -1,0 +1,14 @@
+go generate ./...
+
+-- go.mod --
+module genclean
+
+go 1.16
+
+-- a.go --
+package genclean
+
+//go:generate rm b.go
+
+-- b.go --
+package genclean
