@@ -52,6 +52,24 @@
       "parentUuid": "5f59a52d_6442740f",
       "revId": "a9d928dff79ba7fe0aba244ad2b504595275e684",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff6867ab_b97276ed",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1682,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2021-04-20T03:01:51Z",
+      "side": 1,
+      "message": "Ah, sorry for the misunderstanding,　I was changed the `haveIdenticalUnderlyingType`\n\nFixed it according to your suggestion, seems everything works now.\n\nThank you.",
+      "parentUuid": "8da26e1e_53f992ae",
+      "revId": "a9d928dff79ba7fe0aba244ad2b504595275e684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
