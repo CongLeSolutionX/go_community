@@ -61,16 +61,20 @@ Below is the full list of supported metrics, ordered lexicographically.
 		Count of all completed GC cycles.
 
 	/gc/heap/allocs-by-size:bytes
-		Distribution of all objects allocated by approximate size.
+		Distribution of non-tiny objects allocated by approximate size.
 
 	/gc/heap/frees-by-size:bytes
-		Distribution of all objects freed by approximate size.
+		Distribution of non-tiny objects freed by approximate size.
 
 	/gc/heap/goal:bytes
 		Heap size target for the end of the GC cycle.
 
 	/gc/heap/objects:objects
 		Number of objects, live or unswept, occupying heap memory.
+
+	/gc/heap/tiny/allocs:objects
+		Count of total allocations that are 16 bytes or smaller in size and
+		do not contain any pointers.
 
 	/gc/pauses:seconds
 		Distribution individual GC-related stop-the-world pause latencies.
