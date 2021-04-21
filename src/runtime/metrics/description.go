@@ -71,13 +71,13 @@ var allDesc = []Description{
 	},
 	{
 		Name:        "/gc/heap/allocs-by-size:bytes",
-		Description: "Distribution of all objects allocated by approximate size.",
+		Description: "Distribution of non-tiny objects allocated by approximate size.",
 		Kind:        KindFloat64Histogram,
 		Cumulative:  true,
 	},
 	{
 		Name:        "/gc/heap/frees-by-size:bytes",
-		Description: "Distribution of all objects freed by approximate size.",
+		Description: "Distribution of non-tiny objects freed by approximate size.",
 		Kind:        KindFloat64Histogram,
 		Cumulative:  true,
 	},
@@ -90,6 +90,12 @@ var allDesc = []Description{
 		Name:        "/gc/heap/objects:objects",
 		Description: "Number of objects, live or unswept, occupying heap memory.",
 		Kind:        KindUint64,
+	},
+	{
+		Name:        "/gc/heap/tiny/allocs:objects",
+		Description: "Count of total allocations that are 16 bytes or smaller in size and do not contain any pointers.",
+		Kind:        KindUint64,
+		Cumulative:  true,
 	},
 	{
 		Name:        "/gc/pauses:seconds",
