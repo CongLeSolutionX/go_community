@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b14cb84a_3c1a0f57",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6715,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T23:36:55Z",
+      "side": 1,
+      "message": "Preference seems to lean towards IntegerType, so I\u0027m going to leave as is.",
+      "parentUuid": "b3bc7b79_6dee71fc",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82a844fa_b058a319",
@@ -157,6 +175,24 @@
       "side": 1,
       "message": "The wording for \"make\" is:\n\nA constant size argument must be non-negative and representable by a value of type int; if it is an untyped constant it is given type int.\n\nI think what is missing here is the representability part (and of course it can be negative).",
       "parentUuid": "79670722_78c34e54",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b317eb1b_237ea99e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6776,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T23:36:55Z",
+      "side": 1,
+      "message": "Added the wording about int-representability. (I\u0027m not sure why I left it out before; I think it was just an accident from intentionally omitting the non-negative constraint.)\n\nAlso left as simply \"untyped\" for consistency with other wording.",
+      "parentUuid": "2456f754_34e56cd0",
       "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -250,6 +286,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2e74a4_ecee31dd",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6781,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T23:36:55Z",
+      "side": 1,
+      "message": "Okay, made explicit. Also added a sentence to Add to warn that the rules for valid uses still apply.",
+      "parentUuid": "31e09118_bf998410",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e002dd45_5f183ecf",
@@ -267,6 +321,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa63bba9_4ee3dbfa",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T23:36:55Z",
+      "side": 1,
+      "message": "Left alone, per spec discussion.",
+      "parentUuid": "e002dd45_5f183ecf",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f7c12ba_a30818e2",
@@ -280,6 +352,24 @@
       "writtenOn": "2021-04-21T16:53:12Z",
       "side": 1,
       "message": "Similar comments as on the spec.",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a011a505_b6cc559b",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T23:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f7c12ba_a30818e2",
       "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
