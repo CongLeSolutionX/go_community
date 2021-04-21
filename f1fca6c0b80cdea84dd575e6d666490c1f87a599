@@ -178,6 +178,24 @@
       "parentUuid": "cbfe1742_9a4ccd36",
       "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0200d87_bacb93f0",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 51768
+      },
+      "writtenOn": "2021-04-21T22:52:07Z",
+      "side": 1,
+      "message": "Yes, that sounds good. I\u0027ll do a revision with the mentioned changes within a day or two while waiting on review from Ian and others. Thank you!",
+      "parentUuid": "cf997747_a4f9bdde",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
