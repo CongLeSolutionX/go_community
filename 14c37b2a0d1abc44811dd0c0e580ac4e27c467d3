@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afb04099_b680c913",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6715,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T20:10:14Z",
+      "side": 1,
+      "message": "I\u0027m fine with that, but it\u0027s a bit long/wordy IMO. E.g., we use the phrases \"any type\" and \"integer type\" in the spec, but never \"any integer type\". And this type name is just for documentation purposes.",
+      "parentUuid": "bf5bba45_d431d361",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82a844fa_b058a319",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
@@ -91,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79670722_78c34e54",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6776,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T20:10:14Z",
+      "side": 1,
+      "message": "For context, the phrasing \"must be of integer type or an untyped constant\" is the wording already used for arguments to \"make\" and non-map index expressions. Do you mean to suggest this wording should differ?",
+      "parentUuid": "82a844fa_b058a319",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "65e49bf8_17e8f1dc",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
@@ -102,6 +138,24 @@
       "writtenOn": "2021-04-21T16:53:12Z",
       "side": 1,
       "message": "This is precise but not especially clear.  What if we say\n\nThe function Slice returns a slice whose backing array starts at ptr and whose length and capacity are len: (*[len]ArbitraryType)(unsafe.Pointer(ptr))[:].\n\nSimilarly above we could say\n\nThe function Add adds len to ptr, returning the updated pointer: unsafe.Pointer(uintptr(ptr) + uintptr(len)).",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a5ff7f_206e9354",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6781,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T20:10:14Z",
+      "side": 1,
+      "message": "Thanks, I like those expanded descriptions.\n\nOne thing to confirm: I used the code wording to (hopefully) make it unambiguous that nil pointers will panic (because \"(*[N]T)(nil)[:]\" panics). Do you think that\u0027s still unambiguous with the two descriptions?",
+      "parentUuid": "65e49bf8_17e8f1dc",
       "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
