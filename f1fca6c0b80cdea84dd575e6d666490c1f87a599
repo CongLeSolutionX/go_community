@@ -124,6 +124,24 @@
       "parentUuid": "a2acb325_be3bfc40",
       "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21405be1_ca2c51b4",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-21T22:32:11Z",
+      "side": 1,
+      "message": "So this is changing the default behavior? Per Ian\u0027s comment on issue #44480 we probably don\u0027t want to do that...",
+      "parentUuid": "12035aa4_a9ac4224",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
