@@ -53,6 +53,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b7da4d8_983efa1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-21T20:58:12Z",
+      "side": 1,
+      "message": "If stack limit is really an issue, we can make nanotime1 ABIInternal as well. Then we can tail call in both cases.",
+      "revId": "1081e4f7f15dd387d373c9ba7f8e23a5bfa4dd6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70358900_f403a1ca",
