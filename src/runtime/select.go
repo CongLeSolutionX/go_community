@@ -125,13 +125,15 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 
 	// NOTE: In order to maintain a lean stack size, the number of scases
 	// is capped at 65536.
-	cas1 := (*[1 << 16]scase)(unsafe.Pointer(cas0))
-	order1 := (*[1 << 17]uint16)(unsafe.Pointer(order0))
-
 	ncases := nsends + nrecvs
-	scases := cas1[:ncases:ncases]
-	pollorder := order1[:ncases:ncases]
-	lockorder := order1[ncases:][:ncases:ncases]
+	if ncases > 1<<16 {
+		panic("TODO")
+	}
+
+	scases := unsafe.Slice(cas0, ncases)
+	order := unsafe.Slice(order0, 2*ncases)
+	pollorder := order[:ncases:ncases]
+	lockorder := order[ncases:]
 	// NOTE: pollorder/lockorder's underlying array was not zero-initialized by compiler.
 
 	// Even when raceenabled is true, there might be select
@@ -139,8 +141,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 	// ensureSigM in runtime/signal_unix.go).
 	var pcs []uintptr
 	if raceenabled && pc0 != nil {
-		pc1 := (*[1 << 16]uintptr)(unsafe.Pointer(pc0))
-		pcs = pc1[:ncases:ncases]
+		pcs = unsafe.Slice(pc0, ncases)
 	}
 	casePC := func(casi int) uintptr {
 		if pcs == nil {
