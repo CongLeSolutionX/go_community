@@ -180,6 +180,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "970b1aed_aa29b5aa",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6781,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-21T20:38:08Z",
+      "side": 1,
+      "message": "Okay, in the next patch set I\u0027ll update the final sentence to \"If **ptr is nil or** len is negative at run time, a run-time panic occurs.\" unless anyone has a better suggestion.",
+      "parentUuid": "8dbc46ca_6685c1fb",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e002dd45_5f183ecf",
         "filename": "src/unsafe/unsafe.go",
         "patchSetId": 1
