@@ -52,12 +52,7 @@ type File struct {
 	FileHeader
 	zip          *Reader
 	zipr         io.ReaderAt
-	zipsize      int64
 	headerOffset int64
-}
-
-func (f *File) hasDataDescriptor() bool {
-	return f.Flags&0x8 != 0
 }
 
 // OpenReader will open the Zip file specified by name and return a ReadCloser.
@@ -112,7 +107,7 @@ func (z *Reader) init(r io.ReaderAt, size int64) error {
 	// a bad one, and then only report an ErrFormat or UnexpectedEOF if
 	// the file count modulo 65536 is incorrect.
 	for {
-		f := &File{zip: z, zipr: r, zipsize: size}
+		f := &File{zip: z, zipr: r}
 		err = readDirectoryHeader(f, buf)
 		if err == ErrFormat || err == io.ErrUnexpectedEOF {
 			break
@@ -180,17 +175,32 @@ func (f *File) Open() (io.ReadCloser, error) {
 		return nil, ErrAlgorithm
 	}
 	var rc io.ReadCloser = dcomp(r)
-	var desr io.Reader
-	if f.hasDataDescriptor() {
-		desr = io.NewSectionReader(f.zipr, f.headerOffset+bodyOffset+size, dataDescriptorLen)
-	}
 	rc = &checksumReader{
 		rc:   rc,
 		hash: crc32.NewIEEE(),
 		f:    f,
-		desr: desr,
 	}
 	return rc, nil
+}
+
+// OpenRaw returns a Reader that provides access to the File's contents without
+// decompression.
+func (f *File) OpenRaw() (io.Reader, error) {
+	bodyOffset, err := f.findBodyOffset()
+	if err != nil {
+		return nil, err
+	}
+	r := io.NewSectionReader(f.zipr, f.headerOffset+bodyOffset, int64(f.CompressedSize64))
+	return r, err
+}
+
+func (f *FileHeader) dataDescriptorLen() int64 {
+	if !f.hasDataDescriptor() {
+		return 0
+	} else if f.isZip64() {
+		return dataDescriptor64Len
+	}
+	return dataDescriptorLen
 }
 
 type checksumReader struct {
@@ -198,8 +208,7 @@ type checksumReader struct {
 	hash  hash.Hash32
 	nread uint64 // number of bytes read so far
 	f     *File
-	desr  io.Reader // if non-nil, where to read the data descriptor
-	err   error     // sticky error
+	err   error // sticky error
 }
 
 func (r *checksumReader) Stat() (fs.FileInfo, error) {
@@ -220,23 +229,8 @@ func (r *checksumReader) Read(b []byte) (n int, err error) {
 		if r.nread != r.f.UncompressedSize64 {
 			return 0, io.ErrUnexpectedEOF
 		}
-		if r.desr != nil {
-			if err1 := readDataDescriptor(r.desr, r.f); err1 != nil {
-				if err1 == io.EOF {
-					err = io.ErrUnexpectedEOF
-				} else {
-					err = err1
-				}
-			} else if r.hash.Sum32() != r.f.CRC32 {
-				err = ErrChecksum
-			}
-		} else {
-			// If there's not a data descriptor, we still compare
-			// the CRC32 of what we've read against the file header
-			// or TOC's CRC32, if it seems like it was set.
-			if r.f.CRC32 != 0 && r.hash.Sum32() != r.f.CRC32 {
-				err = ErrChecksum
-			}
+		if r.hash.Sum32() != r.f.CRC32 {
+			err = ErrChecksum
 		}
 	}
 	r.err = err
@@ -431,46 +425,6 @@ parseExtras:
 	if needCSize || needHeaderOffset {
 		return ErrFormat
 	}
-
-	return nil
-}
-
-func readDataDescriptor(r io.Reader, f *File) error {
-	var buf [dataDescriptorLen]byte
-
-	// The spec says: "Although not originally assigned a
-	// signature, the value 0x08074b50 has commonly been adopted
-	// as a signature value for the data descriptor record.
-	// Implementers should be aware that ZIP files may be
-	// encountered with or without this signature marking data
-	// descriptors and should account for either case when reading
-	// ZIP files to ensure compatibility."
-	//
-	// dataDescriptorLen includes the size of the signature but
-	// first read just those 4 bytes to see if it exists.
-	if _, err := io.ReadFull(r, buf[:4]); err != nil {
-		return err
-	}
-	off := 0
-	maybeSig := readBuf(buf[:4])
-	if maybeSig.uint32() != dataDescriptorSignature {
-		// No data descriptor signature. Keep these four
-		// bytes.
-		off += 4
-	}
-	if _, err := io.ReadFull(r, buf[off:12]); err != nil {
-		return err
-	}
-	b := readBuf(buf[:12])
-	if b.uint32() != f.CRC32 {
-		return ErrChecksum
-	}
-
-	// The two sizes that follow here can be either 32 bits or 64 bits
-	// but the spec is not very clear on this and different
-	// interpretations has been made causing incompatibilities. We
-	// already have the sizes from the central directory so we can
-	// just ignore these.
 
 	return nil
 }
