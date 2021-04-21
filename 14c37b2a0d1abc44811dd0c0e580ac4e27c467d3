@@ -57,6 +57,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf5bba45_d431d361",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6715,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-21T16:53:12Z",
+      "side": 1,
+      "message": "Above the spec says \"ArbitraryType\".  Should this be \"ArbitraryIntegerType\"?",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82a844fa_b058a319",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
@@ -68,6 +85,57 @@
       "writtenOn": "2021-04-21T15:56:49Z",
       "side": 1,
       "message": "s/untyped/untyped integer/",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65e49bf8_17e8f1dc",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6781,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-21T16:53:12Z",
+      "side": 1,
+      "message": "This is precise but not especially clear.  What if we say\n\nThe function Slice returns a slice whose backing array starts at ptr and whose length and capacity are len: (*[len]ArbitraryType)(unsafe.Pointer(ptr))[:].\n\nSimilarly above we could say\n\nThe function Add adds len to ptr, returning the updated pointer: unsafe.Pointer(uintptr(ptr) + uintptr(len)).",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e002dd45_5f183ecf",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-21T16:53:12Z",
+      "side": 1,
+      "message": "ArbitraryIntegerType?",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7c12ba_a30818e2",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-21T16:53:12Z",
+      "side": 1,
+      "message": "Similar comments as on the spec.",
       "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
