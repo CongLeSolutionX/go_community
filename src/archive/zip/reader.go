@@ -52,11 +52,10 @@ type File struct {
 	FileHeader
 	zip          *Reader
 	zipr         io.ReaderAt
-	zipsize      int64
 	headerOffset int64
 }
 
-func (f *File) hasDataDescriptor() bool {
+func (f *FileHeader) hasDataDescriptor() bool {
 	return f.Flags&0x8 != 0
 }
 
@@ -112,7 +111,7 @@ func (z *Reader) init(r io.ReaderAt, size int64) error {
 	// a bad one, and then only report an ErrFormat or UnexpectedEOF if
 	// the file count modulo 65536 is incorrect.
 	for {
-		f := &File{zip: z, zipr: r, zipsize: size}
+		f := &File{zip: z, zipr: r}
 		err = readDirectoryHeader(f, buf)
 		if err == ErrFormat || err == io.ErrUnexpectedEOF {
 			break
@@ -182,7 +181,7 @@ func (f *File) Open() (io.ReadCloser, error) {
 	var rc io.ReadCloser = dcomp(r)
 	var desr io.Reader
 	if f.hasDataDescriptor() {
-		desr = io.NewSectionReader(f.zipr, f.headerOffset+bodyOffset+size, dataDescriptorLen)
+		desr = io.NewSectionReader(f.zipr, f.headerOffset+bodyOffset+size, f.dataDescriptorLen())
 	}
 	rc = &checksumReader{
 		rc:   rc,
@@ -191,6 +190,47 @@ func (f *File) Open() (io.ReadCloser, error) {
 		desr: desr,
 	}
 	return rc, nil
+}
+
+// OpenRaw returns a Reader that provides access to the File's contents without
+// decompression. The File's CRC32, CompressedSize64, and UncompressedSize64
+// will be updated with the values read from the trailing data descriptor, if
+// any.
+func (f *File) OpenRaw() (io.Reader, error) {
+	bodyOffset, err := f.findBodyOffset()
+	if err != nil {
+		return nil, err
+	}
+	size := int64(f.CompressedSize64)
+	r := io.NewSectionReader(f.zipr, f.headerOffset+bodyOffset, int64(f.CompressedSize64))
+
+	if f.hasDataDescriptor() {
+		desr := io.NewSectionReader(f.zipr, f.headerOffset+bodyOffset+size, f.dataDescriptorLen())
+		var dd *dataDescriptor
+		dd, err := readDataDescriptor(desr, f)
+		if err != nil {
+			f.CRC32 = dd.crc32
+			f.CompressedSize64 = dd.compressedSize
+			f.UncompressedSize64 = dd.uncompressedSize
+			if f.isZip64() {
+				f.CompressedSize = uint32max
+				f.UncompressedSize = uint32max
+			} else {
+				f.CompressedSize = uint32(dd.compressedSize)
+				f.UncompressedSize = uint32(dd.uncompressedSize)
+			}
+		}
+	}
+	return r, err
+}
+
+func (f *FileHeader) dataDescriptorLen() int64 {
+	if !f.hasDataDescriptor() {
+		return 0
+	} else if f.isZip64() {
+		return dataDescriptor64Len
+	}
+	return dataDescriptorLen
 }
 
 type checksumReader struct {
@@ -221,13 +261,12 @@ func (r *checksumReader) Read(b []byte) (n int, err error) {
 			return 0, io.ErrUnexpectedEOF
 		}
 		if r.desr != nil {
-			if err1 := readDataDescriptor(r.desr, r.f); err1 != nil {
-				if err1 == io.EOF {
-					err = io.ErrUnexpectedEOF
-				} else {
-					err = err1
-				}
-			} else if r.hash.Sum32() != r.f.CRC32 {
+			desc, err1 := readDataDescriptor(r.desr, r.f)
+			if err1 == io.EOF {
+				err = io.ErrUnexpectedEOF
+			} else if err1 != nil {
+				err = err1
+			} else if desc.crc32 != r.f.CRC32 || r.hash.Sum32() != r.f.CRC32 {
 				err = ErrChecksum
 			}
 		} else {
@@ -435,8 +474,9 @@ parseExtras:
 	return nil
 }
 
-func readDataDescriptor(r io.Reader, f *File) error {
-	var buf [dataDescriptorLen]byte
+func readDataDescriptor(r io.Reader, f *File) (*dataDescriptor, error) {
+	// Create enough space for the largest possible size
+	var buf [dataDescriptor64Len]byte
 
 	// The spec says: "Although not originally assigned a
 	// signature, the value 0x08074b50 has commonly been adopted
@@ -449,7 +489,7 @@ func readDataDescriptor(r io.Reader, f *File) error {
 	// dataDescriptorLen includes the size of the signature but
 	// first read just those 4 bytes to see if it exists.
 	if _, err := io.ReadFull(r, buf[:4]); err != nil {
-		return err
+		return nil, err
 	}
 	off := 0
 	maybeSig := readBuf(buf[:4])
@@ -458,12 +498,16 @@ func readDataDescriptor(r io.Reader, f *File) error {
 		// bytes.
 		off += 4
 	}
-	if _, err := io.ReadFull(r, buf[off:12]); err != nil {
-		return err
+	// descriptor length includes the signature 16. Either need to read
+	// 12 bytes if the signature was present or 8 bytes if it was not
+	end := f.dataDescriptorLen() - 4
+	if _, err := io.ReadFull(r, buf[off:end]); err != nil {
+		return nil, err
 	}
-	b := readBuf(buf[:12])
-	if b.uint32() != f.CRC32 {
-		return ErrChecksum
+	b := readBuf(buf[:end])
+
+	out := &dataDescriptor{
+		crc32: b.uint32(),
 	}
 
 	// The two sizes that follow here can be either 32 bits or 64 bits
@@ -471,8 +515,14 @@ func readDataDescriptor(r io.Reader, f *File) error {
 	// interpretations has been made causing incompatibilities. We
 	// already have the sizes from the central directory so we can
 	// just ignore these.
-
-	return nil
+	if f.isZip64() {
+		out.compressedSize = b.uint64()
+		out.uncompressedSize = b.uint64()
+	} else {
+		out.compressedSize = uint64(b.uint32())
+		out.uncompressedSize = uint64(b.uint32())
+	}
+	return out, nil
 }
 
 func readDirectoryEnd(r io.ReaderAt, size int64) (dir *directoryEnd, err error) {
