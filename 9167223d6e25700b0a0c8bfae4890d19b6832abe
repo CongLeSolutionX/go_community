@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5bc722ec_17981838",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 33607
+      },
+      "writtenOn": "2021-04-21T20:27:01Z",
+      "side": 1,
+      "message": "The specifics of how data descriptors are handled was not discussed. I agree it could be confusing and error prone. Although these methods are intended for rare and advanced use cases where it seems the caller would want access. Perhaps we can tweak the interface to make them easier to work with. I commented on the issue so we can discuss further and hopefully reach agreement: https://github.com/golang/go/issues/34974#issuecomment-824327099",
+      "parentUuid": "5977b78d_fa036d0d",
+      "revId": "9167223d6e25700b0a0c8bfae4890d19b6832abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40ab855a_ac7146e9",
         "filename": "src/archive/zip/reader_test.go",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-21T19:19:52Z",
       "side": 1,
       "message": "Use os.ReadFile.",
+      "revId": "9167223d6e25700b0a0c8bfae4890d19b6832abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed322768_554a4100",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 33607
+      },
+      "writtenOn": "2021-04-21T20:27:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40ab855a_ac7146e9",
       "revId": "9167223d6e25700b0a0c8bfae4890d19b6832abe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
