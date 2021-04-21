@@ -34,6 +34,24 @@
       "parentUuid": "84eaca26_8dadcc28",
       "revId": "e0d32d79450364db0fe66cca5ae89c7f7b69188d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d32a880_ac33a002",
+        "filename": "src/net/http/internal/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-21T19:38:56Z",
+      "side": 1,
+      "message": "Hmmm, OK.  Seems unfortunate.  I guess I\u0027d still rather see this in a separate package, rather than jamming unrelated functionality together in a grab-bag internal package.\n\nBut it\u0027s up to the net/http maintainers (neild, bradfitz).",
+      "parentUuid": "7199fe67_67598879",
+      "revId": "e0d32d79450364db0fe66cca5ae89c7f7b69188d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
