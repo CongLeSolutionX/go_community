@@ -16,6 +16,24 @@
       "message": "We can\u0027t do h2_bundle updates by hand. It\u0027s generated from x/net.",
       "revId": "7983dedd59764dfca8f07ae322b4c6052f89b99a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e57d844d_1d757aae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-04-21T07:17:47Z",
+      "side": 1,
+      "message": "What is the process to update this then? Is there a tool that generates it from x/net?",
+      "parentUuid": "b3ca9f9f_93dc705f",
+      "revId": "7983dedd59764dfca8f07ae322b4c6052f89b99a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
