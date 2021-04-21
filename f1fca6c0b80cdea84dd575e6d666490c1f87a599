@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac0219d6_816717e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-21T22:10:24Z",
+      "side": 1,
+      "message": "Thanks.\n\nDoes the cmg/go change need to be part of this CL? I think that is about user writing flags in cgo code, vs. this one being flags added to the linker. That could be a separate CL.",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03144ca5_68561f05",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-21T22:10:24Z",
+      "side": 1,
+      "message": "I think it is a longer flag. Maybe -fullrelro ?\nAlso, it may be better to have positive flag (that enables something) than a negative one (that disables something).",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
