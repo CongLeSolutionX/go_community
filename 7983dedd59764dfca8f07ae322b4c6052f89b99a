@@ -34,6 +34,24 @@
       "parentUuid": "b3ca9f9f_93dc705f",
       "revId": "7983dedd59764dfca8f07ae322b4c6052f89b99a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0828f043_f5f42385",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-04-21T14:02:38Z",
+      "side": 1,
+      "message": "I found the comment on the bundle tool. Can this be done on the same CL or should I first fix this in x and then import it? Do we have automation in place or do we have to manually re-generate the file on change?",
+      "parentUuid": "e57d844d_1d757aae",
+      "revId": "7983dedd59764dfca8f07ae322b4c6052f89b99a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
