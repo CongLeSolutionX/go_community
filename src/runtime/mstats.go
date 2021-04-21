@@ -86,7 +86,6 @@ type mstats struct {
 	_ [1 - _NumSizeClasses%2]uint32
 
 	last_gc_nanotime uint64 // last gc (monotonic time)
-	tinyallocs       uint64 // number of tiny allocations that didn't cause actual allocation; not exported to go directly
 	last_heap_inuse  uint64 // heap_inuse at mark termination of the previous GC
 
 	// heapStats is a set of statistics
@@ -586,8 +585,8 @@ func updatememstats() {
 	}
 
 	// Account for tiny allocations.
-	memstats.nfree += memstats.tinyallocs
-	memstats.nmalloc += memstats.tinyallocs
+	memstats.nfree += uint64(consStats.tinyAllocCount)
+	memstats.nmalloc += uint64(consStats.tinyAllocCount)
 
 	// Calculate derived stats.
 	memstats.total_alloc = totalAlloc
@@ -703,6 +702,7 @@ type heapStatsDelta struct {
 	inPtrScalarBits int64 // byte delta of memory reserved for unrolled GC prog bits
 
 	// Allocator stats.
+	tinyAllocCount  uintptr                  // number of tiny allocations
 	largeAlloc      uintptr                  // bytes allocated for large objects
 	largeAllocCount uintptr                  // number of large object allocations
 	smallAllocCount [_NumSizeClasses]uintptr // number of allocs for small objects
@@ -724,6 +724,7 @@ func (a *heapStatsDelta) merge(b *heapStatsDelta) {
 	a.inWorkBufs += b.inWorkBufs
 	a.inPtrScalarBits += b.inPtrScalarBits
 
+	a.tinyAllocCount += b.tinyAllocCount
 	a.largeAlloc += b.largeAlloc
 	a.largeAllocCount += b.largeAllocCount
 	for i := range b.smallAllocCount {
