@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aab7cdf_1d46884a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6776,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T23:52:59Z",
+      "side": 1,
+      "message": "nit: leave away that \u0027:\u0027, I don\u0027t think it\u0027s needed or makes it clearer",
+      "range": {
+        "startLine": 6776,
+        "startChar": 29,
+        "endLine": 6776,
+        "endChar": 30
+      },
+      "revId": "f2da0a9eb95ec66f15db36729ccc8b67ad9a5818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6c97828_ea48d3ec",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6776,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T23:52:59Z",
+      "side": 1,
+      "message": "s/, returning/and returns/\n\nto match phrasing for e.g. Offsetof",
+      "range": {
+        "startLine": 6776,
+        "startChar": 9,
+        "endLine": 6776,
+        "endChar": 10
+      },
+      "revId": "f2da0a9eb95ec66f15db36729ccc8b67ad9a5818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee8765c_b564b2bf",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6778,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T23:52:59Z",
+      "side": 1,
+      "message": "s/size //\n\nor\n\ns/size/\u003ccode\u003elen\u003c/code\u003e/",
+      "range": {
+        "startLine": 6778,
+        "startChar": 11,
+        "endLine": 6778,
+        "endChar": 15
+      },
+      "revId": "f2da0a9eb95ec66f15db36729ccc8b67ad9a5818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38c9524a_3d5c6597",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6785,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T23:52:59Z",
+      "side": 1,
+      "message": "The expression after the \u0027:\u0027 seems complicated enough to warrant putting it on a separate line, as we do for Offsetof, etc.",
+      "range": {
+        "startLine": 6785,
+        "startChar": 52,
+        "endLine": 6785,
+        "endChar": 53
+      },
+      "revId": "f2da0a9eb95ec66f15db36729ccc8b67ad9a5818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "648e8874_6b3b25f4",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6787,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T23:52:59Z",
+      "side": 1,
+      "message": "s/size // or replace with len",
+      "range": {
+        "startLine": 6787,
+        "startChar": 11,
+        "endLine": 6787,
+        "endChar": 15
+      },
+      "revId": "f2da0a9eb95ec66f15db36729ccc8b67ad9a5818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0231ad1b_e9be08c5",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T23:52:59Z",
+      "side": 1,
+      "message": "s/size // or replace with len",
+      "range": {
+        "startLine": 213,
+        "startChar": 14,
+        "endLine": 213,
+        "endChar": 18
+      },
+      "revId": "f2da0a9eb95ec66f15db36729ccc8b67ad9a5818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a83a585_0ccb6b51",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T23:52:59Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 221,
+        "startChar": 14,
+        "endLine": 221,
+        "endChar": 18
+      },
+      "revId": "f2da0a9eb95ec66f15db36729ccc8b67ad9a5818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
