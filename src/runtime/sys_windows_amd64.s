@@ -370,10 +370,12 @@ useQPC:
 	// Call with ABIInternal because we could be
 	// very deep in a nosplit context and the wrapper
 	// adds stack space.
-	// TODO(#40724): The result from nanotimeQPC will
-	// be passed in a register, so store that to the
-	// stack so we can return through a wrapper.
-	JMP	runtime·nanotimeQPC<ABIInternal>(SB)
+#ifdef GOEXPERIMENT_regabiargs
+	CALL	runtime·nanotimeQPC<ABIInternal>(SB)
+	MOVQ	AX, ret+0(FP)
+#else
+	JMP runtime·nanotimeQPC<ABIInternal>(SB)
+#endif
 	RET
 
 TEXT time·now(SB),NOSPLIT,$0-24
