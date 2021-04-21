@@ -1,0 +1,55 @@
+// run
+
+// Copyright 2021 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package main
+
+import (
+	"math"
+	"unsafe"
+)
+
+func main() {
+	var p [10]byte
+
+	// unsafe.Add
+	{
+		p1 := unsafe.Pointer(&p[1])
+		assert(unsafe.Add(p1, 1) == unsafe.Pointer(&p[2]))
+		assert(unsafe.Add(p1, -1) == unsafe.Pointer(&p[0]))
+	}
+
+	// unsafe.Slice
+	{
+		s := unsafe.Slice(&p[0], len(p))
+		assert(&s[0] == &p[0])
+		assert(len(s) == len(p))
+		assert(cap(s) == len(p))
+
+		// nil pointer
+		mustPanic(func() { _ = unsafe.Slice((*int)(nil), 0) })
+
+		// negative length
+		var neg int = -1
+		mustPanic(func() { _ = unsafe.Slice(new(byte), neg) })
+
+		// length too large
+		var tooBig uint64 = math.MaxUint64
+		mustPanic(func() { _ = unsafe.Slice(new(byte), tooBig) })
+	}
+}
+
+func assert(ok bool) {
+	if !ok {
+		panic("FAIL")
+	}
+}
+
+func mustPanic(f func()) {
+	defer func() {
+		assert(recover() != nil)
+	}()
+	f()
+}
