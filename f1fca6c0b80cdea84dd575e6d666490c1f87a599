@@ -142,6 +142,24 @@
       "parentUuid": "12035aa4_a9ac4224",
       "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbfe1742_9a4ccd36",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 51768
+      },
+      "writtenOn": "2021-04-21T22:41:21Z",
+      "side": 1,
+      "message": "\u003eThat said, I think it would be reasonable to make -z,now the default but we might want some way to turn it off.\n\nhttps://github.com/golang/go/issues/44480#issuecomment-785152628\n\nI interpreted that as having \"-z,relro,-z,now\" default. But did they mean \"-z,relro\" should be swapped for \"-z,now\"?",
+      "parentUuid": "21405be1_ca2c51b4",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
