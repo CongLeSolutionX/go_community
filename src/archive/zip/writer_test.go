@@ -365,6 +365,76 @@ func TestWriterDirAttributes(t *testing.T) {
 	}
 }
 
+func TestWriterCopy(t *testing.T) {
+	// make a zip file
+	buf := new(bytes.Buffer)
+	w := NewWriter(buf)
+	for _, wt := range writeTests {
+		testCreate(t, w, &wt)
+	}
+	if err := w.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	// read it back
+	src, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i, wt := range writeTests {
+		testReadFile(t, src.File[i], &wt)
+	}
+
+	// make a new zip file copying the old compressed data.
+	buf2 := new(bytes.Buffer)
+	dst := NewWriter(buf2)
+	for _, f := range src.File {
+		if err := dst.Copy(f); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := dst.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	// read the new one back
+	r, err := NewReader(bytes.NewReader(buf2.Bytes()), int64(buf2.Len()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i, wt := range writeTests {
+		testReadFile(t, r.File[i], &wt)
+	}
+}
+
+func TestWriterCreateRawErrors(t *testing.T) {
+	tests := []struct {
+		desc string
+		fh   *FileHeader
+		dd   *DataDescriptor
+	}{
+		{
+			desc: "no flag and descriptor",
+			fh:   &FileHeader{},
+			dd:   &DataDescriptor{},
+		},
+		{
+			desc: "flag and no descriptor",
+			fh:   &FileHeader{Flags: 0x8},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.desc, func(t *testing.T) {
+			buf := new(bytes.Buffer)
+			w := NewWriter(buf)
+			_, err := w.CreateRaw(test.fh, test.dd)
+			if err == nil {
+				t.Error("want err; got nil")
+			}
+		})
+	}
+}
+
 func testCreate(t *testing.T, w *Writer, wt *WriteTest) {
 	header := &FileHeader{
 		Name:   wt.Name,
@@ -390,15 +460,15 @@ func testReadFile(t *testing.T, f *File, wt *WriteTest) {
 	testFileMode(t, f, wt.Mode)
 	rc, err := f.Open()
 	if err != nil {
-		t.Fatal("opening:", err)
+		t.Fatalf("opening %s: %v", f.Name, err)
 	}
 	b, err := io.ReadAll(rc)
 	if err != nil {
-		t.Fatal("reading:", err)
+		t.Fatalf("reading %s: %v", f.Name, err)
 	}
 	err = rc.Close()
 	if err != nil {
-		t.Fatal("closing:", err)
+		t.Fatalf("closing %s: %v", f.Name, err)
 	}
 	if !bytes.Equal(b, wt.Data) {
 		t.Errorf("File contents %q, want %q", b, wt.Data)
