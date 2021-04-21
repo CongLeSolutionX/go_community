@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3bc7b79_6dee71fc",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6715,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T22:12:14Z",
+      "side": 1,
+      "message": "I\u0027m ok with IntegerType here. We usually refer to an \"integer type\" when we mean any integer type. Also, ArbitraryIntegerType is a bit long.",
+      "parentUuid": "bf5bba45_d431d361",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82a844fa_b058a319",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
@@ -121,6 +139,24 @@
       "side": 1,
       "message": "For context, the phrasing \"must be of integer type or an untyped constant\" is the wording already used for arguments to \"make\" and non-map index expressions. Do you mean to suggest this wording should differ?",
       "parentUuid": "82a844fa_b058a319",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2456f754_34e56cd0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6776,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T22:12:14Z",
+      "side": 1,
+      "message": "The wording for \"make\" is:\n\nA constant size argument must be non-negative and representable by a value of type int; if it is an untyped constant it is given type int.\n\nI think what is missing here is the representability part (and of course it can be negative).",
+      "parentUuid": "79670722_78c34e54",
       "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -192,6 +228,24 @@
       "side": 1,
       "message": "Okay, in the next patch set I\u0027ll update the final sentence to \"If **ptr is nil or** len is negative at run time, a run-time panic occurs.\" unless anyone has a better suggestion.",
       "parentUuid": "8dbc46ca_6685c1fb",
+      "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31e09118_bf998410",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6781,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-21T22:12:14Z",
+      "side": 1,
+      "message": "I agree. Be explicit about panics.",
+      "parentUuid": "970b1aed_aa29b5aa",
       "revId": "14c37b2a0d1abc44811dd0c0e580ac4e27c467d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
