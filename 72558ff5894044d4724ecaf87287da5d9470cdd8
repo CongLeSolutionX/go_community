@@ -71,6 +71,24 @@
       "parentUuid": "1224b8d1_a6b7b4c4",
       "revId": "72558ff5894044d4724ecaf87287da5d9470cdd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899be1a4_e49dd844",
+        "filename": "test/fixedbugs/issue20014.out",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-04-21T20:24:23Z",
+      "side": 1,
+      "message": "Right. Just making sure the uses don\u0027t get optimized away entirely.",
+      "parentUuid": "2136d86f_284e8f38",
+      "revId": "72558ff5894044d4724ecaf87287da5d9470cdd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
