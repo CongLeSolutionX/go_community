@@ -160,6 +160,24 @@
       "parentUuid": "21405be1_ca2c51b4",
       "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf997747_a4f9bdde",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-21T22:46:54Z",
+      "side": 1,
+      "message": "Okay, thanks. I\u0027ll let Ian decide.\n\nWe can still have it as a positive flag. It can have default value true (use -fullrelro\u003dfalse to turn it off).",
+      "parentUuid": "cbfe1742_9a4ccd36",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
