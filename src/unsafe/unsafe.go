@@ -14,6 +14,10 @@ package unsafe
 // part of the unsafe package. It represents the type of an arbitrary Go expression.
 type ArbitraryType int
 
+// IntegerType is here for the purposes of documentation only and is not actually
+// part of the unsafe package. It represents any arbitrary integer type.
+type IntegerType int
+
 // Pointer represents a pointer to an arbitrary type. There are four special operations
 // available for type Pointer that are not available for other types:
 //	- A pointer value of any type can be converted to a Pointer.
@@ -203,3 +207,15 @@ func Offsetof(x ArbitraryType) uintptr
 // value returned by reflect.TypeOf(s.f).FieldAlign().
 // The return value of Alignof is a Go constant.
 func Alignof(x ArbitraryType) uintptr
+
+// Add returns Pointer(uintptr(ptr) + uintptr(len)).
+// The argument len must be of integer type or an untyped constant;
+// if it is an untyped constant it is given type int.
+func Add(ptr Pointer, len IntegerType) Pointer
+
+// Slice returns (*[len]ArbitraryType)(unsafe.Pointer(ptr))[:].
+// The size argument len must be of integer type or an untyped constant.
+// A constant size argument must be non-negative and representable by a value of type int;
+// if it is an untyped constant it is given type int.
+// If len is negative at run time, a run-time panic occurs.
+func Slice(ptr *ArbitraryType, len IntegerType) []ArbitraryType
