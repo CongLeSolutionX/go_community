@@ -39,6 +39,30 @@
       },
       "revId": "a800caca82b15cba9ac1d6dd35f79345fb27c22b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c077504_12f99bfc",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-21T03:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "351670ff_d3e4c3d5",
+      "range": {
+        "startLine": 585,
+        "startChar": 28,
+        "endLine": 585,
+        "endChar": 30
+      },
+      "revId": "a800caca82b15cba9ac1d6dd35f79345fb27c22b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
