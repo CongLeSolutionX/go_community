@@ -233,15 +233,18 @@ var tests = []ZipTest{
 		},
 	},
 	{
+		// According to the spec, the CRC32 in the central directory and
+		// the data descriptor must match. Since we're already reading
+		// the central directory when the zip reader is opened, we use
+		// that as the source of truth and ignore the data descriptor.
 		Name:   "Bad-CRC32-in-data-descriptor",
 		Source: returnCorruptCRC32Zip,
 		File: []ZipTestFile{
 			{
-				Name:       "foo.txt",
-				Content:    []byte("foo\n"),
-				Modified:   time.Date(1979, 11, 30, 0, 0, 0, 0, time.UTC),
-				Mode:       0666,
-				ContentErr: ErrChecksum,
+				Name:     "foo.txt",
+				Content:  []byte("foo\n"),
+				Modified: time.Date(1979, 11, 30, 0, 0, 0, 0, time.UTC),
+				Mode:     0666,
 			},
 			{
 				Name:     "bar.txt",
@@ -499,9 +502,15 @@ func TestReader(t *testing.T) {
 func readTestZip(t *testing.T, zt ZipTest) {
 	var z *Reader
 	var err error
+	var raw []byte
 	if zt.Source != nil {
 		rat, size := zt.Source()
 		z, err = NewReader(rat, size)
+		raw = make([]byte, size)
+		if _, err := rat.ReadAt(raw, 0); err != nil {
+			t.Errorf("ReadAt error=%v", err)
+			return
+		}
 	} else {
 		path := filepath.Join("testdata", zt.Name)
 		if zt.Obscured {
@@ -518,6 +527,12 @@ func readTestZip(t *testing.T, zt ZipTest) {
 		if err == nil {
 			defer rc.Close()
 			z = &rc.Reader
+		}
+		var err2 error
+		raw, err2 = os.ReadFile(path)
+		if err2 != nil {
+			t.Errorf("ReadFile(%s) error=%v", path, err2)
+			return
 		}
 	}
 	if err != zt.Error {
@@ -545,7 +560,7 @@ func readTestZip(t *testing.T, zt ZipTest) {
 
 	// test read of each file
 	for i, ft := range zt.File {
-		readTestFile(t, zt, ft, z.File[i])
+		readTestFile(t, zt, ft, z.File[i], raw)
 	}
 	if t.Failed() {
 		return
@@ -557,7 +572,7 @@ func readTestZip(t *testing.T, zt ZipTest) {
 	for i := 0; i < 5; i++ {
 		for j, ft := range zt.File {
 			go func(j int, ft ZipTestFile) {
-				readTestFile(t, zt, ft, z.File[j])
+				readTestFile(t, zt, ft, z.File[j], raw)
 				done <- true
 			}(j, ft)
 			n++
@@ -574,7 +589,7 @@ func equalTimeAndZone(t1, t2 time.Time) bool {
 	return t1.Equal(t2) && name1 == name2 && offset1 == offset2
 }
 
-func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
+func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File, raw []byte) {
 	if f.Name != ft.Name {
 		t.Errorf("name=%q, want %q", f.Name, ft.Name)
 	}
@@ -592,6 +607,31 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
 		size = f.UncompressedSize64
 	} else if size != f.UncompressedSize64 {
 		t.Errorf("%v: UncompressedSize=%#x does not match UncompressedSize64=%#x", f.Name, size, f.UncompressedSize64)
+	}
+
+	// Check that OpenRaw returns the correct byte segment
+	rw, err := f.OpenRaw()
+	if err != nil {
+		t.Errorf("%v: OpenRaw error=%v", f.Name, err)
+		return
+	}
+	start, err := f.DataOffset()
+	if err != nil {
+		t.Errorf("%v: DataOffset error=%v", f.Name, err)
+		return
+	}
+	got, err := io.ReadAll(rw)
+	if err != nil {
+		t.Errorf("%v: OpenRaw ReadAll error=%v", f.Name, err)
+		return
+	}
+	end := uint64(start) + f.CompressedSize64
+	want := raw[start:end]
+	if !bytes.Equal(got, want) {
+		t.Logf("got %q", got)
+		t.Logf("want %q", want)
+		t.Errorf("%v: OpenRaw returned unexpected bytes", f.Name)
+		return
 	}
 
 	r, err := f.Open()
@@ -1029,8 +1069,8 @@ func TestIssue11146(t *testing.T) {
 		t.Fatal(err)
 	}
 	_, err = io.ReadAll(r)
-	if err != io.ErrUnexpectedEOF {
-		t.Errorf("File[0] error = %v; want io.ErrUnexpectedEOF", err)
+	if err != ErrChecksum {
+		t.Errorf("File[0] error = %v; want ErrChecksum", err)
 	}
 	r.Close()
 }
