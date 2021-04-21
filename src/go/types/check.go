@@ -329,14 +329,13 @@ func (check *Checker) recordTypeAndValue(x ast.Expr, mode operandMode, typ Type,
 }
 
 func (check *Checker) recordBuiltinType(f ast.Expr, sig *Signature) {
-	// f must be a (possibly parenthesized) identifier denoting a built-in
-	// (built-ins in package unsafe always produce a constant result and
-	// we don't record their signatures, so we don't see qualified idents
-	// here): record the signature for f and possible children.
+	// f must be a (possibly parenthesized, possible qualified)
+	// identifier denoting a built-in: record the signature for f and
+	// possible children.
 	for {
 		check.recordTypeAndValue(f, builtin, sig, nil)
 		switch p := f.(type) {
-		case *ast.Ident:
+		case *ast.Ident, *ast.SelectorExpr:
 			return // we're done
 		case *ast.ParenExpr:
 			f = p.X
