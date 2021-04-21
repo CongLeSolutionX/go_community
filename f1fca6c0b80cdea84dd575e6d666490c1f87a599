@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc5b4967_19233c5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51768
+      },
+      "writtenOn": "2021-04-21T22:27:02Z",
+      "side": 1,
+      "message": "I don\u0027t think it needs to be, so this could probably be removed.",
+      "parentUuid": "ac0219d6_816717e2",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03144ca5_68561f05",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "\u003e I think it is a longer flag. Maybe -fullrelro ?\n\nI mean, it may be better to use a longer flag.",
       "parentUuid": "03144ca5_68561f05",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12035aa4_a9ac4224",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 51768
+      },
+      "writtenOn": "2021-04-21T22:27:02Z",
+      "side": 1,
+      "message": "A longer flag can be done. However the second request is harder because it is painful for a distribution to pass linker options to the go compiler through build systems.\n\nhttps://github.com/golang/go/issues/38522\n\nI think it makes sense to have full relro when -buildmode\u003dpie is requested, and rather disable it if you don\u0027t want it in PIE mode. Else the result is not better then the status quo today.",
+      "parentUuid": "a2acb325_be3bfc40",
       "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
