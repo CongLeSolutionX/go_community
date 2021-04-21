@@ -42,7 +42,7 @@ const (
 	directoryHeaderLen       = 46         // + filename + extra + comment
 	directoryEndLen          = 22         // + comment
 	dataDescriptorLen        = 16         // four uint32: descriptor signature, crc32, compressed size, size
-	dataDescriptor64Len      = 24         // descriptor with 8 byte sizes
+	dataDescriptor64Len      = 24         // two uint32: signature, crc32 | two uint64: compressed size, size
 	directory64LocLen        = 20         //
 	directory64EndLen        = 56         // + extra
 
@@ -188,6 +188,14 @@ func FileInfoHeader(fi fs.FileInfo) (*FileHeader, error) {
 		fh.UncompressedSize = uint32(fh.UncompressedSize64)
 	}
 	return fh, nil
+}
+
+// DataDescriptor holds the data descriptor that optionally follows the file
+// contents in the zip file.
+type DataDescriptor struct {
+	CRC32            uint32
+	CompressedSize   uint64
+	UncompressedSize uint64
 }
 
 type directoryEnd struct {

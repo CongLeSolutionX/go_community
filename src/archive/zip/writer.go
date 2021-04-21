@@ -37,6 +37,7 @@ type Writer struct {
 type header struct {
 	*FileHeader
 	offset uint64
+	raw    bool
 }
 
 // NewWriter returns a new Writer writing a zip file to w.
@@ -245,22 +246,31 @@ func detectUTF8(s string) (valid, require bool) {
 	return true, require
 }
 
+// prepare performs the bookkeeping operations required at the start of
+// CreateHeader and CreateRaw.
+func (w *Writer) prepare(fh *FileHeader) error {
+	if w.last != nil && !w.last.closed {
+		if err := w.last.close(); err != nil {
+			return err
+		}
+	}
+	if len(w.dir) > 0 && w.dir[len(w.dir)-1].FileHeader == fh {
+		// See https://golang.org/issue/11144 confusion.
+		return errors.New("archive/zip: invalid duplicate FileHeader")
+	}
+	return nil
+}
+
 // CreateHeader adds a file to the zip archive using the provided FileHeader
 // for the file metadata. Writer takes ownership of fh and may mutate
 // its fields. The caller must not modify fh after calling CreateHeader.
 //
 // This returns a Writer to which the file contents should be written.
 // The file's contents must be written to the io.Writer before the next
-// call to Create, CreateHeader, or Close.
+// call to Create, CreateHeader, CreateRaw, or Close.
 func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
-	if w.last != nil && !w.last.closed {
-		if err := w.last.close(); err != nil {
-			return nil, err
-		}
-	}
-	if len(w.dir) > 0 && w.dir[len(w.dir)-1].FileHeader == fh {
-		// See https://golang.org/issue/11144 confusion.
-		return nil, errors.New("archive/zip: invalid duplicate FileHeader")
+	if err := w.prepare(fh); err != nil {
+		return nil, err
 	}
 
 	// The ZIP format has a sad state of affairs regarding character encoding.
@@ -365,7 +375,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 		ow = fw
 	}
 	w.dir = append(w.dir, h)
-	if err := writeHeader(w.cw, fh); err != nil {
+	if err := writeHeader(w.cw, h); err != nil {
 		return nil, err
 	}
 	// If we're creating a directory, fw is nil.
@@ -373,7 +383,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 	return ow, nil
 }
 
-func writeHeader(w io.Writer, h *FileHeader) error {
+func writeHeader(w io.Writer, h *header) error {
 	const maxUint16 = 1<<16 - 1
 	if len(h.Name) > maxUint16 {
 		return errLongName
@@ -390,9 +400,15 @@ func writeHeader(w io.Writer, h *FileHeader) error {
 	b.uint16(h.Method)
 	b.uint16(h.ModifiedTime)
 	b.uint16(h.ModifiedDate)
-	b.uint32(0) // since we are writing a data descriptor crc32,
-	b.uint32(0) // compressed size,
-	b.uint32(0) // and uncompressed size should be zero
+	if h.raw {
+		b.uint32(h.CRC32)
+		b.uint32(h.CompressedSize)
+		b.uint32(h.UncompressedSize)
+	} else {
+		b.uint32(0) // since we are writing a data descriptor crc32,
+		b.uint32(0) // compressed size,
+		b.uint32(0) // and uncompressed size should be zero
+	}
 	b.uint16(uint16(len(h.Name)))
 	b.uint16(uint16(len(h.Extra)))
 	if _, err := w.Write(buf[:]); err != nil {
@@ -402,6 +418,68 @@ func writeHeader(w io.Writer, h *FileHeader) error {
 		return err
 	}
 	_, err := w.Write(h.Extra)
+	return err
+}
+
+// CreateRaw adds a file to the zip archive using the provided FileHeader and
+// DataDescriptor for the file metadata. Passing a non-nil DataDescriptor
+// requires that bit 3 (0x8) of the FileHeader Flags is set.
+//
+// This returns a Writer to which the file contents should be written.
+// The file's contents must be written to the io.Writer before the next
+// call to Create, CreateHeader, CreateRaw, or Close.
+//
+// In contrast to CreateHeader, the bytes passed to Writer are not compressed
+// and the DataDescriptor is not automatically calculated.
+func (w *Writer) CreateRaw(fh *FileHeader, desc *DataDescriptor) (io.Writer, error) {
+	if err := w.prepare(fh); err != nil {
+		return nil, err
+	}
+
+	if desc != nil && !fh.hasDataDescriptor() {
+		return nil, errors.New("bit 3 of FileHeader Flags must be set when DataDescriptor is not nil")
+	}
+
+	if desc == nil && fh.hasDataDescriptor() {
+		return nil, errors.New("when bit 3 of the FileHeader Flags is set, DataDescriptor must not be nil")
+	}
+
+	h := &header{
+		FileHeader: fh,
+		offset:     uint64(w.cw.count),
+		raw:        true,
+	}
+	w.dir = append(w.dir, h)
+	if err := writeHeader(w.cw, h); err != nil {
+		return nil, err
+	}
+
+	if strings.HasSuffix(fh.Name, "/") {
+		w.last = nil
+		return dirWriter{}, nil
+	}
+
+	fw := &fileWriter{
+		header: h,
+		zipw:   w.cw,
+		desc:   desc,
+	}
+	w.last = fw
+	return fw, nil
+}
+
+// Copy copies the file f (obtained from a Reader) into w. It copies the raw
+// form directly bypassing decompression, compression, and validation.
+func (w *Writer) Copy(f *File) error {
+	r, desc, err := f.OpenRaw()
+	if err != nil {
+		return err
+	}
+	fw, err := w.CreateRaw(&f.FileHeader, desc)
+	if err != nil {
+		return err
+	}
+	_, err = io.Copy(fw, r)
 	return err
 }
 
@@ -440,11 +518,15 @@ type fileWriter struct {
 	compCount *countWriter
 	crc32     hash.Hash32
 	closed    bool
+	desc      *DataDescriptor // optionally supplied by the CreateRaw caller
 }
 
 func (w *fileWriter) Write(p []byte) (int, error) {
 	if w.closed {
 		return 0, errors.New("zip: write to closed file")
+	}
+	if w.raw {
+		return w.zipw.Write(p)
 	}
 	w.crc32.Write(p)
 	return w.rawCount.Write(p)
@@ -455,6 +537,20 @@ func (w *fileWriter) close() error {
 		return errors.New("zip: file closed twice")
 	}
 	w.closed = true
+	if w.raw {
+		if w.desc == nil {
+			return nil
+		}
+		var buf []byte
+		d := w.desc
+		if w.header.FileHeader.isZip64() {
+			buf = writeDataDescriptor64(d.CRC32, d.CompressedSize, d.UncompressedSize)
+		} else {
+			buf = writeDataDescriptor32(d.CRC32, uint32(d.CompressedSize), uint32(d.UncompressedSize))
+		}
+		_, err := w.zipw.Write(buf)
+		return err
+	}
 	if err := w.comp.Close(); err != nil {
 		return err
 	}
@@ -474,26 +570,15 @@ func (w *fileWriter) close() error {
 		fh.UncompressedSize = uint32(fh.UncompressedSize64)
 	}
 
-	// Write data descriptor. This is more complicated than one would
-	// think, see e.g. comments in zipfile.c:putextended() and
-	// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=7073588.
-	// The approach here is to write 8 byte sizes if needed without
-	// adding a zip64 extra in the local header (too late anyway).
+	if !fh.hasDataDescriptor() {
+		return nil
+	}
+
 	var buf []byte
 	if fh.isZip64() {
-		buf = make([]byte, dataDescriptor64Len)
+		buf = writeDataDescriptor64(fh.CRC32, fh.CompressedSize64, fh.UncompressedSize64)
 	} else {
-		buf = make([]byte, dataDescriptorLen)
-	}
-	b := writeBuf(buf)
-	b.uint32(dataDescriptorSignature) // de-facto standard, required by OS X
-	b.uint32(fh.CRC32)
-	if fh.isZip64() {
-		b.uint64(fh.CompressedSize64)
-		b.uint64(fh.UncompressedSize64)
-	} else {
-		b.uint32(fh.CompressedSize)
-		b.uint32(fh.UncompressedSize)
+		buf = writeDataDescriptor32(fh.CRC32, fh.CompressedSize, fh.UncompressedSize)
 	}
 	_, err := w.zipw.Write(buf)
 	return err
@@ -538,4 +623,27 @@ func (b *writeBuf) uint32(v uint32) {
 func (b *writeBuf) uint64(v uint64) {
 	binary.LittleEndian.PutUint64(*b, v)
 	*b = (*b)[8:]
+}
+
+func writeDataDescriptor32(crc32 uint32, compressedSize uint32, uncompressedSize uint32) []byte {
+	// Write data descriptor. This is more complicated than one would
+	// think, see e.g. comments in zipfile.c:putextended() and
+	// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=7073588.
+	buf := make([]byte, dataDescriptorLen)
+	b := writeBuf(buf)
+	b.uint32(dataDescriptorSignature) // de-facto standard, required by OS X
+	b.uint32(crc32)
+	b.uint32(compressedSize)
+	b.uint32(uncompressedSize)
+	return buf
+}
+
+func writeDataDescriptor64(crc32 uint32, compressedSize uint64, uncompressedSize uint64) []byte {
+	buf := make([]byte, dataDescriptor64Len)
+	b := writeBuf(buf)
+	b.uint32(dataDescriptorSignature) // de-facto standard, required by OS X
+	b.uint32(crc32)
+	b.uint64(compressedSize)
+	b.uint64(uncompressedSize)
+	return buf
 }
