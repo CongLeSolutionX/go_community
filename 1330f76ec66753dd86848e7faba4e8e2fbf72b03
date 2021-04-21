@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e10e061_99110712",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-21T03:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5d9a548_70d582eb",
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2874c405_26201509",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-04-12T17:51:11Z",
       "side": 1,
       "message": "Add a brief doc comment?\n\nI\u0027m not sure I understand the motivation here, but I think the comment in the lazy branch is the essence of it: if we\u0027re downgrading something, we don\u0027t want to incidentally upgrade another relevant module, right?",
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c0fe59c_621c0915",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-21T03:41:00Z",
+      "side": 1,
+      "message": "Added a doc comment, but I had trouble making it brief. 😅",
+      "parentUuid": "2874c405_26201509",
       "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -75,6 +111,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c428c38a_9304c270",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-21T03:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b981eef_f4f3d9aa",
+      "range": {
+        "startLine": 244,
+        "startChar": 5,
+        "endLine": 244,
+        "endChar": 27
+      },
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03ba17e5_1ff69dc5",
@@ -92,6 +152,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a3d3fe_2bf2ff60",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-21T03:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03ba17e5_1ff69dc5",
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "220f2068_cfbf68f1",
@@ -105,6 +183,30 @@
       "writtenOn": "2021-04-12T17:51:11Z",
       "side": 1,
       "message": "s/upgradeToward/UpgradeToward/g",
+      "range": {
+        "startLine": 314,
+        "startChar": 48,
+        "endLine": 314,
+        "endChar": 61
+      },
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76adc3ab_65463321",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-21T03:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "220f2068_cfbf68f1",
       "range": {
         "startLine": 314,
         "startChar": 48,
@@ -162,6 +264,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27ef91a3_068fb291",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-21T03:41:00Z",
+      "side": 1,
+      "message": "Adjusted the commentary and naming to avoid the term “irrelevant”, and added comments to try clarify what\u0027s going on here.",
+      "parentUuid": "03946ab9_473ac9a7",
+      "range": {
+        "startLine": 361,
+        "startChar": 20,
+        "endLine": 361,
+        "endChar": 30
+      },
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05a46ae2_15c6fb86",
@@ -175,6 +301,30 @@
       "writtenOn": "2021-04-13T01:20:30Z",
       "side": 1,
       "message": "I feel there should be a sentence here explaining why we don\u0027t have to follow them.\n\nMy understanding is that if depth is lazy we\u0027re in lazy loading mode, and if m is lazy, don\u0027t need to load any of its module dependencies\u0027 dependencies (because all relevant dependencies for the build have already been pulled up. So they wouldn\u0027t need to be checked. And that means we only need to check m\u0027s dependencies (which could make it into the build) that have been restricted to make sure they satisfy the restrictions.\n\nIs that right?",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 77
+      },
+      "revId": "1330f76ec66753dd86848e7faba4e8e2fbf72b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc3c4a1f_1bfc5004",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-21T03:41:00Z",
+      "side": 1,
+      "message": "\u003e I feel there should be a sentence here explaining why we don\u0027t have to follow them.\n\nDone.\n\n\u003e My understanding is that if depth is lazy we\u0027re in lazy loading mode, and if m is lazy, don\u0027t need to load any of its module dependencies\u0027 dependencies (because all relevant dependencies for the build have already been pulled up. So they wouldn\u0027t need to be checked. And that means we only need to check m\u0027s dependencies (which could make it into the build) that have been restricted to make sure they satisfy the restrictions.\n\u003e \n\u003e Is that right?\n\nMore or less, yes.",
+      "parentUuid": "05a46ae2_15c6fb86",
       "range": {
         "startLine": 433,
         "startChar": 0,
