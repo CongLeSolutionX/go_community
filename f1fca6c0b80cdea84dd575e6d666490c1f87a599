@@ -196,6 +196,24 @@
       "parentUuid": "cf997747_a4f9bdde",
       "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2547aa26_8f0a8ec8",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-21T22:54:52Z",
+      "side": 1,
+      "message": "I\u0027m OK with having \"-z now\" be the default if there is a way to turn it off.  I wouldn\u0027t call the option to turn it off \"full relro\", although I see that some people do refer to it that way.  \"-z now\" precedes \"-z relro\"; it means \"resolve all symbols at programs startup.\"",
+      "parentUuid": "cf997747_a4f9bdde",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
