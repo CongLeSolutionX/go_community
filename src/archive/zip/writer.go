@@ -37,6 +37,7 @@ type Writer struct {
 type header struct {
 	*FileHeader
 	offset uint64
+	raw    bool
 }
 
 // NewWriter returns a new Writer writing a zip file to w.
@@ -245,6 +246,21 @@ func detectUTF8(s string) (valid, require bool) {
 	return true, require
 }
 
+// prepare performs the bookkeeping operations required at the start of
+// CreateHeader and CreateRaw.
+func (w *Writer) prepare(fh *FileHeader) error {
+	if w.last != nil && !w.last.closed {
+		if err := w.last.close(); err != nil {
+			return err
+		}
+	}
+	if len(w.dir) > 0 && w.dir[len(w.dir)-1].FileHeader == fh {
+		// See https://golang.org/issue/11144 confusion.
+		return errors.New("archive/zip: invalid duplicate FileHeader")
+	}
+	return nil
+}
+
 // CreateHeader adds a file to the zip archive using the provided FileHeader
 // for the file metadata. Writer takes ownership of fh and may mutate
 // its fields. The caller must not modify fh after calling CreateHeader.
@@ -253,14 +269,8 @@ func detectUTF8(s string) (valid, require bool) {
 // The file's contents must be written to the io.Writer before the next
 // call to Create, CreateHeader, or Close.
 func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
-	if w.last != nil && !w.last.closed {
-		if err := w.last.close(); err != nil {
-			return nil, err
-		}
-	}
-	if len(w.dir) > 0 && w.dir[len(w.dir)-1].FileHeader == fh {
-		// See https://golang.org/issue/11144 confusion.
-		return nil, errors.New("archive/zip: invalid duplicate FileHeader")
+	if err := w.prepare(fh); err != nil {
+		return nil, err
 	}
 
 	// The ZIP format has a sad state of affairs regarding character encoding.
@@ -365,7 +375,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 		ow = fw
 	}
 	w.dir = append(w.dir, h)
-	if err := writeHeader(w.cw, fh); err != nil {
+	if err := writeHeader(w.cw, h); err != nil {
 		return nil, err
 	}
 	// If we're creating a directory, fw is nil.
@@ -373,7 +383,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 	return ow, nil
 }
 
-func writeHeader(w io.Writer, h *FileHeader) error {
+func writeHeader(w io.Writer, h *header) error {
 	const maxUint16 = 1<<16 - 1
 	if len(h.Name) > maxUint16 {
 		return errLongName
@@ -390,9 +400,15 @@ func writeHeader(w io.Writer, h *FileHeader) error {
 	b.uint16(h.Method)
 	b.uint16(h.ModifiedTime)
 	b.uint16(h.ModifiedDate)
-	b.uint32(0) // since we are writing a data descriptor crc32,
-	b.uint32(0) // compressed size,
-	b.uint32(0) // and uncompressed size should be zero
+	if h.raw {
+		b.uint32(h.CRC32)
+		b.uint32(h.CompressedSize)
+		b.uint32(h.UncompressedSize)
+	} else {
+		b.uint32(0) // since we are writing a data descriptor crc32,
+		b.uint32(0) // compressed size,
+		b.uint32(0) // and uncompressed size should be zero
+	}
 	b.uint16(uint16(len(h.Name)))
 	b.uint16(uint16(len(h.Extra)))
 	if _, err := w.Write(buf[:]); err != nil {
@@ -402,6 +418,60 @@ func writeHeader(w io.Writer, h *FileHeader) error {
 		return err
 	}
 	_, err := w.Write(h.Extra)
+	return err
+}
+
+// CreateRaw adds a file to the zip archive using the provided FileHeader
+// for the file metadata.
+//
+// This returns a Writer to which the file contents should be written.
+// The file's contents must be written to the io.Writer before the next
+// call to Create, CreateHeader, or Close.
+//
+// In contrast to CreateHeader, the bytes passed to Writer are not compressed
+// and a trailing data descriptor is not written automatically. The caller
+// is responsbile for writing a trailing data descriptor to Writer when the
+// FileHeader Flags 0x8 bit is set.
+func (w *Writer) CreateRaw(fh *FileHeader) (io.Writer, error) {
+	if err := w.prepare(fh); err != nil {
+		return nil, err
+	}
+
+	h := &header{
+		FileHeader: fh,
+		offset:     uint64(w.cw.count),
+		raw:        true,
+	}
+	w.dir = append(w.dir, h)
+	if err := writeHeader(w.cw, h); err != nil {
+		return nil, err
+	}
+
+	if strings.HasSuffix(fh.Name, "/") {
+		w.last = nil
+		return dirWriter{}, nil
+	}
+
+	fw := &fileWriter{
+		zipw: w.cw,
+		raw:  true,
+	}
+	w.last = fw
+	return fw, nil
+}
+
+// Copy copies the file f (obtained from a Reader) into w. It copies the raw
+// form directly bypassing decompression, compression, and validation.
+func (w *Writer) Copy(f *File) error {
+	r, err := f.OpenRaw()
+	if err != nil {
+		return err
+	}
+	fw, err := w.CreateRaw(&f.FileHeader)
+	if err != nil {
+		return err
+	}
+	_, err = io.Copy(fw, r)
 	return err
 }
 
@@ -440,11 +510,15 @@ type fileWriter struct {
 	compCount *countWriter
 	crc32     hash.Hash32
 	closed    bool
+	raw       bool
 }
 
 func (w *fileWriter) Write(p []byte) (int, error) {
 	if w.closed {
 		return 0, errors.New("zip: write to closed file")
+	}
+	if w.raw {
+		return w.zipw.Write(p)
 	}
 	w.crc32.Write(p)
 	return w.rawCount.Write(p)
@@ -455,6 +529,9 @@ func (w *fileWriter) close() error {
 		return errors.New("zip: file closed twice")
 	}
 	w.closed = true
+	if w.raw {
+		return nil
+	}
 	if err := w.comp.Close(); err != nil {
 		return err
 	}

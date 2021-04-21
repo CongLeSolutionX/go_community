@@ -52,7 +52,6 @@ type File struct {
 	FileHeader
 	zip          *Reader
 	zipr         io.ReaderAt
-	zipsize      int64
 	headerOffset int64
 }
 
@@ -112,7 +111,7 @@ func (z *Reader) init(r io.ReaderAt, size int64) error {
 	// a bad one, and then only report an ErrFormat or UnexpectedEOF if
 	// the file count modulo 65536 is incorrect.
 	for {
-		f := &File{zip: z, zipr: r, zipsize: size}
+		f := &File{zip: z, zipr: r}
 		err = readDirectoryHeader(f, buf)
 		if err == ErrFormat || err == io.ErrUnexpectedEOF {
 			break
@@ -191,6 +190,25 @@ func (f *File) Open() (io.ReadCloser, error) {
 		desr: desr,
 	}
 	return rc, nil
+}
+
+// OpenRaw returns a Reader that provides access to the File's contents without
+// decompression.
+//
+// If the file has a trailing data descriptor, it will be included in the Reader
+// but not validated. The caller can use CompressedSize or CompressedSize64 to
+// determine the boundary between the file contents and the data descriptor.
+func (f *File) OpenRaw() (io.Reader, error) {
+	bodyOffset, err := f.findBodyOffset()
+	if err != nil {
+		return nil, err
+	}
+	size := int64(f.CompressedSize64)
+	if f.hasDataDescriptor() {
+		size += dataDescriptorLen
+	}
+	r := io.NewSectionReader(f.zipr, f.headerOffset+bodyOffset, size)
+	return r, nil
 }
 
 type checksumReader struct {

@@ -365,6 +365,48 @@ func TestWriterDirAttributes(t *testing.T) {
 	}
 }
 
+func TestWriterCopy(t *testing.T) {
+	// make a zip file
+	buf := new(bytes.Buffer)
+	w := NewWriter(buf)
+	for _, wt := range writeTests {
+		testCreate(t, w, &wt)
+	}
+	if err := w.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	// read it back
+	src, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i, wt := range writeTests {
+		testReadFile(t, src.File[i], &wt)
+	}
+
+	// make a new zip file copying the old compressed data.
+	buf2 := new(bytes.Buffer)
+	dst := NewWriter(buf2)
+	for _, f := range src.File {
+		if err := dst.Copy(f); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := dst.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	// read the new one back
+	r, err := NewReader(bytes.NewReader(buf2.Bytes()), int64(buf2.Len()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i, wt := range writeTests {
+		testReadFile(t, r.File[i], &wt)
+	}
+}
+
 func testCreate(t *testing.T, w *Writer, wt *WriteTest) {
 	header := &FileHeader{
 		Name:   wt.Name,

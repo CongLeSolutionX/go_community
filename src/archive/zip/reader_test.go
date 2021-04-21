@@ -11,6 +11,7 @@ import (
 	"internal/obscuretestdata"
 	"io"
 	"io/fs"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -499,9 +500,15 @@ func TestReader(t *testing.T) {
 func readTestZip(t *testing.T, zt ZipTest) {
 	var z *Reader
 	var err error
+	var raw []byte
 	if zt.Source != nil {
 		rat, size := zt.Source()
 		z, err = NewReader(rat, size)
+		raw = make([]byte, size)
+		if _, err := rat.ReadAt(raw, 0); err != nil {
+			t.Errorf("ReadAt error=%v", err)
+			return
+		}
 	} else {
 		path := filepath.Join("testdata", zt.Name)
 		if zt.Obscured {
@@ -518,6 +525,12 @@ func readTestZip(t *testing.T, zt ZipTest) {
 		if err == nil {
 			defer rc.Close()
 			z = &rc.Reader
+		}
+		var err2 error
+		raw, err2 = ioutil.ReadFile(path)
+		if err2 != nil {
+			t.Errorf("ReadFile(%s) error=%v", path, err2)
+			return
 		}
 	}
 	if err != zt.Error {
@@ -545,7 +558,7 @@ func readTestZip(t *testing.T, zt ZipTest) {
 
 	// test read of each file
 	for i, ft := range zt.File {
-		readTestFile(t, zt, ft, z.File[i])
+		readTestFile(t, zt, ft, z.File[i], raw)
 	}
 	if t.Failed() {
 		return
@@ -557,7 +570,7 @@ func readTestZip(t *testing.T, zt ZipTest) {
 	for i := 0; i < 5; i++ {
 		for j, ft := range zt.File {
 			go func(j int, ft ZipTestFile) {
-				readTestFile(t, zt, ft, z.File[j])
+				readTestFile(t, zt, ft, z.File[j], raw)
 				done <- true
 			}(j, ft)
 			n++
@@ -574,7 +587,7 @@ func equalTimeAndZone(t1, t2 time.Time) bool {
 	return t1.Equal(t2) && name1 == name2 && offset1 == offset2
 }
 
-func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
+func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File, raw []byte) {
 	if f.Name != ft.Name {
 		t.Errorf("name=%q, want %q", f.Name, ft.Name)
 	}
@@ -592,6 +605,32 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
 		size = f.UncompressedSize64
 	} else if size != f.UncompressedSize64 {
 		t.Errorf("%v: UncompressedSize=%#x does not match UncompressedSize64=%#x", f.Name, size, f.UncompressedSize64)
+	}
+
+	// Check that OpenRaw returns the correct byte segment
+	rw, err := f.OpenRaw()
+	if err != nil {
+		t.Errorf("%v: OpenRaw error=%v", f.Name, err)
+		return
+	}
+	start, err := f.DataOffset()
+	if err != nil {
+		t.Errorf("%v: DataOffset error=%v", f.Name, err)
+		return
+	}
+	end := uint64(start) + f.CompressedSize64
+	if f.hasDataDescriptor() {
+		end += dataDescriptorLen
+	}
+	got, err := ioutil.ReadAll(rw)
+	if err != nil {
+		t.Errorf("%v: OpenRaw ReadAll error=%v", f.Name, err)
+		return
+	}
+	want := raw[start:end]
+	if !bytes.Equal(got, want) {
+		t.Errorf("%v: OpenRaw returned unexpected bytes", f.Name)
+		return
 	}
 
 	r, err := f.Open()
