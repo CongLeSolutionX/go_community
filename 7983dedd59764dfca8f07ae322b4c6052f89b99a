@@ -52,6 +52,24 @@
       "parentUuid": "e57d844d_1d757aae",
       "revId": "7983dedd59764dfca8f07ae322b4c6052f89b99a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9467a9e_f0f61e17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-04-21T15:08:35Z",
+      "side": 1,
+      "message": "You have to fix it in x/net first then import it in another CL. (CLs can\u0027t span gerrit projects)\n\nDo a git log on \"h2_bundle.go\" to see the conventional form of commit messages for that file.",
+      "parentUuid": "0828f043_f5f42385",
+      "revId": "7983dedd59764dfca8f07ae322b4c6052f89b99a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
