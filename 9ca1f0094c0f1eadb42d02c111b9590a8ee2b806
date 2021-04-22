@@ -53,6 +53,24 @@
       "message": "If the only problem is RSP, can you convert only that one?",
       "revId": "9ca1f0094c0f1eadb42d02c111b9590a8ee2b806",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17026cc1_46644e53",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1699,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-04-22T02:22:49Z",
+      "side": 1,
+      "message": "Actually there is nothing to do with RSP here, what we change is the first instruction argument p.From, for example:\np: ADD R1\u003c\u003c2, RSP, R2\np.From is R1\u003c\u003c2. Originally p.From.Type is obj.TYPE_SHIFT, as p.Reg \u003d\u003d RSP, we convert p.From.Type as obj.TYPE_REG, and set p.REG \u003d REG_LSL + p.Reg + shift_amount\u003c\u003c5, so that p.From will be classified as the C_EXTREG in this function, and matched with the right case in optab.",
+      "parentUuid": "195b2271_c088b015",
+      "revId": "9ca1f0094c0f1eadb42d02c111b9590a8ee2b806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
