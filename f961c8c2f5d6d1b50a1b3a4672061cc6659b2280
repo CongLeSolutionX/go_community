@@ -74,6 +74,46 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2db00c8_28f9f7bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-22T00:38:23Z",
+      "side": 1,
+      "message": "Sorry for the slow review. I had (or rather wanted) to catch up on the lengthy history of these proposals.\n\nI\u0027ll look at the tools tests and see if I can make them forwards-and-backwards compatible with this change. They\u0027re asserting on an exact completion set, so this addition adds a new completion item :/\n\nHolding off on +2 as I\u0027d rather not break everyone\u0027s TryBot. Let me fix x/tools; I\u0027ll sent you a CL tonight.",
+      "revId": "f961c8c2f5d6d1b50a1b3a4672061cc6659b2280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19706361_1fddde1d",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-22T00:38:23Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we do the bounds check here, as well?",
+      "range": {
+        "startLine": 607,
+        "startChar": 5,
+        "endLine": 607,
+        "endChar": 21
+      },
+      "revId": "f961c8c2f5d6d1b50a1b3a4672061cc6659b2280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52a809fd_2012851b",
@@ -138,6 +178,52 @@
         "startChar": 23,
         "endLine": 714,
         "endChar": 24
+      },
+      "revId": "f961c8c2f5d6d1b50a1b3a4672061cc6659b2280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44479365_115f1984",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-22T00:38:23Z",
+      "side": 1,
+      "message": "Should we consider the actual int (word) size here?",
+      "range": {
+        "startLine": 727,
+        "startChar": 24,
+        "endLine": 727,
+        "endChar": 32
+      },
+      "revId": "f961c8c2f5d6d1b50a1b3a4672061cc6659b2280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "944f6b44_fd5e21d0",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-22T00:38:23Z",
+      "side": 1,
+      "message": "This error message could probably be more specific (\"not representable by int\", \"overflows int\", or something).",
+      "range": {
+        "startLine": 729,
+        "startChar": 56,
+        "endLine": 729,
+        "endChar": 69
       },
       "revId": "f961c8c2f5d6d1b50a1b3a4672061cc6659b2280",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
