@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec94a81_29972a9a",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-22T20:34:29Z",
+      "side": 1,
+      "message": "I think patchset 6 solves this problem. Here\u0027s part of the dump AST:\n\n```\nbefore walk x.func3\n.   DCL p(0x1400000c7c8) # t.go:6\n.   .   NAME-p.f p(0x140003bf860) defn(0x140003c0eb0) curfn(0x1400013ab00) esc(no) tc(1) Class:PAUTO Offset:0 OnStack Used FUNC-func() # t.go:6\n.   AS p(0x140003c0eb0) tc(1) Def # t.go:6\n.   .   NAME-p.f p(0x140003bf860) defn(0x140003c0eb0) curfn(0x1400013ab00) esc(no) tc(1) Class:PAUTO Offset:0 OnStack Used FUNC-func() # t.go:6\n.   .   CLOSURE p(0x140003c0f00) esc(no) tc(1) fnName(p.x.func2) FUNC-func() # t.go:6 FUNC-func()\n.   .   CLOSURE-Func\n.   .   .   DCLFUNC p(0x1400013ac60) esc(N) tc(1) Iota:-1 ABI:ABIInternal ABIRefs:{ABIInternal} InlinabilityChecked IsHiddenClosure FUNC-func() # t.go:6\n.   DCL p(0x1400000c7f8) # t.go:7\n.   .   NAME-p.a p(0x140003bf930) defn(0x140003c0ff0) curfn(0x1400013ab00) esc(no) tc(1) Class:PAUTO Offset:0 OnStack Used int # t.go:7\n.   AS p(0x140003c0ff0) tc(1) Def # t.go:7\n.   .   NAME-p.a p(0x140003bf930) defn(0x140003c0ff0) curfn(0x1400013ab00) esc(no) tc(1) Class:PAUTO Offset:0 OnStack Used int # t.go:7\n.   .   LITERAL-1 p(0x140003ce4e0) tc(1) int # t.go:7\n.   DCL p(0x1400000c810) # t.go:8\n.   .   NAME-p.b p(0x140003bfa00) defn(0x140003ce540) curfn(0x1400013ab00) esc(no) tc(1) Class:PAUTO Offset:0 OnStack Used int # t.go:8\n.   AS2 p(0x140003ce540) tc(1) Def # t.go:8\n.   AS2-Lhs\n.   .   NAME-p.a p(0x140003bf930) defn(0x140003c0ff0) curfn(0x1400013ab00) esc(no) tc(1) Class:PAUTO Offset:0 OnStack Used int # t.go:7\n.   .   NAME-p.b p(0x140003bfa00) defn(0x140003ce540) curfn(0x1400013ab00) esc(no) tc(1) Class:PAUTO Offset:0 OnStack Used int # t.go:8\n.   AS2-Rhs\n.   .   LITERAL-2 p(0x140003ce5a0) tc(1) int # t.go:8\n.   .   LITERAL-2 p(0x140003ce600) tc(1) int # t.go:8\n```",
+      "parentUuid": "ff3d60f4_90fcd75f",
+      "revId": "562f66b76461617383ceb5057c86856192c052cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4462064_086194bd",
