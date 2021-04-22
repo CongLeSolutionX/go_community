@@ -998,13 +998,14 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 	}
 
 	subst := inlsubst{
-		retlabel:     retlabel,
-		retvars:      retvars,
-		delayretvars: delayretvars,
-		inlvars:      inlvars,
-		bases:        make(map[*src.PosBase]*src.PosBase),
-		newInlIndex:  newIndex,
-		fn:           fn,
+		retlabel:        retlabel,
+		retvars:         retvars,
+		delayretvars:    delayretvars,
+		inlvars:         inlvars,
+		inlvarDummyDefn: &ir.Name{},
+		bases:           make(map[*src.PosBase]*src.PosBase),
+		newInlIndex:     newIndex,
+		fn:              fn,
 	}
 	subst.edit = subst.node
 
@@ -1103,6 +1104,10 @@ type inlsubst struct {
 	delayretvars bool
 
 	inlvars map[*ir.Name]*ir.Name
+	// inlvarDummyDefn is a dummy Defn node for any inlvar.
+	// clovar set this during creating new ONAME.
+	// node will set the correct Defn for inlvar.
+	inlvarDummyDefn *ir.Name
 
 	// bases maps from original PosBase to PosBase with an extra
 	// inlined call frame.
@@ -1160,6 +1165,9 @@ func (subst *inlsubst) clovar(n *ir.Name) *ir.Name {
 	m := &ir.Name{}
 	*m = *n
 	m.Curfn = subst.newclofn
+	if n.Defn != nil && n.Defn.Op() != ir.ONAME {
+		m.Defn = subst.inlvarDummyDefn
+	}
 	if n.Defn != nil && n.Defn.Op() == ir.ONAME {
 		if !n.IsClosureVar() {
 			base.FatalfAt(n.Pos(), "want closure variable, got: %+v", n)
@@ -1406,6 +1414,20 @@ func (subst *inlsubst) node(n ir.Node) ir.Node {
 	m := ir.Copy(n)
 	m.SetPos(subst.updatedPos(m.Pos()))
 	ir.EditChildren(m, subst.edit)
+
+	switch m := m.(type) {
+	case *ir.AssignStmt:
+		if lhs, ok := m.X.(*ir.Name); ok && lhs.Defn == subst.inlvarDummyDefn {
+			lhs.Defn = m
+		}
+	case *ir.AssignListStmt:
+		for _, lhs := range m.Lhs {
+			if lhs, ok := lhs.(*ir.Name); ok && lhs.Defn == subst.inlvarDummyDefn {
+				lhs.Defn = m
+			}
+		}
+	}
+
 	return m
 }
 
