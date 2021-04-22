@@ -1043,6 +1043,40 @@ func (check *Checker) binary(x *operand, e syntax.Expr, lhs, rhs syntax.Expr, op
 	// x.typ is unchanged
 }
 
+func (check *Checker) isValidIndex(x *operand, what string, allowNegative bool) bool {
+	if x.mode == invalid {
+		return false
+	}
+
+	// spec: "a constant index that is untyped is given type int"
+	check.convertUntyped(x, Typ[Int])
+	if x.mode == invalid {
+		return false
+	}
+
+	// spec: "the index x must be of integer type or an untyped constant"
+	if !isInteger(x.typ) {
+		check.errorf(x, invalidArg+"%s %s must be integer", what, x)
+		return false
+	}
+
+	if x.mode == constant_ {
+		// spec: "a constant index must be non-negative ..."
+		if !allowNegative && constant.Sign(x.val) < 0 {
+			check.errorf(x, invalidArg+"%s %s must not be negative", what, x)
+			return false
+		}
+
+		// spec: "... and representable by a value of type int"
+		if !representableConst(x.val, check, Typ[Int], &x.val) {
+			check.errorf(x, invalidArg+"%s %s overflows int", what, x)
+			return false
+		}
+	}
+
+	return true
+}
+
 // exprKind describes the kind of an expression; the kind
 // determines if an expression is valid in 'statement context'.
 type exprKind int
