@@ -1401,6 +1401,22 @@ func (subst *inlsubst) node(n ir.Node) ir.Node {
 	case ir.OCLOSURE:
 		return subst.closure(n.(*ir.ClosureExpr))
 
+	case ir.OAS2:
+		n := n.(*ir.AssignListStmt)
+		if !n.Def {
+			break
+		}
+		m := ir.Copy(n).(*ir.AssignListStmt)
+		for i, lhs := range m.Lhs {
+			if inlvar := subst.inlvars[lhs.(*ir.Name)]; inlvar != nil {
+				m.Lhs[i] = inlvar
+				inlvar.Defn = m
+			}
+		}
+		m.SetPos(subst.updatedPos(m.Pos()))
+		ir.EditChildren(m, subst.edit)
+		return m
+
 	}
 
 	m := ir.Copy(n)
