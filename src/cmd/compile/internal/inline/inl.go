@@ -27,10 +27,6 @@
 package inline
 
 import (
-	"fmt"
-	"go/constant"
-	"strings"
-
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/logopt"
@@ -38,6 +34,9 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
+	"fmt"
+	"go/constant"
+	"strings"
 )
 
 // Inlining budget parameters, gathered in one place
@@ -1181,6 +1180,14 @@ func (subst *inlsubst) clovar(n *ir.Name) *ir.Name {
 		// if Defn node is outside inlined function.
 		if subst.inlvars[n.Defn.(*ir.Name)] != nil {
 			m.Defn = subst.node(n.Defn)
+		}
+	}
+	if defn, ok := n.Defn.(*ir.AssignListStmt); ok {
+		m.Defn = ir.Copy(n.Defn)
+		for i, lhs := range defn.Lhs {
+			if lhs == n {
+				m.Defn.(*ir.AssignListStmt).Lhs[i] = m
+			}
 		}
 	}
 	if n.Outer != nil {
