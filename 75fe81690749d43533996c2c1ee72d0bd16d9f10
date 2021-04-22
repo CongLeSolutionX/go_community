@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44399be5_a967ac8f",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-22T22:15:22Z",
+      "side": 1,
+      "message": "Similarly, it might make sense to count the number of new edges in expandsCoverage, and prioritize based on the number of new edges that an input hits?",
+      "revId": "75fe81690749d43533996c2c1ee72d0bd16d9f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
