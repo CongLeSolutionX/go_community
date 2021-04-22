@@ -71,6 +71,24 @@
       "parentUuid": "25e7e169_97a19430",
       "revId": "a69e35e07efe576745afe89a7e0af9ab77add249",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc260fd5_fe420c98",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-22T11:55:56Z",
+      "side": 1,
+      "message": "Sorry, what I mean is:\n\nSuppose in the original AST, we have ONAME n1, OAS2 a1, and n1.Defn \u003d\u003d a1.\n\nDuring inline cloning, we\u0027re going to create copies of n1 and a1. Call them n2 and a2, respectively.\n\nAt the end of inlining, we want to have n2.Defn \u003d\u003d a2.\n\nBut I think here we\u0027re actually creating *another* copy of a1 (call it a3), and will end up with n2.Defn \u003d\u003d a3 instead.\n\nAre you able to print the post-inlining ASTs for the test case with -d\u003ddumpptrs, and then pastebin them somewhere so I can take a look?",
+      "parentUuid": "3cba1401_a1eee493",
+      "revId": "a69e35e07efe576745afe89a7e0af9ab77add249",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
