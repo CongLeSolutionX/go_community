@@ -179,6 +179,24 @@
       "parentUuid": "4486aa18_2649c23a",
       "revId": "a69e35e07efe576745afe89a7e0af9ab77add249",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c05d79b1_81558e56",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-22T16:02:30Z",
+      "side": 1,
+      "message": "AST with patch 4, looks correctly for p.g, but still not for p.f: https://gist.github.com/cuonglm/fbcf25ad3c83d73178930d781ef723f8\n\nI think we should fix that in other CL?",
+      "parentUuid": "ffb6a067_da84dcd8",
+      "revId": "a69e35e07efe576745afe89a7e0af9ab77add249",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
