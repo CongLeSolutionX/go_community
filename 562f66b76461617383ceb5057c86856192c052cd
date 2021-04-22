@@ -88,6 +88,24 @@
       "parentUuid": "a4462064_086194bd",
       "revId": "562f66b76461617383ceb5057c86856192c052cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "950e8f78_9c9f25bc",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-22T19:29:00Z",
+      "side": 1,
+      "message": "I think as long as we do this rewrite after the EditChildren call, then m.X and m.Lhs will already point to the inlvar copies?",
+      "parentUuid": "d2f8f890_fbae2209",
+      "revId": "562f66b76461617383ceb5057c86856192c052cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
