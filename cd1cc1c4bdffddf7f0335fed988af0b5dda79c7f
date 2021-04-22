@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9fb59ae_be7b315e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-22T23:29:52Z",
+      "side": 1,
+      "message": "Done. (I was waiting until the types2 stuff was ready, because I suspected it would still require some extra mundane work.)",
+      "parentUuid": "24b0e515_218521d2",
+      "revId": "cd1cc1c4bdffddf7f0335fed988af0b5dda79c7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a48bf927_cafa8aef",
@@ -87,6 +105,24 @@
       "writtenOn": "2021-04-21T14:49:42Z",
       "side": 1,
       "message": "Maybe add a bit more of a comment than \"bounds check\". Something like \"check to make sure length is nonnegative and smaller than the max length allowed (given the base type).\"\n\nIt\u0027s not entirely clear to me we need to check the max. It\u0027s not described in the spec or doc.",
+      "revId": "cd1cc1c4bdffddf7f0335fed988af0b5dda79c7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c839cb_459b5b00",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-22T23:29:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a48bf927_cafa8aef",
       "revId": "cd1cc1c4bdffddf7f0335fed988af0b5dda79c7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
