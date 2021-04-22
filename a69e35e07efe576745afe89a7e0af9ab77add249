@@ -89,6 +89,24 @@
       "parentUuid": "3cba1401_a1eee493",
       "revId": "a69e35e07efe576745afe89a7e0af9ab77add249",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ea19164_4b2bbc29",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-22T12:08:30Z",
+      "side": 1,
+      "message": "Here\u0027s it: https://gist.github.com/cuonglm/8bf99c825c0bbf36037f9b345d667714\n\nI think on tip, n1.Defn and n2.Defn both point to a1, with this fix, n1.Defn \u003d\u003d a1 and n2.Defn \u003d\u003d a2.",
+      "parentUuid": "fc260fd5_fe420c98",
+      "revId": "a69e35e07efe576745afe89a7e0af9ab77add249",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
