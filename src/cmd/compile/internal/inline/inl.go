@@ -1183,6 +1183,14 @@ func (subst *inlsubst) clovar(n *ir.Name) *ir.Name {
 			m.Defn = subst.node(n.Defn)
 		}
 	}
+	if defn, ok := n.Defn.(*ir.AssignListStmt); ok {
+		m.Defn = ir.Copy(n.Defn)
+		for i, lhs := range defn.Lhs {
+			if lhs == n {
+				m.Defn.(*ir.AssignListStmt).Lhs[i] = m
+			}
+		}
+	}
 	if n.Outer != nil {
 		// Either the outer variable is defined in function being inlined,
 		// and we will replace it with the substituted variable, or it is
@@ -1400,6 +1408,22 @@ func (subst *inlsubst) node(n ir.Node) ir.Node {
 
 	case ir.OCLOSURE:
 		return subst.closure(n.(*ir.ClosureExpr))
+
+	case ir.OAS2:
+		n := n.(*ir.AssignListStmt)
+		if !n.Def {
+			break
+		}
+		m := ir.Copy(n).(*ir.AssignListStmt)
+		for i, lhs := range m.Lhs {
+			if inlvar := subst.inlvars[lhs.(*ir.Name)]; inlvar != nil {
+				m.Lhs[i] = inlvar
+				inlvar.Defn = m
+			}
+		}
+		m.SetPos(subst.updatedPos(m.Pos()))
+		ir.EditChildren(m, subst.edit)
+		return m
 
 	}
 
