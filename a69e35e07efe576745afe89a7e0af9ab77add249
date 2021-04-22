@@ -161,6 +161,24 @@
       "parentUuid": "f3df23b2_fba57086",
       "revId": "a69e35e07efe576745afe89a7e0af9ab77add249",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffb6a067_da84dcd8",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-22T15:47:50Z",
+      "side": 1,
+      "message": "Ah, I got your point. New patch is coming.",
+      "parentUuid": "4486aa18_2649c23a",
+      "revId": "a69e35e07efe576745afe89a7e0af9ab77add249",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
