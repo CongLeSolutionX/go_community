@@ -106,6 +106,24 @@
       "parentUuid": "d2f8f890_fbae2209",
       "revId": "562f66b76461617383ceb5057c86856192c052cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7424a680_adb0398a",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-22T19:43:57Z",
+      "side": 1,
+      "message": "\u003e  then m.X and m.Lhs will already point to the inlvar copies?\n\nAh right, but sounds like this is the problem. Because m.X is now the inlvar, then its Defn is not n anymore. n is the Defn of the substituted variable instead. That\u0027s why \"lhs.Defn \u003d\u003d n\" is false, and the code above make the compiler crash. So I think we still have to do this before ir.EditChildren.",
+      "parentUuid": "950e8f78_9c9f25bc",
+      "revId": "562f66b76461617383ceb5057c86856192c052cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
