@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2b8ccd1_e0081552",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-22T15:24:29Z",
+      "side": 1,
+      "message": "Added a comment describing what the arguments actually are in practice.\n\nI would rather not describe when editRequirements is called in this code comment: that information is likely to get stale more quickly, and should be straightforward for `gopls` or `grep` to report anyway.",
+      "parentUuid": "5047e48f_895a24f9",
+      "range": {
+        "startLine": 33,
+        "startChar": 5,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "5dc693bece39e251e0528fb8ec8f0135e610a77a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9670083d_06aba0e5",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-04-21T19:20:26Z",
       "side": 1,
       "message": "I\u0027m a bit confused about the use of the word upgrade here. We\u0027re not trying to upgrade a module that provides an imported package if an upgrade isn\u0027t requested, right? Just to pull it up to the actual version resolved by running MVS on requirements, right?",
+      "range": {
+        "startLine": 281,
+        "startChar": 36,
+        "endLine": 283,
+        "endChar": 36
+      },
+      "revId": "5dc693bece39e251e0528fb8ec8f0135e610a77a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "704ba54f_25ce5896",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-22T15:24:29Z",
+      "side": 1,
+      "message": "In some cases we\u0027re trying to import it (for `go get -u`), but in most cases we\u0027re just trying to maintain the versions that are already present, yes.\n\n(Changed to “increases” to avoid confusing this operation with “upgrade” in the sense of `go get -u`.)\n\nThis sentence is admittedly really awkward, but I couldn\u0027t find a way to make it simpler. (I think that this function and raiseLimitsForUpgrade together encapsulate the core of the “solver-like” behaviors of \u0027go get -u\u0027, so this comment is trying to describe some really complex and subtle behavior in simple and precise terms. 😅)",
+      "parentUuid": "9670083d_06aba0e5",
       "range": {
         "startLine": 281,
         "startChar": 36,
