@@ -232,6 +232,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "600d8257_838bb984",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-22T01:07:53Z",
+      "side": 1,
+      "message": "Good question. We don\u0027t do this in Checker.index, looks like a bug on a 32bit platform?\n\nWe should probably provide a factored out predicate for this. Maybe add a TODO and address in a separate CL where we look at the other cases?",
+      "parentUuid": "e11935eb_b94594e3",
+      "range": {
+        "startLine": 727,
+        "startChar": 24,
+        "endLine": 727,
+        "endChar": 32
+      },
+      "revId": "f961c8c2f5d6d1b50a1b3a4672061cc6659b2280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "944f6b44_fd5e21d0",
         "filename": "src/go/types/builtins.go",
         "patchSetId": 1
