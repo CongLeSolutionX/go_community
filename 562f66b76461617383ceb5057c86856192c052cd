@@ -70,6 +70,24 @@
       "message": "What if after this EditChildren call you add something like:\n\n```\nswitch m :\u003d m.(type) {\ncase *ir.AssignStmt:\n  if lhs, ok :\u003d m.X.(*ir.Name); ok \u0026\u0026 lhs.Defn \u003d\u003d n {\n    lhs.Defn \u003d m\n  }\ncase *ir.AssignListStmt:\n  for i, lhs :\u003d range m.Lhs {\n    if lhs, ok :\u003d lhs.(*ir.Name); ok \u0026\u0026 lhs.Defn \u003d\u003d n {\n      lhs.Defn \u003d m\n    }\n  }\n}\n```",
       "revId": "562f66b76461617383ceb5057c86856192c052cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2f8f890_fbae2209",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-22T19:20:10Z",
+      "side": 1,
+      "message": "hmm, I think we have to edit the inlvar.Defn, not the lhs.Defn?",
+      "parentUuid": "a4462064_086194bd",
+      "revId": "562f66b76461617383ceb5057c86856192c052cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
