@@ -1183,6 +1183,14 @@ func (subst *inlsubst) clovar(n *ir.Name) *ir.Name {
 			m.Defn = subst.node(n.Defn)
 		}
 	}
+	if defn, ok := n.Defn.(*ir.AssignListStmt); ok {
+		m.Defn = ir.Copy(n.Defn)
+		for i, lhs := range defn.Lhs {
+			if lhs == n {
+				m.Defn.(*ir.AssignListStmt).Lhs[i] = m
+			}
+		}
+	}
 	if n.Outer != nil {
 		// Either the outer variable is defined in function being inlined,
 		// and we will replace it with the substituted variable, or it is
