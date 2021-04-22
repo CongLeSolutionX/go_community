@@ -1160,6 +1160,8 @@ func (subst *inlsubst) clovar(n *ir.Name) *ir.Name {
 	m := &ir.Name{}
 	*m = *n
 	m.Curfn = subst.newclofn
+	// Set m.Defn to nil, so we can set it correctly during subst.node
+	m.Defn = nil
 	if n.Defn != nil && n.Defn.Op() == ir.ONAME {
 		if !n.IsClosureVar() {
 			base.FatalfAt(n.Pos(), "want closure variable, got: %+v", n)
@@ -1406,6 +1408,20 @@ func (subst *inlsubst) node(n ir.Node) ir.Node {
 	m := ir.Copy(n)
 	m.SetPos(subst.updatedPos(m.Pos()))
 	ir.EditChildren(m, subst.edit)
+
+	switch m := m.(type) {
+	case *ir.AssignStmt:
+		if lhs, ok := m.X.(*ir.Name); ok && lhs.Defn == nil {
+			lhs.Defn = m
+		}
+	case *ir.AssignListStmt:
+		for _, lhs := range m.Lhs {
+			if lhs, ok := lhs.(*ir.Name); ok && lhs.Defn == nil {
+				lhs.Defn = m
+			}
+		}
+	}
+
 	return m
 }
 
