@@ -53,6 +53,24 @@
       "message": "Do we only need this if !useSymValue? I.e. moving it into the if block above?",
       "revId": "82c409974e5c5938ed74502e25f4235a63ed979a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d139f368_b8511562",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-23T20:00:57Z",
+      "side": 1,
+      "message": "Done. (We\u0027ll find out.)",
+      "parentUuid": "51e5ccda_18c89749",
+      "revId": "82c409974e5c5938ed74502e25f4235a63ed979a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
