@@ -89,6 +89,24 @@
       "parentUuid": "d3ebfae0_1f97aaab",
       "revId": "83a11de90ea5fdaba2fee21057f5c517e805f1fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "366418ce_6c3bf6c3",
+        "filename": "src/cmd/compile/internal/walk/assign.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-23T16:52:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d79f7abb_2dda0f2a",
+      "revId": "83a11de90ea5fdaba2fee21057f5c517e805f1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
