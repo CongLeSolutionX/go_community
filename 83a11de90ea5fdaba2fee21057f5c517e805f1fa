@@ -53,6 +53,24 @@
       "message": "I don\u0027t think this is right. E.g., I suspect this will cause this code to panic, when it should succeed:\n\n```\np :\u003d [1]*int{new(int)}\np[0], *p[0] \u003d nil, 1\n```\n\nI think what needs to happen is that if l has any Init statements, we need to copy them into early before calling save(\u0026l.X).",
       "revId": "83a11de90ea5fdaba2fee21057f5c517e805f1fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3ebfae0_1f97aaab",
+        "filename": "src/cmd/compile/internal/walk/assign.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-23T15:49:14Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think this is right. E.g., I suspect this will cause this code to panic, when it should succeed\n\nThis patch compile above code ok, would you mind elaborating why you think it will panic?\n\n\u003e I think what needs to happen is that if l has any Init statements, we need to copy them into early before calling save(\u0026l.X).\n\nThis sounds much better and more robust, let me try.",
+      "parentUuid": "a5711d9b_9457d09d",
+      "revId": "83a11de90ea5fdaba2fee21057f5c517e805f1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
