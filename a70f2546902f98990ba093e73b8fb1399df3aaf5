@@ -71,6 +71,24 @@
       "parentUuid": "6abae317_07b212f0",
       "revId": "a70f2546902f98990ba093e73b8fb1399df3aaf5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "929d6ea0_f3e650b3",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-23T20:38:44Z",
+      "side": 1,
+      "message": "Thanks. Yeah, it makes sense.",
+      "parentUuid": "cd5d4374_a474c706",
+      "revId": "a70f2546902f98990ba093e73b8fb1399df3aaf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
