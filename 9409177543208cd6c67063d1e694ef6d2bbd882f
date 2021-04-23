@@ -78,6 +78,30 @@
       },
       "revId": "9409177543208cd6c67063d1e694ef6d2bbd882f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3cfdca5_9f11fdd4",
+        "filename": "src/cmd/go/testdata/script/list_swigcxx.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-23T22:30:12Z",
+      "side": 1,
+      "message": "Good point.  I see that $GOCACHE is available, so changed to using that.",
+      "parentUuid": "79e3f39f_a49ec761",
+      "range": {
+        "startLine": 14,
+        "startChar": 14,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "9409177543208cd6c67063d1e694ef6d2bbd882f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
