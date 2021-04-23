@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3addb7c5_16972c58",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-23T14:50:33Z",
+      "side": 1,
+      "message": "Done. And FuncPCABI0 will reject arbitrary expression now.",
+      "parentUuid": "b096f26b_abd6ef23",
+      "revId": "b1e28bd0e62921cb6398cb4abca5ee12fbf95437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b4e3219_539dde67",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-05T14:04:13Z",
       "side": 1,
       "message": "We talked offline about how this should probably be two separate functions for the two different ABI so the caller knows with 100% certainty whether it\u0027s getting an ABI0 entry-point or an ABIInternal entry-point.",
+      "revId": "b1e28bd0e62921cb6398cb4abca5ee12fbf95437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb1d3382_c9315db9",
+        "filename": "src/internal/abi/abi.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-23T14:50:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b4e3219_539dde67",
       "revId": "b1e28bd0e62921cb6398cb4abca5ee12fbf95437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
