@@ -71,6 +71,24 @@
       "parentUuid": "a5711d9b_9457d09d",
       "revId": "83a11de90ea5fdaba2fee21057f5c517e805f1fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d79f7abb_2dda0f2a",
+        "filename": "src/cmd/compile/internal/walk/assign.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-23T16:48:49Z",
+      "side": 1,
+      "message": "\u003e This patch compile above code ok,\n\nOops, right, OINDEX on arrays is always needs to be handled specially.\n\nHere\u0027s an updated snippet that I confirmed should run successfully, but instead panics (at run time) with this patchset 4:\n\n```\n\tp :\u003d [1]*int{new(int)}\n\tp[0], *p[:][0] \u003d nil, 1\n```\n\n\u003e would you mind elaborating why you think it will panic?\n\nThe Go spec requires that if there\u0027s a `*ptr` expression on the LHS of the statement, then the `ptr` part needs to be evaluated before any assignments take place. In the snippet above, that means `p[:][0]` needs to be evaluated and saved before the assignment to change `p[0]` to nil happens. That is, it needs to be compiled as:\n\n```\nt1, t2 :\u003d 0, p[:][0]\np[t1] \u003d nil\n*t2 \u003d 1\n```\n\nBut patchset 4 changed it to compile as:\n\n```\nt1, t2, t3 :\u003d 0, p[:], 0\np[t1] \u003d nil\n*t2[t3] \u003d 1\n```",
+      "parentUuid": "d3ebfae0_1f97aaab",
+      "revId": "83a11de90ea5fdaba2fee21057f5c517e805f1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
