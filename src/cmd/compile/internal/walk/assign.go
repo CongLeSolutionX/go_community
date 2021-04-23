@@ -337,6 +337,9 @@ func ascompatee(op ir.Op, nl, nr []ir.Node) []ir.Node {
 					l = ll.X
 					continue
 				}
+			case *ir.StarExpr:
+				l = ll.X
+				continue
 			}
 			break
 		}
