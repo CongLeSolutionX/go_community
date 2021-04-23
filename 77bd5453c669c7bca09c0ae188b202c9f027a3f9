@@ -53,6 +53,24 @@
       "message": "It seems nrelocs can go now.",
       "revId": "77bd5453c669c7bca09c0ae188b202c9f027a3f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ffd662d_6bb49ff2",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-23T20:00:57Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "8387ece1_493a8219",
+      "revId": "77bd5453c669c7bca09c0ae188b202c9f027a3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
