@@ -16,6 +16,40 @@
       "message": "RELNOTE\u003dyes",
       "revId": "9ed00ed53598f9c8dd86a712da66eb49470a1e3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b561d04_dd93cd7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-23T00:02:42Z",
+      "side": 1,
+      "message": "@bcmills Any further comments on this CL?  Thanks.",
+      "revId": "9ed00ed53598f9c8dd86a712da66eb49470a1e3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4bf3be7_091aa276",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-23T00:02:42Z",
+      "side": 1,
+      "message": "Just\n    testShuffle    shuffleFlag",
+      "revId": "9ed00ed53598f9c8dd86a712da66eb49470a1e3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
