@@ -353,7 +353,14 @@ func ascompatee(op ir.Op, nl, nr []ir.Node) []ir.Node {
 			save(&l.Index)
 		case ir.ODEREF:
 			l := l.(*ir.StarExpr)
-			save(&l.X)
+			switch l.X.Op() {
+			case ir.OINDEX, ir.OINDEXMAP:
+				l := l.X.(*ir.IndexExpr)
+				save(&l.X)
+				save(&l.Index)
+			default:
+				save(&l.X)
+			}
 		case ir.ODOTPTR:
 			l := l.(*ir.SelectorExpr)
 			save(&l.X)
