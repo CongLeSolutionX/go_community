@@ -5729,6 +5729,8 @@ func globrunqputhead(gp *g) {
 // Put a batch of runnable goroutines on the global runnable queue.
 // This clears *batch.
 // sched.lock must be held.
+// May run during STW, so write barriers are not allowed.
+//go:nowritebarrierrec
 func globrunqputbatch(batch *gQueue, n int32) {
 	assertLockHeld(&sched.lock)
 
@@ -6040,6 +6042,48 @@ func runqget(_p_ *p) (gp *g, inheritTime bool) {
 		gp := _p_.runq[h%uint32(len(_p_.runq))].ptr()
 		if atomic.CasRel(&_p_.runqhead, h, h+1) { // cas-release, commits consume
 			return gp, false
+		}
+	}
+}
+
+// runqdrain drains the local runnable queue of _p_ and returns all g's in it.
+// Executed only by the owner P.
+func runqdrain(_p_ *p) (drainQ gQueue, n uint32) {
+	var getNext bool
+	oldNext := _p_.runnext
+	if oldNext != 0 && _p_.runnext.cas(oldNext, 0) {
+		drainQ.pushBack(oldNext.ptr())
+		n++
+		getNext = true
+	}
+
+	for {
+		h := atomic.LoadAcq(&_p_.runqhead) // load-acquire, synchronize with other consumers
+		t := _p_.runqtail
+		qn := t - h
+		if qn == 0 {
+			return
+		}
+		if qn > uint32(len(_p_.runq)) { // read inconsistent h and t
+			continue
+		}
+
+		for i := uint32(0); i < qn; i++ {
+			gp := _p_.runq[(h+i)%uint32(len(_p_.runq))].ptr()
+			drainQ.pushBack(gp)
+		}
+		if atomic.CasRel(&_p_.runqhead, h, h+qn) && runqempty(_p_) { // cas-release, commits consume
+			n += qn
+			return
+		}
+
+		// Clean up if it failed to drain _p_ in this round and start over until it succeed.
+		drainQ = gQueue{}
+		n = 0
+		// Push the prior old _p_.runnext back into drainQ.
+		if getNext {
+			drainQ.pushBack(oldNext.ptr())
+			n++
 		}
 	}
 }
