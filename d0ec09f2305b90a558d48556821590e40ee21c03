@@ -16,6 +16,41 @@
       "message": "I failed to locate the root cause of CL 310149, but the essential difference between that CL and old code is the scope of sched.lock, so I align that part of new code and old code.\n\nCould either of you guys run a TryBot on amd64-longest to verify it? Thanks~",
       "revId": "d0ec09f2305b90a558d48556821590e40ee21c03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ac1bce0_417937d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-23T13:47:41Z",
+      "side": 1,
+      "message": "Happy to give it a try, but FWIW I don\u0027t think this will fix it, as a P to free to access its own runq without hold sched.lock.",
+      "parentUuid": "ae57ec72_abbf8171",
+      "revId": "d0ec09f2305b90a558d48556821590e40ee21c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6291a2f_665836a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-23T13:47:41Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-longtest",
+      "revId": "d0ec09f2305b90a558d48556821590e40ee21c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
