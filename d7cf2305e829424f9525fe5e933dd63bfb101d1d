@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db2e40cd_c5e3204e",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-23T04:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2bd2336_a14bde77",
+      "revId": "d7cf2305e829424f9525fe5e933dd63bfb101d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63706ed3_e25bac4b",
@@ -85,6 +103,24 @@
       "writtenOn": "2021-04-23T04:29:58Z",
       "side": 1,
       "message": "How about:\n\n```\nswitch defn :\u003d n.Defn.(type) {\ncase nil:\n    // ok\ncase *ir.Name:\n    // [existing ir.ONAME code]\ncase *ir.AssignStmt, *ir.AssignListStmt:\n    // Mark node for reassignment at the end of inlsubst.node.\n    m.Defn \u003d \u0026subst.defnMarker\ndefault:\n    base.FatalfAt(n.Pos(), \"unexpected Defn: %+v\", defn)\n}\n```\n\nThat\u0027ll make sure we\u0027re not forgetting any other Defn types in inlsubst.node, and should also let us simplify the `n.Defn.(*ir.Name)` expressions below.",
+      "revId": "d7cf2305e829424f9525fe5e933dd63bfb101d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1444916_00f2f026",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-23T04:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63706ed3_e25bac4b",
       "revId": "d7cf2305e829424f9525fe5e933dd63bfb101d1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
