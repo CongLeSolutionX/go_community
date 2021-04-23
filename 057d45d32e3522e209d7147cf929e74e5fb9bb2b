@@ -87,6 +87,24 @@
       "message": "I took another look through -- looks good to me.",
       "revId": "057d45d32e3522e209d7147cf929e74e5fb9bb2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46a8639f_f687a8eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-23T21:05:34Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "ffa3bf27_609bc3bf",
+      "revId": "057d45d32e3522e209d7147cf929e74e5fb9bb2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
