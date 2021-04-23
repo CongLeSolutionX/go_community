@@ -1,0 +1,26 @@
+# go list should not report SWIG-generated C++ files in CompiledGoFiles.
+
+[!exec:swig] skip
+[!exec:g++] skip
+
+# CompiledGoFiles should contain 4 files:
+#  a.go
+#  a.swigcxx.go
+#  _cgo_gotypes.go
+#  a.cgo1.go
+
+go list -f '{{.CompiledGoFiles}}' -compiled=true example/swig
+
+# These names we see here will be from the build cache, so we just
+# count them. Four files: three spaces.
+stdout -count=3 ' '
+
+-- go.mod --
+module example
+
+go 1.16
+
+-- swig/a.go --
+package swig
+
+-- swig/a.swigcxx --
