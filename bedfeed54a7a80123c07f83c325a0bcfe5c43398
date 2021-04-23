@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t we multiply the counts by `gTrackingPeriod` when returning them?",
       "revId": "bedfeed54a7a80123c07f83c325a0bcfe5c43398",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12395096_569aac00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-23T21:00:44Z",
+      "side": 1,
+      "message": "Hm, perhaps we should. I\u0027ve been thinking about this used simply as looking at percentiles of the distribution, where the absolute counts won\u0027t matter. But if one wanted to sum the entire distribution to get an approximate total lifetime latency then we should indeed multiply by the period.\n\nMichael, what do you think?",
+      "parentUuid": "bc2e2456_220434ef",
+      "revId": "bedfeed54a7a80123c07f83c325a0bcfe5c43398",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
