@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae57ec72_abbf8171",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-23T13:40:16Z",
+      "side": 1,
+      "message": "I failed to locate the root cause of CL 310149, but the essential difference between that CL and old code is the scope of sched.lock, so I align that part of new code and old code.\n\nCould either of you guys run a TryBot on amd64-longest to verify it? Thanks~",
+      "revId": "d0ec09f2305b90a558d48556821590e40ee21c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
