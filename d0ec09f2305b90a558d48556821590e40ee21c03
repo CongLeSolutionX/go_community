@@ -178,6 +178,24 @@
       "parentUuid": "275d4d2e_c2dfe5d2",
       "revId": "d0ec09f2305b90a558d48556821590e40ee21c03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f80a1c6_eb1aec25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-23T17:33:46Z",
+      "side": 1,
+      "message": "It may depend on machine load.\n\nI was able to recreate the problem once.\n\nBut if this doesn\u0027t help, it doesn\u0027t help.",
+      "parentUuid": "f555d0b7_6c996e6b",
+      "revId": "d0ec09f2305b90a558d48556821590e40ee21c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
