@@ -766,19 +766,11 @@ func TestSelectStackAdjust(t *testing.T) {
 	<-ready2
 	time.Sleep(10 * time.Millisecond)
 
-	// Force concurrent GC a few times.
-	var before, after runtime.MemStats
-	runtime.ReadMemStats(&before)
-	for i := 0; i < 100; i++ {
-		selectSink = new([1 << 20]byte)
-		runtime.ReadMemStats(&after)
-		if after.NumGC-before.NumGC >= 2 {
-			goto done
-		}
-		runtime.Gosched()
-	}
-	t.Fatal("failed to trigger concurrent GC")
-done:
+	// Force concurrent GC to shrink the stacks.
+	runtime.GC()
+
+	// Clear the sink just so it doesn't hang around and use memory
+	// for no reason while running tests.
 	selectSink = nil
 
 	// Wake selects.
