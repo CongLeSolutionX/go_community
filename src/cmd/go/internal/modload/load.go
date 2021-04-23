@@ -1057,7 +1057,11 @@ func (ld *loader) updateRequirements(ctx context.Context, add []module.Version) 
 // resolveMissingImports returns a map from each new module version to
 // the first missing package that module would resolve.
 func (ld *loader) resolveMissingImports(ctx context.Context) (modAddedBy map[module.Version]*loadPkg) {
-	var needPkgs []*loadPkg
+	type pkgMod struct {
+		pkg *loadPkg
+		mod module.Version
+	}
+	var pkgMods []*pkgMod
 	for _, pkg := range ld.pkgs {
 		if pkg.err == nil {
 			continue
@@ -1072,24 +1076,27 @@ func (ld *loader) resolveMissingImports(ctx context.Context) (modAddedBy map[mod
 			continue
 		}
 
-		needPkgs = append(needPkgs, pkg)
-
-		pkg := pkg
+		pm := &pkgMod{pkg: pkg}
+		pkgMods = append(pkgMods, pm)
 		ld.work.Add(func() {
-			pkg.mod, pkg.err = queryImport(ctx, pkg.path, ld.requirements)
+			var err error
+			pm.mod, err = queryImport(ctx, pm.pkg.path, ld.requirements)
+			if err != nil {
+				pm.pkg.err = err
+			}
 		})
 	}
 	<-ld.work.Idle()
 
 	modAddedBy = map[module.Version]*loadPkg{}
-	for _, pkg := range needPkgs {
-		if pkg.err != nil {
+	for _, pm := range pkgMods {
+		if pm.mod.Path == "" {
 			continue
 		}
 
-		fmt.Fprintf(os.Stderr, "go: found %s in %s %s\n", pkg.path, pkg.mod.Path, pkg.mod.Version)
-		if modAddedBy[pkg.mod] == nil {
-			modAddedBy[pkg.mod] = pkg
+		fmt.Fprintf(os.Stderr, "go: found %s in %s %s\n", pm.pkg.path, pm.mod.Path, pm.mod.Version)
+		if modAddedBy[pm.mod] == nil {
+			modAddedBy[pm.mod] = pm.pkg
 		}
 	}
 
