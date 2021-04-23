@@ -5,14 +5,13 @@
 package walk
 
 import (
-	"go/constant"
-
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+	"go/constant"
 )
 
 // walkAssign walks an OAS (AssignExpr) or OASOP (AssignOpExpr) node.
@@ -337,6 +336,9 @@ func ascompatee(op ir.Op, nl, nr []ir.Node) []ir.Node {
 					l = ll.X
 					continue
 				}
+			case *ir.StarExpr:
+				l = ll.X
+				continue
 			}
 			break
 		}
