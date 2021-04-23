@@ -16,6 +16,23 @@
       "message": "Similarly, it might make sense to count the number of new edges in expandsCoverage, and prioritize based on the number of new edges that an input hits?",
       "revId": "75fe81690749d43533996c2c1ee72d0bd16d9f10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a115e96a_df48d818",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-04-23T17:30:53Z",
+      "side": 1,
+      "message": "Similar to my previous comment, I\u0027ve been running with a diff that includes the edge coverage, which has been a slightly stronger indicator of what the fuzzer is finding than \u0027interesting\u0027.\n\nRecording this requires either returning the number of new edges from expandsCoverage, and incrementing a variable on coordinator, or counting non-zero counters in coverageData on each logStats invocation.",
+      "revId": "75fe81690749d43533996c2c1ee72d0bd16d9f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
