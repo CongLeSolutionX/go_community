@@ -53,6 +53,24 @@
       "message": "Currently, when external linking, it seems we always set ctorsSect. Is it going to change?",
       "revId": "a70f2546902f98990ba093e73b8fb1399df3aaf5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd5d4374_a474c706",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-23T20:00:57Z",
+      "side": 1,
+      "message": "I am not sure, but if it does, it seems worth not crashing.\nRight now, it\u0027s kind of odd to me that the C runtime calls _main\n*AND* we put it in the global constructor list.\nI don\u0027t know why we do that, and for a little while for debugging\nI commented out the ctorsSect initialization, and this crashed.\nIt seemed better to be robust.",
+      "parentUuid": "6abae317_07b212f0",
+      "revId": "a70f2546902f98990ba093e73b8fb1399df3aaf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
