@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "128c2254_7a7a2c11",
+        "filename": "misc/cgo/test/issue8148.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-23T20:00:57Z",
+      "side": 1,
+      "message": "Fixed, thanks.",
+      "parentUuid": "787794b4_f5f5d8a6",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "b4e7bc719713f412dc36b269e1ffd55d05ced0f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22d87962_31a7ee79",
@@ -74,6 +98,24 @@
       "writtenOn": "2021-04-20T21:06:29Z",
       "side": 1,
       "message": "Missing copyright header.",
+      "revId": "b4e7bc719713f412dc36b269e1ffd55d05ced0f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa7379a3_6bfcaffd",
+        "filename": "misc/cgo/test/testx.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-04-23T20:00:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22d87962_31a7ee79",
       "revId": "b4e7bc719713f412dc36b269e1ffd55d05ced0f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
