@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3bbf1fc_d1570013",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-24T18:41:37Z",
+      "side": 1,
+      "message": "Please abandon this CL.",
+      "revId": "8ea84fbc838a506bf90910158fd68afd527d05b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "868992f3_c15feb7e",
+        "filename": "src/container/list/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-24T18:41:37Z",
+      "side": 1,
+      "message": "It\u0027s not clear what inserts/deletes means for a slice w/o further specification. For instance, append can be considered an \"insert\" and may in fact be faster for a slice.\n\nThis comment doesn\u0027t make much sense w/o a lot of context and measurements.",
+      "range": {
+        "startLine": 6,
+        "startChar": 42,
+        "endLine": 6,
+        "endChar": 45
+      },
+      "revId": "8ea84fbc838a506bf90910158fd68afd527d05b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
