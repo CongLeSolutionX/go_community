@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2efe6d52_fb9d72dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-24T18:44:30Z",
+      "side": 1,
+      "message": "I\u0027m sorry but I fail how this change makes things much more clear. Note that the signature is explicitly stating that s is a string. While this comment change is not wrong, it doesn\u0027t add anything and thus is a gratuitous change. Please abandon. Thanks.",
+      "revId": "c770f467d55e68e659bda3321bce4cf3f4b74892",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
