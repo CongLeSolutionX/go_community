@@ -2085,10 +2085,29 @@ TypeDef = identifier Type .
 </pre>
 
 <p>
-The new type is called a <i>defined type</i>.
+The new type is a <i>defined type</i>.
 It is <a href="#Type_identity">different</a> from any other type,
 including the type it is created from.
 </p>
+
+<p>
+A type is a defined type if and only if one of the following conditions applies:
+</p>
+
+<ul>
+	<li>
+	The type is created by type definition.
+	</li>
+	<li>
+	The type is the <a href="#Boolean_types">predeclared <code>bool</code> type</a>.
+	</li>
+	<li>
+	The type is a <a href="#Numeric_types">predeclared numeric type</a> such as <code>int</code> or <code>float64</code>.
+	</li>
+	<li>
+	The type is the <a href="#String_types">predeclared <code>string</code> type</a>.
+	</li>
+</ul>
 
 <pre>
 type (
