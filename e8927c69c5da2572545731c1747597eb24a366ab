@@ -16,6 +16,24 @@
       "message": "Thanks but please do not submit spec changes as CLs that have not been thoroughly discussed and agreed upon in a proposal or on the issue tracker. Please abandon this CL.",
       "revId": "e8927c69c5da2572545731c1747597eb24a366ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "773566ca_084adbec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50583
+      },
+      "writtenOn": "2021-04-25T02:47:55Z",
+      "side": 1,
+      "message": "Done. Thank you for the explanation.",
+      "parentUuid": "15e30b0c_56845df2",
+      "revId": "e8927c69c5da2572545731c1747597eb24a366ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
