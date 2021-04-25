@@ -68,6 +68,7 @@
 package flag
 
 import (
+	"encoding"
 	"errors"
 	"fmt"
 	"io"
@@ -278,6 +279,43 @@ func (d *durationValue) Get() any { return time.Duration(*d) }
 
 func (d *durationValue) String() string { return (*time.Duration)(d).String() }
 
+// -- encoding.TextUnmarshaler Value
+type textValue struct{ p encoding.TextUnmarshaler }
+
+func newTextValue(val encoding.TextMarshaler, p encoding.TextUnmarshaler) textValue {
+	ptrVal := reflect.ValueOf(p)
+	if ptrVal.Kind() != reflect.Ptr {
+		panic("variable value type must be a pointer")
+	}
+	defVal := reflect.ValueOf(val)
+	if defVal.Kind() == reflect.Ptr {
+		defVal = defVal.Elem()
+	}
+	if defVal.Type() != ptrVal.Type().Elem() {
+		panic(fmt.Sprintf("default type does not match variable type: %v != %v", defVal.Type(), ptrVal.Type().Elem()))
+	}
+	ptrVal.Elem().Set(defVal)
+	return textValue{p}
+}
+
+func (v textValue) Set(s string) error {
+	return v.p.UnmarshalText([]byte(s))
+}
+
+func (v textValue) Get() interface{} {
+	return v.p
+}
+
+func (v textValue) String() string {
+	if m, ok := v.p.(encoding.TextMarshaler); ok {
+		if b, err := m.MarshalText(); err == nil {
+			return string(b)
+		}
+	}
+	return ""
+}
+
+// -- func Value
 type funcValue func(string) error
 
 func (f funcValue) Set(s string) error { return f(s) }
@@ -836,6 +874,22 @@ func (f *FlagSet) Duration(name string, value time.Duration, usage string) *time
 // The flag accepts a value acceptable to time.ParseDuration.
 func Duration(name string, value time.Duration, usage string) *time.Duration {
 	return CommandLine.Duration(name, value, usage)
+}
+
+// TextVar defines a flag with a specified name, default value, and usage string.
+// The argument p points to a variable in which to store the value of the flag.
+// The flag accepts a value according to encoding.TextUnmarshaler.UnmarshalText.
+// The default value type must be the same as the pointed at variable type.
+func (f *FlagSet) TextVar(p encoding.TextUnmarshaler, name string, value encoding.TextMarshaler, usage string) {
+	f.Var(newTextValue(value, p), name, usage)
+}
+
+// TextVar defines a flag with a specified name, default value, and usage string.
+// The argument p points to a variable in which to store the value of the flag.
+// The flag accepts a value according to encoding.TextUnmarshaler.UnmarshalText.
+// The default value type must be the same as the pointed at variable type.
+func TextVar(p encoding.TextUnmarshaler, name string, value encoding.TextMarshaler, usage string) {
+	CommandLine.Var(newTextValue(value, p), name, usage)
 }
 
 // Func defines a flag with the specified name and usage string.
