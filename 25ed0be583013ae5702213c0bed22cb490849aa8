@@ -107,6 +107,24 @@
       "message": "I find this bug more and more interesting, it seems that runqdrain() overstep the boundary of the local P regardless of the head and tail pointers and put those goroutines into global runq, which will be taken by other P\u0027s and execute them, resulting in the chaotic statuses of goroutines in work.assistQueue.q.",
       "revId": "25ed0be583013ae5702213c0bed22cb490849aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8d6d3c6_7679f2e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-26T05:50:13Z",
+      "side": 1,
+      "message": "Alternatively, atomic.LoadAcq() and atomic.CasRel() somehow didn\u0027t work well on amd64-longest, letting both runqdrain() and runqsteal()/runqgrab() take some mutual goroutines.",
+      "parentUuid": "06975f2f_bdae415f",
+      "revId": "25ed0be583013ae5702213c0bed22cb490849aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
