@@ -78,6 +78,30 @@
       },
       "revId": "6f2bbd4365c56eeb77b1bca0c1069a62ba347a29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17b02a5c_e36693f0",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-04-26T23:17:20Z",
+      "side": 1,
+      "message": "resolved offline.\n\nthe blocks are already accounted for, and there\u0027s no easy way to track the free count of tiny objects. tiny objects are also already a special case in the allocator that\u0027s largely hidden from the rest of the runtime. individual tiny allocations will:\n\n1. never appear in a memory profile\n2. never cause the allocation trace to emit an event\n3. never cause a GC to start\n\ndue to an early return in mallocgc where the allocation gets made. the reason for this is because the tiny allocations *block* already participates in all of these things, and IS visible to the rest of the runtime.",
+      "parentUuid": "d4f97bab_5a559d9d",
+      "range": {
+        "startLine": 80,
+        "startChar": 32,
+        "endLine": 80,
+        "endChar": 40
+      },
+      "revId": "6f2bbd4365c56eeb77b1bca0c1069a62ba347a29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
