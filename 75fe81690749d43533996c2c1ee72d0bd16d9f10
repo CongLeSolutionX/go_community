@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbdefa6b_d26ff853",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-26T14:14:24Z",
+      "side": 1,
+      "message": "Nice idea, indicated that in the TODO.",
+      "parentUuid": "44399be5_a967ac8f",
+      "revId": "75fe81690749d43533996c2c1ee72d0bd16d9f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a115e96a_df48d818",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-23T17:30:53Z",
       "side": 1,
       "message": "Similar to my previous comment, I\u0027ve been running with a diff that includes the edge coverage, which has been a slightly stronger indicator of what the fuzzer is finding than \u0027interesting\u0027.\n\nRecording this requires either returning the number of new edges from expandsCoverage, and incrementing a variable on coordinator, or counting non-zero counters in coverageData on each logStats invocation.",
+      "revId": "75fe81690749d43533996c2c1ee72d0bd16d9f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73586312_dba176e5",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-26T14:14:24Z",
+      "side": 1,
+      "message": "Good idea! Thanks. I think that should be covered by the TODO I added at the beginning of the function, but LMK if you had something else in mind.",
+      "parentUuid": "a115e96a_df48d818",
       "revId": "75fe81690749d43533996c2c1ee72d0bd16d9f10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
