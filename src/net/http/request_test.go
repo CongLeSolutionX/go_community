@@ -245,6 +245,29 @@ func TestParseMultipartForm(t *testing.T) {
 	}
 }
 
+// Issue 45789: multipart form should not include directory path in filename
+func TestParseMultipartFormFilename(t *testing.T) {
+	postData :=
+		`--xxx
+Content-Disposition: form-data; name="file"; filename="../../foobar.txt"
+Content-Type: text/plain
+
+--xxx--
+`
+	req := &Request{
+		Method: "POST",
+		Header: Header{"Content-Type": {`multipart/form-data; boundary=xxx`}},
+		Body:   io.NopCloser(strings.NewReader(postData)),
+	}
+	_, hdr, err := req.FormFile("file")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if hdr.Filename != "foobar.txt" {
+		t.Errorf("expected everything before the last path separator to have been stripped, got %s", hdr.Filename)
+	}
+}
+
 // Issue #40430: Test that if maxMemory for ParseMultipartForm when combined with
 // the payload size and the internal leeway buffer size of 10MiB overflows, that we
 // correctly return an error.

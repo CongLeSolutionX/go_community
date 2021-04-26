@@ -20,6 +20,7 @@ import (
 	"mime"
 	"mime/quotedprintable"
 	"net/textproto"
+	"path/filepath"
 	"strings"
 )
 
@@ -68,12 +69,18 @@ func (p *Part) FormName() string {
 }
 
 // FileName returns the filename parameter of the Part's
-// Content-Disposition header.
+// Content-Disposition header. It strips everything up to the last
+// path separator, in order to comply with RFC 7578, Section 4.2.
 func (p *Part) FileName() string {
 	if p.dispositionParams == nil {
 		p.parseContentDisposition()
 	}
-	return p.dispositionParams["filename"]
+	filename := p.dispositionParams["filename"]
+	sep := string(filepath.Separator)
+	if i := strings.LastIndex(filename, sep); i >= 0 {
+		filename = filename[i+len(sep):]
+	}
+	return filename
 }
 
 func (p *Part) parseContentDisposition() {
