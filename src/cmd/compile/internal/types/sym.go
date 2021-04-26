@@ -32,8 +32,10 @@ type Sym struct {
 	Pkg  *Pkg
 	Name string // object name
 
-	// saved and restored by Pushdcl/Popdcl
-	Def        Object   // definition: ONAME OTYPE OPACK or OLITERAL
+	// Following three fields saved and restored by Pushdcl/Popdcl.
+
+	// the unique ONAME, OTYPE, OPACK, or OLITERAL node associated with this symbol.
+	Def        Object
 	Block      int32    // blocknumber to catch redeclaration
 	Lastlineno src.XPos // last declaration for diagnostic
 
