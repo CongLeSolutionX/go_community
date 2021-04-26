@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f3b22e1_6c171c72",
+        "filename": "src/net/http/internal/ascii/print.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-26T23:02:33Z",
+      "side": 1,
+      "message": "New file needs copyright header.",
+      "revId": "2b2b084997668c2a598829c80fae54f7936e66ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48a4baf6_0a91e790",
+        "filename": "src/net/http/internal/ascii/print_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-26T23:02:33Z",
+      "side": 1,
+      "message": "Copyright header.",
+      "revId": "2b2b084997668c2a598829c80fae54f7936e66ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
