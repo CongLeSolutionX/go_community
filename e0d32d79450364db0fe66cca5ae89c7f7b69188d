@@ -52,6 +52,24 @@
       "parentUuid": "7199fe67_67598879",
       "revId": "e0d32d79450364db0fe66cca5ae89c7f7b69188d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9387547_b21b1558",
+        "filename": "src/net/http/internal/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-04-26T09:18:12Z",
+      "side": 1,
+      "message": "I moved it to a separate package.",
+      "parentUuid": "6d32a880_ac33a002",
+      "revId": "e0d32d79450364db0fe66cca5ae89c7f7b69188d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
