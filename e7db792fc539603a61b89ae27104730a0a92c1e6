@@ -22,6 +22,30 @@
       },
       "revId": "e7db792fc539603a61b89ae27104730a0a92c1e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "593bd9ef_ef4768ec",
+        "filename": "src/syscall/zsyscall_openbsd_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-26T15:52:28Z",
+      "side": 0,
+      "message": "Thise linknames are no-op. If there were a Go function in this file named libc_getgroups, it applies to it. But there isn\u0027t. If I rerun the generator without  any of my change those should go. It\u0027s just that this file was not regenerated when the generator was updated.",
+      "parentUuid": "8b0c7e0f_f0018a73",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 43
+      },
+      "revId": "e7db792fc539603a61b89ae27104730a0a92c1e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
