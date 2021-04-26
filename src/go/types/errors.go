@@ -28,13 +28,45 @@ func unreachable() {
 func (check *Checker) qualifier(pkg *Package) string {
 	// Qualify the package unless it's the package being type-checked.
 	if pkg != check.pkg {
+		if check.pkgPathMap == nil {
+			check.pkgPathMap = make(map[string]map[string]struct{})
+			markImports(pkg, check.pkgPathMap, nil)
+		}
 		// If the same package name was used by multiple packages, display the full path.
-		if check.pkgCnt[pkg.name] > 1 {
+		if len(check.pkgPathMap[pkg.name]) > 1 {
 			return strconv.Quote(pkg.path)
 		}
 		return pkg.name
 	}
 	return ""
+}
+
+// markImports recursively walks pkg and its imports, to record unique import
+// paths in pkgPathMap.
+//
+// seen tracks Packages that have already been considered, to guard against
+// infinite recursion. It may be nil.
+func markImports(pkg *Package, pkgPathMap map[string]map[string]struct{}, seen map[*Package]struct{}) {
+	if seen == nil {
+		seen = make(map[*Package]struct{})
+	}
+	if _, ok := seen[pkg]; ok {
+		return
+	}
+	markImport(pkg, pkgPathMap)
+	seen[pkg] = struct{}{}
+	for _, imp := range pkg.imports {
+		markImports(imp, pkgPathMap, seen)
+	}
+}
+
+func markImport(pkg *Package, importSet map[string]map[string]struct{}) {
+	forName, ok := importSet[pkg.name]
+	if !ok {
+		forName = make(map[string]struct{})
+		importSet[pkg.name] = forName
+	}
+	forName[pkg.path] = struct{}{}
 }
 
 func (check *Checker) sprintf(format string, args ...interface{}) string {
