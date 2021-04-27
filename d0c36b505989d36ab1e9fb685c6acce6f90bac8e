@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "613a3d4b_9765134e",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T01:30:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b104baea_d9afd2d0",
+      "range": {
+        "startLine": 99,
+        "startChar": 31,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "d0c36b505989d36ab1e9fb685c6acce6f90bac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470416b5_c20c7de3",
@@ -91,6 +115,30 @@
       "writtenOn": "2021-04-27T01:11:04Z",
       "side": 1,
       "message": "Same here (see comment below): Just make it a map of bool?\n\nFurthermore: How big do these secondary maps get? Wouldn\u0027t list that we search sequentially be enough? So: map[string][]string ? (I don\u0027t know.)",
+      "range": {
+        "startLine": 102,
+        "startChar": 33,
+        "endLine": 102,
+        "endChar": 34
+      },
+      "revId": "d0c36b505989d36ab1e9fb685c6acce6f90bac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0062702_f7e6a53e",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T01:30:38Z",
+      "side": 1,
+      "message": "They should be very small, but a map is actually easier to work with. Hopefully the performance doesn\u0027t matter either way.",
+      "parentUuid": "470416b5_c20c7de3",
       "range": {
         "startLine": 102,
         "startChar": 33,
@@ -118,6 +166,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c0b39f2_91cf2a96",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T01:30:38Z",
+      "side": 1,
+      "message": "I usually use map[string]bool when I care about existence, and a map[string]struct{} when I care about uniqueness (because I\u0027m calling len or iterating). An old habit.\n\nIn this case, we have one of each: seenPkgMap is for checking existence, and pkgPathMap is for checking uniqueness. It looked weird to use different idioms side by side. Switched them all to map[*]bool, which I agree is generally more readable.",
+      "parentUuid": "3899c16c_30512d24",
+      "revId": "d0c36b505989d36ab1e9fb685c6acce6f90bac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cb5d413_0751e297",
@@ -131,6 +197,30 @@
       "writtenOn": "2021-04-27T01:11:04Z",
       "side": 1,
       "message": "I don\u0027t think we need these asserts. If these maps are nil, we\u0027ll get a panic as soon as we assign to them in this function.\n\nLeaving up to you to decide.",
+      "range": {
+        "startLine": 48,
+        "startChar": 14,
+        "endLine": 48,
+        "endChar": 24
+      },
+      "revId": "d0c36b505989d36ab1e9fb685c6acce6f90bac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d90763ba_f9af64a9",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T01:30:38Z",
+      "side": 1,
+      "message": "Yeah, removed.",
+      "parentUuid": "0cb5d413_0751e297",
       "range": {
         "startLine": 48,
         "startChar": 14,
@@ -164,6 +254,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "737747b6_69e1bbb1",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T01:30:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e019baa_383156a7",
+      "range": {
+        "startLine": 51,
+        "startChar": 19,
+        "endLine": 51,
+        "endChar": 29
+      },
+      "revId": "d0c36b505989d36ab1e9fb685c6acce6f90bac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc4c23a7_a68105e7",
@@ -177,6 +291,30 @@
       "writtenOn": "2021-04-27T01:11:04Z",
       "side": 1,
       "message": "It might be helpful to have a brief comment explaining what you\u0027re trying to test.\nSomething like:\n\n// All involved packages have the same name (template). Error messages should\n// disambiguate between text/template and html/template by printing the full path.",
+      "range": {
+        "startLine": 582,
+        "startChar": 5,
+        "endLine": 582,
+        "endChar": 6
+      },
+      "revId": "d0c36b505989d36ab1e9fb685c6acce6f90bac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb8cd01_344b1d9e",
+        "filename": "src/go/types/issues_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T01:30:38Z",
+      "side": 1,
+      "message": "Done. Took your explanation, thanks.",
+      "parentUuid": "bc4c23a7_a68105e7",
       "range": {
         "startLine": 582,
         "startChar": 5,
