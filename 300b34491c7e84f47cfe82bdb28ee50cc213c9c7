@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e22965b2_35913c4c",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T17:05:51Z",
+      "side": 0,
+      "message": "Ack. These functions are no longer deleted.",
+      "parentUuid": "6e68cd55_992f110d",
+      "range": {
+        "startLine": 343,
+        "startChar": 61,
+        "endLine": 343,
+        "endChar": 63
+      },
+      "revId": "300b34491c7e84f47cfe82bdb28ee50cc213c9c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9db5f86_70776c45",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-08T22:06:07Z",
       "side": 0,
       "message": "ditto",
+      "range": {
+        "startLine": 347,
+        "startChar": 31,
+        "endLine": 347,
+        "endChar": 35
+      },
+      "revId": "300b34491c7e84f47cfe82bdb28ee50cc213c9c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a99bc25_1b1bd413",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T17:05:51Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "f9db5f86_70776c45",
       "range": {
         "startLine": 347,
         "startChar": 31,
