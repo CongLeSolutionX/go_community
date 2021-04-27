@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ba6e2aa_998ec517",
+        "filename": "test/typeparam/stringerimp.dir/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-27T05:58:00Z",
+      "side": 1,
+      "message": "I\u0027d recommend testing that at least two different OXDOT expansions work. E.g., []*myint, []struct{ myint }, and []a.Stringer would be good candidates.",
+      "revId": "46f242450663ba33a0b9012408ba4a394de30ce9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
