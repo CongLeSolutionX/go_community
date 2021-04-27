@@ -5,6 +5,7 @@
 package ssa
 
 import (
+	"cmd/compile/internal/abi"
 	"cmd/compile/internal/ir"
 	"cmd/internal/dwarf"
 	"cmd/internal/obj"
@@ -1185,4 +1186,221 @@ func readPtr(ctxt *obj.Link, buf []byte) uint64 {
 		panic("unexpected pointer size")
 	}
 
+}
+
+// setupLocList creates the initial portion of a location list for a
+// user variable. It emits the encoded start/end of the range and a
+// placeholder for the size. Return value is the new list plus the
+// slot in the list holding the size (to be updated later).
+func setupLocList(ctxt *obj.Link, f *Func, list []byte, st, en ID) ([]byte, int) {
+	start, startOK := encodeValue(ctxt, f.Entry.ID, st)
+	end, endOK := encodeValue(ctxt, f.Entry.ID, en)
+	if !startOK || !endOK {
+		// This could happen if someone writes a function that uses
+		// >65K values on a 32-bit platform. Hopefully a degraded debugging
+		// experience is ok in that case.
+		return nil, 0
+	}
+	list = appendPtr(ctxt, list, start)
+	list = appendPtr(ctxt, list, end)
+
+	// Where to write the length of the location description once
+	// we know how big it is.
+	sizeIdx := len(list)
+	list = list[:len(list)+2]
+	return list, sizeIdx
+}
+
+// locatePrologEnd walks the entry block of a function with incoming
+// register arguments and locates the last instruction in the prolog
+// that spills a register arg. It returns the ID of that instruction
+// Example:
+//
+//   b1:
+//       v3 = ArgIntReg <int> {p1+0} [0] : AX
+//       ... more arg regs ..
+//       v4 = ArgFloatReg <float32> {f1+0} [0] : X0
+//       v52 = MOVQstore <mem> {p1} v2 v3 v1
+//       ... more stores ...
+//       v68 = MOVSSstore <mem> {f4} v2 v67 v66
+//       v38 = MOVQstoreconst <mem> {blob} [val=0,off=0] v2 v32
+//
+// Important: locatePrologEnd is expected to work properly only with
+// optimization turned off (e.g. "-N"). If optimization is enabled
+// we can't be assured of finding all input arguments spilled in the
+// entry block prolog.
+func locatePrologEnd(f *Func) ID {
+	regarg := make(map[ID]*Value)
+
+	// Make a record of all the OpArgIntReg/OpArgFloatReg values in
+	// the entry block.
+	for _, v := range f.Entry.Values {
+		if v.Op == OpArgIntReg || v.Op == OpArgFloatReg {
+			regarg[v.ID] = v
+		}
+	}
+
+	// returns true if this instruction looks like it moves an ABI
+	// register to memory
+	isRegMoveLike := func(v *Value) bool {
+		regInputs := 0
+		memInputs := 0
+		nonRegNonMemInputs := 0
+		for _, a := range v.Args {
+			if _, ok := regarg[a.ID]; ok {
+				regInputs++
+			} else if a.Type.IsMemory() {
+				memInputs++
+			} else {
+				nonRegNonMemInputs++
+			}
+		}
+		return v.Type.IsMemory() && regInputs == 1 && nonRegNonMemInputs == 1
+	}
+
+	// Now walk backwards through the block, looking for the
+	// first instruction we encounter that uses one of the reg arg
+	// values. This should correspond to the last of the instructions
+	// that spill the incoming registers.
+	afterPrologVal := ID(-1)
+	for k := len(f.Entry.Values); k != 0; k-- {
+		v := f.Entry.Values[k-1]
+		if isRegMoveLike(v) {
+			// Found our candidate. Note that if there is a single
+			// register input, it could be that the spill of the reg
+			// is the last instruction in the entry block. If so, then
+			// return the spill itself.
+			if afterPrologVal == ID(-1) {
+				return v.ID
+			}
+			return afterPrologVal
+		}
+		if v.Op == OpArgIntReg || v.Op == OpArgFloatReg {
+			// if we hit these, we've gone far enough
+			return afterPrologVal
+		}
+		afterPrologVal = v.ID
+	}
+	// nothing found
+	return ID(-1)
+}
+
+// isNamedRegParam returns true if the param corresponding to "p"
+// is a named, non-blank input parameter assigned to one or more
+// registers.
+func isNamedRegParam(p abi.ABIParamAssignment) bool {
+	if p.Name == nil {
+		return false
+	}
+	n := p.Name.(*ir.Name)
+	if n.Sym() == nil || n.Sym().IsBlank() {
+		return false
+	}
+	if len(p.Registers) == 0 {
+		return false
+	}
+	return true
+}
+
+// BuildFuncDebugNoOptimized constructs a FuncDebug object with
+// entries corresponding to the register-resident input parameters for
+// the function "f"; it is used when we are compiling without
+// optimization but the register ABI is enabled. For each reg param,
+// it constructs a 2-element location list: the first element holds
+// the input register, and the second element holds the stack location
+// of the param (the assumption being that when optimization is off,
+// each input param reg will be spilled in the prolog.
+func BuildFuncDebugNoOptimized(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset func(LocalSlot) int32) *FuncDebug {
+	fd := FuncDebug{}
+
+	pri := f.ABISelf.ABIAnalyzeFuncType(f.Type.FuncType())
+
+	// Look to see if we have any named register-promoted parameters.
+	// If there are none, bail early and let the caller sort things
+	// out for the remainder of the params/locals.
+	numRegParams := 0
+	for _, inp := range pri.InParams() {
+		if isNamedRegParam(inp) {
+			numRegParams++
+		}
+	}
+	if numRegParams == 0 {
+		return &fd
+	}
+
+	// Allocate location lists.
+	fd.LocationLists = make([][]byte, numRegParams)
+
+	// Locate the value corresponding to the last spill of
+	// an input register.
+	afterPrologVal := locatePrologEnd(f)
+	if afterPrologVal == ID(-1) {
+		panic(fmt.Sprintf("internal error: f=%s: can't locate after prolog value", f.Name))
+	}
+
+	// Walk the input params again and process the register-resident elements.
+	pidx := 0
+	for _, inp := range pri.InParams() {
+		if !isNamedRegParam(inp) {
+			// will be sorted out elsewhere
+			continue
+		}
+
+		n := inp.Name.(*ir.Name)
+		off := inp.FrameOffset(pri)
+		sl := LocalSlot{N: n, Type: inp.Type, Off: off}
+		fd.Vars = append(fd.Vars, n)
+		fd.Slots = append(fd.Slots, sl)
+		slid := len(fd.VarSlots)
+		fd.VarSlots = append(fd.VarSlots, []SlotID{SlotID(slid)})
+
+		// Param is arriving in one or more registers. We need a 2-element
+		// location expression for it. First entry in location list
+		// will correspond to lifetime in input registers.
+		list, sizeIdx := setupLocList(ctxt, f, fd.LocationLists[pidx],
+			BlockStart.ID, afterPrologVal)
+		if list == nil {
+			pidx++
+			continue
+		}
+		for _, r := range inp.Registers {
+			reg := ObjRegForAbiReg(r, f.Config)
+			dwreg := ctxt.Arch.DWARFRegisters[reg]
+			if dwreg < 32 {
+				list = append(list, dwarf.DW_OP_reg0+byte(dwreg))
+			} else {
+				list = append(list, dwarf.DW_OP_regx)
+				list = dwarf.AppendUleb128(list, uint64(dwreg))
+			}
+			if len(inp.Registers) > 1 {
+				list = append(list, dwarf.DW_OP_piece)
+				ts := inp.Type.Size()
+				list = dwarf.AppendUleb128(list, uint64(ts))
+			}
+		}
+		// fill in length of location expression element
+		ctxt.Arch.ByteOrder.PutUint16(list[sizeIdx:], uint16(len(list)-sizeIdx-2))
+
+		// Second entry in the location list will be the stack home
+		// of the param, once it has been spilled.  Emit that now.
+		list, sizeIdx = setupLocList(ctxt, f, list,
+			afterPrologVal, BlockEnd.ID)
+		if list == nil {
+			pidx++
+			continue
+		}
+		soff := StackOffset(stackOffset(sl))
+		if soff == 0 {
+			list = append(list, dwarf.DW_OP_call_frame_cfa)
+		} else {
+			list = append(list, dwarf.DW_OP_fbreg)
+			list = dwarf.AppendSleb128(list, int64(soff.stackOffsetValue()))
+		}
+		// fill in size
+		ctxt.Arch.ByteOrder.PutUint16(list[sizeIdx:], uint16(len(list)-sizeIdx-2))
+
+		fd.LocationLists[pidx] = list
+		pidx++
+	}
+	return &fd
 }

@@ -121,6 +121,7 @@ type CmdFlags struct {
 	TraceProfile       string       "help:\"write an execution trace to `file`\""
 	TrimPath           string       "help:\"remove `prefix` from recorded source file paths\""
 	WB                 bool         "help:\"enable write barrier\"" // TODO: remove
+	NewMinusNDebug     bool         "help:\"new varloc debug gen for -N\""
 
 	// Configuration derived from flags; not a flag itself.
 	Cfg struct {
@@ -160,6 +161,7 @@ func ParseFlags() {
 	Flag.Shared = &Ctxt.Flag_shared
 	Flag.WB = true
 	Debug.InlFuncsWithClosures = 1
+	Flag.NewMinusNDebug = true
 
 	Debug.Checkptr = -1 // so we can tell whether it is set explicitly
 
