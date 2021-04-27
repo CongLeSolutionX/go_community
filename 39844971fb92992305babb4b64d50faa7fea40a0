@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "697dc43e_29ddbcf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-27T19:21:42Z",
+      "side": 1,
+      "message": "See https://go-review.googlesource.com/c/go/+/314409 for my port which also provides better error messages instead of going to the catch-all case.",
+      "revId": "39844971fb92992305babb4b64d50faa7fea40a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "820459b6_1e75fa62",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-27T19:21:42Z",
+      "side": 1,
+      "message": "Should probably check for ListExpr here as well (and ignore). I don\u0027t see at the moment if this can ever happen but it\u0027s certainly ok to be conservative.",
+      "revId": "39844971fb92992305babb4b64d50faa7fea40a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
