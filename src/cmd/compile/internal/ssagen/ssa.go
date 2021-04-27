@@ -400,7 +400,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	name := ir.FuncName(fn)
 	printssa := false
 	if ssaDump != "" { // match either a simple name e.g. "(*Reader).Reset", package.name e.g. "compress/gzip.(*Reader).Reset", or subpackage name "gzip.(*Reader).Reset"
-		pkgDotName := base.Ctxt.Pkgpath+"."+name
+		pkgDotName := base.Ctxt.Pkgpath + "." + name
 		printssa = name == ssaDump ||
 			strings.HasSuffix(pkgDotName, ssaDump) && (pkgDotName == ssaDump || strings.HasSuffix(pkgDotName, "/"+ssaDump))
 	}
@@ -6961,7 +6961,12 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 	}
 
 	if base.Ctxt.Flag_locationlists {
-		debugInfo := ssa.BuildFuncDebug(base.Ctxt, f, base.Debug.LocationLists > 1, StackOffset)
+		var debugInfo *ssa.FuncDebug
+		if e.curfn.ABI == obj.ABIInternal && base.Flag.N != 0 {
+			debugInfo = ssa.BuildFuncDebugNoOptimized(base.Ctxt, f, base.Debug.LocationLists > 1, StackOffset)
+		} else {
+			debugInfo = ssa.BuildFuncDebug(base.Ctxt, f, base.Debug.LocationLists > 1, StackOffset)
+		}
 		e.curfn.DebugInfo = debugInfo
 		bstart := s.bstart
 		// Note that at this moment, Prog.Pc is a sequence number; it's
