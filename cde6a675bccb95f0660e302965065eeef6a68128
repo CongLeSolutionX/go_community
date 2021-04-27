@@ -16,6 +16,24 @@
       "message": "You might be able to go even faster here by building a table of map[byte]bool with the valid entries and then indexing into it, instead of needing to do a bunch of if checks.",
       "revId": "cde6a675bccb95f0660e302965065eeef6a68128",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e800b2e9_7d6a9fad",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-27T21:31:08Z",
+      "side": 1,
+      "message": "Certainly possible. Feel free to try it using the existing benchmarks to see if it makes a meaningful difference. A [256]bool is another option.",
+      "parentUuid": "90413bf8_c8f8120f",
+      "revId": "cde6a675bccb95f0660e302965065eeef6a68128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
