@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90413bf8_c8f8120f",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-04-27T21:06:40Z",
+      "side": 1,
+      "message": "You might be able to go even faster here by building a table of map[byte]bool with the valid entries and then indexing into it, instead of needing to do a bunch of if checks.",
+      "revId": "cde6a675bccb95f0660e302965065eeef6a68128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
