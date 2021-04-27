@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d7762a_5d7c3cbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 47743
+      },
+      "writtenOn": "2021-04-27T16:42:33Z",
+      "side": 1,
+      "message": "This patch was reverted: https://go-review.googlesource.com/c/go/+/313630\nOriginal CL: https://go-review.googlesource.com/c/go/+/303949\n\nShort: after this patch some 32-bit platforms are failed.\nIf this patch apply to 1.16 revision, it will works without problems. So, I check using bisect to find commit that conflict with my patch. It\u0027s https://go-review.googlesource.com/c/go/+/271537 CL. But looks like it just add pool to splice.\n\nI continued to investigate the problem and find root cause: func (ord *randomOrder) reset(count uint32)\n\nIt fixes by adding explicit initialization of coprime array. It looks strange because other platforms didn\u0027t affected by this bug, except 32-bits platforms. And runtime/proc.go has the same method and it works well.\n\n\n",
+      "revId": "c377efca41af985227a32ae5cfb3e461b542be56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
