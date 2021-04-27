@@ -53,6 +53,24 @@
       "message": "Can we just add:\n\n    if n.X.Type() \u003d\u003d nil || n.Y.Type() \u003d\u003d nil {\n        n.SetType(nil)\n        return n\n    }\n\nafter this? I think that\u0027s a little more consistent with how we usually handle errors in binary operators.",
       "revId": "055c8b2116ac867315b6691242722f7476932e75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17f9ee80_df6a7574",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-27T19:58:44Z",
+      "side": 1,
+      "message": "Sure, it\u0027s better, and much more readable.",
+      "parentUuid": "f2b1d385_50ecc569",
+      "revId": "055c8b2116ac867315b6691242722f7476932e75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
