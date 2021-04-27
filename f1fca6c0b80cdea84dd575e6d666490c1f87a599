@@ -214,6 +214,24 @@
       "parentUuid": "cf997747_a4f9bdde",
       "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59858a6f_536a83d5",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 51768
+      },
+      "writtenOn": "2021-04-27T10:09:28Z",
+      "side": 1,
+      "message": "The new patch has the flag renamed from \"-l\" to \"-relro\u003d{true,false}\". If we want more granularity we could implement \"-relro\u003d{off,partial,full}\" as for example rust does.",
+      "parentUuid": "2547aa26_8f0a8ec8",
+      "revId": "f1fca6c0b80cdea84dd575e6d666490c1f87a599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
