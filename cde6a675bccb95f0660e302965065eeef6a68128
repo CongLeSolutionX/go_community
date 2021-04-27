@@ -34,6 +34,24 @@
       "parentUuid": "90413bf8_c8f8120f",
       "revId": "cde6a675bccb95f0660e302965065eeef6a68128",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b0d36d0_100ab574",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-27T21:35:01Z",
+      "side": 1,
+      "message": "I\u0027d be very surprised if using a table were faster. Running a bunch of code that\u0027s in icache ought to be faster than a memory access in 2021. Note that the first 2 checks (\u0027a\u0027 \u003c\u003d b \u0026\u0026 b \u003c\u003d \u0027z\u0027) are almost always going to hit.",
+      "parentUuid": "e800b2e9_7d6a9fad",
+      "revId": "cde6a675bccb95f0660e302965065eeef6a68128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
