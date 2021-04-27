@@ -87,6 +87,24 @@
       "parentUuid": "68c3b180_ad41299a",
       "revId": "3e5be13f0ea311ff2116319044249e84b20aa871",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1e6e4e0_7fe9686c",
+        "filename": "src/cmd/go/testdata/script/generate_removed.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-27T20:20:56Z",
+      "side": 1,
+      "message": "\u003e OK. I’ll add go install rm.go like other testscripts do for env and echo commands.\n\nCompiling and linking an `rm` binary would make the test a lot slower in the common case where `rm` is already present.\nMaybe split the difference?\n\n[!exec:rm] go install rm.go\n\n\n\u003e Out of curiosity, which platforms don’t provide an `rm` binary?\n\nI believe that Windows does not have an `rm` binary. (IIRC, PowerShell provides an `rm` command, but not as a standalone executable.)",
+      "parentUuid": "974f9712_85e1933e",
+      "revId": "3e5be13f0ea311ff2116319044249e84b20aa871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
