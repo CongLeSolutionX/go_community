@@ -599,13 +599,13 @@ func typecheck1(n ir.Node, top int) ir.Node {
 		// For "x == x && len(s)", it's better to report that "len(s)" (type int)
 		// can't be used with "&&" than to report that "x == x" (type untyped bool)
 		// can't be converted to int (see issue #41500).
-		if !n.X.Type().IsBoolean() {
-			base.Errorf("invalid operation: %v (operator %v not defined on %s)", n, n.Op(), typekind(n.X.Type()))
+		if t := n.X.Type(); t != nil && !t.IsBoolean() {
+			base.Errorf("invalid operation: %v (operator %v not defined on %s)", n, n.Op(), typekind(t))
 			n.SetType(nil)
 			return n
 		}
-		if !n.Y.Type().IsBoolean() {
-			base.Errorf("invalid operation: %v (operator %v not defined on %s)", n, n.Op(), typekind(n.Y.Type()))
+		if t := n.Y.Type(); t != nil && !t.IsBoolean() {
+			base.Errorf("invalid operation: %v (operator %v not defined on %s)", n, n.Op(), typekind(t))
 			n.SetType(nil)
 			return n
 		}
