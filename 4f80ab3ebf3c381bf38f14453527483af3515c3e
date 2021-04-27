@@ -70,6 +70,24 @@
       "message": "Might be worth also testing a length of 1\u003c\u003c60 and a base type of uint64, just to test that the multiply overflow detection works.",
       "revId": "4f80ab3ebf3c381bf38f14453527483af3515c3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc0d0d11_dec47ea6",
+        "filename": "test/unsafebuiltins.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-27T20:24:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ade15f5_ff2b1815",
+      "revId": "4f80ab3ebf3c381bf38f14453527483af3515c3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
