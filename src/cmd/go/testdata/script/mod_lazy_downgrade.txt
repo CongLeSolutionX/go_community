@@ -1,5 +1,5 @@
 # This test illustrates the interaction between lazy loading and downgrading in
-# 'go get.
+# 'go get'.
 
 # The package import graph used in this test looks like:
 #
