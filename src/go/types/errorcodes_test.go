@@ -5,17 +5,27 @@
 package types_test
 
 import (
+	"bufio"
+	"flag"
 	"fmt"
 	"go/ast"
 	"go/constant"
 	"go/importer"
 	"go/parser"
 	"go/token"
+	"os"
+	"path/filepath"
 	"reflect"
+	"sort"
+	"strconv"
 	"strings"
 	"testing"
 
 	. "go/types"
+)
+
+var (
+	ecodeOut = flag.String("ecode_out", "", "output error code data to this file in TestWriteErrorCodes")
 )
 
 func TestErrorCodeExamples(t *testing.T) {
@@ -41,7 +51,7 @@ func TestErrorCodeExamples(t *testing.T) {
 	})
 }
 
-func walkCodes(t *testing.T, f func(string, int, *ast.ValueSpec)) {
+func walkCodes(t *testing.T, f func(name string, value int, spec *ast.ValueSpec)) {
 	t.Helper()
 	fset := token.NewFileSet()
 	files, err := pkgFiles(fset, ".", parser.ParseComments) // from self_test.go
@@ -194,4 +204,137 @@ func TestErrorCodeStyle(t *testing.T) {
 		fmt.Printf("average length: %.2f chars\n", avg)
 		fmt.Printf("max length: %d (%s)\n", len(longestName), longestName)
 	}
+}
+
+type codeData struct {
+	name  string
+	value int
+}
+
+func TestWriteErrorCodes(t *testing.T) {
+	if *ecodeOut == "" {
+		t.Skip("no output specified")
+	}
+
+	var codes []codeData
+	walkCodes(t, func(name string, value int, _ *ast.ValueSpec) {
+		if name == "_" {
+			return
+		}
+		codes = append(codes, codeData{name, value})
+	})
+	sort.Slice(codes, func(i, j int) bool {
+		return codes[i].value < codes[j].value
+	})
+
+	f, err := os.Create(*ecodeOut)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+
+	for _, code := range codes {
+		fmt.Fprintf(f, "%s %d\n", code.name, code.value)
+	}
+}
+
+func TestErrorCodeChanges(t *testing.T) {
+	// Build maps to associate error code name<->value, and use these to try to
+	// guess what happened with a given code from older versions of Go.
+	//
+	// There are three possibilities that we try to differentiate, in order to
+	// make it clearer what the corrective action should be.
+	//  1. The code value changed.
+	//  2. The code name changed.
+	//  3. The code was renamed.
+	//
+	// Of these, 1 is almost certainly an error: if the same constant name means
+	// something different, in a later version of go/types, it is likely that
+	// code values were accidentally altered.
+	//
+	// 2 and 3 are OK, but if too many codes fall into this category it might be
+	// that the entire naming schema has changed, and this test is of little
+	// value. Try to detect if this has happened by looking for a minimum number
+	// of matches.
+	//
+	// TODO(rFindley) replace this quick and dirty check with a more formal
+	// generation of code values, once we decide where codes should live.
+	current := make(map[string]int)
+	currentInv := make(map[int]string)
+	walkCodes(t, func(name string, value int, _ *ast.ValueSpec) {
+		if name == "_" {
+			return
+		}
+		current[name] = value
+		if _, ok := currentInv[value]; ok {
+			t.Fatalf("duplicate error code value %d", value)
+		}
+		currentInv[value] = name
+	})
+	dir := filepath.Join("testdata", "codes")
+	fis, err := os.ReadDir(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Sanity check: we should at least match _some_ error code names, else the
+	// entire naming schema may have changed, and test data should be updated
+	// accordingly.
+	matched := 0
+	const wantMatched = 100
+
+	for _, fi := range fis {
+		t.Run(fi.Name(), func(t *testing.T) {
+			path := filepath.Join(dir, fi.Name())
+			found := readCodeData(t, path)
+			for _, old := range found {
+				if curval, ok := current[old.name]; ok {
+					if old.value == curval {
+						matched++
+					} else {
+						t.Errorf("%s: value changed from %d to %d", old.name, old.value, curval)
+					}
+					continue
+				}
+				if curname, ok := currentInv[old.value]; ok {
+					t.Logf("%s (#%d): name changed to %s", old.name, old.value, curname)
+					continue
+				}
+				t.Logf("%s (#%d) was removed", old.name, old.value)
+			}
+		})
+	}
+	if matched < wantMatched {
+		t.Errorf("only matched %d error codes, want at least %d. Did the naming convention change?", matched, wantMatched)
+	}
+}
+
+// readCodeData loads code names and values that were written to a data file
+// using TestWriteErrorCodes.
+func readCodeData(t *testing.T, path string) []codeData {
+	t.Helper()
+
+	f, err := os.Open(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+
+	var codes []codeData
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		fields := strings.Fields(scanner.Text())
+		if len(fields) != 2 {
+			t.Fatalf("malformed error code data: %q", scanner.Text())
+		}
+		val, err := strconv.Atoi(fields[1])
+		if err != nil {
+			t.Fatalf("bad error code value: %q", fields[1])
+		}
+		codes = append(codes, codeData{fields[0], val})
+	}
+	if err := scanner.Err(); err != nil {
+		t.Fatal(err)
+	}
+	return codes
 }
