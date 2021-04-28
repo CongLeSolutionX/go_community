@@ -16,6 +16,24 @@
       "message": "This test is consistently failing on the linux-amd64-noopt builder.\n(Filed as #45824.)",
       "revId": "92d1afe9890056808ed074e28f0c26380c7e4141",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f245eb4b_7910d686",
+        "filename": "test/fuse.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-28T15:25:49Z",
+      "side": 1,
+      "message": "CL https://go-review.googlesource.com/c/go/+/314632 should fix it.",
+      "parentUuid": "4dda5b63_1464f63d",
+      "revId": "92d1afe9890056808ed074e28f0c26380c7e4141",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
