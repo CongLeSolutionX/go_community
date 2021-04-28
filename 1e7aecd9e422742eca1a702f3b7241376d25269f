@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb7ef55_b16d366c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-28T06:19:25Z",
+      "side": 1,
+      "message": "As you can see, I\u0027ve tried everything in a desperate situation and still failed to track down this very very bizarre root cause.\n\nLet\u0027s just go to the simpler way: drain the P by repeating runqget() and put goroutines into a temporary gQueue, finally put them into global run queue by globrunqputbatch() as a batch.\n\nPlease shoot a new TryBot to see how it goes under amd64-longtest, I wonder if the globrunqputbatch() is bothering us here.",
+      "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
