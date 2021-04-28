@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b933039c_1a8d45a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-04-28T12:37:11Z",
+      "side": 1,
+      "message": "I also took a look at the state of delve on go 1.17 last week. I have annotated failing tests with the cause and fixed some. You can look at my annotations here:\n\nhttps://github.com/go-delve/delve/pull/2451",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db338651_b0b933e9",
