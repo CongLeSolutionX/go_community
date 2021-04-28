@@ -16,6 +16,24 @@
       "message": "As you can see, I\u0027ve tried everything in a desperate situation and still failed to track down this very very bizarre root cause.\n\nLet\u0027s just go to the simpler way: drain the P by repeating runqget() and put goroutines into a temporary gQueue, finally put them into global run queue by globrunqputbatch() as a batch.\n\nPlease shoot a new TryBot to see how it goes under amd64-longtest, I wonder if the globrunqputbatch() is bothering us here.",
       "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efea9401_489ded91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-28T15:55:57Z",
+      "side": 1,
+      "message": "I just want to say that for concurrency problems in this code it\u0027s really essential to fully understand what is going on.  \"Trying everything\" is not an appropriate approach.  Doing that makes it easy to introduce a problem that only occurs 1% of the time or less, leading to flakiness.  Flakiness is actually worse than a problem that occurs frequently, because it makes people uncertain and unwilling to risk the new release.",
+      "parentUuid": "ecb7ef55_b16d366c",
+      "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
