@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a7be07_a63ba67d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T15:49:15Z",
+      "side": 1,
+      "message": "Yeah, I don\u0027t think the code in checkargorder.go is correct for multi-piece registerized params. Consider a function with a string parameter. The peices we get from with my patch are\n\n[{Size:8 Addr:0 RegNum:8 IsRegister:true} {Size:8 Addr:0 RegNum:9 IsRegister:true}]\n\nThe loop at line 322 is not going to touch this since Addr is zero for each piece. So when we return we still have a 2-element slice, meaning that it will trigger the \"too many pieces\" error. \n\nLet me know if I am misreading the code David, thanks.",
+      "parentUuid": "354d923f_efebd6cb",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efe07240_0e8b8aab",
@@ -484,6 +502,24 @@
       "writtenOn": "2021-04-28T13:12:11Z",
       "side": 1,
       "message": "This does not look correct. I think I have some more work to do here, stay tuned.",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff0fc0ca_74cd95a8",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T15:49:15Z",
+      "side": 1,
+      "message": "OK, I have a fix for this, will upload shortly.",
+      "parentUuid": "c8edf2b2_5249374a",
       "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
