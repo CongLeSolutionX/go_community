@@ -328,6 +328,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc264cc3_4f203487",
+        "filename": "src/cmd/go/testdata/script/test_shuffle.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-28T15:26:56Z",
+      "side": 1,
+      "message": "That sounds reasonable to me.",
+      "parentUuid": "097d3a28_046b72e9",
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf9434cc_46dbe276",
@@ -400,6 +418,30 @@
       "side": 1,
       "message": "I wasn\u0027t sure about these tests to be honest, as setting -shuffle\u003don doesn\u0027t have a predictable seed, so we can\u0027t perform the same assertions on the order they\u0027re run in.\n\nThe -count\u003d2 was an easy way to check that for each test there would be a line like \u0027\u003d\u003d\u003d RUN   TestOne\u0027 and a line like \u0027--- PASS: TestOne\u0027. I\u0027ve changed the regexes a little to make this more obvious.\n\nDo you have any better checks in mind for the -shuffle\u003don case?",
       "parentUuid": "feeb62df_c27b02d0",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a1128ff928aa8439ead5f7e5d17eb193c47ff961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c6f2cf3_597c0f65",
+        "filename": "src/cmd/go/testdata/script/test_shuffle.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-28T15:26:56Z",
+      "side": 1,
+      "message": "These tests seem fine.\n\nIf we really want to test -shuffle\u003don as thoroughly as possible, we could write a test that re-execs itself many times with \u0027-test.shuffle\u003don\u0027, parses the output, and verifies that the order of running changes at least once.\n\n(But if you\u0027ve tested the shuffling manually, maybe that sort of test would be overkill given that you also have tests for explicit seeds.)",
+      "parentUuid": "f9ab1dda_dc1c60e6",
       "range": {
         "startLine": 20,
         "startChar": 0,
