@@ -308,6 +308,9 @@ func (subst *subster) typ(typ Type) Type {
 		embeddeds, ecopied := subst.typeList(t.embeddeds)
 		if mcopied || types != t.types || ecopied {
 			iface := &Interface{methods: methods, types: types, embeddeds: embeddeds}
+			if subst.check == nil {
+				panic("internal error: cannot instantiate interfaces yet")
+			}
 			subst.check.posMap[iface] = subst.check.posMap[t] // satisfy completeInterface requirement
 			subst.check.completeInterface(nopos, iface)
 			return iface
@@ -327,12 +330,14 @@ func (subst *subster) typ(typ Type) Type {
 		}
 
 	case *Named:
-		subst.check.indent++
-		defer func() {
-			subst.check.indent--
-		}()
-		dump := func(format string, args ...interface{}) {
-			if subst.check.conf.Trace {
+		// dump is for debugging
+		dump := func(string, ...interface{}) {}
+		if subst.check != nil && subst.check.conf.Trace {
+			subst.check.indent++
+			defer func() {
+				subst.check.indent--
+			}()
+			dump = func(format string, args ...interface{}) {
 				subst.check.trace(subst.pos, format, args...)
 			}
 		}
