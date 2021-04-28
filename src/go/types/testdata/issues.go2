@@ -26,7 +26,7 @@ func _() {
 
 // If we have a receiver of pointer type (below: *T) we must ignore
 // the pointer in the implementation of the method lookup because
-// the type bound of T is an interface an pointer to interface types
+// the type bound of T is an interface and pointer to interface types
 // have no methods and then the lookup would fail.
 type C[T any] interface {
     m()
