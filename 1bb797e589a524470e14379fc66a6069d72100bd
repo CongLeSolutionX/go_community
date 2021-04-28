@@ -57,6 +57,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbd59213_6ca4a326",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-28T20:22:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6666a636_1118aa43",
+      "revId": "1bb797e589a524470e14379fc66a6069d72100bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ace7d2ef_1480f806",
@@ -70,6 +88,30 @@
       "writtenOn": "2021-04-28T19:16:58Z",
       "side": 1,
       "message": "a different parser may do this differently - also, you may not want to have to do all the checks that go/parser is doing now in the future (e.g., when trying to make it faster) - I\u0027d leave it",
+      "range": {
+        "startLine": 319,
+        "startChar": 29,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "1bb797e589a524470e14379fc66a6069d72100bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0836d447_4bf06ccb",
+        "filename": "src/go/types/assignments.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-28T20:22:04Z",
+      "side": 1,
+      "message": "Ack, that\u0027s also why I left it for now.\n\nPrefer to leave the TODO, though, as a reminder.",
+      "parentUuid": "ace7d2ef_1480f806",
       "range": {
         "startLine": 319,
         "startChar": 29,
