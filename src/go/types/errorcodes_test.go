@@ -41,7 +41,7 @@ func TestErrorCodeExamples(t *testing.T) {
 	})
 }
 
-func walkCodes(t *testing.T, f func(string, int, *ast.ValueSpec)) {
+func walkCodes(t *testing.T, f func(name string, value int, spec *ast.ValueSpec)) {
 	t.Helper()
 	fset := token.NewFileSet()
 	files, err := pkgFiles(fset, ".", parser.ParseComments) // from self_test.go
