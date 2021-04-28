@@ -762,6 +762,8 @@ const (
 	// 	func f(...int, int)
 	_MisplacedDotDotDot
 
+	_ // _InvalidDotDotDotOperand was removed.
+
 	// _InvalidDotDotDot occurs when a "..." is used in a non-variadic built-in
 	// function.
 	//
@@ -882,45 +884,6 @@ const (
 	// Example:
 	//  var _ = real(int(1))
 	_InvalidReal
-
-	// _InvalidUnsafeAdd occurs when unsafe.Add is called with a
-	// length argument that is not of integer type.
-	//
-	// Example:
-	//  import "unsafe"
-	//
-	//  var p unsafe.Pointer
-	//  var _ = unsafe.Add(p, float64(1))
-	_InvalidUnsafeAdd
-
-	// _InvalidUnsafeSlice occurs when unsafe.Slice is called with a
-	// pointer argument that is not of pointer type or a length argument
-	// that is not of integer type, negative, or out of bounds.
-	//
-	// Example:
-	//  import "unsafe"
-	//
-	//  var x int
-	//  var _ = unsafe.Slice(x, 1)
-	//
-	// Example:
-	//  import "unsafe"
-	//
-	//  var x int
-	//  var _ = unsafe.Slice(&x, float64(1))
-	//
-	// Example:
-	//  import "unsafe"
-	//
-	//  var x int
-	//  var _ = unsafe.Slice(&x, -1)
-	//
-	// Example:
-	//  import "unsafe"
-	//
-	//  var x int
-	//  var _ = unsafe.Slice(&x, uint64(1) << 63)
-	_InvalidUnsafeSlice
 
 	/* exprs > assertion */
 
@@ -1079,6 +1042,8 @@ const (
 	//  	for i := 0; i < 10; j := 0 {}
 	//  }
 	_InvalidPostDecl
+
+	_ // _InvalidChanRange was removed.
 
 	// _InvalidIterVar occurs when two iteration variables are used while ranging
 	// over a channel.
@@ -1354,6 +1319,8 @@ const (
 	//  }
 	_InvalidGo
 
+	// All codes below were added in Go 1.17.
+
 	// _BadDecl occurs when a declaration has invalid syntax.
 	_BadDecl
 
@@ -1365,6 +1332,45 @@ const (
 	//  	x, y, y := 1, 2, 3
 	//  }
 	_RepeatedDecl
+
+	// _InvalidUnsafeAdd occurs when unsafe.Add is called with a
+	// length argument that is not of integer type.
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	//  var p unsafe.Pointer
+	//  var _ = unsafe.Add(p, float64(1))
+	_InvalidUnsafeAdd
+
+	// _InvalidUnsafeSlice occurs when unsafe.Slice is called with a
+	// pointer argument that is not of pointer type or a length argument
+	// that is not of integer type, negative, or out of bounds.
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	//  var x int
+	//  var _ = unsafe.Slice(x, 1)
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	//  var x int
+	//  var _ = unsafe.Slice(&x, float64(1))
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	//  var x int
+	//  var _ = unsafe.Slice(&x, -1)
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	//  var x int
+	//  var _ = unsafe.Slice(&x, uint64(1) << 63)
+	_InvalidUnsafeSlice
 
 	// _Todo is a placeholder for error codes that have not been decided.
 	// TODO(rFindley) remove this error code after deciding on errors for generics code.
