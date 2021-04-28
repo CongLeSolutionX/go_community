@@ -113,6 +113,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03c779d4_4935bfc4",
+        "filename": "src/cmd/compile/internal/dwarfgen/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T12:26:34Z",
+      "side": 1,
+      "message": "The code in createComplexVars is doing everything based on what\u0027s been previously computed by the SSA backend (e.g. here https://go.googlesource.com/go/+/5f1df260a91183c605c08af7b00741d2761b84e4/src/cmd/compile/internal/dwarfgen/dwarf.go#320). Since the code in BuildFuncDebugNoOptimized only creates entries for register-allocated in params, this is how that\u0027s done.",
+      "parentUuid": "efe07240_0e8b8aab",
+      "range": {
+        "startLine": 326,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 54
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74a7b357_bb4b0968",
@@ -126,6 +150,30 @@
       "writtenOn": "2021-04-27T22:18:32Z",
       "side": 1,
       "message": "(Not for this CL) this comment is outdated.",
+      "range": {
+        "startLine": 1122,
+        "startChar": 0,
+        "endLine": 1123,
+        "endChar": 13
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eab45b5_8a7a22e7",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T12:26:34Z",
+      "side": 1,
+      "message": "Indeed. I\u0027ll fix that up.",
+      "parentUuid": "74a7b357_bb4b0968",
       "range": {
         "startLine": 1122,
         "startChar": 0,
@@ -159,6 +207,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1c6d400_8c9ff83e",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T12:26:34Z",
+      "side": 1,
+      "message": "Good suggestion. Done.",
+      "parentUuid": "915460e0_8f75e084",
+      "range": {
+        "startLine": 1250,
+        "startChar": 6,
+        "endLine": 1250,
+        "endChar": 31
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0f35a66_d2225aa5",
@@ -172,6 +244,30 @@
       "writtenOn": "2021-04-27T22:18:32Z",
       "side": 1,
       "message": "You probably can check that the other input is OpSP, and v.Aux is a Name of PPARAM.",
+      "range": {
+        "startLine": 1255,
+        "startChar": 4,
+        "endLine": 1255,
+        "endChar": 22
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dbe458a_2474d3c5",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T12:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0f35a66_d2225aa5",
       "range": {
         "startLine": 1255,
         "startChar": 4,
@@ -222,6 +318,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e99c47fb_f6dc561b",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T12:26:34Z",
+      "side": 1,
+      "message": "Those are handled in createABIVars.",
+      "parentUuid": "e9cd3243_fabe05be",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9dbe024_793023cc",
@@ -235,6 +349,24 @@
       "writtenOn": "2021-04-27T22:18:32Z",
       "side": 1,
       "message": "Ideally for each parameter we could use the stack location as long as that parameter is spilled. I guess it is fine to change them altogether, as the registers should also be live until at least all of them are spilled.",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3179a722_117957bb",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T12:26:34Z",
+      "side": 1,
+      "message": "Yes, good eye. Nothing gets by you Cherry :-).\n\nI chose to do things in a simple fashion as opposed to picking out the specific spill location for each parameter and generated a customized location for the param based on that (that would be more accurate).\n\nAnother consideration is supporting GDB\u0027s \"set var\" command. If you happen to be stopped partway through the spill sequence (let\u0027s say the first inparam has been spilled but not yet the second or third) and you do a \n\n  (gdb) set var p1\u003d101\n\nGDB will then modify the register that p1 came in, not the stack location, which would of course be incorrect. \n\nMy feeling is that it\u0027s ok to use this for now and then add more accuracy later if needed.",
+      "parentUuid": "b9dbe024_793023cc",
       "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -264,6 +396,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d48d3c98_615690da",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T12:26:34Z",
+      "side": 1,
+      "message": "Sorry, this is misleading, see https://go.googlesource.com/go/+/5f1df260a91183c605c08af7b00741d2761b84e4/src/cmd/compile/internal/dwarfgen/dwarf.go#381. The offset in the LocalSlot winds up not being used for anything important, it\u0027s the offset in the location list that matters. I\u0027ll add a comment.",
+      "parentUuid": "9ac87d89_6f1360d5",
+      "range": {
+        "startLine": 1351,
+        "startChar": 45,
+        "endLine": 1351,
+        "endChar": 48
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3c08170_516d3ba1",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 2
@@ -275,6 +431,30 @@
       "writtenOn": "2021-04-27T22:18:32Z",
       "side": 1,
       "message": "Is this possible? list is not nil at line 1362 but is nil here?",
+      "range": {
+        "startLine": 1388,
+        "startChar": 2,
+        "endLine": 1391,
+        "endChar": 3
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c576de7_56abb16c",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1391,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T12:26:34Z",
+      "side": 1,
+      "message": "I suppose you are right-- if the first one succeeds then the second one should as well. I think I\u0027d like to leave it in just in case the code evolves later on in time somehow.",
+      "parentUuid": "a3c08170_516d3ba1",
       "range": {
         "startLine": 1388,
         "startChar": 2,
