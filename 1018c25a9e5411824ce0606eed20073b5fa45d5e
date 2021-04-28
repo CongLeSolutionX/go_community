@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95bacf3_d7347cd9",
+        "filename": "src/cmd/compile/internal/types2/index.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-28T18:47:15Z",
+      "side": 1,
+      "message": "This was an existing test that I simply copied. It shouldn\u0027t happen unless the AST is constructed incorrectly (manually). But if we check for such problems, we would have to do this all over the place.\n\nMaybe we should do a pass over all the code and remove invalid AST checks because they are not really consistent in the first place. Not this CL.",
+      "parentUuid": "9a05a17b_56754d79",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 16
+      },
+      "revId": "1018c25a9e5411824ce0606eed20073b5fa45d5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff215bf7_154914f5",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-04-28T16:39:37Z",
       "side": 1,
       "message": "Return l.ElemList[0] if n \u003d\u003d 1? We keep going with arguably more egregious errors below.",
+      "range": {
+        "startLine": 323,
+        "startChar": 10,
+        "endLine": 323,
+        "endChar": 13
+      },
+      "revId": "1018c25a9e5411824ce0606eed20073b5fa45d5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f312f48_769dbe58",
+        "filename": "src/cmd/compile/internal/types2/index.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-28T18:47:15Z",
+      "side": 1,
+      "message": "I think the difference is that the situation below is actually possible in the source, while this checks an incorrect AST. So I\u0027d prefer leaving it as is.\n\nIf we get rid of the AST checks, maybe we can combine this.",
+      "parentUuid": "ff215bf7_154914f5",
       "range": {
         "startLine": 323,
         "startChar": 10,
