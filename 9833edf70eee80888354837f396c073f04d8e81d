@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e01e5e_bd4bce1c",
+        "filename": "src/mime/multipart/multipart.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-28T14:07:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e82eea7_390da04d",
+      "revId": "9833edf70eee80888354837f396c073f04d8e81d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef00846e_1d871529",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-04-27T17:20:53Z",
       "side": 1,
       "message": "nit: might want to first sanitize filename with filepath.Clean, to avoid weirdness around .. (that said returning just \u0027..\u0027 to the caller is _probably_ in the same class as returning \u0027.\u0027 and \u0027/\u0027).",
+      "revId": "9833edf70eee80888354837f396c073f04d8e81d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b9a775b_b4f4444f",
+        "filename": "src/mime/multipart/multipart.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-28T14:07:59Z",
+      "side": 1,
+      "message": "Can you clarify the case you\u0027re concerned about here? I\u0027m not actually seeing a situation where calling filepath.Clean would make a difference here (either before or after filepath.Base)",
+      "parentUuid": "ef00846e_1d871529",
       "revId": "9833edf70eee80888354837f396c073f04d8e81d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
