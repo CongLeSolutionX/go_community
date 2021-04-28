@@ -208,6 +208,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e68add97_4808d846",
+        "filename": "src/cmd/compile/internal/dwarfgen/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-28T16:51:31Z",
+      "side": 1,
+      "message": "Okay, thanks. I think I understand how it works now.",
+      "parentUuid": "03c779d4_4935bfc4",
+      "range": {
+        "startLine": 326,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 54
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74a7b357_bb4b0968",
@@ -444,6 +468,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d63d0818_8f1a6060",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-28T16:51:31Z",
+      "side": 1,
+      "message": "Yeah, this is okay for now. Setting variable in debugger for a running program is scary. I think I never dared to do that (maybe I did once to bypass a segfault).\n\nA somewhat related thing is how we locate the prolog end. If we walk forward (see also my another comment), it may be easy to locate a spill of a particular arg than to locate the point where all args are spilled (for the latter we probably do need map, or a bitmap or something).",
+      "parentUuid": "3179a722_117957bb",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ac87d89_6f1360d5",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 2
@@ -479,6 +521,30 @@
       "side": 1,
       "message": "Sorry, this is misleading, see https://go.googlesource.com/go/+/5f1df260a91183c605c08af7b00741d2761b84e4/src/cmd/compile/internal/dwarfgen/dwarf.go#381. The offset in the LocalSlot winds up not being used for anything important, it\u0027s the offset in the location list that matters. I\u0027ll add a comment.",
       "parentUuid": "9ac87d89_6f1360d5",
+      "range": {
+        "startLine": 1351,
+        "startChar": 45,
+        "endLine": 1351,
+        "endChar": 48
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c80d1ba_170bea20",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-28T16:51:31Z",
+      "side": 1,
+      "message": "Thanks. Leave it as 0, maybe?",
+      "parentUuid": "d48d3c98_615690da",
       "range": {
         "startLine": 1351,
         "startChar": 45,
