@@ -486,6 +486,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "464235a3_a51866d6",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T17:11:35Z",
+      "side": 1,
+      "message": "This is a fair point. I\u0027ll see about revamping it.",
+      "parentUuid": "d63d0818_8f1a6060",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ac87d89_6f1360d5",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 2
@@ -545,6 +563,30 @@
       "side": 1,
       "message": "Thanks. Leave it as 0, maybe?",
       "parentUuid": "d48d3c98_615690da",
+      "range": {
+        "startLine": 1351,
+        "startChar": 45,
+        "endLine": 1351,
+        "endChar": 48
+      },
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6467adf_a89213b9",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T17:11:35Z",
+      "side": 1,
+      "message": "OK, I suppose this makes sense. Done.",
+      "parentUuid": "4c80d1ba_170bea20",
       "range": {
         "startLine": 1351,
         "startChar": 45,
