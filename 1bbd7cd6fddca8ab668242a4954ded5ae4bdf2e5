@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de57378b_5b4b647a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-04-28T08:38:23Z",
+      "side": 1,
+      "message": "The idea that \u0027go env\u0027 should avoid shelling out to a subprocess, as was done for the \u0027go version\u0027, was suggested by Bryan C. Mills in CL 313170 and in #45803.",
+      "revId": "1bbd7cd6fddca8ab668242a4954ded5ae4bdf2e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
