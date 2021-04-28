@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c51843_882f44c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-28T02:01:32Z",
+      "side": 1,
+      "message": "I did a preliminary test (a quantity test, not a quality test)\nwith optargorder -- github.com/dr2chase/optargorder -- and\nthe numbers are superficially worse.  The test could be broken,\nof course.  It is whining about \"too many pieces\".\n\nI\u0027ll also try by hand.\nThe test binary for optargorder, is optargorder.\nIgnore the COULD NOT PARSE complaints.\n\n```\n# drchase-macbookpro ~/work/gocode/src/github.com/dr2chase/optargorder 21-04-27 21:51:37\n./optargorder ./old-dbg\n\tWARNING: COULD NOT PARSE (strconv.ryuDigits in /Users/drchase/work/go-debug/src/strconv/ftoaryu.go, err \u003d in:2:1: expected ), found \u0027}\u0027 (and 5 more errors))\n\tWARNING: COULD NOT PARSE (strconv.ryuDigits32 in /Users/drchase/work/go-debug/src/strconv/ftoaryu.go, err \u003d in:2:1: expected ), found \u0027}\u0027 (and 5 more errors))\n\tWARNING: COULD NOT PARSE (go/scanner.lower in /Users/drchase/work/go-debug/src/go/scanner/scanner.go, err \u003d in:2:1: expected declaration, found \u0027}\u0027)\nnFunctions,argumentError,tooManyPieces,missingSource,wrongOrder,missingDwarf,duplicated,1-totalErrors/nFunctions\n3300,458,31,2,35,7,11,0.835152\n# drchase-macbookpro ~/work/gocode/src/github.com/dr2chase/optargorder 21-04-27 21:51:48\n./optargorder ./new-dbg\n\tWARNING: COULD NOT PARSE (strconv.ryuDigits in /Users/drchase/work/go-debug/src/strconv/ftoaryu.go, err \u003d in:2:1: expected ), found \u0027}\u0027 (and 5 more errors))\n\tWARNING: COULD NOT PARSE (strconv.ryuDigits32 in /Users/drchase/work/go-debug/src/strconv/ftoaryu.go, err \u003d in:2:1: expected ), found \u0027}\u0027 (and 5 more errors))\n\tWARNING: COULD NOT PARSE (go/scanner.lower in /Users/drchase/work/go-debug/src/go/scanner/scanner.go, err \u003d in:2:1: expected declaration, found \u0027}\u0027)\nnFunctions,argumentError,tooManyPieces,missingSource,wrongOrder,missingDwarf,duplicated,1-totalErrors/nFunctions\n3300,458,821,2,16,5,11,0.602121\n```\n",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efe07240_0e8b8aab",
