@@ -89,6 +89,24 @@
       "message": "This is different from before. Previously c.instoffset was not set if a.Sym was nil, but now it is. Do you know if that has any effect?",
       "revId": "9cac70563fc76530ac98bc0d12c3c833012cd0e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "917cb95a_f2e9ebb7",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-04-28T18:30:57Z",
+      "side": 1,
+      "message": "instoffset is used haphazardly to determine constants associated with an obj.Addr when generating machine instructions via regoff or vregoff. \n\nI think this is OK since in the nil case we return C_GOK. I also think a.Sym should never be nil. Nothing matches C_GOK.",
+      "parentUuid": "761b15e0_07015c18",
+      "revId": "9cac70563fc76530ac98bc0d12c3c833012cd0e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
