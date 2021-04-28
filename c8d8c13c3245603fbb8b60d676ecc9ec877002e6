@@ -233,6 +233,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30201c57_d94af808",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-04-28T14:32:06Z",
+      "side": 1,
+      "message": "Do you want to leave that comment on the original issue? I think it\u0027s clear we don\u0027t know what the right fix is, so I\u0027m going to abandon this CL for now. The discussion and/or design is easier on github.",
+      "parentUuid": "81764820_7593a367",
+      "revId": "c8d8c13c3245603fbb8b60d676ecc9ec877002e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a05adf45_9e1465ed",
         "filename": "src/go/internal/gcimporter/gcimporter.go",
         "patchSetId": 1
