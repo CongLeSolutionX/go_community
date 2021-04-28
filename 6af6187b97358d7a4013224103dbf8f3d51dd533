@@ -22,6 +22,30 @@
       },
       "revId": "6af6187b97358d7a4013224103dbf8f3d51dd533",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b2329c_50ac070f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-28T21:23:41Z",
+      "side": 1,
+      "message": "Sounds like a great idea! I\u0027ve added a first implementation for this, and modified the test script accordingly. \n\nThe two functions `suggestGopkgIn` and `suggestModulePath` which build the corrected \u0027suggestions\u0027 can definitely be improved a lot; I just wanted to know if that\u0027s the direction you were thinking of.",
+      "parentUuid": "7332052c_9b220ff1",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 497,
+        "endChar": 105
+      },
+      "revId": "6af6187b97358d7a4013224103dbf8f3d51dd533",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
