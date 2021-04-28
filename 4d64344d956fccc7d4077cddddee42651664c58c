@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "354d923f_efebd6cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-28T11:56:26Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll look that over. \n\nLooking at the code, https://github.com/dr2chase/optargorder/blob/master/checkargorder.go#L306, it seems to be assuming that everything is in memory as opposed to registers? Which would definitely not be the case. I\u0027ll poke at it a little and see if I can understand the logic.",
+      "parentUuid": "97c51843_882f44c1",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efe07240_0e8b8aab",
