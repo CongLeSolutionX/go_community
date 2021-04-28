@@ -400,7 +400,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	name := ir.FuncName(fn)
 	printssa := false
 	if ssaDump != "" { // match either a simple name e.g. "(*Reader).Reset", package.name e.g. "compress/gzip.(*Reader).Reset", or subpackage name "gzip.(*Reader).Reset"
-		pkgDotName := base.Ctxt.Pkgpath+"."+name
+		pkgDotName := base.Ctxt.Pkgpath + "." + name
 		printssa = name == ssaDump ||
 			strings.HasSuffix(pkgDotName, ssaDump) && (pkgDotName == ssaDump || strings.HasSuffix(pkgDotName, "/"+ssaDump))
 	}
@@ -6964,6 +6964,10 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 		debugInfo := ssa.BuildFuncDebug(base.Ctxt, f, base.Debug.LocationLists > 1, StackOffset)
 		e.curfn.DebugInfo = debugInfo
 		bstart := s.bstart
+		idToIdx := make([]int, f.NumBlocks())
+		for i, b := range f.Blocks {
+			idToIdx[b.ID] = i
+		}
 		// Note that at this moment, Prog.Pc is a sequence number; it's
 		// not a real PC until after assembly, so this mapping has to
 		// be done later.
@@ -6976,6 +6980,10 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 				}
 				return bstart[b].Pc
 			case ssa.BlockEnd.ID:
+				blk := f.Blocks[idToIdx[b]]
+				nv := len(blk.Values)
+				return valueToProgAfter[blk.Values[nv-1].ID].Pc
+			case ssa.FuncEnd.ID:
 				return e.curfn.LSym.Size
 			default:
 				return valueToProgAfter[v].Pc
