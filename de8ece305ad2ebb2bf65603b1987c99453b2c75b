@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b32abe0_d231fff9",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-04-28T19:39:38Z",
+      "side": 1,
+      "message": "Yep, no one liked my clever sorting syntax, changed :)",
+      "parentUuid": "0fc05cd6_fee144e4",
+      "revId": "de8ece305ad2ebb2bf65603b1987c99453b2c75b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "342bc303_ad0dbc75",
@@ -112,6 +130,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d2f5e2e_23afab51",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-04-28T19:39:38Z",
+      "side": 1,
+      "message": "Yep, not a good doc line, reworded.",
+      "parentUuid": "342bc303_ad0dbc75",
+      "range": {
+        "startLine": 646,
+        "startChar": 57,
+        "endLine": 647,
+        "endChar": 27
+      },
+      "revId": "de8ece305ad2ebb2bf65603b1987c99453b2c75b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ac5b6f1_8172d948",
@@ -125,6 +167,24 @@
       "writtenOn": "2021-04-28T17:39:07Z",
       "side": 1,
       "message": "Switching cipherSuitesPreferenceOrder to a map would let you invert this loop, only checking the things in configCipherSuites without needing mutualCipherSuite, which would be vaguely more performant I think?. Not really necessary though.",
+      "revId": "de8ece305ad2ebb2bf65603b1987c99453b2c75b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5832e60a_3e4392f1",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-04-28T19:39:38Z",
+      "side": 1,
+      "message": "Switching cipherSuitesPreferenceOrder would lose the order, I left a TODO to switch cipherSuites to a map, because there are definitely more nested loop than necessary, but I started a refactor twice and ended up throwing it out, so maybe in a follow-up?",
+      "parentUuid": "4ac5b6f1_8172d948",
       "revId": "de8ece305ad2ebb2bf65603b1987c99453b2c75b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
