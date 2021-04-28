@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e47a3da2_97ec0dd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-28T16:08:14Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest,",
+      "revId": "d96f9358a26695a22f02fec58e2108e847189938",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d89f415_5941d694",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-28T16:08:14Z",
+      "side": 1,
+      "message": "Aw, rats. This accidentally got folded in from a separate CL. 😞",
+      "revId": "d96f9358a26695a22f02fec58e2108e847189938",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
