@@ -38,7 +38,7 @@ func TestASAN(t *testing.T) {
 		{src: "asan2_fail.go"},
 		{src: "asan3_fail.go"},
 		{src: "asan4_fail.go"},
-		{src: "asan_useAfterReturn.go", noWantErr: true},
+		//		{src: "asan_useAfterReturn.go", noWantErr: true},
 	}
 	for _, tc := range cases {
 		tc := tc
