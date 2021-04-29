@@ -76,6 +76,30 @@
       },
       "revId": "d9d2259f4503e1736af67a1777d44f782867736c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a841bf6d_f8e9425b",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-04-29T15:12:13Z",
+      "side": 1,
+      "message": "Hmm, my bad, seems like gerrit broken in mobile, as I only saw the newly added code started in L1054.",
+      "parentUuid": "aacc31a1_d74ea6f3",
+      "range": {
+        "startLine": 1066,
+        "startChar": 15,
+        "endLine": 1066,
+        "endChar": 31
+      },
+      "revId": "d9d2259f4503e1736af67a1777d44f782867736c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
