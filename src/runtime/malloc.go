@@ -1051,6 +1051,20 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				c.tinyoffset = size
 			}
 			size = maxTinySize
+			if raceenabled {
+				// Pad tinysize allocations so they are aligned with the end
+				// of the tinyalloc region. This ensures that any arithmetic
+				// that goes off the top end of the object will be detectable
+				// by checkptr (issue 38872). Note that this effectively
+				// disables tinyalloc.
+				// TODO: This padding is only performed when the race detector
+				// is enabled. It would be nice to enable it if any package
+				// was compiled with checkptr, but there's no easy way to
+				// detect that (especially at compile time).
+				// TODO: enable this padding for all allocations, not just
+				// tinyalloc ones. It's tricky because of pointer maps.
+				x = add(x, maxTinySize-size)
+			}
 		} else {
 			var sizeclass uint8
 			if size <= smallSizeMax-8 {

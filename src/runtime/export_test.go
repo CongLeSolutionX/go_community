@@ -1232,3 +1232,5 @@ func FinalizerGAsleep() bool {
 	unlock(&finlock)
 	return result
 }
+
+const Raceenabled = raceenabled
