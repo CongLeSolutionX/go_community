@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "16b831df_5fa500e9",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-29T18:44:00Z",
+      "side": 1,
+      "message": "This is rounding up the offset, not the size; and offset is only relevant to when a tiny object is reused for further allocations (L1029--L1037), which is disabled for race-detector builds after this CL.",
+      "parentUuid": "20a2c7f9_89501fdd",
+      "revId": "b9a6564f39941af51e5beeca4e20f1b184627e2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ecbdd484_28782124",
         "filename": "src/runtime/malloc_test.go",
         "patchSetId": 3
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "This test runs on 386.\nI think the reason it doesn\u0027t fail is that tinyalloc does a conservative round-up of size, such that 12 byte objects round up to 16 regardless of alignment. There\u0027s specific code for this in the tiny allocator.",
       "parentUuid": "ecbdd484_28782124",
+      "revId": "b9a6564f39941af51e5beeca4e20f1b184627e2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "059b8fe5_bd6fa1b9",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-04-29T18:44:00Z",
+      "side": 1,
+      "message": "This test runs on 386 and works, yes. But it doesn\u0027t run on 386+race, because 386+race isn\u0027t a supported configuration.",
+      "parentUuid": "36098a79_c3437b29",
       "revId": "b9a6564f39941af51e5beeca4e20f1b184627e2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
