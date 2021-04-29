@@ -632,7 +632,7 @@ func (pr *pkgReader) objIdx(idx int, implicits, explicits []*types.Type) ir.Node
 
 	case objFunc:
 		if sym.Name == "init" {
-			sym = renameinit()
+			sym = Renameinit()
 		}
 		name := do(ir.ONAME, true)
 		setType(name, r.signature(sym.Pkg, nil))
