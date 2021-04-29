@@ -16,6 +16,121 @@
       "message": "First off, I apologize for taking nearly two months for responding to a small change 😞\n\nSecondly, I\u0027ve amended the PR with better error messages. I feel that there\u0027s room for improvement in the way that we build the suggestions, but please let me know if at least that\u0027s aligned with what you had in mind.\n\nThanks a lot for your time!",
       "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faf5fb8a_9bcabc25",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-29T01:43:35Z",
+      "side": 1,
+      "message": "If we\u0027re suggesting a `go mod init` command for the user to run, separate it with \\n\\t, like:\n\n\t… in the form of .vN:\n\t\tgo mod init gopkg.in/banana.v1",
+      "range": {
+        "startLine": 569,
+        "startChar": 114,
+        "endLine": 569,
+        "endChar": 121
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16f0381_2d61ad8b",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-29T01:43:35Z",
+      "side": 1,
+      "message": "The Go project avoids Latin abbreviations in user-facing messages and documentation. Prefer English phrases like “such as” or “for example”.\n\n(But see the comment below; I think a colon and newline would be more consistent with our other error messages here.)",
+      "range": {
+        "startLine": 569,
+        "startChar": 116,
+        "endLine": 569,
+        "endChar": 119
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b909929_bafc5182",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-29T01:43:35Z",
+      "side": 1,
+      "message": "I don\u0027t think these two cases should be allowed. `v02` and `v023` are not prefixes of any valid semantic version.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 194
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d978c83_db20a0fa",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-29T01:43:35Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether we should reject these. They seem a lot less confusing than /v0 or /v1, and they could refer to the version of some other thing (such as the version of a C library being wrapped by a module that contains a cgo wrapper).",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 195
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49130055_ef0a0657",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-29T01:43:35Z",
+      "side": 1,
+      "message": "I think this path should be rejected on the grounds that it is not a valid import path (per #45025), not because it is not a valid major version.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 192
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
