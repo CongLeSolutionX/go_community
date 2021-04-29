@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f097f345_c1d0fd17",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-29T11:47:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff7a153b_e686f953",
+      "revId": "7bf8728fbaae0bc65495fda27ba203590d1f3ee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a12c60c2_1ad9d4a0",
@@ -58,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d0b4f4_76a6ce6c",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-29T11:47:33Z",
+      "side": 1,
+      "message": "BlockEnd is (unfortunately) somewhat misleadingly named. FWIW I thought the same thing initially, that it meant \"end of the current block\"... what it really means is \"end of the current function\".\n\n See https://go.googlesource.com/go/+/1c9e587b90172e7654db897d8c938ffc665e1673/src/cmd/compile/internal/ssagen/ssa.go#6770",
+      "parentUuid": "a12c60c2_1ad9d4a0",
+      "range": {
+        "startLine": 1297,
+        "startChar": 12,
+        "endLine": 1297,
+        "endChar": 17
+      },
+      "revId": "7bf8728fbaae0bc65495fda27ba203590d1f3ee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7a054f8_85953283",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-04-28T21:49:18Z",
       "side": 1,
       "message": "setupLocList uses the entry Block. The stack home should cover the entire function, right?",
+      "range": {
+        "startLine": 1406,
+        "startChar": 0,
+        "endLine": 1410,
+        "endChar": 0
+      },
+      "revId": "7bf8728fbaae0bc65495fda27ba203590d1f3ee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "129d3835_8be28e25",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1410,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-29T11:47:33Z",
+      "side": 1,
+      "message": "See previous remark. BlockEnd seems like it means \"end of block\", but as implemented it really means \"end of function\". \n\nI sent a separate CL https://go-review.googlesource.com/c/go/+/314930 to help fix this up, since as things stand it is very confusing and error-prone.",
+      "parentUuid": "c7a054f8_85953283",
       "range": {
         "startLine": 1406,
         "startChar": 0,
