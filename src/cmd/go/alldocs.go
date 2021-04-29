@@ -124,6 +124,9 @@
 // 	-asan
 // 		enable interoperation with address sanitizer.
 // 		Supported only on linux/arm64, linux/amd64.
+// 		Notice that the current implementation is only compatible with the ASan library from
+// 		version v7 to v9, which requires that the gcc version is not less than 7 and the clang
+// 		version is not less than 4, otherwise a segmentation fault will occur.
 // 	-v
 // 		print the names of packages as they are compiled.
 // 	-work
