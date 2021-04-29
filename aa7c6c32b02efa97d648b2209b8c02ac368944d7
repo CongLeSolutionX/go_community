@@ -64,6 +64,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2003105_f82e2934",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-29T22:06:41Z",
+      "side": 1,
+      "message": "Done, it looks much better now!",
+      "parentUuid": "faf5fb8a_9bcabc25",
+      "range": {
+        "startLine": 569,
+        "startChar": 114,
+        "endLine": 569,
+        "endChar": 121
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b909929_bafc5182",
@@ -77,6 +101,30 @@
       "writtenOn": "2021-04-29T01:43:35Z",
       "side": 1,
       "message": "I don\u0027t think these two cases should be allowed. `v02` and `v023` are not prefixes of any valid semantic version.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 194
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8af71ed9_fa57daa5",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-29T22:06:41Z",
+      "side": 1,
+      "message": "These two cases are indeed not allowed; I\u0027ve only included them in the test script to make sure that we suggest that the user removes any leading zeroes.\n\nAm I missing anything?",
+      "parentUuid": "7b909929_bafc5182",
       "range": {
         "startLine": 6,
         "startChar": 0,
@@ -112,6 +160,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77527a49_5c539730",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-29T22:06:41Z",
+      "side": 1,
+      "message": "I wanted your input on this, and your example is indeed a good real-world scenario.\n\nThe spec might be a little contradictory here https://golang.org/ref/mod#go-mod-file-ident.\n\n\u003e For a final path element of the form /vN where N looks numeric (ASCII digits and dots), N must not begin with a leading zero, must not be /v1, and must not contain any dots. \n\nSo it both says \u0027where N looks numeric (ASCII digits and dots)\u0027 _and_ \u0027must not contain any dots\u0027. \n\nCurrently, the SplitPathVersion function rejects the module paths highlighted here, and also gives a similar failure example in its docstring.\n\nDo you have any more information to clear this up?\n\nAlso, to be honest, while the module itself may be on a version with minor/patch (eg. v3.7.2), I haven\u0027t met a module path that includes them (eg. so I need to `go get github.com/user/pkg/v3.4`). I was under the impression that you\u0027d only have a different module path if you bump your major, as stated on https://golang.org/doc/modules/version-numbers.\n\nI understand that many projects don\u0027t respect semantic versioning, so this may be needed, but if that\u0027s the case, could the spec also need an amendment?",
+      "parentUuid": "3d978c83_db20a0fa",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 195
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49130055_ef0a0657",
         "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
         "patchSetId": 3
@@ -123,6 +195,30 @@
       "writtenOn": "2021-04-29T01:43:35Z",
       "side": 1,
       "message": "I think this path should be rejected on the grounds that it is not a valid import path (per #45025), not because it is not a valid major version.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 192
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c04858ae_8ea471a0",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-04-29T22:06:41Z",
+      "side": 1,
+      "message": "Thanks for catching this. Yes, this is a regression as Go 1.15.7 reports the correct error message, but the tip happily accepts it.\n\n```\n$ go version\ngo version go1.15.7 darwin/amd64\n$ go mod init example.com/user/repo/v2.\ngo: malformed import path \"example.com/user/repo/v2.\": trailing dot in path element\n\n$ go version\ngo version devel go1.17-fd09593667 Thu Apr 29 20:46:14 2021 +0000 darwin/amd64\n$ go mod init example.com/user/repo/v2.\ngo: creating new go.mod: module example.com/user/repo/v2. \n```\n\nI\u0027ll dig around and find out if it\u0027s an easy fix, or if we if #45025 should be done first.",
+      "parentUuid": "49130055_ef0a0657",
       "range": {
         "startLine": 28,
         "startChar": 0,
