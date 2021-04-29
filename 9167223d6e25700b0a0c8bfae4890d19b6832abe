@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "955fe46b_608b1f84",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 33607
+      },
+      "writtenOn": "2021-04-29T18:39:23Z",
+      "side": 1,
+      "message": "Switched to the FileHeader approach rsc proposed (https://github.com/golang/go/issues/34974#issuecomment-828628628). Kept the new data descriptor struct but no longer export it.",
+      "parentUuid": "e991b91b_ba133d58",
+      "revId": "9167223d6e25700b0a0c8bfae4890d19b6832abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40ab855a_ac7146e9",
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "Updated to use the DataDescriptor struct approach you proposed in the issue discussion.",
       "parentUuid": "91e5e9e1_ebd154d3",
+      "revId": "9167223d6e25700b0a0c8bfae4890d19b6832abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "919e468e_ebda6e8a",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 33607
+      },
+      "writtenOn": "2021-04-29T18:39:23Z",
+      "side": 1,
+      "message": "Same resolution as above. Switched to using the values in the FileHeader for writing the data descriptor.",
+      "parentUuid": "66bbc1dd_abae0ab1",
       "revId": "9167223d6e25700b0a0c8bfae4890d19b6832abe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
