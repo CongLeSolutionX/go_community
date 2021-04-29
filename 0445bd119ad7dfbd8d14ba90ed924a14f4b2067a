@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a2f4630_cec6e935",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-29T17:45:54Z",
+      "side": 1,
+      "message": "See https://github.com/golang/go/issues/34974#issuecomment-828628628",
+      "revId": "0445bd119ad7dfbd8d14ba90ed924a14f4b2067a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
