@@ -59,6 +59,30 @@
       },
       "revId": "8d8fc57c91a8f5294cf8c1b6a901a09936ac5b06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c22ee909_1faf1fa8",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-29T19:03:51Z",
+      "side": 1,
+      "message": "For a case like this I personally prefer bool, as below it permits me to write\n    if !knownDirs[dir] {\nrather than having to use a comma-ok form.\n\nIt would be different if there were going to be a million entries, but there aren\u0027t.",
+      "parentUuid": "c4558306_2cc42518",
+      "range": {
+        "startLine": 683,
+        "startChar": 31,
+        "endLine": 683,
+        "endChar": 35
+      },
+      "revId": "8d8fc57c91a8f5294cf8c1b6a901a09936ac5b06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
