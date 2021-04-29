@@ -235,6 +235,22 @@ func compilerSupportsLocation() bool {
 	}
 }
 
+// compilerRequiredVersion reports whether the compiler is a required version.
+func compilerRequiredVersion() bool {
+	compiler, err := compilerVersion()
+	if err != nil {
+		return false
+	}
+	switch compiler.name {
+	case "gcc":
+		return compiler.major >= 7
+	case "clang":
+		return true
+	default:
+		return false
+	}
+}
+
 type compilerCheck struct {
 	once sync.Once
 	err  error
