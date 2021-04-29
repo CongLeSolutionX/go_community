@@ -93,6 +93,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "edc0c0e2_f1ea12f7",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-04-29T21:10:07Z",
+      "side": 1,
+      "message": "why isn\u0027t this comparing with lazyLoadingVersionV? don\u0027t we want the compare to be true succeed if params.GoVersion \u003d\u003d narrowAllVersionV?\n\ncan we use modDepthFromGoVersion here?",
+      "range": {
+        "startLine": 926,
+        "startChar": 42,
+        "endLine": 926,
+        "endChar": 59
+      },
+      "revId": "683ade00950e0b240b0a52694bbcbd545f75d53a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d7b1723_35dbe85e",
         "filename": "src/cmd/go/testdata/script/mod_go_version_missing.txt",
         "patchSetId": 2
