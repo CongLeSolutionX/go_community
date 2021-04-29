@@ -179,6 +179,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e71b151_dbfc3a53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-04-29T15:25:07Z",
+      "side": 1,
+      "message": "That code was originally written with very strong assumptions about the ABI, I think it needs some serious rework to function with the new ABI, orderArgsDwarf is trying to put the DWARF argument list in order by using the address of the arguments on the stack, which doesn\u0027t work at all for regabi.\nSome knowledge about the order that registers are used in regabi would have to be baked in.\nIt makes sense that that test gets worse after this change, because the compiler is no longer emitting locations that conform optargorder\u0027s worldview.",
+      "parentUuid": "bf78a79a_d17d5106",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efe07240_0e8b8aab",
