@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/noder"
 	"cmd/compile/internal/objw"
+	"cmd/compile/internal/pkginit"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/staticdata"
 	"cmd/compile/internal/typecheck"
@@ -19,6 +20,7 @@ import (
 	"cmd/internal/objabi"
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 // These modes say which kind of object file to generate.
@@ -110,7 +112,6 @@ func dumpCompilerObj(bout *bio.Writer) {
 func dumpdata() {
 	numExterns := len(typecheck.Target.Externs)
 	numDecls := len(typecheck.Target.Decls)
-
 	dumpglobls(typecheck.Target.Externs)
 	reflectdata.CollectPTabs()
 	numExports := len(typecheck.Target.Exports)
@@ -284,7 +285,23 @@ func ggloblnod(nam *ir.Name) {
 	if nam.Type() != nil && !nam.Type().HasPointers() {
 		flags |= obj.NOPTR
 	}
-	base.Ctxt.Globl(s, nam.Type().Size(), flags)
+	size := nam.Type().Size()
+	name := ""
+	linkname := nam.Sym().Linkname
+	if linkname != "" {
+		name = linkname
+	} else {
+		name = nam.Sym().Pkg.Name + strings.TrimPrefix(s.Name, `""`)
+	}
+	if base.Flag.ASan && pkginit.ShouldInstrumentGlobals[name] != nil {
+		// Write the new size of instrumented global variables that have
+		// trailing redzones into object file.
+		rzSize := pkginit.GetRedzoneSizeForGlobal(size)
+		sizeWithRZ := rzSize + size
+		base.Ctxt.Globl(s, sizeWithRZ, flags)
+	} else {
+		base.Ctxt.Globl(s, size, flags)
+	}
 	if nam.LibfuzzerExtraCounter() {
 		s.Type = objabi.SLIBFUZZER_EXTRA_COUNTER
 	}
