@@ -78,6 +78,8 @@ and test commands:
 	-asan
 		enable interoperation with address sanitizer.
 		Supported only on linux/arm64, linux/amd64.
+		So far, the current implementation is only compatible with the ASan library
+		from version v7 to v9.
 	-v
 		print the names of packages as they are compiled.
 	-work
