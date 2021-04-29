@@ -1,0 +1,2 @@
+# https://golang.org/issue/45094: 'go mod tidy' now accepts a '-go' flag
+# to change the language version in use.
