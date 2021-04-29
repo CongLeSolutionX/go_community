@@ -275,7 +275,17 @@ func ggloblnod(nam *ir.Name) {
 	if nam.Type() != nil && !nam.Type().HasPointers() {
 		flags |= obj.NOPTR
 	}
-	base.Ctxt.Globl(s, nam.Type().Width, flags)
+	size := nam.Type().Width
+
+	if base.Flag.ASan && typecheck.ShouldInstrumentGlobals[s.Name] != nil {
+		// Write the new size of instrumented global variables that have
+		// trailing redzones into object file.
+		rzSize := typecheck.GetRedzoneSizeForGlobal(size)
+		sizeWithRZ := rzSize + size
+		base.Ctxt.Globl(s, sizeWithRZ, flags)
+	} else {
+		base.Ctxt.Globl(s, size, flags)
+	}
 	if nam.LibfuzzerExtraCounter() {
 		s.Type = objabi.SLIBFUZZER_EXTRA_COUNTER
 	}
