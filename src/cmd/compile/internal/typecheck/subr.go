@@ -874,3 +874,161 @@ var slist []symlink
 type symlink struct {
 	field *types.Field
 }
+
+// createtypes creates the asanGlobal and defString struct type.
+// Go compiler does not refer to the C types, we represent the struct field
+// by a uintptr, then use type conversion to make copies of the data.
+// E.g., (*defString)(asanGlobal.name).data to C string.
+// Keep in sync with src/runtime/asan/asan.go.
+//
+// type asanGlobal struct {
+// 	beg  uintptr
+// 	size uintptr
+// 	size_with_redzone uintptr
+// 	name uintptr
+// 	moduleName uintptr
+// 	hasDynamicInit  uintptr
+// 	sourceLocation  uintptr
+// 	odrIndicator    uintptr
+// }
+//
+// defString is synthesized struct type meant to capture the underlying
+// implementations of string.
+// type defString struct {
+// 	data uintptr
+// 	len uintptr
+// }
+func createtypes() (*types.Type, *types.Type) {
+	up := types.Types[types.TUINTPTR]
+	fname := Lookup
+	nxp := src.NoXPos
+	asanGlobal := types.NewStruct(types.NoPkg, []*types.Field{
+		types.NewField(nxp, fname("beg"), up),
+		types.NewField(nxp, fname("size"), up),
+		types.NewField(nxp, fname("sizeWithRedzone"), up),
+		types.NewField(nxp, fname("name"), up),
+		types.NewField(nxp, fname("moduleName"), up),
+		types.NewField(nxp, fname("hasDynamicInit"), up),
+		types.NewField(nxp, fname("sourceLocation"), up),
+		types.NewField(nxp, fname("odrIndicator"), up),
+	})
+	types.CalcSize(asanGlobal)
+
+	defString := types.NewStruct(types.NoPkg, []*types.Field{
+		types.NewField(nxp, fname("data"), up),
+		types.NewField(nxp, fname("len"), up),
+	})
+	types.CalcSize(defString)
+
+	return asanGlobal, defString
+}
+
+// InstrumentGlobals declares a global array of _asan_global structures and initializes it.
+func InstrumentGlobals(fn *ir.Func) *ir.Name {
+	asanGlobalStruct, defStringstruct := createtypes()
+	// Make a global array of asanGlobal structure type.
+	// var asanglobals []asanGlobal
+	arraytype := types.NewArray(asanGlobalStruct, int64(len(ShouldInstrumentGlobals)))
+	sym := Lookup(".asanglobals")
+	globals := NewName(sym)
+	globals.SetType(arraytype)
+	globals.Class = ir.PEXTERN
+	sym.Def = globals
+	Target.Externs = append(Target.Externs, globals)
+	// Declare a local string variable.
+	// var asanSym string
+	nn := NewName(Lookup("asanSym"))
+	nn.SetType(types.Types[types.TSTRING])
+	nn.Class = ir.PAUTO
+	nn.SetUsed(true)
+	nn.Curfn = fn
+	fn.Dcl = append(fn.Dcl, nn)
+
+	var init ir.Nodes
+	var c ir.Node
+	i := int64(0)
+	for symName, n := range ShouldInstrumentGlobals {
+		setField := func(f string, val ir.Node, i int64) {
+			r := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT,
+				ir.NewIndexExpr(base.Pos, globals, ir.NewInt(i)), Lookup(f)), val)
+			init.Append(Stmt(r))
+		}
+		// globals[i].beg = uintptr(unsafe.Pointer(&n))
+		c = ConvNop(NodAddr(n), types.Types[types.TUNSAFEPTR])
+		c = ConvNop(c, types.Types[types.TUINTPTR])
+		setField("beg", c, i)
+		// Assign globals[i].size.
+		g := n.(*ir.Name)
+		types.CalcSize(g.Type())
+		size := g.Type().Width
+		c = ConvNop(ir.NewInt(size), types.Types[types.TUINTPTR])
+		setField("size", c, i)
+		// Assign globals[i].sizeWithRedzone.
+		rzSize := GetRedzoneSizeForGlobal(size)
+		sizeWithRz := rzSize + size
+		c = ConvNop(ir.NewInt(sizeWithRz), types.Types[types.TUINTPTR])
+		setField("sizeWithRedzone", c, i)
+		// The C string type is terminated by a null charactor "\0", Go should use three-digit
+		// octal "\000" or two-digit hexadecimal "\x00" to create null terminated string.
+		// asanSym = symName + "\000"
+		// globals[i].name = (*defString)(unsafe.Pointer(&asanSym)).data
+		init.Append(Stmt(ir.NewAssignStmt(base.Pos, nn, ir.NewString(symName+"\000"))))
+		c = ConvNop(NodAddr(nn), types.Types[types.TUNSAFEPTR])
+		c = ConvNop(c, types.NewPtr(defStringstruct))
+		c = ir.NewSelectorExpr(base.Pos, ir.ODOT, c, Lookup("data"))
+		setField("name", c, i)
+		// Set the name of package being compiled as a unique identifier of a module.
+		// asanSym = pkgName + "\000"
+		init.Append(Stmt(ir.NewAssignStmt(base.Pos, nn, ir.NewString(types.LocalPkg.Name+"\000"))))
+		c = ConvNop(NodAddr(nn), types.Types[types.TUNSAFEPTR])
+		c = ConvNop(c, types.NewPtr(defStringstruct))
+		c = ir.NewSelectorExpr(base.Pos, ir.ODOT, c, Lookup("data"))
+		setField("moduleName", c, i)
+		i++
+	}
+	fn.Body.Append(init...)
+	return globals
+}
+
+// Calculate redzone for globals.
+func GetRedzoneSizeForGlobal(size int64) int64 {
+	maxRZ := int64(1 << 18)
+	minRZ := int64(32)
+	redZone := (size / minRZ / 4) * minRZ
+	switch {
+	case redZone > maxRZ:
+		redZone = maxRZ
+	case redZone < minRZ:
+		redZone = minRZ
+	}
+	// Round up to multiple of minRZ.
+	if size%minRZ != 0 {
+		redZone += minRZ - (size % minRZ)
+	}
+	return redZone
+}
+
+var ShouldInstrumentGlobals = make(map[string]ir.Node)
+
+func CanInstrumentGlobal(g ir.Node) bool {
+	if g.Op() != ir.ONAME {
+		return false
+	}
+	n := g.(*ir.Name)
+	if n.Class == ir.PFUNC {
+		return false
+	}
+	if n.Sym().Pkg != types.LocalPkg {
+		return false
+	}
+	// Do not instrument function pointers.
+	if strings.HasPrefix(n.Sym().Name, "x_cgo_") || strings.HasPrefix(n.Sym().Name, "_cgo_") ||
+		strings.HasPrefix(n.Sym().Name, "__cgofn_") {
+		return false
+	}
+	// Do not instrument globals that do not declared in the package being compiled.
+	if !strings.HasPrefix(n.Linksym().Name, `"".`) {
+		return false
+	}
+	return true
+}
