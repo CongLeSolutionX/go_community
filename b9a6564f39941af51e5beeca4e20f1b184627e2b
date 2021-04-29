@@ -141,6 +141,24 @@
       "parentUuid": "36098a79_c3437b29",
       "revId": "b9a6564f39941af51e5beeca4e20f1b184627e2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eba772af_d0e29728",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-04-29T19:43:18Z",
+      "side": 1,
+      "message": "Ah ok, you mean this test would (correctly) fail on 386+race, if it existed. I agree.",
+      "parentUuid": "059b8fe5_bd6fa1b9",
+      "revId": "b9a6564f39941af51e5beeca4e20f1b184627e2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
