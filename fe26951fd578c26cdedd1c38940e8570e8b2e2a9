@@ -138,6 +138,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16edb446_14764a40",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-29T21:47:32Z",
+      "side": 1,
+      "message": "And also, it is always safe to say \"no\" -- the assignment of spill locations is arbitrary, and defaults to non-overlapping temporaries.",
+      "parentUuid": "bd3d8a17_9400e275",
+      "range": {
+        "startLine": 160,
+        "startChar": 5,
+        "endLine": 160,
+        "endChar": 75
+      },
+      "revId": "fe26951fd578c26cdedd1c38940e8570e8b2e2a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da3a9ac2_cc8719a8",
