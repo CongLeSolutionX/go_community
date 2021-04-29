@@ -33,6 +33,23 @@
       "message": "This kind of link isn\u0027t going to be useful after the file changes.  Either say what you want to say, or just drop the paragraph.  Thanks.",
       "revId": "e751678a328a5501edd7a4b0d2a329d02df7cd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2665cb_09e9db6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-29T00:17:26Z",
+      "side": 1,
+      "message": "It looks to me that the code in os/file.go is younger (CL 266364 from 10/29/2020) than the respective code in io/io.go (CL 263141 from 10/16/2020). So one could argue it should go the other round.\n\nLeaving for rsc@ to decide who wrote these CLs.",
+      "revId": "e751678a328a5501edd7a4b0d2a329d02df7cd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
