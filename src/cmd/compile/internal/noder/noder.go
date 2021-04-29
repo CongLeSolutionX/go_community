@@ -580,7 +580,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 
 	if fun.Recv == nil {
 		if name.Name == "init" {
-			name = renameinit()
+			name = Renameinit()
 			if len(t.Params) > 0 || len(t.Results) > 0 {
 				base.ErrorfAt(f.Pos(), "func init must have no arguments and no return values")
 			}
@@ -1839,7 +1839,7 @@ func (p *noder) funcLit(expr *syntax.FuncLit) ir.Node {
 // the name, normally "pkg.init", is altered to "pkg.init.0".
 var renameinitgen int
 
-func renameinit() *types.Sym {
+func Renameinit() *types.Sym {
 	s := typecheck.LookupNum("init.", renameinitgen)
 	renameinitgen++
 	return s
