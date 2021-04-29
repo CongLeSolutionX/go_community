@@ -59,6 +59,30 @@
       },
       "revId": "9df1aec5bb3282dc233a389b570474683fb04563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "162d5d18_9eac66bf",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-29T20:45:39Z",
+      "side": 1,
+      "message": "This is just something I noticed while working on the DWARF stuff. For example, if you ask for debug from regalloc, you get debug output for everything, but for other phases it\u0027s only for the GOSSAFUNC func. For debug.go it\u0027s actually a mix (it does both). I don\u0027t think it\u0027s a bug that needs to be fixed, just so long as users are aware of the possibility...",
+      "parentUuid": "135106bb_47ebf3fd",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 16
+      },
+      "revId": "9df1aec5bb3282dc233a389b570474683fb04563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
