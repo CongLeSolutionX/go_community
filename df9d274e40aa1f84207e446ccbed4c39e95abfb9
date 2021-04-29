@@ -16,6 +16,41 @@
       "message": "OK, my previous comment is wrong. The problem is not inside randomOrder.reset() method. But problem looks like more complicated.\n\nThis CL https://go-review.googlesource.com/c/go/+/271537 introduced pool usage for splices. It uses setFinalizer to close read/write descriptors after object deletion. Also, there is a test that create 64 pipes using pipe2 syscall, put them to Pool, and drop variable which hold reference to this object. So, the result should be following: after two GCs each object should be not marked by GC (no references to them), called finalizer, and removed. Seems good and according to filtered strace it works well: https://pastebin.com/MGvgy8CX\n\nAfter this CL this test starts to fail on 32-bit platforms:\n```\ngo test -timeout 5s -run ^TestSplicePipePool$ internal/poll\n--- FAIL: TestSplicePipePool (4.51s)\n    splice_linux_test.go:69: at least one pipe is still open\nFAIL\nFAIL    internal/poll   4.510s\nFAIL\n```\n\nThis is filtered strace for this case: https://pastebin.com/Vg3KNCLA\nAs you can see there is no close syscalls for descriptors 7 and 8. And it\u0027s stable reproduced with the same descriptors.\nEven if I delete whole logic of my CL except pOrder declaration and its reset, the issue still reproduces.\n\nBut if just and -v flag to test it\u0027s become fixed without any code changes:\n```\ngo test -v -timeout 5s -run ^TestSplicePipePool$ internal/poll\n\u003d\u003d\u003d RUN   TestSplicePipePool\n--- PASS: TestSplicePipePool (0.02s)\nPASS\nok      internal/poll   0.023s\n```\n\nMaybe the problem is depended on memory layout, even small changes in flow could fix this bug. It could be inside GC and finalizer logic for 32-bit platforms.\nIt would be good to get any advise that help to find root cause.\nAlso, should I create issue in bug-tracker? I\u0027m not sure because so far only with my patch it can be reproduced.",
       "revId": "df9d274e40aa1f84207e446ccbed4c39e95abfb9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92620964_a7481105",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-29T14:16:12Z",
+      "side": 1,
+      "message": "I would say, yes, do create the bug.  I also spent a while looking at this and I agree it is mystifying and unsettling and suggests some other problem.  I\u0027m not sure what priority to put on the bug, you should CC me (I think dr2chase at Github), reference the CL, try filing it as\n\n\"runtime: mysterious CL 314229 failure on 32-bit only\"\n\nnote that it\u0027s probably not a differing memory model issue, because it is okay on arm64, fails on 386.",
+      "parentUuid": "9afb052b_97d18b81",
+      "revId": "df9d274e40aa1f84207e446ccbed4c39e95abfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f5d92a1_7d464fbd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-29T14:16:12Z",
+      "side": 1,
+      "message": "and also, thanks for digging into this.",
+      "revId": "df9d274e40aa1f84207e446ccbed4c39e95abfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
