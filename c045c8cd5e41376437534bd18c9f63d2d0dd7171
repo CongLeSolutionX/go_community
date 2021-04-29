@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da374863_eb175f7b",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 33607
+      },
+      "writtenOn": "2021-04-29T18:41:25Z",
+      "side": 1,
+      "message": "Should I get rid of this since it\u0027s only testing an unexported method?",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
