@@ -5,6 +5,9 @@
 package sanitizers_test
 
 import (
+	"os/exec"
+	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -23,6 +26,41 @@ func TestASAN(t *testing.T) {
 		t.Skipf("skipping on %s/%s; -asan option is not supported.", goos, goarch)
 	}
 
+	// The current implementation is only compatible with the ASan library from version
+	// v7 to v9 (See the description in src/runtime/asan/asan.go). Therefore, using the
+	// -asan option must use a compatible version of ASan library, which requires that
+	// the gcc version is not less than 7 and the clang version is not less than 4,
+	// otherwise a segmentation fault will occur.
+	cc, err := goEnv("CC")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cc != "gcc" && cc != "clang" {
+		t.Skipf("skipping: The expected C compiler is gcc or clang, not %s", cc)
+	}
+	out, err := exec.Command(cc, "--version").CombinedOutput()
+	if err != nil {
+		t.Skipf("skipping: error executing C compiler %s: %v", cc, err)
+	}
+	re := regexp.MustCompile(`([0-9]+)\.([0-9]+)\.0`)
+	matches := re.FindSubmatch(out)
+	if len(matches) < 3 {
+		t.Skipf("skipping: can't determine C compiler %s version from\n%s\n", cc, out)
+	}
+	major, err1 := strconv.Atoi(string(matches[1]))
+	minor, err2 := strconv.Atoi(string(matches[2]))
+	if err1 != nil || err2 != nil {
+		t.Skipf("skipping: can't determine C compiler %s version: %v, %v", cc, err1, err2)
+	}
+	if cc == "gcc" {
+		if major < 7 {
+			t.Skipf("skipping: too old version of gcc %d.%d uses v6 or lower version of ASan library", major, minor)
+		}
+	} else {
+		if major < 4 {
+			t.Skipf("skipping: too old version of clang %d.%d uses v6 or lower version of ASan library", major, minor)
+		}
+	}
 	t.Parallel()
 	requireOvercommit(t)
 	config := configure("address")
