@@ -34,6 +34,24 @@
       "parentUuid": "696e9792_7197e9de",
       "revId": "b022ab4b1a483555304c283cc6cfa6f55bc150b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3656343d_23794e9b",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-04-29T22:43:11Z",
+      "side": 1,
+      "message": "This still seems like quite a specialized use case. There doesn\u0027t need to be an example for every possible use of the package.",
+      "parentUuid": "0dc8c265_0b76c67f",
+      "revId": "b022ab4b1a483555304c283cc6cfa6f55bc150b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
