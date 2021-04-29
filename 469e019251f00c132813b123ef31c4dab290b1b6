@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bee2aea1_38619d05",
+        "filename": "src/cmd/go/testdata/script/mod_lazy_import_allmod.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-29T02:20:07Z",
+      "side": 1,
+      "message": "Intriguingly, this assertion currently fails. For some reason, we end up resolving c afresh from v0.2.0 instead of using the v0.1.0 dependency of b (which ought to be promoted to a root first).",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 21
+      },
+      "revId": "469e019251f00c132813b123ef31c4dab290b1b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
