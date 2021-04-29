@@ -57,6 +57,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "20a2c7f9_89501fdd",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-04-29T17:39:21Z",
+      "side": 1,
+      "message": "Referenced code is here.",
+      "revId": "b9a6564f39941af51e5beeca4e20f1b184627e2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ecbdd484_28782124",
         "filename": "src/runtime/malloc_test.go",
         "patchSetId": 3
@@ -68,6 +85,24 @@
       "writtenOn": "2021-04-29T15:13:53Z",
       "side": 1,
       "message": "I think this test would fail on 386 (end-aligned 12-byte allocations will only have 4-byte alignment, not 8-byte), but the race detector is only supported on 64-bit CPUs anyway. So maybe this concern is moot.",
+      "revId": "b9a6564f39941af51e5beeca4e20f1b184627e2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36098a79_c3437b29",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-04-29T17:39:21Z",
+      "side": 1,
+      "message": "This test runs on 386.\nI think the reason it doesn\u0027t fail is that tinyalloc does a conservative round-up of size, such that 12 byte objects round up to 16 regardless of alignment. There\u0027s specific code for this in the tiny allocator.",
+      "parentUuid": "ecbdd484_28782124",
       "revId": "b9a6564f39941af51e5beeca4e20f1b184627e2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
