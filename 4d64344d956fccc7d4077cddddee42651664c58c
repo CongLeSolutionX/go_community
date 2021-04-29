@@ -161,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf78a79a_d17d5106",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-04-29T15:03:20Z",
+      "side": 1,
+      "message": "I tried to back out all the cases where it rejected registers, but may have missed some.  This is not quite \"I have no idea what I am doing\" but it is definitely not something I do well.  I \"adapted\" the test from one of Alessandro\u0027s.",
+      "parentUuid": "354d923f_efebd6cb",
+      "revId": "4d64344d956fccc7d4077cddddee42651664c58c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efe07240_0e8b8aab",
