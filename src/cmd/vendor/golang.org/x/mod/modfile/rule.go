@@ -45,6 +45,15 @@ type File struct {
 	Syntax *FileSyntax
 }
 
+// A WorkFile is the parsed, interpreted form of a go.work file.
+type WorkFile struct {
+	Go      *Go
+	Directory []*Directory
+	Replace []*Replace
+
+	Syntax *FileSyntax
+}
+
 // A Module is the module statement.
 type Module struct {
 	Mod        module.Version
@@ -83,6 +92,13 @@ type Retract struct {
 	VersionInterval
 	Rationale string
 	Syntax    *Line
+}
+
+// A Directory is a single directory statement.
+type Directory struct {
+	DiskPath string  // TODO(matloob): Replace uses module.Version for new. Do that here?
+	ModulePath string // Module path in the comment.
+	Syntax *Line
 }
 
 // A VersionInterval represents a range of versions with upper and lower bounds.
@@ -144,6 +160,20 @@ var dontFixRetract VersionFixer = func(_, vers string) (string, error) {
 func Parse(file string, data []byte, fix VersionFixer) (*File, error) {
 	return parseToFile(file, data, fix, true)
 }
+
+// Parse parses and returns a go.work file.
+//
+// file is the name of the file, used in positions and errors.
+//
+// data is the content of the file.
+//
+// fix is an optional function that canonicalizes module versions.
+// If fix is nil, all module versions must be canonical (module.CanonicalVersion
+// must return the same string).
+func ParseWork(file string, data []byte, fix VersionFixer) (*WorkFile, error) {
+	return parseToWorkFile(file, data, fix, true)
+}
+
 
 // ParseLax is like Parse but ignores unknown statements.
 // It is used when parsing go.mod files other than the main module,
@@ -463,6 +493,196 @@ func (f *File) fixRetract(fix VersionFixer, errs *ErrorList) {
 			wrapError(err)
 		}
 		r.VersionInterval = vi
+	}
+}
+
+
+func parseToWorkFile(file string, data []byte, fix VersionFixer, strict bool) (parsed *WorkFile, err error) {
+	fs, err := parse(file, data)
+	if err != nil {
+		return nil, err
+	}
+	f := &WorkFile{
+		Syntax: fs,
+	}
+	var errs ErrorList
+
+
+	for _, x := range fs.Stmt {
+		switch x := x.(type) {
+		case *Line:
+			f.add(&errs, nil, x, x.Token[0], x.Token[1:], fix, strict)
+
+		case *LineBlock:
+			if len(x.Token) > 1 {
+				if strict {
+					errs = append(errs, Error{
+						Filename: file,
+						Pos:      x.Start,
+						Err:      fmt.Errorf("unknown block type: %s", strings.Join(x.Token, " ")),
+					})
+				}
+				continue
+			}
+			switch x.Token[0] {
+			default:
+				if strict {
+					errs = append(errs, Error{
+						Filename: file,
+						Pos:      x.Start,
+						Err:      fmt.Errorf("unknown block type: %s", strings.Join(x.Token, " ")),
+					})
+				}
+				continue
+			case "module", "require", "exclude", "replace", "retract":
+				for _, l := range x.Line {
+					f.add(&errs, x, l, x.Token[0], l.Token, fix, strict)
+				}
+			}
+		}
+	}
+
+	if len(errs) > 0 {
+		return nil, errs
+	}
+	return f, nil
+}
+
+
+func (f *WorkFile) add(errs *ErrorList, block *LineBlock, line *Line, verb string, args []string, fix VersionFixer, strict bool) {
+	// If strict is false, this module is a dependency.
+	// We ignore all unknown directives as well as main-module-only
+	// directives like replace and exclude. It will work better for
+	// forward compatibility if we can depend on modules that have unknown
+	// statements (presumed relevant only when acting as the main module)
+	// and simply ignore those statements.
+	if !strict {
+		switch verb {
+		case "go", "module", "retract", "require":
+			// want these even for dependency go.mods
+		default:
+			return
+		}
+	}
+
+	wrapModPathError := func(modPath string, err error) {
+		*errs = append(*errs, Error{
+			Filename: f.Syntax.Name,
+			Pos:      line.Start,
+			ModPath:  modPath,
+			Verb:     verb,
+			Err:      err,
+		})
+	}
+	wrapError := func(err error) {
+		*errs = append(*errs, Error{
+			Filename: f.Syntax.Name,
+			Pos:      line.Start,
+			Err:      err,
+		})
+	}
+	errorf := func(format string, args ...interface{}) {
+		wrapError(fmt.Errorf(format, args...))
+	}
+
+	switch verb {
+	default:
+		errorf("unknown directive: %s", verb)
+
+	case "go":
+		if f.Go != nil {
+			errorf("repeated go statement")
+			return
+		}
+		if len(args) != 1 {
+			errorf("go directive expects exactly one argument")
+			return
+		} else if !GoVersionRE.MatchString(args[0]) {
+			errorf("invalid go version '%s': must match format 1.23", args[0])
+			return
+		}
+
+		f.Go = &Go{Syntax: line}
+		f.Go.Version = args[0]
+
+	case "directory":
+		if len(args) != 1 {
+			errorf("usage: %s ../local/directory", verb) // TODO(matloob) better example; most directories will be subdirectories of go.work dir
+			return
+		}
+		s, err := parseString(&args[0])
+		if err != nil {
+			errorf("invalid quoted string: %v", err)
+			return
+		}
+		f.Directory = append(f.Directory, &Directory{
+			DiskPath:    s,
+			Syntax: line,
+		})
+
+	case "replace":
+		arrow := 2
+		if len(args) >= 2 && args[1] == "=>" {
+			arrow = 1
+		}
+		if len(args) < arrow+2 || len(args) > arrow+3 || args[arrow] != "=>" {
+			errorf("usage: %s module/path [v1.2.3] => other/module v1.4\n\t or %s module/path [v1.2.3] => ../local/directory", verb, verb)
+			return
+		}
+		s, err := parseString(&args[0])
+		if err != nil {
+			errorf("invalid quoted string: %v", err)
+			return
+		}
+		pathMajor, err := modulePathMajor(s)
+		if err != nil {
+			wrapModPathError(s, err)
+			return
+		}
+		var v string
+		if arrow == 2 {
+			v, err = parseVersion(verb, s, &args[1], fix)
+			if err != nil {
+				wrapError(err)
+				return
+			}
+			if err := module.CheckPathMajor(v, pathMajor); err != nil {
+				wrapModPathError(s, err)
+				return
+			}
+		}
+		ns, err := parseString(&args[arrow+1])
+		if err != nil {
+			errorf("invalid quoted string: %v", err)
+			return
+		}
+		nv := ""
+		if len(args) == arrow+2 {
+			if !IsDirectoryPath(ns) {
+				errorf("replacement module without version must be directory path (rooted or starting with ./ or ../)")
+				return
+			}
+			if filepath.Separator == '/' && strings.Contains(ns, `\`) {
+				errorf("replacement directory appears to be Windows path (on a non-windows system)")
+				return
+			}
+		}
+		if len(args) == arrow+3 {
+			nv, err = parseVersion(verb, ns, &args[arrow+2], fix)
+			if err != nil {
+				wrapError(err)
+				return
+			}
+			if IsDirectoryPath(ns) {
+				errorf("replacement module directory path %q cannot have version", ns)
+				return
+			}
+		}
+		f.Replace = append(f.Replace, &Replace{
+			Old:    module.Version{Path: s, Version: v},
+			New:    module.Version{Path: ns, Version: nv},
+			Syntax: line,
+		})
 	}
 }
 
