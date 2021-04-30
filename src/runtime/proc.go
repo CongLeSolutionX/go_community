@@ -163,6 +163,11 @@ func main() {
 	// since stackalloc works with 32-bit sizes.
 	maxstackceiling = 2 * maxstacksize
 
+	// Do some last-minute OS-specific setup now that we're basically
+	// ready to execute user code. Some things can't be set up until
+	// m0 has started.
+	osMain()
+
 	// Allow newproc to start new Ms.
 	mainStarted = true
 
