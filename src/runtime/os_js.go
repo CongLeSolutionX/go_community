@@ -164,3 +164,6 @@ const preemptMSupported = false
 func preemptM(mp *m) {
 	// No threads, so nothing to do.
 }
+
+// Called by runtime.main.
+func osMain() {}

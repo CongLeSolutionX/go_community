@@ -312,3 +312,16 @@ func crash() {
 
 // gsignalStack is unused on Windows.
 type gsignalStack struct{}
+
+// osMain is called from the main goroutine right after it's created.
+// It has a valid g, m, and p. Crucially, it also means the runtime is
+// fully initialized.
+func osMain() {
+	// We set up the console control handler all the way here so that:
+	// 1. malloc works for the callback functions these generate, and
+	// 2. any such signal that lands and goes through the cgocallback
+	//    path has needm set up properly.
+	var fn interface{} = ctrlHandler
+	ctrlHandlerPC := compileCallback(*efaceOf(&fn), true)
+	stdcall2(_SetConsoleCtrlHandler, ctrlHandlerPC, 1)
+}
