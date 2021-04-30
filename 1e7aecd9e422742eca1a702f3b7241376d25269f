@@ -195,6 +195,24 @@
       "parentUuid": "3cee8f74_00115e83",
       "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43190c1e_c54d0c10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-30T19:33:18Z",
+      "side": 1,
+      "message": "Yes, I believe this new approach is OK.\n\nThat said, I\u0027m still skeptical of adding this for what seems like very marginal benefit. In CL 310149, the primary motivation was reducing contention on sched.lock. The approach on patch set 8 achieves that much more simply than what is in patch set 10. The primary advantage in patch set 10 is the reduction from N atomic stores to 1 atomic store. Is that difference going to make a difference for any Go program? I don\u0027t know; I\u0027d love to see benchmarks confirming that.",
+      "parentUuid": "910c6c56_eced30e8",
+      "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
