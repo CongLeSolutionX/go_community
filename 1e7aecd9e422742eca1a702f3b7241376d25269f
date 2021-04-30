@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c22aebc_945a20db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-30T17:14:45Z",
+      "side": 1,
+      "message": "This needs updating.",
+      "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ecb7ef55_b16d366c",
@@ -123,6 +140,23 @@
       "side": 1,
       "message": "I\u0027m sorry, I don\u0027t really know how those machines are set up.  I believe that they run on Google Cloud Platform.  You could try asking on golang-dev, someone there might now.",
       "parentUuid": "26cd18bb_b629bd6f",
+      "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4db70c0d_169a0dc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-04-30T17:14:45Z",
+      "side": 1,
+      "message": "See https://groups.google.com/g/golang-dev/c/0pTKxEKhHSc/m/6Q85QjdVBQAJ for analysis of the previous failure. In the latest patchset, we now add to a queue after taking full ownership of the G, so I believe this version is safe.",
       "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
