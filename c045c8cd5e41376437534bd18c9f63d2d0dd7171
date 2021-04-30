@@ -3,6 +3,171 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a99d5c6_5f70da59",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "If this method moves to FileHeader it should move to struct.go with the other FileHeader methods.",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "991043d4_cbd776e3",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "Really minor, but move \"any.\" to the end of the previous line.",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5cd29ca_44557334",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "May as well use size here rather than referring to f.CompressedSize64 again.",
+      "range": {
+        "startLine": 205,
+        "startChar": 61,
+        "endLine": 205,
+        "endChar": 86
+      },
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03a4d71a_2db5d1cb",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "Should this be err \u003d\u003d nil?",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b522e595_716670cf",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "We should probably do what the code in FileInfoHeader does, which is\n\n    if f.CompressedSize64 \u003e uint32max {\n        f.CompressedSize \u003d uint32max\n    } else {\n        f.CompressedSize \u003d uint32(f.CompressedSize64)\n    }",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4b60c83_532f12e3",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "Is the test of desc.crc32 !\u003d r.f.CRC32 correct?  What if r.f.CRC32 is not set, because the value is supposed to come from the data descriptor?",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a3b8c6d_1e7a8d1b",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "I don\u0027t see anything here to handle the case in which the signature is not present.",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b55dd9a_8b0527de",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "Use io.ReadAll.",
+      "range": {
+        "startLine": 621,
+        "startChar": 13,
+        "endLine": 621,
+        "endChar": 27
+      },
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5019d37b_0837fe09",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "Do something like\n    t.Logf(\"got %q\", got)\n    t.Logf(\"want %q\", want)\nbefore the t.Errorf.",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da374863_eb175f7b",
         "filename": "src/archive/zip/reader_test.go",
         "patchSetId": 5
@@ -14,6 +179,58 @@
       "writtenOn": "2021-04-29T18:41:25Z",
       "side": 1,
       "message": "Should I get rid of this since it\u0027s only testing an unexported method?",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e285d0ad_5fee79c1",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "This is good.",
+      "parentUuid": "da374863_eb175f7b",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb7eea8d_88f16253",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "Why the ! here?  Don\u0027t we want to write this descriptor if h.hasDataDescriptor returns true?",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20f014ac_ade5c052",
+        "filename": "src/archive/zip/writer_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T03:48:55Z",
+      "side": 1,
+      "message": "Is there a test of CreateRaw by itself?",
       "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
