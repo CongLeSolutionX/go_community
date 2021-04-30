@@ -74,6 +74,30 @@
       },
       "revId": "d96f9358a26695a22f02fec58e2108e847189938",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96289e23_e3a4c2fb",
+        "filename": "src/cmd/vendor/modules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-30T01:57:37Z",
+      "side": 1,
+      "message": "These are annotations that allow the module loader to check that the contents of the go.mod file are consistent with the contents of the vendor directory. Every module that is listed explicitly in the main module\u0027s go.mod file receives an `## explicit` annotation.\n\nWith lazy loading they\u0027re no longer particularly meaningful (because every relevant module is now explicit), but didn\u0027t seem worth the churn to remove at this point.",
+      "parentUuid": "ff9bdc21_60302fc4",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 11
+      },
+      "revId": "d96f9358a26695a22f02fec58e2108e847189938",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
