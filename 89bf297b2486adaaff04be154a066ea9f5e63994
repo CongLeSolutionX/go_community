@@ -39,6 +39,30 @@
       },
       "revId": "89bf297b2486adaaff04be154a066ea9f5e63994",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fc258eb_81106708",
+        "filename": "src/cmd/internal/archive/archive.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-04-30T17:36:11Z",
+      "side": 1,
+      "message": "Good point. It does. Is it a concern? The information is provided from the visible part of the string. The \\x00 doesn\u0027t add much information. Or we can strip the \\x00 byte.",
+      "parentUuid": "d37037ac_8a60bbbe",
+      "range": {
+        "startLine": 427,
+        "startChar": 32,
+        "endLine": 427,
+        "endChar": 36
+      },
+      "revId": "89bf297b2486adaaff04be154a066ea9f5e63994",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
