@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c32383d7_d7199641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-30T04:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5c9ef56_113b476b",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "ebd3e5f740ef7305920b4f71f8a4165fd23b1fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7dd69ce_fad724ec",
@@ -94,6 +118,24 @@
       "side": 1,
       "message": "Should be fixed by CL 315152, but I can\u0027t be 100% certain because the `gopls` tests are consistently failing locally even at head (#45866).",
       "parentUuid": "b62e062b_2d542e32",
+      "revId": "ebd3e5f740ef7305920b4f71f8a4165fd23b1fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7b5821d_76f7438f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-30T04:16:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "87c75310_3d47250f",
       "revId": "ebd3e5f740ef7305920b4f71f8a4165fd23b1fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
