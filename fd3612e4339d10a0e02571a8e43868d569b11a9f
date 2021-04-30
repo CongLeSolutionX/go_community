@@ -16,6 +16,41 @@
       "message": "I think this first check was incorrect? Because 0 is a valid CRC32 value.",
       "revId": "fd3612e4339d10a0e02571a8e43868d569b11a9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "366e252a_4a47534f",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T18:24:45Z",
+      "side": 0,
+      "message": "0 is a valid CRC32 value but I will bet that there are zip files out in the world that do not compute the CRC and just store 0 in the field.  I think we need to retain this.  At least, we definitely should not change this in this CL.  (If you want to add another field recording whether the CRC came from a data descriptor, and is therefore assumed valid, that is fine.)",
+      "parentUuid": "1c53c70e_566ab023",
+      "revId": "fd3612e4339d10a0e02571a8e43868d569b11a9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13108130_23b5c8dd",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T18:24:45Z",
+      "side": 0,
+      "message": "This doesn\u0027t seem right.  The new idea in the proposal is that we still read the data descriptor.  I don\u0027t think we have to change the way that Open works at all (but we can if we want).  For OpenRaw we should jump ahead and read the data descriptor and use it to fill in the CRC32 field in the header if it is zero, and possibly also the UncompressedSize64 field.\n\nOr so it seems to me.  Let me know if you think otherwise.",
+      "revId": "fd3612e4339d10a0e02571a8e43868d569b11a9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

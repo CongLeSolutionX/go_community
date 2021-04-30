@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c608caae_f6b91e0c",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T18:24:45Z",
+      "side": 1,
+      "message": "This should just be\n\n    return r, nil\n\nWe know that err must be nil, and explicitly saying nil is clearer for the reader.",
+      "revId": "4d3a5a543478179b4b782d79fc0cb98c9516645a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02a362ad_1fd39c4f",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T18:24:45Z",
+      "side": 1,
+      "message": "There is the spec and there is reality.  The reality of zip files is that they don\u0027t correspond to the spec.  We shouldn\u0027t change the behavior of this test.\n\nAlso, from a code health perspective, a CL that adds new API should never change an existing test.  Changing an existing test should be done in a separate CL and discussed separately.",
+      "revId": "4d3a5a543478179b4b782d79fc0cb98c9516645a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c00bb75e_28713dbf",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T18:24:45Z",
+      "side": 1,
+      "message": "Seems to me that this test shouldn\u0027t change either",
+      "revId": "4d3a5a543478179b4b782d79fc0cb98c9516645a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bebf099_f2842b06",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T18:24:45Z",
+      "side": 1,
+      "message": "We don\u0027t have a DataDescriptor any more, so I guess just say \"data descriptor\".  Actually I\u0027m not sure that this phrase is trying to say.",
+      "range": {
+        "startLine": 442,
+        "startChar": 11,
+        "endLine": 442,
+        "endChar": 25
+      },
+      "revId": "4d3a5a543478179b4b782d79fc0cb98c9516645a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

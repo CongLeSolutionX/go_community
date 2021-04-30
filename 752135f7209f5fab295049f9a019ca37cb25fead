@@ -16,6 +16,24 @@
       "message": "This test is very slow. Is that ok? Suggestions to improve? Other cases you think we should test?",
       "revId": "752135f7209f5fab295049f9a019ca37cb25fead",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aaf96bf_fb8716e0",
+        "filename": "src/archive/zip/writer_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T18:24:45Z",
+      "side": 1,
+      "message": "How slow is very slow?  It\u0027s OK to skip it if t.Short() returns true.",
+      "parentUuid": "0a0b4c26_dd18fd7a",
+      "revId": "752135f7209f5fab295049f9a019ca37cb25fead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

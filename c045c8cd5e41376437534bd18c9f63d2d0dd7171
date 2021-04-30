@@ -410,6 +410,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f93850d_9b283a0d",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T18:24:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "10b96054_e0e7ecfd",
+      "revId": "c045c8cd5e41376437534bd18c9f63d2d0dd7171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20f014ac_ade5c052",
