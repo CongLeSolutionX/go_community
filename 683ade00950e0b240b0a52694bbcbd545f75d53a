@@ -162,6 +162,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "087be119_e6cb2507",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-30T17:33:46Z",
+      "side": 1,
+      "message": "Hmm... I had intended the comments for the Version constants (in modfile.go) to cover that kind of detail. (It\u0027s part of why they\u0027re named constants instead of just numbers.)\n\nWe also have a couple of other things that are gated on various versions. Maybe I should factor all of those out into a “history of modules” kind of package? 🙂\n\nBut either way I\u0027d prefer to follow up on that separately.",
+      "parentUuid": "179be807_15bea350",
+      "range": {
+        "startLine": 926,
+        "startChar": 42,
+        "endLine": 926,
+        "endChar": 59
+      },
+      "revId": "683ade00950e0b240b0a52694bbcbd545f75d53a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d7b1723_35dbe85e",
