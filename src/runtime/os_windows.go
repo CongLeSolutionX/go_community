@@ -679,12 +679,6 @@ func goenvs() {
 
 	stdcall1(_FreeEnvironmentStringsW, uintptr(strings))
 
-	// We call these all the way here, late in init, so that malloc works
-	// for the callback functions these generate.
-	var fn interface{} = ctrlHandler
-	ctrlHandlerPC := compileCallback(*efaceOf(&fn), true)
-	stdcall2(_SetConsoleCtrlHandler, ctrlHandlerPC, 1)
-
 	monitorSuspendResume()
 }
 
