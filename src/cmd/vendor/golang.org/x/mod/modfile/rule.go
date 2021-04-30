@@ -45,6 +45,15 @@ type File struct {
 	Syntax *FileSyntax
 }
 
+// A WorkFile is the parsed, interpreted form of a go.work file.
+type WorkFile struct {
+	Go        *Go
+	Directory []*Directory
+	Replace   []*Replace
+
+	Syntax *FileSyntax
+}
+
 // A Module is the module statement.
 type Module struct {
 	Mod        module.Version
@@ -76,6 +85,13 @@ type Retract struct {
 	VersionInterval
 	Rationale string
 	Syntax    *Line
+}
+
+// A Directory is a single directory statement.
+type Directory struct {
+	DiskPath   string // TODO(matloob): Replace uses module.Version for new. Do that here?
+	ModulePath string // Module path in the comment.
+	Syntax     *Line
 }
 
 // A VersionInterval represents a range of versions with upper and lower bounds.
@@ -223,6 +239,19 @@ var dontFixRetract VersionFixer = func(_, vers string) (string, error) {
 // must return the same string).
 func Parse(file string, data []byte, fix VersionFixer) (*File, error) {
 	return parseToFile(file, data, fix, true)
+}
+
+// Parse parses and returns a go.work file.
+//
+// file is the name of the file, used in positions and errors.
+//
+// data is the content of the file.
+//
+// fix is an optional function that canonicalizes module versions.
+// If fix is nil, all module versions must be canonical (module.CanonicalVersion
+// must return the same string).
+func ParseWork(file string, data []byte, fix VersionFixer) (*WorkFile, error) {
+	return parseToWorkFile(file, data, fix, true)
 }
 
 // ParseLax is like Parse but ignores unknown statements.
@@ -553,6 +582,193 @@ func (f *File) fixRetract(fix VersionFixer, errs *ErrorList) {
 			wrapError(err)
 		}
 		r.VersionInterval = vi
+	}
+}
+
+func parseToWorkFile(file string, data []byte, fix VersionFixer, strict bool) (parsed *WorkFile, err error) {
+	fs, err := parse(file, data)
+	if err != nil {
+		return nil, err
+	}
+	f := &WorkFile{
+		Syntax: fs,
+	}
+	var errs ErrorList
+
+	for _, x := range fs.Stmt {
+		switch x := x.(type) {
+		case *Line:
+			f.add(&errs, nil, x, x.Token[0], x.Token[1:], fix, strict)
+
+		case *LineBlock:
+			if len(x.Token) > 1 {
+				if strict {
+					errs = append(errs, Error{
+						Filename: file,
+						Pos:      x.Start,
+						Err:      fmt.Errorf("unknown block type: %s", strings.Join(x.Token, " ")),
+					})
+				}
+				continue
+			}
+			switch x.Token[0] {
+			default:
+				if strict {
+					errs = append(errs, Error{
+						Filename: file,
+						Pos:      x.Start,
+						Err:      fmt.Errorf("unknown block type: %s", strings.Join(x.Token, " ")),
+					})
+				}
+				continue
+			case "module", "directory", "replace":
+				for _, l := range x.Line {
+					f.add(&errs, x, l, x.Token[0], l.Token, fix, strict)
+				}
+			}
+		}
+	}
+
+	if len(errs) > 0 {
+		return nil, errs
+	}
+	return f, nil
+}
+
+func (f *WorkFile) add(errs *ErrorList, block *LineBlock, line *Line, verb string, args []string, fix VersionFixer, strict bool) {
+	// If strict is false, this module is a dependency.
+	// We ignore all unknown directives as well as main-module-only
+	// directives like replace and exclude. It will work better for
+	// forward compatibility if we can depend on modules that have unknown
+	// statements (presumed relevant only when acting as the main module)
+	// and simply ignore those statements.
+	if !strict {
+		switch verb {
+		case "go", "module", "retract", "require":
+			// want these even for dependency go.mods
+		default:
+			return
+		}
+	}
+
+	wrapModPathError := func(modPath string, err error) {
+		*errs = append(*errs, Error{
+			Filename: f.Syntax.Name,
+			Pos:      line.Start,
+			ModPath:  modPath,
+			Verb:     verb,
+			Err:      err,
+		})
+	}
+	wrapError := func(err error) {
+		*errs = append(*errs, Error{
+			Filename: f.Syntax.Name,
+			Pos:      line.Start,
+			Err:      err,
+		})
+	}
+	errorf := func(format string, args ...interface{}) {
+		wrapError(fmt.Errorf(format, args...))
+	}
+
+	switch verb {
+	default:
+		errorf("unknown directive: %s", verb)
+
+	case "go":
+		if f.Go != nil {
+			errorf("repeated go statement")
+			return
+		}
+		if len(args) != 1 {
+			errorf("go directive expects exactly one argument")
+			return
+		} else if !GoVersionRE.MatchString(args[0]) {
+			errorf("invalid go version '%s': must match format 1.23", args[0])
+			return
+		}
+
+		f.Go = &Go{Syntax: line}
+		f.Go.Version = args[0]
+
+	case "directory":
+		if len(args) != 1 {
+			errorf("usage: %s ../local/directory", verb) // TODO(matloob) better example; most directories will be subdirectories of go.work dir
+			return
+		}
+		s, err := parseString(&args[0])
+		if err != nil {
+			errorf("invalid quoted string: %v", err)
+			return
+		}
+		f.Directory = append(f.Directory, &Directory{
+			DiskPath: s,
+			Syntax:   line,
+		})
+
+	case "replace":
+		arrow := 2
+		if len(args) >= 2 && args[1] == "=>" {
+			arrow = 1
+		}
+		if len(args) < arrow+2 || len(args) > arrow+3 || args[arrow] != "=>" {
+			errorf("usage: %s module/path [v1.2.3] => other/module v1.4\n\t or %s module/path [v1.2.3] => ../local/directory", verb, verb)
+			return
+		}
+		s, err := parseString(&args[0])
+		if err != nil {
+			errorf("invalid quoted string: %v", err)
+			return
+		}
+		pathMajor, err := modulePathMajor(s)
+		if err != nil {
+			wrapModPathError(s, err)
+			return
+		}
+		var v string
+		if arrow == 2 {
+			v, err = parseVersion(verb, s, &args[1], fix)
+			if err != nil {
+				wrapError(err)
+				return
+			}
+			if err := module.CheckPathMajor(v, pathMajor); err != nil {
+				wrapModPathError(s, err)
+				return
+			}
+		}
+		ns, err := parseString(&args[arrow+1])
+		if err != nil {
+			errorf("invalid quoted string: %v", err)
+			return
+		}
+		nv := ""
+		if len(args) == arrow+2 {
+			if !IsDirectoryPath(ns) {
+				errorf("replacement module without version must be directory path (rooted or starting with ./ or ../)")
+				return
+			}
+			if filepath.Separator == '/' && strings.Contains(ns, `\`) {
+				errorf("replacement directory appears to be Windows path (on a non-windows system)")
+				return
+			}
+		}
+		if len(args) == arrow+3 {
+			nv, err = parseVersion(verb, ns, &args[arrow+2], fix)
+			if err != nil {
+				wrapError(err)
+				return
+			}
+			if IsDirectoryPath(ns) {
+				errorf("replacement module directory path %q cannot have version", ns)
+				return
+			}
+		}
+		f.Replace = append(f.Replace, &Replace{
+			Old:    module.Version{Path: s, Version: v},
+			New:    module.Version{Path: ns, Version: nv},
+			Syntax: line,
+		})
 	}
 }
 
@@ -1300,6 +1516,273 @@ func (f *File) removeDups() {
 		}
 	}
 	f.Exclude = excl
+
+	// Remove duplicate replacements.
+	// Later replacements take priority over earlier ones.
+	haveReplace := make(map[module.Version]bool)
+	for i := len(f.Replace) - 1; i >= 0; i-- {
+		x := f.Replace[i]
+		if haveReplace[x.Old] {
+			kill[x.Syntax] = true
+			continue
+		}
+		haveReplace[x.Old] = true
+	}
+	var repl []*Replace
+	for _, x := range f.Replace {
+		if !kill[x.Syntax] {
+			repl = append(repl, x)
+		}
+	}
+	f.Replace = repl
+
+	// Duplicate require and retract directives are not removed.
+
+	// Drop killed statements from the syntax tree.
+	var stmts []Expr
+	for _, stmt := range f.Syntax.Stmt {
+		switch stmt := stmt.(type) {
+		case *Line:
+			if kill[stmt] {
+				continue
+			}
+		case *LineBlock:
+			var lines []*Line
+			for _, line := range stmt.Line {
+				if !kill[line] {
+					lines = append(lines, line)
+				}
+			}
+			stmt.Line = lines
+			if len(lines) == 0 {
+				continue
+			}
+		}
+		stmts = append(stmts, stmt)
+	}
+	f.Syntax.Stmt = stmts
+}
+
+func (f *WorkFile) Format() ([]byte, error) {
+	return Format(f.Syntax), nil
+}
+
+// Cleanup cleans up the file f after any edit operations.
+// To avoid quadratic behavior, modifications like DropRequire
+// clear the entry but do not remove it from the slice.
+// Cleanup cleans out all the cleared entries.
+func (f *WorkFile) Cleanup() {
+	w := 0
+	for _, r := range f.Directory {
+		if r.DiskPath != "" {
+			f.Directory[w] = r
+			w++
+		}
+	}
+	f.Directory = f.Directory[:w]
+
+	w = 0
+	for _, r := range f.Replace {
+		if r.Old.Path != "" {
+			f.Replace[w] = r
+			w++
+		}
+	}
+	f.Replace = f.Replace[:w]
+
+	f.Syntax.Cleanup()
+}
+
+func (f *WorkFile) AddGoStmt(version string) error {
+	if f.Syntax == nil {
+		f.Syntax = new(FileSyntax)
+	}
+	if !GoVersionRE.MatchString(version) {
+		return fmt.Errorf("invalid language version string %q", version)
+	}
+	if f.Go == nil {
+		var hint Expr // TODO(matloob): somehow hint to the beginning of the file???
+		f.Go = &Go{
+			Version: version,
+			Syntax:  f.Syntax.addLine(hint, "go", version),
+		}
+	} else {
+		f.Go.Version = version
+		f.Syntax.updateLine(f.Go.Syntax, "go", version)
+	}
+	return nil
+}
+
+func (f *WorkFile) AddDirectory(diskPath, modulePath string) error {
+	need := true
+	for _, d := range f.Directory {
+		if d.DiskPath == diskPath {
+			if need {
+				d.ModulePath = modulePath
+				f.Syntax.updateLine(d.Syntax, "require", AutoQuote(diskPath))
+				need = false
+			} else {
+				d.Syntax.markRemoved()
+				*d = Directory{}
+			}
+		}
+	}
+
+	if need {
+		f.AddNewDirectory(diskPath, modulePath)
+	}
+	return nil
+}
+
+func (f *WorkFile) AddNewDirectory(diskPath, modulePath string) {
+	line := f.Syntax.addLine(nil, "directory", AutoQuote(diskPath))
+	f.Directory = append(f.Directory, &Directory{DiskPath: diskPath, ModulePath: modulePath, Syntax: line})
+}
+
+func (f *WorkFile) SetDirectory(req []*Directory) {
+	need := make(map[string]string)
+	for _, r := range req {
+		need[r.DiskPath] = r.ModulePath
+	}
+
+	for _, r := range f.Directory {
+		if modulePath, ok := need[r.DiskPath]; ok {
+			r.ModulePath = modulePath
+		} else {
+			*r = Directory{}
+		}
+	}
+
+	var newStmts []Expr
+	for _, stmt := range f.Syntax.Stmt {
+		switch stmt := stmt.(type) {
+		case *LineBlock:
+			if len(stmt.Token) > 0 && stmt.Token[0] == "directory" {
+				var newLines []*Line
+				for _, line := range stmt.Line {
+					if p, err := parseString(&line.Token[0]); err == nil && need[p] != "" {
+						if len(line.Comments.Before) == 1 && len(line.Comments.Before[0].Token) == 0 {
+							line.Comments.Before = line.Comments.Before[:0]
+						}
+						line.Token[1] = need[p]
+						delete(need, p)
+						newLines = append(newLines, line)
+					}
+				}
+				if len(newLines) == 0 {
+					continue // drop stmt
+				}
+				stmt.Line = newLines
+			}
+
+		case *Line:
+			if len(stmt.Token) > 0 && stmt.Token[0] == "directory" {
+				if p, err := parseString(&stmt.Token[1]); err == nil && need[p] != "" {
+					stmt.Token[2] = need[p]
+					delete(need, p)
+				} else {
+					continue // drop stmt
+				}
+			}
+		}
+		newStmts = append(newStmts, stmt)
+	}
+	f.Syntax.Stmt = newStmts
+
+	for diskPath, modulePath := range need {
+		f.AddNewDirectory(diskPath, modulePath)
+	}
+	f.SortBlocks()
+}
+
+func (f *WorkFile) DropDirectory(path string) error {
+	for _, d := range f.Directory {
+		if d.DiskPath == path {
+			d.Syntax.markRemoved()
+			*d = Directory{}
+		}
+	}
+	return nil
+}
+
+func (f *WorkFile) AddReplace(oldPath, oldVers, newPath, newVers string) error {
+	need := true
+	old := module.Version{Path: oldPath, Version: oldVers}
+	new := module.Version{Path: newPath, Version: newVers}
+	tokens := []string{"replace", AutoQuote(oldPath)}
+	if oldVers != "" {
+		tokens = append(tokens, oldVers)
+	}
+	tokens = append(tokens, "=>", AutoQuote(newPath))
+	if newVers != "" {
+		tokens = append(tokens, newVers)
+	}
+
+	var hint *Line
+	for _, r := range f.Replace {
+		if r.Old.Path == oldPath && (oldVers == "" || r.Old.Version == oldVers) {
+			if need {
+				// Found replacement for old; update to use new.
+				r.New = new
+				f.Syntax.updateLine(r.Syntax, tokens...)
+				need = false
+				continue
+			}
+			// Already added; delete other replacements for same.
+			r.Syntax.markRemoved()
+			*r = Replace{}
+		}
+		if r.Old.Path == oldPath {
+			hint = r.Syntax
+		}
+	}
+	if need {
+		f.Replace = append(f.Replace, &Replace{Old: old, New: new, Syntax: f.Syntax.addLine(hint, tokens...)})
+	}
+	return nil
+}
+
+func (f *WorkFile) DropReplace(oldPath, oldVers string) error {
+	for _, r := range f.Replace {
+		if r.Old.Path == oldPath && r.Old.Version == oldVers {
+			r.Syntax.markRemoved()
+			*r = Replace{}
+		}
+	}
+	return nil
+}
+
+func (f *WorkFile) SortBlocks() {
+	f.removeDups() // otherwise sorting is unsafe
+
+	for _, stmt := range f.Syntax.Stmt {
+		block, ok := stmt.(*LineBlock)
+		if !ok {
+			continue
+		}
+		less := lineLess
+		if block.Token[0] == "retract" {
+			less = lineRetractLess
+		}
+		sort.SliceStable(block.Line, func(i, j int) bool {
+			return less(block.Line[i], block.Line[j])
+		})
+	}
+}
+
+// removeDups removes duplicate exclude and replace directives.
+//
+// Earlier exclude directives take priority.
+//
+// Later replace directives take priority.
+//
+// require directives are not de-duplicated. That's left up to higher-level
+// logic (MVS).
+//
+// retract directives are not de-duplicated since comments are
+// meaningful, and versions may be retracted multiple times.
+func (f *WorkFile) removeDups() {
+	kill := make(map[*Line]bool)
 
 	// Remove duplicate replacements.
 	// Later replacements take priority over earlier ones.
