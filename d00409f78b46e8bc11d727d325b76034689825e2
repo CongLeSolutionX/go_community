@@ -33,6 +33,40 @@
       "message": "R\u003dgri\n\nI\u0027m sorry, I don\u0027t feel comfortable reviewing this, so I\u0027m going to drop off. I\u0027ve never been familiar with the code, it\u0027s intricate and delicate, and I\u0027m worried about Hyrum\u0027s Law--same reasons as I never mailed my fix to https://github.com/golang/go/issues/21755. I do idly wonder whether this change might also https://github.com/golang/go/issues/22371.\n\nAnyway, thanks for working on this Eva, and sorry I can\u0027t review it for you. Robert will get to it eventually, I\u0027m sure, but it may be a while as he\u0027s heads down on generics.\n",
       "revId": "d00409f78b46e8bc11d727d325b76034689825e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "314643bb_786cf7a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-30T04:53:04Z",
+      "side": 1,
+      "message": "Thanks for making a viable attempt at fixing this code - it\u0027s rather subtle. I can confirm that the change addresses the specific example, but I\u0027m not sure it holds up for variations of it. It would be good to get those covered as well.\n\nIn the meantime I have sent out https://go-review.googlesource.com/c/go/+/315370 which (slightly)\nimproves the CommentMap String method, which may be useful for debugging.\n\nLet\u0027s try to get this in for 1.17 if we can (the CL is pending, so we may have a bit of a grace period and this is not critical code).",
+      "revId": "d00409f78b46e8bc11d727d325b76034689825e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f89566eb_a82f5113",
+        "filename": "src/go/ast/commentmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-04-30T04:53:04Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is quite right. I agree that it works for the specific case of an empty function with a comment inside and no blank lines around it. But if I tested correctly, when going from\n\nfunc f2() {\n\t// associated with the body of f2\n}\n\nto\n\nfunc f2() {\n\n\t// associated with the body of f2\n\n}\n\nthe comment is not associated with the block but the function again. It would be good to get this case right as well. I don\u0027t have an immediate suggestion for improvement (it\u0027s been a while since I wrote this code and it\u0027s tricky).",
+      "revId": "d00409f78b46e8bc11d727d325b76034689825e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
