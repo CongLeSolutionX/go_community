@@ -159,6 +159,24 @@
       "message": "See https://groups.google.com/g/golang-dev/c/0pTKxEKhHSc/m/6Q85QjdVBQAJ for analysis of the previous failure. In the latest patchset, we now add to a queue after taking full ownership of the G, so I believe this version is safe.",
       "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cee8f74_00115e83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-30T18:28:27Z",
+      "side": 1,
+      "message": "Thank you, Michael, this is an insightful analysis, thanks again for your effort here.\n\nI think we can still keep runqdrain() by making some fixups: we move the CasRel of p.head in front of the process of pushing gp\u0027s to drainQ, which ensures that we get the full ownership of all G\u0027s before we can actually update its schedlink.",
+      "parentUuid": "4db70c0d_169a0dc1",
+      "revId": "1e7aecd9e422742eca1a702f3b7241376d25269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
