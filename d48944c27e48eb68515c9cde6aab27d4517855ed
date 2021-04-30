@@ -34,6 +34,24 @@
       "parentUuid": "bb5e637d_250d7fcb",
       "revId": "d48944c27e48eb68515c9cde6aab27d4517855ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89fadd25_c1dbd41c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-30T12:51:29Z",
+      "side": 1,
+      "message": "OK, this is fixed in the latest patch set. Thanks.",
+      "parentUuid": "7311ad7d_73b4277a",
+      "revId": "d48944c27e48eb68515c9cde6aab27d4517855ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
