@@ -107,6 +107,24 @@
       "parentUuid": "d7547f1a_0d74e982",
       "revId": "cb5c9671b3aaa2424a6a8fd263e1a5693a414ad2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "372de665_94e3a8d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-04-30T14:34:36Z",
+      "side": 1,
+      "message": "Also TestTrace in pkg/terminal/command_test.go",
+      "parentUuid": "be8f5f7b_470b2cd3",
+      "revId": "cb5c9671b3aaa2424a6a8fd263e1a5693a414ad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
