@@ -53,6 +53,24 @@
       "message": "The places in fuzz.go/worker.go that call coverage() assume that the returned slice is static, but since it points to the memory where the runtime is mutating the counters it will continue to change after the call. For instance the coordinator initializes it\u0027s coverageData slice using a call to coverage(), but then seems to make the assumption that only c.updateCoverage will mutate it, but this doesn\u0027t hold.\n\nThis is likely to result in worker/coordinator disagreements, especially since we\u0027re instrumenting everything at the moment, so any execution outside of the fuzz target is going to cause the counters to change (even if/when we only instrument the dependencies of the target package the counters _can_ change, if there are any overlapping dependencies between the target and testing or internal/fuzz, etc).\n\nAn option is to just make a copy of res and return that instead (or make it explicit that the caller must do this if they want a static slice), as long as the caller calls resetCoverage() and coverage() as close to the thing they want to actually measure as possible, they counters _should_ be as near to representing only the called fuzzFn as we can get...",
       "revId": "21bdea2ed0f8a662d3e559d954b850d31d132d91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f1b94e3_0adb57f2",
+        "filename": "src/internal/fuzz/coverage.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-04-30T17:13:03Z",
+      "side": 1,
+      "message": "Thanks for looking into this. The theory definitely checks out. The original code actually was allocating a new slice and copying coverage() into it directly wherever coverage() is now called. I was thinking that an approximation would be fine, and ripped out that code. But you\u0027re right that it could cause disagreements, so I\u0027m going to put that code back in.\n\nThe extra allocation each time will cause a slowdown, particularly in the worker, but I\u0027ll add a TODO to consider re-using a buffer.",
+      "parentUuid": "2de54598_52ae1803",
+      "revId": "21bdea2ed0f8a662d3e559d954b850d31d132d91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
