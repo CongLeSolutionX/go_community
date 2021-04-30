@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18a733f4_e6034c8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-04-30T18:53:55Z",
+      "side": 1,
+      "message": "Interesting: this isn\u0027t the case for go/types. I\u0027ll adjust to be consistent.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "95c5f4da80960d0e3511d39c9a9db7280099a37e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
