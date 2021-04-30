@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17dac2cf_c1c0ec4c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-04-30T01:57:37Z",
+      "side": 1,
+      "message": "\u003e why isn\u0027t this comparing with lazyLoadingVersionV?\n\nThe new \"all\" pattern made it into Go 1.16, before lazy loading proper.\n\n\u003e don\u0027t we want the compare to be true succeed if params.GoVersion \u003d\u003d narrowAllVersionV?\n\nNope. allClosesOverTests is a legacy behavior; it applies only to versions strictly older than the threshold.\n\n\u003e can we use modDepthFromGoVersion here?\n\nNo. The meaning of the \"all\" pattern has to match the new version, not the old version — that\u0027s important for `go mod tidy -go`, since it actually loads the \"all\" pattern.\n\nIt would, in theory, be possible to upgrade the version of the modfile separately from loading packages, but then we\u0027d be back to the very stateful AllowWriteGoMod/DisallowWriteGoMod sequence, and I\u0027d like to reduce and eventually eliminate the places that rely on that sequence.",
+      "parentUuid": "edc0c0e2_f1ea12f7",
+      "range": {
+        "startLine": 926,
+        "startChar": 42,
+        "endLine": 926,
+        "endChar": 59
+      },
+      "revId": "683ade00950e0b240b0a52694bbcbd545f75d53a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d7b1723_35dbe85e",
