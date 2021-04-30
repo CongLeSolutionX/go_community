@@ -1231,3 +1231,6 @@ func setsigsegv(pc uintptr) {
 	g.sigcode0 = _SEGV_MAPERR
 	g.sigcode1 = 0 // TODO: emulate si_addr
 }
+
+// Called from runtime.main.
+func osMain() {}

@@ -55,3 +55,6 @@ var sigtable = [...]sigTabT{
 	// Aborts can be handled if desired, otherwise they cause a stack trace.
 	{_SigNotify + _SigThrow, "abort"},
 }
+
+// Called from runtime.main.
+func osMain() {}
