@@ -16,6 +16,24 @@
       "message": "I\u0027ve found a case where (I think) the location list that gets computed is wrong.\n\nhttps://github.com/go-delve/delve/blob/master/_fixtures/goroutinestackprog.go\n\nCompiles to this:\n\ngoroutinestackprog.go:7\tS\t0x455680\t493b6610\tCMPQ 0x10(R14), SP\ngoroutinestackprog.go:7\t\t0x455684\t7649\tJBE 0x4556cf\ngoroutinestackprog.go:7\tSP\t0x455686\t4883ec18\tSUBQ $0x18, SP\ngoroutinestackprog.go:7\t\t0x45568a\t48896c2410\tMOVQ BP, 0x10(SP)\ngoroutinestackprog.go:7\t\t0x45568f\t488d6c2410\tLEAQ 0x10(SP), BP\ngoroutinestackprog.go:7\t\t0x455694\t4889442420\tMOVQ AX, 0x20(SP)\ngoroutinestackprog.go:7\t\t0x455699\t48895c2428\tMOVQ BX, 0x28(SP)\ngoroutinestackprog.go:7\t\t0x45569e\t48894c2430\tMOVQ CX, 0x30(SP)\n...\n\nWith the arguments having the following locations:\n\nstarted\n    0x455680 0x4556a3 DW_OP_reg0 \n    0x4556a3 0x4556f6 DW_OP_call_frame_cfa \n\ndone\n    0x455680 0x4556a3 DW_OP_reg3 \n    0x4556a3 0x4556f6 DW_OP_fbreg 0x4 \n\ni\n    0x455680 0x4556a3 DW_OP_reg2 \n    0x4556a3 0x4556f6 DW_OP_fbreg 0x8\n\nIt seems to me that the instructions saving the variables are doing it a 0x8 intervals but the locations go with a step of 0x4, not sure what the cause would be.",
       "revId": "d48944c27e48eb68515c9cde6aab27d4517855ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7311ad7d_73b4277a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-30T11:13:39Z",
+      "side": 1,
+      "message": "Thanks-- I\u0027ll take a look.",
+      "parentUuid": "bb5e637d_250d7fcb",
+      "revId": "d48944c27e48eb68515c9cde6aab27d4517855ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
