@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a0b4c26_dd18fd7a",
+        "filename": "src/archive/zip/writer_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 33607
+      },
+      "writtenOn": "2021-04-30T09:24:18Z",
+      "side": 1,
+      "message": "This test is very slow. Is that ok? Suggestions to improve? Other cases you think we should test?",
+      "revId": "752135f7209f5fab295049f9a019ca37cb25fead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
