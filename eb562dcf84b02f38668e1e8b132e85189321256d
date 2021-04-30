@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9158f243_d41c2496",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T19:05:52Z",
+      "side": 1,
+      "message": "Either omit the comma after \"method\" or make it a separate sentence as in \"Gostring method.  It will return a....\"",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9157b67a_9a157c3e",
+        "filename": "src/time/format.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T19:05:52Z",
+      "side": 1,
+      "message": "Minor: this change doesn\u0027t seem necessary.",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab8c4238_754f25e5",
+        "filename": "src/time/format.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T19:05:52Z",
+      "side": 1,
+      "message": "The 10 is a constant here.  I don\u0027t see how this could result in v \u003e 9.",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0286bb7_0f28895f",
+        "filename": "src/time/format.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T19:05:52Z",
+      "side": 1,
+      "message": "You can write this as\n\n    buf \u003d append(buf, t.Month().String()...)",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a7da192_d667105d",
+        "filename": "src/time/format.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T19:05:52Z",
+      "side": 1,
+      "message": "I\u0027m not even sure it\u0027s worth using first and sz here.  I think it would be fine to just hex encode byte by byte.  Especially since no standard timezone name uses non-ASCII characters anyhow.",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "314338df_03f705a8",
+        "filename": "src/time/format_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-04-30T19:05:52Z",
+      "side": 1,
+      "message": "We are already dot-importing \"time\", do we need to also explicitly import it?  Just drop the \"time.\" prefix in the new code.",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
