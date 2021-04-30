@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3aff605_1adeec4e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 6069,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-30T20:15:01Z",
+      "side": 1,
+      "message": "Actually this condition is just a experimental attempt before, it should always be true since we figure out the root cause here, Removed.",
+      "parentUuid": "d96a4da3_84011c95",
+      "range": {
+        "startLine": 6069,
+        "startChar": 43,
+        "endLine": 6069,
+        "endChar": 60
+      },
+      "revId": "181a3f5153307d9ad69e2bbe298343deb3d51ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80525096_809ad411",
@@ -80,6 +104,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f0695ef5_4926a698",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 6070,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-30T20:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80525096_809ad411",
+      "revId": "181a3f5153307d9ad69e2bbe298343deb3d51ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f60ce91a_81c75411",
         "filename": "src/runtime/proc.go",
         "patchSetId": 10
@@ -91,6 +133,24 @@
       "writtenOn": "2021-04-30T19:33:18Z",
       "side": 1,
       "message": "FWIW, I think it looks a bit awkward to put this access after commiting the update to head, since it looks like these entries might get overwritten by another writer.\n\nThat shouldn\u0027t happen because only the local P can add to the runq and we are the local P, but I think this warrants a comment.",
+      "revId": "181a3f5153307d9ad69e2bbe298343deb3d51ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d8384c9_36be832e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 6071,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-04-30T20:15:01Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f60ce91a_81c75411",
       "revId": "181a3f5153307d9ad69e2bbe298343deb3d51ab5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
