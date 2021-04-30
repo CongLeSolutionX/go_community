@@ -226,6 +226,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4058504_9a01641a",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-04-30T18:30:38Z",
+      "side": 1,
+      "message": "OK, fixed.",
+      "parentUuid": "133f9c70_76711677",
+      "range": {
+        "startLine": 1297,
+        "startChar": 12,
+        "endLine": 1297,
+        "endChar": 17
+      },
+      "revId": "7bf8728fbaae0bc65495fda27ba203590d1f3ee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7a054f8_85953283",
