@@ -87,6 +87,24 @@
       "message": "Could you try to get rid of the goto again?\nh and qn need to be declared before the loop for that to work, the first goto becomes a continue and the second goto needs its condition reversed and becomes a break.",
       "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b7a95ae_b1d9bb62",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 6071,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-05-01T04:51:13Z",
+      "side": 1,
+      "message": "Actually both of these two goto\u0027s are supposed to achieve the same effect like \"continue\" in a \"for loop\".\n\ngoto saves us some indents from {}.",
+      "parentUuid": "b690254a_dd8c4a3b",
+      "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
