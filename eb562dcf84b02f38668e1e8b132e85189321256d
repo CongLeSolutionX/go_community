@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bcae01e_bc8e5894",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-05-01T18:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9158f243_d41c2496",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9157b67a_9a157c3e",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-30T19:05:52Z",
       "side": 1,
       "message": "Minor: this change doesn\u0027t seem necessary.",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86ce1370_b6d7abb5",
+        "filename": "src/time/format.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-05-01T18:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9157b67a_9a157c3e",
       "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5f63094_c5dedea9",
+        "filename": "src/time/format.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-05-01T18:00:21Z",
+      "side": 1,
+      "message": "Whoops, this is a holdover from when I tried to amend this code to print hex strings. I\u0027ve reverted this change.",
+      "parentUuid": "ab8c4238_754f25e5",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0286bb7_0f28895f",
         "filename": "src/time/format.go",
         "patchSetId": 8
@@ -65,6 +119,24 @@
       "writtenOn": "2021-04-30T19:05:52Z",
       "side": 1,
       "message": "You can write this as\n\n    buf \u003d append(buf, t.Month().String()...)",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad98530d_33137c4a",
+        "filename": "src/time/format.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-05-01T18:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0286bb7_0f28895f",
       "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -88,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1261a77f_edbee583",
+        "filename": "src/time/format.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-05-01T18:00:21Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, it\u0027s a lot simpler this way, honestly I did that because I wasn\u0027t sure how to check the byte length of a rune.",
+      "parentUuid": "8a7da192_d667105d",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "314338df_03f705a8",
         "filename": "src/time/format_test.go",
         "patchSetId": 8
@@ -99,6 +189,24 @@
       "writtenOn": "2021-04-30T19:05:52Z",
       "side": 1,
       "message": "We are already dot-importing \"time\", do we need to also explicitly import it?  Just drop the \"time.\" prefix in the new code.",
+      "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ef34c9_60a3c302",
+        "filename": "src/time/format_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-05-01T18:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "314338df_03f705a8",
       "revId": "eb562dcf84b02f38668e1e8b132e85189321256d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
