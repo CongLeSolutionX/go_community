@@ -34,6 +34,24 @@
       "parentUuid": "63fe5f05_3c44e742",
       "revId": "ca2f34032a788e9196208797a8cddb9b60c7e103",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7882879_136cffbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-05-01T20:52:22Z",
+      "side": 1,
+      "message": "The current commit message does not have a verb. The verb I added is \"fix\". Generally, commit messages should have a verb. Browsing recent commits, the messages all begin with words like \"switch\", \"convert\", \"list\", \"break up\", etc.",
+      "parentUuid": "b144a9b3_fb61b0ea",
+      "revId": "ca2f34032a788e9196208797a8cddb9b60c7e103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
