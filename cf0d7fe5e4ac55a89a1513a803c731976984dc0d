@@ -53,6 +53,40 @@
       "message": "I believe that we\u0027ve found the solution for the previous build failure, shall we submit it?",
       "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5a767fe_49e91be5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-05-01T04:33:25Z",
+      "side": 1,
+      "message": "Suggested a way to get rid of tge goto again. ",
+      "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b690254a_dd8c4a3b",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 6071,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-05-01T04:33:25Z",
+      "side": 1,
+      "message": "Could you try to get rid of the goto again?\nh and qn need to be declared before the loop for that to work, the first goto becomes a continue and the second goto needs its condition reversed and becomes a break.",
+      "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
