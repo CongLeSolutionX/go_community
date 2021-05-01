@@ -105,6 +105,24 @@
       "parentUuid": "b690254a_dd8c4a3b",
       "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "983ef362_a30126e1",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 6071,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-05-01T04:56:09Z",
+      "side": 1,
+      "message": "Besides, I don\u0027t quite get it when you said h and qn need to be declared before the loop, them will be brand new variables and re-assigned with new values in every round.",
+      "parentUuid": "4b7a95ae_b1d9bb62",
+      "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
