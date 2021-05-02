@@ -98,6 +98,12 @@ stdout 'testdata[/\\]corpus[/\\]FuzzString[/\\]'
 stdout 'this input caused a crash!'
 go run check_testdata.go FuzzString
 
+# Running the fuzzer should find a crashing input with the correct test name when using mutated input.
+! go test -run=FuzzTestNameHash -fuzz=FuzzTestNameHash -fuzztime=100x
+stdout 'testdata[/\\]corpus[/\\]FuzzTestNameHash[/\\][a-f0-9]{64}'
+stdout 'this input caused a crash!'
+go run check_testdata.go FuzzTestNameHash
+
 -- go.mod --
 module m
 
@@ -236,6 +242,14 @@ func FuzzString(f *testing.F) {
 		if a != "" {
 			panic("this input caused a crash!")
 		}
+	})
+}
+
+func FuzzTestNameHash(f *testing.F) {
+	f.Fuzz(func(t *testing.T, b []byte) {
+        if len(b) > 0 {
+		    panic("this input caused a crash!")
+        }
 	})
 }
 

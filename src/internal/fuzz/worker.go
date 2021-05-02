@@ -6,6 +6,8 @@ package fuzz
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -605,7 +607,8 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 			resp.Count++
 			ws.m.mutate(vals, cap(mem.valueRef()))
 			writeToMem(vals, mem)
-			if err := ws.fuzzFn(CorpusEntry{Values: vals}); err != nil {
+			hash := sha256.Sum256(mem.valueRef())
+			if err := ws.fuzzFn(CorpusEntry{Values: vals, Name: hex.EncodeToString(hash[:])}); err != nil {
 				// TODO(jayconrod,katiehockman): consider making the maximum minimization
 				// time customizable with a go command flag.
 				minCtx, minCancel := context.WithTimeout(ctx, time.Minute)
@@ -661,7 +664,8 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, m
 	// unsuccessful, since we expect an error to still occur.
 	tryMinimized := func(i int, prevVal interface{}) error {
 		writeToMem(vals, mem) // write to mem in case a non-recoverable crash occurs
-		err := ws.fuzzFn(CorpusEntry{Values: vals})
+		hash := sha256.Sum256(mem.valueRef())
+		err := ws.fuzzFn(CorpusEntry{Values: vals, Name: hex.EncodeToString(hash[:])})
 		if err == nil {
 			// The fuzz function succeeded, so return the value at index i back
 			// to the previously failing input.
