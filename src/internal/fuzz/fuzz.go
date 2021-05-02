@@ -521,7 +521,7 @@ func ReadCorpus(dir string, types []reflect.Type) ([]CorpusEntry, error) {
 				continue
 			}
 		}
-		corpus = append(corpus, CorpusEntry{Name: file.Name(), Data: data, Values: vals})
+		corpus = append(corpus, CorpusEntry{Name: filename, Data: data, Values: vals})
 	}
 	if len(errs) > 0 {
 		return corpus, &MalformedCorpusError{errs: errs}
