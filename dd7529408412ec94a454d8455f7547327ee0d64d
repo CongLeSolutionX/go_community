@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccf49d92_1e9c0b4b",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-03T14:23:09Z",
+      "side": 0,
+      "message": "It would be nice to add a test for this, but I don\u0027t mind working on it after we merge your CL, since you\u0027re already going out of your way to fix this. But if you want to, I think a test in cmd/go/testdata/script/test_fuzz_mutate_crash.txt would be appropriate.\n\nSomething like this:\n\n    ! go test -run\u003dFuzzZeroValue -fuzz\u003dFuzzZeroValue -fuzztime\u003d5s\n    stdout \u0027testdata[/\\\\]corpus[/\\\\]FuzzZeroValue[/\\\\]\u0027\n    ! stdout \u0027testdata[/\\\\]corpus[/\\\\]FuzzZeroValue[/\\\\]#00\u0027\n    go run check_testdata.go FuzzZeroValue\n\nwhere the target is\n\n    func FuzzWithFail(f *testing.F) {\n\tf.Fuzz(func(t *testing.T, b []byte) {\n                if len(b) \u003d\u003d 0 {\n\t\t    t.Fail()\n                }\n\t})\n    }",
+      "range": {
+        "startLine": 305,
+        "startChar": 17,
+        "endLine": 305,
+        "endChar": 42
+      },
+      "revId": "dd7529408412ec94a454d8455f7547327ee0d64d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37eb7a73_d43e761e",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-03T14:23:09Z",
+      "side": 0,
+      "message": "Probably still return nil if shouldFailFast() is true",
+      "range": {
+        "startLine": 312,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 3
+      },
+      "revId": "dd7529408412ec94a454d8455f7547327ee0d64d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
