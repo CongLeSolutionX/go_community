@@ -642,8 +642,12 @@ func TestTrampoline(t *testing.T) {
 	// For stress test, we set -debugtramp=2 flag, which sets a very low
 	// threshold for trampoline generation, and essentially all cross-package
 	// calls will use trampolines.
+	buildmodes := []string{"default"}
 	switch runtime.GOARCH {
-	case "arm", "arm64", "ppc64", "ppc64le":
+	case "arm", "arm64", "ppc64":
+	case "ppc64le":
+		// Trampolines are generated differently when internal linking PIE, test them too.
+		buildmodes = append(buildmodes, "pie")
 	default:
 		t.Skipf("trampoline insertion is not implemented on %s", runtime.GOARCH)
 	}
@@ -661,18 +665,20 @@ func TestTrampoline(t *testing.T) {
 	}
 	exe := filepath.Join(tmpdir, "hello.exe")
 
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-ldflags=-debugtramp=2", "-o", exe, src)
-	out, err := cmd.CombinedOutput()
-	if err != nil {
-		t.Fatalf("build failed: %v\n%s", err, out)
-	}
-	cmd = exec.Command(exe)
-	out, err = cmd.CombinedOutput()
-	if err != nil {
-		t.Errorf("executable failed to run: %v\n%s", err, out)
-	}
-	if string(out) != "hello\n" {
-		t.Errorf("unexpected output:\n%s", out)
+	for _, mode := range buildmodes {
+		cmd := exec.Command(testenv.GoToolPath(t), "build", "-buildmode="+mode, "-ldflags=-debugtramp=2", "-o", exe, src)
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			t.Fatalf("build (%s) failed: %v\n%s", mode, err, out)
+		}
+		cmd = exec.Command(exe)
+		out, err = cmd.CombinedOutput()
+		if err != nil {
+			t.Errorf("executable failed to run (%s): %v\n%s", mode, err, out)
+		}
+		if string(out) != "hello\n" {
+			t.Errorf("unexpected output (%s):\n%s", mode, out)
+		}
 	}
 }
 
