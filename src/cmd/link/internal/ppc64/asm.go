@@ -766,7 +766,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 	// For external linking, the linker can insert a call stub to handle a long call, but depends on having the TOC address in
 	// r2.  For those build modes with external linking where the TOC address is not maintained in r2, trampolines must be created.
 	if ctxt.IsExternal() && r2Valid(ctxt) {
-		// No trampolines needed since r2 contains the TOC
+		// No trampolines needed. The external linker will insert them.
 		return
 	}
 
@@ -819,20 +819,22 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 				}
 			}
 			if ldr.SymType(tramp) == 0 {
-				if r2Valid(ctxt) {
-					// Should have returned for above cases
-					ctxt.Errorf(s, "unexpected trampoline for shared or dynamic linking")
-				} else {
-					trampb := ldr.MakeSymbolUpdater(tramp)
-					ctxt.AddTramp(trampb)
-					gentramp(ctxt, ldr, trampb, rs, r.Add())
-				}
+				trampb := ldr.MakeSymbolUpdater(tramp)
+				ctxt.AddTramp(trampb)
+				gentramp(ctxt, ldr, trampb, rs, r.Add())
 			}
+			// TODO: Symbol updater clears some attributes, like shared, which causes
+			// weird TOC related failures because it no longer inserts the localentry
+			// info into the st_other field when linking PIE.  Should it be copying these?
+			// The shared attribute is also used when internal linking to determine if a
+			// go generated text symbol needs to use a local entry.
+			shared := ldr.AttrShared(s)
 			sb := ldr.MakeSymbolUpdater(s)
 			relocs := sb.Relocs()
 			r := relocs.At(ri)
 			r.SetSym(tramp)
 			r.SetAdd(0) // This was folded into the trampoline target address
+			ldr.SetAttrShared(sb.Sym(), shared)
 		}
 	default:
 		ctxt.Errorf(s, "trampoline called with non-jump reloc: %d (%s)", r.Type(), sym.RelocName(ctxt.Arch, r.Type()))
@@ -842,7 +844,6 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target loader.Sym, offset int64) {
 	tramp.SetSize(16) // 4 instructions
 	P := make([]byte, tramp.Size())
-	t := ldr.SymValue(target) + offset
 	var o1, o2 uint32
 
 	if ctxt.IsAIX() {
@@ -851,8 +852,8 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 		// However, all text symbols are accessed with a TOC symbol as
 		// text relocations aren't supposed to be possible.
 		// So, keep using the external linking way to be more AIX friendly.
-		o1 = uint32(0x3fe20000) // lis r2, toctargetaddr hi
-		o2 = uint32(0xebff0000) // ld r31, toctargetaddr lo
+		o1 = uint32(0x3c000000) | 12<<21 | 2<<16  // addis r12,  r2, toctargetaddr hi
+		o2 = uint32(0xe8000000) | 12<<21 | 12<<16 // ld    r12, r12, toctargetaddr lo
 
 		toctramp := ldr.CreateSymForUpdate("TOC."+ldr.SymName(tramp.Sym()), 0)
 		toctramp.SetType(sym.SXCOFFTOC)
@@ -866,31 +867,25 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 		// Used for default build mode for an executable
 		// Address of the call target is generated using
 		// relocation and doesn't depend on r2 (TOC).
-		o1 = uint32(0x3fe00000) // lis r31,targetaddr hi
-		o2 = uint32(0x3bff0000) // addi r31,targetaddr lo
+		o1 = uint32(0x3c000000) | 12<<21          // lis  r12,targetaddr hi
+		o2 = uint32(0x38000000) | 12<<21 | 12<<16 // addi r12,r12,targetaddr lo
 
-		// With external linking, the target address must be
-		// relocated using LO and HA
-		if ctxt.IsExternal() || ldr.SymValue(target) == 0 {
-			r, _ := tramp.AddRel(objabi.R_ADDRPOWER)
-			r.SetOff(0)
-			r.SetSiz(8) // generates 2 relocations: HA + LO
-			r.SetSym(target)
-			r.SetAdd(offset)
-		} else {
-			// adjustment needed if lo has sign bit set
-			// when using addi to compute address
-			val := uint32((t & 0xffff0000) >> 16)
-			if t&0x8000 != 0 {
-				val += 1
-			}
-			o1 |= val                // hi part of addr
-			o2 |= uint32(t & 0xffff) // lo part of addr
+		// With external linking, or toc relative trampolining the
+		// target address must be relocated using LO and HA
+		r, _ := tramp.AddRel(objabi.R_ADDRPOWER)
+		// Use TOC relative address generation if R2 holds the TOC pointer
+		if r2Valid(ctxt) {
+			o1 |= uint32(2 << 16) // Transform lis r12,ha into addis r12,r2,ha
+			r.SetType(objabi.R_ADDRPOWER_TOCREL)
 		}
+		r.SetOff(0)
+		r.SetSiz(8) // generates 2 relocations: HA + LO
+		r.SetSym(target)
+		r.SetAdd(offset)
 	}
 
-	o3 := uint32(0x7fe903a6) // mtctr r31
-	o4 := uint32(0x4e800420) // bctr
+	o3 := uint32(0x7c0903a6) | 12<<21 // mtctr r12
+	o4 := uint32(0x4e800420)          // bctr
 	ctxt.Arch.ByteOrder.PutUint32(P, o1)
 	ctxt.Arch.ByteOrder.PutUint32(P[4:], o2)
 	ctxt.Arch.ByteOrder.PutUint32(P[8:], o3)
@@ -962,7 +957,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 		// If we are linking PIE or shared code, all golang generated object files have an extra 2 instruction prologue
 		// to regenerate the TOC pointer from R12.  The exception are two special case functions tested below.  Note,
 		// local call offsets for externally generated objects are accounted for when converting into golang relocs.
-		if !ldr.IsExternal(rs) && ldr.AttrShared(rs) && tgtName != "runtime.duffzero" && tgtName != "runtime.duffcopy" {
+		if !ldr.AttrExternal(rs) && ldr.AttrShared(rs) && tgtName != "runtime.duffzero" && tgtName != "runtime.duffcopy" {
 			// Furthermore, only apply the offset if the target looks like the start of a function call.
 			if r.Add() == 0 && ldr.SymType(rs) == sym.STEXT {
 				t += 8
