@@ -34,6 +34,24 @@
       "parentUuid": "eb6225b0_d8cc5ad4",
       "revId": "cb36092029d2a9c798c840f9f582eec928f2ad30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f6decd_779b27df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31404
+      },
+      "writtenOn": "2021-05-03T22:53:21Z",
+      "side": 1,
+      "message": "it is some what moot because I now see that the root issue is on hold, but I hit a bunch of (what I think are) toolchain bootstrap issues when rebasing against origin/master. e.g. math/bits cannot find \"sizeof\" in GOROOT.\n\nshould it be possible to introduce new packages to the core dependency graph, or with the adoption of 1.16 as bootstrap, are those packages somewhat frozen?",
+      "parentUuid": "943ed994_c318080c",
+      "revId": "cb36092029d2a9c798c840f9f582eec928f2ad30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
