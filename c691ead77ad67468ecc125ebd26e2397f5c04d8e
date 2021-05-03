@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "c19d6c0e_3f4745fe",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +15,24 @@
       "side": 1,
       "message": "The race is not in text/template, and the test case here violates the documented property of the package, which is that templates should be parsed before execution.\n",
       "revId": "c691ead77ad67468ecc125ebd26e2397f5c04d8e",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d23a1fff_d9dace4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-05-03T00:22:49Z",
+      "side": 1,
+      "message": "There appears to be no better solution, which makes me very unhappy, but then a lot about the way this package is affected by html/template makes me unhappy.\n\nRemoving my -2. Someone else can approve.",
+      "revId": "c691ead77ad67468ecc125ebd26e2397f5c04d8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
