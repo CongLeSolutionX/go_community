@@ -34,6 +34,29 @@
       "message": "Mistakes were made, this should fix them.",
       "revId": "0e751fa35968c76fbd0dfaed0b9a5b62acb63b27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a36da4d_1a8a8aff",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-03T17:48:49Z",
+      "side": 1,
+      "message": "this is more a nit than anything, but rather than add this extra case, couldn\u0027t we just change the offending line to\n\n    var isZeroed bool\n\nand then set it if s !\u003d nil? in the case where s \u003d\u003d nil the bool return doesn\u0027t matter.",
+      "range": {
+        "startLine": 916,
+        "startChar": 1,
+        "endLine": 918,
+        "endChar": 2
+      },
+      "revId": "0e751fa35968c76fbd0dfaed0b9a5b62acb63b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
