@@ -76,6 +76,30 @@
       },
       "revId": "0e751fa35968c76fbd0dfaed0b9a5b62acb63b27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "444f3628_468c0044",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-05-03T17:55:22Z",
+      "side": 1,
+      "message": "I was trying to decide the best tradeoff between de-nesting and lines-of-code-changed.  This to me seemed slightly simpler, with a more obvious \"this is an error\" case and also a better flow for reading the intent of the if-needzero.",
+      "parentUuid": "3a36da4d_1a8a8aff",
+      "range": {
+        "startLine": 916,
+        "startChar": 1,
+        "endLine": 918,
+        "endChar": 2
+      },
+      "revId": "0e751fa35968c76fbd0dfaed0b9a5b62acb63b27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
