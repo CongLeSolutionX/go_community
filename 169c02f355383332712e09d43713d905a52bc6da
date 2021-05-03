@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db5c64c6_d2615f61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-03T21:38:06Z",
+      "side": 1,
+      "message": "runtime: gofmt proc_test.go\n\n(See https://golang.org/wiki/CommitMessage).",
+      "revId": "169c02f355383332712e09d43713d905a52bc6da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6c7c750_92c2cade",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-03T21:38:06Z",
+      "side": 1,
+      "message": "Please remove all of this boilerplate text, as it says in the final instruction.  Thanks.",
+      "revId": "169c02f355383332712e09d43713d905a52bc6da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
