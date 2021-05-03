@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3b03674_e2d1c9a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-03T23:34:59Z",
+      "side": 1,
+      "message": "Updating the CL ran into a GerritBot race (https://golang.org/issue/24887).  Recreated as https://golang.org/cl/316669.",
+      "revId": "4de3cb21efe2812cbf55276c885cc63a086b561f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
