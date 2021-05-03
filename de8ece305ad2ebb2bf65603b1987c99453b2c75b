@@ -187,6 +187,24 @@
       "parentUuid": "4ac5b6f1_8172d948",
       "revId": "de8ece305ad2ebb2bf65603b1987c99453b2c75b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65704148_b4017259",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-03T15:52:51Z",
+      "side": 1,
+      "message": "Ah yup, makes sense as a follow-up.",
+      "parentUuid": "5832e60a_3e4392f1",
+      "revId": "de8ece305ad2ebb2bf65603b1987c99453b2c75b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
