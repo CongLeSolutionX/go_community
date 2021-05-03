@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f00f642a_162c770f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-03T17:21:56Z",
+      "side": 1,
+      "message": "Whoops, this is the result of mailing before checking you actually committed your changes.",
+      "parentUuid": "fbf2d82d_2443755b",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "6994238ad8bf133aa55b36841b2e083921389567",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f1031_2c615ae8",
@@ -115,6 +139,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc1adf61_0a19c749",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-03T17:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "272d9400_692c6ce0",
+      "revId": "6994238ad8bf133aa55b36841b2e083921389567",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59697b50_78e9a01a",
@@ -128,6 +170,30 @@
       "writtenOn": "2021-05-03T14:23:09Z",
       "side": 1,
       "message": "Does this need to be declared separately? We don\u0027t declare it like this for minimization.",
+      "range": {
+        "startLine": 597,
+        "startChar": 1,
+        "endLine": 597,
+        "endChar": 16
+      },
+      "revId": "6994238ad8bf133aa55b36841b2e083921389567",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c928b23_ba9df5e3",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-03T17:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59697b50_78e9a01a",
       "range": {
         "startLine": 597,
         "startChar": 1,

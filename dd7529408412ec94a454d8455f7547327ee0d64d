@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1abdaf5e_f8a3cc39",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-03T17:21:56Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "ccf49d92_1e9c0b4b",
+      "range": {
+        "startLine": 305,
+        "startChar": 17,
+        "endLine": 305,
+        "endChar": 42
+      },
+      "revId": "dd7529408412ec94a454d8455f7547327ee0d64d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37eb7a73_d43e761e",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-03T14:23:09Z",
       "side": 0,
       "message": "Probably still return nil if shouldFailFast() is true",
+      "range": {
+        "startLine": 312,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 3
+      },
+      "revId": "dd7529408412ec94a454d8455f7547327ee0d64d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "879588fa_c1518a05",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-03T17:21:56Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "37eb7a73_d43e761e",
       "range": {
         "startLine": 312,
         "startChar": 0,
