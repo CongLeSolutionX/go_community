@@ -162,6 +162,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ccf4e29_7c48339c",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-03T17:16:14Z",
+      "side": 1,
+      "message": "I think I understand the correctness bug. I\u0027m not really sure this is the best fix. I think this will cause that\n- if an arg is reassigned, we only spill the original value to the arg slot. The reassigned value will be spilled to somewhere else.\n- if we copy arg to local, it is still spilled to the arg slot, not the local slot.\n\nI\u0027m not sure this is the best. This is probably safe. I couldn\u0027t think of a case that it can go wrong, for now. In the end this may allocate more autotmps, which is probably fine.",
+      "parentUuid": "16edb446_14764a40",
+      "range": {
+        "startLine": 160,
+        "startChar": 5,
+        "endLine": 160,
+        "endChar": 75
+      },
+      "revId": "fe26951fd578c26cdedd1c38940e8570e8b2e2a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da3a9ac2_cc8719a8",
