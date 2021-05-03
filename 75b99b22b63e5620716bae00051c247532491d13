@@ -71,6 +71,24 @@
       "parentUuid": "bbc077ce_f57cfcea",
       "revId": "75b99b22b63e5620716bae00051c247532491d13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b28acb2_79b11494",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-03T21:45:29Z",
+      "side": 1,
+      "message": "OK, sent CL 316629, will update this CL after that one is submitted and x/mod is imported.",
+      "parentUuid": "3bce9c55_07eb01f1",
+      "revId": "75b99b22b63e5620716bae00051c247532491d13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
