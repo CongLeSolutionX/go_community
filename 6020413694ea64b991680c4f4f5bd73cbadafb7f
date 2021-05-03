@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95b84c19_17c7f06f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-03T14:25:23Z",
+      "side": 1,
+      "message": "FYI - Roland started looking into this, and sent https://go-review.googlesource.com/c/go/+/315389 which can be merged after this one, if we want to go that route.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "6020413694ea64b991680c4f4f5bd73cbadafb7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd27cfcc_7c6a9f71",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
