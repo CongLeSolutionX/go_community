@@ -96,6 +96,9 @@ TEXT runtime·badsignal2(SB),NOSPLIT|NOFRAME,$0
 	MOVW	runtime·_WriteFile(SB), R12
 	BL	(R12)
 
+	// Does not return.
+	B	runtime·abort(SB)
+
 	MOVW	R4, R13			// restore SP
 	MOVM.IA.W (R13), [R4, R15]	// pop {r4, pc}
 

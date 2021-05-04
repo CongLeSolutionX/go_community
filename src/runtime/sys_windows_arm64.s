@@ -118,6 +118,9 @@ TEXT runtime·badsignal2(SB),NOSPLIT,$16-0
 	BL	(R12)
 	ADD	$16, RSP
 
+	// Does not return.
+	B	runtime·abort(SB)
+
 	RET
 
 TEXT runtime·getlasterror(SB),NOSPLIT|NOFRAME,$0
