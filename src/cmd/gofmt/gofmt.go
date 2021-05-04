@@ -32,6 +32,7 @@ var (
 	simplifyAST = flag.Bool("s", false, "simplify code")
 	doDiff      = flag.Bool("d", false, "display diffs instead of rewriting files")
 	allErrors   = flag.Bool("e", false, "report all errors (not just the first 10 on different lines)")
+	exitError   = flag.Bool("x", false, "return an error exit status if any file needs formatting")
 
 	// debugging
 	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to this file")
@@ -153,6 +154,9 @@ func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error
 			}
 			fmt.Fprintf(out, "diff -u %s %s\n", filepath.ToSlash(filename+".orig"), filepath.ToSlash(filename))
 			out.Write(data)
+		}
+		if *exitError {
+			exitCode = 2
 		}
 	}
 
