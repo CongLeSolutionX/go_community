@@ -16,6 +16,24 @@
       "message": "It\u0027s a small change but it\u0027s an API change, and we ask that API changes go through the proposal process (https://golang.org/s/proposal).  We don\u0027t want to get stuck maintaining unwanted API for all eternity.  Thanks.\n\nMarking temporary -2 until there is an accepted proposal.",
       "revId": "32c5ff470dc61f394868ef75880117c95181eb69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bece51a8_b4e1d50a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51943
+      },
+      "writtenOn": "2021-05-04T21:42:57Z",
+      "side": 1,
+      "message": "Fair enough, thanks for the feedback. I created a proposal https://github.com/golang/go/issues/45953 and updated the commit message to reference it.",
+      "parentUuid": "83723687_3c8cf633",
+      "revId": "32c5ff470dc61f394868ef75880117c95181eb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
