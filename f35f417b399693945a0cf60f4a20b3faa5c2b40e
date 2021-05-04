@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d46b7c_fcc7a4fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51943
+      },
+      "writtenOn": "2021-05-04T21:57:24Z",
+      "side": 1,
+      "message": "The proposal was closed as duplicate of many others that proposed the same change. Sorry for the inconvenience.",
+      "revId": "f35f417b399693945a0cf60f4a20b3faa5c2b40e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
