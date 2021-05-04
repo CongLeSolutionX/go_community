@@ -129,6 +129,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME,$0-0
 	CMPQ	DX, $0
 	JNE	2(PC)
 	CALL	runtime·badsignal2(SB)
+	CALL	runtime·abort(SB)
 
 	// save g and SP in case of stack switch
 	MOVQ	DX, 32(SP) // g
