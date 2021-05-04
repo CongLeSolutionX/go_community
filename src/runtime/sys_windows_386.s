@@ -58,6 +58,9 @@ TEXT	runtime·badsignal2(SB),NOSPLIT,$24
 	MOVL	$0, 16(SP) // overlapped
 	CALL	*runtime·_WriteFile(SB)
 	MOVL	BP, SI
+
+	// Does not return.
+	CALL	runtime·abort(SB)
 	RET
 
 // faster get/set last error
