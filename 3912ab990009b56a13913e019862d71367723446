@@ -76,6 +76,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7177b5e_2e2ac638",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-04T16:50:53Z",
+      "side": 1,
+      "message": "the fact that this change causes this type of crash (that exit code indicates we did actually abort) is scary to me. that implies some test triggers this case but right now we just gloss over it.",
+      "parentUuid": "27215960_5770d72f",
+      "revId": "3912ab990009b56a13913e019862d71367723446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4af61b7_aae8a9af",
         "filename": "src/runtime/sys_windows_amd64.s",
         "patchSetId": 1
