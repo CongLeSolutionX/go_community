@@ -145,6 +145,18 @@ func (check *Checker) ordinaryType(pos syntax.Pos, typ Type) {
 	// are in the middle of type-checking parameter declarations that might belong to
 	// interface methods. Delay this check to the end of type-checking.
 	check.later(func() {
+		if UseInterface2 {
+			if t := asInterface2(typ); t != nil {
+				if len(t.flat().types) != 0 {
+					check.softErrorf(pos, "interface contains type constraints (%s)", t.flat().types)
+					return
+				}
+				if t.IsComparable() {
+					check.softErrorf(pos, "interface is (or embeds) comparable")
+				}
+			}
+			return
+		}
 		if t := asInterface(typ); t != nil {
 			check.completeInterface(pos, t) // TODO(gri) is this the correct position?
 			if t.allTypes != nil {
@@ -404,7 +416,7 @@ func (check *Checker) funcType(sig *Signature, recvPar *syntax.Field, tparams []
 						if u.kind == UnsafePointer {
 							err = "unsafe.Pointer"
 						}
-					case *Pointer, *Interface:
+					case *Pointer, *Interface, *Interface2:
 						err = "pointer or interface type"
 					}
 				}
@@ -559,6 +571,16 @@ func (check *Checker) typInternal(e0 syntax.Expr, def *Named) (T Type) {
 		return typ
 
 	case *syntax.InterfaceType:
+		if UseInterface2 {
+			typ := new(Interface2)
+			def.setUnderlying(typ)
+			if def != nil {
+				typ.obj = def.obj
+			}
+			typ.parse(check, e, def)
+			return typ
+		}
+
 		typ := new(Interface)
 		def.setUnderlying(typ)
 		if def != nil {
@@ -814,6 +836,8 @@ func (check *Checker) declareInSet(oset *objset, pos syntax.Pos, obj Object) boo
 }
 
 func (check *Checker) interfaceType(ityp *Interface, iface *syntax.InterfaceType, def *Named) {
+	noInterface2()
+
 	var tname *syntax.Name // most recent "type" name
 	var types []syntax.Expr
 	for _, f := range iface.MethodList {
@@ -893,6 +917,8 @@ func (check *Checker) interfaceType(ityp *Interface, iface *syntax.InterfaceType
 }
 
 func (check *Checker) completeInterface(pos syntax.Pos, ityp *Interface) {
+	noInterface2()
+
 	if ityp.allMethods != nil {
 		return
 	}
@@ -1190,7 +1216,7 @@ func (check *Checker) structType(styp *Struct, e *syntax.StructType) {
 					}
 				case *Pointer:
 					check.error(embeddedPos, "embedded field type cannot be a pointer")
-				case *Interface:
+				case *Interface, *Interface2:
 					if isPtr {
 						check.error(embeddedPos, "embedded field type cannot be a pointer to an interface")
 					}

@@ -180,6 +180,7 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 				}
 
 			case *Interface:
+				noInterface2()
 				// look for a matching method
 				// TODO(gri) t.allMethods is sorted - use binary search
 				check.completeInterface(nopos, t)
@@ -193,7 +194,37 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 					indirect = e.indirect
 				}
 
+			case *Interface2:
+				if i, m := t.lookupMethod(pkg, name); m != nil {
+					assert(m.typ != nil)
+					index = concat(e.index, i)
+					if obj != nil || e.multiples {
+						return nil, index, false // collision
+					}
+					obj = m
+					indirect = e.indirect
+				}
+
 			case *TypeParam:
+				if UseInterface2 {
+					if i, m := t.Bound2().lookupMethod(pkg, name); m != nil {
+						assert(m.typ != nil)
+						index = concat(e.index, i)
+						if obj != nil || e.multiples {
+							return nil, index, false // collision
+						}
+						tpar = t
+						obj = m
+						indirect = e.indirect
+					}
+					if obj == nil {
+						// At this point we're not (yet) looking into methods
+						// that any underlying type of the types in the type list
+						// might have.
+						// TODO(gri) Do we want to specify the language that way?
+					}
+					break
+				}
 				if i, m := lookupMethod(t.Bound().allMethods, pkg, name); m != nil {
 					assert(m.typ != nil)
 					index = concat(e.index, i)
@@ -306,6 +337,8 @@ func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType b
 // To improve error messages, also report the wrong signature
 // when the method exists on *V instead of V.
 func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, wrongType *Func) {
+	noInterface2()
+
 	check.completeInterface(nopos, T)
 
 	// fast path for common case
@@ -422,6 +455,120 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 	return
 }
 
+func (check *Checker) missingMethod2(V Type, T *Interface2, static bool) (method, wrongType *Func) {
+	// fast path for common case
+	if T.empty() {
+		return
+	}
+
+	if ityp := asInterface2(V); ityp != nil {
+		// TODO(gri) mthods is sorted - can do this more efficiently
+		for _, m := range T.flat().methods {
+			_, f := ityp.lookupMethod(m.pkg, m.name)
+
+			if f == nil {
+				// if m is the magic method == we're ok (interfaces are comparable)
+				if m.name == "==" || !static {
+					continue
+				}
+				return m, f
+			}
+
+			// both methods must have the same number of type parameters
+			ftyp := f.typ.(*Signature)
+			mtyp := m.typ.(*Signature)
+			if len(ftyp.tparams) != len(mtyp.tparams) {
+				return m, f
+			}
+
+			// If the methods have type parameters we don't care whether they
+			// are the same or not, as long as they match up. Use unification
+			// to see if they can be made to match.
+			// TODO(gri) is this always correct? what about type bounds?
+			// (Alternative is to rename/subst type parameters and compare.)
+			u := newUnifier(check, true)
+			u.x.init(ftyp.tparams)
+			if !u.unify(ftyp, mtyp) {
+				return m, f
+			}
+		}
+
+		return
+	}
+
+	// A concrete type implements T if it implements all methods of T.
+	Vd, _ := deref(V)
+	Vn := asNamed(Vd)
+	for _, m := range T.flat().methods {
+		// TODO(gri) should this be calling lookupFieldOrMethod instead (and why not)?
+		obj, _, _ := check.rawLookupFieldOrMethod(V, false, m.pkg, m.name)
+
+		// Check if *V implements this method of T.
+		if obj == nil {
+			ptr := NewPointer(V)
+			obj, _, _ = check.rawLookupFieldOrMethod(ptr, false, m.pkg, m.name)
+			if obj != nil {
+				return m, obj.(*Func)
+			}
+		}
+
+		// we must have a method (not a field of matching function type)
+		f, _ := obj.(*Func)
+		if f == nil {
+			// if m is the magic method == and V is comparable, we're ok
+			if m.name == "==" && Comparable(V) {
+				continue
+			}
+			return m, nil
+		}
+
+		// methods may not have a fully set up signature yet
+		if check != nil {
+			check.objDecl(f, nil)
+		}
+
+		// both methods must have the same number of type parameters
+		ftyp := f.typ.(*Signature)
+		mtyp := m.typ.(*Signature)
+		if len(ftyp.tparams) != len(mtyp.tparams) {
+			return m, f
+		}
+
+		// If V is a (instantiated) generic type, its methods are still
+		// parameterized using the original (declaration) receiver type
+		// parameters (subst simply copies the existing method list, it
+		// does not instantiate the methods).
+		// In order to compare the signatures, substitute the receiver
+		// type parameters of ftyp with V's instantiation type arguments.
+		// This lazily instantiates the signature of method f.
+		if Vn != nil && len(Vn.tparams) > 0 {
+			// Be careful: The number of type arguments may not match
+			// the number of receiver parameters. If so, an error was
+			// reported earlier but the length discrepancy is still
+			// here. Exit early in this case to prevent an assertion
+			// failure in makeSubstMap.
+			// TODO(gri) Can we avoid this check by fixing the lengths?
+			if len(ftyp.rparams) != len(Vn.targs) {
+				return
+			}
+			ftyp = check.subst(nopos, ftyp, makeSubstMap(ftyp.rparams, Vn.targs)).(*Signature)
+		}
+
+		// If the methods have type parameters we don't care whether they
+		// are the same or not, as long as they match up. Use unification
+		// to see if they can be made to match.
+		// TODO(gri) is this always correct? what about type bounds?
+		// (Alternative is to rename/subst type parameters and compare.)
+		u := newUnifier(check, true)
+		u.x.init(ftyp.tparams)
+		if !u.unify(ftyp, mtyp) {
+			return m, f
+		}
+	}
+
+	return
+}
+
 // assertableTo reports whether a value of type V can be asserted to have type T.
 // It returns (nil, false) as affirmative answer. Otherwise it returns a missing
 // method required by V and whether it is missing or just has the wrong type.
@@ -430,6 +577,7 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 // If the global constant forceStrict is set, assertions that are known to fail
 // are not permitted.
 func (check *Checker) assertableTo(V *Interface, T Type) (method, wrongType *Func) {
+	noInterface2()
 	// no static check is required if T is an interface
 	// spec: "If T is an interface type, x.(T) asserts that the
 	//        dynamic type of x implements the interface T."
@@ -437,6 +585,16 @@ func (check *Checker) assertableTo(V *Interface, T Type) (method, wrongType *Fun
 		return
 	}
 	return check.missingMethod(T, V, false)
+}
+
+func (check *Checker) assertableTo2(V *Interface2, T Type) (method, wrongType *Func) {
+	// no static check is required if T is an interface
+	// spec: "If T is an interface type, x.(T) asserts that the
+	//        dynamic type of x implements the interface T."
+	if asInterface2(T) != nil && !forceStrict {
+		return
+	}
+	return check.missingMethod2(T, V, false)
 }
 
 // deref dereferences typ if it is a *Pointer and returns its base and true.

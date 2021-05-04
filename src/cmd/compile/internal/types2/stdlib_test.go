@@ -30,7 +30,7 @@ func TestStdlib(t *testing.T) {
 
 	pkgCount := 0
 	duration := walkPkgDirs(filepath.Join(runtime.GOROOT(), "src"), func(dir string, filenames []string) {
-		typecheck(t, dir, filenames)
+		typecheck(t, dir, filenames, "go1.17")
 		pkgCount++
 	}, t.Error)
 
@@ -108,7 +108,7 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 		// get per-file instructions
 		expectErrors := false
 		filename := filepath.Join(path, f.Name())
-		goVersion := ""
+		goVersion := "go1.17" // no generics
 		if comment := firstComment(filename); comment != "" {
 			fields := strings.Fields(comment)
 			switch fields[0] {
@@ -210,7 +210,7 @@ var excluded = map[string]bool{
 }
 
 // typecheck typechecks the given package files.
-func typecheck(t *testing.T, path string, filenames []string) {
+func typecheck(t *testing.T, path string, filenames []string, goVersion string) {
 	// parse package files
 	var files []*syntax.File
 	for _, filename := range filenames {
@@ -232,8 +232,9 @@ func typecheck(t *testing.T, path string, filenames []string) {
 
 	// typecheck package files
 	conf := Config{
-		Error:    func(err error) { t.Error(err) },
-		Importer: stdLibImporter,
+		GoVersion: goVersion,
+		Error:     func(err error) { t.Error(err) },
+		Importer:  stdLibImporter,
 	}
 	info := Info{Uses: make(map[*syntax.Name]Object)}
 	conf.Check(path, files, &info)
@@ -241,7 +242,12 @@ func typecheck(t *testing.T, path string, filenames []string) {
 	// Perform checks of API invariants.
 
 	// All Objects have a package, except predeclared ones.
-	errorError := Universe.Lookup("error").Type().Underlying().(*Interface).ExplicitMethod(0) // (error).Error
+	var errorError *Func
+	if UseInterface2 {
+		errorError = Universe.Lookup("error").Type().Underlying().(*Interface2).Methods()[0] // (error).Error
+	} else {
+		errorError = Universe.Lookup("error").Type().Underlying().(*Interface).ExplicitMethod(0) // (error).Error
+	}
 	for id, obj := range info.Uses {
 		predeclared := obj == Universe.Lookup(obj.Name()) || obj == errorError
 		if predeclared == (obj.Pkg() != nil) {

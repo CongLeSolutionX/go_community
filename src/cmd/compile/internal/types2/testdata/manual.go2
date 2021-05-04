@@ -6,3 +6,6 @@
 // without source arguments. Use for one-off debugging.
 
 package p
+
+func f[T any, P interface{type *T}](x T)
+func _(x string) { f(x) }

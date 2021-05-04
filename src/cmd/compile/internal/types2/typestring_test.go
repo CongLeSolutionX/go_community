@@ -90,8 +90,7 @@ var independentTestTypes = []testEntry{
 	// interfaces
 	dup("interface{}"),
 	dup("interface{m()}"),
-	dup(`interface{String() string; m(int) float32}`),
-	dup(`interface{type int, float32, complex128}`),
+	dup("interface{String() string; m(int) float32}"),
 
 	// maps
 	dup("map[string]int"),
@@ -104,6 +103,12 @@ var independentTestTypes = []testEntry{
 	dup("chan (<-chan int)"),
 	dup("chan<- func()"),
 	dup("<-chan []func() int"),
+}
+
+var independentTestTypes2 = []testEntry{
+	{"interface{type int, float32, complex128}", "interface{~int|~float32|~complex128}"},
+	dup("interface{int|float32|complex128}"),
+	dup("interface{int|~float32|~complex128}"),
 }
 
 // types that depend on other type declarations (src in TestTypes)
@@ -120,6 +125,10 @@ func TestTypeString(t *testing.T) {
 	var tests []testEntry
 	tests = append(tests, independentTestTypes...)
 	tests = append(tests, dependentTestTypes...)
+	if UseInterface2 {
+		// TODO(gri) enable once we can handle non-interface interface elements
+		// tests = append(tests, independentTestTypes2...)
+	}
 
 	for _, test := range tests {
 		src := `package generic_p; import "io"; type _ io.Writer; type T ` + test.src
@@ -138,6 +147,9 @@ func TestTypeString(t *testing.T) {
 var nopos syntax.Pos
 
 func TestIncompleteInterfaces(t *testing.T) {
+	if UseInterface2 {
+		t.Skip("TestIncompleteInterfaces")
+	}
 	sig := NewSignature(nil, nil, nil, false)
 	m := NewFunc(nopos, nil, "m", sig)
 	for _, test := range []struct {

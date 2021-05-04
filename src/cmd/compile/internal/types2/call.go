@@ -98,11 +98,20 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 		case 1:
 			check.expr(x, call.ArgList[0])
 			if x.mode != invalid {
-				if t := asInterface(T); t != nil {
-					check.completeInterface(nopos, t)
-					if t.IsConstraint() {
-						check.errorf(call, "cannot use interface %s in conversion (contains type list or is comparable)", T)
-						break
+				if UseInterface2 {
+					if t := asInterface2(T); t != nil {
+						if t.IsConstraint() {
+							check.errorf(call, "cannot use interface %s in conversion (contains type list or is comparable)", T)
+							break
+						}
+					}
+				} else {
+					if t := asInterface(T); t != nil {
+						check.completeInterface(nopos, t)
+						if t.IsConstraint() {
+							check.errorf(call, "cannot use interface %s in conversion (contains type list or is comparable)", T)
+							break
+						}
 					}
 				}
 				if call.HasDots {
@@ -480,11 +489,20 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr) {
 			var why string
 			if tpar := asTypeParam(x.typ); tpar != nil {
 				// Type parameter bounds don't specify fields, so don't mention "field".
-				switch obj := tpar.Bound().obj.(type) {
-				case nil:
-					why = check.sprintf("type bound for %s has no method %s", x.typ, sel)
-				case *TypeName:
-					why = check.sprintf("interface %s has no method %s", obj.name, sel)
+				if UseInterface2 {
+					switch obj := tpar.Bound2().obj.(type) {
+					case nil:
+						why = check.sprintf("type bound for %s has no method %s", x.typ, sel)
+					case *TypeName:
+						why = check.sprintf("interface %s has no method %s", obj.name, sel)
+					}
+				} else {
+					switch obj := tpar.Bound().obj.(type) {
+					case nil:
+						why = check.sprintf("type bound for %s has no method %s", x.typ, sel)
+					case *TypeName:
+						why = check.sprintf("interface %s has no method %s", obj.name, sel)
+					}
 				}
 			} else {
 				why = check.sprintf("type %s has no field or method %s", x.typ, sel)

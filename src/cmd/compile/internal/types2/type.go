@@ -359,6 +359,7 @@ var markComplete = make([]*Func, 0)
 // to be embedded. This is necessary for interfaces that embed alias type names referring to
 // non-defined (literal) interface types.
 func NewInterface(methods []*Func, embeddeds []*Named) *Interface {
+	noInterface2()
 	tnames := make([]Type, len(embeddeds))
 	for i, t := range embeddeds {
 		tnames[i] = t
@@ -373,6 +374,7 @@ func NewInterface(methods []*Func, embeddeds []*Named) *Interface {
 // NewInterfaceType takes ownership of the provided methods and may modify their types by setting
 // missing receivers. To compute the method set of the interface, Complete must be called.
 func NewInterfaceType(methods []*Func, embeddeds []Type) *Interface {
+	noInterface2()
 	if len(methods) == 0 && len(embeddeds) == 0 {
 		return &emptyInterface
 	}
@@ -541,6 +543,8 @@ func (t *Interface) isSatisfiedBy(typ Type) bool {
 // form other types. The interface must not contain duplicate methods or a
 // panic occurs. Complete returns the receiver.
 func (t *Interface) Complete() *Interface {
+	noInterface2()
+
 	// TODO(gri) consolidate this method with Checker.completeInterface
 	if t.allMethods != nil {
 		return t
@@ -761,6 +765,8 @@ func (check *Checker) NewTypeParam(obj *TypeName, index int, bound Type) *TypePa
 }
 
 func (t *TypeParam) Bound() *Interface {
+	noInterface2()
+
 	iface := asInterface(t.bound)
 	// use the type bound position if we have one
 	pos := nopos
@@ -770,6 +776,10 @@ func (t *TypeParam) Bound() *Interface {
 	// TODO(gri) switch this to an unexported method on Checker.
 	t.check.completeInterface(pos, iface)
 	return iface
+}
+
+func (t *TypeParam) Bound2() *Interface2 {
+	return asInterface2(t.bound)
 }
 
 // optype returns a type's operational type. Except for
@@ -787,6 +797,15 @@ func optype(typ Type) Type {
 		// for a type parameter list of the form:
 		// (type T interface { type T }).
 		// See also issue #39680.
+		if UseInterface2 {
+			// To get this working, create a sum for now.
+			// TODO(gri) this needs to be cleaned up
+			u := NewSum(t.Bound2().flat().types)
+			if u != nil && u != typ {
+				return under(u)
+			}
+			return theTop
+		}
 		if u := t.Bound().allTypes; u != nil && u != typ {
 			// u != typ and u is a type parameter => under(u) != typ, so this is ok
 			return under(u)
@@ -956,8 +975,19 @@ func asSum(t Type) *Sum {
 	return op
 }
 
+func asUnion(t Type) *Union {
+	op, _ := optype(t).(*Union)
+	return op
+}
+
 func asInterface(t Type) *Interface {
+	noInterface2()
 	op, _ := optype(t).(*Interface)
+	return op
+}
+
+func asInterface2(t Type) *Interface2 {
+	op, _ := optype(t).(*Interface2)
 	return op
 }
 
