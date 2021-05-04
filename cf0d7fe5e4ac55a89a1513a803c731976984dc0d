@@ -159,6 +159,24 @@
       "parentUuid": "4e9082d8_32ec2783",
       "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f66b7e37_47217846",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 6071,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-05-04T02:04:01Z",
+      "side": 1,
+      "message": "Thanks for the reply.\n\nAs you said, this is a pretty basic and little gogo, besides, the probability of it happening is much less than the probability of it not happening, which makes the goto quite straightforward here and saves use some indents from {}, so I reckon the goto is even cleaner than a for loop in my opinion.",
+      "parentUuid": "80551d1e_bccd3f17",
+      "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
