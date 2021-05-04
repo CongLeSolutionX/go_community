@@ -6,3 +6,21 @@
 // without source arguments. Use for one-off debugging.
 
 package p
+
+/*
+type E1 interface {
+	type int, float64, string
+}
+
+type E2 interface {
+	type float64
+}
+
+type I12 interface {
+	E1
+	E2
+}
+
+func f12[T I12]()
+*/
+//var _ = f12[int /* ERROR does not satisfy I12 */ ]

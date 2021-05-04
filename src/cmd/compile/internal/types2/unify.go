@@ -356,6 +356,9 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 		// This should not happen with the current internal use of sum types.
 		panic("type inference across sum types not implemented")
 
+	case *Union:
+		panic("unimplemented")
+
 	case *Interface:
 		// Two interface types are identical if they have the same set of methods with
 		// the same names and identical function types. Lower-case method names from
@@ -394,7 +397,58 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 				// type declarations that recur via parameter types, an extremely
 				// rare occurrence). An alternative implementation might use a
 				// "visited" map, but that is probably less efficient overall.
-				q := &ifacePair{x, y, p}
+				q := &ifacePair{x: x, y: y, prev: p}
+				for p != nil {
+					if p.identical(q) {
+						return true // same pair was compared before
+					}
+					p = p.prev
+				}
+				if debug {
+					assertSortedMethods(a)
+					assertSortedMethods(b)
+				}
+				for i, f := range a {
+					g := b[i]
+					if f.Id() != g.Id() || !u.nify(f.typ, g.typ, q) {
+						return false
+					}
+				}
+				return true
+			}
+		}
+
+	case *Interface2:
+		// Two interface types are identical if they have the same set of methods with
+		// the same names and identical function types. Lower-case method names from
+		// different packages are always different. The order of the methods is irrelevant.
+		if y, ok := y.(*Interface2); ok {
+			a := x.flat().methods
+			b := y.flat().methods
+			if len(a) == len(b) {
+				// Interface types are the only types where cycles can occur
+				// that are not "terminated" via named types; and such cycles
+				// can only be created via method parameter types that are
+				// anonymous interfaces (directly or indirectly) embedding
+				// the current interface. Example:
+				//
+				//    type T interface {
+				//        m() interface{T}
+				//    }
+				//
+				// If two such (differently named) interfaces are compared,
+				// endless recursion occurs if the cycle is not detected.
+				//
+				// If x and y were compared before, they must be equal
+				// (if they were not, the recursion would have stopped);
+				// search the ifacePair stack for the same pair.
+				//
+				// This is a quadratic algorithm, but in practice these stacks
+				// are extremely short (bounded by the nesting depth of interface
+				// type declarations that recur via parameter types, an extremely
+				// rare occurrence). An alternative implementation might use a
+				// "visited" map, but that is probably less efficient overall.
+				q := &ifacePair{x2: x, y2: y, prev: p}
 				for p != nil {
 					if p.identical(q) {
 						return true // same pair was compared before
