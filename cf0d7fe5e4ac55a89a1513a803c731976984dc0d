@@ -177,6 +177,24 @@
       "parentUuid": "80551d1e_bccd3f17",
       "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b80c85c_28692ffd",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 6071,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-05-04T02:07:29Z",
+      "side": 1,
+      "message": "At least cleaner in this case, so it I think we should stick to the current code.",
+      "parentUuid": "f66b7e37_47217846",
+      "revId": "cf0d7fe5e4ac55a89a1513a803c731976984dc0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
