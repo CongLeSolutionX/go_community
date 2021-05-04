@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57afcc31_1b167af7",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-04T22:32:50Z",
+      "side": 1,
+      "message": "I tried that when I was playing around, but get \"compile: unknown debug key -d libFuzzer\" when I do something like\n    p.Internal.Gcflags \u003d append(p.Internal.Gcflags, \"-d\u003dlibFuzzer\")\n\nAnd which loop are you referring to? The loop above will only be run if -coverpkg is set AFACT, but we could loop through the package list again here to use p.Internal.Gcflags instead of load.BuildGcflags.",
+      "parentUuid": "d0df4c34_13994fd0",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04cd0d1c_42c6dd32",
         "filename": "src/internal/fuzz/coverage.go",
         "patchSetId": 12
