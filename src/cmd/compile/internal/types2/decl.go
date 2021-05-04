@@ -310,7 +310,15 @@ func (check *Checker) validType(typ Type, path []Object) typeInfo {
 		}
 
 	case *Interface:
+		noInterface2()
 		for _, etyp := range t.embeddeds {
+			if check.validType(etyp, path) == invalid {
+				return invalid
+			}
+		}
+
+	case *Interface2:
+		for _, etyp := range t.types {
 			if check.validType(etyp, path) == invalid {
 				return invalid
 			}
@@ -691,7 +699,15 @@ func (check *Checker) collectTypeParams(list []*syntax.Field) (tparams []*TypeNa
 		//           we may not have a complete interface yet:
 		//           type C(type T C) interface {}
 		//           (issue #39724).
-		if _, ok := under(bound).(*Interface); ok {
+		// Note: Cannot use IsInterface below as it does look
+		//       "inside" a type parameter's constraint.
+		ok := false
+		if UseInterface2 {
+			_, ok = under(bound).(*Interface2)
+		} else {
+			_, ok = under(bound).(*Interface)
+		}
+		if ok {
 			// set the type bounds
 			for i < j {
 				tparams[i].typ.(*TypeParam).bound = bound
@@ -707,7 +723,7 @@ func (check *Checker) collectTypeParams(list []*syntax.Field) (tparams []*TypeNa
 
 func (check *Checker) declareTypeParam(tparams []*TypeName, name *syntax.Name) []*TypeName {
 	tpar := NewTypeName(name.Pos(), check.pkg, name.Value, nil)
-	check.NewTypeParam(tpar, len(tparams), &emptyInterface) // assigns type to tpar as a side-effect
+	check.NewTypeParam(tpar, len(tparams), emptyface)       // assigns type to tpar as a side-effect
 	check.declare(check.scope, name, tpar, check.scope.pos) // TODO(gri) check scope position
 	tparams = append(tparams, tpar)
 

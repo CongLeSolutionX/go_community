@@ -48,6 +48,9 @@ func pkgFor(path, source string, info *Info) (*Package, error) {
 }
 
 func mustTypecheck(t *testing.T, path, source string, info *Info) string {
+	if UseInterface2 && strings.HasPrefix(source, genericPkg) {
+		t.Skip(path)
+	}
 	pkg, err := pkgFor(path, source, info)
 	if err != nil {
 		name := path
@@ -60,6 +63,9 @@ func mustTypecheck(t *testing.T, path, source string, info *Info) string {
 }
 
 func mayTypecheck(t *testing.T, path, source string, info *Info) (string, error) {
+	if UseInterface2 && strings.HasPrefix(source, genericPkg) {
+		t.Skip(path)
+	}
 	f, err := parseSrc(path, source)
 	if f == nil { // ignore errors unless f is nil
 		t.Fatalf("%s: unable to parse: %s", path, err)
@@ -384,6 +390,9 @@ func TestTypesInfo(t *testing.T) {
 }
 
 func TestInferredInfo(t *testing.T) {
+	if UseInterface2 {
+		t.Skip("TestInferredInfo")
+	}
 	var tests = []struct {
 		src   string
 		fun   string

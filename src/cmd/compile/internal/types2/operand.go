@@ -277,7 +277,29 @@ func (x *operand) assignableTo(check *Checker, T Type, reason *string) (bool, er
 	}
 
 	// T is an interface type and x implements T
+	if UseInterface2 {
+		if Ti, ok := Tu.(*Interface2); ok {
+			if m, wrongType := check.missingMethod2(V, Ti, true); m != nil /* Implements(V, Ti) */ {
+				if reason != nil {
+					if wrongType != nil {
+						if check.identical(m.typ, wrongType.typ) {
+							*reason = fmt.Sprintf("missing method %s (%s has pointer receiver)", m.name, m.name)
+						} else {
+							*reason = fmt.Sprintf("wrong type for method %s (have %s, want %s)", m.Name(), wrongType.typ, m.typ)
+						}
+
+					} else {
+						*reason = "missing method " + m.Name()
+					}
+				}
+				return false, _InvalidIfaceAssign
+			}
+			return true, 0
+		}
+	}
+
 	if Ti, ok := Tu.(*Interface); ok {
+		noInterface2()
 		if m, wrongType := check.missingMethod(V, Ti, true); m != nil /* Implements(V, Ti) */ {
 			if reason != nil {
 				if wrongType != nil {

@@ -118,6 +118,12 @@ func (check *Checker) instantiate(pos syntax.Pos, typ Type, targs []Type, poslis
 	smap := makeSubstMap(tparams, targs)
 
 	// check bounds
+	if UseInterface2 {
+		// TODO(gri) implement bounds checks
+		return check.subst(pos, typ, smap)
+	}
+
+	noInterface2()
 	for i, tname := range tparams {
 		tpar := tname.typ.(*TypeParam)
 		iface := tpar.Bound()
@@ -299,6 +305,12 @@ func (subst *subster) typ(typ Type) Type {
 			return NewSum(types)
 		}
 
+	case *Union:
+		types, copied := subst.typeList(t.types)
+		if copied {
+			return NewUnion(types, t.tilde)
+		}
+
 	case *Interface:
 		methods, mcopied := subst.funcList(t.methods)
 		types := t.types
@@ -313,6 +325,16 @@ func (subst *subster) typ(typ Type) Type {
 			}
 			subst.check.posMap[iface] = subst.check.posMap[t] // satisfy completeInterface requirement
 			subst.check.completeInterface(nopos, iface)
+			return iface
+		}
+
+	case *Interface2:
+		methods, mcopied := subst.funcList(t.methods)
+		types, tcopied := subst.typeList(t.types)
+		if mcopied || tcopied {
+			iface := &Interface2{methods: methods, types: types}
+			subst.check.posMap2[iface] = subst.check.posMap2[t] // satisfy completeInterface requirement
+			iface.flatten(subst.check)
 			return iface
 		}
 

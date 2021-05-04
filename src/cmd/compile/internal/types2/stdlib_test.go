@@ -238,7 +238,12 @@ func typecheck(t *testing.T, path string, filenames []string) {
 	// Perform checks of API invariants.
 
 	// All Objects have a package, except predeclared ones.
-	errorError := Universe.Lookup("error").Type().Underlying().(*Interface).ExplicitMethod(0) // (error).Error
+	var errorError *Func
+	if UseInterface2 {
+		errorError = Universe.Lookup("error").Type().Underlying().(*Interface2).Methods()[0] // (error).Error
+	} else {
+		errorError = Universe.Lookup("error").Type().Underlying().(*Interface).ExplicitMethod(0) // (error).Error
+	}
 	for id, obj := range info.Uses {
 		predeclared := obj == Universe.Lookup(obj.Name()) || obj == errorError
 		if predeclared == (obj.Pkg() != nil) {

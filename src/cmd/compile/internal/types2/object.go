@@ -514,6 +514,8 @@ func writeFuncName(buf *bytes.Buffer, f *Func, qf Qualifier) {
 				// (not the named type) as the receiver.
 				// Don't print it in full.
 				buf.WriteString("interface")
+			} else if _, ok := recv.Type().(*Interface2); ok {
+				buf.WriteString("interface")
 			} else {
 				WriteType(buf, recv.Type(), qf)
 			}

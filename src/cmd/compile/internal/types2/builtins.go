@@ -535,14 +535,14 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 			p[call] = true
 		}
 
-		check.assignment(x, &emptyInterface, "argument to panic")
+		check.assignment(x, emptyface, "argument to panic")
 		if x.mode == invalid {
 			return
 		}
 
 		x.mode = novalue
 		if check.Types != nil {
-			check.recordBuiltinType(call.Fun, makeSig(nil, &emptyInterface))
+			check.recordBuiltinType(call.Fun, makeSig(nil, emptyface))
 		}
 
 	case _Print, _Println:
@@ -572,7 +572,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 	case _Recover:
 		// recover() interface{}
 		x.mode = value
-		x.typ = &emptyInterface
+		x.typ = emptyface
 		if check.Types != nil {
 			check.recordBuiltinType(call.Fun, makeSig(x.typ))
 		}
@@ -767,7 +767,7 @@ func (check *Checker) applyTypeFunc(f func(Type) Type, x Type) Type {
 
 		// construct a suitable new type parameter
 		tpar := NewTypeName(nopos, nil /* = Universe pkg */, "<type parameter>", nil)
-		ptyp := check.NewTypeParam(tpar, 0, &emptyInterface) // assigns type to tpar as a side-effect
+		ptyp := check.NewTypeParam(tpar, 0, emptyface) // assigns type to tpar as a side-effect
 		tsum := NewSum(rtypes)
 		ptyp.bound = &Interface{types: tsum, allMethods: markComplete, allTypes: tsum}
 

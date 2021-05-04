@@ -269,6 +269,7 @@ L:
 }
 
 func (check *Checker) caseTypes(x *operand, xtyp *Interface, types []syntax.Expr, seen map[Type]syntax.Expr) (T Type) {
+	noInterface2()
 L:
 	for _, e := range types {
 		T = check.typOrNil(e)
@@ -297,6 +298,40 @@ L:
 		seen[T] = e
 		if T != nil {
 			check.typeAssertion(e.Pos(), x, xtyp, T)
+		}
+	}
+	return
+}
+
+func (check *Checker) caseTypes2(x *operand, xtyp *Interface2, types []syntax.Expr, seen map[Type]syntax.Expr) (T Type) {
+L:
+	for _, e := range types {
+		T = check.typOrNil(e)
+		if T == Typ[Invalid] {
+			continue L
+		}
+		if T != nil {
+			check.ordinaryType(e.Pos(), T)
+		}
+		// look for duplicate types
+		// (quadratic algorithm, but type switches tend to be reasonably small)
+		for t, other := range seen {
+			if T == nil && t == nil || T != nil && t != nil && check.identical(T, t) {
+				// talk about "case" rather than "type" because of nil case
+				Ts := "nil"
+				if T != nil {
+					Ts = T.String()
+				}
+				var err error_
+				err.errorf(e, "duplicate case %s in type switch", Ts)
+				err.errorf(other, "previous case")
+				check.report(&err)
+				continue L
+			}
+		}
+		seen[T] = e
+		if T != nil {
+			check.typeAssertion2(e.Pos(), x, xtyp, T)
 		}
 	}
 	return
@@ -688,10 +723,21 @@ func (check *Checker) typeSwitchStmt(inner stmtContext, s *syntax.SwitchStmt, gu
 	//          to switch on a suitably constrained type parameter (for
 	//          now).
 	// TODO(gri) Need to revisit this.
-	xtyp, _ := under(x.typ).(*Interface)
-	if xtyp == nil {
-		check.errorf(&x, "%s is not an interface type", &x)
-		return
+	var xtyp Type // *Interface or *Interface2
+	if UseInterface2 {
+		xt, _ := under(x.typ).(*Interface2)
+		if xt == nil {
+			check.errorf(&x, "%s is not an interface type", &x)
+			return
+		}
+		xtyp = xt
+	} else {
+		xt, _ := under(x.typ).(*Interface)
+		if xt == nil {
+			check.errorf(&x, "%s is not an interface type", &x)
+			return
+		}
+		xtyp = xt
 	}
 	check.ordinaryType(x.Pos(), xtyp)
 
@@ -710,7 +756,12 @@ func (check *Checker) typeSwitchStmt(inner stmtContext, s *syntax.SwitchStmt, gu
 		}
 		// Check each type in this type switch case.
 		cases := unpackExpr(clause.Cases)
-		T := check.caseTypes(&x, xtyp, cases, seen)
+		var T Type
+		if UseInterface2 {
+			T = check.caseTypes2(&x, xtyp.(*Interface2), cases, seen)
+		} else {
+			T = check.caseTypes(&x, xtyp.(*Interface), cases, seen)
+		}
 		check.openScopeUntil(clause, end, "case")
 		// If lhs exists, declare a corresponding variable in the case-local scope.
 		if lhs != nil {

@@ -104,6 +104,9 @@ func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 	var mode syntax.Mode
 	if strings.HasSuffix(filenames[0], ".go2") {
 		mode |= syntax.AllowGenerics
+		if UseInterface2 && !strings.HasSuffix(filenames[0], "manual.go2") {
+			t.Skip("generics not yet supported with Interface2")
+		}
 	}
 	// parse files and collect parser errors
 	files, errlist := parseFiles(t, filenames, mode)

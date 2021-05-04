@@ -74,7 +74,11 @@ var (
 			}
 		case *syntax.Name:
 			if x.Value == "nil" {
-				want = NewInterfaceType(nil, nil) // interface{} (for now, go/types types this as "untyped nil")
+				if UseInterface2 {
+					want = NewInterface2(nil, nil)
+				} else {
+					want = NewInterfaceType(nil, nil) // interface{} (for now, go/types types this as "untyped nil")
+				}
 			}
 		}
 		if want != nil && !Identical(tv.Type, want) {
@@ -384,21 +388,56 @@ func TestIssue28005(t *testing.T) {
 		if obj == nil {
 			t.Fatal("object X not found")
 		}
-		iface := obj.Type().Underlying().(*Interface) // object X must be an interface
+		if UseInterface2 {
+			iface := obj.Type().Underlying().(*Interface2) // object X must be an interface
 
-		// Each iface method m is embedded; and m's receiver base type name
-		// must match the method's name per the choice in the source file.
-		for i := 0; i < iface.NumMethods(); i++ {
-			m := iface.Method(i)
-			recvName := m.Type().(*Signature).Recv().Type().(*Named).Obj().Name()
-			if recvName != m.Name() {
-				t.Errorf("perm %v: got recv %s; want %s", perm, recvName, m.Name())
+			// Each iface method m is embedded; and m's receiver base type name
+			// must match the method's name per the choice in the source file.
+			for _, m := range iface.Flat().Methods() {
+				recvName := m.Type().(*Signature).Recv().Type().(*Named).Obj().Name()
+				if recvName != m.Name() {
+					t.Errorf("perm %v: got recv %s; want %s", perm, recvName, m.Name())
+				}
+			}
+		} else {
+			iface := obj.Type().Underlying().(*Interface) // object X must be an interface
+
+			// Each iface method m is embedded; and m's receiver base type name
+			// must match the method's name per the choice in the source file.
+			for i := 0; i < iface.NumMethods(); i++ {
+				m := iface.Method(i)
+				recvName := m.Type().(*Signature).Recv().Type().(*Named).Obj().Name()
+				if recvName != m.Name() {
+					t.Errorf("perm %v: got recv %s; want %s", perm, recvName, m.Name())
+				}
 			}
 		}
 	}
 }
 
 func TestIssue28282(t *testing.T) {
+	if UseInterface2 {
+		// create type interface { error }
+		et := Universe.Lookup("error").Type()
+		it := NewInterface2(nil, []Type{et})
+		// verify that after completing the interface, the embedded method remains unchanged
+		want := et.Underlying().(*Interface2).Flat().Methods()[0]
+		got := it.Flat().Methods()[0]
+		if got != want {
+			t.Fatalf("%s.Method(0): got %q (%p); want %q (%p)", it, got, got, want, want)
+		}
+		// verify that lookup finds the same method in both interfaces (redundant check)
+		obj, _, _ := LookupFieldOrMethod(et, false, nil, "Error")
+		if obj != want {
+			t.Fatalf("%s.Lookup: got %q (%p); want %q (%p)", et, obj, obj, want, want)
+		}
+		obj, _, _ = LookupFieldOrMethod(it, false, nil, "Error")
+		if obj != want {
+			t.Fatalf("%s.Lookup: got %q (%p); want %q (%p)", it, obj, obj, want, want)
+		}
+		return
+	}
+
 	// create type interface { error }
 	et := Universe.Lookup("error").Type()
 	it := NewInterfaceType(nil, []Type{et})

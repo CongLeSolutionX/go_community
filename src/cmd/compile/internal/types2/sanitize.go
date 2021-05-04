@@ -12,6 +12,11 @@ package types2
 // careful here not to write types that are already sanitized. This avoids a
 // data race as any shared types should already be sanitized.
 func sanitizeInfo(info *Info) {
+	if UseInterface2 {
+		// TODO(gri) enable
+		return
+	}
+
 	var s sanitizer = make(map[Type]Type)
 
 	// Note: Some map entries are not references.
@@ -109,6 +114,9 @@ func (s sanitizer) typ(typ Type) Type {
 	case *Sum:
 		s.typeList(t.types)
 
+	case *Union:
+		s.typeList(t.types)
+
 	case *Interface:
 		s.funcList(t.methods)
 		if types := s.typ(t.types); types != t.types {
@@ -119,6 +127,11 @@ func (s sanitizer) typ(typ Type) Type {
 		if allTypes := s.typ(t.allTypes); allTypes != t.allTypes {
 			t.allTypes = allTypes
 		}
+
+	case *Interface2:
+		s.funcList(t.methods)
+		s.typeList(t.types)
+		t.flattened = nil // always safe to do
 
 	case *Map:
 		if key := s.typ(t.key); key != t.key {
