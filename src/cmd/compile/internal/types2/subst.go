@@ -118,6 +118,17 @@ func (check *Checker) instantiate(pos syntax.Pos, typ Type, targs []Type, poslis
 	smap := makeSubstMap(tparams, targs)
 
 	// check bounds
+	if UseInterface2 {
+		check.constraints2(pos, tparams, targs, poslist, smap)
+	} else {
+		check.constraints(pos, tparams, targs, poslist, smap)
+	}
+
+	return check.subst(pos, typ, smap)
+}
+
+func (check *Checker) constraints(pos syntax.Pos, tparams []*TypeName, targs []Type, poslist []syntax.Pos, smap *substMap) {
+	noInterface2()
 	for i, tname := range tparams {
 		tpar := tname.typ.(*TypeParam)
 		iface := tpar.Bound()
@@ -201,8 +212,91 @@ func (check *Checker) instantiate(pos syntax.Pos, typ Type, targs []Type, poslis
 			break
 		}
 	}
+}
 
-	return check.subst(pos, typ, smap)
+func (check *Checker) constraints2(pos syntax.Pos, tparams []*TypeName, targs []Type, poslist []syntax.Pos, smap *substMap) {
+	for i, tname := range tparams {
+		tpar := tname.typ.(*TypeParam)
+		iface := tpar.Bound2()
+		if iface.empty() {
+			continue // no type bound
+		}
+
+		targ := targs[i]
+
+		// best position for error reporting
+		pos := pos
+		if i < len(poslist) {
+			pos = poslist[i]
+		}
+
+		// The type parameter bound is parameterized with the same type parameters
+		// as the instantiated type; before we can use it for bounds checking we
+		// need to instantiate it with the type arguments with which we instantiate
+		// the parameterized type.
+		iface = check.subst(pos, iface, smap).(*Interface2)
+
+		// targ must implement iface (methods)
+		// - check only if we have methods
+		if len(iface.flat().methods) > 0 {
+			// If the type argument is a pointer to a type parameter, the type argument's
+			// method set is empty.
+			// TODO(gri) is this what we want? (spec question)
+			if base, isPtr := deref(targ); isPtr && asTypeParam(base) != nil {
+				check.errorf(pos, "%s has no methods", targ)
+				break
+			}
+			if m, wrong := check.missingMethod2(targ, iface, true); m != nil {
+				// TODO(gri) needs to print updated name to avoid major confusion in error message!
+				//           (print warning for now)
+				// Old warning:
+				// check.softErrorf(pos, "%s does not satisfy %s (warning: name not updated) = %s (missing method %s)", targ, tpar.bound, iface, m)
+				if m.name == "==" {
+					// We don't want to report "missing method ==".
+					check.softErrorf(pos, "%s does not satisfy comparable", targ)
+				} else if wrong != nil {
+					// TODO(gri) This can still report uninstantiated types which makes the error message
+					//           more difficult to read then necessary.
+					check.softErrorf(pos,
+						"%s does not satisfy %s: wrong method signature\n\tgot  %s\n\twant %s",
+						targ, tpar.bound, wrong, m,
+					)
+				} else {
+					check.softErrorf(pos, "%s does not satisfy %s (missing method %s)", targ, tpar.bound, m.name)
+				}
+				break
+			}
+		}
+
+		// targ's underlying type must also be one of the interface types listed, if any
+		if len(iface.flat().types) == 0 {
+			continue // nothing to do
+		}
+
+		// If targ is itself a type parameter, each of its possible types, but at least one, must be in the
+		// list of iface types (i.e., the targ type list must be a non-empty subset of the iface types).
+		if targ := asTypeParam(targ); targ != nil {
+			targBound := targ.Bound2()
+			if len(targBound.flat().types) == 0 {
+				check.softErrorf(pos, "%s does not satisfy %s (%s has no type constraints)", targ, tpar.bound, targ)
+				break
+			}
+			for _, t := range targBound.flat().types {
+				if !iface.hasType(t) {
+					// TODO(gri) match this error message with the one below (or vice versa)
+					check.softErrorf(pos, "%s does not satisfy %s (%s type constraint %s not found in %s)", targ, tpar.bound, targ, t, iface.flat().types)
+					break
+				}
+			}
+			break
+		}
+
+		// Otherwise, targ's type or underlying type must also be one of the interface types listed, if any.
+		if !iface.hasType(targ) {
+			check.softErrorf(pos, "%s does not satisfy %s (%s not found in %s)", targ, tpar.bound, under(targ), iface.flat().types)
+			break
+		}
+	}
 }
 
 // subst returns the type typ with its type parameters tpars replaced by
@@ -299,6 +393,12 @@ func (subst *subster) typ(typ Type) Type {
 			return NewSum(types)
 		}
 
+	case *Union:
+		types, copied := subst.typeList(t.types)
+		if copied {
+			return NewUnion(types, t.tilde)
+		}
+
 	case *Interface:
 		methods, mcopied := subst.funcList(t.methods)
 		types := t.types
@@ -313,6 +413,16 @@ func (subst *subster) typ(typ Type) Type {
 			}
 			subst.check.posMap[iface] = subst.check.posMap[t] // satisfy completeInterface requirement
 			subst.check.completeInterface(nopos, iface)
+			return iface
+		}
+
+	case *Interface2:
+		methods, mcopied := subst.funcList(t.methods)
+		types, tcopied := subst.typeList(t.types)
+		if mcopied || tcopied {
+			iface := &Interface2{methods: methods, types: types}
+			subst.check.posMap2[iface] = subst.check.posMap2[t] // satisfy completeInterface requirement
+			iface.flatten(subst.check)
 			return iface
 		}
 

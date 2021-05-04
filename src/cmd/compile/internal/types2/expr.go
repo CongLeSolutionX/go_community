@@ -731,12 +731,26 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		if !ok {
 			return nil, nil, _InvalidUntypedConversion
 		}
+	case *Union:
+		ok := t.is(func(t Type) bool {
+			target, _, _ := check.implicitTypeAndValue(x, t)
+			return target != nil
+		})
+		if !ok {
+			return nil, nil, _InvalidUntypedConversion
+		}
 	case *Interface:
+		noInterface2()
 		// Update operand types to the default type rather than the target
 		// (interface) type: values must have concrete dynamic types.
 		// Untyped nil was handled upfront.
 		check.completeInterface(nopos, t)
 		if !t.Empty() {
+			return nil, nil, _InvalidUntypedConversion // cannot assign untyped values to non-empty interfaces
+		}
+		return Default(x.typ), nil, 0 // default type for nil is nil
+	case *Interface2:
+		if !t.empty() {
 			return nil, nil, _InvalidUntypedConversion // cannot assign untyped values to non-empty interfaces
 		}
 		return Default(x.typ), nil, 0 // default type for nil is nil
@@ -1314,7 +1328,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 					duplicate := false
 					// if the key is of interface type, the type is also significant when checking for duplicates
 					xkey := keyVal(x.val)
-					if asInterface(utyp.key) != nil {
+					if IsInterface(utyp.key) {
 						for _, vtyp := range visited[xkey] {
 							if check.identical(vtyp, x.typ) {
 								duplicate = true
@@ -1383,6 +1397,27 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		check.expr(x, e.X)
 		if x.mode == invalid {
 			goto Error
+		}
+		if UseInterface2 {
+			xtyp, _ := under(x.typ).(*Interface2)
+			if xtyp == nil {
+				check.errorf(x, "%s is not an interface type", x)
+				goto Error
+			}
+			check.ordinaryType(x.Pos(), xtyp)
+			// x.(type) expressions are encoded via TypeSwitchGuards
+			if e.Type == nil {
+				check.error(e, invalidAST+"invalid use of AssertExpr")
+				goto Error
+			}
+			T := check.varType(e.Type)
+			if T == Typ[Invalid] {
+				goto Error
+			}
+			check.typeAssertion2(posFor(x), x, xtyp, T)
+			x.mode = commaok
+			x.typ = T
+			break
 		}
 		xtyp, _ := under(x.typ).(*Interface)
 		if xtyp == nil {
@@ -1531,7 +1566,30 @@ func keyVal(x constant.Value) interface{} {
 
 // typeAssertion checks that x.(T) is legal; xtyp must be the type of x.
 func (check *Checker) typeAssertion(pos syntax.Pos, x *operand, xtyp *Interface, T Type) {
+	noInterface2()
 	method, wrongType := check.assertableTo(xtyp, T)
+	if method == nil {
+		return
+	}
+	var msg string
+	if wrongType != nil {
+		if check.identical(method.typ, wrongType.typ) {
+			msg = fmt.Sprintf("missing method %s (%s has pointer receiver)", method.name, method.name)
+		} else {
+			msg = fmt.Sprintf("wrong type for method %s (have %s, want %s)", method.name, wrongType.typ, method.typ)
+		}
+	} else {
+		msg = "missing method " + method.name
+	}
+	if check.conf.CompilerErrorMessages {
+		check.errorf(pos, "impossible type assertion: %s (%s)", x, msg)
+	} else {
+		check.errorf(pos, "%s cannot have dynamic type %s (%s)", x, T, msg)
+	}
+}
+
+func (check *Checker) typeAssertion2(pos syntax.Pos, x *operand, xtyp *Interface2, T Type) {
+	method, wrongType := check.assertableTo2(xtyp, T)
 	if method == nil {
 		return
 	}

@@ -23,7 +23,7 @@ var (
 	universeIota  *Const
 	universeByte  *Basic // uint8 alias, but has name "byte"
 	universeRune  *Basic // int32 alias, but has name "rune"
-	universeAny   *Interface
+	universeAny   Type
 	universeError *Named
 )
 
@@ -81,14 +81,19 @@ func defPredeclaredTypes() {
 	// (Predeclared and entered into universe scope so we do all the
 	// usual checks; but removed again from scope later since it's
 	// only visible as constraint in a type parameter list.)
-	def(NewTypeName(nopos, nil, "any", &emptyInterface))
+	def(NewTypeName(nopos, nil, "any", emptyface))
 
 	// Error has a nil package in its qualified name since it is in no package
 	{
 		res := NewVar(nopos, nil, "", Typ[String])
 		sig := &Signature{results: NewTuple(res)}
 		err := NewFunc(nopos, nil, "Error", sig)
-		typ := &Named{underlying: NewInterfaceType([]*Func{err}, nil).Complete()}
+		var typ *Named
+		if UseInterface2 {
+			typ = &Named{underlying: NewInterface2([]*Func{err}, nil)}
+		} else {
+			typ = &Named{underlying: NewInterfaceType([]*Func{err}, nil).Complete()}
+		}
 		sig.recv = NewVar(nopos, nil, "", typ)
 		def(NewTypeName(nopos, nil, "error", typ))
 	}
@@ -216,7 +221,12 @@ func defPredeclaredComparable() {
 	// set up later to match the usual interface method assumptions.
 	sig := new(Signature)
 	eql := NewFunc(nopos, nil, "==", sig)
-	iface := NewInterfaceType([]*Func{eql}, nil).Complete()
+	var iface Type
+	if UseInterface2 {
+		iface = NewInterface2([]*Func{eql}, nil)
+	} else {
+		iface = NewInterfaceType([]*Func{eql}, nil).Complete()
+	}
 
 	// set up the defined type for the interface
 	obj := NewTypeName(nopos, nil, "comparable", nil)
@@ -241,7 +251,11 @@ func init() {
 	universeIota = Universe.Lookup("iota").(*Const)
 	universeByte = Universe.Lookup("byte").(*TypeName).typ.(*Basic)
 	universeRune = Universe.Lookup("rune").(*TypeName).typ.(*Basic)
-	universeAny = Universe.Lookup("any").(*TypeName).typ.(*Interface)
+	if UseInterface2 {
+		universeAny = Universe.Lookup("any").(*TypeName).typ.(*Interface2)
+	} else {
+		universeAny = Universe.Lookup("any").(*TypeName).typ.(*Interface)
+	}
 	universeError = Universe.Lookup("error").(*TypeName).typ.(*Named)
 
 	// "any" is only visible as constraint in a type parameter list

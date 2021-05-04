@@ -153,6 +153,7 @@ func iImportData(imports map[string]*types2.Package, data []byte, path string) (
 		p.doDecl(localpkg, name)
 	}
 
+	// nothing to do if types2.UseInterface2 is set
 	for _, typ := range p.interfaceList {
 		typ.Complete()
 	}
@@ -181,7 +182,8 @@ type iimporter struct {
 	pkgIndex map[*types2.Package]map[string]uint64
 	typCache map[uint64]types2.Type
 
-	interfaceList []*types2.Interface
+	interfaceList  []*types2.Interface
+	interfaceList2 []*types2.Interface2
 }
 
 func (p *iimporter) doDecl(pkg *types2.Package, name string) {
@@ -476,6 +478,10 @@ func (r *importReader) typ() types2.Type {
 }
 
 func isInterface(t types2.Type) bool {
+	if types2.UseInterface2 {
+		_, ok := t.(*types2.Interface2)
+		return ok
+	}
 	_, ok := t.(*types2.Interface)
 	return ok
 }
@@ -549,6 +555,12 @@ func (r *importReader) doType(base *types2.Named) types2.Type {
 
 			msig := r.signature(recv)
 			methods[i] = types2.NewFunc(mpos, r.currPkg, mname, msig)
+		}
+
+		if types2.UseInterface2 {
+			typ := types2.NewInterface2(methods, embeddeds)
+			r.p.interfaceList2 = append(r.p.interfaceList2, typ)
+			return typ
 		}
 
 		typ := types2.NewInterfaceType(methods, embeddeds)

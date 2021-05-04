@@ -165,6 +165,17 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 			writeType(buf, t, qf, visited)
 		}
 
+	case *Union:
+		for i, e := range t.types {
+			if i > 0 {
+				buf.WriteByte('|')
+			}
+			if t.tilde[i] {
+				buf.WriteByte('~')
+			}
+			writeType(buf, e, qf, visited)
+		}
+
 	case *Interface:
 		// We write the source-level methods and embedded types rather
 		// than the actual method set since resolved method signatures
@@ -234,6 +245,26 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 		}
 		buf.WriteByte('}')
 
+	case *Interface2:
+		buf.WriteString("interface{")
+		for i, m := range t.methods {
+			if i > 0 {
+				buf.WriteString("; ")
+			}
+			buf.WriteString(m.name)
+			writeSignature(buf, m.typ.(*Signature), qf, visited)
+		}
+		if len(t.methods) > 0 && len(t.types) > 0 {
+			buf.WriteString("; ")
+		}
+		for i, typ := range t.types {
+			if i > 0 {
+				buf.WriteString("; ")
+			}
+			writeType(buf, typ, qf, visited)
+		}
+		buf.WriteByte('}')
+
 	case *Map:
 		buf.WriteString("map[")
 		writeType(buf, t.key, qf, visited)
@@ -300,6 +331,7 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 
 	default:
 		// For externally defined implementations of Type.
+		// Note: In this case cycles won't be caught.
 		buf.WriteString(t.String())
 	}
 }
@@ -318,7 +350,7 @@ func writeTParamList(buf *bytes.Buffer, list []*TypeName, qf Qualifier, visited 
 	var prev Type
 	for i, p := range list {
 		// TODO(gri) support 'any' sugar here.
-		var b Type = &emptyInterface
+		var b Type = emptyface
 		if t, _ := p.typ.(*TypeParam); t != nil && t.bound != nil {
 			b = t.bound
 		}

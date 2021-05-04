@@ -30,6 +30,8 @@ func is(typ Type, what BasicInfo) bool {
 		return t.info&what != 0
 	case *Sum:
 		return t.is(func(typ Type) bool { return is(typ, what) })
+	case *Union:
+		return t.is(func(typ Type) bool { return is(typ, what) })
 	}
 	return false
 }
@@ -79,6 +81,9 @@ func isConstType(typ Type) bool {
 
 // IsInterface reports whether typ is an interface type.
 func IsInterface(typ Type) bool {
+	if UseInterface2 {
+		return asInterface2(typ) != nil
+	}
 	return asInterface(typ) != nil
 }
 
@@ -105,6 +110,9 @@ func comparable(T Type, seen map[Type]bool) bool {
 	//
 	// is not comparable because []byte is not comparable.
 	if t := asTypeParam(T); t != nil && optype(t) == theTop {
+		if UseInterface2 {
+			return t.Bound2().IsComparable()
+		}
 		return t.Bound().IsComparable()
 	}
 
@@ -113,7 +121,7 @@ func comparable(T Type, seen map[Type]bool) bool {
 		// assume invalid types to be comparable
 		// to avoid follow-up errors
 		return t.kind != UntypedNil
-	case *Pointer, *Interface, *Chan:
+	case *Pointer, *Interface, *Interface2, *Chan:
 		return true
 	case *Struct:
 		for _, f := range t.fields {
@@ -129,6 +137,11 @@ func comparable(T Type, seen map[Type]bool) bool {
 			return comparable(t, seen)
 		}
 		return t.is(pred)
+	case *Union:
+		pred := func(t Type) bool {
+			return comparable(t, seen)
+		}
+		return t.is(pred)
 	case *TypeParam:
 		return t.Bound().IsComparable()
 	}
@@ -140,9 +153,11 @@ func hasNil(typ Type) bool {
 	switch t := optype(typ).(type) {
 	case *Basic:
 		return t.kind == UnsafePointer
-	case *Slice, *Pointer, *Signature, *Interface, *Map, *Chan:
+	case *Slice, *Pointer, *Signature, *Interface, *Interface2, *Map, *Chan:
 		return true
 	case *Sum:
+		return t.is(hasNil)
+	case *Union:
 		return t.is(hasNil)
 	}
 	return false
@@ -162,11 +177,15 @@ func (check *Checker) identicalIgnoreTags(x, y Type) bool {
 
 // An ifacePair is a node in a stack of interface type pairs compared for identity.
 type ifacePair struct {
-	x, y *Interface
-	prev *ifacePair
+	x, y   *Interface
+	x2, y2 *Interface2
+	prev   *ifacePair
 }
 
 func (p *ifacePair) identical(q *ifacePair) bool {
+	if UseInterface2 {
+		return p.x2 == q.x2 && p.y2 == q.y2 || p.x2 == q.y2 && p.y2 == q.x2
+	}
 	return p.x == q.x && p.y == q.y || p.x == q.y && p.y == q.x
 }
 
@@ -284,7 +303,27 @@ func (check *Checker) identical0(x, y Type, cmpTags bool, p *ifacePair) bool {
 			return true
 		}
 
+	case *Union:
+		// Two union types are identical if they contain the same types.
+		// TODO(gri) This is incomplete.
+		if y, ok := y.(*Union); ok && len(x.types) == len(y.types) {
+			// Every type in x.types must be in y.types.
+			// Quadratic algorithm, but probably good enough for now.
+			// TODO(gri) we need a fast quick type ID/hash for all types.
+		L2:
+			for _, x := range x.types {
+				for _, y := range y.types {
+					if Identical(x, y) {
+						continue L2 // x is in y.types
+					}
+				}
+				return false // x is not in y.types
+			}
+			return true
+		}
+
 	case *Interface:
+		noInterface2()
 		// Two interface types are identical if they have the same set of methods with
 		// the same names and identical function types. Lower-case method names from
 		// different packages are always different. The order of the methods is irrelevant.
@@ -322,7 +361,58 @@ func (check *Checker) identical0(x, y Type, cmpTags bool, p *ifacePair) bool {
 				// type declarations that recur via parameter types, an extremely
 				// rare occurrence). An alternative implementation might use a
 				// "visited" map, but that is probably less efficient overall.
-				q := &ifacePair{x, y, p}
+				q := &ifacePair{x: x, y: y, prev: p}
+				for p != nil {
+					if p.identical(q) {
+						return true // same pair was compared before
+					}
+					p = p.prev
+				}
+				if debug {
+					assertSortedMethods(a)
+					assertSortedMethods(b)
+				}
+				for i, f := range a {
+					g := b[i]
+					if f.Id() != g.Id() || !check.identical0(f.typ, g.typ, cmpTags, q) {
+						return false
+					}
+				}
+				return true
+			}
+		}
+
+	case *Interface2:
+		// Two interface types are identical if they have the same set of methods with
+		// the same names and identical function types. Lower-case method names from
+		// different packages are always different. The order of the methods is irrelevant.
+		if y, ok := y.(*Interface2); ok {
+			a := x.flat().methods
+			b := y.flat().methods
+			if len(a) == len(b) {
+				// Interface types are the only types where cycles can occur
+				// that are not "terminated" via named types; and such cycles
+				// can only be created via method parameter types that are
+				// anonymous interfaces (directly or indirectly) embedding
+				// the current interface. Example:
+				//
+				//    type T interface {
+				//        m() interface{T}
+				//    }
+				//
+				// If two such (differently named) interfaces are compared,
+				// endless recursion occurs if the cycle is not detected.
+				//
+				// If x and y were compared before, they must be equal
+				// (if they were not, the recursion would have stopped);
+				// search the ifacePair stack for the same pair.
+				//
+				// This is a quadratic algorithm, but in practice these stacks
+				// are extremely short (bounded by the nesting depth of interface
+				// type declarations that recur via parameter types, an extremely
+				// rare occurrence). An alternative implementation might use a
+				// "visited" map, but that is probably less efficient overall.
+				q := &ifacePair{x2: x, y2: y, prev: p}
 				for p != nil {
 					if p.identical(q) {
 						return true // same pair was compared before

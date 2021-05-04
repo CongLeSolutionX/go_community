@@ -310,6 +310,9 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 	case *Sum:
 		return w.isParameterizedList(t.types)
 
+	case *Union:
+		return w.isParameterizedList(t.types)
+
 	case *Signature:
 		// t.tparams may not be nil if we are looking at a signature
 		// of a generic function type (or an interface method) that is
@@ -339,6 +342,14 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 			}
 			return w.isParameterizedList(unpack(t.types))
 		}, nil)
+
+	case *Interface2:
+		for _, m := range t.flat().methods {
+			if w.isParameterized(m.typ) {
+				return true
+			}
+		}
+		return w.isParameterizedList(t.flat().types)
 
 	case *Map:
 		return w.isParameterized(t.key) || w.isParameterized(t.elem)
@@ -475,6 +486,17 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (ty
 
 // structuralType returns the structural type of a constraint, if any.
 func (check *Checker) structuralType(constraint Type) Type {
+	if UseInterface2 {
+		if iface, _ := under(constraint).(*Interface2); iface != nil {
+			types := iface.flat().types
+			if len(types) == 1 {
+				return types[0]
+			}
+			return nil
+		}
+		return constraint
+	}
+
 	if iface, _ := under(constraint).(*Interface); iface != nil {
 		check.completeInterface(nopos, iface)
 		types := unpack(iface.allTypes)
