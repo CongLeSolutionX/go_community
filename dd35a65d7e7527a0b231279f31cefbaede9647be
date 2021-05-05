@@ -88,6 +88,24 @@
       "parentUuid": "694cb38f_b158f2a4",
       "revId": "dd35a65d7e7527a0b231279f31cefbaede9647be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "632ef484_8af41c14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32558
+      },
+      "writtenOn": "2021-05-05T14:55:06Z",
+      "side": 1,
+      "message": "I agree that updating dependencies individually is categorically better for bisection purposes. I\u0027ll talk to the team about adding it to updatestd for 1.18.",
+      "parentUuid": "4c01cd95_e2099843",
+      "revId": "dd35a65d7e7527a0b231279f31cefbaede9647be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
