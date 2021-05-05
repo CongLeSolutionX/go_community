@@ -53,6 +53,24 @@
       "message": "Yes, definitely.\nWhat were we thinking?\n(Don\u0027t answer that.)\n",
       "revId": "abb88f6ecbe70a08516acc347021625c6ef98b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d3c57c_1ed0607a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2021-05-05T18:42:58Z",
+      "side": 1,
+      "message": "(happened to see this CL in snippets)\n\nI think at some point GetPC was called during assembly, and this was actually a working albeit very fragile way to reference the location of the most recent instruction written. I must\u0027ve gotten confused in one of the many redesigns I did, since it clearly didn\u0027t make sense when it eventually shipped.\n\nI guess if this is the worst bug we\u0027ve found in this code over the last couple of years I\u0027m pretty happy :)",
+      "parentUuid": "734b1003_32ddb150",
+      "revId": "abb88f6ecbe70a08516acc347021625c6ef98b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
