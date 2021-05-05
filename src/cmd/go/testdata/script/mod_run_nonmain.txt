@@ -1,0 +1,16 @@
+! go run $PWD
+! stderr 'no packages loaded'
+
+! go run .
+! stderr 'no packages loaded'
+
+! go run ./...
+! stderr 'no packages loaded'
+
+-- go.mod --
+module example.net/nonmain
+
+go 1.17
+-- nonmain.go --
+// Package nonmain is not a main package.
+package nonmain
