@@ -124,6 +124,24 @@
       "parentUuid": "3b9a775b_b4f4444f",
       "revId": "9833edf70eee80888354837f396c073f04d8e81d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86af443c_56fb1937",
+        "filename": "src/mime/multipart/multipart.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-05T18:05:11Z",
+      "side": 1,
+      "message": "Filippo and I talked about this a bit offline and agreed that we should be fine just sticking to what the RFC requires here (ie. that the directory path information not be used). We state explicitly that the filename is passed through filepath.Base before being returned, so a user should be able to reasonably understand that the output of filepath.Base isn\u0027t necessarily valid, and it should still be checked and/or run through filepath.Clean themself. I\u0027d rather err on the side of caution by doing the minimum amount of changing the filename as is required. LMK if you have any strong disagreements though, or if you think this is going to be a risk to people.",
+      "parentUuid": "8c0deb8c_e3c6c977",
+      "revId": "9833edf70eee80888354837f396c073f04d8e81d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
