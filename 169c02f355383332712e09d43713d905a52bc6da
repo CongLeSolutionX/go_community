@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "308941c1_6b0c02aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2021-05-06T07:41:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db5c64c6_d2615f61",
+      "revId": "169c02f355383332712e09d43713d905a52bc6da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6c7c750_92c2cade",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-05-03T21:38:06Z",
       "side": 1,
       "message": "Please remove all of this boilerplate text, as it says in the final instruction.  Thanks.",
+      "revId": "169c02f355383332712e09d43713d905a52bc6da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8292eb91_36d1b371",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2021-05-06T07:41:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6c7c750_92c2cade",
       "revId": "169c02f355383332712e09d43713d905a52bc6da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
