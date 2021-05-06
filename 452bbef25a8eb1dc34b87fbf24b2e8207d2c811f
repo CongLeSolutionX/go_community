@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bc10c5a_1a2b7ff0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-06T16:07:51Z",
+      "side": 1,
+      "message": "Can we check we have a client-side test for \"server selected an ALPN protocol we did not advertise\"?",
+      "revId": "452bbef25a8eb1dc34b87fbf24b2e8207d2c811f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bca5c33_49a17f1c",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-06T16:07:51Z",
+      "side": 1,
+      "message": "I keep playing with this doc in my head because the required behavior is annoying subtle. For example, servers should check ConnectionState.NegotiatedProtocol too, as it might be empty if the client sent no ALPN.\n\nMaybe \"If both peers support ALPN, the selected protocol will be one from this list, and the connection will fail if there is no mutually supported protocol. If NextProtos is empty or the peer doesn\u0027t support ALPN, the connection will succeed and ConnectionState.NegotiatedProtocol will be empty.\"?",
+      "range": {
+        "startLine": 621,
+        "startChar": 25,
+        "endLine": 626,
+        "endChar": 31
+      },
+      "revId": "452bbef25a8eb1dc34b87fbf24b2e8207d2c811f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

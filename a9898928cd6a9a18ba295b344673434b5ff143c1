@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0860f4ee_096d765b",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-06T16:07:51Z",
+      "side": 1,
+      "message": "I don\u0027t see the change in PS5?",
+      "parentUuid": "4ab8d5f8_aa730678",
+      "range": {
+        "startLine": 102,
+        "startChar": 26,
+        "endLine": 102,
+        "endChar": 27
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad472383_c1995300",
         "filename": "doc/go1.17.html",
         "patchSetId": 4
@@ -167,6 +191,54 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "14ca435e_bf3f9b12",
+      "range": {
+        "startLine": 102,
+        "startChar": 51,
+        "endLine": 103,
+        "endChar": 29
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a40ea13c_34efbc38",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-06T16:07:51Z",
+      "side": 1,
+      "message": "Same",
+      "parentUuid": "8b0e2785_54f7946c",
+      "range": {
+        "startLine": 103,
+        "startChar": 34,
+        "endLine": 103,
+        "endChar": 46
+      },
+      "revId": "a9898928cd6a9a18ba295b344673434b5ff143c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d27bced9_8ad254bc",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-06T16:07:51Z",
+      "side": 1,
+      "message": "Same",
+      "parentUuid": "b61dee60_2b83eb8b",
       "range": {
         "startLine": 102,
         "startChar": 51,
