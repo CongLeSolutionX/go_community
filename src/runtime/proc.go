@@ -6023,14 +6023,12 @@ func runqputbatch(pp *p, q *gQueue, qsize int) {
 // Executed only by the owner P.
 func runqget(_p_ *p) (gp *g, inheritTime bool) {
 	// If there's a runnext, it's the next G to run.
-	for {
-		next := _p_.runnext
-		if next == 0 {
-			break
-		}
-		if _p_.runnext.cas(next, 0) {
-			return next.ptr(), true
-		}
+	next := _p_.runnext
+	// If runnext is not nil and the cas fails, we know it should be stolen by another P.
+	// There will not be a new runnext for the duration of this runqget(), so we can just
+	// return a valid runnext or skip an empty one.
+	if next != 0 && _p_.runnext.cas(next, 0) {
+		return next.ptr(), true
 	}
 
 	for {
