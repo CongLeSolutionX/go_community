@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ecd8f69_eb8aa9ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-06T21:19:25Z",
+      "side": 1,
+      "message": "I think we could write the code that populates the code in such a way that this would be avoided. For inputs seeded from the Fuzz.. function, or from the testdata/corpus directory, we can populate CorpusEntry.Name (I think this is actually already done for testdata inputs?) and then append that name to the test name if it\u0027s non-empty. That way the only inputs that would result in boilerplate names would be those that are the results of mutation, so in the case of the crash we\u0027d still be printing the filename.",
+      "parentUuid": "7cf3f96e_4e40f09d",
+      "revId": "5a67ca675902b63762ade4062057d839c4307b3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "baff195e_15499c4b",
