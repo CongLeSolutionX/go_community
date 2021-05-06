@@ -168,6 +168,30 @@
       },
       "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d369f6f_4b82f350",
+        "filename": "src/net/http/internal/ascii/print.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-06T19:30:06Z",
+      "side": 1,
+      "message": "Ah I see this is from the original code. It\u0027s still not clear to me why this would be the right way to check this though? Do you have thoughts?",
+      "parentUuid": "e9764fb4_25068040",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 26
+      },
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
