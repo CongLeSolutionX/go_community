@@ -724,7 +724,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 		// Only windows/386 requires underscore prefix on external symbols.
 		if ctxt.Is386() && ctxt.IsExternal() &&
 			(t == sym.SHOSTOBJ || t == sym.SUNDEFEXT || ldr.AttrCgoExport(s)) {
-			name = "_" + name
+			name = "_" + name + "."
 		}
 
 		name = mangleABIName(ctxt, ldr, s, name)
