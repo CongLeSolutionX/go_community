@@ -390,7 +390,9 @@ func main() {
 	argv = append(argv, "-o", objfile, srcfile)
 	out, err := exec.Command("go", argv...).CombinedOutput()
 	if err != nil {
-		t.Fatalf("build failure: %s\n%s\n", err, string(out))
+		// FIXME: for debug, remove once figure thing out.
+		vOut, _ := exec.Command("ld", "--version").CombinedOutput()
+		t.Fatalf("build failure: %s\n%s\n%s\n", err, string(out), string(vOut))
 	}
 
 	f, err := pe.Open(objfile)

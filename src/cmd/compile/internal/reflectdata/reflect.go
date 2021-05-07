@@ -418,7 +418,7 @@ func dimportpath(p *types.Pkg) {
 		str = base.Ctxt.Pkgpath
 	}
 
-	s := base.Ctxt.Lookup("type..importpath." + p.Prefix + ".")
+	s := base.Ctxt.Lookup("type:.importpath." + p.Prefix + ".")
 	ot := dnameData(s, 0, str, "", nil, false)
 	objw.Global(s, int32(ot), obj.DUPOK|obj.RODATA)
 	s.Set(obj.AttrContentAddressable, true)
@@ -433,10 +433,10 @@ func dgopkgpath(s *obj.LSym, ot int, pkg *types.Pkg) int {
 	if pkg == types.LocalPkg && base.Ctxt.Pkgpath == "" {
 		// If we don't know the full import path of the package being compiled
 		// (i.e. -p was not passed on the compiler command line), emit a reference to
-		// type..importpath.""., which the linker will rewrite using the correct import path.
+		// type:.importpath.""., which the linker will rewrite using the correct import path.
 		// Every package that imports this one directly defines the symbol.
 		// See also https://groups.google.com/forum/#!topic/golang-dev/myb9s53HxGQ.
-		ns := base.Ctxt.Lookup(`type..importpath."".`)
+		ns := base.Ctxt.Lookup(`type:.importpath."".`)
 		return objw.SymPtr(s, ot, ns, 0)
 	}
 
@@ -452,10 +452,10 @@ func dgopkgpathOff(s *obj.LSym, ot int, pkg *types.Pkg) int {
 	if pkg == types.LocalPkg && base.Ctxt.Pkgpath == "" {
 		// If we don't know the full import path of the package being compiled
 		// (i.e. -p was not passed on the compiler command line), emit a reference to
-		// type..importpath.""., which the linker will rewrite using the correct import path.
+		// type:.importpath.""., which the linker will rewrite using the correct import path.
 		// Every package that imports this one directly defines the symbol.
 		// See also https://groups.google.com/forum/#!topic/golang-dev/myb9s53HxGQ.
-		ns := base.Ctxt.Lookup(`type..importpath."".`)
+		ns := base.Ctxt.Lookup(`type:.importpath."".`)
 		return objw.SymPtrOff(s, ot, ns)
 	}
 
@@ -521,11 +521,11 @@ var dnameCount int
 
 // dname creates a reflect.name for a struct field or method.
 func dname(name, tag string, pkg *types.Pkg, exported bool) *obj.LSym {
-	// Write out data as "type.." to signal two things to the
+	// Write out data as "type:." to signal two things to the
 	// linker, first that when dynamically linking, the symbol
 	// should be moved to a relro section, and second that the
 	// contents should not be decoded as a type.
-	sname := "type..namedata."
+	sname := "type:.namedata."
 	if pkg == nil {
 		// In the common case, share data with other packages.
 		if name == "" {
@@ -799,7 +799,7 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 // TrackSym returns the symbol for tracking use of field/method f, assumed
 // to be a member of struct/interface type t.
 func TrackSym(t *types.Type, f *types.Field) *obj.LSym {
-	return base.PkgLinksym("go.track", t.ShortString()+"."+f.Sym.Name, obj.ABI0)
+	return base.PkgLinksym("go:track", t.ShortString()+"."+f.Sym.Name, obj.ABI0)
 }
 
 func TypeSymPrefix(prefix string, t *types.Type) *types.Sym {
@@ -1366,7 +1366,7 @@ func WriteTabs() {
 	// process ptabs
 	if types.LocalPkg.Name == "main" && len(ptabs) > 0 {
 		ot := 0
-		s := base.Ctxt.Lookup("go.plugin.tabs")
+		s := base.Ctxt.Lookup("go:plugin.tabs")
 		for _, p := range ptabs {
 			// Dump ptab symbol into go.pluginsym package.
 			//
@@ -1389,7 +1389,7 @@ func WriteTabs() {
 		objw.Global(s, int32(ot), int16(obj.RODATA))
 
 		ot = 0
-		s = base.Ctxt.Lookup("go.plugin.exports")
+		s = base.Ctxt.Lookup("go:plugin.exports")
 		for _, p := range ptabs {
 			ot = objw.SymPtr(s, ot, p.Linksym(), 0)
 		}
@@ -1703,7 +1703,7 @@ func ZeroAddr(size int64) ir.Node {
 	if ZeroSize < size {
 		ZeroSize = size
 	}
-	lsym := base.PkgLinksym("go.map", "zero", obj.ABI0)
+	lsym := base.PkgLinksym("go:map", "zero", obj.ABI0)
 	x := ir.NewLinksymExpr(base.Pos, lsym, types.Types[types.TUINT8])
 	return typecheck.Expr(typecheck.NodAddr(x))
 }
