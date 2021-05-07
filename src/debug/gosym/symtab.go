@@ -37,9 +37,9 @@ func (s *Sym) Static() bool { return s.Type >= 'a' }
 func (s *Sym) PackageName() string {
 	name := s.Name
 
-	// A prefix of "type." and "go." is a compiler-generated symbol that doesn't belong to any package.
-	// See variable reservedimports in cmd/compile/internal/gc/subr.go
-	if strings.HasPrefix(name, "go.") || strings.HasPrefix(name, "type.") {
+	// A prefix of "type:" and "go:" is a compiler-generated symbol that doesn't belong to any package.
+	// See variable reservedimports in cmd/compile/internal/noder/import.go
+	if strings.HasPrefix(name, "go:") || strings.HasPrefix(name, "type:") {
 		return ""
 	}
 
