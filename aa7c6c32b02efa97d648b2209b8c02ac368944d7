@@ -255,6 +255,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c14117f9_4e4ce072",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-07T20:27:06Z",
+      "side": 1,
+      "message": "Ok, so it seems like things are at least consistent for now. Let\u0027s go with this and see if any issues turn up during the beta.",
+      "parentUuid": "e6d10f17_4a919f2a",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 194
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d978c83_db20a0fa",
@@ -302,6 +326,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f4defaa_49a3aef8",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-07T20:27:06Z",
+      "side": 1,
+      "message": "From that text it seems that we are correct to reject these.",
+      "parentUuid": "77527a49_5c539730",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 195
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49130055_ef0a0657",
@@ -339,6 +387,30 @@
       "side": 1,
       "message": "Thanks for catching this. Yes, this is a regression as Go 1.15.7 reports the correct error message, but the tip happily accepts it.\n\n```\n$ go version\ngo version go1.15.7 darwin/amd64\n$ go mod init example.com/user/repo/v2.\ngo: malformed import path \"example.com/user/repo/v2.\": trailing dot in path element\n\n$ go version\ngo version devel go1.17-fd09593667 Thu Apr 29 20:46:14 2021 +0000 darwin/amd64\n$ go mod init example.com/user/repo/v2.\ngo: creating new go.mod: module example.com/user/repo/v2. \n```\n\nI\u0027ll dig around and find out if it\u0027s an easy fix, or if we if #45025 should be done first.",
       "parentUuid": "49130055_ef0a0657",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 192
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "314e31ff_4f422b57",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-07T20:27:06Z",
+      "side": 1,
+      "message": "Any luck figuring this one out?",
+      "parentUuid": "c04858ae_8ea471a0",
       "range": {
         "startLine": 28,
         "startChar": 0,
