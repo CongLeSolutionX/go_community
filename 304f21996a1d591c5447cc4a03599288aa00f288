@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e18275a_87280b87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-07T15:49:43Z",
+      "side": 1,
+      "message": "I believe this is fine (and useful) to go into 1.17, because it is only changes to comments.",
+      "revId": "304f21996a1d591c5447cc4a03599288aa00f288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
