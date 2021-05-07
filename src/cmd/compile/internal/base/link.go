@@ -5,6 +5,7 @@
 package base
 
 import (
+	"cmd/compile/internal/noder"
 	"cmd/internal/obj"
 )
 
@@ -20,7 +21,11 @@ func PkgLinksym(prefix, name string, abi obj.ABI) *obj.LSym {
 		// TODO(mdempsky): Cleanup callers and Fatalf instead.
 		return linksym(prefix, "_", abi)
 	}
-	return linksym(prefix, prefix+"."+name, abi)
+	sep := "."
+	if noder.ReservedImports[prefix] {
+		sep = ":"
+	}
+	return linksym(prefix, prefix+sep+name, abi)
 }
 
 // Linkname returns the linker symbol for the given name as it might

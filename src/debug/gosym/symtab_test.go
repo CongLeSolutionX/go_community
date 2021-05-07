@@ -43,16 +43,24 @@ func TestRemotePackage(t *testing.T) {
 }
 
 func TestIssue29551(t *testing.T) {
-	symNames := []string{
-		"type..eq.[9]debug/elf.intName",
-		"type..hash.debug/elf.ProgHeader",
-		"type..eq.runtime._panic",
-		"type..hash.struct { runtime.gList; runtime.n int32 }",
-		"go.(*struct { sync.Mutex; math/big.table [64]math/big",
+	tests := []struct {
+		symName string
+		pkgName string
+	}{
+		{"type:.eq.[9]debug/elf.intName", ""},
+		{"type:.hash.debug/elf.ProgHeader", ""},
+		{"type:.eq.runtime._panic", ""},
+		{"type:.hash.struct { runtime.gList; runtime.n int32 }", ""},
+		{"go:(*struct { sync.Mutex; math/big.table [64]math/big", ""},
+		{"go.uber.org/zap/buffer.(*Buffer).AppendString", "go.uber.org/zap/buffer"},
 	}
 
-	for _, symName := range symNames {
-		s := Sym{Name: symName}
-		assertString(t, fmt.Sprintf("package of %q", s.Name), s.PackageName(), "")
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.symName, func(t *testing.T) {
+			t.Parallel()
+			s := Sym{Name: tc.symName}
+			assertString(t, fmt.Sprintf("package of %q", s.Name), s.PackageName(), tc.pkgName)
+		})
 	}
 }

@@ -331,14 +331,17 @@ func importfile(decl *syntax.ImportDecl) *types.Pkg {
 	return importpkg
 }
 
-// The linker uses the magic symbol prefixes "go." and "type."
+// ReservedImports are import paths used internally for generated
+// symbols by the compiler.
+//
+// The linker uses the magic symbol prefixes "go:" and "type:"
 // Avoid potential confusion between import paths and symbols
 // by rejecting these reserved imports for now. Also, people
 // "can do weird things in GOPATH and we'd prefer they didn't
 // do _that_ weird thing" (per rsc). See also #4257.
-var reservedimports = []string{
-	"go",
-	"type",
+var ReservedImports = map[string]bool{
+	"go":   true,
+	"type": true,
 }
 
 func checkImportPath(path string, allowSpace bool) error {
@@ -350,7 +353,7 @@ func checkImportPath(path string, allowSpace bool) error {
 		return errors.New("import path contains NUL")
 	}
 
-	for _, ri := range reservedimports {
+	for ri := range ReservedImports {
 		if path == ri {
 			return fmt.Errorf("import path %q is reserved and cannot be used", path)
 		}
