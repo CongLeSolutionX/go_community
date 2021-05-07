@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df63c789_97613917",
+        "filename": "src/cmd/compile/internal/types/sym.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-07T21:19:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770ab021_30289441",
+      "revId": "304f21996a1d591c5447cc4a03599288aa00f288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "277106e9_e3cdb617",
@@ -102,6 +120,30 @@
       "writtenOn": "2021-05-07T18:40:24Z",
       "side": 1,
       "message": "nit: I\u0027d omit \"unnamed\". Type literals are always unnamed and predeclared types do still have names.\n\nWhile here, \"predefined type\" should be \"predeclared type\".",
+      "range": {
+        "startLine": 167,
+        "startChar": 19,
+        "endLine": 167,
+        "endChar": 26
+      },
+      "revId": "304f21996a1d591c5447cc4a03599288aa00f288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b629357c_617d8f99",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-07T21:19:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "277106e9_e3cdb617",
       "range": {
         "startLine": 167,
         "startChar": 19,
@@ -129,6 +171,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aabf7997_d88223f4",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-07T21:19:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e534d30b_0fed5c89",
+      "revId": "304f21996a1d591c5447cc4a03599288aa00f288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a9750a1_7440a940",
@@ -142,6 +202,30 @@
       "writtenOn": "2021-05-07T18:40:24Z",
       "side": 1,
       "message": "I think you could omit (name and type) here and below. This is true of all three elements in the list, and already mentioned in the first statement.",
+      "range": {
+        "startLine": 432,
+        "startChar": 15,
+        "endLine": 432,
+        "endChar": 30
+      },
+      "revId": "304f21996a1d591c5447cc4a03599288aa00f288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba77492b_01d8222f",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-07T21:19:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a9750a1_7440a940",
       "range": {
         "startLine": 432,
         "startChar": 15,
