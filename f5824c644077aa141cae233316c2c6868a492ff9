@@ -16,6 +16,69 @@
       "message": "Hello maintainers,\nHoping you all are in good health. This is my first attempt at contributing to go documentation, kindly let me know if something ought to be improved.\nCheers!",
       "revId": "f5824c644077aa141cae233316c2c6868a492ff9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc4bdfe8_92491ffd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T14:15:20Z",
+      "side": 1,
+      "message": "Added a few suggestions to improve this. Thanks!",
+      "revId": "f5824c644077aa141cae233316c2c6868a492ff9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38e19fd9_b63d0e74",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T14:15:20Z",
+      "side": 1,
+      "message": "This document has a pattern of including the word \"new\" before the identifier that was added. Also, leave out parenthesis, and add a link:\n\n\u003e The new \u003ca href\u003d\"/pkg/time/#Time.IsDST\"\u003e\u003ccode\u003eTime.IsDST\u003c/code\u003e\u003c/a\u003e method ...",
+      "range": {
+        "startLine": 464,
+        "startChar": 10,
+        "endLine": 464,
+        "endChar": 35
+      },
+      "revId": "f5824c644077aa141cae233316c2c6868a492ff9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fbc3d53_c33c6962",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T14:15:20Z",
+      "side": 1,
+      "message": "It might be viable to shorten \"... to check if its ... or not\" to \"... to check whether its ...\" without the \"or not\" at the end.",
+      "range": {
+        "startLine": 464,
+        "startChar": 64,
+        "endLine": 464,
+        "endChar": 66
+      },
+      "revId": "f5824c644077aa141cae233316c2c6868a492ff9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
