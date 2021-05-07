@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f1f2965_021c0a2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T17:48:14Z",
+      "side": 1,
+      "message": "One optional comment.",
+      "revId": "7a844465f1d1b16de7a509752a093883b29b1224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68ac6bc0_72100a0c",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T17:48:14Z",
+      "side": 1,
+      "message": "Is it worth including \"type\" or can we just say \"... or method\"? Methods are well defined in the spec and https://pkg.go.dev/reflect#Method just calls it a method.\n\nIf you think including \"type\" is better/more clear, please keep it.",
+      "range": {
+        "startLine": 386,
+        "startChar": 47,
+        "endLine": 386,
+        "endChar": 51
+      },
+      "revId": "7a844465f1d1b16de7a509752a093883b29b1224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
