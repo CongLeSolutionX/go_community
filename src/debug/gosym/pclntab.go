@@ -24,6 +24,7 @@ const (
 	ver12
 	ver116
 	ver118
+	ver119
 )
 
 // A LineTable is a data structure mapping program counters to line numbers.
@@ -173,6 +174,7 @@ const (
 	go12magic  = 0xfffffffb
 	go116magic = 0xfffffffa
 	go118magic = 0xfffffff0
+	go119magic = 0xfffffff1
 )
 
 // uintptr returns the pointer-sized value encoded at b.
@@ -229,6 +231,10 @@ func (t *LineTable) parsePclnTab() {
 		t.binary, possibleVersion = binary.LittleEndian, ver118
 	case beMagic == go118magic:
 		t.binary, possibleVersion = binary.BigEndian, ver118
+	case leMagic == go119magic:
+		t.binary, possibleVersion = binary.LittleEndian, ver119
+	case beMagic == go119magic:
+		t.binary, possibleVersion = binary.BigEndian, ver119
 	default:
 		return
 	}
@@ -246,7 +252,7 @@ func (t *LineTable) parsePclnTab() {
 	}
 
 	switch possibleVersion {
-	case ver118:
+	case ver118, ver119:
 		t.nfunctab = uint32(offset(0))
 		t.nfiletab = uint32(offset(1))
 		t.textStart = t.PC // use the start PC instead of reading from the table, which may be unrelocated
@@ -527,7 +533,7 @@ func (t *LineTable) findFileLine(entry uint64, filetab, linetab uint32, filenum,
 	fileStartPC := filePC
 	for t.step(&fp, &filePC, &fileVal, filePC == entry) {
 		fileIndex := fileVal
-		if t.version == ver116 || t.version == ver118 {
+		if t.version == ver116 || t.version == ver118 || t.version == ver119 {
 			fileIndex = int32(t.binary.Uint32(cutab[fileVal*4:]))
 		}
 		if fileIndex == filenum && fileStartPC < filePC {
@@ -626,7 +632,7 @@ func (t *LineTable) go12LineToPC(file string, line int) (pc uint64) {
 		entry := f.entryPC()
 		filetab := f.pcfile()
 		linetab := f.pcln()
-		if t.version == ver116 || t.version == ver118 {
+		if t.version == ver116 || t.version == ver118 || t.version == ver119 {
 			if f.cuOffset() == ^uint32(0) {
 				// skip functions without compilation unit (not real function, or linker generated)
 				continue
