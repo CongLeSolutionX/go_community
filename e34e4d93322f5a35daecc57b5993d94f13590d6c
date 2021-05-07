@@ -84,6 +84,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2889888c_af34a8d0",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-05-07T18:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b33f51b_1658d901",
+      "range": {
+        "startLine": 302,
+        "startChar": 34,
+        "endLine": 302,
+        "endChar": 56
+      },
+      "revId": "e34e4d93322f5a35daecc57b5993d94f13590d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5e5bf1f_3ca2cae4",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-05-07T18:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d2a94d9_af53f0ed",
+      "range": {
+        "startLine": 302,
+        "startChar": 57,
+        "endLine": 302,
+        "endChar": 102
+      },
+      "revId": "e34e4d93322f5a35daecc57b5993d94f13590d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "841f30ae_06ebaf57",
@@ -107,6 +155,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a911147_0f823e1e",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-05-07T18:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "841f30ae_06ebaf57",
+      "range": {
+        "startLine": 303,
+        "startChar": 74,
+        "endLine": 303,
+        "endChar": 128
+      },
+      "revId": "e34e4d93322f5a35daecc57b5993d94f13590d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee58cd8e_86f3dc61",
@@ -120,6 +192,24 @@
       "writtenOn": "2021-05-07T05:40:01Z",
       "side": 1,
       "message": "Maybe add: Previous Go versions could return larger negative counts when reading incorrectly encoded varints.",
+      "revId": "e34e4d93322f5a35daecc57b5993d94f13590d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "947b2642_9e66cbe6",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-05-07T18:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee58cd8e_86f3dc61",
       "revId": "e34e4d93322f5a35daecc57b5993d94f13590d6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
