@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1387a672_6a56cbe3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51918
+      },
+      "writtenOn": "2021-05-07T05:47:53Z",
+      "side": 1,
+      "message": "Thanks, Emmanuel. I have made the changes to the Commit message.",
+      "revId": "5bffcc847779867944a0d9a35aa94ca7ebe72d8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
