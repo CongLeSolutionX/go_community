@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3040427_5d715445",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-05-07T17:44:36Z",
+      "side": 1,
+      "message": "Thank you Vishal, LGTM, but there is an abbreviation to change :-)",
+      "revId": "0c8ece8f63b2ba4498353d6e5a9c628b2e5fa714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f6999ef_fb64904c",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-05-07T17:44:36Z",
+      "side": 1,
+      "message": "constants",
+      "range": {
+        "startLine": 326,
+        "startChar": 46,
+        "endLine": 326,
+        "endChar": 52
+      },
+      "revId": "0c8ece8f63b2ba4498353d6e5a9c628b2e5fa714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
