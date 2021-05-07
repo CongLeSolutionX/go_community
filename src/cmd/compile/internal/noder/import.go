@@ -423,16 +423,6 @@ func addFingerprint(path string, f *os.File, end int64) error {
 	return nil
 }
 
-// The linker uses the magic symbol prefixes "go." and "type."
-// Avoid potential confusion between import paths and symbols
-// by rejecting these reserved imports for now. Also, people
-// "can do weird things in GOPATH and we'd prefer they didn't
-// do _that_ weird thing" (per rsc). See also #4257.
-var reservedimports = []string{
-	"go",
-	"type",
-}
-
 func checkImportPath(path string, allowSpace bool) error {
 	if path == "" {
 		return errors.New("import path is empty")
@@ -442,10 +432,8 @@ func checkImportPath(path string, allowSpace bool) error {
 		return errors.New("import path contains NUL")
 	}
 
-	for _, ri := range reservedimports {
-		if path == ri {
-			return fmt.Errorf("import path %q is reserved and cannot be used", path)
-		}
+	if base.ReservedImports[path] {
+		return fmt.Errorf("import path %q is reserved and cannot be used", path)
 	}
 
 	for _, r := range path {
