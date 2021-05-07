@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43ad3190_0f379023",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T18:04:15Z",
+      "side": 1,
+      "message": "I think this is a good description.\n\nI did find some precedent for describing a new Reset method in https://golang.org/doc/go1.7#bytes which you could consider as a shorter way to phrase this, if you think it\u0027d be better.",
+      "revId": "21072b57de3ecfbbfd3374a36f3989889338e74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
