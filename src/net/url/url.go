@@ -1104,7 +1104,7 @@ func (u *URL) ResolveReference(ref *URL) *URL {
 		url.Path = ""
 		return &url
 	}
-	if ref.Path == "" && ref.RawQuery == "" {
+	if ref.Path == "" && (!ref.ForceQuery && ref.RawQuery == "") {
 		url.RawQuery = u.RawQuery
 		if ref.Fragment == "" {
 			url.Fragment = u.Fragment
