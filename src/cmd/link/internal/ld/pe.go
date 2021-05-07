@@ -723,7 +723,9 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 
 		// Only windows/386 requires underscore prefix on external symbols.
 		if ctxt.Is386() && ctxt.IsExternal() &&
-			(t == sym.SHOSTOBJ || t == sym.SUNDEFEXT || ldr.AttrCgoExport(s)) {
+			(t == sym.SHOSTOBJ || t == sym.SUNDEFEXT || ldr.AttrCgoExport(s) ||
+				// TODO(cuonglm): figure out why and remove this hack for "go:buildid" and "type:*"
+				name == "go:buildid" || name == "type:*") {
 			name = "_" + name
 		}
 
