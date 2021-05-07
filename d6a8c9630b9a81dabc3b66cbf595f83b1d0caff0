@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40c50458_fbb4c958",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "I just noticed the case is different: libfuzzer vs libFuzzer. Maybe that caused the error?\n\nYou\u0027re right the loop above is only for -coverpkg, so my first suggestion won\u0027t work. And TestPackageList might not be what we want anyway (it includes packages imported from tests).\n\nSo maybe add another loop over load.PackageList(ctx, pkgs), and add the flags to each of those?",
+      "parentUuid": "57afcc31_1b167af7",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04cd0d1c_42c6dd32",
         "filename": "src/internal/fuzz/coverage.go",
         "patchSetId": 12
@@ -103,6 +121,268 @@
       "writtenOn": "2021-05-04T20:21:35Z",
       "side": 1,
       "message": "Is this branch actually needed? I think we should be able to create the slice header below even if the size is 0.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fed0dd8_e59b6d4a",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Nit: drop the continue. It should have no effect, since stopping will be true on L248. I think dropping it will make the control flow a little more linear.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c1645a_a0e03126",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Similar to the above, could we make it so there\u0027s only one call to nextInput and one assignment to inputC?\n\nI think we could simplify the logic here by making nextInput smarter. While we\u0027re in the coverage-only phase, it can return seed and cache inputs, then return false when those are exhausted, disabling inputC. After we\u0027ve received coverage from all the workers, we can re-enable inputC and start fuzzing.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89615f71_c4348cd3",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "I wonder if this could be coverageData (or a copy) instead? Then we\u0027re basically telling the worker \"here\u0027s the union of all edges any workers has covered so far. Let me know if you see new ones.\"",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "425beb00_17c28427",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "If possible, let\u0027s avoid adding a mutex for anything in coordinator. Only the coordinator goroutine (driving the main loop in CoordinateFuzzing) should be able to read or write mutable fields.\n\nIf that\u0027s not possible, let\u0027s store coverageData in a chan and use receive/send to lock/unlock like we did with sharedMem.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9526a6b2_7a78e93b",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "In the coordinator process, I think we should ignore the coverage array entirely and start with an array of zeroes.\n\nThe coordinator process may run code that the workers don\u0027t run (tests and seed values). Since we\u0027re running the corpus and cache values on the workers again anyway, I think it\u0027s cleaner to ignore whatever data we collect in the coordinator process.\n\nIgnoring this will also reduce coupling between the coordinator and worker binaries. Perhaps some day we\u0027ll want to support fuzzing outside of \u0027go test\u0027, and we might want different coordinator and worker binaries.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a27b01ab_e45f07c2",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Optional: rename to copyCoverage to make it clear the returned slice isn\u0027t an alias of c.coverageData, and workers can mutate it.\n\nI don\u0027t have a sense of how large this is going to be for most binaries. Maybe ~5% of text size, so like 500KB for a 10MB binary? We may want to optimize this later to reduce allocation.",
+      "range": {
+        "startLine": 528,
+        "startChar": 22,
+        "endLine": 528,
+        "endChar": 34
+      },
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e19e9d9_768da4a6",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Nit: rename to CoverageOnly (and invert the sense)? I think that would be more descriptive.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "349abc5b_13addd55",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Rename to setCoverageArgs, setCoverageResponse for consistency.",
+      "range": {
+        "startLine": 507,
+        "startChar": 5,
+        "endLine": 507,
+        "endChar": 17
+      },
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "863623f4_206f780b",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Sure does :)",
+      "range": {
+        "startLine": 537,
+        "startChar": 13,
+        "endLine": 537,
+        "endChar": 23
+      },
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68cd3387_088635ec",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Would it be cleaner to fold this into the fuzz RPC instead of defining a new one? We\u0027d just need to define a CoverageData []byte field in fuzzArgs. If it\u0027s non-empty, we\u0027ll set the coverage to that fuzzing.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3afb7b4b_f4f094aa",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "This condition comes up in a few places, so let\u0027s extract a function that checks if a []byte contains a non-zero byte that\u0027s zero in another []byte.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8ec2dc0_5e176a81",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Could we minimize these inputs, too? We should avoid writing large inputs to the cache if smaller inputs will do the job.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d72f2ce0_07514d97",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Use readCoverage (or copyCoverage if you rename it) instead?",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd850fef_9ac73855",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-07T17:53:45Z",
+      "side": 1,
+      "message": "Rename to setCoverage to match workerServer method (or fold into fuzz).",
+      "range": {
+        "startLine": 913,
+        "startChar": 24,
+        "endLine": 913,
+        "endChar": 38
+      },
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
