@@ -330,14 +330,14 @@ func (w *writer) Sym(s *LSym) {
 	if s.ReflectMethod() {
 		flag |= goobj.SymFlagReflectMethod
 	}
-	if strings.HasPrefix(s.Name, "type.") && s.Name[5] != '.' && s.Type == objabi.SRODATA {
+	if strings.HasPrefix(s.Name, "type:") && s.Type == objabi.SRODATA {
 		flag |= goobj.SymFlagGoType
 	}
 	flag2 := uint8(0)
 	if s.UsedInIface() {
 		flag2 |= goobj.SymFlagUsedInIface
 	}
-	if strings.HasPrefix(s.Name, "go.itab.") && s.Type == objabi.SRODATA {
+	if strings.HasPrefix(s.Name, "go:itab.") && s.Type == objabi.SRODATA {
 		flag2 |= goobj.SymFlagItab
 	}
 	name := s.Name
@@ -355,7 +355,7 @@ func (w *writer) Sym(s *LSym) {
 		// the largest alignment.
 		// TODO: maybe the compiler could set the alignment for all
 		// data symbols more carefully.
-		if s.Size != 0 && !strings.HasPrefix(s.Name, "go.string.") {
+		if s.Size != 0 && !strings.HasPrefix(s.Name, "go:string.") {
 			switch {
 			case w.ctxt.Arch.PtrSize == 8 && s.Size%8 == 0:
 				align = 8
@@ -436,7 +436,7 @@ func (w *writer) contentHash(s *LSym) goobj.HashType {
 
 	// Don't dedup type symbols with others, as they are in a different
 	// section.
-	if strings.HasPrefix(s.Name, "type.") {
+	if strings.HasPrefix(s.Name, "type:") {
 		h.Write([]byte{'T'})
 	} else {
 		h.Write([]byte{0})

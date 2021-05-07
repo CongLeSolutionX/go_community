@@ -20,7 +20,11 @@ func PkgLinksym(prefix, name string, abi obj.ABI) *obj.LSym {
 		// TODO(mdempsky): Cleanup callers and Fatalf instead.
 		return linksym(prefix, "_", abi)
 	}
-	return linksym(prefix, prefix+"."+name, abi)
+	sep := "."
+	if prefix == "go" || prefix == "type" {
+		sep = ":"
+	}
+	return linksym(prefix, prefix+sep+name, abi)
 }
 
 // Linkname returns the linker symbol for the given name as it might
