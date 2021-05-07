@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90c21c32_ea553917",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-05-07T05:22:02Z",
+      "side": 1,
+      "message": "doc/go1.17: document new math constants\n\nDocuments the newly introduced:\n* MaxInt\n* MaxUint\n* MinInt\n\nUpdates #28538.\nFor #44513.\nFixes #46012.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "6eb62dffd0d292ce52c0bdb0ed7c5428f8155bce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35d83e13_72751714",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-05-07T05:22:02Z",
+      "side": 1,
+      "message": "Thank you for this change Vishal. I\u0027ve added some suggestions, please take a look.",
+      "revId": "6eb62dffd0d292ce52c0bdb0ed7c5428f8155bce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
