@@ -1389,7 +1389,14 @@ func addexports(ctxt *Link) {
 
 	for _, s := range dexport {
 		out.Write32(uint32(v))
-		v += len(ldr.SymExtname(s)) + 1
+		name := ldr.SymExtname(s)
+		t := ldr.SymType(s)
+		// Only windows/386 requires underscore prefix on external symbols.
+		if ctxt.Is386() && ctxt.IsExternal() &&
+			(t == sym.SHOSTOBJ || t == sym.SUNDEFEXT || ldr.AttrCgoExport(s)) {
+			name = "_" + name
+		}
+		v += len(name) + 1
 	}
 
 	// put EXPORT Ordinal Table
