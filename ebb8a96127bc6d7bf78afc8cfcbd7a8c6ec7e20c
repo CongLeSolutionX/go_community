@@ -16,6 +16,109 @@
       "message": "Completed the requested changes, please take a look 😊",
       "revId": "ebb8a96127bc6d7bf78afc8cfcbd7a8c6ec7e20c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "643c6519_72b84220",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T16:22:16Z",
+      "side": 1,
+      "message": "Thanks. More suggestions.",
+      "revId": "ebb8a96127bc6d7bf78afc8cfcbd7a8c6ec7e20c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bbef124_cd1a6dc9",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T16:22:16Z",
+      "side": 1,
+      "message": "Minor, two spaces here. Should be one.\n\nAlso, it might be nice to wrap this line to fit more comfortably when word wrapping isn\u0027t on, similar to other paragraphs.",
+      "range": {
+        "startLine": 464,
+        "startChar": 13,
+        "endLine": 464,
+        "endChar": 15
+      },
+      "revId": "ebb8a96127bc6d7bf78afc8cfcbd7a8c6ec7e20c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6395ff00_2113cf4b",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T16:22:16Z",
+      "side": 1,
+      "message": "Writing \"{Milli,Micro}\" is okay in a commit message, but we should expand it into proper English sentences in the release notes. There will be more repetition, but that is okay.\n\nPerhaps it can be phrased somewhat like:\n\n    The new Time.UnixMilli and Time.UnixMicro methods return the number of milliseconds and microseconds elapsed since [...].\n\nPlease add \u003ccode\u003e and \u003ca\u003e anchors around the methods as done in paragraph above.",
+      "revId": "ebb8a96127bc6d7bf78afc8cfcbd7a8c6ec7e20c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "534b16c5_3b67e27b",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T16:22:16Z",
+      "side": 1,
+      "message": "\"... for fractional seconds\" -\u003e \"... for fractional seconds when parsing and formatting time. The following ...\"",
+      "range": {
+        "startLine": 473,
+        "startChar": 55,
+        "endLine": 473,
+        "endChar": 56
+      },
+      "revId": "ebb8a96127bc6d7bf78afc8cfcbd7a8c6ec7e20c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac70edf_e5e3e9a3",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-07T16:22:16Z",
+      "side": 1,
+      "message": "This paragraph is inside the section for the time package, so it\u0027s likely better to write:\n\n    The package now ...\n\n(For a past example, see https://golang.org/doc/go1.15#encoding/json.)",
+      "range": {
+        "startLine": 473,
+        "startChar": 6,
+        "endLine": 473,
+        "endChar": 22
+      },
+      "revId": "ebb8a96127bc6d7bf78afc8cfcbd7a8c6ec7e20c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
