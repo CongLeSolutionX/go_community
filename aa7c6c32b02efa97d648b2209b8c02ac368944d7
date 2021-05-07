@@ -183,6 +183,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c706fc9c_77cfae8f",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-07T13:11:40Z",
+      "side": 1,
+      "message": "If module.CheckPath already rejects them, then I\u0027m fine with disallowing them — but I\u0027m not entirely convinced that module.CheckPath ought to be rejecting them. 🤔",
+      "parentUuid": "c16769d6_3a2ab5ad",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 194
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d978c83_db20a0fa",
