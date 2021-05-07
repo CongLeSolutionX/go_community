@@ -25,7 +25,7 @@ import (
 func initBenchmarkFlags() {
 	matchBenchmarks = flag.String("test.bench", "", "run only benchmarks matching `regexp`")
 	benchmarkMemory = flag.Bool("test.benchmem", false, "print memory allocations for benchmarks")
-	flag.Var(&benchTime, "test.benchtime", "run each benchmark for duration `d`")
+	flag.Var(&benchTime, "test.benchtime", "run each benchmark for duration `d` or run the benchmark d times")
 }
 
 var (
@@ -58,7 +58,7 @@ func (f *benchTimeFlag) Set(s string) error {
 	}
 	d, err := time.ParseDuration(s)
 	if err != nil || d <= 0 {
-		return fmt.Errorf("invalid duration")
+		return fmt.Errorf("invalid duration or count")
 	}
 	*f = benchTimeFlag{d: d}
 	return nil
