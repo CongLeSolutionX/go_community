@@ -339,15 +339,31 @@ Do not send CLs removing the interior tags from such phrases.
 <dl id="net"><dt><a href="/pkg/net/">net</a></dt>
   <dd>
     <p><!-- CL 272668 -->
-      TODO: <a href="https://golang.org/cl/272668">https://golang.org/cl/272668</a>: add IP.IsPrivate
+      The <a href="/pkg/net/#IP"><code>net.IP</code></a> type now contains a <a href="/pkg/net/#IP.IsPrivate">
+      <code>IsPrivate</code></a> method to check if the IP address is private.
+      <br>
+      For IPv4 addresses, it returns <code>true</code> if the address prefix is <code>10/8</code>,
+      <code>172.16/12</code> or <code>192.168/16</code>; otherwise, it returns <code>false</code>.
+      <br>
+      For IPv6 addresses, it returns <code>true</code> if the address prefix is <code>0xFC00::/7</code>;
+      otherwise, it returns <code>false</code>.
     </p>
 
     <p><!-- CL 301709 -->
-      TODO: <a href="https://golang.org/cl/301709">https://golang.org/cl/301709</a>: make go resolver aware of network parameter
+      The <a href="/pkg/net/#Resolver"><code>net.Resolver</code></a> type is now aware about network connection type.
+      The resolver has now been optimized to reduce latencies when using IPv4-only or IPv6-only connections.
+      It queries only Type A records for IPv4-only connections and only Type AAAA records for IPv6-only connections.
     </p>
 
     <p><!-- CL 307030 -->
-      TODO: <a href="https://golang.org/cl/307030">https://golang.org/cl/307030</a>: make ErrClosed and ParseError implement net.Error
+      The <a href="/pkg/internal/poll/#pkg-variables"><code>poll.ErrNetClosing</code></a> is now a variable of type <code>poll.errNetClosing</code>. It implements the
+      <a href="/pkg/net/#Error"><code>net.Error</code></a> interface. It still returns the same error string on
+      <code>Error</code>. The interface methods <code>net.Error.Temporary</code> and <code>net.Error.Timeout</code>
+      both return <code>false</code>.
+      <br>
+      The <a href="/pkg/net/#ParseError"><code>net.ParseError</code></a> now implements the <code>net.Error</code>
+      interface. It still returns the same error string on <code>Error</code>. The interface methods
+      <code>net.Error.Temporary</code> and <code>net.Error.Timeout</code> both return <code>false</code>.
     </p>
   </dd>
 </dl><!-- net -->
