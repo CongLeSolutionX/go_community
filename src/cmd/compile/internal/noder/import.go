@@ -331,7 +331,7 @@ func importfile(decl *syntax.ImportDecl) *types.Pkg {
 	return importpkg
 }
 
-// The linker uses the magic symbol prefixes "go." and "type."
+// The linker uses the magic symbol prefixes "go:" and "type:"
 // Avoid potential confusion between import paths and symbols
 // by rejecting these reserved imports for now. Also, people
 // "can do weird things in GOPATH and we'd prefer they didn't
