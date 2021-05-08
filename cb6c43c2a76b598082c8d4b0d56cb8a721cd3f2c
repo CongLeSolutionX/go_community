@@ -67,6 +67,24 @@
       "message": "This will be reviewed for the 1.17 release, after the Go 1.16 release is out.  Someone should get to it, but if not please feel free to ping again at that time.  Thanks.",
       "revId": "cb6c43c2a76b598082c8d4b0d56cb8a721cd3f2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4e00f36_d30e0961",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-05-08T11:55:16Z",
+      "side": 1,
+      "message": "The Github source branch is deleted accidentally. I have restored it.",
+      "parentUuid": "3f3c2b81_2874907f",
+      "revId": "cb6c43c2a76b598082c8d4b0d56cb8a721cd3f2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
