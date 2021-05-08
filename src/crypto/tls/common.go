@@ -751,6 +751,9 @@ type ticketKey struct {
 // ticket key to a ticketKey. Externally, session ticket keys are 32 random
 // bytes and this function expands that into sufficient name and key material.
 func (c *Config) ticketKeyFromBytes(b [32]byte) (key ticketKey) {
+	if b == [32]byte{} {
+		panic("tls: session ticket key is all zeroes")
+	}
 	hashed := sha512.Sum512(b[:])
 	copy(key.keyName[:], hashed[:ticketKeyNameLen])
 	copy(key.aesKey[:], hashed[ticketKeyNameLen:ticketKeyNameLen+16])
@@ -906,7 +909,7 @@ func (c *Config) ticketKeys(configForClient *Config) []ticketKey {
 // The first key will be used when creating new tickets, while all keys can be
 // used for decrypting tickets. It is safe to call this function while the
 // server is running in order to rotate the session ticket keys. The function
-// will panic if keys is empty.
+// will panic if keys is empty or any of the keys is all zeroes.
 //
 // Calling this function will turn off automatic session ticket key rotation.
 //

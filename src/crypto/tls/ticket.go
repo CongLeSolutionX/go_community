@@ -130,6 +130,9 @@ func (c *Conn) encryptTicket(state []byte) ([]byte, error) {
 		return nil, err
 	}
 	key := c.ticketKeys[0]
+	if key.aesKey == [16]byte{} || key.hmacKey == [16]byte{} {
+		panic("tls: internal error: session ticket keys are all zeroes")
+	}
 	copy(keyName, key.keyName[:])
 	block, err := aes.NewCipher(key.aesKey[:])
 	if err != nil {
