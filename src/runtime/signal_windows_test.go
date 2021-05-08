@@ -26,8 +26,6 @@ func TestVectoredHandlerDontCrashOnLibrary(t *testing.T) {
 	}
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveExecPath(t, "gcc")
-	testprog.Lock()
-	defer testprog.Unlock()
 	dir := t.TempDir()
 
 	// build go dll
@@ -150,8 +148,6 @@ func TestLibraryCtrlHandler(t *testing.T) {
 	}
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveExecPath(t, "gcc")
-	testprog.Lock()
-	defer testprog.Unlock()
 	dir := t.TempDir()
 
 	// build go dll
