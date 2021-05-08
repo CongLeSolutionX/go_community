@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4aa609f_0c4b53fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-05-08T07:11:31Z",
+      "side": 1,
+      "message": "LGTM.\n\nI don\u0027t actually know why we had it this way. It was like this forever.\n\nAlex",
+      "revId": "c0e1301b8c137d4b9f93067469b9608c252f2cea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
