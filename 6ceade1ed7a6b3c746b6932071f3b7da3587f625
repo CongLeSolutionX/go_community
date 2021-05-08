@@ -16,6 +16,46 @@
       "message": "Completed the new requested changes :D",
       "revId": "6ceade1ed7a6b3c746b6932071f3b7da3587f625",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa35a225_c28c30a9",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-08T13:52:00Z",
+      "side": 1,
+      "message": "I don\u0027t think this is accurate.  IsDST doesn\u0027t report whether the configured location is in DST, it reports whether the time is in DST in its configured location.",
+      "revId": "6ceade1ed7a6b3c746b6932071f3b7da3587f625",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74126781_41490619",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-08T13:52:00Z",
+      "side": 1,
+      "message": "s/methods/functions/",
+      "range": {
+        "startLine": 471,
+        "startChar": 64,
+        "endLine": 471,
+        "endChar": 71
+      },
+      "revId": "6ceade1ed7a6b3c746b6932071f3b7da3587f625",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
