@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37cd41cf_6c24184b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-08T02:21:19Z",
+      "side": 1,
+      "message": "Also fixes #39986.",
+      "revId": "763b7a2f1fa74639afb3fd0853be6e5273fcfa37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9286bdb_4ac9e729",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
