@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da70cf7b_238c0b58",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 51979
+      },
+      "writtenOn": "2021-05-08T13:59:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fa35a225_c28c30a9",
+      "revId": "6ceade1ed7a6b3c746b6932071f3b7da3587f625",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74126781_41490619",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-05-08T13:52:00Z",
       "side": 1,
       "message": "s/methods/functions/",
+      "range": {
+        "startLine": 471,
+        "startChar": 64,
+        "endLine": 471,
+        "endChar": 71
+      },
+      "revId": "6ceade1ed7a6b3c746b6932071f3b7da3587f625",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46419067_6304c137",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 51979
+      },
+      "writtenOn": "2021-05-08T13:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74126781_41490619",
       "range": {
         "startLine": 471,
         "startChar": 64,
