@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2275b440_4eefe3ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-05-09T23:44:03Z",
+      "side": 1,
+      "message": "I think I’m missing something. at least in 1.9, concurrent and non-concurrent builds were completely deterministic in output. Was there a regression? or have I misunderstood the commit messages?",
+      "revId": "5203357ebacf9f41ca5e194d953c164049172e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
