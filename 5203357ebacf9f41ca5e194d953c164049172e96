@@ -16,6 +16,24 @@
       "message": "I think I’m missing something. at least in 1.9, concurrent and non-concurrent builds were completely deterministic in output. Was there a regression? or have I misunderstood the commit messages?",
       "revId": "5203357ebacf9f41ca5e194d953c164049172e96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d398c47d_e5161d2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-09T23:55:54Z",
+      "side": 1,
+      "message": "If cmd/compile processes with internal concurrency used to produce deterministic .a file output, then it does seem like something has regressed.",
+      "parentUuid": "2275b440_4eefe3ea",
+      "revId": "5203357ebacf9f41ca5e194d953c164049172e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
