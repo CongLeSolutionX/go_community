@@ -53,6 +53,24 @@
       "message": "So now we always set this, and `base.Ctxt.InParallel` right below even in non-concurrently (deterministic) build, I wonder can it be problem for the backend?",
       "revId": "6b7f14260b5ed9aae9ffb15b74e075a042a26722",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7df457a7_851fa288",
+        "filename": "src/cmd/compile/internal/gc/compile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-09T02:47:24Z",
+      "side": 1,
+      "message": "These flags just enable safety checks in the backend. They might cause false positive errors for things that would be safe in non-concurrent builds, but I think that\u0027s okay: backend code needs to be safe for both concurrent and non-concurrent builds anyway.",
+      "parentUuid": "1f0efc25_6633df8c",
+      "revId": "6b7f14260b5ed9aae9ffb15b74e075a042a26722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
