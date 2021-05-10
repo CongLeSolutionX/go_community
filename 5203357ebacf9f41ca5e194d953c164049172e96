@@ -51,6 +51,24 @@
       "message": "I compiled every Go package I could find under toolstash (took weeks!) so yeah, I think there has been a regression. (sorry for typos, gerrit on mobile requires typing blind.)  the good news is that means we can bisect. does the issue reproduce quickly/reliably?",
       "revId": "5203357ebacf9f41ca5e194d953c164049172e96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5861e2bf_9c05179f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-10T03:20:40Z",
+      "side": 1,
+      "message": "It was really easy to reproduce at the time: \"go build -a -toolexec\u003d\"toolstash -cmp\" runtime\" wouldn\u0027t even get past compiling the internal/* packages without finding an issue.\n\nI\u0027m not seeing that problem currently though, even with high -c values. I\u0027ll have to investigate this further tomorrow. I\u0027ll file an issue for this.",
+      "parentUuid": "4602038f_7b2885eb",
+      "revId": "5203357ebacf9f41ca5e194d953c164049172e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
