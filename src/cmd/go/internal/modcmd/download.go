@@ -86,8 +86,10 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	if !modload.HasModRoot() && len(args) == 0 {
 		base.Fatalf("go mod download: no modules specified (see 'go help mod download')")
 	}
-	if len(args) == 0 {
+	haveExplicitArgs := len(args) != 0
+	if !haveExplicitArgs {
 		args = []string{"all"}
+		modload.DisallowWriteGoMod() // see call to WriteGoMod below.
 	} else if modload.HasModRoot() {
 		modload.LoadModFile(ctx) // to fill Target
 		targetAtUpgrade := modload.Target.Path + "@upgrade"
@@ -185,8 +187,18 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		base.ExitIfErrors()
 	}
 
-	// Update go.mod and especially go.sum if needed.
-	modload.WriteGoMod(ctx)
+	// If there were explicit arguments, update go.mod and especially go.sum.
+	// 'go mod download mod@version' is a useful way to add a sum without using
+	// 'go get mod@version', which may have other side effects. We print this in
+	// some error message hints.
+	//
+	// 'go mod download' without arguments is sometimes used to pre-populate the
+	// module cache, even though it may fetch more zip files than needed.
+	// In 1.16, it added sums for newly downloaded files, which was annoying.
+	// 'go mod download all' may still be used for this if needed.
+	if haveExplicitArgs {
+		modload.WriteGoMod(ctx)
+	}
 
 	// If there was an error matching some of the requested packages, emit it now
 	// (after we've written the checksums for the modules that were downloaded
