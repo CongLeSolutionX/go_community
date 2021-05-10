@@ -34,6 +34,23 @@
       "parentUuid": "2275b440_4eefe3ea",
       "revId": "5203357ebacf9f41ca5e194d953c164049172e96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4602038f_7b2885eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-05-10T00:34:10Z",
+      "side": 1,
+      "message": "I compiled every Go package I could find under toolstash (took weeks!) so yeah, I think there has been a regression. (sorry for typos, gerrit on mobile requires typing blind.)  the good news is that means we can bisect. does the issue reproduce quickly/reliably?",
+      "revId": "5203357ebacf9f41ca5e194d953c164049172e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
