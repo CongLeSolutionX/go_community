@@ -18,6 +18,7 @@ func UTF16PtrToString(p *uint16) string {
 	if p == nil {
 		return ""
 	}
+
 	// Find NUL terminator.
 	end := unsafe.Pointer(p)
 	n := 0
@@ -25,14 +26,41 @@ func UTF16PtrToString(p *uint16) string {
 		end = unsafe.Pointer(uintptr(end) + unsafe.Sizeof(*p))
 		n++
 	}
+
+	if n == 0 {
+		return ""
+	}
+
 	// Turn *uint16 into []uint16.
-	var s []uint16
-	hdr := (*unsafeheader.Slice)(unsafe.Pointer(&s))
-	hdr.Data = unsafe.Pointer(p)
-	hdr.Cap = n
-	hdr.Len = n
-	// Decode []uint16 into string.
-	return string(utf16.Decode(s))
+	var u16s []uint16
+	u16shdr := (*unsafeheader.Slice)(unsafe.Pointer(&u16s))
+	u16shdr.Data = unsafe.Pointer(p)
+	u16shdr.Cap = n
+	u16shdr.Len = n
+
+	// Decode []uint16 into []byte.
+	dst := make([]byte, 0, n*int(unsafe.Sizeof(*p)))
+	for len(u16s) > 0 {
+		r1 := rune(u16s[0])
+		u16s = u16s[1:]
+		if !utf16.IsSurrogate(r1) {
+			dst = append(dst, string(r1)...)
+		} else if len(u16s) == 0 {
+			dst = append(dst, "\uFFFD"...)
+		} else {
+			r2 := rune(u16s[0])
+			u16s = u16s[1:]
+			dst = append(dst, string(utf16.DecodeRune(r1, r2))...)
+		}
+	}
+
+	// Turn []byte into string without allocating.
+	var s string
+	shdr := (*unsafeheader.String)(unsafe.Pointer(&s))
+	shdr.Data = unsafe.Pointer(&dst[0])
+	shdr.Len = len(dst)
+
+	return s
 }
 
 const (
