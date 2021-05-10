@@ -16,6 +16,23 @@
       "message": "The newest patchset now separates the suggestion with \\n\\t.\n\nI\u0027ve added a couple of comments for the other remarks; I think your input will be valuable, as I don\u0027t have really extensive experience with Go modules.\n\nThank you for your time!",
       "revId": "603c06b5276aa458b4ff512ec7384c2d8714888d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87edb471_1a124154",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-10T17:51:01Z",
+      "side": 1,
+      "message": "Also check a path with a space in the name.\n\nIf that works, please add \"Fixes #46085\" to the commit message.",
+      "revId": "603c06b5276aa458b4ff512ec7384c2d8714888d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
