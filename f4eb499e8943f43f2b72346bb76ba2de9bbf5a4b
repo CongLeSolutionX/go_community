@@ -80,6 +80,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19c0f548_bdeb4d67",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-10T09:59:00Z",
+      "side": 1,
+      "message": "Because here it\u0027s followed by a strings.ToLower.\n\nIt would be nice to use the asciiToLower pattern from CL 313489, which also helps with automated checking.",
+      "parentUuid": "b89ad0f0_779df543",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 5
+      },
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3a3db3f_08ca4554",
         "filename": "src/net/http/cookiejar/jar.go",
         "patchSetId": 5
@@ -143,6 +167,23 @@
         "endLine": 1304,
         "endChar": 72
       },
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d191b6f_6e148984",
+        "filename": "src/net/http/internal/ascii/print.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-10T09:59:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure it\u0027s worth making a new package. Maybe we should expose these functions in httpguts, but in the meantime we can keep the change simpler by duplicating the code a couple times within the packages, like in CL 313489.",
       "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
