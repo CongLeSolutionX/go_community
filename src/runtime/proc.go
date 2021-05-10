@@ -1175,11 +1175,27 @@ func stopTheWorldWithSema() {
 	preemptall()
 	// stop current P
 	_g_.m.p.ptr().status = _Pgcstop // Pgcstop is only diagnostic.
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("stopTheWorldWithSema: current P to _Pgcstop")
+		d.i32(_g_.m.p.ptr().id)
+		d.end()
+	}
 	sched.stopwait--
 	// try to retake all P's in Psyscall status
 	for _, p := range allp {
 		s := p.status
 		if s == _Psyscall && atomic.Cas(&p.status, s, _Pgcstop) {
+			d := dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("stopTheWorldWithSema: syscall P to _Pgcstop")
+				d.i32(p.id)
+				d.end()
+			}
 			if trace.enabled {
 				traceGoSysBlock(p)
 				traceProcStop(p)
@@ -1195,6 +1211,14 @@ func stopTheWorldWithSema() {
 			break
 		}
 		p.status = _Pgcstop
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("stopTheWorldWithSema: idle P to _Pgcstop")
+			d.i32(p.id)
+			d.end()
+		}
 		sched.stopwait--
 	}
 	wait := sched.stopwait > 0
@@ -1574,6 +1598,14 @@ func forEachP(fn func(*p)) {
 	mp := acquirem()
 	_p_ := getg().m.p.ptr()
 
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("forEachP")
+		d.end()
+	}
+
 	lock(&sched.lock)
 	if sched.safePointWait != 0 {
 		throw("forEachP: sched.safePointWait != 0")
@@ -1585,6 +1617,14 @@ func forEachP(fn func(*p)) {
 	for _, p := range allp {
 		if p != _p_ {
 			atomic.Store(&p.runSafePointFn, 1)
+			d := dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("forEachP: set P")
+				d.i32(p.id)
+				d.end()
+			}
 		}
 	}
 	preemptall()
@@ -1596,7 +1636,23 @@ func forEachP(fn func(*p)) {
 	// Run safe point function for all idle Ps. sched.pidle will
 	// not change because we hold sched.lock.
 	for p := sched.pidle.ptr(); p != nil; p = p.link.ptr() {
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("forEachP: idle P")
+			d.i32(p.id)
+			d.end()
+		}
 		if atomic.Cas(&p.runSafePointFn, 1, 0) {
+			d := dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("forEachP: run idle P")
+				d.i32(p.id)
+				d.end()
+			}
 			fn(p)
 			sched.safePointWait--
 		}
@@ -1612,7 +1668,25 @@ func forEachP(fn func(*p)) {
 	// off to induce safe point function execution.
 	for _, p := range allp {
 		s := p.status
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("forEachP: P")
+			d.i32(p.id)
+			d.s("status")
+			d.u32(p.status)
+			d.end()
+		}
 		if s == _Psyscall && p.runSafePointFn == 1 && atomic.Cas(&p.status, s, _Pidle) {
+			d := dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("forEachP: handoff P")
+				d.i32(p.id)
+				d.end()
+			}
 			if trace.enabled {
 				traceGoSysBlock(p)
 				traceProcStop(p)
@@ -1624,7 +1698,22 @@ func forEachP(fn func(*p)) {
 
 	// Wait for remaining Ps to run fn.
 	if wait {
+		i := 0
 		for {
+			i++
+			if i > 10000 {
+				for _, p := range allp {
+					println("P", p.id, "status", p.status, "runSafePointFn", p.runSafePointFn)
+				}
+				throw("forEachP hung")
+			}
+			d := dlog()
+			if d != nil {
+				d.s("M")
+				d.i64(getg().m.id)
+				d.s("forEachP: wait")
+				d.end()
+			}
 			// Wait for 100us, then try to re-preempt in
 			// case of any races.
 			//
@@ -1649,6 +1738,14 @@ func forEachP(fn func(*p)) {
 	sched.safePointFn = nil
 	unlock(&sched.lock)
 	releasem(mp)
+
+	d = dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("forEachP done")
+		d.end()
+	}
 }
 
 // syscall_runtime_doAllThreadsSyscall serializes Go execution and
@@ -1807,7 +1904,21 @@ func runSafePointFn() {
 	// function on this P's behalf and this P running the
 	// safe-point function directly.
 	if !atomic.Cas(&p.runSafePointFn, 1, 0) {
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("runSafePointFn: already run")
+			d.end()
+		}
 		return
+	}
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("runSafePointFn: run")
+		d.end()
 	}
 	sched.safePointFn(p)
 	lock(&sched.lock)
@@ -2531,6 +2642,14 @@ func handoffp(_p_ *p) {
 	lock(&sched.lock)
 	if sched.gcwaiting != 0 {
 		_p_.status = _Pgcstop
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("handoffp: P to _Pgcstop due to gcwaiting")
+			d.i32(_p_.id)
+			d.end()
+		}
 		sched.stopwait--
 		if sched.stopwait == 0 {
 			notewakeup(&sched.stopnote)
@@ -2648,6 +2767,14 @@ func gcstopm() {
 	_p_ := releasep()
 	lock(&sched.lock)
 	_p_.status = _Pgcstop
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("gcstopm: P to _Pgcstop")
+		d.i32(_p_.id)
+		d.end()
+	}
 	sched.stopwait--
 	if sched.stopwait == 0 {
 		notewakeup(&sched.stopnote)
@@ -3785,6 +3912,14 @@ func reentersyscall(pc, sp uintptr) {
 	_g_.m.oldp.set(pp)
 	_g_.m.p = 0
 	atomic.Store(&pp.status, _Psyscall)
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("reentersyscall: P to _Psyscall")
+		d.i32(pp.id)
+		d.end()
+	}
 	if sched.gcwaiting != 0 {
 		systemstack(entersyscall_gcwait)
 		save(pc, sp)
@@ -3818,6 +3953,14 @@ func entersyscall_gcwait() {
 
 	lock(&sched.lock)
 	if sched.stopwait > 0 && atomic.Cas(&_p_.status, _Psyscall, _Pgcstop) {
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("entersyscall_gcwait: syscall P to _Pgcstop")
+			d.i32(_p_.id)
+			d.end()
+		}
 		if trace.enabled {
 			traceGoSysBlock(_p_)
 			traceProcStop(_p_)
@@ -3977,6 +4120,14 @@ func exitsyscallfast(oldp *p) bool {
 
 	// Try to re-acquire the last P.
 	if oldp != nil && oldp.status == _Psyscall && atomic.Cas(&oldp.status, _Psyscall, _Pidle) {
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("exitsyscallfast: P to _Pidle")
+			d.i32(oldp.id)
+			d.end()
+		}
 		// There's a cpu for us, so we can run.
 		wirep(oldp)
 		exitsyscallfast_reacquired()
@@ -4818,6 +4969,14 @@ func setcpuprofilerate(hz int32) {
 func (pp *p) init(id int32) {
 	pp.id = id
 	pp.status = _Pgcstop
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("p.init: P to _Pgcstop")
+		d.i32(pp.id)
+		d.end()
+	}
 	pp.sudogcache = pp.sudogbuf[:0]
 	for i := range pp.deferpool {
 		pp.deferpool[i] = pp.deferpoolbuf[i][:0]
@@ -4940,6 +5099,14 @@ func (pp *p) destroy() {
 	}
 	pp.gcAssistTime = 0
 	pp.status = _Pdead
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("p.destroy: P to _Pdead")
+		d.i32(pp.id)
+		d.end()
+	}
 }
 
 // Change number of processors.
@@ -5016,6 +5183,14 @@ func procresize(nprocs int32) *p {
 	if _g_.m.p != 0 && _g_.m.p.ptr().id < nprocs {
 		// continue to use the current P
 		_g_.m.p.ptr().status = _Prunning
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("procresize: current P to _Prunning")
+			d.i32(_g_.m.p.ptr().id)
+			d.end()
+		}
 		_g_.m.p.ptr().mcache.prepareForSweep()
 	} else {
 		// release the current P and acquire allp[0].
@@ -5037,6 +5212,14 @@ func procresize(nprocs int32) *p {
 		p := allp[0]
 		p.m = 0
 		p.status = _Pidle
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("procresize: P0 to _Pidle")
+			d.i32(p.id)
+			d.end()
+		}
 		acquirep(p)
 		if trace.enabled {
 			traceGoStart()
@@ -5069,6 +5252,14 @@ func procresize(nprocs int32) *p {
 			continue
 		}
 		p.status = _Pidle
+		d := dlog()
+		if d != nil {
+			d.s("M")
+			d.i64(getg().m.id)
+			d.s("procresize: P to _Pidle")
+			d.i32(p.id)
+			d.end()
+		}
 		if runqempty(p) {
 			pidleput(p)
 		} else {
@@ -5127,6 +5318,14 @@ func wirep(_p_ *p) {
 	_g_.m.p.set(_p_)
 	_p_.m.set(_g_.m)
 	_p_.status = _Prunning
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("acquirep: P to _Prunning")
+		d.i32(_p_.id)
+		d.end()
+	}
 }
 
 // Disassociate p and the current m.
@@ -5147,6 +5346,14 @@ func releasep() *p {
 	_g_.m.p = 0
 	_p_.m = 0
 	_p_.status = _Pidle
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("releasep: P to _Pidle")
+		d.i32(_p_.id)
+		d.end()
+	}
 	return _p_
 }
 
@@ -5487,6 +5694,14 @@ func retake(now int64) uint32 {
 			// increment nmidle and report deadlock.
 			incidlelocked(-1)
 			if atomic.Cas(&_p_.status, s, _Pidle) {
+				d := dlog()
+				if d != nil {
+					d.s("M")
+					d.i64(getg().m.id)
+					d.s("retake: P to _Pidle")
+					d.i32(_p_.id)
+					d.end()
+				}
 				if trace.enabled {
 					traceGoSysBlock(_p_)
 					traceProcStop(_p_)
@@ -5532,6 +5747,15 @@ func preemptall() bool {
 // and will be indicated by the gp->status no longer being
 // Grunning
 func preemptone(_p_ *p) bool {
+	d := dlog()
+	if d != nil {
+		d.s("M")
+		d.i64(getg().m.id)
+		d.s("preemptone: P")
+		d.i32(_p_.id)
+		d.end()
+	}
+
 	mp := _p_.m.ptr()
 	if mp == nil || mp == getg().m {
 		return false
