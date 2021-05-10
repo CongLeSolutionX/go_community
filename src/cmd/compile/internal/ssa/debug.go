@@ -7,10 +7,13 @@ package ssa
 import (
 	"cmd/compile/internal/abi"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/types"
 	"cmd/internal/dwarf"
 	"cmd/internal/obj"
+	"cmd/internal/src"
 	"encoding/hex"
 	"fmt"
+	"internal/buildcfg"
 	"math/bits"
 	"sort"
 	"strings"
@@ -335,6 +338,223 @@ func (s *debugState) stateString(state stateAtPC) string {
 	return strings.Join(strs, "")
 }
 
+// slotCanonicalizer is a table used to lookup and canonicalize
+// LocalSlot's in a type insensitive way (e.g. taking into account the
+// base name, offset, and width of the slot, but ignoring the slot
+// type). See the insert() and lookup() methods for more.
+type slotCanonicalizer struct {
+	slmap  map[slotKey]SlKeyIdx
+	slkeys []slotKey
+}
+
+func newSlotCanonicalizer() *slotCanonicalizer {
+	return &slotCanonicalizer{
+		slmap:  make(map[slotKey]SlKeyIdx),
+		slkeys: []slotKey{slotKey{name: nil}},
+	}
+}
+
+type SlKeyIdx uint32
+
+const noSlot = SlKeyIdx(0)
+
+// slotKey is a type-insensitive encapsulation of a LocalSlot; it
+// is used to key a map within slotCanonicalizer.
+type slotKey struct {
+	name        *ir.Name
+	offset      int64
+	width       int64
+	splitOf     SlKeyIdx // idx in slkeys slice in slotCanonicalizer
+	splitOffset int64
+}
+
+// lookup looks up a LocalSlot in the slot canonicalizer "sc" to see
+// if there is an entry for it. If "insert" is set, then new entries
+// for the slot will be created if not already present. Return value
+// is a pair <keyidx, bool> where the boolean indicates whether the
+// LocalSlot was found, and keyidx is the entry for the slot if found
+// or inserted.
+func (sc *slotCanonicalizer) lookup(ls LocalSlot, insert bool) (SlKeyIdx, bool) {
+	split := noSlot
+	if ls.SplitOf != nil {
+		if !insert {
+			var sfound bool
+			split, sfound = sc.lookup(*ls.SplitOf, false)
+			if !sfound {
+				panic("misuse of slotCanonicalizer.lookup: no entry for splitOf")
+			}
+		} else {
+			split, _ = sc.lookup(*ls.SplitOf, true)
+		}
+	}
+	k := slotKey{
+		name: ls.N, offset: ls.Off, width: ls.Type.Width,
+		splitOf: split, splitOffset: ls.SplitOffset,
+	}
+	if idx, ok := sc.slmap[k]; ok {
+		return idx, true
+	}
+	if !insert {
+		return noSlot, false
+	}
+	rv := SlKeyIdx(len(sc.slkeys))
+	sc.slkeys = append(sc.slkeys, k)
+	sc.slmap[k] = rv
+	return rv, false
+}
+
+// PopulateABIInRegArgOps examines the entry block of the function
+// and looks for incoming parameters that have missing or partial
+// OpArg{Int,Float}Reg values, inserting additional values in
+// cases where they are missing. Example:
+//
+//      func foo(s string, used int, notused int) int {
+//        return len(s) + used
+//      }
+//
+// In the function above, the incoming parameter "used" is fully live,
+// "notused" is not live, and "s" is partially live (only the length
+// field of the string is used). At the point where debug value
+// analysis runs, we might expect to see an entry block with:
+//
+//   b1:
+//     v4 = ArgIntReg <uintptr> {s+8} [0] : BX
+//     v5 = ArgIntReg <int> {used} [0] : CX
+//
+// While this is an accurate picture of the live incoming params,
+// we also want to have debug locations for non-live params (or
+// their non-live pieces), e.g. something like
+//
+//   b1:
+//     v9 = ArgIntReg <*uint8> {s+0} [0] : AX
+//     v4 = ArgIntReg <uintptr> {s+8} [0] : BX
+//     v5 = ArgIntReg <int> {used} [0] : CX
+//     v10 = ArgIntReg <int> {unused} [0] : DI
+//
+// This function examines the live OpArg{Int,Float}Reg values and
+// synthesizes new (dead) values for the non-live params or the
+// non-live pieces of partially live params.
+//
+func PopulateABIInRegArgOps(f *Func) {
+	pri := f.ABISelf.ABIAnalyzeFuncType(f.Type.FuncType())
+
+	namestab := make(map[LocalSlot]bool)
+	for _, name := range f.Names {
+		namestab[*name] = true
+	}
+
+	// Add value <-> slot entry to f.NamedValues if not already present.
+	addToNV := func(v *Value, sl LocalSlot) {
+		values := f.NamedValues[sl]
+		for _, ev := range values {
+			if v == ev {
+				return
+			}
+		}
+		values = append(values, v)
+		f.NamedValues[sl] = values
+		if _, ok := namestab[sl]; !ok {
+			f.Names = append(f.Names, &sl)
+			namestab[sl] = true
+		}
+	}
+
+	newValues := []*Value{}
+
+	abiRegIndexToRegister := func(reg abi.RegIndex) int8 {
+		i := f.ABISelf.FloatIndexFor(reg)
+		if i >= 0 { // float PR
+			return f.Config.floatParamRegs[i]
+		} else {
+			return f.Config.intParamRegs[reg]
+		}
+	}
+
+	// Helper to construct a new OpArg{Float,Int}Reg op value.
+	var pos src.XPos
+	if len(f.Entry.Values) != 0 {
+		pos = f.Entry.Values[0].Pos
+	}
+	synthesizeOpIntFloatArg := func(n *ir.Name, t *types.Type, reg abi.RegIndex, sl LocalSlot) *Value {
+		aux := &AuxNameOffset{n, sl.Off}
+		op, auxInt := ArgOpAndRegisterFor(reg, f.ABISelf)
+		v := f.newValueNoBlock(op, t, pos)
+		v.AuxInt = auxInt
+		v.Aux = aux
+		v.Args = v.argstorage[:0]
+		v.Block = f.Entry
+		newValues = append(newValues, v)
+		ev := f.NamedValues[sl]
+		ev = append(ev, v)
+		f.NamedValues[sl] = ev
+		if _, ok := namestab[sl]; !ok {
+			f.Names = append(f.Names, &sl)
+		} else {
+			namestab[sl] = true
+		}
+		f.setHome(v, &f.Config.registers[abiRegIndexToRegister(reg)])
+		return v
+	}
+
+	// Make a pass through the entry block looking for
+	// OpArg{Int,Float}Reg ops. Record the slots they use in
+	// a table ("sc").
+	sc := newSlotCanonicalizer()
+	for _, v := range f.Entry.Values {
+		if v.Op == OpArgIntReg || v.Op == OpArgFloatReg {
+			aux := v.Aux.(*AuxNameOffset)
+			sl := LocalSlot{N: aux.Name, Type: v.Type, Off: aux.Offset}
+			// install slot in lookup table
+			sc.lookup(sl, true)
+			// add to f.NamedValues if not already present
+			addToNV(v, sl)
+		} else if v.Op.IsCall() {
+			// if we hit a call, we've gone too far.
+			break
+		}
+	}
+
+	// Now make a pass through the ABI in-params, looking for params
+	// or pieces of params that we didn't encounter in the loop above.
+	for _, inp := range pri.InParams() {
+		if !isNamedRegParam(inp) {
+			continue
+		}
+		n := inp.Name.(*ir.Name)
+
+		// Param is spread across one or more registers. Walk through
+		// each piece to see whether we've seen an arg reg op for it.
+		types, offsets := inp.RegisterTypesAndOffsets()
+		for k, t := range types {
+			// Note: this recipe for creating a LocalSlot is designed
+			// to be compatible with the one used in expand_calls.go
+			// as opposed to decompose.go. The expand calls code just
+			// takes the base name and creates an offset into it,
+			// without using the SplifOf/SplitOffset fields. The code
+			// in decompose.go does the opposite -- it creates a
+			// LocalSlot object with "Off" set to zero, but with
+			// SplitOf pointing to a parent slot, and SplifOffset
+			// holding the offset into the parent object.
+			pieceSlot := LocalSlot{N: n, Type: t, Off: offsets[k]}
+
+			// Look up this piece to see if we've seen a reg op
+			// for it. If not, create one.
+			_, found := sc.lookup(pieceSlot, true)
+			if !found {
+				// This slot doesn't appear in the map, meaning it
+				// corresponds to an in-param that is not live, or
+				// a portion of an in-param that is not live/used.
+				// Add a new dummy OpArg{Int,Float}Reg for it.
+				synthesizeOpIntFloatArg(n, t, inp.Registers[k],
+					pieceSlot)
+			}
+		}
+	}
+
+	// Insert the new values into the head of the block.
+	f.Entry.Values = append(newValues, f.Entry.Values...)
+}
+
 // BuildFuncDebug returns debug information for f.
 // f must be fully processed, so that each Value is where it will be when
 // machine code is emitted.
@@ -348,6 +568,10 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 	state.registers = f.Config.registers
 	state.stackOffset = stackOffset
 	state.ctxt = ctxt
+
+	if buildcfg.Experiment.RegabiArgs {
+		PopulateABIInRegArgOps(f)
+	}
 
 	if state.loggingEnabled {
 		state.logf("Generating location lists for function %q\n", f.Name)
