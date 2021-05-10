@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9773fa74_1815d383",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Lol. Yeah that was why it was failing to recognize \"libFuzzer\". Needed to be \"libfuzzer\".\n\nHowever, surprisingly this doesn\u0027t seem to work. I tried the following:\n\n\tfuzzFlag :\u003d work.FuzzInstrumentFlags()\n\tif testFuzz !\u003d \"\" \u0026\u0026 fuzzFlag !\u003d \"\" {\n\t\tfor _, p :\u003d range load.PackageList(pkgs) {\n\t\t\tp.Internal.Gcflags \u003d append(p.Internal.Gcflags, fuzzFlag)\n\t\t}\n\t}\n\nAnd it only created ~200 edges on the test I tried it with. However, what Roland does in https://go-review.googlesource.com/c/go/+/315389 does seem to work. When I did that instead, I got more like ~9000 edges, and that seems more realistic for the test I was running.",
+      "parentUuid": "40c50458_fbb4c958",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04cd0d1c_42c6dd32",
         "filename": "src/internal/fuzz/coverage.go",
         "patchSetId": 12
@@ -121,6 +139,24 @@
       "writtenOn": "2021-05-04T20:21:35Z",
       "side": 1,
       "message": "Is this branch actually needed? I think we should be able to create the slice header below even if the size is 0.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dddc16b7_71bf11f7",
+        "filename": "src/internal/fuzz/coverage.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Should be fine without doing that. Done.",
+      "parentUuid": "04cd0d1c_42c6dd32",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66f55c63_159367ef",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fed0dd8_e59b6d4a",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4c1645a_a0e03126",
@@ -155,6 +209,24 @@
       "writtenOn": "2021-05-07T17:53:45Z",
       "side": 1,
       "message": "Similar to the above, could we make it so there\u0027s only one call to nextInput and one assignment to inputC?\n\nI think we could simplify the logic here by making nextInput smarter. While we\u0027re in the coverage-only phase, it can return seed and cache inputs, then return false when those are exhausted, disabling inputC. After we\u0027ve received coverage from all the workers, we can re-enable inputC and start fuzzing.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff5841c7_dd510a4f",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Yep, and actually this can just be deleted here, since inputC will be unblocked in the next check since c.coverageOnlyRun() will now be false.\n\nI left the check in the \"inputC \u003c- input\" case below which sets inputC to nil if \"c.corpusIndex\u003d\u003d0 \u0026\u0026 c.coverageOnlyRun()\". If we try to make nextInput() return false in that case, it requires a bit of hacking. If we just look at c.corpusIndex and c.coverageOnlyRun() to know whether or not the seed/cached inputs are exhausted at the start of nextInput(), then we don\u0027t know whether c.corpusIndex\u003d\u003d0 because this is the first execution of nextInput(), or if c.corpusIndex has exceeded len(c.corpus.entries) and looped back around.",
+      "parentUuid": "a4c1645a_a0e03126",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -178,6 +250,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96ea79ec_31837315",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "The reason I didn\u0027t do this was because an integer comparison (ie. has interestingCount increased?) is going to be faster than looping through the entire []byte every time a new input is passed to the worker to see if there are any new edges.\n\nHowever, we could pass both interestingCount and coverageData! Then the comparison is quick, and it can just use the provided coverageData if the local data needs to be updated. That simplifies things quite a bit.",
+      "parentUuid": "89615f71_c4348cd3",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "425beb00_17c28427",
         "filename": "src/internal/fuzz/fuzz.go",
         "patchSetId": 12
@@ -189,6 +279,24 @@
       "writtenOn": "2021-05-07T17:53:45Z",
       "side": 1,
       "message": "If possible, let\u0027s avoid adding a mutex for anything in coordinator. Only the coordinator goroutine (driving the main loop in CoordinateFuzzing) should be able to read or write mutable fields.\n\nIf that\u0027s not possible, let\u0027s store coverageData in a chan and use receive/send to lock/unlock like we did with sharedMem.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45275f07_b3a81505",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "425beb00_17c28427",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -206,6 +314,24 @@
       "writtenOn": "2021-05-07T17:53:45Z",
       "side": 1,
       "message": "In the coordinator process, I think we should ignore the coverage array entirely and start with an array of zeroes.\n\nThe coordinator process may run code that the workers don\u0027t run (tests and seed values). Since we\u0027re running the corpus and cache values on the workers again anyway, I think it\u0027s cleaner to ignore whatever data we collect in the coordinator process.\n\nIgnoring this will also reduce coupling between the coordinator and worker binaries. Perhaps some day we\u0027ll want to support fuzzing outside of \u0027go test\u0027, and we might want different coordinator and worker binaries.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a6e41c_3bfb1e14",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Yep good idea. Done.",
+      "parentUuid": "9526a6b2_7a78e93b",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -233,6 +359,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bb7cfcd_7dbf1d88",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "This is no longer needed 👍",
+      "parentUuid": "a27b01ab_e45f07c2",
+      "range": {
+        "startLine": 528,
+        "startChar": 22,
+        "endLine": 528,
+        "endChar": 34
+      },
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e19e9d9_768da4a6",
@@ -250,6 +400,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab3b8d30_b4305aab",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e19e9d9_768da4a6",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "349abc5b_13addd55",
@@ -263,6 +431,30 @@
       "writtenOn": "2021-05-07T17:53:45Z",
       "side": 1,
       "message": "Rename to setCoverageArgs, setCoverageResponse for consistency.",
+      "range": {
+        "startLine": 507,
+        "startChar": 5,
+        "endLine": 507,
+        "endChar": 17
+      },
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61aac4d4_c66baa44",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "349abc5b_13addd55",
       "range": {
         "startLine": 507,
         "startChar": 5,
@@ -296,6 +488,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb0e56ee_a809341f",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "lol. So much for trying to get myself to remember to do it :)",
+      "parentUuid": "863623f4_206f780b",
+      "range": {
+        "startLine": 537,
+        "startChar": 13,
+        "endLine": 537,
+        "endChar": 23
+      },
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68cd3387_088635ec",
@@ -309,6 +525,24 @@
       "writtenOn": "2021-05-07T17:53:45Z",
       "side": 1,
       "message": "Would it be cleaner to fold this into the fuzz RPC instead of defining a new one? We\u0027d just need to define a CoverageData []byte field in fuzzArgs. If it\u0027s non-empty, we\u0027ll set the coverage to that fuzzing.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "684b6c9d_75258140",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Yeah I like that idea. Done.",
+      "parentUuid": "68cd3387_088635ec",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -332,6 +566,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "126cc3c5_d896686d",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "This should only be in two places, and they have different use cases, which is why I decided to just do them separately in each place. Here, we can just return early if any new edge exists. In the coordinator, we update every edge that\u0027s larger than the value it previously had, so we can\u0027t return early. I had previously made a helper function that is much like you described, but I found it was making it easier to introduce bugs and was more complicated than I wanted.",
+      "parentUuid": "3afb7b4b_f4f094aa",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8ec2dc0_5e176a81",
         "filename": "src/internal/fuzz/worker.go",
         "patchSetId": 12
@@ -343,6 +595,24 @@
       "writtenOn": "2021-05-07T17:53:45Z",
       "side": 1,
       "message": "Could we minimize these inputs, too? We should avoid writing large inputs to the cache if smaller inputs will do the job.",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11979007_905166ff",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Yeah we should definitely consider it. I\u0027ll add a TODO.",
+      "parentUuid": "f8ec2dc0_5e176a81",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -364,6 +634,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "058b21bf_51857112",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d72f2ce0_07514d97",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd850fef_9ac73855",
@@ -377,6 +665,30 @@
       "writtenOn": "2021-05-07T17:53:45Z",
       "side": 1,
       "message": "Rename to setCoverage to match workerServer method (or fold into fuzz).",
+      "range": {
+        "startLine": 913,
+        "startChar": 24,
+        "endLine": 913,
+        "endChar": 38
+      },
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5eb8b7f_945b940c",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T18:46:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bd850fef_9ac73855",
       "range": {
         "startLine": 913,
         "startChar": 24,
