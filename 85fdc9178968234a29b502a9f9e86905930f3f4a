@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b4517d4_bf466e62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-10T11:51:44Z",
+      "side": 1,
+      "message": "unfortunately, I believe this change is too late to make it for Go 1.17. see: https://groups.google.com/g/golang-dev/c/HzfjCwV_k5E",
+      "revId": "85fdc9178968234a29b502a9f9e86905930f3f4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e11c79e_a41e072b",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-10T11:51:44Z",
+      "side": 1,
+      "message": "if I understand correctly, the reason why we don\u0027t do this is because we rely, to some degree, on this map being lazily committed on modern operating systems as we use more address space. in most cases, this will dramatically overcount gcMiscSys for small processes, though as you point out, today we undercount large processes as a result.\n\nit\u0027s worth noting this memory does count against things like overcommit, so maybe it\u0027s still worth counting this way.",
+      "range": {
+        "startLine": 737,
+        "startChar": 89,
+        "endLine": 737,
+        "endChar": 108
+      },
+      "revId": "85fdc9178968234a29b502a9f9e86905930f3f4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
