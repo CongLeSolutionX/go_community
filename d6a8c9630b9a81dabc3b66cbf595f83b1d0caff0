@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5084f31_c8145c58",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-10T21:05:44Z",
+      "side": 1,
+      "message": "That\u0027s odd. 200 does seem like far too few. I don\u0027t see anything obviously wrong with that code though.\n\nMaybe dump all the commands run with -x and verify the compiler is actually invoked with -d\u003dlibfuzzer on each package you expect?\n\nAlso try running \u0027go clean -cache\u0027 first and see if anything changes. If it does, we have another different interesting problem.",
+      "parentUuid": "9773fa74_1815d383",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04cd0d1c_42c6dd32",
         "filename": "src/internal/fuzz/coverage.go",
         "patchSetId": 12
@@ -262,6 +280,24 @@
       "side": 1,
       "message": "The reason I didn\u0027t do this was because an integer comparison (ie. has interestingCount increased?) is going to be faster than looping through the entire []byte every time a new input is passed to the worker to see if there are any new edges.\n\nHowever, we could pass both interestingCount and coverageData! Then the comparison is quick, and it can just use the provided coverageData if the local data needs to be updated. That simplifies things quite a bit.",
       "parentUuid": "89615f71_c4348cd3",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c58c7c5_3c7dd42c",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-10T21:05:44Z",
+      "side": 1,
+      "message": "Sounds like a good optimization. I expect we can optimize the coverage data comparison (e.g., using one bit per counter + vectorization) but a single integer comparison will certainly be faster.",
+      "parentUuid": "96ea79ec_31837315",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -578,6 +614,24 @@
       "side": 1,
       "message": "This should only be in two places, and they have different use cases, which is why I decided to just do them separately in each place. Here, we can just return early if any new edge exists. In the coordinator, we update every edge that\u0027s larger than the value it previously had, so we can\u0027t return early. I had previously made a helper function that is much like you described, but I found it was making it easier to introduce bugs and was more complicated than I wanted.",
       "parentUuid": "3afb7b4b_f4f094aa",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc4edb7a_3278bd58",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-10T21:05:44Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "126cc3c5_d896686d",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
