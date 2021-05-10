@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1436925_44fe6a80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-05-10T11:42:10Z",
+      "side": 1,
+      "message": "How would you suggest we do that?",
+      "parentUuid": "2a1b436f_cf5d1482",
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38f5f82c_56a344ce",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -102,6 +120,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef2c1e07_3f320c7b",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-05-10T11:42:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19c0f548_bdeb4d67",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 5
+      },
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3a3db3f_08ca4554",
@@ -115,6 +157,30 @@
       "writtenOn": "2021-05-06T19:18:32Z",
       "side": 1,
       "message": "Do you want to do the same thing here as you did in https://go-review.googlesource.com/c/net/+/313489, ie a asciiToLower function",
+      "range": {
+        "startLine": 310,
+        "startChar": 0,
+        "endLine": 314,
+        "endChar": 35
+      },
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a486da5_2c2a891b",
+        "filename": "src/net/http/cookiejar/jar.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-05-10T11:42:10Z",
+      "side": 1,
+      "message": "This is yet another different thing.\n\nThis is not just checking for ascii and lowercasing, this is using a punycode encoding and then, after the encoding, we are guaranteed this is ASCII.\n\nAt that point it\u0027s safe to lowercase it.",
+      "parentUuid": "c3a3db3f_08ca4554",
       "range": {
         "startLine": 310,
         "startChar": 0,
@@ -148,6 +214,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8355e0ba_26fb2f89",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-05-10T11:42:10Z",
+      "side": 1,
+      "message": "About the header key:\nThis is a Header we parsed, so the keys should already be normalized at this point (we constructed this Header, and we normalize when we parse).\n\nAbout the value:\nWe are a proxy, we should not make decisions unless we have to. I think the safest bet here is to forward the header as-is to the server, and only if the server replies with a string that matches (case insensitive) we assume there was a protocol agreement.\n\nI\u0027d honestly not change that as the spec says this comparison should be case-insensitive and I am afraid some clients and servers might be relying on being able to reply \"WebSocket\" to a \"websocket\" Upgrade request.",
+      "parentUuid": "c5f148b9_e18794eb",
+      "range": {
+        "startLine": 546,
+        "startChar": 8,
+        "endLine": 546,
+        "endChar": 24
+      },
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3247c281_c0c07584",
@@ -171,6 +261,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0614eb6_a2603b47",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1304,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-05-10T11:42:10Z",
+      "side": 1,
+      "message": "Because here we are doing two things:\n\nFor websocket the proxy has special logic and needs to hijack the connection if an upgrade is agreed upon. In that case we need to equalFold it but forward it as it is (the client will ultimately decide if they are okay with different cases, we can\u0027t choose).\n\nOn all other headers we just forward them as they are, so the test needs to check we are actually not modifying them.",
+      "parentUuid": "3247c281_c0c07584",
+      "range": {
+        "startLine": 1304,
+        "startChar": 1,
+        "endLine": 1304,
+        "endChar": 72
+      },
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d191b6f_6e148984",
@@ -184,6 +298,24 @@
       "writtenOn": "2021-05-10T09:59:00Z",
       "side": 1,
       "message": "I\u0027m not sure it\u0027s worth making a new package. Maybe we should expose these functions in httpguts, but in the meantime we can keep the change simpler by duplicating the code a couple times within the packages, like in CL 313489.",
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf5d028d_e13d421b",
+        "filename": "src/net/http/internal/ascii/print.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-05-10T11:42:10Z",
+      "side": 1,
+      "message": "It was suggested to do this when I put it in \"internal\" and I think it\u0027s fine to have it there for now.\n\nIf the need arises to use this from other parts of http we might consider moving it to a more visible scope.",
+      "parentUuid": "4d191b6f_6e148984",
       "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -225,6 +357,30 @@
       "side": 1,
       "message": "Ah I see this is from the original code. It\u0027s still not clear to me why this would be the right way to check this though? Do you have thoughts?",
       "parentUuid": "e9764fb4_25068040",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 26
+      },
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bc59f56_74c2ae3a",
+        "filename": "src/net/http/internal/ascii/print.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-05-10T11:42:10Z",
+      "side": 1,
+      "message": "I guess the original code wanted to depend on a smaller package?\n\nWe are talking about a constant that is 1 less than the other. I think they are equivalent, even tho the one you linked seems more appropriate. Changed it.",
+      "parentUuid": "3d369f6f_4b82f350",
       "range": {
         "startLine": 45,
         "startChar": 13,
