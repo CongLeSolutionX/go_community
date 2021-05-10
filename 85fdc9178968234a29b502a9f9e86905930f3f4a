@@ -39,6 +39,30 @@
       },
       "revId": "85fdc9178968234a29b502a9f9e86905930f3f4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "806b215a_bdc40f55",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-10T11:57:47Z",
+      "side": 1,
+      "message": "more specifically, on linux/amd64, this is: 2^48 / 2^26 * 2^3 \u003d 32 MiB. for a small Go process using ~5 MiB of RAM, that\u0027s a pretty significant overcount.\n\nI think one thing we could do here to make this more accurate is to do what mpagealloc_64bit.go does for its large memory reservation, but that seems overkill for an array like this.\n\nanother idea is to account for it in a separate metric that scales according to the peak heap address space size (HeapSys + StackInuse + a bunch of other stats that cause a subtraction from HeapSys). it won\u0027t be 100% accurate, but it will be quite close. this is probably what I would\u0027ve done for mpagealloc_64bit.go if not for overcommit issues that forced precise accounting.",
+      "parentUuid": "0e11c79e_a41e072b",
+      "range": {
+        "startLine": 737,
+        "startChar": 89,
+        "endLine": 737,
+        "endChar": 108
+      },
+      "revId": "85fdc9178968234a29b502a9f9e86905930f3f4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
