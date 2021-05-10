@@ -25,7 +25,6 @@ import (
 
 	"golang.org/x/crypto/cryptobyte"
 	cbasn1 "golang.org/x/crypto/cryptobyte/asn1"
-	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 )
 
 // isPrintable reports whether the given b is in the ASN.1 PrintableString set.
@@ -506,10 +505,10 @@ func parseNameConstraintsExtension(out *Certificate, e pkix.Extension) (unhandle
 	outer := cryptobyte.String(e.Value)
 	var toplevel, permitted, excluded cryptobyte.String
 	var havePermitted, haveExcluded bool
-	if !outer.ReadASN1(&toplevel, cryptobyte_asn1.SEQUENCE) ||
+	if !outer.ReadASN1(&toplevel, cbasn1.SEQUENCE) ||
 		!outer.Empty() ||
-		!toplevel.ReadOptionalASN1(&permitted, &havePermitted, cryptobyte_asn1.Tag(0).ContextSpecific().Constructed()) ||
-		!toplevel.ReadOptionalASN1(&excluded, &haveExcluded, cryptobyte_asn1.Tag(1).ContextSpecific().Constructed()) ||
+		!toplevel.ReadOptionalASN1(&permitted, &havePermitted, cbasn1.Tag(0).ContextSpecific().Constructed()) ||
+		!toplevel.ReadOptionalASN1(&excluded, &haveExcluded, cbasn1.Tag(1).ContextSpecific().Constructed()) ||
 		!toplevel.Empty() {
 		return false, errors.New("x509: invalid NameConstraints extension")
 	}
@@ -525,17 +524,17 @@ func parseNameConstraintsExtension(out *Certificate, e pkix.Extension) (unhandle
 	getValues := func(subtrees cryptobyte.String) (dnsNames []string, ips []*net.IPNet, emails, uriDomains []string, err error) {
 		for !subtrees.Empty() {
 			var seq, value cryptobyte.String
-			var tag cryptobyte_asn1.Tag
-			if !subtrees.ReadASN1(&seq, cryptobyte_asn1.SEQUENCE) ||
+			var tag cbasn1.Tag
+			if !subtrees.ReadASN1(&seq, cbasn1.SEQUENCE) ||
 				!seq.ReadAnyASN1(&value, &tag) {
 				return nil, nil, nil, nil, fmt.Errorf("x509: invalid NameConstraints extension")
 			}
 
 			var (
-				dnsTag   = cryptobyte_asn1.Tag(2).ContextSpecific()
-				emailTag = cryptobyte_asn1.Tag(1).ContextSpecific()
-				ipTag    = cryptobyte_asn1.Tag(7).ContextSpecific()
-				uriTag   = cryptobyte_asn1.Tag(6).ContextSpecific()
+				dnsTag   = cbasn1.Tag(2).ContextSpecific()
+				emailTag = cbasn1.Tag(1).ContextSpecific()
+				ipTag    = cbasn1.Tag(7).ContextSpecific()
+				uriTag   = cbasn1.Tag(6).ContextSpecific()
 			)
 
 			switch tag {
