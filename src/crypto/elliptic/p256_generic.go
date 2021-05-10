@@ -7,7 +7,9 @@
 
 package elliptic
 
-var p256 p256Curve
+var (
+	p256 p256Curve
+)
 
 func initP256Arch() {
 	// Use pure Go implementation.
