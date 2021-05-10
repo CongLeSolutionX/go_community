@@ -194,6 +194,24 @@
       "parentUuid": "130cfe26_1c404e72",
       "revId": "cd877ff9b686c479f0043798b16211d25f7f8973",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5e541d_54bdf8ce",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 37449
+      },
+      "writtenOn": "2021-05-10T21:45:23Z",
+      "side": 1,
+      "message": "We discussed it in a meeting: we decided to not make it so having Go as a proxy would made things connecting if they were not supposed to (if directly connected).",
+      "parentUuid": "da5c9d69_438348cb",
+      "revId": "cd877ff9b686c479f0043798b16211d25f7f8973",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
