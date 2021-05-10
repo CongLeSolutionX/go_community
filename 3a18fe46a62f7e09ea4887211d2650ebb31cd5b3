@@ -73,6 +73,23 @@
       "parentUuid": "aeec83a8_6d874b99",
       "revId": "3a18fe46a62f7e09ea4887211d2650ebb31cd5b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "300b68e8_cfa961da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-10T23:29:10Z",
+      "side": 1,
+      "message": "Replaced one last strings.ToLower in urlErrorOp to make the test cleaner.",
+      "revId": "3a18fe46a62f7e09ea4887211d2650ebb31cd5b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
