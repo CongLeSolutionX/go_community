@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "244faa17_caac4c64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-10T14:28:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure, which is partly why I ask. Maybe it\u0027s obvious to people that have a better understanding of the spec and the package, but it wasn\u0027t obvious to me why certain headers and values needed to be checked while others didn\u0027t. If there\u0027s no straightforward way to describe this in the CL description/comments, then someone else with a deeper understanding of the code can give the final +2!",
+      "parentUuid": "a1436925_44fe6a80",
+      "revId": "f4eb499e8943f43f2b72346bb76ba2de9bbf5a4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38f5f82c_56a344ce",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
