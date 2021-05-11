@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4242cdc8_fbf0b98d",
+        "filename": "src/cmd/compile/internal/dwarfgen/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-11T19:17:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a113e424_092f9102",
+      "range": {
+        "startLine": 241,
+        "startChar": 1,
+        "endLine": 241,
+        "endChar": 101
+      },
+      "revId": "d9ec15a362e2b7525738fc7478b772ac1da77585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91482ca4_848ca69f",
@@ -134,6 +158,30 @@
       "side": 1,
       "message": "Yes, I am working on that. Somewhere along the line I seem to have broken this test. Please stay tuned.",
       "parentUuid": "91482ca4_848ca69f",
+      "range": {
+        "startLine": 1752,
+        "startChar": 57,
+        "endLine": 1752,
+        "endChar": 63
+      },
+      "revId": "d9ec15a362e2b7525738fc7478b772ac1da77585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51e1af99_f7926616",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1752,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-11T19:17:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc5ee129_175a0c70",
       "range": {
         "startLine": 1752,
         "startChar": 57,
