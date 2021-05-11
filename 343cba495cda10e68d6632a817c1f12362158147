@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2386351b_b1a83984",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-11T18:44:26Z",
+      "side": 1,
+      "message": "This change maintains the preallocation behavior, but I think we could also reasonably just remove it entirely. Not really strongly opinionated either way.",
+      "revId": "343cba495cda10e68d6632a817c1f12362158147",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
