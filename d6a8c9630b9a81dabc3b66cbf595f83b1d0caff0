@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8d19450_3bb70b9d",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-11T19:36:05Z",
+      "side": 1,
+      "message": "So the problem is gross. Basically, there are several code paths that end up calling setToolFlags after we\u0027ve added the -d\u003dlibfuzzer flag in cmd/go/internal/test/test.go. I initially thought it was just through TestPackagesFor, but there are others as well.\n\nA few options here:\n  1. Hunt down every call to setToolFlags and special case it. This feels brittle, as I could see someone in the future calling setToolFlags without realizing that it clears the flags we need\n  2. Update setToolFlags to not clear Gcflags that already exist. That\u0027s what I did, but feels like a bit of a hack, so I left a TODO to think about a more holistic way to handle this long term\n  3. Change were we add the libfuzzer Gcflag. Maybe there is a better place to do this? I worry that might have other side effects though, so it\u0027s unclear at this moment.",
+      "parentUuid": "67fcc798_e1ce8698",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04cd0d1c_42c6dd32",
         "filename": "src/internal/fuzz/coverage.go",
         "patchSetId": 12
