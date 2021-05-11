@@ -5,6 +5,8 @@
 package sanitizers_test
 
 import (
+	"fmt"
+	"os/exec"
 	"strings"
 	"testing"
 )
@@ -23,6 +25,13 @@ func TestASAN(t *testing.T) {
 		t.Skipf("skipping on %s/%s; -asan option is not supported.", goos, goarch)
 	}
 
+	outgcc, err := exec.Command("gcc", "--version").CombinedOutput()
+	if err != nil {
+		t.Skipf("skipping: error executing gdb: %v", err)
+	}
+
+	fmt.Printf("gcc version %s", outgcc)
+
 	t.Parallel()
 	requireOvercommit(t)
 	config := configure("address")
@@ -34,11 +43,17 @@ func TestASAN(t *testing.T) {
 		src       string
 		noWantErr bool
 	}{
-		{src: "asan1_fail.go"},
-		{src: "asan2_fail.go"},
-		{src: "asan3_fail.go"},
-		{src: "asan4_fail.go"},
+		//		{src: "asan1_fail.go"},
+		//		{src: "asan2_fail.go"},
+		//		{src: "asan3_fail.go"},
+		//		{src: "asan4_fail.go"},
 		//		{src: "asan_useAfterReturn.go", noWantErr: true},
+		//		{src: "asan_global1_fail.go"},
+		//		{src: "asan_global2_fail.go"},
+		//		{src: "asan_global3_fail.go"},
+		//		{src: "asan_global4_fail.go"},
+		//		{src: "asan_global5_fail.go"},
+		{src: "hello.go", noWantErr: true},
 	}
 	for _, tc := range cases {
 		tc := tc
@@ -53,7 +68,7 @@ func TestASAN(t *testing.T) {
 			mustRun(t, config.goCmd("build", "-o", outPath, srcPath(tc.src)))
 
 			cmd := hangProneCmd(outPath)
-			if !tc.noWantErr {
+			if tc.noWantErr {
 				out, err := cmd.CombinedOutput()
 				if err != nil {
 					return

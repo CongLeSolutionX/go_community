@@ -19,6 +19,7 @@ func main() {
 	fmt.Printf("ptr=%x, %v", *ptr, ptr)
 }
 
+//go:noinline
 func foo() {
 	var local int
 	local = 1
