@@ -79,6 +79,11 @@ func TestASAN(t *testing.T) {
 		{src: "asan4_fail.go", memoryAccessError: "use-after-poison", errorLocation: "asan4_fail.go:13"},
 		{src: "asan5_fail.go", memoryAccessError: "use-after-poison", errorLocation: "asan5_fail.go:18"},
 		{src: "asan_useAfterReturn.go"},
+		{src: "asan_global1_fail.go", memoryAccessError: "global-buffer-overflow", errorLocation: "asan_global1_fail.go:12"},
+		{src: "asan_global2_fail.go", memoryAccessError: "global-buffer-overflow", errorLocation: "asan_global2_fail.go:19"},
+		{src: "asan_global3_fail.go", memoryAccessError: "global-buffer-overflow", errorLocation: "asan_global3_fail.go:13"},
+		{src: "asan_global4_fail.go", memoryAccessError: "global-buffer-overflow", errorLocation: "asan_global4_fail.go:21"},
+		{src: "asan_global5.go"},
 	}
 	for _, tc := range cases {
 		tc := tc
