@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67fcc798_e1ce8698",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-11T14:40:34Z",
+      "side": 1,
+      "message": "Running `go clean -cache` and `go clean -fuzzcache` don\u0027t impact it.\n\nThe output of -x is pretty long, so I could be missing something, but it does appear to only be adding the `-d\u003dlibfuzzer` to two out the many packages that I\u0027ve confirmed this loop hits, which is odd. I\u0027ll keep looking into it, but lmk if you have ideas.",
+      "parentUuid": "d5084f31_c8145c58",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04cd0d1c_42c6dd32",
         "filename": "src/internal/fuzz/coverage.go",
         "patchSetId": 12
@@ -298,6 +316,24 @@
       "side": 1,
       "message": "Sounds like a good optimization. I expect we can optimize the coverage data comparison (e.g., using one bit per counter + vectorization) but a single integer comparison will certainly be faster.",
       "parentUuid": "96ea79ec_31837315",
+      "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb393df_67508382",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-11T14:40:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2c58c7c5_3c7dd42c",
       "revId": "d6a8c9630b9a81dabc3b66cbf595f83b1d0caff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },

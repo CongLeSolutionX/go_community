@@ -72,6 +72,24 @@
       "message": "Let\u0027s return []string instead of string. It can be nil for platforms that don\u0027t support fuzzing. We might need multiple flags (or different flags) in the future.",
       "revId": "7b7db2c1f7992c608d4d667198efea4f8725a2bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dcad7f1_f4b73ee6",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-11T14:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e58e9a36_3373d3e5",
+      "revId": "7b7db2c1f7992c608d4d667198efea4f8725a2bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
