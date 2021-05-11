@@ -72,6 +72,40 @@
       "message": "PTAL, should be ready for review now.",
       "revId": "4fe53ee3b48fc28d4c4d14358c8ca4a445b0c3a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68be04e1_87000906",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-11T21:35:40Z",
+      "side": 1,
+      "message": "LGTM overall. Thanks.",
+      "revId": "4fe53ee3b48fc28d4c4d14358c8ca4a445b0c3a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d02345d5_225e3d54",
+        "filename": "src/cmd/compile/internal/dwarfgen/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-11T21:35:40Z",
+      "side": 1,
+      "message": "It seems this field is only used for sorting? What about sorting apDecls first before creating Vars? Or, we can use parameter name (string) as the key for sorting?",
+      "revId": "4fe53ee3b48fc28d4c4d14358c8ca4a445b0c3a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
