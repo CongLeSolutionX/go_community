@@ -92,6 +92,46 @@
       "parentUuid": "0dcc86d6_86da9cf1",
       "revId": "486d829c42a3713171a3072dcb52f54737e70a22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b4a8d6f_bcae5e07",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-11T20:26:05Z",
+      "side": 1,
+      "message": "(not sure)\n\nWould it make sense to have \u0027go mod download\u0027 write checksums for the subset of go.mod files that are needed for the module graph, even if it isn\u0027t writing checksums for the downloaded modules themselves?\n\nIn some sense we *know* that the go.mod files for the module graph are necessary, because they\u0027re independent of the package import graph.\n\nOn the other hand, if we\u0027re about to build in a lazy module, we don\u0027t necessarily even need the go.sum files for every explicit requirement — we only strictly need sums for the dependencies whose requirements will be spot-checked by the subsequent build operation...",
+      "revId": "486d829c42a3713171a3072dcb52f54737e70a22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f12a9235_0c69e95c",
+        "filename": "src/cmd/go/testdata/script/mod_download.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-11T20:26:05Z",
+      "side": 1,
+      "message": "s/updates/update/",
+      "range": {
+        "startLine": 118,
+        "startChar": 44,
+        "endLine": 118,
+        "endChar": 51
+      },
+      "revId": "486d829c42a3713171a3072dcb52f54737e70a22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
