@@ -56,6 +56,7 @@ type Var struct {
 	PutLocationList func(listSym, startPC Sym)
 	Scope           int32
 	Type            Sym
+	Nname           interface{} // really *ir.Name
 	DeclFile        string
 	DeclLine        uint
 	DeclCol         uint

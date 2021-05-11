@@ -212,6 +212,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			Abbrev:        abbrev,
 			StackOffset:   int32(n.FrameOffset()),
 			Type:          base.Ctxt.Lookup(typename),
+			Nname:         n,
 			DeclFile:      declpos.RelFilename(),
 			DeclLine:      declpos.RelLine(),
 			DeclCol:       declpos.Col(),
@@ -222,7 +223,48 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 		fnsym.Func().RecordAutoType(reflectdata.TypeLinksym(n.Type()))
 	}
 
+	// Sort decls and vars.
+	sortDeclsAndVars(fn, decls, vars)
+
 	return decls, vars
+}
+
+// sortDeclsAndVars sorts the decl and dwarf var lists according to
+// parameter declaration order, so as to insure that when a subprogram
+// DIE is emitted, its parameter children appear in declaration order.
+// Prior to the advent of the register ABI, sorting by frame offset
+// would achieve this; with the register we now need to go back to the
+// original function signature.
+func sortDeclsAndVars(fn *ir.Func, decls []*ir.Name, vars []*dwarf.Var) {
+	paramOrder := make(map[*ir.Name]int)
+	idx := 1
+	for _, selfn := range types.RecvsParamsResults {
+		fsl := selfn(fn.Type()).FieldSlice()
+		for _, f := range fsl {
+			if n, ok := f.Nname.(*ir.Name); ok {
+				paramOrder[n] = idx
+				idx++
+			}
+		}
+	}
+	nameLT := func(ni, nj *ir.Name) bool {
+		oi, foundi := paramOrder[ni]
+		oj, foundj := paramOrder[nj]
+		if foundi {
+			if foundj {
+				return oi < oj
+			} else {
+				return true
+			}
+		}
+		return false
+	}
+	sort.SliceStable(decls, func(i, j int) bool {
+		return nameLT(decls[i], decls[j])
+	})
+	sort.SliceStable(vars, func(i, j int) bool {
+		return nameLT(vars[i].Nname.(*ir.Name), vars[j].Nname.(*ir.Name))
+	})
 }
 
 // Given a function that was inlined at some point during the
@@ -314,6 +356,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 		Abbrev:        abbrev,
 		StackOffset:   int32(offs),
 		Type:          base.Ctxt.Lookup(typename),
+		Nname:         n,
 		DeclFile:      declpos.RelFilename(),
 		DeclLine:      declpos.RelLine(),
 		DeclCol:       declpos.Col(),
@@ -413,6 +456,7 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 		IsInlFormal:   n.InlFormal(),
 		Abbrev:        abbrev,
 		Type:          base.Ctxt.Lookup(typename),
+		Nname:         n,
 		// The stack offset is used as a sorting key, so for decomposed
 		// variables just give it the first one. It's not used otherwise.
 		// This won't work well if the first slot hasn't been assigned a stack
