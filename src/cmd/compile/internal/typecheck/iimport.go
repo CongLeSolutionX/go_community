@@ -809,7 +809,8 @@ func (r *importReader) funcExt(n *ir.Name) {
 
 	n.Func.ABI = obj.ABI(r.uint64())
 
-	n.SetPragma(ir.PragmaFlag(r.uint64()))
+	//n.SetPragma(ir.PragmaFlag(r.uint64()))
+	n.Func.Pragma = ir.PragmaFlag(r.uint64())
 
 	// Escape analysis.
 	for _, fs := range &types.RecvsParams {
