@@ -131,6 +131,30 @@
       },
       "revId": "337b254c3f1a27dd0fae0feb31dd4cb7d8b9f6a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be025945_fbf7418e",
+        "filename": "src/cmd/go/testdata/script/list_gomod_in_gopath.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-12T16:15:38Z",
+      "side": 1,
+      "message": "The \u0027[/\\\\\u0027] is a bit ugly so I wrote and submitted https://golang.org/cl/319409.\n\nI have used $PWD for this test; thanks.",
+      "parentUuid": "dbe4b0fc_b845d4dd",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "337b254c3f1a27dd0fae0feb31dd4cb7d8b9f6a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
