@@ -1506,10 +1506,8 @@ func usesLibcall() bool {
 // system-allocated stack.
 func mStackIsSystemAllocated() bool {
 	switch GOOS {
-	case "aix", "darwin", "plan9", "illumos", "ios", "solaris", "windows":
+	case "aix", "darwin", "illumos", "ios", "openbsd", "plan9", "solaris", "windows":
 		return true
-	case "openbsd":
-		return GOARCH != "mips64"
 	}
 	return false
 }
