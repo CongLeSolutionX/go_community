@@ -89,6 +89,24 @@
       "parentUuid": "14514644_eb7dd12e",
       "revId": "bda7587b5f2cecd0e76059b295a333655cdd401f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2f651aa_4ef793f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51858
+      },
+      "writtenOn": "2021-05-12T15:24:01Z",
+      "side": 1,
+      "message": "through the definition of type Block: Controls [2]*Value, b.Controls can not be nil if we do not change this definition\n\nbut the following: b.Controls[0].Op \u003d\u003d OpMakeResult, if we do not check b.Controls[0], maybe nil dereference may happen\n\ndid I miss something?",
+      "parentUuid": "9c92a22a_8143c866",
+      "revId": "bda7587b5f2cecd0e76059b295a333655cdd401f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
