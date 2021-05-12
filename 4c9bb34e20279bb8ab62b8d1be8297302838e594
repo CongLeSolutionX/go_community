@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cc3986d_8eeb89d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-05-12T00:56:20Z",
+      "side": 1,
+      "message": "The current code gives the illusion that _p_.runnext could be non-zero when CAS fails, whereas in fact there\u0027s only one way this runnext could get changed: it\u0027s stolen by other P and CAS to 0 since runqget() should be executed only by the owner P.",
+      "revId": "4c9bb34e20279bb8ab62b8d1be8297302838e594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
