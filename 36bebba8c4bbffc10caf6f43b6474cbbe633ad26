@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "586fdd0f_f299f19f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-12T13:40:38Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-nocgo",
+      "revId": "36bebba8c4bbffc10caf6f43b6474cbbe633ad26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
