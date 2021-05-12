@@ -12,7 +12,7 @@ stdout PASS
 # ...but that should not leak into other modules.
 go get -d ./baddep
 ! go build ./baddep
-stderr golang.org[/\\]notx[/\\]useinternal
+stderr -path golang.org·notx·useinternal
 stderr 'use of internal package golang.org/x/.* not allowed'
 
 # Internal packages in the standard library should not leak into modules.
@@ -32,7 +32,7 @@ stderr 'use of internal package golang.org/x/.* not allowed'
 # And transitive dependencies still should not leak.
 go get -d ./baddep
 ! go build ./baddep
-stderr golang.org[/\\]notx[/\\]useinternal
+stderr -path golang.org·notx·useinternal
 stderr 'use of internal package golang.org/x/.* not allowed'
 
 # Replacing an internal module should keep it internal to the same paths.
@@ -42,7 +42,7 @@ go get -d ./throughdep
 
 go get -d ./baddep
 ! go build ./baddep
-stderr golang.org[/\\]notx[/\\]useinternal
+stderr -path golang.org·notx·useinternal
 stderr 'use of internal package golang.org/x/.* not allowed'
 
 go mod edit -replace golang.org/x/internal=./vendor/golang.org/x/internal
@@ -50,7 +50,7 @@ go get -d ./throughdep
 
 go get -d ./baddep
 ! go build ./baddep
-stderr golang.org[/\\]notx[/\\]useinternal
+stderr -path golang.org·notx·useinternal
 stderr 'use of internal package golang.org/x/.* not allowed'
 
 -- go.mod --

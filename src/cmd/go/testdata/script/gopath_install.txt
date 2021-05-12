@@ -38,12 +38,12 @@ exists $GOBIN/helloworld$GOEXE
 # cmd/fix should be installed to GOROOT/pkg, not GOPATH/bin.
 env GOPATH=$PWD
 go list -f '{{.Target}}' cmd/fix
-stdout $GOROOT'[/\\]pkg[/\\]tool[/\\]'$GOOS'_'$GOARCH'[/\\]fix'$GOEXE'$'
+stdout -path $GOROOT'·pkg·tool·'$GOOS'_'$GOARCH'·fix'$GOEXE'$'
 
 # GOBIN should not affect toolchain install locations.
 env GOBIN=$WORK/bin1
 go list -f '{{.Target}}' cmd/fix
-stdout $GOROOT'[/\\]pkg[/\\]tool[/\\]'$GOOS'_'$GOARCH'[/\\]fix'$GOEXE'$'
+stdout -path $GOROOT'·pkg·tool·'$GOOS'_'$GOARCH'·fix'$GOEXE'$'
 
 -- go-cmd-test/helloworld.go --
 package main

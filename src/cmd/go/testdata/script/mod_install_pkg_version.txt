@@ -89,7 +89,7 @@ stderr '^go install: example.com//cmd/a@v1.0.0: argument must be a clean package
 ! go install example.com/cmd/a@v1.0.0 ./x@v1.0.0
 stderr '^go install: ./x@v1.0.0: argument must be a package path, not a relative path$'
 ! go install example.com/cmd/a@v1.0.0 $GOPATH/src/x@v1.0.0
-stderr '^go install: '$WORK'[/\\]gopath/src/x@v1.0.0: argument must be a package path, not an absolute path$'
+stderr -path '^go install: '$WORK'·gopath/src/x@v1.0.0: argument must be a package path, not an absolute path$'
 ! go install example.com/cmd/a@v1.0.0 cmd/...@v1.0.0
 stderr '^package cmd/go not provided by module example.com/cmd@v1.0.0$'
 
@@ -127,7 +127,7 @@ cd tmp
 go mod init m
 go get -d example.com/cmd@v1.0.0
 ! go build example.com/cmd/...
-stderr 'err[/\\]err.go:3:9: undefined: DoesNotCompile$'
+stderr -path 'err·err.go:3:9: undefined: DoesNotCompile$'
 cd ..
 
 go install example.com/cmd/...@v1.0.0

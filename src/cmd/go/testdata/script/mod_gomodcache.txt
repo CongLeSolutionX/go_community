@@ -29,7 +29,7 @@ grep '{"Version":"v1.0.0","Time":"2018-02-14T00:45:20Z"}' $GOPATH/pkg/mod/cache/
 env GOMODCACHE=
 env GOPATH=
 go env GOMODCACHE
-stdout $HOME[/\\]go[/\\]pkg[/\\]mod
+stdout -path $HOME·go·pkg·mod
 
 # If GOMODCACHE isn't set and GOPATH starts with the path list separator, it's an error.
 env GOMODCACHE=
@@ -41,7 +41,7 @@ stderr 'missing \$GOPATH'
 env GOMODCACHE=
 env GOPATH=$WORK/first/path${:}$WORK/this/is/ignored
 go env GOMODCACHE
-stdout $WORK[/\\]first[/\\]path[/\\]pkg[/\\]mod
+stdout -path $WORK·first·path·pkg·mod
 
 env GOMODCACHE=$WORK/modcache
 go mod download rsc.io/quote@v1.0.0

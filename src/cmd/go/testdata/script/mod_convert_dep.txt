@@ -4,7 +4,7 @@ env GO111MODULE=on
 # However, we should suggest 'go mod init' if we can find an alternate config file.
 cd $WORK/test/x
 ! go list .
-stderr 'found Gopkg.lock in .*[/\\]test'
+stderr -path 'found Gopkg.lock in .*·test'
 stderr '\s*cd \.\. && go mod init'
 
 # The command we suggested should succeed.

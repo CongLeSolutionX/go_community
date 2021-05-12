@@ -3,15 +3,15 @@ env GO111MODULE=off
 [!gc] skip
 
 go list -f '{{.Dir}}' vendor/golang.org/x/net/http2/hpack
-stdout $GOPATH[/\\]src[/\\]vendor
+stdout -path $GOPATH·src·vendor
 
 # A package importing 'net/http' should resolve its dependencies
 # to the package 'vendor/golang.org/x/net/http2/hpack' within GOROOT.
 cd importnethttp
 go list -deps -f '{{.ImportPath}} {{.Dir}}'
 stdout ^vendor/golang.org/x/net/http2/hpack
-stdout $GOROOT[/\\]src[/\\]vendor[/\\]golang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
-! stdout $GOPATH[/\\]src[/\\]vendor
+stdout -path $GOROOT·src·vendor·golang.org·x·net·http2·hpack
+! stdout -path $GOPATH·src·vendor
 
 # In the presence of $GOPATH/src/vendor/golang.org/x/net/http2/hpack,
 # a package in GOPATH importing 'golang.org/x/net/http2/hpack' should
@@ -20,12 +20,12 @@ cd ../issue16333
 go build .
 
 go list -deps -f '{{.ImportPath}} {{.Dir}}' .
-stdout $GOPATH[/\\]src[/\\]vendor[/\\]golang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
-! stdout $GOROOT[/\\]src[/\\]vendor
+stdout -path $GOPATH·src·vendor·golang.org·x·net·http2/hpack
+! stdout -path $GOROOT·src·vendor
 
 go list -test -deps -f '{{.ImportPath}} {{.Dir}}' .
-stdout $GOPATH[/\\]src[/\\]vendor[/\\]golang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
-! stdout $GOROOT[/\\]src[/\\]vendor
+stdout -path $GOPATH·src·vendor·golang.org·x·net·http2·hpack
+! stdout -path $GOROOT·src·vendor
 
 -- issue16333/issue16333.go --
 package vendoring17

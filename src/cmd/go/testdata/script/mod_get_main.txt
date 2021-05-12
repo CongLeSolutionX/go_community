@@ -3,13 +3,13 @@ cp go.mod.orig go.mod
 
 # relative and absolute paths must be within the main module.
 ! go get -d ..
-stderr '^go get: \.\. \('$WORK'[/\\]gopath\) is not within module rooted at '$WORK'[/\\]gopath[/\\]src$'
+stderr -path '^go get: \.\. \('$WORK'·gopath\) is not within module rooted at '$WORK'·gopath·src$'
 ! go get -d $WORK
-stderr '^go get: '$WORK' is not within module rooted at '$WORK'[/\\]gopath[/\\]src$'
+stderr -path '^go get: '$WORK' is not within module rooted at '$WORK'·gopath·src$'
 ! go get -d ../...
-stderr '^go get: \.\./\.\.\. \('$WORK'[/\\]gopath([/\\]...)?\) is not within module rooted at '$WORK'[/\\]gopath[/\\]src$'
+stderr -path '^go get: \.\./\.\.\. \('$WORK'·gopath(·...)?\) is not within module rooted at '$WORK'·gopath·src$'
 ! go get -d $WORK/...
-stderr '^go get: '$WORK'[/\\]\.\.\. is not within module rooted at '$WORK'[/\\]gopath[/\\]src$'
+stderr -path '^go get: '$WORK'·\.\.\. is not within module rooted at '$WORK'·gopath·src$'
 
 # @patch and @latest within the main module refer to the current version.
 # The main module won't be upgraded, but missing dependencies will be added.

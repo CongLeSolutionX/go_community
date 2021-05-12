@@ -17,7 +17,7 @@ stdout '^command-line-arguments$'
 # A single typo-ed pattern for a Go file. This should
 # treat the wrong pattern as if it were a package.
 ! go list ./foo.go/b.go
-stderr '^stat .*[/\\]foo\.go[/\\]b\.go: directory not found$'
+stderr -path '^stat .*·foo\.go·b\.go: directory not found$'
 
 # Multiple patterns for Go files with a typo. This should
 # treat the wrong pattern as if it were a nonexistent file.

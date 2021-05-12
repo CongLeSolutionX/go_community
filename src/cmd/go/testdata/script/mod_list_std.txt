@@ -64,7 +64,7 @@ go list -deps -f '{{if not .Standard}}{{.ImportPath}}{{end}}' std
 # directories.
 
 go list -f '{{.Dir}}' golang.org/x/net/http2/hpack
-stdout $GOROOT[/\\]src[/\\]vendor
+stdout -path $GOROOT·src·vendor
 
 # Within the std module, the packages within the module should omit the 'std/'
 # prefix (they retain their own identities), but should respect normal module

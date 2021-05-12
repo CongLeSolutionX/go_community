@@ -20,7 +20,7 @@ cd importsyntax
 # it should not update the go.mod file.
 
 ! go get
-stderr '^..[/\\]badimport[/\\]syntaxerror[/\\]syntaxerror.go:1:1: expected ''package'', found pack$'  # TODO: An import stack would be nice.
+stderr -path '^..·badimport·syntaxerror·syntaxerror.go:1:1: expected ''package'', found pack$'  # TODO: An import stack would be nice.
 cmp ../go.mod.orig ../go.mod
 
 

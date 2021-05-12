@@ -6,7 +6,7 @@ env GO111MODULE=off
 [short] skip
 
 go test -x -a -c testdata/dep_test.go
-stderr '^.*[/\\]compile'$GOEXE'["]? (.* )?regexp .*[/\\]regexp\.go'
+stderr -path '^.*·compile'$GOEXE'["]? (.* )?regexp .*·regexp\.go'
 
 -- testdata/dep_test.go --
 package deps

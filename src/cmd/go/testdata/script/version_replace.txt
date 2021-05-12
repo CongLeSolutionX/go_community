@@ -8,7 +8,7 @@ go run example.com/printversion
 cmp stdout out.txt
 
 go version -m $GOPATH/bin/printversion$GOEXE
-stdout '^.*[/\\]bin[/\\]printversion'$GOEXE': .*$'
+stdout -path '^.*·bin·printversion'$GOEXE': .*$'
 stdout '^	path	example.com/printversion$'
 stdout '^	mod	example.com/printversion	v0.1.0$'
 stdout '^	=>	example.com/printversion	v1.0.0	h1:.*$'
