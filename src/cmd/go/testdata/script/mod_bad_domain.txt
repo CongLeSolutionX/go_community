@@ -17,15 +17,15 @@ stderr 'malformed module path "x/y.z": missing dot in first path element'
 # build should report all unsatisfied imports,
 # but should be more definitive about non-module import paths
 ! go build ./useappengine
-stderr '^useappengine[/\\]x.go:2:8: cannot find package$'
+stderr -path '^useappengine·x.go:2:8: cannot find package$'
 ! go build ./usenonexistent
-stderr '^usenonexistent[/\\]x.go:2:8: no required module provides package nonexistent.rsc.io; to add it:\n\tgo get nonexistent.rsc.io$'
+stderr -path '^usenonexistent·x.go:2:8: no required module provides package nonexistent.rsc.io; to add it:\n\tgo get nonexistent.rsc.io$'
 
 
 # 'get -d' should be similarly definitive
 
 go get -d ./useappengine  # TODO(#41315): This should fail.
- # stderr '^useappengine[/\\]x.go:2:8: cannot find package$'
+ # stderr -path '^useappengine/x.go:2:8: cannot find package$'
 
 ! go get -d  ./usenonexistent
 stderr '^x/usenonexistent imports\n\tnonexistent.rsc.io: cannot find module providing package nonexistent.rsc.io$'

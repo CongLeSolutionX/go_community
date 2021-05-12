@@ -5,7 +5,7 @@ env GO111MODULE=on
 # It should not override packages in GOROOT, but should not fail the command.
 # See golang.org/issue/30756.
 go list -e -deps -f '{{.ImportPath}} {{.Dir}}' ./bytes
-stdout ^std/bytes.*$PWD[/\\]bytes
+stdout -path ^std/bytes.*$PWD·bytes
 stdout '^bytes/modified'
 
 -- go.mod --

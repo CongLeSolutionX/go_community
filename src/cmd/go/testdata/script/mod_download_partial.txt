@@ -37,7 +37,7 @@ stdout '^rsc.io/quote$'
 
 # 'go list -m' should print the directory.
 go list -m -f '{{.Dir}}' rsc.io/quote
-stdout 'pkg[/\\]mod[/\\]rsc.io[/\\]quote@v1.5.2'
+stdout -path 'pkg·mod·rsc.io·quote@v1.5.2'
 
 # go mod verify should fail if we delete a file.
 go mod verify

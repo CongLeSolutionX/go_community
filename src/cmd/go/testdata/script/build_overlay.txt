@@ -20,16 +20,16 @@ stdout '^hello$'
 
 go build -overlay overlay.json -o print_abspath$GOEXE ./printpath
 exec ./print_abspath$GOEXE
-stdout $WORK[/\\]gopath[/\\]src[/\\]m[/\\]printpath[/\\]main.go
+stdout -path $WORK·gopath·src·m·printpath·main.go
 
 go build -overlay overlay.json -o print_trimpath$GOEXE -trimpath ./printpath
 exec ./print_trimpath$GOEXE
-stdout ^m[/\\]printpath[/\\]main.go
+stdout -path ^m·printpath·main.go
 
 go build -overlay overlay.json -o print_trimpath_two_files$GOEXE printpath/main.go printpath/other.go
 exec ./print_trimpath_two_files$GOEXE
-stdout $WORK[/\\]gopath[/\\]src[/\\]m[/\\]printpath[/\\]main.go
-stdout $WORK[/\\]gopath[/\\]src[/\\]m[/\\]printpath[/\\]other.go
+stdout -path $WORK·gopath·src·m·printpath·main.go
+stdout -path $WORK·gopath·src·m·printpath·other.go
 
 go build -overlay overlay.json -o main_cgo_replace$GOEXE ./cgo_hello_replace
 exec ./main_cgo_replace$GOEXE
@@ -58,8 +58,8 @@ stdout '^true$'
 go list -compiled -overlay overlay.json -f '{{range .CompiledGoFiles}}{{. | printf "%s\n"}}{{end}}' ./cgo_hello_replace
 cp stdout compiled_cgo_sources.txt
 go run ../print_line_comments.go compiled_cgo_sources.txt
-stdout $GOPATH[/\\]src[/\\]m[/\\]cgo_hello_replace[/\\]cgo_hello_replace.go
-! stdout $GOPATH[/\\]src[/\\]m[/\\]overlay[/\\]hello.c
+stdout -path $GOPATH·src·m·cgo_hello_replace·cgo_hello_replace.go
+! stdout -path $GOPATH·src·m·overlay·hello.c
 
 # Run same tests but with gccgo.
 env GO111MODULE=off
@@ -72,11 +72,11 @@ stdout '^hello$'
 
 go build -compiler=gccgo -overlay overlay.json -o print_abspath_gccgo$GOEXE ./printpath
 exec ./print_abspath_gccgo$GOEXE
-stdout $WORK[/\\]gopath[/\\]src[/\\]m[/\\]printpath[/\\]main.go
+stdout -path $WORK·gopath·src·m·printpath·main.go
 
 go build -compiler=gccgo -overlay overlay.json -o print_trimpath_gccgo$GOEXE -trimpath ./printpath
 exec ./print_trimpath_gccgo$GOEXE
-stdout ^\.[/\\]printpath[/\\]main.go
+stdout -path ^\.·printpath·main.go
 
 
 go build -compiler=gccgo  -overlay overlay.json -o main_cgo_replace_gccgo$GOEXE ./cgo_hello_replace

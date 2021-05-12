@@ -2,15 +2,15 @@
 
 ! go list -deps ./importall
 ! stderr 'internal error'
-stderr '^importall[/\\]x.go:3:8: "all" is not an importable package; see ''go help packages''$'
+stderr -path '^importall·x.go:3:8: "all" is not an importable package; see ''go help packages''$'
 
 ! go list -deps ./importcmd
 ! stderr 'internal error'
-stderr '^importcmd[/\\]x.go:3:8: "cmd" is not an importable package; see ''go help packages''$'
+stderr -path '^importcmd·x.go:3:8: "cmd" is not an importable package; see ''go help packages''$'
 
 ! go list -deps ./importstd
 ! stderr 'internal error'
-stderr '^importstd[/\\]x.go:3:8: "std" is not an importable package; see ''go help packages''$'
+stderr -path '^importstd·x.go:3:8: "std" is not an importable package; see ''go help packages''$'
 
 
 # Not even if such a path is theoretically provided by a (necessarily replaced) module.
@@ -19,7 +19,7 @@ go mod edit -replace std@v0.1.0=./modstd
 go mod edit -require std@v0.1.0
 
 ! go list -deps ./importstd
-stderr '^importstd[/\\]x.go:3:8: "std" is not an importable package; see ''go help packages''$'
+stderr -path '^importstd·x.go:3:8: "std" is not an importable package; see ''go help packages''$'
 
 
 -- go.mod --

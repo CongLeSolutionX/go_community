@@ -9,7 +9,7 @@ go get -d
 go mod download rsc.io/quote@v1.5.2
 
 ! go list $GOPATH/pkg/mod/rsc.io/quote@v1.5.2
-stderr '^directory ..[/\\]pkg[/\\]mod[/\\]rsc.io[/\\]quote@v1.5.2 outside available modules$'
+stderr -path '^directory ..·pkg·mod·rsc.io·quote@v1.5.2 outside available modules$'
 
 go list $GOPATH/pkg/mod/rsc.io/quote@v1.5.1
 stdout 'rsc.io/quote'

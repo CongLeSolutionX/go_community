@@ -21,7 +21,7 @@ symlink links/subpkg/issue.go -> $GOPATH/src/subpkg/issue.go
 # We should see the copy as a valid module root.
 cd links
 go env GOMOD
-stdout links[/\\]go.mod
+stdout -path links·go.mod
 go list -m
 stdout golang.org/issue/28107
 

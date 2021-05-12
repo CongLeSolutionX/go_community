@@ -9,14 +9,14 @@
 
 # Check that the source path appears when -trimpath is not used.
 go build -o hello.exe .
-grep -q gopath[/\\]src hello.exe
+grep -q -path gopath·src hello.exe
 go run ./list-dwarf hello.exe
-stdout gopath[/\\]src
+stdout -path gopath·src
 
 # Check that the source path does not appear when -trimpath is used.
 [aix] stop # can't inspect XCOFF binaries
 go build -trimpath -o hello.exe .
-! grep -q gopath[/\\]src hello.exe
+! grep -q -path gopath·src hello.exe
 go run ./list-dwarf hello.exe
 ! stdout gopath/src
 
@@ -31,8 +31,8 @@ go build -overlay overlay.json -o hello_overlay.exe ./hello_overlay
 grep -q gopath[/\\]src hello_overlay.exe
 ! grep -q $WORK[/\\]overlay hello_overlay.exe
 go run ./list-dwarf hello_overlay.exe
-stdout gopath[/\\]src
-! stdout $WORK[/\\]overlay
+stdout -path gopath·src
+! stdout -path $WORK·overlay
 
 # Check that the source path does not appear when -trimpath is used.
 go build -overlay overlay.json -trimpath -o hello_overlay.exe ./hello_overlay
@@ -40,7 +40,7 @@ go build -overlay overlay.json -trimpath -o hello_overlay.exe ./hello_overlay
 ! grep -q $WORK[/\\]overlay hello_overlay.exe
 go run ./list-dwarf hello_overlay.exe
 ! stdout gopath/src
-! stdout $WORK[/\\]overlay
+! stdout -path $WORK·overlay
 
 -- go.mod --
 module m

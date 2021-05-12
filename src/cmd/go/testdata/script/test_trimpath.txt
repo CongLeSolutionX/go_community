@@ -1,8 +1,8 @@
 [short] skip
 
 go test -trimpath -v .
-! stdout '[/\\]pkg_test[/\\]'
-stdout -count=3 '[/\\]pkg[/\\]'
+! stdout '·pkg_test·'
+stdout -count=3 -path '·pkg·'
 
 -- go.mod --
 module example.com/pkg

@@ -18,7 +18,7 @@ env GOBIN=$WORK/bin
 
 # The install directory for a cross-compiled standard command should include GOARCH.
 go list -f '{{.Target}}'  cmd/pack
-stdout ${GOROOT}[/\\]pkg[/\\]tool[/\\]${GOOS}_${GOARCH}[/\\]pack$
+stdout -path ${GOROOT}·pkg·tool·${GOOS}_${GOARCH}·pack$
 
 -- mycmd/x.go --
 package main

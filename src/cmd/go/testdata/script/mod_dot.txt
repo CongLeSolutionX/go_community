@@ -9,15 +9,15 @@ stderr '^go get: no package in current directory$'
 ! go get .
 stderr '^go get \.: no package in current directory$'
 ! go get ./subdir
-stderr '^go get: \.[/\\]subdir \('$WORK'[/\\]gopath[/\\]src[/\\]dir[/\\]subdir\) is not a package in module rooted at '$WORK'[/\\]gopath[/\\]src[/\\]dir$'
+stderr -path '^go get: \.·subdir \('$WORK'·gopath·src·dir·subdir\) is not a package in module rooted at '$WORK'·gopath·src·dir$'
 ! go list
 ! stderr 'cannot find module providing package'
-stderr '^no Go files in '$WORK'[/\\]gopath[/\\]src[/\\]dir$'
+stderr -path '^no Go files in '$WORK'·gopath·src·dir$'
 
 cd subdir
 ! go list
 ! stderr 'cannot find module providing package'
-stderr '^no Go files in '$WORK'[/\\]gopath[/\\]src[/\\]dir[/\\]subdir$'
+stderr -path '^no Go files in '$WORK'·gopath·src·dir·subdir$'
 cd ..
 
 # golang.org/issue/30590: if a package is found in the filesystem
@@ -31,7 +31,7 @@ stderr '^main module \(example\.com\) does not contain package example.com/other
 # golang.org/issue/27122: 'go build' of a nonexistent directory should produce
 # a helpful "no Go files" error message, not a generic "unknown import path".
 ! go list ./subdir
-stderr '^no Go files in '$WORK'[/\\]gopath[/\\]src[/\\]dir[/\\]subdir$'
+stderr -path '^no Go files in '$WORK'·gopath·src·dir·subdir$'
 
 # golang.org/issue/29280: 'go list -e' for a nonexistent directory should
 # report a nonexistent package with an error.
@@ -45,16 +45,16 @@ stdout '^example.com/testdata'
 # golang.org/issue/32921: vendor directories should only be accepted as directories
 # if the directory would actually be used to load the package.
 ! go list ./vendor/nonexist
-stderr '^no Go files in '$WORK'[/\\]gopath[/\\]src[/\\]dir[/\\]vendor[/\\]nonexist$'
+stderr -path '^no Go files in '$WORK'·gopath·src·dir·vendor·nonexist$'
 
 ! go list ./vendor/pkg
-stderr '^without -mod=vendor, directory '$WORK'[/\\]gopath[/\\]src[/\\]dir[/\\]vendor[/\\]pkg has no package path$'
+stderr -path '^without -mod=vendor, directory '$WORK'·gopath·src·dir·vendor·pkg has no package path$'
 
 ! go list -mod=vendor ./vendor/nonexist
-stderr '^no Go files in '$WORK'[/\\]gopath[/\\]src[/\\]dir[/\\]vendor[/\\]nonexist$'
+stderr -path '^no Go files in '$WORK'·gopath·src·dir·vendor·nonexist$'
 
 ! go list -mod=vendor ./vendor/unlisted
-stderr '^directory '$WORK'[/\\]gopath[/\\]src[/\\]dir[/\\]vendor[/\\]unlisted is not a package listed in vendor/modules.txt$'
+stderr -path '^directory '$WORK'·gopath·src·dir·vendor·unlisted is not a package listed in vendor/modules.txt$'
 
 go list -mod=vendor ./vendor/pkg
 stdout '^pkg$'
@@ -63,18 +63,18 @@ stdout '^pkg$'
 # except that -mod=vendor is implied by default.
 cd $GOROOT/src
 ! go list .
-stderr '^no Go files in '$GOROOT'[/\\]src$'
+stderr -path '^no Go files in '$GOROOT'·src$'
 
 ! go list ./builtin
 stderr '^"builtin" is a pseudo-package, not an importable package$'
 
 ! go list ./debug
 ! stderr 'cannot find module providing package'
-stderr '^no Go files in '$GOROOT'[/\\]src[/\\]debug$'
+stderr -path '^no Go files in '$GOROOT'·src·debug$'
 
 ! go list ./golang.org/x/tools/cmd/goimports
 ! stderr 'cannot find module providing package'
-stderr '^stat '$GOROOT'[/\\]src[/\\]golang.org[/\\]x[/\\]tools[/\\]cmd[/\\]goimports: directory not found'
+stderr -path '^stat '$GOROOT'·src·golang.org·x·tools·cmd·goimports: directory not found'
 
 go list ./vendor/golang.org/x/net/http2/hpack
 stdout '^golang.org/x/net/http2/hpack$'
@@ -83,17 +83,17 @@ stdout '^golang.org/x/net/http2/hpack$'
 # prefixless treatment of GOROOT itself.
 cd $WORK/othergoroot/src
 ! go list .
-stderr '^no Go files in '$WORK'[/\\]othergoroot[/\\]src$'
+stderr -path '^no Go files in '$WORK'·othergoroot·src$'
 
 go list ./builtin
 stdout '^std/builtin$'  # Only the "std" in actual $GOROOT is special, and only its "builtin" is special.
 
 ! go list ./bytes
 ! stderr 'cannot find module providing package'
-stderr '^no Go files in '$WORK'[/\\]othergoroot[/\\]src[/\\]bytes$'
+stderr -path '^no Go files in '$WORK'·othergoroot·src·bytes$'
 
 ! go list ./vendor/golang.org/x/net/http2/hpack
-stderr '^without -mod=vendor, directory '$WORK'[/\\]othergoroot[/\\]src[/\\]vendor[/\\]golang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack has no package path$'
+stderr -path '^without -mod=vendor, directory '$WORK'·othergoroot·src·vendor·golang.org·x·net·http2·hpack has no package path$'
 
 -- dir/go.mod --
 module example.com

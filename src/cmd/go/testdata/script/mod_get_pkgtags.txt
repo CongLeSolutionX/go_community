@@ -19,7 +19,7 @@ go get -d example.net/tools@v0.1.0
 ! stderr 'no Go source files'
 
 ! go list example.net/tools
-stderr '^package example.net/tools: build constraints exclude all Go files in .*[/\\]tools$'
+stderr -path '^package example.net/tools: build constraints exclude all Go files in .*·tools$'
 
 go list -tags=tools -e -deps example.net/tools
 stdout '^example.net/cmd/tool$'
@@ -41,7 +41,7 @@ go get example.net/tools@v0.1.0
 ! stderr .
 
 ! go build example.net/tools
-stderr '^package example.net/tools: build constraints exclude all Go files in .*[/\\]tools$'
+stderr -path '^package example.net/tools: build constraints exclude all Go files in .*·tools$'
 
 
 # https://golang.org/issue/29268

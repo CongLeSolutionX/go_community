@@ -5,7 +5,7 @@ env GO111MODULE=on
 
 cd x/y
 go list -f '{{.Dir}}' zz
-stdout x[/\\]z$
+stdout -path x·z$
 
 -- x/y/go.mod --
 module x/y

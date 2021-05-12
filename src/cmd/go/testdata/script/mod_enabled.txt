@@ -3,13 +3,13 @@ env GO111MODULE=auto
 
 cd $GOPATH/src/x/y/z
 go env GOMOD
-stdout $GOPATH[/\\]src[/\\]x[/\\]y[/\\]z[/\\]go.mod
+stdout -path $GOPATH·src·x·y·z·go.mod
 go list -m -f {{.GoMod}}
-stdout $GOPATH[/\\]src[/\\]x[/\\]y[/\\]z[/\\]go.mod
+stdout -path $GOPATH·src·x·y·z·go.mod
 
 cd $GOPATH/src/x/y/z/w
 go env GOMOD
-stdout $GOPATH[/\\]src[/\\]x[/\\]y[/\\]z[/\\]go.mod
+stdout -path $GOPATH·src·x·y·z·go.mod
 
 cd $GOPATH/src/x/y
 go env GOMOD
@@ -19,18 +19,18 @@ cd $GOPATH/foo
 go env GOMOD
 stdout foo[/\\]go.mod
 go list -m -f {{.GoMod}}
-stdout foo[/\\]go.mod
+stdout -path foo·go.mod
 
 cd $GOPATH/foo/bar/baz
 go env GOMOD
-stdout foo[/\\]go.mod
+stdout -path foo·go.mod
 
 # GO111MODULE unset should be equivalent to on.
 env GO111MODULE=
 
 cd $GOPATH/src/x/y/z
 go env GOMOD
-stdout $GOPATH[/\\]src[/\\]x[/\\]y[/\\]z[/\\]go.mod
+stdout -path $GOPATH·src·x·y·z·go.mod
 
 cd $GOPATH/src/x/y
 go env GOMOD
@@ -41,11 +41,11 @@ env GO111MODULE=on
 
 cd $GOPATH/src/x/y/z
 go env GOMOD
-stdout z[/\\]go.mod
+stdout -path z·go.mod
 
 cd $GOPATH/src/x/y/z/w
 go env GOMOD
-stdout z[/\\]go.mod
+stdout -path z·go.mod
 
 cd $GOPATH/src/x/y
 go env GOMOD
@@ -55,11 +55,11 @@ stdout '^command-line-arguments$'
 
 cd $GOPATH/foo
 go env GOMOD
-stdout foo[/\\]go.mod
+stdout -path foo·go.mod
 
 cd $GOPATH/foo/bar/baz
 go env GOMOD
-stdout foo[/\\]go.mod
+stdout -path foo·go.mod
 
 # GO111MODULE=off should trigger nowhere
 env GO111MODULE=off

@@ -5,7 +5,7 @@ env GOROOT=$WORK/goroot
 env GOPATH=$WORK/gopath
 
 go env GOROOT
-stdout $WORK[/\\]goroot
+stdout -path $WORK·goroot
 
 # switch to GOROOT/src
 cd $GOROOT/src

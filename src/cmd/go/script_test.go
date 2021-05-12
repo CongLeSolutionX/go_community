@@ -915,6 +915,11 @@ func scriptMatch(ts *testScript, want simpleStatus, args []string, text, name st
 		quiet = true
 		args = args[1:]
 	}
+	filepath := false
+	if len(args) >= 1 && args[0] == "-path" {
+		filepath = true
+		args = args[1:]
+	}
 
 	extraUsage := ""
 	wantArgs := 1
@@ -923,9 +928,12 @@ func scriptMatch(ts *testScript, want simpleStatus, args []string, text, name st
 		wantArgs = 2
 	}
 	if len(args) != wantArgs {
-		ts.fatalf("usage: %s [-count=N] 'pattern'%s", name, extraUsage)
+		ts.fatalf("usage: %s [-count=N] [-path] 'pattern'%s", name, extraUsage)
 	}
 
+	if filepath {
+		args[0] = strings.ReplaceAll(args[0], "·", string(os.PathSeparator))
+	}
 	pattern := `(?m)` + args[0]
 	re, err := regexp.Compile(pattern)
 	if err != nil {

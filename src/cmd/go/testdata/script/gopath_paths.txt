@@ -16,7 +16,7 @@ stderr 'GOPATH entry is relative'
 
 # GOPATH cannot be a relative subdirectory of the working directory.
 env ORIG_GOPATH
-stdout 'ORIG_GOPATH='$WORK[/\\]gopath
+stdout -path 'ORIG_GOPATH='$WORK·gopath
 cd $WORK
 env GOPATH=gopath
 ! go build gopath/src/go-cmd-test/helloworld.go

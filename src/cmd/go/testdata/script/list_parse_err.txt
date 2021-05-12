@@ -1,12 +1,12 @@
 # 'go list' without -e should fail and print errors on stderr.
 ! go list ./p
-stderr '^p[/\\]b.go:2:2: expected ''package'', found ''EOF''$'
+stderr -path '^p·b.go:2:2: expected ''package'', found ''EOF''$'
 ! go list -f '{{range .Imports}}{{.}} {{end}}' ./p
-stderr '^p[/\\]b.go:2:2: expected ''package'', found ''EOF''$'
+stderr -path '^p·b.go:2:2: expected ''package'', found ''EOF''$'
 ! go list -test ./t
-stderr '^can''t load test package: t[/\\]t_test.go:8:1: expected declaration, found ʕ'
+stderr -path '^can''t load test package: t·t_test.go:8:1: expected declaration, found ʕ'
 ! go list -test -f '{{range .Imports}}{{.}} {{end}}' ./t
-stderr '^can''t load test package: t[/\\]t_test.go:8:1: expected declaration, found ʕ'
+stderr -path '^can''t load test package: t·t_test.go:8:1: expected declaration, found ʕ'
 
 # 'go list -e' should report imports, even if some files have parse errors
 # before the import block.

@@ -12,11 +12,11 @@ cd example.com
 go list -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}} {{range .DepsErrors}}bad dep: {{.Err}}{{end}}' example.com/direct
 ! stdout ^error
 stdout 'incomplete'
-stdout 'bad dep: .*example.com[/\\]notfound'
+stdout -path 'bad dep: .*example.com·notfound'
 
 # Listing with -deps should also fail.
 ! go list -deps example.com/direct
-stderr example.com[/\\]notfound
+stderr -path example.com·notfound
 
 # But -e -deps should succeed.
 go list -e -deps example.com/direct
@@ -29,11 +29,11 @@ stdout example.com/notfound
 go list -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}} {{range .DepsErrors}}bad dep: {{.Err}}{{end}}' example.com/indirect
 ! stdout ^error
 stdout incomplete
-stdout 'bad dep: .*example.com[/\\]notfound'
+stdout -path 'bad dep: .*example.com·notfound'
 
 # Again, -deps should fail.
 ! go list -deps example.com/indirect
-stderr example.com[/\\]notfound
+stderr -path example.com·notfound
 
 # But -deps -e should succeed.
 go list -e -deps example.com/indirect
@@ -42,7 +42,7 @@ stdout example.com/notfound
 
 # Listing the missing dependency directly should fail outright...
 ! go list -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}}' example.com/notfound
-stderr 'no Go files in .*example.com[/\\]notfound'
+stderr -path 'no Go files in .*example.com·notfound'
 ! stdout error
 ! stdout incomplete
 
