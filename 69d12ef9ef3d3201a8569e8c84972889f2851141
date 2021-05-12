@@ -94,6 +94,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fad6f9b6_297fa9d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-12T21:16:45Z",
+      "side": 1,
+      "message": "It looks like this is failing consistently at tip. We\u0027re not marking any inputs as interesting and not writing anything to the cache. We do have counters, but only 4.\n\nI think the problem is the fuzz function has an empty body so it *can\u0027t* do anything interesting. Maybe best to fix the test.\n\nWill investigate and confirm tomorrow.",
+      "parentUuid": "0837b578_6d469a62",
+      "revId": "69d12ef9ef3d3201a8569e8c84972889f2851141",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5dbfb91c_6908d7b0",
         "filename": "src/cmd/go/internal/cfg/cfg.go",
         "patchSetId": 1
@@ -105,6 +123,30 @@
       "writtenOn": "2021-05-12T16:34:54Z",
       "side": 1,
       "message": "Maybe we should file an issue to track it, just so we are certain not to forget.",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "69d12ef9ef3d3201a8569e8c84972889f2851141",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8786ae80_415cd5d5",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-12T21:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dbfb91c_6908d7b0",
       "range": {
         "startLine": 65,
         "startChar": 4,
