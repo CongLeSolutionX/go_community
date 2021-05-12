@@ -7,6 +7,7 @@ package tls
 import (
 	"bytes"
 	"container/list"
+	"context"
 	"crypto"
 	"crypto/ecdsa"
 	"crypto/ed25519"
@@ -17,11 +18,8 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	"internal/cpu"
 	"io"
 	"net"
-	"runtime"
-	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -443,6 +441,16 @@ type ClientHelloInfo struct {
 	// config is embedded by the GetCertificate or GetConfigForClient caller,
 	// for use with SupportsCertificate.
 	config *Config
+
+	// ctx is the context of the handshake that is in progress.
+	ctx context.Context
+}
+
+// Context returns the context of the handshake that is in progress.
+// This context is a child of the context passed to HandshakeContext,
+// if any, and is canceled when the handshake concludes.
+func (c *ClientHelloInfo) Context() context.Context {
+	return c.ctx
 }
 
 // CertificateRequestInfo contains information from a server's
@@ -461,6 +469,16 @@ type CertificateRequestInfo struct {
 
 	// Version is the TLS version that was negotiated for this connection.
 	Version uint16
+
+	// ctx is the context of the handshake that is in progress.
+	ctx context.Context
+}
+
+// Context returns the context of the handshake that is in progress.
+// This context is a child of the context passed to HandshakeContext,
+// if any, and is canceled when the handshake concludes.
+func (c *CertificateRequestInfo) Context() context.Context {
+	return c.ctx
 }
 
 // RenegotiationSupport enumerates the different levels of support for TLS
@@ -597,7 +615,11 @@ type Config struct {
 	RootCAs *x509.CertPool
 
 	// NextProtos is a list of supported application level protocols, in
-	// order of preference.
+	// order of preference. If both peers support ALPN, the selected
+	// protocol will be one from this list, and the connection will fail
+	// if there is no mutually supported protocol. If NextProtos is empty
+	// or the peer doesn't support ALPN, the connection will succeed and
+	// ConnectionState.NegotiatedProtocol will be empty."
 	NextProtos []string
 
 	// ServerName is used to verify the hostname on the returned
@@ -623,17 +645,21 @@ type Config struct {
 	// testing or in combination with VerifyConnection or VerifyPeerCertificate.
 	InsecureSkipVerify bool
 
-	// CipherSuites is a list of supported cipher suites for TLS versions up to
-	// TLS 1.2. If CipherSuites is nil, a default list of secure cipher suites
-	// is used, with a preference order based on hardware performance. The
-	// default cipher suites might change over Go versions. Note that TLS 1.3
-	// ciphersuites are not configurable.
+	// CipherSuites is a list of enabled TLS 1.0–1.2 cipher suites. The order of
+	// the list is ignored. Note that TLS 1.3 ciphersuites are not configurable.
+	//
+	// If CipherSuites is nil, a safe default list is used. The default cipher
+	// suites might change over time.
 	CipherSuites []uint16
 
-	// PreferServerCipherSuites controls whether the server selects the
-	// client's most preferred ciphersuite, or the server's most preferred
-	// ciphersuite. If true then the server's preference, as expressed in
-	// the order of elements in CipherSuites, is used.
+	// PreferServerCipherSuites is a legacy field and has no effect.
+	//
+	// It used to control whether the server would follow the client's or the
+	// server's preference. Servers now select the best mutually supported
+	// cipher suite based on logic that takes into account inferred client
+	// hardware, server hardware, and security.
+	//
+	// Deprected: PreferServerCipherSuites is ignored.
 	PreferServerCipherSuites bool
 
 	// SessionTicketsDisabled may be set to true to disable session ticket and
@@ -925,14 +951,19 @@ func (c *Config) time() time.Time {
 }
 
 func (c *Config) cipherSuites() []uint16 {
+<<<<<<< HEAD   (ad1b6f [dev.boringcrypto] misc/boring: add new releases to RELEASES)
 	if needFIPS() {
 		return fipsCipherSuites(c)
 	}
 	s := c.CipherSuites
 	if s == nil {
 		s = defaultCipherSuites()
+=======
+	if c.CipherSuites != nil {
+		return c.CipherSuites
+>>>>>>> BRANCH (9d0819 crypto/tls: make cipher suite preference ordering automatic)
 	}
-	return s
+	return defaultCipherSuites
 }
 
 var supportedVersions = []uint16{
@@ -1428,6 +1459,7 @@ func defaultConfig() *Config {
 	return &emptyConfig
 }
 
+<<<<<<< HEAD   (ad1b6f [dev.boringcrypto] misc/boring: add new releases to RELEASES)
 var (
 	once                        sync.Once
 	varDefaultCipherSuites      []uint16
@@ -1510,6 +1542,8 @@ NextCipherSuite:
 	}
 }
 
+=======
+>>>>>>> BRANCH (9d0819 crypto/tls: make cipher suite preference ordering automatic)
 func unexpectedMessageError(wanted, got interface{}) error {
 	return fmt.Errorf("tls: received unexpected handshake message of type %T when waiting for %T", got, wanted)
 }
@@ -1521,52 +1555,4 @@ func isSupportedSignatureAlgorithm(sigAlg SignatureScheme, supportedSignatureAlg
 		}
 	}
 	return false
-}
-
-var aesgcmCiphers = map[uint16]bool{
-	// 1.2
-	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:   true,
-	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:   true,
-	TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256: true,
-	TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384: true,
-	// 1.3
-	TLS_AES_128_GCM_SHA256: true,
-	TLS_AES_256_GCM_SHA384: true,
-}
-
-var nonAESGCMAEADCiphers = map[uint16]bool{
-	// 1.2
-	TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305:   true,
-	TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305: true,
-	// 1.3
-	TLS_CHACHA20_POLY1305_SHA256: true,
-}
-
-// aesgcmPreferred returns whether the first valid cipher in the preference list
-// is an AES-GCM cipher, implying the peer has hardware support for it.
-func aesgcmPreferred(ciphers []uint16) bool {
-	for _, cID := range ciphers {
-		c := cipherSuiteByID(cID)
-		if c == nil {
-			c13 := cipherSuiteTLS13ByID(cID)
-			if c13 == nil {
-				continue
-			}
-			return aesgcmCiphers[cID]
-		}
-		return aesgcmCiphers[cID]
-	}
-	return false
-}
-
-// deprioritizeAES reorders cipher preference lists by rearranging
-// adjacent AEAD ciphers such that AES-GCM based ciphers are moved
-// after other AEAD ciphers. It returns a fresh slice.
-func deprioritizeAES(ciphers []uint16) []uint16 {
-	reordered := make([]uint16, len(ciphers))
-	copy(reordered, ciphers)
-	sort.SliceStable(reordered, func(i, j int) bool {
-		return nonAESGCMAEADCiphers[reordered[i]] && aesgcmCiphers[reordered[j]]
-	})
-	return reordered
 }
