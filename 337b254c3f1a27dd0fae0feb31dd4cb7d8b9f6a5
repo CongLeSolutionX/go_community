@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "466dbdfa_c6f46627",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-12T10:35:50Z",
+      "side": 1,
+      "message": "I noted that Gerrit sometimes generates non optimal diff, when git diff works fine instead.",
+      "revId": "337b254c3f1a27dd0fae0feb31dd4cb7d8b9f6a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
