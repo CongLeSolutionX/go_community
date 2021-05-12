@@ -111,6 +111,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "559e7715_5b4f0fb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-12T20:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "675deb23_0a867cb1",
+      "revId": "486d829c42a3713171a3072dcb52f54737e70a22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b4a8d6f_bcae5e07",
@@ -130,6 +148,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd6f8ebd_9ab7b36e",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-12T20:35:40Z",
+      "side": 1,
+      "message": "I\u0027m not really sure of the right behavior either.\n\nSaying that \u0027go mod download\u0027 doesn\u0027t update go.mod or go.sum is nice and simple. I\u0027d even be tempted to go further to make it an error if a sum was missing for a .mod file needed to calculate the build list.",
+      "parentUuid": "1b4a8d6f_bcae5e07",
+      "revId": "486d829c42a3713171a3072dcb52f54737e70a22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f12a9235_0c69e95c",
         "filename": "src/cmd/go/testdata/script/mod_download.txt",
         "patchSetId": 2
@@ -141,6 +177,30 @@
       "writtenOn": "2021-05-11T20:26:05Z",
       "side": 1,
       "message": "s/updates/update/",
+      "range": {
+        "startLine": 118,
+        "startChar": 44,
+        "endLine": 118,
+        "endChar": 51
+      },
+      "revId": "486d829c42a3713171a3072dcb52f54737e70a22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b8d5130_a3b0f0cf",
+        "filename": "src/cmd/go/testdata/script/mod_download.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-12T20:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f12a9235_0c69e95c",
       "range": {
         "startLine": 118,
         "startChar": 44,
