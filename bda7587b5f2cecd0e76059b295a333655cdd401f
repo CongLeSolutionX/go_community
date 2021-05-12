@@ -71,6 +71,24 @@
       "parentUuid": "38ea2452_06c2c2e0",
       "revId": "bda7587b5f2cecd0e76059b295a333655cdd401f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c92a22a_8143c866",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-12T15:13:22Z",
+      "side": 1,
+      "message": "If you want to remove the \u003e 0 test, remove it.  Don\u0027t change it into a !\u003d nil check.  If it is possible that the slice \u003d\u003d nil, we should test for that case by testing len() \u003e 0.  Thanks.",
+      "parentUuid": "14514644_eb7dd12e",
+      "revId": "bda7587b5f2cecd0e76059b295a333655cdd401f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
