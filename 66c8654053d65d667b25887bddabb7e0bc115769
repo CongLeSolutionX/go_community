@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d5d4446_dccbfe52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37238
+      },
+      "writtenOn": "2021-05-12T21:26:57Z",
+      "side": 1,
+      "message": "Hi, \n\nI just wanted to know, what\u0027s the status of this PR ?\n\nThanks",
+      "revId": "66c8654053d65d667b25887bddabb7e0bc115769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
