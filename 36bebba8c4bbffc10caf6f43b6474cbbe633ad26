@@ -70,6 +70,24 @@
       "message": "//go:build pragmas must not have space between after \u0027//\u0027\n\nI think this is only enforced by vet at this point, but it would be good to fix it for the future, too.",
       "revId": "36bebba8c4bbffc10caf6f43b6474cbbe633ad26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "779955ae_90ff292c",
+        "filename": "src/cmd/go/testdata/script/list_find_nodeps.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-12T14:19:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45809bf5_fec065ff",
+      "revId": "36bebba8c4bbffc10caf6f43b6474cbbe633ad26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
