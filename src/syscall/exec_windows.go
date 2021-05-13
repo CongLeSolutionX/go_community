@@ -351,6 +351,30 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 	si.StdErr = fd[2]
 
 	fd = append(fd, sys.AdditionalInheritedHandles...)
+	// On Windows 7, console handles aren't real handles, so don't pass them
+	// through to PROC_THREAD_ATTRIBUTE_HANDLE_LIST.
+	var maj, min, build uint32
+	rtlGetNtVersionNumbers(&maj, &min, &build)
+	if maj < 6 || (maj == 6 && min <= 1) {
+		for i := range fd {
+			if ftype, err := GetFileType(fd[i]); err == nil && ftype == FILE_TYPE_CHAR {
+				fd[i] = 0
+			}
+		}
+	}
+	// The presence of a NULL handle in the list is enough to cause PROC_THREAD_ATTRIBUTE_HANDLE_LIST
+	// to treat the entire list as empty, so remove NULL handles.
+	j := 0
+	for i := range fd {
+		if fd[i] != 0 {
+			fd[j] = fd[i]
+			j++
+		}
+	}
+	fd = fd[:j]
+	if len(fd) == 0 {
+		fd = append(fd, 0)
+	}
 	// Do not accidentally inherit more than these handles.
 	err = updateProcThreadAttribute(si.ProcThreadAttributeList, 0, _PROC_THREAD_ATTRIBUTE_HANDLE_LIST, unsafe.Pointer(&fd[0]), uintptr(len(fd))*unsafe.Sizeof(fd[0]), nil, nil)
 	if err != nil {
