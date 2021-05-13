@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c4fd56_66a2673e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-05-13T08:14:45Z",
+      "side": 1,
+      "message": "Removing my +2 because this CL does not fixes issue #45638. See https://github.com/golang/go/issues/45638#issuecomment-840397663 for details.\n\nPerhaps this CL is still useful. But I would like to understand the problem better.\n\nAlex",
+      "revId": "770fd42cfecaad9c1deee2658915525c001c0880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
