@@ -107,6 +107,24 @@
       "message": "LGTM after Heschi\u0027s comment is addressed",
       "revId": "3a3623f7841389efe8314ba0f75d5cbad98caff6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92959cfd_d46e318a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-13T17:00:00Z",
+      "side": 1,
+      "message": "Skipped on the branch for now.",
+      "parentUuid": "adeca416_e871efb8",
+      "revId": "3a3623f7841389efe8314ba0f75d5cbad98caff6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
