@@ -1,0 +1,41 @@
+# Tests that no quoting works correctly.
+grep Hello a.txt
+grep "Hello" a.txt
+
+# Tests that single quoting works correctly.
+grep 'Hello' a.txt
+grep 'Don''t communicate by sharing memory.' b.txt
+grep 'Don''t "communicate" by sharing memory.' c.txt
+
+# Tests that double quoting works correctly.
+grep "Hello" a.txt
+grep "Don't communicate by sharing memory." b.txt
+grep "Don't ""communicate"" by sharing memory." c.txt
+
+# Tests that no quoting works correctly with variable expansion.
+go list -find -f {{.Dir}}
+stdout $GOPATH/src
+
+# Tests that single quoting works correctly with variable expansion.
+! stdout '$GOPATH/src'
+
+# Tests that double quoting works correctly with variable expansion.
+stdout "$GOPATH/src"
+stdout "$GOPATH"/src
+
+-- $PWD/a.txt --
+Hello
+
+-- $PWD/b.txt --
+Don't communicate by sharing memory.
+
+-- $PWD/c.txt --
+Don't "communicate" by sharing memory.
+
+-- $PWD/go.mod --
+module test
+
+-- $PWD/main.go --
+package main
+
+func main() {}
