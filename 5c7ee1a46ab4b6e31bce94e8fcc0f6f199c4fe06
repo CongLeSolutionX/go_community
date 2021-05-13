@@ -141,6 +141,30 @@
       },
       "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b941c6e8_8c60a8b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-13T14:54:31Z",
+      "side": 1,
+      "message": "If we\u0027re just changing the syntax from one awkward blobby to another, \u0027${/}\u0027 (to parallel \u0027${:}\u0027) is probably clearer.\n\nBut I\u0027m not sure that \u0027${/}\u0027 is really all that much more readable than \u0027[/\\\\]\u0027. (It is admittedly at least more precise, though.)",
+      "parentUuid": "ef7164b8_3225f33a",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
