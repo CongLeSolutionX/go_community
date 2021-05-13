@@ -117,6 +117,30 @@
       },
       "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef7164b8_3225f33a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-13T14:50:59Z",
+      "side": 1,
+      "message": "The problem is that many patterns contain both import paths and file paths, so using / may cause problems.\n\nCompared to [/\\\\], middle dot is still better, IMHO.\nAnd the use of middle dot is optional, requiring the -path flag.\n\nThanks.",
+      "parentUuid": "7075299a_c2037803",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
