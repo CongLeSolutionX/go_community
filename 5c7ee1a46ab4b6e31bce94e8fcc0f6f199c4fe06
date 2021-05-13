@@ -45,6 +45,30 @@
       },
       "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51f0f7d9_1e6b5e87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-13T13:24:30Z",
+      "side": 1,
+      "message": "Done.\n\nI have used the · (Middle dot) character, to avoid mixing URL paths and file paths and making tests possible on UNIX systems.\n\nThe only problematic pattern is \u0027.*·path\u0027, since it is less readable. However looking at the tests, most of these .* can be replaced with the actual full path.\n\nI also noted that there are several issues in the script tests, like unnecessary quoting and, most important, non correctly escaped . character when used in semver or file name extension.\n\nI think that adding a raw string support (where QuoteMeta is applied to the string) will simplify many tests.\n\nThanks.",
+      "parentUuid": "41200702_77f03ed8",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
