@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b23be456_bf5fe6e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-13T19:14:31Z",
+      "side": 1,
+      "message": "I have renamed the test script name and updated the testdata/script/README file to document that the cd command argument must use slashes.\n\nI have also replaced \"should\" with \"must\", in the comment in the cmdCd method.",
+      "revId": "c06df644e2ed6868e4af416aef6962f7c0e6c2d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
