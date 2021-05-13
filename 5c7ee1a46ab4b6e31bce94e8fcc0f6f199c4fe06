@@ -189,6 +189,30 @@
       },
       "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f4cc33f_a7ff59db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-13T15:21:18Z",
+      "side": 1,
+      "message": "The problem with \u0027${/}\u0027 is that it can not be used inside a quoted string, so the user should write something like:\n\n\u0027^no Go files in \u0027${WORK}${/}\u0027gopath\u0027$/\u0027src\u0027$/\u0027dir\u0027$/\u0027subdir$\u0027\n\nA double quoted string can make things a bit better:\n\n\"^no Go files in ${WORK}${/}gopath${/}src${/}dir{$/}subdir$\u0027",
+      "parentUuid": "b941c6e8_8c60a8b9",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
