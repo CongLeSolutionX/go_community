@@ -124,6 +124,24 @@
       "message": "We should really be using accessors like NumControls and ControlValues, not accessing the Controls field directly.\nThat said, both block types involved (Ret and RetJmp) must have NumControls\u003d\u003d1, so I don\u0027t think we even need b.NumControls() \u003e 0. Just get rid of that test.",
       "revId": "bda7587b5f2cecd0e76059b295a333655cdd401f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20784f19_c0425acd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51858
+      },
+      "writtenOn": "2021-05-13T10:37:42Z",
+      "side": 1,
+      "message": "Thanks, got it, then just delete it.",
+      "parentUuid": "7575a4cb_00acb31c",
+      "revId": "bda7587b5f2cecd0e76059b295a333655cdd401f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
