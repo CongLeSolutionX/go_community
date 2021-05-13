@@ -163,6 +163,24 @@
       "message": "Thanks for the review...",
       "revId": "2bb18f2be2f1b02577de88e01b3cb4095dcfe2b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b4e9cf_3ee5e609",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-13T14:07:55Z",
+      "side": 1,
+      "message": "Thanks. I guess the array type fixup part is what makes it special. Other types (besides typedef) probably don\u0027t need the fixup, so probably fine.",
+      "parentUuid": "e0c1778e_605ebfbd",
+      "revId": "2bb18f2be2f1b02577de88e01b3cb4095dcfe2b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
