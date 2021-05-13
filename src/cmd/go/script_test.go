@@ -1244,6 +1244,7 @@ func (ts *testScript) parse(line string) command {
 		arg      string  // text of current arg so far (need to add line[start:i])
 		start    = -1    // if >= 0, position where current arg text chunk starts
 		quoted   = false // currently processing quoted text
+		quotec   byte    // quote character (' or ")
 		isRegexp = false // currently processing unquoted regular expression
 	)
 
@@ -1310,16 +1311,17 @@ func (ts *testScript) parse(line string) command {
 		if i >= len(line) {
 			ts.fatalf("unterminated quoted argument")
 		}
-		if line[i] == '\'' {
-			if !quoted {
-				// starting a quoted chunk
-				if start >= 0 {
-					arg += ts.expand(line[start:i], isRegexp)
-				}
-				start = i + 1
-				quoted = true
-				continue
+		if !quoted && (line[i] == '\'' || line[i] == '"') {
+			// starting a quoted chunk
+			if start >= 0 {
+				arg += ts.expand(line[start:i], isRegexp)
 			}
+			start = i + 1
+			quoted = true
+			quotec = line[i]
+			continue
+		}
+		if quotec == '\'' && line[i] == '\'' {
 			// 'foo''bar' means foo'bar, like in rc shell and Pascal.
 			if i+1 < len(line) && line[i+1] == '\'' {
 				arg += line[start:i]
@@ -1327,10 +1329,26 @@ func (ts *testScript) parse(line string) command {
 				i++ // skip over second ' before next iteration
 				continue
 			}
-			// ending a quoted chunk
+			// ending a single quoted chunk
 			arg += line[start:i]
 			start = i + 1
 			quoted = false
+			quotec = 0
+			continue
+		}
+		if quotec == '"' && line[i] == '"' {
+			// "foo""bar" means foo"bar.
+			if i+1 < len(line) && line[i+1] == '"' {
+				arg += line[start:i]
+				start = i + 1
+				i++ // skip over second " before next iteration
+				continue
+			}
+			// ending a double quoted chunk
+			arg += ts.expand(line[start:i], isRegexp)
+			start = i + 1
+			quoted = false
+			quotec = 0
 			continue
 		}
 		// found character worth saving; make sure we're saving

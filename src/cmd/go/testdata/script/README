@@ -61,6 +61,13 @@ a literal single quote, as in:
 
 	'Don''t communicate by sharing memory.'
 
+Unlike single-quoted strings, adding double-quoted strings enables environment
+variable expansion.
+Inside a double-quoted block of text, a repeated double quote indicates
+a literal double quote, as in:
+
+	"Don't ""communicate"" by sharing memory."
+
 A line beginning with # is a comment and conventionally explains what is
 being done or tested at the start of a new phase in the script.
 
