@@ -213,6 +213,30 @@
       },
       "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "471f6033_f3c34072",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-13T15:24:28Z",
+      "side": 1,
+      "message": "The problem with using / is in patterns like:\n\nstderr -path \u0027example.com/m/testonly: no non-test Go files in \\$WORK·testonly\u0027\n\nor:\n\nstdout -path \u0027^rsc.io/quote/v3 v3.0.0 \u0027$GOPATH\u0027·pkg·mod·not-rsc.io·quote@v0.1.0-nomod \u0027$GOPATH\u0027·pkg·mod·cache·download·not-rsc.io·quote·@v·v0.1.0-nomod.mod \u003d\u003e not-rsc.io/quote v0.1.0-nomod \u0027$GOPATH\u0027·pkg·mod·not-rsc.io·quote@v0.1.0-nomod \u0027$GOPATH\u0027·pkg·mod·cache·download·not-rsc.io·quote·@v·v0.1.0-nomod.mod$\u0027",
+      "parentUuid": "3f4cc33f_a7ff59db",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
