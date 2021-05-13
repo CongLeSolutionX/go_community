@@ -16,6 +16,24 @@
       "message": "I wonder if filepath.FromSlash should just wrap args[0] on L520? It would be good for all those checks to be on the same string, and for ts.cd and ts.envMap[\"PWD\"] to have the same value.",
       "revId": "91d9f3c0503a80a5b471767634f7c3d38713dbb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ae3181e_bf603515",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-13T15:26:23Z",
+      "side": 1,
+      "message": "(I had a draft comment with essentially the same suggestion.)",
+      "parentUuid": "4e5859ba_782785de",
+      "revId": "91d9f3c0503a80a5b471767634f7c3d38713dbb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
