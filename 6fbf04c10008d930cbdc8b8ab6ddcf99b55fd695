@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aa04166_5803dc9d",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-13T21:30:54Z",
+      "side": 1,
+      "message": "Let\u0027s drop this comment. Calling filepath.FromSlash makes it pretty clear what we\u0027re doing, and it\u0027s reasonable to expect that cd changes both ts.cd and ts.envMap[\"PWD\"].",
+      "revId": "6fbf04c10008d930cbdc8b8ab6ddcf99b55fd695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
