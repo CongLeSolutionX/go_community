@@ -93,6 +93,30 @@
       },
       "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7075299a_c2037803",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-13T13:32:19Z",
+      "side": 1,
+      "message": "I\u0027d strongly prefer \u0027/\u0027 over middle dot. \u0027/\u0027 is more convenient to type and more intuitive to read, both for us and for new contributors.\n\nSome imprecision in tests is fine; it\u0027s more important that tests are easy to write and easy to fix. That\u0027s why we\u0027re not strict about dots in versions or file extensions for example.",
+      "parentUuid": "51f0f7d9_1e6b5e87",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "5c7ee1a46ab4b6e31bce94e8fcc0f6f199c4fe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
