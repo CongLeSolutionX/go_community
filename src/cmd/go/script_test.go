@@ -517,7 +517,11 @@ func (ts *testScript) cmdCd(want simpleStatus, args []string) {
 		ts.fatalf("usage: cd dir")
 	}
 
-	dir := args[0]
+	// The user can only use a single path separator in the cd command, and it
+	// must be the '/' character.
+	// Ensure the cd command is portable, to avoid a matching error in case a
+	// stdout or stderr command must match against $PWD after a cd command.
+	dir := filepath.FromSlash(args[0])
 	if !filepath.IsAbs(dir) {
 		dir = filepath.Join(ts.cd, dir)
 	}
