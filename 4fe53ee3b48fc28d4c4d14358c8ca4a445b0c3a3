@@ -142,6 +142,24 @@
       "parentUuid": "78dfbbe5_336168b9",
       "revId": "4fe53ee3b48fc28d4c4d14358c8ca4a445b0c3a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f1c65c0_30a62e02",
+        "filename": "src/cmd/compile/internal/dwarfgen/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-13T14:10:27Z",
+      "side": 1,
+      "message": "Thanks. The extra field isn\u0027t really a problem. I was trying to understand if there is a cleaner way of doing it.\n\nThe current code (PS3) looks good to me as well.",
+      "parentUuid": "2b5137a6_7d1f7647",
+      "revId": "4fe53ee3b48fc28d4c4d14358c8ca4a445b0c3a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
