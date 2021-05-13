@@ -530,7 +530,10 @@ func (ts *testScript) cmdCd(want simpleStatus, args []string) {
 		ts.fatalf("%s is not a directory", dir)
 	}
 	ts.cd = dir
-	ts.envMap["PWD"] = dir
+	// Ensure PWD use the OS specific path separator, to avoid a matching error
+	// in case a stdout or stderr command must match against $PWD after a cd
+	// command.
+	ts.envMap["PWD"] = filepath.FromSlash(dir)
 	fmt.Fprintf(&ts.log, "%s\n", ts.cd)
 }
 
