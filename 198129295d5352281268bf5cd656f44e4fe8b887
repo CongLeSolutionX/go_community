@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d31b2ed_d44880c7",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-14T19:06:29Z",
+      "side": 1,
+      "message": "Actually after the frame is created. Clarified.",
+      "parentUuid": "848ece6a_e0bc9465",
+      "range": {
+        "startLine": 569,
+        "startChar": 2,
+        "endLine": 569,
+        "endChar": 25
+      },
+      "revId": "198129295d5352281268bf5cd656f44e4fe8b887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14f5766c_3aaf1afa",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-05-14T14:47:51Z",
       "side": 1,
       "message": "nit: extra space",
+      "range": {
+        "startLine": 578,
+        "startChar": 53,
+        "endLine": 578,
+        "endChar": 54
+      },
+      "revId": "198129295d5352281268bf5cd656f44e4fe8b887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a2a944d_43b1fde0",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-14T19:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14f5766c_3aaf1afa",
       "range": {
         "startLine": 578,
         "startChar": 53,
@@ -104,6 +152,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40286b24_aea9933e",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-14T19:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bbe0baa_a82fe3e4",
+      "range": {
+        "startLine": 593,
+        "startChar": 53,
+        "endLine": 594,
+        "endChar": 19
+      },
+      "revId": "198129295d5352281268bf5cd656f44e4fe8b887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eea52f8a_7267c45f",
@@ -117,6 +189,30 @@
       "writtenOn": "2021-05-13T19:38:14Z",
       "side": 1,
       "message": "\"Round to nearest, choose even if tied\"?\n(I think that is what this is, but there\u0027s also \"round up if tied\")",
+      "range": {
+        "startLine": 612,
+        "startChar": 25,
+        "endLine": 612,
+        "endChar": 41
+      },
+      "revId": "198129295d5352281268bf5cd656f44e4fe8b887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59a8d4ec_04dd4c0b",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-14T19:06:29Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "eea52f8a_7267c45f",
       "range": {
         "startLine": 612,
         "startChar": 25,
