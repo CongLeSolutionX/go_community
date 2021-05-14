@@ -581,7 +581,7 @@ func QueryPattern(ctx context.Context, pattern, query string, current func(strin
 	}
 
 	var queryMatchesMainModule bool
-	if HasModRoot() {
+	if TODOHasModRoot() {
 		m := match(Target, modRoot, true)
 		if len(m.Pkgs) > 0 {
 			if query != "upgrade" && query != "patch" {

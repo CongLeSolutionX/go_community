@@ -83,18 +83,24 @@ type moduleJSON struct {
 func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	// Check whether modules are enabled and whether we're in a module.
 	modload.ForceUseModules = true
-	if !modload.HasModRoot() && len(args) == 0 {
+	if !modload.TODOHasModRoot() && len(args) == 0 {
 		base.Fatalf("go mod download: no modules specified (see 'go help mod download')")
 	}
 	if len(args) == 0 {
 		args = []string{"all"}
-	} else if modload.HasModRoot() {
-		modload.LoadModFile(ctx) // to fill Target
-		targetAtUpgrade := modload.Target.Path + "@upgrade"
-		targetAtPatch := modload.Target.Path + "@patch"
+	} else if modload.TODOHasModRoot() {
+		modload.LoadModFile(ctx) // to fill MainModules
+
+		if len(modload.MainModules.Versions()) != 1 {
+			panic("TODO: multiple main modules not supported in Download")
+		}
+		mainModule := modload.MainModules.Versions()[0]
+
+		targetAtUpgrade := mainModule.Path + "@upgrade"
+		targetAtPatch := mainModule.Path + "@patch"
 		for _, arg := range args {
 			switch arg {
-			case modload.Target.Path, targetAtUpgrade, targetAtPatch:
+			case mainModule.Path, targetAtUpgrade, targetAtPatch:
 				os.Stderr.WriteString("go mod download: skipping argument " + arg + " that resolves to the main module\n")
 			}
 		}

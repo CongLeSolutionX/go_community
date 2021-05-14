@@ -396,7 +396,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 		if haveExe {
 			fmt.Fprint(os.Stderr, "go get: installing executables with 'go get' in module mode is deprecated.")
 			var altMsg string
-			if modload.HasModRoot() {
+			if modload.TODOHasModRoot() {
 				altMsg = `
 	To adjust and download dependencies of the current module, use 'go get -d'.
 	To install using requirements of the current module, use 'go install'.
@@ -413,7 +413,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 		work.InstallPackages(ctx, pkgPatterns, pkgs)
 	}
 
-	if !modload.HasModRoot() {
+	if !modload.TODOHasModRoot() {
 		return
 	}
 
@@ -673,18 +673,20 @@ func (r *resolver) queryNone(ctx context.Context, q *query) {
 
 	if !q.isWildcard() {
 		q.pathOnce(q.pattern, func() pathSet {
-			if modload.HasModRoot() && q.pattern == modload.Target.Path {
-				// The user has explicitly requested to downgrade their own module to
-				// version "none". This is not an entirely unreasonable request: it
-				// could plausibly mean “downgrade away everything that depends on any
-				// explicit version of the main module”, or “downgrade away the
-				// package with the same path as the main module, found in a module
-				// with a prefix of the main module's path”.
-				//
-				// However, neither of those behaviors would be consistent with the
-				// plain meaning of the query. To try to reduce confusion, reject the
-				// query explicitly.
-				return errSet(&modload.QueryMatchesMainModuleError{Pattern: q.pattern, Query: q.version})
+			if modload.TODOHasModRoot() {
+				if _, ok := modload.MainModules.VersionWithPath(q.pattern); ok {
+					// The user has explicitly requested to downgrade their own module to
+					// version "none". This is not an entirely unreasonable request: it
+					// could plausibly mean “downgrade away everything that depends on any
+					// explicit version of the main module”, or “downgrade away the
+					// package with the same path as the main module, found in a module
+					// with a prefix of the main module's path”.
+					//
+					// However, neither of those behaviors would be consistent with the
+					// plain meaning of the query. To try to reduce confusion, reject the
+					// query explicitly.
+					return errSet(&modload.QueryMatchesMainModuleError{Pattern: q.pattern, Query: q.version})
+				}
 			}
 
 			return pathSet{mod: module.Version{Path: q.pattern, Version: "none"}}
@@ -696,7 +698,7 @@ func (r *resolver) queryNone(ctx context.Context, q *query) {
 			continue
 		}
 		q.pathOnce(curM.Path, func() pathSet {
-			if modload.HasModRoot() && curM == modload.Target {
+			if modload.TODOHasModRoot() && modload.MainModules.Contains(curM) {
 				return errSet(&modload.QueryMatchesMainModuleError{Pattern: q.pattern, Query: q.version})
 			}
 			return pathSet{mod: module.Version{Path: curM.Path, Version: "none"}}
@@ -716,12 +718,12 @@ func (r *resolver) performLocalQueries(ctx context.Context) {
 
 			// Absolute paths like C:\foo and relative paths like ../foo... are
 			// restricted to matching packages in the main module.
-			pkgPattern := modload.DirImportPath(ctx, q.pattern)
+			pkgPattern, mainModule := modload.MainModules.DirImportPath(ctx, q.pattern)
 			if pkgPattern == "." {
 				return errSet(fmt.Errorf("%s%s is not within module rooted at %s", q.pattern, absDetail, modload.ModRoot()))
 			}
 
-			match := modload.MatchInModule(ctx, pkgPattern, modload.Target, imports.AnyTags())
+			match := modload.MatchInModule(ctx, pkgPattern, mainModule, imports.AnyTags())
 			if len(match.Errs) > 0 {
 				return pathSet{err: match.Errs[0]}
 			}
@@ -737,7 +739,7 @@ func (r *resolver) performLocalQueries(ctx context.Context) {
 				return pathSet{}
 			}
 
-			return pathSet{pkgMods: []module.Version{modload.Target}}
+			return pathSet{pkgMods: modload.MainModules.Versions()}
 		})
 	}
 }
@@ -787,7 +789,7 @@ func (r *resolver) queryWildcard(ctx context.Context, q *query) {
 				return pathSet{}
 			}
 
-			if curM.Path == modload.Target.Path && !versionOkForMainModule(q.version) {
+			if _, ok := modload.MainModules.VersionWithPath(curM.Path); ok && !versionOkForMainModule(q.version) {
 				if q.matchesPath(curM.Path) {
 					return errSet(&modload.QueryMatchesMainModuleError{
 						Pattern: q.pattern,
@@ -1156,8 +1158,8 @@ func (r *resolver) loadPackages(ctx context.Context, patterns []string, findPack
 	}
 
 	opts.AllowPackage = func(ctx context.Context, path string, m module.Version) error {
-		if m.Path == "" || m == modload.Target {
-			// Packages in the standard library and main module are already at their
+		if m.Path == "" || modload.MainModules.Contains(m) {
+			// Packages in the standard library and main modules are already at their
 			// latest (and only) available versions.
 			return nil
 		}
@@ -1367,11 +1369,11 @@ func (r *resolver) disambiguate(cs pathSet) (filtered pathSet, isPackage bool, m
 			continue
 		}
 
-		if m.Path == modload.Target.Path {
-			if m.Version == modload.Target.Version {
+		if mm, ok := modload.MainModules.VersionWithPath(m.Path); ok {
+			if m.Version == mm.Version {
 				return pathSet{}, true, m, true
 			}
-			// The main module can only be set to its own version.
+			// A main module can only be set to its own version.
 			continue
 		}
 
@@ -1690,7 +1692,7 @@ func (r *resolver) resolve(q *query, m module.Version) {
 		panic("internal error: resolving a module.Version with an empty path")
 	}
 
-	if m.Path == modload.Target.Path && m.Version != modload.Target.Version {
+	if v, ok := modload.MainModules.VersionWithPath(m.Path); ok && m.Version != v.Version {
 		reportError(q, &modload.QueryMatchesMainModuleError{
 			Pattern: q.pattern,
 			Query:   q.version,
@@ -1721,7 +1723,7 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 
 	resolved := make([]module.Version, 0, len(r.resolvedVersion))
 	for mPath, rv := range r.resolvedVersion {
-		if mPath != modload.Target.Path {
+		if _, ok := modload.MainModules.VersionWithPath(mPath); !ok {
 			resolved = append(resolved, module.Version{Path: mPath, Version: rv.version})
 		}
 	}

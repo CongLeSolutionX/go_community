@@ -131,7 +131,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	}
 
 	if cfg.BuildMod == "vendor" {
-		if HasModRoot() {
+		if TODOHasModRoot() {
 			walkPkgs(ModRoot(), targetPrefix, pruneGoMod|pruneVendor)
 			walkPkgs(filepath.Join(ModRoot(), "vendor"), "", pruneVendor)
 		}
@@ -148,7 +148,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 			isLocal         bool
 		)
 		if mod == Target {
-			if !HasModRoot() {
+			if !TODOHasModRoot() {
 				continue // If there is no main module, we can't search in it.
 			}
 			root = ModRoot()

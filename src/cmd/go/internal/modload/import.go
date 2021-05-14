@@ -381,7 +381,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 			// We checked the full module graph and still didn't find the
 			// requested package.
 			var queryErr error
-			if !HasModRoot() {
+			if !TODOHasModRoot() {
 				queryErr = ErrNoModRoot
 			}
 			return module.Version{}, "", &ImportMissingError{Path: path, QueryErr: queryErr, isStd: pathIsStd}
@@ -656,7 +656,7 @@ func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, i
 		mod = r
 	}
 
-	if HasModRoot() && cfg.BuildMod == "readonly" && needSum && !modfetch.HaveSum(mod) {
+	if TODOHasModRoot() && cfg.BuildMod == "readonly" && needSum && !modfetch.HaveSum(mod) {
 		return "", false, module.VersionError(mod, &sumMissingError{})
 	}
 

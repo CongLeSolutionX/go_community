@@ -624,10 +624,10 @@ func ImportFromFiles(ctx context.Context, gofiles []string) {
 }
 
 // DirImportPath returns the effective import path for dir,
-// provided it is within the main module, or else returns ".".
-func DirImportPath(ctx context.Context, dir string) string {
-	if !HasModRoot() {
-		return "."
+// provided it is within a main module, or else returns ".".
+func (mms *mainModules) DirImportPath(ctx context.Context, dir string) (path string, m module.Version) {
+	if !TODOHasModRoot() {
+		return ".", module.Version{}
 	}
 	LoadModFile(ctx) // Sets targetPrefix.
 
@@ -637,17 +637,26 @@ func DirImportPath(ctx context.Context, dir string) string {
 		dir = filepath.Clean(dir)
 	}
 
-	if dir == modRoot {
-		return targetPrefix
-	}
-	if strings.HasPrefix(dir, modRoot+string(filepath.Separator)) {
-		suffix := filepath.ToSlash(dir[len(modRoot):])
-		if strings.HasPrefix(suffix, "/vendor/") {
-			return strings.TrimPrefix(suffix, "/vendor/")
+	// TODO(matloob): It's possible multiple modules would match, but we
+	// return the first one... But that's okay because if multiple modules
+	// *do* match, they are subdirectories of each other and so, the
+	// resulting paths would be the same
+	// TODO(matloob): is that true???
+	for _, mm := range mms.list {
+		if dir == mm.modRoot {
+			return mm.pathPrefix, mm.version
 		}
-		return targetPrefix + suffix
+		if strings.HasPrefix(dir, mm.modRoot+string(filepath.Separator)) {
+			// TODO(matloob): What about multiple main modules with the
+			suffix := filepath.ToSlash(dir[len(mm.modRoot):])
+			if strings.HasPrefix(suffix, "/vendor/") {
+				return strings.TrimPrefix(suffix, "/vendor/"), mm.version
+			}
+			return targetPrefix + suffix, mm.version
+		}
 	}
-	return "."
+
+	return ".", module.Version{}
 }
 
 // TargetPackages returns the list of packages in the target (top-level) module
@@ -1004,7 +1013,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 			continue
 		}
 
-		if !ld.ResolveMissingImports || (!HasModRoot() && !allowMissingModuleImports) {
+		if !ld.ResolveMissingImports || (!TODOHasModRoot() && !allowMissingModuleImports) {
 			// We've loaded as much as we can without resolving missing imports.
 			break
 		}

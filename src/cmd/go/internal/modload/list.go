@@ -92,7 +92,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 		}
 		if arg == "all" || strings.Contains(arg, "...") {
 			needFullGraph = true
-			if !HasModRoot() {
+			if !TODOHasModRoot() {
 				base.Fatalf("go: cannot match %q: %v", arg, ErrNoModRoot)
 			}
 			continue
@@ -103,7 +103,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 			if vers == "upgrade" || vers == "patch" {
 				if _, ok := rs.rootSelected(path); !ok || rs.depth == eager {
 					needFullGraph = true
-					if !HasModRoot() {
+					if !TODOHasModRoot() {
 						base.Fatalf("go: cannot match %q: %v", arg, ErrNoModRoot)
 					}
 				}
@@ -112,7 +112,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 		}
 		if _, ok := rs.rootSelected(arg); !ok || rs.depth == eager {
 			needFullGraph = true
-			if mode&ListVersions == 0 && !HasModRoot() {
+			if mode&ListVersions == 0 && !TODOHasModRoot() {
 				base.Fatalf("go: cannot match %q without -versions or an explicit version: %v", arg, ErrNoModRoot)
 			}
 		}
