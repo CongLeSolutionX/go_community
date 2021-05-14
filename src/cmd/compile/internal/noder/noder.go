@@ -76,6 +76,10 @@ func LoadPackage(filenames []string) {
 	}
 	base.Timer.AddEvent(int64(lines), "lines")
 
+	if useUnifiedIR(noders) {
+		return
+	}
+
 	if base.Flag.G != 0 {
 		// Use types2 to type-check and possibly generate IR.
 		check2(noders)
