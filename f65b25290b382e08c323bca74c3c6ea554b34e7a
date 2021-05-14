@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbfc54f2_2cafe4ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-14T07:39:39Z",
+      "side": 1,
+      "message": "I improved the commit message, using \"GOPATH workspace\" instead of \"$GOPATH/src\" and improved the regression test.",
+      "revId": "f65b25290b382e08c323bca74c3c6ea554b34e7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
