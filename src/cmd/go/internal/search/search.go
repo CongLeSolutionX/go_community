@@ -202,10 +202,10 @@ func (m *Match) MatchPackages() {
 	}
 }
 
-var modRoot string
+var modRoots []string
 
-func SetModRoot(dir string) {
-	modRoot = dir
+func SetModRoots(dirs []string) {
+	modRoots = dirs
 }
 
 // MatchDirs sets m.Dirs to a non-nil slice containing all directories that
@@ -253,15 +253,24 @@ func (m *Match) MatchDirs() {
 	// We need to preserve the ./ for pattern matching
 	// and in the returned import paths.
 
-	if modRoot != "" {
+	if len(modRoots) > 1 {
 		abs, err := filepath.Abs(dir)
 		if err != nil {
 			m.AddError(err)
 			return
 		}
-		if !hasFilepathPrefix(abs, modRoot) {
-			m.AddError(fmt.Errorf("directory %s is outside module root (%s)", abs, modRoot))
-			return
+		var found bool
+		for _, modRoot := range modRoots {
+			if modRoot != "" && hasFilepathPrefix(abs, modRoot) {
+				found = true
+			}
+		}
+		if !found {
+			plural := ""
+			if len(modRoots) > 1 {
+				plural = "s"
+			}
+			m.AddError(fmt.Errorf("directory %s is outside module root%s (%s)", abs, plural, strings.Join(modRoots, ", ")))
 		}
 	}
 
