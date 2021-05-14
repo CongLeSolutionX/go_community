@@ -219,6 +219,10 @@ func checkVendorConsistency() {
 	}
 
 	if vendErrors.Len() > 0 {
+		if len(modRoots) > 1 {
+			panic(TODOWorkspaces("can this be possible here? shouldn't be in workspace mode if vendor"))
+		}
+		modRoot := modRoots[0]
 		base.Fatalf("go: inconsistent vendoring in %s:%s\n\n\tTo ignore the vendor directory, use -mod=readonly or -mod=mod.\n\tTo sync the vendor directory, run:\n\t\tgo mod vendor", modRoot, vendErrors)
 	}
 }

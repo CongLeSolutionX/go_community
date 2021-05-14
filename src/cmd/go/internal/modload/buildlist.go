@@ -40,7 +40,7 @@ type Requirements struct {
 	depth modDepth
 
 	// rootModules is the set of module versions explicitly required by the main
-	// module, sorted and capped to length. It may contain duplicates, and may
+	// modules, sorted and capped to length. It may contain duplicates, and may
 	// contain multiple versions for a given module path.
 	rootModules    []module.Version
 	maxRootVersion map[string]string
@@ -99,7 +99,7 @@ var requirements *Requirements
 // *Requirements before any other method.
 func newRequirements(depth modDepth, rootModules []module.Version, direct map[string]bool) *Requirements {
 	for i, m := range rootModules {
-		if m == Target {
+		if MainModules.Contains(m) {
 			panic(fmt.Sprintf("newRequirements called with untrimmed build list: rootModules[%v] is Target", i))
 		}
 		if m.Path == "" || m.Version == "" {
@@ -135,8 +135,13 @@ func newRequirements(depth modDepth, rootModules []module.Version, direct map[st
 func (rs *Requirements) initVendor(vendorList []module.Version) {
 	rs.graphOnce.Do(func() {
 		mg := &ModuleGraph{
-			g: mvs.NewGraph(cmpVersion, []module.Version{Target}),
+			g: mvs.NewGraph(cmpVersion, MainModules.Versions()),
 		}
+
+		if MainModules.Size() != 1 {
+			panic("There should be exactly one main moudle in Vendor mode.")
+		}
+		mainModule := MainModules.Versions()[0]
 
 		if rs.depth == lazy {
 			// The roots of a lazy module should already include every module in the
@@ -158,7 +163,7 @@ func (rs *Requirements) initVendor(vendorList []module.Version) {
 			// Now we can treat the rest of the module graph as effectively “pruned
 			// out”, like a more aggressive version of lazy loading: in vendor mode,
 			// the root requirements *are* the complete module graph.
-			mg.g.Require(Target, rs.rootModules)
+			mg.g.Require(mainModule, rs.rootModules)
 		} else {
 			// The transitive requirements of the main module are not in general available
 			// from the vendor directory, and we don't actually know how we got from
@@ -170,7 +175,7 @@ func (rs *Requirements) initVendor(vendorList []module.Version) {
 			// graph, but still distinguishes between direct and indirect
 			// dependencies.
 			vendorMod := module.Version{Path: "vendor/modules.txt", Version: ""}
-			mg.g.Require(Target, append(rs.rootModules, vendorMod))
+			mg.g.Require(mainModule, append(rs.rootModules, vendorMod))
 			mg.g.Require(vendorMod, vendorList)
 		}
 
@@ -182,8 +187,8 @@ func (rs *Requirements) initVendor(vendorList []module.Version) {
 // path, or the zero module.Version and ok=false if the module is not a root
 // dependency.
 func (rs *Requirements) rootSelected(path string) (version string, ok bool) {
-	if path == Target.Path {
-		return Target.Version, true
+	if m, ok := MainModules.VersionWithPath(path); ok {
+		return m.Version, true
 	}
 	if v, ok := rs.maxRootVersion[path]; ok {
 		return v, true
@@ -261,10 +266,14 @@ func readModGraph(ctx context.Context, depth modDepth, roots []module.Version) (
 		mu       sync.Mutex // guards mg.g and hasError during loading
 		hasError bool
 		mg       = &ModuleGraph{
-			g: mvs.NewGraph(cmpVersion, []module.Version{Target}),
+			g: mvs.NewGraph(cmpVersion, MainModules.Versions()),
 		}
 	)
-	mg.g.Require(Target, roots)
+	if MainModules.Size() > 1 {
+		panic(TODOWorkspaces("What's the right thing to do here for multiple modules?"))
+	} else {
+		mg.g.Require(MainModules.Versions()[0], roots)
+	}
 
 	var (
 		loadQueue    = par.NewQueue(runtime.GOMAXPROCS(0))
@@ -391,10 +400,12 @@ func (mg *ModuleGraph) findError() error {
 }
 
 func (mg *ModuleGraph) allRootsSelected() bool {
-	roots, _ := mg.g.RequiredBy(Target)
-	for _, m := range roots {
-		if mg.Selected(m.Path) != m.Version {
-			return false
+	for _, mm := range MainModules.Versions() {
+		roots, _ := mg.g.RequiredBy(mm)
+		for _, m := range roots {
+			if mg.Selected(m.Path) != m.Version {
+				return false
+			}
 		}
 	}
 	return true
@@ -511,10 +522,14 @@ type Conflict struct {
 // both retain the same versions of all packages in pkgs and satisfy the
 // lazy loading invariants (if applicable).
 func tidyRoots(ctx context.Context, rs *Requirements, pkgs []*loadPkg) (*Requirements, error) {
-	if rs.depth == eager {
-		return tidyEagerRoots(ctx, rs.direct, pkgs)
+	if MainModules.Size() != 1 {
+		panic(TODOWorkspaces("Tidy should be run with exactly one main module."))
 	}
-	return tidyLazyRoots(ctx, rs.direct, pkgs)
+	mainModule := MainModules.Versions()[0]
+	if rs.depth == eager {
+		return tidyEagerRoots(ctx, mainModule, rs.direct, pkgs)
+	}
+	return tidyLazyRoots(ctx, mainModule, rs.direct, pkgs)
 }
 
 func updateRoots(ctx context.Context, direct map[string]bool, rs *Requirements, pkgs []*loadPkg, add []module.Version) (*Requirements, error) {
@@ -539,10 +554,10 @@ func updateRoots(ctx context.Context, direct map[string]bool, rs *Requirements, 
 // To ensure that the loading process eventually converges, the caller should
 // add any needed roots from the tidy root set (without removing existing untidy
 // roots) until the set of roots has converged.
-func tidyLazyRoots(ctx context.Context, direct map[string]bool, pkgs []*loadPkg) (*Requirements, error) {
+func tidyLazyRoots(ctx context.Context, mainModule module.Version, direct map[string]bool, pkgs []*loadPkg) (*Requirements, error) {
 	var (
 		roots        []module.Version
-		pathIncluded = map[string]bool{Target.Path: true}
+		pathIncluded = map[string]bool{mainModule.Path: true}
 	)
 	// We start by adding roots for every package in "all".
 	//
@@ -816,7 +831,9 @@ func updateLazyRoots(ctx context.Context, direct map[string]bool, rs *Requiremen
 		roots = make([]module.Version, 0, len(rs.rootModules))
 		rootsUpgraded = false
 		inRootPaths := make(map[string]bool, len(rs.rootModules)+1)
-		inRootPaths[Target.Path] = true
+		for _, mm := range MainModules.Versions() {
+			inRootPaths[mm.Path] = true
+		}
 		for _, m := range rs.rootModules {
 			if inRootPaths[m.Path] {
 				// This root specifies a redundant path. We already retained the
@@ -913,7 +930,7 @@ func spotCheckRoots(ctx context.Context, rs *Requirements, mods map[module.Versi
 // tidyEagerRoots returns a minimal set of root requirements that maintains the
 // selected version of every module that provided a package in pkgs, and
 // includes the selected version of every such module in direct as a root.
-func tidyEagerRoots(ctx context.Context, direct map[string]bool, pkgs []*loadPkg) (*Requirements, error) {
+func tidyEagerRoots(ctx context.Context, mainModule module.Version, direct map[string]bool, pkgs []*loadPkg) (*Requirements, error) {
 	var (
 		keep     []module.Version
 		keptPath = map[string]bool{}
@@ -936,7 +953,7 @@ func tidyEagerRoots(ctx context.Context, direct map[string]bool, pkgs []*loadPkg
 		}
 	}
 
-	min, err := mvs.Req(Target, rootPaths, &mvsReqs{roots: keep})
+	min, err := mvs.Req([]module.Version{mainModule}, rootPaths, &mvsReqs{roots: keep})
 	if err != nil {
 		return nil, err
 	}
@@ -1033,7 +1050,7 @@ func updateEagerRoots(ctx context.Context, direct map[string]bool, rs *Requireme
 		}
 	}
 
-	min, err := mvs.Req(Target, rootPaths, &mvsReqs{roots: keep})
+	min, err := mvs.Req(MainModules.Versions(), rootPaths, &mvsReqs{roots: keep})
 	if err != nil {
 		return rs, err
 	}
@@ -1072,5 +1089,5 @@ func convertDepth(ctx context.Context, rs *Requirements, depth modDepth) (*Requi
 	if err != nil {
 		return rs, err
 	}
-	return newRequirements(lazy, mg.BuildList()[1:], rs.direct), nil
+	return newRequirements(lazy, mg.BuildList()[MainModules.Size():], rs.direct), nil
 }
