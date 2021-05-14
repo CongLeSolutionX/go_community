@@ -5,18 +5,16 @@
 package modget
 
 import (
-	"fmt"
-	"path/filepath"
-	"regexp"
-	"strings"
-	"sync"
-
 	"cmd/go/internal/base"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/search"
 	"cmd/go/internal/str"
-
+	"fmt"
 	"golang.org/x/mod/module"
+	"path/filepath"
+	"regexp"
+	"strings"
+	"sync"
 )
 
 // A query describes a command-line argument and the modules and/or packages
@@ -185,14 +183,15 @@ func (q *query) validate() error {
 
 	if q.pattern == "all" {
 		// If there is no main module, "all" is not meaningful.
-		if !modload.HasModRoot() {
+		if !modload.TODOHasModRoot() {
 			return fmt.Errorf(`cannot match "all": %v`, modload.ErrNoModRoot)
 		}
 		if !versionOkForMainModule(q.version) {
 			// TODO(bcmills): "all@none" seems like a totally reasonable way to
 			// request that we remove all module requirements, leaving only the main
 			// module and standard library. Perhaps we should implement that someday.
-			return &modload.QueryMatchesMainModuleError{
+			return &modload.QueryMatchesMainModulesError{
+				MainModules: modload.MainModules.Versions(),
 				Pattern: q.pattern,
 				Query:   q.version,
 			}

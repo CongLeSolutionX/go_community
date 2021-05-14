@@ -5,24 +5,22 @@
 package modload
 
 import (
-	"context"
-	"errors"
-	"fmt"
-	"path/filepath"
-	"strings"
-	"sync"
-	"unicode"
-
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/par"
 	"cmd/go/internal/trace"
-
+	"context"
+	"errors"
+	"fmt"
 	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
+	"path/filepath"
+	"strings"
+	"sync"
+	"unicode"
 )
 
 const (
@@ -326,7 +324,7 @@ func resolveReplacement(m module.Version) module.Version {
 // indexModFile rebuilds the index of modFile.
 // If modFile has been changed since it was first read,
 // modFile.Cleanup must be called before indexModFile.
-func indexModFile(data []byte, modFile *modfile.File, needsFix bool) *modFileIndex {
+func indexModFile(data []byte, modFile *modfile.File, mod module.Version, needsFix bool) *modFileIndex {
 	i := new(modFileIndex)
 	i.data = data
 	i.dataNeedsFix = needsFix
@@ -338,12 +336,12 @@ func indexModFile(data []byte, modFile *modfile.File, needsFix bool) *modFileInd
 
 	i.goVersionV = ""
 	if modFile.Go == nil {
-		rawGoVersion.Store(Target, "")
+		rawGoVersion.Store(mod, "")
 	} else {
 		// We're going to use the semver package to compare Go versions, so go ahead
 		// and add the "v" prefix it expects once instead of every time.
 		i.goVersionV = "v" + modFile.Go.Version
-		rawGoVersion.Store(Target, modFile.Go.Version)
+		rawGoVersion.Store(mod, modFile.Go.Version)
 	}
 
 	i.require = make(map[module.Version]requireMeta, len(modFile.Require))
@@ -483,8 +481,8 @@ type retraction struct {
 //
 // The caller must not modify the returned summary.
 func goModSummary(m module.Version) (*modFileSummary, error) {
-	if m == Target {
-		panic("internal error: goModSummary called on the Target module")
+	if MainModules.Contains(m) {
+		panic("internal error: goModSummary called on a main module")
 	}
 
 	if cfg.BuildMod == "vendor" {
@@ -511,7 +509,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 	}
 
 	actual := resolveReplacement(m)
-	if HasModRoot() && cfg.BuildMod == "readonly" && actual.Version != "" {
+	if TODOHasModRoot() && cfg.BuildMod == "readonly" && actual.Version != "" {
 		key := module.Version{Path: actual.Path, Version: actual.Version + "/go.mod"}
 		if !modfetch.HaveSum(key) {
 			suggestion := fmt.Sprintf("; to add it:\n\tgo mod download %s", m.Path)
@@ -581,7 +579,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 //
 // rawGoModSummary cannot be used on the Target module.
 func rawGoModSummary(m module.Version) (*modFileSummary, error) {
-	if m == Target {
+	if MainModules.Contains(m) {
 		panic("internal error: rawGoModSummary called on the Target module")
 	}
 
