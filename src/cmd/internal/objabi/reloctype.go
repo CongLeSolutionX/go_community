@@ -317,9 +317,24 @@ const (
 	// R_ADDRMIPSU (only used on mips/mips64) resolves to the sign-adjusted "upper" 16
 	// bits (bit 16-31) of an external address, by encoding it into the instruction.
 	R_ADDRMIPSU
+
 	// R_ADDRMIPSTLS (only used on mips64) resolves to the low 16 bits of a TLS
 	// address (offset from thread pointer), by encoding it into the instruction.
 	R_ADDRMIPSTLS
+
+	// R_MIPS_GPREL_HI16 resolves to the upper 16 bits of a GP relative address.
+	R_MIPS_GPREL_HI16
+
+	// R_MIPS_GPREL_LO16 resolves to the lower 16 bits of a GP relative address.
+	R_MIPS_GPREL_LO16
+
+	// R_MIPS_CALL16 resolves to the lower 16 bits of a PLT entry address, for a
+	// call made via the GOT.
+	R_MIPS_CALL16
+
+	// R_MIPS_JALR marks a JALR instruction of an external call, which may be
+	// optimized by the linker.
+	R_MIPS_JALR
 
 	// R_ADDRCUOFF resolves to a pointer-sized offset from the start of the
 	// symbol's DWARF compile unit.
