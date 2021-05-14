@@ -1,0 +1,16 @@
+main.t·4[float64,int]
+main.t·4["".x·1[float64],int]
+true
+false
+0: main.x·5[float32,int32]	 X X . X X . . . . . . .
+1: main.x·5[float32,int32]	 X X . X X . . . . . . .
+2: main.x·5[float32,uint32]	 . . X . . X . . . . . .
+3: main.x·5[float32,int32]	 X X . X X . . . . . . .
+4: main.x·5[float32,int32]	 X X . X X . . . . . . .
+5: main.x·5[float32,uint32]	 . . X . . X . . . . . .
+6: main.x·5[float64,int32]	 . . . . . . X X . X X .
+7: main.x·5[float64,int32]	 . . . . . . X X . X X .
+8: main.x·5[float64,uint32]	 . . . . . . . . X . . X
+9: main.x·5[float64,int32]	 . . . . . . X X . X X .
+10: main.x·5[float64,int32]	 . . . . . . X X . X X .
+11: main.x·5[float64,uint32]	 . . . . . . . . X . . X
