@@ -5,6 +5,11 @@
 package modload
 
 import (
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/fsys"
+	"cmd/go/internal/modfetch"
+	"cmd/go/internal/par"
+	"cmd/go/internal/search"
 	"context"
 	"errors"
 	"fmt"
@@ -16,12 +21,6 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
-
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/par"
-	"cmd/go/internal/search"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
@@ -255,11 +254,11 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 	// Is the package in the standard library?
 	pathIsStd := search.IsStandardImportPath(path)
 	if pathIsStd && goroot.IsStandardPackage(cfg.GOROOT, cfg.BuildContext.Compiler, path) {
-		if targetInGorootSrc {
-			if dir, ok, err := dirInModule(path, targetPrefix, ModRoot(), true); err != nil {
+		if m, ok := MainModules.VersionWithPath(""); ok && MainModules.InGorootSrc(m) {
+			if dir, ok, err := dirInModule(path, MainModules.PathPrefix(m), MainModules.ModRoot(m), true); err != nil {
 				return module.Version{}, dir, err
 			} else if ok {
-				return Target, dir, nil
+				return m, dir, nil
 			}
 		}
 		dir := filepath.Join(cfg.GOROOT, "src", path)
@@ -269,8 +268,13 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 	// -mod=vendor is special.
 	// Everything must be in the main module or the main module's vendor directory.
 	if cfg.BuildMod == "vendor" {
-		mainDir, mainOK, mainErr := dirInModule(path, targetPrefix, ModRoot(), true)
-		vendorDir, vendorOK, _ := dirInModule(path, "", filepath.Join(ModRoot(), "vendor"), false)
+		mainModule, ok := MainModules.GetSingleMainModule()
+		if !ok {
+			panic(TODOWorkspaces("Vendor mode should have exactly one main moudle"))
+		}
+		modRoot := MainModules.ModRoot(mainModule)
+		mainDir, mainOK, mainErr := dirInModule(path, MainModules.PathPrefix(mainModule), modRoot, true)
+		vendorDir, vendorOK, _ := dirInModule(path, "", filepath.Join(modRoot, "vendor"), false)
 		if mainOK && vendorOK {
 			return module.Version{}, "", &AmbiguousImportError{importPath: path, Dirs: []string{mainDir, vendorDir}}
 		}
@@ -278,7 +282,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 		// Note that we're not checking that the package exists.
 		// We'll leave that for load.
 		if !vendorOK && mainDir != "" {
-			return Target, mainDir, nil
+			return mainModule, mainDir, nil
 		}
 		if mainErr != nil {
 			return module.Version{}, "", mainErr
@@ -381,7 +385,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 			// We checked the full module graph and still didn't find the
 			// requested package.
 			var queryErr error
-			if !HasModRoot() {
+			if !TODOHasModRoot() {
 				queryErr = ErrNoModRoot
 			}
 			return module.Version{}, "", &ImportMissingError{Path: path, QueryErr: queryErr, isStd: pathIsStd}
@@ -627,14 +631,14 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 // The isLocal return value reports whether the replacement,
 // if any, is local to the filesystem.
 func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, isLocal bool, err error) {
-	if mod == Target {
-		return ModRoot(), true, nil
+	if modRoot := MainModules.ModRoot(mod); modRoot != "" {
+		return modRoot, true, nil
 	}
 	if r := Replacement(mod); r.Path != "" {
 		if r.Version == "" {
 			dir = r.Path
 			if !filepath.IsAbs(dir) {
-				dir = filepath.Join(ModRoot(), dir)
+				dir = filepath.Join(TODOModRoot(), dir)
 			}
 			// Ensure that the replacement directory actually exists:
 			// dirInModule does not report errors for missing modules,
@@ -656,7 +660,7 @@ func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, i
 		mod = r
 	}
 
-	if HasModRoot() && cfg.BuildMod == "readonly" && needSum && !modfetch.HaveSum(mod) {
+	if TODOHasModRoot() && cfg.BuildMod == "readonly" && needSum && !modfetch.HaveSum(mod) {
 		return "", false, module.VersionError(mod, &sumMissingError{})
 	}
 

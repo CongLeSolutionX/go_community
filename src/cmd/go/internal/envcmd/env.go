@@ -143,8 +143,8 @@ func findEnv(env []cfg.EnvVar, name string) string {
 // ExtraEnvVars returns environment variables that should not leak into child processes.
 func ExtraEnvVars() []cfg.EnvVar {
 	gomod := ""
-	if modload.HasModRoot() {
-		gomod = filepath.Join(modload.ModRoot(), "go.mod")
+	if modload.TODOHasModRoot() {
+		gomod = filepath.Join(modload.TODOModRoot(), "go.mod")
 	} else if modload.Enabled() {
 		gomod = os.DevNull
 	}
