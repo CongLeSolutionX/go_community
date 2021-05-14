@@ -212,19 +212,20 @@ func addDeprecation(ctx context.Context, m *modinfo.ModulePublic) {
 // in rs (which may be nil to indicate that m was not loaded from a requirement
 // graph).
 func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode ListMode) *modinfo.ModulePublic {
-	if m == Target {
+	if MainModules.Contains(m) {
 		info := &modinfo.ModulePublic{
 			Path:    m.Path,
 			Version: m.Version,
 			Main:    true,
 		}
-		if v, ok := rawGoVersion.Load(Target); ok {
+		_ = TODOWorkspaces("handle rawGoVersion here")
+		if v, ok := rawGoVersion.Load(m); ok {
 			info.GoVersion = v.(string)
 		} else {
 			panic("internal error: GoVersion not set for main module")
 		}
 		if HasModRoot() {
-			info.Dir = ModRoot()
+			info.Dir = TODOModRoot()
 			info.GoMod = ModFilePath()
 		}
 		return info
@@ -322,7 +323,7 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 		if filepath.IsAbs(r.Path) {
 			info.Replace.Dir = r.Path
 		} else {
-			info.Replace.Dir = filepath.Join(ModRoot(), r.Path)
+			info.Replace.Dir = filepath.Join(TODOModRoot(), r.Path)
 		}
 		info.Replace.GoMod = filepath.Join(info.Replace.Dir, "go.mod")
 	}
@@ -397,7 +398,11 @@ func mustFindModule(ld *loader, target, path string) module.Version {
 	}
 
 	if path == "command-line-arguments" {
-		return Target
+		versions := MainModules.Versions()
+		if len(versions) != 1 {
+			panic(TODOWorkspaces("need to support multiple main modules case for mustFindModule(_,_, command-line-arguments"))
+		}
+		return versions[0]
 	}
 
 	base.Fatalf("build %v: cannot find module for path %v", target, path)
@@ -406,13 +411,17 @@ func mustFindModule(ld *loader, target, path string) module.Version {
 
 // findModule searches for the module that contains the package at path.
 // If the package was loaded, its containing module and true are returned.
-// Otherwise, module.Version{} and false are returend.
+// Otherwise, module.Version{} and false are returned.
 func findModule(ld *loader, path string) (module.Version, bool) {
 	if pkg, ok := ld.pkgCache.Get(path).(*loadPkg); ok {
 		return pkg.mod, pkg.mod != module.Version{}
 	}
 	if path == "command-line-arguments" {
-		return Target, true
+		if versions := MainModules.Versions(); len(versions) == 1 {
+			return versions[0], true
+		}
+		panic(TODOWorkspaces("command-line-arguments not yet supported for findModule with multiple main modules. We want to find target for current directory"))
+
 	}
 	return module.Version{}, false
 }

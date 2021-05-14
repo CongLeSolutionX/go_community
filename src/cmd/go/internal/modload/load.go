@@ -94,11 +94,21 @@ package modload
 
 import (
 	"bytes"
+	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/fsys"
+	"cmd/go/internal/imports"
+	"cmd/go/internal/modfetch"
+	"cmd/go/internal/mvs"
+	"cmd/go/internal/par"
+	"cmd/go/internal/search"
+	"cmd/go/internal/str"
 	"context"
 	"errors"
 	"fmt"
 	"go/build"
 	"io/fs"
+	"log"
 	"os"
 	"path"
 	pathpkg "path"
@@ -109,16 +119,6 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
-
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/mvs"
-	"cmd/go/internal/par"
-	"cmd/go/internal/search"
-	"cmd/go/internal/str"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
@@ -262,7 +262,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 
 						// If we're outside of a module, ensure that the failure mode
 						// indicates that.
-						ModRoot()
+						TODOModRoot()
 
 						if ld != nil {
 							m.AddError(err)
@@ -294,7 +294,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 					// The initial roots are the packages in the main module.
 					// loadFromRoots will expand that to "all".
 					m.Errs = m.Errs[:0]
-					matchPackages(ctx, m, opts.Tags, omitStd, []module.Version{Target})
+					matchPackages(ctx, m, opts.Tags, omitStd, MainModules.Versions())
 				} else {
 					// Starting with the packages in the main module,
 					// enumerate the full list of "all".
@@ -409,7 +409,7 @@ func matchLocalDirs(ctx context.Context, m *search.Match, rs *Requirements) {
 		if !filepath.IsAbs(dir) {
 			absDir = filepath.Join(base.Cwd, dir)
 		}
-		if search.InDir(absDir, cfg.GOROOTsrc) == "" && search.InDir(absDir, ModRoot()) == "" && pathInModuleCache(ctx, absDir, rs) == "" {
+		if search.InDir(absDir, cfg.GOROOTsrc) == "" && search.InDir(absDir, TODOModRoot()) == "" && pathInModuleCache(ctx, absDir, rs) == "" {
 			m.Dirs = []string{}
 			m.AddError(fmt.Errorf("directory prefix %s outside available modules", base.ShortPath(absDir)))
 			return
@@ -458,49 +458,56 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 		}
 	}
 
-	if modRoot != "" && absDir == modRoot {
-		if absDir == cfg.GOROOTsrc {
-			return "", errPkgIsGorootSrc
+	for _, mod := range MainModules.Versions() {
+		modRoot := MainModules.ModRoot(mod)
+		if modRoot != "" && absDir == modRoot {
+			if absDir == cfg.GOROOTsrc {
+				return "", errPkgIsGorootSrc
+			}
+			return MainModules.PathPrefix(mod), nil
 		}
-		return targetPrefix, nil
 	}
 
 	// Note: The checks for @ here are just to avoid misinterpreting
 	// the module cache directories (formerly GOPATH/src/mod/foo@v1.5.2/bar).
 	// It's not strictly necessary but helpful to keep the checks.
-	if modRoot != "" && strings.HasPrefix(absDir, modRoot+string(filepath.Separator)) && !strings.Contains(absDir[len(modRoot):], "@") {
-		suffix := filepath.ToSlash(absDir[len(modRoot):])
-		if strings.HasPrefix(suffix, "/vendor/") {
-			if cfg.BuildMod != "vendor" {
-				return "", fmt.Errorf("without -mod=vendor, directory %s has no package path", absDir)
+	for _, mainModule := range MainModules.Versions() {
+		modRoot := MainModules.ModRoot(mainModule)
+		if modRoot != "" && strings.HasPrefix(absDir, modRoot+string(filepath.Separator)) && !strings.Contains(absDir[len(modRoot):], "@") {
+			suffix := filepath.ToSlash(absDir[len(modRoot):])
+			if strings.HasPrefix(suffix, "/vendor/") {
+				if cfg.BuildMod != "vendor" {
+					return "", fmt.Errorf("without -mod=vendor, directory %s has no package path", absDir)
+				}
+
+				readVendorList()
+				pkg := strings.TrimPrefix(suffix, "/vendor/")
+				if _, ok := vendorPkgModule[pkg]; !ok {
+					return "", fmt.Errorf("directory %s is not a package listed in vendor/modules.txt", absDir)
+				}
+				return pkg, nil
 			}
 
-			readVendorList()
-			pkg := strings.TrimPrefix(suffix, "/vendor/")
-			if _, ok := vendorPkgModule[pkg]; !ok {
-				return "", fmt.Errorf("directory %s is not a package listed in vendor/modules.txt", absDir)
+			mainModulePrefix := MainModules.PathPrefix(mainModule)
+			if mainModulePrefix == "" {
+				pkg := strings.TrimPrefix(suffix, "/")
+				if pkg == "builtin" {
+					// "builtin" is a pseudo-package with a real source file.
+					// It's not included in "std", so it shouldn't resolve from "."
+					// within module "std" either.
+					return "", errPkgIsBuiltin
+				}
+				return pkg, nil
+			}
+
+			pkg := mainModulePrefix + suffix
+			if _, ok, err := dirInModule(pkg, mainModulePrefix, modRoot, true); err != nil {
+				return "", err
+			} else if !ok {
+				return "", &PackageNotInModuleError{Mod: mainModule, Pattern: pkg}
 			}
 			return pkg, nil
 		}
-
-		if targetPrefix == "" {
-			pkg := strings.TrimPrefix(suffix, "/")
-			if pkg == "builtin" {
-				// "builtin" is a pseudo-package with a real source file.
-				// It's not included in "std", so it shouldn't resolve from "."
-				// within module "std" either.
-				return "", errPkgIsBuiltin
-			}
-			return pkg, nil
-		}
-
-		pkg := targetPrefix + suffix
-		if _, ok, err := dirInModule(pkg, targetPrefix, modRoot, true); err != nil {
-			return "", err
-		} else if !ok {
-			return "", &PackageNotInModuleError{Mod: Target, Pattern: pkg}
-		}
-		return pkg, nil
 	}
 
 	if sub := search.InDir(absDir, cfg.GOROOTsrc); sub != "" && sub != "." && !strings.Contains(sub, "@") {
@@ -527,13 +534,14 @@ var (
 // pathInModuleCache returns the import path of the directory dir,
 // if dir is in the module cache copy of a module in our build list.
 func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) string {
+	log.Print("path in module cache called on", dir)
 	tryMod := func(m module.Version) (string, bool) {
 		var root string
 		var err error
 		if repl := Replacement(m); repl.Path != "" && repl.Version == "" {
 			root = repl.Path
 			if !filepath.IsAbs(root) {
-				root = filepath.Join(ModRoot(), root)
+				root = filepath.Join(TODOModRoot(), root)
 			}
 		} else if repl.Path != "" {
 			root, err = modfetch.DownloadDir(repl)
@@ -624,10 +632,10 @@ func ImportFromFiles(ctx context.Context, gofiles []string) {
 }
 
 // DirImportPath returns the effective import path for dir,
-// provided it is within the main module, or else returns ".".
-func DirImportPath(ctx context.Context, dir string) string {
+// provided it is within a main module, or else returns ".".
+func (mms *mainModules) DirImportPath(ctx context.Context, dir string) (path string, m module.Version) {
 	if !HasModRoot() {
-		return "."
+		return ".", module.Version{}
 	}
 	LoadModFile(ctx) // Sets targetPrefix.
 
@@ -637,31 +645,26 @@ func DirImportPath(ctx context.Context, dir string) string {
 		dir = filepath.Clean(dir)
 	}
 
-	if dir == modRoot {
-		return targetPrefix
-	}
-	if strings.HasPrefix(dir, modRoot+string(filepath.Separator)) {
-		suffix := filepath.ToSlash(dir[len(modRoot):])
-		if strings.HasPrefix(suffix, "/vendor/") {
-			return strings.TrimPrefix(suffix, "/vendor/")
+	// TODO(matloob): It's possible multiple modules would match, but we
+	// return the first one... But that's okay because if multiple modules
+	// *do* match, they are subdirectories of each other and so, the
+	// resulting paths would be the same
+	// TODO(matloob): is that true???
+	for _, mm := range mms.list {
+		if dir == mm.modRoot {
+			return mm.pathPrefix, mm.version
 		}
-		return targetPrefix + suffix
+		if strings.HasPrefix(dir, mm.modRoot+string(filepath.Separator)) {
+			// TODO(matloob): What about multiple main modules with the
+			suffix := filepath.ToSlash(dir[len(mm.modRoot):])
+			if strings.HasPrefix(suffix, "/vendor/") {
+				return strings.TrimPrefix(suffix, "/vendor/"), mm.version
+			}
+			return mm.pathPrefix + suffix, mm.version
+		}
 	}
-	return "."
-}
 
-// TargetPackages returns the list of packages in the target (top-level) module
-// matching pattern, which may be relative to the working directory, under all
-// build tag settings.
-func TargetPackages(ctx context.Context, pattern string) *search.Match {
-	// TargetPackages is relative to the main module, so ensure that the main
-	// module is a thing that can contain packages.
-	LoadModFile(ctx) // Sets Target.
-	ModRoot()        // Emits an error if Target cannot contain packages.
-
-	m := search.NewMatch(pattern)
-	matchPackages(ctx, m, imports.AnyTags(), omitStd, []module.Version{Target})
-	return m
+	return ".", module.Version{}
 }
 
 // ImportMap returns the actual package import path
@@ -901,7 +904,7 @@ func (pkg *loadPkg) fromExternalModule() bool {
 	if pkg.mod.Path == "" {
 		return false // loaded from the standard library, not a module
 	}
-	if pkg.mod.Path == Target.Path {
+	if _, ok := MainModules.VersionWithPath(pkg.mod.Path); ok {
 		return false // loaded from the main module.
 	}
 	return true
@@ -1155,7 +1158,7 @@ func (ld *loader) updateRequirements(ctx context.Context) (changed bool, err err
 	}
 
 	for _, pkg := range ld.pkgs {
-		if pkg.mod != Target {
+		if !MainModules.Contains(pkg.mod) {
 			continue
 		}
 		for _, dep := range pkg.imports {
@@ -1409,7 +1412,8 @@ func (ld *loader) applyPkgFlags(ctx context.Context, pkg *loadPkg, flags loadPkg
 		// so it's ok if we call it more than is strictly necessary.
 		wantTest := false
 		switch {
-		case ld.allPatternIsRoot && pkg.mod == Target:
+		case ld.allPatternIsRoot && MainModules.Contains(pkg.mod):
+			_ = TODOWorkspaces("is the condition above correct?")
 			// We are loading the "all" pattern, which includes packages imported by
 			// tests in the main module. This package is in the main module, so we
 			// need to identify the imports of its test even if LoadTests is not set.
@@ -1430,7 +1434,7 @@ func (ld *loader) applyPkgFlags(ctx context.Context, pkg *loadPkg, flags loadPkg
 
 		if wantTest {
 			var testFlags loadPkgFlags
-			if pkg.mod == Target || (ld.allClosesOverTests && new.has(pkgInAll)) {
+			if MainModules.Contains(pkg.mod) || (ld.allClosesOverTests && new.has(pkgInAll)) {
 				// Tests of packages in the main module are in "all", in the sense that
 				// they cause the packages they import to also be in "all". So are tests
 				// of packages in "all" if "all" closes over test dependencies.
@@ -1571,7 +1575,7 @@ func (ld *loader) load(ctx context.Context, pkg *loadPkg) {
 	if pkg.dir == "" {
 		return
 	}
-	if pkg.mod == Target {
+	if MainModules.Contains(pkg.mod) {
 		// Go ahead and mark pkg as in "all". This provides the invariant that a
 		// package that is *only* imported by other packages in "all" is always
 		// marked as such before loading its imports.
@@ -1675,29 +1679,34 @@ func (ld *loader) stdVendor(parentPath, path string) string {
 		return path
 	}
 
-	if str.HasPathPrefix(parentPath, "cmd") {
-		if !ld.VendorModulesInGOROOTSrc || Target.Path != "cmd" {
-			vendorPath := pathpkg.Join("cmd", "vendor", path)
+	for _, mod := range MainModules.Versions() {
+		if !MainModules.InGorootSrc(mod) {
+			continue
+		}
+		if str.HasPathPrefix(parentPath, "cmd") {
+			if !ld.VendorModulesInGOROOTSrc || mod.Path != "cmd" {
+				vendorPath := pathpkg.Join("cmd", "vendor", path)
+				if _, err := os.Stat(filepath.Join(cfg.GOROOTsrc, filepath.FromSlash(vendorPath))); err == nil {
+					return vendorPath
+				}
+			}
+		} else if !ld.VendorModulesInGOROOTSrc || mod.Path != "std" || str.HasPathPrefix(parentPath, "vendor") {
+			// If we are outside of the 'std' module, resolve imports from within 'std'
+			// to the vendor directory.
+			//
+			// Do the same for importers beginning with the prefix 'vendor/' even if we
+			// are *inside* of the 'std' module: the 'vendor/' packages that resolve
+			// globally from GOROOT/src/vendor (and are listed as part of 'go list std')
+			// are distinct from the real module dependencies, and cannot import
+			// internal packages from the real module.
+			//
+			// (Note that although the 'vendor/' packages match the 'std' *package*
+			// pattern, they are not part of the std *module*, and do not affect
+			// 'go mod tidy' and similar module commands when working within std.)
+			vendorPath := pathpkg.Join("vendor", path)
 			if _, err := os.Stat(filepath.Join(cfg.GOROOTsrc, filepath.FromSlash(vendorPath))); err == nil {
 				return vendorPath
 			}
-		}
-	} else if !ld.VendorModulesInGOROOTSrc || Target.Path != "std" || str.HasPathPrefix(parentPath, "vendor") {
-		// If we are outside of the 'std' module, resolve imports from within 'std'
-		// to the vendor directory.
-		//
-		// Do the same for importers beginning with the prefix 'vendor/' even if we
-		// are *inside* of the 'std' module: the 'vendor/' packages that resolve
-		// globally from GOROOT/src/vendor (and are listed as part of 'go list std')
-		// are distinct from the real module dependencies, and cannot import
-		// internal packages from the real module.
-		//
-		// (Note that although the 'vendor/' packages match the 'std' *package*
-		// pattern, they are not part of the std *module*, and do not affect
-		// 'go mod tidy' and similar module commands when working within std.)
-		vendorPath := pathpkg.Join("vendor", path)
-		if _, err := os.Stat(filepath.Join(cfg.GOROOTsrc, filepath.FromSlash(vendorPath))); err == nil {
-			return vendorPath
 		}
 	}
 

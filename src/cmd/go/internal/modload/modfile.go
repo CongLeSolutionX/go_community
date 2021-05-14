@@ -5,6 +5,12 @@
 package modload
 
 import (
+	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/lockedfile"
+	"cmd/go/internal/modfetch"
+	"cmd/go/internal/par"
+	"cmd/go/internal/trace"
 	"context"
 	"errors"
 	"fmt"
@@ -12,13 +18,6 @@ import (
 	"strings"
 	"sync"
 	"unicode"
-
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/par"
-	"cmd/go/internal/trace"
 
 	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/module"
@@ -326,7 +325,7 @@ func resolveReplacement(m module.Version) module.Version {
 // indexModFile rebuilds the index of modFile.
 // If modFile has been changed since it was first read,
 // modFile.Cleanup must be called before indexModFile.
-func indexModFile(data []byte, modFile *modfile.File, needsFix bool) *modFileIndex {
+func indexModFile(data []byte, modFile *modfile.File, mod module.Version, needsFix bool) *modFileIndex {
 	i := new(modFileIndex)
 	i.data = data
 	i.dataNeedsFix = needsFix
@@ -338,12 +337,12 @@ func indexModFile(data []byte, modFile *modfile.File, needsFix bool) *modFileInd
 
 	i.goVersionV = ""
 	if modFile.Go == nil {
-		rawGoVersion.Store(Target, "")
+		rawGoVersion.Store(mod, "")
 	} else {
 		// We're going to use the semver package to compare Go versions, so go ahead
 		// and add the "v" prefix it expects once instead of every time.
 		i.goVersionV = "v" + modFile.Go.Version
-		rawGoVersion.Store(Target, modFile.Go.Version)
+		rawGoVersion.Store(mod, modFile.Go.Version)
 	}
 
 	i.require = make(map[module.Version]requireMeta, len(modFile.Require))
@@ -483,8 +482,8 @@ type retraction struct {
 //
 // The caller must not modify the returned summary.
 func goModSummary(m module.Version) (*modFileSummary, error) {
-	if m == Target {
-		panic("internal error: goModSummary called on the Target module")
+	if MainModules.Contains(m) {
+		panic("internal error: goModSummary called on a main module")
 	}
 
 	if cfg.BuildMod == "vendor" {
@@ -581,7 +580,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 //
 // rawGoModSummary cannot be used on the Target module.
 func rawGoModSummary(m module.Version) (*modFileSummary, error) {
-	if m == Target {
+	if MainModules.Contains(m) {
 		panic("internal error: rawGoModSummary called on the Target module")
 	}
 
@@ -596,7 +595,7 @@ func rawGoModSummary(m module.Version) (*modFileSummary, error) {
 			// m is a replacement module with only a file path.
 			dir := m.Path
 			if !filepath.IsAbs(dir) {
-				dir = filepath.Join(ModRoot(), dir)
+				dir = filepath.Join(TODOModRoot(), dir)
 			}
 			gomod := filepath.Join(dir, "go.mod")
 
