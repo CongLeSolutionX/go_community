@@ -76,12 +76,15 @@ func maxSizeTrampolines(ctxt *Link, ldr *loader.Loader, s loader.Sym, isTramp bo
 		return 0
 	}
 
-	n := uint64(0)
+	n, sdn := uint64(0), uint64(0)
 	relocs := ldr.Relocs(s)
 	for ri := 0; ri < relocs.Count(); ri++ {
 		r := relocs.At(ri)
 		if r.Type().IsDirectCallOrJump() {
 			n++
+		}
+		if rs := r.Sym(); rs != 0 && ldr.SymType(rs) == sym.SDYNIMPORT {
+			sdn++
 		}
 	}
 
@@ -94,6 +97,9 @@ func maxSizeTrampolines(ctxt *Link, ldr *loader.Loader, s loader.Sym, isTramp bo
 		return n * 16 // Trampolines in PPC64 are 4 instructions.
 	case ctxt.IsRISCV64():
 		return n * 8 // Trampolines in RISCV64 are 2 instructions.
+	}
+	if ctxt.IsMIPS64() {
+		return sdn * 28 // Trampolines (SDYNIMPORT) for MIPS64 are 7 instructions.
 	}
 	panic("unreachable")
 }
