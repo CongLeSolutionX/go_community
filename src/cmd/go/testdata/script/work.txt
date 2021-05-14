@@ -1,0 +1,36 @@
+go run example.com/b
+stdout 'Hello from module A'
+
+-- go.work --
+go 1.17
+
+directory (
+  ./a
+  ./b
+)
+
+-- a/go.mod --
+
+module example.com/a
+
+-- a/a.go --
+package a
+
+import "fmt"
+
+func HelloFromA() {
+  fmt.Println("Hello from module A")
+}
+
+-- b/go.mod --
+
+module example.com/b
+
+-- b/main.go --
+package main
+
+import "example.com/a"
+
+func main() {
+  a.HelloFromA()
+}
