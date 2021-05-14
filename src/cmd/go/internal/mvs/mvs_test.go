@@ -507,7 +507,7 @@ func Test(t *testing.T) {
 				t.Fatalf("build takes one argument: %q", line)
 			}
 			fns = append(fns, func(t *testing.T) {
-				list, err := BuildList(m(kf[1]), reqs)
+				list, err := BuildList([]module.Version{m(kf[1])}, reqs)
 				checkList(t, key, list, err, val)
 			})
 			continue
@@ -535,7 +535,7 @@ func Test(t *testing.T) {
 					}
 					upReqs[m(kf[1])] = list
 
-					list, err = Req(m(kf[1]), nil, upReqs)
+					list, err = Req([]module.Version{m(kf[1])}, nil, upReqs)
 				}
 				checkList(t, key, list, err, val)
 			})
@@ -563,7 +563,7 @@ func Test(t *testing.T) {
 				t.Fatalf("req takes at least one argument: %q", line)
 			}
 			fns = append(fns, func(t *testing.T) {
-				list, err := Req(m(kf[1]), kf[2:], reqs)
+				list, err := Req([]module.Version{m(kf[1])}, kf[2:], reqs)
 				checkList(t, key, list, err, val)
 			})
 			continue
