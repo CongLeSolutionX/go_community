@@ -107,6 +107,24 @@
       "message": "Note that the current code will fail on Windows.  \n",
       "revId": "f65b25290b382e08c323bca74c3c6ea554b34e7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "202cef9d_adc3fa8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-14T13:52:05Z",
+      "side": 1,
+      "message": "Sorry, Gerrit sent a draft.",
+      "parentUuid": "2d760e30_0bbff980",
+      "revId": "f65b25290b382e08c323bca74c3c6ea554b34e7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
