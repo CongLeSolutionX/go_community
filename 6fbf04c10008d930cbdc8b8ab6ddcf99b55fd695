@@ -37,6 +37,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab099cfa_149ac387",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-14T14:39:00Z",
+      "side": 1,
+      "message": "They have some kind of awkward behaviors about abandoning in-flight work when a new patchset is uploaded.",
+      "parentUuid": "f018c1d9_284d83e5",
+      "revId": "6fbf04c10008d930cbdc8b8ab6ddcf99b55fd695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4aa04166_5803dc9d",
