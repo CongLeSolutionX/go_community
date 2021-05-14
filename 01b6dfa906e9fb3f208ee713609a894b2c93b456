@@ -91,6 +91,24 @@
       "parentUuid": "a097fc6d_bf26b7c9",
       "revId": "01b6dfa906e9fb3f208ee713609a894b2c93b456",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93d07a94_94e900b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-14T15:46:21Z",
+      "side": 1,
+      "message": "\u003e PWD is set to join(workdir, \"gopath/src\"), ignoring the fact that in the test I changed $GOPATH.  Can this be considered a bug?\n\nIndeed — and thanks for sending the fix!",
+      "parentUuid": "e08a3af2_4beb2dbd",
+      "revId": "01b6dfa906e9fb3f208ee713609a894b2c93b456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
