@@ -60,6 +60,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14f5766c_3aaf1afa",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-14T14:47:51Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 578,
+        "startChar": 53,
+        "endLine": 578,
+        "endChar": 54
+      },
+      "revId": "198129295d5352281268bf5cd656f44e4fe8b887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bbe0baa_a82fe3e4",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-14T14:47:51Z",
+      "side": 1,
+      "message": "maybe worth saying explicitly that this is the ABI0 layout on arm64, specifically.",
+      "range": {
+        "startLine": 593,
+        "startChar": 53,
+        "endLine": 594,
+        "endChar": 19
+      },
+      "revId": "198129295d5352281268bf5cd656f44e4fe8b887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eea52f8a_7267c45f",
         "filename": "src/cmd/compile/abi-internal.md",
         "patchSetId": 1
