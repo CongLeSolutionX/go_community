@@ -45,12 +45,98 @@ var (
 	allowMissingModuleImports bool
 )
 
+func TODOWorkspaces(s string) error {
+	return fmt.Errorf("need to support this for workspaces: ", s)
+}
+
 // Variables set in Init.
 var (
 	initialized bool
 	modRoot     string
 	gopath      string
 )
+
+type mainModules struct {
+	list []mainModule
+}
+
+type mainModule struct {
+	version module.Version
+	modRoot string
+
+	// pathPrefix is the path prefix for packages in the module, without a trailing
+	// slash. For most modules, pathPrefix is just version.Path, but the
+	// standard-library module "std" has an empty prefix.
+	pathPrefix string
+
+	// targetInGorootSrc caches whether modRoot is within GOROOT/src.
+	// The "std" module is special within GOROOT/src, but not otherwise.
+	inGorootSrc bool
+}
+
+func (mms *mainModules) PathPrefix(m module.Version) string {
+	for _, mm := range mms.list {
+		if mm.version == m {
+			return mm.pathPrefix
+		}
+	}
+	return ""
+}
+
+func (mms *mainModules) Versions() []module.Version {
+	vs := make([]module.Version, len(mms.list))
+	for i := range mms.list {
+		vs[i] = mms.list[i].version
+	}
+	return vs
+}
+
+func (mms *mainModules) Contains(m module.Version) bool {
+	for i := range mms.list {
+		if m == mms.list[i].version {
+			return true
+		}
+	}
+	return false
+}
+
+func (mms *mainModules) VersionWithPath(path string) (m module.Version, ok bool) {
+	for i := range mms.list {
+		if m.Path == mms.list[i].version.Path {
+			return mms.list[i].version, true
+		}
+	}
+	return module.Version{}, false
+}
+
+func (mms *mainModules) ModRoot(m module.Version) string {
+	_ = TODOWorkspaces(" Do we need the Init? The original modRoot calls it. Audit callers.")
+	Init()
+	for _, mm := range mms.list {
+		if mm.version == m {
+			return mm.modRoot
+		}
+	}
+	return ""
+}
+
+func (mms *mainModules) HasModRoot(m module.Version) bool {
+	// This isn't ideal because we do the work of getting the modroot twice
+	// TODO(matloob): fixme
+	modRoot := mms.ModRoot(m)
+	return modRoot != ""
+}
+
+func (mms *mainModules) InGorootSrc(m module.Version) bool {
+	for _, mm := range mms.list {
+		if mm.version == m {
+			return true
+		}
+	}
+	return false
+}
+
+var MainModules mainModules
 
 // Variables set in initTarget (during {Load,Create}ModFile).
 var (
@@ -299,16 +385,16 @@ func Enabled() bool {
 // ModRoot returns the root of the main module.
 // It calls base.Fatalf if there is no main module.
 func ModRoot() string {
-	if !HasModRoot() {
+	if !TODOHasModRoot() {
 		die()
 	}
 	return modRoot
 }
 
-// HasModRoot reports whether a main module is present.
-// HasModRoot may return false even if Enabled returns true: for example, 'get'
+// TODOHasModRoot reports whether a main module is present.
+// TODOHasModRoot may return false even if Enabled returns true: for example, 'get'
 // does not require a main module.
-func HasModRoot() bool {
+func TODOHasModRoot() bool {
 	Init()
 	return modRoot != ""
 }
@@ -318,7 +404,7 @@ func HasModRoot() bool {
 // change its location. ModFilePath calls base.Fatalf if there is no main
 // module, even if -modfile is set.
 func ModFilePath() string {
-	if !HasModRoot() {
+	if !TODOHasModRoot() {
 		die()
 	}
 	if cfg.ModFile != "" {
@@ -425,7 +511,7 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 	}
 
 	modFile = f
-	initTarget(f.Module.Mod)
+	initTarget([]module.Version{f.Module.Mod})
 	index = indexModFile(data, f, fixed)
 
 	if err := checkModulePathLax(f.Module.Mod.Path); err != nil {
@@ -495,7 +581,7 @@ func CreateModFile(ctx context.Context, modPath string) {
 	fmt.Fprintf(os.Stderr, "go: creating new go.mod: module %s\n", modPath)
 	modFile = new(modfile.File)
 	modFile.AddModuleStmt(modPath)
-	initTarget(modFile.Module.Mod)
+	initTarget([]module.Version{modFile.Module.Mod}, []string{modRoot})
 	addGoStmt(latestGoVersion()) // Add the go directive before converted module requirements.
 
 	convertedFrom, err := convertLegacyConfig(modPath)
@@ -638,24 +724,28 @@ func AllowMissingModuleImports() {
 }
 
 // initTarget sets Target and associated variables according to modFile,
-func initTarget(m module.Version) {
-	Target = m
-	targetPrefix = m.Path
+func initTarget(ms []module.Version, rootDirs []string) {
+	mms := new(mainModules)
+	for i := range ms {
+		mm := mainModule{version: ms[i], pathPrefix: ms[i].Path}
 
-	if rel := search.InDir(base.Cwd, cfg.GOROOTsrc); rel != "" {
-		targetInGorootSrc = true
-		if m.Path == "std" {
-			// The "std" module in GOROOT/src is the Go standard library. Unlike other
-			// modules, the packages in the "std" module have no import-path prefix.
-			//
-			// Modules named "std" outside of GOROOT/src do not receive this special
-			// treatment, so it is possible to run 'go test .' in other GOROOTs to
-			// test individual packages using a combination of the modified package
-			// and the ordinary standard library.
-			// (See https://golang.org/issue/30756.)
-			targetPrefix = ""
+		if rel := search.InDir(rootDirs[i], cfg.GOROOTsrc); rel != "" {
+			targetInGorootSrc = true
+			if ms[i].Path == "std" {
+				// The "std" module in GOROOT/src is the Go standard library. Unlike other
+				// modules, the packages in the "std" module have no import-path prefix.
+				//
+				// Modules named "std" outside of GOROOT/src do not receive this special
+				// treatment, so it is possible to run 'go test .' in other GOROOTs to
+				// test individual packages using a combination of the modified package
+				// and the ordinary standard library.
+				// (See https://golang.org/issue/30756.)
+				targetPrefix = ""
+			}
 		}
+		mms.list = append(mms.list, mm)
 	}
+	MainModules = mms
 }
 
 // requirementsFromModFile returns the set of non-excluded requirements from

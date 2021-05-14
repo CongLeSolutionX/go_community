@@ -5,10 +5,17 @@
 package modload
 
 import (
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/fsys"
+	"cmd/go/internal/modfetch"
+	"cmd/go/internal/par"
+	"cmd/go/internal/search"
 	"context"
 	"errors"
 	"fmt"
 	"go/build"
+	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 	"internal/goroot"
 	"io/fs"
 	"os"
@@ -16,15 +23,6 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
-
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/par"
-	"cmd/go/internal/search"
-
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
 )
 
 type ImportMissingError struct {
@@ -255,8 +253,8 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 	// Is the package in the standard library?
 	pathIsStd := search.IsStandardImportPath(path)
 	if pathIsStd && goroot.IsStandardPackage(cfg.GOROOT, cfg.BuildContext.Compiler, path) {
-		if targetInGorootSrc {
-			if dir, ok, err := dirInModule(path, targetPrefix, ModRoot(), true); err != nil {
+		if m, ok := MainModules.VersionWithPath(""); ok && MainModules.InGorootSrc(m) {
+			if dir, ok, err := dirInModule(path, targetPrefix, MainModules.ModRoot(m), true); err != nil {
 				return module.Version{}, dir, err
 			} else if ok {
 				return Target, dir, nil
@@ -269,8 +267,13 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 	// -mod=vendor is special.
 	// Everything must be in the main module or the main module's vendor directory.
 	if cfg.BuildMod == "vendor" {
-		mainDir, mainOK, mainErr := dirInModule(path, targetPrefix, ModRoot(), true)
-		vendorDir, vendorOK, _ := dirInModule(path, "", filepath.Join(ModRoot(), "vendor"), false)
+		if len(MainModules.Versions()) != 1 {
+			panic(TODOWorkspaces("Vendor mode should have exactly one main moudle"))
+		}
+		mainModule := MainModules.Versions()[0]
+		modRoot := MainModules.ModRoot(mainModule)
+		mainDir, mainOK, mainErr := dirInModule(path, targetPrefix, modRoot, true)
+		vendorDir, vendorOK, _ := dirInModule(path, "", filepath.Join(modRoot, "vendor"), false)
 		if mainOK && vendorOK {
 			return module.Version{}, "", &AmbiguousImportError{importPath: path, Dirs: []string{mainDir, vendorDir}}
 		}
@@ -381,7 +384,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 			// We checked the full module graph and still didn't find the
 			// requested package.
 			var queryErr error
-			if !HasModRoot() {
+			if !TODOHasModRoot() {
 				queryErr = ErrNoModRoot
 			}
 			return module.Version{}, "", &ImportMissingError{Path: path, QueryErr: queryErr, isStd: pathIsStd}
@@ -627,8 +630,8 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 // The isLocal return value reports whether the replacement,
 // if any, is local to the filesystem.
 func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, isLocal bool, err error) {
-	if mod == Target {
-		return ModRoot(), true, nil
+	if modRoot =  MainModules.HasModRoot(mod); modRoot != "" {
+		return modRoot, true, nil
 	}
 	if r := Replacement(mod); r.Path != "" {
 		if r.Version == "" {
@@ -656,7 +659,7 @@ func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, i
 		mod = r
 	}
 
-	if HasModRoot() && cfg.BuildMod == "readonly" && needSum && !modfetch.HaveSum(mod) {
+	if TODOHasModRoot() && cfg.BuildMod == "readonly" && needSum && !modfetch.HaveSum(mod) {
 		return "", false, module.VersionError(mod, &sumMissingError{})
 	}
 

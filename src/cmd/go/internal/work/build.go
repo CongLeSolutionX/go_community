@@ -589,7 +589,7 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 
 	BuildInit()
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
-	if cfg.ModulesEnabled && !modload.HasModRoot() {
+	if cfg.ModulesEnabled && !modload.TODOHasModRoot() {
 		haveErrors := false
 		allMissingErrors := true
 		for _, pkg := range pkgs {

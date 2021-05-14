@@ -94,10 +94,21 @@ package modload
 
 import (
 	"bytes"
+	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/fsys"
+	"cmd/go/internal/imports"
+	"cmd/go/internal/modfetch"
+	"cmd/go/internal/mvs"
+	"cmd/go/internal/par"
+	"cmd/go/internal/search"
+	"cmd/go/internal/str"
 	"context"
 	"errors"
 	"fmt"
 	"go/build"
+	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 	"io/fs"
 	"os"
 	"path"
@@ -109,19 +120,6 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
-
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/mvs"
-	"cmd/go/internal/par"
-	"cmd/go/internal/search"
-	"cmd/go/internal/str"
-
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
 )
 
 // loaded is the most recently-used package loader.
@@ -294,7 +292,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 					// The initial roots are the packages in the main module.
 					// loadFromRoots will expand that to "all".
 					m.Errs = m.Errs[:0]
-					matchPackages(ctx, m, opts.Tags, omitStd, []module.Version{Target})
+					matchPackages(ctx, m, opts.Tags, omitStd, MainModules.Versions())
 				} else {
 					// Starting with the packages in the main module,
 					// enumerate the full list of "all".
@@ -624,10 +622,10 @@ func ImportFromFiles(ctx context.Context, gofiles []string) {
 }
 
 // DirImportPath returns the effective import path for dir,
-// provided it is within the main module, or else returns ".".
-func DirImportPath(ctx context.Context, dir string) string {
-	if !HasModRoot() {
-		return "."
+// provided it is within a main module, or else returns ".".
+func (mms *mainModules) DirImportPath(ctx context.Context, dir string) (path string, m module.Version) {
+	if !TODOHasModRoot() {
+		return ".", module.Version{}
 	}
 	LoadModFile(ctx) // Sets targetPrefix.
 
@@ -637,17 +635,26 @@ func DirImportPath(ctx context.Context, dir string) string {
 		dir = filepath.Clean(dir)
 	}
 
-	if dir == modRoot {
-		return targetPrefix
-	}
-	if strings.HasPrefix(dir, modRoot+string(filepath.Separator)) {
-		suffix := filepath.ToSlash(dir[len(modRoot):])
-		if strings.HasPrefix(suffix, "/vendor/") {
-			return strings.TrimPrefix(suffix, "/vendor/")
+	// TODO(matloob): It's possible multiple modules would match, but we
+	// return the first one... But that's okay because if multiple modules
+	// *do* match, they are subdirectories of each other and so, the
+	// resulting paths would be the same
+	// TODO(matloob): is that true???
+	for _, mm := range mms.list {
+		if dir == mm.modRoot {
+			return mm.pathPrefix, mm.version
 		}
-		return targetPrefix + suffix
+		if strings.HasPrefix(dir, mm.modRoot+string(filepath.Separator)) {
+			// TODO(matloob): What about multiple main modules with the
+			suffix := filepath.ToSlash(dir[len(mm.modRoot):])
+			if strings.HasPrefix(suffix, "/vendor/") {
+				return strings.TrimPrefix(suffix, "/vendor/"), mm.version
+			}
+			return targetPrefix + suffix, mm.version
+		}
 	}
-	return "."
+
+	return ".", module.Version{}
 }
 
 // TargetPackages returns the list of packages in the target (top-level) module
@@ -660,7 +667,7 @@ func TargetPackages(ctx context.Context, pattern string) *search.Match {
 	ModRoot()        // Emits an error if Target cannot contain packages.
 
 	m := search.NewMatch(pattern)
-	matchPackages(ctx, m, imports.AnyTags(), omitStd, []module.Version{Target})
+	matchPackages(ctx, m, imports.AnyTags(), omitStd, MainModules.Versions())
 	return m
 }
 
@@ -901,7 +908,7 @@ func (pkg *loadPkg) fromExternalModule() bool {
 	if pkg.mod.Path == "" {
 		return false // loaded from the standard library, not a module
 	}
-	if pkg.mod.Path == Target.Path {
+	if _, ok := MainModules.VersionWithPath(pkg.mod.Path); ok {
 		return false // loaded from the main module.
 	}
 	return true
@@ -1004,7 +1011,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 			continue
 		}
 
-		if !ld.ResolveMissingImports || (!HasModRoot() && !allowMissingModuleImports) {
+		if !ld.ResolveMissingImports || (!TODOHasModRoot() && !allowMissingModuleImports) {
 			// We've loaded as much as we can without resolving missing imports.
 			break
 		}
@@ -1155,7 +1162,7 @@ func (ld *loader) updateRequirements(ctx context.Context) (changed bool, err err
 	}
 
 	for _, pkg := range ld.pkgs {
-		if pkg.mod != Target {
+		if !MainModules.Contains(pkg.mod) {
 			continue
 		}
 		for _, dep := range pkg.imports {
@@ -1409,7 +1416,8 @@ func (ld *loader) applyPkgFlags(ctx context.Context, pkg *loadPkg, flags loadPkg
 		// so it's ok if we call it more than is strictly necessary.
 		wantTest := false
 		switch {
-		case ld.allPatternIsRoot && pkg.mod == Target:
+		case ld.allPatternIsRoot && MainModules.Contains(pkg.mod):
+			_ = TODOWorkspaces("is the condition above correct?")
 			// We are loading the "all" pattern, which includes packages imported by
 			// tests in the main module. This package is in the main module, so we
 			// need to identify the imports of its test even if LoadTests is not set.
@@ -1430,7 +1438,7 @@ func (ld *loader) applyPkgFlags(ctx context.Context, pkg *loadPkg, flags loadPkg
 
 		if wantTest {
 			var testFlags loadPkgFlags
-			if pkg.mod == Target || (ld.allClosesOverTests && new.has(pkgInAll)) {
+			if MainModules.Contains(pkg.mod) || (ld.allClosesOverTests && new.has(pkgInAll)) {
 				// Tests of packages in the main module are in "all", in the sense that
 				// they cause the packages they import to also be in "all". So are tests
 				// of packages in "all" if "all" closes over test dependencies.
@@ -1571,7 +1579,7 @@ func (ld *loader) load(ctx context.Context, pkg *loadPkg) {
 	if pkg.dir == "" {
 		return
 	}
-	if pkg.mod == Target {
+	if MainModules.Contains(pkg.mod) {
 		// Go ahead and mark pkg as in "all". This provides the invariant that a
 		// package that is *only* imported by other packages in "all" is always
 		// marked as such before loading its imports.

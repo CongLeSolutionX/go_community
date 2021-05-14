@@ -5,19 +5,17 @@
 package modload
 
 import (
-	"context"
-	"fmt"
-	"io/fs"
-	"os"
-	"path/filepath"
-	"strings"
-
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/search"
-
+	"context"
+	"fmt"
 	"golang.org/x/mod/module"
+	"io/fs"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 type stdFilter int8
@@ -131,7 +129,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	}
 
 	if cfg.BuildMod == "vendor" {
-		if HasModRoot() {
+		if TODOHasModRoot() {
 			walkPkgs(ModRoot(), targetPrefix, pruneGoMod|pruneVendor)
 			walkPkgs(filepath.Join(ModRoot(), "vendor"), "", pruneVendor)
 		}
@@ -147,11 +145,11 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 			root, modPrefix string
 			isLocal         bool
 		)
-		if mod == Target {
-			if !HasModRoot() {
+		if MainModules.Contains(mod) {
+			if !MainModules.HasModRoot(mod) {
 				continue // If there is no main module, we can't search in it.
 			}
-			root = ModRoot()
+			root = MainModules.ModRoot(mod)
 			modPrefix = targetPrefix
 			isLocal = true
 		} else {

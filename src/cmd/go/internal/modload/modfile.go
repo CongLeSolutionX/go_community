@@ -5,24 +5,22 @@
 package modload
 
 import (
-	"context"
-	"errors"
-	"fmt"
-	"path/filepath"
-	"strings"
-	"sync"
-	"unicode"
-
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/par"
 	"cmd/go/internal/trace"
-
+	"context"
+	"errors"
+	"fmt"
 	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
+	"path/filepath"
+	"strings"
+	"sync"
+	"unicode"
 )
 
 const (
@@ -483,8 +481,8 @@ type retraction struct {
 //
 // The caller must not modify the returned summary.
 func goModSummary(m module.Version) (*modFileSummary, error) {
-	if m == Target {
-		panic("internal error: goModSummary called on the Target module")
+	if MainModules.Contains(m) {
+		panic("internal error: goModSummary called on a main module")
 	}
 
 	if cfg.BuildMod == "vendor" {
@@ -511,7 +509,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 	}
 
 	actual := resolveReplacement(m)
-	if HasModRoot() && cfg.BuildMod == "readonly" && actual.Version != "" {
+	if TODOHasModRoot() && cfg.BuildMod == "readonly" && actual.Version != "" {
 		key := module.Version{Path: actual.Path, Version: actual.Version + "/go.mod"}
 		if !modfetch.HaveSum(key) {
 			suggestion := fmt.Sprintf("; to add it:\n\tgo mod download %s", m.Path)

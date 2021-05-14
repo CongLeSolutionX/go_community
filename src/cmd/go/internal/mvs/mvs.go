@@ -7,13 +7,12 @@
 package mvs
 
 import (
+	"cmd/go/internal/par"
 	"fmt"
+	"golang.org/x/mod/module"
+	"reflect"
 	"sort"
 	"sync"
-
-	"cmd/go/internal/par"
-
-	"golang.org/x/mod/module"
 )
 
 // A Reqs is the requirement graph on which Minimal Version Selection (MVS) operates.
@@ -85,11 +84,11 @@ type DowngradeReqs interface {
 // of the list are sorted by path.
 //
 // See https://research.swtch.com/vgo-mvs for details.
-func BuildList(target module.Version, reqs Reqs) ([]module.Version, error) {
-	return buildList(target, reqs, nil)
+func BuildList(targets []module.Version, reqs Reqs) ([]module.Version, error) {
+	return buildList(targets, reqs, nil)
 }
 
-func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (module.Version, error)) ([]module.Version, error) {
+func buildList(targets []module.Version, reqs Reqs, upgrade func(module.Version) (module.Version, error)) ([]module.Version, error) {
 	cmp := func(v1, v2 string) int {
 		if reqs.Max(v1, v2) != v1 {
 			return -1
@@ -102,7 +101,7 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (m
 
 	var (
 		mu       sync.Mutex
-		g        = NewGraph(cmp, []module.Version{target})
+		g        = NewGraph(cmp, targets)
 		upgrades = map[module.Version]module.Version{}
 		errs     = map[module.Version]error{} // (non-nil errors only)
 	)
@@ -110,7 +109,9 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (m
 	// Explore work graph in parallel in case reqs.Required
 	// does high-latency network operations.
 	var work par.Work
-	work.Add(target)
+	for _, target := range targets {
+		work.Add(target)
+	}
 	work.Do(10, func(item interface{}) {
 		m := item.(module.Version)
 
@@ -168,12 +169,12 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (m
 
 	// The final list is the minimum version of each module found in the graph.
 	list := g.BuildList()
-	if v := list[0]; v != target {
+	if vs := list[:len(targets)]; !reflect.DeepEqual(vs, targets) {
 		// target.Version will be "" for modload, the main client of MVS.
 		// "" denotes the main module, which has no version. However, MVS treats
 		// version strings as opaque, so "" is not a special value here.
 		// See golang.org/issue/31491, golang.org/issue/29773.
-		panic(fmt.Sprintf("mistake: chose version %q instead of target %+v", v, target))
+		panic(fmt.Sprintf("mistake: chose versions %+v instead of targets %+v", vs, targets))
 	}
 	return list, nil
 }
@@ -181,7 +182,7 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (m
 // Req returns the minimal requirement list for the target module,
 // with the constraint that all module paths listed in base must
 // appear in the returned list.
-func Req(target module.Version, base []string, reqs Reqs) ([]module.Version, error) {
+func Req(targets []module.Version, base []string, reqs Reqs) ([]module.Version, error) {
 	list, err := BuildList(target, reqs)
 	if err != nil {
 		return nil, err
@@ -194,7 +195,9 @@ func Req(target module.Version, base []string, reqs Reqs) ([]module.Version, err
 	// Compute postorder, cache requirements.
 	var postorder []module.Version
 	reqCache := map[module.Version][]module.Version{}
-	reqCache[target] = nil
+	for _, target := range targets {
+		reqCache[target] = nil
+	}
 	var walk func(module.Version) error
 	walk = func(m module.Version) error {
 		_, ok := reqCache[m]
