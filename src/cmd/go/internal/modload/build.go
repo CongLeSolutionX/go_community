@@ -212,13 +212,14 @@ func addDeprecation(ctx context.Context, m *modinfo.ModulePublic) {
 // in rs (which may be nil to indicate that m was not loaded from a requirement
 // graph).
 func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode ListMode) *modinfo.ModulePublic {
-	if m == Target {
+	if MainModules.Contains(m) {
 		info := &modinfo.ModulePublic{
 			Path:    m.Path,
 			Version: m.Version,
 			Main:    true,
 		}
-		if v, ok := rawGoVersion.Load(Target); ok {
+		_ = TODOWorkspaces("handle rawGoVersion here")
+		if v, ok := rawGoVersion.Load(m); ok {
 			info.GoVersion = v.(string)
 		} else {
 			panic("internal error: GoVersion not set for main module")
@@ -397,7 +398,8 @@ func mustFindModule(ld *loader, target, path string) module.Version {
 	}
 
 	if path == "command-line-arguments" {
-		return Target
+		_ = TODOWorkspaces("support multiple main modules; search by modroot")
+		return MainModules.MustGetSingleMainModule()
 	}
 
 	base.Fatalf("build %v: cannot find module for path %v", target, path)
@@ -406,13 +408,14 @@ func mustFindModule(ld *loader, target, path string) module.Version {
 
 // findModule searches for the module that contains the package at path.
 // If the package was loaded, its containing module and true are returned.
-// Otherwise, module.Version{} and false are returend.
+// Otherwise, module.Version{} and false are returned.
 func findModule(ld *loader, path string) (module.Version, bool) {
 	if pkg, ok := ld.pkgCache.Get(path).(*loadPkg); ok {
 		return pkg.mod, pkg.mod != module.Version{}
 	}
 	if path == "command-line-arguments" {
-		return Target, true
+		_ = TODOWorkspaces("support multiple main modules; search by modroot")
+		return MainModules.MustGetSingleMainModule(), true
 	}
 	return module.Version{}, false
 }
