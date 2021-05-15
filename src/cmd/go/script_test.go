@@ -111,6 +111,7 @@ type testScript struct {
 	line        string            // line currently executing
 	env         []string          // environment list (for os/exec)
 	envMap      map[string]string // environment mapping (matches env)
+	param       *strings.Replacer // replacer for special parameters
 	stdout      string            // standard output from last 'go' command; for 'stdout' command
 	stderr      string            // standard error from last 'go' command; for 'stderr' command
 	stopped     bool              // test wants to stop early
@@ -180,6 +181,7 @@ func (ts *testScript) setup() {
 		tempEnvName() + "=" + filepath.Join(ts.workdir, "tmp"),
 		"devnull=" + os.DevNull,
 		"goversion=" + goVersion(ts),
+		"/=" + string(os.PathSeparator),
 		":=" + string(os.PathListSeparator),
 	}
 	if !testenv.HasExternalNetwork() {
@@ -202,6 +204,11 @@ func (ts *testScript) setup() {
 			ts.envMap[kv[:i]] = kv[i+1:]
 		}
 	}
+
+	ts.param = strings.NewReplacer(
+		"$/", string(os.PathSeparator),
+		"$:", string(os.PathListSeparator),
+	)
 }
 
 // goVersion returns the current Go version.
@@ -1186,8 +1193,10 @@ func waitOrStop(ctx context.Context, cmd *exec.Cmd, interrupt os.Signal, killDel
 	return waitErr
 }
 
-// expand applies environment variable expansion to the string s.
+// expand applies special parameter and environment variable expansion to the string s.
 func (ts *testScript) expand(s string, inRegexp bool) string {
+	s = ts.param.Replace(s)
+
 	return os.Expand(s, func(key string) string {
 		e := ts.envMap[key]
 		if inRegexp {

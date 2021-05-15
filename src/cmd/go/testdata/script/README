@@ -41,7 +41,10 @@ Scripts also have access to these other environment variables:
 	GODEBUG=<actual GODEBUG>
 	devnull=<value of os.DevNull>
 	goversion=<current Go version; for example, 1.12>
+	/=<OS-specific path separator>
 	:=<OS-specific path list separator>
+
+The / and : special parameters can also be accessed as $/ and $:.
 
 The scripts' supporting files are unpacked relative to $GOPATH/src (aka $WORK/gopath/src)
 and then the script begins execution in that directory as well. Thus the example above runs

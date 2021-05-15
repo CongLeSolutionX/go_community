@@ -1,0 +1,18 @@
+# Tests that special parameters works correctly.
+go run main.go
+stdout $/$:
+
+-- $PWD/go.mod --
+module test
+
+-- $PWD/main.go --
+package main
+
+import (
+    "fmt"
+    "os"
+)
+
+func main() {
+    fmt.Print(string(os.PathSeparator), string(os.PathListSeparator), "\n")
+}
