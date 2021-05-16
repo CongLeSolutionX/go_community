@@ -112,6 +112,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3056332_8f4a7712",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-16T00:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c631b4f5_86e45cca",
+      "range": {
+        "startLine": 603,
+        "startChar": 9,
+        "endLine": 603,
+        "endChar": 15
+      },
+      "revId": "62f8b67b6ee52d63a62c9b258410b58c39e8bcf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09fcd3f4_536283fb",
@@ -125,6 +149,24 @@
       "writtenOn": "2021-05-14T16:56:41Z",
       "side": 1,
       "message": "Is a subscript of 0 allowed? Might be safer to use startsub \u003e\u003d 0 here.",
+      "revId": "62f8b67b6ee52d63a62c9b258410b58c39e8bcf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26154263_31e22900",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-16T00:41:44Z",
+      "side": 1,
+      "message": "I think types2.nextId() always starts at 1, but that could change, so yes, seems reasonable to change to \u0027startsub \u003e\u003d 0\u0027.  Thanks!",
+      "parentUuid": "09fcd3f4_536283fb",
       "revId": "62f8b67b6ee52d63a62c9b258410b58c39e8bcf8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -152,6 +194,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c37fdd09_4584fc47",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-16T00:41:44Z",
+      "side": 1,
+      "message": "Good point, it could be either.  I\u0027ll fix. It could be new in the sense of this case:\n\nfunc (v *Value[T2]) set(...) {\n}\n\nwhere T2 is new in this method header scope and is re-instantianting Value with a (new) typeparam T2.  Or it could be a use of Value[T3] in a function/method body, where T3 is a typeparam in an outer scope from a generic function or method.",
+      "parentUuid": "ccff6ece_94131f7e",
+      "range": {
+        "startLine": 868,
+        "startChar": 65,
+        "endLine": 868,
+        "endChar": 68
+      },
+      "revId": "62f8b67b6ee52d63a62c9b258410b58c39e8bcf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b45bf723_945cd5c0",
@@ -165,6 +231,24 @@
       "writtenOn": "2021-05-14T16:56:41Z",
       "side": 1,
       "message": "Is the intention that we put instantiated types in the source package at some point?",
+      "revId": "62f8b67b6ee52d63a62c9b258410b58c39e8bcf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9422d60e_e15431e5",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-16T00:41:44Z",
+      "side": 1,
+      "message": "I figured out how to put the instantiated types and functions/methods in the source package.  I fixed most of the comments, but missed this one, so I\u0027ll fix it.  The OrigSym is still useful (we sometimes need to go from an instantiated type to its base type).  We could remove it eventually if it\u0027s not that useful (in which case we would go from instantiated type to its base type by parsing its symbol name).",
+      "parentUuid": "b45bf723_945cd5c0",
       "revId": "62f8b67b6ee52d63a62c9b258410b58c39e8bcf8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
