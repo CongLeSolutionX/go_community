@@ -123,6 +123,8 @@ var (
 
 	dieOnce sync.Once // guards close of dying
 	dying   = make(chan struct{})
+
+	atexitOnce sync.Once // guards calls to atexit functions
 )
 
 func bginit() {
@@ -172,6 +174,9 @@ func bgwait(wg *sync.WaitGroup) {
 	select {
 	case <-done:
 	case <-dying:
+		// Don't return to the caller, to avoid reporting an additional error
+		// to the user during the next build phase.
+		xexit(2)
 	}
 }
 
@@ -352,9 +357,11 @@ var atexits []func()
 
 // xexit exits the process with return code n.
 func xexit(n int) {
-	for i := len(atexits) - 1; i >= 0; i-- {
-		atexits[i]()
-	}
+	atexitOnce.Do(func() {
+		for i := len(atexits) - 1; i >= 0; i-- {
+			atexits[i]()
+		}
+	})
 	os.Exit(n)
 }
 
