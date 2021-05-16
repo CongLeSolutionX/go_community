@@ -492,7 +492,7 @@ func CreateModFile(ctx context.Context, modPath string) {
 		if err != nil {
 			base.Fatalf("go: %v", err)
 		}
-	} else if err := checkModulePathLax(modPath); err != nil {
+	} else if err := module.CheckImportPath(modPath); err != nil {
 		base.Fatalf("go: %v", err)
 	}
 
