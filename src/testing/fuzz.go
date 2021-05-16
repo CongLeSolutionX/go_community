@@ -14,6 +14,7 @@ import (
 	"runtime"
 	"sync/atomic"
 	"time"
+	_ "unsafe"
 )
 
 func initFuzzFlags() {
@@ -338,7 +339,9 @@ func (f *F) Fuzz(ff interface{}) {
 			for _, v := range e.Values {
 				args = append(args, reflect.ValueOf(v))
 			}
+			resetCoverage()
 			fn.Call(args)
+			snapshotCoverage()
 		})
 		<-t.signal
 		f.inFuzzFn = false
@@ -679,3 +682,9 @@ func fRunner(f *F, fn func(*F)) {
 		panic(f.name + " returned without calling F.Fuzz, F.Fail, or F.Skip")
 	}
 }
+
+//go:linkname resetCoverage internal/fuzz.ResetCoverage
+func resetCoverage()
+
+//go:linkname snapshotCoverage internal/fuzz.SnapshotCoverage
+func snapshotCoverage()

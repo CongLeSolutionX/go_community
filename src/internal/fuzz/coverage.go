@@ -36,14 +36,32 @@ func coverageCopy() []byte {
 	return ret
 }
 
-// resetCovereage sets all of the counters for each edge of the instrumented
+// ResetCovereage sets all of the counters for each edge of the instrumented
 // source code to 0.
-func resetCoverage() {
+func ResetCoverage() {
 	cov := coverage()
 	for i := range cov {
 		cov[i] = 0
 	}
 }
+
+// SnapshotCoverage copies the current counter values into coverageSnapshot,
+// preserving them for later inspection.
+func SnapshotCoverage() {
+	cov := coverage()
+	if coverageSnapshot == nil {
+		coverageSnapshot = make([]byte, len(cov))
+	}
+	copy(coverageSnapshot, cov)
+}
+
+func copySnapshot() []byte {
+	ret := make([]byte, len(coverageSnapshot))
+	copy(ret, coverageSnapshot)
+	return ret
+}
+
+var coverageSnapshot []byte
 
 // _counters and _ecounters mark the start and end, respectively, of where
 // the 8-bit coverage counters reside in memory. They're known to cmd/link,
