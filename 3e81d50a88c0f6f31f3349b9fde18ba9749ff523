@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e98f32da_776937d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-16T18:03:43Z",
+      "side": 1,
+      "message": "Note that I have used exit code 2, since this is what the fatalf function do.\n\nIMHO, it should be 1, instead of 2.",
+      "revId": "3e81d50a88c0f6f31f3349b9fde18ba9749ff523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
