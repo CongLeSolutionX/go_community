@@ -172,6 +172,7 @@ func bgwait(wg *sync.WaitGroup) {
 	select {
 	case <-done:
 	case <-dying:
+		xexit(2)
 	}
 }
 
