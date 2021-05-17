@@ -53,4 +53,25 @@ if ulimit -T &> /dev/null; then
 	[ "$(ulimit -H -T)" = "unlimited" ] || ulimit -S -T $(ulimit -H -T)
 fi
 
-exec ../bin/go tool dist test -rebuild "$@"
+# Handle the -rebuild and -no-rebuild options, to avoid passing the -no-rebuild
+# flag to dist test.
+rebuild="-rebuild"
+
+for option
+do
+    case "$option" in
+    -rebuild)
+        rebuild="$option"
+        shift
+        ;;
+    -no-rebuild)
+        rebuild=""
+        shift
+        ;;
+    esac
+done
+
+printf "rebuild=$rebuild\n"
+echo "$@"
+exit 0
+exec ../bin/go tool dist test $rebuild "$@"
