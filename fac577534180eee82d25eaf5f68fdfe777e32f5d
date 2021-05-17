@@ -87,6 +87,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77baf4e3_c044188c",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-05-17T22:09:57Z",
+      "side": 1,
+      "message": "Indeed. It also looks like the rest of the code in this file is matching the same boundary condition, incl. the doc string for Pos. Ignore my prior comment.",
+      "parentUuid": "3ce14adc_c082e4c8",
+      "range": {
+        "startLine": 281,
+        "startChar": 63,
+        "endLine": 281,
+        "endChar": 64
+      },
+      "revId": "fac577534180eee82d25eaf5f68fdfe777e32f5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e638e09_9e60a252",
         "filename": "src/go/token/position.go",
         "patchSetId": 1
