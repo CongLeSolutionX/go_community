@@ -59,6 +59,30 @@
       },
       "revId": "0a6740f21337fee952e54365707b012c360d738a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc6602ca_a1e14cec",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-17T19:47:58Z",
+      "side": 1,
+      "message": "Yes, opened backport issue #46214.",
+      "parentUuid": "6384c682_1352d28f",
+      "range": {
+        "startLine": 172,
+        "startChar": 16,
+        "endLine": 173,
+        "endChar": 58
+      },
+      "revId": "0a6740f21337fee952e54365707b012c360d738a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

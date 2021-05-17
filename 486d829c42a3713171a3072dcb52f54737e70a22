@@ -164,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "042e092b_a0a9877e",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-17T19:47:58Z",
+      "side": 1,
+      "message": "Reverted to 1.15 behavior, per out-of-band discussion.",
+      "parentUuid": "bd6f8ebd_9ab7b36e",
+      "revId": "486d829c42a3713171a3072dcb52f54737e70a22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f12a9235_0c69e95c",
