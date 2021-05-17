@@ -14,6 +14,7 @@ import (
 	"math"
 	"math/rand"
 	"os"
+	"reflect"
 	. "reflect"
 	"reflect/internal/example1"
 	"reflect/internal/example2"
@@ -332,6 +333,41 @@ func TestSetValue(t *testing.T) {
 		if s != tt.s {
 			t.Errorf("#%d: have %#q, want %#q", i, s, tt.s)
 		}
+	}
+}
+
+func TestMapIterSet(t *testing.T) {
+	m := make(map[string]interface{}, len(valueTests))
+	for _, tt := range valueTests {
+		m[tt.s] = tt.i
+	}
+	v := ValueOf(m)
+
+	k := reflect.New(v.Type().Key()).Elem()
+	e := reflect.New(v.Type().Elem()).Elem()
+
+	iter := v.MapRange()
+	for iter.Next() {
+		iter.SetKey(k)
+		iter.SetValue(e)
+		want := m[k.String()]
+		got := e.Interface()
+		if got != want {
+			t.Errorf("%q: want (%T) %v, got (%T) %v", k.String(), want, want, got, got)
+		}
+	}
+
+	got := int(testing.AllocsPerRun(10, func() {
+		iter := v.MapRange()
+		for iter.Next() {
+			iter.SetKey(k)
+			iter.SetValue(e)
+		}
+	}))
+	// Making a *MapIter and making an hiter both allocate.
+	// Those should be the only two allocations.
+	if got != 2 {
+		t.Errorf("wanted 2 allocs, got %d", got)
 	}
 }
 
