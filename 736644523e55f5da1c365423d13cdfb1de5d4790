@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "834171b1_f7112fd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-17T18:24:03Z",
+      "side": 1,
+      "message": "Thanks for working on this, but I don\u0027t think this is the right place to add this information.\n\nBefore Go 1.16, \u0027go help modules\u0027 contained a fairly long description of modules, but it was difficult to read in a terminal, and it couldn\u0027t contain links and formatted examples.\n\nWe changed it to be much more concise. It now contains 1) a very brief definition of modules, 2) links to HTML tutorial and reference pages, and 3) a privacy notice for networked services.\n\nPlease read through the tutorials linked from https://golang.org/doc/tutorial/create-module. If something is missing, please edit those instead. The source for those pages is in https://go.googlesource.com/website and mirrored at https://github.com/golang/website.",
+      "revId": "736644523e55f5da1c365423d13cdfb1de5d4790",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
