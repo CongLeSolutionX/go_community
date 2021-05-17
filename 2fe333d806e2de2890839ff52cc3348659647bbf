@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f80bc4_210213cc",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-17T18:31:50Z",
+      "side": 1,
+      "message": "Is there any reason to keep checkModulePathLax around? Since we relaxed CheckImportPath, we can probably delete it and update all calls.",
+      "revId": "2fe333d806e2de2890839ff52cc3348659647bbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "080e9945_e30b1d53",
+        "filename": "src/cmd/go/testdata/script/mod_init_path.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-17T18:31:50Z",
+      "side": 1,
+      "message": "The previous error message was more descriptive. Let\u0027s fix that in golang.org/x/mod/module in a separate CL first. When that\u0027s done, you can \u0027go get\u0027 and \u0027go mod vendor\u0027 it into this module.",
+      "revId": "2fe333d806e2de2890839ff52cc3348659647bbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
