@@ -645,9 +645,8 @@ type TypeParam struct {
 // Obj returns the type name for the type parameter t.
 func (t *TypeParam) Obj() *TypeName { return t.obj }
 
-// NewTypeParam returns a new TypeParam.
+// NewTypeParam returns a new TypeParam.  bound can be nil (and set later).
 func (check *Checker) NewTypeParam(obj *TypeName, index int, bound Type) *TypeParam {
-	assert(bound != nil)
 	// Always increment lastID, even if it is not used.
 	id := nextID()
 	if check != nil {
@@ -682,6 +681,10 @@ func (t *TypeParam) Bound() *Interface {
 	// TODO(gri) switch this to an unexported method on Checker.
 	t.check.completeInterface(pos, iface)
 	return iface
+}
+
+func (t *TypeParam) SetBound(bound Type) {
+	t.bound = bound
 }
 
 // optype returns a type's operational type. Except for
