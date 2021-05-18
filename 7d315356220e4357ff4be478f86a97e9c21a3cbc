@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f9c806_dcd5bb34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-05-18T17:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc330a4_ebc2e3b4",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "7d315356220e4357ff4be478f86a97e9c21a3cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81bc0d47_f501d28b",
@@ -91,6 +115,24 @@
       "writtenOn": "2021-05-18T16:57:54Z",
       "side": 1,
       "message": "I\u0027m curious if you\u0027ve also considered the more explicit style of \u0027return n, nil, err\u0027 here, similar to https://go.googlesource.com/go/+/690a8c3fb136431d4f22894c545ea99278758570/src/net/udpsock.go#128, but chosen this one? I expect both are okay.",
+      "revId": "7d315356220e4357ff4be478f86a97e9c21a3cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2f6758d_b966fe22",
+        "filename": "src/net/udpsock_posix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-05-18T17:13:09Z",
+      "side": 1,
+      "message": "I did consider that, as well as explicit returns in the two above cases with nil return below and no \"default\" case.\n\nTo be honest in such a short function I had little preference between the three w.r.t. readability. I\u0027m happy to change to whichever folks prefer.",
+      "parentUuid": "c7a86936_89dc2665",
       "revId": "7d315356220e4357ff4be478f86a97e9c21a3cbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
