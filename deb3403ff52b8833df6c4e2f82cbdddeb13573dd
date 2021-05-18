@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4929a53_26ab11f9",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-18T19:02:41Z",
+      "side": 0,
+      "message": "crypto/x509/x509.go uses this name for the import (ie. cryptobyte_asn1), instead of \"cbasn1\", so let\u0027s just use this and get rid of the other.",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "deb3403ff52b8833df6c4e2f82cbdddeb13573dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
