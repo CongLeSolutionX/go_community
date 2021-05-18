@@ -92,6 +92,40 @@
       "parentUuid": "7f701469_b2748d48",
       "revId": "df8533f3ca173915670b0b39b6960f083dee70e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ffa796_3fda6612",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-18T19:14:34Z",
+      "side": 1,
+      "message": "Looks good (though I haven\u0027t gone through the implementation of type aliases in detail yet).\n",
+      "revId": "df8533f3ca173915670b0b39b6960f083dee70e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cca77a25_ed45dce1",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-18T19:14:34Z",
+      "side": 1,
+      "message": "I think name.Alias() should be true here?  Is it worth putting an assertion here (ie. check \u0026 Fatalf call) if name.Alias() is not set?\n\nOr maybe just a comment that name.Alias() should have been set in g.def()?",
+      "revId": "df8533f3ca173915670b0b39b6960f083dee70e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
