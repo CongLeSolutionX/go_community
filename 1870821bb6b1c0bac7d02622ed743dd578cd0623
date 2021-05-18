@@ -125,6 +125,30 @@
       },
       "revId": "1870821bb6b1c0bac7d02622ed743dd578cd0623",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e3a6577_8e4edd46",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1233,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-18T18:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "175028cf_8c8e6869",
+      "range": {
+        "startLine": 1233,
+        "startChar": 36,
+        "endLine": 1233,
+        "endChar": 41
+      },
+      "revId": "1870821bb6b1c0bac7d02622ed743dd578cd0623",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

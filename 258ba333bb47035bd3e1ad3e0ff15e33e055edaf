@@ -72,6 +72,24 @@
       "message": "Looks good for a quick look.\n\nI wonder what happens if we inline something else into that closure (a call within the closure, func(){ f() }, if f is inlined). Does the inner inlined function body has the right line number? Or we never do that?",
       "revId": "258ba333bb47035bd3e1ad3e0ff15e33e055edaf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba3134de_21038de4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-18T18:51:25Z",
+      "side": 1,
+      "message": "It is a interesting question.  I\u0027ll experiment a bit to see if I can find out more.",
+      "parentUuid": "3ee8602c_b0914bdc",
+      "revId": "258ba333bb47035bd3e1ad3e0ff15e33e055edaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
