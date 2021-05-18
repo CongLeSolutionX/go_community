@@ -90,6 +90,24 @@
       "parentUuid": "3ee8602c_b0914bdc",
       "revId": "258ba333bb47035bd3e1ad3e0ff15e33e055edaf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcea0273_dd3f0ac3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-18T19:01:03Z",
+      "side": 1,
+      "message": "I tried tweaking things slightly to add an inlinable call in the closure. E.g.\n\n func blix() bool { return true }\n\n func WEA() NAO {\n\treturn func(o *nAO) { o.eE \u003d blix() }\n }\n\nWhen I look at the output from \"go build -gcflags\u003d\"-m\u003d2 -d\u003dpctab\u003dpctoinline\", I see a remark from -m claiming that the call in the closure is inlined, e.g.\n\n\n./repro.go:16:6: can inline blix with cost 2 as: func() bool { return true }\n...\n./repro.go:19:35: inlining call to blix func() bool { return true }\n\n\nbut then when I look at the closure dump from -d\u003dpctab\u003dpctoinline, the call is still there:\n\nfuncpctab \"\".(*R).CA.func1 [valfunc\u003dpctoinline]\n     0     -1 00000 (/tmp/repro.go:19)\tTEXT\t\"\".(*R).CA.func1(SB), ABIInternal, $8-8\n     0        00000 (/tmp/repro.go:19)\tTEXT\t\"\".(*R).CA.func1(SB), ABIInternal, $8-8\n     0     -1 00000 (/tmp/repro.go:19)\tCMPQ\tSP, 16(R14)\n     4        00004 (/tmp/repro.go:19)\tPCDATA\t$0, $-2\n     4        00004 (/tmp/repro.go:19)\tJLS\t44\n     6        00006 (/tmp/repro.go:19)\tPCDATA\t$0, $-1\n     6        00006 (/tmp/repro.go:19)\tSUBQ\t$8, SP\n     a        00010 (/tmp/repro.go:19)\tMOVQ\tBP, (SP)\n     e        00014 (/tmp/repro.go:19)\tLEAQ\t(SP), BP\n    12        00018 (/tmp/repro.go:19)\tFUNCDATA\t$0, gclocals·1a65e721a2ccc325b382662e7ffee780(SB)\n    12        00018 (/tmp/repro.go:19)\tFUNCDATA\t$1, gclocals·69c1753bd5f81501d95132d08af04464(SB)\n    12        00018 (/tmp/repro.go:19)\tFUNCDATA\t$5, \"\".(*R).CA.func1.arginfo1(SB)\n    12        00018 (/tmp/repro.go:19)\tMOVQ\tAX, \"\".o+16(SP)\n    17        00023 (/tmp/repro.go:19)\tPCDATA\t$1, $0\n    17        00023 (/tmp/repro.go:19)\tCALL\t\"\".blix(SB)\n    1c        00028 (/tmp/repro.go:19)\tMOVQ\t\"\".o+16(SP), CX\n    21        00033 (/tmp/repro.go:19)\tMOVB\tAL, (CX)\n    23        00035 (/tmp/repro.go:19)\tMOVQ\t(SP), BP\n    27        00039 (/tmp/repro.go:19)\tADDQ\t$8, SP\n    2b        00043 (/tmp/repro.go:19)\tRET\n    2c        00044 (/tmp/repro.go:19)\tNOP\n    2c        00044 (/tmp/repro.go:19)\tPCDATA\t$1, $-1\n    2c        00044 (/tmp/repro.go:19)\tPCDATA\t$0, $-2\n    2c        00044 (/tmp/repro.go:19)\tMOVQ\tAX, 8(SP)\n    31        00049 (/tmp/repro.go:19)\tCALL\truntime.morestack_noctxt(SB)\n    36        00054 (/tmp/repro.go:19)\tMOVQ\t8(SP), AX\n    3b        00059 (/tmp/repro.go:19)\tPCDATA\t$0, $-1\n    3b        00059 (/tmp/repro.go:19)\tJMP\t0\n    3d done\n\n\nSo that is a bit unexpected, but not necessarily a bug per se.\n\nDan, I would be interested in your take on all this.",
+      "parentUuid": "ba3134de_21038de4",
+      "revId": "258ba333bb47035bd3e1ad3e0ff15e33e055edaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
