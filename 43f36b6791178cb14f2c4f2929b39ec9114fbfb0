@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e64d098_6fc2263a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-18T19:13:54Z",
+      "side": 1,
+      "message": "Please remove the backtick here and after, Go commit messages don\u0027t use Markdown formatting (https://golang.org/doc/contribute#main_content).",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "43f36b6791178cb14f2c4f2929b39ec9114fbfb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7986b2d1_d0ee6cb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-18T19:13:54Z",
+      "side": 1,
+      "message": "Thanks!\n\nCC Josh in case you have suggestions how to improve this.",
+      "revId": "43f36b6791178cb14f2c4f2929b39ec9114fbfb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f620c9ca_5fb48896",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-18T19:13:54Z",
+      "side": 1,
+      "message": "I wonder if it\u0027d be better to shift more focus on the removal of the allocation, since \"creates a slice from the string argument\" is less relevant (and possibly hard to understand without looking at the details of the CL), with something like:\n\n    ... method has been optimized to avoid allocations.",
+      "revId": "43f36b6791178cb14f2c4f2929b39ec9114fbfb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
