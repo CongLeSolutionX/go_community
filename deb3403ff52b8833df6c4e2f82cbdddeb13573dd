@@ -22,6 +22,30 @@
       },
       "revId": "deb3403ff52b8833df6c4e2f82cbdddeb13573dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f8ce56_6dd08e83",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-18T19:43:07Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f4929a53_26ab11f9",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "deb3403ff52b8833df6c4e2f82cbdddeb13573dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
