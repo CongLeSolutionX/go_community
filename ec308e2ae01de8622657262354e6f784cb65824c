@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c71304e_f493566a",
+        "filename": "src/internal/fuzz/coverage.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-18T15:53:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c217940_2a437a82",
+      "revId": "ec308e2ae01de8622657262354e6f784cb65824c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd75ce6c_03266d56",
@@ -125,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "069a83ff_5e5bb017",
+        "filename": "src/internal/fuzz/coverage.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-18T15:53:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd75ce6c_03266d56",
+      "revId": "ec308e2ae01de8622657262354e6f784cb65824c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceed86ad_d88d3bc3",
@@ -138,6 +174,24 @@
       "writtenOn": "2021-05-17T21:06:04Z",
       "side": 1,
       "message": "Rather than go:linkname, let\u0027s wrap these functions to testing/internal/testdeps.TestDeps. The generated test main code injects that early on. The testing package can call them through the testDeps interface. We\u0027ve done that for a few other internal/fuzz functions, and it\u0027s worked well.",
+      "revId": "ec308e2ae01de8622657262354e6f784cb65824c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "412b1a11_4c8d53f1",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-18T15:53:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceed86ad_d88d3bc3",
       "revId": "ec308e2ae01de8622657262354e6f784cb65824c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
