@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dcc330a4_ebc2e3b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-18T16:57:54Z",
+      "side": 1,
+      "message": "Nit: use https or just leave the scheme out.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "7d315356220e4357ff4be478f86a97e9c21a3cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81bc0d47_f501d28b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -51,6 +74,23 @@
       "writtenOn": "2021-05-18T16:53:26Z",
       "side": 1,
       "message": "Thanks! And sorry you had to track this down.",
+      "revId": "7d315356220e4357ff4be478f86a97e9c21a3cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7a86936_89dc2665",
+        "filename": "src/net/udpsock_posix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-18T16:57:54Z",
+      "side": 1,
+      "message": "I\u0027m curious if you\u0027ve also considered the more explicit style of \u0027return n, nil, err\u0027 here, similar to https://go.googlesource.com/go/+/690a8c3fb136431d4f22894c545ea99278758570/src/net/udpsock.go#128, but chosen this one? I expect both are okay.",
       "revId": "7d315356220e4357ff4be478f86a97e9c21a3cbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
