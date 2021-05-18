@@ -135,6 +135,24 @@
       "parentUuid": "c7a86936_89dc2665",
       "revId": "7d315356220e4357ff4be478f86a97e9c21a3cbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92fbf317_89d807f9",
+        "filename": "src/net/udpsock_posix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-18T17:19:01Z",
+      "side": 1,
+      "message": "Thanks. I wanted to ask, but I agree there\u0027s likely not much of a difference here to warrant thinking about which of multiple styles to use.",
+      "parentUuid": "f2f6758d_b966fe22",
+      "revId": "7d315356220e4357ff4be478f86a97e9c21a3cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
