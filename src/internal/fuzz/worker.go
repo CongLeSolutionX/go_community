@@ -202,6 +202,9 @@ func (w *worker) coordinate(ctx context.Context) error {
 			}
 			if resp.Err != "" {
 				result.entry = CorpusEntry{Data: value}
+				if w.coordinator.coverageOnlyRun() {
+					result.entry.Name = input.entry.Name
+				}
 				result.crasherMsg = resp.Err
 			} else if resp.CoverageData != nil {
 				result.entry = CorpusEntry{Data: value}
@@ -615,8 +618,11 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	}
 
 	if args.CoverageOnly {
-		ws.fuzzFn(CorpusEntry{Values: vals})
-		resp.CoverageData = coverageSnapshot
+		if err := ws.fuzzFn(CorpusEntry{Values: vals}); err != nil {
+			resp.Err = err.Error()
+		} else {
+			resp.CoverageData = coverageSnapshot
+		}
 		return resp
 	}
 
