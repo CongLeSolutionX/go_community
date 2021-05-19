@@ -466,6 +466,8 @@ type common struct {
 	tempDir    string
 	tempDirErr error
 	tempDirSeq int32
+
+	fuzzing bool
 }
 
 // Short reports whether the -test.short flag is set.
@@ -1221,10 +1223,10 @@ func tRunner(t *T, fn func(t *T)) {
 		// complete even if a cleanup function calls t.FailNow. See issue 41355.
 		didPanic := false
 		defer func() {
-			if didPanic {
+			if didPanic && !t.common.fuzzing {
 				return
 			}
-			if err != nil {
+			if err != nil && !t.common.fuzzing {
 				panic(err)
 			}
 			// Only report that the test is complete if it doesn't panic,
@@ -1250,6 +1252,12 @@ func tRunner(t *T, fn func(t *T)) {
 				}
 			}
 			didPanic = true
+			if t.common.fuzzing {
+				for root := &t.common; root.parent != nil; root = root.parent {
+					fmt.Fprintf(root.parent.w, "panic: %s\n%s\n", err, string(debug.Stack()))
+				}
+				return
+			}
 			panic(err)
 		}
 		if err != nil {
