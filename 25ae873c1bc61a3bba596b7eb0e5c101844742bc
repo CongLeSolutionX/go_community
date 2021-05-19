@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4804210a_ee98e216",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-19T20:39:41Z",
+      "side": 1,
+      "message": "Consider also adding a mention of issue #42604 here. (That issue is tracking the work of adding the builder, so I think it\u0027s safe to proceed with documentation.)",
+      "revId": "25ae873c1bc61a3bba596b7eb0e5c101844742bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
