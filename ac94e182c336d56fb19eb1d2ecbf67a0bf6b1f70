@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "207d286c_461bdbf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-05-19T23:38:42Z",
+      "side": 1,
+      "message": "\"For #46275\"; I\u0027ll port for the fix.\n\n(And FWIW, I don\u0027t think there is supposed to be punctuation at the end of the \u0027Fixes\u0027 comment, but I also don\u0027t have an opinion either way: https://github.com/golang/go/wiki/CommitMessage#commit-messages)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "ac94e182c336d56fb19eb1d2ecbf67a0bf6b1f70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49f4eccc_ed90d59a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
