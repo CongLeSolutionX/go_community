@@ -1571,6 +1571,7 @@ func (m *M) Run() (code int) {
 		deadline := m.startAlarm()
 		haveExamples = len(m.examples) > 0
 		testRan, testOk := runTests(m.deps.MatchString, m.tests, deadline)
+		fmt.Println("hello :)")
 		fuzzTargetsRan, fuzzTargetsOk := runFuzzTargets(m.deps, m.fuzzTargets)
 		exampleRan, exampleOk := runExamples(m.deps.MatchString, m.examples)
 		m.stopAlarm()
