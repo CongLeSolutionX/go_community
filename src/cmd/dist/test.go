@@ -189,6 +189,9 @@ func (t *tester) run() {
 	t.registerTests()
 	if t.listMode {
 		for _, tt := range t.tests {
+			if tt.name != "testplugin" {
+				continue
+			}
 			fmt.Println(tt.name)
 		}
 		return
