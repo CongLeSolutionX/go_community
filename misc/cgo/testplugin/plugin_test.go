@@ -151,9 +151,12 @@ func asCommandLine(cwd string, cmd *exec.Cmd) string {
 			s += escape(e)
 		}
 	}
-	for _, a := range cmd.Args {
+	for i, a := range cmd.Args {
 		s += " "
 		s += escape(a)
+		if i == 0 && cmd.Path != a {
+			s += " `#" + escape(cmd.Path) + "`"
+		}
 	}
 	s += " )"
 	return s
