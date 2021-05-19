@@ -8,6 +8,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -313,6 +314,7 @@ func (f *F) Fuzz(ff interface{}) {
 		if e.Name != "" {
 			testName = fmt.Sprintf("%s/%s", testName, e.Name)
 		}
+
 		// Record the stack trace at the point of this call so that if the subtest
 		// function - which runs in a separate stack - is marked as a helper, we can
 		// continue walking the stack into the parent test.
@@ -327,6 +329,7 @@ func (f *F) Fuzz(ff interface{}) {
 				level:   f.level + 1,
 				creator: pc[:n],
 				chatty:  f.chatty,
+				fuzzing: true,
 			},
 			context: f.testContext,
 		}
@@ -335,15 +338,17 @@ func (f *F) Fuzz(ff interface{}) {
 			t.chatty.Updatef(t.name, "=== RUN  %s\n", t.name)
 		}
 		f.inFuzzFn = true
-		go tRunner(t, func(t *T) {
-			args := []reflect.Value{reflect.ValueOf(t)}
-			for _, v := range e.Values {
-				args = append(args, reflect.ValueOf(v))
-			}
-			f.fuzzContext.resetCoverage()
-			fn.Call(args)
-			f.fuzzContext.snapshotCoverage()
-		})
+		go func() {
+			tRunner(t, func(t *T) {
+				args := []reflect.Value{reflect.ValueOf(t)}
+				for _, v := range e.Values {
+					args = append(args, reflect.ValueOf(v))
+				}
+				f.fuzzContext.resetCoverage()
+				fn.Call(args)
+				f.fuzzContext.snapshotCoverage()
+			})
+		}()
 		<-t.signal
 		f.inFuzzFn = false
 		if t.Failed() {
@@ -541,12 +546,13 @@ func runFuzzing(deps testDeps, fuzzTargets []InternalFuzzTarget) (ran, ok bool) 
 		resetCoverage:    deps.ResetCoverage,
 		snapshotCoverage: deps.SnapshotCoverage,
 	}
+	root := common{w: os.Stdout}
 	if *isFuzzWorker {
+		root.w = io.Discard
 		fctx.runFuzzWorker = deps.RunFuzzWorker
 	} else {
 		fctx.coordinateFuzzing = deps.CoordinateFuzzing
 	}
-	root := common{w: os.Stdout}
 	if Verbose() && !*isFuzzWorker {
 		root.chatty = newChattyPrinter(root.w)
 	}
