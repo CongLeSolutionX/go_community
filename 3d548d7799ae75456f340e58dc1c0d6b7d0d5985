@@ -86,6 +86,24 @@
       "message": "I think this works, but it\u0027s subtle to see that the second xexit call will wait for the atexit functions before it calls os.Exit.  Better to simply have a mutex here that will block the second xexit call.",
       "revId": "3d548d7799ae75456f340e58dc1c0d6b7d0d5985",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59067370_e191a188",
+        "filename": "src/cmd/dist/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-19T18:53:03Z",
+      "side": 1,
+      "message": "Solved in patchset 3.\n\nThanks.",
+      "parentUuid": "14180190_82e07920",
+      "revId": "3d548d7799ae75456f340e58dc1c0d6b7d0d5985",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
