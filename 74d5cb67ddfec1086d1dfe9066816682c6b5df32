@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "dc4de294_d0b17209",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-19T21:37:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f4cd5ed_747bba75",
+      "range": {
+        "startLine": 24,
+        "startChar": 51,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "74d5cb67ddfec1086d1dfe9066816682c6b5df32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9e6a60c9_edaaca74",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -103,6 +127,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f155fa_87fb643b",
+        "filename": "src/cmd/compile/internal/types2/package.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-19T21:37:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a08595d_31efd8a1",
+      "range": {
+        "startLine": 32,
+        "startChar": 20,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "74d5cb67ddfec1086d1dfe9066816682c6b5df32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfadf997_fbf60ec3",
@@ -116,6 +164,30 @@
       "writtenOn": "2021-05-19T21:30:15Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 46,
+        "startChar": 13,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "74d5cb67ddfec1086d1dfe9066816682c6b5df32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffeeaebf_b9f774bc",
+        "filename": "src/cmd/compile/internal/types2/package.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-19T21:37:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfadf997_fbf60ec3",
       "range": {
         "startLine": 46,
         "startChar": 13,
