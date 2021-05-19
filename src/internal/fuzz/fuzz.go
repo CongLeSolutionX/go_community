@@ -195,6 +195,10 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 			}
 
 			if result.crasherMsg != "" {
+				if c.coverageOnlyRun() {
+					stop(fmt.Errorf("Corpus input %q caused failure:\n\n%s", result.entry.Name, result.crasherMsg))
+				}
+
 				// Found a crasher. Write it to testdata and return it.
 				if crashWritten {
 					break
