@@ -76,6 +76,30 @@
       },
       "revId": "cd8d377544c9de6f01663f8b3c4b8afcbee15b4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84955015_f2c8cf21",
+        "filename": "src/cmd/link/internal/ld/ld_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-19T15:43:13Z",
+      "side": 1,
+      "message": "OK. \n\nAt the moment this program builds successfully on linux/amd64. Do you think we should be issuing an error in that case?",
+      "parentUuid": "02ef433e_cfd7a1cb",
+      "range": {
+        "startLine": 342,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 15
+      },
+      "revId": "cd8d377544c9de6f01663f8b3c4b8afcbee15b4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
