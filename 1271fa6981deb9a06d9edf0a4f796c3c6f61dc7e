@@ -72,6 +72,24 @@
       "message": "Seems reasonable.  I guess Robert should take a look.  In any of these cases, should we make types2 give an error message identical or closer to the types1-typechecker error message?\n\nQuestion:  are we aiming for types2 to eventually have almost identical error messages as types1-typechecker?  Or, if we are specifically planning that types2 will have different/better error messages than types1 in some cases, maybe we should start a document, where we write down each case that is different as we adjust the errorcheck tests to take either answer.  That may be useful to attach to release notes for Go 1.18 (list of changed error messages).",
       "revId": "1271fa6981deb9a06d9edf0a4f796c3c6f61dc7e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd557b24_99d04dda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-19T06:26:30Z",
+      "side": 1,
+      "message": "I don\u0027t think exactly identical error messages are necessary, and we\u0027ve periodically revised error messages in the past without release notes. Users have also already been exposed to the types2 error messages via go/types-based tools. I think it would suffice to mention we\u0027ve added a new typechecker and some error messages will be reported differently.\n\nLonger term, rfindley has been working on documenting all of the error cases for go/types. Hopefully we can adopt the same for types2 at some point.",
+      "parentUuid": "5cd6b7b6_e69938be",
+      "revId": "1271fa6981deb9a06d9edf0a4f796c3c6f61dc7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
