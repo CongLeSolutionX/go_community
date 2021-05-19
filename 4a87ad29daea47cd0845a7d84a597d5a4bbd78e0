@@ -70,6 +70,24 @@
       "message": "Not documenting the maximum makes sense, but I think we need to document a minimum.  (I believe we currently permit 2000 callbacks, so perhaps the documented minimum could be 1024?)",
       "revId": "4a87ad29daea47cd0845a7d84a597d5a4bbd78e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00845c0a_6aab25c8",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-19T17:31:28Z",
+      "side": 1,
+      "message": "that\u0027s a good point. I have no idea what a reasonable minimum would be, so I think 1024 is as good as any.\n\ndone.",
+      "parentUuid": "4a5d41d7_9d5098b5",
+      "revId": "4a87ad29daea47cd0845a7d84a597d5a4bbd78e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
