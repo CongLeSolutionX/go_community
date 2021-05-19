@@ -330,3 +330,46 @@ func main() {
 		})
 	}
 }
+
+const carchiveWithUndefSourceText = `
+package main
+
+import (
+	"C"
+	_ "unsafe"
+)
+
+//go:linkname mainMain main.main
+func mainMain()
+
+//export runGoMain
+func runGoMain() {
+	mainMain()
+}
+`
+
+func TestIssue46255CarchiveBuildWithUndefinedSymbol(t *testing.T) {
+	t.Parallel()
+	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveCGO(t)
+
+	// c-archive build mode is not fully supported across all OSes.
+	switch runtime.GOOS {
+	case "darwin", "ios", "linux", "windows":
+	default:
+		t.Skip("c-archive unsupported")
+	}
+	dir := t.TempDir()
+
+	srcfile := filepath.Join(dir, "test.go")
+	arfile := filepath.Join(dir, "test.a")
+	if err := ioutil.WriteFile(srcfile, []byte(carchiveWithUndefSourceText), 0666); err != nil {
+		t.Fatal(err)
+	}
+
+	argv := []string{"build", "-buildmode=c-archive", "-o", arfile, srcfile}
+	out, err := exec.Command(testenv.GoToolPath(t), argv...).CombinedOutput()
+	if err != nil {
+		t.Fatalf("build failure: %s\n%s\n", err, string(out))
+	}
+}
