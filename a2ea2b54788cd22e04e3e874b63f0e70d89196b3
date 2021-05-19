@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f5df9c_6854f055",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-05-19T16:50:36Z",
+      "side": 1,
+      "message": "The general approach of the heuristic sounds good.",
+      "revId": "a2ea2b54788cd22e04e3e874b63f0e70d89196b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73bb13e0_e5ec3b1f",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-05-19T16:50:36Z",
+      "side": 1,
+      "message": "Can you elaborate more on this?\n\nAccording to https://en.wikipedia.org/wiki/ZIP_(file_format)#Local_file_header, I see 30 as the minimum size for the local file header, and there\u0027s no requirement that filenames and the content not be empty (so both could be zero).",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 58
+      },
+      "revId": "a2ea2b54788cd22e04e3e874b63f0e70d89196b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
