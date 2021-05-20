@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b333a60f_830920de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-20T14:39:35Z",
+      "side": 1,
+      "message": "This",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a61c7dc9_c9adb538",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -51,6 +74,93 @@
       "writtenOn": "2021-05-19T19:53:08Z",
       "side": 1,
       "message": "...I did not expect that to work first time.",
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0e5cfe9_88c90487",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-20T14:39:35Z",
+      "side": 1,
+      "message": "lol it\u0027s always a good day when tests pass the first time 🔥",
+      "parentUuid": "1313dc26_c73f1af6",
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "587b0d48_ba9a0979",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-20T14:39:35Z",
+      "side": 1,
+      "message": "This should be impossible, unless the test is flaky.\nhttps://github.com/golang/go/blob/dev.fuzz/src/testing/testing.go#L1574 runs all of the seed corpus for all of the fuzz targets before we start fuzzing. That means we won\u0027t even get to a coverageOnlyRun if there was a failure in the seed corpus.\n\n(That also means we run the seed corpus twice for the target we\u0027re fuzzing. Once at the runFuzzTargets phase, and once for the coverage-only phase. Not really ideal, but not a huge deal right now either)",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "602fde82_d797a506",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-20T14:39:35Z",
+      "side": 1,
+      "message": "Same comment in this file. This (and below) *shouldn\u0027t* be necessary, if everything works as expected",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 5
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6025a0e9_fc4a9358",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-20T14:39:35Z",
+      "side": 1,
+      "message": "\"If fn panicked, then tRunner recovers, prints some stuff...\"",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 39
+      },
       "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
