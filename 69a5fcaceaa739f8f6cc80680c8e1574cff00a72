@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a56a68b_a2b73dd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-20T23:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b333a60f_830920de",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a61c7dc9_c9adb538",
@@ -121,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd4c56b0_2d175226",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-20T23:34:59Z",
+      "side": 1,
+      "message": "Oh interesting. That pre-fuzzing step will only happen if you don\u0027t specify a `-run` flag (or if you specific `-run` with a pattern that matches one of the targets), I\u0027ve been using `-run\u003dxxx` so I never saw it triggering. Since that can happen, seems like we should still have this to catch those cases, since the output otherwise is somewhat confusing?",
+      "parentUuid": "587b0d48_ba9a0979",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "602fde82_d797a506",
         "filename": "src/internal/fuzz/worker.go",
         "patchSetId": 1
@@ -189,6 +237,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f2f74bc_fb9b643d",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-20T23:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db7ff38e_6631ae77",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 20
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9879c84b_4958ea8d",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-20T23:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db7ff38e_6631ae77",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 20
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6025a0e9_fc4a9358",
@@ -202,6 +298,30 @@
       "writtenOn": "2021-05-20T14:39:35Z",
       "side": 1,
       "message": "\"If fn panicked, then tRunner recovers, prints some stuff...\"",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 39
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc5bffa3_74993860",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-20T23:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6025a0e9_fc4a9358",
       "range": {
         "startLine": 342,
         "startChar": 8,
