@@ -167,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db7ff38e_6631ae77",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-20T21:38:48Z",
+      "side": 1,
+      "message": "Also the TODO at line 289. (Apparently we\u0027ve REALLY wanted to do this for a while lol)",
+      "parentUuid": "e11e41bf_a5495164",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 20
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6025a0e9_fc4a9358",
         "filename": "src/testing/fuzz.go",
         "patchSetId": 1
