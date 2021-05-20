@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0110ffb5_f3901a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-05-20T22:24:27Z",
+      "side": 1,
+      "message": "This really doesn\u0027t sound okay. I run tests headless, over SSH, and other remoting situations, where a desktop object / window station is really not available, and hence those tests would likely fail. And if they are available, I don\u0027t want popup Windows all over the place while I\u0027m working. That\u0027s not a nice environment for development. Given this is a windows 7 hack, I think we can live without it.",
+      "parentUuid": "c2fc672d_9ca6bf28",
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "54092ff7_4c60dc2d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -91,6 +109,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f05f690_434e96af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-05-20T22:24:27Z",
+      "side": 1,
+      "message": "v+1 coming up.",
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4720b0b_2bfee7f2",
@@ -114,6 +149,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b47c5f3_bcd573c8",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-05-20T22:24:27Z",
+      "side": 1,
+      "message": "It doesn\u0027t do anything except read some static memory from the PEB and return the value. Very very very low overhead.\n\n```\n.text:00000001800D3920 RtlGetNtVersionNumbers proc near        ; DATA XREF: .rdata:000000018011E94C↓o\n.text:00000001800D3920                                         ; .rdata:off_18014FE88↓o\n.text:00000001800D3920                 mov     r9, gs:60h\n.text:00000001800D3929                 test    rcx, rcx\n.text:00000001800D392C                 jz      short loc_1800D3937\n.text:00000001800D392E                 mov     eax, [r9+118h]\n.text:00000001800D3935                 mov     [rcx], eax\n.text:00000001800D3937\n.text:00000001800D3937 loc_1800D3937:                          ; CODE XREF: RtlGetNtVersionNumbers+C↑j\n.text:00000001800D3937                 test    rdx, rdx\n.text:00000001800D393A                 jz      short loc_1800D3945\n.text:00000001800D393C                 mov     eax, [r9+11Ch]\n.text:00000001800D3943                 mov     [rdx], eax\n.text:00000001800D3945\n.text:00000001800D3945 loc_1800D3945:                          ; CODE XREF: RtlGetNtVersionNumbers+1A↑j\n.text:00000001800D3945                 test    r8, r8\n.text:00000001800D3948                 jz      short locret_1800D395A\n.text:00000001800D394A                 movzx   eax, word ptr [r9+120h]\n.text:00000001800D3952                 or      eax, 0F0000000h\n.text:00000001800D3957                 mov     [r8], eax\n.text:00000001800D395A\n.text:00000001800D395A locret_1800D395A:                       ; CODE XREF: RtlGetNtVersionNumbers+28↑j\n.text:00000001800D395A                 retn\n.text:00000001800D395A RtlGetNtVersionNumbers endp\n```\n\nStraight out of the PEB.",
+      "parentUuid": "c4720b0b_2bfee7f2",
+      "range": {
+        "startLine": 317,
+        "startChar": 1,
+        "endLine": 317,
+        "endChar": 23
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f6cb975_46c51eb2",
@@ -127,6 +186,30 @@
       "writtenOn": "2021-05-20T09:47:39Z",
       "side": 1,
       "message": "This needs some reference to why this is correct.",
+      "range": {
+        "startLine": 318,
+        "startChar": 1,
+        "endLine": 318,
+        "endChar": 44
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a64a2e94_662aabae",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-05-20T22:24:27Z",
+      "side": 1,
+      "message": "I actually disagree and I think you will too with a second more reflection. This returns NT build numbers. Windows 7 is 6.1. That\u0027s pretty ubiquitous knowledge in Windows world, I thought.",
+      "parentUuid": "4f6cb975_46c51eb2",
       "range": {
         "startLine": 318,
         "startChar": 1,
@@ -173,6 +256,54 @@
       "writtenOn": "2021-05-20T09:47:39Z",
       "side": 1,
       "message": "This calculation needs a reference too.",
+      "range": {
+        "startLine": 319,
+        "startChar": 74,
+        "endLine": 319,
+        "endChar": 96
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe14801e_78707e5b",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-05-20T22:24:27Z",
+      "side": 1,
+      "message": "But then it doesn\u0027t amortize the isWin7 result. OTOH, I don\u0027t see that as expensive enough to hoist to an init either. Closure seems happy medium?",
+      "parentUuid": "f5c900c9_e45a6c05",
+      "range": {
+        "startLine": 319,
+        "startChar": 1,
+        "endLine": 319,
+        "endChar": 27
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f3b507_235de197",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-05-20T22:24:27Z",
+      "side": 1,
+      "message": "I\u0027ll leave a comment explaining it. The reference is a combination of \"my disassembler\" and weird arcane knowledge about handles.",
+      "parentUuid": "a9a3d2da_5974f437",
       "range": {
         "startLine": 319,
         "startChar": 74,
