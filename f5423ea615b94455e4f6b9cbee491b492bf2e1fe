@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0985ef58_ec7e768a",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-20T17:39:58Z",
+      "side": 0,
+      "message": "This description mentions an unexported goLookupIPCNAMEOrder method and provides advice, but I think the upstream CL was an optimization, and so it should be described that way. I think this should be rephrased to be more similar to the commit message of CL 301709.",
+      "revId": "f5423ea615b94455e4f6b9cbee491b492bf2e1fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d61d63eb_b70def90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-20T17:39:58Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve made some suggestions.",
+      "revId": "ec40f227cf7c5ebc6d911a727518c11a969f4ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b7df711_a1779975",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-20T17:39:58Z",
+      "side": 1,
+      "message": "A common Go documentation style for functions that return a bool type is to phrase it as \"Foo reports whether ...\" instead of \"Foo returns true if ...\".\n\nWe can apply it here to shorten/simplify this to:\n\n    For IPv4 addresses, it reports whether the address prefix is ...\n\nSimilarly below.\n\nI\u0027m not sure whether it\u0027s better to enumerate the exact prefixes, or to refer to the definition in the RFC specification instead. But I think this will work for now (unless someone has a better suggestion) and can always be modified in the future.",
+      "range": {
+        "startLine": 345,
+        "startChar": 29,
+        "endLine": 345,
+        "endChar": 57
+      },
+      "revId": "ec40f227cf7c5ebc6d911a727518c11a969f4ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59f7ade8_7735bb37",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-20T17:39:58Z",
+      "side": 1,
+      "message": "I think a better way to phrase this might be:\n\n    Its \u003ccode\u003eError\u003c/code\u003e method returns the same string as before.\n\nAlso below.",
+      "range": {
+        "startLine": 363,
+        "startChar": 70,
+        "endLine": 364,
+        "endChar": 25
+      },
+      "revId": "ec40f227cf7c5ebc6d911a727518c11a969f4ce7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
