@@ -117,6 +117,24 @@
       "message": "Cherry, does this change look okay for 1.16 to you?",
       "revId": "a72bf4a07b3c5349aeb6cec0052558ae57e90e86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f050b671_c219dfbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-20T14:53:22Z",
+      "side": 1,
+      "message": "Yes, this looks okay. Thanks.",
+      "parentUuid": "71bc24df_786e3971",
+      "revId": "a72bf4a07b3c5349aeb6cec0052558ae57e90e86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
