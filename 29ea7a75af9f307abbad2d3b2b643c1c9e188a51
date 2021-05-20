@@ -88,6 +88,23 @@
       "parentUuid": "33651ef9_58ee14a7",
       "revId": "29ea7a75af9f307abbad2d3b2b643c1c9e188a51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a525cd80_cce4d6b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-05-20T19:18:54Z",
+      "side": 1,
+      "message": "LGTM.\nI find myself wishing I knew what builds get done by slowbots, so I know what succeeded.\n",
+      "revId": "29ea7a75af9f307abbad2d3b2b643c1c9e188a51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
