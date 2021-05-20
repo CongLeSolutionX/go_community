@@ -16,6 +16,23 @@
       "message": "I have updated the first line of the change description.",
       "revId": "95f77d515f98e85e38c5f9d9e41262913a941560",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94467370_af8af0d2",
+        "filename": "src/cmd/dist/util.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-20T04:24:41Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem very natural.  If we aren\u0027t going to return if dying is closed, why bother to check it at all?  It doesn\u0027t seem to have much to do with bgwait.  And bgrun already checks dying, and doesn\u0027t start any new work if it is true (the check is in bghelper).\n\nI think the problems in the bug all come from the call to dopack near the end of runInstall.  I think the simple fix is going to be to change runInstall to use bgrun to invoke dopack, as it does for pretty much everything else it does.",
+      "revId": "95f77d515f98e85e38c5f9d9e41262913a941560",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
