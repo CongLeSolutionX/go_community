@@ -16,6 +16,23 @@
       "message": "Thanks for the input. I have made the changes accordingly.",
       "revId": "883b2d09f7d4f4fad161ee3ec98eea3315209444",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d11e78_de2261b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-20T15:44:36Z",
+      "side": 1,
+      "message": "Thank you.\n\nThis has one Trust+1 review (from me), it needs one more from a different person, and then we can submit this.",
+      "revId": "883b2d09f7d4f4fad161ee3ec98eea3315209444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
