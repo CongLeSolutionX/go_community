@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3f56bc_a5c0bf1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-21T20:56:29Z",
+      "side": 1,
+      "message": "I\u0027m trying to come up with a test case for this that actually fails before the change, but I haven\u0027t been able to yet. do you have more information on what exactly the failure mode was? or maybe I shouldn\u0027t bother if we\u0027re going to remove the spill space anyway? most non-trivial code out there using this would probably fail in some bad way.",
+      "revId": "61a7926be415d5d72a5fd973bef891df17d8bc19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
