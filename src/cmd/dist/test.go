@@ -1236,14 +1236,14 @@ func (t *tester) runPending(nextTest *distTest) {
 		go func(w *work) {
 			if !<-w.start {
 				timelog("skip", w.dt.name)
-				w.out = []byte(fmt.Sprintf("skipped due to earlier error\n"))
+				w.out = []byte("skipped due to earlier error\n")
 			} else {
 				timelog("start", w.dt.name)
 				w.out, w.err = w.cmd.CombinedOutput()
 				if w.err != nil {
 					if isUnsupportedVMASize(w) {
 						timelog("skip", w.dt.name)
-						w.out = []byte(fmt.Sprintf("skipped due to unsupported VMA\n"))
+						w.out = []byte("skipped due to unsupported VMA\n")
 						w.err = nil
 					}
 				}
