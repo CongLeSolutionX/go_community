@@ -76,6 +76,30 @@
       },
       "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d98a323_e697226f",
+        "filename": "src/internal/cpu/cpu_arm64_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-05-21T09:56:16Z",
+      "side": 1,
+      "message": "Doesnt compile:\n\ninternal/cpu/cpu_arm64_darwin.go:22:7: ARM64.HasSHA3 undefined (type struct { _ CacheLinePad; HasAES bool; HasPMULL bool; HasSHA1 bool; HasSHA2 bool; HasCRC32 bool; HasATOMICS bool; HasCPUID bool; IsNeoverseN1 bool; IsZeus bool; _ CacheLinePad } has no field or method HasSHA3)\n\nas there is no declaration and use of the feature yet.\n\nAs said we can add it if there is code in runtime/std library that will use it, but I could not find a cl inflight that would use it.\n\nThere is something to be said for documenting more explicitly in internal/cpu/cpu.go that only features that are used need to be supported and not all features the cpus support.",
+      "parentUuid": "04279841_39175c38",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
