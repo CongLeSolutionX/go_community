@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b075f02_d8ca9e5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-05-21T09:47:22Z",
+      "side": 1,
+      "message": "internal/cpu doesnt need to support all features that the chips support. It only needs to support the cpu features that are used in the go standard library and runtime. Since it is an internal package there is no code outside the standard library than can access",
+      "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04279841_39175c38",
+        "filename": "src/internal/cpu/cpu_arm64_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-05-21T09:47:22Z",
+      "side": 1,
+      "message": "Does this compile?\n\nThere doesnt seem to be an ARM64.HasSHA3 https://github.com/golang/go/blob/831573cd21e65c37b4e1bf5d44dc23b125084b7a/src/internal/cpu/cpu.go#L58\n\ninternal/cpu only supports the cpu features that are needed by the go standard library and runtime. Features that are supported by the cpu but not used dont need to be added.\n\nIf there is a CL inflight that will use SHA3 in runtime or go standard library please reference this in the commit message.\n\nIf this needs to be added in the future it should be:\nARM64.HasSHA3 \u003d sysctlEnabled([]byte(hw.optional.armv8_2_sha3\\x00\"))",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
