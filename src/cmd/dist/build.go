@@ -246,7 +246,6 @@ func xinit() {
 	if err := ioutil.WriteFile(pathf("%s/go.mod", workdir), []byte("module bootstrap"), 0666); err != nil {
 		fatalf("cannot write stub go.mod: %s", err)
 	}
-	xatexit(rmworkdir)
 
 	tooldir = pathf("%s/pkg/tool/%s_%s", goroot, gohostos, gohostarch)
 }
@@ -298,14 +297,6 @@ func compilerEnvLookup(m map[string]string, goos, goarch string) string {
 		return cc
 	}
 	return m[""]
-}
-
-// rmworkdir deletes the work directory.
-func rmworkdir() {
-	if vflag > 1 {
-		errprintf("rm -rf %s\n", workdir)
-	}
-	xremoveall(workdir)
 }
 
 // Remove trailing spaces.

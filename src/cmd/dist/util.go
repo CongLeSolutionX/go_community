@@ -326,11 +326,19 @@ func xreaddirfiles(dir string) []string {
 
 // xworkdir creates a new temporary directory to hold object files
 // and returns the name of that directory.
+// The directory is deleted at program exit.
 func xworkdir() string {
 	name, err := ioutil.TempDir(os.Getenv("GOTMPDIR"), "go-tool-dist-")
 	if err != nil {
 		fatalf("%v", err)
 	}
+	xatexit(func() {
+		if vflag > 1 {
+			errprintf("rm -rf %s\n", name)
+		}
+		os.RemoveAll(name)
+	})
+
 	return name
 }
 
