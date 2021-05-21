@@ -96,8 +96,20 @@ TEXT runtime·badsignal2(SB),NOSPLIT|NOFRAME,$48
 	MOVQ	runtime·_WriteFile(SB), AX
 	CALL	AX
 
+	// Call ExitProcess directly. We can't abort here
+	// the usual way because that will raise an interrupt
+	// on this thread and we'll be right back into this
+	// state. We already printed a message so just closing
+	// the process directly here is OK.
+	//
+	// Make the return code something easily recognizable
+	// and at least somewhat close in meaning to the actual
+	// failure.
+	//
 	// Does not return.
-	CALL	runtime·abort(SB)
+	MOVL	$0xd1, CX // ERROR_INVALID_SIGNAL_NUMBER
+	MOVQ	runtime·_ExitProcess(SB), AX
+	CALL	AX
 	RET
 
 // faster get/set last error

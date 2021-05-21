@@ -118,9 +118,20 @@ TEXT runtime·badsignal2(SB),NOSPLIT,$16-0
 	SUB	$16, RSP	// skip over saved frame pointer below RSP
 	BL	(R12)
 
+	// Call ExitProcess directly. We can't abort here
+	// the usual way because that will raise an interrupt
+	// on this thread and we'll be right back into this
+	// state. We already printed a message so just closing
+	// the process directly here is OK.
+	//
+	// Make the return code something easily recognizable
+	// and at least somewhat close in meaning to the actual
+	// failure.
+	//
 	// Does not return.
-	B	runtime·abort(SB)
-
+	MOVW	$0xd1, R0 // ERROR_INVALID_SIGNAL_NUMBER
+	MOVW	runtime·_ExitProcess(SB), R12
+	BL	(R12)
 	RET
 
 TEXT runtime·getlasterror(SB),NOSPLIT|NOFRAME,$0

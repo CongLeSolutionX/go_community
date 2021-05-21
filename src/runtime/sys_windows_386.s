@@ -60,7 +60,19 @@ TEXT	runtime·badsignal2(SB),NOSPLIT,$24
 	CALL	*runtime·_WriteFile(SB)
 
 	// Does not return.
-	CALL	runtime·abort(SB)
+	// Call ExitProcess directly. We can't abort here
+	// the usual way because that will raise an interrupt
+	// on this thread and we'll be right back into this
+	// state. We already printed a message so just closing
+	// the process directly here is OK.
+	//
+	// Make the return code something easily recognizable
+	// and at least somewhat close in meaning to the actual
+	// failure.
+	//
+	// Does not return.
+	MOVL	$0xd1, 0(SP) // ERROR_INVALID_SIGNAL_NUMBER
+	CALL	*runtime·_ExitProcess(SB)
 	RET
 
 // faster get/set last error
