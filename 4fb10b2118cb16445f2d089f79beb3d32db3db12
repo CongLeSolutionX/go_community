@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7573191_1e48306d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-21T20:29:19Z",
+      "side": 1,
+      "message": "It looks like this also causes TestScript/mod_replace to no longer report a directory for the downloaded `not-rsc.io/quote` module (presumably because it is missing a checksum). I\u0027ll mail a fix.",
+      "revId": "4fb10b2118cb16445f2d089f79beb3d32db3db12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceef1a68_2dfa8b3e",
