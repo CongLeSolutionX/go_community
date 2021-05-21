@@ -74,6 +74,8 @@ type Optab struct {
 	// prefixed instruction. The prefixed instruction should be written first
 	// (e.g when Optab.size > 8).
 	ispfx bool
+
+	asmout func(*ctxt9, *obj.Prog, *Optab, *[5]uint32)
 }
 
 // optab contains an array to be sliced of accepted operand combinations for an
@@ -508,8 +510,6 @@ var optab = []Optab{
 	{as: ALSW, a1: C_ZOREG, a6: C_REG, type_: 45, size: 4},
 	{as: ALSW, a1: C_ZOREG, a3: C_LCON, a6: C_REG, type_: 42, size: 4},
 
-	{as: APNOP, type_: 105, size: 8, ispfx: true},
-
 	{as: obj.AUNDEF, type_: 78, size: 4},
 	{as: obj.APCDATA, a1: C_LCON, a6: C_LCON, type_: 0, size: 0},
 	{as: obj.AFUNCDATA, a1: C_SCON, a6: C_ADDR, type_: 0, size: 0},
@@ -520,8 +520,6 @@ var optab = []Optab{
 	{as: obj.ADUFFZERO, a6: C_LBRA, type_: 11, size: 4}, // same as ABR/ABL
 	{as: obj.ADUFFCOPY, a6: C_LBRA, type_: 11, size: 4}, // same as ABR/ABL
 	{as: obj.APCALIGN, a1: C_LCON, type_: 0, size: 0},   // align code
-
-	{as: obj.AXXX, type_: 0, size: 4},
 }
 
 var oprange [ALAST & obj.AMask][]Optab
@@ -644,7 +642,7 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 	var otxt int64
 	var q *obj.Prog
-	var out [6]uint32
+	var out [5]uint32
 	var falign int32 // Track increased alignment requirements for prefix.
 	for bflag != 0 {
 		bflag = 0
@@ -663,7 +661,7 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					// and only one extra branch is needed to reach the target.
 					tgt := p.To.Target()
 					p.To.SetTarget(p.Link)
-					c.asmout(p, o, out[:])
+					o.asmout(&c, p, o, &out)
 					p.To.SetTarget(tgt)
 
 					bo := int64(out[0]>>21) & 31
@@ -816,7 +814,7 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				c.ctxt.Arch.ByteOrder.PutUint32(bp, nop)
 				bp = bp[4:]
 			}
-			c.asmout(p, o, out[:])
+			o.asmout(&c, p, o, &out)
 			for i = 0; i < int32(o.size/4); i++ {
 				c.ctxt.Arch.ByteOrder.PutUint32(bp, out[i])
 				bp = bp[4:]
@@ -1179,22 +1177,12 @@ func cmp(a int, b int) bool {
 	return false
 }
 
-type ocmp []Optab
-
-func (x ocmp) Len() int {
-	return len(x)
-}
-
-func (x ocmp) Swap(i, j int) {
-	x[i], x[j] = x[j], x[i]
-}
-
 // Used when sorting the optab. Sorting is
 // done in a way so that the best choice of
 // opcode/operand combination is considered first.
-func (x ocmp) Less(i, j int) bool {
-	p1 := &x[i]
-	p2 := &x[j]
+func optabLess(i, j int) bool {
+	p1 := &optab[i]
+	p2 := &optab[j]
 	n := int(p1.as) - int(p2.as)
 	// same opcode
 	if n != 0 {
@@ -1251,32 +1239,37 @@ func buildop(ctxt *obj.Link) {
 		return
 	}
 
-	var n int
-
 	for i := 0; i < C_NCLASS; i++ {
-		for n = 0; n < C_NCLASS; n++ {
+		for n := 0; n < C_NCLASS; n++ {
 			if cmp(n, i) {
 				xcmp[i][n] = true
 			}
 		}
 	}
-	for n = 0; optab[n].as != obj.AXXX; n++ {
+	for i := range optab {
+		// Use the legacy assembler function if none provided.
+		if optab[i].asmout == nil {
+			optab[i].asmout = asmout
+		}
 	}
-	sort.Sort(ocmp(optab[:n]))
-	for i := 0; i < n; i++ {
+	// Append the generated entries, sort, and fill out oprange.
+	optab = append(optab, optabGen...)
+	sort.Slice(optab, optabLess)
+	for i := 0; i < len(optab); {
 		r := optab[i].as
 		r0 := r & obj.AMask
 		start := i
-		for optab[i].as == r {
+		for i < len(optab) && optab[i].as == r {
 			i++
 		}
 		oprange[r0] = optab[start:i]
-		i--
 
 		switch r {
 		default:
-			ctxt.Diag("unknown op in build: %v", r)
-			log.Fatalf("instruction missing from switch in asm9.go:buildop: %v", r)
+			if !opsetGen(r) {
+				ctxt.Diag("unknown op in build: %v", r)
+				log.Fatalf("instruction missing from switch in asm9.go:buildop: %v", r)
+			}
 
 		case ADCBF: /* unary indexed: op (b+a); op (b) */
 			opset(ADCBI, r0)
@@ -2453,7 +2446,7 @@ func high16adjusted(d int32) uint16 {
 	return uint16(d >> 16)
 }
 
-func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
+func asmout(c *ctxt9, p *obj.Prog, o *Optab, out *[5]uint32) {
 	o1 := uint32(0)
 	o2 := uint32(0)
 	o3 := uint32(0)
@@ -3747,10 +3740,6 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 	case 104: /* VSX mtvsr* instructions, XX1-form RA,RB,XT */
 		o1 = AOP_XX1(c.oprrr(p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg))
-
-	case 105: /* PNOP */
-		o1 = 0x07000000
-		o2 = 0x00000000
 
 	case 106: /* MOVD spr, soreg */
 		v := int32(p.From.Reg)
