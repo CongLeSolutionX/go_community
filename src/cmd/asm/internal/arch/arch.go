@@ -377,6 +377,9 @@ func archPPC64(linkArch *obj.LinkArch) *Arch {
 			instructions[s] = obj.As(i) + obj.ABasePPC64
 		}
 	}
+	for i, s := range ppc64.GenAnames {
+		instructions[s] = obj.As(i) + ppc64.AFIRSTGEN
+	}
 	// Annoying aliases.
 	instructions["BR"] = ppc64.ABR
 	instructions["BL"] = ppc64.ABL
