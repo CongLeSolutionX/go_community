@@ -106,6 +106,24 @@
       "parentUuid": "b9c57d27_8c34d0e1",
       "revId": "61a7926be415d5d72a5fd973bef891df17d8bc19",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cb022cd_6f47d912",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-05-21T22:54:50Z",
+      "side": 1,
+      "message": "so I had a test case like that, the part I was missing was getting it to actually clobber the return PC. is there any easy way I can force a spill?\n\nwhat I had before was something like\n\n    func(i1, i2, i3, i4, i5 uint32) uintptr {\n        runtime.GC()\n        return uintptr(i1+i2+i3+i4+i5)\n    }\n\nand that apparently wasn\u0027t enough. I\u0027ll try maybe uint64s? more args? I\u0027ll take a look at the assembly.",
+      "parentUuid": "1876d5ee_3c5f8c3c",
+      "revId": "61a7926be415d5d72a5fd973bef891df17d8bc19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
