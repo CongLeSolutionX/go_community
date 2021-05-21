@@ -727,23 +727,17 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 				prog.To = a[1]
 				break
 			}
-			// Arithmetic. Choices are:
-			// reg reg reg
-			// imm reg reg
-			// reg imm reg
-			// If the immediate is the middle argument, use From3.
+
+			prog.From = a[0]
+			prog.To = a[2]
+
+			// If The second argument is not a register argument, it must be
+			// passed RestArgs/SetFrom3
 			switch a[1].Type {
 			case obj.TYPE_REG:
-				prog.From = a[0]
 				prog.Reg = p.getRegister(prog, op, &a[1])
-				prog.To = a[2]
-			case obj.TYPE_CONST:
-				prog.From = a[0]
-				prog.SetFrom3(a[1])
-				prog.To = a[2]
 			default:
-				p.errorf("invalid addressing modes for %s instruction", op)
-				return
+				prog.SetFrom3(a[1])
 			}
 		case sys.RISCV64:
 			// RISCV64 instructions with one input and two outputs.
@@ -829,22 +823,16 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 			// imm reg reg reg
 			// Or a VX-form instruction
 			// imm imm reg reg
+			prog.From = a[0]
+			prog.To = a[3]
 			if a[1].Type == obj.TYPE_REG {
-				prog.From = a[0]
 				prog.Reg = p.getRegister(prog, op, &a[1])
-				prog.SetFrom3(a[2])
-				prog.To = a[3]
-				break
-			} else if a[1].Type == obj.TYPE_CONST {
-				prog.From = a[0]
-				prog.Reg = p.getRegister(prog, op, &a[2])
-				prog.SetFrom3(a[1])
-				prog.To = a[3]
-				break
+				prog.SetRestArgs([]obj.Addr{a[2]})
 			} else {
-				p.errorf("invalid addressing modes for %s instruction", op)
-				return
+				// Don't pack prog.Reg if a1 isn't a reg arg.
+				prog.SetRestArgs([]obj.Addr{a[1], a[2]})
 			}
+			break
 		}
 		if p.arch.Family == sys.RISCV64 {
 			prog.From = a[0]
@@ -907,6 +895,14 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 			prog.To.Offset = offset
 			cond = ""
 			prog.As = MRC // Both instructions are coded as MRC.
+			break
+		}
+		if p.arch.Family == sys.PPC64 {
+			prog.From = a[0]
+			// Second arg is always a register type on ppc64.
+			prog.Reg = p.getRegister(prog, op, &a[1])
+			prog.SetRestArgs([]obj.Addr{a[2], a[3], a[4]})
+			prog.To = a[5]
 			break
 		}
 		fallthrough

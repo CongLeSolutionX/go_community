@@ -79,6 +79,8 @@ type Optab struct {
 	// prefixed instruction. The prefixed instruction should be written first
 	// (e.g when Optab.size > 8).
 	ispfx bool
+
+	asmout func(*ctxt9, *obj.Prog, *Optab, *[5]uint32)
 }
 
 // optab contains an array to be sliced of accepted operand combinations for an
@@ -513,8 +515,6 @@ var optab = []Optab{
 	{as: ALSW, a1: C_ZOREG, a6: C_REG, type_: 45, size: 4},
 	{as: ALSW, a1: C_ZOREG, a3: C_LCON, a6: C_REG, type_: 42, size: 4},
 
-	{as: APNOP, type_: 105, size: 8, ispfx: true},
-
 	{as: obj.AUNDEF, type_: 78, size: 4},
 	{as: obj.APCDATA, a1: C_LCON, a6: C_LCON, type_: 0, size: 0},
 	{as: obj.AFUNCDATA, a1: C_SCON, a6: C_ADDR, type_: 0, size: 0},
@@ -525,6 +525,65 @@ var optab = []Optab{
 	{as: obj.ADUFFZERO, a6: C_LBRA, type_: 11, size: 4}, // same as ABR/ABL
 	{as: obj.ADUFFCOPY, a6: C_LBRA, type_: 11, size: 4}, // same as ABR/ABL
 	{as: obj.APCALIGN, a1: C_LCON, type_: 0, size: 0},   // align code
+
+	// Inserted by ppc64map, do not edit.
+	{as: ABRW, a1: C_REG, a6: C_REG, asmout: type_brw, size: 4},
+	{as: ADCFFIXQQ, a1: C_VREG, a6: C_FREGP, asmout: type_xscvuqqp, size: 4},
+	{as: ADCTFIXQQ, a1: C_FREGP, a6: C_VREG, asmout: type_xscvuqqp, size: 4},
+	{as: ALXVKQ, a1: C_U5CON, a6: C_VSREG, asmout: type_lxvkq, size: 4},
+	{as: ALXVP, a1: C_SOREG, a6: C_VSREGP, asmout: type_lxvp, size: 4},
+	{as: ALXVPX, a1: C_ZOREG, a6: C_VSREGP, asmout: type_lxvpx, size: 4},
+	{as: ALXVRWX, a1: C_ZOREG, a6: C_VSREG, asmout: type_lxvrwx, size: 4},
+	{as: AMTVSRBMI, a1: C_U16CON, a6: C_VREG, asmout: type_mtvsrbmi, size: 4},
+	{as: AMTVSRWM, a1: C_REG, a6: C_VREG, asmout: type_xscvuqqp, size: 4},
+	{as: APADDI, a1: C_REG, a3: C_S34CON, a4: C_U1CON, a6: C_REG, asmout: type_paddi, ispfx: true, size: 8},
+	{as: APEXTD, a1: C_REG, a2: C_REG, a6: C_REG, asmout: type_pextd, size: 4},
+	{as: APLFS, a1: C_LOREG, a3: C_U1CON, a6: C_FREG, asmout: type_plxssp, ispfx: true, size: 8},
+	{as: APLQ, a1: C_LOREG, a3: C_U1CON, a6: C_REGP, asmout: type_plxssp, ispfx: true, size: 8},
+	{as: APLWZ, a1: C_LOREG, a3: C_U1CON, a6: C_REG, asmout: type_plxssp, ispfx: true, size: 8},
+	{as: APLXSSP, a1: C_LOREG, a3: C_U1CON, a6: C_VREG, asmout: type_plxssp, ispfx: true, size: 8},
+	{as: APLXV, a1: C_LOREG, a3: C_U1CON, a6: C_VSREG, asmout: type_plxv, ispfx: true, size: 8},
+	{as: APLXVP, a1: C_LOREG, a3: C_U1CON, a6: C_VSREGP, asmout: type_plxvp, ispfx: true, size: 8},
+	{as: APMXVF32GERPP, a1: C_VSREG, a2: C_VSREG, a3: C_U4CON, a4: C_U4CON, a6: C_MREG, asmout: type_pmxvf32gerpp, ispfx: true, size: 8},
+	{as: APMXVF64GERPP, a1: C_VSREGP, a2: C_VSREG, a3: C_U4CON, a4: C_U2CON, a6: C_MREG, asmout: type_pmxvf64gerpp, ispfx: true, size: 8},
+	{as: APMXVI16GER2SPP, a1: C_VSREG, a2: C_VSREG, a3: C_U4CON, a4: C_U4CON, a5: C_U2CON, a6: C_MREG, asmout: type_pmxvi16ger2spp, ispfx: true, size: 8},
+	{as: APMXVI4GER8PP, a1: C_VSREG, a2: C_VSREG, a3: C_U4CON, a4: C_U4CON, a5: C_U8CON, a6: C_MREG, asmout: type_pmxvi4ger8pp, ispfx: true, size: 8},
+	{as: APMXVI8GER4SPP, a1: C_VSREG, a2: C_VSREG, a3: C_U4CON, a4: C_U4CON, a5: C_U4CON, a6: C_MREG, asmout: type_pmxvi8ger4spp, ispfx: true, size: 8},
+	{as: APNOP, asmout: type_pnop, ispfx: true, size: 8},
+	{as: APSTFS, a1: C_FREG, a3: C_U1CON, a6: C_LOREG, asmout: type_pstxssp, ispfx: true, size: 8},
+	{as: APSTQ, a1: C_REGP, a3: C_U1CON, a6: C_LOREG, asmout: type_pstxssp, ispfx: true, size: 8},
+	{as: APSTW, a1: C_REG, a3: C_U1CON, a6: C_LOREG, asmout: type_pstxssp, ispfx: true, size: 8},
+	{as: APSTXSSP, a1: C_VREG, a3: C_U1CON, a6: C_LOREG, asmout: type_pstxssp, ispfx: true, size: 8},
+	{as: APSTXV, a1: C_VSREG, a3: C_U1CON, a6: C_LOREG, asmout: type_pstxv, ispfx: true, size: 8},
+	{as: APSTXVP, a1: C_VSREGP, a3: C_U1CON, a6: C_LOREG, asmout: type_pstxvp, ispfx: true, size: 8},
+	{as: ASETNBCR, a1: C_CRBIT, a6: C_REG, asmout: type_setnbcr, size: 4},
+	{as: ASTXVP, a1: C_VSREGP, a6: C_SOREG, asmout: type_stxvp, size: 4},
+	{as: ASTXVPX, a1: C_VSREGP, a6: C_ZOREG, asmout: type_stxvpx, size: 4},
+	{as: ASTXVRWX, a1: C_VSREG, a6: C_ZOREG, asmout: type_stxvrwx, size: 4},
+	{as: AVCLRRB, a1: C_VREG, a2: C_REG, a6: C_VREG, asmout: type_xsmincqp, size: 4},
+	{as: AVCMPUQ, a1: C_VREG, a2: C_VREG, a6: C_CREG, asmout: type_vcmpuq, size: 4},
+	{as: AVCNTMBW, a1: C_VREG, a3: C_U1CON, a6: C_REG, asmout: type_vcntmbw, size: 4},
+	{as: AVEXTDUWVRX, a1: C_VREG, a2: C_VREG, a3: C_REG, a6: C_VREG, asmout: type_vmsumcud, size: 4},
+	{as: AVEXTRACTWM, a1: C_VREG, a6: C_REG, asmout: type_xscvuqqp, size: 4},
+	{as: AVGNB, a1: C_VREG, a3: C_U3CON, a6: C_REG, asmout: type_vgnb, size: 4},
+	{as: AVINSW, a1: C_REG, a3: C_U4CON, a6: C_VREG, asmout: type_vinsw, size: 4},
+	{as: AVINSWRX, a1: C_REG, a2: C_REG, a6: C_VREG, asmout: type_xsmincqp, size: 4},
+	{as: AVINSWVRX, a1: C_REG, a2: C_VREG, a6: C_VREG, asmout: type_xsmincqp, size: 4},
+	{as: AVMSUMCUD, a1: C_VREG, a2: C_VREG, a3: C_VREG, a6: C_VREG, asmout: type_vmsumcud, size: 4},
+	{as: AVSRDBI, a1: C_VREG, a2: C_VREG, a3: C_U3CON, a6: C_VREG, asmout: type_vsrdbi, size: 4},
+	{as: AXSCVUQQP, a1: C_VREG, a6: C_VREG, asmout: type_xscvuqqp, size: 4},
+	{as: AXSMINCQP, a1: C_VREG, a2: C_VREG, a6: C_VREG, asmout: type_xsmincqp, size: 4},
+	{as: AXVCVSPBF16, a1: C_VSREG, a6: C_VSREG, asmout: type_xvcvspbf16, size: 4},
+	{as: AXVI8GER4SPP, a1: C_VSREG, a2: C_VSREG, a6: C_MREG, asmout: type_xvi8ger4spp, size: 4},
+	{as: AXVTLSBB, a1: C_VSREG, a6: C_CREG, asmout: type_xvtlsbb, size: 4},
+	{as: AXXBLENDVW, a1: C_VSREG, a2: C_VSREG, a3: C_VSREG, a6: C_VSREG, asmout: type_xxblendvw, ispfx: true, size: 8},
+	{as: AXXEVAL, a1: C_VSREG, a2: C_VSREG, a3: C_VSREG, a4: C_U8CON, a6: C_VSREG, asmout: type_xxeval, ispfx: true, size: 8},
+	{as: AXXGENPCVWM, a1: C_VREG, a3: C_U5CON, a6: C_VSREG, asmout: type_xxgenpcvwm, size: 4},
+	{as: AXXPERMX, a1: C_VSREG, a2: C_VSREG, a3: C_VSREG, a4: C_U3CON, a6: C_VSREG, asmout: type_xxpermx, ispfx: true, size: 8},
+	{as: AXXSETACCZ, a6: C_MREG, asmout: type_xxsetaccz, size: 4},
+	{as: AXXSPLTI32DX, a1: C_U1CON, a3: C_U32CON, a6: C_VSREG, asmout: type_xxsplti32dx, ispfx: true, size: 8},
+	{as: AXXSPLTIW, a1: C_U32CON, a6: C_VSREG, asmout: type_xxspltiw, ispfx: true, size: 8},
+	// End ppc64map generation.
 
 	{as: obj.AXXX, type_: 0, size: 4},
 }
@@ -649,7 +708,7 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 	var otxt int64
 	var q *obj.Prog
-	var out [6]uint32
+	var out [5]uint32
 	var falign int32 // Track increased alignment requirements for prefix.
 	for bflag != 0 {
 		bflag = 0
@@ -668,7 +727,7 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					// and only one extra branch is needed to reach the target.
 					tgt := p.To.Target()
 					p.To.SetTarget(p.Link)
-					c.asmout(p, o, out[:])
+					o.asmout(&c, p, o, &out)
 					p.To.SetTarget(tgt)
 
 					bo := int64(out[0]>>21) & 31
@@ -821,7 +880,7 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				c.ctxt.Arch.ByteOrder.PutUint32(bp, nop)
 				bp = bp[4:]
 			}
-			c.asmout(p, o, out[:])
+			o.asmout(&c, p, o, &out)
 			for i = 0; i < int32(o.size/4); i++ {
 				c.ctxt.Arch.ByteOrder.PutUint32(bp, out[i])
 				bp = bp[4:]
@@ -1266,6 +1325,10 @@ func buildop(ctxt *obj.Link) {
 		}
 	}
 	for n = 0; optab[n].as != obj.AXXX; n++ {
+		// Use the legacy assembler function if none-provided.
+		if optab[n].asmout == nil {
+			optab[n].asmout = asmout
+		}
 	}
 	sort.Sort(ocmp(optab[:n]))
 	for i := 0; i < n; i++ {
@@ -1280,8 +1343,10 @@ func buildop(ctxt *obj.Link) {
 
 		switch r {
 		default:
-			ctxt.Diag("unknown op in build: %v", r)
-			log.Fatalf("instruction missing from switch in asm9.go:buildop: %v", r)
+			if !opsetGen(r) {
+				ctxt.Diag("unknown op in build: %v", r)
+				log.Fatalf("instruction missing from switch in asm9.go:buildop: %v", r)
+			}
 
 		case ADCBF: /* unary indexed: op (b+a); op (b) */
 			opset(ADCBI, r0)
@@ -2458,7 +2523,7 @@ func high16adjusted(d int32) uint16 {
 	return uint16(d >> 16)
 }
 
-func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
+func asmout(c *ctxt9, p *obj.Prog, o *Optab, out *[5]uint32) {
 	o1 := uint32(0)
 	o2 := uint32(0)
 	o3 := uint32(0)
@@ -3752,10 +3817,6 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 	case 104: /* VSX mtvsr* instructions, XX1-form RA,RB,XT */
 		o1 = AOP_XX1(c.oprrr(p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg))
-
-	case 105: /* PNOP */
-		o1 = 0x07000000
-		o2 = 0x00000000
 
 	case 106: /* MOVD spr, soreg */
 		v := int32(p.From.Reg)
