@@ -90,6 +90,13 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 		// Don't start more workers than we need.
 		opts.Parallel = int(opts.Limit)
 	}
+	canMinimize := false
+	for _, t := range opts.Types {
+		if isMinimizable(t) {
+			canMinimize = true
+			break
+		}
+	}
 
 	c, err := newCoordinator(opts)
 	if err != nil {
@@ -168,6 +175,9 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 		w := workers[i]
 		go func() {
 			err := w.coordinate(fuzzCtx)
+			if fuzzCtx.Err() != nil || isInterruptError(err) {
+				err = nil
+			}
 			cleanErr := w.cleanup()
 			if err == nil {
 				err = cleanErr
@@ -187,6 +197,7 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 	statTicker := time.NewTicker(3 * time.Second)
 	defer statTicker.Stop()
 	defer c.logStats()
+	minimizing := false
 	crashWritten := false
 
 	for {
@@ -204,21 +215,36 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 			}
 
 			if result.crasherMsg != "" {
-				// Found a crasher. Write it to testdata and return it.
-				if crashWritten {
-					break
-				}
-				fileName, err := writeToCorpus(result.entry.Data, opts.CorpusDir)
-				if err == nil {
-					crashWritten = true
-					err = &crashError{
-						name: filepath.Base(fileName),
-						err:  errors.New(result.crasherMsg),
+				if canMinimize && !result.minimized {
+					// Found a crasher but haven't yet attempted to minimize it.
+					// Send it back to a worker for minimization. Disable inputC so
+					// other workers don't continue fuzzing.
+					if minimizing {
+						break
 					}
+					minimizing = true
+					inputC = nil
+					if c.opts.MinimizeTimeout != 0 {
+						fmt.Fprintf(c.opts.Log, "found a crash, minimizing for up to %v\n", c.opts.MinimizeTimeout)
+					} else if c.opts.MinimizeLimit != 0 {
+						fmt.Fprintf(c.opts.Log, "found a crash, minimizing for up to %d execs\n", c.opts.MinimizeLimit)
+					} else {
+						fmt.Fprintf(c.opts.Log, "found a crash, minimizing...\n")
+					}
+					c.minimizeC <- result
+				} else if !crashWritten {
+					// Found a crasher that's either minimized or not minimizable.
+					// Write to corpus and stop.
+					fileName, err := writeToCorpus(result.entry.Data, opts.CorpusDir)
+					if err == nil {
+						crashWritten = true
+						err = &crashError{
+							name: filepath.Base(fileName),
+							err:  errors.New(result.crasherMsg),
+						}
+					}
+					stop(err)
 				}
-				// TODO(jayconrod,katiehockman): if -keepfuzzing, report the error to
-				// the user and restart the crashed worker.
-				stop(err)
 			} else if result.coverageData != nil {
 				foundNew := c.updateCoverage(result.coverageData)
 				if foundNew && !c.coverageOnlyRun() {
@@ -248,7 +274,7 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 					}
 				}
 			}
-			if inputC == nil && !stopping && !c.coverageOnlyRun() {
+			if inputC == nil && !minimizing && !stopping && !c.coverageOnlyRun() {
 				// inputC was disabled earlier because we hit the limit on the number
 				// of inputs to fuzz (nextInput returned false).
 				// Workers can do less work than requested though, so we might be
@@ -358,6 +384,10 @@ type fuzzResult struct {
 	// crasherMsg is an error message from a crash. It's "" if no crash was found.
 	crasherMsg string
 
+	// minimized is true if a worker attempted to minimize entry.
+	// Minimization may not have actually been completed.
+	minimized bool
+
 	// coverageData is set if the worker found new coverage.
 	coverageData []byte
 
@@ -382,8 +412,12 @@ type coordinator struct {
 	startTime time.Time
 
 	// inputC is sent values to fuzz by the coordinator. Any worker may receive
-	// values from this channel.
+	// values from this channel. Workers send results to resultC.
 	inputC chan fuzzInput
+
+	// minimizeC is sent values to minimize by the coordinator. Any worker may
+	// receive values from this channel. Workers send results to resultC.
+	minimizeC chan fuzzResult
 
 	// resultC is sent results of fuzzing by workers. The coordinator
 	// receives these. Multiple types of messages are allowed.
@@ -443,6 +477,7 @@ func newCoordinator(opts CoordinateFuzzingOpts) (*coordinator, error) {
 		opts:          opts,
 		startTime:     time.Now(),
 		inputC:        make(chan fuzzInput),
+		minimizeC:     make(chan fuzzResult),
 		resultC:       make(chan fuzzResult),
 		corpus:        corpus,
 		covOnlyInputs: covOnlyInputs,
@@ -667,6 +702,10 @@ func zeroValue(t reflect.Type) interface{} {
 		}
 	}
 	panic(fmt.Sprintf("unsupported type: %v", t))
+}
+
+func isMinimizable(t reflect.Type) bool {
+	return t == reflect.TypeOf("") || t == reflect.TypeOf([]byte(nil))
 }
 
 var zeroVals []interface{} = []interface{}{
