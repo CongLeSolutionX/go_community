@@ -95,26 +95,26 @@ var ignoreSuffixes = []string{
 func bootstrapBuildTools() {
 	goroot_bootstrap := os.Getenv("GOROOT_BOOTSTRAP")
 	if goroot_bootstrap == "" {
-		goroot_bootstrap = pathf("%s/go1.4", os.Getenv("HOME"))
+		goroot_bootstrap = join(os.Getenv("HOME"), "go1.4")
 	}
 	xprintf("Building Go toolchain1 using %s.\n", goroot_bootstrap)
 
-	mkbuildcfg(pathf("%s/src/internal/buildcfg/zbootstrap.go", goroot))
-	mkobjabi(pathf("%s/src/cmd/internal/objabi/zbootstrap.go", goroot))
+	mkbuildcfg(join(goroot, "src/internal/buildcfg/zbootstrap.go"))
+	mkobjabi(join(goroot, "src/cmd/internal/objabi/zbootstrap.go"))
 
 	// Use $GOROOT/pkg/bootstrap as the bootstrap workspace root.
 	// We use a subdirectory of $GOROOT/pkg because that's the
 	// space within $GOROOT where we store all generated objects.
 	// We could use a temporary directory outside $GOROOT instead,
 	// but it is easier to debug on failure if the files are in a known location.
-	workspace := pathf("%s/pkg/bootstrap", goroot)
+	workspace := join(goroot, "pkg/bootstrap")
 	xremoveall(workspace)
 	xatexit(func() { xremoveall(workspace) })
-	base := pathf("%s/src/bootstrap", workspace)
+	base := join(workspace, "src/bootstrap")
 	xmkdirall(base)
 
 	// Copy source code into $GOROOT/pkg/bootstrap and rewrite import paths.
-	writefile("module bootstrap\n", pathf("%s/%s", base, "go.mod"), 0)
+	writefile("module bootstrap\n", join(base, "go.mod"), 0)
 	for _, dir := range bootstrapDirs {
 		recurse := strings.HasSuffix(dir, "/...")
 		dir = strings.TrimSuffix(dir, "/...")
@@ -125,7 +125,7 @@ func bootstrapBuildTools() {
 
 			name := filepath.Base(path)
 			src := pathf("%s/src/%s", goroot, path)
-			dst := pathf("%s/%s", base, path)
+			dst := join(base, path)
 
 			if info.IsDir() {
 				if !recurse && path != dir || name == "testdata" {
@@ -136,8 +136,8 @@ func bootstrapBuildTools() {
 				if path == "cmd/cgo" {
 					// Write to src because we need the file both for bootstrap
 					// and for later in the main build.
-					mkzdefaultcc("", pathf("%s/zdefaultcc.go", src))
-					mkzdefaultcc("", pathf("%s/zdefaultcc.go", dst))
+					mkzdefaultcc("", join(src, "zdefaultcc.go"))
+					mkzdefaultcc("", join(dst, "zdefaultcc.go"))
 				}
 				return nil
 			}
@@ -192,7 +192,7 @@ func bootstrapBuildTools() {
 	// only applies to the final cmd/go binary, but that's OK: if this is Go 1.10
 	// or later we don't need to disable inlining to work around bugs in the Go 1.4 compiler.
 	cmd := []string{
-		pathf("%s/bin/go", goroot_bootstrap),
+		join(goroot_bootstrap, "bin/go"),
 		"install",
 		"-gcflags=-l",
 		"-tags=math_big_pure_go compiler_bootstrap",

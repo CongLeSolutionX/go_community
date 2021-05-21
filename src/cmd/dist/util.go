@@ -26,6 +26,12 @@ func pathf(format string, args ...interface{}) string {
 	return filepath.Clean(fmt.Sprintf(format, args...))
 }
 
+// join joins path to dirpath
+// (on windows it turns / into \).
+func join(dirpath, path string) string {
+	return filepath.Clean(dirpath + string(filepath.Separator) + path)
+}
+
 // filter returns a slice containing the elements x from list for which f(x) == true.
 func filter(list []string, f func(string) bool) []string {
 	var out []string
