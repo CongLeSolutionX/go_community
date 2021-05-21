@@ -1368,12 +1368,23 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	return p
 }
 
+// MMA accumulator to/from instructions are slightly ambiguous since
+// the argument represents both source and destination, specified as
+// an accumulator. It is treated as a unary destination to simplify
+// the code generation in ppc64map.
+var unaryDst = map[obj.As]bool{
+	AXXSETACCZ: true,
+	AXXMTACC:   true,
+	AXXMFACC:   true,
+}
+
 var Linkppc64 = obj.LinkArch{
 	Arch:           sys.ArchPPC64,
 	Init:           buildop,
 	Preprocess:     preprocess,
 	Assemble:       span9,
 	Progedit:       progedit,
+	UnaryDst:       unaryDst,
 	DWARFRegisters: PPC64DWARFRegisters,
 }
 
@@ -1383,5 +1394,6 @@ var Linkppc64le = obj.LinkArch{
 	Preprocess:     preprocess,
 	Assemble:       span9,
 	Progedit:       progedit,
+	UnaryDst:       unaryDst,
 	DWARFRegisters: PPC64DWARFRegisters,
 }
