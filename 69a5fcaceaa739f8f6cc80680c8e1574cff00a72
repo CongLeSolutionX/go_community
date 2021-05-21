@@ -185,6 +185,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d036a86_c81b483c",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-21T17:56:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd4c56b0_2d175226",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "602fde82_d797a506",
@@ -198,6 +222,30 @@
       "writtenOn": "2021-05-20T14:39:35Z",
       "side": 1,
       "message": "Same comment in this file. This (and below) *shouldn\u0027t* be necessary, if everything works as expected",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 5
+      },
+      "revId": "69a5fcaceaa739f8f6cc80680c8e1574cff00a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a950e5_1af3ae65",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-21T17:56:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "602fde82_d797a506",
       "range": {
         "startLine": 205,
         "startChar": 0,

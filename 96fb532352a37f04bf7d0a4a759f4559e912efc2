@@ -116,6 +116,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53d223ca_2865e5f8",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-21T17:56:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a0ca1b6_d2500ae0",
+      "range": {
+        "startLine": 283,
+        "startChar": 104,
+        "endLine": 283,
+        "endChar": 109
+      },
+      "revId": "96fb532352a37f04bf7d0a4a759f4559e912efc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46fa40a8_3b9d20aa",
@@ -129,6 +153,24 @@
       "writtenOn": "2021-05-21T16:26:51Z",
       "side": 1,
       "message": "Could this be consolidated with tRunner? Like if there\u0027s something in t.common indicates that panics should be recovered, then tRunner won\u0027t re-panic?\n\ntRunner already has pretty complex panic recovery and error handling logic, and ideally that\u0027s all in one place.",
+      "revId": "96fb532352a37f04bf7d0a4a759f4559e912efc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c771c80_3c946973",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-21T17:56:12Z",
+      "side": 1,
+      "message": "Had a crack at this. The initial reason for doing this in Fuzz was that tRunner is already _horrifically confusing_, and I\u0027m afraid this doesn\u0027t make it any better...",
+      "parentUuid": "46fa40a8_3b9d20aa",
       "revId": "96fb532352a37f04bf7d0a4a759f4559e912efc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -152,6 +194,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c9205036_08f61341",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-21T17:56:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe756af3_c81533e5",
+      "revId": "96fb532352a37f04bf7d0a4a759f4559e912efc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f961cc9e_a021381b",
         "filename": "src/testing/fuzz.go",
         "patchSetId": 3
@@ -163,6 +223,24 @@
       "writtenOn": "2021-05-21T16:26:51Z",
       "side": 1,
       "message": "No change needed, just to make sure I understand: this means worker processes won\u0027t print anything to stdout (mostly from T.Log), but they can still print to stderr, right?",
+      "revId": "96fb532352a37f04bf7d0a4a759f4559e912efc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "365eb74e_5b00382d",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-21T17:56:12Z",
+      "side": 1,
+      "message": "That is my understanding, yup.",
+      "parentUuid": "f961cc9e_a021381b",
       "revId": "96fb532352a37f04bf7d0a4a759f4559e912efc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
