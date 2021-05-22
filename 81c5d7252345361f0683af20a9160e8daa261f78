@@ -16,6 +16,86 @@
       "message": "Addressed the requests.",
       "revId": "81c5d7252345361f0683af20a9160e8daa261f78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2769536f_1475a0a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-22T00:23:12Z",
+      "side": 1,
+      "message": "I have some more suggestions, and afterwards I think we can submit this, if there aren\u0027t more suggestions for how to improve this.",
+      "revId": "81c5d7252345361f0683af20a9160e8daa261f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaac283f_450a50f6",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-22T00:23:12Z",
+      "side": 1,
+      "message": "(Optional.) If you don\u0027t mind, also remove the \"time.\" prefix here.",
+      "range": {
+        "startLine": 458,
+        "startChar": 6,
+        "endLine": 458,
+        "endChar": 11
+      },
+      "revId": "81c5d7252345361f0683af20a9160e8daa261f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d259f64_12d01d49",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-22T00:23:12Z",
+      "side": 1,
+      "message": "Please add links to the new functions and methods in this paragraph, similar to how it\u0027s done above for Time.IsDST.",
+      "revId": "81c5d7252345361f0683af20a9160e8daa261f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3edb0967_07faa19a",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-05-22T00:23:12Z",
+      "side": 1,
+      "message": "Please add a \u003cbr\u003e here, so the next sentence begins at the start of a new line.",
+      "range": {
+        "startLine": 470,
+        "startChar": 65,
+        "endLine": 470,
+        "endChar": 66
+      },
+      "revId": "81c5d7252345361f0683af20a9160e8daa261f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
