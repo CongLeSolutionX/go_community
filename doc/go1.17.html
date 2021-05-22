@@ -538,7 +538,12 @@ Do not send CLs removing the interior tags from such phrases.
 <dl id="text/template/parse"><dt><a href="/pkg/text/template/parse/">text/template/parse</a></dt>
   <dd>
     <p><!-- CL 301493 -->
-      TODO: <a href="https://golang.org/cl/301493">https://golang.org/cl/301493</a>: add a mode to skip func-check on parsing
+      The <a href="/pkg/text/template/parse"><code>parse</code></a> package now has an option to skip the
+      function existence check on parsing. 
+      If the <code>Mode</code> field in the <a href="/pkg/text/template/parse/#Tree"><code>parse.Tree</code></a> 
+      struct has the same value as the new 
+      <a href="/pkg/text/template/parse/#SkipFuncCheck"><code>parse.SkipFuncCheck</code></a> constant, the 
+      parsing logic doesn’t check if functions in a template are defined.
     </p>
   </dd>
 </dl><!-- text/template/parse -->
