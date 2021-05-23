@@ -49,19 +49,14 @@ func isGoFile(fi fs.FileInfo) bool {
 func appendHeadings(list []string, comment string) []string {
 	var buf bytes.Buffer
 	doc.ToHTML(&buf, comment, nil)
-	for s := buf.String(); ; {
+	for s := buf.String(); s != ""; {
 		loc := html_h.FindStringIndex(s)
 		if len(loc) == 0 {
 			break
 		}
-		i := loc[1]
-		j := strings.Index(s, html_endh)
-		if j < 0 {
-			list = append(list, s[i:]) // incorrect HTML
-			break
-		}
-		list = append(list, s[i:j])
-		s = s[j+len(html_endh):]
+		var inner string
+		inner, s, _ = strings.Cut(s[loc:], html_endh)
+		list = append(list, inner)
 	}
 	return list
 }

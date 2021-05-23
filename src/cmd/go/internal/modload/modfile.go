@@ -244,9 +244,7 @@ func (e *retractionLoadingError) Unwrap() error {
 // returns a hard-coded string.
 func ShortMessage(message, emptyDefault string) string {
 	const maxLen = 500
-	if i := strings.Index(message, "\n"); i >= 0 {
-		message = message[:i]
-	}
+	message, _, _ = strings.Cut(message, "\n")
 	message = strings.TrimSpace(message)
 	if message == "" {
 		return emptyDefault

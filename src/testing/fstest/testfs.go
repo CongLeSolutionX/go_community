@@ -600,20 +600,21 @@ func (t *fsTester) checkBadPath(file string, desc string, open func(string) erro
 	if file == "." {
 		bad = append(bad, "/")
 	}
-	if i := strings.Index(file, "/"); i >= 0 {
+	if first, end, ok := strings.Cut(file, "/"); ok {
 		bad = append(bad,
-			file[:i]+"//"+file[i+1:],
-			file[:i]+"/./"+file[i+1:],
-			file[:i]+`\`+file[i+1:],
-			file[:i]+"/../"+file,
+			first+"//"+end,
+			first+"/./"+end,
+			first+`\`+end,
+			first+"/../"+file,
 		)
 	}
 	if i := strings.LastIndex(file, "/"); i >= 0 {
+		start, last := file[:i], file[i+1:]
 		bad = append(bad,
-			file[:i]+"//"+file[i+1:],
-			file[:i]+"/./"+file[i+1:],
-			file[:i]+`\`+file[i+1:],
-			file+"/../"+file[i+1:],
+			start+"//"+last,
+			start+"/./"+last,
+			start+`\`+last,
+			file+"/../"+last,
 		)
 	}
 

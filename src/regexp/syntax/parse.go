@@ -824,13 +824,7 @@ func Parse(s string, flags Flags) (*Regexp, error) {
 				case 'Q':
 					// \Q ... \E: the ... is always literals
 					var lit string
-					if i := strings.Index(t, `\E`); i < 0 {
-						lit = t[2:]
-						t = ""
-					} else {
-						lit = t[2:i]
-						t = t[i+2:]
-					}
+					lit, t, _ = strings.Cut(t[2:], `\E`)
 					for lit != "" {
 						c, rest, err := nextRune(lit)
 						if err != nil {
@@ -958,7 +952,7 @@ func (p *parser) parsePerlFlags(s string) (rest string, err error) {
 	// so that's the one we implement. One is enough.
 	if len(t) > 4 && t[2] == 'P' && t[3] == '<' {
 		// Pull out name.
-		end := strings.IndexRune(t, '>')
+		end := strings.Index(t, ">")
 		if end < 0 {
 			if err = checkUTF8(t); err != nil {
 				return "", err
@@ -1472,7 +1466,7 @@ func (p *parser) parseUnicodeClass(s string, r []rune) (out []rune, rest string,
 		name = seq[2:]
 	} else {
 		// Name is in braces.
-		end := strings.IndexRune(s, '}')
+		end := strings.Index(s, "}")
 		if end < 0 {
 			if err = checkUTF8(s); err != nil {
 				return

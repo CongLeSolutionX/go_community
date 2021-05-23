@@ -554,8 +554,8 @@ func QueryPattern(ctx context.Context, pattern, query string, current func(strin
 	var match func(mod module.Version, root string, isLocal bool) *search.Match
 	matchPattern := search.MatchPattern(pattern)
 
-	if i := strings.Index(pattern, "..."); i >= 0 {
-		base = pathpkg.Dir(pattern[:i+3])
+	if before, _, ok := strings.Cut(pattern, "..."); ok {
+		base = pathpkg.Dir(before)
 		if base == "." {
 			return nil, nil, &WildcardInFirstElementError{Pattern: pattern, Query: query}
 		}

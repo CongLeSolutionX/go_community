@@ -70,7 +70,7 @@ func instTypeName2(name string, targs []types2.Type) string {
 		}
 		tname := types2.TypeString(targ,
 			func(*types2.Package) string { return "" })
-		if strings.Index(tname, ", ") >= 0 {
+		if strings.Contains(tname, ", ") {
 			// types2.TypeString puts spaces after a comma in a type
 			// list, but we don't want spaces in our actual type names
 			// and method/function names derived from them.
@@ -264,11 +264,11 @@ func (g *irgen) fillinMethods(typ *types2.Named, ntyp *types.Type) {
 				// using m.Type().RParams() and typ.TArgs()
 				inst2 := instTypeName2("", typ.TArgs())
 				name := meth.Sym().Name
-				i1 := strings.Index(name, "[")
-				i2 := strings.Index(name[i1:], "]")
-				assert(i1 >= 0 && i2 >= 0)
+				start, middle, _ := strings.Cut(name, "[")
+				middle, end, ok := strings.Cut(middle, "]")
+				assert(ok)
 				// Generate the name of the instantiated method.
-				name = name[0:i1] + inst2 + name[i1+i2+1:]
+				name = start + inst2 + end
 				newsym := meth.Sym().Pkg.Lookup(name)
 				var meth2 *ir.Name
 				if newsym.Def != nil {

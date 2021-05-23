@@ -245,8 +245,8 @@ func (m *Match) MatchDirs() {
 	// Could be smarter but this one optimization
 	// is enough for now, since ... is usually at the
 	// end of a path.
-	i := strings.Index(cleanPattern, "...")
-	dir, _ := filepath.Split(cleanPattern[:i])
+	before, _, _ := strings.Cut(cleanPattern, "...")
+	dir, _ := filepath.Split(before)
 
 	// pattern begins with ./ or ../.
 	// path.Clean will discard the ./ but not the ../.
@@ -333,11 +333,7 @@ func (m *Match) MatchDirs() {
 // name or children of name can possibly match pattern.
 // Pattern is the same limited glob accepted by matchPattern.
 func TreeCanMatchPattern(pattern string) func(name string) bool {
-	wildCard := false
-	if i := strings.Index(pattern, "..."); i >= 0 {
-		wildCard = true
-		pattern = pattern[:i]
-	}
+	pattern, _, wildCard := strings.Cut(pattern, "...")
 	return func(name string) bool {
 		return len(name) <= len(pattern) && hasPathPrefix(pattern, name) ||
 			wildCard && strings.HasPrefix(name, pattern)
@@ -475,7 +471,7 @@ func CleanPatterns(patterns []string) []string {
 		var p, v string
 		if build.IsLocalImport(a) || filepath.IsAbs(a) {
 			p = a
-		} else if i := strings.IndexByte(a, '@'); i < 0 {
+		} else if i := strings.Index(a, "@"); i < 0 {
 			p = a
 		} else {
 			p = a[:i]
@@ -552,12 +548,8 @@ func hasFilepathPrefix(s, prefix string) bool {
 // need not have dots in the first element, and they just take their chances
 // with future collisions in the standard library.
 func IsStandardImportPath(path string) bool {
-	i := strings.Index(path, "/")
-	if i < 0 {
-		i = len(path)
-	}
-	elem := path[:i]
-	return !strings.Contains(elem, ".")
+	first, _, _ := strings.Cut(path, "/")
+	return !strings.Contains(first, ".")
 }
 
 // IsRelativePath reports whether pattern should be interpreted as a directory

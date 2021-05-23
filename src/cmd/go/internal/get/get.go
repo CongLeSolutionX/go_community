@@ -427,12 +427,12 @@ func downloadPackage(p *load.Package) error {
 	// and hope that it applies to the wildcarded parts too.
 	// This makes 'go get rsc.io/pdf/...' work in a fresh GOPATH.
 	importPrefix := p.ImportPath
-	if i := strings.Index(importPrefix, "..."); i >= 0 {
-		slash := strings.LastIndexByte(importPrefix[:i], '/')
+	if before, _, ok := strings.Cut(importPrefix, "..."); ok {
+		slash := strings.LastIndexByte(before, '/')
 		if slash < 0 {
 			return fmt.Errorf("cannot expand ... in %q", p.ImportPath)
 		}
-		importPrefix = importPrefix[:slash]
+		importPrefix = before[:slash]
 	}
 	if err := checkImportPath(importPrefix); err != nil {
 		return fmt.Errorf("%s: invalid import path: %v", p.ImportPath, err)
@@ -568,9 +568,7 @@ func downloadPackage(p *load.Package) error {
 		return err
 	}
 	vers := runtime.Version()
-	if i := strings.Index(vers, " "); i >= 0 {
-		vers = vers[:i]
-	}
+	vers, _, _ = strings.Cut(vers, " ")
 	if err := vcsCmd.TagSync(root, selectTag(vers, tags)); err != nil {
 		return err
 	}

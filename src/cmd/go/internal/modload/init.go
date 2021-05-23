@@ -595,8 +595,10 @@ func fixVersion(ctx context.Context, fixed *bool) modfile.VersionFixer {
 		}()
 
 		// Special case: remove the old -gopkgin- hack.
-		if strings.HasPrefix(path, "gopkg.in/") && strings.Contains(vers, "-gopkgin-") {
-			vers = vers[strings.Index(vers, "-gopkgin-")+len("-gopkgin-"):]
+		if strings.HasPrefix(path, "gopkg.in/") {
+			if before, after, ok := strings.Cut(vers, "-gopkgin-"); ok {
+				vers = before + after
+			}
 		}
 
 		// fixVersion is called speculatively on every

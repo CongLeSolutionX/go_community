@@ -39,15 +39,15 @@ var readImportsTests = []readTest{
 	},
 	{
 		`package p
-		
+
 		// comment
-		
+
 		import "x"
 		import _ "x"
 		import a "x"
-		
+
 		/* comment */
-		
+
 		import (
 			"x" /* comment */
 			_ "x"
@@ -61,7 +61,7 @@ var readImportsTests = []readTest{
 		import ()
 		import()import()import()
 		import();import();import()
-		
+
 		ℙvar x = 1
 		`,
 		"",
@@ -87,7 +87,7 @@ var readCommentsTests = []readTest{
 		/* bar */
 
 		/* quux */ // baz
-		
+
 		/*/ zot */
 
 		// asdf
@@ -98,16 +98,8 @@ var readCommentsTests = []readTest{
 
 func testRead(t *testing.T, tests []readTest, read func(io.Reader) ([]byte, error)) {
 	for i, tt := range tests {
-		var in, testOut string
-		j := strings.Index(tt.in, "ℙ")
-		if j < 0 {
-			in = tt.in
-			testOut = tt.in
-		} else {
-			in = tt.in[:j] + tt.in[j+len("ℙ"):]
-			testOut = tt.in[:j]
-		}
-		r := strings.NewReader(in)
+		before, after, _ := strings.Cut(tt.in, "ℙ")
+		r := strings.NewReader(before + after)
 		buf, err := read(r)
 		if err != nil {
 			if tt.err == "" {
@@ -126,8 +118,8 @@ func testRead(t *testing.T, tests []readTest, read func(io.Reader) ([]byte, erro
 		}
 
 		out := string(buf)
-		if out != testOut {
-			t.Errorf("#%d: wrong output:\nhave %q\nwant %q\n", i, out, testOut)
+		if out != before {
+			t.Errorf("#%d: wrong output:\nhave %q\nwant %q\n", i, out, before)
 		}
 	}
 }

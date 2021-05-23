@@ -321,20 +321,17 @@ func CheckPath(path string) (err error) {
 	if err := checkPath(path, modulePath); err != nil {
 		return err
 	}
-	i := strings.Index(path, "/")
-	if i < 0 {
-		i = len(path)
-	}
-	if i == 0 {
+	elem, _, _ := strings.Cut(path, "/")
+	if elem == "" {
 		return fmt.Errorf("leading slash")
 	}
-	if !strings.Contains(path[:i], ".") {
+	if !strings.Contains(elem, ".") {
 		return fmt.Errorf("missing dot in first path element")
 	}
-	if path[0] == '-' {
+	if elem[0] == '-' {
 		return fmt.Errorf("leading dash in first path element")
 	}
-	for _, r := range path[:i] {
+	for _, r := range elem {
 		if !firstPathOK(r) {
 			return fmt.Errorf("invalid char %q in first path element", r)
 		}
@@ -450,10 +447,7 @@ func checkElem(elem string, kind pathKind) error {
 
 	// Windows disallows a bunch of path elements, sadly.
 	// See https://docs.microsoft.com/en-us/windows/desktop/fileio/naming-a-file
-	short := elem
-	if i := strings.Index(short, "."); i >= 0 {
-		short = short[:i]
-	}
+	short, _, _ := strings.Cut(elem, ".")
 	for _, bad := range badWindowsNames {
 		if strings.EqualFold(bad, short) {
 			return fmt.Errorf("%q disallowed as path element component on Windows", short)
@@ -807,11 +801,7 @@ func MatchPrefixPatterns(globs, target string) bool {
 	for globs != "" {
 		// Extract next non-empty glob in comma-separated list.
 		var glob string
-		if i := strings.Index(globs, ","); i >= 0 {
-			glob, globs = globs[:i], globs[i+1:]
-		} else {
-			glob, globs = globs, ""
-		}
+		glob, globs, _ = strings.Cut(globs, ",")
 		if glob == "" {
 			continue
 		}

@@ -915,11 +915,10 @@ func flattenCmdline(cmdline []interface{}) (bin string, args []string) {
 	drop := make([]bool, len(list))
 	have := map[string]int{}
 	for i := 1; i < len(list); i++ {
-		j := strings.Index(list[i], "=")
-		if j < 0 {
+		flag, _, ok := strings.Cut(list[i], "=")
+		if !ok {
 			continue
 		}
-		flag := list[i][:j]
 		switch flag {
 		case "-run", "-tags":
 			if have[flag] != 0 {

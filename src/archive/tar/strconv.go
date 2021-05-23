@@ -14,7 +14,7 @@ import (
 
 // hasNUL reports whether the NUL character exists within s.
 func hasNUL(s string) bool {
-	return strings.IndexByte(s, 0) >= 0
+	return strings.Contains(s, "\x00")
 }
 
 // isASCII reports whether the input is an ASCII C-style string.
@@ -201,10 +201,7 @@ func parsePAXTime(s string) (time.Time, error) {
 	const maxNanoSecondDigits = 9
 
 	// Split string into seconds and sub-seconds parts.
-	ss, sn := s, ""
-	if pos := strings.IndexByte(s, '.'); pos >= 0 {
-		ss, sn = s[:pos], s[pos+1:]
-	}
+	ss, sn, _ := strings.Cut(s, ".")
 
 	// Parse the seconds.
 	secs, err := strconv.ParseInt(ss, 10, 64)
@@ -254,18 +251,18 @@ func formatPAXTime(ts time.Time) (s string) {
 // return the remainder as r.
 func parsePAXRecord(s string) (k, v, r string, err error) {
 	// The size field ends at the first space.
-	sp := strings.IndexByte(s, ' ')
-	if sp == -1 {
+	nStr, r, ok := strings.Cut(s, " ")
+	if !ok {
 		return "", "", s, ErrHeader
 	}
 
 	// Parse the first token as a decimal integer.
-	n, perr := strconv.ParseInt(s[:sp], 10, 0) // Intentionally parse as native int
+	n, perr := strconv.ParseInt(nStr, 10, 0) // Intentionally parse as native int
 	if perr != nil || n < 5 || int64(len(s)) < n {
 		return "", "", s, ErrHeader
 	}
 
-	afterSpace := int64(sp + 1)
+	afterSpace := int64(len(nStr) + 1)
 	beforeLastNewLine := n - 1
 	// In some cases, "length" was perhaps padded/malformed, and
 	// trying to index past where the space supposedly is goes past
@@ -291,11 +288,10 @@ func parsePAXRecord(s string) (k, v, r string, err error) {
 	}
 
 	// The first equals separates the key from the value.
-	eq := strings.IndexByte(rec, '=')
-	if eq == -1 {
+	k, v, ok = strings.Cut(rec, "=")
+	if !ok {
 		return "", "", s, ErrHeader
 	}
-	k, v = rec[:eq], rec[eq+1:]
 
 	if !validPAXRecord(k, v) {
 		return "", "", s, ErrHeader
@@ -333,7 +329,7 @@ func formatPAXRecord(k, v string) (string, error) {
 // for the PAX version of the USTAR string fields.
 // The key must not contain an '=' character.
 func validPAXRecord(k, v string) bool {
-	if k == "" || strings.IndexByte(k, '=') >= 0 {
+	if k == "" || strings.Contains(k, "=") {
 		return false
 	}
 	switch k {

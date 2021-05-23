@@ -253,7 +253,8 @@ func usage(commandLine bool) string {
 		prefix = "-"
 	}
 	fmtHelp := func(c, d string) string {
-		return fmt.Sprintf("    %-16s %s", c, strings.SplitN(d, "\n", 2)[0])
+		d, _, _ = strings.Cut(d, "\n")
+		return fmt.Sprintf("    %-16s %s", c, d)
 	}
 
 	var commands []string

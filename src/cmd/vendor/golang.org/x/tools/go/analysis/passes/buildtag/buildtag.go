@@ -126,15 +126,9 @@ func (check *checker) file(pos token.Pos, text string) {
 	var plusBuildCutoff int
 	fullText := text
 	for text != "" {
-		i := strings.Index(text, "\n")
-		if i < 0 {
-			i = len(text)
-		} else {
-			i++
-		}
 		offset := len(fullText) - len(text)
-		line := text[:i]
-		text = text[i:]
+		var line string
+		line, text, _ = strings.Cut(text, "\n")
 		line = strings.TrimSpace(line)
 		if !strings.HasPrefix(line, "//") && line != "" {
 			break
@@ -149,15 +143,9 @@ func (check *checker) file(pos token.Pos, text string) {
 	text = fullText
 	check.inStar = false
 	for text != "" {
-		i := strings.Index(text, "\n")
-		if i < 0 {
-			i = len(text)
-		} else {
-			i++
-		}
 		offset := len(fullText) - len(text)
-		line := text[:i]
-		text = text[i:]
+		var line string
+		line, text, _ = strings.Cut(text, "\n")
 		check.plusBuildOK = offset < plusBuildCutoff
 
 		if strings.HasPrefix(line, "//") {
@@ -170,12 +158,10 @@ func (check *checker) file(pos token.Pos, text string) {
 		for {
 			line = strings.TrimSpace(line)
 			if check.inStar {
-				i := strings.Index(line, "*/")
-				if i < 0 {
-					line = ""
+				var ok bool
+				if _, line, ok = strings.Cut(line, "*/"); !ok {
 					break
 				}
-				line = line[i+len("*/"):]
 				check.inStar = false
 				continue
 			}
@@ -255,9 +241,7 @@ func (check *checker) goBuildLine(pos token.Pos, line string) {
 	}
 
 	// testing hack: stop at // ERROR
-	if i := strings.Index(line, " // ERROR "); i >= 0 {
-		line = line[:i]
-	}
+	line, _, _ = strings.Cut(line, " // ERROR ")
 
 	x, err := constraint.Parse(line)
 	if err != nil {
@@ -291,9 +275,7 @@ func (check *checker) plusBuildLine(pos token.Pos, line string) {
 	}
 
 	// testing hack: stop at // ERROR
-	if i := strings.Index(line, " // ERROR "); i >= 0 {
-		line = line[:i]
-	}
+	line, _, _ = strings.Cut(line, " // ERROR ")
 
 	fields := strings.Fields(line[len("//"):])
 	// IsPlusBuildConstraint check above implies fields[0] == "+build"

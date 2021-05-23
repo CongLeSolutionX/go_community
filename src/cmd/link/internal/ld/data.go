@@ -1074,18 +1074,17 @@ var (
 )
 
 func addstrdata1(ctxt *Link, arg string) {
-	eq := strings.Index(arg, "=")
-	dot := strings.LastIndex(arg[:eq+1], ".")
-	if eq < 0 || dot < 0 {
+	name, value, ok := strings.Cut(arg, "=")
+	dot := strings.LastIndex(name, ".")
+	if !ok || dot < 0 {
 		Exitf("-X flag requires argument of the form importpath.name=value")
 	}
-	pkg := arg[:dot]
+	pkg, name := name[:dot], name[dot+1:]
 	if ctxt.BuildMode == BuildModePlugin && pkg == "main" {
 		pkg = *flagPluginPath
 	}
 	pkg = objabi.PathToPrefix(pkg)
-	name := pkg + arg[dot:eq]
-	value := arg[eq+1:]
+	name = pkg + name
 	if _, ok := strdata[name]; !ok {
 		strnames = append(strnames, name)
 	}

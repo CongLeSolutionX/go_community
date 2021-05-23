@@ -1164,11 +1164,11 @@ func (d *Decoder) nsname() (name Name, ok bool) {
 	}
 	if strings.Count(s, ":") > 1 {
 		name.Local = s
-	} else if i := strings.Index(s, ":"); i < 1 || i > len(s)-2 {
+	} else if space, local, ok := strings.Cut(s, ":"); !ok || space == "" || local == "" {
 		name.Local = s
 	} else {
-		name.Space = s[0:i]
-		name.Local = s[i+1:]
+		name.Space = space
+		name.Local = local
 	}
 	return name, true
 }
@@ -2041,20 +2041,13 @@ func procInst(param, s string) string {
 	// TODO: this parsing is somewhat lame and not exact.
 	// It works for all actual cases, though.
 	param = param + "="
-	idx := strings.Index(s, param)
-	if idx == -1 {
+	_, v, ok := strings.Cut(s, param)
+	if !ok || v == "" || v[0] != '\'' && v[0] != '"' {
 		return ""
 	}
-	v := s[idx+len(param):]
-	if v == "" {
+	v, _, ok = strings.Cut(v[1:], v[:1])
+	if !ok {
 		return ""
 	}
-	if v[0] != '\'' && v[0] != '"' {
-		return ""
-	}
-	idx = strings.IndexRune(v[1:], rune(v[0]))
-	if idx == -1 {
-		return ""
-	}
-	return v[1 : idx+1]
+	return v
 }

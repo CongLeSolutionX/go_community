@@ -275,9 +275,8 @@ func bzrResolveRepo(vcsBzr *Cmd, rootDir, remoteRepo string) (realRepo string, e
 
 	found := false
 	for _, prefix := range []string{"\n  branch root: ", "\n  repository branch: "} {
-		i := strings.Index(out, prefix)
-		if i >= 0 {
-			out = out[i+len(prefix):]
+		if _, after, ok := strings.Cut(out, prefix); ok {
+			out = after
 			found = true
 			break
 		}
@@ -286,11 +285,10 @@ func bzrResolveRepo(vcsBzr *Cmd, rootDir, remoteRepo string) (realRepo string, e
 		return "", fmt.Errorf("unable to parse output of bzr info")
 	}
 
-	i := strings.Index(out, "\n")
-	if i < 0 {
+	out, _, ok := strings.Cut(out, "\n")
+	if !ok {
 		return "", fmt.Errorf("unable to parse output of bzr info")
 	}
-	out = out[:i]
 	return strings.TrimSpace(out), nil
 }
 
@@ -327,16 +325,14 @@ func svnRemoteRepo(vcsSvn *Cmd, rootDir string) (remoteRepo string, err error) {
 	// because svn allows checking out subtrees.
 	// The URL will be the URL of the subtree (what we used with 'svn co')
 	// while the Repository Root may be a much higher parent.
-	i := strings.Index(out, "\nURL: ")
-	if i < 0 {
+	_, out, ok := strings.Cut(out, "\nURL: ")
+	if !ok {
 		return "", fmt.Errorf("unable to parse output of svn info")
 	}
-	out = out[i+len("\nURL: "):]
-	i = strings.Index(out, "\n")
-	if i < 0 {
+	out, _, ok = strings.Cut(out, "\n")
+	if !ok {
 		return "", fmt.Errorf("unable to parse output of svn info")
 	}
-	out = out[:i]
 	return strings.TrimSpace(out), nil
 }
 
@@ -625,11 +621,11 @@ func parseGOVCS(s string) (govcsConfig, error) {
 		if item == "" {
 			return nil, fmt.Errorf("empty entry in GOVCS")
 		}
-		i := strings.Index(item, ":")
-		if i < 0 {
+		pattern, list, ok := strings.Cut(item, ":")
+		if !ok {
 			return nil, fmt.Errorf("malformed entry in GOVCS (missing colon): %q", item)
 		}
-		pattern, list := strings.TrimSpace(item[:i]), strings.TrimSpace(item[i+1:])
+		pattern, list = strings.TrimSpace(pattern), strings.TrimSpace(list)
 		if pattern == "" {
 			return nil, fmt.Errorf("empty pattern in GOVCS: %q", item)
 		}

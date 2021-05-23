@@ -15,13 +15,10 @@ import (
 // Derive extattr namespace and attribute name
 
 func xattrnamespace(fullattr string) (ns int, attr string, err error) {
-	s := strings.IndexByte(fullattr, '.')
-	if s == -1 {
+	namespace, attr, ok := strings.Cut(fulladdr, ".")
+	if !ok {
 		return -1, "", ENOATTR
 	}
-
-	namespace := fullattr[0:s]
-	attr = fullattr[s+1:]
 
 	switch namespace {
 	case "user":

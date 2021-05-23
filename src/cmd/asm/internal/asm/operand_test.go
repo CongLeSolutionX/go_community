@@ -162,9 +162,7 @@ func TestFuncAddress(t *testing.T) {
 					if strings.HasPrefix(wantName, "$") || strings.HasPrefix(wantName, "*") {
 						wantName = wantName[1:]
 					}
-					if i := strings.Index(wantName, "+"); i >= 0 {
-						wantName = wantName[:i]
-					}
+					wantName, _, _ = strings.Cut(wantName, "+")
 				}
 				if ok != isFuncSym || name != wantName {
 					t.Errorf("fail at %s as function address: got %s, %v; expected %s, %v", test.input, name, ok, wantName, isFuncSym)

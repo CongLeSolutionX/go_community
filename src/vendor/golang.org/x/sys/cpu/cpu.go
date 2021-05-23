@@ -220,22 +220,16 @@ func processOptions() {
 	env := os.Getenv("GODEBUG")
 field:
 	for env != "" {
-		field := ""
-		i := strings.IndexByte(env, ',')
-		if i < 0 {
-			field, env = env, ""
-		} else {
-			field, env = env[:i], env[i+1:]
-		}
-		if len(field) < 4 || field[:4] != "cpu." {
+		var field string
+		field, env, _ = strings.Cut(env, ",")
+		if !strings.HasPrefix(field, "cpu.") {
 			continue
 		}
-		i = strings.IndexByte(field, '=')
-		if i < 0 {
+		key, value, ok := strings.Cut(field[len("cpu."):], "=") // e.g. "SSE2", "on"
+		if !ok {
 			print("GODEBUG sys/cpu: no value specified for \"", field, "\"\n")
 			continue
 		}
-		key, value := field[4:i], field[i+1:] // e.g. "SSE2", "on"
 
 		var enable bool
 		switch value {

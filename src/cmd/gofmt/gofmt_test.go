@@ -62,12 +62,7 @@ func runTest(t *testing.T, in, out string) {
 	*rewriteRule = ""
 	stdin := false
 	for _, flag := range strings.Split(gofmtFlags(in, 20), " ") {
-		elts := strings.SplitN(flag, "=", 2)
-		name := elts[0]
-		value := ""
-		if len(elts) == 2 {
-			value = elts[1]
-		}
+		name, value, _ := strings.Cut(flag, "=")
 		switch name {
 		case "":
 			// no flags

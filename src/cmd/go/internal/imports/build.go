@@ -101,10 +101,10 @@ func matchTags(name string, tags map[string]bool) bool {
 	if name == "" {
 		return false
 	}
-	if i := strings.Index(name, ","); i >= 0 {
+	if tag, rest, ok := strings.Cut(name, ","); ok {
 		// comma-separated list
-		ok1 := matchTags(name[:i], tags)
-		ok2 := matchTags(name[i+1:], tags)
+		ok1 := matchTags(tag, tags)
+		ok2 := matchTags(rest, tags)
 		return ok1 && ok2
 	}
 	if strings.HasPrefix(name, "!!") { // bad syntax, reject always
@@ -170,9 +170,7 @@ func MatchFile(name string, tags map[string]bool) bool {
 	if tags["*"] {
 		return true
 	}
-	if dot := strings.Index(name, "."); dot != -1 {
-		name = name[:dot]
-	}
+	name, _, _ = strings.Cut(name, ".")
 
 	// Before Go 1.4, a file called "linux.go" would be equivalent to having a
 	// build tag "linux" in that file. For Go 1.4 and beyond, we require this

@@ -62,11 +62,11 @@ func (z *Rat) SetString(s string) (*Rat, bool) {
 	// len(s) > 0
 
 	// parse fraction a/b, if any
-	if sep := strings.Index(s, "/"); sep >= 0 {
-		if _, ok := z.a.SetString(s[:sep], 0); !ok {
+	if a, b, ok := strings.Cut(s, "/"); ok {
+		if _, ok := z.a.SetString(a, 0); !ok {
 			return nil, false
 		}
-		r := strings.NewReader(s[sep+1:])
+		r := strings.NewReader(b)
 		var err error
 		if z.b.abs, _, _, err = z.b.abs.scan(r, 0, false); err != nil {
 			return nil, false

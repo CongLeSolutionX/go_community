@@ -243,9 +243,7 @@ Files:
 			}
 
 			// Ignore comments and commented-out code.
-			if i := strings.Index(line, "//"); i >= 0 {
-				line = line[:i]
-			}
+			line, _, _ = strings.Cut(line, "//")
 
 			if m := asmTEXT.FindStringSubmatch(line); m != nil {
 				flushRet()

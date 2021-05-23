@@ -988,9 +988,7 @@ func TestIssue12594(t *testing.T) {
 		var blk block
 		copy(blk[:], b.Bytes())
 		prefix := string(blk.USTAR().Prefix())
-		if i := strings.IndexByte(prefix, 0); i >= 0 {
-			prefix = prefix[:i] // Truncate at the NUL terminator
-		}
+		prefix, _, _ = strings.Cut(prefix, "\x00") // truncate at NUL
 		if blk.GetFormat() == FormatGNU && len(prefix) > 0 && strings.HasPrefix(name, prefix) {
 			t.Errorf("test %d, found prefix in GNU format: %s", i, prefix)
 		}

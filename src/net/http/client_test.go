@@ -476,7 +476,7 @@ func testRedirectsByMethod(t *testing.T, method string, table []redirectTest, wa
 
 func removeCommonLines(a, b string) (asuffix, bsuffix string, commonLines int) {
 	for {
-		nl := strings.IndexByte(a, '\n')
+		nl := strings.Index(a, "\n")
 		if nl < 0 {
 			return a, b, commonLines
 		}

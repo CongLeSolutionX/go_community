@@ -904,13 +904,10 @@ func (w *HTMLWriter) WriteAST(phase string, buf *bytes.Buffer) {
 				escaped = fmt.Sprintf("<b>%v</b>", l)
 			} else {
 				// Parse the line number from the format l(123).
-				idx := strings.Index(l, " l(")
-				if idx != -1 {
-					subl := l[idx+3:]
-					idxEnd := strings.Index(subl, ")")
-					if idxEnd != -1 {
-						if _, err := strconv.Atoi(subl[:idxEnd]); err == nil {
-							lineNo = subl[:idxEnd]
+				if _, subl, ok := strings.Cut(l, " l("); ok {
+					if num, _, ok := strings.Cut(subl, ")"); ok {
+						if _, err := strconv.Atoi(num); err == nil {
+							lineNo = num
 						}
 					}
 				}

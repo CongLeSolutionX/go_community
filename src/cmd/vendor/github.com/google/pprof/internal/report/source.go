@@ -1037,8 +1037,8 @@ func trimPath(path, trimPath, searchPath string) string {
 		// "/my/local/path/my-project/foo/bar.c".
 		for _, dir := range filepath.SplitList(searchPath) {
 			want := "/" + filepath.Base(dir) + "/"
-			if found := strings.Index(sPath, want); found != -1 {
-				return path[found+len(want):]
+			if _, after, ok := strings.Cut(sPath, want); ok {
+				return after
 			}
 		}
 	}

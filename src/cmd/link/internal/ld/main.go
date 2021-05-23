@@ -229,12 +229,9 @@ func Main(arch *sys.Arch, theArch Arch) {
 	case BuildModeShared:
 		for i := 0; i < flag.NArg(); i++ {
 			arg := flag.Arg(i)
-			parts := strings.SplitN(arg, "=", 2)
-			var pkgpath, file string
-			if len(parts) == 1 {
+			pkgpath, file, ok := strings.Cut(arg, "=")
+			if !ok {
 				pkgpath, file = "main", arg
-			} else {
-				pkgpath, file = parts[0], parts[1]
 			}
 			pkglistfornote = append(pkglistfornote, pkgpath...)
 			pkglistfornote = append(pkglistfornote, '\n')

@@ -62,10 +62,9 @@ func predefine(defines flags.MultiFlag) map[string]*Macro {
 	}
 
 	for _, name := range defines {
-		value := "1"
-		i := strings.IndexRune(name, '=')
-		if i > 0 {
-			name, value = name[:i], name[i+1:]
+		name, value, ok := strings.Cut(name, "=")
+		if !ok {
+			value = "1"
 		}
 		tokens := Tokenize(name)
 		if len(tokens) != 1 || tokens[0].ScanToken != scanner.Ident {

@@ -154,11 +154,9 @@ Split:
 			// expect form ssa/phase/flag
 			// e.g. -d=ssa/generic_cse/time
 			// _ in phase name also matches space
-			phase := name[4:]
-			flag := "debug" // default flag is debug
-			if i := strings.Index(phase, "/"); i >= 0 {
-				flag = phase[i+1:]
-				phase = phase[:i]
+			phase, flag, ok := strings.Cut(name[len("ssa/"):], "/")
+			if !ok {
+				flag = "debug" // default flag is debug
 			}
 			err := DebugSSA(phase, flag, val, valstring)
 			if err != "" {

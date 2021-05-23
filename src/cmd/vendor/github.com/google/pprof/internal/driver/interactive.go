@@ -56,11 +56,9 @@ func interactive(p *profile.Profile, o *plugin.Options) error {
 
 		for _, input := range shortcuts.expand(input) {
 			// Process assignments of the form variable=value
-			if s := strings.SplitN(input, "=", 2); len(s) > 0 {
-				name := strings.TrimSpace(s[0])
-				var value string
-				if len(s) == 2 {
-					value = s[1]
+			if name, value, _ := strings.Cut(input, "="); true {
+				name = strings.TrimSpace(name)
+				if value != "" {
 					if comment := strings.LastIndex(value, commentStart); comment != -1 {
 						value = value[:comment]
 					}
@@ -68,7 +66,7 @@ func interactive(p *profile.Profile, o *plugin.Options) error {
 				}
 				if isConfigurable(name) {
 					// All non-bool options require inputs
-					if len(s) == 1 && !isBoolConfig(name) {
+					if value == "" && !isBoolConfig(name) {
 						o.UI.PrintErr(fmt.Errorf("please specify a value, e.g. %s=<val>", name))
 						continue
 					}

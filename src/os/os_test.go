@@ -1761,8 +1761,7 @@ func TestHostname(t *testing.T) {
 	// and the /bin/hostname only returns the first component
 	want := runBinHostname(t)
 	if hostname != want {
-		i := strings.Index(hostname, ".")
-		if i < 0 || hostname[0:i] != want {
+		if elem, _, _ := strings.Cut(hostname, "."); elem != want {
 			t.Errorf("Hostname() = %q, want %q", hostname, want)
 		}
 	}

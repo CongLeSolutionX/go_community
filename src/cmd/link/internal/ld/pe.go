@@ -1150,15 +1150,14 @@ func initdynimport(ctxt *Link) *Dll {
 		// of uinptrs this function consumes. Store the argsize and discard
 		// the %n suffix if any.
 		m.argsize = -1
-		extName := ldr.SymExtname(s)
-		if i := strings.IndexByte(extName, '%'); i >= 0 {
+		if name, words, ok := strings.Cut(ldr.SymExtname(s), "%"); ok {
 			var err error
-			m.argsize, err = strconv.Atoi(extName[i+1:])
+			m.argsize, err = strconv.Atoi(words)
 			if err != nil {
 				ctxt.Errorf(s, "failed to parse stdcall decoration: %v", err)
 			}
 			m.argsize *= ctxt.Arch.PtrSize
-			ldr.SetSymExtname(s, extName[:i])
+			ldr.SetSymExtname(s, name)
 		}
 
 		m.s = s

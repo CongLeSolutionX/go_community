@@ -1668,10 +1668,7 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 		p.pragcgo(pos, text)
 		fallthrough // because of //go:cgo_unsafe_args
 	default:
-		verb := text
-		if i := strings.Index(text, " "); i >= 0 {
-			verb = verb[:i]
-		}
+		verb, _, _ := strings.Cut(text, " ")
 		flag := pragmaFlag(verb)
 		const runtimePragmas = ir.Systemstack | ir.Nowritebarrier | ir.Nowritebarrierrec | ir.Yeswritebarrierrec
 		if !base.Flag.CompilingRuntime && flag&runtimePragmas != 0 {
@@ -1738,12 +1735,11 @@ func parseGoEmbed(args string) ([]string, error) {
 			args = args[i:]
 
 		case '`':
-			i := strings.Index(args[1:], "`")
-			if i < 0 {
+			var ok bool
+			path, args, ok = strings.Cut(args[1:], "`")
+			if !ok {
 				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
 			}
-			path = args[1 : 1+i]
-			args = args[1+i+1:]
 
 		case '"':
 			i := 1

@@ -1101,8 +1101,8 @@ func (lv *liveness) showlive(v *ssa.Value, live bitvec.BitVec) {
 		s += fmt.Sprintf("entry to %s:", ir.FuncName(lv.fn))
 	} else if sym, ok := v.Aux.(*ssa.AuxCall); ok && sym.Fn != nil {
 		fn := sym.Fn.Name
-		if pos := strings.Index(fn, "."); pos >= 0 {
-			fn = fn[pos+1:]
+		if _, name, ok := strings.Cut(fn, "."); ok {
+			fn = name
 		}
 		s += fmt.Sprintf("call to %s:", fn)
 	} else {

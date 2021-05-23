@@ -96,16 +96,14 @@ const buildIDSeparator = "/"
 
 // actionID returns the action ID half of a build ID.
 func actionID(buildID string) string {
-	i := strings.Index(buildID, buildIDSeparator)
-	if i < 0 {
-		return buildID
-	}
-	return buildID[:i]
+	id, _, _ := strings.Cut(buildID, buildIDSeparator)
+	return id
 }
 
 // contentID returns the content ID half of a build ID.
 func contentID(buildID string) string {
-	return buildID[strings.LastIndex(buildID, buildIDSeparator)+1:]
+	_, id, _ := strings.Cut(buildID, buildIDSeparator)
+	return id
 }
 
 // toolID returns the unique ID to use for the current copy of the

@@ -98,15 +98,8 @@ var readCommentsTests = []readTest{
 
 func testRead(t *testing.T, tests []readTest, read func(io.Reader) ([]byte, error)) {
 	for i, tt := range tests {
-		var in, testOut string
-		j := strings.Index(tt.in, "ℙ")
-		if j < 0 {
-			in = tt.in
-			testOut = tt.in
-		} else {
-			in = tt.in[:j] + tt.in[j+len("ℙ"):]
-			testOut = tt.in[:j]
-		}
+		testOut, after, ok := strings.Cut(tt.in, "ℙ")
+		in := testOut + after
 		r := strings.NewReader(in)
 		buf, err := read(r)
 		if err != nil {

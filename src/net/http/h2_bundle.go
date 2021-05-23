@@ -8109,17 +8109,13 @@ func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trail
 				// each with one or more cookie-pairs.
 				for _, v := range vv {
 					for {
-						p := strings.IndexByte(v, ';')
-						if p < 0 {
+						cookie, rest, ok := strings.Cut(v, ";")
+						if !ok {
 							break
 						}
-						f("cookie", v[:p])
-						p++
+						f("cookie", cookie)
 						// strip space after semicolon if any.
-						for p+1 <= len(v) && v[p] == ' ' {
-							p++
-						}
-						v = v[p:]
+						v = strings.TrimLeft(rest, " ")
 					}
 					if len(v) > 0 {
 						f("cookie", v)

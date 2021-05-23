@@ -320,7 +320,7 @@ func (tg *testgoData) parallel() {
 	}
 	for _, e := range tg.env {
 		if strings.HasPrefix(e, "GOROOT=") || strings.HasPrefix(e, "GOPATH=") || strings.HasPrefix(e, "GOBIN=") {
-			val := e[strings.Index(e, "=")+1:]
+			_, val, _ := strings.Cut(e, "=")
 			if strings.HasPrefix(val, "testdata") || strings.HasPrefix(val, "./testdata") {
 				tg.t.Fatalf("internal testsuite error: call to parallel with testdata in environment (%s)", e)
 			}
@@ -711,13 +711,12 @@ func (tg *testgoData) isStale(pkg string) (bool, string) {
 	tg.t.Helper()
 	tg.run("list", "-f", "{{.Stale}}:{{.StaleReason}}", pkg)
 	v := strings.TrimSpace(tg.getStdout())
-	f := strings.SplitN(v, ":", 2)
-	if len(f) == 2 {
-		switch f[0] {
+	if stale, reason, ok := strings.Cut(v, ":"); ok {
+		switch stale {
 		case "true":
-			return true, f[1]
+			return true, reason
 		case "false":
-			return false, f[1]
+			return false, reason
 		}
 	}
 	tg.t.Fatalf("unexpected output checking staleness of package %v: %v", pkg, v)
