@@ -5155,6 +5155,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 	// Insert OVARLIVE nodes
 	for _, name := range n.KeepAlive {
 		s.stmt(ir.NewUnaryExpr(n.Pos(), ir.OVARLIVE, name))
+		name.SetNeedStackObjects(false)
 	}
 
 	// Finish block for defers
