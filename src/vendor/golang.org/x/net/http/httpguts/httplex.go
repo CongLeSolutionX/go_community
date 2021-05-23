@@ -136,14 +136,15 @@ func trimOWS(x string) string {
 // 0#element, in the ABNF extension described in RFC 7230 section 7)
 // contains token amongst its comma-separated tokens, ASCII
 // case-insensitively.
-func headerValueContainsToken(v string, token string) bool {
-	for comma := strings.IndexByte(v, ','); comma != -1; comma = strings.IndexByte(v, ',') {
-		if tokenEqual(trimOWS(v[:comma]), token) {
+func headerValueContainsToken(v, token string) bool {
+	for v != "" {
+		var t string
+		t, v, _ = strings.Cut(v, ",")
+		if tokenEqual(trimOWS(t), token) {
 			return true
 		}
-		v = v[comma+1:]
 	}
-	return tokenEqual(trimOWS(v), token)
+	return false
 }
 
 // lowerASCII returns the ASCII lowercase version of b.

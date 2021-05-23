@@ -35,10 +35,8 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 			// plan9Arg will return a string with the string representation
 			// of these values separated by a blank that will be treated
 			// as 2 args from this point on.
-			if strings.IndexByte(s, ' ') > 0 {
-				t := strings.Split(s, " ")
-				args = append(args, t[0])
-				args = append(args, t[1])
+			if arg1, arg2, ok := strings.Cut(s, " "); ok {
+				args = append(args, arg1, arg2)
 			} else {
 				args = append(args, s)
 			}

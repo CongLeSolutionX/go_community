@@ -198,8 +198,8 @@ func (ts *testScript) setup() {
 
 	ts.envMap = make(map[string]string)
 	for _, kv := range ts.env {
-		if i := strings.Index(kv, "="); i >= 0 {
-			ts.envMap[kv[:i]] = kv[i+1:]
+		if k, v, ok := strings.Cut(kv, "="); ok {
+			ts.envMap[k] = v
 		}
 	}
 }
@@ -277,11 +277,8 @@ Script:
 		// Extract next line.
 		ts.lineno++
 		var line string
-		if i := strings.Index(script, "\n"); i >= 0 {
-			line, script = script[:i], script[i+1:]
-		} else {
-			line, script = script, ""
-		}
+		var ok bool
+		line, script, ok = strings.Cut(script, "\n")
 
 		// # is a comment indicating the start of new phase.
 		if strings.HasPrefix(line, "#") {
@@ -689,20 +686,20 @@ func (ts *testScript) cmdEnv(want simpleStatus, args []string) {
 	if len(args) == 0 {
 		printed := make(map[string]bool) // env list can have duplicates; only print effective value (from envMap) once
 		for _, kv := range ts.env {
-			k := kv[:strings.Index(kv, "=")]
+			k, _, _ := strings.Cut(kv, "=")
 			if !printed[k] {
 				fmt.Fprintf(&out, "%s=%s\n", k, ts.envMap[k])
 			}
 		}
 	} else {
 		for _, env := range args {
-			i := strings.Index(env, "=")
-			if i < 0 {
+			key, val, ok := strings.Cut(env, "=")
+			if !ok {
 				// Display value instead of setting it.
 				fmt.Fprintf(&out, "%s=%s\n", env, ts.envMap[env])
 				continue
 			}
-			key, val := env[:i], conv(env[i+1:])
+			val = conv(val)
 			ts.env = append(ts.env, key+"="+val)
 			ts.envMap[key] = val
 		}

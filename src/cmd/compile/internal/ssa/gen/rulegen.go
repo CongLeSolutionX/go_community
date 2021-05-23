@@ -80,14 +80,13 @@ func normalizeSpaces(s string) string {
 
 // parse returns the matching part of the rule, additional conditions, and the result.
 func (r Rule) parse() (match, cond, result string) {
-	s := strings.Split(r.Rule, "=>")
-	match = normalizeSpaces(s[0])
-	result = normalizeSpaces(s[1])
-	cond = ""
-	if i := strings.Index(match, "&&"); i >= 0 {
-		cond = normalizeSpaces(match[i+2:])
-		match = normalizeSpaces(match[:i])
-	}
+	match, result = strings.Cut(r.Rule, "=>")
+	match, cond = strings.Cut(match, "&&")
+
+	match = normalizeSpaces(match)
+	cond = normalizeSpaces(cond)
+	result = normalizeSpaces(result)
+
 	return match, cond, result
 }
 
@@ -118,11 +117,9 @@ func genRulesSuffix(arch arch, suff string) {
 	for scanner.Scan() {
 		lineno++
 		line := scanner.Text()
-		if i := strings.Index(line, "//"); i >= 0 {
-			// Remove comments. Note that this isn't string safe, so
-			// it will truncate lines with // inside strings. Oh well.
-			line = line[:i]
-		}
+		// Remove comments. Note that this isn't string safe, so
+		// it will truncate lines with // inside strings. Oh well.
+		line, _, _ = strings.Cut(line, "//")
 		rule += " " + line
 		rule = strings.TrimSpace(rule)
 		if rule == "" {
@@ -1179,9 +1176,9 @@ func genResult(rr *RuleRewrite, arch arch, result, pos string) {
 	move := result[0] == '@'
 	if move {
 		// parse @block directive
-		s := strings.SplitN(result[1:], " ", 2)
-		rr.add(stmtf("b = %s", s[0]))
-		result = s[1]
+		var b string
+		b, result, _ = strings.Cut(result[1:], " ")
+		rr.add(stmtf("b = %s", b))
 	}
 	cse := make(map[string]string)
 	genResult0(rr, arch, result, true, move, pos, cse)
@@ -1446,19 +1443,15 @@ func opHasAux(op opData) bool {
 // For example, "x:(Foo)" yields "x", "(Foo)",
 // and "(Foo)" yields "", "(Foo)".
 func splitNameExpr(arg string) (name, expr string) {
-	colon := strings.Index(arg, ":")
-	if colon < 0 {
+	name, expr, ok := strings.Cut(arg, ":")
+	if !ok || strings.Contains(name, "(") {
+		// no colon, or colon is inside the parens, such as in "(Foo x:(Bar))".
 		return "", arg
 	}
-	openparen := strings.Index(arg, "(")
-	if openparen < 0 {
+	if !strings.Contains(expr, "(") {
 		log.Fatalf("splitNameExpr(%q): colon but no open parens", arg)
 	}
-	if colon > openparen {
-		// colon is inside the parens, such as in "(Foo x:(Bar))".
-		return "", arg
-	}
-	return arg[:colon], arg[colon+1:]
+	return name, expr
 }
 
 func getBlockInfo(op string, arch arch) (name string, data blockData) {
@@ -1862,24 +1855,22 @@ func (b blockData) auxIntType() string {
 }
 
 func title(s string) string {
-	if i := strings.Index(s, "."); i >= 0 {
-		switch strings.ToLower(s[:i]) {
-		case "s390x": // keep arch prefix for clarity
-			s = s[:i] + s[i+1:]
-		default:
-			s = s[i+1:]
+	if prefix, rest, ok := strings.Cut(s, "."); ok {
+		if strings.ToLower(prefix) == "s390x" { // keep arch prefix for clarity
+			s = prefix + rest
+		} else {
+			s = rest
 		}
 	}
 	return strings.Title(s)
 }
 
 func unTitle(s string) string {
-	if i := strings.Index(s, "."); i >= 0 {
-		switch strings.ToLower(s[:i]) {
-		case "s390x": // keep arch prefix for clarity
-			s = s[:i] + s[i+1:]
-		default:
-			s = s[i+1:]
+	if prefix, rest, ok := strings.Cut(s, "."); ok {
+		if strings.ToLower(prefix) == "s390x" { // keep arch prefix for clarity
+			s = prefix + rest
+		} else {
+			s = rest
 		}
 	}
 	return strings.ToLower(s[:1]) + s[1:]

@@ -151,15 +151,14 @@ func (d *addr2Liner) readFrame() (plugin.Frame, bool) {
 		fileline = ""
 	} else {
 		if i := strings.LastIndex(fileline, ":"); i >= 0 {
+			file, line := fileline[:i], fileline[i+1:]
 			// Remove discriminator, if present
-			if disc := strings.Index(fileline, " (discriminator"); disc > 0 {
-				fileline = fileline[:disc]
-			}
+			line, _, _ = strings.Cut(line, " (discriminator")
 			// If we cannot parse a number after the last ":", keep it as
 			// part of the filename.
-			if line, err := strconv.Atoi(fileline[i+1:]); err == nil {
-				linenumber = line
-				fileline = fileline[:i]
+			if n, err := strconv.Atoi(line); err == nil {
+				linenumber = n
+				fileline = file
 			}
 		}
 	}

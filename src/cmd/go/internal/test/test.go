@@ -1331,15 +1331,15 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 
 	var cacheArgs []string
 	for _, arg := range testArgs {
-		i := strings.Index(arg, "=")
-		if i < 0 || !strings.HasPrefix(arg, "-test.") {
+		flag, _, ok := strings.Cut(arg, "=")
+		if !ok || !strings.HasPrefix(flag, "-test.") {
 			if cache.DebugTest {
 				fmt.Fprintf(os.Stderr, "testcache: caching disabled for test argument: %s\n", arg)
 			}
 			c.disableCache = true
 			return false
 		}
-		switch arg[:i] {
+		switch flag {
 		case "-test.benchtime",
 			"-test.cpu",
 			"-test.list",
@@ -1490,15 +1490,13 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			continue
 		}
 		s := string(line)
-		i := strings.Index(s, " ")
-		if i < 0 {
+		op, name, ok := strings.Cut(s, " ")
+		if !ok {
 			if cache.DebugTest {
 				fmt.Fprintf(os.Stderr, "testcache: %s: input list malformed (%q)\n", a.Package.ImportPath, line)
 			}
 			return cache.ActionID{}, errBadTestInputs
 		}
-		op := s[:i]
-		name := s[i+1:]
 		switch op {
 		default:
 			if cache.DebugTest {

@@ -53,25 +53,15 @@ func main() {
 		if !on {
 			// First relevant line contains "= obj.ABase".
 			// If we find it, delete the = so we don't stop immediately.
-			const prefix = "= obj.ABase"
-			index := strings.Index(line, prefix)
-			if index < 0 {
+			if line, _, on = strings.Cut(line, "= obj.ABase"); !on {
 				continue
 			}
 			// It's on. Start with the header.
 			fmt.Fprintf(out, header, *input, *output, *pkg, *pkg)
-			on = true
-			line = line[:index]
 		}
 		// Strip comments so their text won't defeat our heuristic.
-		index := strings.Index(line, "//")
-		if index > 0 {
-			line = line[:index]
-		}
-		index = strings.Index(line, "/*")
-		if index > 0 {
-			line = line[:index]
-		}
+		line, _, _ = strings.Cut(line, "//")
+		line, _, _ = strings.Cut(line, "/*")
 		// Termination condition: Any line with an = changes the sequence,
 		// so stop there, and stop at a closing brace.
 		if strings.HasPrefix(line, "}") || strings.ContainsRune(line, '=') {

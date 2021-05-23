@@ -58,9 +58,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			lineno++
 
 			// Ignore comments and commented-out code.
-			if i := strings.Index(line, "//"); i >= 0 {
-				line = line[:i]
-			}
+			line, _, _ = strings.Cut(line, "//")
 			line = strings.TrimSpace(line)
 
 			// We start checking code at a TEXT line for a frameless function.

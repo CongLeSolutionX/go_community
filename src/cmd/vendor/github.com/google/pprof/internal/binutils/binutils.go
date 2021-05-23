@@ -135,9 +135,9 @@ func initTools(b *binrep, config string) {
 	// paths collect paths per tool; Key "" contains the default.
 	paths := make(map[string][]string)
 	for _, t := range strings.Split(config, ",") {
-		name, path := "", t
-		if ct := strings.SplitN(t, ":", 2); len(ct) == 2 {
-			name, path = ct[0], ct[1]
+		name, path, ok := strings.Cut(t, ":")
+		if !ok {
+			name, path = "", t
 		}
 		paths[name] = append(paths[name], path)
 	}

@@ -320,15 +320,12 @@ func branchtag(branch string) (tag string, precise bool) {
 		// Each line is either blank, or looks like
 		//	  (tag: refs/tags/go1.4rc2, refs/remotes/origin/release-branch.go1.4, refs/heads/release-branch.go1.4)
 		// We need to find an element starting with refs/tags/.
-		const s = " refs/tags/"
-		i := strings.Index(line, s)
-		if i < 0 {
+		_, tag, ok := strings.Cut(line, " refs/tags/")
+		if !ok {
 			continue
 		}
-		// Trim off known prefix.
-		line = line[i+len(s):]
 		// The tag name ends at a comma or paren.
-		j := strings.IndexAny(line, ",)")
+		j := strings.IndexAny(tag, ",)")
 		if j < 0 {
 			continue // malformed line; ignore it
 		}
@@ -1009,12 +1006,11 @@ func shouldbuild(file, pkg string) bool {
 			if x == ok || (ok == "android" && x == "linux") || (ok == "illumos" && x == "solaris") || (ok == "ios" && x == "darwin") {
 				continue
 			}
-			i := strings.Index(name, x)
-			if i <= 0 || name[i-1] != '_' {
+			before, after, _ := strings.Cut(name, x)
+			if !strings.HasSuffix(before, "_") {
 				continue
 			}
-			i += len(x)
-			if i == len(name) || name[i] == '.' || name[i] == '_' {
+			if after == "" || strings.HasPrefix(after, ".") || strings.HasPrefix(after, "_") {
 				return true
 			}
 		}
@@ -1036,17 +1032,14 @@ func shouldbuild(file, pkg string) bool {
 			continue
 		}
 		code := p
-		i := strings.Index(code, "//")
-		if i > 0 {
-			code = strings.TrimSpace(code[:i])
-		}
-		if code == "package documentation" {
-			return false
-		}
-		if code == "package main" && pkg != "cmd/go" && pkg != "cmd/cgo" {
-			return false
-		}
 		if !strings.HasPrefix(p, "//") {
+			code, _, _ = strings.Cut(code, "//")
+			if code == "package documentation" {
+				return false
+			}
+			if code == "package main" && pkg != "cmd/go" && pkg != "cmd/cgo" {
+				return false
+			}
 			break
 		}
 		if !strings.Contains(p, "+build") {
@@ -1226,14 +1219,12 @@ func timelog(op, name string) {
 		buf := make([]byte, 100)
 		n, _ := f.Read(buf)
 		s := string(buf[:n])
-		if i := strings.Index(s, "\n"); i >= 0 {
-			s = s[:i]
-		}
-		i := strings.Index(s, " start")
-		if i < 0 {
+		s, _, _ = strings.Cut(s, "\n")
+		ts, _, ok := strings.Cut(s, " start")
+		if !ok {
 			log.Fatalf("time log %s does not begin with start line", os.Getenv("GOBUILDTIMELOGFILE"))
 		}
-		t, err := time.Parse(time.UnixDate, s[:i])
+		t, err := time.Parse(time.UnixDate, ts)
 		if err != nil {
 			log.Fatalf("cannot parse time log line %q: %v", s, err)
 		}

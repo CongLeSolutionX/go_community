@@ -306,8 +306,8 @@ func dumpEventStacks(typ byte, events []*trace.Event) ([]byte, int) {
 		fmt.Fprintf(tw, "Offset %d\n", ev.Off)
 		for _, f := range ev.Stk {
 			fname := f.File
-			if idx := strings.Index(fname, "/go/src/"); idx > 0 {
-				fname = fname[idx:]
+			if _, after, ok := strings.Cut(fname, "/go/src/"); ok {
+				fname = after
 			}
 			fmt.Fprintf(tw, "  %v\t%s:%d\n", f.Fn, fname, f.Line)
 		}

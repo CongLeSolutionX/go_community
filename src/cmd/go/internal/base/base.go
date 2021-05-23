@@ -72,10 +72,7 @@ func hasFlag(c *Command, name string) bool {
 
 // LongName returns the command's long name: all the words in the usage line between "go" and a flag or argument,
 func (c *Command) LongName() string {
-	name := c.UsageLine
-	if i := strings.Index(name, " ["); i >= 0 {
-		name = name[:i]
-	}
+	name, _, _ := strings.Cut(c.UsageLine, " [")
 	if name == "go" {
 		return ""
 	}

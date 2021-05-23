@@ -137,20 +137,20 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Next element may opt into special behavior.
-	if j := strings.Index(path, "/"); j >= 0 {
-		n, err := strconv.Atoi(path[:j])
+	if elem, rest, ok := strings.Cut(path, "/"); ok {
+		n, err := strconv.Atoi(elem)
 		if err == nil && n >= 200 {
 			w.WriteHeader(n)
 			return
 		}
-		if strings.HasPrefix(path, "sumdb-") {
-			n, err := strconv.Atoi(path[len("sumdb-"):j])
+		if strings.HasPrefix(elem, "sumdb-") {
+			n, err := strconv.Atoi(elem[len("sumdb-"):])
 			if err == nil && n >= 200 {
-				if strings.HasPrefix(path[j:], "/sumdb/") {
+				if strings.HasPrefix(rest, "sumdb/") {
 					w.WriteHeader(n)
 					return
 				}
-				path = path[j+1:]
+				path = rest
 			}
 		}
 	}
@@ -175,18 +175,18 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	// Request for $GOPROXY/redirect/<count>/... goes to redirects.
 	if strings.HasPrefix(path, "redirect/") {
 		path = path[len("redirect/"):]
-		if j := strings.Index(path, "/"); j >= 0 {
-			count, err := strconv.Atoi(path[:j])
+		if elem, rest, ok := strings.Cut(path, "/"); ok {
+			count, err := strconv.Atoi(elem)
 			if err != nil {
 				return
 			}
 
 			// The last redirect.
 			if count <= 1 {
-				http.Redirect(w, r, fmt.Sprintf("/mod/%s", path[j+1:]), 302)
+				http.Redirect(w, r, fmt.Sprintf("/mod/%s", rest), 302)
 				return
 			}
-			http.Redirect(w, r, fmt.Sprintf("/mod/redirect/%d/%s", count-1, path[j+1:]), 302)
+			http.Redirect(w, r, fmt.Sprintf("/mod/redirect/%d/%s", count-1, rest), 302)
 			return
 		}
 	}
@@ -257,12 +257,11 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Module proxy request: /mod/path/@v/version[.suffix]
-	i := strings.Index(path, "/@v/")
-	if i < 0 {
+	enc, file, ok := strings.Cut(path, "/@v/")
+	if !ok {
 		http.NotFound(w, r)
 		return
 	}
-	enc, file := path[:i], path[i+len("/@v/"):]
 	path, err := module.UnescapePath(enc)
 	if err != nil {
 		if testing.Verbose() {

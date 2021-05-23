@@ -62,16 +62,8 @@ func (ctxt *Link) readImportCfg(file string) {
 			continue
 		}
 
-		var verb, args string
-		if i := strings.Index(line, " "); i < 0 {
-			verb = line
-		} else {
-			verb, args = line[:i], strings.TrimSpace(line[i+1:])
-		}
-		var before, after string
-		if i := strings.Index(args, "="); i >= 0 {
-			before, after = args[:i], args[i+1:]
-		}
+		verb, args, _ := strings.Cut(line, " ")
+		before, after, _ := strings.Cut(strings.TrimSpace(args), "=")
 		switch verb {
 		default:
 			log.Fatalf("%s:%d: unknown directive %q", file, lineNum, verb)

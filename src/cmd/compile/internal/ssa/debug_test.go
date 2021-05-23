@@ -381,11 +381,11 @@ func (h *nextHist) read(filename string) {
 				lastfile = strings.TrimSpace(l)
 			} else if numberColonRe.MatchString(l) {
 				// line number -- <number>:<line>
-				colonPos := strings.Index(l, ":")
-				if colonPos == -1 {
+				line, text, ok := strings.Cut(l, ":")
+				if !ok {
 					panic(fmt.Sprintf("Line %d (%s) in file %s expected to contain '<number>:' but does not.\n", i+1, l, filename))
 				}
-				h.add(lastfile, l[0:colonPos], l[colonPos+1:])
+				h.add(lastfile, line, text)
 			} else {
 				h.addVar(l)
 			}
@@ -484,9 +484,8 @@ func (h *nextHist) equals(k *nextHist) bool {
 // This makes file names portable across different machines,
 // home directories, and temporary directories.
 func canonFileName(f string) string {
-	i := strings.Index(f, "/src/")
-	if i != -1 {
-		f = f[i+1:]
+	if _, after, ok := strings.Cut(f, "/src/"); ok {
+		f = after
 	}
 	return f
 }
@@ -687,32 +686,23 @@ func (s *gdbState) stepnext(ss string) bool {
 // name, then uses printer to get the value of the variable from the debugger, and then
 // normalizes and returns the response.
 func printVariableAndNormalize(v string, printer func(v string) string) string {
-	slashIndex := strings.Index(v, "/")
-	substitutions := ""
-	if slashIndex != -1 {
-		substitutions = v[slashIndex:]
-		v = v[:slashIndex]
-	}
+	v, substitutions, _ := strings.Cut(v, "/")
 	response := printer(v)
-	// expect something like "$1 = ..."
-	dollar := strings.Index(response, "$")
-	cr := strings.Index(response, "\n")
 
-	if dollar == -1 { // some not entirely expected response, whine and carry on.
-		if cr == -1 {
-			response = strings.TrimSpace(response) // discards trailing newline
-			response = strings.Replace(response, "\n", "<BR>", -1)
+	// expect something like "$1 = ..."
+	_, line, ok := strings.Cut(response, "$")
+	if !ok { // some not entirely expected response, whine and carry on.
+		line, _, ok := strings.Cut(response, "\n")
+		if !ok {
 			return "$ Malformed response " + response
 		}
-		response = strings.TrimSpace(response[:cr])
-		return "$ " + response
+		return "$ " + line
 	}
-	if cr == -1 {
-		cr = len(response)
-	}
+	line, _, _ := strings.Cut(line, "\n")
+
 	// Convert the leading $<number> into the variable name to enhance readability
 	// and reduce scope of diffs if an earlier print-variable is added.
-	response = strings.TrimSpace(response[dollar:cr])
+	response = strings.TrimSpace(line)
 	response = leadingDollarNumberRe.ReplaceAllString(response, v)
 
 	// Normalize value as requested.
@@ -737,13 +727,12 @@ func printVariableAndNormalize(v string, printer func(v string) string) string {
 // lookfor="//gdb-foo=(", then varsToPrint returns ["v1", "v2", "v3"]
 func varsToPrint(line, lookfor string) []string {
 	var vars []string
-	if strings.Contains(line, lookfor) {
-		x := line[strings.Index(line, lookfor)+len(lookfor):]
-		end := strings.Index(x, ")")
-		if end == -1 {
+	if _, x, ok := strings.Cut(line, lookfor); ok {
+		x, _, ok := strings.Cut(x, ")")
+		if !ok {
 			panic(fmt.Sprintf("Saw variable list begin %s in %s but no closing ')'", lookfor, line))
 		}
-		vars = strings.Split(x[:end], ",")
+		vars = strings.Split(x, ",")
 		for i, y := range vars {
 			vars[i] = strings.TrimSpace(y)
 		}

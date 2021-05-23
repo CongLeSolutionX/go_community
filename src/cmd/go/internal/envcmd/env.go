@@ -180,11 +180,8 @@ func ExtraEnvVarsCostly() []cfg.EnvVar {
 
 // argKey returns the KEY part of the arg KEY=VAL, or else arg itself.
 func argKey(arg string) string {
-	i := strings.Index(arg, "=")
-	if i < 0 {
-		return arg
-	}
-	return arg[:i]
+	arg, _, _ = strings.Cut(arg, "=")
+	return arg
 }
 
 func runEnv(ctx context.Context, cmd *base.Command, args []string) {
@@ -245,17 +242,16 @@ func runEnv(ctx context.Context, cmd *base.Command, args []string) {
 		}
 		osEnv := make(map[string]string)
 		for _, e := range cfg.OrigEnv {
-			if i := strings.Index(e, "="); i >= 0 {
-				osEnv[e[:i]] = e[i+1:]
+			if k, v, ok := strings.Cut(e, "="); ok {
+				osEnv[k] = v
 			}
 		}
 		add := make(map[string]string)
 		for _, arg := range args {
-			i := strings.Index(arg, "=")
-			if i < 0 {
+			key, val, ok := strings.Cut(arg, "=")
+			if !ok {
 				base.Fatalf("go env -w: arguments must be KEY=VALUE: invalid argument: %s", arg)
 			}
-			key, val := arg[:i], arg[i+1:]
 			if err := checkEnvWrite(key, val); err != nil {
 				base.Fatalf("go env -w: %v", err)
 			}
@@ -359,7 +355,7 @@ func PrintEnv(w io.Writer, env []cfg.EnvVar) {
 			default:
 				fmt.Fprintf(w, "%s=\"%s\"\n", e.Name, e.Value)
 			case "plan9":
-				if strings.IndexByte(e.Value, '\x00') < 0 {
+				if !strings.Contains(e.Value, "\x00") {
 					fmt.Fprintf(w, "%s='%s'\n", e.Name, strings.ReplaceAll(e.Value, "'", "''"))
 				} else {
 					v := strings.Split(e.Value, "\x00")
@@ -524,11 +520,12 @@ func updateEnvFile(add map[string]string, del map[string]bool) {
 
 // lineToKey returns the KEY part of the line KEY=VALUE or else an empty string.
 func lineToKey(line string) string {
-	i := strings.Index(line, "=")
-	if i < 0 || strings.Contains(line[:i], "#") {
+	line, _, _ = strings.Cut(line, "#")
+	key, _, ok := strings.Cut(line, "=")
+	if !ok {
 		return ""
 	}
-	return line[:i]
+	return key
 }
 
 // sortKeyValues sorts a sequence of lines by key.

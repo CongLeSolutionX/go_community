@@ -50,16 +50,16 @@ func (f *PerPackageFlag) set(v, cwd string) error {
 		return nil
 	}
 	if !strings.HasPrefix(v, "-") {
-		i := strings.Index(v, "=")
-		if i < 0 {
+		p, rest, ok := strings.Cut(v, "=")
+		if !ok {
 			return fmt.Errorf("missing =<value> in <pattern>=<value>")
 		}
-		if i == 0 {
+		if p == "" {
 			return fmt.Errorf("missing <pattern> in <pattern>=<value>")
 		}
-		pattern := strings.TrimSpace(v[:i])
+		pattern := strings.TrimSpace(p)
 		match = MatchPackage(pattern, cwd)
-		v = v[i+1:]
+		v = rest
 	}
 	flags, err := str.SplitQuotedFields(v)
 	if err != nil {

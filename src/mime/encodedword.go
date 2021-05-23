@@ -203,35 +203,25 @@ func (d *WordDecoder) Decode(word string) (string, error) {
 	}
 	word = word[2 : len(word)-2]
 
-	// split delimits the first 2 fields
-	split := strings.IndexByte(word, '?')
+	// split word "UTF-8?q?text" into "UTF-8", 'q', and "text"
+	charset, text, _ := strings.Cut(word, "?")
+	if charset == "" {
+		return "", errInvalidWord
+	}
+	encoding, text, _ := strings.Cut(text, "?")
+	if len(encoding) != 1 {
+		return "", errInvalidWord
+	}
 
-	// split word "UTF-8?q?ascii" into "UTF-8", 'q', and "ascii"
-	charset := word[:split]
-	if len(charset) == 0 {
-		return "", errInvalidWord
-	}
-	if len(word) < split+3 {
-		return "", errInvalidWord
-	}
-	encoding := word[split+1]
-	// the field after split must only be one byte
-	if word[split+2] != '?' {
-		return "", errInvalidWord
-	}
-	text := word[split+3:]
-
-	content, err := decode(encoding, text)
+	content, err := decode(encoding[0], text)
 	if err != nil {
 		return "", err
 	}
 
 	var buf strings.Builder
-
 	if err := d.convert(&buf, charset, content); err != nil {
 		return "", err
 	}
-
 	return buf.String(), nil
 }
 
@@ -250,57 +240,44 @@ func (d *WordDecoder) DecodeHeader(header string) (string, error) {
 	header = header[i:]
 
 	betweenWords := false
-	for {
-		start := strings.Index(header, "=?")
-		if start == -1 {
+	for count := 0; ; count++ {
+		literal, afterLiteral, ok := strings.Cut(header, "=?")
+		if !ok {
 			break
 		}
-		cur := start + len("=?")
-
-		i := strings.Index(header[cur:], "?")
-		if i == -1 {
+		charset, rest, ok := strings.Cut(afterLiteral, "?")
+		if !ok {
 			break
 		}
-		charset := header[cur : cur+i]
-		cur += i + len("?")
-
-		if len(header) < cur+len("Q??=") {
+		encoding, rest, ok := strings.Cut(rest, "?")
+		if !ok || len(encoding) != 1 {
 			break
 		}
-		encoding := header[cur]
-		cur++
-
-		if header[cur] != '?' {
+		text, rest, ok := strings.Cut(rest, "?=")
+		if !ok {
 			break
 		}
-		cur++
 
-		j := strings.Index(header[cur:], "?=")
-		if j == -1 {
-			break
-		}
-		text := header[cur : cur+j]
-		end := cur + j + len("?=")
-
-		content, err := decode(encoding, text)
+		content, err := decode(encoding[0], text)
 		if err != nil {
 			betweenWords = false
-			buf.WriteString(header[:start+2])
-			header = header[start+2:]
+			buf.WriteString(literal)
+			buf.WriteString("=?")
+			header = afterLiteral
 			continue
 		}
 
 		// Write characters before the encoded-word. White-space and newline
 		// characters separating two encoded-words must be deleted.
-		if start > 0 && (!betweenWords || hasNonWhitespace(header[:start])) {
-			buf.WriteString(header[:start])
+		if count > 0 && (!betweenWords || hasNonWhitespace(literal)) {
+			buf.WriteString(literal)
 		}
 
 		if err := d.convert(&buf, charset, content); err != nil {
 			return "", err
 		}
 
-		header = header[end:]
+		header = rest
 		betweenWords = true
 	}
 

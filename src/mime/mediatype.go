@@ -19,13 +19,12 @@ import (
 // FormatMediaType returns the empty string.
 func FormatMediaType(t string, param map[string]string) string {
 	var b strings.Builder
-	if slash := strings.IndexByte(t, '/'); slash == -1 {
+	if major, sub, ok := strings.Cut(t, "/"); !ok {
 		if !isToken(t) {
 			return ""
 		}
 		b.WriteString(strings.ToLower(t))
 	} else {
-		major, sub := t[:slash], t[slash+1:]
 		if !isToken(major) || !isToken(sub) {
 			return ""
 		}
@@ -174,8 +173,7 @@ func ParseMediaType(v string) (mediatype string, params map[string]string, err e
 		}
 
 		pmap := params
-		if idx := strings.Index(key, "*"); idx != -1 {
-			baseName := key[:idx]
+		if baseName, _, ok := strings.Cut(key, "*"); ok {
 			if continuation == nil {
 				continuation = make(map[string]map[string]string)
 			}

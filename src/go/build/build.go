@@ -1654,12 +1654,10 @@ func (ctxt *Context) saveCgo(filename string, di *Package, cg *ast.CommentGroup)
 		}
 
 		// Split at colon.
-		line = strings.TrimSpace(line[4:])
-		i := strings.Index(line, ":")
-		if i < 0 {
+		line, argstr, ok := strings.Cut(strings.TrimSpace(line[4:]), ":")
+		if !ok {
 			return fmt.Errorf("%s: invalid #cgo line: %s", filename, orig)
 		}
-		line, argstr := line[:i], line[i+1:]
 
 		// Parse GOOS/GOARCH stuff.
 		f := strings.Fields(line)
@@ -1685,7 +1683,6 @@ func (ctxt *Context) saveCgo(filename string, di *Package, cg *ast.CommentGroup)
 		if err != nil {
 			return fmt.Errorf("%s: invalid #cgo line: %s", filename, orig)
 		}
-		var ok bool
 		for i, arg := range args {
 			if arg, ok = expandSrcDir(arg, di.Dir); !ok {
 				return fmt.Errorf("%s: malformed #cgo argument: %s", filename, arg)
@@ -1944,9 +1941,7 @@ func (ctxt *Context) matchTag(name string, allTags map[string]bool) bool {
 // if GOOS=illumos, then files with GOOS=solaris are also matched.
 // if GOOS=ios, then files with GOOS=darwin are also matched.
 func (ctxt *Context) goodOSArchFile(name string, allTags map[string]bool) bool {
-	if dot := strings.Index(name, "."); dot != -1 {
-		name = name[:dot]
-	}
+	name, _, _ = strings.Cut(name, ".")
 
 	// Before Go 1.4, a file called "linux.go" would be equivalent to having a
 	// build tag "linux" in that file. For Go 1.4 and beyond, we require this

@@ -224,22 +224,13 @@ func (p *Package) loadDefines(f *File) {
 		if len(line) < 9 || line[0:7] != "#define" {
 			continue
 		}
-
 		line = strings.TrimSpace(line[8:])
 
-		var key, val string
-		spaceIndex := strings.Index(line, " ")
-		tabIndex := strings.Index(line, "\t")
-
-		if spaceIndex == -1 && tabIndex == -1 {
+		i := strings.IndexAny(line, " \t")
+		if i < 0 {
 			continue
-		} else if tabIndex == -1 || (spaceIndex != -1 && spaceIndex < tabIndex) {
-			key = line[0:spaceIndex]
-			val = strings.TrimSpace(line[spaceIndex:])
-		} else {
-			key = line[0:tabIndex]
-			val = strings.TrimSpace(line[tabIndex:])
 		}
+		key, val := line[0:i], strings.TrimSpace(line[i:])
 
 		if key == "__clang__" {
 			p.GccIsClang = true
@@ -408,18 +399,16 @@ func (p *Package) guessKinds(f *File) []*Name {
 			continue
 		}
 
-		c1 := strings.Index(line, ":")
-		if c1 < 0 {
+		filename, lineno, ok := strings.Cut(line, ":")
+		if !ok {
 			continue
 		}
-		c2 := strings.Index(line[c1+1:], ":")
-		if c2 < 0 {
+		lineno, _, ok = strings.Cut(lineno, ":")
+		if !ok {
 			continue
 		}
-		c2 += c1 + 1
 
-		filename := line[:c1]
-		i, _ := strconv.Atoi(line[c1+1 : c2])
+		i, _ := strconv.Atoi(lineno)
 		i--
 		if i < 0 || i >= len(names) {
 			if isError {
@@ -3120,7 +3109,7 @@ func (c *typeConv) badCFType(dt *dwarf.TypedefType) bool {
 	if c.getTypeIDs[s] {
 		return true
 	}
-	if i := strings.Index(s, "Mutable"); i >= 0 && c.getTypeIDs[s[:i]+s[i+7:]] {
+	if before, after, ok := strings.Cut(s, "Mutable"); ok && c.getTypeIDs[before+after] {
 		// Mutable and immutable variants share a type ID.
 		return true
 	}

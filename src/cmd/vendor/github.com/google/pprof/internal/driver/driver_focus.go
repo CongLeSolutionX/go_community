@@ -82,11 +82,9 @@ func compileTagFilter(name, value string, numLabelUnits map[string]string, ui pl
 		return nil, err
 	}
 
-	tagValuePair := strings.SplitN(value, "=", 2)
 	var wantKey string
-	if len(tagValuePair) == 2 {
-		wantKey = tagValuePair[0]
-		value = tagValuePair[1]
+	if k, v, ok := strings.Cut(value, "="); ok {
+		wantKey, value = k, v
 	}
 
 	if numFilter := parseTagFilterRange(value); numFilter != nil {

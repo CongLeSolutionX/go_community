@@ -255,12 +255,7 @@ func readimports(file string) []string {
 // is returned with a "vendor" or "cmd/vendor" prefix, depending on srcDir.
 // Otherwise, the import path is returned verbatim.
 func resolveVendor(imp, srcDir string) string {
-	var first string
-	if i := strings.Index(imp, "/"); i < 0 {
-		first = imp
-	} else {
-		first = imp[:i]
-	}
+	first, _, _ := strings.Cut(imp, "/")
 	isStandard := !strings.Contains(first, ".")
 	if isStandard {
 		return imp

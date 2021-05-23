@@ -167,11 +167,10 @@ func TestCatGoodAndBadFile(t *testing.T) {
 		t.Errorf("expected *exec.ExitError from cat combined; got %T: %v", err, err)
 	}
 	s := string(bs)
-	sp := strings.SplitN(s, "\n", 2)
-	if len(sp) != 2 {
+	errLine, body, ok := strings.Cut(s, "\n")
+	if !ok {
 		t.Fatalf("expected two lines from cat; got %q", s)
 	}
-	errLine, body := sp[0], sp[1]
 	if !strings.HasPrefix(errLine, "Error: open /bogus/file.foo") {
 		t.Errorf("expected stderr to complain about file; got %q", errLine)
 	}

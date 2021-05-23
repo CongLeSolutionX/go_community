@@ -28,9 +28,7 @@ func ParseGopkgLock(file string, data []byte) (*modfile.File, error) {
 	var r *pkg
 	for lineno, line := range strings.Split(string(data), "\n") {
 		lineno++
-		if i := strings.Index(line, "#"); i >= 0 {
-			line = line[:i]
-		}
+		line, _, _ = strings.Cut(line, "#")
 		line = strings.TrimSpace(line)
 		if line == "[[projects]]" {
 			list = append(list, pkg{})
@@ -44,12 +42,11 @@ func ParseGopkgLock(file string, data []byte) (*modfile.File, error) {
 		if r == nil {
 			continue
 		}
-		i := strings.Index(line, "=")
-		if i < 0 {
+		key, val, ok := strings.Cut(line, "=")
+		if !ok {
 			continue
 		}
-		key := strings.TrimSpace(line[:i])
-		val := strings.TrimSpace(line[i+1:])
+		key, val = strings.TrimSpace(key), strings.TrimSpace(val)
 		if len(val) >= 2 && val[0] == '"' && val[len(val)-1] == '"' {
 			q, err := strconv.Unquote(val) // Go unquoting, but close enough for now
 			if err != nil {

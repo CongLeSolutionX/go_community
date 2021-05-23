@@ -250,16 +250,14 @@ func (c *Converter) handleInputLine(line []byte) {
 	e := &event{Action: action}
 	if line[0] == '-' { // PASS or FAIL report
 		// Parse out elapsed time.
-		if i := strings.Index(name, " ("); i >= 0 {
-			if strings.HasSuffix(name, "s)") {
-				t, err := strconv.ParseFloat(name[i+2:len(name)-2], 64)
-				if err == nil {
-					if c.mode&Timestamp != 0 {
-						e.Elapsed = &t
-					}
+		name, note, ok := strings.Cut(name, " (")
+		if ok && strings.HasSuffix(note, "s)") {
+			t, err := strconv.ParseFloat(note[:len(note)-len("s)")], 64)
+			if err == nil {
+				if c.mode&Timestamp != 0 {
+					e.Elapsed = &t
 				}
 			}
-			name = name[:i]
 		}
 		if len(c.report) < indent {
 			// Nested deeper than expected.

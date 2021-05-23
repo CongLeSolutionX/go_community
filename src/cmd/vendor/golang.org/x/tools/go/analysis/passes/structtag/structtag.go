@@ -163,17 +163,17 @@ func checkTagDuplicates(pass *analysis.Pass, tag, key string, nearest, field *ty
 		// by containing a field named XMLName; see issue 18256.
 		return
 	}
-	if i := strings.Index(val, ","); i >= 0 {
+	if v, rest, ok := strings.Cut(val, ","); ok {
 		if key == "xml" {
 			// Use a separate namespace for XML attributes.
-			for _, opt := range strings.Split(val[i:], ",") {
+			for _, opt := range strings.Split(rest, ",") {
 				if opt == "attr" {
 					key += " attribute" // Key is part of the error message.
 					break
 				}
 			}
 		}
-		val = val[:i]
+		val = v
 	}
 	if pos, ok := seen.Get(key, val, level); ok {
 		alsoPos := pass.Fset.Position(pos)
@@ -286,26 +286,26 @@ func validateStructTag(tag string) error {
 			}
 
 			// If there is no comma, skip the rest of the checks.
-			comma := strings.IndexRune(value, ',')
-			if comma < 0 {
+			name, rest, ok := strings.Cut(value, ",")
+			if !ok {
 				continue
 			}
 
 			// If the character before a comma is a space, this is suspicious.
-			if comma > 0 && value[comma-1] == ' ' {
+			if name != "" && name[len(name)-1] == ' ' {
 				return errTagValueSpace
 			}
-			value = value[comma+1:]
+			value = rest
 		case "json":
 			// JSON allows using spaces in the name, so skip it.
-			comma := strings.IndexRune(value, ',')
-			if comma < 0 {
+			_, rest, ok := strings.Cut(value, ",")
+			if !ok {
 				continue
 			}
-			value = value[comma+1:]
+			value = rest
 		}
 
-		if strings.IndexByte(value, ' ') >= 0 {
+		if strings.Contains(value, " ") {
 			return errTagValueSpace
 		}
 	}

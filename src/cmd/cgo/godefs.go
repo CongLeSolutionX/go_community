@@ -36,17 +36,16 @@ func (p *Package) godefs(f *File) string {
 	//
 	for _, g := range f.Comments {
 		for _, c := range g.List {
-			i := strings.Index(c.Text, "+godefs map")
-			if i < 0 {
+			_, s, ok := strings.Cut(c.Text, "+godefs map")
+			if !ok {
 				continue
 			}
-			s := strings.TrimSpace(c.Text[i+len("+godefs map"):])
-			i = strings.Index(s, " ")
-			if i < 0 {
+			old, new, ok := strings.Cut(strings.TrimSpace(s), " ")
+			if !ok {
 				fmt.Fprintf(os.Stderr, "invalid +godefs map comment: %s\n", c.Text)
 				continue
 			}
-			override["_Ctype_"+strings.TrimSpace(s[:i])] = strings.TrimSpace(s[i:])
+			override["_Ctype_"+strings.TrimSpace(old)] = strings.TrimSpace(new)
 		}
 	}
 	for _, n := range f.Name {

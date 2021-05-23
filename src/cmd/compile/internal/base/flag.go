@@ -368,11 +368,10 @@ func addImportMap(s string) {
 	if Flag.Cfg.ImportMap == nil {
 		Flag.Cfg.ImportMap = make(map[string]string)
 	}
-	if strings.Count(s, "=") != 1 {
+	source, actual, ok := strings.Cut(s, "=")
+	if !ok || strings.Contains(actual, "=") {
 		log.Fatal("-importmap argument must be of the form source=actual")
 	}
-	i := strings.Index(s, "=")
-	source, actual := s[:i], s[i+1:]
 	if source == "" || actual == "" {
 		log.Fatal("-importmap argument must be of the form source=actual; source and actual must be non-empty")
 	}
@@ -396,16 +395,8 @@ func readImportCfg(file string) {
 			continue
 		}
 
-		var verb, args string
-		if i := strings.Index(line, " "); i < 0 {
-			verb = line
-		} else {
-			verb, args = line[:i], strings.TrimSpace(line[i+1:])
-		}
-		var before, after string
-		if i := strings.Index(args, "="); i >= 0 {
-			before, after = args[:i], args[i+1:]
-		}
+		verb, args, _ := strings.Cut(line, " ")
+		before, after, _ := strings.Cut(args, "=")
 		switch verb {
 		default:
 			log.Fatalf("%s:%d: unknown directive %q", file, lineNum, verb)

@@ -516,7 +516,7 @@ func (l *labelIter) label() string {
 	if l.slice != nil {
 		return l.slice[l.i]
 	}
-	p := strings.IndexByte(l.orig[l.curStart:], '.')
+	p := strings.Index(l.orig[l.curStart:], ".")
 	l.curEnd = l.curStart + p
 	if p == -1 {
 		l.curEnd = len(l.orig)
@@ -681,7 +681,7 @@ func (p *Profile) validateLabel(s string) error {
 		return &labelError{s, "V5"}
 	}
 	// Quickly return in the absence of zero-width (non) joiners.
-	if strings.Index(s, zwj) == -1 && strings.Index(s, zwnj) == -1 {
+	if !strings.Contains(s, zwj) && !strings.Contains(s, zwnj) {
 		return nil
 	}
 	st := stateStart

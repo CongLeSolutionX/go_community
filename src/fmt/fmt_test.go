@@ -1559,13 +1559,12 @@ func TestSlicePrinter(t *testing.T) {
 // print order.
 func presentInMap(s string, a []string, t *testing.T) {
 	for i := 0; i < len(a); i++ {
-		loc := strings.Index(s, a[i])
-		if loc < 0 {
+		_, after, ok := strings.Cut(s, a[i])
+		if !ok {
 			t.Errorf("map print: expected to find %q in %q", a[i], s)
 		}
 		// make sure the match ends here
-		loc += len(a[i])
-		if loc >= len(s) || (s[loc] != ' ' && s[loc] != ']') {
+		if after == "" || (after[0] != ' ' && after[0] != ']') {
 			t.Errorf("map print: %q not properly terminated in %q", a[i], s)
 		}
 	}

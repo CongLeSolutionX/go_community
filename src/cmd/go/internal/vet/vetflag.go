@@ -56,7 +56,7 @@ func parseVettoolFlag(args []string) {
 			return
 		} else if strings.HasPrefix(arg, "-vettool=") ||
 			strings.HasPrefix(arg, "--vettool=") {
-			vetTool = arg[strings.IndexByte(arg, '=')+1:]
+			_, vetTool, _ = strings.Cut(arg, "=")
 			return
 		}
 	}

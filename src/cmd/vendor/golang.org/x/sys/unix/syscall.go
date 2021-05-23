@@ -37,7 +37,7 @@ import (
 // containing the text of s. If s contains a NUL byte at any
 // location, it returns (nil, EINVAL).
 func ByteSliceFromString(s string) ([]byte, error) {
-	if strings.IndexByte(s, 0) != -1 {
+	if strings.Contains(s, "\x00") {
 		return nil, EINVAL
 	}
 	a := make([]byte, len(s)+1)

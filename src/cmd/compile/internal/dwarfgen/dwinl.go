@@ -223,9 +223,7 @@ func AbstractFunc(fn *obj.LSym) {
 // Undo any versioning performed when a name was written
 // out as part of export data.
 func unversion(name string) string {
-	if i := strings.Index(name, "·"); i > 0 {
-		name = name[:i]
-	}
+	name, _, _ = strings.Cut(name, "·")
 	return name
 }
 

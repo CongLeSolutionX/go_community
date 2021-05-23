@@ -2054,11 +2054,11 @@ func (b *Builder) runOut(a *Action, dir string, env []string, cmdargs ...interfa
 	if cfg.BuildN || cfg.BuildX {
 		var envcmdline string
 		for _, e := range env {
-			if j := strings.IndexByte(e, '='); j != -1 {
-				if strings.ContainsRune(e[j+1:], '\'') {
-					envcmdline += fmt.Sprintf("%s=%q", e[:j], e[j+1:])
+			if k, v, ok := strings.Cut(e, "="); ok {
+				if strings.ContainsRune(v, '\'') {
+					envcmdline += fmt.Sprintf("%s=%q", k, v)
 				} else {
-					envcmdline += fmt.Sprintf("%s='%s'", e[:j], e[j+1:])
+					envcmdline += fmt.Sprintf("%s='%s'", k, v)
 				}
 				envcmdline += " "
 			}

@@ -2753,8 +2753,8 @@ func PackagesAndErrorsOutsideModule(ctx context.Context, opts PackageOpts, args 
 	// Check that the arguments satisfy syntactic constraints.
 	var version string
 	for _, arg := range args {
-		if i := strings.Index(arg, "@"); i >= 0 {
-			version = arg[i+1:]
+		var ok bool
+		if _, version, ok = strings.Cut(arg, "@"); ok {
 			if version == "" {
 				return nil, fmt.Errorf("%s: version must not be empty", arg)
 			}

@@ -64,11 +64,11 @@ func (fsys MapFS) Open(name string) (fs.File, error) {
 	if name == "." {
 		elem = "."
 		for fname, f := range fsys {
-			i := strings.Index(fname, "/")
-			if i < 0 {
+			fname, _, ok := strings.Cut(fname, "/")
+			if !ok {
 				list = append(list, mapFileInfo{fname, f})
 			} else {
-				need[fname[:i]] = true
+				need[fname] = true
 			}
 		}
 	} else {
@@ -76,12 +76,11 @@ func (fsys MapFS) Open(name string) (fs.File, error) {
 		prefix := name + "/"
 		for fname, f := range fsys {
 			if strings.HasPrefix(fname, prefix) {
-				felem := fname[len(prefix):]
-				i := strings.Index(felem, "/")
-				if i < 0 {
+				felem, _, ok := strings.Cut(fname[len(prefix):], "/")
+				if !ok {
 					list = append(list, mapFileInfo{felem, f})
 				} else {
-					need[fname[len(prefix):len(prefix)+i]] = true
+					need[felem] = true
 				}
 			}
 		}

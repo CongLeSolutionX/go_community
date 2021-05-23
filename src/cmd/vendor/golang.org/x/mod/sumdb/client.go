@@ -204,11 +204,7 @@ func globsMatchPath(globs, target string) bool {
 	for globs != "" {
 		// Extract next non-empty glob in comma-separated list.
 		var glob string
-		if i := strings.Index(globs, ","); i >= 0 {
-			glob, globs = globs[:i], globs[i+1:]
-		} else {
-			glob, globs = globs, ""
-		}
+		glob, globs, _ = strings.Cut(globs, ",")
 		if glob == "" {
 			continue
 		}

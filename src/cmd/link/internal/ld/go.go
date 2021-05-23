@@ -56,11 +56,7 @@ func ldpkg(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, filename s
 	// process header lines
 	for data != "" {
 		var line string
-		if i := strings.Index(data, "\n"); i >= 0 {
-			line, data = data[:i], data[i+1:]
-		} else {
-			line, data = data, ""
-		}
+		line, data, _ = strings.Cut(data, "\n")
 		if line == "main" {
 			lib.Main = true
 		}
@@ -70,27 +66,21 @@ func ldpkg(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, filename s
 	}
 
 	// look for cgo section
-	p0 := strings.Index(data, "\n$$  // cgo")
-	var p1 int
-	if p0 >= 0 {
-		p0 += p1
-		i := strings.IndexByte(data[p0+1:], '\n')
-		if i < 0 {
+	if _, data, ok := strings.Cut(data, "\n$$  // cgo"); ok {
+		if _, data, ok = strings.Cut(data, "\n"); !ok {
 			fmt.Fprintf(os.Stderr, "%s: found $$ // cgo but no newline in %s\n", os.Args[0], filename)
 			return
 		}
-		p0 += 1 + i
 
-		p1 = strings.Index(data[p0:], "\n$$")
-		if p1 < 0 {
-			p1 = strings.Index(data[p0:], "\n!\n")
+		cgo, _, ok := strings.Cut(data, "\n$$")
+		if !ok {
+			cgo, _, ok = strings.Cut(data, "\n!\n")
 		}
-		if p1 < 0 {
+		if !ok {
 			fmt.Fprintf(os.Stderr, "%s: cannot find end of // cgo section in %s\n", os.Args[0], filename)
 			return
 		}
-		p1 += p0
-		loadcgo(ctxt, filename, objabi.PathToPrefix(lib.Pkg), data[p0:p1])
+		loadcgo(ctxt, filename, objabi.PathToPrefix(lib.Pkg), cgo)
 	}
 }
 
@@ -147,10 +137,7 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 			}
 
 			local = expandpkg(local, pkg)
-			q := ""
-			if i := strings.Index(remote, "#"); i >= 0 {
-				remote, q = remote[:i], remote[i+1:]
-			}
+			remote, q, _ := strings.Cut(remote, "#")
 			s := l.LookupOrCreateSym(local, 0)
 			st := l.SymType(s)
 			if st == 0 || st == sym.SXREF || st == sym.SBSS || st == sym.SNOPTRBSS || st == sym.SHOSTOBJ {

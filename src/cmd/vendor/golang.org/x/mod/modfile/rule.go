@@ -524,8 +524,8 @@ func setIndirect(line *Line, indirect bool) {
 
 	// Remove comment prefix.
 	com := &line.Suffix[0]
-	i := strings.Index(com.Token, "indirect;")
-	com.Token = "//" + com.Token[i+len("indirect;"):]
+	_, after, _ := strings.Cut(com.Token, "indirect;")
+	com.Token = "//" + after
 }
 
 // IsDirectoryPath reports whether the given path should be interpreted

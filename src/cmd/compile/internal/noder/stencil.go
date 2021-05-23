@@ -163,10 +163,11 @@ func (g *irgen) instantiateMethods() {
 }
 
 // genericSym returns the name of the base generic type for the type named by
-// sym. It simply returns the name obtained by removing everything after the
-// first bracket ("[").
+// sym. It simply returns the name obtained by removing everything starting at
+// the first bracket ("[").
 func genericTypeName(sym *types.Sym) string {
-	return sym.Name[0:strings.Index(sym.Name, "[")]
+	name, _, _ := strings.Cut(sym.Name, "[")
+	return name
 }
 
 // getInstantiationForNode returns the function/method instantiation for a
@@ -214,13 +215,9 @@ func (g *irgen) getInstantiation(nameNode *ir.Name, targs []ir.Node, isMeth bool
 func makeInstName(fnsym *types.Sym, targs []ir.Node, hasBrackets bool) *types.Sym {
 	b := bytes.NewBufferString("")
 	name := fnsym.Name
-	i := strings.Index(name, "[")
-	assert(hasBrackets == (i >= 0))
-	if i >= 0 {
-		b.WriteString(name[0:i])
-	} else {
-		b.WriteString(name)
-	}
+	start, middle, ok := strings.Cut(name, "[")
+	assert(hasBrackets == ok)
+	b.WriteString(start)
 	b.WriteString("[")
 	for i, targ := range targs {
 		if i > 0 {
@@ -229,10 +226,9 @@ func makeInstName(fnsym *types.Sym, targs []ir.Node, hasBrackets bool) *types.Sy
 		b.WriteString(targ.Type().String())
 	}
 	b.WriteString("]")
-	if i >= 0 {
-		i2 := strings.Index(name[i:], "]")
-		assert(i2 >= 0)
-		b.WriteString(name[i+i2+1:])
+	if hasBrackets {
+		_, end, _ := strings.Cut(middle, "]")
+		b.WriteString(end)
 	}
 	return typecheck.Lookup(b.String())
 }

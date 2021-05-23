@@ -14,9 +14,7 @@ import (
 func ParseVendorConf(file string, data []byte) (*modfile.File, error) {
 	mf := new(modfile.File)
 	for _, line := range strings.Split(string(data), "\n") {
-		if i := strings.Index(line, "#"); i >= 0 {
-			line = line[:i]
-		}
+		line, _, _ = strings.Cut(line, "#")
 		f := strings.Fields(line)
 		if len(f) >= 2 {
 			mf.Require = append(mf.Require, &modfile.Require{Mod: module.Version{Path: f[0], Version: f[1]}})
