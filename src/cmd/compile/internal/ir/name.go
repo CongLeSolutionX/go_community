@@ -256,7 +256,8 @@ const (
 	nameIsClosureVar             // PAUTOHEAP closure pseudo-variable; original (if any) at n.Defn
 	nameIsOutputParamHeapAddr    // pointer to a result parameter's heap copy
 	nameIsOutputParamInRegisters // output parameter in registers spills as an auto
-	nameAddrtaken                // address taken, even if not moved to heap
+	nameAddrTaken                // address taken, even if not moved to heap
+	nameNeedStackObject          // if the variable needs a stack objects to track its liveness
 	nameInlFormal                // PAUTO created by inliner, derived from callee formal
 	nameInlLocal                 // PAUTO created by inliner, derived from callee local
 	nameOpenDeferSlot            // if temporary var storing info for open-coded defers
@@ -271,7 +272,8 @@ func (n *Name) Used() bool                     { return n.flags&nameUsed != 0 }
 func (n *Name) IsClosureVar() bool             { return n.flags&nameIsClosureVar != 0 }
 func (n *Name) IsOutputParamHeapAddr() bool    { return n.flags&nameIsOutputParamHeapAddr != 0 }
 func (n *Name) IsOutputParamInRegisters() bool { return n.flags&nameIsOutputParamInRegisters != 0 }
-func (n *Name) Addrtaken() bool                { return n.flags&nameAddrtaken != 0 }
+func (n *Name) AddrTaken() bool                { return n.flags&nameAddrTaken != 0 }
+func (n *Name) NeedStackObject() bool          { return n.flags&nameNeedStackObject != 0 }
 func (n *Name) InlFormal() bool                { return n.flags&nameInlFormal != 0 }
 func (n *Name) InlLocal() bool                 { return n.flags&nameInlLocal != 0 }
 func (n *Name) OpenDeferSlot() bool            { return n.flags&nameOpenDeferSlot != 0 }
@@ -284,11 +286,18 @@ func (n *Name) SetUsed(b bool)                     { n.flags.set(nameUsed, b) }
 func (n *Name) SetIsClosureVar(b bool)             { n.flags.set(nameIsClosureVar, b) }
 func (n *Name) SetIsOutputParamHeapAddr(b bool)    { n.flags.set(nameIsOutputParamHeapAddr, b) }
 func (n *Name) SetIsOutputParamInRegisters(b bool) { n.flags.set(nameIsOutputParamInRegisters, b) }
-func (n *Name) SetAddrtaken(b bool)                { n.flags.set(nameAddrtaken, b) }
-func (n *Name) SetInlFormal(b bool)                { n.flags.set(nameInlFormal, b) }
-func (n *Name) SetInlLocal(b bool)                 { n.flags.set(nameInlLocal, b) }
-func (n *Name) SetOpenDeferSlot(b bool)            { n.flags.set(nameOpenDeferSlot, b) }
-func (n *Name) SetLibfuzzerExtraCounter(b bool)    { n.flags.set(nameLibfuzzerExtraCounter, b) }
+func (n *Name) SetAddrTaken(b bool) {
+	n.flags.set(nameAddrTaken, b)
+	n.flags.set(nameNeedStackObject, b)
+}
+func (n *Name) SetAddrTakenNoStackObject(b bool) {
+	n.flags.set(nameAddrTaken, b)
+	n.flags.set(nameNeedStackObject, false)
+}
+func (n *Name) SetInlFormal(b bool)             { n.flags.set(nameInlFormal, b) }
+func (n *Name) SetInlLocal(b bool)              { n.flags.set(nameInlLocal, b) }
+func (n *Name) SetOpenDeferSlot(b bool)         { n.flags.set(nameOpenDeferSlot, b) }
+func (n *Name) SetLibfuzzerExtraCounter(b bool) { n.flags.set(nameLibfuzzerExtraCounter, b) }
 
 // OnStack reports whether variable n may reside on the stack.
 func (n *Name) OnStack() bool {
