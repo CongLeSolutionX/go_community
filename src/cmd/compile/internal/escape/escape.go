@@ -322,7 +322,7 @@ func (b *batch) flowClosure(k hole, clo *ir.ClosureExpr) {
 		// Capture by value for variables <= 128 bytes that are never reassigned.
 		n.SetByval(!loc.addrtaken && !loc.reassigned && n.Type().Size() <= 128)
 		if !n.Byval() {
-			n.SetAddrtaken(true)
+			n.SetAddrTaken(true)
 		}
 
 		if base.Flag.LowerM > 1 {

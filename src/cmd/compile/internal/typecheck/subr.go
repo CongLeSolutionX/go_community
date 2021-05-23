@@ -75,7 +75,7 @@ func NodAddrAt(pos src.XPos, n ir.Node) *ir.AddrExpr {
 }
 
 func markAddrOf(n ir.Node) ir.Node {
-	if IncrementalAddrtaken {
+	if IncrementalAddrTaken {
 		// We can only do incremental addrtaken computation when it is ok
 		// to typecheck the argument of the OADDR. That's only safe after the
 		// main typecheck has completed.
@@ -84,37 +84,37 @@ func markAddrOf(n ir.Node) ir.Node {
 		// Note: OuterValue doesn't work correctly until n is typechecked.
 		n = typecheck(n, ctxExpr)
 		if x := ir.OuterValue(n); x.Op() == ir.ONAME {
-			x.Name().SetAddrtaken(true)
+			x.Name().SetAddrTaken(true)
 		}
 	} else {
-		// Remember that we built an OADDR without computing the Addrtaken bit for
+		// Remember that we built an OADDR without computing the AddrTaken bit for
 		// its argument. We'll do that later in bulk using computeAddrtaken.
-		DirtyAddrtaken = true
+		DirtyAddrTaken = true
 	}
 	return n
 }
 
-// If IncrementalAddrtaken is false, we do not compute Addrtaken for an OADDR Node
-// when it is built. The Addrtaken bits are set in bulk by computeAddrtaken.
-// If IncrementalAddrtaken is true, then when an OADDR Node is built the Addrtaken
+// If IncrementalAddrTaken is false, we do not compute AddrTaken for an OADDR Node
+// when it is built. The AddrTaken bits are set in bulk by computeAddrtaken.
+// If IncrementalAddrTaken is true, then when an OADDR Node is built the AddrTaken
 // field of its argument is updated immediately.
-var IncrementalAddrtaken = false
+var IncrementalAddrTaken = false
 
-// If DirtyAddrtaken is true, then there are OADDR whose corresponding arguments
-// have not yet been marked as Addrtaken.
-var DirtyAddrtaken = false
+// If DirtyAddrTaken is true, then there are OADDR whose corresponding arguments
+// have not yet been marked as AddrTaken.
+var DirtyAddrTaken = false
 
-func ComputeAddrtaken(top []ir.Node) {
+func ComputeAddrTaken(top []ir.Node) {
 	for _, n := range top {
 		var doVisit func(n ir.Node)
 		doVisit = func(n ir.Node) {
 			if n.Op() == ir.OADDR {
 				if x := ir.OuterValue(n.(*ir.AddrExpr).X); x.Op() == ir.ONAME {
-					x.Name().SetAddrtaken(true)
+					x.Name().SetAddrTaken(true)
 					if x.Name().IsClosureVar() {
-						// Mark the original variable as Addrtaken so that capturevars
+						// Mark the original variable as AddrTaken so that capturevars
 						// knows not to pass it by value.
-						x.Name().Defn.Name().SetAddrtaken(true)
+						x.Name().Defn.Name().SetAddrTaken(true)
 					}
 				}
 			}
