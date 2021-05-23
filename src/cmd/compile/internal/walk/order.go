@@ -568,7 +568,8 @@ func (o *orderState) call(nn ir.Node) {
 			if arg.X.Type().IsUnsafePtr() {
 				x := o.copyExpr(arg.X)
 				arg.X = x
-				x.SetAddrtaken(true) // ensure SSA keeps the x variable
+				x.SetAddrTaken(true) // ensure SSA keeps the x variable
+				x.SetNeedStackObjects(true)
 				n.KeepAlive = append(n.KeepAlive, x)
 			}
 		}

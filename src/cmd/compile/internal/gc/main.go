@@ -206,16 +206,16 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		}
 	}
 
-	// Compute Addrtaken for names.
+	// Compute AddrTaken for names.
 	// We need to wait until typechecking is done so that when we see &x[i]
 	// we know that x has its address taken if x is an array, but not if x is a slice.
-	// We compute Addrtaken in bulk here.
-	// After this phase, we maintain Addrtaken incrementally.
-	if typecheck.DirtyAddrtaken {
-		typecheck.ComputeAddrtaken(typecheck.Target.Decls)
-		typecheck.DirtyAddrtaken = false
+	// We compute AddrTaken in bulk here.
+	// After this phase, we maintain AddrTaken incrementally.
+	if typecheck.DirtyAddrTaken {
+		typecheck.ComputeAddrTaken(typecheck.Target.Decls)
+		typecheck.DirtyAddrTaken = false
 	}
-	typecheck.IncrementalAddrtaken = true
+	typecheck.IncrementalAddrTaken = true
 
 	if base.Debug.TypecheckInl != 0 {
 		// Typecheck imported function bodies if Debug.l > 1,

@@ -519,7 +519,8 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 		// bitmask showing which of the open-coded defers in this function
 		// have been activated.
 		deferBitsTemp := typecheck.TempAt(src.NoXPos, s.curfn, types.Types[types.TUINT8])
-		deferBitsTemp.SetAddrtaken(true)
+		deferBitsTemp.SetAddrTaken(true)
+		deferBitsTemp.SetNeedStackObjects(true)
 		s.deferBitsTemp = deferBitsTemp
 		// For this value, AuxInt is initialized to zero by default
 		startDeferBits := s.entryNewValue0(ssa.OpConst8, types.Types[types.TUINT8])
@@ -599,9 +600,9 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 			// Note: While we never capture a variable by value if
 			// the user took its address, we may have generated
 			// runtime calls that did (#43701). Since we don't
-			// convert Addrtaken variables to SSA anyway, no point
+			// convert AddrTaken variables to SSA anyway, no point
 			// in promoting them either.
-			if n.Byval() && !n.Addrtaken() && TypeOK(n.Type()) {
+			if n.Byval() && !n.AddrTaken() && TypeOK(n.Type()) {
 				n.Class = ir.PAUTO
 				fn.Dcl = append(fn.Dcl, n)
 				s.assign(n, s.load(n.Type(), ptr), false, 0)
@@ -1916,8 +1917,8 @@ func (s *state) stmt(n ir.Node) {
 		// Insert a varlive op to record that a variable is still live.
 		n := n.(*ir.UnaryExpr)
 		v := n.X.(*ir.Name)
-		if !v.Addrtaken() {
-			s.Fatalf("VARLIVE variable %v must have Addrtaken set", v)
+		if !v.AddrTaken() {
+			s.Fatalf("VARLIVE variable %v must have AddrTaken set", v)
 		}
 		switch v.Class {
 		case ir.PAUTO, ir.PPARAM, ir.PPARAMOUT:
@@ -5356,7 +5357,7 @@ func (s *state) canSSA(n ir.Node) bool {
 }
 
 func (s *state) canSSAName(name *ir.Name) bool {
-	if name.Addrtaken() || !name.OnStack() {
+	if name.AddrTaken() || !name.OnStack() {
 		return false
 	}
 	switch name.Class {
@@ -7126,7 +7127,7 @@ func defframe(s *State, e *ssafn, f *ssa.Func) {
 				continue
 			}
 			n, off := ssa.AutoVar(v)
-			if n.Class != ir.PPARAM || n.Addrtaken() || !TypeOK(n.Type()) || !s.partLiveArgs[n] {
+			if n.Class != ir.PPARAM || n.AddrTaken() || !TypeOK(n.Type()) || !s.partLiveArgs[n] {
 				continue
 			}
 			partLiveArgsSpilled[nameOff{n, off}] = true
@@ -7135,7 +7136,7 @@ func defframe(s *State, e *ssafn, f *ssa.Func) {
 		// Then, insert code to spill registers if not already.
 		for _, a := range f.OwnAux.ABIInfo().InParams() {
 			n, ok := a.Name.(*ir.Name)
-			if !ok || n.Addrtaken() || !TypeOK(n.Type()) || !s.partLiveArgs[n] || len(a.Registers) <= 1 {
+			if !ok || n.AddrTaken() || !TypeOK(n.Type()) || !s.partLiveArgs[n] || len(a.Registers) <= 1 {
 				continue
 			}
 			rts, offs := a.RegisterTypesAndOffsets()
@@ -7560,7 +7561,7 @@ func (e *ssafn) DerefItab(it *obj.LSym, offset int64) *obj.LSym {
 func (e *ssafn) SplitSlot(parent *ssa.LocalSlot, suffix string, offset int64, t *types.Type) ssa.LocalSlot {
 	node := parent.N
 
-	if node.Class != ir.PAUTO || node.Addrtaken() {
+	if node.Class != ir.PAUTO || node.AddrTaken() {
 		// addressed things and non-autos retain their parents (i.e., cannot truly be split)
 		return ssa.LocalSlot{N: node, Type: t, Off: parent.Off + offset}
 	}
