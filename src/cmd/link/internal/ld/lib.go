@@ -554,7 +554,11 @@ func (ctxt *Link) loadlib() {
 		// The startup code uses an import of runtime/cgo to decide
 		// whether to initialize the TLS.  So give it one. This could
 		// be handled differently but it's an unusual case.
-		if lib := loadinternal(ctxt, "runtime/cgo"); lib != nil && lib.Shlib == "" {
+		lib := loadinternal(ctxt, "runtime/cgo")
+		if lib == nil {
+			Exitf("cgo is required for external linking but is disabled")
+		}
+		if lib != nil && lib.Shlib == "" {
 			if ctxt.BuildMode == BuildModeShared || ctxt.linkShared {
 				Exitf("cannot implicitly include runtime/cgo in a shared library")
 			}
