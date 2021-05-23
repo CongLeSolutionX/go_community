@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce8cf5f5_acb779e6",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-05-23T22:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78b49621_8460bd3a",
+      "range": {
+        "startLine": 259,
+        "startChar": 1,
+        "endLine": 259,
+        "endChar": 14
+      },
+      "revId": "9be5f4b78296f7b940f787a172c374ef0335e6cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f053ec35_01d22efb",
@@ -91,6 +115,24 @@
       "writtenOn": "2021-05-23T21:57:08Z",
       "side": 1,
       "message": "nit: let\u0027s make this singular instead of plural; a single variable only needs one stack object.\n\nAlso, change \"is the variable\" to \"if the variable\".",
+      "revId": "9be5f4b78296f7b940f787a172c374ef0335e6cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "348ad7ba_43a0f893",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-05-23T22:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f053ec35_01d22efb",
       "revId": "9be5f4b78296f7b940f787a172c374ef0335e6cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
