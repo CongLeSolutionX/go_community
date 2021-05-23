@@ -569,7 +569,7 @@ func (o *orderState) call(nn ir.Node) {
 				x := o.copyExpr(arg.X)
 				arg.X = x
 				x.SetAddrTaken(true) // ensure SSA keeps the x variable
-				x.SetNeedStackObject(true)
+				x.SetNeedStackObject(false)
 				n.KeepAlive = append(n.KeepAlive, x)
 			}
 		}
