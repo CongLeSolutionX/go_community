@@ -273,7 +273,7 @@ func (lv *liveness) valueEffects(v *ssa.Value) (int32, liveEffect) {
 		}
 	}
 
-	if n.Class == ir.PPARAM && !n.Addrtaken() && n.Type().Size() > int64(types.PtrSize) {
+	if n.Class == ir.PPARAM && !n.AddrTaken() && n.Type().Size() > int64(types.PtrSize) {
 		// Only aggregate-typed arguments that are not address-taken can be
 		// partially live.
 		lv.partLiveArgs[n] = true
@@ -1007,7 +1007,7 @@ func (lv *liveness) clobber(b *ssa.Block) {
 // of b.Values.
 func clobber(lv *liveness, b *ssa.Block, live bitvec.BitVec) {
 	for i, n := range lv.vars {
-		if !live.Get(int32(i)) && !n.Addrtaken() && !n.OpenDeferSlot() && !n.IsOutputParamHeapAddr() {
+		if !live.Get(int32(i)) && !n.NeedStackObject() && !n.OpenDeferSlot() && !n.IsOutputParamHeapAddr() {
 			// Don't clobber stack objects (address-taken). They are
 			// tracked dynamically.
 			// Also don't clobber slots that are live for defers (see
@@ -1404,7 +1404,7 @@ func Compute(curfn *ir.Func, f *ssa.Func, stkptrsize int64, pp *objw.Progs) (Map
 func (lv *liveness) emitStackObjects() *obj.LSym {
 	var vars []*ir.Name
 	for _, n := range lv.fn.Dcl {
-		if shouldTrack(n) && n.Addrtaken() && n.Esc() != ir.EscHeap {
+		if shouldTrack(n) && n.NeedStackObject() && n.Esc() != ir.EscHeap {
 			vars = append(vars, n)
 		}
 	}

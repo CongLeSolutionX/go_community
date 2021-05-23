@@ -154,21 +154,21 @@ func ImportedBody(fn *ir.Func) {
 	// When we load an inlined body, we need to allow OADDR
 	// operations on untyped expressions. We will fix the
 	// addrtaken flags on all the arguments of the OADDR with the
-	// computeAddrtaken call below (after we typecheck the body).
+	// ComputeAddrTaken call below (after we typecheck the body).
 	// TODO: export/import types and addrtaken marks along with inlined bodies,
 	// so this will be unnecessary.
-	IncrementalAddrtaken = false
+	IncrementalAddrTaken = false
 	defer func() {
-		if DirtyAddrtaken {
+		if DirtyAddrTaken {
 			// We do ComputeAddrTaken on function instantiations, but not
 			// generic functions (since we may not yet know if x in &x[i]
 			// is an array or a slice).
 			if !fn.Type().HasTParam() {
-				ComputeAddrtaken(fn.Inl.Body) // compute addrtaken marks once types are available
+				ComputeAddrTaken(fn.Inl.Body) // compute addrtaken marks once types are available
 			}
-			DirtyAddrtaken = false
+			DirtyAddrTaken = false
 		}
-		IncrementalAddrtaken = true
+		IncrementalAddrTaken = true
 	}()
 
 	ImportBody(fn)

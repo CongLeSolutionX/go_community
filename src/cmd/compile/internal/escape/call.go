@@ -313,7 +313,7 @@ func (e *escape) rewriteArgument(argp *ir.Node, init *ir.Nodes, call ir.Node, fn
 				keep = e.copyExpr(arg.Pos(), tmp, call.PtrInit(), wrapper, false)
 			}
 
-			keep.SetAddrtaken(true) // ensure SSA keeps the tmp variable
+			keep.SetAddrTaken() // ensure SSA keeps the tmp variable
 			call.KeepAlive = append(call.KeepAlive, keep)
 		}
 
