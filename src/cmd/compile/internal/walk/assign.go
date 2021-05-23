@@ -395,7 +395,7 @@ func ascompatee(op ir.Op, nl, nr []ir.Node) []ir.Node {
 			continue
 		}
 
-		if name.Addrtaken() || !name.OnStack() {
+		if name.AddrTaken() || !name.OnStack() {
 			// Global variable, heap escaped, or just addrtaken.
 			// Conservatively assume any memory access might alias.
 			memWrite = true
@@ -420,7 +420,7 @@ func readsMemory(n ir.Node) bool {
 		if n.Class == ir.PFUNC {
 			return false
 		}
-		return n.Addrtaken() || !n.OnStack()
+		return n.AddrTaken() || !n.OnStack()
 
 	case ir.OADD,
 		ir.OAND,
