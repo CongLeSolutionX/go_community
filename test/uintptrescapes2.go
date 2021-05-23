@@ -33,33 +33,33 @@ func (T) M1(a uintptr) {} // ERROR "escaping uintptr"
 func (T) M2(a ...uintptr) {} // ERROR "escaping ...uintptr" "leaking param: a"
 
 func TestF1() {
-	var t int                        // ERROR "moved to heap"
-	F1(uintptr(unsafe.Pointer(&t)))  // ERROR "live at call to F1: .?autotmp" "stack object .autotmp_[0-9]+ unsafe.Pointer$"
+	var t int                       // ERROR "moved to heap"
+	F1(uintptr(unsafe.Pointer(&t))) // ERROR "live at call to F1: .?autotmp"
 }
 
 func TestF3() {
 	var t2 int                       // ERROR "moved to heap"
-	F3(uintptr(unsafe.Pointer(&t2))) // ERROR "live at call to F3: .?autotmp" "stack object .autotmp_[0-9]+ unsafe.Pointer$"
+	F3(uintptr(unsafe.Pointer(&t2))) // ERROR "live at call to F3: .?autotmp"
 }
 
 func TestM1() {
 	var t T
 	var v int                         // ERROR "moved to heap"
-	t.M1(uintptr(unsafe.Pointer(&v))) // ERROR "live at call to T.M1: .?autotmp" "stack object .autotmp_[0-9]+ unsafe.Pointer$"
+	t.M1(uintptr(unsafe.Pointer(&v))) // ERROR "live at call to T.M1: .?autotmp"
 }
 
 func TestF2() {
-	var v int                                 // ERROR "moved to heap"
-	F2(0, 1, uintptr(unsafe.Pointer(&v)), 2)  // ERROR "live at call to newobject: .?autotmp" "live at call to F2: .?autotmp" "escapes to heap" "stack object .autotmp_[0-9]+ unsafe.Pointer$"
+	var v int                                // ERROR "moved to heap"
+	F2(0, 1, uintptr(unsafe.Pointer(&v)), 2) // ERROR "live at call to newobject: .?autotmp" "live at call to F2: .?autotmp" "escapes to heap"
 }
 
 func TestF4() {
 	var v2 int                                // ERROR "moved to heap"
-	F4(0, 1, uintptr(unsafe.Pointer(&v2)), 2) // ERROR "live at call to newobject: .?autotmp" "live at call to F4: .?autotmp" "escapes to heap" "stack object .autotmp_[0-9]+ unsafe.Pointer$"
+	F4(0, 1, uintptr(unsafe.Pointer(&v2)), 2) // ERROR "live at call to newobject: .?autotmp" "live at call to F4: .?autotmp" "escapes to heap"
 }
 
 func TestM2() {
 	var t T
 	var v int                                  // ERROR "moved to heap"
-	t.M2(0, 1, uintptr(unsafe.Pointer(&v)), 2) // ERROR "live at call to newobject: .?autotmp" "live at call to T.M2: .?autotmp"  "escapes to heap" "stack object .autotmp_[0-9]+ unsafe.Pointer$"
+	t.M2(0, 1, uintptr(unsafe.Pointer(&v)), 2) // ERROR "live at call to newobject: .?autotmp" "live at call to T.M2: .?autotmp"  "escapes to heap"
 }
