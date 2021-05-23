@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19a5b4f9_0ed09da8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21942
+      },
+      "writtenOn": "2021-05-23T09:21:33Z",
+      "side": 1,
+      "message": "Hey Ryoya, this is a duplicate of https://go-review.googlesource.com/c/go/+/311569",
+      "revId": "c2c851865814cf42030cde0e603fccfec93f3cf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
