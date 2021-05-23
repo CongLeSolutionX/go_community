@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ad51483a_d33067d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-05-23T08:36:46Z",
+      "side": 1,
+      "message": "https://play.golang.org/p/rzblvBHqLb2 will not fail if you run this program over SSH. And the program will not bring any popup windows.\n\nBut fine, let\u0027s leave test out.",
+      "parentUuid": "0110ffb5_f3901a86",
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "54092ff7_4c60dc2d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -220,6 +238,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d95a6d1_f117ce0c",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-05-23T08:36:46Z",
+      "side": 1,
+      "message": "I did not know that. And I suspect other developers that look at this code as Ian, Austin and others do not know that either.\n\nSo whatever crams of help we can leave for them next time they need to debug this code is helpful.\n\nSomething like this\n\nhttps://www.programcreek.com/cpp/?CodeExample\u003dos+version\n\n(unfortunately this does not look authoritative enough).",
+      "parentUuid": "a64a2e94_662aabae",
+      "range": {
+        "startLine": 318,
+        "startChar": 1,
+        "endLine": 318,
+        "endChar": 44
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5c900c9_e45a6c05",
@@ -304,6 +346,54 @@
       "side": 1,
       "message": "I\u0027ll leave a comment explaining it. The reference is a combination of \"my disassembler\" and weird arcane knowledge about handles.",
       "parentUuid": "a9a3d2da_5974f437",
+      "range": {
+        "startLine": 319,
+        "startChar": 74,
+        "endLine": 319,
+        "endChar": 96
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7075abd9_6d2eada8",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-05-23T08:36:46Z",
+      "side": 1,
+      "message": "I disagree. StartProcess function is too long as it is. And you are adding more code to it while you could have put handle checking code into a separate function. And that separate function could have used isWin7 bool that could be calculated in osinit to something.\n\nBut I don\u0027t expect to convince you. So whatever version you like is fine by me.",
+      "parentUuid": "fe14801e_78707e5b",
+      "range": {
+        "startLine": 319,
+        "startChar": 1,
+        "endLine": 319,
+        "endChar": 27
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d6dfcdc_e2d58537",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-05-23T08:36:46Z",
+      "side": 1,
+      "message": "This is still looks vague. Should we use GetFileType instead and compare result with FILE_TYPE_CHAR?",
+      "parentUuid": "d0f3b507_235de197",
       "range": {
         "startLine": 319,
         "startChar": 74,
