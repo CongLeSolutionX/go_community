@@ -257,6 +257,7 @@ const (
 	nameIsOutputParamHeapAddr    // pointer to a result parameter's heap copy
 	nameIsOutputParamInRegisters // output parameter in registers spills as an auto
 	nameAddrtaken                // address taken, even if not moved to heap
+	nameNeedStackObjects         // is the variable needs stack objects to track its liveness
 	nameInlFormal                // PAUTO created by inliner, derived from callee formal
 	nameInlLocal                 // PAUTO created by inliner, derived from callee local
 	nameOpenDeferSlot            // if temporary var storing info for open-coded defers
@@ -272,6 +273,7 @@ func (n *Name) IsClosureVar() bool             { return n.flags&nameIsClosureVar
 func (n *Name) IsOutputParamHeapAddr() bool    { return n.flags&nameIsOutputParamHeapAddr != 0 }
 func (n *Name) IsOutputParamInRegisters() bool { return n.flags&nameIsOutputParamInRegisters != 0 }
 func (n *Name) Addrtaken() bool                { return n.flags&nameAddrtaken != 0 }
+func (n *Name) NeedStackObjects() bool         { return n.flags&nameNeedStackObjects != 0 }
 func (n *Name) InlFormal() bool                { return n.flags&nameInlFormal != 0 }
 func (n *Name) InlLocal() bool                 { return n.flags&nameInlLocal != 0 }
 func (n *Name) OpenDeferSlot() bool            { return n.flags&nameOpenDeferSlot != 0 }
@@ -285,6 +287,7 @@ func (n *Name) SetIsClosureVar(b bool)             { n.flags.set(nameIsClosureVa
 func (n *Name) SetIsOutputParamHeapAddr(b bool)    { n.flags.set(nameIsOutputParamHeapAddr, b) }
 func (n *Name) SetIsOutputParamInRegisters(b bool) { n.flags.set(nameIsOutputParamInRegisters, b) }
 func (n *Name) SetAddrtaken(b bool)                { n.flags.set(nameAddrtaken, b) }
+func (n *Name) SetNeedStackObjects(b bool)         { n.flags.set(nameNeedStackObjects, b) }
 func (n *Name) SetInlFormal(b bool)                { n.flags.set(nameInlFormal, b) }
 func (n *Name) SetInlLocal(b bool)                 { n.flags.set(nameInlLocal, b) }
 func (n *Name) SetOpenDeferSlot(b bool)            { n.flags.set(nameOpenDeferSlot, b) }

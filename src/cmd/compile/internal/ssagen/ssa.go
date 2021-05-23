@@ -520,6 +520,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 		// have been activated.
 		deferBitsTemp := typecheck.TempAt(src.NoXPos, s.curfn, types.Types[types.TUINT8])
 		deferBitsTemp.SetAddrtaken(true)
+		deferBitsTemp.SetNeedStackObjects(true)
 		s.deferBitsTemp = deferBitsTemp
 		// For this value, AuxInt is initialized to zero by default
 		startDeferBits := s.entryNewValue0(ssa.OpConst8, types.Types[types.TUINT8])

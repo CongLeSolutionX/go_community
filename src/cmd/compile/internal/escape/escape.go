@@ -323,6 +323,7 @@ func (b *batch) flowClosure(k hole, clo *ir.ClosureExpr) {
 		n.SetByval(!loc.addrtaken && !loc.reassigned && n.Type().Size() <= 128)
 		if !n.Byval() {
 			n.SetAddrtaken(true)
+			n.SetNeedStackObjects(true)
 		}
 
 		if base.Flag.LowerM > 1 {
