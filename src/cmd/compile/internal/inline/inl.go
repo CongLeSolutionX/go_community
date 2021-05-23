@@ -956,7 +956,9 @@ func inlvar(var_ *ir.Name) *ir.Name {
 	n.SetUsed(true)
 	n.SetAutoTemp(var_.AutoTemp())
 	n.Curfn = ir.CurFunc // the calling function, not the called one
-	n.SetAddrtaken(var_.Addrtaken())
+	if var_.AddrTaken() {
+		n.SetAddrTaken()
+	}
 
 	ir.CurFunc.Dcl = append(ir.CurFunc.Dcl, n)
 	return n
@@ -1044,8 +1046,8 @@ func (subst *inlsubst) clovar(n *ir.Name) *ir.Name {
 	if n.IsClosureVar() {
 		m.SetIsClosureVar(true)
 	}
-	if n.Addrtaken() {
-		m.SetAddrtaken(true)
+	if n.AddrTaken() {
+		m.SetAddrTaken()
 	}
 	if n.Used() {
 		m.SetUsed(true)
