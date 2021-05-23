@@ -53,6 +53,24 @@
       "message": "I don\u0027t think it\u0027s safe to ever set NeedStackObject back to false. Instead, I think we need to find the places where we\u0027re setting it to true unnecessarily and just avoid doing that.",
       "revId": "5e01ff617814edc3f5f2bf65bec341932ec6323c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4505ba25_344e6b98",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5158,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-05-23T22:23:45Z",
+      "side": 1,
+      "message": "How a bout add a check that \"name.Class \u003d\u003d ir.PAUTO \u0026\u0026 name.AddrTaken()\" here then set NeedStackObject to false?\n\nSince when we emit OVARLIVE right after the call, the liveness should keep the variable alive. Example, I think this code does not need stack object right?\n\n```\nfunc f(uintptr)\nfunc g() {\n\tvar i int\n\tf(uintptr(unsafe.Pointer(\u0026i)))\n}\n```",
+      "parentUuid": "031ee67e_72731101",
+      "revId": "5e01ff617814edc3f5f2bf65bec341932ec6323c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
