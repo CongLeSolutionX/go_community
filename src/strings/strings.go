@@ -1100,3 +1100,11 @@ func Index(s, substr string) int {
 	}
 	return -1
 }
+
+// Cut returns the result of cutting s around the first instance of sep.
+func Cut(s, sep string) (before, after string, ok bool) {
+	if i := Index(s, sep); i >= 0 {
+		return s[:i], s[i+len(sep):], true
+	}
+	return s, "", false
+}
