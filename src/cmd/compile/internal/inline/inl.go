@@ -1061,7 +1061,8 @@ func inlvar(var_ *ir.Name) *ir.Name {
 	n.Class = ir.PAUTO
 	n.SetUsed(true)
 	n.Curfn = ir.CurFunc // the calling function, not the called one
-	n.SetAddrtaken(var_.Addrtaken())
+	n.SetAddrTaken(var_.AddrTaken())
+	n.SetNeedStackObject(var_.NeedStackObject())
 
 	ir.CurFunc.Dcl = append(ir.CurFunc.Dcl, n)
 	return n
