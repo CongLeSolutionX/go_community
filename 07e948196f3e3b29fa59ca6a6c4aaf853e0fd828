@@ -87,6 +87,24 @@
       "parentUuid": "7d42bd36_36bdf846",
       "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c98c3e9_331b735d",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-24T19:20:09Z",
+      "side": 1,
+      "message": "Is it possible for the linker to check if external linking will work when cross compiling?",
+      "parentUuid": "cb2b0159_43d464e1",
+      "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
