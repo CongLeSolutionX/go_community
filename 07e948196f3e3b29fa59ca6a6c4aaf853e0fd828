@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1965a4a5_b5cdd3b1",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-24T06:49:20Z",
+      "side": 1,
+      "message": "It may be possible that runtime/cgo is missing due to a bug in the build system.\nMaybe the code should check if CGO_ENABLED\u003d0 ?",
+      "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
