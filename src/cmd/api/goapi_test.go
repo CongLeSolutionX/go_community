@@ -19,6 +19,7 @@ import (
 
 func TestMain(m *testing.M) {
 	flag.Parse()
+	setContexts()
 	for _, c := range contexts {
 		c.Compiler = build.Default.Compiler
 	}
