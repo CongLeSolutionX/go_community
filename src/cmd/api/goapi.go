@@ -52,36 +52,7 @@ var (
 
 // contexts are the default contexts which are scanned, unless
 // overridden by the -contexts flag.
-var contexts = []*build.Context{
-	{GOOS: "linux", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "386"},
-	{GOOS: "linux", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "amd64"},
-	{GOOS: "linux", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "arm"},
-	{GOOS: "darwin", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "darwin", GOARCH: "amd64"},
-	{GOOS: "windows", GOARCH: "amd64"},
-	{GOOS: "windows", GOARCH: "386"},
-	{GOOS: "freebsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "386"},
-	{GOOS: "freebsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "amd64"},
-	{GOOS: "freebsd", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "arm"},
-	{GOOS: "netbsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "386"},
-	{GOOS: "netbsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "amd64"},
-	{GOOS: "netbsd", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "arm"},
-	{GOOS: "netbsd", GOARCH: "arm64", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "arm64"},
-	{GOOS: "openbsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "openbsd", GOARCH: "386"},
-	{GOOS: "openbsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "openbsd", GOARCH: "amd64"},
-}
+var contexts = []*build.Context{}
 
 func contextName(c *build.Context) string {
 	s := c.GOOS + "-" + c.GOARCH
@@ -113,8 +84,43 @@ func parseContext(c string) *build.Context {
 	return bc
 }
 
+// initContexts loads the list of contexts from "go tool dist list -json".
+func setFirstClassPorts() {
+	type jsonResult struct {
+		GOOS, GOARCH string
+		CgoSupported bool
+		FirstClass bool
+	}
+	out, err := exec.Command("go", "tool", "dist", "list", "-json").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var results []jsonResult
+	if err := json.Unmarshal(out, &results); err != nil {
+		log.Fatal(err)
+	}
+	for _, result := range results {
+		contexts = append(contexts, &build.Context{
+			GOOS:   result.GOOS,
+			GOARCH: result.GOARCH,
+		})
+		// Windows CGO is not a first class port
+		if result.CgoSupported && result.GOOS != "windows" {
+			contexts = append(contexts, &build.Context{
+				GOOS:       result.GOOS,
+				GOARCH:     result.GOARCH,
+				CgoEnabled: true,
+			})
+		}
+	}
+}
+
+// setContexts parses ports and defaults to first class ports.
 func setContexts() {
-	contexts = []*build.Context{}
+	if *forceCtx == "" {
+		setFirstClassPorts()
+		return
+	}
 	for _, c := range strings.Split(*forceCtx, ",") {
 		contexts = append(contexts, parseContext(c))
 	}
@@ -132,9 +138,7 @@ func main() {
 		}
 	}
 
-	if *forceCtx != "" {
-		setContexts()
-	}
+	setContexts()
 	for _, c := range contexts {
 		c.Compiler = build.Default.Compiler
 	}
