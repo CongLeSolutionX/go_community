@@ -32,6 +32,9 @@ func printstring(string)
 //go:noescape
 func printbytepointer(*byte)
 
+//go:noescape
+func printifacepointer(*interface{})
+
 func printint(int)
 
 func f1() {
@@ -257,10 +260,10 @@ func iface() interface{}
 
 func f16() {
 	if b {
-		delete(mi, iface()) // ERROR "stack object .autotmp_[0-9]+ interface \{\}$"
+		delete(mi, iface()) // ERROR "live at call to mapdelete: .autotmp_[0-9]+$"
 	}
-	delete(mi, iface())
-	delete(mi, iface())
+	delete(mi, iface()) // ERROR "live at call to mapdelete: .autotmp_[0-9]+$"
+	delete(mi, iface()) // ERROR "live at call to mapdelete: .autotmp_[0-9]+$"
 }
 
 var m2s map[string]*byte
@@ -303,10 +306,10 @@ func f18() {
 	// temporary introduced by orderexpr.
 	var z *byte
 	if b {
-		z = m2[g18()] // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		z = m2[g18()] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
 	}
-	z = m2[g18()]
-	z = m2[g18()]
+	z = m2[g18()] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
+	z = m2[g18()] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
 	printbytepointer(z)
 }
 
@@ -340,10 +343,10 @@ func f21() {
 	// key temporary for mapaccess using array literal key.
 	var z *byte
 	if b {
-		z = m2[[2]string{"x", "y"}] // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		z = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
 	}
-	z = m2[[2]string{"x", "y"}]
-	z = m2[[2]string{"x", "y"}]
+	z = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
+	z = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
 	printbytepointer(z)
 }
 
@@ -352,10 +355,10 @@ func f23() {
 	var z *byte
 	var ok bool
 	if b {
-		z, ok = m2[[2]string{"x", "y"}] // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		z, ok = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess2: .autotmp_[0-9]+$"
 	}
-	z, ok = m2[[2]string{"x", "y"}]
-	z, ok = m2[[2]string{"x", "y"}]
+	z, ok = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess2: .autotmp_[0-9]+$"
+	z, ok = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess2: .autotmp_[0-9]+$"
 	printbytepointer(z)
 	print(ok)
 }
@@ -364,10 +367,10 @@ func f24() {
 	// key temporary for map access using array literal key.
 	// value temporary too.
 	if b {
-		m2[[2]string{"x", "y"}] = nil // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		m2[[2]string{"x", "y"}] = nil // ERROR "live at call to mapassign: .autotmp_[0-9]+$"
 	}
-	m2[[2]string{"x", "y"}] = nil
-	m2[[2]string{"x", "y"}] = nil
+	m2[[2]string{"x", "y"}] = nil // ERROR "live at call to mapassign: .autotmp_[0-9]+$"
+	m2[[2]string{"x", "y"}] = nil // ERROR "live at call to mapassign: .autotmp_[0-9]+$"
 }
 
 // Non-open-coded defers should not cause autotmps.  (Open-coded defers do create extra autotmps).
@@ -541,7 +544,7 @@ func call32(func())
 var m33 map[interface{}]int
 
 func f33() {
-	if m33[byteptr()] == 0 { // ERROR "stack object .autotmp_[0-9]+ interface \{\}$"
+	if m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	} else {
@@ -551,7 +554,7 @@ func f33() {
 }
 
 func f34() {
-	if m33[byteptr()] == 0 { // ERROR "stack object .autotmp_[0-9]+ interface \{\}$"
+	if m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	}
@@ -559,8 +562,8 @@ func f34() {
 }
 
 func f35() {
-	if m33[byteptr()] == 0 && // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
-		m33[byteptr()] == 0 { // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
+	if m33[byteptr()] == 0 && // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
+		m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	}
@@ -568,8 +571,8 @@ func f35() {
 }
 
 func f36() {
-	if m33[byteptr()] == 0 || // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
-		m33[byteptr()] == 0 { // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
+	if m33[byteptr()] == 0 || // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
+		m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	}
@@ -577,9 +580,9 @@ func f36() {
 }
 
 func f37() {
-	if (m33[byteptr()] == 0 || // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
-		m33[byteptr()] == 0) && // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
-		m33[byteptr()] == 0 {
+	if (m33[byteptr()] == 0 || // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
+		m33[byteptr()] == 0) && // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
+		m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	}
@@ -721,4 +724,10 @@ func f44(f func() [2]*int) interface{} { // ERROR "live at entry to f44: f"
 	ret := T{}
 	ret.s[0] = f()
 	return ret // ERROR "stack object .autotmp_[0-9]+ T"
+}
+
+func f45() {
+	x := iface()          // ERROR "stack object x interface {}$"
+	printifacepointer(&x) // ERROR "live at call to printifacepointer: x$"
+	mi[x] = 42            // ERROR "stack object .autotmp_[0-9]+ interface {}$"
 }
