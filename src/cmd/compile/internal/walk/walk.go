@@ -400,3 +400,26 @@ func ifaceData(pos src.XPos, n ir.Node, t *types.Type) ir.Node {
 	ind.SetBounded(true)
 	return ind
 }
+
+// markArgAlive mark argument to call alive if not require stack object.
+func markArgAlive(n ir.Node, call *ir.CallExpr) {
+	if n.Op() != ir.OADDR {
+		return
+	}
+	addr := n.(*ir.AddrExpr)
+	ov := ir.OuterValue(addr.X)
+	if ov.Op() != ir.ONAME {
+		return
+	}
+	switch ov.Name().Class {
+	case ir.PAUTO, ir.PPARAM, ir.PPARAMOUT:
+		// TODO(cuonglm,khr): handle ir.PAUTOHEAP?
+		// ok
+	default:
+		return
+	}
+
+	if ov.Name().AddrTaken() && !ov.Name().NeedStackObject() {
+		call.KeepAlive = append(call.KeepAlive, ov.Name())
+	}
+}
