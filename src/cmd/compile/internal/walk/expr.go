@@ -765,6 +765,9 @@ func walkIndexMap(n *ir.IndexExpr, init *ir.Nodes) ir.Node {
 	call := mkcall1(mapFn(), nil, init, args...)
 	call.SetType(types.NewPtr(t.Elem()))
 	call.MarkNonNil() // mapaccess1* and mapassign always return non-nil pointers.
+	if key.Op() == ir.OADDR {
+		markArgAlive(key.(*ir.AddrExpr), call)
+	}
 	star := ir.NewStarExpr(base.Pos, call)
 	star.SetType(t.Elem())
 	star.SetTypecheck(1)
