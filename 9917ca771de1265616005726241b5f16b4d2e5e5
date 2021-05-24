@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f0b0b4c_b1941a63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-05-24T20:07:55Z",
+      "side": 1,
+      "message": "So I think introduce SetAddrTakenNoStackObject seems right, then we will change all current SetAddrTaken -\u003e SetAddrTakenNoStackObject.\n\nThen after any NodAddr, we can explicitly use `SetAddrTaken` if required. That sounds more work but safer way.",
+      "parentUuid": "8ca196bc_665a7433",
+      "revId": "9917ca771de1265616005726241b5f16b4d2e5e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5cb1af8_e66775a5",
@@ -86,6 +104,30 @@
       "writtenOn": "2021-05-24T19:14:50Z",
       "side": 1,
       "message": "a stack object",
+      "range": {
+        "startLine": 260,
+        "startChar": 55,
+        "endLine": 260,
+        "endChar": 68
+      },
+      "revId": "9917ca771de1265616005726241b5f16b4d2e5e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f699c95d_e5f50d99",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-05-24T20:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5cb1af8_e66775a5",
       "range": {
         "startLine": 260,
         "startChar": 55,
