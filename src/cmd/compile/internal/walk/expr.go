@@ -765,6 +765,17 @@ func walkIndexMap(n *ir.IndexExpr, init *ir.Nodes) ir.Node {
 	call := mkcall1(mapFn(), nil, init, args...)
 	call.SetType(types.NewPtr(t.Elem()))
 	call.MarkNonNil() // mapaccess1* and mapassign always return non-nil pointers.
+
+	// If we take key address to pass it to runtime function, we know the the key
+	// is going to stay alive until runtime function return. So we don't need full
+	// generality of stack object, but let liveness analysis and stack maps take
+	// care of keeping the key alive.
+	if ov := ir.OuterValue(n.Index); key.Op() == ir.OADDR && ov.Op() == ir.ONAME {
+		if ov.Name().Class == ir.PAUTO && ov.Name().AddrTaken() && ov.Name().NeedStackObject() {
+			ov.Name().SetNeedStackObject(false)
+			call.KeepAlive = append(call.KeepAlive, ov.Name())
+		}
+	}
 	star := ir.NewStarExpr(base.Pos, call)
 	star.SetType(t.Elem())
 	star.SetTypecheck(1)
