@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80bd1acb_534d9158",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-24T19:50:27Z",
+      "side": 1,
+      "message": "It might be okay to still compile the code. But I think it should be the go command to error out in this case, not the linker.",
+      "parentUuid": "e94f0305_6eab6f69",
+      "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1965a4a5_b5cdd3b1",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "Is it possible for the linker to check if external linking will work when cross compiling?",
       "parentUuid": "cb2b0159_43d464e1",
+      "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "590ccbcf_c559bfc5",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-24T19:50:27Z",
+      "side": 1,
+      "message": "External linking will work at cross compilation if CC is the right C cross compiler. I\u0027m not sure what do you mean by \"check\".",
+      "parentUuid": "2c98c3e9_331b735d",
       "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
