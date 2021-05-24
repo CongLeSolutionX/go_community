@@ -142,6 +142,7 @@ func walkRange(nrange *ir.RangeStmt) ir.Node {
 		hp := typecheck.Temp(types.NewPtr(t.Elem()))
 		tmp := ir.NewIndexExpr(base.Pos, ha, ir.NewInt(0))
 		tmp.SetBounded(true)
+		typecheck.MarkNodeAddrTaken(tmp)
 		init = append(init, ir.NewAssignStmt(base.Pos, hp, typecheck.NodAddr(tmp)))
 
 		// Use OAS2 to correctly handle assignments
@@ -172,11 +173,13 @@ func walkRange(nrange *ir.RangeStmt) ir.Node {
 		fn := typecheck.LookupRuntime("mapiterinit")
 
 		fn = typecheck.SubstArgTypes(fn, t.Key(), t.Elem(), th)
+		typecheck.MarkNodeAddrTaken(hit)
 		init = append(init, mkcallstmt1(fn, reflectdata.TypePtr(t), ha, typecheck.NodAddr(hit)))
 		nfor.Cond = ir.NewBinaryExpr(base.Pos, ir.ONE, ir.NewSelectorExpr(base.Pos, ir.ODOT, hit, keysym), typecheck.NodNil())
 
 		fn = typecheck.LookupRuntime("mapiternext")
 		fn = typecheck.SubstArgTypes(fn, th)
+		typecheck.MarkNodeAddrTaken(hit)
 		nfor.Post = mkcallstmt1(fn, typecheck.NodAddr(hit))
 
 		key := ir.NewStarExpr(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, hit, keysym))
@@ -428,6 +431,7 @@ func arrayClear(loop *ir.RangeStmt, v1, v2, a ir.Node) ir.Node {
 
 	ix := ir.NewIndexExpr(base.Pos, a, ir.NewInt(0))
 	ix.SetBounded(true)
+	typecheck.MarkNodeAddrTaken(ix)
 	addr := typecheck.ConvNop(typecheck.NodAddr(ix), types.Types[types.TUNSAFEPTR])
 	n.Body.Append(ir.NewAssignStmt(base.Pos, hp, addr))
 

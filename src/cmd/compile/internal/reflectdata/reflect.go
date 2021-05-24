@@ -834,6 +834,7 @@ func TypeLinksym(t *types.Type) *obj.LSym {
 
 func TypePtr(t *types.Type) *ir.AddrExpr {
 	n := ir.NewLinksymExpr(base.Pos, TypeLinksym(t), types.Types[types.TUINT8])
+	typecheck.MarkNodeAddrTaken(n)
 	return typecheck.Expr(typecheck.NodAddr(n)).(*ir.AddrExpr)
 }
 
@@ -860,6 +861,7 @@ func ITabAddr(typ, iface *types.Type) *ir.AddrExpr {
 	}
 
 	n := ir.NewLinksymExpr(base.Pos, lsym, types.Types[types.TUINT8])
+	typecheck.MarkNodeAddrTaken(n)
 	return typecheck.Expr(typecheck.NodAddr(n)).(*ir.AddrExpr)
 }
 
@@ -1677,6 +1679,7 @@ func ZeroAddr(size int64) ir.Node {
 	}
 	lsym := base.PkgLinksym("go.map", "zero", obj.ABI0)
 	x := ir.NewLinksymExpr(base.Pos, lsym, types.Types[types.TUINT8])
+	typecheck.MarkNodeAddrTaken(x)
 	return typecheck.Expr(typecheck.NodAddr(x))
 }
 
@@ -1873,6 +1876,7 @@ func methodWrapper(rcvr *types.Type, method *types.Field, forItab bool) *obj.LSy
 		// generate tail call: adjust pointer receiver and jump to embedded method.
 		left := dot.X // skip final .M
 		if !left.Type().IsPtr() {
+			typecheck.MarkNodeAddrTaken(left)
 			left = typecheck.NodAddr(left)
 		}
 		as := ir.NewAssignStmt(base.Pos, nthis, typecheck.ConvNop(left, rcvr))
@@ -1916,6 +1920,7 @@ func methodWrapper(rcvr *types.Type, method *types.Field, forItab bool) *obj.LSy
 			} else if methodrcvr.IsPtr() && methodrcvr.Elem() == dot.X.Type() {
 				// Case where method call is via a non-pointer
 				// embedded field with a pointer method.
+				typecheck.MarkNodeAddrTaken(dot.X)
 				args = append(args, typecheck.NodAddrAt(base.Pos, dot.X))
 			} else {
 				args = append(args, dot.X)
@@ -2055,6 +2060,7 @@ func getDictionary(gf *types.Sym, targs []*types.Type) ir.Node {
 	sym.Def = n
 
 	// Return the address of the dictionary.
+	typecheck.MarkNodeAddrTaken(n)
 	np := typecheck.NodAddr(n)
 	// Note: treat dictionary pointers as uintptrs, so they aren't pointers
 	// with respect to GC. That saves on stack scanning work, write barriers, etc.

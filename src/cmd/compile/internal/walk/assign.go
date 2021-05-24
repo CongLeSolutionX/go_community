@@ -77,6 +77,7 @@ func walkAssign(init *ir.Nodes, n ir.Node) ir.Node {
 		recv := as.Y.(*ir.UnaryExpr)
 		recv.X = walkExpr(recv.X, init)
 
+		typecheck.MarkNodeAddrTaken(as.X)
 		n1 := typecheck.NodAddr(as.X)
 		r := recv.X // the channel
 		return mkcall1(chanfn("chanrecv1", 2, r.Type()), nil, init, r, n1)
@@ -175,7 +176,6 @@ func walkAssignMapRead(init *ir.Nodes, n *ir.AssignListStmt) ir.Node {
 		z := reflectdata.ZeroAddr(w)
 		call = mkcall1(fn, fn.Type().Results(), init, reflectdata.TypePtr(t), r.X, key, z)
 	}
-
 	// mapaccess2* returns a typed bool, but due to spec changes,
 	// the boolean result of i.(T) is now untyped so we make it the
 	// same type as the variable on the lhs.
@@ -212,6 +212,7 @@ func walkAssignRecv(init *ir.Nodes, n *ir.AssignListStmt) ir.Node {
 	if ir.IsBlank(n.Lhs[0]) {
 		n1 = typecheck.NodNil()
 	} else {
+		typecheck.MarkNodeAddrTaken(n.Lhs[0])
 		n1 = typecheck.NodAddr(n.Lhs[0])
 	}
 	fn := chanfn("chanrecv2", 2, r.X.Type())
@@ -538,6 +539,7 @@ func appendSlice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 		// memmove(&s[len(l1)], &l2[0], len(l2)*sizeof(T))
 		ix := ir.NewIndexExpr(base.Pos, s, ir.NewUnaryExpr(base.Pos, ir.OLEN, l1))
 		ix.SetBounded(true)
+		typecheck.MarkNodeAddrTaken(ix)
 		addr := typecheck.NodAddr(ix)
 
 		sptr := ir.NewUnaryExpr(base.Pos, ir.OSPTR, l2)

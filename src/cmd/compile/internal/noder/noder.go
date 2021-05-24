@@ -80,6 +80,10 @@ func LoadPackage(filenames []string) {
 	}
 	base.Timer.AddEvent(int64(lines), "lines")
 
+	defer func() {
+		typecheck.AddrTakenImplyStackObject = false
+	}()
+
 	if base.Debug.Unified != 0 {
 		unified(noders)
 		return
@@ -109,6 +113,7 @@ func LoadPackage(filenames []string) {
 	types.LocalPkg.Height = myheight
 	typecheck.DeclareUniverse()
 	typecheck.TypecheckAllowed = true
+	typecheck.AddrTakenImplyStackObject = false
 
 	// Process top-level declarations in phases.
 

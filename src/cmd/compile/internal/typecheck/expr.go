@@ -761,6 +761,7 @@ func tcSlice(n *ir.SliceExpr) ir.Node {
 			return n
 		}
 
+		MarkNodeAddrTaken(n.X)
 		addr := NodAddr(n.X)
 		addr.SetImplicit(true)
 		n.X = Expr(addr)
