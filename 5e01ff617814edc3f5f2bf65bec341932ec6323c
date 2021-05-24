@@ -71,6 +71,24 @@
       "parentUuid": "031ee67e_72731101",
       "revId": "5e01ff617814edc3f5f2bf65bec341932ec6323c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4a15d51_69009a82",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5158,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-24T00:25:59Z",
+      "side": 1,
+      "message": "My concern is that for something like:\n\n```\nfunc g() {\n    var i int\n    userFunction(\u0026i)\n    f(uintptr(unsafe.Pointer(\u0026i)))\n}\n```\n\ni still needs a stack object because of the \"userFunction(\u0026i)\" call. The OVARLIVE might suffice for the f function, but it would be inappropriate to set NeedStackObject to false because it would break the userFunction call. That\u0027s why I don\u0027t think it\u0027s safe to ever set it back to false: we need to instead avoid setting it to true in cases where we can avoid it.\n\nI\u0027m also a bit suspicious of arbitrary calls to assembly functions like this, since this seems to include user-written assembly functions. I think if we\u0027re going to do this optimization, we should limit it to calls to standard library functions (e.g., from packages runtime and syscall).\n\nI think it would be easier to start with handling the cases where the compiler creates the OADDR nodes during order.go. I think identifying user-written OADDR nodes that don\u0027t need to set NeedStackObject will be much harder, and require extending escape analysis.",
+      "parentUuid": "4505ba25_344e6b98",
+      "revId": "5e01ff617814edc3f5f2bf65bec341932ec6323c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
