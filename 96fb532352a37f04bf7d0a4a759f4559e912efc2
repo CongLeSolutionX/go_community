@@ -193,6 +193,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7afb806_46e6b960",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-24T17:30:21Z",
+      "side": 1,
+      "message": "This approach looks pretty good to me. Better for all the horrific confusion to stay contained in one place.",
+      "parentUuid": "2c771c80_3c946973",
+      "revId": "96fb532352a37f04bf7d0a4a759f4559e912efc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe756af3_c81533e5",
