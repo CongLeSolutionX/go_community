@@ -71,6 +71,24 @@
       "parentUuid": "cb151ef3_b5297719",
       "revId": "c31cf1cad23386d7013a597c450206d665fef008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ca3c862_3c520e9d",
+        "filename": "src/cmd/compile/internal/walk/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-05-24T19:58:02Z",
+      "side": 1,
+      "message": "We allocate temporaries for many reasons, and some of those would need stack objects. We can only mark temporaries which we know will be ok without a stack object. Which means we need to know (i.e. record somewhere) why they were allocated.",
+      "parentUuid": "67682c6f_63ecb0a5",
+      "revId": "c31cf1cad23386d7013a597c450206d665fef008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
