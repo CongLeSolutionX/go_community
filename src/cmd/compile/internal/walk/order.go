@@ -264,7 +264,15 @@ func (o *orderState) mapKeyTemp(t *types.Type, n ir.Node) ir.Node {
 	// Exception: map*_fast* calls. See golang.org/issue/19015.
 	alg := mapfast(t)
 	if alg == mapslow {
-		return o.addrTemp(n)
+		tmp := o.addrTemp(n)
+		if nn := n.Name(); nn != nil && nn.NeedStackObject() {
+			// If n needs stack object, and tmp is a separate copy of n,
+			// then we don't need to mark tmp needs stack object.
+			if tmp != n && tmp.Name() != nil && tmp.Name().AutoTemp() {
+				tmp.Name().SetAddrTakenNoStackObject()
+			}
+		}
+		return tmp
 	}
 	var kt *types.Type
 	switch alg {
