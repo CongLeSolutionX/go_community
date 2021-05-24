@@ -577,6 +577,8 @@ func walkCall1(n *ir.CallExpr, init *ir.Nodes) {
 			base.FatalfAt(n.Pos(), "assigning %L to parameter %v (type %v)", arg, param.Sym, param.Type)
 		}
 
+		markArgAlive(arg, n)
+
 		// For any argument whose evaluation might require a function call,
 		// store that argument into a temporary variable,
 		// to prevent that calls from clobbering arguments already on the stack.

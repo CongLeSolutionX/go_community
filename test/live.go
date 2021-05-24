@@ -32,6 +32,9 @@ func printstring(string)
 //go:noescape
 func printbytepointer(*byte)
 
+//go:noescape
+func printifacepointer(*interface{})
+
 func printint(int)
 
 func f1() {
@@ -144,7 +147,7 @@ var i9 interface{}
 func f9() bool {
 	g8()
 	x := i9
-	y := interface{}(g18()) // ERROR "live at call to convT: x.data$" "live at call to g18: x.data$" "stack object .autotmp_[0-9]+ \[2\]string$"
+	y := interface{}(g18()) // ERROR "live at call to convT: .autotmp_[0-9]+ x.data$" "live at call to g18: x.data$"
 	i9 = y                  // make y escape so the line above has to call convT
 	return x != y
 }
@@ -166,7 +169,7 @@ var b bool
 
 // this used to have a spurious "live at entry to f11a: ~r0"
 func f11a() *int {
-	select { // ERROR "stack object .autotmp_[0-9]+ \[2\]struct"
+	select { // ERROR "live at call to selectgo: .autotmp_[0-9]+$"
 	case <-c:
 		return nil
 	case <-c:
@@ -181,7 +184,7 @@ func f11b() *int {
 		// get to the bottom of the function.
 		// This used to have a spurious "live at call to printint: p".
 		printint(1) // nothing live here!
-		select {    // ERROR "stack object .autotmp_[0-9]+ \[2\]struct"
+		select {    // ERROR "live at call to selectgo: .autotmp_[0-9]+$"
 		case <-c:
 			return nil
 		case <-c:
@@ -201,7 +204,7 @@ func f11c() *int {
 		// Unlike previous, the cases in this select fall through,
 		// so we can get to the println, so p is not dead.
 		printint(1) // ERROR "live at call to printint: p$"
-		select {    // ERROR "live at call to selectgo: p$" "stack object .autotmp_[0-9]+ \[2\]struct"
+		select {    // ERROR "live at call to selectgo: .autotmp_[0-9]+ p$"
 		case <-c:
 		case <-c:
 		}
@@ -257,10 +260,10 @@ func iface() interface{}
 
 func f16() {
 	if b {
-		delete(mi, iface()) // ERROR "stack object .autotmp_[0-9]+ interface \{\}$"
+		delete(mi, iface()) // ERROR "live at call to mapdelete: .autotmp_[0-9]+$"
 	}
-	delete(mi, iface())
-	delete(mi, iface())
+	delete(mi, iface()) // ERROR "live at call to mapdelete: .autotmp_[0-9]+$"
+	delete(mi, iface()) // ERROR "live at call to mapdelete: .autotmp_[0-9]+$"
 }
 
 var m2s map[string]*byte
@@ -303,10 +306,10 @@ func f18() {
 	// temporary introduced by orderexpr.
 	var z *byte
 	if b {
-		z = m2[g18()] // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		z = m2[g18()] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
 	}
-	z = m2[g18()]
-	z = m2[g18()]
+	z = m2[g18()] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
+	z = m2[g18()] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
 	printbytepointer(z)
 }
 
@@ -320,9 +323,9 @@ func f19() {
 	var z *byte
 
 	if b {
-		z = <-ch // ERROR "stack object .autotmp_[0-9]+ \*byte$"
+		z = <-ch // ERROR "live at call to chanrecv1: .autotmp_[0-9]+$"
 	}
-	z = <-ch
+	z = <-ch // ERROR "live at call to chanrecv1: .autotmp_[0-9]+$"
 	z = <-ch // ERROR "live at call to chanrecv1: .autotmp_[0-9]+$"
 	printbytepointer(z)
 }
@@ -330,20 +333,20 @@ func f19() {
 func f20() {
 	// src temporary for channel send
 	if b {
-		ch <- byteptr() // ERROR "stack object .autotmp_[0-9]+ \*byte$"
+		ch <- byteptr() // ERROR "live at call to chansend1: .autotmp_[0-9]+$"
 	}
-	ch <- byteptr()
-	ch <- byteptr()
+	ch <- byteptr() // ERROR "live at call to chansend1: .autotmp_[0-9]+$"
+	ch <- byteptr() // ERROR "live at call to chansend1: .autotmp_[0-9]+$"
 }
 
 func f21() {
 	// key temporary for mapaccess using array literal key.
 	var z *byte
 	if b {
-		z = m2[[2]string{"x", "y"}] // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		z = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
 	}
-	z = m2[[2]string{"x", "y"}]
-	z = m2[[2]string{"x", "y"}]
+	z = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
+	z = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess1: .autotmp_[0-9]$"
 	printbytepointer(z)
 }
 
@@ -352,10 +355,10 @@ func f23() {
 	var z *byte
 	var ok bool
 	if b {
-		z, ok = m2[[2]string{"x", "y"}] // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		z, ok = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess2: .autotmp_[0-9]+$"
 	}
-	z, ok = m2[[2]string{"x", "y"}]
-	z, ok = m2[[2]string{"x", "y"}]
+	z, ok = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess2: .autotmp_[0-9]+$"
+	z, ok = m2[[2]string{"x", "y"}] // ERROR "live at call to mapaccess2: .autotmp_[0-9]+$"
 	printbytepointer(z)
 	print(ok)
 }
@@ -364,10 +367,10 @@ func f24() {
 	// key temporary for map access using array literal key.
 	// value temporary too.
 	if b {
-		m2[[2]string{"x", "y"}] = nil // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		m2[[2]string{"x", "y"}] = nil // ERROR "live at call to mapassign: .autotmp_[0-9]+$"
 	}
-	m2[[2]string{"x", "y"}] = nil
-	m2[[2]string{"x", "y"}] = nil
+	m2[[2]string{"x", "y"}] = nil // ERROR "live at call to mapassign: .autotmp_[0-9]+$"
+	m2[[2]string{"x", "y"}] = nil // ERROR "live at call to mapassign: .autotmp_[0-9]+$"
 }
 
 // Non-open-coded defers should not cause autotmps.  (Open-coded defers do create extra autotmps).
@@ -457,7 +460,7 @@ func f28(b bool) {
 
 func f29(b bool) {
 	if b {
-		for k := range m { // ERROR "live at call to mapiterinit: .autotmp_[0-9]+$" "live at call to mapiternext: .autotmp_[0-9]+$" "stack object .autotmp_[0-9]+ map.iter\[string\]int$"
+		for k := range m { // ERROR "live at call to mapiterinit: .autotmp_[0-9]+$" "live at call to mapiternext: .autotmp_[0-9]+$"
 			printstring(k) // ERROR "live at call to printstring: .autotmp_[0-9]+$"
 		}
 	}
@@ -484,7 +487,7 @@ func f30(b bool) {
 	// the internal iterator pointer if a pointer to pstruct in pstructarr
 	// can not be easily computed by strength reduction.
 	if b {
-		for _, p := range pstructarr { // ERROR "stack object .autotmp_[0-9]+ \[10\]pstruct$"
+		for _, p := range pstructarr {
 			printintpointer(p.intp) // ERROR "live at call to printintpointer: .autotmp_[0-9]+$"
 		}
 	}
@@ -500,13 +503,13 @@ func f30(b bool) {
 
 func f31(b1, b2, b3 bool) {
 	if b1 {
-		g31(g18()) // ERROR "stack object .autotmp_[0-9]+ \[2\]string$"
+		g31(g18()) // ERROR "live at call to convT: .autotmp_[0-9]+$"
 	}
 	if b2 {
-		h31(g18()) // ERROR "live at call to convT: .autotmp_[0-9]+$" "live at call to newobject: .autotmp_[0-9]+$"
+		h31(g18()) // ERROR "live at call to convT: .autotmp_[0-9]+ .autotmp_[0-9]+$" "live at call to newobject: .autotmp_[0-9]+$"
 	}
 	if b3 {
-		panic(g18())
+		panic(g18()) // ERROR "live at call to convT: .autotmp_[0-9]$"
 	}
 	print(b3)
 }
@@ -541,7 +544,7 @@ func call32(func())
 var m33 map[interface{}]int
 
 func f33() {
-	if m33[byteptr()] == 0 { // ERROR "stack object .autotmp_[0-9]+ interface \{\}$"
+	if m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	} else {
@@ -551,7 +554,7 @@ func f33() {
 }
 
 func f34() {
-	if m33[byteptr()] == 0 { // ERROR "stack object .autotmp_[0-9]+ interface \{\}$"
+	if m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	}
@@ -559,8 +562,8 @@ func f34() {
 }
 
 func f35() {
-	if m33[byteptr()] == 0 && // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
-		m33[byteptr()] == 0 { // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
+	if m33[byteptr()] == 0 && // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
+		m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	}
@@ -568,8 +571,8 @@ func f35() {
 }
 
 func f36() {
-	if m33[byteptr()] == 0 || // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
-		m33[byteptr()] == 0 { // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
+	if m33[byteptr()] == 0 || // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
+		m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	}
@@ -577,9 +580,9 @@ func f36() {
 }
 
 func f37() {
-	if (m33[byteptr()] == 0 || // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
-		m33[byteptr()] == 0) && // ERROR "stack object .autotmp_[0-9]+ interface \{\}"
-		m33[byteptr()] == 0 {
+	if (m33[byteptr()] == 0 || // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
+		m33[byteptr()] == 0) && // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
+		m33[byteptr()] == 0 { // ERROR "live at call to mapaccess1: .autotmp_[0-9]+$"
 		printnl()
 		return
 	}
@@ -599,14 +602,14 @@ func f38(b bool) {
 	// we care that the println lines have no live variables
 	// and therefore no output.
 	if b {
-		select { // ERROR "live at call to selectgo:( .autotmp_[0-9]+)+$" "stack object .autotmp_[0-9]+ \[4\]struct \{"
+		select { // ERROR "live at call to selectgo:( .autotmp_[0-9]+)+$"
 		case <-fc38():
 			printnl()
-		case fc38() <- *fi38(1): // ERROR "live at call to fc38:( .autotmp_[0-9]+)+$" "live at call to fi38:( .autotmp_[0-9]+)+$" "stack object .autotmp_[0-9]+ string$"
+		case fc38() <- *fi38(1): // ERROR "live at call to fc38:( .autotmp_[0-9]+)+$" "live at call to fi38:( .autotmp_[0-9]+)+$"
 			printnl()
-		case *fi38(2) = <-fc38(): // ERROR "live at call to fc38:( .autotmp_[0-9]+)+$" "live at call to fi38:( .autotmp_[0-9]+)+$" "stack object .autotmp_[0-9]+ string$"
+		case *fi38(2) = <-fc38(): // ERROR "live at call to fc38:( .autotmp_[0-9]+)+$" "live at call to fi38:( .autotmp_[0-9]+)+$"
 			printnl()
-		case *fi38(3), *fb38() = <-fc38(): // ERROR "stack object .autotmp_[0-9]+ string$" "live at call to fc38:( .autotmp_[0-9]+)+$" "live at call to fi38:( .autotmp_[0-9]+)+$"
+		case *fi38(3), *fb38() = <-fc38(): // ERROR "live at call to fc38:( .autotmp_[0-9]+)+$" "live at call to fi38:( .autotmp_[0-9]+)+$"
 			printnl()
 		}
 		printnl()
@@ -697,9 +700,9 @@ func f41(p, q *int) (r *int) { // ERROR "live at entry to f41: p q$"
 	defer func() {
 		recover()
 	}()
-	printint(0) // ERROR "live at call to printint: q r .autotmp_[0-9]+$"
+	printint(0) // ERROR "live at call to printint: (q .autotmp_[0-9]+ r)|(q r .autotmp_[0-9]+)$"
 	r = q
-	return // ERROR "live at call to f41.func1: r .autotmp_[0-9]+$"
+	return // ERROR "live at call to f41.func1: (r .autotmp_[0-9]+)|(.autotmp_[0-9]+ r)$"
 }
 
 func f42() {
@@ -720,5 +723,11 @@ func f44(f func() [2]*int) interface{} { // ERROR "live at entry to f44: f"
 	}
 	ret := T{}
 	ret.s[0] = f()
-	return ret // ERROR "stack object .autotmp_[0-9]+ T"
+	return ret // ERROR "live at call to convT: .autotmp_[0-9]+$"
+}
+
+func f45() {
+	x := iface()          // ERROR "stack object x interface {}$"
+	printifacepointer(&x) // ERROR "live at call to printifacepointer: x$"
+	mi[x] = 42            // ERROR "live at call to mapassign: .autotmp_[0-9]+$"
 }
