@@ -80,6 +80,8 @@ func LoadPackage(filenames []string) {
 	}
 	base.Timer.AddEvent(int64(lines), "lines")
 
+	typecheck.AddrTakenImplyStackObject = false
+
 	if base.Debug.Unified != 0 {
 		unified(noders)
 		return
