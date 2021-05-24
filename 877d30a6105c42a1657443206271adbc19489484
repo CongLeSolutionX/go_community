@@ -130,6 +130,30 @@
       },
       "revId": "877d30a6105c42a1657443206271adbc19489484",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "453e0809_81d28d6d",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-24T22:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6dde219_4d54dbba",
+      "range": {
+        "startLine": 1366,
+        "startChar": 20,
+        "endLine": 1366,
+        "endChar": 21
+      },
+      "revId": "877d30a6105c42a1657443206271adbc19489484",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
