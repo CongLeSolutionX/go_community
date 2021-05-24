@@ -215,7 +215,9 @@ func walkDelete(init *ir.Nodes, n *ir.CallExpr) ir.Node {
 	t := map_.Type()
 	fast := mapfast(t)
 	key = mapKeyArg(fast, n, key, false)
-	return mkcall1(mapfndel(mapdelete[fast], t), nil, init, reflectdata.TypePtr(t), map_, key)
+	call := mkcall1(mapfndel(mapdelete[fast], t), nil, init, reflectdata.TypePtr(t), map_, key)
+	markArgAlive(key, call)
+	return call
 }
 
 // walkLenCap walks an OLEN or OCAP node.
