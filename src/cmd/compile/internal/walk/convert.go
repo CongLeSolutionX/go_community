@@ -152,6 +152,7 @@ func dataWord(n ir.Node, init *ir.Nodes, escapes bool) ir.Node {
 	}
 	if value != nil {
 		// The interface data word is &value.
+		typecheck.MarkNodeAddrTaken(value)
 		return typecheck.Expr(typecheck.NodAddr(value))
 	}
 
@@ -171,6 +172,7 @@ func dataWord(n ir.Node, init *ir.Nodes, escapes bool) ir.Node {
 			n = copyExpr(n, fromType, init)
 		}
 		fn = typecheck.SubstArgTypes(fn, fromType)
+		typecheck.MarkNodeAddrTaken(n)
 		args = []ir.Node{reflectdata.TypePtr(fromType), typecheck.NodAddr(n)}
 	} else {
 		// Use a specialized conversion routine that takes the type being
@@ -191,6 +193,7 @@ func dataWord(n ir.Node, init *ir.Nodes, escapes bool) ir.Node {
 		default:
 			// unsafe cast through memory
 			arg = copyExpr(n, fromType, init)
+			typecheck.MarkNodeAddrTaken(arg)
 			var addr ir.Node = typecheck.NodAddr(arg)
 			addr = ir.NewConvExpr(n.Pos(), ir.OCONVNOP, argType.PtrTo(), addr)
 			arg = ir.NewStarExpr(n.Pos(), addr)

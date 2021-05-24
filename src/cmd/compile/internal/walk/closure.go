@@ -118,6 +118,7 @@ func walkClosure(clo *ir.ClosureExpr, init *ir.Nodes) ir.Node {
 		clos.List[i] = ir.NewStructKeyExpr(base.Pos, typ.Field(i), value)
 	}
 
+	typecheck.MarkNodeAddrTaken(clos)
 	addr := typecheck.NodAddr(clos)
 	addr.SetEsc(clo.Esc())
 
@@ -149,6 +150,7 @@ func closureArgs(clo *ir.ClosureExpr) []ir.Node {
 		var outer ir.Node
 		outer = v.Outer
 		if !v.Byval() {
+			typecheck.MarkNodeAddrTaken(outer)
 			outer = typecheck.NodAddrAt(fn.Pos(), outer)
 		}
 		args[i] = typecheck.Expr(outer)
@@ -181,6 +183,7 @@ func walkMethodValue(n *ir.SelectorExpr, init *ir.Nodes) ir.Node {
 	clos.SetEsc(n.Esc())
 	clos.List = []ir.Node{ir.NewUnaryExpr(base.Pos, ir.OCFUNC, methodValueWrapper(n)), n.X}
 
+	typecheck.MarkNodeAddrTaken(clos)
 	addr := typecheck.NodAddr(clos)
 	addr.SetEsc(n.Esc())
 

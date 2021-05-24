@@ -18,6 +18,7 @@ func initStackTemp(init *ir.Nodes, tmp *ir.Name, val ir.Node) *ir.AddrExpr {
 		base.Fatalf("bad initial value for %L: %L", tmp, val)
 	}
 	appendWalkStmt(init, ir.NewAssignStmt(base.Pos, tmp, val))
+	typecheck.MarkNodeAddrTaken(tmp)
 	return typecheck.Expr(typecheck.NodAddr(tmp)).(*ir.AddrExpr)
 }
 
@@ -36,5 +37,6 @@ func stackBufAddr(len int64, elem *types.Type) *ir.AddrExpr {
 		base.FatalfAt(base.Pos, "%v has pointers", elem)
 	}
 	tmp := typecheck.Temp(types.NewArray(elem, len))
+	typecheck.MarkNodeAddrTaken(tmp)
 	return typecheck.Expr(typecheck.NodAddr(tmp)).(*ir.AddrExpr)
 }

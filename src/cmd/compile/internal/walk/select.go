@@ -83,12 +83,14 @@ func walkSelectCases(cases []*ir.CommClause) []ir.Node {
 		switch n.Op() {
 		case ir.OSEND:
 			n := n.(*ir.SendStmt)
+			typecheck.MarkNodeAddrTaken(n.Value)
 			n.Value = typecheck.NodAddr(n.Value)
 			n.Value = typecheck.Expr(n.Value)
 
 		case ir.OSELRECV2:
 			n := n.(*ir.AssignListStmt)
 			if !ir.IsBlank(n.Lhs[0]) {
+				typecheck.MarkNodeAddrTaken(n.Lhs[0])
 				n.Lhs[0] = typecheck.NodAddr(n.Lhs[0])
 				n.Lhs[0] = typecheck.Expr(n.Lhs[0])
 			}
@@ -157,7 +159,9 @@ func walkSelectCases(cases []*ir.CommClause) []ir.Node {
 	var pc0, pcs ir.Node
 	if base.Flag.Race {
 		pcs = typecheck.Temp(types.NewArray(types.Types[types.TUINTPTR], int64(ncas)))
-		pc0 = typecheck.Expr(typecheck.NodAddr(ir.NewIndexExpr(base.Pos, pcs, ir.NewInt(0))))
+		idx := ir.NewIndexExpr(base.Pos, pcs, ir.NewInt(0))
+		typecheck.MarkNodeAddrTaken(idx)
+		pc0 = typecheck.Expr(typecheck.NodAddr(idx))
 	} else {
 		pc0 = typecheck.NodNil()
 	}
@@ -271,7 +275,9 @@ func walkSelectCases(cases []*ir.CommClause) []ir.Node {
 
 // bytePtrToIndex returns a Node representing "(*byte)(&n[i])".
 func bytePtrToIndex(n ir.Node, i int64) ir.Node {
-	s := typecheck.NodAddr(ir.NewIndexExpr(base.Pos, n, ir.NewInt(i)))
+	idx := ir.NewIndexExpr(base.Pos, n, ir.NewInt(i))
+	typecheck.MarkNodeAddrTaken(idx)
+	s := typecheck.NodAddr(idx)
 	t := types.NewPtr(types.Types[types.TUINT8])
 	return typecheck.ConvNop(s, t)
 }

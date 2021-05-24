@@ -1256,6 +1256,7 @@ func Lookdot(n *ir.SelectorExpr, t *types.Type, dostrcmp int) *types.Field {
 		if !types.Identical(rcvr, tt) {
 			if rcvr.IsPtr() && types.Identical(rcvr.Elem(), tt) {
 				checklvalue(n.X, "call pointer method on")
+				MarkNodeAddrTaken(n.X)
 				addr := NodAddr(n.X)
 				addr.SetImplicit(true)
 				n.X = typecheck(addr, ctxType|ctxExpr)
@@ -1567,6 +1568,7 @@ func pushtype(nn ir.Node, t *types.Type) ir.Node {
 		// For *T, return &T{...}.
 		n.Ntype = ir.TypeNode(t.Elem())
 
+		MarkNodeAddrTaken(n)
 		addr := NodAddrAt(n.Pos(), n)
 		addr.SetImplicit(true)
 		return addr

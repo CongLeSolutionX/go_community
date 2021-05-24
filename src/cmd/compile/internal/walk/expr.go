@@ -729,6 +729,7 @@ func mapKeyArg(fast int, n, key ir.Node, assigned bool) ir.Node {
 	if fast == mapslow {
 		// standard version takes key by reference.
 		// orderState.expr made sure key is addressable.
+		typecheck.MarkNodeAddrTaken(key)
 		return typecheck.NodAddr(key)
 	}
 	if assigned {
@@ -796,6 +797,7 @@ func walkSend(n *ir.SendStmt, init *ir.Nodes) ir.Node {
 	n1 := n.Value
 	n1 = typecheck.AssignConv(n1, n.Chan.Type().Elem(), "chan send")
 	n1 = walkExpr(n1, init)
+	typecheck.MarkNodeAddrTaken(n1)
 	n1 = typecheck.NodAddr(n1)
 	return mkcall1(chanfn("chansend1", 2, n.Chan.Type()), nil, init, n.Chan, n1)
 }

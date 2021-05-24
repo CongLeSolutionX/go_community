@@ -1542,7 +1542,10 @@ func (r *importReader) node() ir.Node {
 		return n
 
 	case ir.OADDR, ir.OPTRLIT:
-		n := NodAddrAt(r.pos(), r.expr())
+		pos := r.pos()
+		x := r.expr()
+		MarkNodeAddrTaken(x)
+		n := NodAddrAt(pos, x)
 		if go117ExportTypes {
 			n.SetOp(op)
 			n.SetType(r.typ())

@@ -75,6 +75,16 @@ func NodAddrAt(pos src.XPos, n ir.Node) *ir.AddrExpr {
 	return ir.NewAddrExpr(pos, n)
 }
 
+// AddrTakenImplyStackObject represent whether an address taken variable requires
+// a stack object. This is applied to all OADDR node introduced during noder.
+var AddrTakenImplyStackObject = true
+
+func MarkNodeAddrTaken(n ir.Node) {
+	if ov := ir.OuterValue(n); ov.Op() == ir.ONAME {
+		ov.Name().SetAddrTaken()
+	}
+}
+
 func markAddrOf(n ir.Node) ir.Node {
 	if IncrementalAddrTaken {
 		// We can only do incremental addrtaken computation when it is ok
@@ -85,7 +95,14 @@ func markAddrOf(n ir.Node) ir.Node {
 		// Note: OuterValue doesn't work correctly until n is typechecked.
 		n = typecheck(n, ctxExpr)
 		if x := ir.OuterValue(n); x.Op() == ir.ONAME {
-			x.Name().SetAddrTaken()
+			if AddrTakenImplyStackObject {
+				x.Name().SetAddrTaken()
+			} else {
+				if !x.Name().AddrTaken() {
+					base.Fatalf("%+v\n", n)
+				}
+				x.Name().SetAddrTakenNoStackObject()
+			}
 		}
 	} else {
 		// Remember that we built an OADDR without computing the AddrTaken bit for
