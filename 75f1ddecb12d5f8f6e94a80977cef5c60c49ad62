@@ -93,6 +93,30 @@
       },
       "revId": "75f1ddecb12d5f8f6e94a80977cef5c60c49ad62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3109ce52_2b09f767",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-24T19:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73a878ab_377ad7ce",
+      "range": {
+        "startLine": 103,
+        "startChar": 31,
+        "endLine": 103,
+        "endChar": 44
+      },
+      "revId": "75f1ddecb12d5f8f6e94a80977cef5c60c49ad62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
