@@ -87,6 +87,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea3e8070_aace2b92",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-24T19:31:15Z",
+      "side": 1,
+      "message": "I\u0027m not sure I see what this would test? An archive that contains a single file, but indicates it has two, would fail in the same way it previously did since the check doesn\u0027t impose a new error condition, it simply gates an optimization. This tests that we aren\u0027t trying to allocate a slice with an impossible number of elements, which previously caused a panic.",
+      "parentUuid": "2e00ff96_94faeb41",
+      "range": {
+        "startLine": 1330,
+        "startChar": 34,
+        "endLine": 1330,
+        "endChar": 45
+      },
+      "revId": "877d30a6105c42a1657443206271adbc19489484",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6dde219_4d54dbba",
         "filename": "src/archive/zip/reader_test.go",
         "patchSetId": 7
