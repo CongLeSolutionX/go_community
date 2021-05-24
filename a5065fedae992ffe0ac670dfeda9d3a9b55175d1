@@ -16,6 +16,23 @@
       "message": "CheckImportPath is now used everywhere.\n\nAbout the error message:\n- The word \"module\" replaces \"import\" when an error shows.\n- The word \"malformed\" is the common term when returning an error on an import path.\n- \u0027local import path\u0027 is added when the path is used in a \u0027go mod\u0027 command.\n\nThanks,",
       "revId": "a5065fedae992ffe0ac670dfeda9d3a9b55175d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "419195e1_c25fd234",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-24T19:25:34Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-longtest",
+      "revId": "a5065fedae992ffe0ac670dfeda9d3a9b55175d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
