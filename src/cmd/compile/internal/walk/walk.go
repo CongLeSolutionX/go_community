@@ -401,3 +401,12 @@ func ifaceData(pos src.XPos, n ir.Node, t *types.Type) ir.Node {
 	ind.SetBounded(true)
 	return ind
 }
+
+// markArgAlive mark argument to call alive if not require stack object.
+func markArgAlive(addr *ir.AddrExpr, call *ir.CallExpr) {
+	if ov := ir.OuterValue(addr.X); ov.Op() == ir.ONAME {
+		if ov.Name().Class == ir.PAUTO && ov.Name().AddrTaken() && !ov.Name().NeedStackObject() {
+			call.KeepAlive = append(call.KeepAlive, ov.Name())
+		}
+	}
+}
