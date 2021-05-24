@@ -175,6 +175,7 @@ func walkAssignMapRead(init *ir.Nodes, n *ir.AssignListStmt) ir.Node {
 		z := reflectdata.ZeroAddr(w)
 		call = mkcall1(fn, fn.Type().Results(), init, reflectdata.TypePtr(t), r.X, key, z)
 	}
+	markArgAlive(key, call)
 
 	// mapaccess2* returns a typed bool, but due to spec changes,
 	// the boolean result of i.(T) is now untyped so we make it the
