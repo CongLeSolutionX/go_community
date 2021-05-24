@@ -89,6 +89,24 @@
       "parentUuid": "67682c6f_63ecb0a5",
       "revId": "c31cf1cad23386d7013a597c450206d665fef008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70a340e2_d0a5fd1f",
+        "filename": "src/cmd/compile/internal/walk/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-05-24T21:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ca3c862_3c520e9d",
+      "revId": "c31cf1cad23386d7013a597c450206d665fef008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
