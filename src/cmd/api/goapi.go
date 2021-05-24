@@ -83,6 +83,9 @@ var contexts = []*build.Context{
 	{GOOS: "openbsd", GOARCH: "amd64"},
 }
 
+var firstClassPorts = []*build.Context{}
+var nonFirstClassPorts = []*build.Context{}
+
 func contextName(c *build.Context) string {
 	s := c.GOOS + "-" + c.GOARCH
 	if c.CgoEnabled {
@@ -113,8 +116,46 @@ func parseContext(c string) *build.Context {
 	return bc
 }
 
+// sortPorts loads the lists of ports from "go tool dist list -json".
+func sortPorts() {
+	type jsonResult struct {
+		GOOS, GOARCH string
+		CgoSupported bool
+		FirstClass   bool
+	}
+	out, err := exec.Command("go", "tool", "dist", "list", "-json").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var results []jsonResult
+	if err := json.Unmarshal(out, &results); err != nil {
+		log.Fatal(err)
+	}
+	for _, result := range results {
+		c := &build.Context{
+			GOOS:       result.GOOS,
+			GOARCH:     result.GOARCH,
+			CgoEnabled: result.CgoSupported,
+		}
+		// Windows CGO is not a first class port
+		if result.GOOS == "windows" && result.GOARCH == "amd64" && result.CgoSupported {
+			nonFirstClassPorts = append(nonFirstClassPorts, c)
+		} else if result.FirstClass {
+			firstClassPorts = append(firstClassPorts, c)
+		} else {
+			nonFirstClassPorts = append(nonFirstClassPorts, c)
+		}
+	}
+}
+
+// setContexts parses ports and defaults to first class ports.
 func setContexts() {
-	contexts = []*build.Context{}
+	sortPorts()
+	if *forceCtx == "" {
+		// TODO Migrate to set default to first class ports
+		// contexts = firstClassPorts
+		return
+	}
 	for _, c := range strings.Split(*forceCtx, ",") {
 		contexts = append(contexts, parseContext(c))
 	}
@@ -132,9 +173,7 @@ func main() {
 		}
 	}
 
-	if *forceCtx != "" {
-		setContexts()
-	}
+	setContexts()
 	for _, c := range contexts {
 		c.Compiler = build.Default.Compiler
 	}
