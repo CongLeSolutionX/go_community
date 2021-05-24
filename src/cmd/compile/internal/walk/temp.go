@@ -18,7 +18,13 @@ func initStackTemp(init *ir.Nodes, tmp *ir.Name, val ir.Node) *ir.AddrExpr {
 		base.Fatalf("bad initial value for %L: %L", tmp, val)
 	}
 	appendWalkStmt(init, ir.NewAssignStmt(base.Pos, tmp, val))
-	return typecheck.Expr(typecheck.NodAddr(tmp)).(*ir.AddrExpr)
+	addr := typecheck.NodAddr(tmp)
+	// TODO(cuonglm): Find out how to not have this special case?
+	//
+	// Though tmp is mark address taken, it's never passed to function call,
+	// thus it's not kept alive. See f26 in test/live_regabig.go
+	tmp.SetAddrTaken()
+	return typecheck.Expr(addr).(*ir.AddrExpr)
 }
 
 // stackTempAddr returns the expression &tmp, where tmp is a newly
