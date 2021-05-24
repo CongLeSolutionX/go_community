@@ -109,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b01a294_4b24a126",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-05-24T21:25:27Z",
+      "side": 1,
+      "message": "I experiment with CL 321714:\n\n - In order pass, if we know the life time of temp vars, do `SetAddrTakenNoStackObject`\n - In walk, when we call NodAddr to generate \u0026k node, `markAddrOf` will only call `n.SetAddrTaken` if addr taken isn\u0027t set before\n\nIt\u0027s safe, because the the code logic still work the same as previous for other parts.",
+      "parentUuid": "13344bea_a64c658e",
+      "revId": "9917ca771de1265616005726241b5f16b4d2e5e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5cb1af8_e66775a5",
