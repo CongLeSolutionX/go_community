@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ca196bc_665a7433",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-24T19:29:13Z",
+      "side": 1,
+      "message": "I think making SetAddrTaken set both flags and add a new SetAddrTakenNoStackObject that sets AddrTaken without setting StackObject sounds reasonable. Calls to the latter should be fairly rare.\n\nI think that NeedsStackObject needs to be sticky: if we ever set it to true, then it needs to stay true. I don\u0027t think there are likely to be any cases where it makes sense to reset it to false later. (Or equivalently, to set DoesntNeedStackObject to true.) A variable needs stack objects if *any* of its OADDR expressions require it.",
+      "parentUuid": "290596f8_159d157e",
+      "revId": "9917ca771de1265616005726241b5f16b4d2e5e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5cb1af8_e66775a5",
