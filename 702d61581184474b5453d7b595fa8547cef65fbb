@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba4f7e26_eac2b545",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-24T17:54:47Z",
+      "side": 1,
+      "message": "\"..., it is not safe to preallocate z.File without first checking that the specified number of files is reasonable, since a malformed...\"",
+      "range": {
+        "startLine": 99,
+        "startChar": 60,
+        "endLine": 100,
+        "endChar": 38
+      },
+      "revId": "702d61581184474b5453d7b595fa8547cef65fbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
