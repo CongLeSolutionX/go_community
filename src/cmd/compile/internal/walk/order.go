@@ -272,7 +272,13 @@ func (o *orderState) mapKeyTemp(t *types.Type, n ir.Node) ir.Node {
 	// Exception: map*_fast* calls. See golang.org/issue/19015.
 	alg := mapfast(t)
 	if alg == mapslow {
-		return o.addrTemp(n)
+		tmp := o.addrTemp(n)
+		if ov := ir.OuterValue(n); ov.Op() != ir.ONAME || !ov.Name().NeedStackObject() {
+			if tmpOv := ir.OuterValue(tmp); tmpOv.Op() == ir.ONAME {
+				tmpOv.Name().SetAddrTakenNoStackObject(true)
+			}
+		}
+		return tmp
 	}
 	var kt *types.Type
 	switch alg {

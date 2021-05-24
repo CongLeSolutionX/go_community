@@ -84,7 +84,9 @@ func markAddrOf(n ir.Node) ir.Node {
 		// Note: OuterValue doesn't work correctly until n is typechecked.
 		n = typecheck(n, ctxExpr)
 		if x := ir.OuterValue(n); x.Op() == ir.ONAME {
-			x.Name().SetAddrTaken(true)
+			if !x.Name().AddrTaken() {
+				x.Name().SetAddrTaken(true)
+			}
 		}
 	} else {
 		// Remember that we built an OADDR without computing the AddrTaken bit for
