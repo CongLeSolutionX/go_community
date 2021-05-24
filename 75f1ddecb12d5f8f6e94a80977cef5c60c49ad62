@@ -36,6 +36,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b147548e_538b6a39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-05-24T17:54:58Z",
+      "side": 1,
+      "message": "Can you add two tests where:\n* A valid ZIP file with N empty files can still be parsed.\n* A invalid ZIP file with N empty files where the the end directory incorrectly claims N+1 exists triggers this check?",
+      "revId": "75f1ddecb12d5f8f6e94a80977cef5c60c49ad62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73a878ab_377ad7ce",
