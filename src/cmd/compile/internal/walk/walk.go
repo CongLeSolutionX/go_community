@@ -401,3 +401,18 @@ func ifaceData(pos src.XPos, n ir.Node, t *types.Type) ir.Node {
 	ind.SetBounded(true)
 	return ind
 }
+
+// markArgAlive mark argument to call alive and not require stack object.
+//
+// If we take variable address to pass it to runtime function, we know the the
+// variable is going to stay alive until runtime function return. So we don't need
+// full generality of stack object, but let liveness analysis and stack maps take
+// care of keeping the variable alive.
+func markArgAlive(addr *ir.AddrExpr, call *ir.CallExpr) {
+	if ov := ir.OuterValue(addr.X); ov.Op() == ir.ONAME {
+		if ov.Name().Class == ir.PAUTO && ov.Name().AddrTaken() && ov.Name().NeedStackObject() {
+			ov.Name().SetNeedStackObject(false)
+			call.KeepAlive = append(call.KeepAlive, ov.Name())
+		}
+	}
+}
