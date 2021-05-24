@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7557ad4_9633ba28",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 51979
+      },
+      "writtenOn": "2021-05-24T13:11:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaac283f_450a50f6",
+      "range": {
+        "startLine": 458,
+        "startChar": 6,
+        "endLine": 458,
+        "endChar": 11
+      },
+      "revId": "81c5d7252345361f0683af20a9160e8daa261f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d259f64_12d01d49",
@@ -75,6 +99,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b186913_90238250",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 51979
+      },
+      "writtenOn": "2021-05-24T13:11:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d259f64_12d01d49",
+      "revId": "81c5d7252345361f0683af20a9160e8daa261f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3edb0967_07faa19a",
@@ -88,6 +130,30 @@
       "writtenOn": "2021-05-22T00:23:12Z",
       "side": 1,
       "message": "Please add a \u003cbr\u003e here, so the next sentence begins at the start of a new line.",
+      "range": {
+        "startLine": 470,
+        "startChar": 65,
+        "endLine": 470,
+        "endChar": 66
+      },
+      "revId": "81c5d7252345361f0683af20a9160e8daa261f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b94211db_052066c1",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 51979
+      },
+      "writtenOn": "2021-05-24T13:11:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3edb0967_07faa19a",
       "range": {
         "startLine": 470,
         "startChar": 65,
