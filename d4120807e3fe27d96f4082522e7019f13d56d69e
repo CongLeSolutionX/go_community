@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd251cc4_481c2190",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-05-25T04:46:03Z",
+      "side": 1,
+      "message": "Manually adding reviewers as listed by cmd/dist.\n\nIt seems Go Bot failed somewhere.\n\nRegards,",
+      "revId": "d4120807e3fe27d96f4082522e7019f13d56d69e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
