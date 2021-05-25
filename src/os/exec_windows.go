@@ -64,7 +64,7 @@ func (p *Process) signal(sig Signal) error {
 }
 
 func (p *Process) release() error {
-	handle := atomic.LoadUintptr(&p.handle)
+	handle := atomic.SwapUintptr(&p.handle, uintptr(syscall.InvalidHandle))
 	if handle == uintptr(syscall.InvalidHandle) {
 		return syscall.EINVAL
 	}
@@ -72,7 +72,6 @@ func (p *Process) release() error {
 	if e != nil {
 		return NewSyscallError("CloseHandle", e)
 	}
-	atomic.StoreUintptr(&p.handle, uintptr(syscall.InvalidHandle))
 	// no need for a finalizer anymore
 	runtime.SetFinalizer(p, nil)
 	return nil
