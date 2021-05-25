@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "964c6790_2e2cb314",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-25T16:00:49Z",
+      "side": 1,
+      "message": "The problem is the user experience.\n\nI\u0027m currently using github.com/perillo/go-portable to run\n`go build -o /dev/null` on all supported platforms.\n\nI don\u0027t want to cross compile, I just want to know if my code is portable.\n\nIf cmd/link invokes an external linker (gcc), it will report a lot of errors, and this will probably confuse the user.",
+      "parentUuid": "f94a4f33_73a28590",
+      "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1965a4a5_b5cdd3b1",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
