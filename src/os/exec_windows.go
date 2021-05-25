@@ -45,16 +45,6 @@ func (p *Process) wait() (ps *ProcessState, err error) {
 	return &ProcessState{p.Pid, syscall.WaitStatus{ExitCode: ec}, &u}, nil
 }
 
-func terminateProcess(pid, exitcode int) error {
-	h, e := syscall.OpenProcess(syscall.PROCESS_TERMINATE, false, uint32(pid))
-	if e != nil {
-		return NewSyscallError("OpenProcess", e)
-	}
-	defer syscall.CloseHandle(h)
-	e = syscall.TerminateProcess(h, uint32(exitcode))
-	return NewSyscallError("TerminateProcess", e)
-}
-
 func (p *Process) signal(sig Signal) error {
 	handle := atomic.LoadUintptr(&p.handle)
 	if handle == uintptr(syscall.InvalidHandle) {
@@ -64,7 +54,8 @@ func (p *Process) signal(sig Signal) error {
 		return ErrProcessDone
 	}
 	if sig == Kill {
-		err := terminateProcess(p.Pid, 1)
+		e := syscall.TerminateProcess(syscall.Handle(handle), 1)
+		err := NewSyscallError("TerminateProcess", e)
 		runtime.KeepAlive(p)
 		return err
 	}
