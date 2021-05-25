@@ -53,6 +53,23 @@
       "message": "R\u003dkatie,ian?",
       "revId": "3ba9b988cb3e9cca1eeec46e749ff8bc94149850",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aedd6d6a_26af356d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-25T21:37:43Z",
+      "side": 1,
+      "message": "As a counterexample, even though Sum224 and Sum256 don\u0027t look the same, this matches the behavior of SHA-512: https://cs.opensource.google/go/go/+/refs/tags/go1.16.4:src/crypto/sha512/sha512.go;l\u003d340\n\nHowever, if we do want to follow the guidelines in https://github.com/golang/go/wiki/CodeReviewComments#named-result-parameters (which sounds reasonable), then this CL should also update sha512/sha512.go for consistency.",
+      "revId": "3ba9b988cb3e9cca1eeec46e749ff8bc94149850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
