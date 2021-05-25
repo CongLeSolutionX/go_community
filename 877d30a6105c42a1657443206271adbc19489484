@@ -109,6 +109,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42818e1c_ac0873e1",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-25T21:22:57Z",
+      "side": 1,
+      "message": "Thanks for the clarification 👍 SGTM",
+      "parentUuid": "ea3e8070_aace2b92",
+      "range": {
+        "startLine": 1330,
+        "startChar": 34,
+        "endLine": 1330,
+        "endChar": 45
+      },
+      "revId": "877d30a6105c42a1657443206271adbc19489484",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6dde219_4d54dbba",
