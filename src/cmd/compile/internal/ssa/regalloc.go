@@ -1885,6 +1885,9 @@ func (s *regAllocState) placeSpills() {
 	// Start maps block IDs to the list of spills
 	// that go at the start of the block (but after any phis).
 	start := map[ID][]*Value{}
+	// postOpArgReg holds spills to place after any Op{Int,Float}ArgReg ops
+	// in the entry block.
+	postOpArgReg := []*Value{}
 	// After maps value IDs to the list of spills
 	// that go immediately after that value ID.
 	after := map[ID][]*Value{}
@@ -1972,12 +1975,40 @@ func (s *regAllocState) placeSpills() {
 		spill.Block = best
 		spill.AddArg(bestArg)
 		if best == v.Block && v.Op != OpPhi {
-			// Place immediately after v.
-			after[v.ID] = append(after[v.ID], spill)
+			if v.Op == OpArgIntReg || v.Op == OpArgFloatReg {
+				// place after all OpArg*Reg ops.
+				postOpArgReg = append(postOpArgReg, spill)
+			} else {
+				// Place immediately after v.
+				after[v.ID] = append(after[v.ID], spill)
+			}
 		} else {
 			// Place at the start of best block.
 			start[best.ID] = append(start[best.ID], spill)
 		}
+	}
+
+	// Locate the last Op{Int,Float}ArgReg op in an entry block. This
+	// is a bit more complicated than one would think, since it needs
+	// to take into account the possibility of a LoweredGetClosurePtr
+	// prior to the arg ops.
+	locateLastOpArgReg := func(b *Block, numspills int) *Value {
+		opcount := 0
+		var rv *Value
+		for _, v := range b.Values {
+			if v.Op == OpArgIntReg || v.Op == OpArgFloatReg {
+				opcount++
+				rv = v
+				continue
+			}
+			if opcount >= numspills {
+				break
+			}
+		}
+		if rv != nil {
+			return rv
+		}
+		panic(fmt.Sprintf("internal error in locateLastOpArgReg for %s", b.Func.Name))
 	}
 
 	// Insert spill instructions into the block schedules.
@@ -1990,11 +2021,18 @@ func (s *regAllocState) placeSpills() {
 			}
 			nphi++
 		}
+		var lastOpArgReg *Value
+		if b == b.Func.Entry && len(postOpArgReg) != 0 {
+			lastOpArgReg = locateLastOpArgReg(b, len(postOpArgReg))
+		}
 		oldSched = append(oldSched[:0], b.Values[nphi:]...)
 		b.Values = b.Values[:nphi]
 		b.Values = append(b.Values, start[b.ID]...)
 		for _, v := range oldSched {
 			b.Values = append(b.Values, v)
+			if v == lastOpArgReg {
+				b.Values = append(b.Values, postOpArgReg...)
+			}
 			b.Values = append(b.Values, after[v.ID]...)
 		}
 	}
