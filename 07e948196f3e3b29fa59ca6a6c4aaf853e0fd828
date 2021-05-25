@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67d52adf_91cf84fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-25T14:14:22Z",
+      "side": 1,
+      "message": "Actually I have a solution that is very simple; instead of trying to deduce if cross compiling is possible with an external linker, just allow the user to explicitly disable the use of an external linker.\n\nA simple change is to check if the -extld flag is `os.DevNull`; if it is true then report an error like \"use of external linker is disabled\".\n\nThe -extld\u003d/dev/null can be explicitly set by the user or by the go tool.\n\nWhat do you think?\n\nThanks.",
+      "parentUuid": "80bd1acb_534d9158",
+      "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1965a4a5_b5cdd3b1",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -139,6 +157,24 @@
       "side": 1,
       "message": "External linking will work at cross compilation if CC is the right C cross compiler. I\u0027m not sure what do you mean by \"check\".",
       "parentUuid": "2c98c3e9_331b735d",
+      "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "063ff8be_2bdb569f",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-25T14:14:22Z",
+      "side": 1,
+      "message": "By check I mean to check if the external linker is actually able to cross compile to the specified target.\n\nHowever I tried several solutions, but it is too complex if not impossible.",
+      "parentUuid": "590ccbcf_c559bfc5",
       "revId": "07e948196f3e3b29fa59ca6a6c4aaf853e0fd828",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
