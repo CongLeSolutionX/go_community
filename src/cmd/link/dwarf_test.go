@@ -29,16 +29,23 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 
 	t.Parallel()
 
-	out, err := exec.Command(testenv.GoToolPath(t), "list", "-f", "{{.Stale}}", "cmd/link").CombinedOutput()
-	if err != nil {
-		t.Fatalf("go list: %v\n%s", err, out)
-	}
-	if string(out) != "false\n" {
-		if strings.HasPrefix(testenv.Builder(), "darwin-") {
-			t.Skipf("cmd/link is spuriously stale on Darwin builders - see #33598")
+	defer func() {
+		// If the test fails, it could be because cmd/link is out of date.
+		// If so, diagnose it and suggest installing a fresh copy.
+		// Otherwise, don't bother checking for staleness — the user may
+		// have intentionally built cmd/link with slightly different settings.
+		// (See https://golang.org/issue/46292.)
+		if t.Failed() {
+			out, err := exec.Command(testenv.GoToolPath(t), "list", "-f", "{{.Stale}}", "cmd/link").CombinedOutput()
+			if err != nil {
+				t.Logf("go list: %v\n%s", err, out)
+				return
+			}
+			if string(out) != "false\n" {
+				t.Logf("cmd/link is stale - run go install cmd/link")
+			}
 		}
-		t.Fatalf("cmd/link is stale - run go install cmd/link")
-	}
+	}()
 
 	for _, prog := range []string{"testprog", "testprogcgo"} {
 		prog := prog
@@ -48,6 +55,7 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 			if extld == "" {
 				extld = "gcc"
 			}
+			var err error
 			expectDWARF, err = cmddwarf.IsDWARFEnabledOnAIXLd(extld)
 			if err != nil {
 				t.Fatal(err)
