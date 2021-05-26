@@ -124,6 +124,30 @@
       },
       "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1be4d8b_13a26126",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-05-26T16:34:36Z",
+      "side": 1,
+      "message": "\u003e Sorry to be a buzzkill about the use of new language features 😄\n\nRemoved!\n\nI\u0027ll have to find another place to use it. :)",
+      "parentUuid": "4d974cab_f1e243ad",
+      "range": {
+        "startLine": 268,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
