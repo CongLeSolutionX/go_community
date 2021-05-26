@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "641cfcac_44aabbd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-26T16:20:54Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "def53605418c8134880ffa3700c6a4ba6c689234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8e31375_26bf7b02",
@@ -41,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68c1f21b_a3a4659d",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-26T16:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8e31375_26bf7b02",
+      "range": {
+        "startLine": 64,
+        "startChar": 20,
+        "endLine": 64,
+        "endChar": 24
+      },
+      "revId": "def53605418c8134880ffa3700c6a4ba6c689234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b77ff4f1_488c363e",
@@ -54,6 +95,30 @@
       "writtenOn": "2021-05-20T16:40:21Z",
       "side": 1,
       "message": "This is probably fine, however it may be worth noting that Go 1.16 is broken on OpenBSD 6.9 for these ports, which means this was restoring functionality rather than achieving forward-compatibility.",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 10
+      },
+      "revId": "def53605418c8134880ffa3700c6a4ba6c689234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84554498_ddd95722",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-05-26T16:20:54Z",
+      "side": 1,
+      "message": "Done. CL 322856. Used a similar sentence as in 1.16 release notes.",
+      "parentUuid": "b77ff4f1_488c363e",
       "range": {
         "startLine": 67,
         "startChar": 2,
