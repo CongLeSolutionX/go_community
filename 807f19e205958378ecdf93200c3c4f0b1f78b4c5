@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "160c3251_a579d93b",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-26T22:31:15Z",
+      "side": 1,
+      "message": "Huh, I suppose modload.Replacement does the job. I was thinking it wouldn\u0027t work after the build list changed.",
+      "parentUuid": "88efef14_93e89fe8",
+      "revId": "807f19e205958378ecdf93200c3c4f0b1f78b4c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f83549d5_228d59e1",
@@ -85,6 +103,30 @@
       "writtenOn": "2021-05-26T21:20:33Z",
       "side": 1,
       "message": "What happens if there was no initial version of m.Path?",
+      "range": {
+        "startLine": 1620,
+        "startChar": 47,
+        "endLine": 1620,
+        "endChar": 63
+      },
+      "revId": "807f19e205958378ecdf93200c3c4f0b1f78b4c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4fd6196_a23b3cb9",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1620,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-26T22:31:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f83549d5_228d59e1",
       "range": {
         "startLine": 1620,
         "startChar": 47,
@@ -118,6 +160,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "208434a7_58b2c4e4",
+        "filename": "src/cmd/go/testdata/script/mod_get_update_unrelated_sum.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-26T22:31:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbb80f04_6b3fce58",
+      "range": {
+        "startLine": 34,
+        "startChar": 23,
+        "endLine": 34,
+        "endChar": 40
+      },
+      "revId": "807f19e205958378ecdf93200c3c4f0b1f78b4c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4b66098_95cf3d14",
@@ -141,6 +207,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6697ce1e_0fb376ed",
+        "filename": "src/cmd/go/testdata/script/mod_get_update_unrelated_sum.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-26T22:31:15Z",
+      "side": 1,
+      "message": "I\u0027m calling modfetch.DownloadZip (which downloads the zip if we don\u0027t have it) before modfetch.Sum (which would only return the ziphash content and not download the zip if it\u0027s missing), so this test works whether that file is there or not. Probably better not to delete it.",
+      "parentUuid": "e4b66098_95cf3d14",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 64
+      },
+      "revId": "807f19e205958378ecdf93200c3c4f0b1f78b4c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbe9ef4a_54e8324c",
@@ -154,6 +244,30 @@
       "writtenOn": "2021-05-26T21:20:33Z",
       "side": 1,
       "message": "It would be good to verify that we also printed an upgrade message (from some previous version to v1.5.2) so that the user understands _why_ we were trying to fetch this sum.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 0
+      },
+      "revId": "807f19e205958378ecdf93200c3c4f0b1f78b4c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bc50cca_b075d64d",
+        "filename": "src/cmd/go/testdata/script/mod_get_update_unrelated_sum.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-26T22:31:15Z",
+      "side": 1,
+      "message": "Hmm, good idea.\n\nCurrently, we don\u0027t call resolver.reportChanges until after successfully writing go.mod. I think would could call it here if there\u0027s at least one error. We should be able to get the new requirements from modload.LoadModFile at this point.\n\nShould we print the full list of changes here though, since we\u0027re not actually writing go.mod? Might be better to write something like:\n\n  finding sum for rsc.io/quote@v1.5.2 (upgraded from v1.0.0): %v\n\nWDYT?",
+      "parentUuid": "dbe9ef4a_54e8324c",
       "range": {
         "startLine": 67,
         "startChar": 0,
