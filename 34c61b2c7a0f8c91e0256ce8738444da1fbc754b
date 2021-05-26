@@ -238,6 +238,30 @@
       },
       "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfe39afa_d9c4052a",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 35588
+      },
+      "writtenOn": "2021-05-26T20:04:18Z",
+      "side": 1,
+      "message": "Yeah, I wish Array(slice) was also permitted. I think the concern at the time was copying, but that\u0027s a little silly considering `*` also copies. It just makes more less readable code in cases like this.",
+      "parentUuid": "8a2d5888_45a441e1",
+      "range": {
+        "startLine": 268,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
