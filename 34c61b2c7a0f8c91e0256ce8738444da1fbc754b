@@ -100,6 +100,30 @@
       },
       "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d974cab_f1e243ad",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-26T16:12:21Z",
+      "side": 1,
+      "message": "Although that operation is faster, that last step is probably negligible in the context of the rest of the Sum224 function. i.e. a 5 ns/op decrease might be worth it if that\u0027s the entirety of the function, but if the rest of the function takes 1 second to run (which it very well might for Sum functions), then dropping to 995 ns isn\u0027t a big benefit.\n\nFrom a readability standpoint, considering the fact that the performance benefit is likely negligible in the grand scheme of the function, I don\u0027t think it\u0027s worth the added complexity.\n\nSorry to be a buzzkill about the use of new language features 😄",
+      "parentUuid": "f01d8fe5_ac002847",
+      "range": {
+        "startLine": 268,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
