@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef341e90_98f1b288",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "Yes, added a TODO in the UNION export code.",
+      "parentUuid": "2f31046f_9e4e0928",
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd417ca3_9bd95524",
@@ -68,6 +86,30 @@
       "writtenOn": "2021-05-25T21:26:54Z",
       "side": 1,
       "message": "This is not quite right. Note that a \"union\" consisting of a single type is just that type, e.g. \"int\". It just so happens that a \"~int\" requires a union and all type lists are translated into list of types with \"~\". You should already be able to write\n\ntype T interface{ int }\n\nand I expect that to cause this assertion to fail.",
+      "range": {
+        "startLine": 201,
+        "startChar": 17,
+        "endLine": 201,
+        "endChar": 23
+      },
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "febaea1c_8f5c188e",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "Done.  I can remove these checks, since we will always want Go1.18 features if we are running the -G\u003d3 noder.",
+      "parentUuid": "fd417ca3_9bd95524",
       "range": {
         "startLine": 201,
         "startChar": 17,
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4efbbcea_7565aa68",
+        "filename": "src/cmd/compile/internal/types/size.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "I\u0027m leaving this as is, since it\u0027s required for Go 1.17 tests to pass successfully, and we need a bunch of changes to allow specifying --lang\u003dgo1.18",
+      "parentUuid": "b88abfb0_0d7a29dc",
+      "range": {
+        "startLine": 112,
+        "startChar": 30,
+        "endLine": 112,
+        "endChar": 33
+      },
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32fe1a7b_2aff6d9f",
@@ -114,6 +180,30 @@
       "writtenOn": "2021-05-25T21:26:54Z",
       "side": 1,
       "message": "s/ for now//\n\nwe\u0027re not expecting to change this anytime soon",
+      "range": {
+        "startLine": 415,
+        "startChar": 33,
+        "endLine": 415,
+        "endChar": 36
+      },
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aa2c99c_bd25aecd",
+        "filename": "src/cmd/compile/internal/types/size.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32fe1a7b_2aff6d9f",
       "range": {
         "startLine": 415,
         "startChar": 33,
@@ -147,6 +237,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8f0d4ae_ab0ad214",
+        "filename": "src/cmd/compile/internal/types/size.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "A union can only appear inside an interface which is used as a type param constraint, right?  So, a union type is never allocated as real storage.  I can make the size of alignment as zero, but that might actually trigger extra \"zero-sized\" behavior in the compiler that we don\u0027t want.  Note that the interface contain the union does not actually use the size of the union, so again, the size of the union doesn\u0027t matter.",
+      "parentUuid": "e5f81f0f_ba1a17d6",
+      "range": {
+        "startLine": 416,
+        "startChar": 13,
+        "endLine": 416,
+        "endChar": 14
+      },
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ece1f0d_7c6fd72c",
@@ -160,6 +274,30 @@
       "writtenOn": "2021-05-25T21:26:54Z",
       "side": 1,
       "message": "s/NewUnon/NewUnion/\ns/union type/union/ (I am reluctant to call them types - they are really sets of types)",
+      "range": {
+        "startLine": 1827,
+        "startChar": 3,
+        "endLine": 1827,
+        "endChar": 10
+      },
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c358cf_d05d1cc7",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1827,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ece1f0d_7c6fd72c",
       "range": {
         "startLine": 1827,
         "startChar": 3,
@@ -193,6 +331,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c600b3_35cc49cc",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3362b3a2_f86d3343",
+      "range": {
+        "startLine": 1828,
+        "startChar": 16,
+        "endLine": 1828,
+        "endChar": 19
+      },
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "752ec427_1e77de2c",
@@ -206,6 +368,30 @@
       "writtenOn": "2021-05-25T21:26:54Z",
       "side": 1,
       "message": "change this to\n\n~int|~int64|~float64\n\nas it should work, too?",
+      "range": {
+        "startLine": 8,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 18
+      },
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b90da7e2_c2d07759",
+        "filename": "test/typeparam/mincheck.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "This won\u0027t work until we can force lang\u003dgo1.18.",
+      "parentUuid": "752ec427_1e77de2c",
       "range": {
         "startLine": 8,
         "startChar": 17,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1b2ce57_4f10862f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-26T02:28:50Z",
+      "side": 1,
+      "message": "Thanks for the review.  I didn\u0027t get rid of the checks in sizes.go, since they are needed to make a bunch of existing tests work, and I think we still need to work out how we\u0027re going to test go1.17 and go1.18 features simultaneously.\n",
+      "revId": "ea68bc394f5555bebbaff35816d8e8c73babe8c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
