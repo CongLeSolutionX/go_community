@@ -34,6 +34,24 @@
       "parentUuid": "a81ba0a4_172e5eaf",
       "revId": "707a0edc0a7b1fbb2b0da21bd6ba4aa80dfa7310",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c8f0a0_04e30e36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12555
+      },
+      "writtenOn": "2021-05-26T13:00:05Z",
+      "side": 1,
+      "message": "Thanks.\n\nI sent an email to golang-nuts just in case, but TB.Setenv was probably excluded by mistake.",
+      "parentUuid": "68d06d20_a5df5a15",
+      "revId": "707a0edc0a7b1fbb2b0da21bd6ba4aa80dfa7310",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
