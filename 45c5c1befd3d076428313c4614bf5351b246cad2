@@ -132,6 +132,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59221e88_ce3477f8",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-26T22:12:14Z",
+      "side": 1,
+      "message": "You are right, there is no top-level call of lookup passing false (looks like that was a leftover from an earlier iteration). I\u0027ll revise.",
+      "parentUuid": "47431cfd_db0a7e85",
+      "range": {
+        "startLine": 377,
+        "startChar": 50,
+        "endLine": 377,
+        "endChar": 61
+      },
+      "revId": "45c5c1befd3d076428313c4614bf5351b246cad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "700e5582_06bf8c05",
