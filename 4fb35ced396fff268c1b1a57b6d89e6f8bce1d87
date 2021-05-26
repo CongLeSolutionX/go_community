@@ -107,6 +107,24 @@
       "parentUuid": "7e439f48_f8c1b2fa",
       "revId": "4fb35ced396fff268c1b1a57b6d89e6f8bce1d87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2000a60b_6d22b995",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-26T21:10:04Z",
+      "side": 1,
+      "message": "Done.\n\nThe -toolexec approach turns out not to be all that much code, and doesn\u0027t even require rebuilding or relinking cmd/link proper: the test binary itself already includes a complete copy of cmd/link, so we can interpose it directly as the linker.",
+      "parentUuid": "75851d42_6688fcd6",
+      "revId": "4fb35ced396fff268c1b1a57b6d89e6f8bce1d87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
