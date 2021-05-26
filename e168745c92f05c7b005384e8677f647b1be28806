@@ -261,6 +261,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9acd6b4f_72ec998a",
+        "filename": "src/cmd/compile/internal/types/size.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-05-26T05:41:40Z",
+      "side": 1,
+      "message": "I\u0027m sorry, you were absolutely right. Not sure what I was thinking when I read the code the first time:\n\nYes, a union can only appear inside an interface - even if we at some point permit such interfaces for general use.\n\nOnly if we make unions stand-alone types, could they require an actual size. In that case their size may in fact be the size of an interface (because their implementation is likely going to be two words: one for the boxed value and one for the type). Which is what you said. So this looks good.",
+      "parentUuid": "b8f0d4ae_ab0ad214",
+      "range": {
+        "startLine": 416,
+        "startChar": 13,
+        "endLine": 416,
+        "endChar": 14
+      },
+      "revId": "e168745c92f05c7b005384e8677f647b1be28806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ece1f0d_7c6fd72c",
