@@ -76,6 +76,30 @@
       },
       "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f01d8fe5_ac002847",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 35588
+      },
+      "writtenOn": "2021-05-26T15:11:56Z",
+      "side": 1,
+      "message": "Awww, I wanted to use new language features! 😂\n\n(https://go-review.googlesource.com/c/go/+/216424/ .... https://github.com/golang/go/issues/395)\n\nI hadn\u0027t measured until just now but it\u0027s also much faster:\n\nBenchmarkNamed-8        201051339                6.263 ns/op\nBenchmarkCopy-8         172203873                6.071 ns/op\nBenchmarkPointer-8      1000000000               1.031 ns/op\n\n(not runnable on playground, but https://play.golang.org/p/BkYM9Gbi4t2)\n\nLooks like both Named and Copy call runtime.memmove but BenchmarkPointer has no calls:\n\n\"\".BenchmarkPointer STEXT nosplit size\u003d84 args\u003d0x8 locals\u003d0x18 funcid\u003d0x0\n        0x0000 00000 (arraybench_test.go:31)    TEXT    \"\".BenchmarkPointer(SB), NOSPLIT|ABIInternal, $24-8\n        0x0000 00000 (arraybench_test.go:31)    SUBQ    $24, SP\n        0x0004 00004 (arraybench_test.go:31)    MOVQ    BP, 16(SP)\n        0x0009 00009 (arraybench_test.go:31)    LEAQ    16(SP), BP\n        0x000e 00014 (arraybench_test.go:31)    FUNCDATA        $0, gclocals·1a65e721a2ccc325b382662e7ffee780(SB)\n        0x000e 00014 (arraybench_test.go:31)    FUNCDATA        $1, gclocals·69c1753bd5f81501d95132d08af04464(SB)\n        0x000e 00014 (arraybench_test.go:31)    FUNCDATA        $5, \"\".BenchmarkPointer.arginfo1(SB)\n        0x000e 00014 (arraybench_test.go:31)    XORL    CX, CX\n        0x0010 00016 (arraybench_test.go:32)    JMP     32\n        0x0012 00018 (arraybench_test.go:49)    TESTB   AL, (BX)\n        0x0014 00020 (arraybench_test.go:32)    INCQ    CX\n        0x0017 00023 (arraybench_test.go:32)    NOP\n        0x0020 00032 (arraybench_test.go:32)    CMPQ    400(AX), CX\n        0x0027 00039 (arraybench_test.go:32)    JLE     63\n        0x0029 00041 (\u003cunknown line number\u003e)    NOP\n        0x0029 00041 (arraybench_test.go:33)    MOVQ    \"\".buf+16(SB), DX\n        0x0030 00048 (arraybench_test.go:33)    MOVQ    \"\".buf(SB), BX\n        0x0037 00055 (arraybench_test.go:49)    CMPQ    DX, $32\n        0x003b 00059 (arraybench_test.go:49)    JCC     18\n        0x003d 00061 (arraybench_test.go:49)    JMP     73\n        0x003f 00063 (arraybench_test.go:35)    MOVQ    16(SP), BP\n        0x0044 00068 (arraybench_test.go:35)    ADDQ    $24, SP\n        0x0048 00072 (arraybench_test.go:35)    RET\n        0x0049 00073 (arraybench_test.go:49)    MOVL    $32, CX\n        0x004e 00078 (arraybench_test.go:49)    PCDATA  $1, $1\n        0x004e 00078 (arraybench_test.go:49)    CALL    runtime.panicSliceAcap(SB)\n        0x0053 00083 (arraybench_test.go:49)    XCHGL   AX, AX",
+      "parentUuid": "c1da7b33_a7c34dc6",
+      "range": {
+        "startLine": 268,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
