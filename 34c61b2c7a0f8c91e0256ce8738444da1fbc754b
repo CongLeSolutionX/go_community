@@ -190,6 +190,30 @@
       },
       "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f2b9860_b402a672",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-26T19:21:16Z",
+      "side": 1,
+      "message": "The time is negligible but I don\u0027t really gree in general.  This is part of the language now, and we should consider the entire language to be permitted in the standard library.  If this construct is too unreadable, we should reconsider whether we should add it to the language at all.  Or so it seems to me.",
+      "parentUuid": "4d974cab_f1e243ad",
+      "range": {
+        "startLine": 268,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
