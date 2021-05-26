@@ -214,6 +214,30 @@
       },
       "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a2d5888_45a441e1",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-26T19:53:35Z",
+      "side": 1,
+      "message": "That\u0027s a fair point Ian. It feels like a bit of a hack to me to cast a slice to a pointer to an array, then return the dereferenced value. But it\u0027s likely I\u0027m missing some context about the proposal surrounding that feature. My ideal for this code would be to do something like this:\n  return ([Size224]byte)(sum[:Size224])\n\n\nHowever, if this is the new canonical way to handle situations like this, then I agree that we shouldn\u0027t special case just due to my readability preferences. So we can revert back to patchset #2\n\nPerhaps it\u0027s worth a new section in https://github.com/golang/go/wiki/CodeReviewComments to explain cases like this?",
+      "parentUuid": "9f2b9860_b402a672",
+      "range": {
+        "startLine": 268,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
