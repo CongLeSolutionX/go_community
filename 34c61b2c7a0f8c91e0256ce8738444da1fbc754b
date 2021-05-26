@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dea7b38d_6b09b115",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-26T14:14:02Z",
+      "side": 1,
+      "message": "LGTM. I added the wait-release hashtag since this changes behavior (even though it\u0027s very slight).",
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1da7b33_a7c34dc6",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-26T14:14:02Z",
+      "side": 1,
+      "message": "Slight preference to use copy for readability, rather than casting to a pointer then dereferencing. ie.\n\n  var sum224 [Size224]byte\n  copy(sum224[:], sum[:Size224])\n  return sum224",
+      "range": {
+        "startLine": 268,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
