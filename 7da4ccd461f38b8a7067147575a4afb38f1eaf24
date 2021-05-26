@@ -59,6 +59,30 @@
       },
       "revId": "7da4ccd461f38b8a7067147575a4afb38f1eaf24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df52ca1_11723cd2",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-26T15:36:18Z",
+      "side": 1,
+      "message": "\u003e\u003eI think the only thing that can be before OpArgXXXReg is LoweredGetClosurePtr. We can stop as soon as we see a Value that is not an OpArgXXXReg and not LoweredGetClosurePtr.\n\nOK, I\u0027ll see about reworking things to take that info account.\n\n\u003e\u003eAlso, if there is no OpArgXXXReg but has a LoweredGetClosurePtr, I think we want to place the spills after the LoweredGetClosurePtr.\n\nI\u0027m not sure this can ever happen-- LoweredGetClosurePtr should always be the first thing in the entry block in this case. Maybe I am misunderstanding -- is there a specific scenario you\u0027re concerned about?",
+      "parentUuid": "dd5373da_ed192b32",
+      "range": {
+        "startLine": 1993,
+        "startChar": 46,
+        "endLine": 1993,
+        "endChar": 66
+      },
+      "revId": "7da4ccd461f38b8a7067147575a4afb38f1eaf24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
