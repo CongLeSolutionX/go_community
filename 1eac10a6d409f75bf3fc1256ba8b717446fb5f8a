@@ -72,6 +72,57 @@
       "message": "LGTM, but wait for danscales to have a look.",
       "revId": "1eac10a6d409f75bf3fc1256ba8b717446fb5f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a745127_84041217",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-27T21:52:58Z",
+      "side": 1,
+      "message": "Thanks for doing this!",
+      "revId": "1eac10a6d409f75bf3fc1256ba8b717446fb5f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ed8dae2_64c1cd98",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-27T21:52:58Z",
+      "side": 1,
+      "message": "I don\u0027t see where unpackListExpr() is used elsewhere in the change.  If not, maybe revert these changes (line 323-333)?  Fine to leave if you think it is cleaner/better for some reason.",
+      "revId": "1eac10a6d409f75bf3fc1256ba8b717446fb5f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c65a979_e20e43fd",
+        "filename": "src/cmd/compile/internal/noder/helpers.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-05-27T21:52:58Z",
+      "side": 1,
+      "message": "I think Const is no longer used, if you want to remove it?",
+      "revId": "1eac10a6d409f75bf3fc1256ba8b717446fb5f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
