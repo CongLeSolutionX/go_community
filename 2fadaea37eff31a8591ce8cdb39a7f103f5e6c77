@@ -89,6 +89,24 @@
       "message": "LGTM. I wonder if we should change how Stale and Target are reported though? If runtime/cgo is stale because the build ID doesn\u0027t match the installed package, but it DOES match a package in the cache, should cmd/go say Stale is false, and Target is the file in the cache?",
       "revId": "2fadaea37eff31a8591ce8cdb39a7f103f5e6c77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1402e20a_5164432f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-05-27T13:59:18Z",
+      "side": 1,
+      "message": "Stale is currently defined as “would `go install` do anything?”, and I don\u0027t see anything fundamentally wrong with that definition — it just isn\u0027t a very useful one.\n\nI think it would be reasonable to separately report “is this package up-to-date in the build cache?”, but if we do that it should be a different field (because it has a different definition).",
+      "parentUuid": "cb971f43_b2d7396e",
+      "revId": "2fadaea37eff31a8591ce8cdb39a7f103f5e6c77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
