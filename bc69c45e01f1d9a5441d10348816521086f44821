@@ -115,6 +115,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c35175ec_bde3423c",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-27T16:28:57Z",
+      "side": 1,
+      "message": "Agree. I have done a little experimentation on this front, but haven\u0027t seen any big payoff.",
+      "parentUuid": "ae9fb485_2f0591f5",
+      "range": {
+        "startLine": 522,
+        "startChar": 6,
+        "endLine": 524,
+        "endChar": 33
+      },
+      "revId": "bc69c45e01f1d9a5441d10348816521086f44821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f4a9d43_5a87740a",
@@ -138,6 +162,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c741490_cbed6f98",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-27T16:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f4a9d43_5a87740a",
+      "range": {
+        "startLine": 526,
+        "startChar": 24,
+        "endLine": 526,
+        "endChar": 31
+      },
+      "revId": "bc69c45e01f1d9a5441d10348816521086f44821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d73b54e_e832e888",
@@ -151,6 +199,30 @@
       "writtenOn": "2021-05-27T15:16:51Z",
       "side": 1,
       "message": "SplitOffset",
+      "range": {
+        "startLine": 529,
+        "startChar": 45,
+        "endLine": 529,
+        "endChar": 56
+      },
+      "revId": "bc69c45e01f1d9a5441d10348816521086f44821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a17e0de3_38ee63a6",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-05-27T16:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d73b54e_e832e888",
       "range": {
         "startLine": 529,
         "startChar": 45,
