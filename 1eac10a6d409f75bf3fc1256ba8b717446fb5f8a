@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37e39369_4068bee9",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-27T22:03:32Z",
+      "side": 1,
+      "message": "I\u0027m going to need this function later, and it didn\u0027t seem worth making into its own commit. This CL seemed as good a place as any to include it.",
+      "parentUuid": "5ed8dae2_64c1cd98",
+      "revId": "1eac10a6d409f75bf3fc1256ba8b717446fb5f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c65a979_e20e43fd",
@@ -121,6 +139,24 @@
       "writtenOn": "2021-05-27T21:52:58Z",
       "side": 1,
       "message": "I think Const is no longer used, if you want to remove it?",
+      "revId": "1eac10a6d409f75bf3fc1256ba8b717446fb5f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67534506_609d3638",
+        "filename": "src/cmd/compile/internal/noder/helpers.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-27T22:03:32Z",
+      "side": 1,
+      "message": "Ack. I\u0027m going to leave for now because I suspect we\u0027ll want to use it again eventually. E.g., we only really need the original string for -m compiles and such where we print diagnostics; normal builds would be fine using Const instead and skipping the extra string/node overhead.",
+      "parentUuid": "5c65a979_e20e43fd",
       "revId": "1eac10a6d409f75bf3fc1256ba8b717446fb5f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
