@@ -53,6 +53,24 @@
       "message": "Maybe a comment here?  Are the embeddeds of an interface required to be unique, or is it possible to have a duplicate?  Trying to understand why you need sort.Stable.",
       "revId": "c7b85981e7ce094a9f3a5a7d5142d38e5371193a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e0f8152_d47b90f3",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-27T21:47:08Z",
+      "side": 1,
+      "message": "Done.\n\nInterfaces can be embedded multiple times, but since we now zero out their position information in expandiface after typechecking, that\u0027s not an issue here any more. The real need for sort.Stable here is to make sure anonymous embedded types (e.g., from embedding an alias) are sorted identically to types2.",
+      "parentUuid": "7817e514_e3529699",
+      "revId": "c7b85981e7ce094a9f3a5a7d5142d38e5371193a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
