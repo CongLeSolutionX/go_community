@@ -300,6 +300,30 @@
       },
       "revId": "807f19e205958378ecdf93200c3c4f0b1f78b4c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10dd9379_c1fc9918",
+        "filename": "src/cmd/go/testdata/script/mod_get_update_unrelated_sum.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-05-27T20:55:05Z",
+      "side": 1,
+      "message": "Ok, the error\u0027s a bit long, but all the information\u0027s there.\n\nI\u0027d be pretty surprised if this came up in practice. It means the go command was able to retrieve the .mod file but not the .zip file for a given version.",
+      "parentUuid": "91fcb9e9_25e079ca",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 0
+      },
+      "revId": "807f19e205958378ecdf93200c3c4f0b1f78b4c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
