@@ -63,6 +63,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ddcbe0f5_fe595d0f",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-27T13:45:11Z",
+      "side": 1,
+      "message": "Hmm, TE is the header that says what Transfer-Encodings the client will accept, so forwarding anything else than \"trailers\" is definitely broken. Imagine for example\n\n    TE: trailers\n    TE: gzip\n\nwhich would pass the Get check.\n\nHowever, even outreq.Header[\"Te\"] is wrong, because the client is supposed to put TE in the Connection header, and then removeConnectionHeaders will drop it.\n\nChanged it to look for trailers in the original request headers, and to set it in the outgoing ones.",
+      "parentUuid": "3f330e70_58cfc349",
+      "range": {
+        "startLine": 256,
+        "startChar": 17,
+        "endLine": 256,
+        "endChar": 27
+      },
+      "revId": "775730dcf7ac4eb498516c83134950ed2252bace",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "54a3d753_9555e5ee",
         "filename": "src/net/http/httputil/reverseproxy_test.go",
         "patchSetId": 1
@@ -74,6 +98,30 @@
       "writtenOn": "2021-05-24T17:22:22Z",
       "side": 1,
       "message": "nit: maybe use a string var here and throughout, instead, ie. \n\n    shouldBeDeleted :\u003d \"should be deleted\"",
+      "range": {
+        "startLine": 256,
+        "startChar": 33,
+        "endLine": 256,
+        "endChar": 52
+      },
+      "revId": "775730dcf7ac4eb498516c83134950ed2252bace",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "004ba440_00ce735a",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-27T13:45:11Z",
+      "side": 1,
+      "message": "I tried to keep the style as consistent as possible with the other tests in this file to make them easier to compare.",
+      "parentUuid": "54a3d753_9555e5ee",
       "range": {
         "startLine": 256,
         "startChar": 33,
@@ -97,6 +145,30 @@
       "writtenOn": "2021-05-24T17:22:22Z",
       "side": 1,
       "message": "check the error?",
+      "range": {
+        "startLine": 273,
+        "startChar": 9,
+        "endLine": 273,
+        "endChar": 10
+      },
+      "revId": "775730dcf7ac4eb498516c83134950ed2252bace",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7102d295_878b9e1c",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-05-27T13:45:11Z",
+      "side": 1,
+      "message": "http.NewRequest only returns an error if the  method or URL are invalid, which here is guaranteed not to be the case. Again kept the style to match the other tests in this file.",
+      "parentUuid": "9f2dff6f_699fc8a8",
       "range": {
         "startLine": 273,
         "startChar": 9,
