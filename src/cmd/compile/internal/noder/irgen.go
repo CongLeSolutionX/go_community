@@ -18,9 +18,9 @@ import (
 	"cmd/internal/src"
 )
 
-// check2 type checks a Go package using types2, and then generates IR
-// using the results.
-func check2(noders []*noder) {
+// checkFiles configures and runs the types2 checker on the given
+// parsed source files and then returns the result.
+func checkFiles(noders []*noder) (*types2.Package, *types2.Info, posMap) {
 	if base.SyntaxErrors() != 0 {
 		base.ErrorExit()
 	}
@@ -47,7 +47,7 @@ func check2(noders []*noder) {
 		},
 		Sizes: &gcSizes{},
 	}
-	info := types2.Info{
+	info := &types2.Info{
 		Types:      make(map[syntax.Expr]types2.TypeAndValue),
 		Defs:       make(map[*syntax.Name]types2.Object),
 		Uses:       make(map[*syntax.Name]types2.Object),
@@ -57,12 +57,21 @@ func check2(noders []*noder) {
 		Inferred:   make(map[syntax.Expr]types2.Inferred),
 		// expand as needed
 	}
-	pkg, err := conf.Check(base.Ctxt.Pkgpath, files, &info)
-	files = nil
+
+	pkg, err := conf.Check(base.Ctxt.Pkgpath, files, info)
 	base.ExitIfErrors()
 	if err != nil {
 		base.FatalfAt(src.NoXPos, "conf.Check error: %v", err)
 	}
+
+	return pkg, info, m
+}
+
+// check2 type checks a Go package using types2, and then generates IR
+// using the results.
+func check2(noders []*noder) {
+	pkg, info, m := checkFiles(noders)
+
 	if base.Flag.G < 2 {
 		os.Exit(0)
 	}
@@ -70,7 +79,7 @@ func check2(noders []*noder) {
 	g := irgen{
 		target: typecheck.Target,
 		self:   pkg,
-		info:   &info,
+		info:   info,
 		posMap: m,
 		objs:   make(map[types2.Object]*ir.Name),
 		typs:   make(map[types2.Type]*types.Type),
