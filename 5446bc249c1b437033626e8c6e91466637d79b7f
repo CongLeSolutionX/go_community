@@ -53,6 +53,23 @@
       "message": "Generic import/export is largely done, but here\u0027s the one remaining large change to deal with exporting/import recursive generic types and recursive instantiated types.  (A big part of the change is just moving the type substituter to subr.go, so it can be used by import code.)\n\nKeith:  I can definitely hold off on checking this in, if you\u0027d like to get some of your dictionary changes in first.  Just let me know.\n\nRobert: this is the change I mentioned for recursive generic types, where typeparams need an implicit declaration to deal with recursive references in their bounds, and the processing of imported instantiations has to be delayed to deal with recursive types.  No big rush to review this, but I wanted to get the change out so you \u0026 Keith can take a look.\n",
       "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c70c496_b9698f9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-05-27T15:58:13Z",
+      "side": 1,
+      "message": "This shouldn\u0027t conflict in any serious way with my dictionary CL.\n",
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
