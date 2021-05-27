@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e42385_ad94e9ff",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-27T01:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7615c22_c89fd6ec",
+      "revId": "b8429060df2dd66dc59bb534e62ae6fc5f7753aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6627c4ec_1546c4b1",
@@ -91,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfedd18c_7574b2e7",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-27T01:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6627c4ec_1546c4b1",
+      "revId": "b8429060df2dd66dc59bb534e62ae6fc5f7753aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad4d9edc_965e0508",
@@ -104,6 +140,24 @@
       "writtenOn": "2021-05-24T17:30:21Z",
       "side": 1,
       "message": "If we only check this for the current t.common, we\u0027ll miss subtests. For example, I think this would still panic:\n\n  func Fuzz(f *testing.F) {\n    f.Fuzz(func(t *testing.T, _ []byte) {\n      t.Run(\"sub\", func(t *testing.T) {\n        panic(\"sub panicked\")\n      }\n    })\n  }\n\nProbably the easiest way to fix that would be to add an isFuzzing method on common that walks up the chain and returns true if any parent is fuzzing.",
+      "revId": "b8429060df2dd66dc59bb534e62ae6fc5f7753aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffec46e1_ab6bf1b0",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1226,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-05-27T01:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad4d9edc_965e0508",
       "revId": "b8429060df2dd66dc59bb534e62ae6fc5f7753aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
