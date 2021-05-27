@@ -46,7 +46,15 @@ func (g *irgen) importDecl(p *noder, decl *syntax.ImportDecl) {
 
 	g.pragmaFlags(decl.Pragma, 0)
 
-	ipkg := importfile(decl)
+	var pkgName *types2.PkgName
+	if decl.LocalPkgName != nil {
+		pkgName = g.info.Defs[decl.LocalPkgName].(*types2.PkgName)
+	} else {
+		pkgName = g.info.Implicits[decl].(*types2.PkgName)
+	}
+	path := pkgName.Imported().Path()
+
+	ipkg := readImportFile(typecheck.Target, path)
 	if ipkg == ir.Pkgs.Unsafe {
 		p.importedUnsafe = true
 	}
