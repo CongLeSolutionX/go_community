@@ -531,9 +531,12 @@ func (p *iexporter) doDecl(n *ir.Name) {
 			break
 		}
 
-		ms := t.Methods()
-		w.uint64(uint64(ms.Len()))
-		for _, m := range ms.Slice() {
+		// Sort methods, for consistency with types2.
+		methods := append([]*types.Field(nil), t.Methods().Slice()...)
+		sort.Sort(types.MethodsByName(methods))
+
+		w.uint64(uint64(len(methods)))
+		for _, m := range methods {
 			w.pos(m.Pos)
 			w.selector(m.Sym)
 			w.param(m.Type.Recv())
@@ -541,7 +544,7 @@ func (p *iexporter) doDecl(n *ir.Name) {
 		}
 
 		w.typeExt(t)
-		for _, m := range ms.Slice() {
+		for _, m := range methods {
 			w.methExt(m)
 		}
 
@@ -927,6 +930,12 @@ func (w *exportWriter) doTyp(t *types.Type) {
 				embeddeds = append(embeddeds, m)
 			}
 		}
+
+		// Sort methods and embedded types, for consistency with types2.
+		// Note: embedded types may be anonymous, and types2 sorts them
+		// with sort.Stable too.
+		sort.Sort(types.MethodsByName(methods))
+		sort.Stable(types.EmbeddedsByName(embeddeds))
 
 		w.startType(interfaceType)
 		w.setPkg(t.Pkg(), true)
@@ -1578,7 +1587,11 @@ func (w *exportWriter) expr(n ir.Node) {
 
 	case ir.OLITERAL:
 		w.op(ir.OLITERAL)
-		w.pos(n.Pos())
+		if ir.HasUniquePos(n) {
+			w.pos(n.Pos())
+		} else {
+			w.pos(src.NoXPos)
+		}
 		w.value(n.Type(), n.Val())
 
 	case ir.ONAME:
