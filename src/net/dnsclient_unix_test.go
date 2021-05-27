@@ -1896,27 +1896,27 @@ func TestCVE202133195(t *testing.T) {
 	r := Resolver{PreferGo: true, Dial: fake.DialContext}
 
 	_, err := r.LookupCNAME(context.Background(), "golang.org")
-	if expected := "lookup golang.org: CNAME target is invalid"; err.Error() != expected {
+	if expected := "lookup golang.org: CNAME target is invalid: \"<html>.golang.org.\""; err.Error() != expected {
 		t.Errorf("LookupCNAME returned unexpected error, got %q, want %q", err.Error(), expected)
 	}
 	_, _, err = r.LookupSRV(context.Background(), "target", "tcp", "golang.org")
-	if expected := "lookup golang.org: SRV target is invalid"; err.Error() != expected {
+	if expected := "lookup golang.org: SRV target is invalid: \"<html>.golang.org.\""; err.Error() != expected {
 		t.Errorf("LookupSRV returned unexpected error, got %q, want %q", err.Error(), expected)
 	}
 	_, _, err = r.LookupSRV(context.Background(), "hdr", "tcp", "golang.org")
-	if expected := "lookup golang.org: SRV header name is invalid"; err.Error() != expected {
+	if expected := "lookup golang.org: SRV header name is invalid: \"<html>.golang.org.\""; err.Error() != expected {
 		t.Errorf("LookupSRV returned unexpected error, got %q, want %q", err.Error(), expected)
 	}
 	_, err = r.LookupMX(context.Background(), "golang.org")
-	if expected := "lookup golang.org: MX target is invalid"; err.Error() != expected {
+	if expected := "lookup golang.org: MX target is invalid: \"<html>.golang.org.\""; err.Error() != expected {
 		t.Errorf("LookupMX returned unexpected error, got %q, want %q", err.Error(), expected)
 	}
 	_, err = r.LookupNS(context.Background(), "golang.org")
-	if expected := "lookup golang.org: NS target is invalid"; err.Error() != expected {
+	if expected := "lookup golang.org: NS target is invalid: \"<html>.golang.org.\""; err.Error() != expected {
 		t.Errorf("LookupNS returned unexpected error, got %q, want %q", err.Error(), expected)
 	}
 	_, err = r.LookupAddr(context.Background(), "1.2.3.4")
-	if expected := "lookup 1.2.3.4: PTR target is invalid"; err.Error() != expected {
+	if expected := "lookup 1.2.3.4: PTR target is invalid: \"<html>.golang.org.\""; err.Error() != expected {
 		t.Errorf("LookupAddr returned unexpected error, got %q, want %q", err.Error(), expected)
 	}
 }

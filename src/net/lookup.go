@@ -6,6 +6,7 @@ package net
 
 import (
 	"context"
+	"fmt"
 	"internal/nettrace"
 	"internal/singleflight"
 	"sync"
@@ -402,7 +403,7 @@ func (r *Resolver) LookupPort(ctx context.Context, network, service string) (por
 // LookupCNAME uses context.Background internally; to specify the context, use
 // Resolver.LookupCNAME.
 func LookupCNAME(host string) (cname string, err error) {
-	return DefaultResolver.lookupCNAME(context.Background(), host)
+	return DefaultResolver.LookupCNAME(context.Background(), host)
 }
 
 // LookupCNAME returns the canonical name for the given host.
@@ -424,7 +425,7 @@ func (r *Resolver) LookupCNAME(ctx context.Context, host string) (string, error)
 		return "", err
 	}
 	if !isDomainName(cname) {
-		return "", &DNSError{Err: "CNAME target is invalid", Name: host}
+		return "", &DNSError{Err: fmt.Sprintf("CNAME target is invalid: %q", cname), Name: host}
 	}
 	return cname, nil
 }
@@ -442,7 +443,7 @@ func (r *Resolver) LookupCNAME(ctx context.Context, host string) (string, error)
 // The returned service names are validated to be properly
 // formatted presentation-format domain names.
 func LookupSRV(service, proto, name string) (cname string, addrs []*SRV, err error) {
-	return DefaultResolver.lookupSRV(context.Background(), service, proto, name)
+	return DefaultResolver.LookupSRV(context.Background(), service, proto, name)
 }
 
 // LookupSRV tries to resolve an SRV query of the given service,
@@ -463,14 +464,14 @@ func (r *Resolver) LookupSRV(ctx context.Context, service, proto, name string) (
 		return "", nil, err
 	}
 	if cname != "" && !isDomainName(cname) {
-		return "", nil, &DNSError{Err: "SRV header name is invalid", Name: name}
+		return "", nil, &DNSError{Err: fmt.Sprintf("SRV header name is invalid: %q", cname), Name: name}
 	}
 	for _, addr := range addrs {
 		if addr == nil {
 			continue
 		}
 		if !isDomainName(addr.Target) {
-			return "", nil, &DNSError{Err: "SRV target is invalid", Name: name}
+			return "", nil, &DNSError{Err: fmt.Sprintf("SRV target is invalid: %q", addr.Target), Name: name}
 		}
 	}
 	return cname, addrs, nil
@@ -484,7 +485,7 @@ func (r *Resolver) LookupSRV(ctx context.Context, service, proto, name string) (
 // LookupMX uses context.Background internally; to specify the context, use
 // Resolver.LookupMX.
 func LookupMX(name string) ([]*MX, error) {
-	return DefaultResolver.lookupMX(context.Background(), name)
+	return DefaultResolver.LookupMX(context.Background(), name)
 }
 
 // LookupMX returns the DNS MX records for the given domain name sorted by preference.
@@ -501,7 +502,7 @@ func (r *Resolver) LookupMX(ctx context.Context, name string) ([]*MX, error) {
 			continue
 		}
 		if !isDomainName(mx.Host) {
-			return nil, &DNSError{Err: "MX target is invalid", Name: name}
+			return nil, &DNSError{Err: fmt.Sprintf("MX target is invalid: %q", mx.Host), Name: name}
 		}
 	}
 	return records, nil
@@ -515,7 +516,7 @@ func (r *Resolver) LookupMX(ctx context.Context, name string) ([]*MX, error) {
 // LookupNS uses context.Background internally; to specify the context, use
 // Resolver.LookupNS.
 func LookupNS(name string) ([]*NS, error) {
-	return DefaultResolver.lookupNS(context.Background(), name)
+	return DefaultResolver.LookupNS(context.Background(), name)
 }
 
 // LookupNS returns the DNS NS records for the given domain name.
@@ -532,7 +533,7 @@ func (r *Resolver) LookupNS(ctx context.Context, name string) ([]*NS, error) {
 			continue
 		}
 		if !isDomainName(ns.Host) {
-			return nil, &DNSError{Err: "NS target is invalid", Name: name}
+			return nil, &DNSError{Err: fmt.Sprintf("NS target is invalid: %q", ns.Host), Name: name}
 		}
 	}
 	return records, nil
@@ -554,20 +555,23 @@ func (r *Resolver) LookupTXT(ctx context.Context, name string) ([]string, error)
 // LookupAddr performs a reverse lookup for the given address, returning a list
 // of names mapping to that address.
 //
+// The returned names are validated to be properly formatted presentation-format
+// domain names.
+//
 // When using the host C library resolver, at most one result will be
 // returned. To bypass the host resolver, use a custom Resolver.
 //
 // LookupAddr uses context.Background internally; to specify the context, use
 // Resolver.LookupAddr.
 func LookupAddr(addr string) (names []string, err error) {
-	return DefaultResolver.lookupAddr(context.Background(), addr)
+	return DefaultResolver.LookupAddr(context.Background(), addr)
 }
 
 // LookupAddr performs a reverse lookup for the given address, returning a list
 // of names mapping to that address.
 //
-// The returned names are validated to be properly
-// formatted presentation-format domain names.
+// The returned names are validated to be properly formatted presentation-format
+// domain names.
 func (r *Resolver) LookupAddr(ctx context.Context, addr string) ([]string, error) {
 	names, err := r.lookupAddr(ctx, addr)
 	if err != nil {
@@ -575,7 +579,7 @@ func (r *Resolver) LookupAddr(ctx context.Context, addr string) ([]string, error
 	}
 	for _, name := range names {
 		if !isDomainName(name) {
-			return nil, &DNSError{Err: "PTR target is invalid", Name: addr}
+			return nil, &DNSError{Err: fmt.Sprintf("PTR target is invalid: %q", name), Name: addr}
 		}
 	}
 	return names, nil
