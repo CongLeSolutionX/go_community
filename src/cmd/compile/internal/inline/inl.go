@@ -179,6 +179,8 @@ func CanInline(fn *ir.Func) {
 		Cost: inlineMaxBudget - visitor.budget,
 		Dcl:  pruneUnusedAutos(n.Defn.(*ir.Func).Dcl, &visitor),
 		Body: inlcopylist(fn.Body),
+
+		CanDelayResults: canDelayResults(fn),
 	}
 
 	if base.Flag.LowerM > 1 {
@@ -189,6 +191,38 @@ func CanInline(fn *ir.Func) {
 	if logopt.Enabled() {
 		logopt.LogOpt(fn.Pos(), "canInlineFunction", "inline", ir.FuncName(fn), fmt.Sprintf("cost: %d", inlineMaxBudget-visitor.budget))
 	}
+}
+
+// canDelayResults reports whether inlined calls to fn can delay
+// declaring the result parameter until the "return" statement.
+func canDelayResults(fn *ir.Func) bool {
+	// We can delay declaring+initializing result parameters if:
+	// (1) there's exactly one "return" statement in the inlined function;
+	// (2) it's not an empty return statement (#44355); and
+	// (3) the result parameters aren't named.
+
+	nreturns := 0
+	ir.VisitList(fn.Body, func(n ir.Node) {
+		if n, ok := n.(*ir.ReturnStmt); ok {
+			nreturns++
+			if len(n.Results) == 0 {
+				nreturns++ // empty return statement (case 2)
+			}
+		}
+	})
+
+	if nreturns != 1 {
+		return false // not exactly one return statement (case 1)
+	}
+
+	// temporaries for return values.
+	for _, param := range fn.Type().Results().FieldSlice() {
+		if sym := types.OrigSym(param.Sym); sym != nil && !sym.IsBlank() {
+			return false // found a named result parameter (case 3)
+		}
+	}
+
+	return true
 }
 
 // Inline_Flood marks n's inline body for export and recursively ensures
@@ -740,6 +774,11 @@ var inlgen int
 // when producing output for debugging the compiler itself.
 var SSADumpInline = func(*ir.Func) {}
 
+// NewInline allows the inliner implementation to be overridden.
+// If it returns nil, the legacy inliner will handle this call
+// instead.
+var NewInline = func(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCallExpr { return nil }
+
 // If n is a call node (OCALLFUNC or OCALLMETH), and fn is an ONAME node for a
 // function with an inlinable body, return an OINLCALL node that can replace n.
 // The returned node's Ninit has the parameter assignments, the Nbody is the
@@ -796,6 +835,39 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 
 	typecheck.FixVariadicCall(n)
 
+	parent := base.Ctxt.PosTable.Pos(n.Pos()).Base().InliningIndex()
+
+	sym := fn.Linksym()
+	inlIndex := base.Ctxt.InlTree.Add(parent, n.Pos(), sym)
+
+	if base.Flag.GenDwarfInl > 0 {
+		if !sym.WasInlined() {
+			base.Ctxt.DwFixups.SetPrecursorFunc(sym, fn)
+			sym.Set(obj.AttrWasInlined, true)
+		}
+	}
+
+	res := NewInline(n, fn, inlIndex)
+	if res == nil {
+		res = oldInline(n, fn, inlIndex)
+	}
+
+	// transitive inlining
+	// might be nice to do this before exporting the body,
+	// but can't emit the body with inlining expanded.
+	// instead we emit the things that the body needs
+	// and each use must redo the inlining.
+	// luckily these are small.
+	ir.EditChildren(res, edit)
+
+	if base.Flag.LowerM > 2 {
+		fmt.Printf("%v: After inlining %+v\n\n", ir.Line(res), res)
+	}
+
+	return res
+}
+
+func oldInline(n *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCallExpr {
 	if base.Debug.TypecheckInl == 0 {
 		typecheck.ImportedBody(fn)
 	}
@@ -857,25 +929,6 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 	}
 
 	// We can delay declaring+initializing result parameters if:
-	// (1) there's exactly one "return" statement in the inlined function;
-	// (2) it's not an empty return statement (#44355); and
-	// (3) the result parameters aren't named.
-	delayretvars := true
-
-	nreturns := 0
-	ir.VisitList(ir.Nodes(fn.Inl.Body), func(n ir.Node) {
-		if n, ok := n.(*ir.ReturnStmt); ok {
-			nreturns++
-			if len(n.Results) == 0 {
-				delayretvars = false // empty return statement (case 2)
-			}
-		}
-	})
-
-	if nreturns != 1 {
-		delayretvars = false // not exactly one return statement (case 1)
-	}
-
 	// temporaries for return values.
 	var retvars []ir.Node
 	for i, t := range fn.Type().Results().Fields().Slice() {
@@ -885,7 +938,6 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 			m = inlvar(n)
 			m = typecheck.Expr(m).(*ir.Name)
 			inlvars[n] = m
-			delayretvars = false // found a named result parameter (case 3)
 		} else {
 			// anonymous return values, synthesize names for use in assignment that replaces return
 			m = retvar(t, i)
@@ -928,7 +980,7 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 		ninit.Append(typecheck.Stmt(as))
 	}
 
-	if !delayretvars {
+	if !fn.Inl.CanDelayResults {
 		// Zero the return parameters.
 		for _, n := range retvars {
 			ninit.Append(ir.NewDecl(base.Pos, ir.ODCL, n.(*ir.Name)))
@@ -941,40 +993,21 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 
 	inlgen++
 
-	parent := -1
-	if b := base.Ctxt.PosTable.Pos(n.Pos()).Base(); b != nil {
-		parent = b.InliningIndex()
-	}
-
-	sym := fn.Linksym()
-	newIndex := base.Ctxt.InlTree.Add(parent, n.Pos(), sym)
-
 	// Add an inline mark just before the inlined body.
 	// This mark is inline in the code so that it's a reasonable spot
 	// to put a breakpoint. Not sure if that's really necessary or not
 	// (in which case it could go at the end of the function instead).
 	// Note issue 28603.
-	inlMark := ir.NewInlineMarkStmt(base.Pos, types.BADWIDTH)
-	inlMark.SetPos(n.Pos().WithIsStmt())
-	inlMark.Index = int64(newIndex)
-	ninit.Append(inlMark)
-
-	if base.Flag.GenDwarfInl > 0 {
-		if !sym.WasInlined() {
-			base.Ctxt.DwFixups.SetPrecursorFunc(sym, fn)
-			sym.Set(obj.AttrWasInlined, true)
-		}
-	}
+	ninit.Append(ir.NewInlineMarkStmt(n.Pos().WithIsStmt(), int64(inlIndex)))
 
 	subst := inlsubst{
-		retlabel:     retlabel,
-		retvars:      retvars,
-		delayretvars: delayretvars,
-		inlvars:      inlvars,
-		defnMarker:   ir.NilExpr{},
-		bases:        make(map[*src.PosBase]*src.PosBase),
-		newInlIndex:  newIndex,
-		fn:           fn,
+		retlabel:    retlabel,
+		retvars:     retvars,
+		inlvars:     inlvars,
+		defnMarker:  ir.NilExpr{},
+		bases:       make(map[*src.PosBase]*src.PosBase),
+		newInlIndex: inlIndex,
+		fn:          fn,
 	}
 	subst.edit = subst.node
 
@@ -995,24 +1028,10 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 
 	//dumplist("ninit post", ninit);
 
-	call := ir.NewInlinedCallExpr(base.Pos, nil, nil)
+	call := ir.NewInlinedCallExpr(base.Pos, body, retvars)
 	*call.PtrInit() = ninit
-	call.Body = body
-	call.ReturnVars = retvars
 	call.SetType(n.Type())
 	call.SetTypecheck(1)
-
-	// transitive inlining
-	// might be nice to do this before exporting the body,
-	// but can't emit the body with inlining expanded.
-	// instead we emit the things that the body needs
-	// and each use must redo the inlining.
-	// luckily these are small.
-	ir.EditChildren(call, edit)
-
-	if base.Flag.LowerM > 2 {
-		fmt.Printf("%v: After inlining %+v\n\n", ir.Line(call), call)
-	}
 
 	return call
 }
@@ -1056,10 +1075,6 @@ type inlsubst struct {
 
 	// Temporary result variables.
 	retvars []ir.Node
-
-	// Whether result variables should be initialized at the
-	// "return" statement.
-	delayretvars bool
 
 	inlvars map[*ir.Name]*ir.Name
 	// defnMarker is used to mark a Node for reassignment.
@@ -1353,7 +1368,7 @@ func (subst *inlsubst) node(n ir.Node) ir.Node {
 			}
 			as.Rhs = subst.list(n.Results)
 
-			if subst.delayretvars {
+			if subst.fn.Inl.CanDelayResults {
 				for _, n := range as.Lhs {
 					as.PtrInit().Append(ir.NewDecl(base.Pos, ir.ODCL, n.(*ir.Name)))
 					n.Name().Defn = as
