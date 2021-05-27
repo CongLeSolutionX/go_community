@@ -286,6 +286,30 @@
       },
       "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d61c2b7_fd7724d4",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-05-27T14:51:08Z",
+      "side": 1,
+      "message": "That does actually read slightly better for me. Wdyt?\n\nAs an aside, I imagine someone (who likely isn\u0027t me) should come to a style decision and document it somewhere, but for the purposes of this CL, I think it\u0027s fine for us to make the decision that makes the most sense. 👍",
+      "parentUuid": "1ad58f31_44c190b2",
+      "range": {
+        "startLine": 268,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "34c61b2c7a0f8c91e0256ce8738444da1fbc754b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
