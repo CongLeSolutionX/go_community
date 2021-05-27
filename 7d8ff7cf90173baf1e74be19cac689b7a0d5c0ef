@@ -16,6 +16,24 @@
       "message": "myheight is still referenced in noder.go, so don\u0027t you still need to keep myheight updated/correct for the -G\u003d0 case?  Or can you stop using it in that case as well?",
       "revId": "7d8ff7cf90173baf1e74be19cac689b7a0d5c0ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d13f798_b3b188dc",
+        "filename": "src/cmd/compile/internal/noder/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-27T23:40:31Z",
+      "side": 0,
+      "message": "This logic moved up to L185-L189, which is still used by noder.",
+      "parentUuid": "57e7b453_a3957c10",
+      "revId": "7d8ff7cf90173baf1e74be19cac689b7a0d5c0ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

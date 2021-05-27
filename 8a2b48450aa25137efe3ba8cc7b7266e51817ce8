@@ -72,6 +72,24 @@
       "message": "Maybe a comment here that lines 49-54 gives the same result as parseImportPath(), but is faster because it is using types2 information?",
       "revId": "8a2b48450aa25137efe3ba8cc7b7266e51817ce8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fb86153_00e2df67",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-27T23:40:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91139923_712d8bc4",
+      "revId": "8a2b48450aa25137efe3ba8cc7b7266e51817ce8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
