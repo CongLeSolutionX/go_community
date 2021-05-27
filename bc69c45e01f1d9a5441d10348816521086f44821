@@ -90,6 +90,75 @@
       "message": "LGTM. Thanks.",
       "revId": "bc69c45e01f1d9a5441d10348816521086f44821",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae9fb485_2f0591f5",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-05-27T15:16:51Z",
+      "side": 1,
+      "message": "We probably want to revisit this (not in this CL!).  It may work better to do it all one way (but I am not sure which one).",
+      "range": {
+        "startLine": 522,
+        "startChar": 6,
+        "endLine": 524,
+        "endChar": 33
+      },
+      "revId": "bc69c45e01f1d9a5441d10348816521086f44821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f4a9d43_5a87740a",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-05-27T15:16:51Z",
+      "side": 1,
+      "message": "SplitOf",
+      "range": {
+        "startLine": 526,
+        "startChar": 24,
+        "endLine": 526,
+        "endChar": 31
+      },
+      "revId": "bc69c45e01f1d9a5441d10348816521086f44821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d73b54e_e832e888",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-05-27T15:16:51Z",
+      "side": 1,
+      "message": "SplitOffset",
+      "range": {
+        "startLine": 529,
+        "startChar": 45,
+        "endLine": 529,
+        "endChar": 56
+      },
+      "revId": "bc69c45e01f1d9a5441d10348816521086f44821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
