@@ -16,6 +16,23 @@
       "message": "Completed the suggested changes, please take a look.",
       "revId": "ffbc7a5db88878034218c94574a1c40b43fdb2d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "964a6563_dc67fb15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-28T00:39:10Z",
+      "side": 1,
+      "message": "This has a merge conflict now, would you mind rebasing up to tip?  Thanks.",
+      "revId": "ffbc7a5db88878034218c94574a1c40b43fdb2d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
