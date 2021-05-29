@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d68d361e_161eaacb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 52208
+      },
+      "writtenOn": "2021-05-29T18:43:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "807735ac_61c9d919",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "c5318a5069e4ebca411ea91a55d13be0f362199f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccfbae18_51f51122",
@@ -55,6 +79,24 @@
       "writtenOn": "2021-05-29T18:39:40Z",
       "side": 1,
       "message": "FYI: It\u0027s not a problem for this file, but just a heads up to be careful about gofmt\u0027ing existing test files. There are some tests that want to test behavior of misformatted code.",
+      "revId": "c5318a5069e4ebca411ea91a55d13be0f362199f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cb3a1e9_5c79fc19",
+        "filename": "test/complit1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 52208
+      },
+      "writtenOn": "2021-05-29T18:43:46Z",
+      "side": 1,
+      "message": "Cool, makes sense. I\u0027ll be conscientious of this moving forward.",
+      "parentUuid": "3c85c375_5591caeb",
       "revId": "c5318a5069e4ebca411ea91a55d13be0f362199f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

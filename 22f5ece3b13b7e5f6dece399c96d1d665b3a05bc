@@ -22,6 +22,30 @@
       },
       "revId": "22f5ece3b13b7e5f6dece399c96d1d665b3a05bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a12ca8c_6571dbcb",
+        "filename": "test/complit1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 52208
+      },
+      "writtenOn": "2021-05-29T18:43:46Z",
+      "side": 0,
+      "message": "With -G\u003d3 the error message refers to \"missing type in composite literal\".\n\nSince this error message is already being tested twice above, I figured it\u0027d be best to test for \"invalid composite literal type X\" here.\n\nThis can be changed, however.",
+      "parentUuid": "121b116f_71481664",
+      "range": {
+        "startLine": 49,
+        "startChar": 27,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "22f5ece3b13b7e5f6dece399c96d1d665b3a05bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
