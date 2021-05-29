@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee9d4f1f_0b6cd9d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-29T21:34:34Z",
+      "side": 1,
+      "message": "This seems like a problem to be address in bytes.Trim.  In general we don\u0027t want people to write more convoluted code for performance reasons.",
+      "revId": "773c762dba50b5f7b170a5b8301db7ff8a2a5077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
