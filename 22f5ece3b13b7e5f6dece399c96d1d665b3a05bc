@@ -46,6 +46,30 @@
       },
       "revId": "22f5ece3b13b7e5f6dece399c96d1d665b3a05bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f07b65d1_62f69891",
+        "filename": "test/complit1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-05-29T19:26:44Z",
+      "side": 0,
+      "message": "I see. Thanks, this change does seem good then. Though notably, it\u0027ll expose that gccgo has an error: https://github.com/golang/go/issues/46447\n\nI think that\u0027s fine. Just add \"Updates #46447.\" to the commit message so it\u0027ll be cross-referenced on the issue tracker.",
+      "parentUuid": "5a12ca8c_6571dbcb",
+      "range": {
+        "startLine": 49,
+        "startChar": 27,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "22f5ece3b13b7e5f6dece399c96d1d665b3a05bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
