@@ -70,6 +70,23 @@
       "parentUuid": "341f0168_cb4da305",
       "revId": "773c762dba50b5f7b170a5b8301db7ff8a2a5077",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5e3492b_b0003aea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-05-30T02:06:42Z",
+      "side": 1,
+      "message": "Interestingly, I just filed https://github.com/golang/go/issues/46446 today since I was observing this bottleneck for a different situation.",
+      "revId": "773c762dba50b5f7b170a5b8301db7ff8a2a5077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
