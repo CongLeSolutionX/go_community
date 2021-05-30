@@ -1,0 +1,3 @@
+package issuennnnn
+
+type _ comparable // ERROR "undeclared name: comparable"
