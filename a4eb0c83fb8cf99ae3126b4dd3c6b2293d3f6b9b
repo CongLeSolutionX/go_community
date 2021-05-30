@@ -90,6 +90,47 @@
       "parentUuid": "ade41318_f1f6ca1b",
       "revId": "a4eb0c83fb8cf99ae3126b4dd3c6b2293d3f6b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2df1d0c2_452bf85c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2021-05-30T21:21:35Z",
+      "side": 1,
+      "message": "Sorry for the delay. This doesn\u0027t fix the test case in https://github.com/golang/go/issues/43505, did you expect it to? The object files generated in that case are perfect valid ELF object files, so it\u0027s not some kind of \"pure bytecode file\" that\u0027s tripping the linker up in this case.",
+      "parentUuid": "57ac20e8_7dbbf0a6",
+      "revId": "a4eb0c83fb8cf99ae3126b4dd3c6b2293d3f6b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1ef3ac5_33650b49",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1641,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2021-05-30T21:21:35Z",
+      "side": 1,
+      "message": "This is required for issue 46295 but does it also fix issue 43830 at the same time without the other fixes required? Also is there a chance that the compiler will reject -fno-lto or do compilers generally ignore unrecognized -fno-* flags?",
+      "range": {
+        "startLine": 1641,
+        "startChar": 0,
+        "endLine": 1641,
+        "endChar": 61
+      },
+      "revId": "a4eb0c83fb8cf99ae3126b4dd3c6b2293d3f6b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
