@@ -16,6 +16,24 @@
       "message": "Thanks for updating this.\n\nRather than adding -src, let\u0027s change \"[-u] [-c]\" to \"[doc flags]\", which is consistent with other commands.\n\nThe actual flags are listed and described below. There are too many to list on a single line.",
       "revId": "2b40346588f093971191d9bf061a85a6020fe32c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14ca93da_92e6778d",
+        "filename": "src/cmd/go/internal/doc/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 51813
+      },
+      "writtenOn": "2021-05-30T14:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a41a1e3_9ad7a412",
+      "revId": "2b40346588f093971191d9bf061a85a6020fe32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
