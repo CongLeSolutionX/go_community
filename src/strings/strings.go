@@ -818,11 +818,6 @@ func (as *asciiSet) contains(c byte) bool {
 }
 
 func makeCutsetFunc(cutset string) func(rune) bool {
-	if len(cutset) == 1 && cutset[0] < utf8.RuneSelf {
-		return func(r rune) bool {
-			return r == rune(cutset[0])
-		}
-	}
 	if as, isASCII := makeASCIISet(cutset); isASCII {
 		return func(r rune) bool {
 			return r < utf8.RuneSelf && as.contains(byte(r))
@@ -837,6 +832,15 @@ func Trim(s, cutset string) string {
 	if s == "" || cutset == "" {
 		return s
 	}
+	if len(cutset) == 1 && cutset[0] < utf8.RuneSelf {
+		for len(s) > 0 && s[0] == cutset[0] {
+			s = s[1:]
+		}
+		for len(s) > 0 && s[len(s)-1] == cutset[0] {
+			s = s[:len(s)-1]
+		}
+		return s
+	}
 	return TrimFunc(s, makeCutsetFunc(cutset))
 }
 
@@ -848,6 +852,12 @@ func TrimLeft(s, cutset string) string {
 	if s == "" || cutset == "" {
 		return s
 	}
+	if len(cutset) == 1 && cutset[0] < utf8.RuneSelf {
+		for len(s) > 0 && s[0] == cutset[0] {
+			s = s[1:]
+		}
+		return s
+	}
 	return TrimLeftFunc(s, makeCutsetFunc(cutset))
 }
 
@@ -857,6 +867,12 @@ func TrimLeft(s, cutset string) string {
 // To remove a suffix, use TrimSuffix instead.
 func TrimRight(s, cutset string) string {
 	if s == "" || cutset == "" {
+		return s
+	}
+	if len(cutset) == 1 && cutset[0] < utf8.RuneSelf {
+		for len(s) > 0 && s[len(s)-1] == cutset[0] {
+			s = s[:len(s)-1]
+		}
 		return s
 	}
 	return TrimRightFunc(s, makeCutsetFunc(cutset))

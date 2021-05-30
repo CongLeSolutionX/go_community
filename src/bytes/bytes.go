@@ -888,11 +888,6 @@ func (as *asciiSet) contains(c byte) bool {
 }
 
 func makeCutsetFunc(cutset string) func(r rune) bool {
-	if len(cutset) == 1 && cutset[0] < utf8.RuneSelf {
-		return func(r rune) bool {
-			return r == rune(cutset[0])
-		}
-	}
 	if as, isASCII := makeASCIISet(cutset); isASCII {
 		return func(r rune) bool {
 			return r < utf8.RuneSelf && as.contains(byte(r))
@@ -911,18 +906,39 @@ func makeCutsetFunc(cutset string) func(r rune) bool {
 // Trim returns a subslice of s by slicing off all leading and
 // trailing UTF-8-encoded code points contained in cutset.
 func Trim(s []byte, cutset string) []byte {
+	if len(cutset) == 1 && cutset[0] < utf8.RuneSelf {
+		for len(s) > 0 && s[0] == cutset[0] {
+			s = s[1:]
+		}
+		for len(s) > 0 && s[len(s)-1] == cutset[0] {
+			s = s[:len(s)-1]
+		}
+		return s
+	}
 	return TrimFunc(s, makeCutsetFunc(cutset))
 }
 
 // TrimLeft returns a subslice of s by slicing off all leading
 // UTF-8-encoded code points contained in cutset.
 func TrimLeft(s []byte, cutset string) []byte {
+	if len(cutset) == 1 && cutset[0] < utf8.RuneSelf {
+		for len(s) > 0 && s[0] == cutset[0] {
+			s = s[1:]
+		}
+		return s
+	}
 	return TrimLeftFunc(s, makeCutsetFunc(cutset))
 }
 
 // TrimRight returns a subslice of s by slicing off all trailing
 // UTF-8-encoded code points that are contained in cutset.
 func TrimRight(s []byte, cutset string) []byte {
+	if len(cutset) == 1 && cutset[0] < utf8.RuneSelf {
+		for len(s) > 0 && s[len(s)-1] == cutset[0] {
+			s = s[:len(s)-1]
+		}
+		return s
+	}
 	return TrimRightFunc(s, makeCutsetFunc(cutset))
 }
 
