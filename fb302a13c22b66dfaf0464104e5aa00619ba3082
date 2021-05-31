@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f1f4c29_52b922a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2021-05-31T13:15:02Z",
+      "side": 1,
+      "message": "I see no benefit in doing this.",
+      "revId": "fb302a13c22b66dfaf0464104e5aa00619ba3082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
