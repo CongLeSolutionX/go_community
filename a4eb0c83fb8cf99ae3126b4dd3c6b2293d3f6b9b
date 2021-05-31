@@ -110,6 +110,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b3c688_90440702",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-31T23:08:49Z",
+      "side": 1,
+      "message": "It seems to me that this is related to 43505, but, no, I did not expect this CL to fix that issue.",
+      "parentUuid": "2df1d0c2_452bf85c",
+      "revId": "a4eb0c83fb8cf99ae3126b4dd3c6b2293d3f6b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1ef3ac5_33650b49",
@@ -123,6 +141,30 @@
       "writtenOn": "2021-05-30T21:21:35Z",
       "side": 1,
       "message": "This is required for issue 46295 but does it also fix issue 43830 at the same time without the other fixes required? Also is there a chance that the compiler will reject -fno-lto or do compilers generally ignore unrecognized -fno-* flags?",
+      "range": {
+        "startLine": 1641,
+        "startChar": 0,
+        "endLine": 1641,
+        "endChar": 61
+      },
+      "revId": "a4eb0c83fb8cf99ae3126b4dd3c6b2293d3f6b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07884bdd_c10affc8",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1641,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-05-31T23:08:49Z",
+      "side": 1,
+      "message": "This doesn\u0027t by itself fix 43830, which isn\u0027t about _cgo_main.c but is about the other C code that gets linked together.  That other C code had conflicting types.  Note that that other C code is not compiled by cgo, but is compiled by cmd/go directly.  The compilation here is only for objects that cgo is going to inspect.\n\nGCC-compatible C compilers permit -fno- options.  I don\u0027t anticipate any problems there, but we\u0027ll see.",
+      "parentUuid": "c1ef3ac5_33650b49",
       "range": {
         "startLine": 1641,
         "startChar": 0,
