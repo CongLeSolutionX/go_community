@@ -350,7 +350,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 				return v
 			}
 			return x
-		case ir.OLITERAL, ir.ONIL:
+		case ir.OLITERAL, ir.ONIL, ir.ONONAME:
 			if x.Sym() != nil {
 				return x
 			}
