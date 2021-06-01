@@ -70,6 +70,24 @@
       "message": "I would like to add a comment that the ir.ONONAME node handled here is for the identifier in the type switch guard.  So, maybe change to:\n\ncase ir.ONONAME:\n   // This handles the identifier in a type switch guard\n   fallthrough\ncase ir.OLITERAL, ir.ONIL:\n   ...",
       "revId": "21f53cdbef169f02ab11b66631a48085ceccd6e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f0497c_0750aea8",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-01T16:27:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9792b1dc_b4a1f57b",
+      "revId": "21f53cdbef169f02ab11b66631a48085ceccd6e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
