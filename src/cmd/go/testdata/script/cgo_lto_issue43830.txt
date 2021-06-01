@@ -1,6 +1,7 @@
 # tests golang.org/issue/43830
 
 [!cgo] skip 'skipping test without cgo'
+[aix] skip 'compiler does not support -flto'
 [openbsd] env CC='clang'
 [openbsd] [!exec:clang] skip 'skipping test without clang present'
 [!openbsd] env CC='gcc'
