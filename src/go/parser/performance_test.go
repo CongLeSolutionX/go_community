@@ -34,7 +34,7 @@ func BenchmarkParse(b *testing.B) {
 func BenchmarkParseOnly(b *testing.B) {
 	b.SetBytes(int64(len(src)))
 	for i := 0; i < b.N; i++ {
-		if _, err := ParseFile(token.NewFileSet(), "", src, ParseComments|SkipObjectResolution); err != nil {
+		if _, err := ParseFile(token.NewFileSet(), "", src, ParseComments|skipObjectResolution); err != nil {
 			b.Fatalf("benchmark failed due to parse error: %s", err)
 		}
 	}
@@ -45,7 +45,7 @@ func BenchmarkResolve(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		fset := token.NewFileSet()
-		file, err := ParseFile(fset, "", src, SkipObjectResolution)
+		file, err := ParseFile(fset, "", src, skipObjectResolution)
 		if err != nil {
 			b.Fatalf("benchmark failed due to parse error: %s", err)
 		}

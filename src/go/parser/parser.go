@@ -2637,7 +2637,7 @@ func (p *parser) parseFile() *ast.File {
 	if p.mode&DeclarationErrors != 0 {
 		declErr = p.error
 	}
-	if p.mode&SkipObjectResolution == 0 {
+	if p.mode&skipObjectResolution == 0 {
 		resolveFile(f, p.file, declErr)
 	}
 
