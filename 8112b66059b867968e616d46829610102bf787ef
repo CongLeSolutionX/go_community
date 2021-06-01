@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "641f7c7c_fc804a46",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 52323
+      },
+      "writtenOn": "2021-06-01T15:59:02Z",
+      "side": 1,
+      "message": "Can you please comment why checkptr is needed for ASan? It leverages another pointer checking semantics, may be not mix them together.",
+      "range": {
+        "startLine": 227,
+        "startChar": 35,
+        "endLine": 227,
+        "endChar": 40
+      },
+      "revId": "8112b66059b867968e616d46829610102bf787ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
