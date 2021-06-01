@@ -16,6 +16,24 @@
       "message": "cmd/go\u0027s TestScript/cgo_lto_issue43830 test is failing on several post-submit builders possibly connected to the change in this CL. (I spotted darwin/amd64 and darwin/arm64 on macOS 11.0, OpenBSD 6.4 amd64, aix/ppc64 so far.)",
       "revId": "24e9707cbfa6b1ed6abdd4b11f9ddaf3aac5ad88",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de7f0c66_a1ccbc47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-01T20:50:00Z",
+      "side": 1,
+      "message": "Thanks.  Sent CL 324009 for Darwin.",
+      "parentUuid": "17a34d43_a8f7f4cb",
+      "revId": "24e9707cbfa6b1ed6abdd4b11f9ddaf3aac5ad88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
