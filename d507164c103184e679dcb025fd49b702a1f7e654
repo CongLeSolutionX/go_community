@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86d88290_9ebc4edc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-01T16:40:57Z",
+      "side": 1,
+      "message": "I don\u0027t see any need to make this change. There\u0027s no code performance issue, and it\u0027s still just as clear reading it with [0: vs. [:. Leaving out the 0 is a convenience, not a requirement.\n\nThe dom.go code change I\u0027m ok with, but in the expand_calls.go code the explicit 0 makes it clear it\u0027s the same index as the 0 in the adjacent [:0] part.\n",
+      "revId": "d507164c103184e679dcb025fd49b702a1f7e654",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
