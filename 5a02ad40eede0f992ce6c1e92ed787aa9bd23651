@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b6282b1_4e7d5567",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52323
+      },
+      "writtenOn": "2021-06-01T16:25:02Z",
+      "side": 1,
+      "message": "Also, the stock ASan error report is barely interpretable for go. May be it will be better to issue panic() so that Go stack trace is generated.",
+      "revId": "5a02ad40eede0f992ce6c1e92ed787aa9bd23651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c23eecfc_c00c11fd",
+        "filename": "src/runtime/asan_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 52323
+      },
+      "writtenOn": "2021-06-01T16:25:02Z",
+      "side": 1,
+      "message": "Typo: fill ARG0 2 times.",
+      "revId": "5a02ad40eede0f992ce6c1e92ed787aa9bd23651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
