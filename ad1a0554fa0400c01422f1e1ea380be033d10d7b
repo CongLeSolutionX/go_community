@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a5e6c9_5a5fa9a9",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 52323
+      },
+      "writtenOn": "2021-06-01T16:10:01Z",
+      "side": 1,
+      "message": "In case of e.g. slices, we would have \"size\" equals capacity, which is significantly larger than data size. Therefore, probability of detection of overflow/overread will decrease. May be better to move unpoisoning to the constructors of built-in types?",
+      "range": {
+        "startLine": 903,
+        "startChar": 5,
+        "endLine": 903,
+        "endChar": 13
+      },
+      "revId": "ad1a0554fa0400c01422f1e1ea380be033d10d7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
