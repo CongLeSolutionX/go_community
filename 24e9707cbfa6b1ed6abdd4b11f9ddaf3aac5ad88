@@ -52,6 +52,24 @@
       "parentUuid": "de7f0c66_a1ccbc47",
       "revId": "24e9707cbfa6b1ed6abdd4b11f9ddaf3aac5ad88",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d1a0c7d_ac94811a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-01T21:33:40Z",
+      "side": 1,
+      "message": "Looks like the tests pass on OpenBSD 6.8 but fail on OpenBSD 6.4.  This seems to be due to an older version of clang, which only partially supports -flto.  I don\u0027t think the cmd/go testsuite is flexible enough to handle this; we\u0027ll need a different test harness.",
+      "parentUuid": "b46f1e1a_d17b3adc",
+      "revId": "24e9707cbfa6b1ed6abdd4b11f9ddaf3aac5ad88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
