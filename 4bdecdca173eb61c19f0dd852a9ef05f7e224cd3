@@ -262,6 +262,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "250ae4c0_de297b34",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-06-01T16:44:19Z",
+      "side": 1,
+      "message": "This isn\u0027t the first time we\u0027ve done OS detection based on NT version number, and I suspect it won\u0027t be the last time either. Developers are expected to know basic things like 5.1\u003dXP, 5.2\u003dXP64, 6.0\u003dVista, 6.1\u003d7, 6.2\u003d8, 6.3\u003d8.1, 10\u003d10. When the machine is in debugging mode, it\u0027s plastered into the right corner of the desktop. When you look on system dialogs, it says. Etc. And with a variable name like \"isWin7\", there\u0027s no question about what I\u0027m testing either. I\u0027m not going to add a superfluous comment.",
+      "parentUuid": "1d95a6d1_f117ce0c",
+      "range": {
+        "startLine": 318,
+        "startChar": 1,
+        "endLine": 318,
+        "endChar": 44
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5c900c9_e45a6c05",
@@ -394,6 +418,30 @@
       "side": 1,
       "message": "This is still looks vague. Should we use GetFileType instead and compare result with FILE_TYPE_CHAR?",
       "parentUuid": "d0f3b507_235de197",
+      "range": {
+        "startLine": 319,
+        "startChar": 74,
+        "endLine": 319,
+        "endChar": 96
+      },
+      "revId": "4bdecdca173eb61c19f0dd852a9ef05f7e224cd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cbb2a26_29a9a474",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-06-01T16:44:19Z",
+      "side": 1,
+      "message": "No, that won\u0027t work. This will fail for cases like the \"NUL\" file, which will be FILE_TYPE_CHAR, but will also be an NT handle rather than a userspace handle. The bitmask here is the only proper way to do it.",
+      "parentUuid": "0d6dfcdc_e2d58537",
       "range": {
         "startLine": 319,
         "startChar": 74,
