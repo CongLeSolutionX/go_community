@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f1f48f1_26481f08",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-02T22:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "def98124_2310b181",
+      "range": {
+        "startLine": 66,
+        "startChar": 14,
+        "endLine": 66,
+        "endChar": 20
+      },
+      "revId": "a5f9c08a287e4760b6e66424ba76d982388a834e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84eac836_a7d88017",
@@ -93,6 +117,30 @@
       "writtenOn": "2021-06-02T17:06:48Z",
       "side": 1,
       "message": "Same here: should be os.MkdirTemp\n\nSame comment throughout: the os APIs should be preferred now.",
+      "range": {
+        "startLine": 94,
+        "startChar": 16,
+        "endLine": 94,
+        "endChar": 30
+      },
+      "revId": "a5f9c08a287e4760b6e66424ba76d982388a834e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11361875_db214780",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-02T22:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84eac836_a7d88017",
       "range": {
         "startLine": 94,
         "startChar": 16,
@@ -126,6 +174,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aca5707a_b4bbaf68",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-02T22:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecf278bb_d87d55cf",
+      "range": {
+        "startLine": 264,
+        "startChar": 1,
+        "endLine": 264,
+        "endChar": 80
+      },
+      "revId": "a5f9c08a287e4760b6e66424ba76d982388a834e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11f98724_74a35291",
@@ -139,6 +211,30 @@
       "writtenOn": "2021-06-02T17:06:48Z",
       "side": 1,
       "message": "Here and below, this replacement is not correct: it should be go/types.",
+      "range": {
+        "startLine": 459,
+        "startChar": 13,
+        "endLine": 459,
+        "endChar": 22
+      },
+      "revId": "a5f9c08a287e4760b6e66424ba76d982388a834e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00ebaa9_a47d0439",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-02T22:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11f98724_74a35291",
       "range": {
         "startLine": 459,
         "startChar": 13,
