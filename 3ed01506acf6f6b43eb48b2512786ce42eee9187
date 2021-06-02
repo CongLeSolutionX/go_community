@@ -361,6 +361,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d454c794_d57ad70e",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-06-02T20:55:05Z",
+      "side": 1,
+      "message": "Added a TODO for now.\n\nI think we also needed Name so we could report errors back to the testing package. Maybe there\u0027s a way to simplify that though.",
+      "parentUuid": "837db098_bddefd89",
+      "range": {
+        "startLine": 235,
+        "startChar": 1,
+        "endLine": 235,
+        "endChar": 60
+      },
+      "revId": "3ed01506acf6f6b43eb48b2512786ce42eee9187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ab6c994_cb8629d0",
