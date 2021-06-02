@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04d17cd7_79be04d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-06-02T17:00:45Z",
+      "side": 1,
+      "message": "Ha! Out of practice, ty.",
+      "parentUuid": "bec481ae_89e58484",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "b0111c217e32822bf5ad0f76cbc5270678b75c30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b32d35b_8f84f501",
