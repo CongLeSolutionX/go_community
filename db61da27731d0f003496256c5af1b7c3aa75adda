@@ -51,6 +51,24 @@
       "message": "Undo these three lines.",
       "revId": "db61da27731d0f003496256c5af1b7c3aa75adda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deb75db7_bce522ff",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-02T00:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e77086a9_e3497f08",
+      "revId": "db61da27731d0f003496256c5af1b7c3aa75adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
