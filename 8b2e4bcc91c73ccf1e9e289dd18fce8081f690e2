@@ -26,6 +26,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53902168_fb520d6a",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-02T14:39:12Z",
+      "side": 1,
+      "message": "I\u0027d suggest \"controls\", since the flag accepts the value \u0027off\u0027, in addition to other values that do randomize the order.\n\nAlso, this CL got a bit misplaced, it\u0027s really a new cmd/go flag and should be moved up to the tooling section. But we can make that adjustment in a future editing pass.",
+      "parentUuid": "72bd8701_317552f8",
+      "range": {
+        "startLine": 533,
+        "startChar": 100,
+        "endLine": 533,
+        "endChar": 106
+      },
+      "revId": "8b2e4bcc91c73ccf1e9e289dd18fce8081f690e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cab6491_58c7a091",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-02T14:39:12Z",
+      "side": 1,
+      "message": "We generally want to avoid repeating the name of the package, since this is already under the \"testing\" section. A good way to do it is to use the common phrase:\n\n    The new \u003ca\u003e\u003ccode\u003eT.Setenv\u003c/code\u003e\u003c/a\u003e method ...",
+      "range": {
+        "startLine": 536,
+        "startChar": 6,
+        "endLine": 536,
+        "endChar": 102
+      },
+      "revId": "8b2e4bcc91c73ccf1e9e289dd18fce8081f690e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78304fce_cb22d94e",
         "filename": "doc/go1.17.html",
         "patchSetId": 2
