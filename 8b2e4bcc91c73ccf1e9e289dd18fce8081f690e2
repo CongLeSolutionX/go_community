@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72bd8701_317552f8",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2021-06-02T14:27:17Z",
+      "side": 1,
+      "message": "Perhaps \"randomizes\"? Alters could be just running them backward.",
+      "range": {
+        "startLine": 533,
+        "startChar": 100,
+        "endLine": 533,
+        "endChar": 106
+      },
+      "revId": "8b2e4bcc91c73ccf1e9e289dd18fce8081f690e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78304fce_cb22d94e",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2021-06-02T14:27:17Z",
+      "side": 1,
+      "message": "This is a bit wordy -- I\u0027d suggest either describing the effect (e.g. \"set environment variables for the duration of a test\") or the implementation (e.g. \"sets an environment variable, and resets it at the end of the test\") but not both. I\u0027d lean toward the effect, since users usually don\u0027t care about implementation details, but either works.",
+      "range": {
+        "startLine": 536,
+        "startChar": 106,
+        "endLine": 537,
+        "endChar": 112
+      },
+      "revId": "8b2e4bcc91c73ccf1e9e289dd18fce8081f690e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
