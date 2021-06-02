@@ -339,6 +339,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "837db098_bddefd89",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-02T20:30:16Z",
+      "side": 1,
+      "message": "A different type would probably be nice. From what I can see, the only time we use Values is to immediately pass it to ws.fuzzFn. Honestly, we might be better off just passing []interface{} in those places, and removing Values from the type until we actually need a more complicated data structure to be passed to fuzzFn.",
+      "parentUuid": "95577207_14fd8740",
+      "range": {
+        "startLine": 235,
+        "startChar": 1,
+        "endLine": 235,
+        "endChar": 60
+      },
+      "revId": "3ed01506acf6f6b43eb48b2512786ce42eee9187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ab6c994_cb8629d0",
         "filename": "src/internal/fuzz/worker.go",
         "patchSetId": 6
