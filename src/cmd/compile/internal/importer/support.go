@@ -1,16 +1,15 @@
-// UNREVIEWED
 // Copyright 2015 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements support functionality for iimport.go.
 
-package importer
+package gcimporter
 
 import (
-	"cmd/compile/internal/types2"
 	"fmt"
 	"go/token"
+	"go/types"
 	"sync"
 )
 
@@ -18,7 +17,10 @@ func errorf(format string, args ...interface{}) {
 	panic(fmt.Sprintf(format, args...))
 }
 
-const deltaNewFile = -64 // see cmd/compile/internal/gc/bexport.go
+// deltaNewFile is a magic line delta offset indicating a new file.
+// We use -64 because it is rare; see issue 20080 and CL 41619.
+// -64 is the smallest int that fits in a single byte as a varint.
+const deltaNewFile = -64
 
 // Synthesize a token.Pos
 type fakeFileSet struct {
@@ -61,62 +63,62 @@ var (
 	fakeLinesOnce sync.Once
 )
 
-func chanDir(d int) types2.ChanDir {
+func chanDir(d int) types.ChanDir {
 	// tag values must match the constants in cmd/compile/internal/gc/go.go
 	switch d {
 	case 1 /* Crecv */ :
-		return types2.RecvOnly
+		return types.RecvOnly
 	case 2 /* Csend */ :
-		return types2.SendOnly
+		return types.SendOnly
 	case 3 /* Cboth */ :
-		return types2.SendRecv
+		return types.SendRecv
 	default:
 		errorf("unexpected channel dir %d", d)
 		return 0
 	}
 }
 
-var predeclared = []types2.Type{
+var predeclared = []types.Type{
 	// basic types
-	types2.Typ[types2.Bool],
-	types2.Typ[types2.Int],
-	types2.Typ[types2.Int8],
-	types2.Typ[types2.Int16],
-	types2.Typ[types2.Int32],
-	types2.Typ[types2.Int64],
-	types2.Typ[types2.Uint],
-	types2.Typ[types2.Uint8],
-	types2.Typ[types2.Uint16],
-	types2.Typ[types2.Uint32],
-	types2.Typ[types2.Uint64],
-	types2.Typ[types2.Uintptr],
-	types2.Typ[types2.Float32],
-	types2.Typ[types2.Float64],
-	types2.Typ[types2.Complex64],
-	types2.Typ[types2.Complex128],
-	types2.Typ[types2.String],
+	types.Typ[types.Bool],
+	types.Typ[types.Int],
+	types.Typ[types.Int8],
+	types.Typ[types.Int16],
+	types.Typ[types.Int32],
+	types.Typ[types.Int64],
+	types.Typ[types.Uint],
+	types.Typ[types.Uint8],
+	types.Typ[types.Uint16],
+	types.Typ[types.Uint32],
+	types.Typ[types.Uint64],
+	types.Typ[types.Uintptr],
+	types.Typ[types.Float32],
+	types.Typ[types.Float64],
+	types.Typ[types.Complex64],
+	types.Typ[types.Complex128],
+	types.Typ[types.String],
 
 	// basic type aliases
-	types2.Universe.Lookup("byte").Type(),
-	types2.Universe.Lookup("rune").Type(),
+	types.Universe.Lookup("byte").Type(),
+	types.Universe.Lookup("rune").Type(),
 
 	// error
-	types2.Universe.Lookup("error").Type(),
+	types.Universe.Lookup("error").Type(),
 
 	// untyped types
-	types2.Typ[types2.UntypedBool],
-	types2.Typ[types2.UntypedInt],
-	types2.Typ[types2.UntypedRune],
-	types2.Typ[types2.UntypedFloat],
-	types2.Typ[types2.UntypedComplex],
-	types2.Typ[types2.UntypedString],
-	types2.Typ[types2.UntypedNil],
+	types.Typ[types.UntypedBool],
+	types.Typ[types.UntypedInt],
+	types.Typ[types.UntypedRune],
+	types.Typ[types.UntypedFloat],
+	types.Typ[types.UntypedComplex],
+	types.Typ[types.UntypedString],
+	types.Typ[types.UntypedNil],
 
 	// package unsafe
-	types2.Typ[types2.UnsafePointer],
+	types.Typ[types.UnsafePointer],
 
 	// invalid type
-	types2.Typ[types2.Invalid], // only appears in packages with errors
+	types.Typ[types.Invalid], // only appears in packages with errors
 
 	// used internally by gc; never used by this package or in .a files
 	anyType{},
@@ -124,5 +126,5 @@ var predeclared = []types2.Type{
 
 type anyType struct{}
 
-func (t anyType) Underlying() types2.Type { return t }
-func (t anyType) String() string          { return "any" }
+func (t anyType) Underlying() types.Type { return t }
+func (t anyType) String() string         { return "any" }
