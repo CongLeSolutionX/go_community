@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49908edf_ec26b23b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-02T15:12:38Z",
+      "side": 1,
+      "message": "Thank you for helping make progress with the release notes. Changes to net package have now been documented (via CL 322891), so it should be safe to close this CL now.",
+      "revId": "b16cccf30d58e4c7b32f0e7c84bfcede91ad9502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
