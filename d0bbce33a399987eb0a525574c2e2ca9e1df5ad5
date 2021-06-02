@@ -16,6 +16,23 @@
       "message": "Completed the rebase, please take a look",
       "revId": "d0bbce33a399987eb0a525574c2e2ca9e1df5ad5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d28795_766fd648",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-02T14:46:24Z",
+      "side": 1,
+      "message": "I think this works, and there can be some further improvements considered in future editing passes. Thank you.",
+      "revId": "d0bbce33a399987eb0a525574c2e2ca9e1df5ad5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
