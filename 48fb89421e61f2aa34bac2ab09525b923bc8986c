@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8917bcdf_76b19fa3",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-06-02T16:12:00Z",
+      "side": 1,
+      "message": "TY, I didn\u0027t see that it had been included below. Removing this section instead.",
+      "parentUuid": "6f964a72_23281f23",
+      "revId": "48fb89421e61f2aa34bac2ab09525b923bc8986c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66a1e03a_9e1d3a56",
@@ -85,6 +103,24 @@
       "writtenOn": "2021-06-02T16:08:05Z",
       "side": 1,
       "message": "It\u0027s not a big deal, but this document uses 2 spaces for indentation inside paragraphs, if you\u0027d like to keep it the same. (We typically have a consistency editing pass towards the end that would also fix this.)\n\n(How nice it is not to have to think about this when writing Go!)",
+      "revId": "48fb89421e61f2aa34bac2ab09525b923bc8986c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a377c33f_1e063b76",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-06-02T16:12:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "66a1e03a_9e1d3a56",
       "revId": "48fb89421e61f2aa34bac2ab09525b923bc8986c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
