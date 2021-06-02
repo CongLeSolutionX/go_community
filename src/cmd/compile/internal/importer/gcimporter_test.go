@@ -1,16 +1,13 @@
-// UNREVIEWED
 // Copyright 2011 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package importer
+package gcimporter
 
 import (
 	"bytes"
-	"cmd/compile/internal/types2"
 	"fmt"
 	"internal/testenv"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -18,6 +15,9 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"go/token"
+	"go/types"
 )
 
 // skipSpecialPlatforms causes the test to be skipped for platforms where
@@ -49,9 +49,10 @@ func compile(t *testing.T, dirname, filename, outdirname string) string {
 	return outname
 }
 
-func testPath(t *testing.T, path, srcDir string) *types2.Package {
+func testPath(t *testing.T, path, srcDir string) *types.Package {
 	t0 := time.Now()
-	pkg, err := Import(make(map[string]*types2.Package), path, srcDir, nil)
+	fset := token.NewFileSet()
+	pkg, err := Import(fset, make(map[string]*types.Package), path, srcDir, nil)
 	if err != nil {
 		t.Errorf("testPath(%s): %s", path, err)
 		return nil
@@ -64,7 +65,7 @@ const maxTime = 30 * time.Second
 
 func testDir(t *testing.T, dir string, endTime time.Time) (nimports int) {
 	dirname := filepath.Join(runtime.GOROOT(), "pkg", runtime.GOOS+"_"+runtime.GOARCH, dir)
-	list, err := ioutil.ReadDir(dirname)
+	list, err := os.ReadDir(dirname)
 	if err != nil {
 		t.Fatalf("testDir(%s): %s", dirname, err)
 	}
@@ -92,7 +93,7 @@ func testDir(t *testing.T, dir string, endTime time.Time) (nimports int) {
 }
 
 func mktmpdir(t *testing.T) string {
-	tmpdir, err := ioutil.TempDir("", "gcimporter_test")
+	tmpdir, err := os.MkdirTemp("", "gcimporter_test")
 	if err != nil {
 		t.Fatal("mktmpdir:", err)
 	}
@@ -137,12 +138,13 @@ func TestVersionHandling(t *testing.T) {
 	skipSpecialPlatforms(t)
 
 	// This package only handles gc export data.
+	// Disable test until we put in the new export version.
 	if runtime.Compiler != "gc" {
 		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
 	}
 
 	const dir = "./testdata/versions"
-	list, err := ioutil.ReadDir(dir)
+	list, err := os.ReadDir(dir)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -153,6 +155,8 @@ func TestVersionHandling(t *testing.T) {
 	if err := os.Mkdir(corruptdir, 0700); err != nil {
 		t.Fatal(err)
 	}
+
+	fset := token.NewFileSet()
 
 	for _, f := range list {
 		name := f.Name()
@@ -169,7 +173,7 @@ func TestVersionHandling(t *testing.T) {
 		}
 
 		// test that export data can be imported
-		_, err := Import(make(map[string]*types2.Package), pkgpath, dir, nil)
+		_, err := Import(fset, make(map[string]*types.Package), pkgpath, dir, nil)
 		if err != nil {
 			// ok to fail if it fails with a no longer supported error for select files
 			if strings.Contains(err.Error(), "no longer supported") {
@@ -195,7 +199,7 @@ func TestVersionHandling(t *testing.T) {
 
 		// create file with corrupted export data
 		// 1) read file
-		data, err := ioutil.ReadFile(filepath.Join(dir, name))
+		data, err := os.ReadFile(filepath.Join(dir, name))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -212,10 +216,10 @@ func TestVersionHandling(t *testing.T) {
 		// 4) write the file
 		pkgpath += "_corrupted"
 		filename := filepath.Join(corruptdir, pkgpath) + ".a"
-		ioutil.WriteFile(filename, data, 0666)
+		os.WriteFile(filename, data, 0666)
 
 		// test that importing the corrupted file results in an error
-		_, err = Import(make(map[string]*types2.Package), pkgpath, corruptdir, nil)
+		_, err = Import(fset, make(map[string]*types.Package), pkgpath, corruptdir, nil)
 		if err == nil {
 			t.Errorf("import corrupted %q succeeded", pkgpath)
 		} else if msg := err.Error(); !strings.Contains(msg, "version skew") {
@@ -261,8 +265,7 @@ var importedObjectTests = []struct {
 	{"io.Reader", "type Reader interface{Read(p []byte) (n int, err error)}"},
 	{"io.ReadWriter", "type ReadWriter interface{Reader; Writer}"},
 	{"go/ast.Node", "type Node interface{End() go/token.Pos; Pos() go/token.Pos}"},
-	// go/types.Type has grown much larger - excluded for now
-	// {"go/types.Type", "type Type interface{String() string; Underlying() Type}"},
+	{"go/types.Type", "type Type interface{String() string; Underlying() Type}"},
 }
 
 func TestImportedTypes(t *testing.T) {
@@ -273,6 +276,7 @@ func TestImportedTypes(t *testing.T) {
 		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
 	}
 
+	fset := token.NewFileSet()
 	for _, test := range importedObjectTests {
 		s := strings.Split(test.name, ".")
 		if len(s) != 2 {
@@ -281,7 +285,7 @@ func TestImportedTypes(t *testing.T) {
 		importPath := s[0]
 		objName := s[1]
 
-		pkg, err := Import(make(map[string]*types2.Package), importPath, ".", nil)
+		pkg, err := Import(fset, make(map[string]*types.Package), importPath, ".", nil)
 		if err != nil {
 			t.Error(err)
 			continue
@@ -293,12 +297,12 @@ func TestImportedTypes(t *testing.T) {
 			continue
 		}
 
-		got := types2.ObjectString(obj, types2.RelativeTo(pkg))
+		got := types.ObjectString(obj, types.RelativeTo(pkg))
 		if got != test.want {
 			t.Errorf("%s: got %q; want %q", test.name, got, test.want)
 		}
 
-		if named, _ := obj.Type().(*types2.Named); named != nil {
+		if named, _ := obj.Type().(*types.Named); named != nil {
 			verifyInterfaceMethodRecvs(t, named, 0)
 		}
 	}
@@ -306,14 +310,14 @@ func TestImportedTypes(t *testing.T) {
 
 // verifyInterfaceMethodRecvs verifies that method receiver types
 // are named if the methods belong to a named interface type.
-func verifyInterfaceMethodRecvs(t *testing.T, named *types2.Named, level int) {
+func verifyInterfaceMethodRecvs(t *testing.T, named *types.Named, level int) {
 	// avoid endless recursion in case of an embedding bug that lead to a cycle
 	if level > 10 {
 		t.Errorf("%s: embeds itself", named)
 		return
 	}
 
-	iface, _ := named.Underlying().(*types2.Interface)
+	iface, _ := named.Underlying().(*types.Interface)
 	if iface == nil {
 		return // not an interface
 	}
@@ -321,7 +325,7 @@ func verifyInterfaceMethodRecvs(t *testing.T, named *types2.Named, level int) {
 	// check explicitly declared methods
 	for i := 0; i < iface.NumExplicitMethods(); i++ {
 		m := iface.ExplicitMethod(i)
-		recv := m.Type().(*types2.Signature).Recv()
+		recv := m.Type().(*types.Signature).Recv()
 		if recv == nil {
 			t.Errorf("%s: missing receiver type", m)
 			continue
@@ -334,7 +338,7 @@ func verifyInterfaceMethodRecvs(t *testing.T, named *types2.Named, level int) {
 	// check embedded interfaces (if they are named, too)
 	for i := 0; i < iface.NumEmbeddeds(); i++ {
 		// embedding of interfaces cannot have cycles; recursion will terminate
-		if etype, _ := iface.EmbeddedType(i).(*types2.Named); etype != nil {
+		if etype, _ := iface.EmbeddedType(i).(*types.Named); etype != nil {
 			verifyInterfaceMethodRecvs(t, etype, level+1)
 		}
 	}
@@ -356,8 +360,8 @@ func TestIssue5815(t *testing.T) {
 		if obj.Pkg() == nil {
 			t.Errorf("no pkg for %s", obj)
 		}
-		if tname, _ := obj.(*types2.TypeName); tname != nil {
-			named := tname.Type().(*types2.Named)
+		if tname, _ := obj.(*types.TypeName); tname != nil {
+			named := tname.Type().(*types.Named)
 			for i := 0; i < named.NumMethods(); i++ {
 				m := named.Method(i)
 				if m.Pkg() == nil {
@@ -377,15 +381,17 @@ func TestCorrectMethodPackage(t *testing.T) {
 		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
 	}
 
-	imports := make(map[string]*types2.Package)
-	_, err := Import(imports, "net/http", ".", nil)
+	imports := make(map[string]*types.Package)
+	fset := token.NewFileSet()
+	_, err := Import(fset, imports, "net/http", ".", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	mutex := imports["sync"].Scope().Lookup("Mutex").(*types2.TypeName).Type()
-	obj, _, _ := types2.LookupFieldOrMethod(types2.NewPointer(mutex), false, nil, "Lock")
-	lock := obj.(*types2.Func)
+	mutex := imports["sync"].Scope().Lookup("Mutex").(*types.TypeName).Type()
+	mset := types.NewMethodSet(types.NewPointer(mutex)) // methods of *sync.Mutex
+	sel := mset.Lookup(nil, "Lock")
+	lock := sel.Obj().(*types.Func)
 	if got, want := lock.Pkg().Path(), "sync"; got != want {
 		t.Errorf("got package path %q; want %q", got, want)
 	}
@@ -439,14 +445,15 @@ func TestIssue13898(t *testing.T) {
 	}
 
 	// import go/internal/gcimporter which imports go/types partially
-	imports := make(map[string]*types2.Package)
-	_, err := Import(imports, "go/internal/gcimporter", ".", nil)
+	fset := token.NewFileSet()
+	imports := make(map[string]*types.Package)
+	_, err := Import(fset, imports, "go/internal/gcimporter", ".", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	// look for go/types package
-	var goTypesPkg *types2.Package
+	var goTypesPkg *types.Package
 	for path, pkg := range imports {
 		if path == "go/types" {
 			goTypesPkg = pkg
@@ -457,17 +464,17 @@ func TestIssue13898(t *testing.T) {
 		t.Fatal("go/types not found")
 	}
 
-	// look for go/types2.Object type
+	// look for go/types.Object type
 	obj := lookupObj(t, goTypesPkg.Scope(), "Object")
-	typ, ok := obj.Type().(*types2.Named)
+	typ, ok := obj.Type().(*types.Named)
 	if !ok {
-		t.Fatalf("go/types2.Object type is %v; wanted named type", typ)
+		t.Fatalf("go/types.Object type is %v; wanted named type", typ)
 	}
 
-	// lookup go/types2.Object.Pkg method
-	m, index, indirect := types2.LookupFieldOrMethod(typ, false, nil, "Pkg")
+	// lookup go/types.Object.Pkg method
+	m, index, indirect := types.LookupFieldOrMethod(typ, false, nil, "Pkg")
 	if m == nil {
-		t.Fatalf("go/types2.Object.Pkg not found (index = %v, indirect = %v)", index, indirect)
+		t.Fatalf("go/types.Object.Pkg not found (index = %v, indirect = %v)", index, indirect)
 	}
 
 	// the method must belong to go/types
@@ -507,9 +514,10 @@ func TestIssue15517(t *testing.T) {
 	// wrong package as complete. By using an "unclean" package path, the
 	// file and package path are different, exposing the problem if present.
 	// The same issue occurs with vendoring.)
-	imports := make(map[string]*types2.Package)
+	imports := make(map[string]*types.Package)
+	fset := token.NewFileSet()
 	for i := 0; i < 3; i++ {
-		if _, err := Import(imports, "./././testdata/p", tmpdir, nil); err != nil {
+		if _, err := Import(fset, imports, "./././testdata/p", tmpdir, nil); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -549,7 +557,7 @@ func TestIssue20046(t *testing.T) {
 	// "./issue20046".V.M must exist
 	pkg := compileAndImportPkg(t, "issue20046")
 	obj := lookupObj(t, pkg.Scope(), "V")
-	if m, index, indirect := types2.LookupFieldOrMethod(obj.Type(), false, nil, "M"); m == nil {
+	if m, index, indirect := types.LookupFieldOrMethod(obj.Type(), false, nil, "M"); m == nil {
 		t.Fatalf("V.M not found (index = %v, indirect = %v)", index, indirect)
 	}
 }
@@ -587,22 +595,23 @@ func TestIssue25596(t *testing.T) {
 	compileAndImportPkg(t, "issue25596")
 }
 
-func importPkg(t *testing.T, path, srcDir string) *types2.Package {
-	pkg, err := Import(make(map[string]*types2.Package), path, srcDir, nil)
+func importPkg(t *testing.T, path, srcDir string) *types.Package {
+	fset := token.NewFileSet()
+	pkg, err := Import(fset, make(map[string]*types.Package), path, srcDir, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	return pkg
 }
 
-func compileAndImportPkg(t *testing.T, name string) *types2.Package {
+func compileAndImportPkg(t *testing.T, name string) *types.Package {
 	tmpdir := mktmpdir(t)
 	defer os.RemoveAll(tmpdir)
 	compile(t, "testdata", name+".go", filepath.Join(tmpdir, "testdata"))
 	return importPkg(t, "./testdata/"+name, tmpdir)
 }
 
-func lookupObj(t *testing.T, scope *types2.Scope, name string) types2.Object {
+func lookupObj(t *testing.T, scope *types.Scope, name string) types.Object {
 	if obj := scope.Lookup(name); obj != nil {
 		return obj
 	}
