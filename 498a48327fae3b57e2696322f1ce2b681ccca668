@@ -16,6 +16,24 @@
       "message": "FYI, the new sorting gets a seg-fault with an example like this:\n\npackage main\n\ntype Stringer interface {\n\tString() string\n}\n\ntype I interface {\n\tStringer\n\t~int | ~float\n}\n\n~int | ~float is an embedded field which is a union, which has no field name, and also has no type name.  I guess we need to concatenate the sym names of all the types in the union to come up with a unique pseudo-type name on which to do the sorting?  (Same thing happens with the type list syntax).  I guess I\u0027m missing a case like this in the typeparams tests.\n\n\n",
       "revId": "498a48327fae3b57e2696322f1ce2b681ccca668",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42ca896e_0b741c8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T17:59:09Z",
+      "side": 1,
+      "message": "Good catch - I should have noticed during review.\n\nWe now have what amounts to type literals that can be embedded in an interface. Maybe it\u0027s sufficient to sort by \"literal-ness\"?",
+      "parentUuid": "5d207ea5_b6130d7f",
+      "revId": "498a48327fae3b57e2696322f1ce2b681ccca668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
