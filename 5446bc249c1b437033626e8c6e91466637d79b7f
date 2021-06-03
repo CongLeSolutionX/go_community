@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad9884e4_6e24d2af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "nit: s/change/Change/",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec420f1_66662ccc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "nit: s/we/We/",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b79c6f8_a89199a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "nit: s/to/To/",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e49dda7_9f6810d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "s/sum/union/ ?",
+      "range": {
+        "startLine": 33,
+        "startChar": 63,
+        "endLine": 33,
+        "endChar": 66
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7021b6ba_711daaef",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -68,6 +160,224 @@
       "writtenOn": "2021-05-27T15:58:13Z",
       "side": 1,
       "message": "This shouldn\u0027t conflict in any serious way with my dictionary CL.\n",
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01539c0b_8e6714e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "First batch: Tests LGTM, just minor comments.",
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "980b3ad1_a1812487",
+        "filename": "test/typeparam/absdiffimp.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "use new notation",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04900ac7_2bcf561d",
+        "filename": "test/typeparam/absdiffimp.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "use new notation",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6cecff0_66a9254e",
+        "filename": "test/typeparam/absdiffimp.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "use new notation",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c405e89f_2e686a33",
+        "filename": "test/typeparam/absdiffimp.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "is this a types2 bug? If so, please file an issue",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 48,
+        "endChar": 31
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "336c2877_0ff03d4e",
+        "filename": "test/typeparam/orderedmapsimp.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "switch to new notation",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4ef078e_b2057fcb",
+        "filename": "test/typeparam/orderedmapsimp.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "maybe, for symmetry, make this:\n\ncase k1 \u003e j2:\n   return +1\ndefault:\n   return 0",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 10
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d50c57a_bea77766",
+        "filename": "test/typeparam/orderedmapsimp.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "s/should //",
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d0110b9_fb28e8cb",
+        "filename": "test/typeparam/orderedmapsimp.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "the found result is not named in the source - maybe just:\nThe second result ...",
+      "range": {
+        "startLine": 86,
+        "startChar": 23,
+        "endLine": 86,
+        "endChar": 28
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "714014bf_d4b8bd48",
+        "filename": "test/typeparam/orderedmapsimp.dir/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T20:12:18Z",
+      "side": 1,
+      "message": "this should probably be a little loop iterating through a, c, b",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 13
+      },
       "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
