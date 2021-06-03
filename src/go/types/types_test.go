@@ -9,3 +9,5 @@ package types
 func SetGoVersion(config *Config, goVersion string) {
 	config.goVersion = goVersion
 }
+
+const Debug = debug
