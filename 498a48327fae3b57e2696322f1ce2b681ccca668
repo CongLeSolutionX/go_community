@@ -34,6 +34,24 @@
       "parentUuid": "5d207ea5_b6130d7f",
       "revId": "498a48327fae3b57e2696322f1ce2b681ccca668",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca15d5de_09118fc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-03T20:29:31Z",
+      "side": 1,
+      "message": "\u003e I guess we need to concatenate the sym names of all the types in the union to come up with a unique pseudo-type name on which to do the sorting?\n\nNo, we use stable sort to avoid needing a total order on anonymous types.\n\nThe issue is types.Sym.Less doesn\u0027t support nil. I added that to (*types2.object).less to handle cases like this, but evidently forgot to backport to (*types.Sym).less.\n\nSent CL 324812 to fix.",
+      "parentUuid": "42ca896e_0b741c8b",
+      "revId": "498a48327fae3b57e2696322f1ce2b681ccca668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
