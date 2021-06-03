@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fc75af3_7370a299",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 52173
+      },
+      "writtenOn": "2021-06-03T17:44:37Z",
+      "side": 1,
+      "message": "Done in latest commit",
+      "parentUuid": "53902168_fb520d6a",
+      "range": {
+        "startLine": 533,
+        "startChar": 100,
+        "endLine": 533,
+        "endChar": 106
+      },
+      "revId": "8b2e4bcc91c73ccf1e9e289dd18fce8081f690e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cab6491_58c7a091",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "I noticed at https://tip.golang.org/doc/go1.17#testing that T.Setenv and B.Setenv have already been documented in CL 323353, so this just needs to be rebased.",
       "parentUuid": "78304fce_cb22d94e",
+      "range": {
+        "startLine": 536,
+        "startChar": 106,
+        "endLine": 537,
+        "endChar": 112
+      },
+      "revId": "8b2e4bcc91c73ccf1e9e289dd18fce8081f690e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e443cbc_be98078c",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 52173
+      },
+      "writtenOn": "2021-06-03T17:44:37Z",
+      "side": 1,
+      "message": "Thanks Dmitri, I have now rebased and deleted my changes relating to CL 260577",
+      "parentUuid": "4314ad58_db6721ab",
       "range": {
         "startLine": 536,
         "startChar": 106,
