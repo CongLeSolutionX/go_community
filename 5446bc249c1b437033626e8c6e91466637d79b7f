@@ -181,6 +181,506 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8138fa68_93fba23a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "I\u0027m not claiming to understand all the details here but it looks reasonable.",
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31e0e6fa_b06b6315",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "s/typParamIndex/tparamIndex/\n\nin keeping with the usual naming convention for type parameters ?",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc263ada_76c94757",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "have a comment as to why a type parameter is treated like an object (and a type parameter is not an object per se - it\u0027s its type name that\u0027s the object)\n\nAs per our conversation, I wonder if it would not be simpler to use the \u0027T\u0027 mechanism for the TypeName object that corresponds to the type parameter. Since we know that we have a type parameter, we can then export/import the bound in place of an underlying type.",
+      "range": {
+        "startLine": 370,
+        "startChar": 7,
+        "endLine": 370,
+        "endChar": 8
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6092a103_e5f863f4",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "can this ever happen (sub \u003c 0)? if so, please add a comment explaining why",
+      "range": {
+        "startLine": 378,
+        "startChar": 5,
+        "endLine": 378,
+        "endChar": 8
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec9a9fb_ef34157b",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "just:\n\nt.SetBound(r.typ())\n\n?",
+      "range": {
+        "startLine": 387,
+        "startChar": 13,
+        "endLine": 387,
+        "endChar": 18
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b2fc388_0bcbcd9f",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "no need to expose t, ok to the outer scope:\n\nif t, ok :\u003d r.p.typParamIndex[id]; ok {\n   ...",
+      "range": {
+        "startLine": 651,
+        "startChar": 5,
+        "endLine": 651,
+        "endChar": 7
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf35f49_612df159",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "s/Else/Otherwise/",
+      "range": {
+        "startLine": 655,
+        "startChar": 5,
+        "endLine": 655,
+        "endChar": 9
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86b6eb6e_58c5ba04",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "nit: s/new/new,/",
+      "range": {
+        "startLine": 304,
+        "startChar": 12,
+        "endLine": 304,
+        "endChar": 15
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eb88629_aaa05c53",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "s/bound/type bound/\n\n(clearer)",
+      "range": {
+        "startLine": 505,
+        "startChar": 35,
+        "endLine": 505,
+        "endChar": 36
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf006ee_b4cef4c8",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "..., but instead of an underlying type it has a type bound.",
+      "range": {
+        "startLine": 508,
+        "startChar": 34,
+        "endLine": 508,
+        "endChar": 41
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55e12cce_287f20bf",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "// Export type parameters, if any.",
+      "range": {
+        "startLine": 527,
+        "startChar": 16,
+        "endLine": 527,
+        "endChar": 19
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "992213c6_2ce27752",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "add a newline before 529?",
+      "range": {
+        "startLine": 529,
+        "startChar": 2,
+        "endLine": 529,
+        "endChar": 12
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37fef3b2_f2377442",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "newline before 862?",
+      "range": {
+        "startLine": 862,
+        "startChar": 5,
+        "endLine": 862,
+        "endChar": 6
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f144796_792baaa7",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "why is the test t.Underlying() \u003d\u003d t needed?",
+      "range": {
+        "startLine": 862,
+        "startChar": 38,
+        "endLine": 862,
+        "endChar": 48
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5ed96ca_3ce9d438",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "t.SetBound(r.typ()) ?",
+      "range": {
+        "startLine": 416,
+        "startChar": 13,
+        "endLine": 416,
+        "endChar": 18
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd269c79_38bb6f22",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "s/.././",
+      "range": {
+        "startLine": 559,
+        "startChar": 30,
+        "endLine": 559,
+        "endChar": 31
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "939d4689_401ac297",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "Similar to code for defined types,...",
+      "range": {
+        "startLine": 803,
+        "startChar": 18,
+        "endLine": 803,
+        "endChar": 20
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d123636_413cf664",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "s/bound/type bound/ (clearer)",
+      "range": {
+        "startLine": 805,
+        "startChar": 5,
+        "endLine": 805,
+        "endChar": 10
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "419d077d_4f1a9039",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1812,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "document the arguments better or rename accordingly",
+      "range": {
+        "startLine": 1812,
+        "startChar": 61,
+        "endLine": 1812,
+        "endChar": 65
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64424576_c2cadc2b",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1830,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "call this subst as well to avoid accidental use of the outer subst?",
+      "range": {
+        "startLine": 1830,
+        "startChar": 2,
+        "endLine": 1830,
+        "endChar": 8
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe710d53_1c483778",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "s/concreate/concrete/\n\nAlso, leave away the 2nd sentence - there\u0027s no restriction so there\u0027s nothing to say.",
+      "range": {
+        "startLine": 943,
+        "startChar": 15,
+        "endLine": 943,
+        "endChar": 24
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f1678bd_03238cc1",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-03T23:49:17Z",
+      "side": 1,
+      "message": "add before:\n\nif bound \u003d\u003d nil {\n   panic(\"types2.TypeParam.SetBound: bound must not be nil\")\n}",
+      "range": {
+        "startLine": 687,
+        "startChar": 8,
+        "endLine": 687,
+        "endChar": 9
+      },
+      "revId": "5446bc249c1b437033626e8c6e91466637d79b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "980b3ad1_a1812487",
