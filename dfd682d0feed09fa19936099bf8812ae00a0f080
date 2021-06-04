@@ -72,6 +72,24 @@
       "message": "TryBot failure seems not related",
       "revId": "dfd682d0feed09fa19936099bf8812ae00a0f080",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c60316b_265de425",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-04T20:02:11Z",
+      "side": 1,
+      "message": "I think it was due to the Lookup(v.Sym().Name) change in typecheck/func.go conflicting with one of Dan\u0027s recent iexport CLs.\n\nI had added that as a quick workaround to make some regress tests pass, but the proper fix is to start using NewStructKeyExpr when constructing the struct literal in walk/closure.go.",
+      "parentUuid": "7fb1e3ea_86704883",
+      "revId": "dfd682d0feed09fa19936099bf8812ae00a0f080",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
