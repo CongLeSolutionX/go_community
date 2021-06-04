@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6350bfd9_3e1183bd",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-04T17:20:06Z",
+      "side": 1,
+      "message": "Acknowledged.  I definitely can add a flag in another CL.  We could also rename the Inl struct to something like \"SavedCopy\", since it is a saved or imported copy of a function (dcls and body) before we further process it (instantiate it or use for inlining).",
+      "parentUuid": "e884970e_746e5e46",
+      "revId": "b79a78ff1777e000ffa7c930f6d15929280c0a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d3ec8ef_19d895c3",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "421b1f51_7f5cf031",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-04T17:20:06Z",
+      "side": 1,
+      "message": "Yes, explicitly setting all the types for the new closure complit (created during the walk phase) seemed to be a lot more invasive code change than adding this check.  But as you say, we do want to eventually get rid of the typechecks of the code/data created during later stages of the compilation.",
+      "parentUuid": "4d3ec8ef_19d895c3",
+      "revId": "b79a78ff1777e000ffa7c930f6d15929280c0a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "472177fd_acccb35e",
@@ -85,6 +121,24 @@
       "writtenOn": "2021-06-03T20:48:42Z",
       "side": 1,
       "message": "Can it be the case that there are no closure variables? Or do we not build a closure at all if that is the case?",
+      "revId": "b79a78ff1777e000ffa7c930f6d15929280c0a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d87133f_4b0e080b",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-04T17:20:06Z",
+      "side": 1,
+      "message": "Good point!  We do create closures with no closure vars if they are not called right away (e.g. passed to another function).  Added code to deal with no closure vars.  (For some weird reason, we allow a lookup on a nil package, so there was no error.)",
+      "parentUuid": "472177fd_acccb35e",
       "revId": "b79a78ff1777e000ffa7c930f6d15929280c0a12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
