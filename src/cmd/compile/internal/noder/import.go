@@ -27,7 +27,6 @@ import (
 	"cmd/compile/internal/types2"
 	"cmd/internal/archive"
 	"cmd/internal/bio"
-	"cmd/internal/goobj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 )
@@ -223,105 +222,28 @@ func readImportFile(target *ir.Package, path string) *types.Pkg {
 		base.Errorf("could not import %q: %v", path, err)
 		base.ErrorExit()
 	}
-	imp := bio.NewReader(f)
-	defer imp.Close()
+	defer f.Close()
 	file := f.Name()
 
-	// check object header
-	p, err := imp.ReadString('\n')
+	r, err := findExportData(f)
 	if err != nil {
+		base.Errorf("import %s: %v", file, err)
+		base.ErrorExit()
+	}
+
+	switch c, err := r.ReadByte(); {
+	case err != nil:
 		base.Errorf("import %s: reading input: %v", file, err)
 		base.ErrorExit()
-	}
 
-	if p == "!<arch>\n" { // package archive
-		// package export block should be first
-		sz := archive.ReadHeader(imp.Reader, "__.PKGDEF")
-		if sz <= 0 {
-			base.Errorf("import %s: not a package file", file)
-			base.ErrorExit()
-		}
-		p, err = imp.ReadString('\n')
-		if err != nil {
-			base.Errorf("import %s: reading input: %v", file, err)
-			base.ErrorExit()
-		}
-	}
-
-	if !strings.HasPrefix(p, "go object ") {
-		base.Errorf("import %s: not a go object file: %s", file, p)
-		base.ErrorExit()
-	}
-	q := objabi.HeaderString()
-	if p != q {
-		base.Errorf("import %s: object is [%s] expected [%s]", file, p, q)
-		base.ErrorExit()
-	}
-
-	// process header lines
-	for {
-		p, err = imp.ReadString('\n')
-		if err != nil {
-			base.Errorf("import %s: reading input: %v", file, err)
-			base.ErrorExit()
-		}
-		if p == "\n" {
-			break // header ends with blank line
-		}
-	}
-
-	// Expect $$B\n to signal binary import format.
-
-	// look for $$
-	var c byte
-	for {
-		c, err = imp.ReadByte()
-		if err != nil {
-			break
-		}
-		if c == '$' {
-			c, err = imp.ReadByte()
-			if c == '$' || err != nil {
-				break
-			}
-		}
-	}
-
-	// get character after $$
-	if err == nil {
-		c, _ = imp.ReadByte()
-	}
-
-	var fingerprint goobj.FingerprintType
-	switch c {
-	case '\n':
-		base.Errorf("cannot import %s: old export format no longer supported (recompile library)", path)
-		return nil
-
-	case 'B':
-		if base.Debug.Export != 0 {
-			fmt.Printf("importing %s (%s)\n", path, file)
-		}
-		imp.ReadByte() // skip \n after $$B
-
-		c, err = imp.ReadByte()
-		if err != nil {
-			base.Errorf("import %s: reading input: %v", file, err)
-			base.ErrorExit()
-		}
-
+	case c != 'i':
 		// Indexed format is distinguished by an 'i' byte,
 		// whereas previous export formats started with 'c', 'd', or 'v'.
-		if c != 'i' {
-			base.Errorf("import %s: unexpected package format byte: %v", file, c)
-			base.ErrorExit()
-		}
-		fingerprint = typecheck.ReadImports(importpkg, imp)
-
-	default:
-		base.Errorf("no import in %q", path)
+		base.Errorf("import %s: unexpected package format byte: %v", file, c)
 		base.ErrorExit()
 	}
+
+	fingerprint := typecheck.ReadImports(importpkg, r)
 
 	// assume files move (get installed) so don't record the full path
 	if base.Flag.Cfg.PackageFile != nil {
@@ -333,6 +255,52 @@ func readImportFile(target *ir.Package, path string) *types.Pkg {
 	}
 
 	return importpkg
+}
+
+// findExportData returns a *bio.Reader positioned at the start of the
+// binary export data section.
+func findExportData(f *os.File) (*bio.Reader, error) {
+	r := bio.NewReader(f)
+
+	// check object header
+	line, err := r.ReadString('\n')
+	if err != nil {
+		return nil, fmt.Errorf("reading input: %v", err)
+	}
+
+	if line == "!<arch>\n" { // package archive
+		// package export block should be first
+		sz := archive.ReadHeader(r.Reader, "__.PKGDEF")
+		if sz <= 0 {
+			return nil, errors.New("not a package file")
+		}
+		line, err = r.ReadString('\n')
+		if err != nil {
+			return nil, fmt.Errorf("reading input: %v", err)
+		}
+	}
+
+	if !strings.HasPrefix(line, "go object ") {
+		return nil, fmt.Errorf("not a go object file: %s", line)
+	}
+	if expect := objabi.HeaderString(); line != expect {
+		return nil, fmt.Errorf("object is [%s] expected [%s]", line, expect)
+	}
+
+	// process header lines
+	for !strings.HasPrefix(line, "$$") {
+		line, err = r.ReadString('\n')
+		if err != nil {
+			return nil, fmt.Errorf("reading input: %v", err)
+		}
+	}
+
+	// Expect $$B\n to signal binary import format.
+	if line != "$$B\n" {
+		return nil, errors.New("old export format no longer supported (recompile library)")
+	}
+
+	return r, nil
 }
 
 // The linker uses the magic symbol prefixes "go." and "type."
