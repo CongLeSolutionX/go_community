@@ -16,6 +16,24 @@
       "message": "FYI, 386-softfloat builder is broken since this CL was merged: https://build.golang.org/?repo\u003d\u0026branch\u003ddev.typeparams",
       "revId": "8e6dfe1b315ca0ef6497b28e16523c2dc4019503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa52c2a_103da64a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-04T19:10:48Z",
+      "side": 1,
+      "message": "OK, thanks for pointing that out.  Will take a look and fix.",
+      "parentUuid": "2def94be_88611e9e",
+      "revId": "8e6dfe1b315ca0ef6497b28e16523c2dc4019503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
