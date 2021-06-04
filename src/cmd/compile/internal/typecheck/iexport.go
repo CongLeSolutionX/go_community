@@ -675,6 +675,13 @@ func (w *exportWriter) pkg(pkg *types.Pkg) {
 func (w *exportWriter) qualifiedIdent(n *ir.Name) {
 	// Ensure any referenced declarations are written out too.
 	w.p.pushDecl(n)
+	if n.Op() == ir.OTYPE && n.Type().IsBaseGeneric() {
+		// Make sure that we call markType() on any generic type that is
+		// written to the export file (even if not explicitly marked for
+		// export), so its methods will be available for inlining if
+		// needed.
+		crawlExports([]*ir.Name{n})
+	}
 
 	s := n.Sym()
 	w.string(s.Name)
