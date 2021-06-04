@@ -91,10 +91,18 @@ func main() {
 
 	// issue 26745
 	_ = func(i int) int {
-		return C.i + 1 // ERROR HERE: 14
+		// TODO(mdempsky): types2 reports the error here at "C" (10),
+		// whereas cmd/compile reports it at "+" (14). I think the
+		// cmd/compile place is more consistent with typical error
+		// positioning.
+		return C.i + 1 // ERROR HERE: (10|14)
 	}
 	_ = func(i int) {
-		C.fi(i) // ERROR HERE: 7
+		// TODO(mdempsky): types2 reports the error here at "i", whereas
+		// cmd/compile reports it at "(". I think types2 is more correct
+		// (the error is "cannot use i"). cmd/compile likely gets this
+		// wrong because IR doesn't contain object-use positions.
+		C.fi(i) // ERROR HERE: (7|8)
 	}
 
 	C.fi = C.fi // ERROR HERE
