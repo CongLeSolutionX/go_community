@@ -161,6 +161,12 @@ func writePkgStub(noders []*noder) string {
 
 // freePackage ensures the given package is garbage collected.
 func freePackage(pkg *types2.Package) {
+	// TODO(mdempsky): Re-enable. The code below works fine normally,
+	// but it fails when bootstrapping from Go 1.4.
+	if true {
+		return
+	}
+
 	// Set a finalizer on pkg so we can detect if/when it's collected.
 	done := make(chan struct{})
 	runtime.SetFinalizer(pkg, func(*types2.Package) { close(done) })
