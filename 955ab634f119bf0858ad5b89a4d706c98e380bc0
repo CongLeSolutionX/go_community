@@ -72,6 +72,29 @@
       "message": "Alex/Brad - could one of you review this commit and the subsequent one? It\u0027s for 1.17.",
       "revId": "955ab634f119bf0858ad5b89a4d706c98e380bc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efda3e04_0cf8692d",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-04T15:28:14Z",
+      "side": 1,
+      "message": "Should we be using GetCurrentProcess here?  That seems to be what the MSDN examples use.",
+      "range": {
+        "startLine": 58,
+        "startChar": 31,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "955ab634f119bf0858ad5b89a4d706c98e380bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
