@@ -8,6 +8,7 @@
 package gcimporter
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/binary"
 	"fmt"
@@ -20,7 +21,7 @@ import (
 )
 
 type intReader struct {
-	*bytes.Reader
+	*bufio.Reader
 	path string
 }
 
@@ -61,7 +62,7 @@ const (
 // and returns the number of bytes consumed and a reference to the package.
 // If the export data version is not recognized or the format is otherwise
 // compromised, an error is returned.
-func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []byte, path string) (_ int, pkg *types.Package, err error) {
+func iImportData(fset *token.FileSet, imports map[string]*types.Package, dataReader *bufio.Reader, path string) (pkg *types.Package, err error) {
 	const currentVersion = 1
 	version := int64(-1)
 	defer func() {
@@ -74,7 +75,7 @@ func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 		}
 	}()
 
-	r := &intReader{bytes.NewReader(data), path}
+	r := &intReader{dataReader, path}
 
 	version = int64(r.uint64())
 	switch version {
@@ -86,10 +87,14 @@ func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 	sLen := int64(r.uint64())
 	dLen := int64(r.uint64())
 
-	whence, _ := r.Seek(0, io.SeekCurrent)
-	stringData := data[whence : whence+sLen]
-	declData := data[whence+sLen : whence+sLen+dLen]
-	r.Seek(sLen+dLen, io.SeekCurrent)
+	stringData := make([]byte, sLen)
+	if _, err := io.ReadFull(r, stringData); err != nil {
+		errorf("cannot read %d bytes of stringData: %s", len(stringData), err)
+	}
+	declData := make([]byte, dLen)
+	if _, err := io.ReadFull(r, declData); err != nil {
+		errorf("cannot read %d bytes of declData: %s", len(declData), err)
+	}
 
 	p := iimporter{
 		ipath:   path,
@@ -165,9 +170,7 @@ func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 
 	// package was imported completely and without errors
 	localpkg.MarkComplete()
-
-	consumed, _ := r.Seek(0, io.SeekCurrent)
-	return int(consumed), localpkg, nil
+	return localpkg, nil
 }
 
 type iimporter struct {
