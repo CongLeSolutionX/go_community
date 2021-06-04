@@ -31,7 +31,7 @@ func dumpexport(bout *bio.Writer) {
 	// The linker also looks for the $$ marker - use char after $$ to distinguish format.
 	exportf(bout, "\n$$B\n") // indicate binary export format
 	off := bout.Offset()
-	typecheck.WriteExports(bout.Writer)
+	typecheck.WriteExports(bout.Writer, p.markObject)
 	size := bout.Offset() - off
 	exportf(bout, "\n$$\n")
 

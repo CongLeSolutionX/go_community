@@ -264,13 +264,14 @@ const (
 	magic = 0x6742937dc293105
 )
 
-func WriteExports(out *bufio.Writer) {
+func WriteExports(out *bufio.Writer, markObject func(ir.Node)) {
 	p := iexporter{
 		allPkgs:     map[*types.Pkg]bool{},
 		stringIndex: map[string]uint64{},
 		declIndex:   map[*types.Sym]uint64{},
 		inlineIndex: map[*types.Sym]uint64{},
 		typIndex:    map[*types.Type]uint64{},
+		markObject:  markObject,
 	}
 
 	for i, pt := range predeclared() {
@@ -397,6 +398,8 @@ type iexporter struct {
 	declIndex   map[*types.Sym]uint64
 	inlineIndex map[*types.Sym]uint64
 	typIndex    map[*types.Type]uint64
+
+	markObject func(ir.Node)
 }
 
 // stringOff returns the offset of s within the string section.
@@ -655,6 +658,9 @@ func (w *exportWriter) pkg(pkg *types.Pkg) {
 func (w *exportWriter) qualifiedIdent(n *ir.Name) {
 	// Ensure any referenced declarations are written out too.
 	w.p.pushDecl(n)
+	if n.Op() == ir.OTYPE && n.Type().HasTParam() {
+		w.p.markObject(n)
+	}
 
 	s := n.Sym()
 	w.string(s.Name)
