@@ -19,7 +19,7 @@ import (
 )
 
 // unifiedIRLevel controls what -G level enables unified IR.
-const unifiedIRLevel = 4
+const unifiedIRLevel = 0
 
 // localPkgReader holds the package reader used for reading the local
 // package. It exists so the unified IR linker can refer back to it
