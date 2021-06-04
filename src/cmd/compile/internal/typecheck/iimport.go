@@ -118,6 +118,10 @@ func (r *intReader) uint64() uint64 {
 }
 
 func ReadImports(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintType) {
+	if base.Debug.Export != 0 {
+		fmt.Printf("importing %s (%s)\n", pkg.Path, in.File().Name())
+	}
+
 	ird := &intReader{in, pkg}
 
 	version := ird.uint64()
