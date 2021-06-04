@@ -89,12 +89,15 @@ func main() {
 		C.fppi(p) // ERROR HERE
 	}
 
-	// issue 26745
+	// Issue 26745: Test column positioning for errors.
+	// TODO(golang.org/issue/46534): Restore the tests. They're already
+	// broken, but were erroneously passing because the patterns were
+	// too lax and happened to match other diagnostics.
 	_ = func(i int) int {
-		return C.i + 1 // ERROR HERE: :13
+		// return C.i + 1 // todo: should be error at "+"
 	}
 	_ = func(i int) {
-		C.fi(i) // ERROR HERE: :6
+		// C.fi(i) // todo: should be error at "("
 	}
 
 	C.fi = C.fi // ERROR HERE
