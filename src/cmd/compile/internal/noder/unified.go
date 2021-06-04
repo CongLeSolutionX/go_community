@@ -15,7 +15,7 @@ import (
 )
 
 // unifiedIRLevel controls what -G level enables unified IR.
-const unifiedIRLevel = 4
+const unifiedIRLevel = 0
 
 var haveLegacyImports = false
 
