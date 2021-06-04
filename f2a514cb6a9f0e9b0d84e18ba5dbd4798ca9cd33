@@ -46,6 +46,30 @@
       },
       "revId": "f2a514cb6a9f0e9b0d84e18ba5dbd4798ca9cd33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64e482be_1a185ef0",
+        "filename": "src/runtime/asan/asan.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 52323
+      },
+      "writtenOn": "2021-06-04T11:32:25Z",
+      "side": 1,
+      "message": "In this case you already know that region is poisoned (asan_region_is_poisoned() !\u003d 0), so second check inside asan_report_load is redundant: you may either use __asan_report_error instead of asan_report_load (or do fancy error report like we discussed), or just do asan_report_load without pre-checking with asan_region_is_poisoned().",
+      "parentUuid": "72fc3727_67b74942",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "f2a514cb6a9f0e9b0d84e18ba5dbd4798ca9cd33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
