@@ -142,7 +142,7 @@ func ReadImports(pkg *types.Pkg, in *bio.Reader) (fingerprint goobj.FingerprintT
 	// Map string (and data) section into memory as a single large
 	// string. This reduces heap fragmentation and allows
 	// returning individual substrings very efficiently.
-	data, err := mapFile(in.File(), in.Offset(), int64(sLen+dLen))
+	data, err := base.MapFile(in.File(), in.Offset(), int64(sLen+dLen))
 	if err != nil {
 		base.Errorf("import %q: mapping input: %v", pkg.Path, err)
 		base.ErrorExit()
