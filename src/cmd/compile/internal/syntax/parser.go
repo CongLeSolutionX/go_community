@@ -1100,7 +1100,7 @@ loop:
 					complit_ok = true
 				}
 			case *IndexExpr:
-				if p.xnest >= 0 {
+				if p.xnest >= 0 && !isValue(t) {
 					// x is possibly a composite literal type
 					complit_ok = true
 				}
@@ -1125,6 +1125,19 @@ loop:
 	}
 
 	return x
+}
+
+// isValue reports whether x syntactically is a value (and not a type) expression.
+func isValue(x Expr) bool {
+	switch x := x.(type) {
+	case *BasicLit, *CompositeLit, *FuncLit, *SliceExpr, *AssertExpr, *TypeSwitchGuard, *Operation, *CallExpr:
+		return true
+	case *ParenExpr:
+		return isValue(x.X)
+	case *IndexExpr:
+		return isValue(x.Index)
+	}
+	return false
 }
 
 // Element = Expression | LiteralValue .
