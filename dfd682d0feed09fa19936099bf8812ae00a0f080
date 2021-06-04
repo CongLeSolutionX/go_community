@@ -90,6 +90,24 @@
       "parentUuid": "7fb1e3ea_86704883",
       "revId": "dfd682d0feed09fa19936099bf8812ae00a0f080",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01871fe3_dfe3b888",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-04T20:26:21Z",
+      "side": 1,
+      "message": "Ah I see, Dan’s change make the fields of closure struct will be in the source package, not the local one. So the Lookup call in patchset 2 cause trybot failed.",
+      "parentUuid": "0c60316b_265de425",
+      "revId": "dfd682d0feed09fa19936099bf8812ae00a0f080",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
