@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb644490_7dc1fb47",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-05T04:06:23Z",
+      "side": 1,
+      "message": "Indeed it can appear in an error message - so this is a good fix. Here\u0027s a test case:\n\npackage p\n\ntype T struct{}\n\nfunc (T) m(x int) {}\n\nvar f func(T)\n\nfunc _() {\n\tf \u003d T.m\n}\n\nthat produces\n\ncannot use T.m (value of type func(T, x int)) as func(T) value in assignment\n\nwithout this fix (will port).",
+      "parentUuid": "31dcc4fb_6a365700",
+      "range": {
+        "startLine": 590,
+        "startChar": 19,
+        "endLine": 590,
+        "endChar": 24
+      },
+      "revId": "62c40878e47c71b1e291e9c3064d76c16a6f9d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31865a30_63e46fda",
         "filename": "src/go/types/call.go",
         "patchSetId": 4
