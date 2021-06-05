@@ -729,8 +729,8 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 		return false
 	}
 
-	if t.IsInterface() || t.Kind() == types.TTYPEPARAM {
-		if t.Kind() == types.TTYPEPARAM {
+	if t.IsInterface() || t.IsTypeParam() {
+		if t.IsTypeParam() {
 			t = t.Bound()
 		}
 		i := 0
@@ -987,7 +987,7 @@ func (ts *Tsubster) Typ(t *types.Type) *types.Type {
 		return t
 	}
 
-	if t.Kind() == types.TTYPEPARAM {
+	if t.IsTypeParam() {
 		for i, tp := range ts.Tparams {
 			if tp == t {
 				return ts.Targs[i]
