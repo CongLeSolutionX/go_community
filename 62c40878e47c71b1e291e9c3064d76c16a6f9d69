@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17db973e_745f00c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-05T04:01:40Z",
+      "side": 1,
+      "message": "Noticed that I didn\u0027t send this out.",
+      "revId": "62c40878e47c71b1e291e9c3064d76c16a6f9d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31dcc4fb_6a365700",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-05T04:01:40Z",
+      "side": 1,
+      "message": "Should probably explain (comment) why this is needed (test failure).\nIt\u0027s not really required for type checking otherwise, I think, it\u0027s a syntactic issue to avoid ambiguities.\n\nAlternatively, maybe the failing test can be adjusted.\n\nI wonder also if perhaps the signature might appear in an error message, that would be another reason for needing this.",
+      "range": {
+        "startLine": 590,
+        "startChar": 19,
+        "endLine": 590,
+        "endChar": 24
+      },
+      "revId": "62c40878e47c71b1e291e9c3064d76c16a6f9d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31865a30_63e46fda",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-05T04:01:40Z",
+      "side": 1,
+      "message": "Simplification: It should suffice to look at the first entry. Either it\u0027s consistent or it\u0027s not and then we shouldn\u0027t care either.",
+      "range": {
+        "startLine": 592,
+        "startChar": 18,
+        "endLine": 592,
+        "endChar": 23
+      },
+      "revId": "62c40878e47c71b1e291e9c3064d76c16a6f9d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
