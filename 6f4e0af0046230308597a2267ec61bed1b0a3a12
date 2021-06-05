@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e24d2f68_900ea292",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-05T01:50:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b6ce008_d9775535",
+      "range": {
+        "startLine": 1130,
+        "startChar": 43,
+        "endLine": 1130,
+        "endChar": 54
+      },
+      "revId": "6f4e0af0046230308597a2267ec61bed1b0a3a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "739c2efb_e40718d4",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-06-04T13:34:11Z",
       "side": 1,
       "message": "|| isValue(x.X)?",
+      "range": {
+        "startLine": 1140,
+        "startChar": 9,
+        "endLine": 1140,
+        "endChar": 25
+      },
+      "revId": "6f4e0af0046230308597a2267ec61bed1b0a3a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8931da60_65e04973",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-05T01:50:18Z",
+      "side": 1,
+      "message": "good catch! done",
+      "parentUuid": "739c2efb_e40718d4",
       "range": {
         "startLine": 1140,
         "startChar": 9,
