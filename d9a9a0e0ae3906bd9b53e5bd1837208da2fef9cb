@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49730552_dc35e313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-05T23:10:08Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3f0ddc53_d018346e",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "d9a9a0e0ae3906bd9b53e5bd1837208da2fef9cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "010b9e4f_d3d28a19",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-06-05T19:36:20Z",
       "side": 1,
       "message": "add a doc string?",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "d9a9a0e0ae3906bd9b53e5bd1837208da2fef9cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28e169eb_d29fb825",
+        "filename": "src/cmd/compile/internal/typecheck/crawler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-05T23:10:08Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "ba645598_ff379a38",
       "range": {
         "startLine": 13,
         "startChar": 5,
