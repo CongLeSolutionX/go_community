@@ -729,7 +729,10 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 		return false
 	}
 
-	if t.IsInterface() {
+	if t.IsInterface() || t.Kind() == types.TTYPEPARAM {
+		if t.Kind() == types.TTYPEPARAM {
+			t = t.Bound()
+		}
 		i := 0
 		tms := t.AllMethods().Slice()
 		for _, im := range iface.AllMethods().Slice() {
