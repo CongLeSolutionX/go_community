@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a63d02_443f0d1a",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-05T23:09:27Z",
+      "side": 1,
+      "message": "We can\u0027t use io.SeekCurrent here until #44505 is fixed. I added a TODO instead.",
+      "parentUuid": "6f71317a_796c26a3",
+      "range": {
+        "startLine": 135,
+        "startChar": 29,
+        "endLine": 135,
+        "endChar": 37
+      },
+      "revId": "2d0cc556b59b5a73275a9c9ba17b12ae1f3b6bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "accdeabd_1c77e3bf",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-06-05T19:21:50Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 138,
+        "startChar": 24,
+        "endLine": 138,
+        "endChar": 32
+      },
+      "revId": "2d0cc556b59b5a73275a9c9ba17b12ae1f3b6bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf727678_0b6f4e68",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-05T23:09:27Z",
+      "side": 1,
+      "message": "ditto :)",
+      "parentUuid": "accdeabd_1c77e3bf",
       "range": {
         "startLine": 138,
         "startChar": 24,
