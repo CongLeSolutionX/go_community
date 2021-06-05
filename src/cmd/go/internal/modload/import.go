@@ -174,16 +174,7 @@ func (e *ImportMissingSumError) Error() string {
 		message = fmt.Sprintf("missing go.sum entry for module providing package %s%s", e.importPath, importParen)
 	}
 	var hint string
-	if e.importer == "" {
-		// Importing package is unknown, or the missing package was named on the
-		// command line. Recommend 'go mod download' for the modules that could
-		// provide the package, since that shouldn't change go.mod.
-		args := make([]string, len(e.mods))
-		for i, mod := range e.mods {
-			args[i] = mod.Path
-		}
-		hint = fmt.Sprintf("; to add:\n\tgo mod download %s", strings.Join(args, " "))
-	} else {
+	if e.importer != "" {
 		// Importing package is known (common case). Recommend 'go get' on the
 		// current version of the importing package.
 		tFlag := ""

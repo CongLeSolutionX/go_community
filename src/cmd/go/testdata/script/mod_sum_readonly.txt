@@ -40,7 +40,7 @@ stderr '^no required module provides package example.com/doesnotexist; to add it
 # When a sum is needed to load a .zip file, we get a more specific error.
 # The .zip file is not downloaded.
 ! go list rsc.io/quote
-stderr '^missing go.sum entry for module providing package rsc.io/quote; to add:\n\tgo mod download rsc.io/quote$'
+stderr '^missing go.sum entry for module providing package rsc.io/quote$'
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
 
 # The error is attached to the package from the missing module. We can load
