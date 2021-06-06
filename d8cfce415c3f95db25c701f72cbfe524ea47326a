@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58051b1a_2b9ddc0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-06T17:48:17Z",
+      "side": 1,
+      "message": "Please change this to:\n\ncmd/compile/internal/types: fix typo in comment",
+      "revId": "d8cfce415c3f95db25c701f72cbfe524ea47326a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38870b0e_ae2cb87e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-06T17:48:17Z",
+      "side": 1,
+      "message": "Yes this looks like a \"typo\". Just change the header as suggested above and leave this away. Thanks.",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "d8cfce415c3f95db25c701f72cbfe524ea47326a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
