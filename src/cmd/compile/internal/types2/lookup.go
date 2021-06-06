@@ -6,6 +6,8 @@
 
 package types2
 
+import "sort"
+
 // LookupFieldOrMethod looks up a field or method with given package and name
 // in T and returns the corresponding *Var or *Func, an index sequence, and a
 // bool indicating if there were any pointer indirections on the path to the
@@ -182,9 +184,8 @@ func (check *Checker) rawLookupFieldOrMethod(T Type, addressable bool, pkg *Pack
 
 			case *Interface:
 				// look for a matching method
-				// TODO(gri) t.allMethods is sorted - use binary search
 				check.completeInterface(nopos, t)
-				if i, m := lookupMethod(t.allMethods, pkg, name); m != nil {
+				if i, m := binaryLookupMethod(t.allMethods, pkg, name); m != nil {
 					assert(m.typ != nil)
 					index = concat(e.index, i)
 					if obj != nil || e.multiples {
@@ -316,9 +317,9 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 
 	if ityp := asInterface(V); ityp != nil {
 		check.completeInterface(nopos, ityp)
-		// TODO(gri) allMethods is sorted - can do this more efficiently
+		leftMethods := ityp.allMethods
 		for _, m := range T.allMethods {
-			_, f := lookupMethod(ityp.allMethods, m.pkg, m.name)
+			i, f := binaryLookupMethod(leftMethods, m.pkg, m.name)
 
 			if f == nil {
 				// if m is the magic method == we're ok (interfaces are comparable)
@@ -327,6 +328,9 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 				}
 				return m, f
 			}
+			// all methods are sorted, we don't need search the methods of which index
+			// is less than the methods' index that have searched before.
+			leftMethods = leftMethods[i+1:]
 
 			// both methods must have the same number of type parameters
 			ftyp := f.typ.(*Signature)
@@ -506,6 +510,17 @@ func lookupMethod(methods []*Func, pkg *Package, name string) (int, *Func) {
 			if m.sameId(pkg, name) {
 				return i, m
 			}
+		}
+	}
+	return -1, nil
+}
+
+// binaryLookupMethod is like lookupMethod but use binary search for efficiency.
+func binaryLookupMethod(methods []*Func, pkg *Package, name string) (int, *Func) {
+	if name != "_" {
+		i := sort.Search(len(methods), func(i int) bool { return methods[i].name >= name })
+		if i < len(methods) && methods[i].sameId(pkg, name) {
+			return i, methods[i]
 		}
 	}
 	return -1, nil
