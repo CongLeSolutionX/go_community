@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf8fbe71_f0e7cf37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-06T17:53:00Z",
+      "side": 1,
+      "message": "Thanks but please leave this code alone for now. This is all under heavy development and may change. Also, as is, the binary search is not correct.\n\nOnce it has settled we can revisit this code and introduce binary search if still needed (a map would be even better).",
+      "revId": "7e46fa81731f8a56c4cc25ef9ff0e0c02659d8e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b7a48f3_24ccaa3a",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-06T17:53:00Z",
+      "side": 1,
+      "message": "\u003e\u003d this is not correct because methods (which are *Func Objects) are sorted by object.less",
+      "range": {
+        "startLine": 521,
+        "startChar": 69,
+        "endLine": 521,
+        "endChar": 70
+      },
+      "revId": "7e46fa81731f8a56c4cc25ef9ff0e0c02659d8e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
