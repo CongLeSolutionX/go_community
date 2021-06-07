@@ -53,6 +53,24 @@
       "message": "At least in general, it\u0027s not safe to call crawlExports after we\u0027ve already started writing out functions, because we might have already exported a function and decided to omit its function body because ExportInline wasn\u0027t set yet. Even if we mark it ExportInline later, we missed the chance to include its function body in the export data. That\u0027s why crawlExports runs as a separate pass at the start of iexport.\n\nI think the proper fix here needs to be within crawler.go instead. I suspect the \"if t.IsInstantiatedGeneric() { return }\" statement needs to be modified or removed.",
       "revId": "6fb65d986b5be30cfe60e5275f034d388425144c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8546ecc4_96d32270",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-07T22:09:56Z",
+      "side": 1,
+      "message": "OK, thanks for the info about the crawler/Inline_Flood needing to be fully done before writing the exports.  I moved the code into the crawler and softfloat runs fine.  Let me know what you think about the new version of the code in crawler.go.",
+      "parentUuid": "0cb77f47_be9e7ab3",
+      "revId": "6fb65d986b5be30cfe60e5275f034d388425144c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
