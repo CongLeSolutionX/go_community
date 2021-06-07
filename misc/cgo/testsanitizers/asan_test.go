@@ -80,6 +80,9 @@ func TestASAN(t *testing.T) {
 		{src: "asan_global2_fail.go", memoryAccessError: "global-buffer-overflow"},
 		{src: "asan_global3_fail.go", memoryAccessError: "global-buffer-overflow"},
 		{src: "asan_global4_fail.go", memoryAccessError: "global-buffer-overflow"},
+		{src: "asan_unsafe_fail1.go", memoryAccessError: "use-after-poison"},
+		{src: "asan_unsafe_fail2.go", memoryAccessError: "use-after-poison"},
+		{src: "asan_unsafe_fail3.go", memoryAccessError: "use-after-poison"},
 	}
 	for _, tc := range cases {
 		tc := tc
@@ -99,6 +102,7 @@ func TestASAN(t *testing.T) {
 				if err != nil && strings.Contains(string(out), tc.memoryAccessError) {
 					return
 				}
+
 				t.Fatalf("%#q exited without expected memory access error\n%s; got failure\n%s", strings.Join(cmd.Args, " "), tc.memoryAccessError, out)
 			}
 			mustRun(t, cmd)
