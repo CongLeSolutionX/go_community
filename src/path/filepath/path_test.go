@@ -1434,7 +1434,7 @@ func TestIssue29372(t *testing.T) {
 }
 
 // Issue 30520 part 1.
-func TestEvalSymlinksAboveRoot(t *testing.T) {
+func notTestEvalSymlinksAboveRoot(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
 	t.Parallel()
