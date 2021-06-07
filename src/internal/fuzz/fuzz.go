@@ -688,15 +688,48 @@ func readCorpusData(data []byte, types []reflect.Type) ([]interface{}, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal: %v", err)
 	}
-	if len(vals) != len(types) {
-		return nil, fmt.Errorf("wrong number of values in corpus file: %d, want %d", len(vals), len(types))
-	}
-	for i := range types {
-		if reflect.TypeOf(vals[i]) != types[i] {
-			return nil, fmt.Errorf("mismatched types in corpus file: %v, want %v", vals, types)
-		}
+	if err = CheckCorpus(vals, types); err != nil {
+		return nil, err
 	}
 	return vals, nil
+}
+
+// CheckCorpus verifies that the types in vals match the excpected types
+// provided. If not, attempt to convert it. If that's not possible, return an
+// error.
+func CheckCorpus(vals []interface{}, types []reflect.Type) error {
+	if len(vals) != len(types) {
+		return fmt.Errorf("wrong number of values in corpus file: %d, want %d", len(vals), len(types))
+	}
+	for i := range types {
+		val := reflect.ValueOf(vals[i])
+		fuzzType := types[i]
+		if val.Type() == fuzzType {
+			continue // already the same type
+		}
+		// Attempt to convert the corpus value to the excpeted type
+		if !val.Type().ConvertibleTo(fuzzType) {
+			return fmt.Errorf("mismatched types in corpus file: %v, want %v", vals, types)
+		}
+		var ok bool
+		val, ok = convertToType(val, fuzzType)
+		if !ok {
+			return fmt.Errorf("mismatched types in corpus file: %v, want %v", vals, types)
+		}
+		vals[i] = val.Interface()
+	}
+	return nil
+}
+
+func convertToType(orig reflect.Value, t reflect.Type) (converted reflect.Value, ok bool) {
+	// Convert might panic even if ConvertibleTo returns true, so catch
+	// that panic and return false.
+	defer func() {
+		if r := recover(); r != nil {
+			ok = false
+		}
+	}()
+	return orig.Convert(t), true
 }
 
 // writeToCorpus atomically writes the given bytes to a new file in testdata.

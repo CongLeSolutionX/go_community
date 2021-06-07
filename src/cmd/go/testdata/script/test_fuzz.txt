@@ -131,6 +131,16 @@ stdout FAIL
 ! stdout ^ok
 stdout FAIL
 
+# Test that converting compatible value from f.Add successful runs cleanly.
+go test -v -run FuzzConvertType fuzz_add_test.go
+stdout ^ok
+! stdout FAIL
+
+# Test that converting incompatible value from f.Add fails.
+! go test -v -run FuzzConvertIncompatibleType fuzz_add_test.go
+! stdout ^ok
+stdout FAIL
+
 # Test fatal with testdata seed corpus
 ! go test -run FuzzFail corpustesting/fuzz_testdata_corpus_test.go
 ! stdout ^ok
@@ -357,6 +367,16 @@ func FuzzAddDifferentType(f *testing.F) {
     f.Add(false)
     f.Add(1234)
     f.Fuzz(func(t *testing.T, b []byte) {})
+}
+
+func FuzzConvertIncompatibleType(f *testing.F) {
+    f.Add("abcde")
+    f.Fuzz(func(t *testing.T, i int64) {})
+}
+
+func FuzzConvertType(f *testing.F) {
+    f.Add(0)
+    f.Fuzz(func(t *testing.T, i int64) {})
 }
 
 -- corpustesting/fuzz_testdata_corpus_test.go --
