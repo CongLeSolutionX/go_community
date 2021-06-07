@@ -71,6 +71,24 @@
       "parentUuid": "0cb77f47_be9e7ab3",
       "revId": "6fb65d986b5be30cfe60e5275f034d388425144c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f7b7929_89250bf1",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-07T22:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8546ecc4_96d32270",
+      "revId": "6fb65d986b5be30cfe60e5275f034d388425144c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
