@@ -490,6 +490,11 @@ Do not send CLs removing the interior tags from such phrases.
       <a href="/pkg/net/#ParseError"><code>ParseError</code></a> error type now implement
       the <a href="/pkg/net/#Error"><code>net.Error</code></a> interface.
     </p>
+
+    <p><!-- CL325829 -->
+      The <a href="/pkg/net/#ParseIP"><code>ParseIP</code></a> and <a href="/pkg/net/#ParseCIDR"><code>ParseCIDR</code></a>
+      functions now reject IPv4 addresses which contain decimal components with leading zeros.
+    </p>
   </dd>
 </dl><!-- net -->
 
