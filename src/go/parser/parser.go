@@ -1071,36 +1071,8 @@ func (p *parser) parseInterfaceType() *ast.InterfaceType {
 
 	pos := p.expect(token.INTERFACE)
 	lbrace := p.expect(token.LBRACE)
-	var list []*ast.Field
-	for p.tok == token.IDENT || p.parseTypeParams() && (p.tok == token.TYPE || p.tok == token.TILDE) {
-		switch p.tok {
-		case token.IDENT:
-			f := p.parseMethodSpec()
-			if f.Names == nil && p.parseTypeParams() {
-				f = p.embeddedElem(f)
-			}
-			p.expectSemi()
-			f.Comment = p.lineComment
-			list = append(list, f)
-		case token.TILDE:
-			f := p.embeddedElem(nil)
-			p.expectSemi()
-			f.Comment = p.lineComment
-			list = append(list, f)
-		case token.TYPE:
-			// TODO(rfindley): remove TypeList syntax and refactor the clauses above.
 
-			// all types in a type list share the same field name "type"
-			// (since type is a keyword, a Go program cannot have that field name)
-			name := []*ast.Ident{{NamePos: p.pos, Name: "type"}}
-			p.next()
-			// add each type as a field named "type"
-			for _, typ := range p.parseTypeList() {
-				list = append(list, &ast.Field{Names: name, Type: typ})
-			}
-			p.expectSemi()
-		}
-	}
+	list := p.parseInterfaceElements()
 	// TODO(rfindley): the error produced here could be improved, since we could
 	// accept a identifier, 'type', or a '}' at this point.
 	rbrace := p.expect(token.RBRACE)
@@ -1112,6 +1084,52 @@ func (p *parser) parseInterfaceType() *ast.InterfaceType {
 			List:    list,
 			Closing: rbrace,
 		},
+	}
+}
+
+func (p *parser) parseInterfaceElements() []*ast.Field {
+	var list []*ast.Field
+	for {
+		switch {
+		case p.tok == token.IDENT:
+			f := p.parseMethodSpec()
+			if f.Names == nil && p.parseTypeParams() {
+				f = p.embeddedElem(f)
+			}
+			p.expectSemi()
+			f.Comment = p.lineComment
+			list = append(list, f)
+		case p.tok == token.TILDE && p.parseTypeParams():
+			f := p.embeddedElem(nil)
+			p.expectSemi()
+			f.Comment = p.lineComment
+			list = append(list, f)
+		case p.tok == token.TYPE && p.parseTypeParams():
+			// TODO(rfindley): remove TypeList syntax and refactor the clauses above.
+
+			// all types in a type list share the same field name "type"
+			// (since type is a keyword, a Go program cannot have that field name)
+			name := []*ast.Ident{{NamePos: p.pos, Name: "type"}}
+			p.next()
+			// add each type as a field named "type"
+			for _, typ := range p.parseTypeList() {
+				list = append(list, &ast.Field{Names: name, Type: typ})
+			}
+			p.expectSemi()
+		case p.parseTypeParams():
+			if t := p.tryIdentOrType(); t != nil {
+				f := new(ast.Field)
+				f.Type = t
+				f = p.embeddedElem(f)
+				p.expectSemi()
+				f.Comment = p.lineComment
+				list = append(list, f)
+			} else {
+				return list
+			}
+		default:
+			return list
+		}
 	}
 }
 
