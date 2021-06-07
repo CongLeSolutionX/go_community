@@ -224,11 +224,21 @@ func ParseFlags() {
 	case Flag.MSan && Flag.ASan:
 		log.Fatal("cannot use both -msan and -asan")
 	}
-	if Flag.Race || Flag.MSan || Flag.ASan {
-		// -race, -msan and -ssan imply -d=checkptr for now.
+	if Flag.Race || Flag.MSan {
+		// -race and -msan imply -d=checkptr for now.
 		if Debug.Checkptr == -1 { // if not set explicitly
 			Debug.Checkptr = 1
 		}
+	}
+
+	if Flag.ASan {
+		// When ASan is enabled, set "checkptr" to 2.
+		// -d=checkptr=2 treats conversions to unsafe.Pointer
+		// as an escaping operation. This allows better
+		// runtime instrumentation, since we can more
+		// easily detect object boundaries on the heap
+		// than the stack.
+		Debug.Checkptr = 2
 	}
 
 	if Flag.CompilingRuntime && Flag.N != 0 {
