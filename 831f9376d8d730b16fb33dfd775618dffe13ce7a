@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff6d689f_f207f6b8",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-07T15:29:52Z",
+      "side": 0,
+      "message": "I think it\u0027s still useful to log this error if the set of modules is non-empty. (Arguably the bug here is that we didn\u0027t name any modules that could change the result.)\n\nInstead of removing the hint entirely, how about restricting the hint to when the set of candidate modules is non-empty?\n\n\tif e.importer !\u003d \"\" {\n\t\t…\n\t\thint \u003d fmt.Sprintf(\"; to add:\\n\\tgo get %s %s%s\", tFlag, e.importer, version)\n\t} else if len(e.mods) \u003e 0 {\n\t\t…\n\t\thint \u003d fmt.Sprintf(\"; to add:\\n\\tgo mod download %s\", strings.Join(args, \" \"))\n\t}",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 9
+      },
+      "revId": "831f9376d8d730b16fb33dfd775618dffe13ce7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
