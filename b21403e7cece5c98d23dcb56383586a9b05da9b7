@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "213a2c74_9095b3af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-07T17:59:48Z",
+      "side": 1,
+      "message": "Yes, sorry, with the missing paren.\n\nThis program does not fail at tip:\n\npackage main\n\nimport \"fmt\"\n\ntype C interface {\n\tfoo() int\n}\n\ntype myInt int\n\nfunc (x myInt) foo() int {\n\treturn int(x+1)\n}\n\nfunc h[T C](x T) interface{foo() int} {\n\ti :\u003d (interface{foo()int})(x)\n\treturn i\n}\n\nfunc main() {\n\tif got :\u003d h[myInt](7).foo(); got !\u003d 8 {\n\t\tpanic(fmt.Sprintf(\"got %d want 8\", got))\n\t}\n}",
+      "parentUuid": "39bd1abb_5fb0f9a9",
+      "revId": "b21403e7cece5c98d23dcb56383586a9b05da9b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c027c4d7_786ed769",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "365ba05e_34d5ff5a",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-07T17:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "382adac4_b8f14e1c",
+      "revId": "b21403e7cece5c98d23dcb56383586a9b05da9b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68f71290_88a6a303",
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b61471e9_d2f5404b",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-07T17:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f71290_88a6a303",
+      "revId": "b21403e7cece5c98d23dcb56383586a9b05da9b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f5e8c6d_0f24f6a5",
@@ -102,6 +156,24 @@
       "writtenOn": "2021-06-06T15:26:02Z",
       "side": 1,
       "message": "I think the preference is to write it as:\n\n\tif got, want:\u003d f[int](7), 7; got !\u003d want {\n\t\tpanic(fmt.Sprintf(\"got %d want %d\", got, want))\n\t}\n\t....",
+      "revId": "b21403e7cece5c98d23dcb56383586a9b05da9b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bc0e8e9_4e755a5a",
+        "filename": "test/typeparam/ifaceconv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-07T17:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f5e8c6d_0f24f6a5",
       "revId": "b21403e7cece5c98d23dcb56383586a9b05da9b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
