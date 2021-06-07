@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3904a26_76c81c0e",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-07T20:25:21Z",
+      "side": 1,
+      "message": "Yes, the dictionary has only pointer entries. Since they all point to statically generated things, we can treat them as uintptrs. I\u0027ll add a comment.",
+      "parentUuid": "f76d14c8_55f5eb05",
+      "revId": "71becfb497ed4a1d6cfae9621f1116822d3bbad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc8153da_bef92d1e",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7b10d5c_e5279773",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-07T20:25:21Z",
+      "side": 1,
+      "message": "Yes, I think we use this convention elsewhere, so it should be fine.",
+      "parentUuid": "bc8153da_bef92d1e",
+      "revId": "71becfb497ed4a1d6cfae9621f1116822d3bbad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ada64c3_7d487ecd",
@@ -102,6 +138,24 @@
       "writtenOn": "2021-06-06T15:18:46Z",
       "side": 1,
       "message": "I\u0027m not following this question.  Should we discuss in person?",
+      "revId": "71becfb497ed4a1d6cfae9621f1116822d3bbad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1667a43_cc91b00d",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-07T20:25:21Z",
+      "side": 1,
+      "message": "I\u0027ve edited the comment a bit. See if that helps.",
+      "parentUuid": "4ada64c3_7d487ecd",
       "revId": "71becfb497ed4a1d6cfae9621f1116822d3bbad2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
