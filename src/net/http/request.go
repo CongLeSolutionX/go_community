@@ -1294,15 +1294,17 @@ func (r *Request) ParseForm() error {
 // disk in temporary files.
 // ParseMultipartForm calls ParseForm if necessary.
 // After one call to ParseMultipartForm, subsequent calls have no effect.
+// ParseMultipartForm may return an error despite parts of the request
+// having been parsed and set.
 func (r *Request) ParseMultipartForm(maxMemory int64) error {
 	if r.MultipartForm == multipartByReader {
 		return errors.New("http: multipart handled by MultipartReader")
 	}
+	var parseFormErr error
 	if r.Form == nil {
-		err := r.ParseForm()
-		if err != nil {
-			return err
-		}
+		// Let errors in ParseForm fall through, and just
+		// return it at the end.
+		parseFormErr = r.ParseForm()
 	}
 	if r.MultipartForm != nil {
 		return nil
@@ -1329,7 +1331,7 @@ func (r *Request) ParseMultipartForm(maxMemory int64) error {
 
 	r.MultipartForm = f
 
-	return nil
+	return parseFormErr
 }
 
 // FormValue returns the first value for the named component of the query.
