@@ -45,6 +45,8 @@ func init() {
 }
 
 func runGraph(ctx context.Context, cmd *base.Command, args []string) {
+	modload.WorkspacesEnabled = true
+
 	if len(args) > 0 {
 		base.Fatalf("go mod graph: graph takes no arguments")
 	}

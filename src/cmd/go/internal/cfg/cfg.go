@@ -49,6 +49,7 @@ var (
 
 	ModCacheRW bool   // -modcacherw flag
 	ModFile    string // -modfile flag
+	WorkFile   string // -workfile flag
 
 	CmdName string // "build", "install", "list", "mod tidy", etc.
 
