@@ -73,6 +73,7 @@ func printStderr(args ...interface{}) (int, error) {
 }
 
 func runRun(ctx context.Context, cmd *base.Command, args []string) {
+	modload.WorkspacesEnabled = true
 	if shouldUseOutsideModuleMode(args) {
 		// Set global module flags for 'go run cmd@version'.
 		// This must be done before modload.Init, but we need to call work.BuildInit
