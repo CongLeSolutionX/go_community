@@ -84,6 +84,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "327690b0_9ca01c4b",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-08T18:58:31Z",
+      "side": 1,
+      "message": "I actually kind of like the leading spaces — it gives these commands a “hanging indent” sort of look that I think helps to associate them with the preceding paragraphs. (But if you want to reformat them throughout the doc for consistency, I won\u0027t object.)",
+      "parentUuid": "26478702_1d80cefa",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 2
+      },
+      "revId": "ade60ccadb22a1380e56c24adab0f0ed0adfdd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15271f2c_b2dfe563",
