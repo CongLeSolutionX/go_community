@@ -81,6 +81,8 @@ type moduleJSON struct {
 }
 
 func runDownload(ctx context.Context, cmd *base.Command, args []string) {
+	modload.WorkspacesEnabled = true
+
 	// Check whether modules are enabled and whether we're in a module.
 	modload.ForceUseModules = true
 	if !modload.HasModRoot() && len(args) == 0 {
