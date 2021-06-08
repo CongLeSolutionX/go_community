@@ -15,19 +15,19 @@ func assignments0() (int, int) {
 	f3 := func() (int, int, int) { return 1, 2, 3 }
 
 	a, b, c = 1, 2, 3
-	a, b, c = 1 /* ERROR "cannot assign [1-9]+ values to [1-9]+ variables" */ , 2
-	a, b, c = 1 /* ERROR "cannot assign [1-9]+ values to [1-9]+ variables" */ , 2, 3, 4
+	a, b, c = 1 /* ERROR "cannot assign [1-9]+ values to [1-9]+ variable" */ , 2
+	a, b, c = 1 /* ERROR "cannot assign [1-9]+ values to [1-9]+ variable" */ , 2, 3, 4
 	_, _, _ = a, b, c
 
 	a = f0 /* ERROR "used as value" */ ()
 	a = f1()
-	a = f2 /* ERROR "cannot assign [1-9]+ values to [1-9]+ variables" */ ()
+	a = f2 /* ERROR "cannot assign [1-9]+ values to [1-9]+ variable" */ ()
 	a, b = f2()
 	a, b, c = f2 /* ERROR "cannot assign [1-9]+ values to [1-9]+ variables" */ ()
 	a, b, c = f3()
 	a, b = f3 /* ERROR "cannot assign [1-9]+ values to [1-9]+ variables" */ ()
 
-	a, b, c = <- /* ERROR "cannot assign [1-9]+ values to [1-9]+ variables" */ ch
+	a, b, c = <- /* ERROR "cannot assign [1-9]+ value to [1-9]+ variables" */ ch
 
 	return /* ERROR "wrong number of return values" */
 	return /* ERROR "wrong number of return values" */ 1
@@ -108,7 +108,7 @@ func assignments2() {
 	s, b = m["foo"]
 	_, d = m["bar"]
 	m["foo"] = nil
-	m["foo"] = nil /* ERROR cannot assign [1-9]+ values to [1-9]+ variables */ , false
+	m["foo"] = nil /* ERROR cannot assign [1-9]+ values to [1-9]+ variable */ , false
 	_ = append(m["foo"])
 	_ = append(m["foo"], true)
 
@@ -116,12 +116,12 @@ func assignments2() {
 	_, b = <-c
 	_, d = <-c
 	<- /* ERROR cannot assign */ c = 0
-	<-c = 0 /* ERROR cannot assign [1-9]+ values to [1-9]+ variables */ , false
+	<-c = 0 /* ERROR cannot assign [1-9]+ values to [1-9]+ variable */ , false
 
 	var x interface{}
 	_, b = x.(int)
 	x /* ERROR cannot assign */ .(int) = 0
-	x.(int) = 0 /* ERROR cannot assign [1-9]+ values to [1-9]+ variables */ , false
+	x.(int) = 0 /* ERROR cannot assign [1-9]+ values to [1-9]+ variable */ , false
 
 	assignments2 /* ERROR used as value */ () = nil
 	int /* ERROR not an expression */ = 0

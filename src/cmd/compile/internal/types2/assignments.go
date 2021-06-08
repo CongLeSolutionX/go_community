@@ -258,7 +258,10 @@ func (check *Checker) initVars(lhs []*Var, orig_rhs []syntax.Expr, returnPos syn
 			check.errorf(returnPos, "wrong number of return values (want %d, got %d)", len(lhs), len(rhs))
 			return
 		}
-		check.errorf(rhs[0], "cannot initialize %d variables with %d values", len(lhs), len(rhs))
+
+		variablesWord, valuesWord := singularOrPlural(len(lhs), len(rhs))
+
+		check.errorf(rhs[0], "cannot initialize %d %s with %d %s", len(lhs), variablesWord, len(rhs), valuesWord)
 		return
 	}
 
@@ -292,7 +295,10 @@ func (check *Checker) assignVars(lhs, orig_rhs []syntax.Expr) {
 				return
 			}
 		}
-		check.errorf(rhs[0], "cannot assign %d values to %d variables", len(rhs), len(lhs))
+
+		variablesWord, valuesWord := singularOrPlural(len(lhs), len(rhs))
+
+		check.errorf(rhs[0], "cannot assign %d %s to %d %s", len(rhs), valuesWord, len(lhs), variablesWord)
 		return
 	}
 
@@ -323,6 +329,21 @@ func unpackExpr(x syntax.Expr) []syntax.Expr {
 		return []syntax.Expr{x}
 	}
 	return nil
+}
+
+// singularOrPlural decides if error messages should hold words in singular or plural forms
+func singularOrPlural(variablesLength, valuesLength int) (variablesWord, valuesWord string) {
+	variablesWord, valuesWord = "variables", "values"
+
+	if variablesLength == 1 {
+		variablesWord = "variable"
+	}
+
+	if valuesLength == 1 {
+		valuesWord = "value"
+	}
+
+	return variablesWord, valuesWord
 }
 
 func (check *Checker) shortVarDecl(pos syntax.Pos, lhs, rhs []syntax.Expr) {
