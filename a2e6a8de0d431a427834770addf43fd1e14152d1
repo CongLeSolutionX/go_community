@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32fe2600_a3ab2389",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-06-08T19:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be80056f_e1a05d42",
+      "revId": "a2e6a8de0d431a427834770addf43fd1e14152d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51d964ac_85650555",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34dc45f1_4d01c976",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-06-08T19:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c710862_c5b22117",
+      "revId": "a2e6a8de0d431a427834770addf43fd1e14152d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efc18a7d_beb14d44",
@@ -85,6 +121,30 @@
       "writtenOn": "2021-06-08T18:36:00Z",
       "side": 1,
       "message": "I think we don\u0027t want to support \"000\" so make this s !\u003d \"0\".",
+      "range": {
+        "startLine": 577,
+        "startChar": 5,
+        "endLine": 577,
+        "endChar": 10
+      },
+      "revId": "a2e6a8de0d431a427834770addf43fd1e14152d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fbccbc0_025a8715",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-06-08T19:45:42Z",
+      "side": 1,
+      "message": "I don\u0027t think we do support that here. `c` is the number of characters read, so this check avoids the case where we avoid a component that is just `0`. We can\u0027t compare against `s` because it contains the rest of the address, not just the component currently being processed (i.e. after processing the first component s is `0.0.1`.)",
+      "parentUuid": "efc18a7d_beb14d44",
       "range": {
         "startLine": 577,
         "startChar": 5,
@@ -112,6 +172,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34e45391_eab42a1f",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-06-08T19:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c7967c8_1880b38e",
+      "revId": "a2e6a8de0d431a427834770addf43fd1e14152d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ad52dc1_7c07ca5f",
@@ -125,6 +203,24 @@
       "writtenOn": "2021-06-08T18:36:00Z",
       "side": 1,
       "message": "Add tests for \"1.2..4\", \"123.000.000.000\" and \"0123.1.2.3\".",
+      "revId": "a2e6a8de0d431a427834770addf43fd1e14152d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a4324c3_e1fdbd31",
+        "filename": "src/net/ip_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-06-08T19:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ad52dc1_7c07ca5f",
       "revId": "a2e6a8de0d431a427834770addf43fd1e14152d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
