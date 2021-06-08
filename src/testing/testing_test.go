@@ -58,6 +58,8 @@ func TestTempDir(t *testing.T) {
 	t.Run("test:subtest", testTempDir)
 	t.Run("test/..", testTempDir)
 	t.Run("../test", testTempDir)
+	t.Run("test[]", testTempDir)
+	t.Run("*/test", testTempDir)
 }
 
 func testTempDir(t *testing.T) {
