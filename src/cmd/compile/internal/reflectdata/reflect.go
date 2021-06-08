@@ -50,7 +50,7 @@ func CountTabs() (numPTabs, numITabs int) {
 // runtime interface and reflection data structures
 var (
 	signatmu    sync.Mutex // protects signatset and signatslice
-	signatset   = make(map[*types.Type]struct{})
+	signatset   = make(map[*types.Type]bool)
 	signatslice []*types.Type
 
 	gcsymmu  sync.Mutex // protects gcsymset and gcsymslice
@@ -1311,7 +1311,7 @@ func NeedRuntimeType(t *types.Type) {
 		return
 	}
 	if _, ok := signatset[t]; !ok {
-		signatset[t] = struct{}{}
+		signatset[t] = false
 		signatslice = append(signatslice, t)
 	}
 }
@@ -1325,7 +1325,7 @@ func WriteRuntimeTypes() {
 		// Transfer entries to a slice and sort, for reproducible builds.
 		for _, t := range signatslice {
 			signats = append(signats, typeAndStr{t: t, short: types.TypeSymName(t), regular: t.String()})
-			delete(signatset, t)
+			signatset[t] = true
 		}
 		signatslice = signatslice[:0]
 		sort.Sort(typesByString(signats))
@@ -1334,6 +1334,11 @@ func WriteRuntimeTypes() {
 			writeType(t)
 			if t.Sym() != nil {
 				writeType(types.NewPtr(t))
+			}
+		}
+		for t, writtenType := range signatset {
+			if writtenType {
+				delete(signatset, t)
 			}
 		}
 	}
