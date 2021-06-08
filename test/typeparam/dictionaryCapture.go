@@ -16,6 +16,7 @@ func main() {
 	functions()
 	methodExpressions()
 	methodValues()
+	genMethodValues[int]()
 	interfaceMethods()
 	globals()
 }
@@ -72,6 +73,12 @@ func methodExpressions() {
 	is7(f1(x))
 	f2 := s[int].g2
 	is77(f2(x))
+}
+
+func genMethodValues[T any]() {
+	x := s[T]{}
+	f0 := x.g0
+	f0()
 }
 
 func methodValues() {
