@@ -59,6 +59,30 @@
       },
       "revId": "ade60ccadb22a1380e56c24adab0f0ed0adfdd9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec33aafd_a9addc00",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-08T16:33:40Z",
+      "side": 1,
+      "message": "Added “module“ instead. (Thanks for the catch!)",
+      "parentUuid": "15271f2c_b2dfe563",
+      "range": {
+        "startLine": 141,
+        "startChar": 48,
+        "endLine": 141,
+        "endChar": 50
+      },
+      "revId": "ade60ccadb22a1380e56c24adab0f0ed0adfdd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
