@@ -16,6 +16,24 @@
       "message": "I think this is the first T(x) conversion that can fail dynamically. It might be worth calling it out as such in the release Go 1.17 release notes, as analysis tools may hitherto have assumed that conversion operations are infallible, for example:\n\nhttps://pkg.go.dev/golang.org/x/tools/go/ssa#Convert\n\u003e This operation cannot fail dynamically.\n\n",
       "revId": "1c268431f49ee2fc843eac52a0854aea3d02a6e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dda71ea_5ef5f85f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-08T19:44:08Z",
+      "side": 1,
+      "message": "Thanks, sent CL 326149.",
+      "parentUuid": "6c7e8327_c6d5e892",
+      "revId": "1c268431f49ee2fc843eac52a0854aea3d02a6e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
