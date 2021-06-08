@@ -12,7 +12,6 @@ import (
 	"errors"
 	"hash"
 	"io"
-	"math/big"
 )
 
 // Per RFC 8017, Section 9.1
@@ -213,13 +212,13 @@ func signPSSWithSalt(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed,
 	if err != nil {
 		return nil, err
 	}
-	m := new(big.Int).SetBytes(em)
+	m := natFromBytes(em)
 	c, err := decryptAndCheck(rand, priv, m)
 	if err != nil {
 		return nil, err
 	}
 	s := make([]byte, priv.Size())
-	return c.FillBytes(s), nil
+	return c.fillBytes(s), nil
 }
 
 const (
@@ -291,13 +290,10 @@ func VerifyPSS(pub *PublicKey, hash crypto.Hash, digest []byte, sig []byte, opts
 	if len(sig) != pub.Size() {
 		return ErrVerification
 	}
-	s := new(big.Int).SetBytes(sig)
-	m := encrypt(new(big.Int), pub, s)
+	s := natFromBytes(sig)
+	m := encrypt(new(nat), pub, s)
 	emBits := pub.N.BitLen() - 1
 	emLen := (emBits + 7) / 8
-	if m.BitLen() > emLen*8 {
-		return ErrVerification
-	}
-	em := m.FillBytes(make([]byte, emLen))
+	em := m.fillBytes(make([]byte, emLen))
 	return emsaPSSVerify(digest, em, emBits, opts.saltLength(), hash.New())
 }
