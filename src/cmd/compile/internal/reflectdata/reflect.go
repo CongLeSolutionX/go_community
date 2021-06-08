@@ -1248,7 +1248,6 @@ func WriteRuntimeTypes() {
 		// Transfer entries to a slice and sort, for reproducible builds.
 		for _, t := range signatslice {
 			signats = append(signats, typeAndStr{t: t, short: types.TypeSymName(t), regular: t.String()})
-			delete(signatset, t)
 		}
 		signatslice = signatslice[:0]
 		sort.Sort(typesByString(signats))
