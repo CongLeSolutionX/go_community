@@ -236,7 +236,10 @@ func TestPSSSigning(t *testing.T) {
 	}
 }
 
-func TestSignWithPSSSaltLengthAuto(t *testing.T) {
+func TestPSS513(t *testing.T) {
+	// See Issue 42741, and separately, RFC 8017: "Note that the octet length of
+	// EM will be one less than k if modBits - 1 is divisible by 8 and equal to
+	// k otherwise, where k is the length in octets of the RSA modulus n."
 	key, err := GenerateKey(rand.Reader, 513)
 	if err != nil {
 		t.Fatal(err)
@@ -249,8 +252,9 @@ func TestSignWithPSSSaltLengthAuto(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(signature) == 0 {
-		t.Fatal("empty signature returned")
+	err = VerifyPSS(&key.PublicKey, crypto.SHA256, digest[:], signature, nil)
+	if err != nil {
+		t.Error(err)
 	}
 }
 
@@ -290,8 +294,8 @@ func TestInvalidPSSSaltLength(t *testing.T) {
 	if _, err := SignPSS(rand.Reader, key, crypto.SHA256, digest[:], &PSSOptions{
 		SaltLength: -2,
 		Hash:       crypto.SHA256,
-	}); err.Error() != invalidSaltLenErr.Error() {
-		t.Fatalf("SignPSS unexpected error: got %v, want %v", err, invalidSaltLenErr)
+	}); err.Error() != InvalidSaltLenErr.Error() {
+		t.Fatalf("SignPSS unexpected error: got %v, want %v", err, InvalidSaltLenErr)
 	}
 
 	// We don't check the specific error here, because crypto/rsa and crypto/internal/boring
