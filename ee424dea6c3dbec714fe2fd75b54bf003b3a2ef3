@@ -59,6 +59,30 @@
       },
       "revId": "ee424dea6c3dbec714fe2fd75b54bf003b3a2ef3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f81169d_378879b9",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2021-06-08T17:50:56Z",
+      "side": 1,
+      "message": "It also seems reasonably safe to allow non-ASCII letters and digits, right?\n\nOtherwise if someone has written their test name using a non-Latin script it won\u0027t be present in the path at all.",
+      "parentUuid": "50a2a3c1_56123f36",
+      "range": {
+        "startLine": 934,
+        "startChar": 0,
+        "endLine": 946,
+        "endChar": 14
+      },
+      "revId": "ee424dea6c3dbec714fe2fd75b54bf003b3a2ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
