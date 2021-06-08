@@ -1,6 +1,10 @@
 go run example.com/b
 stdout 'Hello from module A'
 
+go list all # all includes both modules
+stdout 'example.com/a'
+stdout 'example.com/b'
+
 -- go.work --
 go 1.17
 
