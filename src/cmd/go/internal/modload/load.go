@@ -723,7 +723,7 @@ func TargetPackages(ctx context.Context, pattern string) *search.Match {
 	ModRoot()        // Emits an error if Target cannot contain packages.
 
 	m := search.NewMatch(pattern)
-	matchPackages(ctx, m, imports.AnyTags(), omitStd, []module.Version{Target})
+	matchPackages(ctx, m, imports.AnyTags(), omitStd, MainModules.Versions())
 	return m
 }
 
