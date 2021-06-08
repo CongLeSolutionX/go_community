@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f104d71_cb68f87d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-08T18:28:52Z",
+      "side": 1,
+      "message": "I realize this is already submitted. Leaving minor formatting comments I had as a draft but forgot to mail as a FYI.",
+      "revId": "0fb3e2c18408cc8ff6cb87962fc13f2684d1df96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

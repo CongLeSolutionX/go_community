@@ -38,6 +38,52 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b653a075_b86a9935",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-08T18:28:52Z",
+      "side": 1,
+      "message": "Same comment here. (Though I left a similar comment in CL 322769 so it may cause a race, sorry.)",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 2
+      },
+      "revId": "ade60ccadb22a1380e56c24adab0f0ed0adfdd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26478702_1d80cefa",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-08T18:28:52Z",
+      "side": 1,
+      "message": "Unlike paragraphs, the leading spaces in a \u003cpre\u003e show up when the HTML is rendered. It\u0027s likely better to remove it to make the appearance of this line more natural.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 2
+      },
+      "revId": "ade60ccadb22a1380e56c24adab0f0ed0adfdd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15271f2c_b2dfe563",
