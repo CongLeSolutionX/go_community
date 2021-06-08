@@ -11,7 +11,6 @@ import (
 	"crypto/subtle"
 	"errors"
 	"io"
-	"math/big"
 )
 
 // This file implements encryption and decryption using PKCS #1 v1.5 padding.
@@ -76,9 +75,9 @@ func EncryptPKCS1v15(random io.Reader, pub *PublicKey, msg []byte) ([]byte, erro
 		return boring.EncryptRSANoPadding(bkey, em)
 	}
 
-	m := new(big.Int).SetBytes(em)
-	c := encrypt(new(big.Int), pub, m)
-	return c.FillBytes(em), nil
+	m := natFromBytes(em)
+	c := encrypt(new(nat), pub, m)
+	return c.fillBytes(em), nil
 }
 
 // DecryptPKCS1v15 decrypts a plaintext using RSA and the padding scheme from PKCS #1 v1.5.
@@ -184,13 +183,13 @@ func decryptPKCS1v15(random io.Reader, priv *PrivateKey, ciphertext []byte) (val
 			return
 		}
 	} else {
-		c := new(big.Int).SetBytes(ciphertext)
-		var m *big.Int
+		c := natFromBytes(ciphertext)
+		var m *nat
 		m, err = decrypt(random, priv, c)
 		if err != nil {
 			return
 		}
-		em = m.FillBytes(make([]byte, k))
+		em = m.fillBytes(make([]byte, k))
 	}
 
 	firstByteIsZero := subtle.ConstantTimeByteEq(em[0], 0)
@@ -302,13 +301,13 @@ func SignPKCS1v15(random io.Reader, priv *PrivateKey, hash crypto.Hash, hashed [
 	copy(em[k-tLen:k-hashLen], prefix)
 	copy(em[k-hashLen:k], hashed)
 
-	m := new(big.Int).SetBytes(em)
+	m := natFromBytes(em)
 	c, err := decryptAndCheck(random, priv, m)
 	if err != nil {
 		return nil, err
 	}
 
-	return c.FillBytes(em), nil
+	return c.fillBytes(em), nil
 }
 
 // VerifyPKCS1v15 verifies an RSA PKCS #1 v1.5 signature.
@@ -346,9 +345,9 @@ func VerifyPKCS1v15(pub *PublicKey, hash crypto.Hash, hashed []byte, sig []byte)
 		return ErrVerification
 	}
 
-	c := new(big.Int).SetBytes(sig)
-	m := encrypt(new(big.Int), pub, c)
-	em := m.FillBytes(make([]byte, k))
+	c := natFromBytes(sig)
+	m := encrypt(new(nat), pub, c)
+	em := m.fillBytes(make([]byte, k))
 	// EM = 0x00 || 0x01 || PS || 0x00 || T
 
 	ok := subtle.ConstantTimeByteEq(em[0], 0)

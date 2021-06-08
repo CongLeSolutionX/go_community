@@ -13,6 +13,7 @@ import (
 	. "crypto/rsa"
 	"crypto/sha1"
 	"crypto/sha256"
+	_ "crypto/sha256"
 	"encoding/hex"
 	"math/big"
 	"os"
