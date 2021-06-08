@@ -427,6 +427,7 @@ func (t *Transport) onceSetNextProtoDefaults() {
 //
 // The environment values may be either a complete URL or a
 // "host[:port]", in which case the "http" scheme is assumed.
+// Supported schemes are: http, https, socks5.
 // An error is returned if the value is a different form.
 //
 // A nil URL and nil error are returned if no proxy is defined in the
@@ -2169,7 +2170,6 @@ func (pc *persistConn) readLoop() {
 				waitForBodyRead <- false
 				<-eofc // will be closed by deferred call at the end of the function
 				return nil
-
 			},
 			fn: func(err error) error {
 				isEOF := err == io.EOF
@@ -2507,8 +2507,10 @@ var errTimeout error = &httpError{err: "net/http: timeout awaiting response head
 
 // errRequestCanceled is set to be identical to the one from h2 to facilitate
 // testing.
-var errRequestCanceled = http2errRequestCanceled
-var errRequestCanceledConn = errors.New("net/http: request canceled while waiting for connection") // TODO: unify?
+var (
+	errRequestCanceled     = http2errRequestCanceled
+	errRequestCanceledConn = errors.New("net/http: request canceled while waiting for connection") // TODO: unify?
+)
 
 func nop() {}
 
