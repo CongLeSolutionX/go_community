@@ -1874,7 +1874,17 @@ func methodWrapper(rcvr *types.Type, method *types.Field, forItab bool) *obj.LSy
 				fmt.Printf("%s\n", ir.MethodSym(orig, method.Sym).Name)
 				panic("multiple .inst.")
 			}
-			args = append(args, getDictionary(".inst."+ir.MethodSym(orig, method.Sym).Name, targs)) // TODO: remove .inst.
+			// Temporary fix: the wrapper for an auto-generated
+			// pointer/non-pointer receiver method should share the
+			// same dictionary as the corresponding original
+			// (user-written) method.
+			baseOrig := orig
+			if baseOrig.IsPtr() && !method.Type.Recv().Type.IsPtr() {
+				baseOrig = baseOrig.Elem()
+			} else if !baseOrig.IsPtr() && method.Type.Recv().Type.IsPtr() {
+				baseOrig = types.NewPtr(baseOrig)
+			}
+			args = append(args, getDictionary(".inst."+ir.MethodSym(baseOrig, method.Sym).Name, targs)) // TODO: remove .inst.
 			if indirect {
 				args = append(args, ir.NewStarExpr(base.Pos, nthis))
 			} else {
@@ -1964,23 +1974,6 @@ func MarkUsedIfaceMethod(n *ir.CallExpr) {
 	r.Type = objabi.R_USEIFACEMETHOD
 }
 
-// getDictionaryForInstantiation returns the dictionary that should be used for invoking
-// the concrete instantiation described by inst.
-func GetDictionaryForInstantiation(inst *ir.InstExpr) ir.Node {
-	targs := typecheck.TypesOf(inst.Targs)
-	if meth, ok := inst.X.(*ir.SelectorExpr); ok {
-		return GetDictionaryForMethod(meth.Selection.Nname.(*ir.Name), targs)
-	}
-	return GetDictionaryForFunc(inst.X.(*ir.Name), targs)
-}
-
-func GetDictionaryForFunc(fn *ir.Name, targs []*types.Type) ir.Node {
-	return getDictionary(typecheck.MakeInstName(fn.Sym(), targs, false).Name, targs)
-}
-func GetDictionaryForMethod(meth *ir.Name, targs []*types.Type) ir.Node {
-	return getDictionary(typecheck.MakeInstName(meth.Sym(), targs, true).Name, targs)
-}
-
 // getDictionary returns the dictionary for the given named generic function
 // or method, with the given type arguments.
 // TODO: pass a reference to the generic function instead? We might need
@@ -2004,14 +1997,7 @@ func getDictionary(name string, targs []*types.Type) ir.Node {
 
 	// Initialize the dictionary, if we haven't yet already.
 	if lsym := sym.Linksym(); len(lsym.P) == 0 {
-		off := 0
-		// Emit an entry for each concrete type.
-		for _, t := range targs {
-			s := TypeLinksym(t)
-			off = objw.SymPtr(lsym, off, s, 0)
-		}
-		// TODO: subdictionaries
-		objw.Global(lsym, int32(off), obj.DUPOK|obj.RODATA)
+		base.Fatalf("Dictionary should have alredy been generated: %v", sym)
 	}
 
 	// Make a node referencing the dictionary symbol.
