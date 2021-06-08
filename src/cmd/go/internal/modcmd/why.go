@@ -64,6 +64,7 @@ func init() {
 }
 
 func runWhy(ctx context.Context, cmd *base.Command, args []string) {
+	modload.WorkspacesEnabled = true
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
 
