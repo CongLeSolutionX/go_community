@@ -72,6 +72,52 @@
       "message": "Looks like trybot failures may be due to https://github.com/golang/go/issues/42942 (there is an outstanding cherry-pick CL for that).\n",
       "revId": "27826db1c56e42c14ea1077a34fa831b93fa2250",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "366746b4_48846cf0",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-06-09T13:56:42Z",
+      "side": 1,
+      "message": "false here? If old symbol wins, we are not adding the new symbol.",
+      "range": {
+        "startLine": 442,
+        "startChar": 16,
+        "endLine": 442,
+        "endChar": 20
+      },
+      "revId": "27826db1c56e42c14ea1077a34fa831b93fa2250",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85d8c1ea_e829e353",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-06-09T13:56:42Z",
+      "side": 1,
+      "message": "true here? Here new symbol wins. It probably doesn\u0027t actually matter, if the two symbols have the same attributes (except size).",
+      "range": {
+        "startLine": 446,
+        "startChar": 16,
+        "endLine": 446,
+        "endChar": 21
+      },
+      "revId": "27826db1c56e42c14ea1077a34fa831b93fa2250",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
