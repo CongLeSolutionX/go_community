@@ -75,6 +75,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84364d8c_83a95c93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-06-09T01:45:18Z",
+      "side": 1,
+      "message": "Yes, the failure is real. I\u0027ll adjust the test.",
+      "parentUuid": "668f97d5_4504efca",
+      "revId": "8ba7644a6077e22b7a4372e3e17fa5ecd2379db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "827af40d_3e0d6571",
@@ -92,6 +110,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00f4b665_ef79f631",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-06-09T01:45:18Z",
+      "side": 1,
+      "message": "OK. I\u0027ll tweak it.",
+      "parentUuid": "827af40d_3e0d6571",
+      "revId": "8ba7644a6077e22b7a4372e3e17fa5ecd2379db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a227ceb_b62cc7fe",
@@ -105,6 +141,30 @@
       "writtenOn": "2021-06-09T01:18:44Z",
       "side": 1,
       "message": "\u0026\u0026 ?",
+      "range": {
+        "startLine": 535,
+        "startChar": 67,
+        "endLine": 535,
+        "endChar": 69
+      },
+      "revId": "8ba7644a6077e22b7a4372e3e17fa5ecd2379db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52856e0f_41f35650",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-06-09T01:45:18Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "8a227ceb_b62cc7fe",
       "range": {
         "startLine": 535,
         "startChar": 67,
