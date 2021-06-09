@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1cc03192_7931327b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-09T22:31:54Z",
+      "side": 1,
+      "message": "I like the idea, and that\u0027s a good point. The problem I\u0027m running into is that I can\u0027t think of a way to do this without it being very messy (ie. lots of switch statements on types). I wasn\u0027t seeing anything in the reflect package or otherwise that would let us check whether the value is semantically different after converting it. I definitely welcome ideas (I at least added a TODO to consider it).",
+      "parentUuid": "2bde49a6_a3e3e86f",
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "059ffccc_05ae94cf",
         "filename": "src/internal/fuzz/fuzz.go",
         "patchSetId": 1
@@ -68,6 +86,30 @@
       "writtenOn": "2021-06-08T03:36:22Z",
       "side": 1,
       "message": "s/excpeted/expected/",
+      "range": {
+        "startLine": 710,
+        "startChar": 48,
+        "endLine": 710,
+        "endChar": 56
+      },
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bcb680e_79810b30",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-09T22:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "059ffccc_05ae94cf",
       "range": {
         "startLine": 710,
         "startChar": 48,
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d721ac_e85c3942",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-09T22:31:54Z",
+      "side": 1,
+      "message": "Sounds like this can happen now due to supporting converstion from slice to array pointer. Should be rare, but best to be sure we don\u0027t run into it. This is what the docs at tip say:\n\n  Even if ConvertibleTo returns true, the conversion may still panic.\n\nline in code: https://github.com/golang/go/blob/master/src/reflect/type.go#L109\nCL: https://go-review.googlesource.com/c/go/+/301652\n\nSince the docs will say this, I don\u0027t think an example in a comment here is necessary, but lmk if you disagree.",
+      "parentUuid": "5c02d065_99040c6f",
+      "range": {
+        "startLine": 725,
+        "startChar": 1,
+        "endLine": 726,
+        "endChar": 32
+      },
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f15ede74_291b2f94",
@@ -124,6 +190,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cbe977c_0f55773b",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-09T22:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f15ede74_291b2f94",
+      "range": {
+        "startLine": 225,
+        "startChar": 9,
+        "endLine": 225,
+        "endChar": 19
+      },
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1019ae25_13e76b70",
@@ -137,6 +227,24 @@
       "writtenOn": "2021-06-08T03:36:22Z",
       "side": 1,
       "message": "This could be future work. We could consider remembering the callsite of each f.Add and providing such information here now that we know exactly which f.Add call was problematic.",
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be219fd9_f1842844",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-09T22:31:54Z",
+      "side": 1,
+      "message": "Added a TODO",
+      "parentUuid": "1019ae25_13e76b70",
       "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
