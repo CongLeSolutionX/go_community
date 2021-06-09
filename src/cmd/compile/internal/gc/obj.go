@@ -154,6 +154,7 @@ func dumpdata() {
 	// Dump extra globals.
 	tmp := externdcl
 
+<<<<<<< HEAD   (767761 [release-branch.go1.16] go1.16.5)
 	if externdcl != nil {
 		externdcl = externdcl[externs:]
 	}
@@ -163,6 +164,12 @@ func dumpdata() {
 	if zerosize > 0 {
 		zero := mappkg.Lookup("zero")
 		ggloblsym(zero.Linksym(), int32(zerosize), obj.DUPOK|obj.RODATA)
+=======
+	if reflectdata.ZeroSize > 0 {
+		zero := base.PkgLinksym("go.map", "zero", obj.ABI0)
+		objw.Global(zero, int32(reflectdata.ZeroSize), obj.DUPOK|obj.RODATA)
+		zero.Set(obj.AttrContentAddressable, true)
+>>>>>>> CHANGE (aa5540 cmd/compile: make map.zero symbol content-addressable)
 	}
 
 	addGCLocals()
