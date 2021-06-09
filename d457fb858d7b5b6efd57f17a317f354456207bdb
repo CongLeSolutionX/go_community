@@ -203,6 +203,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "75d30c50_beb5371a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-09T16:57:40Z",
+      "side": 1,
+      "message": "\u003e Even with the \"bootstrapping using XXX\" message, I\u0027ve been surprised before when I set GOROOT_BOOTSTRAP but had a typo and it instead used the system toolchain.\n\nYeah, the same thing happens with me, hence this CL!\n\n\u003e I suspect make.rc / make.bat should be similarly updated too though?\n\nAh right!",
+      "parentUuid": "2e35347a_6037a3d0",
+      "revId": "d457fb858d7b5b6efd57f17a317f354456207bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "59cd4ceb_2bf3c47d",
         "filename": "src/make.bash",
         "patchSetId": 1
