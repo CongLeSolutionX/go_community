@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6e54a58_d4a32565",
+        "filename": "api/next.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-09T20:17:43Z",
+      "side": 0,
+      "message": "This is removed in CL 323369 intentionally.",
+      "revId": "182157c81ad5a147ba13c6e80f844b2242598aed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00539648_30013b4a",
+        "filename": "api/next.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-09T20:17:43Z",
+      "side": 0,
+      "message": "This is unexported in CL 323430 intentionally.",
+      "revId": "182157c81ad5a147ba13c6e80f844b2242598aed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
