@@ -160,6 +160,24 @@
       "parentUuid": "9d1a80ae_683c74cb",
       "revId": "9e35a5441f1c3652f4e82e760f876b3baf840e51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e06a35_abdeff59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-06-09T16:43:06Z",
+      "side": 1,
+      "message": "Cool. Thanks for fixing that.",
+      "parentUuid": "e20665c1_4a4bd653",
+      "revId": "9e35a5441f1c3652f4e82e760f876b3baf840e51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
