@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61ed14f8_1c227cca",
+        "filename": "src/runtime/defs_linux_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-06-09T16:20:38Z",
+      "side": 1,
+      "message": "I think the ordering is correct. The kernel source shows an order of sigev_value, sigev_signo, sigev_notify, followed by a union (where one option is \"int _tid\") https://elixir.bootlin.com/linux/latest/source/include/uapi/asm-generic/siginfo.h#L323 , and \"go tool cgo -godefs defs_linux.go\" (with CPATH set to the Linux kernel\u0027s ./arch/x86/include/uapi, ./include/uapi, ./include) writes out the following struct for 64-bit architectures:\n\n  type Sigevent struct {\n  \tValue\t\t[8]byte\n  \tSigno\t\tint32\n  \tNotify\t\tint32\n  \tX_sigev_un\t[48]byte\n  }\n\nOn 32-bit architectures, Value is [4]byte and X_sigev_un is [52]byte, so I turned Value into a uintptr.",
+      "parentUuid": "21089a6e_b8115dac",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0605a05b_083bfe23",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-06-09T14:50:17Z",
       "side": 1,
       "message": "What\u0027s the idea behind incrementing/decrementing the id?",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "686aa120_18794985",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-06-09T16:20:38Z",
+      "side": 1,
+      "message": "The first timer the process creates has an id of 0, so we need a way to tell whether this value is set. I changed the mechanism in PS4, so it uses an int64 now with a couple of explicit flags.",
+      "parentUuid": "0605a05b_083bfe23",
       "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "527d695c_4b0f47bb",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-06-09T16:20:38Z",
+      "side": 1,
+      "message": "This is another thing that changed between PS3 and PS4. This call turns per-thread profiling off for every thread in the process so the next line can turn it on for every thread (including this new one).\n\nPS4 includes significant changes to how that works: it\u0027s structured as a per-thread profiler rather than a process-wide profiler, and the work to enable/disable happens during runtime·execute.",
+      "parentUuid": "f21d9a1c_ad94372f",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07d326ae_ee7762ef",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-06-09T14:50:17Z",
       "side": 1,
       "message": "Is this supposed to ignore setitimer() signals if timer_create() is used? If yes, why would this currently happen? My understanding of the patch is that setitimer() and timer_create() are implemented in mutually exclusive ways in the current iteration?",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac75f6f1_9d1ead8f",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-06-09T16:20:38Z",
+      "side": 1,
+      "message": "Yes, I intend this to ignore setitimer signals if the M has its own timer via timer_create.\n\nIn the context of PS4, I believe I know one way it would happen and I suspect another.\n\nFirst, per-thread profiling starts (in PS4) inside runtime·execute. An M can run a G for several milliseconds at a time, and so may be in the middle of running a G when another goroutine asks to enable profiling. (There may be dozens of Ms like this, using tens of milliseconds of CPU in total.) Until the M stops running that goroutine, it won\u0027t have a per-thread timer because it hasn\u0027t yet called runtime·execute (in PS4). Until then, the only timer tracking its CPU spend is the process-wide setitimer, and I think it\u0027s right for the profiler to record any SIGPROF delivered to that thread that arrives before the thread calls timer_create.\n\nThe other is cgo, or threads that are in the process but not completely known to the Go runtime. I\u0027m not sure what the details of this one look like. Do threads in the process that aren\u0027t-quite-known to the Go runtime run this same signal handler code? I suppose this must be only for somewhat-known-to-Go threads, since getg().m doesn\u0027t panic/fault. But again, what\u0027s on my mind is threads that are busy for a while and miss the cue to call timer_create.\n\nAnd, if there is to be a way to control whether the program uses timer_create (I set up a new GODEBUG flag for my own convenience, but maybe it stays?), then this is a way to allow either mechanism to work.\n\nWhat do you think about those cases and how to address them?",
+      "parentUuid": "07d326ae_ee7762ef",
       "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
