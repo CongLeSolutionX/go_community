@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d1c541_d0426467",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-09T07:35:40Z",
+      "side": 1,
+      "message": "An example:\n\n```\n$ GOROOT_BOOTSTRAP\u003d/Users/cuonglm/sdk/go1.16.55 ./make.bash\nWARN: /Users/cuonglm/sdk/go1.16.55/bin/go does not exist, found /opt/homebrew/bin/go from env\nWARN: set /opt/homebrew/Cellar/go/1.15.7/libexec as GOROOT_BOOTSTRAP\nBuilding Go cmd/dist using /opt/homebrew/Cellar/go/1.15.7/libexec. (go1.16beta1 darwin/arm64)\nBuilding Go toolchain1 using /opt/homebrew/Cellar/go/1.15.7/libexec.\nBuilding Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.\nBuilding Go toolchain2 using go_bootstrap and Go toolchain1.\nBuilding Go toolchain3 using go_bootstrap and Go toolchain2.\nBuilding packages and commands for darwin/arm64.\n---\nInstalled Go for darwin/arm64 in /Users/cuonglm/sources/go\nInstalled commands in /Users/cuonglm/sources/go/bin\n```",
+      "revId": "d457fb858d7b5b6efd57f17a317f354456207bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
