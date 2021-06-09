@@ -221,6 +221,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6cf93788_eaf61eb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-09T17:29:11Z",
+      "side": 1,
+      "message": "Hmm, sounds like make.bat has different logic, as it skips checking from env if GOROOT_BOOTSTRAP was set already. I will leave it as-is for now, as I\u0027m not too confident about my bat skill to make the change.",
+      "parentUuid": "75d30c50_beb5371a",
+      "revId": "d457fb858d7b5b6efd57f17a317f354456207bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "59cd4ceb_2bf3c47d",
         "filename": "src/make.bash",
         "patchSetId": 1
