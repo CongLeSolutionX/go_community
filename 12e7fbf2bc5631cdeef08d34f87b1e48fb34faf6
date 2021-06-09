@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21089a6e_b8115dac",
+        "filename": "src/runtime/defs_linux_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-06-09T14:50:17Z",
+      "side": 1,
+      "message": "Is this the correct field ordering? Looking at the man pages it seems like the value and notify fields need to be swapped?\n\nhttps://man7.org/linux/man-pages/man7/sigevent.7.html",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0605a05b_083bfe23",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-06-09T14:50:17Z",
+      "side": 1,
+      "message": "What\u0027s the idea behind incrementing/decrementing the id?",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f21d9a1c_ad94372f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-06-09T14:50:17Z",
+      "side": 1,
+      "message": "Why is setcpuprofilerate(0) needed here? Shouldn\u0027t this be a fresh thread by definition?",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07d326ae_ee7762ef",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-06-09T14:50:17Z",
+      "side": 1,
+      "message": "Is this supposed to ignore setitimer() signals if timer_create() is used? If yes, why would this currently happen? My understanding of the patch is that setitimer() and timer_create() are implemented in mutually exclusive ways in the current iteration?",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
