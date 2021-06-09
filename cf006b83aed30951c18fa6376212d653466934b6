@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3a378f0_6ed1039b",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "Interesting. Do you know of a good way to do constant time selection without having a mask of ones and a mask of zeros? I first learned this technique from Pornin\u0027s BearSSL, which is intended to run on resource-constraint platforms.",
+      "parentUuid": "0c94bef1_1aa03330",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f3a3e14_b1526c3f",
         "filename": "src/crypto/rsa/nat.go",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "295e1acb_ed1d20d3",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "Right now it assumes that the buffer has been cleared completely. I think it should correctly fill in bytes from the end of the buffer to the front. If we added an extra step where we clear the buffer with zeros, I think this would always produce a correct, but possibly truncated result. If the buffer is larger than the number, you would end up with a correct value, just front padded with zeros, which doesn\u0027t effect the big endian interpretation.",
+      "parentUuid": "7f3a3e14_b1526c3f",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8e42bc9_7fc99c0f",
         "filename": "src/crypto/rsa/nat.go",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2021-06-09T10:16:34Z",
       "side": 1,
       "message": "\"in the buffer bytes\"",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6513b650_a7437261",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8e42bc9_7fc99c0f",
       "revId": "cf006b83aed30951c18fa6376212d653466934b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -88,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf1e04b8_447c389a",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "Yeah, this function assumes that the buffer is cleared beforehand. It would probably be a good idea to either document that more clearly, or to clear it ourselves.",
+      "parentUuid": "bd3d1a9b_99443d6c",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6fc4745f_b3f6236c",
         "filename": "src/crypto/rsa/nat.go",
         "patchSetId": 1
@@ -99,6 +171,24 @@
       "writtenOn": "2021-06-09T10:16:34Z",
       "side": 1,
       "message": "typo \"Because\"",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ec0a22d_d193fca2",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fc4745f_b3f6236c",
       "revId": "cf006b83aed30951c18fa6376212d653466934b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -137,6 +227,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb1b9fb6_40076098",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef4d6443_531bc872",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95b90cbf_2fadc8b6",
@@ -156,6 +264,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6b2d394_9b94f085",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "Perhaps, although the use of 4 bit windows is \"manually\" encoded in the way the rest of the function is written. It might be better to have this be (1 \u003c\u003c 4) - 1 though.",
+      "parentUuid": "95b90cbf_2fadc8b6",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0927e28f_20cede2d",
         "filename": "src/crypto/rsa/nat.go",
         "patchSetId": 1
@@ -167,6 +293,24 @@
       "writtenOn": "2021-06-09T10:16:34Z",
       "side": 1,
       "message": "This could use size instead of len(out.limbs). Not sure what\u0027s most readable.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b373a21_c42d6169",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "We should also be mindful of helping the compiler elide bounds checking. It may not make the connection between size and the length of the buffer we\u0027re writing to.",
+      "parentUuid": "0927e28f_20cede2d",
       "revId": "cf006b83aed30951c18fa6376212d653466934b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -201,6 +345,24 @@
       "writtenOn": "2021-06-09T10:16:34Z",
       "side": 1,
       "message": "A public key is not used to decrypt usually. Not sure why the change?",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac23bbf1_3b55d441",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2021-06-09T10:38:09Z",
+      "side": 1,
+      "message": "I think I accidentally reverted a recent commit to fix this documentation.",
+      "parentUuid": "d5e114b8_1a632af3",
       "revId": "cf006b83aed30951c18fa6376212d653466934b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
