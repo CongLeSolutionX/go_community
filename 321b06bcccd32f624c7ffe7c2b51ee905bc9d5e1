@@ -72,6 +72,24 @@
       "message": "I think the test here would be more natural as one of the tests in the GOROOT/test dir, because that handles all the build/run machinery for you.",
       "revId": "321b06bcccd32f624c7ffe7c2b51ee905bc9d5e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae4728a_ffd5fbb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-06-09T01:18:26Z",
+      "side": 1,
+      "message": "I suppose that makes sense. I was thinking in terms of link_test.go since it would put it with all the other linker-related tests, but in fact you have a point. I\u0027ll see about moving it.",
+      "parentUuid": "60469e49_58a40598",
+      "revId": "321b06bcccd32f624c7ffe7c2b51ee905bc9d5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
