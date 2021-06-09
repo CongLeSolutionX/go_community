@@ -148,6 +148,30 @@
       },
       "revId": "321b06bcccd32f624c7ffe7c2b51ee905bc9d5e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19dec2a7_09b6a857",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-06-09T01:59:02Z",
+      "side": 1,
+      "message": "I\u0027ve moved the test, so this should no longer be an issue.",
+      "parentUuid": "7249b85d_4b9f92cf",
+      "range": {
+        "startLine": 1173,
+        "startChar": 12,
+        "endLine": 1173,
+        "endChar": 24
+      },
+      "revId": "321b06bcccd32f624c7ffe7c2b51ee905bc9d5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
