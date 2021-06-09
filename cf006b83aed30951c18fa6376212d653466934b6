@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6dcac8_25ccad86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "It\u0027s nice to see constant time RSA becoming a reality in Go :) \nHere are a few comments from a cursory review.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c94bef1_1aa03330",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "I know the goal is to be constant time here, but just FYI, these kind of values are making side-channels (power analysis in particular) much easier to exploit. In general one wants to avoid having too large of an hamming weight difference between values to avoid these kind of attacks. Since I don\u0027t think Go code is really meant to be run on low-power devices, I guess it\u0027s fine.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f3a3e14_b1526c3f",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "Document how this behaves when the buffer is not empty. What about left padding too?",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e42bc9_7fc99c0f",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "\"in the buffer bytes\"",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd3d1a9b_99443d6c",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "I feel like this will misbehave is the buffer wasn\u0027t empty in the first place, no? It\u0027s not cleared completely for the fittingLimbs-len(x.limbs) last bytes, is it? This is also lacking a test case IMO.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fc4745f_b3f6236c",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "typo \"Because\"",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2235cc60_b95efa33",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "That\u0027s nice, padding can get annoying quickly when you do remove zeros.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef4d6443_531bc872",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "typo \"computes\"",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95b90cbf_2fadc8b6",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "I\u0027d argue that magic numbers should be const, but not sure what\u0027s best for readability",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0927e28f_20cede2d",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "This could use size instead of len(out.limbs). Not sure what\u0027s most readable.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f97a6d9a_22f690be",
+        "filename": "src/crypto/rsa/nat_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "fillBytes could probably use a couple extra tests with edge cases (in particular leading 0s)",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5e114b8_1a632af3",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "A public key is not used to decrypt usually. Not sure why the change?",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "758aaa56_3fa1e1bf",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2021-06-09T10:16:34Z",
+      "side": 1,
+      "message": "The blinding is no longer applied there... Might require further changes to the comments.\nI\u0027m not sure blinding should be removed altogether... notice that it is also effective against some power-analysis attacks, not just timing ones.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
