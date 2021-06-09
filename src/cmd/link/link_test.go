@@ -1034,3 +1034,142 @@ func TestLargeReloc(t *testing.T) {
 		}
 	}
 }
+
+const testMultipleMapZeroMainSrc = `
+package main
+
+import "issue46653/bad"
+
+func main() {
+	bad.Bad()
+}
+
+func neverCalled() L {
+	m := make(map[string]L)
+	return m[""]
+}
+
+type L struct {
+	A Data
+	B Data
+}
+
+type Data struct {
+    F1 [22][]string
+}
+
+`
+
+const testMultipleMapZeroOtherSrc = `
+package bad
+
+func Bad() {
+	m := make(map[int64]A)
+	a := m[0]
+	if len(a.B.C1.D2.E2.F1) != 0 ||
+		len(a.B.C1.D2.E2.F2) != 0 ||
+		len(a.B.C1.D2.E2.F3) != 0 ||
+		len(a.B.C1.D2.E2.F4) != 0 ||
+		len(a.B.C1.D2.E2.F5) != 0 ||
+		len(a.B.C1.D2.E2.F6) != 0 ||
+		len(a.B.C1.D2.E2.F7) != 0 ||
+		len(a.B.C1.D2.E2.F8) != 0 ||
+		len(a.B.C1.D2.E2.F9) != 0 ||
+		len(a.B.C1.D2.E2.F10) != 0 ||
+		len(a.B.C1.D2.E2.F11) != 0 ||
+		len(a.B.C1.D2.E2.F16) != 0 {
+		panic("bad")
+	}
+}
+
+type A struct {
+	B
+}
+
+type B struct {
+	C1 C
+	C2 C
+}
+
+type C struct {
+	D1 D
+	D2 D
+}
+
+type D struct {
+	E1 E
+	E2 E
+	E3 E
+	E4 E
+}
+
+type E struct {
+	F1  string
+	F2  string
+	F3  string
+	F4  string
+	F5  string
+	F6  string
+	F7  string
+	F8  string
+	F9  string
+	F10 string
+	F11 string
+	F12 string
+	F13 string
+	F14 string
+	F15 string
+	F16 string
+}
+`
+
+const testMultipleMapZeroGoModSrc = `
+
+module issue46653
+
+`
+
+func TestIssue46653MultipleMapZeroSymbols(t *testing.T) {
+	// Test that the linker properly handles the case where
+	// there are multiple compiler-generated map.zero symbols
+	// from different packages. See issue #46653.
+	// NB: the test case is larger than I would like, but
+	// the bug seems to be input-sensitive (when I try
+	// to shrink it, the failure mode moves around).
+	testenv.MustHaveGoBuild(t)
+	t.Parallel()
+
+	tmpdir := t.TempDir()
+
+	pkgs := []struct {
+		pk      string
+		payload string
+	}{
+		{"bad", testMultipleMapZeroOtherSrc},
+		{"main", testMultipleMapZeroMainSrc},
+	}
+
+	for _, pk := range pkgs {
+		err := os.Mkdir(filepath.Join(tmpdir, pk.pk), 0777)
+		if err != nil {
+			t.Fatalf("failed os.Mkdir: %v", err)
+		}
+		src := filepath.Join(tmpdir, pk.pk, pk.pk+".go")
+		err = ioutil.WriteFile(src, []byte(pk.payload), 0666)
+		if err != nil {
+			t.Fatalf("failed to write source file: %v", err)
+		}
+	}
+	src := filepath.Join(tmpdir, "go.mod")
+	err := ioutil.WriteFile(src, []byte(testMultipleMapZeroGoModSrc), 0666)
+	if err != nil {
+		t.Fatalf("failed to write go.mod: %v", err)
+	}
+
+	cmd := exec.Command(testenv.GoToolPath(t), "run", ".")
+	cmd.Dir = filepath.Join(tmpdir, "main")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Errorf("build failed: %v\noutput:\n%s", err, out)
+	}
+}
