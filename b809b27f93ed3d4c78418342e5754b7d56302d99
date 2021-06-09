@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd2c63d2_f7fa381a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-06-09T05:25:28Z",
+      "side": 1,
+      "message": "A file is added for the test as similar tests were mostly very long.\nThe test mimics the case presented in the issue.\n\nThanks for the review and the bots,",
+      "revId": "b809b27f93ed3d4c78418342e5754b7d56302d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
