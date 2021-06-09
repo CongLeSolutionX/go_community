@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f9083be_c91dfd52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-09T16:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b2eeeaa_c27d4df8",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "d457fb858d7b5b6efd57f17a317f354456207bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "580dea12_2bed06cd",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-09T16:42:16Z",
       "side": 1,
       "message": "invlid -\u003e invalid",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "d457fb858d7b5b6efd57f17a317f354456207bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5082c5a_2f464549",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-09T16:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "580dea12_2bed06cd",
       "range": {
         "startLine": 9,
         "startChar": 16,
@@ -120,6 +168,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "13e3ceb7_745f40f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-09T16:53:26Z",
+      "side": 1,
+      "message": "Thanks Than, for reviewing!",
+      "parentUuid": "d438f204_141973b8",
+      "revId": "d457fb858d7b5b6efd57f17a317f354456207bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "59cd4ceb_2bf3c47d",
         "filename": "src/make.bash",
         "patchSetId": 1
@@ -131,6 +197,30 @@
       "writtenOn": "2021-06-09T16:42:16Z",
       "side": 1,
       "message": "Nit: I prefer \"WARNING\" to \"WARN\". But up to you.",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 15
+      },
+      "revId": "d457fb858d7b5b6efd57f17a317f354456207bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c0c72df_22ed2b60",
+        "filename": "src/make.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-09T16:53:26Z",
+      "side": 1,
+      "message": "Updated!",
+      "parentUuid": "59cd4ceb_2bf3c47d",
       "range": {
         "startLine": 161,
         "startChar": 11,
