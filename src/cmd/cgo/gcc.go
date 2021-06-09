@@ -1629,6 +1629,9 @@ func (p *Package) gccCmd() []string {
 			// it won't affect the actual compilation of the C code).
 			// See: https://golang.org/issue/6506.
 			"-fno-builtin",
+			// Simplifies creation of C export header.
+			// See: https://golang.org/issue/46502#issuecomment-854706630
+			"-Wno-dll-attribute-on-redeclaration",
 		)
 	}
 
