@@ -43,6 +43,7 @@ func SnapshotCoverage() {
 		coverageSnapshot = make([]byte, len(cov))
 	}
 	copy(coverageSnapshot, cov)
+	bucketCounters(coverageSnapshot)
 }
 
 func countEdges(cov []byte) int {
@@ -53,6 +54,32 @@ func countEdges(cov []byte) int {
 		}
 	}
 	return n
+}
+
+// bucketCounters quantizes coverage counters into a series of buckets. The buckets
+// are chosen such that a counter jumping between buckets can be considered an indication
+// of a significant change in the execution trace of a fuzz target.
+func bucketCounters(cov []byte) {
+	for i, c := range cov {
+		switch {
+		case c == 0 || c == 1 || c == 2:
+			continue
+		case c <= 4:
+			cov[i] = 4
+		case c <= 8:
+			cov[i] = 8
+		case c <= 16:
+			cov[i] = 16
+		case c <= 32:
+			cov[i] = 32
+		case c <= 64:
+			cov[i] = 64
+		case c <= 128:
+			cov[i] = 128
+		case c <= 255:
+			cov[i] = 255
+		}
+	}
 }
 
 var coverageSnapshot []byte

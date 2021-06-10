@@ -253,8 +253,8 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 					stop(err)
 				}
 			} else if result.coverageData != nil {
-				newEdges := c.updateCoverage(result.coverageData)
-				if newEdges > 0 && !c.coverageOnlyRun() {
+				newEdges, expandsCoverage := c.updateCoverage(result.coverageData)
+				if expandsCoverage && !c.coverageOnlyRun() {
 					// Found an interesting value that expanded coverage.
 					// This is not a crasher, but we should add it to the
 					// on-disk corpus, and prioritize it for future fuzzing.
@@ -626,21 +626,24 @@ func (c *coordinator) coverageOnlyRun() bool {
 }
 
 // updateCoverage updates c.coverageData for all edges that have a higher
-// counter value in newCoverage. It return true if a new edge was hit.
-func (c *coordinator) updateCoverage(newCoverage []byte) int {
+// counter value in newCoverage. It returns the number of new edges that
+// were found, and a bool indicating if any counters were updated.
+func (c *coordinator) updateCoverage(newCoverage []byte) (int, bool) {
 	if len(newCoverage) != len(c.coverageData) {
 		panic(fmt.Sprintf("num edges changed at runtime: %d, expected %d", len(newCoverage), len(c.coverageData)))
 	}
 	newEdges := 0
+	expandsCoverage := false
 	for i := range newCoverage {
 		if newCoverage[i] > c.coverageData[i] {
 			if c.coverageData[i] == 0 {
 				newEdges++
 			}
 			c.coverageData[i] = newCoverage[i]
+			expandsCoverage = true
 		}
 	}
-	return newEdges
+	return newEdges, expandsCoverage
 }
 
 // readCache creates a combined corpus from seed values and values in the cache

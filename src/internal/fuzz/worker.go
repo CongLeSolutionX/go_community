@@ -685,7 +685,7 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 				return resp
 			}
 			for i := range coverageSnapshot {
-				if ws.coverageData[i] == 0 && coverageSnapshot[i] > ws.coverageData[i] {
+				if coverageSnapshot[i] > ws.coverageData[i] {
 					// TODO(jayconrod,katie): minimize this.
 					resp.CoverageData = coverageSnapshot
 					resp.InterestingDuration = fDur
