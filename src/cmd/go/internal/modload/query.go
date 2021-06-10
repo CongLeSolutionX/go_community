@@ -972,10 +972,20 @@ func lookupRepo(proxy, path string) (repo versionRepo, err error) {
 		repo = emptyRepo{path: path, err: err}
 	}
 
-	if index == nil {
-		return repo, err
+	var found bool
+	// TODO(#45713): Join all the highestReplaced fields into a single value.
+	for _, mm := range MainModules.Versions() {
+		index := MainModules.Index(mm)
+		if index == nil {
+			continue
+		}
+		if _, ok := index.highestReplaced[path]; !ok {
+			continue
+		}
+		found = true
 	}
-	if _, ok := index.highestReplaced[path]; !ok {
+
+	if !found {
 		return repo, err
 	}
 
@@ -1018,11 +1028,13 @@ func (rr *replacementRepo) Versions(prefix string) ([]string, error) {
 	}
 
 	versions := repoVersions
-	if index != nil && len(index.replace) > 0 {
-		path := rr.ModulePath()
-		for m, _ := range index.replace {
-			if m.Path == path && strings.HasPrefix(m.Version, prefix) && m.Version != "" && !module.IsPseudoVersion(m.Version) {
-				versions = append(versions, m.Version)
+	for _, mm := range MainModules.Versions() {
+		if index := MainModules.Index(mm); index != nil && len(index.replace) > 0 {
+			path := rr.ModulePath()
+			for m, _ := range index.replace {
+				if m.Path == path && strings.HasPrefix(m.Version, prefix) && m.Version != "" && !module.IsPseudoVersion(m.Version) {
+					versions = append(versions, m.Version)
+				}
 			}
 		}
 	}
@@ -1040,7 +1052,16 @@ func (rr *replacementRepo) Versions(prefix string) ([]string, error) {
 
 func (rr *replacementRepo) Stat(rev string) (*modfetch.RevInfo, error) {
 	info, err := rr.repo.Stat(rev)
-	if err == nil || index == nil || len(index.replace) == 0 {
+	if err == nil {
+		return info, err
+	}
+	var hasReplacements bool
+	for _, v := range MainModules.Versions() {
+		if index := MainModules.Index(v); index == nil && len(index.replace) > 0 {
+			hasReplacements = true
+		}
+	}
+	if !hasReplacements {
 		return info, err
 	}
 
