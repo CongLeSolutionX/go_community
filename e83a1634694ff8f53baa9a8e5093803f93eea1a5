@@ -53,6 +53,23 @@
       "message": "Manually tested on linux-arm-aws builder that \"GOROOT_BOOTSTRAP\u003d/usr/local/go-bootstrap GOARM\u003d6 CGO_CFLAGS\u003d-march\u003darmv6 CGO_LDFLAGS\u003d-march\u003darmv6 ./all.bash\" passes.\n\nJust like Cherry did in CL 278592.",
       "revId": "e83a1634694ff8f53baa9a8e5093803f93eea1a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa545a8_1c6f1771",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-10T15:37:28Z",
+      "side": 1,
+      "message": "I reviewed that the backport is applied cleanly, and would like someone more familiar with this code to check if there\u0027s anything Go 1.15-specific to consider.",
+      "revId": "e83a1634694ff8f53baa9a8e5093803f93eea1a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
