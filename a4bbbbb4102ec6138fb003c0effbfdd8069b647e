@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f8db187_f49d86bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-10T16:15:13Z",
+      "side": 1,
+      "message": "Write this as\n\ninternal/bytealg: remove duplicate go:build line\n\n(See https://golang.org/wiki/CommitMessage)",
+      "revId": "a4bbbbb4102ec6138fb003c0effbfdd8069b647e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "482b3023_7a152598",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-10T16:15:13Z",
+      "side": 1,
+      "message": "Remove this line.",
+      "revId": "a4bbbbb4102ec6138fb003c0effbfdd8069b647e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42077870_4ebf16f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-10T16:15:13Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "a4bbbbb4102ec6138fb003c0effbfdd8069b647e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
