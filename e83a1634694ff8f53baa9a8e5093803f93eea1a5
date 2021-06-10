@@ -70,6 +70,23 @@
       "message": "I reviewed that the backport is applied cleanly, and would like someone more familiar with this code to check if there\u0027s anything Go 1.15-specific to consider.",
       "revId": "e83a1634694ff8f53baa9a8e5093803f93eea1a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4889c430_c81c26e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-06-10T16:25:16Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "e83a1634694ff8f53baa9a8e5093803f93eea1a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
