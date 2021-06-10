@@ -134,8 +134,11 @@ func readVendorList() {
 // checkVendorConsistency verifies that the vendor/modules.txt file matches (if
 // go 1.14) or at least does not contradict (go 1.13 or earlier) the
 // requirements and replacements listed in the main module's go.mod file.
-func checkVendorConsistency() {
+func checkVendorConsistency(mainModule module.Version) {
 	readVendorList()
+
+	index := MainModules.Index(mainModule)
+	modFile := MainModules.ModFile(mainModule)
 
 	pre114 := false
 	if semver.Compare(index.goVersionV, "v1.14") < 0 {
@@ -219,7 +222,7 @@ func checkVendorConsistency() {
 	}
 
 	if vendErrors.Len() > 0 {
-		modRoot := MainModules.ModRoot(MainModules.MustGetSingleMainModule())
+		modRoot := MainModules.ModRoot(mainModule)
 		base.Fatalf("go: inconsistent vendoring in %s:%s\n\n\tTo ignore the vendor directory, use -mod=readonly or -mod=mod.\n\tTo sync the vendor directory, run:\n\t\tgo mod vendor", modRoot, vendErrors)
 	}
 }
