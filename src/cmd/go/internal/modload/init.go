@@ -18,6 +18,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
@@ -75,6 +76,11 @@ type mainModules struct {
 	// targetInGorootSrc caches whether modRoot is within GOROOT/src.
 	// The "std" module is special within GOROOT/src, but not otherwise.
 	inGorootSrc map[module.Version]bool
+
+	modFiles map[module.Version]*modfile.File
+
+	indexMu sync.Mutex
+	indices map[module.Version]*modFileIndex
 }
 
 func (mms *mainModules) PathPrefix(m module.Version) string {
@@ -143,6 +149,33 @@ func (mms *mainModules) MustGetSingleMainModule() module.Version {
 	return mms.versions[0]
 }
 
+func (mms *mainModules) GetSingleIndexOrNil() *modFileIndex {
+	if len(mms.versions) == 0 {
+		return nil
+	}
+	if len(mms.versions) != 1 {
+		_ = TODOWorkspaces("Check if we're in workspace mode before returning the below error.")
+		panic("internal error: MustGetSingleMainModule called in workspace mode")
+	}
+	return mms.indices[mms.versions[0]]
+}
+
+func (mms *mainModules) Index(m module.Version) *modFileIndex {
+	mms.indexMu.Lock()
+	defer mms.indexMu.Unlock()
+	return mms.indices[m]
+}
+
+func (mms *mainModules) SetIndex(m module.Version, index *modFileIndex) {
+	mms.indexMu.Lock()
+	defer mms.indexMu.Unlock()
+	mms.indices[m] = index
+}
+
+func (mms *mainModules) ModFile(m module.Version) *modfile.File {
+	return mms.modFiles[m]
+}
+
 func (mms *mainModules) Size() int {
 	return len(mms.versions)
 }
@@ -177,6 +210,7 @@ const (
 // in go.mod, edit it before loading.
 func ModFile() *modfile.File {
 	Init()
+	modFile := MainModules.ModFile(MainModules.MustGetSingleMainModule())
 	if modFile == nil {
 		die()
 	}
@@ -543,7 +577,7 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 	Init()
 	if len(modRoots) == 0 {
 		mainModule := module.Version{Path: "command-line-arguments"}
-		initTarget([]module.Version{mainModule}, []string{""})
+		initTarget([]module.Version{mainModule}, []string{""}, []*modfile.File{nil}, []*modFileIndex{nil})
 		goVersion := LatestGoVersion()
 		rawGoVersion.Store(mainModule, goVersion)
 		requirements = newRequirements(modDepthFromGoVersion(goVersion), nil, nil)
@@ -552,6 +586,7 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 
 	var modfiles []*modfile.File
 	var mainModules []module.Version
+	var indices []*modFileIndex
 	for _, modroot := range modRoots {
 		gomod := modFilePath(modroot)
 		data, err := lockedfile.Read(gomod)
@@ -570,13 +605,10 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 			base.Fatalf("go: no module declaration in go.mod. To specify the module path:\n\tgo mod edit -module=example.com/mod")
 		}
 
-		_ = TODOWorkspaces("this is setting the global modFile varible. eliminate the global variable")
-		modFile = f
-
 		modfiles = append(modfiles, f)
 		mainModule := f.Module.Mod
 		mainModules = append(mainModules, mainModule)
-		index = indexModFile(data, f, mainModule, fixed)
+		indices = append(indices, indexModFile(data, f, mainModule, fixed))
 
 		if err := module.CheckImportPath(f.Module.Mod.Path); err != nil {
 			if pathErr, ok := err.(*module.InvalidPathError); ok {
@@ -587,7 +619,7 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 
 	}
 
-	initTarget(mainModules, modRoots)
+	initTarget(mainModules, modRoots, modfiles, indices)
 	setDefaultBuildMod() // possibly enable automatic vendoring
 	rs = requirementsFromModFile(ctx, modfiles)
 
@@ -603,14 +635,14 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 
 	if cfg.BuildMod == "vendor" {
 		readVendorList()
-		checkVendorConsistency()
+		checkVendorConsistency(mainModule)
 		rs.initVendor(vendorList)
 	}
-	if index.goVersionV == "" {
+	if MainModules.Index(mainModule).goVersionV == "" {
 		// TODO(#45551): Do something more principled instead of checking
 		// cfg.CmdName directly here.
 		if cfg.BuildMod == "mod" && cfg.CmdName != "mod graph" && cfg.CmdName != "mod why" {
-			addGoStmt(mainModule, LatestGoVersion())
+			addGoStmt(MainModules.ModFile(mainModule), mainModule, LatestGoVersion())
 			if go117EnableLazyLoading {
 				// We need to add a 'go' version to the go.mod file, but we must assume
 				// that its existing contents match something between Go 1.11 and 1.16.
@@ -669,12 +701,12 @@ func CreateModFile(ctx context.Context, modPath string) {
 	}
 
 	fmt.Fprintf(os.Stderr, "go: creating new go.mod: module %s\n", modPath)
-	modFile = new(modfile.File)
+	modFile := new(modfile.File)
 	modFile.AddModuleStmt(modPath)
-	initTarget([]module.Version{modFile.Module.Mod}, []string{modRoot})
-	addGoStmt(modFile.Module.Mod, LatestGoVersion()) // Add the go directive before converted module requirements.
+	initTarget([]module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil})
+	addGoStmt(modFile, modFile.Module.Mod, LatestGoVersion()) // Add the go directive before converted module requirements.
 
-	convertedFrom, err := convertLegacyConfig(modPath)
+	convertedFrom, err := convertLegacyConfig(modFile, modPath)
 	if convertedFrom != "" {
 		fmt.Fprintf(os.Stderr, "go: copying requirements from %s\n", base.ShortPath(convertedFrom))
 	}
@@ -771,16 +803,20 @@ func AllowMissingModuleImports() {
 }
 
 // initTarget sets Target and associated variables according to modFile,
-func initTarget(ms []module.Version, rootDirs []string) {
+func initTarget(ms []module.Version, rootDirs []string, modFiles []*modfile.File, indices []*modFileIndex) {
 	MainModules = mainModules{
 		versions:    ms,
 		inGorootSrc: map[module.Version]bool{},
 		pathPrefix:  map[module.Version]string{},
 		modRoot:     map[module.Version]string{},
+		modFiles:    map[module.Version]*modfile.File{},
+		indices:     map[module.Version]*modFileIndex{},
 	}
 	for i, m := range ms {
 		MainModules.pathPrefix[m] = m.Path
 		MainModules.modRoot[m] = rootDirs[i]
+		MainModules.modFiles[m] = modFiles[i]
+		MainModules.indices[m] = indices[i]
 
 		if rel := search.InDir(rootDirs[i], cfg.GOROOTsrc); rel != "" {
 			MainModules.inGorootSrc[m] = true
@@ -813,14 +849,18 @@ func requirementsFromModFile(ctx context.Context, modfiles []*modfile.File) *Req
 	}
 	direct := map[string]bool{}
 	for _, modFile := range modfiles {
+	requirement:
 		for _, r := range modFile.Require {
-			if index != nil && index.exclude[r.Mod] {
-				if cfg.BuildMod == "mod" {
-					fmt.Fprintf(os.Stderr, "go: dropping requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
-				} else {
-					fmt.Fprintf(os.Stderr, "go: ignoring requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+			// TODO(#45713): Maybe join
+			for _, mainModule := range MainModules.Versions() {
+				if index := MainModules.Index(mainModule); index != nil && index.exclude[r.Mod] {
+					if cfg.BuildMod == "mod" {
+						fmt.Fprintf(os.Stderr, "go: dropping requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+					} else {
+						fmt.Fprintf(os.Stderr, "go: ignoring requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+					}
+					continue requirement
 				}
-				continue
 			}
 
 			roots = append(roots, r.Mod)
@@ -875,6 +915,7 @@ func setDefaultBuildMod() {
 	}
 
 	if len(modRoots) == 1 {
+		index := MainModules.GetSingleIndexOrNil()
 		if fi, err := fsys.Stat(filepath.Join(modRoots[0], "vendor")); err == nil && fi.IsDir() {
 			modGo := "unspecified"
 			if index != nil && index.goVersionV != "" {
@@ -900,7 +941,7 @@ func setDefaultBuildMod() {
 
 // convertLegacyConfig imports module requirements from a legacy vendoring
 // configuration file, if one is present.
-func convertLegacyConfig(modPath string) (from string, err error) {
+func convertLegacyConfig(modFile *modfile.File, modPath string) (from string, err error) {
 	noneSelected := func(path string) (version string) { return "none" }
 	queryPackage := func(path, rev string) (module.Version, error) {
 		pkgMods, modOnly, err := QueryPattern(context.Background(), path, rev, noneSelected, nil)
@@ -934,7 +975,7 @@ func convertLegacyConfig(modPath string) (from string, err error) {
 // addGoStmt adds a go directive to the go.mod file if it does not already
 // include one. The 'go' version added, if any, is the latest version supported
 // by this toolchain.
-func addGoStmt(mod module.Version, v string) {
+func addGoStmt(modFile *modfile.File, mod module.Version, v string) {
 	if modFile.Go != nil && modFile.Go.Version != "" {
 		return
 	}
@@ -1199,6 +1240,8 @@ func commitRequirements(ctx context.Context, goVersion string, rs *Requirements)
 		// We aren't in a module, so we don't have anywhere to write a go.mod file.
 		return
 	}
+	mainModule := MainModules.Versions()[0]
+	modFile := MainModules.ModFile(mainModule)
 
 	var list []*modfile.Require
 	for _, m := range rs.rootModules {
@@ -1217,6 +1260,7 @@ func commitRequirements(ctx context.Context, goVersion string, rs *Requirements)
 	}
 	modFile.Cleanup()
 
+	index := MainModules.GetSingleIndexOrNil()
 	dirty := index.modFileIsDirty(modFile)
 	if dirty && cfg.BuildMod != "mod" {
 		// If we're about to fail due to -mod=readonly,
@@ -1247,7 +1291,7 @@ func commitRequirements(ctx context.Context, goVersion string, rs *Requirements)
 		mainModule := MainModules.Versions()[0]
 
 		// At this point we have determined to make the go.mod file on disk equal to new.
-		index = indexModFile(new, modFile, mainModule, false)
+		MainModules.SetIndex(mainModule, indexModFile(new, modFile, mainModule, false))
 
 		// Update go.sum after releasing the side lock and refreshing the index.
 		// 'go mod init' shouldn't write go.sum, since it will be incomplete.
