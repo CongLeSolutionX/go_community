@@ -30,8 +30,11 @@ import (
 func LoadPackage(filenames []string) {
 	base.Timer.Start("fe", "parse")
 
+	// TODO(mdempsky): Allowing -d=unified=2 to imply generics mode is a
+	// hack to work around a limitation with test/run.go not supporting
+	// passing multiple gcflags in a "build" or "run" test.
 	mode := syntax.CheckBranches
-	if base.Flag.G != 0 {
+	if base.Flag.G != 0 || base.Debug.Unified >= 2 {
 		mode |= syntax.AllowGenerics
 	}
 
@@ -75,6 +78,11 @@ func LoadPackage(filenames []string) {
 		lines += p.file.EOF.Line()
 	}
 	base.Timer.AddEvent(int64(lines), "lines")
+
+	if base.Debug.Unified != 0 {
+		useUnifiedIR(noders)
+		return
+	}
 
 	if base.Flag.G != 0 {
 		// Use types2 to type-check and possibly generate IR.
