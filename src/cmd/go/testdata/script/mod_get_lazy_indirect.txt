@@ -1,0 +1,25 @@
+# https://golang.org/issue/45979: after 'go get' on a package,
+# that package should be importable without error.
+
+go get -d rsc.io/quote
+
+# TODO(#45979): These should succeed immediately.
+! go list -deps .
+stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy'
+[!short] ! go build .
+stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy'
+
+# After running the suggested 'go mod tidy' command, the build
+# should succeed.
+go mod tidy
+go list -deps .
+[!short] go build .
+
+-- go.mod --
+module example.com/m
+
+go 1.17
+-- m.go --
+package m
+
+import _ "rsc.io/quote"
