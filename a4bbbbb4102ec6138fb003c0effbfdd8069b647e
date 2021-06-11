@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9180006_26e6c639",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2021-06-11T03:35:26Z",
+      "side": 1,
+      "message": "Sir, Thanks for your useful guidance. I have git commit --amend  the message as \"internal/bytealg: remove duplicate go:build line\". Is there anything else I need to do？Thanks again",
+      "parentUuid": "9f8db187_f49d86bc",
+      "revId": "a4bbbbb4102ec6138fb003c0effbfdd8069b647e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "482b3023_7a152598",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-06-10T16:15:13Z",
       "side": 1,
       "message": "Remove this line.",
+      "revId": "a4bbbbb4102ec6138fb003c0effbfdd8069b647e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "086cd69b_03bdf8f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2021-06-11T03:35:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "482b3023_7a152598",
       "revId": "a4bbbbb4102ec6138fb003c0effbfdd8069b647e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
