@@ -25,6 +25,9 @@ import (
 // C compiler with args (from $(go env CC) $(go env GOGCCFLAGS)).
 var cc []string
 
+// Output of $CC -Wl,--version
+var ldVersion string
+
 // ".exe" on Windows.
 var exeSuffix string
 
@@ -120,6 +123,12 @@ func testMain(m *testing.M) int {
 	if GOOS == "windows" {
 		exeSuffix = ".exe"
 	}
+
+	cmdOut, err := exec.Command(cc[0], append(cc, "-Wl,--version")[1:]...).CombinedOutput()
+	if err != nil {
+		log.Fatalf("could not get version of LD: %v\n%s", err, cmdOut)
+	}
+	ldVersion = strings.TrimSpace(string(cmdOut))
 
 	// Copy testdata into GOPATH/src/testcshared, along with a go.mod file
 	// declaring the same path.
@@ -338,6 +347,10 @@ func cleanupAndroid() {
 
 // test0: exported symbols in shared lib are accessible.
 func TestExportedSymbols(t *testing.T) {
+	if GOOS == "windows" && strings.HasPrefix(ldVersion, "LLD ") {
+		t.Skip("LLD does not support directly linking to DLLs")
+	}
+
 	t.Parallel()
 
 	cmd := "testp0"
@@ -440,6 +453,9 @@ func main() {
 func TestNumberOfExportedFunctions(t *testing.T) {
 	if GOOS != "windows" {
 		t.Skip("skipping windows only test")
+	}
+	if strings.HasPrefix(ldVersion, "LLD ") {
+		t.Skip("LLD does not generate executables with .edata section")
 	}
 	t.Parallel()
 
@@ -738,6 +754,10 @@ func TestGo2C2Go(t *testing.T) {
 		t.Skip("linking c-shared into Go programs not supported on Darwin; issue 29061")
 	case "android":
 		t.Skip("test fails on android; issue 29087")
+	}
+
+	if GOOS == "windows" && strings.HasPrefix(ldVersion, "LLD ") {
+		t.Skip("LLD does not support directly linking to DLLs")
 	}
 
 	t.Parallel()
