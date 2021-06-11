@@ -292,7 +292,13 @@ func createHeaders() error {
 		"-installsuffix", "testcshared",
 		"-o", libgoname,
 		filepath.Join(".", "libgo", "libgo.go")}
+	if GOOS == "windows" && strings.HasSuffix(args[6], ".a") {
+		args[6] = strings.TrimSuffix(args[6], ".a") + ".dll"
+	}
 	cmd = exec.Command(args[0], args[1:]...)
+	if GOOS == "windows" {
+		cmd.Env = append(cmd.Env, "CGO_LDFLAGS=-Wl,--out-implib,"+libgoname, "CGO_LDFLAGS_ALLOW=.*")
+	}
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("command failed: %v\n%v\n%s\n", args, err, out)
@@ -749,7 +755,12 @@ func TestGo2C2Go(t *testing.T) {
 	defer os.RemoveAll(tmpdir)
 
 	lib := filepath.Join(tmpdir, "libtestgo2c2go."+libSuffix)
-	run(t, nil, "go", "build", "-buildmode=c-shared", "-o", lib, "./go2c2go/go")
+	var env []string
+	if GOOS == "windows" && strings.HasSuffix(lib, ".a") {
+		env = append(env, "CGO_LDFLAGS=-Wl,--out-implib,"+lib, "CGO_LDFLAGS_ALLOW=.*")
+		lib = strings.TrimSuffix(lib, ".a") + ".dll"
+	}
+	run(t, env, "go", "build", "-buildmode=c-shared", "-o", lib, "./go2c2go/go")
 
 	cgoCflags := os.Getenv("CGO_CFLAGS")
 	if cgoCflags != "" {
