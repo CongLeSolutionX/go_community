@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3586610_5e62d84e",
+        "filename": "misc/cgo/testcshared/cshared_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-06-11T20:54:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "54c62237_4d1076a0",
+      "revId": "4734a268eeae46d19bc75ed081290d3e5658b8e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3698a293_92288970",
@@ -87,6 +105,24 @@
       "writtenOn": "2021-06-11T17:53:18Z",
       "side": 1,
       "message": "Here too.",
+      "revId": "4734a268eeae46d19bc75ed081290d3e5658b8e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb4e7a10_30a06302",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-06-11T20:54:12Z",
+      "side": 1,
+      "message": "It\u0027s a bit more finicky to do it from this context. I could build those arguments manually by inspecting and splitting environment variables, I guess, but that seems kind of meh...",
+      "parentUuid": "3698a293_92288970",
       "revId": "4734a268eeae46d19bc75ed081290d3e5658b8e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
