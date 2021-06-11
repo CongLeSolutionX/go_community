@@ -73,6 +73,7 @@ func tooSlow(t *testing.T) {
 var testGOROOT string
 
 var testCC string
+var testLDVersion string
 var testGOCACHE string
 
 var testGo string
@@ -185,6 +186,13 @@ func TestMain(m *testing.M) {
 			os.Exit(2)
 		}
 		testCC = strings.TrimSpace(string(out))
+
+		out, err = exec.Command(testCC, "-Wl,--version").CombinedOutput()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "could not get version of LD: %v\n%s", err, out)
+			os.Exit(2)
+		}
+		testLDVersion = strings.TrimSpace(string(out))
 
 		cmd := exec.Command(testGo, "env", "CGO_ENABLED")
 		cmd.Stderr = new(strings.Builder)
@@ -2177,7 +2185,7 @@ func testBuildmodePIE(t *testing.T, useCgo, setBuildmodeToPIE bool) {
 		if (dc & pe.IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE) == 0 {
 			t.Error("IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE flag is not set")
 		}
-		if useCgo {
+		if useCgo && !strings.HasPrefix(testLDVersion, "LLD ") {
 			// Test that only one symbol is exported (#40795).
 			// PIE binaries don´t require .edata section but unfortunately
 			// binutils doesn´t generate a .reloc section unless there is
