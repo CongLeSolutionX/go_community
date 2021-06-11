@@ -25,6 +25,9 @@ import (
 // C compiler with args (from $(go env CC) $(go env GOGCCFLAGS)).
 var cc []string
 
+// Output of $CC -Wl,--version
+var ldVersion string
+
 // ".exe" on Windows.
 var exeSuffix string
 
@@ -64,6 +67,12 @@ func testMain(m *testing.M) int {
 	}
 
 	cc = []string{goEnv("CC")}
+
+	cmdOut, err := exec.Command(cc[0], "-Wl,--version").CombinedOutput()
+	if err != nil {
+		log.Fatalf("could not get version of LD: %v\n%s", err, cmdOut)
+	}
+	ldVersion = strings.TrimSpace(string(cmdOut))
 
 	out := goEnv("GOGCCFLAGS")
 	quote := '\000'
@@ -441,6 +450,9 @@ func TestNumberOfExportedFunctions(t *testing.T) {
 	if GOOS != "windows" {
 		t.Skip("skipping windows only test")
 	}
+	if strings.HasPrefix(ldVersion, "LLD ") {
+		t.Skip("LLD does not generate executables with .edata section")
+	}
 	t.Parallel()
 
 	t.Run("OnlyExported", func(t *testing.T) {
@@ -738,6 +750,10 @@ func TestGo2C2Go(t *testing.T) {
 		t.Skip("linking c-shared into Go programs not supported on Darwin; issue 29061")
 	case "android":
 		t.Skip("test fails on android; issue 29087")
+	}
+
+	if GOOS == "windows" && strings.HasPrefix(ldVersion, "LLD ") {
+		t.Skip("LLD does not support directly linking to DLLs")
 	}
 
 	t.Parallel()
