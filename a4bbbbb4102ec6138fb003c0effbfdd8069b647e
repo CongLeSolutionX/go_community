@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75dc180e_0adaded6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-11T19:03:32Z",
+      "side": 1,
+      "message": "Thanks.  Unfortunately this doesn\u0027t help.  What you need to do is edit the title and the initial comment of the GitHub pull request.  See https://golang.org/wiki/CommitMessage.  To see what it will look like when committed to Go, update the pull request, wait for GerrritBot to mirror it, and then look at https://golang.org/cl/326730.",
+      "parentUuid": "b9180006_26e6c639",
+      "revId": "a4bbbbb4102ec6138fb003c0effbfdd8069b647e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "482b3023_7a152598",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
