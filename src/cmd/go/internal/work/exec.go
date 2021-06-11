@@ -2531,6 +2531,12 @@ func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []strin
 		a = append(a, "-gno-record-gcc-switches")
 	}
 
+	// Simplifies creation of C export header.
+	// See: https://golang.org/issue/46502#issuecomment-854706630
+	if b.gccSupportsFlag(compiler, "-Wno-dll-attribute-on-redeclaration") {
+		a = append(a, "-Wno-dll-attribute-on-redeclaration")
+	}
+
 	// On OS X, some of the compilers behave as if -fno-common
 	// is always set, and the Mach-O linker in 6l/8l assumes this.
 	// See https://golang.org/issue/3253.
