@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da56af8_725d6763",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39258
+      },
+      "writtenOn": "2021-06-11T05:53:30Z",
+      "side": 1,
+      "message": "If needed I can add a test case for this. I don\u0027t know how to create a supporting ELF binary with standard tooling, so I would create an ET_EXEC binary compiled with -Wl,--emit-relocs, and manually edit .rela.debug_info to contain some garbage that still points to a valid offset in .debug_str.\n\nI\u0027m hesitant to add it because the build logic is probably gonna be non-repeatable, but I will do so if requested.",
+      "revId": "020f1e49387a8bd81ab6403e96a87f04206dbc97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
