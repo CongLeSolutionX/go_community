@@ -245,6 +245,13 @@ func ParseFlags() {
 		Debug.Checkptr = 0
 	}
 
+	// If -d=unified=2 is specified, then turn on -G=4 too. This is a
+	// hack for test/typeparam/nested.go, because test/run.go doesn't
+	// support string quoting.
+	if Debug.Unified >= 2 {
+		Flag.G = 4
+	}
+
 	// set via a -d flag
 	Ctxt.Debugpcln = Debug.PCTab
 }
