@@ -71,6 +71,24 @@
       "parentUuid": "4da56af8_725d6763",
       "revId": "020f1e49387a8bd81ab6403e96a87f04206dbc97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eac1301_25dd4531",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39258
+      },
+      "writtenOn": "2021-06-11T23:19:17Z",
+      "side": 1,
+      "message": "Yes it would be possible, but would you intend to run this as part of the normal test suite? The location of the kernel debug file can vary across systems/distributions, but \"/usr/lib/debug/lib/modules/$(uname -r)/vmlinux\" seems to be the most common.\nBut in practice no one installs it apart from people who do kernel development. Also, the issue that this CR fixes is only present on select distributions (my Debian kernel doesn\u0027t show the symptoms, so such a test would pass before and after this change on my laptop).\n\nI attempt try to create a test case that always reproduces the issue, with scripted build instructions.",
+      "parentUuid": "592face7_f60238d0",
+      "revId": "020f1e49387a8bd81ab6403e96a87f04206dbc97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
