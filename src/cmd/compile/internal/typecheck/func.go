@@ -334,7 +334,7 @@ func tcClosure(clo *ir.ClosureExpr, top int) {
 	// body in ImportedBody(), since we only want to create the named function
 	// when the closure is actually inlined (and then we force a typecheck
 	// explicitly in (*inlsubst).node()).
-	if !inTypeCheckInl {
+	if !inTypeCheckInl && fn.Nname.Sym().IsBlank() {
 		fn.Nname.SetSym(ClosureName(ir.CurFunc))
 		ir.MarkFunc(fn.Nname)
 	}
