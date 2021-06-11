@@ -125,6 +125,24 @@
       "parentUuid": "3698a293_92288970",
       "revId": "4734a268eeae46d19bc75ed081290d3e5658b8e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0ec2d88_8443a5dd",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-11T21:09:45Z",
+      "side": 1,
+      "message": "Hmmm, why do we even have testCC, nothing uses it any more.\n\nCan we just change the test below to skip if there is no .edata section?",
+      "parentUuid": "cb4e7a10_30a06302",
+      "revId": "4734a268eeae46d19bc75ed081290d3e5658b8e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
