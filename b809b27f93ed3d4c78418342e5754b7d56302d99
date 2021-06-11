@@ -16,6 +16,23 @@
       "message": "A file is added for the test as similar tests were mostly very long.\nThe test mimics the case presented in the issue.\n\nThanks for the review and the bots,",
       "revId": "b809b27f93ed3d4c78418342e5754b7d56302d99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a97870f_c83636fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-11T21:20:00Z",
+      "side": 1,
+      "message": "Thanks! Will merge after the TryBots finish.\n\nThis one is ok for Go 1.17. (Fixes a previously-unreported usability issue, and the fix is straightforward.)",
+      "revId": "b809b27f93ed3d4c78418342e5754b7d56302d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
