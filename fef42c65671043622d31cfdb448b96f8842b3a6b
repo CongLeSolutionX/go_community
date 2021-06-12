@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1ea234d_bfd6406e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2021-06-12T09:55:53Z",
+      "side": 1,
+      "message": "This can already be done with existing code in the standard library. https://play.golang.org/p/J3K3SnAaNqx",
+      "revId": "fef42c65671043622d31cfdb448b96f8842b3a6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
