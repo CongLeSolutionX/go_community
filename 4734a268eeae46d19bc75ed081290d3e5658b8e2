@@ -143,6 +143,24 @@
       "parentUuid": "cb4e7a10_30a06302",
       "revId": "4734a268eeae46d19bc75ed081290d3e5658b8e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a2e4513_6e8ff0f0",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-06-12T10:36:34Z",
+      "side": 1,
+      "message": "Good idea. I\u0027ll do that.",
+      "parentUuid": "c0ec2d88_8443a5dd",
+      "revId": "4734a268eeae46d19bc75ed081290d3e5658b8e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
