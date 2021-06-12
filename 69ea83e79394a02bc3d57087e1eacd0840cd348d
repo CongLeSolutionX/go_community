@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b703709e_b37f4c68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-12T16:08:45Z",
+      "side": 1,
+      "message": "Please follow the instructions for updating the commit message.  Thanks.",
+      "revId": "69ea83e79394a02bc3d57087e1eacd0840cd348d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
