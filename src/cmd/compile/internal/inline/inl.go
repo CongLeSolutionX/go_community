@@ -331,6 +331,11 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		v.reason = "call to recover"
 		return true
 
+	case ir.ODEFER:
+		// defer implementation is very tied to call frames too.
+		v.reason = "defer statement"
+		return true
+
 	case ir.OCLOSURE:
 		if base.Debug.InlFuncsWithClosures == 0 {
 			v.reason = "not inlining functions with closures"
@@ -348,12 +353,16 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 			return true
 		}
 
-	case ir.ORANGE,
-		ir.OSELECT,
-		ir.OGO,
-		ir.ODEFER,
-		ir.ODCLTYPE, // can't print yet
-		ir.OTAILCALL:
+	case ir.OTAILCALL:
+		base.FatalfAt(n.Pos(), "unexpected node: %v", n)
+
+	case ir.OGO:
+		// TODO(mdempsky): testing.TestRunParallelSkipNow fails with "go"
+		// inlining enabled. Usually a timeout, but sometimes it goes into
+		// an infinite loop trying to print a stack trace.
+		if false && base.Debug.Unified != 0 && base.Debug.InlFuncsWithClosures != 0 {
+			break
+		}
 		v.reason = "unhandled op " + n.Op().String()
 		return true
 
@@ -380,21 +389,46 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		// These nodes don't produce code; omit from inlining budget.
 		return false
 
+	case ir.ODCLTYPE:
+		if base.Debug.Unified != 0 && base.Debug.InlFuncsWithClosures != 0 {
+			// Like ODCLCONST and OFALL, ODCLTYPE doesn't produce code.
+			// Omit from inlining budget.
+			return false
+		}
+		// can't print yet
+		v.reason = "unhandled op " + n.Op().String()
+		return true
+
+	case ir.ORANGE, ir.OSELECT:
+		if base.Debug.Unified != 0 && base.Debug.InlFuncsWithClosures != 0 {
+			break
+		}
+		v.reason = "unhandled op " + n.Op().String()
+		return true
+
 	case ir.OFOR, ir.OFORUNTIL:
+		if base.Debug.Unified != 0 && base.Debug.InlFuncsWithClosures != 0 {
+			break
+		}
 		n := n.(*ir.ForStmt)
 		if n.Label != nil {
 			v.reason = "labeled control"
 			return true
 		}
 	case ir.OSWITCH:
+		if base.Debug.Unified != 0 && base.Debug.InlFuncsWithClosures != 0 {
+			break
+		}
 		n := n.(*ir.SwitchStmt)
 		if n.Label != nil {
 			v.reason = "labeled control"
 			return true
 		}
-	// case ir.ORANGE, ir.OSELECT in "unhandled" above
 
 	case ir.OBREAK, ir.OCONTINUE:
+		if base.Debug.Unified != 0 && base.Debug.InlFuncsWithClosures != 0 {
+			break
+		}
 		n := n.(*ir.BranchStmt)
 		if n.Label != nil {
 			// Should have short-circuited due to labeled control error above.
