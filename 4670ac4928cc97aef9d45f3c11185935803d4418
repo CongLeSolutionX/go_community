@@ -16,6 +16,24 @@
       "message": "The author told me that he can not edit the commit message on this web page.\n\nAn error of \"403: modifying commit message not permitted\" rises when click the \"save\" button.",
       "revId": "4670ac4928cc97aef9d45f3c11185935803d4418",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2364f1e_65599350",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-12T15:50:20Z",
+      "side": 1,
+      "message": "I agree that the author can\u0027t edit the commit message at https://golang.org/cl/326730.\n\nWhat I am asking the author to do is to edit the GitHub pull request.  Edit the topic of the pull request and the first comment of the pull request.  Then the bot will copy those changes to this page.\n\nThis is as described at https://golang.org/wiki/CommitMessage.\n\nThanks.",
+      "parentUuid": "9e2691f8_3e9c7847",
+      "revId": "4670ac4928cc97aef9d45f3c11185935803d4418",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
