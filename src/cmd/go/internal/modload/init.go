@@ -776,6 +776,33 @@ func CreateModFile(ctx context.Context, modPath string) {
 	}
 }
 
+// CreateModFile initializes a new module by creating a go.mod file.
+//
+// If modPath is empty, CreateModFile will attempt to infer the path from the
+// directory location within GOPATH.
+//
+// If a vendoring configuration file is present, CreateModFile will attempt to
+// translate it to go.mod directives. The resulting build list may not be
+// exactly the same as in the legacy configuration (for example, we can't get
+// packages at multiple versions from the same module).
+func CreateWorkFile(ctx context.Context, workFile string, modDirs []string) {
+	// TODO(matloob): error if file already exists.
+
+	goV := LatestGoVersion() // Use current Go version by default
+	workF := new(modfile.WorkFile)
+	workF.AddGoStmt(goV)
+
+	for _, dir := range modDirs {
+		workF.AddDirectory(dir, "")
+	}
+
+	data, err := workF.Format()
+	if err != nil {
+		panic("failed to format file")
+	}
+	ioutil.WriteFile(workFile, data, 0644)
+}
+
 // fixVersion returns a modfile.VersionFixer implemented using the Query function.
 //
 // It resolves commit hashes and branch names to versions,
