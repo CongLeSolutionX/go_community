@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "bfc26cfd_f9423a5b",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,27 @@
       "side": 1,
       "message": "Write this line as\n\nFixes #38810\n\n(See https://golang.org/wiki/CommitMessage.)",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fc56394_a69a296f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2021-06-14T09:15:04Z",
+      "side": 1,
+      "message": "Thanks for the review. As might already be obvious from the silence, I can’t seem to find time to continue working on this. Will abandon the change so that others have the chance to take it over.",
+      "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "147f43d0_55ce3987",
         "filename": "src/os/user/lookup_unix.go",
@@ -31,10 +49,10 @@
       "side": 1,
       "message": "Minor, but there\u0027s no need for fmt.Sprintf here.\n    return \"could not connect to systemd user database: \" + e.underlying.Error()",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "de17a21c_c11d98f4",
         "filename": "src/os/user/lookup_unix.go",
@@ -48,10 +66,10 @@
       "side": 1,
       "message": "Is systemd used on any operating system other than GNU/Linux?  If not, I would expect to see the word \"linux\" in here somewhere.\n\nWe might also want to separate this code out into lookup_linux.go with a stub in lookup_nonlinux.go.\n\nOf course this does not apply if systemd is used anywhere else but as far as I can tell it is not.",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6cc06912_eeb8c06b",
         "filename": "src/os/user/lookup_unix.go",
@@ -65,10 +83,10 @@
       "side": 1,
       "message": "bufio.Scanner is a good convenience type but it can\u0027t handle very long lines.  Is there any risk of that happening here?  Is there some natural limit on the size of the data that is returned?  If there is a natural limit, a comment would be appropriate.",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "aefbbfa4_3cc75471",
         "filename": "src/os/user/lookup_unix.go",
@@ -88,10 +106,10 @@
         "endChar": 23
       },
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fdfa3335_41707d48",
         "filename": "src/os/user/lookup_unix.go",
@@ -105,10 +123,10 @@
       "side": 1,
       "message": "Is there a reason to continue in this case?  We\u0027re only going to return one Group regardless.  Is it better to return a later one?",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7b475c8b_18d828d2",
         "filename": "src/os/user/lookup_unix.go",
@@ -122,10 +140,10 @@
       "side": 1,
       "message": "Same question about continuing.",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "286c2f34_065165df",
         "filename": "src/os/user/lookup_unix.go",
@@ -139,10 +157,10 @@
       "side": 1,
       "message": "Is there some way that we could use strconv.ParseInt once rather than calling strconv.FormatInt for every record?  Seems like this might create and immediately throw away a lot of strings.",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1e54b111_cfc634fc",
         "filename": "src/os/user/lookup_unix.go",
@@ -156,10 +174,10 @@
       "side": 1,
       "message": "So, I haven\u0027t bothered to actually look at what systemd does, but this seems to imply that we are going to fetch every single user record until we find the one with the right name.  Is that really the best we can do?  Is there no keyed lookup function?\n\nI know that looking at every record is the best we can do for /etc/passwd.  But can systemd talk to LDAP?\n\nApologies if these are dumb questions.",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0ba1459e_a3bec2ee",
         "filename": "src/os/user/lookup_unix_test.go",
@@ -173,10 +191,10 @@
       "side": 1,
       "message": "if bytes[len(bytes)-1] !\u003d 0",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "21711804_ba65c9b4",
         "filename": "src/os/user/lookup_unix_test.go",
@@ -196,10 +214,10 @@
         "endChar": 35
       },
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0f0e17f1_92ad8684",
         "filename": "src/os/user/lookup_unix_test.go",
@@ -213,8 +231,7 @@
       "side": 1,
       "message": "We have t.TempDir now.",
       "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
