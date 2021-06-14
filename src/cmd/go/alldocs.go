@@ -1026,6 +1026,7 @@
 // 	edit        edit go.mod from tools or scripts
 // 	graph       print module requirement graph
 // 	init        initialize new module in current directory
+// 	initwork    initialize workspace file
 // 	tidy        add missing and remove unused modules
 // 	vendor      make vendored copy of dependencies
 // 	verify      verify dependencies have expected content
@@ -1215,6 +1216,15 @@
 // import module requirements from it.
 //
 // See https://golang.org/ref/mod#go-mod-init for more about 'go mod init'.
+//
+//
+// Initialize workspace file
+//
+// Usage:
+//
+// 	go mod initwork [moddirs]
+//
+// todo
 //
 //
 // Add missing and remove unused modules
