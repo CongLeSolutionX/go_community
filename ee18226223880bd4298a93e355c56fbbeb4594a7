@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "141ede92_5dd03638",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-06-14T02:32:56Z",
+      "side": 1,
+      "message": "Maybe\n\ns/46502/36439/\n\nIssue 46502 does not even mention c-shared. It might be confusing for future readers why this relates to issue 46502.",
+      "range": {
+        "startLine": 17,
+        "startChar": 9,
+        "endLine": 17,
+        "endChar": 14
+      },
+      "revId": "ee18226223880bd4298a93e355c56fbbeb4594a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "08099ef1_9f739b8b",
@@ -70,6 +93,23 @@
       "writtenOn": "2021-06-13T11:07:49Z",
       "side": 1,
       "message": "Trybot is finally green!",
+      "revId": "ee18226223880bd4298a93e355c56fbbeb4594a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b8832f6_618bd703",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-06-14T02:32:56Z",
+      "side": 1,
+      "message": "LGTM.\n\nLeaving for others to +2 because I am not sure if we are allowed to make changes on tip.\n\nAlex",
       "revId": "ee18226223880bd4298a93e355c56fbbeb4594a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
