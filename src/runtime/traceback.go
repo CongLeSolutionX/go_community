@@ -21,7 +21,44 @@ import (
 
 const usesLR = sys.MinFrameSize > 0
 
+<<<<<<< HEAD   (8eeaf9 [dev.typeparams] cmd/compile: move //go:embed -lang check to)
 const sizeofSkipFunction = 256
+=======
+// Traceback over the deferred function calls.
+// Report them like calls that have been invoked but not started executing yet.
+func tracebackdefers(gp *g, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer) {
+	var frame stkframe
+	for d := gp._defer; d != nil; d = d.link {
+		fn := d.fn
+		if fn == nil {
+			// Defer of nil function. Args don't matter.
+			frame.pc = 0
+			frame.fn = funcInfo{}
+			frame.argp = 0
+			frame.arglen = 0
+			frame.argmap = nil
+		} else {
+			frame.pc = fn.fn
+			f := findfunc(frame.pc)
+			if !f.valid() {
+				print("runtime: unknown pc in defer ", hex(frame.pc), "\n")
+				throw("unknown pc")
+			}
+			frame.fn = f
+			frame.argp = uintptr(deferArgs(d))
+			var ok bool
+			frame.arglen, frame.argmap, ok = getArgInfoFast(f, true)
+			if !ok {
+				frame.arglen, frame.argmap = getArgInfo(&frame, f, true, fn)
+			}
+		}
+		frame.continpc = frame.pc
+		if !callback((*stkframe)(noescape(unsafe.Pointer(&frame))), v) {
+			return
+		}
+	}
+}
+>>>>>>> BRANCH (fdab5b doc/go1.17: further revise OpenBSD release notes)
 
 // Generic traceback. Handles runtime stack prints (pcbuf == nil),
 // the runtime.Callers function (pcbuf != nil), as well as the garbage
@@ -30,9 +67,7 @@ const sizeofSkipFunction = 256
 //
 // The skip argument is only valid with pcbuf != nil and counts the number
 // of logical frames to skip rather than physical frames (with inlining, a
-// PC in pcbuf can represent multiple calls). If a PC is partially skipped
-// and max > 1, pcbuf[1] will be runtime.skipPleaseUseCallersFrames+N where
-// N indicates the number of logical frames to skip in pcbuf[0].
+// PC in pcbuf can represent multiple calls).
 func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
 	if skip > 0 && callback != nil {
 		throw("gentraceback callback cannot be used with non-zero skip")
