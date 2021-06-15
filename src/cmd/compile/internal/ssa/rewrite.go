@@ -790,7 +790,8 @@ func devirtLECall(v *Value, sym *obj.LSym) *Value {
 	v.Op = OpStaticLECall
 	auxcall := v.Aux.(*AuxCall)
 	auxcall.Fn = sym
-	v.RemoveArg(0)
+	v.RemoveArg(0) // codeptr
+	v.RemoveArg(0) // closureptr
 	return v
 }
 

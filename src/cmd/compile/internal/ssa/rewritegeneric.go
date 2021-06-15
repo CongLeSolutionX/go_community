@@ -34,6 +34,8 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpAndB(v)
 	case OpArraySelect:
 		return rewriteValuegeneric_OpArraySelect(v)
+	case OpClosureLECall:
+		return rewriteValuegeneric_OpClosureLECall(v)
 	case OpCom16:
 		return rewriteValuegeneric_OpCom16(v)
 	case OpCom32:
@@ -122,8 +124,6 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpEqSlice(v)
 	case OpIMake:
 		return rewriteValuegeneric_OpIMake(v)
-	case OpInterLECall:
-		return rewriteValuegeneric_OpInterLECall(v)
 	case OpIsInBounds:
 		return rewriteValuegeneric_OpIsInBounds(v)
 	case OpIsNonNil:
@@ -3465,6 +3465,46 @@ func rewriteValuegeneric_OpArraySelect(v *Value) bool {
 		x := v_0.Args[0]
 		v.reset(OpIData)
 		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpClosureLECall(v *Value) bool {
+	// match: (ClosureLECall [argsize] {auxCall} (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB)) _))) _) ___)
+	// cond: devirtLESym(v, auxCall, itab, off) != nil
+	// result: devirtLECall(v, devirtLESym(v, auxCall, itab, off))
+	for {
+		if len(v.Args) < 1 {
+			break
+		}
+		auxCall := auxToCall(v.Aux)
+		v_0 := v.Args[0]
+		if v_0.Op != OpLoad {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpOffPtr {
+			break
+		}
+		off := auxIntToInt64(v_0_0.AuxInt)
+		v_0_0_0 := v_0_0.Args[0]
+		if v_0_0_0.Op != OpITab {
+			break
+		}
+		v_0_0_0_0 := v_0_0_0.Args[0]
+		if v_0_0_0_0.Op != OpIMake {
+			break
+		}
+		v_0_0_0_0_0 := v_0_0_0_0.Args[0]
+		if v_0_0_0_0_0.Op != OpAddr {
+			break
+		}
+		itab := auxToSym(v_0_0_0_0_0.Aux)
+		v_0_0_0_0_0_0 := v_0_0_0_0_0.Args[0]
+		if v_0_0_0_0_0_0.Op != OpSB || !(devirtLESym(v, auxCall, itab, off) != nil) {
+			break
+		}
+		v.copyOf(devirtLECall(v, devirtLESym(v, auxCall, itab, off)))
 		return true
 	}
 	return false
@@ -8554,46 +8594,6 @@ func rewriteValuegeneric_OpIMake(v *Value) bool {
 		val := v_1.Args[0]
 		v.reset(OpIMake)
 		v.AddArg2(_typ, val)
-		return true
-	}
-	return false
-}
-func rewriteValuegeneric_OpInterLECall(v *Value) bool {
-	// match: (InterLECall [argsize] {auxCall} (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB)) _))) _) ___)
-	// cond: devirtLESym(v, auxCall, itab, off) != nil
-	// result: devirtLECall(v, devirtLESym(v, auxCall, itab, off))
-	for {
-		if len(v.Args) < 1 {
-			break
-		}
-		auxCall := auxToCall(v.Aux)
-		v_0 := v.Args[0]
-		if v_0.Op != OpLoad {
-			break
-		}
-		v_0_0 := v_0.Args[0]
-		if v_0_0.Op != OpOffPtr {
-			break
-		}
-		off := auxIntToInt64(v_0_0.AuxInt)
-		v_0_0_0 := v_0_0.Args[0]
-		if v_0_0_0.Op != OpITab {
-			break
-		}
-		v_0_0_0_0 := v_0_0_0.Args[0]
-		if v_0_0_0_0.Op != OpIMake {
-			break
-		}
-		v_0_0_0_0_0 := v_0_0_0_0.Args[0]
-		if v_0_0_0_0_0.Op != OpAddr {
-			break
-		}
-		itab := auxToSym(v_0_0_0_0_0.Aux)
-		v_0_0_0_0_0_0 := v_0_0_0_0_0.Args[0]
-		if v_0_0_0_0_0_0.Op != OpSB || !(devirtLESym(v, auxCall, itab, off) != nil) {
-			break
-		}
-		v.copyOf(devirtLECall(v, devirtLESym(v, auxCall, itab, off)))
 		return true
 	}
 	return false
