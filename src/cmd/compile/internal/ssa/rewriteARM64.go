@@ -705,9 +705,6 @@ func rewriteValueARM64(v *Value) bool {
 	case OpHmul64u:
 		v.Op = OpARM64UMULH
 		return true
-	case OpInterCall:
-		v.Op = OpARM64CALLinter
-		return true
 	case OpIsInBounds:
 		return rewriteValueARM64_OpIsInBounds(v)
 	case OpIsNonNil:

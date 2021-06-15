@@ -316,7 +316,6 @@
 // Lowering calls
 (StaticCall ...) => (CALLstatic ...)
 (ClosureCall ...) => (CALLclosure ...)
-(InterCall ...) => (CALLinter ...)
 
 // Miscellaneous
 (IsNonNil p) => (SETNE (TESTL p p))

@@ -309,15 +309,6 @@ func StaticAuxCall(sym *obj.LSym, paramResultInfo *abi.ABIParamResultInfo) *AuxC
 	return &AuxCall{Fn: sym, abiInfo: paramResultInfo, reg: reg}
 }
 
-// InterfaceAuxCall returns an AuxCall for an interface call.
-func InterfaceAuxCall(paramResultInfo *abi.ABIParamResultInfo) *AuxCall {
-	var reg *regInfo
-	if paramResultInfo.InRegistersUsed()+paramResultInfo.OutRegistersUsed() > 0 {
-		reg = &regInfo{}
-	}
-	return &AuxCall{Fn: nil, abiInfo: paramResultInfo, reg: reg}
-}
-
 // ClosureAuxCall returns an AuxCall for a closure call.
 func ClosureAuxCall(paramResultInfo *abi.ABIParamResultInfo) *AuxCall {
 	var reg *regInfo

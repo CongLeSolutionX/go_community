@@ -224,9 +224,6 @@ func rewriteValueWasm(v *Value) bool {
 	case OpGetClosurePtr:
 		v.Op = OpWasmLoweredGetClosurePtr
 		return true
-	case OpInterCall:
-		v.Op = OpWasmLoweredInterCall
-		return true
 	case OpIsInBounds:
 		v.Op = OpWasmI64LtU
 		return true

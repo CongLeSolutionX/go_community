@@ -306,7 +306,6 @@
 // Lowering calls
 (StaticCall ...) => (LoweredStaticCall ...)
 (ClosureCall ...) => (LoweredClosureCall ...)
-(InterCall ...) => (LoweredInterCall ...)
 
 // Miscellaneous
 (Convert ...) => (LoweredConvert ...)

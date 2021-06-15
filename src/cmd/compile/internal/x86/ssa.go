@@ -750,7 +750,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Sym = ssagen.ExtendCheckFunc[v.AuxInt]
 		s.UseArgs(12) // space used in callee args area by assembly stubs
 
-	case ssa.Op386CALLstatic, ssa.Op386CALLclosure, ssa.Op386CALLinter:
+	case ssa.Op386CALLstatic, ssa.Op386CALLclosure:
 		s.Call(v)
 	case ssa.Op386NEGL,
 		ssa.Op386BSWAPL,

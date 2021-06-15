@@ -228,9 +228,6 @@ func rewriteValueRISCV64(v *Value) bool {
 	case OpHmul64u:
 		v.Op = OpRISCV64MULHU
 		return true
-	case OpInterCall:
-		v.Op = OpRISCV64CALLinter
-		return true
 	case OpIsInBounds:
 		v.Op = OpLess64U
 		return true

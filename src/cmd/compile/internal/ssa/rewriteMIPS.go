@@ -178,9 +178,6 @@ func rewriteValueMIPS(v *Value) bool {
 		return rewriteValueMIPS_OpHmul32(v)
 	case OpHmul32u:
 		return rewriteValueMIPS_OpHmul32u(v)
-	case OpInterCall:
-		v.Op = OpMIPSCALLinter
-		return true
 	case OpIsInBounds:
 		return rewriteValueMIPS_OpIsInBounds(v)
 	case OpIsNonNil:

@@ -253,9 +253,6 @@ func rewriteValuePPC64(v *Value) bool {
 	case OpHmul64u:
 		v.Op = OpPPC64MULHDU
 		return true
-	case OpInterCall:
-		v.Op = OpPPC64CALLinter
-		return true
 	case OpIsInBounds:
 		return rewriteValuePPC64_OpIsInBounds(v)
 	case OpIsNonNil:

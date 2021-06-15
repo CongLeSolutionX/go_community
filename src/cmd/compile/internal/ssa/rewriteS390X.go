@@ -266,9 +266,6 @@ func rewriteValueS390X(v *Value) bool {
 		return true
 	case OpITab:
 		return rewriteValueS390X_OpITab(v)
-	case OpInterCall:
-		v.Op = OpS390XCALLinter
-		return true
 	case OpIsInBounds:
 		return rewriteValueS390X_OpIsInBounds(v)
 	case OpIsNonNil:

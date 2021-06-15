@@ -669,7 +669,6 @@
 // Lowering calls
 (StaticCall ...) => (CALLstatic ...)
 (ClosureCall ...) => (CALLclosure ...)
-(InterCall ...) => (CALLinter ...)
 
 // Miscellaneous
 (GetClosurePtr ...) => (LoweredGetClosurePtr ...)
