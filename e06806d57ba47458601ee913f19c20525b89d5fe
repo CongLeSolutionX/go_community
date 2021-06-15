@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88666012_327fa3fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-06-15T18:22:04Z",
+      "side": 1,
+      "message": "Not super pretty, but this can be checked by round tripping the type conversion, and checking if the value still matches the original, e.g.\n\n  var original interface{}\n  original \u003d int64(1\u003c\u003c63 - 1)\n  var target int32\n\n  origVal :\u003d reflect.ValueOf(original)\n  origType :\u003d origVal.Type()\n\n  targetType :\u003d reflect.ValueOf(target).Type()\n\n  convertedVal, ok :\u003d convertToType(origVal, targetType)\n  if !ok {\n    panic(fmt.Sprintf(\"error converting %v to %v\", origType, targetType))\n  }\n\n  rtVal, ok :\u003d convertToType(convertedVal, origType)\n  if !ok {\n    panic(fmt.Sprintf(\"error converting %v to %v\", targetType, origType))\n  }\n\n  if rtVal.Interface() !\u003d origVal.Interface() {\n    panic(\"overflow\")\n  }",
+      "parentUuid": "1cc03192_7931327b",
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "059ffccc_05ae94cf",
         "filename": "src/internal/fuzz/fuzz.go",
         "patchSetId": 1
