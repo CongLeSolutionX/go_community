@@ -16,6 +16,7 @@ const (
 	ScoreNilCheck
 	ScoreReadTuple
 	ScoreVarDef
+	ScoreCarryChainTail
 	ScoreMemory
 	ScoreReadFlags
 	ScoreDefault
@@ -158,7 +159,28 @@ func schedule(f *Func) {
 				// this value is already live. This also removes its
 				// false dependency on the other part of the tuple.
 				// Also ensures tuple is never spilled.
-				score[v.ID] = ScoreReadTuple
+				if (v.Op == OpSelect1 || v.Op == OpSelect0) && v.Args[0].Op.isCarry() {
+					// Schedule sooner to ensure this op does not create a priority
+					// inversion with respect to scheduling a carry op. This prevents
+					// interleaving of independent carry chains.
+					score[v.ID] = ScoreFlags
+				} else {
+					score[v.ID] = ScoreReadTuple
+				}
+			case v.Op.isCarry():
+				if w := v.getCarryProducer(); w != nil {
+					// Score non-tail carry ops as Flags, this trys to minimize carry
+					// bit lifetime by grouping them closer once the tail is scheduled.
+					score[w.ID] = ScoreFlags
+				}
+				// The order of scoring isn't guaranteed. If we've already scored this
+				// ScoreFlags, it's not the final op in a chain. Otherwise, it might be.
+				if score[v.ID] != ScoreFlags {
+					// Score the tail of carry chain operations to a lower (earlier in the
+					// block) priority. This creates a priority inversion which allows only
+					// one chain to be scheduled, if possible.
+					score[v.ID] = ScoreCarryChainTail
+				}
 			case v.Type.IsFlags() || v.Type.IsTuple() && v.Type.FieldType(1).IsFlags():
 				// Schedule flag register generation as late as possible.
 				// This makes sure that we only have one live flags
@@ -262,6 +284,33 @@ func schedule(f *Func) {
 			// Note that schedule is assembled backwards.
 
 			v := heap.Pop(priq).(*Value)
+
+			// A chain which is waiting only for the the tail operation to
+			// be placed is chosen. It is chosen in sort order, and if none,
+			// the initially popped value is chosen.
+			if score[v.ID] == ScoreCarryChainTail && v.Op.isCarry() {
+				// This is the tail of a chain of carrying arithmetic. There may
+				// be more than one, and we can only determine the best choice
+				// each time we are ready to schedule a tail.
+				schedulableChains := []*Value{v}
+				for priq.Len() > 0 {
+					v := heap.Pop(priq).(*Value)
+					if score[v.ID] != ScoreCarryChainTail {
+						heap.Push(priq, v)
+						break
+					}
+					schedulableChains = append(schedulableChains, v)
+				}
+
+				next := chooseNextCarryChain(schedulableChains, uses)
+				v = schedulableChains[next]
+
+				for i, w := range schedulableChains {
+					if i != next {
+						heap.Push(priq, w)
+					}
+				}
+			}
 
 			// Add it to the schedule.
 			// Do not emit tuple-reading ops until we're ready to emit the tuple-generating op.
@@ -515,6 +564,53 @@ func storeOrder(values []*Value, sset *sparseSet, storeNumber []int32) []*Value 
 	}
 
 	return order
+}
+
+// Return the index of a chain which can be fully scheduled, or return the first one.
+func chooseNextCarryChain(carrychainTails []*Value, uses []int32) int {
+	// A chain can be scheduled in it's entirety if
+	// the use count of each dependent op is 1. If none,
+	// schedule the first.
+	idx := 0
+	for i, v := range carrychainTails {
+		j := 1
+		for k := v; k != nil; k = k.getCarryProducer() {
+			j += int(uses[k.ID]) - 1
+		}
+		if j == 0 {
+			idx = i
+			break
+		}
+	}
+	return idx
+}
+
+// Return whether op is an operation which produces a carry bit value, but does not consume it.
+func (op Op) isCarryCreator() bool {
+	switch op {
+	case OpPPC64SUBC, OpPPC64ADDC, OpPPC64SUBCconst, OpPPC64ADDCconst:
+		return true
+	}
+	return false
+}
+
+// Return whether op consumes or creates a carry a bit value.
+func (op Op) isCarry() bool {
+	switch op {
+	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero:
+		return true
+	}
+	return op.isCarryCreator()
+}
+
+// Return the producing *Value of the carry bit of this op, or nil if none.
+func (v *Value) getCarryProducer() *Value {
+	if v.Op.isCarry() && !v.Op.isCarryCreator() {
+		// PPC64 carry dependencies are conveyed through their final argument.
+		// Likewise, there is always an OpSelect1 between them.
+		return v.Args[len(v.Args)-1].Args[0]
+	}
+	return nil
 }
 
 type bySourcePos []*Value
