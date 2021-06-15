@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e18e4cc8_c522e98e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-15T18:40:00Z",
+      "side": 1,
+      "message": "I actually had basically this exact code in a previous iteration, and while it\u0027ll help in some cases, it didn\u0027t help for things like converting between int and uint. For example, if the code was\n\n  f.Add(-1)\n  f.Fuzz(func(*testing.T, uint64)) {  ... }\n \nThen it would end up converting it to the max uint64 value, then convert it back to -1, and appear the same in that last check 😭\n\nThough you\u0027re right that the code you suggested could at least help with the loss of precision check (e.g. int64 to int32)",
+      "parentUuid": "88666012_327fa3fe",
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "059ffccc_05ae94cf",
         "filename": "src/internal/fuzz/fuzz.go",
         "patchSetId": 1
