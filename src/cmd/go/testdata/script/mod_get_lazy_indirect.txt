@@ -1,19 +1,35 @@
 # https://golang.org/issue/45979: after 'go get' on a package,
 # that package should be importable without error.
 
+
+# The newly-added dependency is marked indirect, even though we are actually
+# using it directly.
+# TODO(bcmills): Should we swap this default state, so that new dependencies
+# are added as direct unless otherwise noted?
+
 go get -d rsc.io/quote
+grep 'rsc.io/quote v\d+\.\d+\.\d+ // indirect$' go.mod
+! grep 'rsc.io/quote v\d+\.\d+\.\d+$' go.mod
 
-# TODO(#45979): These should succeed immediately.
-! go list -deps .
-stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy'
-[!short] ! go build .
-stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy'
 
-# After running the suggested 'go mod tidy' command, the build
-# should succeed.
+# Even though it is marked indirect, the new dependency can be used immediately.
+
+go list -deps .
+! stderr .
+[!short] go build .
+! stderr .
+
+
+# After running the suggested 'go mod tidy' command, the dependency is updated
+# to direct, and the build should continue to succeed.
+
 go mod tidy
+grep 'rsc.io/quote v\d+\.\d+\.\d+$' go.mod
+! grep 'rsc.io/quote v\d+\.\d+\.\d+ // indirect$' go.mod
+
 go list -deps .
 [!short] go build .
+
 
 -- go.mod --
 module example.com/m
