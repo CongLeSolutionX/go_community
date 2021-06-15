@@ -2938,7 +2938,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 
 	case ir.ORESULT:
 		n := n.(*ir.ResultExpr)
-		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall && s.prevCall.Op != ssa.OpInterLECall && s.prevCall.Op != ssa.OpClosureLECall {
+		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall && s.prevCall.Op != ssa.OpClosureLECall {
 			panic("Expected to see a previous call")
 		}
 		which := n.Index
@@ -4867,13 +4867,14 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 			s.Fatalf("OCALLINTER: n.Left not an ODOTINTER: %v", fn.Op())
 		}
 		fn := fn.(*ir.SelectorExpr)
-		var iclosure *ssa.Value
-		iclosure, rcvr = s.getClosureAndRcvr(fn)
-		if k == callNormal {
-			codeptr = s.load(types.Types[types.TUINTPTR], iclosure)
-		} else {
-			closure = iclosure
-		}
+
+		x := s.expr(fn.X)
+		closure = s.newValue1(ssa.OpITab, types.Types[types.TUINTPTR], x)
+		s.nilCheck(closure)
+		itabidx := fn.Offset() + 2*int64(types.PtrSize) + 8 // offset of fun field in runtime.itab
+
+		rcvr = s.newValue1(ssa.OpIData, s.f.Config.Types.BytePtr, x)
+		codeptr = s.load(types.Types[types.TUINTPTR], s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.UintptrPtr, itabidx, closure))
 	}
 
 	if !buildcfg.Experiment.RegabiArgs {
@@ -4972,22 +4973,20 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		case k == callGo:
 			aux := ssa.StaticAuxCall(ir.Syms.Newproc, s.f.ABIDefault.ABIAnalyzeTypes(nil, ACArgs, ACResults))
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux) // TODO paramResultInfo for NewProc
-		case closure != nil:
-			// rawLoad because loading the code pointer from a
-			// closure is always safe, but IsSanitizerSafeAddr
-			// can't always figure that out currently, and it's
-			// critical that we not clobber any arguments already
-			// stored onto the stack.
-			codeptr = s.rawLoad(types.Types[types.TUINTPTR], closure)
-			aux := ssa.ClosureAuxCall(callABI.ABIAnalyzeTypes(nil, ACArgs, ACResults))
-			call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, closure)
-		case codeptr != nil:
-			// Note that the "receiver" parameter is nil because the actual receiver is the first input parameter.
-			aux := ssa.InterfaceAuxCall(params)
-			call = s.newValue1A(ssa.OpInterLECall, aux.LateExpansionResultType(), aux, codeptr)
 		case callee != nil:
 			aux := ssa.StaticAuxCall(callTargetLSym(callee), params)
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
+		case closureptr != nil:
+			if codeptr == nil {
+				// rawLoad because loading the code pointer from a
+				// closure is always safe, but IsSanitizerSafeAddr
+				// can't always figure that out currently, and it's
+				// critical that we not clobber any arguments already
+				// stored onto the stack.
+				codeptr = s.rawLoad(types.Types[types.TUINTPTR], closure)
+			}
+			aux := ssa.ClosureAuxCall(callABI.ABIAnalyzeTypes(nil, ACArgs, ACResults))
+			call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, closure)
 		default:
 			s.Fatalf("bad call type %v %v", n.Op(), n)
 		}
@@ -5036,18 +5035,6 @@ func (s *state) maybeNilCheckClosure(closure *ssa.Value, k callKind) {
 		// TODO(neelance): On other architectures this should be eliminated by the optimization steps
 		s.nilCheck(closure)
 	}
-}
-
-// getClosureAndRcvr returns values for the appropriate closure and receiver of an
-// interface call
-func (s *state) getClosureAndRcvr(fn *ir.SelectorExpr) (*ssa.Value, *ssa.Value) {
-	i := s.expr(fn.X)
-	itab := s.newValue1(ssa.OpITab, types.Types[types.TUINTPTR], i)
-	s.nilCheck(itab)
-	itabidx := fn.Offset() + 2*int64(types.PtrSize) + 8 // offset of fun field in runtime.itab
-	closure := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.UintptrPtr, itabidx, itab)
-	rcvr := s.newValue1(ssa.OpIData, s.f.Config.Types.BytePtr, i)
-	return closure, rcvr
 }
 
 // etypesign returns the signed-ness of e, for integer/pointer etypes.

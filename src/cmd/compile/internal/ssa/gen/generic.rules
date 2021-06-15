@@ -2095,7 +2095,7 @@
 // Note that (ITab (IMake)) doesn't get rewritten until after the first opt pass,
 // so this rule should trigger reliably.
 // devirtLECall removes the first argument, adds the devirtualized symbol to the AuxCall, and changes the opcode
-(InterLECall [argsize] {auxCall} (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB)) _))) _) ___) && devirtLESym(v, auxCall, itab, off) !=
+(ClosureLECall [argsize] {auxCall} (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB)) _))) _) ___) && devirtLESym(v, auxCall, itab, off) !=
     nil => devirtLECall(v, devirtLESym(v, auxCall, itab, off))
 
 // Move and Zero optimizations.
