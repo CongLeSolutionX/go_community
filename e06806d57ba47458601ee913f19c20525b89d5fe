@@ -111,6 +111,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d6d8762_5374e4b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-06-15T18:55:59Z",
+      "side": 1,
+      "message": "Oof, good point. It kind of feels like having a generic `reflect.Value.Overflows(reflect.Type)` would be nice :/\n\nSeems like the only way to actually guard against this now is either doing a gross switch, or having no guardrails at all.",
+      "parentUuid": "e18e4cc8_c522e98e",
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "059ffccc_05ae94cf",
         "filename": "src/internal/fuzz/fuzz.go",
         "patchSetId": 1
