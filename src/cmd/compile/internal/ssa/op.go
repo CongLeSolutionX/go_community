@@ -104,6 +104,7 @@ func (a *AuxNameOffset) String() string {
 
 type AuxCall struct {
 	Fn      *obj.LSym
+	Offset  int64
 	reg     *regInfo // regInfo for this call
 	abiInfo *abi.ABIParamResultInfo
 }
@@ -310,12 +311,12 @@ func StaticAuxCall(sym *obj.LSym, paramResultInfo *abi.ABIParamResultInfo) *AuxC
 }
 
 // ClosureAuxCall returns an AuxCall for a closure call.
-func ClosureAuxCall(paramResultInfo *abi.ABIParamResultInfo) *AuxCall {
+func ClosureAuxCall(offset int64, paramResultInfo *abi.ABIParamResultInfo) *AuxCall {
 	var reg *regInfo
 	if paramResultInfo.InRegistersUsed()+paramResultInfo.OutRegistersUsed() > 0 {
 		reg = &regInfo{}
 	}
-	return &AuxCall{Fn: nil, abiInfo: paramResultInfo, reg: reg}
+	return &AuxCall{Offset: offset, abiInfo: paramResultInfo, reg: reg}
 }
 
 func (*AuxCall) CanBeAnSSAAux() {}

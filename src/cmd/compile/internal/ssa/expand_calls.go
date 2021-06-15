@@ -1189,7 +1189,7 @@ func expandCalls(f *Func) {
 			switch v.Op {
 			case OpStaticLECall:
 			case OpClosureLECall:
-				firstArg = 2
+				firstArg = 1
 			default:
 				continue
 			}
@@ -1501,12 +1501,27 @@ func expandCalls(f *Func) {
 			case OpArg:
 				x.rewriteArgToMemOrRegs(v)
 			case OpStaticLECall:
+				auxcall := v.Aux.(*AuxCall)
 				v.Op = OpStaticCall
-				rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
+				rts := abi.RegisterTypes(auxcall.abiInfo.OutParams())
 				v.Type = types.NewResults(append(rts, types.TypeMem))
 			case OpClosureLECall:
+				auxcall := v.Aux.(*AuxCall)
+				b := v.Block
+				cfg := b.Func.Config
+
+				// TODO(mdempsky): Make architecture responsible for loading
+				// the code pointer if they can't the load directly into their
+				// call instruction, like X86.
+				closure, mem := v.Args[0], v.Args[len(v.Args)-1]
+				b.NewValue2(v.Pos, OpNilCheck, types.TypeVoid, closure, mem)
+
+				addr := b.NewValue1I(v.Pos, OpOffPtr, cfg.Types.UintptrPtr, auxcall.Offset, closure)
+				codeptr := b.NewValue2(v.Pos, OpLoad, cfg.Types.Uintptr, addr, mem)
+				v.InsertArg(0, codeptr)
+
 				v.Op = OpClosureCall
-				rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
+				rts := abi.RegisterTypes(auxcall.abiInfo.OutParams())
 				v.Type = types.NewResults(append(rts, types.TypeMem))
 			}
 		}

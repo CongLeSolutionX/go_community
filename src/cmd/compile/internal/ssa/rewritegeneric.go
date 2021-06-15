@@ -3470,41 +3470,32 @@ func rewriteValuegeneric_OpArraySelect(v *Value) bool {
 	return false
 }
 func rewriteValuegeneric_OpClosureLECall(v *Value) bool {
-	// match: (ClosureLECall [argsize] {auxCall} (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB)) _))) _) ___)
-	// cond: devirtLESym(v, auxCall, itab, off) != nil
-	// result: devirtLECall(v, devirtLESym(v, auxCall, itab, off))
+	// match: (ClosureLECall [argsize] {auxCall} (ITab (IMake (Addr {itab} (SB)) _)) ___)
+	// cond: devirtLESym(v, auxCall, itab) != nil
+	// result: devirtLECall(v, devirtLESym(v, auxCall, itab))
 	for {
 		if len(v.Args) < 1 {
 			break
 		}
 		auxCall := auxToCall(v.Aux)
 		v_0 := v.Args[0]
-		if v_0.Op != OpLoad {
+		if v_0.Op != OpITab {
 			break
 		}
 		v_0_0 := v_0.Args[0]
-		if v_0_0.Op != OpOffPtr {
+		if v_0_0.Op != OpIMake {
 			break
 		}
-		off := auxIntToInt64(v_0_0.AuxInt)
 		v_0_0_0 := v_0_0.Args[0]
-		if v_0_0_0.Op != OpITab {
+		if v_0_0_0.Op != OpAddr {
 			break
 		}
+		itab := auxToSym(v_0_0_0.Aux)
 		v_0_0_0_0 := v_0_0_0.Args[0]
-		if v_0_0_0_0.Op != OpIMake {
+		if v_0_0_0_0.Op != OpSB || !(devirtLESym(v, auxCall, itab) != nil) {
 			break
 		}
-		v_0_0_0_0_0 := v_0_0_0_0.Args[0]
-		if v_0_0_0_0_0.Op != OpAddr {
-			break
-		}
-		itab := auxToSym(v_0_0_0_0_0.Aux)
-		v_0_0_0_0_0_0 := v_0_0_0_0_0.Args[0]
-		if v_0_0_0_0_0_0.Op != OpSB || !(devirtLESym(v, auxCall, itab, off) != nil) {
-			break
-		}
-		v.copyOf(devirtLECall(v, devirtLESym(v, auxCall, itab, off)))
+		v.copyOf(devirtLECall(v, devirtLESym(v, auxCall, itab)))
 		return true
 	}
 	return false

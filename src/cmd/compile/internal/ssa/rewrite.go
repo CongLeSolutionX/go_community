@@ -769,29 +769,41 @@ func loadLSymOffset(lsym *obj.LSym, offset int64) *obj.LSym {
 
 // de-virtualize an InterLECall
 // 'sym' is the symbol for the itab
-func devirtLESym(v *Value, aux Aux, sym Sym, offset int64) *obj.LSym {
+func devirtLESym(v *Value, aux Aux, sym Sym) *obj.LSym {
 	n, ok := sym.(*obj.LSym)
 	if !ok {
 		return nil
 	}
 
+	auxcall := v.Aux.(*AuxCall)
+	offset := auxcall.Offset
+
 	lsym := loadLSymOffset(n, offset)
 	if f := v.Block.Func; f.pass.debug > 0 {
-		if lsym != nil {
-			f.Warnl(v.Pos, "de-virtualizing call")
-		} else {
-			f.Warnl(v.Pos, "couldn't de-virtualize call")
+		switch {
+		case lsym == nil:
+			f.Warnl(v.Pos, "couldn't de-virtualize call: failed to load offset %v of %v", offset, n)
+		case lsym.NeedCtxt():
+			// TODO(mdempsky): Extend static call to support taking a context pointer.
+			f.Warnl(v.Pos, "couldn't de-virtualize call: function %v needs context pointer", lsym)
+			lsym = nil
+		default:
+			f.Warnl(v.Pos, "de-virtualizing call to %v", lsym)
 		}
 	}
 	return lsym
 }
 
 func devirtLECall(v *Value, sym *obj.LSym) *Value {
-	v.Op = OpStaticLECall
 	auxcall := v.Aux.(*AuxCall)
 	auxcall.Fn = sym
-	v.RemoveArg(0) // codeptr
-	v.RemoveArg(0) // closureptr
+	auxcall.Offset = 0
+	if sym.NeedCtxt() {
+		v.Fatalf("can't devirtualize call to %v; needs context pointer", sym)
+	} else {
+		v.Op = OpStaticLECall
+		v.RemoveArg(0) // closureptr
+	}
 	return v
 }
 

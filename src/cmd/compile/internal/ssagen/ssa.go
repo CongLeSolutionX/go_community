@@ -4761,9 +4761,8 @@ func (s *state) openDeferExit() {
 		if r.closure != nil {
 			v := s.load(r.closure.Type.Elem(), r.closure)
 			s.maybeNilCheckClosure(v, callDefer)
-			codeptr := s.rawLoad(types.Types[types.TUINTPTR], v)
-			aux := ssa.ClosureAuxCall(s.f.ABIDefault.ABIAnalyzeTypes(nil, nil, nil))
-			call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, v)
+			aux := ssa.ClosureAuxCall(0, s.f.ABIDefault.ABIAnalyzeTypes(nil, nil, nil))
+			call = s.newValue1A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, v)
 		} else {
 			aux := ssa.StaticAuxCall(fn.(*ir.Name).Linksym(), s.f.ABIDefault.ABIAnalyzeTypes(nil, nil, nil))
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
@@ -4797,10 +4796,10 @@ func (s *state) callAddr(n *ir.CallExpr, k callKind) *ssa.Value {
 // Returns the address of the return value (or nil if none).
 func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Value {
 	s.prevCall = nil
-	var callee *ir.Name    // target function (if static)
-	var closure *ssa.Value // ptr to closure to run (if dynamic)
-	var codeptr *ssa.Value // ptr to target code (if dynamic)
-	var rcvr *ssa.Value    // receiver to set
+	var callee *ir.Name     // target function (if static)
+	var closure *ssa.Value  // ptr to closure to run (if dynamic)
+	var codeptrOffset int64 // offset within closure of target code pointer (if dynamic)
+	var rcvr *ssa.Value     // receiver to set
 	fn := n.X
 	var ACArgs []*types.Type    // AuxCall args
 	var ACResults []*types.Type // AuxCall results
@@ -4869,12 +4868,9 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		fn := fn.(*ir.SelectorExpr)
 
 		x := s.expr(fn.X)
-		closure = s.newValue1(ssa.OpITab, types.Types[types.TUINTPTR], x)
-		s.nilCheck(closure)
-		itabidx := fn.Offset() + 2*int64(types.PtrSize) + 8 // offset of fun field in runtime.itab
-
 		rcvr = s.newValue1(ssa.OpIData, s.f.Config.Types.BytePtr, x)
-		codeptr = s.load(types.Types[types.TUINTPTR], s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.UintptrPtr, itabidx, closure))
+		closure = s.newValue1(ssa.OpITab, types.Types[types.TUINTPTR], x)
+		codeptrOffset = fn.Offset() + 2*int64(types.PtrSize) + 8 // offset of fun field in runtime.itab
 	}
 
 	if !buildcfg.Experiment.RegabiArgs {
@@ -4977,16 +4973,8 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 			aux := ssa.StaticAuxCall(callTargetLSym(callee), params)
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
 		case closure != nil:
-			if codeptr == nil {
-				// rawLoad because loading the code pointer from a
-				// closure is always safe, but IsSanitizerSafeAddr
-				// can't always figure that out currently, and it's
-				// critical that we not clobber any arguments already
-				// stored onto the stack.
-				codeptr = s.rawLoad(types.Types[types.TUINTPTR], closure)
-			}
-			aux := ssa.ClosureAuxCall(callABI.ABIAnalyzeTypes(nil, ACArgs, ACResults))
-			call = s.newValue2A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, codeptr, closure)
+			aux := ssa.ClosureAuxCall(codeptrOffset, callABI.ABIAnalyzeTypes(nil, ACArgs, ACResults))
+			call = s.newValue1A(ssa.OpClosureLECall, aux.LateExpansionResultType(), aux, closure)
 		default:
 			s.Fatalf("bad call type %v %v", n.Op(), n)
 		}

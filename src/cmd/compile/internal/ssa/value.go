@@ -308,6 +308,12 @@ func (v *Value) RemoveArg(i int) {
 	v.Args[len(v.Args)-1] = nil // aid GC
 	v.Args = v.Args[:len(v.Args)-1]
 }
+func (v *Value) InsertArg(i int, w *Value) {
+	v.Args = append(v.Args, nil)
+	copy(v.Args[i+1:], v.Args[i:])
+	v.Args[i] = w
+	w.Uses++
+}
 func (v *Value) SetArgs1(a *Value) {
 	v.resetArgs()
 	v.AddArg(a)
