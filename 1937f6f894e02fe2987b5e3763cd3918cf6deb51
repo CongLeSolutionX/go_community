@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f654e52a_c3164bad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-06-15T17:10:02Z",
+      "side": 1,
+      "message": "Thanks for the CL. When I wrote the original CL for ARM64, I thought about PPC64 but was told it was not a problem.\n\n",
+      "revId": "1937f6f894e02fe2987b5e3763cd3918cf6deb51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81f3ca7e_6ac70599",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-06-15T17:10:02Z",
+      "side": 1,
+      "message": "For the code below to work, it needs to save the g to the bottom of the stack, see https://tip.golang.org/src/runtime/sys_linux_arm64.s#L243 . The PPC64 assembly code doesn\u0027t seem to have that.",
+      "revId": "1937f6f894e02fe2987b5e3763cd3918cf6deb51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
