@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b656dcf_f8e437a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-15T19:32:14Z",
+      "side": 1,
+      "message": "Exactly. That\u0027s the conclusion I came to too, and I didn\u0027t want to mess with that, at least not for this CL.\n\nAgreed a Overflows method would be very nice 🙏 I wrote up a proposal: https://github.com/golang/go/issues/46772",
+      "parentUuid": "6d6d8762_5374e4b2",
+      "revId": "e06806d57ba47458601ee913f19c20525b89d5fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "059ffccc_05ae94cf",
