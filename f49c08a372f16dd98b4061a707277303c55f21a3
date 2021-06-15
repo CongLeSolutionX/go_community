@@ -16,6 +16,24 @@
       "message": "Just write\n\nFixes #46683",
       "revId": "f49c08a372f16dd98b4061a707277303c55f21a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8c49ba_7d462e3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-06-15T10:12:22Z",
+      "side": 1,
+      "message": "It looks like #46683 is the PR number, so there isn\u0027t even a need for the Fixes line. We usually only use them to close issues. The PR will be closed automatically by GerritBot once the CL is submitted.",
+      "parentUuid": "43122e4f_7ab08f4b",
+      "revId": "f49c08a372f16dd98b4061a707277303c55f21a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
