@@ -14,6 +14,7 @@ const (
 	ScorePhi = iota // towards top of block
 	ScoreArg
 	ScoreNilCheck
+	ScoreCarryChainTail
 	ScoreReadTuple
 	ScoreVarDef
 	ScoreMemory
@@ -158,7 +159,29 @@ func schedule(f *Func) {
 				// this value is already live. This also removes its
 				// false dependency on the other part of the tuple.
 				// Also ensures tuple is never spilled.
-				score[v.ID] = ScoreReadTuple
+				if (v.Op == OpSelect1 || v.Op == OpSelect0) && v.Args[0].Op.isCarry() {
+					// Score tuple ops of carry ops later to ensure they do not
+					// delay scheduling the tuple-generating op. If such tuple ops
+					// are not placed more readily, unrelated carry clobbering ops
+					// may be placed inbetween two carry-dependent operations.
+					score[v.ID] = ScoreFlags
+				} else {
+					score[v.ID] = ScoreReadTuple
+				}
+			case v.Op.isCarry():
+				if w := v.getCarryProducer(); w != nil {
+					// Score non-tail carry ops as Flags, this tries to minimize carry
+					// bit lifetime by grouping them closer once the tail is scheduled.
+					score[w.ID] = ScoreFlags
+				}
+				// The order of scoring isn't guaranteed. If we've already scored this
+				// ScoreFlags, it's not the final op in a chain. Otherwise, it might be.
+				if score[v.ID] != ScoreFlags {
+					// Score the tail of carry chain operations to a lower (earlier in the
+					// block) priority. This creates a priority inversion which allows only
+					// one chain to be scheduled, if possible.
+					score[v.ID] = ScoreCarryChainTail
+				}
 			case v.Type.IsFlags() || v.Type.IsTuple() && v.Type.FieldType(1).IsFlags():
 				// Schedule flag register generation as late as possible.
 				// This makes sure that we only have one live flags
@@ -262,6 +285,14 @@ func schedule(f *Func) {
 			// Note that schedule is assembled backwards.
 
 			v := heap.Pop(priq).(*Value)
+
+			if f.pass.debug > 1 && score[v.ID] == ScoreCarryChainTail && v.Op.isCarry() {
+				// Add some debugging noise if the chain of carrying ops will not
+				// likely be scheduled without potential carry flag clobbers.
+				if !isCarryChainReady(v, uses) {
+					f.Warnl(v.Pos, "carry chain ending with %v not ready", v)
+				}
+			}
 
 			// Add it to the schedule.
 			// Do not emit tuple-reading ops until we're ready to emit the tuple-generating op.
@@ -515,6 +546,46 @@ func storeOrder(values []*Value, sset *sparseSet, storeNumber []int32) []*Value 
 	}
 
 	return order
+}
+
+// Return whether all dependent carry ops can be scheduled after this.
+func isCarryChainReady(v *Value, uses []int32) bool {
+	// A chain can be scheduled in it's entirety if
+	// the use count of each dependent op is 1. If none,
+	// schedule the first.
+	j := 1 // The first op uses[k.ID] == 0. Dependent ops are always >= 1.
+	for k := v; k != nil; k = k.getCarryProducer() {
+		j += int(uses[k.ID]) - 1
+	}
+	return j == 0
+}
+
+// Return whether op is an operation which produces a carry bit value, but does not consume it.
+func (op Op) isCarryCreator() bool {
+	switch op {
+	case OpPPC64SUBC, OpPPC64ADDC, OpPPC64SUBCconst, OpPPC64ADDCconst:
+		return true
+	}
+	return false
+}
+
+// Return whether op consumes or creates a carry a bit value.
+func (op Op) isCarry() bool {
+	switch op {
+	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero:
+		return true
+	}
+	return op.isCarryCreator()
+}
+
+// Return the producing *Value of the carry bit of this op, or nil if none.
+func (v *Value) getCarryProducer() *Value {
+	if v.Op.isCarry() && !v.Op.isCarryCreator() {
+		// PPC64 carry dependencies are conveyed through their final argument.
+		// Likewise, there is always an OpSelect1 between them.
+		return v.Args[len(v.Args)-1].Args[0]
+	}
+	return nil
 }
 
 type bySourcePos []*Value
