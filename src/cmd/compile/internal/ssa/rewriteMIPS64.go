@@ -204,9 +204,6 @@ func rewriteValueMIPS64(v *Value) bool {
 		return rewriteValueMIPS64_OpHmul64(v)
 	case OpHmul64u:
 		return rewriteValueMIPS64_OpHmul64u(v)
-	case OpInterCall:
-		v.Op = OpMIPS64CALLinter
-		return true
 	case OpIsInBounds:
 		return rewriteValueMIPS64_OpIsInBounds(v)
 	case OpIsNonNil:

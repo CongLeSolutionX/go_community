@@ -694,7 +694,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Offset = v.AuxInt
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
-	case ssa.OpARMCALLstatic, ssa.OpARMCALLclosure, ssa.OpARMCALLinter:
+	case ssa.OpARMCALLstatic, ssa.OpARMCALLclosure:
 		s.Call(v)
 	case ssa.OpARMCALLudiv:
 		p := s.Prog(obj.ACALL)

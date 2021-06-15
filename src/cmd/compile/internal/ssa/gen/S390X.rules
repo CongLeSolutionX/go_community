@@ -433,7 +433,6 @@
 // Lowering calls
 (StaticCall ...) => (CALLstatic ...)
 (ClosureCall ...) => (CALLclosure ...)
-(InterCall ...) => (CALLinter ...)
 
 // Miscellaneous
 (IsNonNil p) => (LOCGR {s390x.NotEqual} (MOVDconst [0]) (MOVDconst [1]) (CMPconst p [0]))

@@ -502,7 +502,6 @@
 // calls
 (StaticCall ...) => (CALLstatic ...)
 (ClosureCall ...) => (CALLclosure ...)
-(InterCall ...) => (CALLinter ...)
 
 // checks
 (NilCheck ...) => (LoweredNilCheck ...)

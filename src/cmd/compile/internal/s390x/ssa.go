@@ -554,7 +554,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(obj.AGETCALLERPC)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
-	case ssa.OpS390XCALLstatic, ssa.OpS390XCALLclosure, ssa.OpS390XCALLinter:
+	case ssa.OpS390XCALLstatic, ssa.OpS390XCALLclosure:
 		s.Call(v)
 	case ssa.OpS390XLoweredWB:
 		p := s.Prog(obj.ACALL)

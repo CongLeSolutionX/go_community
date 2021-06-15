@@ -759,9 +759,6 @@ func rewriteValueAMD64(v *Value) bool {
 	case OpHmul64u:
 		v.Op = OpAMD64HMULQU
 		return true
-	case OpInterCall:
-		v.Op = OpAMD64CALLinter
-		return true
 	case OpIsInBounds:
 		return rewriteValueAMD64_OpIsInBounds(v)
 	case OpIsNonNil:

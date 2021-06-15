@@ -1629,7 +1629,7 @@ func needRaceCleanup(sym *AuxCall, v *Value) bool {
 				return false
 			case OpPanicBounds, OpPanicExtend:
 				// Note: these are panic generators that are ok (like the static calls above).
-			case OpClosureCall, OpInterCall, OpClosureLECall, OpInterLECall:
+			case OpClosureCall, OpClosureLECall:
 				// We must keep the race functions if there are any other call types.
 				return false
 			}

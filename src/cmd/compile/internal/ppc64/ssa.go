@@ -1829,7 +1829,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 	case ssa.OpPPC64CALLstatic:
 		s.Call(v)
 
-	case ssa.OpPPC64CALLclosure, ssa.OpPPC64CALLinter:
+	case ssa.OpPPC64CALLclosure:
 		p := s.Prog(ppc64.AMOVD)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[0].Reg()

@@ -2938,7 +2938,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 
 	case ir.ORESULT:
 		n := n.(*ir.ResultExpr)
-		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall && s.prevCall.Op != ssa.OpInterLECall && s.prevCall.Op != ssa.OpClosureLECall {
+		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall && s.prevCall.Op != ssa.OpClosureLECall {
 			panic("Expected to see a previous call")
 		}
 		which := n.Index

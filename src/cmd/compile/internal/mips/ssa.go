@@ -473,7 +473,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p6.Reg = mips.REG_R1
 		p6.To.Type = obj.TYPE_BRANCH
 		p6.To.SetTarget(p2)
-	case ssa.OpMIPSCALLstatic, ssa.OpMIPSCALLclosure, ssa.OpMIPSCALLinter:
+	case ssa.OpMIPSCALLstatic, ssa.OpMIPSCALLclosure:
 		s.Call(v)
 	case ssa.OpMIPSLoweredWB:
 		p := s.Prog(obj.ACALL)

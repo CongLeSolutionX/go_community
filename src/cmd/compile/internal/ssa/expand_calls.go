@@ -1188,8 +1188,6 @@ func expandCalls(f *Func) {
 			firstArg := 0
 			switch v.Op {
 			case OpStaticLECall:
-			case OpInterLECall:
-				firstArg = 1
 			case OpClosureLECall:
 				firstArg = 2
 			default:
@@ -1508,10 +1506,6 @@ func expandCalls(f *Func) {
 				v.Type = types.NewResults(append(rts, types.TypeMem))
 			case OpClosureLECall:
 				v.Op = OpClosureCall
-				rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
-				v.Type = types.NewResults(append(rts, types.TypeMem))
-			case OpInterLECall:
-				v.Op = OpInterCall
 				rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
 				v.Type = types.NewResults(append(rts, types.TypeMem))
 			}

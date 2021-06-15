@@ -592,9 +592,6 @@ func rewriteValueARM(v *Value) bool {
 	case OpHmul32u:
 		v.Op = OpARMHMULU
 		return true
-	case OpInterCall:
-		v.Op = OpARMCALLinter
-		return true
 	case OpIsInBounds:
 		return rewriteValueARM_OpIsInBounds(v)
 	case OpIsNonNil:

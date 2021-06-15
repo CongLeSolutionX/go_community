@@ -333,7 +333,6 @@
 // calls
 (StaticCall ...)  => (CALLstatic ...)
 (ClosureCall ...) => (CALLclosure ...)
-(InterCall ...)   => (CALLinter ...)
 
 // atomic intrinsics
 (AtomicLoad(8|32) ...) => (LoweredAtomicLoad(8|32) ...)

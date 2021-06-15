@@ -1044,7 +1044,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p4 := s.Prog(arm64.ABLE)
 		p4.To.Type = obj.TYPE_BRANCH
 		p4.To.SetTarget(p)
-	case ssa.OpARM64CALLstatic, ssa.OpARM64CALLclosure, ssa.OpARM64CALLinter:
+	case ssa.OpARM64CALLstatic, ssa.OpARM64CALLclosure:
 		s.Call(v)
 	case ssa.OpARM64LoweredWB:
 		p := s.Prog(obj.ACALL)

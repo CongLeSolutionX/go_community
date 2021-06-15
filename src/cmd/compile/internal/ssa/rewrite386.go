@@ -385,9 +385,6 @@ func rewriteValue386(v *Value) bool {
 	case OpHmul32u:
 		v.Op = Op386HMULLU
 		return true
-	case OpInterCall:
-		v.Op = Op386CALLinter
-		return true
 	case OpIsInBounds:
 		return rewriteValue386_OpIsInBounds(v)
 	case OpIsNonNil:

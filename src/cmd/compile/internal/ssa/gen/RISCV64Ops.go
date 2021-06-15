@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build ignore
 // +build ignore
 
 package main
@@ -138,7 +139,6 @@ func init() {
 
 		call        = regInfo{clobbers: callerSave}
 		callClosure = regInfo{inputs: []regMask{gpspMask, regCtxt, 0}, clobbers: callerSave}
-		callInter   = regInfo{inputs: []regMask{gpMask}, clobbers: callerSave}
 	)
 
 	RISCV64ops := []opData{
@@ -236,7 +236,6 @@ func init() {
 		// Calls
 		{name: "CALLstatic", argLength: 1, reg: call, aux: "CallOff", call: true},         // call static function aux.(*gc.Sym). arg0=mem, auxint=argsize, returns mem
 		{name: "CALLclosure", argLength: 3, reg: callClosure, aux: "CallOff", call: true}, // call function via closure. arg0=codeptr, arg1=closure, arg2=mem, auxint=argsize, returns mem
-		{name: "CALLinter", argLength: 2, reg: callInter, aux: "CallOff", call: true},     // call fn by pointer. arg0=codeptr, arg1=mem, auxint=argsize, returns mem
 
 		// duffzero
 		// arg0 = address of memory to zero (in X10, changed as side effect)

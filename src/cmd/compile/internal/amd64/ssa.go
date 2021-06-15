@@ -1020,7 +1020,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 			// set G register from TLS
 			getgFromTLS(s, x86.REG_R14)
 		}
-	case ssa.OpAMD64CALLclosure, ssa.OpAMD64CALLinter:
+	case ssa.OpAMD64CALLclosure:
 		s.Call(v)
 
 	case ssa.OpAMD64LoweredGetCallerPC:
