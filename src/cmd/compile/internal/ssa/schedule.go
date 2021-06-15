@@ -7,12 +7,14 @@ package ssa
 import (
 	"cmd/compile/internal/types"
 	"container/heap"
+	"fmt"
 	"sort"
 )
 
 const (
 	ScorePhi = iota // towards top of block
 	ScoreArg
+	ScoreDeferred // Latest possible deferred op (e.g a CA op on PPC64)
 	ScoreNilCheck
 	ScoreReadTuple
 	ScoreVarDef
@@ -111,6 +113,10 @@ func schedule(f *Func) {
 	// additional pretend arguments for each Value. Used to enforce load/store ordering.
 	additionalArgs := make([][]*Value, f.NumValues())
 
+	// Make a map of CA ops and, set true if *Value is the final user of CA in an
+	// add/carry chain. Note, this includes values in all blocks, be careful!
+	carrychainOps := make(map[*Value]bool)
+
 	for _, b := range f.Blocks {
 		// Compute score. Larger numbers are scheduled closer to the end of the block.
 		for _, v := range b.Values {
@@ -164,6 +170,21 @@ func schedule(f *Func) {
 				// This makes sure that we only have one live flags
 				// value at a time.
 				score[v.ID] = ScoreFlags
+			case v.Op.isCarryChainOp() || v.Op.isCarryChainCreator():
+				// If this Op doesn't start the carry chain, the operation
+				// which creates the carry isn't the start of the chain.
+				if !v.Op.isCarryChainCreator() {
+					carrychainOps[v.getCarryProducer()] = false
+				}
+				// Ordering is not guaranteed, however if we haven't marked this
+				// Op yet, it is potentially the final Op in a carry chain.
+				if _, fnd := carrychainOps[v]; !fnd {
+					carrychainOps[v] = true
+				}
+
+				//Score as ReadFlags, try to keep CA lifetime short. It only persists
+				//between 2 operations.
+				score[v.ID] = ScoreReadFlags
 			default:
 				score[v.ID] = ScoreDefault
 				// If we're reading flags, schedule earlier to keep flag lifetime short.
@@ -242,6 +263,72 @@ func schedule(f *Func) {
 
 		}
 
+		// Interleaving independent carry chains results in bad performance,
+		// work to avoid this if possible.
+		carrychainTails := []*Value{}
+		if len(carrychainOps) > 0 {
+			for k, v := range carrychainOps {
+				// Identify the tails of carry chains in this block, and cleanup
+				if k.Block == b && v {
+					carrychainTails = append(carrychainTails, k)
+					delete(carrychainOps, k)
+				} else if !v {
+					delete(carrychainOps, k)
+				}
+			}
+
+			// Bump the count of each tail. This will prevent scheduling. This defers
+			// scheduling until we reach a point where either a chain can be scheduled
+			// in toto, or we pick a tail which can be scheduled (those cases likely
+			// imply non-ideal usage, and we let the flag/reg allocator save/restore
+			// CA as needed)
+			for _, v := range carrychainTails {
+				uses[v.ID]++
+			}
+
+			//TODO: reverse sorting by line number may increase efficiency of
+			//      chain selection (this doesn't always work due to inlining)
+		}
+
+		chooseNextCarryChain := func() *Value {
+			// Try to choose a chain which is ready to schedule, and if none,
+			// pick a tail which is schedulable, there should always be one.
+			var nextV *Value
+			idx := 0
+			for i, v := range carrychainTails {
+				if uses[v.ID] == 1 {
+					idx = i
+					nextV = v
+				}
+				j := 0
+				k := v
+				for {
+					j += int(uses[k.ID]) - 1
+					if k.Op.isCarryChainCreator() {
+						break
+					}
+					k = k.getCarryProducer()
+				}
+				if j == 0 {
+					break
+				}
+			}
+			if nextV == nil {
+				// If this happens, report state and fail.
+				for _, v := range b.Values {
+					fmt.Printf("%3d %3d %s %s ... ", score[v.ID], uses[v.ID], v.LongString(), v.Pos.LineNumber())
+					for _, a := range v.Args {
+						fmt.Printf("%v ", a)
+					}
+					fmt.Printf("\n")
+				}
+				f.Fatalf("carry chain present, but none are schedulable\n")
+			}
+			carrychainTails = append(carrychainTails[0:idx], carrychainTails[idx+1:len(carrychainTails)]...)
+			uses[nextV.ID]--
+			return nextV
+		}
+
 		// To put things into a priority queue
 		// The values that should come last are least.
 		priq.score = score
@@ -262,6 +349,12 @@ func schedule(f *Func) {
 			// Note that schedule is assembled backwards.
 
 			v := heap.Pop(priq).(*Value)
+
+			// All non-deferrable work has been done, choose a carry chain to schedule, and do it.
+			if len(carrychainTails) > 0 && score[v.ID] <= ScoreDeferred {
+				heap.Push(priq, v)
+				v = chooseNextCarryChain()
+			}
 
 			// Add it to the schedule.
 			// Do not emit tuple-reading ops until we're ready to emit the tuple-generating op.
@@ -321,6 +414,12 @@ func schedule(f *Func) {
 					// All uses scheduled, w is now schedulable.
 					heap.Push(priq, w)
 				}
+			}
+
+			// All schedulable work has been scheduled, choose a carry chain to schedule.
+			if len(carrychainTails) > 0 && priq.Len() == 0 {
+				heap.Push(priq, chooseNextCarryChain())
+
 			}
 		}
 		if len(order) != len(b.Values) {
@@ -515,6 +614,30 @@ func storeOrder(values []*Value, sset *sparseSet, storeNumber []int32) []*Value 
 	}
 
 	return order
+}
+
+// Test whether this is an operation which starts a carry chain.
+func (op Op) isCarryChainCreator() bool {
+	switch op {
+	case OpPPC64SUBC, OpPPC64ADDC, OpPPC64SUBCconst, OpPPC64ADDCconst:
+		return true
+	}
+	return false
+}
+
+// Test whether this is an operation which consumes the output of a carry bit.
+func (op Op) isCarryChainOp() bool {
+	switch op {
+	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZE, OpPPC64ADDZE, OpPPC64SUBZEzero, OpPPC64ADDZEzero:
+		return true
+	}
+	return false
+}
+
+func (v *Value) getCarryProducer() *Value {
+	// PPC64 carry dependencies are conveyed through their final argument.
+	// Likewise, there is always an OpSelect1 between them.
+	return v.Args[len(v.Args)-1].Args[0]
 }
 
 type bySourcePos []*Value
