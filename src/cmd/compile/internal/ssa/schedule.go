@@ -13,6 +13,7 @@ import (
 const (
 	ScorePhi = iota // towards top of block
 	ScoreArg
+	ScoreCarryChainTail
 	ScoreNilCheck
 	ScoreReadTuple
 	ScoreVarDef
@@ -111,6 +112,10 @@ func schedule(f *Func) {
 	// additional pretend arguments for each Value. Used to enforce load/store ordering.
 	additionalArgs := make([][]*Value, f.NumValues())
 
+	// Make a map of CA ops and, set true if *Value is the final user of CA in an
+	// add/carry chain. Note, this includes values in all blocks, be careful!
+	carrychainOps := make(map[*Value]bool)
+
 	for _, b := range f.Blocks {
 		// Compute score. Larger numbers are scheduled closer to the end of the block.
 		for _, v := range b.Values {
@@ -159,6 +164,21 @@ func schedule(f *Func) {
 				// false dependency on the other part of the tuple.
 				// Also ensures tuple is never spilled.
 				score[v.ID] = ScoreReadTuple
+			case v.Op.isCarryChainOp():
+				// If this Op doesn't start the carry chain, the operation
+				// which creates the carry isn't the start of the chain.
+				if !v.Op.isCarryChainCreator() {
+					carrychainOps[v.getCarryProducer()] = false
+				}
+				// Ordering is not guaranteed, however if we haven't marked this
+				// Op yet, it is potentially the final Op in a carry chain.
+				if _, fnd := carrychainOps[v]; !fnd {
+					carrychainOps[v] = true
+				}
+
+				// Score as Flags, try to keep CA lifetime short by encouraging
+				// carry bit operations to group closer.
+				score[v.ID] = ScoreFlags
 			case v.Type.IsFlags() || v.Type.IsTuple() && v.Type.FieldType(1).IsFlags():
 				// Schedule flag register generation as late as possible.
 				// This makes sure that we only have one live flags
@@ -172,6 +192,17 @@ func schedule(f *Func) {
 						score[v.ID] = ScoreReadFlags
 					}
 				}
+			}
+		}
+	}
+
+	// Rescore the tail of carry chain operations to a lower schedule priority.
+	// This creates a priority inversion which allows only one chain to be
+	// scheduled, if possible.
+	if len(carrychainOps) > 0 {
+		for k, istail := range carrychainOps {
+			if istail {
+				score[k.ID] = ScoreCarryChainTail
 			}
 		}
 	}
@@ -262,6 +293,30 @@ func schedule(f *Func) {
 			// Note that schedule is assembled backwards.
 
 			v := heap.Pop(priq).(*Value)
+
+			// If this is the tail of a carry chain (implied by the score),
+			// Collect all schedulable chain tails, and choose one which is
+			// ready to schedule, and return the rest to the heap.
+			if v.Op.isCarryChainOp() && score[v.ID] == ScoreCarryChainTail {
+				schedulableChains := []*Value{v}
+				for priq.Len() > 0 {
+					v := heap.Pop(priq).(*Value)
+					if score[v.ID] != ScoreCarryChainTail {
+						heap.Push(priq, v)
+						break
+					}
+					schedulableChains = append(schedulableChains, v)
+				}
+
+				next := chooseNextCarryChain(schedulableChains, uses)
+				v = schedulableChains[next]
+
+				for i, w := range schedulableChains {
+					if i != next {
+						heap.Push(priq, w)
+					}
+				}
+			}
 
 			// Add it to the schedule.
 			// Do not emit tuple-reading ops until we're ready to emit the tuple-generating op.
@@ -515,6 +570,54 @@ func storeOrder(values []*Value, sset *sparseSet, storeNumber []int32) []*Value 
 	}
 
 	return order
+}
+
+// Choose the index of a chain which can be fully scheduled, or return the first one.
+func chooseNextCarryChain(carrychainTails []*Value, uses []int32) int {
+	// A chain can be scheduled in it's entirety if
+	// the use count of each dependent op is 1. If none,
+	// schedule the first.
+	idx := 0
+	for i, v := range carrychainTails {
+		j := 1
+		k := v
+		for {
+			j += int(uses[k.ID]) - 1
+			if k.Op.isCarryChainCreator() {
+				break
+			}
+			k = k.getCarryProducer()
+		}
+		if j == 0 {
+			idx = i
+			break
+		}
+	}
+	return idx
+}
+
+// Test whether this is an operation which starts a carry chain.
+func (op Op) isCarryChainCreator() bool {
+	switch op {
+	case OpPPC64SUBC, OpPPC64ADDC, OpPPC64SUBCconst, OpPPC64ADDCconst:
+		return true
+	}
+	return false
+}
+
+// Test if op is a part of a chain of carrying arithmetic.
+func (op Op) isCarryChainOp() bool {
+	switch op {
+	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero:
+		return true
+	}
+	return op.isCarryChainCreator()
+}
+
+func (v *Value) getCarryProducer() *Value {
+	// PPC64 carry dependencies are conveyed through their final argument.
+	// Likewise, there is always an OpSelect1 between them.
+	return v.Args[len(v.Args)-1].Args[0]
 }
 
 type bySourcePos []*Value
