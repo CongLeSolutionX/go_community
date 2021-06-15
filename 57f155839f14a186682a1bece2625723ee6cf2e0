@@ -34,6 +34,57 @@
       "parentUuid": "48a0e7a0_0154c511",
       "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "571430a8_81c3ad67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-06-15T09:44:05Z",
+      "side": 1,
+      "message": "@Rhys: This new iteration looks great! The main issues I see right now is handling cgo. As far as I can tell cgo functions running on threads created by the go runtime would currently be subject to both `timer_create()` as well as `setitimer()` sampling and get oversampled. And threads created outside of the Go runtime would only receive `setitimer()` samples and continue to suffer from the existing issues.\n\nThe latter only seems solvable by trying to call `timer_create()` from within the signal handler code as well when discovering an alien thread. Not sure if you\u0027ve given up on that idea for now?",
+      "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59dbaa67_374a4273",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-06-15T09:44:05Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this. Is this intended to capture work done on short lived threads that exit in less than 1/Hz (10ms)?",
+      "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e55a6c4c_b2be5551",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-06-15T09:44:05Z",
+      "side": 1,
+      "message": "NIT: Probably better to not shadow the builtin new() function, especially since this function already uses it a few lines earlier. If not dangerous, it\u0027s definitely a little confusing. The same comment applies to other parts of this patch that use new as variable name.\n\n(I did notice that a few other files in the Go tree already use this variable name, so arguably it seems acceptable upstream)",
+      "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
