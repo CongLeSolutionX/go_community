@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cca28cd6_eec5844e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2021-06-15T10:36:05Z",
+      "side": 1,
+      "message": "Hi Fannie Zhang, this seems like a very nice set of improvements in this whole series.",
+      "revId": "882ec7d16dd2f73eecea858e104a71cbae0298ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e65c375_d18c8619",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2021-06-15T10:36:05Z",
+      "side": 1,
+      "message": "I would guess you would want to check if Debug.Checkptr \u003d\u003d -1 for -asan as well, which as I understand it would give people more control to set checkptr explicitly if desired, including to avoid changing escape analysis behavior with -asan if needed.\n\nFor example, the CL that introduced \u0027-d\u003dcheckptr\u003d2\u0027 golang.org/cl/201840 mentions:\n\n   \"...at least some tests are written to expect unsafe.Pointer conversions to not affect escape analysis.\"\n\nTwo related tests mentioned in #34972 were context.TestAllocs and database/sql.TestRawBytesAllocs.\n\nThat said, others might have different opinions.",
+      "revId": "882ec7d16dd2f73eecea858e104a71cbae0298ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
