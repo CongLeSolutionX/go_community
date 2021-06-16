@@ -9,7 +9,10 @@ package modcmd
 import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/modload"
+	"cmd/go/internal/search"
 	"context"
+	"io/fs"
+	"log"
 	"path/filepath"
 )
 
@@ -50,5 +53,40 @@ func runInitwork(ctx context.Context, cmd *base.Command, args []string) {
 
 	workFile := filepath.Join(base.Cwd(), "go.work")
 
-	modload.CreateWorkFile(ctx, workFile, args)
+	// TODO(matloob) standardize paths
+
+	var expandedArgs []string
+	hasDotDotDot := false
+	for _, arg := range args {
+		carg := filepath.ToSlash(filepath.Clean(arg))
+		if !search.NewMatch(carg).IsLiteral() {
+
+		}
+		if filepath.Base(carg) != "..." {
+			if !search.NewMatch(carg).IsLiteral() {
+				base.Fatalf("go: initwork does not accept the pattern %q", arg)
+			}
+			expandedArgs = append(expandedArgs, carg)
+			// TODO(matloob): check for go.mod?
+			continue
+		}
+		hasDotDotDot = true
+		noDotDotDot := filepath.Dir(carg)
+		if !search.NewMatch(noDotDotDot).IsLiteral() {
+			base.Fatalf("go: initwork does not accept patterns other than \"...\"; found %q", arg)
+		}
+		filepath.Walk(noDotDotDot, func(path string, info fs.FileInfo, err error) error {
+			if !info.Mode().IsDir() && filepath.Base(path) == "go.mod" {
+				expandedArgs = append(expandedArgs, filepath.ToSlash(filepath.Clean(filepath.Dir(path))))
+			}
+
+			return nil
+		})
+	}
+
+	if hasDotDotDot {
+		log.Print("WARNING: '...' PATTERNS ARE *NOT* EXPANDED IN THE WORKSPACES PROPOSAL")
+	}
+
+	modload.CreateWorkFile(ctx, workFile, expandedArgs)
 }
