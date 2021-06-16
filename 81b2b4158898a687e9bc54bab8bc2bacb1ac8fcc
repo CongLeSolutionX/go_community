@@ -145,6 +145,30 @@
       },
       "revId": "81b2b4158898a687e9bc54bab8bc2bacb1ac8fcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67281f25_622409ce",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2021-06-16T16:21:40Z",
+      "side": 1,
+      "message": "Yeah, good catch. I didn\u0027t modify it initially because on glance that seemed to be how the arm64 version behaved, but I think there\u0027s some differences there.\n\nI\u0027ve added a new label \"return\" which the syscall fallback can JMP to.",
+      "parentUuid": "fe250de5_8ecdd621",
+      "range": {
+        "startLine": 279,
+        "startChar": 5,
+        "endLine": 279,
+        "endChar": 11
+      },
+      "revId": "81b2b4158898a687e9bc54bab8bc2bacb1ac8fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
