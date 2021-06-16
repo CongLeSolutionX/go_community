@@ -34,6 +34,24 @@
       "message": "FWIW, rf has a git-generate tool, which lets you include\n\n```\n[git-generate]\nsome\ncommands\nto\nrun\n```\n\nin your commit message, and then running `git generate` will run the given script to re-generate the CL. It makes it easier to review refactorings because then as a reviewer you can focus on the script, and just spot check the CL body.\n\n(Russ and I also had a convention of ending the subject line of these CLs with \"[generated]\".)",
       "revId": "555e75d07d3552b2e3ac1fdfa1804677f8498306",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0432042d_2d8c55ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-16T22:43:18Z",
+      "side": 1,
+      "message": "The followup CLs all seem reasonable in size, but this one is very large. Between not knowing what sed script you ran, or knowing that the CL was generated with git-generate, it means it\u0027s a much more involved review than rf reviews should need to be.\n\nI\u0027m going to review the remaining CLs for now. I think it would be great if you could rewrite this one to use git-generate. If I\u0027m done reviewing the rest and you haven\u0027t had a chance to do that though, I\u0027ll just manually review it.\n\nIf you need help with git-generate, ping me on chat.",
+      "parentUuid": "a2e8f330_37c56b95",
+      "revId": "555e75d07d3552b2e3ac1fdfa1804677f8498306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
