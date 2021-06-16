@@ -10,7 +10,7 @@ import (
 )
 
 // AIX requires a larger stack for syscalls.
-const StackGuardMultiplier = StackGuardMultiplierDefault*(1-goos.GoosAix) + 2*goos.GoosAix
+const StackGuardMultiplier = StackGuardMultiplierDefault*(1-goos.Aix) + 2*goos.Aix
 
 // DefaultPhysPageSize is the default physical page size.
 const DefaultPhysPageSize = goarch.DefaultPhysPageSize
@@ -34,47 +34,47 @@ const MinFrameSize = goarch.MinFrameSize
 const StackAlign = goarch.StackAlign
 
 const (
-	Goarch386         = goarch.Goarch386
-	GoarchAmd64       = goarch.GoarchAmd64
-	GoarchAmd64p32    = goarch.GoarchAmd64p32
-	GoarchArm         = goarch.GoarchArm
-	GoarchArmbe       = goarch.GoarchArmbe
-	GoarchArm64       = goarch.GoarchArm64
-	GoarchArm64be     = goarch.GoarchArm64be
-	GoarchPpc64       = goarch.GoarchPpc64
-	GoarchPpc64le     = goarch.GoarchPpc64le
-	GoarchMips        = goarch.GoarchMips
-	GoarchMipsle      = goarch.GoarchMipsle
-	GoarchMips64      = goarch.GoarchMips64
-	GoarchMips64le    = goarch.GoarchMips64le
-	GoarchMips64p32   = goarch.GoarchMips64p32
-	GoarchMips64p32le = goarch.GoarchMips64p32le
-	GoarchPpc         = goarch.GoarchPpc
-	GoarchRiscv       = goarch.GoarchRiscv
-	GoarchRiscv64     = goarch.GoarchRiscv64
-	GoarchS390        = goarch.GoarchS390
-	GoarchS390x       = goarch.GoarchS390x
-	GoarchSparc       = goarch.GoarchSparc
-	GoarchSparc64     = goarch.GoarchSparc64
-	GoarchWasm        = goarch.GoarchWasm
+	Goarch386         = goarch.I386
+	GoarchAmd64       = goarch.Amd64
+	GoarchAmd64p32    = goarch.Amd64p32
+	GoarchArm         = goarch.Arm
+	GoarchArmbe       = goarch.Armbe
+	GoarchArm64       = goarch.Arm64
+	GoarchArm64be     = goarch.Arm64be
+	GoarchPpc64       = goarch.Ppc64
+	GoarchPpc64le     = goarch.Ppc64le
+	GoarchMips        = goarch.Mips
+	GoarchMipsle      = goarch.Mipsle
+	GoarchMips64      = goarch.Mips64
+	GoarchMips64le    = goarch.Mips64le
+	GoarchMips64p32   = goarch.Mips64p32
+	GoarchMips64p32le = goarch.Mips64p32le
+	GoarchPpc         = goarch.Ppc
+	GoarchRiscv       = goarch.Riscv
+	GoarchRiscv64     = goarch.Riscv64
+	GoarchS390        = goarch.S390
+	GoarchS390x       = goarch.S390x
+	GoarchSparc       = goarch.Sparc
+	GoarchSparc64     = goarch.Sparc64
+	GoarchWasm        = goarch.Wasm
 )
 
 const (
-	GoosAix       = goos.GoosAix
-	GoosAndroid   = goos.GoosAndroid
-	GoosDarwin    = goos.GoosDarwin
-	GoosDragonfly = goos.GoosDragonfly
-	GoosFreebsd   = goos.GoosFreebsd
-	GoosHurd      = goos.GoosHurd
-	GoosIllumos   = goos.GoosIllumos
-	GoosIos       = goos.GoosIos
-	GoosJs        = goos.GoosJs
-	GoosLinux     = goos.GoosLinux
-	GoosNacl      = goos.GoosNacl
-	GoosNetbsd    = goos.GoosNetbsd
-	GoosOpenbsd   = goos.GoosOpenbsd
-	GoosPlan9     = goos.GoosPlan9
-	GoosSolaris   = goos.GoosSolaris
-	GoosWindows   = goos.GoosWindows
-	GoosZos       = goos.GoosZos
+	GoosAix       = goos.Aix
+	GoosAndroid   = goos.Android
+	GoosDarwin    = goos.Darwin
+	GoosDragonfly = goos.Dragonfly
+	GoosFreebsd   = goos.Freebsd
+	GoosHurd      = goos.Hurd
+	GoosIllumos   = goos.Illumos
+	GoosIos       = goos.Ios
+	GoosJs        = goos.Js
+	GoosLinux     = goos.Linux
+	GoosNacl      = goos.Nacl
+	GoosNetbsd    = goos.Netbsd
+	GoosOpenbsd   = goos.Openbsd
+	GoosPlan9     = goos.Plan9
+	GoosSolaris   = goos.Solaris
+	GoosWindows   = goos.Windows
+	GoosZos       = goos.Zos
 )

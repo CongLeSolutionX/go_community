@@ -60,7 +60,7 @@ func main() {
 			if goos == target {
 				value = 1
 			}
-			fmt.Fprintf(&buf, "const Goos%s = %d\n", strings.Title(goos), value)
+			fmt.Fprintf(&buf, "const %s = %d\n", strings.Title(goos), value)
 		}
 		err := os.WriteFile("zgoos_"+target+".go", buf.Bytes(), 0666)
 		if err != nil {

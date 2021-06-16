@@ -7,20 +7,20 @@ package goos
 
 const GOOS = `openbsd`
 
-const GoosAix = 0
-const GoosAndroid = 0
-const GoosDarwin = 0
-const GoosDragonfly = 0
-const GoosFreebsd = 0
-const GoosHurd = 0
-const GoosIllumos = 0
-const GoosIos = 0
-const GoosJs = 0
-const GoosLinux = 0
-const GoosNacl = 0
-const GoosNetbsd = 0
-const GoosOpenbsd = 1
-const GoosPlan9 = 0
-const GoosSolaris = 0
-const GoosWindows = 0
-const GoosZos = 0
+const Aix = 0
+const Android = 0
+const Darwin = 0
+const Dragonfly = 0
+const Freebsd = 0
+const Hurd = 0
+const Illumos = 0
+const Ios = 0
+const Js = 0
+const Linux = 0
+const Nacl = 0
+const Netbsd = 0
+const Openbsd = 1
+const Plan9 = 0
+const Solaris = 0
+const Windows = 0
+const Zos = 0
