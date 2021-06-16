@@ -7,6 +7,7 @@
 package runtime
 
 import (
+	"internal/goarch"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -245,7 +246,7 @@ func BenchSetType(n int, x interface{}) {
 	})
 }
 
-const PtrSize = sys.PtrSize
+const PtrSize = goarch.PtrSize
 
 var ForceGCPeriod = &forcegcperiod
 

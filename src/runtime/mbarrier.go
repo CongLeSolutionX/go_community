@@ -15,7 +15,7 @@ package runtime
 
 import (
 	"internal/abi"
-	"runtime/internal/sys"
+	"internal/goarch"
 	"unsafe"
 )
 
@@ -194,14 +194,14 @@ func reflectlite_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 
 // typedmemmovepartial is like typedmemmove but assumes that
 // dst and src point off bytes into the value and only copies size bytes.
-// off must be a multiple of sys.PtrSize.
+// off must be a multiple of goarch.PtrSize.
 //go:linkname reflect_typedmemmovepartial reflect.typedmemmovepartial
 func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size uintptr) {
-	if writeBarrier.needed && typ.ptrdata > off && size >= sys.PtrSize {
-		if off&(sys.PtrSize-1) != 0 {
+	if writeBarrier.needed && typ.ptrdata > off && size >= goarch.PtrSize {
+		if off&(goarch.PtrSize-1) != 0 {
 			panic("reflect: internal error: misaligned offset")
 		}
-		pwsize := alignDown(size, sys.PtrSize)
+		pwsize := alignDown(size, goarch.PtrSize)
 		if poff := typ.ptrdata - off; pwsize > poff {
 			pwsize = poff
 		}
@@ -225,7 +225,7 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 //
 //go:nosplit
 func reflectcallmove(typ *_type, dst, src unsafe.Pointer, size uintptr, regs *abi.RegArgs) {
-	if writeBarrier.needed && typ != nil && typ.ptrdata != 0 && size >= sys.PtrSize {
+	if writeBarrier.needed && typ != nil && typ.ptrdata != 0 && size >= goarch.PtrSize {
 		bulkBarrierPreWrite(uintptr(dst), uintptr(src), size)
 	}
 	memmove(dst, src, size)
