@@ -53,6 +53,24 @@
       "message": "Change looks good. \n\nIt would also be nice to have a test that causes the new code to be executed. Is that something that you would be comfortable writing?",
       "revId": "01a3f77e729bcb64ac3f2e87c9b1ecfffe861bea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf432f0d_aac3c636",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11851
+      },
+      "writtenOn": "2021-06-16T21:25:08Z",
+      "side": 1,
+      "message": "I\u0027ve added a unit test to the PR",
+      "parentUuid": "0839fee8_c2aad565",
+      "revId": "01a3f77e729bcb64ac3f2e87c9b1ecfffe861bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
