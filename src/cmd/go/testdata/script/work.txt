@@ -1,4 +1,5 @@
 go mod initwork ./a ./b
+# TODO(matloob): bring back the ./ paths
 cmp go.work go.work.want
 
 ! go run  example.com/b
@@ -53,8 +54,8 @@ directory (
 go 1.17
 
 directory (
-	./a
-	./b
+	a
+	b
 )
 -- go.work.d --
 go 1.17
