@@ -5,7 +5,6 @@
 package goarch
 
 const (
-	_ArchFamily          = RISCV64
 	_DefaultPhysPageSize = 4096
 	_PCQuantum           = 4
 	_MinFrameSize        = 8
