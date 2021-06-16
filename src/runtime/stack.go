@@ -69,7 +69,7 @@ const (
 	// to each stack below the usual guard area for OS-specific
 	// purposes like signal handling. Used on Windows, Plan 9,
 	// and iOS because they do not use a separate stack.
-	_StackSystem = goos.Windows*512*goarch.PtrSize + goos.Plan9*512 + goos.Ios*sys.GoarchArm64*1024
+	_StackSystem = goos.Windows*512*goarch.PtrSize + goos.Plan9*512 + goos.Ios*goarch.Arm64*1024
 
 	// The minimum size of stack used by Go code
 	_StackMin = 2048
