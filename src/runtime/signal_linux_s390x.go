@@ -6,6 +6,7 @@ package runtime
 
 import (
 	"internal/abi"
+	"internal/goarch"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -54,7 +55,7 @@ func (c *sigctxt) set_sp(x uint64)      { c.regs().gregs[15] = x }
 func (c *sigctxt) set_pc(x uint64)      { c.regs().psw_addr = x }
 func (c *sigctxt) set_sigcode(x uint32) { c.info.si_code = int32(x) }
 func (c *sigctxt) set_sigaddr(x uint64) {
-	*(*uintptr)(add(unsafe.Pointer(c.info), 2*sys.PtrSize)) = uintptr(x)
+	*(*uintptr)(add(unsafe.Pointer(c.info), 2*goarch.PtrSize)) = uintptr(x)
 }
 
 func dumpregs(c *sigctxt) {
