@@ -16,6 +16,24 @@
       "message": "Do you have a testcase that reproduces the problem? I\u0027m also wondering if R0 could be a problem since Go code assumes it contains the value 0 and the VDSO generated code could clobber it.",
       "revId": "81b2b4158898a687e9bc54bab8bc2bacb1ac8fcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdb34a99_7af61df2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2021-06-16T14:41:16Z",
+      "side": 1,
+      "message": "The test added in the following CL will cover this: https://go-review.googlesource.com/c/go/+/192937",
+      "parentUuid": "ac2b6aaa_c4e0a6ae",
+      "revId": "81b2b4158898a687e9bc54bab8bc2bacb1ac8fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
