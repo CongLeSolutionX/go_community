@@ -1,0 +1,17 @@
+cd walk
+go mod initwork ./...
+stderr '^WARNING:'
+cmp go.work go.work.want
+cd $GOPATH/src
+
+-- walk/patha/go.mod --
+-- walk/go.mod --
+-- walk/pathb/element/go.mod --
+-- walk/go.work.want --
+go 1.17
+
+directory (
+	.
+	patha
+	pathb/element
+)
