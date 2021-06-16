@@ -1,4 +1,5 @@
 go mod initwork ./a ./b
+# TODO(matloob): bring back the ./ paths
 cmp go.work go.work.want
 
 go run example.com/b
@@ -14,12 +15,17 @@ go list all # all includes both modules
 stdout 'example.com/a'
 stdout 'example.com/b'
 
+cd walk
+go mod initwork ./...
+stderr '^WARNING:'
+cmp go.work go.work.want
+
 -- go.work.want --
 go 1.17
 
 directory (
-	./a
-	./b
+	a
+	b
 )
 -- a/go.mod --
 
