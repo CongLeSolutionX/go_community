@@ -2088,6 +2088,7 @@ var excludedFiles = map[string]bool{
 	"fixedbugs/issue7525c.go":  true, // types2 reports init cycle error on different line - ok otherwise
 	"fixedbugs/issue7525d.go":  true, // types2 reports init cycle error on different line - ok otherwise
 	"fixedbugs/issue7525e.go":  true, // types2 reports init cycle error on different line - ok otherwise
+<<<<<<< HEAD   (ee0420 [dev.typeparams] cmd/compile: factor out implicit/explicit h)
 	"fixedbugs/issue7525.go":   true, // types2 reports init cycle error on different line - ok otherwise
 	"fixedbugs/issue9691.go":   true, // "cannot assign to int(.autotmp_4)" (probably irgen's fault)
 
@@ -2182,4 +2183,7 @@ func splitQuoted(s string) (r []string, err error) {
 		err = errors.New("unfinished escaping")
 	}
 	return args, err
+=======
+	"fixedbugs/issue46749.go":  true, // types2 reports can not convert error instead of type mismatched
+>>>>>>> BRANCH (785a8f cmd/compile: better error message for invalid untyped operat)
 }
