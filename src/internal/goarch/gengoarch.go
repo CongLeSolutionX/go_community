@@ -49,7 +49,11 @@ func main() {
 			if goarch == target {
 				value = 1
 			}
-			fmt.Fprintf(&buf, "const Goarch%s = %d\n", strings.Title(goarch), value)
+			constName := goarch
+			if goarch == "386" {
+				constName = "i386"
+			}
+			fmt.Fprintf(&buf, "const %s = %d\n", strings.Title(constName), value)
 		}
 		err := os.WriteFile("zgoarch_"+target+".go", buf.Bytes(), 0666)
 		if err != nil {
