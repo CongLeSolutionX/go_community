@@ -1024,6 +1024,7 @@
 //
 // 	download    download modules to local cache
 // 	edit        edit go.mod from tools or scripts
+// 	editwork    edit go.work from tools or scripts
 // 	graph       print module requirement graph
 // 	init        initialize new module in current directory
 // 	initwork    initialize workspace file
@@ -1181,6 +1182,15 @@
 // use 'go list -m -json all'.
 //
 // See https://golang.org/ref/mod#go-mod-edit for more about 'go mod edit'.
+//
+//
+// Edit go.work from tools or scripts
+//
+// Usage:
+//
+// 	go mod editwork [editing flags] [go.work]
+//
+// TODO long form documentatino
 //
 //
 // Print module requirement graph
