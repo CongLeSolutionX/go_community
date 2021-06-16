@@ -58,23 +58,3 @@ const (
 	GoarchSparc64     = goarch.Sparc64
 	GoarchWasm        = goarch.Wasm
 )
-
-const (
-	GoosAix       = goos.Aix
-	GoosAndroid   = goos.Android
-	GoosDarwin    = goos.Darwin
-	GoosDragonfly = goos.Dragonfly
-	GoosFreebsd   = goos.Freebsd
-	GoosHurd      = goos.Hurd
-	GoosIllumos   = goos.Illumos
-	GoosIos       = goos.Ios
-	GoosJs        = goos.Js
-	GoosLinux     = goos.Linux
-	GoosNacl      = goos.Nacl
-	GoosNetbsd    = goos.Netbsd
-	GoosOpenbsd   = goos.Openbsd
-	GoosPlan9     = goos.Plan9
-	GoosSolaris   = goos.Solaris
-	GoosWindows   = goos.Windows
-	GoosZos       = goos.Zos
-)
