@@ -20,6 +20,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ca8554a_a7878317",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-16T21:51:18Z",
+      "side": 1,
+      "message": "\"...non-percent-encoded semicolons (i.e. \"%3B\") are rejected\" ?",
+      "range": {
+        "startLine": 429,
+        "startChar": 69,
+        "endLine": 429,
+        "endChar": 78
+      },
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df8ef22_29e363f3",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-16T21:51:18Z",
+      "side": 1,
+      "message": "I wonder if this might be a little confusing. It is *still* supporting ampersand as a separator, so calling it out leads me to thinking that it\u0027s no longer allowed. I\u0027ll leave it up to you, but maybe could reword to something like\n\n\"The net/url and net/http packages no longer accept \";\" (semicolon) as a separator in URL queries. Now, settings with non-percent-encoded semicolons (i.e. \"%3B\") are rejected ... . Ampersands \"\u0026\" are still a supported separator\".",
+      "range": {
+        "startLine": 427,
+        "startChar": 2,
+        "endLine": 429,
+        "endChar": 28
+      },
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9827e49f_02c3bd9a",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-16T21:51:18Z",
+      "side": 1,
+      "message": "They don\u0027t have to be ampersand-separated, do they? It would reject something like \"a\u003d1;b\u003d2\" which doesn\u0027t have any ampersands. Maybe saying \"...ignore any key-value pairs that contain a semicolon...\" would be clearer?",
+      "range": {
+        "startLine": 447,
+        "startChar": 6,
+        "endLine": 447,
+        "endChar": 34
+      },
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30fed8ee_d21f3d80",
         "filename": "doc/go1.17.html",
         "patchSetId": 2
@@ -31,6 +100,29 @@
       "writtenOn": "2021-06-16T16:12:41Z",
       "side": 1,
       "message": "suggest the h3 be TLS strict ALPN",
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55b09033_7f945f95",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-16T21:51:18Z",
+      "side": 1,
+      "message": "TODO?",
+      "range": {
+        "startLine": 857,
+        "startChar": 56,
+        "endLine": 857,
+        "endChar": 70
+      },
       "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
