@@ -34,6 +34,46 @@
       "parentUuid": "ac2b6aaa_c4e0a6ae",
       "revId": "81b2b4158898a687e9bc54bab8bc2bacb1ac8fcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24224121_56278fb9",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-06-16T14:57:46Z",
+      "side": 1,
+      "message": "Trivial nit, should the hard tabs be preserved?",
+      "revId": "81b2b4158898a687e9bc54bab8bc2bacb1ac8fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f02550c_59fd8edb",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-06-16T14:57:46Z",
+      "side": 1,
+      "message": "This looks strange, is it not meant to be \"JMP finish\"?",
+      "range": {
+        "startLine": 248,
+        "startChar": 1,
+        "endLine": 248,
+        "endChar": 16
+      },
+      "revId": "81b2b4158898a687e9bc54bab8bc2bacb1ac8fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
