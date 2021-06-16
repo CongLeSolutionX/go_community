@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac2b6aaa_c4e0a6ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-06-16T14:28:13Z",
+      "side": 1,
+      "message": "Do you have a testcase that reproduces the problem? I\u0027m also wondering if R0 could be a problem since Go code assumes it contains the value 0 and the VDSO generated code could clobber it.",
+      "revId": "81b2b4158898a687e9bc54bab8bc2bacb1ac8fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
