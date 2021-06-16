@@ -32,29 +32,3 @@ const MinFrameSize = goarch.MinFrameSize
 // StackAlign is the required alignment of the SP register.
 // The stack must be at least word aligned, but some architectures require more.
 const StackAlign = goarch.StackAlign
-
-const (
-	Goarch386         = goarch.I386
-	GoarchAmd64       = goarch.Amd64
-	GoarchAmd64p32    = goarch.Amd64p32
-	GoarchArm         = goarch.Arm
-	GoarchArmbe       = goarch.Armbe
-	GoarchArm64       = goarch.Arm64
-	GoarchArm64be     = goarch.Arm64be
-	GoarchPpc64       = goarch.Ppc64
-	GoarchPpc64le     = goarch.Ppc64le
-	GoarchMips        = goarch.Mips
-	GoarchMipsle      = goarch.Mipsle
-	GoarchMips64      = goarch.Mips64
-	GoarchMips64le    = goarch.Mips64le
-	GoarchMips64p32   = goarch.Mips64p32
-	GoarchMips64p32le = goarch.Mips64p32le
-	GoarchPpc         = goarch.Ppc
-	GoarchRiscv       = goarch.Riscv
-	GoarchRiscv64     = goarch.Riscv64
-	GoarchS390        = goarch.S390
-	GoarchS390x       = goarch.S390x
-	GoarchSparc       = goarch.Sparc
-	GoarchSparc64     = goarch.Sparc64
-	GoarchWasm        = goarch.Wasm
-)
