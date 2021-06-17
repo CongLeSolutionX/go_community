@@ -78,6 +78,29 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5e6ed0_62c92edf",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-06-17T17:18:06Z",
+      "side": 1,
+      "message": "Whoops, this line break was a last-minute formatting artifact. Fixed.",
+      "range": {
+        "startLine": 698,
+        "startChar": 26,
+        "endLine": 698,
+        "endChar": 36
+      },
+      "revId": "f57ceb8dc2f960d641f3e6048a98a003d543d22b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99047391_8133c5da",
