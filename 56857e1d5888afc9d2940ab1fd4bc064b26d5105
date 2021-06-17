@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2af5cc3d_b2a75b2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-17T05:28:40Z",
+      "side": 1,
+      "message": "If this CL is going to be submitted for 1.17, before submission it’ll need to rebased and the API additions added to the api/go1.17.txt file, otherwise the API check will fail.",
+      "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0b01be36_96088f05",
@@ -102,6 +119,57 @@
       "writtenOn": "2021-06-17T00:29:36Z",
       "side": 1,
       "message": "Apologies for the review delay. I didn\u0027t see that the proposal had been accepted.",
+      "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6fcbd12_e2a517e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-17T05:28:40Z",
+      "side": 1,
+      "message": "I don’t have objections to this landing for 1.17.\n\nA comment about API check, and 2 really minor optional comments.",
+      "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d0957dc_1fa806d0",
+        "filename": "src/image/image.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-17T05:28:40Z",
+      "side": 1,
+      "message": "Minor style question: would it be better to write this as ‘var c color.Color\u0027, since the goal here seems to just declare the variable with a zero value (as opposed to giving it some meaningful initial value). Or is this format equally okay?",
+      "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adc1cd77_ade653d7",
+        "filename": "src/image/image_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-17T05:28:40Z",
+      "side": 1,
+      "message": "Nit: is the dual space before %T international?",
       "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
