@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "138be7cb_f7d5d518",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-06-17T13:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd33cee3_6dd78f33",
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ca8554a_a7878317",
@@ -64,6 +82,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7ea76ef_9bc7b977",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-06-17T13:53:16Z",
+      "side": 1,
+      "message": "That sounds like \"%3B\" is a non-percent-encoded semicolon, and hence rejected.",
+      "parentUuid": "3ca8554a_a7878317",
+      "range": {
+        "startLine": 429,
+        "startChar": 69,
+        "endLine": 429,
+        "endChar": 78
+      },
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9603cb10_7b03cd2b",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-06-17T13:53:16Z",
+      "side": 1,
+      "message": "Done,\n\n\"The \u003ccode\u003enet/url\u003c/code\u003e and \u003ccode\u003enet/http\u003c/code\u003e packages used to accept\n  \u003ccode\u003e\";\"\u003c/code\u003e (semicolon) as a separator in URL queries, in addition to\n  \u003ccode\u003e\"\u0026\"\u003c/code\u003e (ampersand)\"",
+      "parentUuid": "9df8ef22_29e363f3",
+      "range": {
+        "startLine": 427,
+        "startChar": 2,
+        "endLine": 429,
+        "endChar": 28
+      },
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9827e49f_02c3bd9a",
@@ -87,6 +153,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4baf4c7d_10cbc248",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-06-17T13:53:16Z",
+      "side": 1,
+      "message": "Hmm, \"a\u003d1;b\u003d2\" is a single ampersand-separated value, like \"foo\" is a comma-separated list of length one. The problem with key-value pairs is that \"a\u003d1\u0026foo;bar\u0026b\u003d2\" drops \"foo;bar\", which is not a key-value pair. The value is optional.\n\nDropped ampersand-separated, I guess it\u0027s clear enough from context.",
+      "parentUuid": "9827e49f_02c3bd9a",
+      "range": {
+        "startLine": 447,
+        "startChar": 6,
+        "endLine": 447,
+        "endChar": 34
+      },
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30fed8ee_d21f3d80",
@@ -100,6 +190,24 @@
       "writtenOn": "2021-06-16T16:12:41Z",
       "side": 1,
       "message": "suggest the h3 be TLS strict ALPN",
+      "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88bfa3f6_91b7157f",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-06-17T13:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30fed8ee_d21f3d80",
       "revId": "25e3796b6c5fbd6d696899ef7b739863f625da2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
