@@ -39,6 +39,30 @@
       },
       "revId": "a2189771fde3697411c181943fc95b500028c133",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0306083d_cfa33023",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2021-06-17T16:00:56Z",
+      "side": 1,
+      "message": "That\u0027s correct, we need the asm changes here as well, I just wanted to implement them in `runtime.walltime` first for initial feedback on the assembly before implementing it in another function. However, if you state you\u0027re able to verify the fix using the assembly I\u0027ve provided then I will add this to nanotime as well and submit a new commit.",
+      "parentUuid": "6f6ed476_7e9146fd",
+      "range": {
+        "startLine": 282,
+        "startChar": 5,
+        "endLine": 282,
+        "endChar": 22
+      },
+      "revId": "a2189771fde3697411c181943fc95b500028c133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
