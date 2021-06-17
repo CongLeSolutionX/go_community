@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3cee2e45_491694b4",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-17T03:42:23Z",
+      "side": 1,
+      "message": "\u003e if *dynobjout !\u003d \"\" {\n\u003e  f, err :\u003d os.Create(*dynout)\n\n(Sorry, typo: these should both be *dynobjout.)",
+      "parentUuid": "f58568fe_464c2ea2",
+      "range": {
+        "startLine": 269,
+        "startChar": 1,
+        "endLine": 282,
+        "endChar": 16
+      },
+      "revId": "720a35e1d4f39940b77da5e09f24a182e0f688f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "802e2e16_e4fd093c",
         "filename": "src/cmd/cgo/out.go",
         "patchSetId": 1
