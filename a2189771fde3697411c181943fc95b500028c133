@@ -18,6 +18,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad35e89_5f9f51c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-06-17T16:57:03Z",
+      "side": 1,
+      "message": "LGTM, with nanotime1 done.  Thanks.",
+      "revId": "a2189771fde3697411c181943fc95b500028c133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5526c06_4a13a3e9",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-06-17T16:57:03Z",
+      "side": 1,
+      "message": "Use tabs instead spaces, as the rest of the file does. Thanks.",
+      "revId": "a2189771fde3697411c181943fc95b500028c133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f6ed476_7e9146fd",
