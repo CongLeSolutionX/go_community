@@ -71,6 +71,24 @@
       "parentUuid": "5e220cb6_d2cf280c",
       "revId": "695ccfecf0fee074a2d3269a6bc2725500145f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b66ae4_2bd52eeb",
+        "filename": "misc/cgo/errors/testdata/err2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-17T09:08:56Z",
+      "side": 1,
+      "message": "types2\u0027s choice here is okay, and it\u0027s what typecheck used to do too. But a while back we changed typecheck to prefer using unambiguous positions. (I think Ian mentioned before that gccgo also does this.)\n\nFor a statement like \"return a + 1\", the subexpression \"a + 1\" does start at the \"a\", yes. But if we were report errors at the start position of expressions, it leads to ambiguity: is the error about the \"a\" identifier itself, or about some larger expression that contains the \"a\" identifier?\n\nIn the case of binary operations, typecheck resolves this ambiguity by always referring to the operator token\u0027s position.",
+      "parentUuid": "101c5e03_395d79e6",
+      "revId": "695ccfecf0fee074a2d3269a6bc2725500145f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
