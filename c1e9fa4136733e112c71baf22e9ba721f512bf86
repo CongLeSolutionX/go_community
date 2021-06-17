@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37496ac1_c25a8183",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 52538
+      },
+      "writtenOn": "2021-06-17T09:12:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc49433c_75e88898",
+      "revId": "c1e9fa4136733e112c71baf22e9ba721f512bf86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aa97028_181c0850",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-06-17T08:51:51Z",
       "side": 1,
       "message": "Each \"$$\" needs to start on a new line. We just don\u0027t need extra blank lines between them.\n\nI.e., \"$$\\n\\n$$\" from before was okay, but unnecessary. \"$$\\n$$\" is good. But \"$$$$\" is wrong.",
+      "range": {
+        "startLine": 477,
+        "startChar": 42,
+        "endLine": 477,
+        "endChar": 46
+      },
+      "revId": "c1e9fa4136733e112c71baf22e9ba721f512bf86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e03f7d8_07078e11",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 52538
+      },
+      "writtenOn": "2021-06-17T09:12:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aa97028_181c0850",
       "range": {
         "startLine": 477,
         "startChar": 42,
