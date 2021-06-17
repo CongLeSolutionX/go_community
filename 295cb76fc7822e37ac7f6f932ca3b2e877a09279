@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bafd18b5_d2605102",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-17T18:36:25Z",
+      "side": 1,
+      "message": "Is there an issue for this on golang.org/issues? Also, is this something you have a concrete demonstration of being a problem, or something you suspect to be a problem?\n\nI\u0027ve suspected there could be deadlocks here in situations, but I don\u0027t see any concrete issues in this code from your description. For example, typechecking errors aren\u0027t reported over these channels.\n\nWe\u0027ve also had several attempts at people sending what seem like safe CLs to this code, but then introducing even more subtle issues. I\u0027d like to have a high-degree of confidence that this change is correct and needed before proceeding with it. Thanks.",
+      "revId": "295cb76fc7822e37ac7f6f932ca3b2e877a09279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8143340c_74f766e6",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-17T18:36:25Z",
+      "side": 1,
+      "message": "Why 10?",
+      "revId": "295cb76fc7822e37ac7f6f932ca3b2e877a09279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
