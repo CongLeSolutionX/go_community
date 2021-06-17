@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10b8b9a0_1521a6dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-06-17T19:40:47Z",
+      "side": 1,
+      "message": "Suggested an alternative approach using less memory and adding only a single line of code. ",
+      "revId": "a709592e185100de0caa19670d05f94c7456c9a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f2d86bd_c1908653",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-06-17T19:40:47Z",
+      "side": 1,
+      "message": "Instead of adding an extra done field, one could also close the channel in the channel writer and no changes in this routine will be needed. That also saves memory.",
+      "revId": "a709592e185100de0caa19670d05f94c7456c9a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
