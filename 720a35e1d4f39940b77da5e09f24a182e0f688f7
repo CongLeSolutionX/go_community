@@ -263,6 +263,24 @@
       "parentUuid": "e52fc9ed_473e4488",
       "revId": "720a35e1d4f39940b77da5e09f24a182e0f688f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "736ff8b1_bcc2bc26",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-17T08:51:51Z",
+      "side": 1,
+      "message": "I expect having \"!\u003carch\u003e\\n\" prevented the crash not because it\u0027s correct, but because then cmd/link was just ignoring the files entirely because they didn\u0027t look like .o files. It looks like cmd/link is crashing now because there\u0027s no actual object code after the \"!\\n\" marker.\n\nAdding Cherry who I trust can recommend how best to proceed here.",
+      "parentUuid": "65964b20_360fa12a",
+      "revId": "720a35e1d4f39940b77da5e09f24a182e0f688f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

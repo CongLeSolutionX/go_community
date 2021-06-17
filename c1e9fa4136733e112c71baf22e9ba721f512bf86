@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19a639b3_fb3a4e8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-17T08:51:51Z",
+      "side": 1,
+      "message": "Cherry: For context, today the `cgo -dynimport` tool writes //go:cgo_* directives that cmd/compile copies into its .o output. Only the linker cares about those directives, so having them as cmd/compile inputs unnecessarily limits build parallelism.\n\nThis CL is trying to improve that by having `cgo -dynimport` directly write out a .o file that the linker can process. But the minimal .o file it\u0027s currently writing out is crashing the linker.\n\nI suspect including an empty (i.e., 0 LSym) object data section might work, but I also thought we should check with you first in case you have a better suggestion. Thanks.",
+      "revId": "c1e9fa4136733e112c71baf22e9ba721f512bf86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc49433c_75e88898",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-17T08:51:51Z",
+      "side": 1,
+      "message": "nit: As long as you\u0027re checking the other printfs, you might as well check this one too.",
+      "revId": "c1e9fa4136733e112c71baf22e9ba721f512bf86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa97028_181c0850",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-17T08:51:51Z",
+      "side": 1,
+      "message": "Each \"$$\" needs to start on a new line. We just don\u0027t need extra blank lines between them.\n\nI.e., \"$$\\n\\n$$\" from before was okay, but unnecessary. \"$$\\n$$\" is good. But \"$$$$\" is wrong.",
+      "range": {
+        "startLine": 477,
+        "startChar": 42,
+        "endLine": 477,
+        "endChar": 46
+      },
+      "revId": "c1e9fa4136733e112c71baf22e9ba721f512bf86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
