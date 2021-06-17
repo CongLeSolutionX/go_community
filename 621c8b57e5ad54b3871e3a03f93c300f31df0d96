@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19168292_1428a31f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-17T02:28:32Z",
+      "side": 1,
+      "message": "This can be just\n\ndebug/dwarf: check for DWARFv4 AttrDataBitOffset value",
+      "revId": "621c8b57e5ad54b3871e3a03f93c300f31df0d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d8ba61f_de26c76f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-17T02:28:32Z",
+      "side": 1,
+      "message": "This line is too long; please add some line breaks to less than 80 characters.\n\nAlso change \"depreciated\" to \"deprecated\".",
+      "revId": "621c8b57e5ad54b3871e3a03f93c300f31df0d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
