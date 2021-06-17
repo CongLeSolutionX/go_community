@@ -6,8 +6,46 @@
 
 package noder
 
-const debug = true
+import (
+	"fmt"
+	"runtime"
+	"strings"
+)
 
+// enableSync controls whether sync markers are written into unified
+// IR's export data format and also whether they're expected when
+// reading them back in. They're inessential to the correct
+// functioning of unified IR, but are helpful during development to
+// detect mistakes.
+const enableSync = true
+
+// enableSyncFrames controls how many stack frames of caller
+// information should be recorded at each sync point. This further
+// grows the export data format size (but only for debug builds), but
+// is very useful for identifying exactly what pair of reader/writer
+// code has fallen out of sync.
+const enableSyncFrames = 6
+
+func fmtFrames(pcs ...uintptr) (res []string) {
+	res = make([]string, 0, len(pcs))
+
+	frames := runtime.CallersFrames(pcs)
+	for {
+		frame, more := frames.Next()
+		if !more {
+			return
+		}
+
+		// Trim package from function name. It's just redundant noise.
+		name := strings.TrimPrefix(frame.Function, "cmd/compile/internal/noder.")
+
+		res = append(res, fmt.Sprintf("%s:%v: %s +0x%v", frame.File, frame.Line, name, frame.PC-frame.Entry))
+	}
+}
+
+// syncMarker is an enum type that represents markers that may be
+// written to export data to ensure the reader and writer stay
+// synchronized.
 type syncMarker int
 
 //go:generate stringer -type=syncMarker -trimprefix=sync
