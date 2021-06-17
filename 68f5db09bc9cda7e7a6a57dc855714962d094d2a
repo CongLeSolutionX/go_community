@@ -53,6 +53,24 @@
       "message": "This function (parseInterfaceType) now doesn\u0027t really do much anymore - all the work is in parseInterfaceElements.\n\nIs there a compelling reason (besides the ability to use \u0027return\u0027 instead of a break (with label) for the extra function?\n\nI think the change would be smaller doing it \"in place\".",
       "revId": "68f5db09bc9cda7e7a6a57dc855714962d094d2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8afc34e_0dab84ed",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-06-17T00:50:17Z",
+      "side": 1,
+      "message": "Done. I sort of liked factoring it out as the resulting parseInterfaceType looked clean to me, but we can revisit later once type list syntax is gone.",
+      "parentUuid": "6498d253_2ab506e3",
+      "revId": "68f5db09bc9cda7e7a6a57dc855714962d094d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
