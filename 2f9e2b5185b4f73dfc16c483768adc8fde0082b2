@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0580ccd2_09bb8a0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-18T06:38:25Z",
+      "side": 1,
+      "message": "[+Cherry for real this time]\n\nCherry: For context, today the `cgo -dynimport` tool writes //go:cgo_* directives that cmd/compile copies into its .o output. Only the linker cares about those directives, so having them as cmd/compile inputs unnecessarily limits build parallelism.\n\nThis CL is trying to improve that by having `cgo -dynimport` directly write out a .o file that the linker can process. But the minimal .o file it\u0027s currently writing out is crashing the linker.\n\nI suspect including an empty (i.e., 0 LSym) object data section might work, but I also thought we should check with you first in case you have a better suggestion. Thanks.",
+      "revId": "2f9e2b5185b4f73dfc16c483768adc8fde0082b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
