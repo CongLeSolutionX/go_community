@@ -365,12 +365,12 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 			// (such as Identical, IdenticalIgnoreTags, etc.), check is nil. But in
 			// that case, interfaces are expected to be complete and lazy completion
 			// here is not needed.
-			if u.check != nil {
-				u.check.completeInterface(nopos, x)
-				u.check.completeInterface(nopos, y)
-			}
-			a := x.allMethods
-			b := y.allMethods
+			// if u.check != nil {
+			// 	u.check.completeInterface(nopos, x)
+			// 	u.check.completeInterface(nopos, y)
+			// }
+			a := x.typeSet().methods
+			b := x.typeSet().methods
 			if len(a) == len(b) {
 				// Interface types are the only types where cycles can occur
 				// that are not "terminated" via named types; and such cycles

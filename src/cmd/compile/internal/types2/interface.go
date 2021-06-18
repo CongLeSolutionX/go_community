@@ -96,8 +96,8 @@ func (check *Checker) interfaceType(ityp *Interface, iface *syntax.InterfaceType
 	}
 
 	if len(ityp.methods) == 0 && len(ityp.embeddeds) == 0 {
-		// empty interface
-		ityp.allMethods = markComplete
+		// common case: empty interface
+		ityp.tset = &topTypeSet
 		return
 	}
 
@@ -117,7 +117,7 @@ func flattenUnion(list []syntax.Expr, x syntax.Expr) []syntax.Expr {
 }
 
 func (check *Checker) completeInterface(pos syntax.Pos, ityp *Interface) {
-	if ityp.allMethods != nil {
+	if ityp.tset != nil {
 		return
 	}
 
@@ -129,12 +129,15 @@ func (check *Checker) completeInterface(pos syntax.Pos, ityp *Interface) {
 		panic("internal error: incomplete interface")
 	}
 
-	completeInterface(check, pos, ityp)
+	newTypeSet(check, pos, ityp)
 }
 
-// completeInterface may be called with check == nil.
-func completeInterface(check *Checker, pos syntax.Pos, ityp *Interface) {
-	assert(ityp.allMethods == nil)
+// newTypeSet may be called with check == nil.
+// TODO(gri) move this into typeset.go eventually
+func newTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *TypeSet {
+	if ityp.tset != nil {
+		return ityp.tset
+	}
 
 	if check != nil && check.conf.Trace {
 		// Types don't generally have position information.
@@ -144,11 +147,11 @@ func completeInterface(check *Checker, pos syntax.Pos, ityp *Interface) {
 			pos = ityp.methods[0].pos
 		}
 
-		check.trace(pos, "complete %s", ityp)
+		check.trace(pos, "type set for %s", ityp)
 		check.indent++
 		defer func() {
 			check.indent--
-			check.trace(pos, "=> %s (methods = %v, types = %v)", ityp, ityp.allMethods, ityp.allTypes)
+			check.trace(pos, "=> %s ", ityp.typeSet())
 		}()
 	}
 
@@ -157,7 +160,7 @@ func completeInterface(check *Checker, pos syntax.Pos, ityp *Interface) {
 	// have valid interfaces. Mark the interface as complete to avoid
 	// infinite recursion if the validType check occurs later for some
 	// reason.
-	ityp.allMethods = markComplete
+	ityp.tset = new(TypeSet) // TODO(gri) is this sufficient?
 
 	// Methods of embedded interfaces are collected unchanged; i.e., the identity
 	// of a method I.m's Func Object of an interface I is the same as that of
@@ -231,13 +234,11 @@ func completeInterface(check *Checker, pos syntax.Pos, ityp *Interface) {
 		var types Type
 		switch t := under(typ).(type) {
 		case *Interface:
-			if t.allMethods == nil {
-				completeInterface(check, pos, t)
-			}
-			for _, m := range t.allMethods {
+			tset := newTypeSet(check, pos, t)
+			for _, m := range tset.methods {
 				addMethod(pos, m, false) // use embedding position pos rather than m.pos
 			}
-			types = t.allTypes
+			types = tset.types
 		case *Union:
 			// TODO(gri) combine with default case once we have
 			//           converted all tests to new notation and we
@@ -274,9 +275,11 @@ func completeInterface(check *Checker, pos syntax.Pos, ityp *Interface) {
 
 	if methods != nil {
 		sortMethods(methods)
-		ityp.allMethods = methods
+		ityp.tset.methods = methods
 	}
-	ityp.allTypes = allTypes
+	ityp.tset.types = allTypes
+
+	return ityp.tset
 }
 
 func sortTypes(list []Type) {

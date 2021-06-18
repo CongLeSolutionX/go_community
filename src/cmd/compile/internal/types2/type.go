@@ -264,18 +264,19 @@ func (s *Signature) Variadic() bool { return s.variadic }
 
 // An Interface represents an interface type.
 type Interface struct {
+	obj       Object  // type name object defining this interface; or nil (for better error messages)
 	methods   []*Func // ordered list of explicitly declared methods
 	embeddeds []Type  // ordered list of explicitly embedded types
 
-	allMethods []*Func // ordered list of methods declared with or embedded in this interface (TODO(gri): replace with mset)
-	allTypes   Type    // intersection of all embedded and locally declared types  (TODO(gri) need better field name)
-
-	obj Object // type declaration defining this interface; or nil (for better error messages)
+	tset *TypeSet // type set described by this interface, computed lazily
 }
+
+// typeSet returns the type set for interface t.
+func (t *Interface) typeSet() *TypeSet { return newTypeSet(nil, nopos, t) }
 
 // is reports whether interface t represents types that all satisfy f.
 func (t *Interface) is(f func(Type, bool) bool) bool {
-	switch t := t.allTypes.(type) {
+	switch t := t.typeSet().types.(type) {
 	case nil, *top:
 		// TODO(gri) should settle on top or nil to represent this case
 		return false // we must have at least one type! (was bug)
@@ -287,11 +288,7 @@ func (t *Interface) is(f func(Type, bool) bool) bool {
 }
 
 // emptyInterface represents the empty (completed) interface
-var emptyInterface = Interface{allMethods: markComplete}
-
-// markComplete is used to mark an empty interface as completely
-// set up by setting the allMethods field to a non-nil empty slice.
-var markComplete = make([]*Func, 0)
+var emptyInterface = Interface{tset: &topTypeSet}
 
 // NewInterface returns a new (incomplete) interface for the given methods and embedded types.
 // Each embedded type must have an underlying type of interface type.
@@ -354,30 +351,26 @@ func (t *Interface) Embedded(i int) *Named { tname, _ := t.embeddeds[i].(*Named)
 func (t *Interface) EmbeddedType(i int) Type { return t.embeddeds[i] }
 
 // NumMethods returns the total number of methods of interface t.
-// The interface must have been completed.
-func (t *Interface) NumMethods() int { t.Complete(); return len(t.allMethods) }
+func (t *Interface) NumMethods() int { return t.typeSet().NumMethods() }
 
 // Method returns the i'th method of interface t for 0 <= i < t.NumMethods().
 // The methods are ordered by their unique Id.
-// The interface must have been completed.
-func (t *Interface) Method(i int) *Func { t.Complete(); return t.allMethods[i] }
+func (t *Interface) Method(i int) *Func { return t.typeSet().Method(i) }
 
 // Empty reports whether t is the empty interface.
 func (t *Interface) Empty() bool {
-	t.Complete()
-	return len(t.allMethods) == 0 && t.allTypes == nil
+	tset := t.typeSet()
+	return len(tset.methods) == 0 && tset.types == nil
 }
 
 // HasTypeList reports whether interface t has a type list, possibly from an embedded type.
 func (t *Interface) HasTypeList() bool {
-	t.Complete()
-	return t.allTypes != nil
+	return t.typeSet().types != nil
 }
 
 // IsComparable reports whether interface t is or embeds the predeclared interface "comparable".
 func (t *Interface) IsComparable() bool {
-	t.Complete()
-	_, m := lookupMethod(t.allMethods, nil, "==")
+	_, m := t.typeSet().LookupMethod(nil, "==")
 	return m != nil
 }
 
@@ -418,8 +411,7 @@ func (t *Interface) iterate(f func(*Interface) bool, seen map[*Interface]bool) b
 // TODO(gri) This is not a great name. Eventually, we should have a more comprehensive
 //           "implements" predicate.
 func (t *Interface) isSatisfiedBy(typ Type) bool {
-	t.Complete()
-	switch t := t.allTypes.(type) {
+	switch t := t.typeSet().types.(type) {
 	case nil:
 		return true // no type restrictions
 	case *Union:
@@ -436,9 +428,7 @@ func (t *Interface) isSatisfiedBy(typ Type) bool {
 // form other types. The interface must not contain duplicate methods or a
 // panic occurs. Complete returns the receiver.
 func (t *Interface) Complete() *Interface {
-	if t.allMethods == nil {
-		completeInterface(nil, nopos, t)
-	}
+	t.typeSet()
 	return t
 }
 
@@ -700,7 +690,7 @@ func optype(typ Type) Type {
 		// for a type parameter list of the form:
 		// (type T interface { type T }).
 		// See also issue #39680.
-		if a := t.Bound().allTypes; a != nil {
+		if a := t.Bound().typeSet().types; a != nil {
 			// If we have a union with a single entry, ignore
 			// any tilde because under(~t) == under(t).
 			if u, _ := a.(*Union); u != nil && u.NumTerms() == 1 {
