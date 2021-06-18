@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "715b9811_eee0955e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52548
+      },
+      "writtenOn": "2021-06-18T04:43:18Z",
+      "side": 1,
+      "message": "Thanks. This seems to be the same issue as #305869 and #209277.\nI am encountering this issue currently, and can reproduce it 9/10 times.\n\nI saw your explanation on the second issue, and now I\u0027m not sure if buffering the error channels would be the best solution, although it does seem like the easiest",
+      "parentUuid": "bafd18b5_d2605102",
+      "revId": "295cb76fc7822e37ac7f6f932ca3b2e877a09279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8143340c_74f766e6",
         "filename": "src/cmd/compile/internal/noder/noder.go",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2021-06-17T18:36:25Z",
       "side": 1,
       "message": "Why 10?",
+      "revId": "295cb76fc7822e37ac7f6f932ca3b2e877a09279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a478b26_c8189faa",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 52548
+      },
+      "writtenOn": "2021-06-18T04:43:18Z",
+      "side": 1,
+      "message": "I saw that the number of parsing goroutines was limited to GOMAXPROCS + 10, so I figured that 10 would work as well",
+      "parentUuid": "8143340c_74f766e6",
       "revId": "295cb76fc7822e37ac7f6f932ca3b2e877a09279",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
