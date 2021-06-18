@@ -130,6 +130,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30b5f759_f130504d",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2021-06-18T23:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ac40b41_833f817c",
+      "range": {
+        "startLine": 699,
+        "startChar": 72,
+        "endLine": 699,
+        "endChar": 75
+      },
+      "revId": "0c769898ef3f1581ec879fe3f6d205c3aac6a0fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06deb9af_2d103414",
@@ -143,6 +167,30 @@
       "writtenOn": "2021-06-18T23:44:16Z",
       "side": 1,
       "message": "s/RGBAImage/RGBA64Image/\n\nAlso same change 3 lines below.",
+      "range": {
+        "startLine": 700,
+        "startChar": 47,
+        "endLine": 700,
+        "endChar": 56
+      },
+      "revId": "0c769898ef3f1581ec879fe3f6d205c3aac6a0fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb7e1b5e_8d6063b5",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2021-06-18T23:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06deb9af_2d103414",
       "range": {
         "startLine": 700,
         "startChar": 47,
