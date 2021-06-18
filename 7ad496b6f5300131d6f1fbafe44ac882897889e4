@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2608b812_ffc93265",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-06-18T19:38:51Z",
+      "side": 0,
+      "message": "This CL is adding new exported identifiers. Please document them in the Go 1.17 release notes. I think it would go under new image and image/draw parts of the https://tip.golang.org/doc/go1.17#minor_library_changes section.\n\nOf course, this commit needs to be rebased first, since they\u0027ve been many changes here since the parent commit. Alternatively, it\u0027s okay to do this in a follow up CL, if you prefer, but doing it in the same CL is likely better.",
+      "revId": "7ad496b6f5300131d6f1fbafe44ac882897889e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
