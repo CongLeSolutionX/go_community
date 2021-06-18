@@ -197,3 +197,8 @@ func TestObjImporter(t *testing.T) {
 		}
 	}
 }
+
+func TestExaminegdbVersion(t *testing.T) {
+	out, err := exec.Command("gdb", "--version").CombinedOutput()
+	t.Fatalf("=-= gdb --version output: err=%v out=\n%s\n", err, string(out))
+}
