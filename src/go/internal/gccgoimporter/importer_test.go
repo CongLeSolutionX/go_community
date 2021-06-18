@@ -127,10 +127,10 @@ func TestObjImporter(t *testing.T) {
 	// This test relies on gccgo being around.
 	gpath := gccgoPath()
 	if gpath == "" {
-		t.Skip("This test needs gccgo")
+		t.Fail("=-= no gccgo here")
 	}
-
 	verout, err := exec.Command(gpath, "--version").CombinedOutput()
+	t.Fatalf("=-= found gccgo path %s version %s", gpath, verout)
 	if err != nil {
 		t.Logf("%s", verout)
 		t.Fatal(err)
