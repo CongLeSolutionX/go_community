@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "dbe9e02a_2ec21a64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2021-06-18T23:23:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2af5cc3d_b2a75b2a",
+      "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0b01be36_96088f05",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -157,6 +175,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8464ceea_32d95d0c",
+        "filename": "src/image/image.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2021-06-18T23:23:32Z",
+      "side": 1,
+      "message": "I think the :\u003d is OK. I generally only use var at the top level, although other gophers do differently.",
+      "parentUuid": "3d0957dc_1fa806d0",
+      "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adc1cd77_ade653d7",
@@ -170,6 +206,24 @@
       "writtenOn": "2021-06-17T05:28:40Z",
       "side": 1,
       "message": "Nit: is the dual space before %T international?",
+      "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aca38d9_64d3b17e",
+        "filename": "src/image/image_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2021-06-18T23:23:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adc1cd77_ade653d7",
       "revId": "56857e1d5888afc9d2940ab1fd4bc064b26d5105",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
