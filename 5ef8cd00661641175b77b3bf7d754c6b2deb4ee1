@@ -16,6 +16,24 @@
       "message": "The word \"deprecated\" is still mis-spelled here.",
       "revId": "5ef8cd00661641175b77b3bf7d754c6b2deb4ee1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da658dfc_45f4327c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11851
+      },
+      "writtenOn": "2021-06-18T00:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68d18c25_e469ba67",
+      "revId": "5ef8cd00661641175b77b3bf7d754c6b2deb4ee1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
