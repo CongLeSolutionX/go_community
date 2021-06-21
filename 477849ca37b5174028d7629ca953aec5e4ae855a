@@ -89,6 +89,24 @@
       "message": "Cherry, is it OK to submit this or does it need some other approval for Go 1.17?",
       "revId": "477849ca37b5174028d7629ca953aec5e4ae855a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf38038_47c3ca45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-06-21T15:31:31Z",
+      "side": 1,
+      "message": "Yeah, I think this can be submitted for 1.17. Thanks.",
+      "parentUuid": "6e1707a8_1a125bcd",
+      "revId": "477849ca37b5174028d7629ca953aec5e4ae855a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
