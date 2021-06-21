@@ -2841,12 +2841,12 @@ func TestTxStmtDeadlock(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	tx, err := db.BeginTx(ctx, nil)
-	cancel()
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	stmt, err := tx.Prepare("SELECT|people|name,age|age=?")
+	cancel()
 	if err != nil {
 		t.Fatal(err)
 	}
