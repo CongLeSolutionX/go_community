@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e78bc09d_d5e23c13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2021-06-21T17:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9ca5839_b0173981",
+      "revId": "00fa556bb60a8212e84ff5d460512cf2a1dc1f26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d5fd010_4eac7dba",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-06-21T17:17:50Z",
       "side": 1,
       "message": "Optional: the cancel here doesn\u0027t seem to be required for the err !\u003d nil test, and err !\u003d nil tests are usually directly associated with the function call that sets err, so I think it would be slightly clearer to move the cancel call down to after the err !\u003d nil test.  There is already a \"defer cancel()\" anyhow above.",
+      "revId": "00fa556bb60a8212e84ff5d460512cf2a1dc1f26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd85c88f_65000c14",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2849,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2021-06-21T17:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aaa0bb2_0c203c24",
       "revId": "00fa556bb60a8212e84ff5d460512cf2a1dc1f26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
