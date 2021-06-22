@@ -2525,7 +2525,6 @@ var (
 )
 
 func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err error) {
-	testHookEnterRoundTrip()
 	if !pc.t.replaceReqCanceler(req.cancelKey, pc.cancelRequest) {
 		pc.t.putOrCloseIdleConn(pc)
 		return nil, errRequestCanceled
