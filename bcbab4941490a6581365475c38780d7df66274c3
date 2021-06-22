@@ -34,6 +34,24 @@
       "parentUuid": "238a24a4_70ee8199",
       "revId": "bcbab4941490a6581365475c38780d7df66274c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "058d2ecc_080abc43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-22T15:56:50Z",
+      "side": 1,
+      "message": "There\u0027s currently no way to conditionally compile for arm64 (see https://github.com/golang/go/wiki/MinimumRequirements#arm64). Some other architectures have it, but we haven\u0027t seen the need for arm64 yet.\n\nRuntime detection is possible (see src/internal/cpu/cpu_arm64.go). You\u0027d have to see if the overhead of runtime detection is worth the improvement, though.",
+      "parentUuid": "19d35682_2fc483a2",
+      "revId": "bcbab4941490a6581365475c38780d7df66274c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
