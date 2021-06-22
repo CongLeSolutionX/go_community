@@ -8,6 +8,7 @@
 package noder
 
 import (
+	"bytes"
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/reflectdata"
@@ -16,6 +17,7 @@ import (
 	"cmd/internal/src"
 	"fmt"
 	"go/constant"
+	"strconv"
 )
 
 func assert(p bool) {
@@ -469,6 +471,251 @@ func (g *irgen) getInstantiationForNode(inst *ir.InstExpr) *ir.Func {
 	}
 }
 
+func addGcType(fl []*types.Field, t *types.Type) []*types.Field {
+	return append(fl, types.NewField(base.Pos, typecheck.Lookup("F"+strconv.Itoa(len(fl))), t))
+}
+
+const INTTYPE = types.TINT64   // XX fix for 32-bit arch
+const UINTTYPE = types.TUINT64 // XX fix for 32-bit arch
+const INTSTRING = "i8"         // XX fix for 32-bit arch
+const UINTSTRING = "u8"        // XX fix for 32-bit arch
+
+func accumGcshapeType(fl []*types.Field, t *types.Type) []*types.Field {
+
+	// t.Kind() is already the kind of the underlying type, so no need to
+	// reference t.Underlying() to reference the underlying type.
+	assert(t.Kind() == t.Underlying().Kind())
+
+	switch t.Kind() {
+	case types.TINT8:
+		fl = addGcType(fl, types.Types[types.TINT8])
+
+	case types.TUINT8:
+		fl = addGcType(fl, types.Types[types.TUINT8])
+
+	case types.TINT16:
+		fl = addGcType(fl, types.Types[types.TINT16])
+
+	case types.TUINT16:
+		fl = addGcType(fl, types.Types[types.TUINT16])
+
+	case types.TINT32:
+		fl = addGcType(fl, types.Types[types.TINT32])
+
+	case types.TUINT32:
+		fl = addGcType(fl, types.Types[types.TUINT32])
+
+	case types.TINT64:
+		fl = addGcType(fl, types.Types[types.TINT64])
+
+	case types.TUINT64:
+		fl = addGcType(fl, types.Types[types.TUINT64])
+
+	case types.TINT:
+		fl = addGcType(fl, types.Types[INTTYPE])
+
+	case types.TUINT, types.TUINTPTR:
+		fl = addGcType(fl, types.Types[UINTTYPE])
+
+	case types.TCOMPLEX64:
+		fl = addGcType(fl, types.Types[types.TFLOAT32])
+		fl = addGcType(fl, types.Types[types.TFLOAT32])
+
+	case types.TCOMPLEX128:
+		fl = addGcType(fl, types.Types[types.TFLOAT64])
+		fl = addGcType(fl, types.Types[types.TFLOAT64])
+
+	case types.TFLOAT32:
+		fl = addGcType(fl, types.Types[types.TFLOAT32])
+
+	case types.TFLOAT64:
+		fl = addGcType(fl, types.Types[types.TFLOAT64])
+
+	case types.TBOOL:
+		fl = addGcType(fl, types.Types[types.TINT8])
+
+	case types.TPTR:
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+
+	case types.TFUNC:
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+
+	case types.TSLICE:
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+		fl = addGcType(fl, types.Types[INTTYPE])
+		fl = addGcType(fl, types.Types[INTTYPE])
+
+	case types.TARRAY:
+		n := t.NumElem()
+		if n == 1 {
+			fl = accumGcshapeType(fl, t.Elem())
+		} else if n > 0 {
+			// Represent an array with more than one element as its
+			// unique type, since it must be treated differently for
+			// regabi.
+			fl = addGcType(fl, t)
+		}
+
+	case types.TSTRUCT:
+		for _, f := range t.Fields().Slice() {
+			fl = accumGcshapeType(fl, f.Type)
+		}
+
+	case types.TCHAN:
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+
+	case types.TMAP:
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+
+	case types.TINTER:
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+
+	case types.TFORW, types.TANY:
+		assert(false)
+
+	case types.TSTRING:
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+		fl = addGcType(fl, types.Types[INTTYPE])
+
+	case types.TUNSAFEPTR:
+		fl = addGcType(fl, types.Types[types.TUNSAFEPTR])
+
+	case types.TTYPEPARAM, types.TUNION, types.TIDEAL, types.TNIL, types.TBLANK,
+		types.TFUNCARGS, types.TCHANARGS, types.TSSA, types.TTUPLE, types.TRESULTS:
+		assert(false)
+	}
+
+	return fl
+}
+
+func accumGcshapeString(buf *bytes.Buffer, t *types.Type) {
+
+	// t.Kind() is already the kind of the underlying type, so no need to
+	// reference t.Underlying() to reference the underlying type.
+	assert(t.Kind() == t.Underlying().Kind())
+
+	switch t.Kind() {
+	case types.TINT8:
+		buf.WriteString("i1")
+
+	case types.TUINT8:
+		buf.WriteString("u1")
+
+	case types.TINT16:
+		buf.WriteString("i2")
+
+	case types.TUINT16:
+		buf.WriteString("u2")
+
+	case types.TINT32:
+		buf.WriteString("i4")
+
+	case types.TUINT32:
+		buf.WriteString("u4")
+
+	case types.TINT64:
+		buf.WriteString("i8")
+
+	case types.TUINT64:
+		buf.WriteString("u8")
+
+	case types.TINT:
+		buf.WriteString(INTSTRING)
+
+	case types.TUINT, types.TUINTPTR:
+		buf.WriteString(UINTSTRING)
+
+	case types.TCOMPLEX64:
+		buf.WriteString("f4")
+		buf.WriteString("f4")
+
+	case types.TCOMPLEX128:
+		buf.WriteString("f8")
+		buf.WriteString("f8")
+
+	case types.TFLOAT32:
+		buf.WriteString("f4")
+
+	case types.TFLOAT64:
+		buf.WriteString("f8")
+
+	case types.TBOOL:
+		buf.WriteString("i1")
+
+	case types.TPTR:
+		buf.WriteString("p")
+
+	case types.TFUNC:
+		buf.WriteString("p")
+
+	case types.TSLICE:
+		buf.WriteString("p")
+		buf.WriteString(INTSTRING)
+		buf.WriteString(INTSTRING)
+
+	case types.TARRAY:
+		n := t.NumElem()
+		if n == 1 {
+			accumGcshapeString(buf, t.Elem())
+		} else if n > 0 {
+			// For array with more than one element, represent with
+			// special syntax, since arrays will be distinct from
+			// simple repetition of elements.
+			buf.WriteByte('[')
+			buf.WriteString(strconv.Itoa(int(n)))
+			buf.WriteString("](")
+			accumGcshapeString(buf, t.Elem())
+			buf.WriteByte(')')
+		}
+
+	case types.TSTRUCT:
+		for _, f := range t.Fields().Slice() {
+			accumGcshapeString(buf, f.Type)
+		}
+
+	case types.TCHAN:
+		buf.WriteString("p")
+
+	case types.TMAP:
+		buf.WriteString("p")
+
+	case types.TINTER:
+		buf.WriteString("pp")
+
+	case types.TFORW, types.TANY:
+		assert(false)
+
+	case types.TUNSAFEPTR:
+		buf.WriteString("p")
+
+	case types.TSTRING:
+		buf.WriteString("p")
+		buf.WriteString(INTSTRING)
+
+	case types.TTYPEPARAM, types.TUNION, types.TIDEAL, types.TNIL, types.TBLANK,
+		types.TFUNCARGS, types.TCHANARGS, types.TSSA, types.TTUPLE, types.TRESULTS:
+		assert(false)
+	}
+}
+
+// gcshapeType returns the GCshape type corresponding to type t.
+func gcshapeType(t *types.Type) *types.Type {
+	var fl []*types.Field
+	fl = accumGcshapeType(fl, t)
+	gcshape := types.NewStruct(types.LocalPkg, fl)
+	// TODO: check if there is any alignment padding, and if so, add in the
+	// alignment padding fields and recreate the struct type.
+	return gcshape
+}
+
+// gcshapeName returns a unique name corresponding to the GCshape type of t.
+func gcshapeName(t *types.Type) string {
+	buf := bytes.NewBufferString("")
+	accumGcshapeString(buf, t)
+	return buf.String()
+}
+
 // getInstantiation gets the instantiantion of the function or method nameNode
 // with the type arguments targs. If the instantiated function is not already
 // cached, then it calls genericSubst to create the new instantiation.
@@ -485,6 +732,13 @@ func (g *irgen) getInstantiation(nameNode *ir.Name, targs []*types.Type, isMeth 
 	sym := typecheck.MakeInstName(nameNode.Sym(), targs, isMeth)
 	st := g.target.Stencils[sym]
 	if st == nil {
+		if false {
+			// Testing out gcshapeType() and gcshapeName()
+			for i, t := range targs {
+				gct, gcs := gcshapeType(t), gcshapeName(t)
+				fmt.Printf("targ %d: %v %v\n", i, gct, gcs)
+			}
+		}
 		// If instantiation doesn't exist yet, create it and add
 		// to the list of decls.
 		st = g.genericSubst(sym, nameNode, targs, isMeth)

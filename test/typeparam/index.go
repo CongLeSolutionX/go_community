@@ -26,6 +26,11 @@ type obj struct {
 	x int
 }
 
+type obj2 struct {
+	x int
+	y float64
+}
+
 func main() {
 	want := 2
 
@@ -43,4 +48,10 @@ func main() {
 	if got := Index(vec3, vec3[2]); got != want {
 		panic(fmt.Sprintf("got %d, want %d", got, want))
 	}
+
+	vec4 := []obj2{obj2{2, 3.0}, obj2{3, 4.0}, obj2{4, 5.0}}
+	if got := Index(vec4, vec4[2]); got != want {
+		panic(fmt.Sprintf("got %d, want %d", got, want))
+	}
 }
+
