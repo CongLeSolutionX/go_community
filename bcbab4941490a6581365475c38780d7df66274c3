@@ -16,6 +16,24 @@
       "message": "Is this new instruction supported in ARMv8-A? That\u0027s our minimum requirement.\n",
       "revId": "bcbab4941490a6581365475c38780d7df66274c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19d35682_2fc483a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-06-22T15:36:57Z",
+      "side": 1,
+      "message": "\u003e Is this new instruction supported in ARMv8-A? That\u0027s our minimum requirement.\n\u003e \n\nEOR3 is supported from ARMv8.2-A. Are we able to conditionally compile the instructions which were added since ARMv8.2-A? ARMv8.2-A add some quite useful features. It would be great to have a way to support them.",
+      "parentUuid": "238a24a4_70ee8199",
+      "revId": "bcbab4941490a6581365475c38780d7df66274c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
