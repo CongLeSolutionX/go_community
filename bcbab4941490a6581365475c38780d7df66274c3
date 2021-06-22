@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "238a24a4_70ee8199",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-22T15:13:12Z",
+      "side": 1,
+      "message": "Is this new instruction supported in ARMv8-A? That\u0027s our minimum requirement.\n",
+      "revId": "bcbab4941490a6581365475c38780d7df66274c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
