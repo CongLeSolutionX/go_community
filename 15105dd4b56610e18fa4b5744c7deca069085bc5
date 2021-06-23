@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7baa7e6c_a9cd2879",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-23T04:39:44Z",
+      "side": 1,
+      "message": "Should this call be outside the if-statement?\n\nI\u0027m reading through this code to try to fix #43232 by having the test fall back to importing from source if export data isn\u0027t available. Unfortunately, the name-qualifying logic seems to find a collision between cmd/compile/internal/syntax and regexp/syntax when compiling from source, but doesn\u0027t find that collision (and thus qualifies the names differently) when importing from export data.\n\nMoving this call doesn\u0027t fix that problem, but the call doesn\u0027t look right to me.",
+      "revId": "15105dd4b56610e18fa4b5744c7deca069085bc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
