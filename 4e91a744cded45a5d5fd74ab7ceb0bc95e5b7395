@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8d6ecbf_0a9badde",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2021-06-23T15:55:24Z",
+      "side": 1,
+      "message": "I think we only need a subdictionary here if any of the inst.Targs depend on the type args of the containing generic function. If they are all concrete types, we can just use a static dictionary.\nMaybe just a TODO here to do that optimization.",
+      "revId": "4e91a744cded45a5d5fd74ab7ceb0bc95e5b7395",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
