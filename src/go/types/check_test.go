@@ -252,7 +252,7 @@ func checkFiles(t *testing.T, sizes Sizes, goVersion string, filenames []string,
 		}
 	}
 
-	conf.Importer = importer.Default()
+	conf.Importer = importer.ForCompiler(token.NewFileSet(), "source", nil)
 	conf.Error = func(err error) {
 		if *haltOnError {
 			defer panic(err)
