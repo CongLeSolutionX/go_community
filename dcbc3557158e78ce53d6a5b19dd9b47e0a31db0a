@@ -72,6 +72,24 @@
       "message": "This CL looks good.\n\nClosureCalled is used in some other places. What is the meaning of that flag exactly? Thanks.",
       "revId": "dcbc3557158e78ce53d6a5b19dd9b47e0a31db0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "031cb900_f2161dc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-23T15:10:48Z",
+      "side": 1,
+      "message": "Now, it\u0027s just a flag used by escape analysis to indicate it has visibility of all call sites where the closure\u0027s result parameters are used. It\u0027s used to optimize code like:\n\n    x1 :\u003d func() (x2 T) { ... }()\n    \nto know that x2 only flows x1. Otherwise, we conservatively assume result parameters may flow to the heap due to unknown call sites.\n\nI\u0027ll send a followup CL to the stack to document it, or maybe just move the flag to an escape analysis internal detail. (E.g., like how Name.Captured became location.captured when capture analysis was merged into escape analysis.)",
+      "parentUuid": "3b5fb4bc_166a3c58",
+      "revId": "dcbc3557158e78ce53d6a5b19dd9b47e0a31db0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
