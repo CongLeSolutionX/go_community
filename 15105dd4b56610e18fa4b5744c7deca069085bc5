@@ -34,6 +34,24 @@
       "parentUuid": "7baa7e6c_a9cd2879",
       "revId": "15105dd4b56610e18fa4b5744c7deca069085bc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f294c3_14d10d87",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-06-23T12:21:22Z",
+      "side": 1,
+      "message": "Ok, looking at this a bit more, I think this was actually meant to be check.pkg, not pkg. Still an embarrassing mistake, but more believable...\n\nIIRC we had reason to believe that all imports were populated at this point, but this function deserves extra scrutiny and testing now.",
+      "parentUuid": "5aa0cdd3_877f4b89",
+      "revId": "15105dd4b56610e18fa4b5744c7deca069085bc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
