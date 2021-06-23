@@ -117,6 +117,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a039de6_e53b5d45",
+        "filename": "src/cmd/compile/internal/syntax/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-23T22:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "818492ec_d0c7db1b",
+      "range": {
+        "startLine": 11,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "e05f494e391a96f61e1a131827151a55403b43aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8558f412_fe332a1f",
@@ -130,6 +154,30 @@
       "writtenOn": "2021-06-23T21:43:21Z",
       "side": 1,
       "message": "It\u0027s unfortunate that go/ast.Walk has the visitor first, but I feel that we should be consistent with Inspect (and Crawl) and have root first. Any mix-up will be easily detected by the compiler.",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "e05f494e391a96f61e1a131827151a55403b43aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c182e846_f41c79b7",
+        "filename": "src/cmd/compile/internal/syntax/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-23T22:10:57Z",
+      "side": 1,
+      "message": "Done.\n\nAnd agreed: as soon as I started writing code to use it, I was wishing the Visitor argument was second so it could be a struct literal.",
+      "parentUuid": "8558f412_fe332a1f",
       "range": {
         "startLine": 56,
         "startChar": 12,
