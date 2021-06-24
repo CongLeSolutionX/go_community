@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bb0a298_18b8c093",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_deadline.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-06-24T17:29:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4de17079_07d950d9",
+      "range": {
+        "startLine": 7,
+        "startChar": 59,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "a7862f8669d469f6e9848c795315f34853b3f949",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a706350b_0abca169",
@@ -91,6 +115,30 @@
       "writtenOn": "2021-06-24T14:51:59Z",
       "side": 1,
       "message": "What was the rationale behind doing this in a defer with f.Fatal, instead of inside the f.Fuzz function with t.Fatal? Was it just so that you could have a really short deadline for tests?\nCurious if something like this might be simpler:\n\n   func FuzzDeadline(f *testing.F) {\n\tf.Add(\"run once\")\n\tf.Fuzz(func (t *testing.T, _ string) {\n\t\t_, gotDeadline \u003d t.Deadline()\n\t\tif gotDeadline !\u003d *wantDeadline {\n\t\t\tt.Error(\"function got %v; want %v\", gotDeadline, *wantDeadline)\n\t\t}\n\t})\n    }",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 1
+      },
+      "revId": "a7862f8669d469f6e9848c795315f34853b3f949",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21583526_1f7e3acb",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_deadline.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-06-24T17:29:27Z",
+      "side": 1,
+      "message": "Ah that is better. I wanted avoid recording a crash, but that won\u0027t happen because this will come up when we\u0027re running seed values.",
+      "parentUuid": "a706350b_0abca169",
       "range": {
         "startLine": 30,
         "startChar": 0,
