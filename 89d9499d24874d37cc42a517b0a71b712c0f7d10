@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e91b3a74_6364a71a",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1391,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-24T19:05:55Z",
+      "side": 1,
+      "message": "I think we can omit the \"Use unsafe.Pointer\" sentence here.  It took me a minute to understand what you are saying, and I think anybody who understands that sentence will know how to do it without reading it.  I think we can just go with \"Deprecated: The memory representation....\"",
+      "revId": "89d9499d24874d37cc42a517b0a71b712c0f7d10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
