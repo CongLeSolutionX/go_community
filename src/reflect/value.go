@@ -1381,10 +1381,17 @@ func valueInterface(v Value, safe bool) interface{} {
 	return packEface(v)
 }
 
-// InterfaceData returns the interface v's value as a uintptr pair.
+// InterfaceData returns a pair of unspecified uintptr values.
 // It panics if v's Kind is not Interface.
+//
+// In earlier versions of Go, this function returned the interface's
+// value as a uintptr pair. As of Go 1.4, the implementation of
+// interface values precludes any defined use of InterfaceData.
+//
+// Deprecated: Use unsafe.Pointer with either Interface or UnsafeAddr.
+// However, the memory representation of interface values is not
+// portable and may change in a later release.
 func (v Value) InterfaceData() [2]uintptr {
-	// TODO: deprecate this
 	v.mustBe(Interface)
 	// We treat this as a read operation, so we allow
 	// it even for unexported data, because the caller
