@@ -16,6 +16,24 @@
       "message": "I think we can omit the \"Use unsafe.Pointer\" sentence here.  It took me a minute to understand what you are saying, and I think anybody who understands that sentence will know how to do it without reading it.  I think we can just go with \"Deprecated: The memory representation....\"",
       "revId": "89d9499d24874d37cc42a517b0a71b712c0f7d10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1116baf_ee8146c1",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1391,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-24T19:37:10Z",
+      "side": 1,
+      "message": "Done. Tweaked the memory-representation sentence slightly to explain the deprecation itself though, rather than to serve as a warning that the recommended alternative still isn\u0027t portable.",
+      "parentUuid": "e91b3a74_6364a71a",
+      "revId": "89d9499d24874d37cc42a517b0a71b712c0f7d10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
