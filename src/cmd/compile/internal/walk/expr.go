@@ -167,7 +167,7 @@ func walkExpr1(n ir.Node, init *ir.Nodes) ir.Node {
 	case ir.OCFUNC:
 		return n
 
-	case ir.OCALLINTER, ir.OCALLFUNC, ir.OCALLMETH:
+	case ir.OCALLINTER, ir.OCALLFUNC:
 		n := n.(*ir.CallExpr)
 		return walkCall(n, init)
 
@@ -487,7 +487,7 @@ func walkAddString(n *ir.AddStringExpr, init *ir.Nodes) ir.Node {
 	return r1
 }
 
-// walkCall walks an OCALLFUNC, OCALLINTER, or OCALLMETH node.
+// walkCall walks an OCALLFUNC or OCALLINTER node.
 func walkCall(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	if n.Op() == ir.OCALLINTER || n.Op() == ir.OCALLMETH || n.X.Op() == ir.OMETHEXPR {
 		// We expect both interface call reflect.Type.Method and concrete
@@ -548,10 +548,6 @@ func walkCall1(n *ir.CallExpr, init *ir.Nodes) {
 		return // already walked
 	}
 	n.SetWalked(true)
-
-	if n.Op() == ir.OCALLMETH {
-		typecheck.FixMethodCall(n)
-	}
 
 	args := n.Args
 	params := n.X.Type().Params()
