@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c29fb1e_140083b3",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-25T23:09:21Z",
+      "side": 1,
+      "message": "Changed to just \"\".\n\nbuildcfg.GOEXPERIMENT() returns a string of flags that are enabled/disabled relative to the baseline configuration. At least when this value is needed (because GOEXPERIMENT wasn\u0027t explicitly set via the environment), it will always be \"\".",
+      "parentUuid": "dd127f2a_128c6f9f",
+      "revId": "28c446c5625e62c1e91782b3fe381b9d387acad9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13741c06_0f5feafe",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-06-25T22:03:21Z",
       "side": 1,
       "message": "Can we use an init function here?",
+      "revId": "28c446c5625e62c1e91782b3fe381b9d387acad9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fa88bd2_0063851a",
+        "filename": "src/internal/buildcfg/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-25T23:09:21Z",
+      "side": 1,
+      "message": "We could, but we have variables that depend on other variables, and writing it this way lets the computer take care of scheduling their initialization and detecting cycles. I at least don\u0027t want to have to think about that.",
+      "parentUuid": "13741c06_0f5feafe",
       "revId": "28c446c5625e62c1e91782b3fe381b9d387acad9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
