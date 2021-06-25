@@ -122,4 +122,7 @@ func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 		AllowErrors:              tidyE,
 		SilenceMissingStdImports: true,
 	}, "all")
+	if err := modload.WriteGoMod(ctx); err != nil {
+		base.Fatalf("go: %v")
+	}
 }
