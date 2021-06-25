@@ -92,6 +92,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c64fbb8_4df7ddcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-25T22:35:19Z",
+      "side": 1,
+      "message": "Great, thanks Dan.",
+      "parentUuid": "ba89bd98_58bd3dae",
+      "revId": "717e917876df5d821c99ff94524c489974a8252e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2ff71ad_50eabb42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-25T22:35:19Z",
+      "side": 1,
+      "message": "Took another look, and LGTM, aside from the comments below.",
+      "revId": "717e917876df5d821c99ff94524c489974a8252e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae4a0fbe_7fcc3349",
@@ -105,6 +140,23 @@
       "writtenOn": "2021-06-25T16:38:51Z",
       "side": 1,
       "message": "Please separate this fix and the other one I identified in post-submit review of CL 330671 into a separate CL. Both of those issues are things that are currently broken and should be fixed by a minimally invasive CL before we continue with further refactoring/cleanup.\n\nThis CL is conceptually simple, but subtle in details. And OMETHEXPR is relatively rare today, so I\u0027m nervous it accidentally breaks something and needs to be reverted (at least temporarily). If that happens, we don\u0027t want to have to worry that reverting will re-introduce the issues from CL 330671.",
+      "revId": "717e917876df5d821c99ff94524c489974a8252e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e1022a_67ea6bc6",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-25T22:35:19Z",
+      "side": 1,
+      "message": "nit: Let\u0027s use \"switch n.X.Op() { ... }\"",
       "revId": "717e917876df5d821c99ff94524c489974a8252e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
