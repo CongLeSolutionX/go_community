@@ -18,7 +18,7 @@ import (
 //
 // (This is not necessarily the set of experiments the compiler itself
 // was built with.)
-var Experiment goexperiment.Flags = parseExperiments()
+var Experiment goexperiment.Flags = parseExperiments(GOARCH)
 
 var regabiSupported = GOARCH == "amd64" || GOARCH == "arm64"
 var regabiDeveloping = false
@@ -41,7 +41,7 @@ var experimentBaseline = goexperiment.Flags{
 // Note: must agree with runtime.framepointer_enabled.
 var FramePointerEnabled = GOARCH == "amd64" || GOARCH == "arm64"
 
-func parseExperiments() goexperiment.Flags {
+func parseExperiments(goarch string) goexperiment.Flags {
 	// Start with the statically enabled set of experiments.
 	flags := experimentBaseline
 
@@ -95,12 +95,17 @@ func parseExperiments() goexperiment.Flags {
 		}
 	}
 
+<<<<<<< HEAD   (2493c7 [dev.typeparams] cmd/compile: rewrite method call into metho)
 	// regabiwrappers is always enabled on amd64.
 	if GOARCH == "amd64" {
 		flags.RegabiWrappers = true
 	}
 	// regabi is only supported on amd64 and arm64.
 	if GOARCH != "amd64" && GOARCH != "arm64" {
+=======
+	// regabi is only supported on amd64.
+	if goarch != "amd64" {
+>>>>>>> BRANCH (37f9a8 go/types: fix a bug in package qualification logic)
 		flags.RegabiWrappers = false
 		flags.RegabiReflect = false
 		flags.RegabiArgs = false
@@ -160,4 +165,11 @@ func EnabledExperiments() []string {
 // Disabled experiments appear in the list prefixed by "no".
 func AllExperiments() []string {
 	return expList(&Experiment, nil, true)
+}
+
+// UpdateExperiments updates the Experiment global based on a new GOARCH value.
+// This is only required for cmd/go, which can change GOARCH after
+// program startup due to use of "go env -w".
+func UpdateExperiments(goarch string) {
+	Experiment = parseExperiments(goarch)
 }
