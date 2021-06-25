@@ -25,6 +25,11 @@ func (e *escape) call(ks []hole, call ir.Node) {
 
 func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir.Func) {
 
+	if call.Op() == ir.OCALLMETH {
+		call := call.(*ir.CallExpr)
+		typecheck.FixMethodCall(call)
+	}
+
 	// argumentPragma handles escape analysis of argument *argp to the
 	// given hole. If the function callee is known, pragma is the
 	// function's pragma flags; otherwise 0.
@@ -43,10 +48,9 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 		ir.Dump("esc", call)
 		base.Fatalf("unexpected call op: %v", call.Op())
 
-	case ir.OCALLFUNC, ir.OCALLMETH, ir.OCALLINTER:
+	case ir.OCALLFUNC, ir.OCALLINTER:
 		call := call.(*ir.CallExpr)
 		typecheck.FixVariadicCall(call)
-		typecheck.FixMethodCall(call)
 
 		// Pick out the function callee, if statically known.
 		//
@@ -55,8 +59,7 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 		// eq/hash functions) don't have it set. Investigate whether
 		// that's a concern.
 		var fn *ir.Name
-		switch call.Op() {
-		case ir.OCALLFUNC:
+		if call.Op() == ir.OCALLFUNC {
 			switch v := ir.StaticValue(call.X); v.Op() {
 			case ir.ONAME:
 				if v := v.(*ir.Name); v.Class == ir.PFUNC {
@@ -67,8 +70,6 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 			case ir.OMETHEXPR:
 				fn = ir.MethodExprName(v)
 			}
-		case ir.OCALLMETH:
-			fn = ir.MethodExprName(call.X)
 		}
 
 		fntype := call.X.Type()
