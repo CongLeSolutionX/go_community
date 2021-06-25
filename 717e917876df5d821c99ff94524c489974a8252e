@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba89bd98_58bd3dae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-25T22:17:11Z",
+      "side": 1,
+      "message": "Yes, the change to transform.go is fine.  It is keeping transform.go in sync with func.go, which is what we want.  Thanks!",
+      "parentUuid": "f1ae53d1_89b637d7",
+      "revId": "717e917876df5d821c99ff94524c489974a8252e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae4a0fbe_7fcc3349",
