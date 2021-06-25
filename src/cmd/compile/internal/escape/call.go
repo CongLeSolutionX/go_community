@@ -55,8 +55,7 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 		// eq/hash functions) don't have it set. Investigate whether
 		// that's a concern.
 		var fn *ir.Name
-		switch call.Op() {
-		case ir.OCALLFUNC:
+		if call.Op() == ir.OCALLFUNC {
 			switch v := ir.StaticValue(call.X); v.Op() {
 			case ir.ONAME:
 				if v := v.(*ir.Name); v.Class == ir.PFUNC {
@@ -67,8 +66,6 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 			case ir.OMETHEXPR:
 				fn = ir.MethodExprName(v)
 			}
-		case ir.OCALLMETH:
-			fn = ir.MethodExprName(call.X)
 		}
 
 		fntype := call.X.Type()
