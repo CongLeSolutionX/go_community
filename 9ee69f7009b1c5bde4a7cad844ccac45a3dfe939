@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2232aa21_d100e431",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-06-25T01:08:01Z",
+      "side": 1,
+      "message": "Indeed, thanks.",
+      "parentUuid": "1027754f_4cfe9b3c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "9ee69f7009b1c5bde4a7cad844ccac45a3dfe939",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5417cec_05c183d2",
