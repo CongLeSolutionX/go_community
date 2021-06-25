@@ -464,15 +464,18 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 				mode |= modload.ListRetractedVersions
 			}
 		}
-		mods, err := modload.ListModules(ctx, args, mode)
+		mods, listErr := modload.ListModules(ctx, args, mode)
+		if writeErr := modload.WriteGoMod(ctx); writeErr != nil {
+			base.Fatalf("go: %v", writeErr)
+		}
 		if !*listE {
 			for _, m := range mods {
 				if m.Error != nil {
 					base.Errorf("go list -m: %v", m.Error.Err)
 				}
 			}
-			if err != nil {
-				base.Errorf("go list -m: %v", err)
+			if listErr != nil {
+				base.Errorf("go list -m: %v", listErr)
 			}
 			base.ExitIfErrors()
 		}
@@ -503,6 +506,11 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		ModResolveTests: *listTest,
 	}
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, args)
+	if modload.Enabled() {
+		if err := modload.WriteGoMod(ctx); err != nil {
+			base.Fatalf("go: %v", err)
+		}
+	}
 	if !*listE {
 		w := 0
 		for _, pkg := range pkgs {

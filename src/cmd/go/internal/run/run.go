@@ -132,6 +132,11 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 	} else {
 		base.Fatalf("go run: no go files listed")
 	}
+	if modload.Enabled() && modload.HasModRoot() {
+		if err := modload.WriteGoMod(ctx); err != nil {
+			base.Fatalf("go: %v", err)
+		}
+	}
 	cmdArgs := args[i:]
 	load.CheckPackageErrors([]*load.Package{p})
 
