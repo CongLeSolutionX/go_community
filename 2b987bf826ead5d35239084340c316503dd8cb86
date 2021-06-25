@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdf66e3a_f98c9cdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-25T21:57:11Z",
+      "side": 1,
+      "message": "Keith, do you want to review this and see if it makes sense to check in?  I added in the alignment fields, since they were fairly easy to add.  I am undecided if we should have separate gcshapeType() and gcshapeName() (what I had in the first patchset, but duplicates bunch of code) vs. have a single gcshapeType() that returns type and name (what I have now).  Either way is fine with me.\n\nAlso, minor point, but since operations (like multiply) on complex128 are different from operations on two float64s, maybe we should have c8 and c16 gcshapes distinct from f4f4 and f8f8?  Essentially, almost all builtin types have different gcshapes (except int/int64 and uintptr/uint/uint64)\n",
+      "revId": "2b987bf826ead5d35239084340c316503dd8cb86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
