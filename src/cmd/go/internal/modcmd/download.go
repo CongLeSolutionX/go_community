@@ -140,13 +140,14 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	if !haveExplicitArgs {
 		// 'go mod download' is sometimes run without arguments to pre-populate the
 		// module cache. It may fetch modules that aren't needed to build packages
-		// in the main mdoule. This is usually not intended, so don't save sums for
-		// downloaded modules (golang.org/issue/45332).
-		// TODO(golang.org/issue/45551): For now, in ListModules, save sums needed
-		// to load the build list (same as 1.15 behavior). In the future, report an
-		// error if go.mod or go.sum need to be updated after loading the build
-		// list.
-		modload.DisallowWriteGoMod()
+		// in the main module. This is usually not intended, so don't save sums for
+		// downloaded modules (golang.org/issue/45332). We do still fix
+		// inconsistencies in go.mod though.
+		// TODO(45551): Report an error if go.mod or go.sum need to be updated after
+		// loading the build list.
+		if err := modload.WriteGoMod(ctx); err != nil {
+			base.Fatalf("go: %v", err)
+		}
 	}
 
 	for _, info := range infos {

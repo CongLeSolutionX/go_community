@@ -369,6 +369,11 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 	b.Init()
 
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
+	if modload.Enabled() {
+		if err := modload.WriteGoMod(ctx); err != nil {
+			base.Fatalf("go: %v", err)
+		}
+	}
 	load.CheckPackageErrors(pkgs)
 
 	explicitO := len(cfg.BuildO) > 0
@@ -589,7 +594,12 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 
 	BuildInit()
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
-	if cfg.ModulesEnabled && !modload.HasModRoot() {
+	if modload.Enabled() {
+		if err := modload.WriteGoMod(ctx); err != nil {
+			base.Fatalf("go: %v", err)
+		}
+	}
+	if modload.Enabled() && !modload.HasModRoot() {
 		haveErrors := false
 		allMissingErrors := true
 		for _, pkg := range pkgs {

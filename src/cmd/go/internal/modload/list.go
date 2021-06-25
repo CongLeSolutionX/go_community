@@ -72,7 +72,7 @@ func ListModules(ctx context.Context, args []string, mode ListMode) ([]*modinfo.
 	}
 
 	if err == nil {
-		commitRequirements(ctx, modFileGoVersion(), rs)
+		requirements = rs
 	}
 	return mods, err
 }

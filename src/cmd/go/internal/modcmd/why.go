@@ -139,4 +139,9 @@ func runWhy(ctx context.Context, cmd *base.Command, args []string) {
 			}
 		}
 	}
+
+	// TODO(#45551): report an error if go.mod or go.sum need to be updated.
+	if err := modload.WriteGoMod(ctx); err != nil {
+		base.Fatalf("go: %v", err)
+	}
 }
