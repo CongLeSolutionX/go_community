@@ -34,6 +34,12 @@ See also: go fmt, go vet.
 
 func runFix(ctx context.Context, cmd *base.Command, args []string) {
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
+	// TODO(#45551): report an error if go.mod or go.sum need to be updated.
+	if modload.Enabled() {
+		if err := modload.WriteGoMod(ctx); err != nil {
+			base.Fatalf("go: %v", err)
+		}
+	}
 	w := 0
 	for _, pkg := range pkgs {
 		if pkg.Error != nil {
