@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD   (f1f392 [release-branch.go1.16] go1.16.12)
 // +build !android,!js,!ppc64le
 
 // Note: we don't run on Android or ppc64 because if there is any non-race test
@@ -9,6 +10,10 @@
 // test (even when we're not in race mode), which fails. I'm not sure
 // why, but easiest to just punt - as long as a single builder runs
 // this test, we're good.
+=======
+//go:build race
+// +build race
+>>>>>>> CHANGE (ed01ce runtime/race: use race build tag on syso_test.go)
 
 package race
 
