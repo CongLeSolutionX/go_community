@@ -1812,10 +1812,6 @@ func InlineCall(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCallExp
 	}
 
 	var args ir.Nodes
-	if call.Op() == ir.OCALLMETH {
-		assert(call.X.Op() == ir.ODOTMETH)
-		args.Append(call.X.(*ir.SelectorExpr).X)
-	}
 	args.Append(call.Args...)
 
 	// Create assignment to declare and initialize inlvars.
