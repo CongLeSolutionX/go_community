@@ -31,6 +31,10 @@ func walkStmt(n ir.Node) ir.Node {
 		ir.Dump("nottop", n)
 		return n
 
+	case ir.OCALLMETH:
+		base.FatalfAt(n.Pos(), "OCALLMETH missed by typecheck")
+		panic("unreachable")
+
 	case ir.OAS,
 		ir.OASOP,
 		ir.OAS2,
@@ -40,7 +44,6 @@ func walkStmt(n ir.Node) ir.Node {
 		ir.OAS2MAPR,
 		ir.OCLOSE,
 		ir.OCOPY,
-		ir.OCALLMETH,
 		ir.OCALLINTER,
 		ir.OCALL,
 		ir.OCALLFUNC,
