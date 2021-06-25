@@ -611,6 +611,11 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 
 	pkgOpts := load.PackageOpts{ModResolveTests: true}
 	pkgs = load.PackagesAndErrors(ctx, pkgOpts, pkgArgs)
+	if modload.Enabled() {
+		if err := modload.WriteGoMod(ctx); err != nil {
+			base.Fatalf("go: %v", err)
+		}
+	}
 	load.CheckPackageErrors(pkgs)
 	if len(pkgs) == 0 {
 		base.Fatalf("no packages to test")

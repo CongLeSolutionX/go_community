@@ -327,7 +327,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 		}
 	}
 
-	initialRS, _ := loadModFile(ctx) // Ignore needCommit — we're going to commit at the end regardless.
+	initialRS := LoadModFile(ctx)
 
 	ld := loadFromRoots(ctx, loaderParams{
 		PackageOpts:  opts,
@@ -396,17 +396,19 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 			}
 		}
 
-		if allowWriteGoMod {
-			modfetch.TrimGoSum(keep)
+		modfetch.TrimGoSum(keep)
 
-			// commitRequirements below will also call WriteGoSum, but the "keep" map
-			// we have here could be strictly larger: commitRequirements only commits
-			// loaded.requirements, but here we may have also loaded (and want to
-			// preserve checksums for) additional entities from compatRS, which are
-			// only needed for compatibility with ld.TidyCompatibleVersion.
-			if err := modfetch.WriteGoSum(keep, mustHaveCompleteRequirements()); err != nil {
-				base.Fatalf("go: %v", err)
-			}
+		// WriteGoMod, called by runTidy, will also call WriteGoSum, but the "keep"
+		// map we have here could be strictly larger: commitRequirements only
+		// commits loaded.requirements, but here we may have also loaded (and want
+		// to preserve checksums for) additional entities from compatRS, which are
+		// only needed for compatibility with ld.TidyCompatibleVersion.
+		//
+		// TODO(#45551): LoadPackages should not write go.sum, and the modfetch
+		// package shouldn't have global state. Find another way to communicate to
+		// tidy which sums we need to keep.
+		if err := modfetch.WriteGoSum(keep, mustHaveCompleteRequirements()); err != nil {
+			base.Fatalf("go: %v", err)
 		}
 
 		// Update the go.mod file's Go version if necessary.
@@ -418,7 +420,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 
 	// Success! Update go.mod and go.sum (if needed) and return the results.
 	loaded = ld
-	commitRequirements(ctx, loaded.requirements)
+	requirements = loaded.requirements
 
 	for _, pkg := range ld.pkgs {
 		if !pkg.isTest() {
@@ -685,7 +687,7 @@ func ImportFromFiles(ctx context.Context, gofiles []string) {
 			return roots
 		},
 	})
-	commitRequirements(ctx, loaded.requirements)
+	requirements = loaded.requirements
 }
 
 // DirImportPath returns the effective import path for dir,

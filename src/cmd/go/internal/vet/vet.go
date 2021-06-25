@@ -13,6 +13,7 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
+	"cmd/go/internal/modload"
 	"cmd/go/internal/trace"
 	"cmd/go/internal/work"
 )
@@ -87,6 +88,11 @@ func runVet(ctx context.Context, cmd *base.Command, args []string) {
 
 	pkgOpts := load.PackageOpts{ModResolveTests: true}
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, pkgArgs)
+	if modload.Enabled() {
+		if err := modload.WriteGoMod(ctx); err != nil {
+			base.Fatalf("go vet: %v", err)
+		}
+	}
 	load.CheckPackageErrors(pkgs)
 	if len(pkgs) == 0 {
 		base.Fatalf("no packages to vet")

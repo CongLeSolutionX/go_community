@@ -117,7 +117,13 @@ func runClean(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	if cleanPkg {
-		for _, pkg := range load.PackagesAndErrors(ctx, load.PackageOpts{}, args) {
+		pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
+		if modload.Enabled() {
+			if err := modload.WriteGoMod(ctx); err != nil {
+				base.Fatalf("go: %v", err)
+			}
+		}
+		for _, pkg := range pkgs {
 			clean(pkg)
 		}
 	}
