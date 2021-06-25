@@ -264,12 +264,15 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 					// TODO(jayconrod, katiehockman): Don't write a value that's already
 					// in the corpus.
 					c.interestingCount++
+					// result.entry.ExecTime = result.entryDuration
+					// result.entry.CoverageEdges = countEdges(result.coverageData)
 					c.corpus.entries = append(c.corpus.entries, result.entry)
 					if opts.CacheDir != "" {
 						if _, err := writeToCorpus(result.entry.Data, opts.CacheDir); err != nil {
 							stop(err)
 						}
 					}
+					c.corpus.updateAverages()
 					if printDebugInfo() {
 						fmt.Fprintf(
 							c.opts.Log,
@@ -285,6 +288,7 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 						)
 					}
 				} else if c.coverageOnlyRun() {
+					// TODO(rolandshoemaker): we should update the corpus entries ExecTime/CoverageEdges fields
 					c.covOnlyInputs--
 					if printDebugInfo() {
 						fmt.Fprintf(
@@ -386,6 +390,72 @@ func (e *crashError) CrashName() string {
 
 type corpus struct {
 	entries []CorpusEntry
+
+	avgSize     float64
+	avgExecTime float64
+	avgCoverage float64
+}
+
+func (c *corpus) updateAverages() {
+	l := float64(len(c.entries))
+
+	var totalSize, totalExecTime, totalCoverage int
+	for _, e := range c.entries {
+		if e.ExecTime == 0 || e.CoverageEdges == 0 {
+			l--
+			continue
+		}
+
+		totalSize += len(e.Data)
+		totalExecTime += int(e.ExecTime.Nanoseconds())
+		totalCoverage += e.CoverageEdges
+	}
+	if l == 0 {
+		return
+	}
+
+	c.avgSize = float64(totalSize) / l
+	c.avgExecTime = float64(totalExecTime) / l
+	c.avgCoverage = float64(totalCoverage) / l
+}
+
+func (c *corpus) calculateTimeout(e CorpusEntry) time.Duration {
+	t := workerFuzzDuration
+
+	if len(e.Data) < int(c.avgSize)/4 {
+		t *= 4
+	} else if len(e.Data) < int(c.avgSize)/2 {
+		t *= 3
+	} else if len(e.Data) < int(c.avgSize) {
+		t *= 2
+	}
+
+	if e.ExecTime > 0 {
+		if e.ExecTime < time.Duration(c.avgExecTime)/4 {
+			t *= 4
+		} else if e.ExecTime < time.Duration(c.avgExecTime)/2 {
+			t *= 3
+		} else if e.ExecTime < time.Duration(c.avgExecTime) {
+			t *= 2
+		}
+	}
+
+	if e.CoverageEdges > 0 {
+		if e.CoverageEdges > int(c.avgCoverage)*4 {
+			t *= 4
+		} else if e.CoverageEdges > int(c.avgCoverage)*2 {
+			t *= 3
+		} else if e.CoverageEdges > int(c.avgCoverage) {
+			t *= 2
+		}
+	}
+
+	// TODO(rolandshoemaker): take into account generation
+
+	if t >= workerTimeoutDuration {
+		t -= time.Second
+	}
+	return t
 }
 
 // CorpusEntry represents an individual input for fuzzing.
@@ -412,6 +482,9 @@ type CorpusEntry = struct {
 	Values []interface{}
 
 	Generation int
+
+	ExecTime      time.Duration
+	CoverageEdges int
 }
 
 type fuzzInput struct {
@@ -537,6 +610,7 @@ func newCoordinator(opts CoordinateFuzzingOpts) (*coordinator, error) {
 		name := fmt.Sprintf("%x", h[:4])
 		corpus.entries = append(corpus.entries, CorpusEntry{Name: name, Data: data, Values: vals})
 	}
+	corpus.updateAverages()
 	c := &coordinator{
 		opts:          opts,
 		startTime:     time.Now(),

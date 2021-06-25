@@ -26,7 +26,7 @@ const (
 
 	// workerTimeoutDuration is the amount of time a worker can go without
 	// responding to the coordinator before being stopped.
-	workerTimeoutDuration = 1 * time.Second
+	workerTimeoutDuration = 5 * time.Second
 
 	// workerExitCode is used as an exit code by fuzz worker processes after an internal error.
 	// This distinguishes internal errors from uncontrolled panics and other crashes.
@@ -133,7 +133,7 @@ func (w *worker) coordinate(ctx context.Context) error {
 
 		case input := <-w.coordinator.inputC:
 			// Received input from coordinator.
-			args := fuzzArgs{Limit: input.countRequested, Timeout: workerFuzzDuration, CoverageOnly: input.coverageOnly}
+			args := fuzzArgs{Limit: input.countRequested, Timeout: w.coordinator.corpus.calculateTimeout(input.entry), CoverageOnly: input.coverageOnly}
 			if interestingCount < input.interestingCount {
 				// The coordinator's coverage data has changed, so send the data
 				// to the client.
@@ -184,10 +184,12 @@ func (w *worker) coordinate(ctx context.Context) error {
 				h := sha256.Sum256(value)
 				name := fmt.Sprintf("%x", h[:4])
 				result.entry = CorpusEntry{
-					Name:       name,
-					Parent:     input.entry.Name,
-					Data:       value,
-					Generation: input.entry.Generation + 1,
+					Name:          name,
+					Parent:        input.entry.Name,
+					Data:          value,
+					Generation:    input.entry.Generation + 1,
+					ExecTime:      result.entryDuration,
+					CoverageEdges: countEdges(resp.CoverageData),
 				}
 				result.coverageData = resp.CoverageData
 			}

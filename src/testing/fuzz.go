@@ -71,6 +71,9 @@ type corpusEntry = struct {
 	Data       []byte
 	Values     []interface{}
 	Generation int
+
+	ExecTime      time.Duration
+	CoverageEdges int
 }
 
 // Cleanup registers a function to be called when the test and all its
