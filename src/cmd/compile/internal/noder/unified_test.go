@@ -37,10 +37,6 @@ var (
 // command's -run flag for subtest matching is recommended for less
 // powerful machines.
 func TestUnifiedCompare(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping test in short mode")
-	}
-
 	targets, err := exec.Command("go", "tool", "dist", "list").Output()
 	if err != nil {
 		t.Fatal(err)
@@ -112,7 +108,11 @@ type pkg struct {
 
 func loadPackages(t *testing.T, goos, goarch, gcflags string) []pkg {
 	args := []string{"list", "-e", "-export", "-json", "-gcflags=all=" + gcflags, "--"}
-	args = append(args, strings.Fields(*flagPkgs)...)
+	if testing.Short() {
+		args = append(args, "runtime")
+	} else {
+		args = append(args, strings.Fields(*flagPkgs)...)
+	}
 
 	cmd := exec.Command("go", args...)
 	cmd.Env = append(os.Environ(), "GOOS="+goos, "GOARCH="+goarch)
