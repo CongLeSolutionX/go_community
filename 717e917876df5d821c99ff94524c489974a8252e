@@ -144,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb6ac98d_6a031e43",
+        "filename": "src/cmd/compile/internal/devirtualize/devirtualize.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T07:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae4a0fbe_7fcc3349",
+      "revId": "717e917876df5d821c99ff94524c489974a8252e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4e1022a_67ea6bc6",
@@ -157,6 +175,24 @@
       "writtenOn": "2021-06-25T22:35:19Z",
       "side": 1,
       "message": "nit: Let\u0027s use \"switch n.X.Op() { ... }\"",
+      "revId": "717e917876df5d821c99ff94524c489974a8252e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d582d81_746da166",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T07:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4e1022a_67ea6bc6",
       "revId": "717e917876df5d821c99ff94524c489974a8252e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
