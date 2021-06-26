@@ -195,6 +195,24 @@
       "parentUuid": "a4e1022a_67ea6bc6",
       "revId": "717e917876df5d821c99ff94524c489974a8252e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03cf7019_595c4e21",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T07:28:03Z",
+      "side": 1,
+      "message": "Ops, we would have the nested switch case here, and we want to break the outermost. So I think just use if here is simpler.",
+      "parentUuid": "6d582d81_746da166",
+      "revId": "717e917876df5d821c99ff94524c489974a8252e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
