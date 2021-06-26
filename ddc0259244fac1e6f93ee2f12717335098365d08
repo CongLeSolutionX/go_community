@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab94fa92_d976b0b5",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae3fe499_68d14e7b",
+      "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f58af9b8_30f6add2",
@@ -91,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9692b85_64ed2678",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f58af9b8_30f6add2",
+      "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b083351c_60eeb69b",
@@ -104,6 +140,24 @@
       "writtenOn": "2021-06-26T08:09:03Z",
       "side": 1,
       "message": "Fatalf if OCALLMETH",
+      "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5374850a_87caeacb",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b083351c_60eeb69b",
       "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +196,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b942f671_be647f62",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9e50cd_7a7f462e",
+      "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bebd2f6_926460db",
@@ -155,6 +227,24 @@
       "writtenOn": "2021-06-26T08:09:03Z",
       "side": 1,
       "message": "Fatalf if nn.Op() \u003d\u003d ir.OCALLMETH.",
+      "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fa45fd9_7b90c327",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bebd2f6_926460db",
       "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -193,6 +283,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f6c059c_1b78f60e",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbc5e79e_c1040f40",
+      "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59879382_6cd0feae",
@@ -206,6 +314,24 @@
       "writtenOn": "2021-06-26T08:09:03Z",
       "side": 1,
       "message": "Add Fatalf for OCALLMETH. The \u0027default:\u0027 case in this switch is not Fatalf. (We should probably fix that.)",
+      "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "507c862d_f4eefdb1",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-06-26T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59879382_6cd0feae",
       "revId": "ddc0259244fac1e6f93ee2f12717335098365d08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
