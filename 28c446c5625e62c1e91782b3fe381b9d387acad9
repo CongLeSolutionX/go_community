@@ -106,6 +106,24 @@
       "parentUuid": "13741c06_0f5feafe",
       "revId": "28c446c5625e62c1e91782b3fe381b9d387acad9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b742d88a_12903fa4",
+        "filename": "src/internal/buildcfg/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-27T03:52:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1fa88bd2_0063851a",
+      "revId": "28c446c5625e62c1e91782b3fe381b9d387acad9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
