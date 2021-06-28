@@ -161,6 +161,30 @@
       },
       "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07366108_dcb1343a",
+        "filename": "src/internal/cpu/cpu_arm64_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-06-28T09:16:13Z",
+      "side": 1,
+      "message": "That CL does not use internal/cpu and packages outside the std library like in golang/crypto cant use internal/cpu generally. I dont see how this CL can change behaviour related to the above CL if there is no code is in the std library that will check for it being enabled or disabled.",
+      "parentUuid": "a63416c9_41c092ca",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
