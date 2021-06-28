@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d8cf0a0_f73c2b0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2021-06-28T00:32:13Z",
+      "side": 1,
+      "message": "Code looks OK but we are in the feature freeze:\nhttps://github.com/golang/go/wiki/Go-Release-Cycle\nhttps://groups.google.com/g/golang-dev/c/HzfjCwV_k5E",
+      "revId": "69689cf7b3f5e16ce3aace179cc2fee8e158954a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
