@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eef6dfa_6b029507",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-28T16:45:59Z",
+      "side": 1,
+      "message": "runtime/internal/atomic: drop Cas64 pointer indirection in comments",
+      "revId": "fbecf862a0f0225564b2ed6c523972035773b437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1162690_7e6164fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-06-28T16:45:59Z",
+      "side": 1,
+      "message": "You don\u0027t need this sentence, the topic sentence is enough.",
+      "revId": "fbecf862a0f0225564b2ed6c523972035773b437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
