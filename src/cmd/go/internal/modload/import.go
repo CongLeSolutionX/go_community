@@ -32,6 +32,8 @@ type ImportMissingError struct {
 	Module   module.Version
 	QueryErr error
 
+	ImportingModule module.Version
+
 	// isStd indicates whether we would expect to find the package in the standard
 	// library. This is normally true for all dotless import paths, but replace
 	// directives can cause us to treat the replaced paths as also being in
@@ -70,6 +72,14 @@ func (e *ImportMissingError) Error() string {
 		message := fmt.Sprintf("no required module provides package %s", e.Path)
 		if e.QueryErr != nil {
 			return fmt.Sprintf("%s: %v", message, e.QueryErr)
+		}
+		if inWorkspaceMode() {
+			if e.ImportingModule.Path != "" {
+				return fmt.Sprintf("%s; to add it:\n\tcd %s\n\tgo get %s", message, MainModules.ModRoot(e.ImportingModule), e.Path)
+			} else {
+				return fmt.Sprintf("%s; to add it:\n\tgo get %s\n\tfrom the importing module", message, e.Path)
+
+			}
 		}
 		return fmt.Sprintf("%s; to add it:\n\tgo get %s", message, e.Path)
 	}
@@ -673,7 +683,7 @@ func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, i
 		mod = r
 	}
 
-	if HasModRoot() && cfg.BuildMod == "readonly" && needSum && !modfetch.HaveSum(mod) {
+	if HasModRoot() && cfg.BuildMod == "readonly" && !inWorkspaceMode() && needSum && !modfetch.HaveSum(mod) {
 		return "", false, module.VersionError(mod, &sumMissingError{})
 	}
 

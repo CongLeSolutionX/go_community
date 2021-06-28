@@ -687,7 +687,7 @@ func isValidSum(data []byte) bool {
 // It should have entries for both module content sums and go.mod sums
 // (version ends with "/go.mod"). Existing sums will be preserved unless they
 // have been marked for deletion with TrimGoSum.
-func WriteGoSum(keep map[module.Version]bool) {
+func WriteGoSum(keep map[module.Version]bool, inWorkspaceMode bool) {
 	goSum.mu.Lock()
 	defer goSum.mu.Unlock()
 
@@ -713,7 +713,7 @@ Outer:
 	if !dirty {
 		return
 	}
-	if cfg.BuildMod == "readonly" {
+	if cfg.BuildMod == "readonly" && !inWorkspaceMode {
 		base.Fatalf("go: updates to go.sum needed, disabled by -mod=readonly")
 	}
 

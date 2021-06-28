@@ -403,7 +403,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 			// loaded.requirements, but here we may have also loaded (and want to
 			// preserve checksums for) additional entities from compatRS, which are
 			// only needed for compatibility with ld.TidyCompatibleVersion.
-			modfetch.WriteGoSum(keep)
+			modfetch.WriteGoSum(keep, inWorkspaceMode())
 		}
 	}
 
@@ -1399,6 +1399,15 @@ func (ld *loader) resolveMissingImports(ctx context.Context) (modAddedBy map[mod
 			var err error
 			mod, err = queryImport(ctx, pkg.path, ld.requirements)
 			if err != nil {
+				var ime *ImportMissingError
+				if inWorkspaceMode() && errors.As(err, &ime) {
+					for curstack := pkg.stack; curstack != nil; curstack = curstack.stack {
+						if MainModules.Contains(curstack.mod.Path) {
+							ime.ImportingModule = curstack.mod
+							break
+						}
+					}
+				}
 				// pkg.err was already non-nil, so we can reasonably attribute the error
 				// for pkg to either the original error or the one returned by
 				// queryImport. The existing error indicates only that we couldn't find
