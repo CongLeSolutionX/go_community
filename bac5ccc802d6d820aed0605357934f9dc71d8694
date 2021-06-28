@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e11690b_7f84a392",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-06-28T06:02:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "036510d8_85961304",
+      "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04279841_39175c38",
@@ -111,6 +129,30 @@
       "side": 1,
       "message": "Doesnt compile:\n\ninternal/cpu/cpu_arm64_darwin.go:22:7: ARM64.HasSHA3 undefined (type struct { _ CacheLinePad; HasAES bool; HasPMULL bool; HasSHA1 bool; HasSHA2 bool; HasCRC32 bool; HasATOMICS bool; HasCPUID bool; IsNeoverseN1 bool; IsZeus bool; _ CacheLinePad } has no field or method HasSHA3)\n\nas there is no declaration and use of the feature yet.\n\nAs said we can add it if there is code in runtime/std library that will use it, but I could not find a cl inflight that would use it.\n\nThere is something to be said for documenting more explicitly in internal/cpu/cpu.go that only features that are used need to be supported and not all features the cpus support.",
       "parentUuid": "04279841_39175c38",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a63416c9_41c092ca",
+        "filename": "src/internal/cpu/cpu_arm64_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-06-28T06:02:25Z",
+      "side": 1,
+      "message": "Sorry for answering late. I added `HasSHA3`, since I opened this [PR](https://go-review.googlesource.com/c/crypto/+/318869) in golang/crypto. This PR implemented SHA3 in assembly on ARM64, but SHA3 NEON intrinsics are supported since \"ARMv8.2\". Therefore, not using `HasSHA3`, may cause problems in this PR.\n\nBTW I have added one line more to describe what kinds of features should be added.",
+      "parentUuid": "9d98a323_e697226f",
       "range": {
         "startLine": 22,
         "startChar": 1,
