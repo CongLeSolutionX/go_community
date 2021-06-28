@@ -652,6 +652,10 @@ func tidyLazyRoots(ctx context.Context, mainModule module.Version, direct map[st
 	return tidy, nil
 }
 
+func mustAlreadyHaveCompleteRequirements() bool {
+	return cfg.BuildMod != "mod" && !inWorkspaceMode()
+}
+
 // updateLazyRoots returns a set of root requirements that maintains the “lazy
 // loading” invariants of the go.mod file:
 //
@@ -807,7 +811,7 @@ func updateLazyRoots(ctx context.Context, direct map[string]bool, rs *Requiremen
 			// We've added or upgraded one or more roots, so load the full module
 			// graph so that we can update those roots to be consistent with other
 			// requirements.
-			if cfg.BuildMod != "mod" {
+			if mustAlreadyHaveCompleteRequirements() {
 				// Our changes to the roots may have moved dependencies into or out of
 				// the lazy-loading horizon, which could in turn change the selected
 				// versions of other modules. (Unlike for eager modules, for lazy
@@ -1007,7 +1011,7 @@ func updateEagerRoots(ctx context.Context, direct map[string]bool, rs *Requireme
 		return rs, err
 	}
 
-	if cfg.BuildMod != "mod" {
+	if mustAlreadyHaveCompleteRequirements() {
 		// Instead of actually updating the requirements, just check that no updates
 		// are needed.
 		if rs == nil {
