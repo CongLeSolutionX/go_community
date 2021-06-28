@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (1cfa89 [dev.fuzz] internal/fuzz: use scratch []byte for mutations)
 pkg compress/lzw, method (*Reader) Close() error
 pkg compress/lzw, method (*Reader) Read([]uint8) (int, error)
 pkg compress/lzw, method (*Reader) Reset(io.Reader, Order, int)
@@ -131,3 +132,5 @@ pkg time, method (*Time) IsDST() bool
 pkg time, method (Time) UnixMicro() int64
 pkg time, method (Time) UnixMilli() int64
 >>>>>>> origin/master
+=======
+>>>>>>> BRANCH (c95464 internal/buildcfg: refactor GOEXPERIMENT parsing code somewh)
