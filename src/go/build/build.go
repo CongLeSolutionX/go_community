@@ -37,6 +37,10 @@ type Context struct {
 	GOROOT string // Go root
 	GOPATH string // Go path
 
+	// GoPathError is set when GOPATH is not set. it contains an
+	// explanation why GOPATH is unset.
+	GoPathError string
+
 	// Dir is the caller's working directory, or the empty string to use
 	// the current directory of the running process. In module mode, this is used
 	// to locate the main module.
@@ -276,7 +280,7 @@ func (ctxt *Context) SrcDirs() []string {
 // if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
 var Default Context = defaultContext()
 
-func defaultGOPATH() string {
+func defaultGOPATH() (string, string) {
 	env := "HOME"
 	if runtime.GOOS == "windows" {
 		env = "USERPROFILE"
@@ -288,11 +292,11 @@ func defaultGOPATH() string {
 		if filepath.Clean(def) == filepath.Clean(runtime.GOROOT()) {
 			// Don't set the default GOPATH to GOROOT,
 			// as that will trigger warnings from the go tool.
-			return ""
+			return "", "Cannot set GOROOT as GOPATH"
 		}
-		return def
+		return def, ""
 	}
-	return ""
+	return "", fmt.Sprintf("%s is not set", env)
 }
 
 var defaultToolTags, defaultReleaseTags []string
@@ -303,7 +307,14 @@ func defaultContext() Context {
 	c.GOARCH = buildcfg.GOARCH
 	c.GOOS = buildcfg.GOOS
 	c.GOROOT = pathpkg.Clean(runtime.GOROOT())
-	c.GOPATH = envOr("GOPATH", defaultGOPATH())
+
+	// Try to set GOPATH.
+	defaultGP, err := defaultGOPATH()
+	if err != "" {
+		c.GoPathError = err
+	}
+	c.GOPATH = envOr("GOPATH", defaultGP)
+
 	c.Compiler = runtime.Compiler
 
 	// For each experiment that has been enabled in the toolchain, define a

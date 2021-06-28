@@ -214,7 +214,7 @@ func Init() {
 	setDefaultBuildMod()
 	list := filepath.SplitList(cfg.BuildContext.GOPATH)
 	if len(list) == 0 || list[0] == "" {
-		base.Fatalf("missing $GOPATH")
+		base.Fatalf("missing $GOPATH: %s", cfg.BuildContext.GoPathError)
 	}
 	gopath = list[0]
 	if _, err := fsys.Stat(filepath.Join(gopath, "go.mod")); err == nil {
