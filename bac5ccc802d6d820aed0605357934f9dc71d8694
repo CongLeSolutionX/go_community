@@ -185,6 +185,30 @@
       },
       "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8459f75c_c4a37da6",
+        "filename": "src/internal/cpu/cpu_arm64_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-06-28T13:50:46Z",
+      "side": 1,
+      "message": "Thank you so much for pointing out my fault. I make some mistake sorry",
+      "parentUuid": "07366108_dcb1343a",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
