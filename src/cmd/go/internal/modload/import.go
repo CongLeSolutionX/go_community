@@ -73,6 +73,14 @@ func (e *ImportMissingError) Error() string {
 		if e.QueryErr != nil {
 			return fmt.Sprintf("%s: %v", message, e.QueryErr)
 		}
+		if inWorkspaceMode() {
+			if e.ImportingModule.Path != "" {
+				return fmt.Sprintf("%s; to add it:\n\tcd %s\n\tgo get %s", message, MainModules.ModRoot(e.ImportingModule), e.Path)
+			} else {
+				return fmt.Sprintf("%s; to add it:\n\tgo get %s\n\tfrom the importing module", message, e.Path)
+
+			}
+		}
 		return fmt.Sprintf("%s; to add it:\n\tgo get %s", message, e.Path)
 	}
 
