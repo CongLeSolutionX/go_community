@@ -26,16 +26,24 @@ func (check *Checker) ident(x *operand, e *syntax.Name, def *Named, wantType boo
 	// may be different from obj.Parent(). See also Scope.LookupParent doc.
 	scope, obj := check.scope.LookupParent(e.Value, check.pos)
 	if obj == nil {
-		if e.Value == "_" {
+		switch e.Value {
+		case "_":
 			check.error(e, "cannot use _ as value or type")
-		} else {
+			return
+		case "comparable":
+			if check.allowVersion(check.pkg, 1, 18) {
+				scope, obj = Universe, universeComparable
+				break
+			}
+			fallthrough
+		default:
 			if check.conf.CompilerErrorMessages {
 				check.errorf(e, "undefined: %s", e.Value)
 			} else {
 				check.errorf(e, "undeclared name: %s", e.Value)
 			}
+			return
 		}
-		return
 	}
 	check.recordUse(e, obj)
 
