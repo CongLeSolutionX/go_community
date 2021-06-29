@@ -401,6 +401,8 @@ func (g *irgen) funcLit(typ2 types2.Type, expr *syntax.FuncLit) ir.Node {
 	typed(typ, fn.Nname)
 	typed(typ, fn.OClosure)
 	fn.SetTypecheck(1)
+	// Save pointer to the containing function
+	fn.Nname.Curfn = ir.CurFunc
 
 	g.funcBody(fn, nil, expr.Type, expr.Body)
 

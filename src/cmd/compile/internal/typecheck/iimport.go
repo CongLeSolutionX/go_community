@@ -1317,8 +1317,13 @@ func (r *importReader) node() ir.Node {
 		ir.FinishCaptureNames(pos, r.curfn, fn)
 
 		clo := fn.OClosure
+		// Save pointer to the containing function
+		fn.Nname.Curfn = r.curfn
 		if go117ExportTypes {
 			clo.SetType(typ)
+			// Give names to closures in imported generic functions, so
+			// we can have separate gfInfo on them.
+			ir.NameClosure(clo, r.curfn)
 		}
 		return clo
 
