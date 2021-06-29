@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bab16bf_0352c160",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-29T20:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8e1537d_176c5e07",
+      "revId": "9f2c980d54a9241433eb895aa6f879cd15328c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f84da785_8889231b",
@@ -85,6 +103,24 @@
       "writtenOn": "2021-06-29T01:24:02Z",
       "side": 1,
       "message": "Is this a big black?  Can you essentially call getDictionarySym() for the method, similar to above, or is there is a bunch of extra work that needs to be done?  Would be nice to get the whole thing working, so sub-dictionary entries are fully populated.  But we can also just not use the sub-dictionary yet for methods, in order to get this CL checked in faster.",
+      "revId": "9f2c980d54a9241433eb895aa6f879cd15328c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "638b95d8_3cc01840",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-29T20:26:03Z",
+      "side": 1,
+      "message": "It seemed tricky, as at this point we have an OXDOT and we need to resolve that to a reference to the generic method. Including going through embedded fields and all of that. Leaving for a subsequent CL.",
+      "parentUuid": "f84da785_8889231b",
       "revId": "9f2c980d54a9241433eb895aa6f879cd15328c57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1c835ee_635d9f0f",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1975,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-29T20:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a70db54_fcfcdb2e",
+      "revId": "9f2c980d54a9241433eb895aa6f879cd15328c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0d3ec98_a3334e29",
@@ -119,6 +173,24 @@
       "writtenOn": "2021-06-27T16:16:36Z",
       "side": 1,
       "message": "Fix my typo that I meant to fix?  alredy -\u003e already",
+      "revId": "9f2c980d54a9241433eb895aa6f879cd15328c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d20d8e5c_4b108b9c",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1985,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-06-29T20:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0d3ec98_a3334e29",
       "revId": "9f2c980d54a9241433eb895aa6f879cd15328c57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
