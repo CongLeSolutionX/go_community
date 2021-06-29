@@ -107,6 +107,24 @@
       "message": "remove the extra new line",
       "revId": "9e8d86cdb7ef023397e22ce159e441ca3230ec93",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "602bfb27_27f166fb",
+        "filename": "src/cmd/go/testdata/script/test_fuzz.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-29T19:39:55Z",
+      "side": 1,
+      "message": "I just went ahead and did this.",
+      "parentUuid": "9b8105f0_55f17a99",
+      "revId": "9e8d86cdb7ef023397e22ce159e441ca3230ec93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
