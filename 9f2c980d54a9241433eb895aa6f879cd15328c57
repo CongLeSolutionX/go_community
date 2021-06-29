@@ -74,6 +74,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f84da785_8889231b",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-29T01:24:02Z",
+      "side": 1,
+      "message": "Is this a big black?  Can you essentially call getDictionarySym() for the method, similar to above, or is there is a bunch of extra work that needs to be done?  Would be nice to get the whole thing working, so sub-dictionary entries are fully populated.  But we can also just not use the sub-dictionary yet for methods, in order to get this CL checked in faster.",
+      "revId": "9f2c980d54a9241433eb895aa6f879cd15328c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a70db54_fcfcdb2e",
         "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
         "patchSetId": 1
