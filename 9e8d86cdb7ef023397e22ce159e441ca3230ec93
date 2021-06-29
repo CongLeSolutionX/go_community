@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b8105f0_55f17a99",
+        "filename": "src/cmd/go/testdata/script/test_fuzz.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-06-29T13:55:59Z",
+      "side": 1,
+      "message": "remove the extra new line",
+      "revId": "9e8d86cdb7ef023397e22ce159e441ca3230ec93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
