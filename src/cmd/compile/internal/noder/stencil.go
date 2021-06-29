@@ -29,7 +29,7 @@ func assert(p bool) {
 
 // Temporary - for outputting information on derived types, dictionaries, sub-dictionaries.
 // Turn off when running tests.
-var infoPrintMode = false
+var infoPrintMode = true
 
 func infoPrint(format string, a ...interface{}) {
 	if infoPrintMode {
@@ -43,7 +43,7 @@ func infoPrint(format string, a ...interface{}) {
 // encountered already or new ones that are encountered during the stenciling
 // process.
 func (g *irgen) stencil() {
-	g.target.Stencils = make(map[*types.Sym]*ir.Func)
+	g.instInfoMap = make(map[*types.Sym]*instInfo)
 	g.gfInfoMap = make(map[*types.Sym]*gfInfo)
 
 	// Instantiate the methods of instantiated generic types that we have seen so far.
@@ -85,6 +85,9 @@ func (g *irgen) stencil() {
 		// to calling that function directly.
 		modified := false
 		closureRequired := false
+		// outerInfo will be non-nil exactly if we are scanning an instantiated function
+		outerInfo := g.instInfoMap[decl.Sym()]
+
 		ir.Visit(decl, func(n ir.Node) {
 			if n.Op() == ir.OFUNCINST {
 				// generic F, not immediately called
@@ -102,11 +105,19 @@ func (g *irgen) stencil() {
 				call := n.(*ir.CallExpr)
 				inst := call.X.(*ir.InstExpr)
 				st, dict := g.getInstantiationForNode(inst)
-				if infoPrintMode && g.target.Stencils[decl.Sym()] == nil {
+				dictkind := "Main dictionary"
+				if outerInfo != nil {
+					// Get the dictionary arg via sub-dictionary reference
+					entry, ok := outerInfo.dictEntryMap[n]
+					assert(ok)
+					dict = getDictionaryEntry(n.Pos(), outerInfo.dictParam, entry, outerInfo.dictLen)
+					dictkind = "Sub-dictionary"
+				}
+				if infoPrintMode {
 					if inst.X.Op() == ir.OMETHVALUE {
-						fmt.Printf("Main dictionary in %v at generic method call: %v - %v\n", decl, inst.X, call)
+						fmt.Printf("%s in %v at generic method call: %v - %v\n", dictkind, decl, inst.X, call)
 					} else {
-						fmt.Printf("Main dictionary in %v at generic function call: %v - %v\n", decl, inst.X, call)
+						fmt.Printf("%s in %v at generic function call: %v - %v\n", dictkind, decl, inst.X, call)
 					}
 				}
 				// Replace the OFUNCINST with a direct reference to the
@@ -146,6 +157,12 @@ func (g *irgen) stencil() {
 				}
 
 				st, dict := g.getInstantiation(gf, targs, true)
+				entry, ok := outerInfo.dictEntryMap[n]
+				assert(ok)
+				if infoPrintMode {
+					fmt.Printf("Sub-dictionary in %v at generic method call: %v\n", decl, call)
+				}
+				dict = getDictionaryEntry(n.Pos(), outerInfo.dictParam, entry, outerInfo.dictLen)
 				call.SetOp(ir.OCALL)
 				call.X = st.Nname
 				call.Args.Prepend(dict, meth.X)
@@ -233,12 +250,14 @@ func (g *irgen) buildClosure(outer *ir.Func, x ir.Node) ir.Node {
 		// as its first two arguments.
 		// dictValue is the value to use for the dictionary argument.
 		target, dictValue = g.getInstantiation(gf, targs, rcvrValue != nil)
-		if infoPrintMode && (outer == nil || g.target.Stencils[outer.Sym()] == nil) {
+		if infoPrintMode && (outer == nil || g.instInfoMap[outer.Sym()] == nil) {
 			if rcvrValue == nil {
 				fmt.Printf("Main dictionary in %v for function value %v\n", outer, inst.X)
 			} else {
 				fmt.Printf("Main dictionary in %v for method value %v\n", outer, inst.X)
 			}
+		} else if infoPrintMode && outer != nil && g.instInfoMap[outer.Sym()] != nil {
+			fmt.Printf("Subdict in %v for function/method value %v\n", outer, inst.X)
 		}
 	} else { // ir.OMETHEXPR
 		// Method expression T.M where T is a generic type.
@@ -269,8 +288,10 @@ func (g *irgen) buildClosure(outer *ir.Func, x ir.Node) ir.Node {
 			}
 		}
 		target, dictValue = g.getInstantiation(gf, targs, true)
-		if infoPrintMode && (outer == nil || g.target.Stencils[outer.Sym()] == nil) {
+		if infoPrintMode && (outer == nil || g.instInfoMap[outer.Sym()] == nil) {
 			fmt.Printf("Main dictionary in %v for method expression %v\n", outer, x)
+		} else if infoPrintMode && outer != nil && g.instInfoMap[outer.Sym()] != nil {
+			fmt.Printf("Subdict in %v for metho expression %v\n", outer, x)
 		}
 	}
 
@@ -505,31 +526,42 @@ func (g *irgen) getInstantiation(nameNode *ir.Name, targs []*types.Type, isMeth 
 		nameNode.Func.Dcl = nameNode.Func.Inl.Dcl
 	}
 	sym := typecheck.MakeInstName(nameNode.Sym(), targs, isMeth)
-	st := g.target.Stencils[sym]
-	if st == nil {
+	info := g.instInfoMap[sym]
+	if info == nil {
 		// If instantiation doesn't exist yet, create it and add
 		// to the list of decls.
-		st = g.genericSubst(sym, nameNode, targs, isMeth)
+		gfInfo := g.getGfInfo(nameNode)
+		info = &instInfo{
+			gf:           nameNode,
+			gfInfo:       gfInfo,
+			startSubDict: len(targs) + len(gfInfo.derivedTypes),
+			dictLen:      len(targs) + len(gfInfo.derivedTypes) + len(gfInfo.subDictCalls),
+			dictEntryMap: make(map[ir.Node]int),
+		}
+		// genericSubst fills in info.dictParam and info.dictEntryMap.
+		st := g.genericSubst(sym, nameNode, targs, isMeth, info)
 		// This ensures that the linker drops duplicates of this instantiation.
 		// All just works!
 		st.SetDupok(true)
-		g.target.Stencils[sym] = st
+		info.fun = st
+		info.dictAddr = g.getDictionary(sym.Name, nameNode, targs)
+		g.instInfoMap[sym] = info
 		g.target.Decls = append(g.target.Decls, st)
 		if base.Flag.W > 1 {
 			ir.Dump(fmt.Sprintf("\nstenciled %v", st), st)
 		}
 	}
-	return st, g.getDictionary(sym.Name, nameNode, targs)
+	return info.fun, info.dictAddr
 }
 
 // Struct containing info needed for doing the substitution as we create the
 // instantiation of a generic function with specified type arguments.
 type subster struct {
-	g          *irgen
-	isMethod   bool     // If a method is being instantiated
-	newf       *ir.Func // Func node for the new stenciled function
-	ts         typecheck.Tsubster
-	dictionary *ir.Name // Name of dictionary variable
+	g        *irgen
+	isMethod bool     // If a method is being instantiated
+	newf     *ir.Func // Func node for the new stenciled function
+	ts       typecheck.Tsubster
+	info     *instInfo // Place to put extra info in the instantiation
 }
 
 // genericSubst returns a new function with name newsym. The function is an
@@ -537,8 +569,8 @@ type subster struct {
 // args targs. For a method with a generic receiver, it returns an instantiated
 // function type where the receiver becomes the first parameter. Otherwise the
 // instantiated method would still need to be transformed by later compiler
-// phases.
-func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, targs []*types.Type, isMethod bool) *ir.Func {
+// phases.  genericSubst fills in info.dictParam and info.dictEntryMap.
+func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, targs []*types.Type, isMethod bool, info *instInfo) *ir.Func {
 	var tparams []*types.Type
 	if isMethod {
 		// Get the type params from the method receiver (after skipping
@@ -572,6 +604,7 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, targs []*type
 		g:        g,
 		isMethod: isMethod,
 		newf:     newf,
+		info:     info,
 		ts: typecheck.Tsubster{
 			Tparams: tparams,
 			Targs:   targs,
@@ -581,13 +614,7 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, targs []*type
 
 	newf.Dcl = make([]*ir.Name, 0, len(gf.Dcl)+1)
 
-	// Replace the types in the function signature.
-	// Ugly: also, we have to insert the Name nodes of the parameters/results into
-	// the function type. The current function type has no Nname fields set,
-	// because it came via conversion from the types2 type.
-	oldt := nameNode.Type()
-	// We also transform a generic method type to the corresponding
-	// instantiated function type where the dictionary is the first parameter.
+	// Create the needed dictionary param
 	dictionarySym := newsym.Pkg.Lookup(".dict")
 	dictionaryType := types.Types[types.TUINTPTR]
 	dictionaryName := ir.NewNameAt(gf.Pos(), dictionarySym)
@@ -603,11 +630,21 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, targs []*type
 	}
 	dictionaryArg := types.NewField(gf.Pos(), dictionarySym, dictionaryType)
 	dictionaryArg.Nname = dictionaryName
-	subst.dictionary = dictionaryName
+	info.dictParam = dictionaryName
+
+	// We add the dictionary as the first parameter in the function signature.
+	// We also transform a method type to the corresponding function type
+	// (make the receiver be the next parameter after the dictionary).
+	oldt := nameNode.Type()
 	var args []*types.Field
 	args = append(args, dictionaryArg)
 	args = append(args, oldt.Recvs().FieldSlice()...)
 	args = append(args, oldt.Params().FieldSlice()...)
+
+	// Replace the types in the function signature via subst.fields.
+	// Ugly: also, we have to insert the Name nodes of the parameters/results into
+	// the function type. The current function type has no Nname fields set,
+	// because it came via conversion from the types2 type.
 	newt := types.NewSignature(oldt.Pkg(), nil, nil,
 		subst.fields(ir.PPARAM, args, newf.Dcl),
 		subst.fields(ir.PPARAMOUT, oldt.Results().FieldSlice(), newf.Dcl))
@@ -687,6 +724,26 @@ func (g *irgen) checkDictionary(name *ir.Name, targs []*types.Type) (code []ir.N
 	return
 }
 
+// getDictionaryEntry gets the i'th entry in the dictionary dict.
+func getDictionaryEntry(pos src.XPos, dict *ir.Name, i int, size int) ir.Node {
+	// Convert dictionary to *[N]uintptr
+	// All entries in the dictionary are pointers. They all point to static data, though, so we
+	// treat them as uintptrs so the GC doesn't need to keep track of them.
+	d := ir.NewConvExpr(pos, ir.OCONVNOP, types.Types[types.TUNSAFEPTR], dict)
+	d.SetTypecheck(1)
+	d = ir.NewConvExpr(pos, ir.OCONVNOP, types.NewArray(types.Types[types.TUINTPTR], int64(size)).PtrTo(), d)
+	d.SetTypecheck(1)
+
+	// Load entry i out of the dictionary.
+	deref := ir.NewStarExpr(pos, d)
+	typed(d.Type().Elem(), deref)
+	idx := ir.NewConstExpr(constant.MakeUint64(uint64(i)), dict) // TODO: what to set orig to?
+	typed(types.Types[types.TUINTPTR], idx)
+	r := ir.NewIndexExpr(pos, deref, idx)
+	typed(types.Types[types.TUINTPTR], r)
+	return r
+}
+
 // getDictionaryType returns a *runtime._type from the dictionary corresponding to the input type.
 // The input type must be a type parameter (TODO: or a local derived type).
 func (subst *subster) getDictionaryType(pos src.XPos, t *types.Type) ir.Node {
@@ -701,21 +758,10 @@ func (subst *subster) getDictionaryType(pos src.XPos, t *types.Type) ir.Node {
 		base.Fatalf(fmt.Sprintf("couldn't find type param %+v", t))
 	}
 
-	// Convert dictionary to *[N]uintptr
-	// All entries in the dictionary are pointers. They all point to static data, though, so we
-	// treat them as uintptrs so the GC doesn't need to keep track of them.
-	d := ir.NewConvExpr(pos, ir.OCONVNOP, types.Types[types.TUNSAFEPTR], subst.dictionary)
-	d.SetTypecheck(1)
-	d = ir.NewConvExpr(pos, ir.OCONVNOP, types.NewArray(types.Types[types.TUINTPTR], int64(len(tparams))).PtrTo(), d)
-	d.SetTypecheck(1)
-
-	// Load entry i out of the dictionary.
-	deref := ir.NewStarExpr(pos, d)
-	typed(d.Type().Elem(), deref)
-	idx := ir.NewConstExpr(constant.MakeUint64(uint64(i)), subst.dictionary) // TODO: what to set orig to?
-	typed(types.Types[types.TUINTPTR], idx)
-	r := ir.NewIndexExpr(pos, deref, idx)
-	typed(types.Types[types.TUINT8].PtrTo(), r) // standard typing of a *runtime._type in the compiler is *byte
+	r := getDictionaryEntry(pos, subst.info.dictParam, i, len(tparams))
+	// change type of retrieved dictionary entry to *byte, which is the
+	// standard typing of a *runtime._type in the compiler
+	typed(types.Types[types.TUINT8].PtrTo(), r)
 	return r
 }
 
@@ -760,6 +806,17 @@ func (subst *subster) node(n ir.Node) ir.Node {
 				m.SetType(subst.ts.Typ(x.Type()))
 			}
 		}
+
+		for i, de := range subst.info.gfInfo.subDictCalls {
+			if de == x {
+				// Remember the dictionary entry associated with this
+				// node in the instantiated function
+				// TODO: make sure correct wrt transformations below.
+				subst.info.dictEntryMap[m] = subst.info.startSubDict + i
+				break
+			}
+		}
+
 		ir.EditChildren(m, edit)
 
 		m.SetTypecheck(1)

@@ -100,9 +100,27 @@ func check2(noders []*noder) {
 type gfInfo struct {
 	tparams      []*types.Type
 	derivedTypes []*types.Type
-	// Node in generic function that requires a subdictionary. Some of these
-	// are not function/method values (not strictly calls).
+	// Nodes in generic function that requires a subdictionary. Some of these
+	// are function/method values (not strictly calls). Includes OFUNCINST,
+	// OCALL, OXDOT, and OCLOSURE nodes.
 	subDictCalls []ir.Node
+}
+
+// instInfo is information gathered on an gcshape (or fully concrete)
+// instantiation of a function.
+type instInfo struct {
+	fun       *ir.Func // The instantiated function (with body)
+	dictParam *ir.Name // The node inside fun that refers to the dictionary param
+	dictAddr  ir.Node  // Addr of static dictionary, only useful if targs are concrete
+
+	gf     *ir.Name // The associated generic function
+	gfInfo *gfInfo
+
+	startSubDict int // Start of dict entries for subdictionaries
+	dictLen      int // Total number of entries in dictionary
+
+	// Map from nodes in fun to the associated dictionary entry for a sub-dictionary
+	dictEntryMap map[ir.Node]int
 }
 
 type irgen struct {
@@ -123,6 +141,11 @@ type irgen struct {
 	// Map from generic function to information about its type params, derived
 	// types, and subdictionaries.
 	gfInfoMap map[*types.Sym]*gfInfo
+
+	// Map from a name of function that been instantiated to information about
+	// its instantiated function, associated generic function/method, and the
+	// mapping from IR nodes to dictionary entries.
+	instInfoMap map[*types.Sym]*instInfo
 }
 
 func (g *irgen) generate(noders []*noder) {
