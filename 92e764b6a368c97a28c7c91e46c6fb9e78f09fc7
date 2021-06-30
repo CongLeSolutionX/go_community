@@ -59,6 +59,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b9c80cf_17effe33",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Should this check be specific to m? (This may be another case where it would help to maintain an invariant that MainModules.Size() \u003d\u003d 0 when there is no main module.)",
+      "range": {
+        "startLine": 227,
+        "startChar": 5,
+        "endLine": 227,
+        "endChar": 17
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f9ed09c_ed04184c",
         "filename": "src/cmd/go/internal/modload/buildlist.go",
         "patchSetId": 18
@@ -121,6 +144,115 @@
         "startChar": 0,
         "endLine": 528,
         "endChar": 40
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bc9094c_479569c8",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Contains?",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 55
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88414854_abad7985",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Contains?",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 221,
+        "endChar": 54
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc764082_26a87cde",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "v !\u003d \"none\" \u0026\u0026 !MainModules.Contains(Target.Path)",
+      "range": {
+        "startLine": 321,
+        "startChar": 5,
+        "endLine": 321,
+        "endChar": 67
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c9e3b09_248c9db9",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "!MainModules.Contains(path)",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b53d61b3_def9aa00",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "AFAICT editRequirements would need a lot more work to handle workspace mode — I think we would need to edit each target module individually?\n\nBut in that case, I think the reasoning here would change: the versionLimiter would be limiting the dependencies of a specific target module (whose dependencies would still be tautological). The other main modules would still be skipped — not because their dependencies are tautological, but because those versions of those modules don\u0027t exist at all outside of the workspace.",
+      "range": {
+        "startLine": 500,
+        "startChar": 0,
+        "endLine": 501,
+        "endChar": 18
       },
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -241,6 +373,29 @@
         "startChar": 0,
         "endLine": 83,
         "endChar": 10
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f94646a8_20d85724",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "I\u0027m a little confused by this method. It seems like a version of Contains that also returns `module.Version{Path: path}` if true?\n\nBut I wonder if I\u0027m missing something. Is it possible for mmvs.versions to containing a module.Version with a non-empty Version field? (I was assuming not...)",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 1
       },
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -414,6 +569,200 @@
         "endLine": 1090,
         "endChar": 81
       },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d1f0685_e530f423",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "I think the return here may be problematic. If there are multiple main modules and one\u0027s filesystem path is a prefix of the other (as in the case of modules nested within a repository), we may return a *PackageNotInModuleError after checking the first module when we should have instead checked the second one.",
+      "range": {
+        "startLine": 529,
+        "startChar": 4,
+        "endLine": 531,
+        "endChar": 4
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e1bf9d0_a638c89d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Stray debug log?",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30c2bc9_8a487f87",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "FWIW, I think there is an existing bug here: DirImportPath with spuriously report a path for a package within a nested module.\n\nI did some quick testing and couldn\u0027t reproduce a case where that causes a spurious success, but it does lead to some pretty crazy (and confusing) error messages.\n\nMight be worth fixing the bug in a separate (earlier) CL, just to get a more solid baseline.\n\n\n$ go version\ngo version devel go1.17-d19a53338 Wed Jun 30 02:00:49 2021 +0000 linux/amd64\n\n$ go list $(pwd)/binary\nmain module (encoding) does not contain package encoding/binary\n\n-- go.mod --\nmodule encoding\n\ngo 1.17\n-- binary/go.mod --\n-- binary/binary.go --\npackage binary",
+      "range": {
+        "startLine": 669,
+        "startChar": 0,
+        "endLine": 670,
+        "endChar": 27
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "306eb613_3f7024a9",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Sadly, no.\n\nIt\u0027s true today if both modules are in the same repository, but that will no longer hold once #34055 is implemented. But it\u0027s not even true today if the modules happen to come from different repos, merged into one big import-path tree using `go-import` directives.\n\nConsider:\n\n-- m/go.work --\ngo 1.17\ndirectory (\n\t.   // example.com/m\n\t./x // example.com/x\n)\t\n-- m/go.mod --\nmodule example.com/m\n-- m/x/go.mod --\nmodule example.com/x",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6155215d_77c0ce3f",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "(incomplete comment)",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "936ebb6f_bb460f46",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Maybe:\n\treturn !MainModules.Contains(pkg.mod.Path)\n?\n\nBut I think we need a different function here. fromExternalModule is used in updateRequirements to diagnose when a direct dependency is missing from the main module\u0027s go.mod file. In a multi-module workspace, that implies that we should check whether a package imported within module m is listed in m/go.mod specifically — not just *any* go.mod file that happens to be in the workspace.",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a877aba_82c77685",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1458,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Yes, this is consistent with the definition of \"all\" in the design doc:\n\n\u003e The `all` pattern in workspace mode resolves to the union of `all` for over the set of workspace modules. `all` is the set of packages needed to build and test packages in the workspace modules.\n\n(That said, we may need to refine the behavior here for `go mod tidy`, depending on where we land with the exact semantics for that.)",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfae44c8_af34e6c9",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1725,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Is this equivalent to:\n\t!ld.VendorModulesInGOROOTSrc || !MainModules.Contains(\"cmd\")\n?",
+      "range": {
+        "startLine": 1725,
+        "startChar": 5,
+        "endLine": 1725,
+        "endChar": 85
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f83f0057_f0a592b2",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Contains?",
+      "range": {
+        "startLine": 1732,
+        "startChar": 32,
+        "endLine": 1732,
+        "endChar": 47
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fff492b5_ea09f481",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:42:15Z",
+      "side": 1,
+      "message": "Hmm. This implies that every prefix of base is *a* main module, but it is not necessarily the case that *every* main module is a prefix of base.\n\nThe error should list only the subset of main modules that are prefixes of base.",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
