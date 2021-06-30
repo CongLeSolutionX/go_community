@@ -59,6 +59,92 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a68386e9_0056cfa3",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T22:01:02Z",
+      "side": 1,
+      "message": "panic(modload.TODOWorkspaces(…))?",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2cd1371_1f3220e4",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T22:01:02Z",
+      "side": 1,
+      "message": "Contains?",
+      "range": {
+        "startLine": 393,
+        "startChar": 7,
+        "endLine": 393,
+        "endChar": 73
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "641483d4_8f27b6b3",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T22:01:02Z",
+      "side": 1,
+      "message": "The existing comment for pkgMods says “only one such module can be in the build list, and all others must be excluded”.\n\nIf we were to start supporting multiple modules in `go get`, I think we would want to match each local pattern only in the module containing the root of that pattern, in which case I think `pkgMods: []module.Version{mainModule}` would more clearly express the correct pathSet.",
+      "range": {
+        "startLine": 744,
+        "startChar": 18,
+        "endLine": 744,
+        "endChar": 25
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33108b00_da0d5afd",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1781,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T22:01:02Z",
+      "side": 1,
+      "message": "Contains?",
+      "range": {
+        "startLine": 1781,
+        "startChar": 5,
+        "endLine": 1781,
+        "endChar": 62
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b9c80cf_17effe33",
         "filename": "src/cmd/go/internal/modload/build.go",
         "patchSetId": 18
