@@ -765,6 +765,46 @@
       "message": "Hmm. This implies that every prefix of base is *a* main module, but it is not necessarily the case that *every* main module is a prefix of base.\n\nThe error should list only the subset of main modules that are prefixes of base.",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31f12e22_901e4fe4",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:49:12Z",
+      "side": 1,
+      "message": "I don\u0027t really understand the semantics of Req with multiple targets.\n\nThe Req function exists in order to compute updated requirements when we need to write a go.mod file, but if we\u0027re passing in a list of multiple targets, we won\u0027t know which one to update.\n\nI think if we end up calling Req with more than one target, that may be a sign that something has gone wrong on the caller side.",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 88
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e889306_ddea4582",
+        "filename": "src/cmd/go/testdata/script/modfile_flag.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T21:49:12Z",
+      "side": 1,
+      "message": "Maybe send this fix as a separate CL? 😅",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
