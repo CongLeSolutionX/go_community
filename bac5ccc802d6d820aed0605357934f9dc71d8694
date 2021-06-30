@@ -209,6 +209,30 @@
       },
       "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ca05c7b_a1c4ccfd",
+        "filename": "src/internal/cpu/cpu_arm64_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-06-30T05:18:12Z",
+      "side": 1,
+      "message": "no worries. we all learn while working on these. thanks for your contribution. I abandon this change for now as it doesnt seem needed yet.",
+      "parentUuid": "8459f75c_c4a37da6",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "bac5ccc802d6d820aed0605357934f9dc71d8694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
