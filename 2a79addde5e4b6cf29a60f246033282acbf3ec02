@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a455fc8_5c52538c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T18:15:19Z",
+      "side": 1,
+      "message": "LGTM. (Ok to submit after addressing the comment.)",
+      "revId": "2a79addde5e4b6cf29a60f246033282acbf3ec02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60f2716c_d115625b",
@@ -75,6 +92,30 @@
       "side": 1,
       "message": "That program (tweaked for darwin to use Atimespec instead of Atime, etc) yields:\n\n\n\u003d\u003d\u003d RUN   TestSymlinkTimestamps\n    x_test.go:12: time.Now() \u003d 2021-06-30 11:06:22.194297 -0700 PDT m\u003d+0.000388029\n    x_test.go:19: Mkdir(\"/var/folders/1t/n61cbvls5bl293bbb0zyypqw0000gn/T/TestSymlinkTimestamps415840149/001/a\")\n    x_test.go:25: Symlink(\"/var/folders/1t/n61cbvls5bl293bbb0zyypqw0000gn/T/TestSymlinkTimestamps415840149/001/a\", \"/var/folders/1t/n61cbvls5bl293bbb0zyypqw0000gn/T/TestSymlinkTimestamps415840149/001/b\")\n    x_test.go:31: b.ModTime() \u003d 2021-06-30 11:06:22.19479001 -0700 PDT\n    x_test.go:38: Accessed: 2021-06-30 11:06:22.19479001 -0700 PDT\n    x_test.go:39: Modified: 2021-06-30 11:06:22.19479001 -0700 PDT\n    x_test.go:40: Created:  2021-06-30 11:06:22.19479001 -0700 PDT\n--- PASS: TestSymlinkTimestamps (0.00s)\nPASS\nok  \tcommand-line-arguments\t0.104s\n\n\nAs to your questions, I don\u0027t know, and at the moment, I\u0027m not super motivated to dig too deeply. I have other pressing work, I want all.bash to pass reliably, and this is in the way.\n\nI\u0027d be happy to call Skip instead and switch this to an Updates instead of Fixes. Given that this skip is conditional on the flake actually occurring, we\u0027ll still get code coverage most of the time.",
       "parentUuid": "60f2716c_d115625b",
+      "range": {
+        "startLine": 1474,
+        "startChar": 0,
+        "endLine": 1476,
+        "endChar": 64
+      },
+      "revId": "2a79addde5e4b6cf29a60f246033282acbf3ec02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4436fb91_86a3e19b",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-06-30T18:15:19Z",
+      "side": 1,
+      "message": "\u003e As to your questions, I don\u0027t know, and at the moment, I\u0027m not super motivated to dig too deeply. I have other pressing work, I want all.bash to pass reliably, and this is in the way.\n\nFair enough! It\u0027s certainly an incremental improvement, at least.\n\n\u003e I\u0027d be happy to call Skip instead and switch this to an Updates instead of Fixes. Given that this skip is conditional on the flake actually occurring, we\u0027ll still get code coverage most of the time.\n\ns/Fixes/Updates/ and switching to testenv.SkipFlaky(t, 37910) in case of ErrNotExist SGTM.",
+      "parentUuid": "98f6c2a7_3b3cdb54",
       "range": {
         "startLine": 1474,
         "startChar": 0,
