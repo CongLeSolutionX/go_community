@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c44354d8_674c83df",
+        "filename": "src/cmd/compile/internal/types2/interface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-30T18:12:21Z",
+      "side": 1,
+      "message": "Comment phrasing is not ideal. Rephrased.",
+      "parentUuid": "7b7c35f6_4505d417",
+      "range": {
+        "startLine": 98,
+        "startChar": 1,
+        "endLine": 98,
+        "endChar": 75
+      },
+      "revId": "22498fc13bf567a9bbe3fa2c9991061802db2810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fb172b6_6140799d",
@@ -91,6 +115,30 @@
       "writtenOn": "2021-06-30T14:53:50Z",
       "side": 1,
       "message": "The name and signature of this function are confusing to me at first.\n\nSince this mutates ityp, it feels like it should be a method on *Interface. Maybe Interface.computeTypeSet(*Checker, syntax.Pos)",
+      "range": {
+        "startLine": 127,
+        "startChar": 5,
+        "endLine": 127,
+        "endChar": 15
+      },
+      "revId": "22498fc13bf567a9bbe3fa2c9991061802db2810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5556f275_0b3ea05e",
+        "filename": "src/cmd/compile/internal/types2/interface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-30T18:12:21Z",
+      "side": 1,
+      "message": "ACK. I like to address this in a separate CL (on top of the stack of pending CLs) to avoid unnecessary rebase conflicts.",
+      "parentUuid": "2fb172b6_6140799d",
       "range": {
         "startLine": 127,
         "startChar": 5,
@@ -126,6 +174,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c75b50d9_7986729e",
+        "filename": "src/cmd/compile/internal/types2/interface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-30T18:12:21Z",
+      "side": 1,
+      "message": "Yes, that might be an option. We should only report an error if no other error came up at all to avoid follow-on errors.\n\nI added a TODO.",
+      "parentUuid": "8fde0463_c3fab1a1",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 2
+      },
+      "revId": "22498fc13bf567a9bbe3fa2c9991061802db2810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9e54c2d6_355254a6",
         "filename": "src/cmd/compile/internal/types2/sanitize.go",
         "patchSetId": 5
@@ -137,6 +209,30 @@
       "writtenOn": "2021-06-30T14:53:50Z",
       "side": 1,
       "message": "We\u0027ll eliminate sanitization, I hope!",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 115,
+        "endChar": 48
+      },
+      "revId": "22498fc13bf567a9bbe3fa2c9991061802db2810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea0a0972_b81061fe",
+        "filename": "src/cmd/compile/internal/types2/sanitize.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-30T18:12:21Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "9e54c2d6_355254a6",
       "range": {
         "startLine": 115,
         "startChar": 15,
@@ -170,6 +266,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b50e6cda_c7866485",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-30T18:12:21Z",
+      "side": 1,
+      "message": "Yes, this would save a word of space. Will do in a follow-up CL.",
+      "parentUuid": "429eb9d7_76063624",
+      "range": {
+        "startLine": 267,
+        "startChar": 11,
+        "endLine": 267,
+        "endChar": 17
+      },
+      "revId": "22498fc13bf567a9bbe3fa2c9991061802db2810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a25200e5_5a3b0375",
@@ -183,6 +303,30 @@
       "writtenOn": "2021-06-30T14:53:50Z",
       "side": 1,
       "message": "Why is this even necessary? If we never access the type set, we can save work by not computing it here.",
+      "range": {
+        "startLine": 396,
+        "startChar": 1,
+        "endLine": 396,
+        "endChar": 12
+      },
+      "revId": "22498fc13bf567a9bbe3fa2c9991061802db2810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7316be07_14c53d4a",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-06-30T18:12:21Z",
+      "side": 1,
+      "message": "We still have some tests that call Complete explicitly and which expect the interface type string to change accordingly (not print /* incomplete */).\nAdded a comment to that effect.",
+      "parentUuid": "a25200e5_5a3b0375",
       "range": {
         "startLine": 396,
         "startChar": 1,
