@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08e9b0ea_74f82673",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-30T00:30:28Z",
+      "side": 1,
+      "message": "Thanks for the review!  Let me know if it\u0027s OK for a +2.  (i.e. makes sense to check in now).",
+      "revId": "7b90d1ee3b1d5ed9f3d984b83568feef1db202ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

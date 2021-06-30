@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f0b628_e8e77d84",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-30T00:30:28Z",
+      "side": 1,
+      "message": "OK, I passed the sym of the associated field (if any) down to accumGcshape, so we could use that to name blanks fields differently in the gcshape.  (I\u0027m guessing we want to give them the same blank name - anything else?)",
+      "parentUuid": "d1b8b5e5_944fb43b",
+      "revId": "2b987bf826ead5d35239084340c316503dd8cb86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "321b4824_9ceb77c4",
@@ -106,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2847233e_02c935e9",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-30T00:30:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "321b4824_9ceb77c4",
+      "revId": "2b987bf826ead5d35239084340c316503dd8cb86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bc3fb97_dc44ad29",
@@ -119,6 +155,30 @@
       "writtenOn": "2021-06-29T22:22:32Z",
       "side": 1,
       "message": "I was envisioning shape types living in a global package, because two types in different packages can have the same shape. Not sure it really matters, though, as shape types are kinda hidden.",
+      "range": {
+        "startLine": 673,
+        "startChar": 28,
+        "endLine": 673,
+        "endChar": 42
+      },
+      "revId": "2b987bf826ead5d35239084340c316503dd8cb86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ab9736f_f5614190",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-30T00:30:28Z",
+      "side": 1,
+      "message": "Added a TODO to decide.  They should probably at least be in the source package of the function being instantiated, but we can adjust as we use them.",
+      "parentUuid": "1bc3fb97_dc44ad29",
       "range": {
         "startLine": 673,
         "startChar": 28,
