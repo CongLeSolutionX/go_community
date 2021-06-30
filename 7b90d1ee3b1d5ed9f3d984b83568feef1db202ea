@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f639466a_d462e1fe",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-30T19:50:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c446cc4_4f12c9c6",
+      "revId": "7b90d1ee3b1d5ed9f3d984b83568feef1db202ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0412a65c_894047a7",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-06-30T15:04:07Z",
       "side": 1,
       "message": "You could assert here that gcshape.Size() \u003d\u003d t.Size(), and maybe also do that for the ptr/nonptr bitmap somehow?",
+      "revId": "7b90d1ee3b1d5ed9f3d984b83568feef1db202ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb8a80a_9d17e87c",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-06-30T19:50:43Z",
+      "side": 1,
+      "message": "Added the assert and that was fine.  I\u0027ll leave the pointer check for later.",
+      "parentUuid": "0412a65c_894047a7",
       "revId": "7b90d1ee3b1d5ed9f3d984b83568feef1db202ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
