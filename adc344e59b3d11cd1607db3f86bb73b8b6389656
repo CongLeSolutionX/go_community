@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd48fc37_5927cd2f",
+        "filename": "src/cmd/compile/internal/noder/reader2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-30T03:49:23Z",
+      "side": 1,
+      "message": "Thanks, simplified.",
+      "parentUuid": "c93dcc5f_2340a918",
+      "range": {
+        "startLine": 237,
+        "startChar": 2,
+        "endLine": 237,
+        "endChar": 35
+      },
+      "revId": "adc344e59b3d11cd1607db3f86bb73b8b6389656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da83adf4_552bcd0a",
@@ -93,6 +117,30 @@
       "writtenOn": "2021-06-30T03:22:28Z",
       "side": 1,
       "message": "nit: maybe flip to (int, bool) for more idiom.",
+      "range": {
+        "startLine": 219,
+        "startChar": 63,
+        "endLine": 219,
+        "endChar": 74
+      },
+      "revId": "adc344e59b3d11cd1607db3f86bb73b8b6389656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a44caf4_3d0f1fcc",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-06-30T03:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da83adf4_552bcd0a",
       "range": {
         "startLine": 219,
         "startChar": 63,
