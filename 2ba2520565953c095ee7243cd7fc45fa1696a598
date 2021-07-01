@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fcafc44_3a037990",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-01T19:27:13Z",
+      "side": 1,
+      "message": "Marking temporary -2 pending proposal.",
+      "revId": "2ba2520565953c095ee7243cd7fc45fa1696a598",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
