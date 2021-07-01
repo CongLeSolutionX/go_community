@@ -52,6 +52,24 @@
       "parentUuid": "fdb9608b_f774305a",
       "revId": "23ffb5b9ae9e6e313df648d8bf6ab7b8f5ff0cf1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce346b0d_7a74c560",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-07-01T05:41:27Z",
+      "side": 0,
+      "message": "@Cherry.I still think the behavior of assembler mentioned above is incorrect and unacceptable? According to ARMv8 reference, MOVK moves an optionally-shifted 16-bit immediate value into a register, keeping other bits unchanged. \n\nWhat do you think? Thank you.",
+      "parentUuid": "5a3bdcd1_3769cb51",
+      "revId": "23ffb5b9ae9e6e313df648d8bf6ab7b8f5ff0cf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
