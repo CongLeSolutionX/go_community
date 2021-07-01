@@ -13,6 +13,7 @@ package url
 import (
 	"errors"
 	"fmt"
+	"path"
 	"sort"
 	"strconv"
 	"strings"
@@ -1241,4 +1242,20 @@ func stringContainsCTLByte(s string) bool {
 		}
 	}
 	return false
+}
+
+// Join  concatenates baseUrl and the elements
+// - check baseUrl format
+// - concatenates baseUrl and the elements
+func Join(baseUrl string, elem ...string) (result string, err error) {
+	url, err := Parse(baseUrl)
+	if err != nil {
+		return
+	}
+	if len(elem) > 0 {
+		elem = append([]string{url.Path}, elem...)
+		url.Path = path.Join(elem...)
+	}
+	result = url.String()
+	return
 }

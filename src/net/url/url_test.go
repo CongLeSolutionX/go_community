@@ -2068,3 +2068,74 @@ func BenchmarkSplit(b *testing.B) {
 		sink, sink = split(url, '#', true)
 	}
 }
+
+func TestJoin(t *testing.T) {
+	type args struct {
+		baseUrl string
+		elem    []string
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantResult string
+		wantErr    bool
+	}{
+		{
+			name: "test normal url",
+			args: args{
+				baseUrl: "https://go.googlesource.com",
+				elem:    []string{"go"},
+			},
+			wantResult: "https://go.googlesource.com/go",
+			wantErr:    false,
+		},
+		{
+			name: "test .. parent url",
+			args: args{
+				baseUrl: "https://go.googlesource.com/a/b/c",
+				elem:    []string{"../../../go"},
+			},
+			wantResult: "https://go.googlesource.com/go",
+			wantErr:    false,
+		},
+		{
+			name: "test . cul path",
+			args: args{
+				baseUrl: "https://go.googlesource.com/",
+				elem:    []string{"./go"},
+			},
+			wantResult: "https://go.googlesource.com/go",
+			wantErr:    false,
+		},
+		{
+			name: "test multiple Separator",
+			args: args{
+				baseUrl: "https://go.googlesource.com//",
+				elem:    []string{"/go"},
+			},
+			wantResult: "https://go.googlesource.com/go",
+			wantErr:    false,
+		},
+		{
+			name: "test more elems",
+			args: args{
+				baseUrl: "https://go.googlesource.com//",
+				elem:    []string{"/go", "a", "b", "c"},
+			},
+			wantResult: "https://go.googlesource.com/go/a/b/c",
+			wantErr:    false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotResult, err := Join(tt.args.baseUrl, tt.args.elem...)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Join() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if gotResult != tt.wantResult {
+				t.Errorf("Join() = %v, want %v", gotResult, tt.wantResult)
+			}
+		})
+	}
+}
