@@ -53,6 +53,24 @@
       "message": "Thanks. It\u0027s nice to know this works, but let\u0027s hold off on it for now.\n\nI think the next step should be to change reader.stmts to always return a typechecked slice. I\u0027m currently trying to figure out how to make that pass toolstash -cmp. I feel like I\u0027m close to a solution there.",
       "revId": "863acd57521b2c841af8d887534cdfd60e643358",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9dadf14_0b763bc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-07-01T18:44:03Z",
+      "side": 1,
+      "message": "Nice to hear that. I’m actually failed to make that work before I end up mail this CL (as it’s end of my time for the day)",
+      "parentUuid": "8a106813_f009f725",
+      "revId": "863acd57521b2c841af8d887534cdfd60e643358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
