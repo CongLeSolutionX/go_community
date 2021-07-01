@@ -1061,9 +1061,9 @@ func (r *reader) stmt() ir.Node {
 	case 0:
 		return nil
 	case 1:
-		return stmts[0]
+		return typecheck.Stmt(stmts[0])
 	default:
-		return ir.NewBlockStmt(stmts[0].Pos(), stmts)
+		return typecheck.Stmt(ir.NewBlockStmt(stmts[0].Pos(), stmts))
 	}
 }
 
