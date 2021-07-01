@@ -45,3 +45,5 @@ pkg testing, type InternalFuzzTarget struct
 pkg testing, type InternalFuzzTarget struct, Fn func(*F)
 pkg testing, type InternalFuzzTarget struct, Name string
 pkg net/http, method (*Cookie) Valid() error
+pkg net/url, func JoinPath(string, ...string) (string, error)
+pkg net/url, method (*URL) JoinPath(...string) *URL
