@@ -2206,6 +2206,7 @@ var g3Failures = setOf(
 	"fixedbugs/issue20174.go", // ICE due to width not calculated (probably irgen's fault)
 	"fixedbugs/issue20250.go", // correct diagnostics, but different lines (probably irgen's fault)
 	"fixedbugs/issue21709.go",
+	"fixedbugs/issue30862.go", // //go:nointerface directive doesn't work
 	"fixedbugs/issue31573.go",
 	"fixedbugs/issue37837.go",
 	"fixedbugs/issue39292.go",
@@ -2226,6 +2227,7 @@ var g3Failures = setOf(
 	"typeparam/mdempsky/12.go",
 	"typeparam/mdempsky/13.go",
 	"typeparam/mdempsky/14.go",
+	"typeparam/mdempsky/15.go", // ICE in (*irgen).buildClosure
 )
 
 var unifiedFailures = setOf(
