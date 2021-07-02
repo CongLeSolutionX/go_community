@@ -155,6 +155,11 @@ type _ struct {
 	List /* ERROR List redeclared */ [int]
 }
 
+// Function-local generic type declarations are not permitted.
+func _() {
+	type _ /* ERROR cannot declare generic type inside a function */ [T any] []T
+}
+
 // It's possible to declare local types whose underlying types
 // are type parameters. As with ordinary type definitions, the
 // types underlying properties are "inherited" but the methods

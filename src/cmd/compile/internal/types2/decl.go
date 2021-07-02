@@ -646,6 +646,11 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *Named
 		def.setUnderlying(named)
 
 		if tdecl.TParamList != nil {
+			// Function local generic type declarations are not permitted.
+			// Complain but accept them.
+			if check.sig != nil {
+				check.error(tdecl, "cannot declare generic type inside a function")
+			}
 			check.openScope(tdecl, "type parameters")
 			defer check.closeScope()
 			named.tparams = check.collectTypeParams(tdecl.TParamList)
