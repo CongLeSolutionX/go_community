@@ -53,6 +53,63 @@
       "message": "OK, this is ready for review now.  We\u0027re actually accessing and using sub-dictionaries now, and all the tests are working.  (There\u0027s one case in absdiff.go that I\u0027m working around for now, marked with TODO.)  Also, I got generic closures working - it came out nicely to share the same dictionary between a function and all its closures.\n\n",
       "revId": "75b02348e76cc02953541b6fca18c30c570e321e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3104b33f_94c2b609",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-02T17:58:35Z",
+      "side": 1,
+      "message": "This field might need a better name, and maybe a better comment.\nThis is the dictionary you should pass in if all of the type parameters are concrete?",
+      "revId": "75b02348e76cc02953541b6fca18c30c570e321e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06686690_baa31c5d",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-02T17:58:35Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this assignment be conditional somehow? Or is that for later?",
+      "range": {
+        "startLine": 766,
+        "startChar": 2,
+        "endLine": 766,
+        "endChar": 15
+      },
+      "revId": "75b02348e76cc02953541b6fca18c30c570e321e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d460647_bcd963c7",
+        "filename": "test/typeparam/subdict.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-02T17:58:35Z",
+      "side": 1,
+      "message": "I don\u0027t think this comment makes any sense here - just copied from dictionaryCapture.go?",
+      "revId": "75b02348e76cc02953541b6fca18c30c570e321e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
