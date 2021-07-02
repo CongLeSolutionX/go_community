@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8fd3eec_c82aebf5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6786,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-07-02T07:04:33Z",
+      "side": 1,
+      "message": "nit: Should \"Slice\" be in \u003ccode\u003e tags?\n\nAlso, shouldn\u0027t we technically say calling Slice or the value returned by Slice are equivalent to the expression below? Slice itself is a function, so it\u0027s not equivalent to a slice expression.\n\nBut see next comment too.",
+      "range": {
+        "startLine": 6786,
+        "startChar": 0,
+        "endLine": 6786,
+        "endChar": 5
+      },
+      "revId": "4a7b108884f666d507eaf70b63f4d3488e51bd57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a74e166_7369418b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6790,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-07-02T07:04:33Z",
+      "side": 1,
+      "message": "FWIW, I originally wrote this expression to unambiguously capture the semantics without requiring any additional English prose.\n\nBut we now have prose explaining what it does, documentation explaining when it can panic and valid arguments, and text identifying when Slice differs from it. The snippet isn\u0027t even actually valid Go code, since `len` is a variable, but array types need a constant length.\n\nIs this expression still adding value? Would it be clearer to just omit it?\n\n\u003e The function Slice returns a slice whose underlying array starts at ptr and whose length and capacity are len. If ptr is nil and len is zero, Slice returns nil.",
+      "revId": "4a7b108884f666d507eaf70b63f4d3488e51bd57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
