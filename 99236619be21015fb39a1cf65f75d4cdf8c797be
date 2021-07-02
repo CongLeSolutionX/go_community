@@ -70,6 +70,24 @@
       "message": "I think it might help future readers if we were clearer here.\n\nused :\u003d gp.stack.hi-gp.sched.sp\nneeded :\u003d max+_StackGuard\nfor free :\u003d newsize - used; free \u003c needed {\n    newsize *\u003d 2\n}",
       "revId": "99236619be21015fb39a1cf65f75d4cdf8c797be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9411a93c_a54d90af",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2021-07-02T01:31:39Z",
+      "side": 1,
+      "message": "Do I need make a change like this?",
+      "parentUuid": "f1b691e0_d3dc77c6",
+      "revId": "99236619be21015fb39a1cf65f75d4cdf8c797be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
