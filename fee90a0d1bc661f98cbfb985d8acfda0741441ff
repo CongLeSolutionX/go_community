@@ -73,6 +73,23 @@
       "parentUuid": "6fb8fdc5_57c24b25",
       "revId": "fee90a0d1bc661f98cbfb985d8acfda0741441ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d69cae5_347ca28d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-07-02T16:01:52Z",
+      "side": 1,
+      "message": "LGTM modulo the test failures, which just need to be updated.",
+      "revId": "fee90a0d1bc661f98cbfb985d8acfda0741441ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
