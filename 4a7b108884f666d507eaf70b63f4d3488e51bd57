@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6857bbf_03141929",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6786,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-02T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8fd3eec_c82aebf5",
+      "range": {
+        "startLine": 6786,
+        "startChar": 0,
+        "endLine": 6786,
+        "endChar": 5
+      },
+      "revId": "4a7b108884f666d507eaf70b63f4d3488e51bd57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a74e166_7369418b",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-07-02T07:04:33Z",
       "side": 1,
       "message": "FWIW, I originally wrote this expression to unambiguously capture the semantics without requiring any additional English prose.\n\nBut we now have prose explaining what it does, documentation explaining when it can panic and valid arguments, and text identifying when Slice differs from it. The snippet isn\u0027t even actually valid Go code, since `len` is a variable, but array types need a constant length.\n\nIs this expression still adding value? Would it be clearer to just omit it?\n\n\u003e The function Slice returns a slice whose underlying array starts at ptr and whose length and capacity are len. If ptr is nil and len is zero, Slice returns nil.",
+      "revId": "4a7b108884f666d507eaf70b63f4d3488e51bd57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73a0a717_d74e2fa8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6790,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-02T16:11:52Z",
+      "side": 1,
+      "message": "I\u0027m happy to go either way.  Anybody else have an opinion?",
+      "parentUuid": "3a74e166_7369418b",
       "revId": "4a7b108884f666d507eaf70b63f4d3488e51bd57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
