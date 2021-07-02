@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7369e69_93c5925a",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-07-02T16:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcba7027_be16c0dc",
+      "revId": "22dabd01cece886a5faffc19bd6317d8d8b9fa9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a19986a5_51194ee2",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-07-02T16:07:06Z",
       "side": 1,
       "message": "Don\u0027t introduce unrelated changes to the file; it makes the revision history confusing.",
+      "revId": "22dabd01cece886a5faffc19bd6317d8d8b9fa9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f238aeab_fe7e6af9",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2513,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-07-02T16:42:52Z",
+      "side": 1,
+      "message": "Done, didn\u0027t notice my editor runs with stricter settings after save",
+      "parentUuid": "a19986a5_51194ee2",
       "revId": "22dabd01cece886a5faffc19bd6317d8d8b9fa9d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
