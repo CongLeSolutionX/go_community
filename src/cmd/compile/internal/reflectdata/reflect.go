@@ -1719,6 +1719,10 @@ func NeedEmit(typ *types.Type) bool {
 	}
 }
 
+func methodWrapper(rcvr *types.Type, method *types.Field, forItab bool) *obj.LSym {
+	return MethodWrapper(rcvr, method, forItab)
+}
+
 // Generate a wrapper function to convert from
 // a receiver of type T to a receiver of type U.
 // That is,
@@ -1751,7 +1755,7 @@ func NeedEmit(typ *types.Type) bool {
 //		.inst.G[int].f(dictionary, *x, arg)
 // 	}
 // These wrappers are always fully stenciled.
-func methodWrapper(rcvr *types.Type, method *types.Field, forItab bool) *obj.LSym {
+var MethodWrapper = func(rcvr *types.Type, method *types.Field, forItab bool) *obj.LSym {
 	orig := rcvr
 	if forItab && !types.IsDirectIface(rcvr) {
 		rcvr = rcvr.PtrTo()

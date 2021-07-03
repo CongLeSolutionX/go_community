@@ -17,6 +17,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/inline"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
@@ -74,6 +75,7 @@ func unified(noders []*noder) {
 
 	if !quirksMode() {
 		writeNewExportFunc = writeNewExport
+		reflectdata.MethodWrapper = unifiedMethodWrapper
 	} else if base.Flag.G != 0 {
 		base.Errorf("cannot use -G and -d=quirksmode together")
 	}

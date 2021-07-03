@@ -163,6 +163,7 @@ func ParseFlags() {
 	Debug.InlFuncsWithClosures = 1
 	if buildcfg.Experiment.Unified {
 		Debug.Unified = 1
+		Debug.UnifiedDicts = 1
 	}
 
 	Debug.Checkptr = -1 // so we can tell whether it is set explicitly
