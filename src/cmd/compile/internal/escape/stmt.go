@@ -29,7 +29,7 @@ func (e *escape) stmt(n ir.Node) {
 
 	switch n.Op() {
 	default:
-		base.Fatalf("unexpected stmt: %v", n)
+		base.Fatalf("unexpected stmt: %+v", n)
 
 	case ir.ODCLCONST, ir.ODCLTYPE, ir.OFALL, ir.OINLMARK:
 		// nop

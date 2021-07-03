@@ -1164,6 +1164,7 @@ func (w *writer) expr(expr syntax.Expr) {
 		assert(ok)
 
 		w.code(exprSelector)
+		w.bool(sel.Kind() == types2.MethodExpr)
 		w.expr(expr.X)
 		w.pos(expr)
 		w.selector(sel.Obj())
