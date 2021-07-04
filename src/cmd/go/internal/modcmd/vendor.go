@@ -128,7 +128,7 @@ func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	for _, m := range vendorMods {
-		line := moduleLine(m, modload.Replacement(m))
+		line := moduleLine(m, modload.Replacement(m).Version)
 		io.WriteString(w, line)
 
 		goVersion := ""

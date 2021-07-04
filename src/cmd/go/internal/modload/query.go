@@ -515,7 +515,7 @@ func QueryPackages(ctx context.Context, pattern, query string, current func(stri
 	if len(pkgMods) == 0 && err == nil {
 		return nil, &PackageNotInModuleError{
 			Mod:         modOnly.Mod,
-			Replacement: Replacement(modOnly.Mod),
+			Replacement: Replacement(modOnly.Mod).Version,
 			Query:       query,
 			Pattern:     pattern,
 		}
@@ -672,7 +672,7 @@ func QueryPattern(ctx context.Context, pattern, query string, current func(strin
 				}
 				return r, &PackageNotInModuleError{
 					Mod:         r.Mod,
-					Replacement: Replacement(r.Mod),
+					Replacement: Replacement(r.Mod).Version,
 					Query:       query,
 					Pattern:     pattern,
 				}
