@@ -513,9 +513,10 @@ func QueryPackages(ctx context.Context, pattern, query string, current func(stri
 	pkgMods, modOnly, err := QueryPattern(ctx, pattern, query, current, allowed)
 
 	if len(pkgMods) == 0 && err == nil {
+		replacement, _ := Replacement(modOnly.Mod)
 		return nil, &PackageNotInModuleError{
 			Mod:         modOnly.Mod,
-			Replacement: Replacement(modOnly.Mod),
+			Replacement: replacement,
 			Query:       query,
 			Pattern:     pattern,
 		}
@@ -670,9 +671,10 @@ func QueryPattern(ctx context.Context, pattern, query string, current func(strin
 				if err := firstError(m); err != nil {
 					return r, err
 				}
+				replacement, _ := Replacement(r.Mod)
 				return r, &PackageNotInModuleError{
 					Mod:         r.Mod,
-					Replacement: Replacement(r.Mod),
+					Replacement: replacement,
 					Query:       query,
 					Pattern:     pattern,
 				}
@@ -1075,7 +1077,7 @@ func (rr *replacementRepo) Stat(rev string) (*modfetch.RevInfo, error) {
 		}
 	}
 
-	if r := Replacement(module.Version{Path: path, Version: v}); r.Path == "" {
+	if r, _ := Replacement(module.Version{Path: path, Version: v}); r.Path == "" {
 		return info, err
 	}
 	return rr.replacementStat(v)

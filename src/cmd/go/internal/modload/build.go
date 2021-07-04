@@ -260,7 +260,7 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 		if m.GoVersion == "" && checksumOk("/go.mod") {
 			// Load the go.mod file to determine the Go version, since it hasn't
 			// already been populated from rawGoVersion.
-			if summary, err := rawGoModSummary(mod); err == nil && summary.goVersion != "" {
+			if summary, err := rawGoModSummary(mod, ""); err == nil && summary.goVersion != "" {
 				m.GoVersion = summary.goVersion
 			}
 		}
@@ -294,7 +294,7 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 		return info
 	}
 
-	r := Replacement(m)
+	r, _ := Replacement(m)
 	if r.Path == "" {
 		if cfg.BuildMod == "vendor" {
 			// It's tempting to fill in the "Dir" field to point within the vendor
@@ -368,7 +368,7 @@ func PackageBuildInfo(path string, deps []string) string {
 			mv = "(devel)"
 		}
 		fmt.Fprintf(&buf, "%s\t%s\t%s", token, m.Path, mv)
-		if r := Replacement(m); r.Path == "" {
+		if r, _ := Replacement(m); r.Path == "" {
 			fmt.Fprintf(&buf, "\t%s\n", modfetch.Sum(m))
 		} else {
 			fmt.Fprintf(&buf, "\n=>\t%s\t%s\t%s\n", r.Path, r.Version, modfetch.Sum(r))

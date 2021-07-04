@@ -1468,7 +1468,8 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 					for prefix := pkg.path; prefix != "."; prefix = path.Dir(prefix) {
 						if v, ok := rs.rootSelected(prefix); ok && v != "none" {
 							m := module.Version{Path: prefix, Version: v}
-							keep[resolveReplacement(m)] = true
+							r, _ := resolveReplacement(m)
+							keep[r] = true
 						}
 					}
 					continue
@@ -1479,7 +1480,8 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 			for prefix := pkg.path; prefix != "."; prefix = path.Dir(prefix) {
 				if v := mg.Selected(prefix); v != "none" {
 					m := module.Version{Path: prefix, Version: v}
-					keep[resolveReplacement(m)] = true
+					r, _ := resolveReplacement(m)
+					keep[r] = true
 				}
 			}
 		}
@@ -1491,7 +1493,7 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 		// Save sums for the root modules (or their replacements), but don't
 		// incur the cost of loading the graph just to find and retain the sums.
 		for _, m := range rs.rootModules {
-			r := resolveReplacement(m)
+			r, _ := resolveReplacement(m)
 			keep[modkey(r)] = true
 			if which == addBuildListZipSums {
 				keep[r] = true
@@ -1504,13 +1506,15 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 				// The requirements from m's go.mod file are present in the module graph,
 				// so they are relevant to the MVS result regardless of whether m was
 				// actually selected.
-				keep[modkey(resolveReplacement(m))] = true
+				r, _ := resolveReplacement(m)
+				keep[modkey(r)] = true
 			}
 		})
 
 		if which == addBuildListZipSums {
 			for _, m := range mg.BuildList() {
-				keep[resolveReplacement(m)] = true
+				r, _ := resolveReplacement(m)
+				keep[r] = true
 			}
 		}
 	}
