@@ -582,13 +582,13 @@ func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) string
 	tryMod := func(m module.Version) (string, bool) {
 		var root string
 		var err error
-		if repl := Replacement(m); repl.Path != "" && repl.Version == "" {
+		if repl := Replacement(m); repl.Path != "" && repl.Version.Version == "" {
 			root = repl.Path
 			if !filepath.IsAbs(root) {
 				root = filepath.Join(ModRoot(), root)
 			}
 		} else if repl.Path != "" {
-			root, err = modfetch.DownloadDir(repl)
+			root, err = modfetch.DownloadDir(repl.Version)
 		} else {
 			root, err = modfetch.DownloadDir(m)
 		}
@@ -1838,8 +1838,8 @@ func (ld *loader) checkMultiplePaths() {
 	firstPath := map[module.Version]string{}
 	for _, mod := range mods {
 		src := resolveReplacement(mod)
-		if prev, ok := firstPath[src]; !ok {
-			firstPath[src] = mod.Path
+		if prev, ok := firstPath[src.Version]; !ok {
+			firstPath[src.Version] = mod.Path
 		} else if prev != mod.Path {
 			ld.errorf("go: %s@%s used for two different module paths (%s and %s)\n", src.Path, src.Version, prev, mod.Path)
 		}
