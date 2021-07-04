@@ -260,7 +260,7 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 		if m.GoVersion == "" && checksumOk("/go.mod") {
 			// Load the go.mod file to determine the Go version, since it hasn't
 			// already been populated from rawGoVersion.
-			if summary, err := rawGoModSummary(mod); err == nil && summary.goVersion != "" {
+			if summary, err := rawGoModSummary(ReplacementModuleVersion{Version: mod}); err == nil && summary.goVersion != "" {
 				m.GoVersion = summary.goVersion
 			}
 		}
@@ -314,12 +314,12 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 	// replacement anyway. See https://golang.org/issue/27859.
 	info.Replace = &modinfo.ModulePublic{
 		Path:    r.Path,
-		Version: r.Version,
+		Version: r.Version.Version,
 	}
 	if v, ok := rawGoVersion.Load(m); ok {
 		info.Replace.GoVersion = v.(string)
 	}
-	if r.Version == "" {
+	if r.Version.Version == "" {
 		if filepath.IsAbs(r.Path) {
 			info.Replace.Dir = r.Path
 		} else {
@@ -371,7 +371,7 @@ func PackageBuildInfo(path string, deps []string) string {
 		if r := Replacement(m); r.Path == "" {
 			fmt.Fprintf(&buf, "\t%s\n", modfetch.Sum(m))
 		} else {
-			fmt.Fprintf(&buf, "\n=>\t%s\t%s\t%s\n", r.Path, r.Version, modfetch.Sum(r))
+			fmt.Fprintf(&buf, "\n=>\t%s\t%s\t%s\n", r.Path, r.Version.Version, modfetch.Sum(r.Version))
 		}
 	}
 
