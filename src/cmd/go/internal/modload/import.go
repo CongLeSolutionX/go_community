@@ -484,7 +484,7 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 			Mod:         mods[0],
 			Query:       "latest",
 			Pattern:     path,
-			Replacement: Replacement(mods[0]),
+			Replacement: Replacement(mods[0]).Version,
 		}
 	}
 
@@ -654,7 +654,7 @@ func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, i
 		return modRoot, true, nil
 	}
 	if r := Replacement(mod); r.Path != "" {
-		if r.Version == "" {
+		if r.Version.Version == "" {
 			dir = r.Path
 			if !filepath.IsAbs(dir) {
 				dir = filepath.Join(ModRoot(), dir)
@@ -676,7 +676,7 @@ func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, i
 			}
 			return dir, true, nil
 		}
-		mod = r
+		mod = r.Version
 	}
 
 	if HasModRoot() && cfg.BuildMod == "readonly" && !inWorkspaceMode() && needSum && !modfetch.HaveSum(mod) {
