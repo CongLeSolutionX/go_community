@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82c9ad26_1eddb148",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-07-05T15:01:42Z",
+      "side": 1,
+      "message": "s/16/17/",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "48d0ca4057b429cb8a80bf89c68a1591d60080bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c08683d_25f594d2",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-07-05T15:01:42Z",
+      "side": 1,
+      "message": "Since you added \u0027the\u0027 before \"local Time\", consider also adding \u0027the\u0027 here before \"given Unix time\". This\u0027ll match the phrasing at https://tip.golang.org/pkg/time/#UnixMicro.",
+      "range": {
+        "startLine": 1138,
+        "startChar": 112,
+        "endLine": 1138,
+        "endChar": 113
+      },
+      "revId": "48d0ca4057b429cb8a80bf89c68a1591d60080bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "672d57a4_c5bb2a41",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-07-05T15:01:42Z",
+      "side": 1,
+      "message": "Time is capitalized here because it refers to the time.Type Go type, so consider wrapping it in a \u003ccode\u003e element too.",
+      "range": {
+        "startLine": 1138,
+        "startChar": 91,
+        "endLine": 1138,
+        "endChar": 95
+      },
+      "revId": "48d0ca4057b429cb8a80bf89c68a1591d60080bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
