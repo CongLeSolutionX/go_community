@@ -682,6 +682,9 @@ func NewPtr(elem *Type) *Type {
 	if elem.HasTParam() {
 		t.SetHasTParam(true)
 	}
+	if TypeHasNoAlg(elem) {
+		t.SetNoalg(true)
+	}
 	return t
 }
 
