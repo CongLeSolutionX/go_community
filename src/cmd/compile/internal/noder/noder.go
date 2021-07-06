@@ -134,7 +134,6 @@ func LoadPackage(filenames []string) {
 	// Phase 3: Type check function bodies.
 	// Don't use range--typecheck can add closures to Target.Decls.
 	base.Timer.Start("fe", "typecheck", "func")
-	var fcount int64
 	for i := 0; i < len(typecheck.Target.Decls); i++ {
 		n := typecheck.Target.Decls[i]
 		if n.Op() == ir.ODCLFUNC {
@@ -147,7 +146,6 @@ func LoadPackage(filenames []string) {
 				s := fmt.Sprintf("\nafter typecheck %v", n)
 				ir.Dump(s, n)
 			}
-			fcount++
 		}
 	}
 
