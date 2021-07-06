@@ -107,6 +107,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2986a44d_5446fc06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2021-07-06T05:00:29Z",
+      "side": 1,
+      "message": "I have rebased the changeset but I\u0027m unable to submit it with `git codereview mail`, likely because I\u0027m not an author on the changeset? This is basically my first time using gerrit and friends, so I easily could have simply done it wrong. \n\nI don\u0027t see a way to upload a diff, so the output from `git codereview mail -diff` is at https://gist.github.com/evanphx/da7193a9301e2b16e32cb484ee5243e4.",
+      "revId": "d9417f09dfca211ee710bba5c9582c7a78a12610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c03d1022_360c1825",
