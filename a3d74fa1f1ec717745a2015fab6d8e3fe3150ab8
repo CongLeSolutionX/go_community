@@ -53,6 +53,24 @@
       "message": "This fixes bug 8.go in #46704 - I hadn\u0027t got around properly supporting/importing/exporting comparable in types1/types2.\n\nI think this is the way we want to do it, treat it as a builtin like \u0027error\u0027, etc.  But should it somehow be conditional on 1.18?\n",
       "revId": "a3d74fa1f1ec717745a2015fab6d8e3fe3150ab8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57467c86_47c40e23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-07T17:13:46Z",
+      "side": 1,
+      "message": "In types2, comparable is always in the Universe scope, but only _accessible_ if -lang is Go1.18.",
+      "parentUuid": "595e7dee_56a2fc4c",
+      "revId": "a3d74fa1f1ec717745a2015fab6d8e3fe3150ab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
