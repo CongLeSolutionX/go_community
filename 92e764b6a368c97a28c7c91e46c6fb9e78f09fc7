@@ -258,6 +258,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "348c2d37_4e570236",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc9094c_479569c8",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 55
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88414854_abad7985",
@@ -271,6 +295,30 @@
       "writtenOn": "2021-06-30T21:42:15Z",
       "side": 1,
       "message": "Contains?",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 221,
+        "endChar": 54
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d820461d_2691ba4b",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88414854_abad7985",
       "range": {
         "startLine": 221,
         "startChar": 6,
@@ -304,6 +352,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff157676_c041139e",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc764082_26a87cde",
+      "range": {
+        "startLine": 321,
+        "startChar": 5,
+        "endLine": 321,
+        "endChar": 67
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c9e3b09_248c9db9",
@@ -317,6 +389,24 @@
       "writtenOn": "2021-06-30T21:42:15Z",
       "side": 1,
       "message": "!MainModules.Contains(path)",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "893363b4_0a70751f",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c9e3b09_248c9db9",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -571,6 +661,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f1896fd_4aff22ca",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "It\u0027s not possible. mms.versions never contains a module.Versions with a non-empty Version field. removed this function.",
+      "parentUuid": "f94646a8_20d85724",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 1
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4943d86_e384e7e9",
@@ -781,6 +895,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cfe49e1_75dc4c3f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86ae142b_fa6b35ec",
+      "range": {
+        "startLine": 696,
+        "startChar": 3,
+        "endLine": 696,
+        "endChar": 50
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a1a4ae4_e6a9f129",
@@ -863,6 +1001,24 @@
       "writtenOn": "2021-06-30T21:42:15Z",
       "side": 1,
       "message": "Stray debug log?",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0eeeb5f_aa6a534f",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e1bf9d0_a638c89d",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -958,6 +1114,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "757e5936_cc45d121",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1458,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Got it. I\u0027ll remove the TODO. We don\u0027t plan to support tidy (at least it\u0027s not supoprted in the proposal: https://go.googlesource.com/proposal/+/master/design/45713-workspace.md#proposal-the-flag)",
+      "parentUuid": "3a877aba_82c77685",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfae44c8_af34e6c9",
@@ -981,6 +1155,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f73a3447_0080c275",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1725,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "yes; done.",
+      "parentUuid": "dfae44c8_af34e6c9",
+      "range": {
+        "startLine": 1725,
+        "startChar": 5,
+        "endLine": 1725,
+        "endChar": 85
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f83f0057_f0a592b2",
@@ -994,6 +1192,30 @@
       "writtenOn": "2021-06-30T21:42:15Z",
       "side": 1,
       "message": "Contains?",
+      "range": {
+        "startLine": 1732,
+        "startChar": 32,
+        "endLine": 1732,
+        "endChar": 47
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4430f34_4d010b34",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f83f0057_f0a592b2",
       "range": {
         "startLine": 1732,
         "startChar": 32,
