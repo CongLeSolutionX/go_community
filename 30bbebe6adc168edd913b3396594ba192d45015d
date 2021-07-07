@@ -144,6 +144,42 @@
       "message": "LGTM. (Ok for Go 1.17 if you want.)",
       "revId": "30bbebe6adc168edd913b3396594ba192d45015d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0353f2f9_97fcac00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-07T21:57:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3749caf_96680338",
+      "revId": "30bbebe6adc168edd913b3396594ba192d45015d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1edf1be8_3c3e7cfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-07T21:57:39Z",
+      "side": 1,
+      "message": "Will do. Thought I\u0027d pick up some of the 1.17 bug fix issues at this point in the cycle.",
+      "parentUuid": "597d0f22_98a0f7fa",
+      "revId": "30bbebe6adc168edd913b3396594ba192d45015d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
