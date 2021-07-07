@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e178896b_c138af0b",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a68386e9_0056cfa3",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2cd1371_1f3220e4",
@@ -87,6 +105,30 @@
       "writtenOn": "2021-06-30T22:01:02Z",
       "side": 1,
       "message": "Contains?",
+      "range": {
+        "startLine": 393,
+        "startChar": 7,
+        "endLine": 393,
+        "endChar": 73
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79d66671_36150795",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2cd1371_1f3220e4",
       "range": {
         "startLine": 393,
         "startChar": 7,
@@ -120,6 +162,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b319a61b_f782dffb",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:42:11Z",
+      "side": 1,
+      "message": "Done\n\nThe proposal doesn\u0027t currently support multiple modules in go get: https://go.googlesource.com/proposal/+/master/design/45713-workspace.md#proposal-the-flag",
+      "parentUuid": "641483d4_8f27b6b3",
+      "range": {
+        "startLine": 744,
+        "startChar": 18,
+        "endLine": 744,
+        "endChar": 25
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33108b00_da0d5afd",
@@ -133,6 +199,30 @@
       "writtenOn": "2021-06-30T22:01:02Z",
       "side": 1,
       "message": "Contains?",
+      "range": {
+        "startLine": 1781,
+        "startChar": 5,
+        "endLine": 1781,
+        "endChar": 62
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff8546c8_b78c5db7",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1781,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33108b00_da0d5afd",
       "range": {
         "startLine": 1781,
         "startChar": 5,
@@ -1097,6 +1187,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8525d15e_74a6278c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "936ebb6f_bb460f46",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a877aba_82c77685",
@@ -1179,6 +1287,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4848132_15692ace",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1725,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfae44c8_af34e6c9",
+      "range": {
+        "startLine": 1725,
+        "startChar": 5,
+        "endLine": 1725,
+        "endChar": 85
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f83f0057_f0a592b2",
@@ -1213,6 +1345,30 @@
         "id": 10033
       },
       "writtenOn": "2021-07-07T23:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f83f0057_f0a592b2",
+      "range": {
+        "startLine": 1732,
+        "startChar": 32,
+        "endLine": 1732,
+        "endChar": 47
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae244f2a_ae9b41d9",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:42:11Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "f83f0057_f0a592b2",
@@ -1302,6 +1458,24 @@
       "writtenOn": "2021-06-30T21:49:12Z",
       "side": 1,
       "message": "Maybe send this fix as a separate CL? 😅",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54740866_ca4097a6",
+        "filename": "src/cmd/go/testdata/script/modfile_flag.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T23:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e889306_ddea4582",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
