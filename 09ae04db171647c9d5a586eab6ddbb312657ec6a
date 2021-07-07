@@ -72,6 +72,23 @@
       "message": "from a quick glance it seems the fix is triggering a compiler error for a test of typeparams example code because the compiler doesnt deal with generic types yet in https://github.com/golang/go/blob/912f0750472dd4f674b69ca1616bfaf377af1805/src/cmd/compile/internal/types/alg.go#L42.\n\n(If thats actually the case:) Thoughts on how to deal with that in the state where go1.17 doesnt yet support generic types? not sure if the test is wrong, bug in types or just missing feature in types.",
       "revId": "09ae04db171647c9d5a586eab6ddbb312657ec6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14020d12_7123c33c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-07T16:07:05Z",
+      "side": 1,
+      "message": "I get other errors not related to generics when I patch in this CL to dev.typeparams and try it (on darwin/amd64):\n\n##### ../test\n# go run run.go -G\u003d3 fixedbugs/issue20174.go\nunexpected success\nFAIL\tfixedbugs/issue20174.go\t0.026s\n# go run run.go -G\u003d3 fixedbugs/issue37837.go\nunexpected success\nFAIL\tfixedbugs/issue37837.go\t0.059s\n2021/07/07 08:52:43 Failed: exit status 1\n\nWhat is strange is that 20174 should pass. And it does pass, when compiled directly. Which makes me think that run.go is somehow compiled incorrectly with this CL.",
+      "revId": "09ae04db171647c9d5a586eab6ddbb312657ec6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
