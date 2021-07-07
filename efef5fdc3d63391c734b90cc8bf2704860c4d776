@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "baae23f5_5bb7a1f7",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1244,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-07T17:07:10Z",
+      "side": 1,
+      "message": "Done.  I think I meant real, but concrete is better.",
+      "parentUuid": "5d26f5b5_5259923d",
+      "range": {
+        "startLine": 1244,
+        "startChar": 11,
+        "endLine": 1244,
+        "endChar": 16
+      },
+      "revId": "efef5fdc3d63391c734b90cc8bf2704860c4d776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67648cb2_4af2e2f8",
@@ -91,6 +115,30 @@
       "writtenOn": "2021-07-07T16:32:56Z",
       "side": 1,
       "message": "which is an index in",
+      "range": {
+        "startLine": 1259,
+        "startChar": 71,
+        "endLine": 1260,
+        "endChar": 8
+      },
+      "revId": "efef5fdc3d63391c734b90cc8bf2704860c4d776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63c8e790_06d5bf82",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-07T17:07:10Z",
+      "side": 1,
+      "message": "Done.  Change to \"which is index \u0027ix\u0027 in the instantiation\u0027s dictionary\", which is what I meant...",
+      "parentUuid": "67648cb2_4af2e2f8",
       "range": {
         "startLine": 1259,
         "startChar": 71,
