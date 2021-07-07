@@ -740,6 +740,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02b744fd_5f623727",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T22:06:38Z",
+      "side": 1,
+      "message": "It\u0027s a bit of a hack: we know that len(modRoots) \u003d\u003d 1 because it\u0027s in effect still 1 everywhere since there\u0027s no way to add more than one main module in this CLs. It gets fixed further up the stack.\n\nAdded a comment saying so.",
+      "parentUuid": "da0c97b3_a6053ca8",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86ae142b_fa6b35ec",
