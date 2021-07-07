@@ -384,6 +384,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1afd284f_c0f6f06e",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T20:23:17Z",
+      "side": 1,
+      "message": "Yes, pretty much. updated comment",
+      "parentUuid": "938e5a93_74b6c860",
+      "range": {
+        "startLine": 55,
+        "startChar": 71,
+        "endLine": 55,
+        "endChar": 104
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65b37ee4_84ee585f",
@@ -401,6 +425,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "048280d9_6810e962",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T20:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b37ee4_84ee585f",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d289c29_8d9c64ab",
@@ -414,6 +456,24 @@
       "writtenOn": "2021-06-30T19:23:15Z",
       "side": 1,
       "message": "Please add a comment. (Without reading further, I assume this maps each module in versions to its absolute filesystem path?)",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "744d6279_7f998f63",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T20:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d289c29_8d9c64ab",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -454,6 +514,30 @@
       "writtenOn": "2021-06-30T19:23:15Z",
       "side": 1,
       "message": "This seems allocation-heavy for something I expect most callers won\u0027t mutate.\n\nWould it make sense to instead maintain an invariant that the versions slice has cap \u003d\u003d length (so that it is safe to append to) and return it directly, with a requirement that callers not modify the returned slice?",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 10
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5229c027_3c48261a",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-07T20:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fe111ac_9cd6b6eb",
       "range": {
         "startLine": 79,
         "startChar": 0,
