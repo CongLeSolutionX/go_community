@@ -89,6 +89,23 @@
       "message": "I get other errors not related to generics when I patch in this CL to dev.typeparams and try it (on darwin/amd64):\n\n##### ../test\n# go run run.go -G\u003d3 fixedbugs/issue20174.go\nunexpected success\nFAIL\tfixedbugs/issue20174.go\t0.026s\n# go run run.go -G\u003d3 fixedbugs/issue37837.go\nunexpected success\nFAIL\tfixedbugs/issue37837.go\t0.059s\n2021/07/07 08:52:43 Failed: exit status 1\n\nWhat is strange is that 20174 should pass. And it does pass, when compiled directly. Which makes me think that run.go is somehow compiled incorrectly with this CL.",
       "revId": "09ae04db171647c9d5a586eab6ddbb312657ec6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "331098e6_500fa7b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-07-07T18:56:36Z",
+      "side": 1,
+      "message": "Is this a release critical issue for Go 1.17? It doesn\u0027t sound like it\u0027s a regression, and the issue isn\u0027t marked as a release blocker.\n\nNoalg is quite subtle, because it plays with type identity assumptions in the frontend. If possible, I\u0027d prefer we defer fixing this to Go 1.18, so we can implement a proper fix (e.g., allow the linker to realize alg and noalg types are logically the same and can be de-duped, except that the alg variants must always be preferred).",
+      "revId": "09ae04db171647c9d5a586eab6ddbb312657ec6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
