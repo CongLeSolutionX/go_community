@@ -106,6 +106,24 @@
       "message": "Is this a release critical issue for Go 1.17? It doesn\u0027t sound like it\u0027s a regression, and the issue isn\u0027t marked as a release blocker.\n\nNoalg is quite subtle, because it plays with type identity assumptions in the frontend. If possible, I\u0027d prefer we defer fixing this to Go 1.18, so we can implement a proper fix (e.g., allow the linker to realize alg and noalg types are logically the same and can be de-duped, except that the alg variants must always be preferred).",
       "revId": "09ae04db171647c9d5a586eab6ddbb312657ec6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d649f4a3_670f887b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-07-07T19:35:59Z",
+      "side": 1,
+      "message": "It can create subtile bugs based on the existence of map literals but its not new in go1.17 so not a release blocker. \n\nHappy if we work on a more general fix for go1.18. It will be nice to fix in general as it allows us to safe generating a few algs for slice literals that happen more often than other literals.",
+      "parentUuid": "331098e6_500fa7b9",
+      "revId": "09ae04db171647c9d5a586eab6ddbb312657ec6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
