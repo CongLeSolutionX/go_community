@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be026a61_a665931b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2021-07-07T16:06:29Z",
+      "side": 1,
+      "message": "sorry， cmd/cover will fail, I will try to fix it as soon as possible",
+      "revId": "c0a78771ca3fd17a5bd236746cd009800443f9f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
