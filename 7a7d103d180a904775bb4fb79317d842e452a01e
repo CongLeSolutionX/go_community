@@ -96,6 +96,30 @@
       },
       "revId": "7a7d103d180a904775bb4fb79317d842e452a01e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daa24e35_b4c87962",
+        "filename": "src/cmd/compile/internal/types2/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-07T23:41:44Z",
+      "side": 1,
+      "message": "Actually, the intent here was to explain why asInterface is missing in this list (and instead is below). But we don\u0027t do this for asNamed and as TypeParam either, so maybe this can just go.\n\nAdjusted.",
+      "parentUuid": "10328a3e_4912249f",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 83
+      },
+      "revId": "7a7d103d180a904775bb4fb79317d842e452a01e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
