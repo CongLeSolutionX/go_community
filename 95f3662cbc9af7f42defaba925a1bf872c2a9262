@@ -53,6 +53,24 @@
       "message": "Issue #46784 does not appear to have a milestone. Is this something we need for 1.17, or can it wait for 1.18?",
       "revId": "95f3662cbc9af7f42defaba925a1bf872c2a9262",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce6a3ca9_9602a87e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11851
+      },
+      "writtenOn": "2021-07-07T15:49:14Z",
+      "side": 1,
+      "message": "It would be very helpful for me if this made 1.17, but I understand that it\u0027s very late in the dev cycle.",
+      "parentUuid": "f2683c0f_f486c715",
+      "revId": "95f3662cbc9af7f42defaba925a1bf872c2a9262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
