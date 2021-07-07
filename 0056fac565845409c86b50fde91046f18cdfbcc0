@@ -96,6 +96,30 @@
       },
       "revId": "0056fac565845409c86b50fde91046f18cdfbcc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e22672a_1137522e",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-07T23:33:17Z",
+      "side": 1,
+      "message": "For now we\u0027ll just disallow the current case. And maybe we can allow it eventually, just not 100% clear yet what it means.\n\nAdjusted the error message.",
+      "parentUuid": "f8855c54_82cfd3de",
+      "range": {
+        "startLine": 676,
+        "startChar": 28,
+        "endLine": 676,
+        "endChar": 87
+      },
+      "revId": "0056fac565845409c86b50fde91046f18cdfbcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
