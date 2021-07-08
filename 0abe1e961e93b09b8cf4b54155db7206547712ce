@@ -53,6 +53,24 @@
       "message": "There\u0027s a merge conflict with a recently submitted CL 333330 and needs rebasing.\n\nI believe this fix was incorporated into CL 333330, so upon rebasing this CL will be an empty change, is that right?",
       "revId": "0abe1e961e93b09b8cf4b54155db7206547712ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b951f7ef_afdcee9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-07-08T19:39:49Z",
+      "side": 1,
+      "message": "I believe so, yup.",
+      "parentUuid": "b256eedf_14f206ac",
+      "revId": "0abe1e961e93b09b8cf4b54155db7206547712ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
