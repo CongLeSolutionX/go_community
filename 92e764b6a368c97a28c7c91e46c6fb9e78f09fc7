@@ -256,6 +256,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8e28a8b_8f4e4cb6",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-08T00:01:46Z",
+      "side": 1,
+      "message": "Made it specific to m.",
+      "parentUuid": "1b9c80cf_17effe33",
+      "range": {
+        "startLine": 227,
+        "startChar": 5,
+        "endLine": 227,
+        "endChar": 17
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f9ed09c_ed04184c",
@@ -584,6 +608,24 @@
         "endLine": 55,
         "endChar": 104
       },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2751b39d_b9c7337c",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-08T00:01:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e086ba0_dbbb6093",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1055,6 +1097,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b72dcce_328495d5",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-08T00:01:46Z",
+      "side": 1,
+      "message": "I think this is a good idea. Added a TODOWorkspaces where we call makeMainModules for command-line-arguments.",
+      "parentUuid": "6a1a4ae4_e6a9f129",
+      "range": {
+        "startLine": 1090,
+        "startChar": 4,
+        "endLine": 1090,
+        "endChar": 81
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d1f0685_e530f423",
@@ -1166,6 +1232,24 @@
       "writtenOn": "2021-06-30T21:42:15Z",
       "side": 1,
       "message": "(incomplete comment)",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54f77b9d_e719c7b5",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-08T00:01:46Z",
+      "side": 1,
+      "message": "Removed. need to rework this for above.",
+      "parentUuid": "6155215d_77c0ce3f",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
