@@ -89,6 +89,24 @@
       "message": "Just FYI: I put an item on our next meeting to discuss this. (I had a different direction in mind; I\u0027m curious to compare the two.)",
       "revId": "7ca56b458a319a7eacbb20252af50089d71196a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "279a27c7_5bd042b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-08T16:41:41Z",
+      "side": 1,
+      "message": "Let\u0027s discuss next week. I\u0027m in favor of more explicit writes though.",
+      "parentUuid": "e4e0dcdc_c56f9531",
+      "revId": "7ca56b458a319a7eacbb20252af50089d71196a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
