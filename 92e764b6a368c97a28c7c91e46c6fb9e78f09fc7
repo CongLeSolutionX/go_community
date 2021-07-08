@@ -630,6 +630,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a283a77c_656b779d",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-08T00:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e086ba0_dbbb6093",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65b37ee4_84ee585f",
@@ -1114,6 +1132,30 @@
       "range": {
         "startLine": 1090,
         "startChar": 4,
+        "endLine": 1090,
+        "endChar": 81
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b62816b_054facda",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-08T00:04:56Z",
+      "side": 1,
+      "message": "Removed HasModRoot.",
+      "parentUuid": "45a323d5_333384b4",
+      "range": {
+        "startLine": 1090,
+        "startChar": 32,
         "endLine": 1090,
         "endChar": 81
       },
