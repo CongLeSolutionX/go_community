@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6beb0d0_8061c6a8",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-07-08T19:19:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e19e576a_46605e10",
+      "revId": "99dc68ff14cd8f3e0465d71d54d9a74a0324412a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abf223db_be9a919e",
@@ -87,6 +105,24 @@
       "writtenOn": "2021-07-08T18:21:49Z",
       "side": 1,
       "message": "Ditto.",
+      "revId": "99dc68ff14cd8f3e0465d71d54d9a74a0324412a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8378799e_48fe9cdd",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-07-08T19:19:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abf223db_be9a919e",
       "revId": "99dc68ff14cd8f3e0465d71d54d9a74a0324412a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
