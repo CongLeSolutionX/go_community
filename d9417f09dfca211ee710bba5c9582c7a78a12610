@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ccde170b_01504b0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2021-07-08T05:31:45Z",
+      "side": 1,
+      "message": "I see there is a \"follow-up change\" feature. Is that what I should use to submit the revised code?",
+      "parentUuid": "2986a44d_5446fc06",
+      "revId": "d9417f09dfca211ee710bba5c9582c7a78a12610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c03d1022_360c1825",
         "filename": "src/cmd/compile/internal/ir/func.go",
         "patchSetId": 8
