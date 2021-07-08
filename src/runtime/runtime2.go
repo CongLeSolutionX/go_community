@@ -895,7 +895,7 @@ type funcinl struct {
 // layout of Itab known to compilers
 // allocated in non-garbage-collected memory
 // Needs to be in sync with
-// ../cmd/compile/internal/gc/reflect.go:/^func.WriteTabs.
+// ../cmd/compile/internal/reflectdata/reflect.go:/^func.WriteTabs.
 type itab struct {
 	inter *interfacetype
 	_type *_type
@@ -940,8 +940,13 @@ func extendRandom(r []byte, n int) {
 
 // A _defer holds an entry on the list of deferred calls.
 // If you add a field here, add code to clear it in freedefer and deferProcStack
+<<<<<<< HEAD   (42fe13 [dev.typeparams] cmd/compile: cleanup ABI utils tests)
 // This struct must match the code in cmd/compile/internal/ssagen/ssa.go:deferstruct
 // and cmd/compile/internal/ssagen/ssa.go:(*state).call.
+=======
+// This struct must match the code in cmd/compile/internal/reflectdata/reflect.go:deferstruct
+// and cmd/compile/internal/gc/ssa.go:(*state).call.
+>>>>>>> BRANCH (296ddf net: filter bad names from Lookup functions instead of hard )
 // Some defers will be allocated on the stack and some on the heap.
 // All defers are logically part of the stack, so write barriers to
 // initialize them are not required. All defers must be manually scanned,
