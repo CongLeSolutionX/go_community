@@ -88,6 +88,24 @@
       "parentUuid": "71a88a93_321eccd9",
       "revId": "58e9a0ba009fda38f421b382d253d8f418992347",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e46ab257_06befffe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-07-08T00:05:11Z",
+      "side": 1,
+      "message": "No, that sounds good, thanks. Just wanted to confirm that x/sys had been updated, since that was what prevented it being an error in the first place.\n\nI think it\u0027s too late to include this CL for Go 1.17, but it should be good for Go 1.18. (The TODO mentions Go 1.17 just because that was the next, upcoming development cycle at the time; there\u0027s no reason it had/has to happen in Go 1.17 specifically though.)",
+      "parentUuid": "b0c488df_78eb5d67",
+      "revId": "58e9a0ba009fda38f421b382d253d8f418992347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
