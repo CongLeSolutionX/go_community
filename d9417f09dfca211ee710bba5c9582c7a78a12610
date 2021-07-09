@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37a5d374_2e38ae39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-07-09T21:14:41Z",
+      "side": 1,
+      "message": "In general it\u0027s not possible to send newer patch sets to a CL that\u0027s authored by someone else. A workaround is to create a new CL, and in the commit message explain that it builds on top of work of the prior CL, and use \u0027Co-authored-by:\u0027 lines to give credit to other authors.\n\nThe \"Create follow-up change\" button is there to create a separate follow-up CL, which I don\u0027t think helps when you want to update an existing CL.",
+      "parentUuid": "ccde170b_01504b0c",
+      "revId": "d9417f09dfca211ee710bba5c9582c7a78a12610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c03d1022_360c1825",
         "filename": "src/cmd/compile/internal/ir/func.go",
         "patchSetId": 8
