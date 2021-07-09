@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cc94b09_3d5d4942",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-09T20:55:36Z",
+      "side": 1,
+      "message": "put in \u0027and\u0027 between \u003ccode\u003edarwin/amd64\u003c/code\u003e and \u003ccode\u003ewindows/amd64\u003c/code\u003e  ?",
+      "revId": "4005cd234fa333c78df3a188cf8f35cec1bdfed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a74002ad_b8c7447d",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-09T20:55:36Z",
+      "side": 1,
+      "message": "This sentence is a bit hard to understand.  Maybe at least change \u0027from assembly\u0027 to \u0027from assembly code\u0027and \u0027from Go\u0027 to \u0027from Go code\u0027 ?",
+      "revId": "4005cd234fa333c78df3a188cf8f35cec1bdfed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cf0a49b_5b682997",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-09T20:55:36Z",
+      "side": 1,
+      "message": "pointers -\u003e pointer",
+      "revId": "4005cd234fa333c78df3a188cf8f35cec1bdfed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
