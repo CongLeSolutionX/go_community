@@ -548,6 +548,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f00666b1_b338045e",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-09T19:13:28Z",
+      "side": 1,
+      "message": "Okay, I changed the comparison to compare with MustGetSingleMainModule to make it clear this is operating in a single module context.",
+      "parentUuid": "b53d61b3_def9aa00",
+      "range": {
+        "startLine": 500,
+        "startChar": 0,
+        "endLine": 501,
+        "endChar": 18
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e086ba0_dbbb6093",
@@ -1525,6 +1549,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55a3f556_8012187f",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-09T19:13:28Z",
+      "side": 1,
+      "message": "Updated todo.",
+      "parentUuid": "fff492b5_ea09f481",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31f12e22_901e4fe4",
@@ -1561,6 +1603,30 @@
       "writtenOn": "2021-07-02T19:12:38Z",
       "side": 1,
       "message": "Per #40775, maybe we should eliminate SetModRoot entirely.\n\nAFAICT the only Search function or method that uses the global modRoot variable is (*Match).MatchDirs, and that has only two callers — something in the modload package itself, and the GOPATH-mode \u0027go get\u0027 (which can pass in a hard-coded empty set of roots anyway).",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 0
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d7551d2_0f92db80",
+        "filename": "src/cmd/go/internal/search/search.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-09T19:13:28Z",
+      "side": 1,
+      "message": "Okay, how\u0027s this?",
+      "parentUuid": "4ad32f3c_7795efc1",
       "range": {
         "startLine": 204,
         "startChar": 0,
