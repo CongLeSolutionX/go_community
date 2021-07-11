@@ -262,6 +262,12 @@ func (g *irgen) forStmt(stmt *syntax.ForStmt) ir.Node {
 		key, value := unpackTwo(lhs)
 		n := ir.NewRangeStmt(g.pos(r), key, value, g.expr(r.X), g.blockStmt(stmt.Body))
 		n.Def = initDefn(n, names)
+		if key != nil {
+			transformCheckAssign(n, key)
+		}
+		if value != nil {
+			transformCheckAssign(n, value)
+		}
 		return n
 	}
 

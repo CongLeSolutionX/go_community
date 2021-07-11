@@ -1451,7 +1451,7 @@ func (t *Type) IsPtrShaped() bool {
 // HasNil reports whether the set of values determined by t includes nil.
 func (t *Type) HasNil() bool {
 	switch t.kind {
-	case TCHAN, TFUNC, TINTER, TMAP, TNIL, TPTR, TSLICE, TUNSAFEPTR:
+	case TCHAN, TFUNC, TINTER, TMAP, TNIL, TPTR, TSLICE, TUNSAFEPTR, TTYPEPARAM:
 		return true
 	}
 	return false
