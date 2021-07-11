@@ -1434,7 +1434,9 @@ func (db *DB) putConn(dc *driverConn, err error, resetSession bool) {
 		db.lastPut[dc] = stack()
 	}
 	dc.inUse = false
-	dc.returnedAt = nowFunc()
+	if db.maxIdleTime > 0 { // only record time if we close idle conns
+		dc.returnedAt = nowFunc()
+	}
 
 	for _, fn := range dc.onPut {
 		fn()
