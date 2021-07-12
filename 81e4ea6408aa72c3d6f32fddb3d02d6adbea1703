@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f9958df_f28658ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-12T15:13:44Z",
+      "side": 1,
+      "message": "I\u0027m confused... this change seems to be directly updating alldocs.go without updating the \"source of truth\" documentation in other files. It does not pass TestDocsUpToDate. Also, the edits look like they\u0027re reverting some of the changes we\u0027ve made in the last year.\n\nI wonder if you ran mkalldocs.sh from an old GOROOT with the GOROOT environment variable set to another location?",
+      "revId": "81e4ea6408aa72c3d6f32fddb3d02d6adbea1703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
