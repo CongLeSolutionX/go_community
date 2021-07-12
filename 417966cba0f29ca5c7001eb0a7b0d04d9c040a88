@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "418ca7e8_a215ff73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-12T21:38:06Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-longtest,linux-amd64-race",
+      "revId": "417966cba0f29ca5c7001eb0a7b0d04d9c040a88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
