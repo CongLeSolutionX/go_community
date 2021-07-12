@@ -88,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4785860_8ae5f53a",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-12T15:48:14Z",
+      "side": 1,
+      "message": "Yes, that\u0027s better!  I could see changing \u0027from Go code\u0027 to \u0027in Go code\u0027 for consistency with \u0027in assembly code\u0027, but not required.",
+      "parentUuid": "7a8c0c3a_09b3f037",
+      "revId": "4005cd234fa333c78df3a188cf8f35cec1bdfed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cf0a49b_5b682997",
