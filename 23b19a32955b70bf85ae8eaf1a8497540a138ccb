@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed53bf08_c39d0128",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-07-13T13:01:20Z",
+      "side": 1,
+      "message": "Hi Gaul,\n\nplease split into internal/",
+      "revId": "23b19a32955b70bf85ae8eaf1a8497540a138ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9542de74_7134a7d4",
+        "filename": "src/internal/cpu/cpu_x86.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-07-13T13:01:20Z",
+      "side": 1,
+      "message": "I myself have considered this a few months ago but concluded that I dont think its worth the churn to change this.\n\nMOVL $0 is more explicit and not wrong.\n\nThat said if x/sys/cpu is changed because of gccgo alignment im not against just merging this but would change the commit message to call out its for alignment not binary size decrease of performance as I think both dont apply here.\n\nWhile shorter its only used here and functions are aligned on 32byte boundaries so it will AFAIK not cause a binary size decrease. I dont even think it will improve icache use and the effect since its only used once at startup is minor\n\nI dont think XORL is measurably faster than MOVL on modern cpus on the execution units. I havent checked but I read both are using the special register renamer for the zero register. Happy to see benchmarks of this function being measurable faster after the change. If best case we shave of a cycle e.g. 0.3ns we will have saved at best 0.3ns overall (and even that might be hidden in out of order latencies) because this function is only called once on go startup.\n\nI dont think internal/cpu doesnt use by gccgo so there is no consistency problem.\n\nIf you are searching for compiler changes that will emit better code and therefore apply more often i am happy to sync with you on some cmd/compile projects.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "23b19a32955b70bf85ae8eaf1a8497540a138ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c73e3eb8_98456c3f",
+        "filename": "src/vendor/golang.org/x/sys/cpu/cpu_x86.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-07-13T13:01:20Z",
+      "side": 1,
+      "message": "Please undo this is a vendor directory. It would need to be changed upstream first in x/sys/cpu.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "23b19a32955b70bf85ae8eaf1a8497540a138ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
