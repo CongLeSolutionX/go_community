@@ -82,6 +82,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fa0a2e3_ed1c742a",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-13T16:49:33Z",
+      "side": 1,
+      "message": "The key type cannot be a type parameter; only the map_ type.",
+      "parentUuid": "f844af1a_a81de664",
+      "range": {
+        "startLine": 368,
+        "startChar": 2,
+        "endLine": 368,
+        "endChar": 56
+      },
+      "revId": "d24aab724e2a8df6f11ccd0f48518d0d6a085d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae478f4a_7bb493e2",
         "filename": "src/cmd/compile/internal/types2/builtins.go",
         "patchSetId": 2
@@ -105,6 +129,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "27f92d1d_8bec7848",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-13T16:49:33Z",
+      "side": 1,
+      "message": "That\u0027s what we do here: all types (if we have a type parameter) of x.typ must be maps.",
+      "parentUuid": "ae478f4a_7bb493e2",
+      "range": {
+        "startLine": 372,
+        "startChar": 3,
+        "endLine": 372,
+        "endChar": 21
+      },
+      "revId": "d24aab724e2a8df6f11ccd0f48518d0d6a085d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "db1aef6b_5c7c8206",
         "filename": "src/cmd/compile/internal/types2/builtins.go",
         "patchSetId": 2
@@ -116,6 +164,30 @@
       "writtenOn": "2021-07-13T16:45:39Z",
       "side": 1,
       "message": "Same comment as on all the other CLs, I think we could improve the error message here in the case of a type parameter.",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 380,
+        "endChar": 4
+      },
+      "revId": "d24aab724e2a8df6f11ccd0f48518d0d6a085d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4cf6fa2_192d5b0d",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-13T16:49:33Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "db1aef6b_5c7c8206",
       "range": {
         "startLine": 373,
         "startChar": 0,
