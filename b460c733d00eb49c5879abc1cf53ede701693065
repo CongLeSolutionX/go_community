@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f8e8628_c672215b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-07-13T10:01:03Z",
+      "side": 1,
+      "message": "Yes, this CL changes wrong code. And there are no new tests.\n\nBut let\u0027s decide if we want to change current behavior first\n\nhttps://github.com/golang/go/issues/47123#issuecomment-878944993",
+      "parentUuid": "8c1c9283_b80f0b9d",
+      "revId": "b460c733d00eb49c5879abc1cf53ede701693065",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c67c6a5_8a4278f7",
         "filename": "src/path/path.go",
         "patchSetId": 1
