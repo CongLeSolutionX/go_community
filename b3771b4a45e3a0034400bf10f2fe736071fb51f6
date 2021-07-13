@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b87c2e4_9a7d959a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-07-13T14:17:06Z",
+      "side": 1,
+      "message": "Thanks for the contribution. \n\nI skimmed your changes (haven\u0027t looked at them in depth yet), but from what I have seen so far, I\u0027d like to offer a high level suggestion.\n\nIn recent times we (Go compiler + runtime team) have been working hard to move as much DWARF generation as possible out of the linker and into the compiler, so as to reduce link times. Are there any portions of this patch that could be done in the compiler instead of the linker?\n\nFor those bits that must remain in the linker, we try to insure that the work is divided up into chunks by compilation unit (e.g. Go package), and to process the units in parallel to the greatest extent possible. \n\nIf you can revise your patch to align with these goals (favor compiler work over linker work wherever possible, parallelize by compilation unit for work done inside the linker) it would help ensure that we keep link times to a minimum, and that we don\u0027t \"undo\" all the efforts made in the 1.16 / 1.17 development cycle to make the Go linker faster.\n\n\n",
+      "revId": "b3771b4a45e3a0034400bf10f2fe736071fb51f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
