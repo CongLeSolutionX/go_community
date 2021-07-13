@@ -52,6 +52,24 @@
       "parentUuid": "a91053b5_3c3473f5",
       "revId": "16e82be454cbf41299e6a055d54d489ca4612ee0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "676d3027_55171adb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-07-13T22:32:52Z",
+      "side": 1,
+      "message": "Thanks! We\u0027ll have the CL reviewed and submitted when it is ready.",
+      "parentUuid": "b9567ba3_53036d66",
+      "revId": "16e82be454cbf41299e6a055d54d489ca4612ee0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
