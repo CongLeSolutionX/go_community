@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5623a79_06894c44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-13T21:01:03Z",
+      "side": 1,
+      "message": "Withdrawn. A lot of refactoring is needed, and it shouldn\u0027t block this.",
+      "parentUuid": "9c9164cc_c7cddba0",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbf2f3c2_bbb4d8f6",
@@ -197,6 +215,24 @@
       "writtenOn": "2021-07-08T17:12:41Z",
       "side": 1,
       "message": "If there is a way to avoid exporting this as a global variable, I would be very happy. I know Target was exported and used in a few packages, so this doesn\u0027t need to be done now, but I\u0027d like to see a TODO here with a plan.",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "540c79c1_28be43d2",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-13T21:01:03Z",
+      "side": 1,
+      "message": "Withdrawn.",
+      "parentUuid": "1e651274_d80873df",
       "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
