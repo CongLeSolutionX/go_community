@@ -34,6 +34,24 @@
       "parentUuid": "52a78435_805bfbdc",
       "revId": "16e82be454cbf41299e6a055d54d489ca4612ee0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9567ba3_53036d66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2021-07-13T22:17:52Z",
+      "side": 1,
+      "message": "I\u0027ve created cherry-pick CLs for both branches. Please let me know if there\u0027s anything else for me to do.",
+      "parentUuid": "a91053b5_3c3473f5",
+      "revId": "16e82be454cbf41299e6a055d54d489ca4612ee0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
