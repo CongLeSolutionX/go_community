@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56fc9b6b_31a489f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-07-13T22:22:02Z",
+      "side": 1,
+      "message": "I think this needs more information: what is the problem, and why we want to change it this way.\n\nI also don\u0027t think the end of the segment is right thing. I think we want .noptrbss\u0027s offset be the offset of the previous section (.bss) + its file size (maybe 0). This may well be equal to the end of the segment. But hardcoding the end of the segment doesn\u0027t sounds right.",
+      "revId": "c29a19b5e6e205eaee21594453282f38f57e02c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
