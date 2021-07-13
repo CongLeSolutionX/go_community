@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c1c9283_b80f0b9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-13T02:53:35Z",
+      "side": 1,
+      "message": "There is something wrong here.  The description says this is for the path/filepath package, but the actual change is for the path package.  This change is not correct for the path package, which only supports slash-separated paths.",
+      "revId": "b460c733d00eb49c5879abc1cf53ede701693065",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c67c6a5_8a4278f7",
         "filename": "src/path/path.go",
         "patchSetId": 1
