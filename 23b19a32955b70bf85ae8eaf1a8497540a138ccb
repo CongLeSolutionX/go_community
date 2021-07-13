@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ab59d71_f688a9ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52874
+      },
+      "writtenOn": "2021-07-13T14:06:37Z",
+      "side": 1,
+      "message": "Removed x/sys from this CL.",
+      "parentUuid": "bdbf5df8_ae62c564",
+      "revId": "23b19a32955b70bf85ae8eaf1a8497540a138ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9542de74_7134a7d4",
@@ -61,6 +79,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f38a8f70_29655b91",
+        "filename": "src/internal/cpu/cpu_x86.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 52874
+      },
+      "writtenOn": "2021-07-13T14:06:37Z",
+      "side": 1,
+      "message": "I reworded the CL.  Agreed that this is not a real inefficiency but aligns with gccgo so it has the virtue of consistency.  I understand the concern about churn and will not be offended if this change is declined.",
+      "parentUuid": "9542de74_7134a7d4",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "23b19a32955b70bf85ae8eaf1a8497540a138ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c73e3eb8_98456c3f",
         "filename": "src/vendor/golang.org/x/sys/cpu/cpu_x86.s",
         "patchSetId": 1
@@ -72,6 +114,30 @@
       "writtenOn": "2021-07-13T13:01:20Z",
       "side": 1,
       "message": "Please undo this is a vendor directory. It would need to be changed upstream first in x/sys/cpu.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "23b19a32955b70bf85ae8eaf1a8497540a138ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c04ec2_af413a0c",
+        "filename": "src/vendor/golang.org/x/sys/cpu/cpu_x86.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 52874
+      },
+      "writtenOn": "2021-07-13T14:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c73e3eb8_98456c3f",
       "range": {
         "startLine": 24,
         "startChar": 0,
