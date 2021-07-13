@@ -33,6 +33,24 @@
       "message": "I\u0027m not really sure this is what we want.\n\nOn one hand, I can see why you\u0027d like the back trace to \"see through\" the stack switch.\n\nOn the other hand, technically a stack switch _is_ a stack switch. The callee is running on the new stack. I\u0027m not convinced we want to make it appear to run on the same stack.\n\nI think it may be better to discuss the choice, and, if we want to do it, the  implementation (as Than noted), before continuing on the CL. Thanks.",
       "revId": "b3771b4a45e3a0034400bf10f2fe736071fb51f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d53f416_eeaae0e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-07-13T18:56:04Z",
+      "side": 1,
+      "message": "My 2 cents: I feel that it would be useful to support this overall.\n\nAs an example, with gccgo when using segmented stacks, I think in general users are not really all that interested in whether \"things are happening in the background\" with respect to stack segment allocation, they just want to see a stack trace that shows the sequence of calls, regardless of whether stack growth was required at any given point.\n\nIn this instance ideally it would be nice if the unwinder that is consuming the .eh_frame section were to produce the complete trace but add some sort of indication to the output that there was a stack switch at a specific point. But given the choice between that and having no traceback at all, I think I\u0027d prefer to see the former (e.g. trace extending through the stack switch).",
+      "parentUuid": "79513d68_d89f809d",
+      "revId": "b3771b4a45e3a0034400bf10f2fe736071fb51f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
