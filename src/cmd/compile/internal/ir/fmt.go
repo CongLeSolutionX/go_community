@@ -718,8 +718,7 @@ func exprFmt(n Node, s fmt.State, prec int) {
 				fmt.Fprintf(s, "%v{%s}", n.Ntype, ellipsisIf(len(n.List) != 0))
 				return
 			}
-
-			fmt.Fprint(s, "composite literal")
+			fmt.Fprintf(s, "%v{%s}", n.Type(), ellipsisIf(len(n.List) != 0))
 			return
 		}
 		fmt.Fprintf(s, "(%v{ %.v })", n.Ntype, n.List)
