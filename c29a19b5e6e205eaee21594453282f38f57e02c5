@@ -16,6 +16,24 @@
       "message": "I think this needs more information: what is the problem, and why we want to change it this way.\n\nI also don\u0027t think the end of the segment is right thing. I think we want .noptrbss\u0027s offset be the offset of the previous section (.bss) + its file size (maybe 0). This may well be equal to the end of the segment. But hardcoding the end of the segment doesn\u0027t sounds right.",
       "revId": "c29a19b5e6e205eaee21594453282f38f57e02c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a787703a_7226f7cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34474
+      },
+      "writtenOn": "2021-07-14T00:42:07Z",
+      "side": 1,
+      "message": "I gave an example, in https://golang.org/issue/47168. The SHT_NOBITS section should have 0 bytes in file, and these bss sections seem always at the end of the data segment.\nI think it\u0027s reasonable and gcc seems also behave like that.",
+      "parentUuid": "56fc9b6b_31a489f0",
+      "revId": "c29a19b5e6e205eaee21594453282f38f57e02c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
