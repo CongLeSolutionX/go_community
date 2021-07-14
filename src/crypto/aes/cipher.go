@@ -17,6 +17,7 @@ const BlockSize = 16
 type aesCipher struct {
 	enc []uint32
 	dec []uint32
+	key []byte
 }
 
 type KeySizeError int
@@ -44,7 +45,7 @@ func NewCipher(key []byte) (cipher.Block, error) {
 // implemented in pure Go.
 func newCipherGeneric(key []byte) (cipher.Block, error) {
 	n := len(key) + 28
-	c := aesCipher{make([]uint32, n), make([]uint32, n)}
+	c := aesCipher{make([]uint32, n), make([]uint32, n), key}
 	expandKeyGo(key, c.enc, c.dec)
 	return &c, nil
 }
