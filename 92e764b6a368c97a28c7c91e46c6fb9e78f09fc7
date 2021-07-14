@@ -305,6 +305,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e112a97a_a8654b02",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "Yeah I\u0027ll have to update the structure of the Requirements struct. I\u0027ll add a new CL to the top of the stack that does so.",
+      "parentUuid": "8f9ed09c_ed04184c",
+      "range": {
+        "startLine": 42,
+        "startChar": 19,
+        "endLine": 43,
+        "endChar": 11
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec93e1b9_f0089f43",
         "filename": "src/cmd/go/internal/modload/buildlist.go",
         "patchSetId": 18
@@ -316,6 +340,30 @@
       "writtenOn": "2021-06-30T19:23:15Z",
       "side": 1,
       "message": "This doesn\u0027t look right to me. Each main module should require only the dependencies listed in its own go.mod file — otherwise `go mod graph` will be very misleading, and I think we\u0027ll end up leaning on `go mod graph` fairly heavily for debugging in workspace mode.",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 60
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74926375_4881ef18",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "I think this is closely tied to the structure of the Requirements. I\u0027ll fix it when I redo that. Updating TODO to reflect that we know this isn\u0027t correct.",
+      "parentUuid": "ec93e1b9_f0089f43",
       "range": {
         "startLine": 273,
         "startChar": 0,
@@ -339,6 +387,30 @@
       "writtenOn": "2021-06-30T19:23:15Z",
       "side": 1,
       "message": "Actually, this brings up an interesting question, I think.\n\nIf the user runs `go mod tidy` in workspace mode, and the packages missing in the current module are provided at a specific version by some *other* module in the workspace, should we add that version, or resolve an entirely new one?\n\nI think perhaps we should add the version required by the other module, because that is the version the user is already building and testing against.\n\nIf so, that implies that we need two different pieces of information:\n• Which modules are in the workspace?\n• Which of those modules (if any) is “the main module”?\n\nThen, `go mod tidy` would consist of:\n\n1. Load the module requirements of the entire workspace.\n2. Load the transitive closure of packages imported by the (singular) main module, resolving any missing dependencies by adding requirements to the module graph.\n3. Update the requirements for the main module (only) by preserving the versions for packages in (2). If we need to iterate,¹ iterate by reloading the full workspace graph (not just the main module\u0027s requirement graph) until the roots of the main module converge.\n\n\n¹https://github.com/golang/go/blob/c080d0323bce56e25622a51dffecf756758c95a1/src/cmd/go/internal/modload/load.go#L1244-L1285",
+      "range": {
+        "startLine": 525,
+        "startChar": 0,
+        "endLine": 528,
+        "endChar": 40
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d001b355_950d2713",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "Replaced this with MainModule.MustGetSingleMainModule. In the proposal we don\u0027t plan to support tidy from workspace mode.\n\nThat is go mod tidy will run only in single module mode and totally ignore the go.work file.\n\nBut I think it\u0027s reasonable that if we did want to support tidy from workspaces we would pick a version already in the workspace.",
+      "parentUuid": "056e7390_7a4d67b4",
       "range": {
         "startLine": 525,
         "startChar": 0,
@@ -755,6 +827,30 @@
       "writtenOn": "2021-06-30T19:23:15Z",
       "side": 1,
       "message": "This seems like a lot of parallel data indexed by module.Version. Would it make sense to instead structure this data as a single map with struct (or pointer-to-struct) values?\n\nIs it important to retain the original order of the modules? If not, perhaps this whole type can be collapsed to a map:\n\n\ttype MainModule struct {\n\t\tPath string   // if we use a map, is this actually needed?\n\t\tPrefix string   // normally equal to Path, but empty for the \"std\" module in GOROOT/src\n\t\tRoot string   // absolute filesystem path\n\t\tInGorootSrc bool  // is this module within GOROOT/src? The \"std\" module is special there but not otherwise.\n\t\t\n\t\t// Will we also need a per-module *modfile.File and *modFileIndex, or do those only matter if we\u0027re making a change to a single module?\n\t}\n\n\t// MainModules maps the module path for each main module to information about that module.\n\tvar MainModules map[string]*MainModule\n\t\nOr, if we want to preserve flexibility (and/or maintain a consistent order of module paths, instead of relying on nondeterministic map iteration), perhaps keep it wrapped in a struct but with one internal map instead of many.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 0
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05f68024_d5a3683d",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "For now, I want the flexibility to change implementations, but I think it would be reasonable to put everything in one map.",
+      "parentUuid": "febb3433_50ddf97c",
       "range": {
         "startLine": 69,
         "startChar": 0,
@@ -1212,6 +1308,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "565757b1_c1c47024",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "How\u0027s this, I think if we don\u0027t find it by the end of the loop, we want to return the error with the longest prefix?",
+      "parentUuid": "7d1f0685_e530f423",
+      "range": {
+        "startLine": 529,
+        "startChar": 4,
+        "endLine": 531,
+        "endChar": 4
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e1bf9d0_a638c89d",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 18
@@ -1281,6 +1401,24 @@
       "writtenOn": "2021-06-30T21:42:15Z",
       "side": 1,
       "message": "Sadly, no.\n\nIt\u0027s true today if both modules are in the same repository, but that will no longer hold once #34055 is implemented. But it\u0027s not even true today if the modules happen to come from different repos, merged into one big import-path tree using `go-import` directives.\n\nConsider:\n\n-- m/go.work --\ngo 1.17\ndirectory (\n\t.   // example.com/m\n\t./x // example.com/x\n)\t\n-- m/go.mod --\nmodule example.com/m\n-- m/x/go.mod --\nmodule example.com/x",
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25690a94_0668cdc2",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "Okay, how\u0027s this?",
+      "parentUuid": "306eb613_3f7024a9",
       "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },

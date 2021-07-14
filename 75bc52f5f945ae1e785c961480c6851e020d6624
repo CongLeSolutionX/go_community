@@ -130,6 +130,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a761bb9f_3856c607",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "I did this because I wanted to easily be able to search for all uses of TODOWorkspaces using go tooling. But I can change them all to comments if that works better.",
+      "parentUuid": "bbf2f3c2_bbb4d8f6",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea532a79_f5eff6e4",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 27
@@ -141,6 +159,24 @@
       "writtenOn": "2021-07-08T17:12:41Z",
       "side": 1,
       "message": "Document: what is this? When is it set?",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7548434a_298868f3",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea532a79_f5eff6e4",
       "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -158,6 +194,24 @@
       "writtenOn": "2021-07-08T17:12:41Z",
       "side": 1,
       "message": "If this is only used for initialization, does it have to be global?",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e76a2b8_0016a296",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "Unfortunately there are parts of the code that want to use modRoots before MainModules exists. I do want to remove all those usages in a later refactoring.",
+      "parentUuid": "c4529091_668ae030",
       "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -185,6 +239,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb065f6_cd673b3a",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48602c5c_7ae1746a",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 21
+      },
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1eee701_bf2f70ef",
@@ -198,6 +276,24 @@
       "writtenOn": "2021-07-08T17:12:41Z",
       "side": 1,
       "message": "Since this is exported, I\u0027d like to see this return an error instead of panicking. The caller should be able to decide how to handle that.",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6fdb555_78798fad",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "unexported it. It\u0027s only called in places where we\u0027re guaranteed to have a single main module.",
+      "parentUuid": "c1eee701_bf2f70ef",
       "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -256,6 +352,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "011069ee_18f53386",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "I don\u0027t think they can be, modRoots can be used (and ModRoot can be called) before MainModules exists. This will be one of the things that will be improved once we refactor to remove the globals.....",
+      "parentUuid": "8a0dce1e_09956f7a",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b517edc_bf4cfdd2",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 27
@@ -267,6 +381,30 @@
       "writtenOn": "2021-07-08T17:12:41Z",
       "side": 1,
       "message": "Use #45713 here so we can easily find these later.",
+      "range": {
+        "startLine": 496,
+        "startChar": 54,
+        "endLine": 496,
+        "endChar": 61
+      },
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17581988_3257266f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T01:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b517edc_bf4cfdd2",
       "range": {
         "startLine": 496,
         "startChar": 54,
