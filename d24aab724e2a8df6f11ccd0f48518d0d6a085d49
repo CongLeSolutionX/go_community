@@ -285,6 +285,30 @@
       },
       "revId": "d24aab724e2a8df6f11ccd0f48518d0d6a085d49",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8e6f324_1f8e65ea",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-14T22:50:27Z",
+      "side": 1,
+      "message": "Filed #47211 so we won\u0027t forget.",
+      "parentUuid": "c4cf6fa2_192d5b0d",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 380,
+        "endChar": 4
+      },
+      "revId": "d24aab724e2a8df6f11ccd0f48518d0d6a085d49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
