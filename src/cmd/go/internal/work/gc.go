@@ -543,26 +543,7 @@ func setextld(ldflags []string, compiler []string) []string {
 			return ldflags
 		}
 	}
-	ldflags = append(ldflags, "-extld="+compiler[0])
-	if len(compiler) > 1 {
-		extldflags := false
-		add := strings.Join(compiler[1:], " ")
-		for i, f := range ldflags {
-			if f == "-extldflags" && i+1 < len(ldflags) {
-				ldflags[i+1] = add + " " + ldflags[i+1]
-				extldflags = true
-				break
-			} else if strings.HasPrefix(f, "-extldflags=") {
-				ldflags[i] = "-extldflags=" + add + " " + ldflags[i][len("-extldflags="):]
-				extldflags = true
-				break
-			}
-		}
-		if !extldflags {
-			ldflags = append(ldflags, "-extldflags="+add)
-		}
-	}
-	return ldflags
+	return append(ldflags, "-extld="+str.JoinAndQuoteFields(compiler))
 }
 
 // pluginPath computes the package path for a plugin main package.
