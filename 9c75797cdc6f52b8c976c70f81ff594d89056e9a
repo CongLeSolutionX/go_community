@@ -78,6 +78,30 @@
       },
       "revId": "9c75797cdc6f52b8c976c70f81ff594d89056e9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "358e96ac_1ad2fd13",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-14T23:22:51Z",
+      "side": 1,
+      "message": "No, I cannot. x is set by arg(x, 1) on line 388.",
+      "parentUuid": "e1c7ef3f_5d840555",
+      "range": {
+        "startLine": 370,
+        "startChar": 2,
+        "endLine": 370,
+        "endChar": 15
+      },
+      "revId": "9c75797cdc6f52b8c976c70f81ff594d89056e9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
