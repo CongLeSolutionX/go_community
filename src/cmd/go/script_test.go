@@ -181,6 +181,7 @@ func (ts *testScript) setup() {
 		"devnull=" + os.DevNull,
 		"goversion=" + goVersion(ts),
 		":=" + string(os.PathListSeparator),
+		"/=" + string(os.PathSeparator),
 	}
 	if !testenv.HasExternalNetwork() {
 		ts.env = append(ts.env, "TESTGONETWORK=panic", "TESTGOVCS=panic")
