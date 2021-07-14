@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6847acab_f6f3157a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-07-14T19:46:07Z",
+      "side": 1,
+      "message": "nit: \"cmd/compile: fix\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "19596c41a3505ad151f11f6f0b27fde082dabff8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56e2dca8_03cd9cd6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -51,6 +74,23 @@
       "writtenOn": "2021-07-14T19:15:40Z",
       "side": 1,
       "message": "Seems like the fmt change is useful generally (and didn\u0027t cause any extra test failures), but let me know what you think.  Thanks!",
+      "revId": "19596c41a3505ad151f11f6f0b27fde082dabff8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dc8513b_89230144",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-07-14T19:46:07Z",
+      "side": 1,
+      "message": "Can we add a:\n\n    if typ :\u003d n.Type(); typ !\u003d nil { ... }\n    \ncase above the \"n.Ntype !\u003d nil\" case, and leave the generic fallback here as \"composite literal\"?",
       "revId": "19596c41a3505ad151f11f6f0b27fde082dabff8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
