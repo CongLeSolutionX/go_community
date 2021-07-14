@@ -7,7 +7,10 @@ package str
 
 import (
 	"bytes"
+	"errors"
+	"flag"
 	"fmt"
+	"strings"
 	"unicode"
 	"unicode/utf8"
 )
@@ -152,4 +155,132 @@ func SplitQuotedFields(s string) ([]string, error) {
 		s = s[i:]
 	}
 	return f, nil
+}
+
+// SplitQuotedFieldsAndUnescape splits the string s around each instance of one
+// or more consecutive white space characters while taking into account quotes
+// and escaping, and returns an array of substrings of s or an empty list if s
+// contains only white space. Single quotes and double quotes are recognized to
+// prevent splitting within the quoted region, and are removed from the
+// resulting substrings. If a quote in s isn't closed err will be set and r will
+// have the unclosed argument as the last element. The backslash is used for
+// escaping.
+//
+// For example, the following string:
+//
+//     a b:"c d" 'e''f'  "g\""
+//
+// Would be parsed as:
+//
+//     []string{"a", "b:c d", "ef", `g"`}
+//
+// NOTE: This is a copy of go/build.splitQuoted. Keep in sync.
+func SplitQuotedFieldsAndUnescape(s string) (r []string, err error) {
+	var args []string
+	arg := make([]rune, len(s))
+	escaped := false
+	quoted := false
+	quote := '\x00'
+	i := 0
+	for _, rune := range s {
+		switch {
+		case escaped:
+			escaped = false
+		case rune == '\\':
+			escaped = true
+			continue
+		case quote != '\x00':
+			if rune == quote {
+				quote = '\x00'
+				continue
+			}
+		case rune == '"' || rune == '\'':
+			quoted = true
+			quote = rune
+			continue
+		case unicode.IsSpace(rune):
+			if quoted || i > 0 {
+				quoted = false
+				args = append(args, string(arg[:i]))
+				i = 0
+			}
+			continue
+		}
+		arg[i] = rune
+		i++
+	}
+	if quoted || i > 0 {
+		args = append(args, string(arg[:i]))
+	}
+	if quote != 0 {
+		err = errors.New("unclosed quote")
+	} else if escaped {
+		err = errors.New("unfinished escaping")
+	}
+	return args, err
+}
+
+// JoinAndQuoteFields joins a list of arguments into a string that can be
+// parsed with SplitQuotedFieldsAndUnescape. Arguments containing control
+// characters (backslashes, single, and double quotes) are escaped. Arguments
+// containing spaces are single quoted. Other arguments are inserted
+// without quoting.
+func JoinAndQuoteFields(args []string) string {
+	containsSpace := func(s string) bool {
+		for _, r := range s {
+			if unicode.IsSpace(r) {
+				return true
+			}
+		}
+		return false
+	}
+
+	sb := &strings.Builder{}
+	for i, arg := range args {
+		if i > 0 {
+			sb.WriteString(" ")
+		}
+		if strings.ContainsAny(arg, `\'"`) {
+			// Argument contains characters we need to escape.
+			// We won't add quotes, and if we see spaces, we'll escape them, too.
+			for _, r := range arg {
+				if r == '\\' || r == '\'' || r == '"' || unicode.IsSpace(r) {
+					sb.WriteByte('\\')
+				}
+				sb.WriteRune(r)
+			}
+		} else if containsSpace(arg) {
+			// Argument contains space. Let's add quotes.
+			sb.WriteByte('\'')
+			sb.WriteString(arg)
+			sb.WriteByte('\'')
+		} else {
+			// Regular old argument. No quote or escape needed.
+			sb.WriteString(arg)
+		}
+	}
+	return sb.String()
+}
+
+// QuotedStringListFlag is a convenience function for parsing a list of string
+// arguments encoded with JoinAndQuoteFields. This is useful for flags like
+// cmd/link's -extldflags.
+type QuotedStringListFlag []string
+
+var _ flag.Value = (*QuotedStringListFlag)(nil)
+
+func (f *QuotedStringListFlag) Set(v string) error {
+	fs, err := SplitQuotedFieldsAndUnescape(v)
+	if err != nil {
+		return err
+	}
+	*f = fs[:len(fs):len(fs)]
+	return nil
+}
+
+func (f *QuotedStringListFlag) String() string {
+	if f == nil {
+		return ""
+	}
+	return JoinAndQuoteFields(*f)
 }
