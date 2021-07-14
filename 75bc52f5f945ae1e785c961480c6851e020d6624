@@ -146,6 +146,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24925c38_adb138ef",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-14T19:59:29Z",
+      "side": 1,
+      "message": "I\u0027ll mark this resolved and leave it up to you. Fine to leave it as-is. I just found it jarring, but I expect all these will gone before these are merged.",
+      "parentUuid": "a761bb9f_3856c607",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea532a79_f5eff6e4",
@@ -364,6 +382,24 @@
       "side": 1,
       "message": "I don\u0027t think they can be, modRoots can be used (and ModRoot can be called) before MainModules exists. This will be one of the things that will be improved once we refactor to remove the globals.....",
       "parentUuid": "8a0dce1e_09956f7a",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e76e59e_46fec0bd",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-14T19:59:29Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "011069ee_18f53386",
       "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
