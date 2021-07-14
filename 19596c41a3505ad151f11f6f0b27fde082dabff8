@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9f492f2_efc758b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-14T21:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6847acab_f6f3157a",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "19596c41a3505ad151f11f6f0b27fde082dabff8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56e2dca8_03cd9cd6",
@@ -91,6 +115,24 @@
       "writtenOn": "2021-07-14T19:46:07Z",
       "side": 1,
       "message": "Can we add a:\n\n    if typ :\u003d n.Type(); typ !\u003d nil { ... }\n    \ncase above the \"n.Ntype !\u003d nil\" case, and leave the generic fallback here as \"composite literal\"?",
+      "revId": "19596c41a3505ad151f11f6f0b27fde082dabff8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f8ffb1c_e213eeab",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-14T21:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dc8513b_89230144",
       "revId": "19596c41a3505ad151f11f6f0b27fde082dabff8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
