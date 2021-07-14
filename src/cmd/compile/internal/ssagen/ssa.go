@@ -6717,16 +6717,15 @@ func EmitArgInfo(f *ir.Func, abiInfo *abi.ABIParamResultInfo) *obj.LSym {
 			writebyte(_dotdotdot)
 		}
 		writebyte(_endAgg)
-		return r
+		return true
 	}
 
-	c := true
 	for _, a := range abiInfo.InParams() {
+		c := visitType(a.FrameOffset(abiInfo), a.Type, 0)
 		if !c {
 			writebyte(_dotdotdot)
 			break
 		}
-		c = visitType(a.FrameOffset(abiInfo), a.Type, 0)
 	}
 	writebyte(_endSeq)
 	if wOff > maxLen {
