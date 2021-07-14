@@ -1590,6 +1590,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bf380fc_279dc135",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-14T00:04:26Z",
+      "side": 1,
+      "message": "I think all the uses of Req except for at the end of updateEagerRoots happen in single module contexts. I\u0027ve reverted Req to take a single main module as input.\n\nI think updateEagerRoots\u0027s use can be \u0027fixed\u0027 if we add the extra layer of mainModules structure to Requirements.",
+      "parentUuid": "31f12e22_901e4fe4",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 88
+      },
+      "revId": "92e764b6a368c97a28c7c91e46c6fb9e78f09fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ad32f3c_7795efc1",
