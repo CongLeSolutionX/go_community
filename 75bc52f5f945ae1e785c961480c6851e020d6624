@@ -234,6 +234,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "938976ef_0f97a338",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-15T15:54:40Z",
+      "side": 1,
+      "message": "Fine for now. I\u0027m looking forward to removing all global state later though.",
+      "parentUuid": "0e76a2b8_0016a296",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48602c5c_7ae1746a",
@@ -312,6 +330,24 @@
       "side": 1,
       "message": "unexported it. It\u0027s only called in places where we\u0027re guaranteed to have a single main module.",
       "parentUuid": "c1eee701_bf2f70ef",
+      "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb05e47_dd2094f2",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-15T15:54:40Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "a6fdb555_78798fad",
       "revId": "75bc52f5f945ae1e785c961480c6851e020d6624",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
