@@ -72,6 +72,23 @@
       "message": "Bunch of simple fixes to re-enable some more tests in -G\u003d3 mode (very few disabled at this point).  All fairly minor/weird situations, but will help increase coverage for later changes.",
       "revId": "8c75232fe3f2e68a984edda670f5f4602235c62d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcfd18cc_49bbfbeb",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1454,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-15T23:01:16Z",
+      "side": 1,
+      "message": "Doesn\u0027t this depend on the constraint on the type parameter? When all the types listed in the type constraint are nilable, then it is (as it is in the test in this CL). If the type constraint is something like { ~int64 | ~float64 } then it isn\u0027t?",
+      "revId": "8c75232fe3f2e68a984edda670f5f4602235c62d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
