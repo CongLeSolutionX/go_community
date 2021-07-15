@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51220b45_7c77d535",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-15T17:48:16Z",
+      "side": 1,
+      "message": "Happy to be convinced otherwise. It\u0027s easy to make +/-1 mistakes in reasoning here.",
+      "revId": "e052934ae66d46bcbc3bbb59712b4afab3dca284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8454709_02441264",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-15T17:48:16Z",
+      "side": 1,
+      "message": "I believe this comment is correct for the code as written. Note that the notation [a, b[ is an alternative notation for the \"open interval\" [a, b), that is, the interval from a to excluding b.\n\nEnd positions in the AST are always pointing to the rune immediately following a construct.\n\nBecause g.End() \u003c end, to me this comment group (g) looks to be inside the interval [beg, end[ (excluding the end).\n\nBut I wonder now if the condition on line 130: g.End() \u003e\u003d end should be: g.End() \u003e end instead.",
+      "range": {
+        "startLine": 135,
+        "startChar": 44,
+        "endLine": 135,
+        "endChar": 45
+      },
+      "revId": "e052934ae66d46bcbc3bbb59712b4afab3dca284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
