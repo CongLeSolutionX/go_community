@@ -154,6 +154,7 @@ func dumpdata() {
 	// Dump extra globals.
 	tmp := externdcl
 
+<<<<<<< HEAD   (bc51e9 [release-branch.go1.16] go1.16.6)
 	if externdcl != nil {
 		externdcl = externdcl[externs:]
 	}
@@ -164,6 +165,12 @@ func dumpdata() {
 		zero := mappkg.Lookup("zero")
 		ggloblsym(zero.Linksym(), int32(zerosize), obj.DUPOK|obj.RODATA)
 		zero.Linksym().Set(obj.AttrContentAddressable, true)
+=======
+	if reflectdata.ZeroSize > 0 {
+		zero := base.PkgLinksym("go.map", "zero", obj.ABI0)
+		objw.Global(zero, int32(reflectdata.ZeroSize), obj.DUPOK|obj.RODATA)
+		zero.Set(obj.AttrStatic, true)
+>>>>>>> CHANGE (49402b cmd/{compile,link}: fix bug in map.zero handling)
 	}
 
 	addGCLocals()
