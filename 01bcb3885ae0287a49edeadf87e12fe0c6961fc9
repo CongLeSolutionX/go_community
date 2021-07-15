@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2607989_5b39be22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-15T22:35:17Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-386-longtest, linux-amd64-longtest, windows-amd64-longtest\n\n",
+      "revId": "01bcb3885ae0287a49edeadf87e12fe0c6961fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
