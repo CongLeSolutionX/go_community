@@ -59,6 +59,30 @@
       },
       "revId": "693d238393163a9e4122e2610bc107c750b65c23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a6b1d35_09aaf34b",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-15T00:08:53Z",
+      "side": 1,
+      "message": "Whoops, no.  Fixed.",
+      "parentUuid": "3cacf90a_911e126d",
+      "range": {
+        "startLine": 122,
+        "startChar": 16,
+        "endLine": 122,
+        "endChar": 18
+      },
+      "revId": "693d238393163a9e4122e2610bc107c750b65c23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
