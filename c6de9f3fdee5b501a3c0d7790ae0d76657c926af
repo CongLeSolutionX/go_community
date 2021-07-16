@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b99c73f_93170941",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2425,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-16T17:21:59Z",
+      "side": 0,
+      "message": "NOTE FOR REVIEW: I\u0027m not sure why this was important. Seems like a potential source of bugs?",
+      "revId": "c6de9f3fdee5b501a3c0d7790ae0d76657c926af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02720512_e900beb5",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2481,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-16T17:21:59Z",
+      "side": 0,
+      "message": "NOTE FOR REVIEW: This seems inaccurate; I don\u0027t think it actually happens. Doesn\u0027t seem to matter either.",
+      "revId": "c6de9f3fdee5b501a3c0d7790ae0d76657c926af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
