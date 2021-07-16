@@ -89,6 +89,24 @@
       "message": "Doesn\u0027t this depend on the constraint on the type parameter? When all the types listed in the type constraint are nilable, then it is (as it is in the test in this CL). If the type constraint is something like { ~int64 | ~float64 } then it isn\u0027t?",
       "revId": "8c75232fe3f2e68a984edda670f5f4602235c62d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c22beef_a1cf6ffd",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1454,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-16T18:16:30Z",
+      "side": 1,
+      "message": "Good point!  HasNil() is not used much, and doesn\u0027t make sense for it to actually figure out whether a typeparam can be nil or not.  So, I reverted this change and just added an extra check at the call to HasNil() in iexport.go, which is what is relevant for this bug.  At the iexport.go call site, the types2 typechecker will have already verified the typeparam is used correctly (added that comment at the check).  The only other use of HasNil() is in the types1 typechecker, which should never be called with a typeparam.",
+      "parentUuid": "dcfd18cc_49bbfbeb",
+      "revId": "8c75232fe3f2e68a984edda670f5f4602235c62d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
