@@ -29,12 +29,12 @@ func identical(t1, t2 *Type, cmpTags bool, assumedEqual map[typePair]struct{}) b
 		return false
 	}
 	if t1.sym != nil || t2.sym != nil {
-		if t1.IsShape() || t2.IsShape() || t1.IsFullyInstantiated() || t2.IsFullyInstantiated() {
+		if t1.HasShape() || t2.HasShape() {
 			// TODO: is IsFullyInstantiated the right thing here? We want
 			// a concrete instantiation and a shape instantiation to
 			// end up being equal.
 			switch t1.kind {
-			case TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64, TUINT64, TINT, TUINT, TUINTPTR, TCOMPLEX64, TCOMPLEX128, TFLOAT32, TFLOAT64, TSTRING, TUNSAFEPTR:
+			case TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64, TUINT64, TINT, TUINT, TUINTPTR, TCOMPLEX64, TCOMPLEX128, TFLOAT32, TFLOAT64, TBOOL, TSTRING, TUNSAFEPTR:
 				return true
 			}
 			// fall through to unnamed type comparison for complex types.

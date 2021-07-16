@@ -973,8 +973,16 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, shapes, targs
 	// Add any new, fully instantiated types seen during the substitution to
 	// g.instTypeList.
 	g.instTypeList = append(g.instTypeList, subst.ts.InstTypeList...)
+	g.instTypeList = append(g.instTypeList, subst.unshapify.InstTypeList...)
+	g.instTypeList = append(g.instTypeList, subst.concretify.InstTypeList...)
 
 	return newf
+}
+
+func (subst *subster) unshapifyTyp(t *types.Type) *types.Type {
+	res := subst.unshapify.Typ(t)
+	types.CheckSize(res)
+	return res
 }
 
 // localvar creates a new name node for the specified local variable and enters it
@@ -1205,7 +1213,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 				if mse.X.Op() == ir.OTYPE {
 					// Method expression T.M
 					// Fall back from shape type to concrete type.
-					src = subst.unshapify.Typ(src)
+					src = subst.unshapifyTyp(src)
 					mse.X = ir.TypeNode(src)
 				} else {
 					// Implement x.M as a conversion-to-bound-interface
@@ -1214,21 +1222,21 @@ func (subst *subster) node(n ir.Node) ir.Node {
 					dst := subst.concretify.Typ(subst.shape2param[src].Bound())
 					// Mark that we use the methods of this concrete type.
 					// Otherwise the linker deadcode-eliminates them :(
-					reflectdata.MarkTypeUsedInInterface(subst.unshapify.Typ(src), subst.newf.Sym().Linksym())
+					reflectdata.MarkTypeUsedInInterface(subst.unshapifyTyp(src), subst.newf.Sym().Linksym())
 					ix := subst.findDictType(subst.shape2param[src])
 					assert(ix >= 0)
 					mse.X = subst.convertUsingDictionary(m.Pos(), mse.X, dst, subst.shape2param[src], ix)
 				}
 			}
 			transformDot(mse, false)
-			if mse.Op() == ir.OMETHEXPR {
-				//mse.X = ir.TypeNodeAt(mse.X.Pos(), subst.unshapify.Typ(mse.X.Type()))
-				mse.X.SetType(subst.unshapify.Typ(mse.X.Type()))
+			if mse.Op() == ir.OMETHEXPR && mse.X.Type().HasShape() {
+				mse.X = ir.TypeNodeAt(mse.X.Pos(), subst.unshapifyTyp(mse.X.Type()))
 			}
 			m.SetTypecheck(1)
 
 		case ir.OCALL:
 			call := m.(*ir.CallExpr)
+			convcheck := false
 			switch call.X.Op() {
 			case ir.OTYPE:
 				// Transform the conversion, now that we know the
@@ -1250,13 +1258,9 @@ func (subst *subster) node(n ir.Node) ir.Node {
 				// transform the call.
 				call.X.(*ir.SelectorExpr).SetOp(ir.OXDOT)
 				transformDot(call.X.(*ir.SelectorExpr), true)
-				if call.X.Op() == ir.OMETHEXPR {
-					if true {
-						panic("unshaping2")
-					}
-					call.X.SetType(subst.unshapify.Typ(call.X.Type()))
-				}
+				call.X.SetType(subst.unshapifyTyp(call.X.Type()))
 				transformCall(call)
+				convcheck = true
 
 			case ir.ODOT, ir.ODOTPTR:
 				// An OXDOT for a generic receiver was resolved to
@@ -1264,6 +1268,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 				// value. Transform the call to that function, now
 				// that the OXDOT was resolved.
 				transformCall(call)
+				convcheck = true
 
 			case ir.ONAME:
 				name := call.X.Name()
@@ -1280,7 +1285,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 					case ir.OAPPEND:
 						// Append needs to pass a concrete type to the runtime.
 						// TODO: there's no way to record a dictionary-loaded type for walk to use here
-						m.SetType(subst.unshapify.Typ(m.Type()))
+						m.SetType(subst.unshapifyTyp(m.Type()))
 					}
 
 				} else {
@@ -1288,10 +1293,12 @@ func (subst *subster) node(n ir.Node) ir.Node {
 					// type parameter (implied to be a function via a
 					// structural constraint) which is now resolved.
 					transformCall(call)
+					convcheck = true
 				}
 
 			case ir.OCLOSURE:
 				transformCall(call)
+				convcheck = true
 
 			case ir.OFUNCINST:
 				// A call with an OFUNCINST will get transformed
@@ -1300,6 +1307,16 @@ func (subst *subster) node(n ir.Node) ir.Node {
 
 			default:
 				base.FatalfAt(call.Pos(), fmt.Sprintf("Unexpected op with CALL during stenciling: %v", call.X.Op()))
+			}
+			if convcheck {
+				for i, arg := range x.(*ir.CallExpr).Args {
+					if arg.Type().HasTParam() && arg.Op() != ir.OCONVIFACE &&
+						call.Args[i].Op() == ir.OCONVIFACE {
+						ix := subst.findDictType(arg.Type())
+						assert(ix >= 0)
+						call.Args[i] = subst.convertUsingDictionary(arg.Pos(), call.Args[i].(*ir.ConvExpr).X, call.Args[i].Type(), arg.Type(), ix)
+					}
+				}
 			}
 
 		case ir.OCLOSURE:
@@ -1379,22 +1396,21 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			// New needs to pass a concrete type to the runtime.
 			// Or maybe it doesn't? We could use a shape type.
 			// TODO: need to modify m.X? I don't think any downstream passes use it.
-			m.SetType(subst.unshapify.Typ(m.Type()))
+			m.SetType(subst.unshapifyTyp(m.Type()))
 
 		case ir.OPTRLIT:
 			m := m.(*ir.AddrExpr)
 			// Walk uses the type of the argument of ptrlit. Also could be a shape type?
-			m.X.SetType(subst.unshapify.Typ(m.X.Type()))
+			m.X.SetType(subst.unshapifyTyp(m.X.Type()))
 
 		case ir.OMETHEXPR:
 			se := m.(*ir.SelectorExpr)
-			se.X = ir.TypeNodeAt(se.X.Pos(), subst.unshapify.Typ(se.X.Type()))
-			//se.X.SetType(subst.unshapify.Typ(se.X.Type()))
+			se.X = ir.TypeNodeAt(se.X.Pos(), subst.unshapifyTyp(se.X.Type()))
 		case ir.OFUNCINST:
 			inst := m.(*ir.InstExpr)
 			targs2 := make([]ir.Node, len(inst.Targs))
 			for i, n := range inst.Targs {
-				targs2[i] = ir.TypeNodeAt(n.Pos(), subst.unshapify.Typ(n.Type()))
+				targs2[i] = ir.TypeNodeAt(n.Pos(), subst.unshapifyTyp(n.Type()))
 				// TODO: need an ir.Name node?
 			}
 			inst.Targs = targs2
