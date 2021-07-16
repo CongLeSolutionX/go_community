@@ -107,6 +107,24 @@
       "parentUuid": "dcfd18cc_49bbfbeb",
       "revId": "8c75232fe3f2e68a984edda670f5f4602235c62d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8f4dcdc_0bde94e0",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1454,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-16T18:30:18Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "3c22beef_a1cf6ffd",
+      "revId": "8c75232fe3f2e68a984edda670f5f4602235c62d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
