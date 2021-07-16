@@ -134,19 +134,31 @@ Do not send CLs removing the interior tags from such phrases.
 
 <h3 id="go-command">Go command</h3>
 
-<h4 id="lazy-loading">Lazy module loading</h4>
+<h4 id="lazy-loading">Lazy module loading and module graph pruning</h4>
 
 <p><!-- golang.org/issue/36460 -->
   If a module specifies <code>go</code> <code>1.17</code> or higher in its
-  <code>go.mod</code> file, its transitive requirements are now loaded lazily,
-  avoiding the need to download or read <code>go.mod</code> files for
-  otherwise-irrelevant dependencies. To support lazy loading, in Go 1.17 modules
-  the <code>go</code> command maintains <em>explicit</em> requirements in
-  the <code>go.mod</code> file for every dependency that provides any package
-  transitively imported by any package or test within the module.
-  See <a href="https://golang.org/design/36460-lazy-module-loading">the design
-  document</a> for more detail.
-  <!-- TODO(bcmills): replace the design-doc link with proper documentation. -->
+  <code>go.mod</code> file, its <codeg>go.mod</code> file now contains an
+  explicit <a href="/ref/mod#go-mod-file-require"><code>require</code>
+  directive</a> for every module that provides a transitively-imported package.
+  (In previous versions, the <code>go.mod</code> file typically only included
+  explicit requirements for <em>directly</em>-imported packages.)
+  This <a href="/ref/mod#graph-redundancy">module graph redundancy</a> enables
+  the lazy loading and graph pruning changes described below.
+<p>
+
+<p>
+  If a module specifies <code>go</code> <code>1.17</code> or higher, the module
+  graph includes only the <em>immediate</em> dependencies of
+  other <code>go</code> <code>1.17</code> modules, not their full transitive
+  dependencies. See <a href="/ref/mod#graph-pruning">Module graph pruning</a>.
+</p>
+
+<p>
+  If a module specifies <code>go</code> <code>1.17</code> or higher,
+  the <code>go</code> tool avoids reading (or even downloading)
+  <code>go.mod</code> files for dependencies if they are not needed to complete
+  the requested command. See <a href="/ref/mod#lazy-loading">Lazy loading</a>.
 </p>
 
 <p><!-- golang.org/issue/45965 -->
@@ -159,10 +171,11 @@ Do not send CLs removing the interior tags from such phrases.
 
 <p><!-- golang.org/issue/45094 -->
   To facilitate the upgrade to lazy loading, the
-  <code>go</code> <code>mod</code> <code>tidy</code> subcommand now supports
-  a <code>-go</code> flag to set or change the <code>go</code> version in
-  the <code>go.mod</code> file. To enable lazy loading for an existing module
-  without changing the selected versions of its dependencies, run:
+  <a href="/ref/mod#go-mod-tidy"><code>go</code> <code>mod</code> <code>tidy</code></a>
+  subcommand now supports a <code>-go</code> flag to set or change
+  the <code>go</code> version in the <code>go.mod</code> file. To enable lazy
+  loading for an existing module without changing the selected versions of its
+  dependencies, run:
 </p>
 
 <pre>
@@ -199,10 +212,10 @@ Do not send CLs removing the interior tags from such phrases.
 </p>
 
 <p><!-- golang.org/issue/46366 -->
-  The <code>go</code> <code>mod</code> <code>graph</code> subcommand also
-  supports the <code>-go</code> flag, which causes it to report the graph as
-  seen by the indicated Go version, showing dependencies that may otherwise be
-  pruned out by lazy loading.
+  The <a href="/ref/mod#go-mod-graph"><code>go</code> <code>mod</code> <code>graph</code></a>
+  subcommand also supports the <code>-go</code> flag, which causes it to report
+  the graph as seen by the indicated Go version, showing dependencies that may
+  otherwise be pruned out by lazy loading.
 </p>
 
 <h4 id="module-deprecation-comments">Module deprecation comments</h4>
@@ -270,7 +283,8 @@ Do not send CLs removing the interior tags from such phrases.
 
 <p><!-- golang.org/issue/36876 -->
   If the main module specifies <code>go</code> <code>1.17</code> or higher,
-  <code>go</code> <code>mod</code> <code>vendor</code> now annotates
+  <a href="/ref/mod#go-mod-vendor"><code>go</code> <code>mod</code> <code>vendor</code></a>
+  now annotates
   <code>vendor/modules.txt</code> with the <code>go</code> version indicated by
   each vendored module in its own <code>go.mod</code> file. The annotated
   version is used when building the module's packages from vendored source code.
