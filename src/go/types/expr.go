@@ -622,7 +622,7 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		return x.typ, nil, 0
 	}
 
-	switch t := optype(target).(type) {
+	switch t := under(target).(type) {
 	case *Basic:
 		if x.mode == constant_ {
 			v, code := check.representation(x, t)
