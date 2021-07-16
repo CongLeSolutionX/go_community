@@ -113,11 +113,6 @@ func asSignature(t Type) *Signature {
 	return op
 }
 
-func asInterface(t Type) *Interface {
-	op, _ := optype(t).(*Interface)
-	return op
-}
-
 func asMap(t Type) *Map {
 	op, _ := optype(t).(*Map)
 	return op
@@ -131,6 +126,11 @@ func asChan(t Type) *Chan {
 // If the argument to asNamed and asTypeParam is of the respective types
 // (possibly after expanding an instance type), these methods return that type.
 // Otherwise the result is nil.
+
+func asInterface(t Type) *Interface {
+	op, _ := optype(t).(*Interface)
+	return op
+}
 
 func asNamed(t Type) *Named {
 	e, _ := expand(t).(*Named)
