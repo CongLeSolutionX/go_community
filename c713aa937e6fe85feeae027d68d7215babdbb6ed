@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e0cd31c_b8406dd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-07-17T23:09:11Z",
+      "side": 1,
+      "message": "This CL needs more testing around possible double-counting of work done in cgo, including programs that use or don\u0027t use runtime.SetCgoTraceback. And it needs some (assembly) code for linux/amd64 and linux/ppc64x in order to interact correctly with that feature. Felix is working on the first in CL 334769. I\u0027m likely to get stuck on the second (assembly code is unfamiliar to me, and don\u0027t have access to ppc64x hardware).",
+      "revId": "c713aa937e6fe85feeae027d68d7215babdbb6ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

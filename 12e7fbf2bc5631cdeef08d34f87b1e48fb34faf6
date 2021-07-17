@@ -211,6 +211,24 @@
       "parentUuid": "ac75f6f1_9d1ead8f",
       "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fecf0c19_5f0d7c8b",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-07-17T23:09:11Z",
+      "side": 1,
+      "message": "\u003e Did you consider to just force-preempt all goroutines in order to setup their `timer_create()` timers?\nI didn\u0027t consider that. It could work for threads running Go code; any threads in C code would do the setup when they\u0027re ready. It would be disruptive in a way that profiling isn\u0027t currently disruptive ... is there a sufficiently light-weight option for that? The runtime overhead and the implementation complexity are unknown to me, and I estimated the benefit it would provide as relatively low.\n\n\u003e for cgo calls ... probably needs the same ... checks\nI added the checks to some of the cgo call paths. What\u0027s missing are platforms that provide runtime.SetCgoTraceback, when that feature is in use (for `sigprofNonGo`). That needs assembly.\n\n\u003e Perhaps the most useful thing I can provide for this round of review is some visualization of the relevant control flows for this patch.\nThis has been very helpful. Thank you!",
+      "parentUuid": "1a90df8e_0715028e",
+      "revId": "12e7fbf2bc5631cdeef08d34f87b1e48fb34faf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

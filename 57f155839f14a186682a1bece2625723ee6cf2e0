@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e005ad74_f12e503a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-07-17T23:09:11Z",
+      "side": 1,
+      "message": "I think I\u0027ve addressed the cgo-related oversampling, except in linux/amd64 and linux/ppc64x. Those platforms should work when there\u0027s no runtime.SetCgoTraceback call, but to work when that feature is active they\u0027ll need changes to their runtime·cgoSigtramp/sigtrampnog assembly code. I put \"TODO\" markers in the assembly where I think the change should go.\n\nAs for creating timers for cgo threads we discover via the signal handler, I don\u0027t see a good way to do the bookkeeping for that: in addition to tracking the thread+timer pairs so we can clean up when profiling stops, it also needs to be safe to write from a signal handler (to note that we did the setup) and safe to read from a signal handler (to not create multiple timers). That sounds expensive, either in implementation time+complexity, or in memory space. I don\u0027t have plans to do it.",
+      "parentUuid": "571430a8_81c3ad67",
+      "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59dbaa67_374a4273",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "writtenOn": "2021-06-15T09:44:05Z",
       "side": 1,
       "message": "I\u0027m not sure I understand this. Is this intended to capture work done on short lived threads that exit in less than 1/Hz (10ms)?",
+      "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0002ff52_c30a5978",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-07-17T23:09:11Z",
+      "side": 1,
+      "message": "For threads that exit quickly, and also for threads that do only a small amount of work (less than 10ms) while profiling is active. The GC workers in a mostly-idle process would fall into that second case. I expanded the commentary near this code and described it in the commit message.",
+      "parentUuid": "59dbaa67_374a4273",
       "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -83,6 +119,24 @@
       "writtenOn": "2021-06-15T09:44:05Z",
       "side": 1,
       "message": "NIT: Probably better to not shadow the builtin new() function, especially since this function already uses it a few lines earlier. If not dangerous, it\u0027s definitely a little confusing. The same comment applies to other parts of this patch that use new as variable name.\n\n(I did notice that a few other files in the Go tree already use this variable name, so arguably it seems acceptable upstream)",
+      "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd7785fa_6454a910",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-07-17T23:09:11Z",
+      "side": 1,
+      "message": "Done\n\nI changed the variable names I use for atomics. The existing syscall stubs use \"old\" and \"new\", so for the syscall stubs I added I kept that naming.",
+      "parentUuid": "e55a6c4c_b2be5551",
       "revId": "57f155839f14a186682a1bece2625723ee6cf2e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
