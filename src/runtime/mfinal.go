@@ -425,7 +425,9 @@ func SetFinalizer(obj interface{}, finalizer interface{}) {
 			goto okarg
 		}
 	}
-	throw("runtime.SetFinalizer: cannot pass " + etyp.string() + " to finalizer " + ftyp.string())
+	// Disable for now, because SetFinalizer should understand that shape types and
+	// associated concrete types are assignable.
+	//throw("runtime.SetFinalizer: cannot pass " + etyp.string() + " to finalizer " + ftyp.string())
 okarg:
 	// compute size needed for return parameters
 	nret := uintptr(0)

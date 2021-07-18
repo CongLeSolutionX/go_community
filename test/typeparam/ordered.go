@@ -34,6 +34,7 @@ func (s orderedSlice[Elem]) Less(i, j int) bool {
 }
 func (s orderedSlice[Elem]) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
+//go:noinline
 func _OrderedSlice[Elem Ordered](s []Elem) {
 	sort.Sort(orderedSlice[Elem](s))
 }

@@ -54,6 +54,7 @@ type List[a any] interface {
 type Nil[a any] struct{
 }
 
+//go:noinline
 func (xs Nil[a]) Match(casenil Function[Nil[a], any], casecons Function[Cons[a], any]) any {
 	return casenil.Apply(xs)
 }
@@ -63,6 +64,7 @@ type Cons[a any] struct {
 	Tail List[a]
 }
 
+//go:noinline
 func (xs Cons[a]) Match(casenil Function[Nil[a], any], casecons Function[Cons[a], any]) any {
 	return casecons.Apply(xs)
 }
@@ -78,10 +80,12 @@ type mapCons[a, b any] struct {
 	f Function[a, b]
 }
 
+//go:noinline
 func (m mapCons[a, b]) Apply(xs Cons[a]) any {
 	return Cons[b]{m.f.Apply(xs.Head), Map[a, b](m.f, xs.Tail)}
 }
 
+//go:noinline
 func Map[a, b any](f Function[a, b], xs List[a]) List[b] {
 	return xs.Match(mapNil[a, b]{}, mapCons[a, b]{f}).(List[b])
 }
