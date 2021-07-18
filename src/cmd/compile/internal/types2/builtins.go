@@ -624,19 +624,31 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Alignof:
 		// unsafe.Alignof(x T) uintptr
-		if asTypeParam(x.typ) != nil {
-			check.errorf(call, invalidOp+"unsafe.Alignof undefined for %s", x)
-			return
-		}
 		check.assignment(x, nil, "argument to unsafe.Alignof")
 		if x.mode == invalid {
 			return
 		}
 
-		x.mode = constant_
-		x.val = constant.MakeInt64(check.conf.alignof(x.typ))
+		var val int64 // valid Alignof values are >= 1
+		if underIs(x.typ, func(u Type) bool {
+			if u != theTop {
+				if v := check.conf.alignof(u); val == v || val == 0 {
+					val = v
+					return true
+				}
+			}
+			return false
+		}) {
+			x.mode = constant_
+			x.val = constant.MakeInt64(val)
+			// result is constant - no need to record signature
+		} else {
+			x.mode = value
+			if check.Types != nil {
+				check.recordBuiltinType(call.Fun, makeSig(Typ[Uintptr], x.typ))
+			}
+		}
 		x.typ = Typ[Uintptr]
-		// result is constant - no need to record signature
 
 	case _Offsetof:
 		// unsafe.Offsetof(x T) uintptr, where x must be a selector
@@ -685,19 +697,31 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Sizeof:
 		// unsafe.Sizeof(x T) uintptr
-		if asTypeParam(x.typ) != nil {
-			check.errorf(call, invalidOp+"unsafe.Sizeof undefined for %s", x)
-			return
-		}
 		check.assignment(x, nil, "argument to unsafe.Sizeof")
 		if x.mode == invalid {
 			return
 		}
 
-		x.mode = constant_
-		x.val = constant.MakeInt64(check.conf.sizeof(x.typ))
+		var val int64 = -1 // valid Sizeof values are >= 0
+		if underIs(x.typ, func(u Type) bool {
+			if u != theTop {
+				if v := check.conf.sizeof(u); val == v || val < 0 {
+					val = v
+					return true
+				}
+			}
+			return false
+		}) {
+			x.mode = constant_
+			x.val = constant.MakeInt64(val)
+			// result is constant - no need to record signature
+		} else {
+			x.mode = value
+			if check.Types != nil {
+				check.recordBuiltinType(call.Fun, makeSig(Typ[Uintptr], x.typ))
+			}
+		}
 		x.typ = Typ[Uintptr]
-		// result is constant - no need to record signature
 
 	case _Slice:
 		// unsafe.Slice(ptr *T, len IntegerType) []T
