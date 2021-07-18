@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db052c66_166c1404",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2021-07-18T14:31:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09184ebe_e249d212",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "2435062723aa8a42357cd64b90f08f831da5c805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1b49e4a_e10e14d2",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-07-18T05:58:12Z",
       "side": 1,
       "message": "s/Fix/Fixes/\n\nas per https://golang.org/doc/contribute#ref_issues.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "2435062723aa8a42357cd64b90f08f831da5c805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1354d3c_762f2e78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2021-07-18T14:31:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1b49e4a_e10e14d2",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -114,6 +162,24 @@
       "writtenOn": "2021-07-18T05:58:12Z",
       "side": 1,
       "message": "I don\u0027t see why this is true. But if you change line 49 to check both first and second rune are slashes, then the check for UNC becomes obvious.",
+      "revId": "2435062723aa8a42357cd64b90f08f831da5c805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29b58477_e1516bef",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2021-07-18T14:31:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe28eca6_4bc034e7",
       "revId": "2435062723aa8a42357cd64b90f08f831da5c805",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
