@@ -1248,6 +1248,8 @@ func (subst *subster) node(n ir.Node) ir.Node {
 					srcType := x.(*ir.CallExpr).Args[0].Type()
 					if ix := subst.findDictType(srcType); ix >= 0 {
 						c := m.(*ir.ConvExpr)
+						reflectdata.MarkTypeUsedInInterface(subst.concretify.Typ(srcType), subst.newf.Sym().Linksym())
+
 						m = subst.convertUsingDictionary(c.Pos(), c.X, c.Type(), srcType, ix)
 					}
 				}
@@ -1314,6 +1316,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 						call.Args[i].Op() == ir.OCONVIFACE {
 						ix := subst.findDictType(arg.Type())
 						assert(ix >= 0)
+						reflectdata.MarkTypeUsedInInterface(subst.concretify.Typ(arg.Type()), subst.newf.Sym().Linksym())
 						call.Args[i] = subst.convertUsingDictionary(arg.Pos(), call.Args[i].(*ir.ConvExpr).X, call.Args[i].Type(), arg.Type(), ix)
 					}
 				}
@@ -1374,6 +1377,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			// m's argument now has an instantiated type.
 			t := x.X.Type()
 			if ix := subst.findDictType(t); ix >= 0 {
+				reflectdata.MarkTypeUsedInInterface(subst.concretify.Typ(t), subst.newf.Sym().Linksym())
 				m = subst.convertUsingDictionary(x.Pos(), m.(*ir.ConvExpr).X, m.Type(), t, ix)
 			}
 		case ir.OEQ, ir.ONE:
@@ -1397,11 +1401,6 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			// Or maybe it doesn't? We could use a shape type.
 			// TODO: need to modify m.X? I don't think any downstream passes use it.
 			m.SetType(subst.unshapifyTyp(m.Type()))
-
-		case ir.OPTRLIT:
-			m := m.(*ir.AddrExpr)
-			// Walk uses the type of the argument of ptrlit. Also could be a shape type?
-			m.X.SetType(subst.unshapifyTyp(m.X.Type()))
 
 		case ir.OMETHEXPR:
 			se := m.(*ir.SelectorExpr)
