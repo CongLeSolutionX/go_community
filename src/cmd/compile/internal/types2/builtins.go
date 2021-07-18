@@ -624,19 +624,22 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Alignof:
 		// unsafe.Alignof(x T) uintptr
-		if asTypeParam(x.typ) != nil {
-			check.errorf(call, invalidOp+"unsafe.Alignof undefined for %s", x)
-			return
-		}
 		check.assignment(x, nil, "argument to unsafe.Alignof")
 		if x.mode == invalid {
 			return
 		}
 
-		x.mode = constant_
-		x.val = constant.MakeInt64(check.conf.alignof(x.typ))
+		if varSize(x.typ) {
+			x.mode = value
+			if check.Types != nil {
+				check.recordBuiltinType(call.Fun, makeSig(Typ[Uintptr], x.typ))
+			}
+		} else {
+			x.mode = constant_
+			x.val = constant.MakeInt64(check.conf.alignof(x.typ))
+			// result is constant - no need to record signature
+		}
 		x.typ = Typ[Uintptr]
-		// result is constant - no need to record signature
 
 	case _Offsetof:
 		// unsafe.Offsetof(x T) uintptr, where x must be a selector
@@ -674,30 +677,39 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 			return
 		}
 
-		// TODO(gri) Should we pass x.typ instead of base (and indirect report if derefStructPtr indirected)?
+		// TODO(gri) Should we pass x.typ instead of base (and have indirect report if derefStructPtr indirected)?
 		check.recordSelection(selx, FieldVal, base, obj, index, false)
 
-		offs := check.conf.offsetof(base, index)
-		x.mode = constant_
-		x.val = constant.MakeInt64(offs)
+		if varSize(x.typ) {
+			x.mode = value
+			if check.Types != nil {
+				check.recordBuiltinType(call.Fun, makeSig(Typ[Uintptr], x.typ))
+			}
+		} else {
+			x.mode = constant_
+			x.val = constant.MakeInt64(check.conf.offsetof(base, index))
+			// result is constant - no need to record signature
+		}
 		x.typ = Typ[Uintptr]
-		// result is constant - no need to record signature
 
 	case _Sizeof:
 		// unsafe.Sizeof(x T) uintptr
-		if asTypeParam(x.typ) != nil {
-			check.errorf(call, invalidOp+"unsafe.Sizeof undefined for %s", x)
-			return
-		}
 		check.assignment(x, nil, "argument to unsafe.Sizeof")
 		if x.mode == invalid {
 			return
 		}
 
-		x.mode = constant_
-		x.val = constant.MakeInt64(check.conf.sizeof(x.typ))
+		if varSize(x.typ) {
+			x.mode = value
+			if check.Types != nil {
+				check.recordBuiltinType(call.Fun, makeSig(Typ[Uintptr], x.typ))
+			}
+		} else {
+			x.mode = constant_
+			x.val = constant.MakeInt64(check.conf.sizeof(x.typ))
+			// result is constant - no need to record signature
+		}
 		x.typ = Typ[Uintptr]
-		// result is constant - no need to record signature
 
 	case _Slice:
 		// unsafe.Slice(ptr *T, len IntegerType) []T
@@ -767,6 +779,27 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 	}
 
 	return true
+}
+
+// varSize reports if the size of a type is variable because due to type parameters.
+func varSize(t Type) bool {
+	switch t := under(t).(type) {
+	case *Array:
+		return varSize(t.elem)
+	case *Struct:
+		for _, f := range t.fields {
+			if varSize(f.typ) {
+				return true
+			}
+		}
+	case *Named:
+		return varSize(t.underlying)
+	case *TypeParam:
+		return true
+	case *Union, *instance, *top:
+		unreachable()
+	}
+	return false
 }
 
 // applyTypeFunc applies f to x. If x is a type parameter,
