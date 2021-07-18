@@ -6,6 +6,8 @@
 
 package builtins
 
+import "unsafe"
+
 // close
 
 type C0 interface{ int }
@@ -126,4 +128,44 @@ func _[T Bss]() {
 	_ = make /* ERROR expects 2 or 3 arguments */ (T)
 	_ = make(T, 10)
 	_ = make(T, 10, 20)
+}
+
+// unsafe.Alignof
+
+func _[T interface{ int32 }](x T) {
+	const v = unsafe.Alignof(x)
+	assert(v == 4)
+}
+
+func _[T interface{ int32 | ~uint32 }](x T) {
+	const v = unsafe.Alignof(x)
+	assert(v == 4)
+}
+
+func _[T interface{ int32 | ~uint32 | float64 }](x T) {
+	const v = unsafe /* ERROR not constant */ .Alignof(x)
+}
+
+func _[T any](x T) {
+	const _ = unsafe /* ERROR not constant */ .Alignof(x)
+}
+
+// unsafe.Sizeof
+
+func _[T interface{ int32 }](x T) {
+	const v = unsafe.Sizeof(x)
+	assert(v == 4)
+}
+
+func _[T interface{ int32 | ~uint32 }](x T) {
+	const v = unsafe.Sizeof(x)
+	assert(v == 4)
+}
+
+func _[T interface{ int32 | ~uint32 | float64 }](x T) {
+	const v = unsafe /* ERROR not constant */ .Sizeof(x)
+}
+
+func _[T any](x T) {
+	const _ = unsafe /* ERROR not constant */ .Sizeof(x)
 }
