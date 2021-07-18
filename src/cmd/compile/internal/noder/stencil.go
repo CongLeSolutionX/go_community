@@ -92,8 +92,8 @@ func (g *irgen) stencil() {
 				// generic F, not immediately called
 				closureRequired = true
 			}
-			if n.Op() == ir.OMETHEXPR && len(deref(n.(*ir.SelectorExpr).X.Type()).RParams()) > 0 && !types.IsInterfaceMethod(n.(*ir.SelectorExpr).Selection.Type) {
-				// T.M, T a type which is generic, not immediately
+			if (n.Op() == ir.OMETHEXPR || n.Op() == ir.OMETHVALUE) && len(deref(n.(*ir.SelectorExpr).X.Type()).RParams()) > 0 && !types.IsInterfaceMethod(n.(*ir.SelectorExpr).Selection.Type) {
+				// T.M or x.M, where T or x is generic, but not immediately
 				// called. Not necessary if the method selected is
 				// actually for an embedded interface field.
 				closureRequired = true
@@ -186,11 +186,22 @@ func (g *irgen) stencil() {
 				outer = f
 			}
 			edit = func(x ir.Node) ir.Node {
+				if x.Op() == ir.OFUNCINST {
+					child := x.(*ir.InstExpr).X
+					if child.Op() == ir.OMETHEXPR || child.Op() == ir.OMETHVALUE {
+						// Mark METHEXPR/METHVALUE nodes that
+						// have a FUNCINST above them, so we
+						// only do buildClosure() on the
+						// FUNCINST node.
+						child.(*ir.SelectorExpr).SetImplicit(true)
+					}
+				}
 				ir.EditChildren(x, edit)
 				switch {
 				case x.Op() == ir.OFUNCINST:
 					return g.buildClosure(outer, x)
-				case x.Op() == ir.OMETHEXPR && len(deref(x.(*ir.SelectorExpr).X.Type()).RParams()) > 0 &&
+				case (x.Op() == ir.OMETHEXPR || x.Op() == ir.OMETHVALUE) &&
+					!x.(*ir.SelectorExpr).Implicit() && len(deref(x.(*ir.SelectorExpr).X.Type()).RParams()) > 0 &&
 					!types.IsInterfaceMethod(x.(*ir.SelectorExpr).Selection.Type): // TODO: test for ptr-to-method case
 					return g.buildClosure(outer, x)
 				}
@@ -264,12 +275,15 @@ func (g *irgen) buildClosure(outer *ir.Func, x ir.Node) ir.Node {
 				fmt.Printf("%s in %v for generic method value %v\n", dictkind, outer, inst.X)
 			}
 		}
-	} else { // ir.OMETHEXPR
+	} else { // ir.OMETHEXPR or ir.METHVALUE
 		// Method expression T.M where T is a generic type.
 		se := x.(*ir.SelectorExpr)
 		targs := deref(se.X.Type()).RParams()
 		if len(targs) == 0 {
 			panic("bad")
+		}
+		if x.Op() == ir.OMETHVALUE {
+			rcvrValue = se.X
 		}
 
 		// se.X.Type() is the top-level type of the method expression. To
