@@ -29,12 +29,7 @@ func makeSubstMap(tpars []*TypeName, targs []Type) *substMap {
 	assert(len(tpars) == len(targs))
 	proj := make(map[*TypeParam]Type, len(tpars))
 	for i, tpar := range tpars {
-		// We must expand type arguments otherwise *instance
-		// types end up as components in composite types.
-		// TODO(gri) explain why this causes problems, if it does
-		targ := expand(targs[i]) // possibly nil
-		targs[i] = targ
-		proj[tpar.typ.(*TypeParam)] = targ
+		proj[tpar.typ.(*TypeParam)] = targs[i]
 	}
 	return &substMap{targs, proj}
 }
@@ -63,15 +58,6 @@ func (check *Checker) subst(pos token.Pos, typ Type, smap *substMap) Type {
 	if smap.empty() {
 		return typ
 	}
-
-	// common cases
-	switch t := typ.(type) {
-	case *Basic:
-		return typ // nothing to do
-	case *TypeParam:
-		return smap.lookup(t)
-	}
-
 	// general case
 	var subst subster
 	subst.pos = pos
@@ -86,6 +72,7 @@ func (check *Checker) subst(pos token.Pos, typ Type, smap *substMap) Type {
 		// for recursive types (example: type T[P any] *T[P]).
 		subst.typMap = make(map[string]*Named)
 	}
+
 	return subst.typ(typ)
 }
 
@@ -247,21 +234,21 @@ func (subst *subster) typ(typ Type) Type {
 		tname := NewTypeName(subst.pos, t.obj.pkg, t.obj.name, nil)
 		named := subst.check.newNamed(tname, t, t.Underlying(), t.TParams(), t.methods) // method signatures are updated lazily
 		named.targs = newTargs
+		// Update typMap before completing t, to avoid infinite recursion.
 		subst.typMap[h] = named
+		t.complete()
 
 		// do the substitution
 		dump(">>> subst %s with %s (new: %s)", t.underlying, subst.smap, newTargs)
 		named.underlying = subst.typOrNil(t.Underlying())
+		dump(">>> underlying: %v", named.underlying)
+		assert(named.underlying != nil)
 		named.fromRHS = named.underlying // for cycle detection (Checker.validType)
 
 		return named
 
 	case *TypeParam:
 		return subst.smap.lookup(t)
-
-	case *instance:
-		// TODO(gri) can we avoid the expansion here and just substitute the type parameters?
-		return subst.typ(t.expand())
 
 	default:
 		panic("unimplemented")
