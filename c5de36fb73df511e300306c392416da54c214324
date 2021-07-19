@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "def8887c_a266d402",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-19T21:58:25Z",
+      "side": 1,
+      "message": "Is it time to just call sort.Search?  The compiler is a lot better than it was in 2011.",
+      "revId": "c5de36fb73df511e300306c392416da54c214324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
