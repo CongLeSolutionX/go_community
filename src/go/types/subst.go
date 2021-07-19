@@ -29,12 +29,7 @@ func makeSubstMap(tpars []*TypeName, targs []Type) *substMap {
 	assert(len(tpars) == len(targs))
 	proj := make(map[*TypeParam]Type, len(tpars))
 	for i, tpar := range tpars {
-		// We must expand type arguments otherwise *instance
-		// types end up as components in composite types.
-		// TODO(gri) explain why this causes problems, if it does
-		targ := expand(targs[i]) // possibly nil
-		targs[i] = targ
-		proj[tpar.typ.(*TypeParam)] = targ
+		proj[tpar.typ.(*TypeParam)] = targs[i]
 	}
 	return &substMap{targs, proj}
 }
@@ -54,24 +49,7 @@ func (m *substMap) lookup(tpar *TypeParam) Type {
 	return tpar
 }
 
-// subst returns the type typ with its type parameters tpars replaced by
-// the corresponding type arguments targs, recursively.
-// subst is functional in the sense that it doesn't modify the incoming
-// type. If a substitution took place, the result type is different from
-// from the incoming type.
-func (check *Checker) subst(pos token.Pos, typ Type, smap *substMap) Type {
-	if smap.empty() {
-		return typ
-	}
-
-	// common cases
-	switch t := typ.(type) {
-	case *Basic:
-		return typ // nothing to do
-	case *TypeParam:
-		return smap.lookup(t)
-	}
-
+func (check *Checker) subster(pos token.Pos, smap *substMap) *subster {
 	// general case
 	var subst subster
 	subst.pos = pos
@@ -86,6 +64,20 @@ func (check *Checker) subst(pos token.Pos, typ Type, smap *substMap) Type {
 		// for recursive types (example: type T[P any] *T[P]).
 		subst.typMap = make(map[string]*Named)
 	}
+	return &subst
+}
+
+// subst returns the type typ with its type parameters tpars replaced by
+// the corresponding type arguments targs, recursively.
+// subst is functional in the sense that it doesn't modify the incoming
+// type. If a substitution took place, the result type is different from
+// from the incoming type.
+func (check *Checker) subst(pos token.Pos, typ Type, smap *substMap) Type {
+	if smap.empty() {
+		return typ
+	}
+
+	subst := check.subster(pos, smap)
 	return subst.typ(typ)
 }
 
@@ -245,23 +237,24 @@ func (subst *subster) typ(typ Type) Type {
 
 		// create a new named type and populate typMap to avoid endless recursion
 		tname := NewTypeName(subst.pos, t.obj.pkg, t.obj.name, nil)
+		// methods, copied = subst.funcList(t.methods)
 		named := subst.check.newNamed(tname, t, t.Underlying(), t.TParams(), t.methods) // method signatures are updated lazily
 		named.targs = newTargs
 		subst.typMap[h] = named
+		// TODO: can this loop indefinitely infinite loop? What if invoked above...
+		t.complete()
 
 		// do the substitution
 		dump(">>> subst %s with %s (new: %s)", t.underlying, subst.smap, newTargs)
 		named.underlying = subst.typOrNil(t.Underlying())
+		dump(">>> underlying: %v", named.underlying)
+		assert(named.underlying != nil)
 		named.fromRHS = named.underlying // for cycle detection (Checker.validType)
 
 		return named
 
 	case *TypeParam:
 		return subst.smap.lookup(t)
-
-	case *instance:
-		// TODO(gri) can we avoid the expansion here and just substitute the type parameters?
-		return subst.typ(t.expand())
 
 	default:
 		panic("unimplemented")

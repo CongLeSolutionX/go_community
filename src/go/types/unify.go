@@ -225,7 +225,7 @@ func (u *unifier) nifyEq(x, y Type, p *ifacePair) bool {
 // adapted version of Checker.identical0. For changes to that
 // code the corresponding changes should be made here.
 // Must not be called directly from outside the unifier.
-func (u *unifier) nify(x, y Type, p *ifacePair) bool {
+func (u *unifier) nify(x, y Type, p *ifacePair) (ok bool) {
 	// types must be expanded for comparison
 	x = expand(x)
 	y = expand(y)
