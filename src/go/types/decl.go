@@ -290,7 +290,24 @@ type typeInfo uint
 // defined types.
 // (Cycles involving alias types, as in "type A = [10]A" are detected
 // earlier, via the objDecl cycle detection mechanism.)
-func (check *Checker) validType(typ Type, path []Object) typeInfo {
+func (check *Checker) validType(typ Type, path []Object) (info typeInfo) {
+	if ityp, _ := typ.(*Interface); ityp != nil {
+		if !ityp.complete {
+			panic("incomplete interface")
+		}
+		computeTypeSet(check, token.NoPos, ityp)
+	}
+	if false {
+		check.trace(token.NoPos, "validType(%v (%s), len(path) = %d)", typ, fmt.Sprintf("%T", typ), len(path))
+		check.indent++
+		defer func() {
+			check.indent--
+			check.trace(token.NoPos, "=> %v", info)
+		}()
+	}
+	// if !isComplete(typ) {
+	// 	panic("incomplete type")
+	// }
 	const (
 		unknown typeInfo = iota
 		marked
@@ -317,6 +334,7 @@ func (check *Checker) validType(typ Type, path []Object) typeInfo {
 		}
 
 	case *Named:
+		t.complete()
 		// don't touch the type if it is from a different package or the Universe scope
 		// (doing so would lead to a race condition - was issue #35049)
 		if t.obj.pkg != check.pkg {
@@ -333,7 +351,8 @@ func (check *Checker) validType(typ Type, path []Object) typeInfo {
 		switch t.info {
 		case unknown:
 			t.info = marked
-			t.info = check.validType(t.fromRHS, append(path, t.obj)) // only types of current package added to path
+			// assert(t.fromRHS != nil)
+			t.info = check.validType(t._fromRHS, append(path, t.obj)) // only types of current package added to path
 		case marked:
 			// cycle detected
 			for i, tn := range path {
@@ -350,8 +369,8 @@ func (check *Checker) validType(typ Type, path []Object) typeInfo {
 		}
 		return t.info
 
-	case *instance:
-		return check.validType(t.expand(), path)
+		// case *instance:
+		// 	return check.validType(t.expand(), path)
 	}
 
 	return valid
@@ -606,7 +625,8 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *Named) {
 	}
 
 	// determine underlying type of named
-	named.fromRHS = check.definedType(tdecl.Type, named)
+	named._fromRHS = check.definedType(tdecl.Type, named)
+	assert(named._fromRHS != nil)
 
 	// The underlying type of named may be itself a named type that is
 	// incomplete:
@@ -685,7 +705,8 @@ func (check *Checker) boundType(e ast.Expr) Type {
 
 	bound := check.typ(e)
 	check.later(func() {
-		if _, ok := under(bound).(*Interface); !ok && bound != Typ[Invalid] {
+		u := under(bound)
+		if _, ok := u.(*Interface); !ok && u != Typ[Invalid] {
 			check.errorf(e, _Todo, "%s is not an interface", bound)
 		}
 	})

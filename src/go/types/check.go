@@ -16,7 +16,7 @@ import (
 
 // debugging/development support
 const (
-	debug = false // leave on during development
+	debug = true  // leave on during development
 	trace = false // turn on for detailed type resolution traces
 )
 
@@ -273,8 +273,8 @@ func (check *Checker) checkFiles(files []*ast.File) (err error) {
 
 	check.recordUntyped()
 
-	if check.Info != nil {
-		sanitizeInfo(check.Info)
+	if debug && len(check.delayed) > 0 {
+		panic("internal error: finished checking without processing all delayed")
 	}
 
 	check.pkg.complete = true

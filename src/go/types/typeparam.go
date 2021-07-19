@@ -39,6 +39,9 @@ func (check *Checker) NewTypeParam(obj *TypeName, index int, bound Type) *TypePa
 	if obj.typ == nil {
 		obj.typ = typ
 	}
+	if robDebugging {
+		check.dump("*** NewTypeParam: %v", typ)
+	}
 	return typ
 }
 

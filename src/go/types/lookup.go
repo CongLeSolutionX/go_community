@@ -6,7 +6,10 @@
 
 package types
 
-import "go/token"
+import (
+	"fmt"
+	"go/token"
+)
 
 // Internal use of LookupFieldOrMethod: If the obj result is a method
 // associated with a concrete (non-interface) type, the method's signature
@@ -142,6 +145,10 @@ func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 				if asTypeParam(typ) != nil {
 					continue
 				}
+			}
+
+			if robDebugging {
+				fmt.Printf("looking up field in %v\n", TypeString(typ, nil))
 			}
 
 			tpar = nil
@@ -396,6 +403,9 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 			// TODO(gri) Can we avoid this check by fixing the lengths?
 			if len(ftyp.rparams) != len(Vn.targs) {
 				return
+			}
+			if robDebugging {
+				check.dump("*** substing receiver")
 			}
 			ftyp = check.subst(token.NoPos, ftyp, makeSubstMap(ftyp.rparams, Vn.targs)).(*Signature)
 		}

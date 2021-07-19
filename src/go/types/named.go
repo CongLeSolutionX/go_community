@@ -4,17 +4,22 @@
 
 package types
 
-import "sync"
+import (
+	"path/filepath"
+	"runtime"
+	"sync"
+)
 
 // TODO(rfindley) Clean up Named struct below; specifically the fromRHS field (can we use underlying?).
 
 // A Named represents a named (defined) type.
 type Named struct {
-	check      *Checker    // for Named.under implementation; nilled once under has been called
+	// TODO: document
+	instance   *instance
 	info       typeInfo    // for cycle detection
 	obj        *TypeName   // corresponding declared object
 	orig       *Named      // original, uninstantiated type
-	fromRHS    Type        // type (on RHS of declaration) this *Named type is derived of (for cycle reporting)
+	_fromRHS   Type        // type (on RHS of declaration) this *Named type is derived of (for cycle reporting)
 	underlying Type        // possibly a *Named during setup; never a *Named once set up completely
 	tparams    []*TypeName // type parameters, or nil
 	targs      []Type      // type arguments (after instantiation), or nil
@@ -65,7 +70,13 @@ func (t *Named) expand() *Named {
 
 // newNamed is like NewNamed but with a *Checker receiver and additional orig argument.
 func (check *Checker) newNamed(obj *TypeName, orig *Named, underlying Type, tparams []*TypeName, methods []*Func) *Named {
-	typ := &Named{check: check, obj: obj, orig: orig, fromRHS: underlying, underlying: underlying, tparams: tparams, methods: methods}
+	var inst *instance
+	if check != nil {
+		inst = &instance{
+			check: check,
+		}
+	}
+	typ := &Named{instance: inst, obj: obj, orig: orig, _fromRHS: underlying, underlying: underlying, tparams: tparams, methods: methods}
 	if typ.orig == nil {
 		typ.orig = typ
 	}
@@ -81,16 +92,22 @@ func (check *Checker) newNamed(obj *TypeName, orig *Named, underlying Type, tpar
 	// TODO(rFindley): clean this up so that under is the only function mutating
 	//                 named types.
 	if check != nil {
+		_, file, line, _ := runtime.Caller(1)
 		check.later(func() {
 			switch typ.under().(type) {
-			case *Named, *instance:
+			case *Named: //, *instance:
 				panic("internal error: unexpanded underlying type")
 			}
-			typ.check = nil
+			if robDebugging {
+				check.dump("*** (%v:%v) later is now for %v: %v", filepath.Base(file), line, typ, typ.underlying)
+			}
+			typ.instance = nil
 		})
 	}
 	return typ
 }
+
+const robDebugging = false
 
 // Obj returns the type name for the named type t.
 func (t *Named) Obj() *TypeName { return t.obj }
@@ -153,6 +170,8 @@ func (t *Named) String() string   { return TypeString(t, nil) }
 // is detected, the result is Typ[Invalid]. If a cycle is detected and
 // n0.check != nil, the cycle is reported.
 func (n0 *Named) under() Type {
+	n0.complete()
+
 	u := n0.Underlying()
 
 	if u == Typ[Invalid] {
@@ -168,17 +187,17 @@ func (n0 *Named) under() Type {
 	default:
 		// common case
 		return u
-	case *Named, *instance:
+	case *Named: //, *instance:
 		// handled below
 	}
 
-	if n0.check == nil {
+	if n0.instance == nil || n0.instance.check == nil {
 		panic("internal error: Named.check == nil but type is incomplete")
 	}
 
 	// Invariant: after this point n0 as well as any named types in its
 	// underlying chain should be set up when this function exits.
-	check := n0.check
+	check := n0.instance.check
 
 	// If we can't expand u at this point, it is invalid.
 	n := asNamed(u)
@@ -199,12 +218,13 @@ func (n0 *Named) under() Type {
 		var n1 *Named
 		switch u1 := u.(type) {
 		case *Named:
+			u1.complete()
 			n1 = u1
-		case *instance:
-			n1, _ = u1.expand().(*Named)
-			if n1 == nil {
-				u = Typ[Invalid]
-			}
+			// case *instance:
+			// 	n1, _ = u1.expand().(*Named)
+			// 	if n1 == nil {
+			// 		u = Typ[Invalid]
+			// 	}
 		}
 		if n1 == nil {
 			break // end of chain
@@ -235,6 +255,10 @@ func (n0 *Named) under() Type {
 
 	return u
 }
+
+// func (n *Named) lookupMethod(name string) {
+// 	if n.
+// }
 
 func (n *Named) setUnderlying(typ Type) {
 	if n != nil {

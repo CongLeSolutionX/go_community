@@ -337,8 +337,8 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 		// t must be one of w.tparams
 		return t.index < len(w.tparams) && w.tparams[t.index].typ == t
 
-	case *instance:
-		return w.isParameterizedList(t.targs)
+	// case *instance:
+	// 	return w.isParameterizedList(t.targs)
 
 	default:
 		unreachable()

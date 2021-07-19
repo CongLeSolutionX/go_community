@@ -12,6 +12,8 @@ import (
 	"sort"
 )
 
+const debugUnification = false
+
 // The unifier maintains two separate sets of type parameters x and y
 // which are used to resolve type parameters in the x and y arguments
 // provided to the unify call. For unidirectional unification, only
@@ -110,6 +112,9 @@ func (d *tparamsList) init(tparams []*TypeName) {
 // If both type parameters already have a type associated with them and they are
 // not joined, join fails and return false.
 func (u *unifier) join(i, j int) bool {
+	if debugUnification {
+		fmt.Printf("joining %d with %d\n", i, j)
+	}
 	ti := u.x.indices[i]
 	tj := u.y.indices[j]
 	switch {
@@ -187,6 +192,9 @@ func (d *tparamsList) at(i int) Type {
 // typ must not be nil and it must not have been set before.
 func (d *tparamsList) set(i int, typ Type) {
 	assert(typ != nil)
+	if debugUnification {
+		fmt.Printf("setting %d to %s\n", i, TypeString(typ, nil))
+	}
 	u := d.unifier
 	switch ti := d.indices[i]; {
 	case ti < 0:
@@ -225,7 +233,13 @@ func (u *unifier) nifyEq(x, y Type, p *ifacePair) bool {
 // adapted version of Checker.identical0. For changes to that
 // code the corresponding changes should be made here.
 // Must not be called directly from outside the unifier.
-func (u *unifier) nify(x, y Type, p *ifacePair) bool {
+func (u *unifier) nify(x, y Type, p *ifacePair) (ok bool) {
+	if debugUnification {
+		fmt.Printf("unifying %s with %s\n", TypeString(x, nil), TypeString(y, nil))
+		defer func() {
+			fmt.Printf("=> %t\n", ok)
+		}()
+	}
 	// types must be expanded for comparison
 	x = expand(x)
 	y = expand(y)

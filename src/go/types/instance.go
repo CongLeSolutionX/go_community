@@ -4,7 +4,10 @@
 
 package types
 
-import "go/token"
+import (
+	"fmt"
+	"go/token"
+)
 
 // An instance represents an instantiated generic type syntactically
 // (without expanding the instantiation). Type instances appear only
@@ -13,38 +16,57 @@ import "go/token"
 type instance struct {
 	check   *Checker    // for lazy instantiation
 	pos     token.Pos   // position of type instantiation; for error reporting only
-	base    *Named      // parameterized type to be instantiated
-	targs   []Type      // type arguments
 	posList []token.Pos // position of each targ; for error reporting only
 	verify  bool        // if set, constraint satisfaction is verified
-	value   Type        // base[targs...] after instantiation or Typ[Invalid]; nil if not yet set
 }
 
 // expand returns the instantiated (= expanded) type of t.
 // The result is either an instantiated *Named type, or
 // Typ[Invalid] if there was an error.
-func (t *instance) expand() Type {
-	v := t.value
-	if v == nil {
-		v = t.check.Instantiate(t.pos, t.base, t.targs, t.posList, t.verify)
-		if v == nil {
-			v = Typ[Invalid]
+func (n *Named) complete() {
+	if n.instance != nil && len(n.targs) > 0 && n.underlying == nil {
+		check := n.instance.check
+		// check.dump("*** completing %v", n)
+		inst, _ := check.instantiate(n.instance.pos, n.orig.underlying, n.tparams, n.targs, n.instance.posList, n.instance.verify)
+		if robDebugging {
+			if inst == Typ[Invalid] {
+				fmt.Println("Invalid!!")
+			}
 		}
-		t.value = v
+		n.underlying = inst
+		n._fromRHS = inst
+		n.methods = n.orig.methods
+		// placeholders...
+		// pos := n.instance.pos
+		/*
+			if smap != nil {
+				// check.later(func() {
+				subster := check.subster(pos, smap)
+				// fmt.Println("substituting methods", len(n.orig.methods))
+				n.methods, _ = subster.funcList(n.orig.methods)
+				// })
+			}
+		*/
+		// if newNamed, _ := inst.(*Named); newNamed != nil {
+		// 	// TODO: this feels wrong.
+		// 	n.underlying = newNamed.underlying
+		// }
+		/*
+			if debug && inst != Typ[Invalid] {
+				_ = inst.(*Named)
+			}
+		*/
 	}
 	// After instantiation we must have an invalid or a *Named type.
-	if debug && v != Typ[Invalid] {
-		_ = v.(*Named)
-	}
-	return v
+	// return v
 }
 
 // expand expands a type instance into its instantiated
 // type and leaves all other types alone. expand does
 // not recurse.
 func expand(typ Type) Type {
-	if t, _ := typ.(*instance); t != nil {
-		return t.expand()
+	if t, _ := typ.(*Named); t != nil {
+		t.complete()
 	}
 	return typ
 }
@@ -54,6 +76,3 @@ func expand(typ Type) Type {
 var expandf func(Type) Type
 
 func init() { expandf = expand }
-
-func (t *instance) Underlying() Type { return t }
-func (t *instance) String() string   { return TypeString(t, nil) }
