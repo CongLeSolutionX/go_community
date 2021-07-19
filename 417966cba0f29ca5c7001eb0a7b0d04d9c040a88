@@ -76,6 +76,30 @@
       },
       "revId": "417966cba0f29ca5c7001eb0a7b0d04d9c040a88",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a0df5c_5587e362",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-19T21:11:03Z",
+      "side": 1,
+      "message": "I\u0027d like to keep this as a panic to uncover bugs more quickly. The coordinator should never actually ask for this. The behavior I saw was the coordinator calling the worker in a tight loop, but the worker couldn\u0027t actually do anything.",
+      "parentUuid": "031ce89d_81e85d0b",
+      "range": {
+        "startLine": 636,
+        "startChar": 2,
+        "endLine": 636,
+        "endChar": 107
+      },
+      "revId": "417966cba0f29ca5c7001eb0a7b0d04d9c040a88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
