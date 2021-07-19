@@ -25,29 +25,6 @@ import (
 // Any methods attached to a *Named are simply copied; they are not
 // instantiated.
 func (check *Checker) Instantiate(pos token.Pos, typ Type, targs []Type, posList []token.Pos, verify bool) (res Type) {
-	if verify && check == nil {
-		panic("cannot have nil receiver if verify is set")
-	}
-
-	if check != nil && trace {
-		check.trace(pos, "-- instantiating %s with %s", typ, typeListString(targs))
-		check.indent++
-		defer func() {
-			check.indent--
-			var under Type
-			if res != nil {
-				// Calling under() here may lead to endless instantiations.
-				// Test case: type T[P any] T[P]
-				// TODO(gri) investigate if that's a bug or to be expected.
-				under = res.Underlying()
-			}
-			check.trace(pos, "=> %s (under = %s)", res, under)
-		}()
-	}
-
-	assert(len(posList) <= len(targs))
-
-	// TODO(gri) What is better here: work with TypeParams, or work with TypeNames?
 	var tparams []*TypeName
 	switch t := typ.(type) {
 	case *Named:
@@ -77,18 +54,46 @@ func (check *Checker) Instantiate(pos token.Pos, typ Type, targs []Type, posList
 		panic(fmt.Sprintf("%v: cannot instantiate %v", pos, typ))
 	}
 
+	inst, _ := check.instantiate(pos, typ, tparams, targs, posList, verify)
+	return inst
+}
+
+func (check *Checker) instantiate(pos token.Pos, typ Type, tparams []*TypeName, targs []Type, posList []token.Pos, verify bool) (res Type, _ *substMap) {
 	// the number of supplied types must match the number of type parameters
 	if len(targs) != len(tparams) {
 		// TODO(gri) provide better error message
 		if check != nil {
 			check.errorf(atPos(pos), _Todo, "got %d arguments but %d type parameters", len(targs), len(tparams))
-			return Typ[Invalid]
+			return Typ[Invalid], nil
 		}
 		panic(fmt.Sprintf("%v: got %d arguments but %d type parameters", pos, len(targs), len(tparams)))
 	}
+	if verify && check == nil {
+		panic("cannot have nil receiver if verify is set")
+	}
+
+	if check != nil && trace {
+		check.trace(pos, "-- instantiating %s with %s", typ, typeListString(targs))
+		check.indent++
+		defer func() {
+			check.indent--
+			var under Type
+			if res != nil {
+				// Calling under() here may lead to endless instantiations.
+				// Test case: type T[P any] T[P]
+				// TODO(gri) investigate if that's a bug or to be expected.
+				under = res.Underlying()
+			}
+			check.trace(pos, "=> %s (under = %s)", res, under)
+		}()
+	}
+
+	assert(len(posList) <= len(targs))
+
+	// TODO(gri) What is better here: work with TypeParams, or work with TypeNames?
 
 	if len(tparams) == 0 {
-		return typ // nothing to do (minor optimization)
+		return typ, nil // nothing to do (minor optimization)
 	}
 
 	smap := makeSubstMap(tparams, targs)
@@ -109,7 +114,7 @@ func (check *Checker) Instantiate(pos token.Pos, typ Type, targs []Type, posList
 		}
 	}
 
-	return check.subst(pos, typ, smap)
+	return check.subst(pos, typ, smap), smap
 }
 
 // InstantiateLazy is like Instantiate, but avoids actually
@@ -120,15 +125,23 @@ func (check *Checker) InstantiateLazy(pos token.Pos, typ Type, targs []Type, pos
 	if base == nil {
 		panic(fmt.Sprintf("%v: cannot instantiate %v", pos, typ))
 	}
+	h := instantiatedHash(base, targs)
+	if named, found := check.typMap[h]; found {
+		return named
+	}
 
-	return &instance{
+	tname := NewTypeName(pos, base.obj.pkg, base.obj.name, nil)
+	named := check.newNamed(tname, base, nil, base.tparams, base.methods) // methods are instantiated lazily
+	named.targs = targs
+	named.instance = &instance{
 		check:   check,
 		pos:     pos,
-		base:    base,
-		targs:   targs,
 		posList: posList,
 		verify:  verify,
 	}
+	// TODO: document
+	check.typMap[h] = named
+	return named
 }
 
 // satisfies reports whether the type argument targ satisfies the constraint of type parameter
