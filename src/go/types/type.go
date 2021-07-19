@@ -41,6 +41,16 @@ func under(t Type) Type {
 	return t
 }
 
+func isComplete(t Type) bool {
+	switch t := t.(type) {
+	case *Named:
+		return t.underlying != nil
+	case *Interface:
+		return t.complete
+	}
+	return true
+}
+
 // optype returns a type's operational type. Except for
 // type parameters, the operational type is the same
 // as the underlying type (as returned by under). For

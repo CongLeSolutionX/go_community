@@ -6,7 +6,9 @@
 
 package types
 
-import "go/token"
+import (
+	"go/token"
+)
 
 // Internal use of LookupFieldOrMethod: If the obj result is a method
 // associated with a concrete (non-interface) type, the method's signature

@@ -10,7 +10,7 @@ package types
 // isNamed may be called with types that are not fully set up.
 func isNamed(typ Type) bool {
 	switch typ.(type) {
-	case *Basic, *Named, *TypeParam, *instance:
+	case *Basic, *Named, *TypeParam: //, *instance:
 		return true
 	}
 	return false
