@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4182d167_3fb88298",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-19T22:30:25Z",
+      "side": 1,
+      "message": "I didn\u0027t see how to fit such a test into the TestScript framework.  I added a test to go_test.go instead.  PTAL.",
+      "parentUuid": "9779a56a_b7e1da39",
+      "revId": "e7e4e9ea5aa43b5393193dd4b16c103969d27e1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2809fac_3151ab96",
