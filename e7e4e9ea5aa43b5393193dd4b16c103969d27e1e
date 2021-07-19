@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9779a56a_b7e1da39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-07-19T14:53:37Z",
+      "side": 1,
+      "message": "We should probably at least add a test for the scenario in #47215. That only requires one C compiler, which either is present in `$PATH` or isn\u0027t.",
+      "revId": "e7e4e9ea5aa43b5393193dd4b16c103969d27e1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2809fac_3151ab96",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
