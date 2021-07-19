@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61481066_ff2116f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-19T02:38:53Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is any faster. I think both a\u003d\u003d0 and b\u003d\u003d0 are uncommon cases (slices of length 0, or slices with elements of size 0).\nIn any event, we\u0027d need to see a benchmark that justifies the claimed speed improvement.",
+      "revId": "581b486aff76d484630b5ca5fe3d91cae613c904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
