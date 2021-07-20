@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bccdc22c_0463ebf9",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-20T18:45:19Z",
+      "side": 0,
+      "message": "Why did you get rid of these? Are these optimizations not possible anymore?",
+      "range": {
+        "startLine": 67,
+        "startChar": 11,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "c6d3d0b0ad10926fc1952deda913d139ed608cb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
