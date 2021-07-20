@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "120abe1e_cbe84a63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-20T21:58:06Z",
+      "side": 1,
+      "message": "This CL sort of patches over the FUNCINST type problem. Not permanent, but will let me progress for now. With it, I think the only thing remaining in your runtime CL that we need on top of this stack is the \u003d\u003d fix.\n\nMaybe this check can be turned into an assert at some point? That all types passed to addType have the right set of acceptable parameters?\n",
+      "revId": "81171a3e19156016c88eb6a67e6cd7763f8fd2bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
