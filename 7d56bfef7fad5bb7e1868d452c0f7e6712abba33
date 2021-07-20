@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cef65ae7_9ab5ac4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2021-07-20T17:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847e6288_70acf961",
+      "revId": "7d56bfef7fad5bb7e1868d452c0f7e6712abba33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd1a9004_a57cb413",
@@ -43,6 +61,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "871abe8e_0e66a62c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2021-07-20T17:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd1a9004_a57cb413",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "7d56bfef7fad5bb7e1868d452c0f7e6712abba33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3536446c_a41753b7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -54,6 +96,24 @@
       "writtenOn": "2021-07-20T16:45:09Z",
       "side": 1,
       "message": "Thanks for checking the direct call.\n\nLGTM.\n\nSome nitpicks regarding the commit message; please address, thanks.",
+      "revId": "7d56bfef7fad5bb7e1868d452c0f7e6712abba33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd91301d_59c67381",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2021-07-20T17:20:49Z",
+      "side": 1,
+      "message": "Welcome, gri! I\u0027ve made the changes.",
+      "parentUuid": "3536446c_a41753b7",
       "revId": "7d56bfef7fad5bb7e1868d452c0f7e6712abba33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
