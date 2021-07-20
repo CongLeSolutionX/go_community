@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d588525a_af2ad397",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2021-07-20T06:33:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22074072_cbcababf",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "c5de36fb73df511e300306c392416da54c214324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9404445_7f244ca9",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-07-19T22:18:19Z",
       "side": 1,
       "message": "Leave this away. Just show the performance improvement.",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "c5de36fb73df511e300306c392416da54c214324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d080fd7_fa4cf295",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2021-07-20T06:33:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9404445_7f244ca9",
       "range": {
         "startLine": 9,
         "startChar": 4,
@@ -77,6 +125,42 @@
       "writtenOn": "2021-07-19T22:18:19Z",
       "side": 1,
       "message": "This is ok, but before you go ahead, please see if we can simply call sort.Search instead, per iant\u0027s suggestion. That would be better.",
+      "revId": "c5de36fb73df511e300306c392416da54c214324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dcc731d_6df366f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2021-07-20T06:33:42Z",
+      "side": 1,
+      "message": "I tried replacing it with:\n```\nreturn sort.Search(len(a), func(i int) bool { return a[i] \u003e x }) - 1\n```\n\nBut it didn\u0027t go well:\n```\nname          old time/op    new time/op    delta\nSearchInts-8    16.3ns ± 0%    37.5ns ± 4%  +129.89%  (p\u003d0.008 n\u003d5+5)\n```\n\nRelated:\nhttps://go-review.googlesource.com/c/go/+/260018/\nhttps://github.com/golang/go/issues/15561\n\n\nReason:\n```\ngo build -gcflags\u003d-m\u003d2\n\n./position.go:531:6: cannot inline searchInts: unhandled op CLOSURE\n./position.go:534:29: can inline searchInts.func1 with cost 6 as: func(int) bool { return a[i] \u003e x }\n```\n\nSo, I believe we cannot still change it to `sort.Search`",
+      "parentUuid": "def8887c_a266d402",
+      "revId": "c5de36fb73df511e300306c392416da54c214324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84d8cf26_8643e14f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2021-07-20T06:33:42Z",
+      "side": 1,
+      "message": "Yes, I tried it, but it didn\u0027t go well. I\u0027ve replied with my findings on iant\u0027s comment.",
+      "parentUuid": "852007f9_a74c5499",
       "revId": "c5de36fb73df511e300306c392416da54c214324",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
