@@ -72,6 +72,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "763eb7e0_db1a49b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2021-07-20T15:43:20Z",
+      "side": 1,
+      "message": "Thanks",
+      "revId": "ad70a234edb34c2886afb4cd98ff3866b187207d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89072ce2_e00da1d1",
@@ -85,6 +102,30 @@
       "writtenOn": "2021-07-20T09:24:48Z",
       "side": 1,
       "message": "s/with double slashes/with a double slash/",
+      "range": {
+        "startLine": 48,
+        "startChar": 30,
+        "endLine": 48,
+        "endChar": 49
+      },
+      "revId": "ad70a234edb34c2886afb4cd98ff3866b187207d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "246d84bf_494e9f72",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2021-07-20T15:43:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89072ce2_e00da1d1",
       "range": {
         "startLine": 48,
         "startChar": 30,
