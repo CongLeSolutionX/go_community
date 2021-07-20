@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c85a0d1b_517b09d6",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-20T17:04:15Z",
+      "side": 1,
+      "message": "We can just disable the relevant parts of the tests for now, rather than disabling this check.\n\nI think we do eventally want to fix this run-time typechecking to understand that shape types and associated concrete types are assignable.  Eventually we do not want to concretize the method passed to SetFinalizer (since we\u0027re in a gcshape generic method), so we need to fix this run-time check, right?  But we don\u0027t have to do it immediately.",
+      "parentUuid": "2a058a4f_cf9d4066",
+      "revId": "856b5ec69a7635d4f1a0584c7dfee66b59f0f0b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7d83322_60d96884",
         "filename": "test/typeparam/cons.go",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2021-07-20T03:03:43Z",
       "side": 1,
       "message": "Maybe comment that we should undo this at some point. Or is this whole CL considered that?",
+      "revId": "856b5ec69a7635d4f1a0584c7dfee66b59f0f0b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e205e1_07e2e6f2",
+        "filename": "test/typeparam/cons.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-20T17:04:15Z",
+      "side": 1,
+      "message": "Yes, if/when we check this in, I will add a comment that we need to undo, once we resolve how MarkTypeUsedInInterface() should interact with inlining.",
+      "parentUuid": "a7d83322_60d96884",
       "revId": "856b5ec69a7635d4f1a0584c7dfee66b59f0f0b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
