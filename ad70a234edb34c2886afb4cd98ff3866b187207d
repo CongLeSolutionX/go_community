@@ -16,6 +16,46 @@
       "message": "Thank your review.",
       "revId": "ad70a234edb34c2886afb4cd98ff3866b187207d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f519e05_cf7f8a9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-07-20T09:24:48Z",
+      "side": 1,
+      "message": "One more grammar correction, and then LGTM.\n\nAlex ",
+      "revId": "ad70a234edb34c2886afb4cd98ff3866b187207d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89072ce2_e00da1d1",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-07-20T09:24:48Z",
+      "side": 1,
+      "message": "s/with double slashes/with a double slash/",
+      "range": {
+        "startLine": 48,
+        "startChar": 30,
+        "endLine": 48,
+        "endChar": 49
+      },
+      "revId": "ad70a234edb34c2886afb4cd98ff3866b187207d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
