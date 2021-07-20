@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "847e6288_70acf961",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-20T16:45:09Z",
+      "side": 1,
+      "message": "I don\u0027t know that formatting respects the ```. Just leave away here and below.",
+      "revId": "7d56bfef7fad5bb7e1868d452c0f7e6712abba33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd1a9004_a57cb413",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-20T16:45:09Z",
+      "side": 1,
+      "message": "Make this clearer, please. Replace with:\n\n(see CL 36332 for the original change to sort.Search)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "7d56bfef7fad5bb7e1868d452c0f7e6712abba33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3536446c_a41753b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-20T16:45:09Z",
+      "side": 1,
+      "message": "Thanks for checking the direct call.\n\nLGTM.\n\nSome nitpicks regarding the commit message; please address, thanks.",
+      "revId": "7d56bfef7fad5bb7e1868d452c0f7e6712abba33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
