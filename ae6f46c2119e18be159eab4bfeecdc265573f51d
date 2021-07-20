@@ -33,6 +33,24 @@
       "message": "LGTM.\n\nI\u0027m ok with this going into master (despite the freeze) if nobody has any objections. This is a safe change.",
       "revId": "ae6f46c2119e18be159eab4bfeecdc265573f51d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73ebe357_f04de934",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-20T18:52:12Z",
+      "side": 1,
+      "message": "It looks safe but I don\u0027t think it meets the criteria for changes at this point.  Let\u0027s wait for 1.18.",
+      "parentUuid": "649c6bef_6d93ae10",
+      "revId": "ae6f46c2119e18be159eab4bfeecdc265573f51d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
