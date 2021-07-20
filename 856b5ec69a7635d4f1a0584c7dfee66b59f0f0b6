@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7792601a_bb9b7c58",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-20T19:49:55Z",
+      "side": 1,
+      "message": "OK, I understand now.  I can look at the TFUNC case in addType.  I limited the TFUNC type to keep things simple, but will take a look at expanding the TFUNCs in the derived type list, especially now that we have usage examples.",
+      "parentUuid": "2f19d3dc_e0dd7c0e",
+      "revId": "856b5ec69a7635d4f1a0584c7dfee66b59f0f0b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7d83322_60d96884",
         "filename": "test/typeparam/cons.go",
         "patchSetId": 2
