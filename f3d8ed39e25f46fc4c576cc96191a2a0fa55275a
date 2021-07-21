@@ -16,6 +16,23 @@
       "message": "Ping.",
       "revId": "f3d8ed39e25f46fc4c576cc96191a2a0fa55275a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e7cad34_93cd9665",
+        "filename": "test/run.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-21T19:18:36Z",
+      "side": 1,
+      "message": "This seems a bit convoluted. I had to read this a couple of times to see that env is the result of the function call, and that it\u0027s type is envVars.\n\nWouldn\u0027t it be simpler to just:\n\nvar env struct {\n   GOOS string\n   GOARCH string\n   ...\n}\n\nfunc init() {\n   /* json decoding here to set up end */\n}",
+      "revId": "f3d8ed39e25f46fc4c576cc96191a2a0fa55275a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
