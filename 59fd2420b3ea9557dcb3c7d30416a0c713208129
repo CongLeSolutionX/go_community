@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d23aee1d_d1e601a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-07-21T14:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f704ee3d_3bb89576",
+      "range": {
+        "startLine": 18,
+        "startChar": 22,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "59fd2420b3ea9557dcb3c7d30416a0c713208129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de81c35d_3167ca13",
@@ -101,6 +125,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7e58fed_3c28661d",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-07-21T14:37:06Z",
+      "side": 1,
+      "message": "Indeed, good catch that we might not be handling this correctly.\n\nI added a TODO next to TypeParam.bound, since that is where the incorrect assumption is documented.",
+      "parentUuid": "49f6f097_54340568",
+      "range": {
+        "startLine": 692,
+        "startChar": 8,
+        "endLine": 692,
+        "endChar": 13
+      },
+      "revId": "59fd2420b3ea9557dcb3c7d30416a0c713208129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09780271_1be8b918",
@@ -114,6 +162,24 @@
       "writtenOn": "2021-07-20T18:45:19Z",
       "side": 1,
       "message": "s/expand/complete/\n\nthat said, I think expand might be the better name",
+      "revId": "59fd2420b3ea9557dcb3c7d30416a0c713208129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2ee68e2_69a158fb",
+        "filename": "src/go/types/instance.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-07-21T14:37:06Z",
+      "side": 1,
+      "message": "Ah, yes this was originally meant to be \u0027expand\u0027, but that conflicts with the expand method that Matthew added for lazy resolution. I didn\u0027t investigate whether the two concepts could be merged, so used a separate method with a new name.\n\nAdded a TODO to reconcile this.",
+      "parentUuid": "09780271_1be8b918",
       "revId": "59fd2420b3ea9557dcb3c7d30416a0c713208129",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -141,6 +207,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a378074_6a9b1184",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-07-21T14:37:06Z",
+      "side": 1,
+      "message": "Done (minus the blank parameter assignment, which is unnecessary).",
+      "parentUuid": "5debd3af_6e97285f",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 17
+      },
+      "revId": "59fd2420b3ea9557dcb3c7d30416a0c713208129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e346675e_12237b9d",
@@ -158,6 +248,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d5a9db1_0e118c57",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-07-21T14:37:06Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "e346675e_12237b9d",
+      "revId": "59fd2420b3ea9557dcb3c7d30416a0c713208129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7de11b10_e4b4a89b",
@@ -171,6 +279,30 @@
       "writtenOn": "2021-07-20T18:45:19Z",
       "side": 1,
       "message": "move this comment next to t.complete()\n\nt.complete() // must happen after typMap update to avoid infinite recursion",
+      "range": {
+        "startLine": 237,
+        "startChar": 12,
+        "endLine": 237,
+        "endChar": 18
+      },
+      "revId": "59fd2420b3ea9557dcb3c7d30416a0c713208129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74c347e8_908c7362",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-07-21T14:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7de11b10_e4b4a89b",
       "range": {
         "startLine": 237,
         "startChar": 12,
