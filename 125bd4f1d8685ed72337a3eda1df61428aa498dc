@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf2475f_bc3f527f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-22T23:00:23Z",
+      "side": 1,
+      "message": "Please follow the directions here.",
+      "revId": "125bd4f1d8685ed72337a3eda1df61428aa498dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6773a2a8_a9d5f68c",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-22T23:00:23Z",
+      "side": 1,
+      "message": "If we\u0027re going to touch this comment let\u0027s take the time to write it in grammatical English.  Thanks.",
+      "revId": "125bd4f1d8685ed72337a3eda1df61428aa498dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
