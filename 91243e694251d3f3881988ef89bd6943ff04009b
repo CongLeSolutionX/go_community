@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4be9d19b_0fb355eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-22T22:47:02Z",
+      "side": 1,
+      "message": "Let\u0027s not mix these different changes in the same CL.\n\nPlease see the instructions for commit message formatting at https://golang.org/wiki/CommitMessage.",
+      "revId": "91243e694251d3f3881988ef89bd6943ff04009b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3a43e3b_b3cd694d",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-22T22:47:02Z",
+      "side": 1,
+      "message": "I think this change is harder to read, not easier.",
+      "revId": "91243e694251d3f3881988ef89bd6943ff04009b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
