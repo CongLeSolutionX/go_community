@@ -114,10 +114,9 @@ func (b *Reader) fill() {
 	b.err = io.ErrNoProgress
 }
 
-func (b *Reader) readErr() error {
-	err := b.err
-	b.err = nil
-	return err
+func (b *Reader) readErr() (err error) {
+	err, b.err = b.err, nil
+	return
 }
 
 // Peek returns the next n bytes without advancing the reader. The bytes stop
@@ -207,7 +206,7 @@ func (b *Reader) Read(p []byte) (n int, err error) {
 		if b.err != nil {
 			return 0, b.readErr()
 		}
-		if len(p) >= len(b.buf) {
+		if n >= len(b.buf) {
 			// Large read, empty buffer.
 			// Read directly into p to avoid copy.
 			n, b.err = b.rd.Read(p)
@@ -431,13 +430,11 @@ func (b *Reader) collectFragments(delim byte) (fullBuffers [][]byte, finalFragme
 	var frag []byte
 	// Use ReadSlice to look for delim, accumulating full buffers.
 	for {
-		var e error
-		frag, e = b.ReadSlice(delim)
-		if e == nil { // got final fragment
+		frag, err = b.ReadSlice(delim)
+		if err == nil { // got final fragment
 			break
 		}
-		if e != ErrBufferFull { // unexpected error
-			err = e
+		if err != ErrBufferFull { // unexpected error
 			break
 		}
 
