@@ -1296,7 +1296,7 @@ func (s *state) instrumentFields(t *types.Type, addr *ssa.Value, kind instrument
 		if f.Sym.IsBlank() {
 			continue
 		}
-		offptr := s.newValue1I(ssa.OpOffPtr, types.NewPtr(f.Type), abi.FieldOffsetOf(f), addr)
+		offptr := s.newValue1I(ssa.OpOffPtr, types.NewPtr(f.Type), f.Offset, addr)
 		s.instrumentFields(f.Type, offptr, kind)
 	}
 }
@@ -5064,8 +5064,10 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 			base.Fatalf("OCALLMETH missed by walkCall")
 		}
 		// Set other args.
-		for _, f := range ft.Params().Fields().Slice() {
-			s.storeArgWithBase(args[0], f.Type, addr, off+abi.FieldOffsetOf(f))
+		// This code is only used when RegabiDefer is not enabled, and arguments are always
+		// passed on stack.
+		for i, f := range ft.Params().Fields().Slice() {
+			s.storeArgWithBase(args[0], f.Type, addr, off+int64(params.InParam(i).Offset()))
 			args = args[1:]
 		}
 
@@ -5078,7 +5080,6 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		if stksize < int64(types.PtrSize) {
 			// We need room for both the call to deferprocStack and the call to
 			// the deferred function.
-			// TODO(register args) Revisit this if/when we pass args in registers.
 			stksize = int64(types.PtrSize)
 		}
 		call.AuxInt = stksize
