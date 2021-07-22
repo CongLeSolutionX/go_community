@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ecf5b295_8ddd8d91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 34507
+      },
+      "writtenOn": "2021-07-22T03:54:41Z",
+      "side": 1,
+      "message": "I think this should be #47329 (2 and 3 are swapped).",
+      "revId": "493f03c7a86638d1f4294e2b5747274405f2fd94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb543f9f_bbc441c6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
