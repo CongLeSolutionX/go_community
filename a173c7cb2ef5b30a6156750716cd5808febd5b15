@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a879a957_4cc76377",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-22T17:20:15Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "55d7fcfd_5fa53425",
+      "range": {
+        "startLine": 634,
+        "startChar": 6,
+        "endLine": 634,
+        "endChar": 24
+      },
+      "revId": "a173c7cb2ef5b30a6156750716cd5808febd5b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68694ce5_dbae501d",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-07-22T14:55:02Z",
       "side": 1,
       "message": "This should be unreachable.",
+      "range": {
+        "startLine": 799,
+        "startChar": 1,
+        "endLine": 800,
+        "endChar": 33
+      },
+      "revId": "a173c7cb2ef5b30a6156750716cd5808febd5b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a486207e_cddca4e7",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-22T17:20:15Z",
+      "side": 1,
+      "message": "indeed! (leftover from earlier version)",
+      "parentUuid": "68694ce5_dbae501d",
       "range": {
         "startLine": 799,
         "startChar": 1,
