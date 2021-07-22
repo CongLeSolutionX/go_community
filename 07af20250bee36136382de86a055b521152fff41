@@ -33,6 +33,23 @@
       "message": "Personally I think that simply writing CamelCase with an initial uppercase letter is sufficient to indicate that it means UpperCamelCase.",
       "revId": "07af20250bee36136382de86a055b521152fff41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ea5c57b_7d1f778d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-22T19:46:00Z",
+      "side": 1,
+      "message": "Thanks.\n\nIt looks like the term CamelCase is better known than PascalCase (there\u0027s a wikipedia entry for the former; I didn\u0027t see one for the latter).\n\nThere\u0027s a reason CamelCase is spelled exactly as is in this doc - to make it apparent that we talk about upper camel case rather than lower camel case.\n\nSo I don\u0027t see a reason for changing this, personally. It seems pretty clear.",
+      "revId": "07af20250bee36136382de86a055b521152fff41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
