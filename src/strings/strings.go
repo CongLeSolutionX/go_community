@@ -966,10 +966,12 @@ func ReplaceAll(s, old, new string) string {
 
 // EqualFold reports whether s and t, interpreted as UTF-8 strings,
 // are equal under Unicode case-folding, which is a more general
-// form of case-insensitivity.
+// form of case-insensitivity. Invalid UTF-8 bytes are treated as equal.
+// The operation is reflexive, symmetric, and transitive.
 func EqualFold(s, t string) bool {
 	for s != "" && t != "" {
 		// Extract first rune from each string.
+		// Invalid UTF-8 is mangled as the Unicode replacement character.
 		var sr, tr rune
 		if s[0] < utf8.RuneSelf {
 			sr, s = rune(s[0]), s[1:]
@@ -987,11 +989,14 @@ func EqualFold(s, t string) bool {
 		// If they match, keep going; if not, return false.
 
 		// Easy case.
+		// Since == is reflexive for runes, EqualFold must be reflexive.
 		if tr == sr {
 			continue
 		}
 
 		// Make sr < tr to simplify what follows.
+		// Swapping arguments here implies EqualFold must be symmetric since
+		// argument ordering is irrelevant to the result.
 		if tr < sr {
 			tr, sr = sr, tr
 		}
@@ -1006,6 +1011,9 @@ func EqualFold(s, t string) bool {
 
 		// General case. SimpleFold(x) returns the next equivalent rune > x
 		// or wraps around to smaller values.
+		// Each rune belongs to exactly one fold set. If r1 == r2 and r2 == r3,
+		// then r1, r2, and r3 must belong to the same fold set.
+		// This implies that EqualFold must be transitive.
 		r := unicode.SimpleFold(sr)
 		for r != sr && r < tr {
 			r = unicode.SimpleFold(r)
