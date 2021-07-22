@@ -1552,6 +1552,10 @@ var EqualFoldTests = []struct {
 	{"abcdefghijK", "abcdefghij\u212A", true},
 	{"abcdefghijkz", "abcdefghij\u212Ay", false},
 	{"abcdefghijKz", "abcdefghij\u212Ay", false},
+	{"1", "2", false},
+	{"utf-8", "US-ASCII", false},
+	// Invalid UTF-8 is mangled as utf8.RuneError, and thus treated as equal.
+	{"a\ufffd\xffc", "a\xff\ufffdc", true},
 }
 
 func TestEqualFold(t *testing.T) {
