@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21930c1e_8ab6d617",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-22T23:36:56Z",
+      "side": 1,
+      "message": "s/header/headers/",
+      "revId": "ea573e159adf4fc3253b7aefb5bc72d8726d942e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4ed776d_192e47cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-22T23:36:56Z",
+      "side": 1,
+      "message": "Omit this line, it just repeats the topic sentence.",
+      "revId": "ea573e159adf4fc3253b7aefb5bc72d8726d942e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d2f241f_7b346956",
+        "filename": "src/cmd/vet/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-22T23:36:56Z",
+      "side": 1,
+      "message": "May as well get the right year, so s/2021/2018/.",
+      "revId": "ea573e159adf4fc3253b7aefb5bc72d8726d942e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8620d5e2_a50ce3c2",
+        "filename": "src/cmd/vet/testdata/copylock/copylock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-22T23:36:56Z",
+      "side": 1,
+      "message": "s/2021/2018/\n\nhere and elsewhere.",
+      "revId": "ea573e159adf4fc3253b7aefb5bc72d8726d942e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
