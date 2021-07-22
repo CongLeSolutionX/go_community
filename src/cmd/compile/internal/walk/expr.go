@@ -957,7 +957,7 @@ func usemethod(n *ir.CallExpr) {
 	if t.NumParams() != 1 || t.Params().Field(0).Type.Kind() != pKind {
 		return
 	}
-	if t.NumResults() == 2 && t.Results().Field(1).Type.Kind() != types.TBOOL {
+	if t.NumResults() != 1 && t.NumResults() != 2 || t.NumResults() == 2 && t.Results().Field(1).Type.Kind() != types.TBOOL {
 		return
 	}
 
