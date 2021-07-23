@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "331089d8_4c1db326",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-07-23T18:11:52Z",
+      "side": 1,
+      "message": "As far as I can tell, the original links do work if the schema is changed to HTTPS (they give 404 if HTTP is used). They redirect to datatracker.ietf.org as implemented in this CL, but also keep the \u0027/html/\u0027 element.\n\n(For example, https://tools.ietf.org/html/rfc1918 redirects to https://datatracker.ietf.org/doc/html/rfc1918).",
+      "range": {
+        "startLine": 889,
+        "startChar": 83,
+        "endLine": 889,
+        "endChar": 84
+      },
+      "revId": "c68085f26268d40746035ff9a759f53e2c06a988",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
