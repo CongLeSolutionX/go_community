@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1438fe48_8caf1d39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-07-23T08:27:26Z",
+      "side": 1,
+      "message": "Note: this is material intended for go1.18.",
+      "revId": "4cf8814f835694e1c2c2af6179d8c9424fe32136",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
