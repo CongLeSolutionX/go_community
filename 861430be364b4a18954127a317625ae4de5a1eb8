@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63b7217_9019e5bc",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Right. Added a check.",
+      "parentUuid": "61a98852_973270e1",
+      "revId": "861430be364b4a18954127a317625ae4de5a1eb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69be98e1_40b9be33",
@@ -106,6 +124,24 @@
       "writtenOn": "2021-07-23T20:41:50Z",
       "side": 1,
       "message": "Slight rephrasing for present tense and active voice: \n\n  by default or when -workfile is \"auto\", the go command searches for a file named ...",
+      "revId": "861430be364b4a18954127a317625ae4de5a1eb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3359aec0_640d44a0",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69be98e1_40b9be33",
       "revId": "861430be364b4a18954127a317625ae4de5a1eb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

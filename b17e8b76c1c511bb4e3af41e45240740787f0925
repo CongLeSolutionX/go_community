@@ -99,6 +99,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e8a153b_8dff6e7d",
+        "filename": "src/cmd/go/internal/base/flag.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Fixed comment.\n\nI originally had it in AddModCommonFlags but Bryan suggested removing it because some of the module mode commands don\u0027t work in workspace mode, so it\u0027s better to not register the flag from those commands.",
+      "parentUuid": "355161cb_0295416f",
+      "range": {
+        "startLine": 68,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 20
+      },
+      "revId": "b17e8b76c1c511bb4e3af41e45240740787f0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4734d900_6a717783",
@@ -112,6 +136,30 @@
       "writtenOn": "2021-07-23T20:41:50Z",
       "side": 1,
       "message": "Don\u0027t use the same variable both for a flag the user can specify and for something we derive from that flag. I worry that it may be a source of bugs and confusion.\n\nInstead, maybe define a new variable workFilePath in this package.",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 14
+      },
+      "revId": "b17e8b76c1c511bb4e3af41e45240740787f0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12473de8_48e3f8e5",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4734d900_6a717783",
       "range": {
         "startLine": 190,
         "startChar": 2,

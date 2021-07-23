@@ -95,6 +95,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53c18e13_a7738982",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "I pulled this out for a similar reason AddWorkfileFlag was pulled out of AddModCommonFlags: that we don\u0027t want to search for the WorkFile and set cfg.Workfile for commands that can\u0027t operate in workspace mode",
+      "parentUuid": "5f9673ad_499b3a44",
+      "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "971e92fb_9fcde07a",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 5
@@ -106,6 +124,30 @@
       "writtenOn": "2021-07-23T20:41:50Z",
       "side": 1,
       "message": "It looks like this is only called from this file. Does it need to be exported?",
+      "range": {
+        "startLine": 424,
+        "startChar": 5,
+        "endLine": 424,
+        "endChar": 20
+      },
+      "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08387756_77e13c60",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "971e92fb_9fcde07a",
       "range": {
         "startLine": 424,
         "startChar": 5,
@@ -139,6 +181,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ee6dcf4_49d7adb2",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab757d85_412eccd3",
+      "range": {
+        "startLine": 488,
+        "startChar": 5,
+        "endLine": 488,
+        "endChar": 17
+      },
+      "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "398fd54b_06f2fd65",
@@ -152,6 +218,30 @@
       "writtenOn": "2021-07-23T20:41:50Z",
       "side": 1,
       "message": "Always Be Close()ing\n\nAlso, do we need to read with lockedfile if it\u0027s not in the overlay? I don\u0027t know if we need to worry about concurrent edits, maybe not.",
+      "range": {
+        "startLine": 490,
+        "startChar": 23,
+        "endLine": 490,
+        "endChar": 27
+      },
+      "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2143761_a2a6de18",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "better safe than sorry, using lockedfile now.",
+      "parentUuid": "398fd54b_06f2fd65",
       "range": {
         "startLine": 490,
         "startChar": 23,
@@ -185,6 +275,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a0915db_28fa2b8b",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b23d6849_21192599",
+      "range": {
+        "startLine": 564,
+        "startChar": 5,
+        "endLine": 564,
+        "endChar": 13
+      },
+      "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8fb8da1_eef50a48",
@@ -198,6 +312,24 @@
       "writtenOn": "2021-07-23T20:41:50Z",
       "side": 1,
       "message": "Nit: delete blank line",
+      "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f69db95_ca16aef1",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8fb8da1_eef50a48",
       "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -238,6 +370,54 @@
       "writtenOn": "2021-07-23T20:41:50Z",
       "side": 1,
       "message": "Should be renamed to requirementsFromModFiles",
+      "range": {
+        "startLine": 829,
+        "startChar": 5,
+        "endLine": 829,
+        "endChar": 28
+      },
+      "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2766d38f_33cfe2e8",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ccd6fdf_cf86c063",
+      "range": {
+        "startLine": 829,
+        "startChar": 50,
+        "endLine": 829,
+        "endChar": 58
+      },
+      "revId": "355806a6749103854b3cf8bb393ea41b2fd7228d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "011995c1_70463086",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-23T22:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c90047f_f964a5f6",
       "range": {
         "startLine": 829,
         "startChar": 5,
