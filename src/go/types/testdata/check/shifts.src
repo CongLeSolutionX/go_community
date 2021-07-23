@@ -235,8 +235,11 @@ func shifts7() {
 
 	_ = 1<<(1<<s)
 	_ = 1<<(1.<<s)
-	_ = 1. /* ERROR "integer" */ <<(1<<s)
-	_ = 1. /* ERROR "integer" */ <<(1.<<s)
+	// TODO(rfindley): the error on the RHS of these shifts is a bit
+	// confusing, but consistent with the spec. We should find a way to
+	// suppress them.
+	_ = 1. /* ERROR "integer" */ <<(1 /* ERROR "integer" */ <<s)
+	_ = 1. /* ERROR "integer" */ <<(1. /* ERROR "integer" */ <<s)
 
 	x = 1<<(1<<s)
 	x = 1<<(1.<<s)
