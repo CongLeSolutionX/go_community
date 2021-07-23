@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime"
 	"net"
 	"net/http"
 	"net/http/internal/ascii"
@@ -399,11 +400,12 @@ func removeConnectionHeaders(h http.Header) {
 // flushInterval returns the p.FlushInterval value, conditionally
 // overriding its value for a specific request/response.
 func (p *ReverseProxy) flushInterval(res *http.Response) time.Duration {
-	resCT := res.Header.Get("Content-Type")
+	resCTHeader := res.Header.Get("Content-Type")
+	resCT, _, err := mime.ParseMediaType(resCTHeader)
 
 	// For Server-Sent Events responses, flush immediately.
 	// The MIME type is defined in https://www.w3.org/TR/eventsource/#text-event-stream
-	if resCT == "text/event-stream" {
+	if err == nil && resCT == "text/event-stream" {
 		return -1 // negative means immediately
 	}
 
