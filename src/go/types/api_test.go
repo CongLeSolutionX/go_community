@@ -322,6 +322,14 @@ func TestTypesInfo(t *testing.T) {
 			`[][]struct{}`,
 		},
 
+		// issue 47243
+		{`package issue28277_a; var x int32; var _ = x << 3`, `3`, `untyped int`},
+		{`package issue28277_b; var x int32; var _ = x << 3.`, `3.`, `untyped float`},
+		{`package issue28277_c; var x int32; var _ = 1 << 2`, `1`, `untyped int`},
+		{`package issue28277_d; var x int32; var _ = 1 << 2`, `2`, `untyped int`},
+		{`package issue28277_e; var x int32; var _ = 1 << (2<<x)`, `1`, `int`},
+		{`package issue28277_f; var x int32; var _ = 1 << (2<<x)`, `2`, `int`},
+
 		// tests for broken code that doesn't parse or type-check
 		{broken + `x0; func _() { var x struct {f string}; x.f := 0 }`, `x.f`, `string`},
 		{broken + `x1; func _() { var z string; type x struct {f string}; y := &x{q: z}}`, `z`, `string`},

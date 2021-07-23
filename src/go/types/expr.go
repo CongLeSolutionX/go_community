@@ -432,6 +432,9 @@ func (check *Checker) representable(x *operand, typ *Basic) {
 //
 // If no such representation is possible, it returns a non-zero error code.
 func (check *Checker) representation(x *operand, typ *Basic) (constant.Value, errorCode) {
+	if x.mode != constant_ {
+		panic(check.sprintf("%v: not constant", x.Pos()))
+	}
 	assert(x.mode == constant_)
 	v := x.val
 	if !representableConst(x.val, check, typ, &v) {
@@ -537,10 +540,6 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 		if isComparison(x.Op) {
 			// The result type is independent of operand types
 			// and the operand types must have final types.
-		} else if isShift(x.Op) {
-			// The result type depends only on lhs operand.
-			// The rhs type was updated when checking the shift.
-			check.updateExprType(x.X, typ, final)
 		} else {
 			// The operand types match the result type.
 			check.updateExprType(x.X, typ, final)
@@ -808,10 +807,24 @@ func (check *Checker) shift(x, y *operand, e ast.Expr, op token.Token) {
 	// Caution: Check for isUntyped first because isInteger includes untyped
 	//          integers (was bug #43697).
 	if isUntyped(y.typ) {
-		check.convertUntyped(y, Typ[Uint])
-		if y.mode == invalid {
-			x.mode = invalid
-			return
+		// Leave y untyped for now, but check that it can be converted to UInt.
+		// (was bug #47243).
+		//
+		// Types will be converted later via updateExprType.
+		if y.mode == constant_ {
+			check.representable(y, Typ[Uint])
+			if y.mode == invalid {
+				x.mode = invalid
+				return
+			}
+		} else {
+			_, _, code := check.implicitTypeAndValue(y, Typ[Uint])
+			if code != 0 {
+				check.invalidConversion(code, y, Typ[Uint])
+				y.mode = invalid
+				x.mode = invalid
+				return
+			}
 		}
 	} else if !isInteger(y.typ) {
 		check.invalidOp(y, _InvalidShiftCount, "shift count %s must be integer", y)
