@@ -285,7 +285,7 @@ func f27(p *int) []interface{} {
 		nil,         // no write barrier: zeroed memory, nil ptr
 		(*T26)(nil), // no write barrier: zeroed memory, type ptr & nil ptr
 		&g26,        // no write barrier: zeroed memory, type ptr & global ptr
-		7,           // no write barrier: zeroed memory, type ptr & global ptr
+		7,           // no write barrier: global ptr
 		p,           // ERROR "write barrier"
 	}
 }
