@@ -831,6 +831,7 @@ func (g *irgen) getInstantiation(nameNode *ir.Name, targs []*types.Type, isMeth 
 			dictLen:       len(targs) + len(gfInfo.derivedTypes) + len(gfInfo.subDictCalls) + len(gfInfo.itabConvs),
 			dictEntryMap:  make(map[ir.Node]int),
 		}
+
 		// genericSubst fills in info.dictParam and info.dictEntryMap.
 		st := g.genericSubst(sym, nameNode, shapes, targs, isMeth, info)
 		info.fun = st
@@ -921,6 +922,13 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, shapes, targs
 			Targs:   targs,
 			Vars:    make(map[*ir.Name]*ir.Name),
 		},
+	}
+
+	for _, t := range info.gfInfo.tparams {
+		info.shapeTypes = append(info.shapeTypes, subst.ts.Typ(t))
+	}
+	for _, t := range info.gfInfo.derivedTypes {
+		info.shapeTypes = append(info.shapeTypes, subst.ts.Typ(t))
 	}
 
 	newf.Dcl = make([]*ir.Name, 0, len(gf.Dcl)+1)
@@ -1245,7 +1253,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 					if dst.HasTParam() {
 						dst = subst.ts.Typ(dst)
 					}
-					mse.X = subst.convertUsingDictionary(m.Pos(), mse.X, x, dst, gsrc)
+					mse.X = subst.convertUsingDictionary(m.Pos(), mse.X, x, dst, src)
 				}
 			}
 			transformDot(mse, false)
@@ -1370,8 +1378,8 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			x := x.(*ir.ConvExpr)
 			// Note: x's argument is still typed as a type parameter.
 			// m's argument now has an instantiated type.
-			if x.X.Type().HasTParam() {
-				m = subst.convertUsingDictionary(m.Pos(), m.(*ir.ConvExpr).X, x, m.Type(), x.X.Type())
+			if m.(*ir.ConvExpr).X.Type().HasShape() {
+				m = subst.convertUsingDictionary(m.Pos(), m.(*ir.ConvExpr).X, x, m.Type(), m.(*ir.ConvExpr).X.Type())
 			}
 		case ir.ODOTTYPE, ir.ODOTTYPE2:
 			m.SetType(subst.unshapifyTyp(m.Type()))
@@ -1394,30 +1402,26 @@ func (subst *subster) node(n ir.Node) ir.Node {
 	return edit(n)
 }
 
-// findDictType looks for type t in the typeparams or derived types in the generic
-// function info subst.info.gfInfo. This will indicate the dictionary entry with the
-// correct concrete type for the associated instantiated function.
+// findDictType looks for where the shape type t would appear in the dictionary.
+// This will indicate the dictionary entry containing the corresponding
+// concrete type.
 func (subst *subster) findDictType(t *types.Type) int {
-	for i, dt := range subst.info.gfInfo.tparams {
-		if dt == t {
+	assert(t.HasShape())
+	for i, x := range subst.info.shapeTypes {
+		if types.Identical(t, x) {
 			return i
 		}
 	}
-	for i, dt := range subst.info.gfInfo.derivedTypes {
-		if types.Identical(dt, t) {
-			return i + len(subst.info.gfInfo.tparams)
-		}
-	}
-	return -1
+	panic(fmt.Sprintf("shape type %+v not found", t))
 }
 
 // convertUsingDictionary converts value v from instantiated type src to an interface
 // type dst, by returning a new set of nodes that make use of a dictionary entry. src
-// is the generic (not shape) type, and gn is the original generic node of the
+// is the shape (not generic) type, and gn is the original generic node of the
 // CONVIFACE node or XDOT node (for a bound method call) that is causing the
 // conversion.
 func (subst *subster) convertUsingDictionary(pos src.XPos, v ir.Node, gn ir.Node, dst, src *types.Type) ir.Node {
-	assert(src.HasTParam())
+	assert(src.HasShape())
 	assert(dst.IsInterface())
 
 	var rt ir.Node

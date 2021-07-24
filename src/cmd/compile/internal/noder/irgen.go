@@ -125,6 +125,12 @@ type instInfo struct {
 	// Map from nodes in instantiated fun (OCALL, OCALLMETHOD, OFUNCINST, and
 	// OMETHEXPR) to the associated dictionary entry for a sub-dictionary
 	dictEntryMap map[ir.Node]int
+
+	// shapeTypes contains one shape type for each type entry in the dictionary
+	// (both type parameters and derived types). The index of a shape type in this list
+	// indicates the index in the dictionary where the corresponding concrete type
+	// can be found.
+	shapeTypes []*types.Type
 }
 
 type irgen struct {
