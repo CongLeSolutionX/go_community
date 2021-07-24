@@ -1005,6 +1005,9 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, shapes, targs
 		})
 	}
 
+	newf.ShapeTypes = info.shapeTypes
+	newf.Dictionary = dictionaryName
+
 	return newf
 }
 
@@ -1381,8 +1384,6 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			if m.(*ir.ConvExpr).X.Type().HasShape() {
 				m = subst.convertUsingDictionary(m.Pos(), m.(*ir.ConvExpr).X, x, m.Type(), m.(*ir.ConvExpr).X.Type())
 			}
-		case ir.ODOTTYPE, ir.ODOTTYPE2:
-			m.SetType(subst.unshapifyTyp(m.Type()))
 
 		case ir.OMETHEXPR:
 			se := m.(*ir.SelectorExpr)

@@ -133,6 +133,10 @@ type Func struct {
 	// function for go:nowritebarrierrec analysis. Only filled in
 	// if nowritebarrierrecCheck != nil.
 	NWBRCalls *[]SymAndPos
+
+	// see comment in ../noder/irgen.go:instInfo
+	ShapeTypes []*types.Type
+	Dictionary *Name
 }
 
 func NewFunc(pos src.XPos) *Func {

@@ -713,6 +713,22 @@ func (s *state) newObject(typ *types.Type) *ssa.Value {
 // reflectType returns an SSA value representing a pointer to typ's
 // reflection type descriptor.
 func (s *state) reflectType(typ *types.Type) *ssa.Value {
+	if typ.HasShape() {
+		idx := -1
+		for i, t := range s.curfn.ShapeTypes {
+			if types.Identical(t, typ) {
+				idx = i
+			}
+		}
+		if idx == -1 {
+			//s.Fatalf("can't find shape type %+v", typ)
+			goto fallback
+		}
+		dict := s.variable(s.curfn.Dictionary, types.Types[types.TUINTPTR])
+		addr := s.newValue1I(ssa.OpOffPtr, types.Types[types.TUINT8].PtrTo().PtrTo(), int64(idx)*s.config.PtrSize, dict)
+		return s.rawLoad(types.Types[types.TUINT8].PtrTo(), addr)
+	}
+fallback:
 	lsym := reflectdata.TypeLinksym(typ)
 	return s.entryNewValue1A(ssa.OpAddr, types.NewPtr(types.Types[types.TUINT8]), lsym, s.sb)
 }

@@ -663,7 +663,7 @@ func walkDot(n *ir.SelectorExpr, init *ir.Nodes) ir.Node {
 func walkDotType(n *ir.TypeAssertExpr, init *ir.Nodes) ir.Node {
 	n.X = walkExpr(n.X, init)
 	// Set up interface type addresses for back end.
-	if !n.Type().IsInterface() && !n.X.Type().IsEmptyInterface() {
+	if !n.Type().IsInterface() && !n.X.Type().IsEmptyInterface() && !n.Type().IsShape() { // TODO: hack for now
 		n.Itab = reflectdata.ITabAddr(n.Type(), n.X.Type())
 	}
 	return n
