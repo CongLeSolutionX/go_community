@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7babf796_059eaffc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-07-24T05:48:49Z",
+      "side": 1,
+      "message": "I set a short context in the commit message.\n\nThanks for the review,",
+      "revId": "5616f2ef24e13d3ac2dc0ef6048679286b6add3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
