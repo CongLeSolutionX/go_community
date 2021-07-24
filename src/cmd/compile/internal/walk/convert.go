@@ -122,7 +122,14 @@ func dataWord(n ir.Node, init *ir.Nodes, escapes bool) ir.Node {
 
 	// Try a bunch of cases to avoid an allocation.
 	var value ir.Node
+
+	if v := smallIntFromLinksym(n); v != nil {
+		value = v
+	}
+
 	switch {
+	case value != nil:
+		// Already set.
 	case fromType.Size() == 0:
 		// n is zero-sized. Use zerobase.
 		cheapExpr(n, init) // Evaluate n for side-effects. See issue 19246.
@@ -201,6 +208,48 @@ func dataWord(n ir.Node, init *ir.Nodes, escapes bool) ir.Node {
 	call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, nil)
 	call.Args = args
 	return safeExpr(walkExpr(typecheck.Expr(call), init), init)
+}
+
+// smallIntFromLinksym returns a LinksymOffsetExpr into staticuint64s if the
+// provided node is an stmp holding a value that fits in a single byte.
+func smallIntFromLinksym(n ir.Node) ir.Node {
+	if n.Op() != ir.ONAME || !n.Name().Readonly() {
+		return nil
+	}
+
+	fromType := n.Type()
+	size := fromType.Size()
+	if !fromType.IsBoolean() && !fromType.IsInteger() {
+		return nil
+	}
+
+	var v byte
+	p := n.(*ir.Name).Linksym().P
+
+	// Zero-length p is a zero value (and was left unassigned).
+	if len(p) != 0 {
+		var rest []byte
+		if ssagen.Arch.LinkArch.ByteOrder != binary.BigEndian {
+			v, rest = p[0], p[1:]
+		} else {
+			v, rest = p[size-1], p[:size-1]
+		}
+
+		// Ensure the other bytes are all zero, otherwise this
+		// integer is too big.
+		for _, b := range rest {
+			if b != 0 {
+				return nil
+			}
+		}
+	}
+
+	offset := int64(v) << 3
+	if ssagen.Arch.LinkArch.ByteOrder == binary.BigEndian {
+		offset += 8 - size
+	}
+
+	return ir.NewLinksymOffsetExpr(base.Pos, ir.Syms.Staticuint64s, offset, fromType)
 }
 
 // walkConvIData walks an OCONVIDATA node.
