@@ -318,6 +318,8 @@ const (
 	ORESULT        // result of a function call; Xoffset is stack offset
 	OINLMARK       // start of an inlined body, with file/line of caller. Xoffset is an index into the inline tree.
 	OLINKSYMOFFSET // offset within a name
+	ODICTPUSH      // establish a new dictionary (Note: push/pop here is static, not dynamic, similar to scoping.)
+	ODICTPOP       // return to previous dictionary
 
 	// arch-specific opcodes
 	OTAILCALL    // tail call to another function

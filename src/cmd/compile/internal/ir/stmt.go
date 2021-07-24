@@ -412,3 +412,38 @@ func NewTypeSwitchGuard(pos src.XPos, tag *Ident, x Node) *TypeSwitchGuard {
 	n.op = OTYPESW
 	return n
 }
+
+// A DictPushStmt establishes a new dictionary to use for subsequent code.
+// Push here is a static concept, similar to entering a scope.
+type DictPushStmt struct {
+	miniStmt
+	Dictionary Node          // new dictionary
+	ShapeTypes []*types.Type // types that are represented in this dictionary
+	ShapeItabs []ShapeItab
+	Subdicts   int // TODO: reorder itabs and subdicts?
+}
+
+type ShapeItab struct {
+	// Note: at least one, and maybe both, are shape types.
+	Iface *types.Type
+	Typ   *types.Type
+}
+
+func NewDictPushStmt(pos src.XPos, dict Node, shapes []*types.Type, itabs []ShapeItab, subdicts int) *DictPushStmt {
+	n := &DictPushStmt{Dictionary: dict, ShapeTypes: shapes, ShapeItabs: itabs, Subdicts: subdicts}
+	n.pos = pos
+	n.op = ODICTPUSH
+	return n
+}
+
+// A DictPopStmt reverts to the previously used dictionary.
+type DictPopStmt struct {
+	miniStmt
+}
+
+func NewDictPopStmt(pos src.XPos) *DictPopStmt {
+	n := &DictPopStmt{}
+	n.pos = pos
+	n.op = ODICTPOP
+	return n
+}

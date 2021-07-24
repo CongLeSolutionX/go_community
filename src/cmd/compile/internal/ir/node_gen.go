@@ -463,6 +463,44 @@ func (n *Decl) editChildren(edit func(Node) Node) {
 	}
 }
 
+func (n *DictPopStmt) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
+func (n *DictPopStmt) copy() Node {
+	c := *n
+	c.init = copyNodes(c.init)
+	return &c
+}
+func (n *DictPopStmt) doChildren(do func(Node) bool) bool {
+	if doNodes(n.init, do) {
+		return true
+	}
+	return false
+}
+func (n *DictPopStmt) editChildren(edit func(Node) Node) {
+	editNodes(n.init, edit)
+}
+
+func (n *DictPushStmt) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
+func (n *DictPushStmt) copy() Node {
+	c := *n
+	c.init = copyNodes(c.init)
+	return &c
+}
+func (n *DictPushStmt) doChildren(do func(Node) bool) bool {
+	if doNodes(n.init, do) {
+		return true
+	}
+	if n.Dictionary != nil && do(n.Dictionary) {
+		return true
+	}
+	return false
+}
+func (n *DictPushStmt) editChildren(edit func(Node) Node) {
+	editNodes(n.init, edit)
+	if n.Dictionary != nil {
+		n.Dictionary = edit(n.Dictionary).(Node)
+	}
+}
+
 func (n *ForStmt) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
 func (n *ForStmt) copy() Node {
 	c := *n

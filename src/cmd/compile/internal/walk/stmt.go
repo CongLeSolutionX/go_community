@@ -90,7 +90,9 @@ func walkStmt(n ir.Node) ir.Node {
 		ir.OCHECKNIL,
 		ir.OVARDEF,
 		ir.OVARKILL,
-		ir.OVARLIVE:
+		ir.OVARLIVE,
+		ir.ODICTPUSH,
+		ir.ODICTPOP:
 		return n
 
 	case ir.OBLOCK:

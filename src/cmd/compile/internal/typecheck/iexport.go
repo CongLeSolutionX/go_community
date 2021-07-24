@@ -1577,6 +1577,23 @@ func (w *exportWriter) stmt(n ir.Node) {
 		}
 		w.string(label)
 
+	case ir.ODICTPUSH:
+		n := n.(*ir.DictPushStmt)
+		w.op(n.Op())
+		w.pos(n.Pos())
+		w.expr(n.Dictionary)
+		w.typeList(n.ShapeTypes)
+		w.uint64(uint64(len(n.ShapeItabs)))
+		for _, i := range n.ShapeItabs {
+			w.typ(i.Iface)
+			w.typ(i.Typ)
+		}
+		w.uint64(uint64(n.Subdicts))
+
+	case ir.ODICTPOP:
+		w.op(n.Op())
+		w.pos(n.Pos())
+
 	default:
 		base.Fatalf("exporter: CANNOT EXPORT: %v\nPlease notify gri@\n", n.Op())
 	}

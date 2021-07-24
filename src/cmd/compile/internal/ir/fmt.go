@@ -293,6 +293,8 @@ var OpPrec = []int{
 	ORETURN:     -1,
 	OSELECT:     -1,
 	OSWITCH:     -1,
+	ODICTPUSH:   -1,
+	ODICTPOP:    -1,
 
 	OEND: 0,
 }

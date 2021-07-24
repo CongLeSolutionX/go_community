@@ -1701,6 +1701,23 @@ func (r *importReader) node() ir.Node {
 	case ir.OSELRECV2:
 		return ir.NewAssignListStmt(r.pos(), ir.OSELRECV2, r.exprList(), r.exprList())
 
+	case ir.ODICTPUSH:
+		pos := r.pos()
+		dict := r.expr()
+		shapes := r.typeList()
+		var itabs []ir.ShapeItab
+		n := r.uint64()
+		for i := uint64(0); i < n; i++ {
+			iface := r.typ()
+			typ := r.typ()
+			itabs = append(itabs, ir.ShapeItab{Iface: iface, Typ: typ})
+		}
+		subdicts := int(r.uint64())
+		return ir.NewDictPushStmt(pos, dict, shapes, itabs, subdicts)
+
+	case ir.ODICTPOP:
+		return ir.NewDictPopStmt(r.pos())
+
 	default:
 		base.Fatalf("cannot import %v (%d) node\n"+
 			"\t==> please file an issue and assign to gri@", op, int(op))

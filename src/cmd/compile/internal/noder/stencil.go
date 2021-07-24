@@ -930,6 +930,26 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, shapes, targs
 	for _, t := range info.gfInfo.derivedTypes {
 		info.shapeTypes = append(info.shapeTypes, subst.ts.Typ(t))
 	}
+	var shapeItabs []ir.ShapeItab
+	for _, n := range info.gfInfo.itabConvs {
+		var i, t *types.Type
+		if n.Op() == ir.OXDOT {
+			se := n.(*ir.SelectorExpr)
+			t = subst.ts.Typ(se.X.Type())
+			i = subst.ts.Typ(se.X.Type().Bound())
+		} else if n.Op() == ir.ODOTTYPE || n.Op() == ir.ODOTTYPE2 {
+			tae := n.(*ir.TypeAssertExpr)
+			t = subst.ts.Typ(n.Type())
+			i = subst.ts.Typ(tae.X.Type())
+		} else {
+			ce := n.(*ir.ConvExpr)
+			t = subst.ts.Typ(ce.X.Type())
+			i = subst.ts.Typ(ce.Type())
+		}
+		shapeItabs = append(shapeItabs, ir.ShapeItab{Iface: i, Typ: t})
+		//fmt.Printf("shapeItabs %+v %+v\n", i, t)
+		// TODO: there are duplicates in this list.
+	}
 
 	newf.Dcl = make([]*ir.Name, 0, len(gf.Dcl)+1)
 
@@ -978,6 +998,10 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, shapes, targs
 	// Add code to check that the dictionary is correct.
 	// TODO: must go away when we move to many->1 shape to concrete mapping.
 	newf.Body.Prepend(subst.checkDictionary(dictionaryName, targs)...)
+
+	// Add dictionary scope.
+	newf.Body.Prepend(ir.NewDictPushStmt(gf.Pos(), dictionaryName, info.shapeTypes, shapeItabs, len(info.dictEntryMap)))
+	newf.Body.Append(ir.NewDictPopStmt(gf.Pos()))
 
 	ir.CurFunc = savef
 	// Add any new, fully instantiated types seen during the substitution to
@@ -1381,8 +1405,6 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			if m.(*ir.ConvExpr).X.Type().HasShape() {
 				m = subst.convertUsingDictionary(m.Pos(), m.(*ir.ConvExpr).X, x, m.Type(), m.(*ir.ConvExpr).X.Type())
 			}
-		case ir.ODOTTYPE, ir.ODOTTYPE2:
-			m.SetType(subst.unshapifyTyp(m.Type()))
 
 		case ir.OMETHEXPR:
 			se := m.(*ir.SelectorExpr)
@@ -1710,6 +1732,11 @@ func (g *irgen) finalizeSyms() {
 					}
 				}
 				assert(found)
+			} else if n.Op() == ir.ODOTTYPE || n.Op() == ir.ODOTTYPE2 {
+				tae := n.(*ir.TypeAssertExpr)
+				assert(!tae.X.Type().IsEmptyInterface())
+				srctype = subst.Typ(n.Type())
+				dsttype = subst.Typ(tae.X.Type())
 			} else {
 				assert(n.Op() == ir.OCONVIFACE)
 				srctype = subst.Typ(n.(*ir.ConvExpr).X.Type())
@@ -1717,6 +1744,7 @@ func (g *irgen) finalizeSyms() {
 			}
 			itabLsym := reflectdata.ITabLsym(srctype, dsttype)
 			d.off = objw.SymPtr(lsym, d.off, itabLsym, 0)
+			infoPrint(" * itab %+v %+v\n", srctype, dsttype)
 		}
 
 		objw.Global(lsym, int32(d.off), obj.DUPOK|obj.RODATA)
@@ -1855,6 +1883,10 @@ func (g *irgen) getGfInfo(gn *ir.Name) *gfInfo {
 		}
 		if n.Op() == ir.OXDOT && n.(*ir.SelectorExpr).X.Type().IsTypeParam() {
 			infoPrint("  Itab for interface conv: %v\n", n)
+			info.itabConvs = append(info.itabConvs, n)
+		}
+		if (n.Op() == ir.ODOTTYPE || n.Op() == ir.ODOTTYPE2) && !n.(*ir.TypeAssertExpr).X.Type().IsEmptyInterface() {
+			infoPrint("  Itab for dottype: %v\n", n)
 			info.itabConvs = append(info.itabConvs, n)
 		}
 		if n.Op() == ir.OCLOSURE {

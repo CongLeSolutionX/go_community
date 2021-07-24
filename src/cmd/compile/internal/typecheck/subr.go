@@ -1324,7 +1324,8 @@ func (ts *Tsubster) tinter(t *types.Type) *types.Type {
 		}
 	}
 	if newfields != nil {
-		return types.NewInterface(t.Pkg(), newfields)
+		t = types.NewInterface(t.Pkg(), newfields)
+		types.CheckSize(t)
 	}
 	return t
 }

@@ -707,12 +707,34 @@ func (s *state) newObject(typ *types.Type) *ssa.Value {
 	if typ.Size() == 0 {
 		return s.newValue1A(ssa.OpAddr, types.NewPtr(typ), ir.Syms.Zerobase, s.sb)
 	}
-	return s.rtcall(ir.Syms.Newobject, true, []*types.Type{types.NewPtr(typ)}, s.reflectType(typ))[0]
+	// Note: don't unshapify here. runtime.newobject can handle shape types just fine, and
+	// some types that appear here did not exist when stenciling, e.g. the [2]T type
+	// that's the backing store for a []T{t1,t2} slice.
+	return s.rtcall(ir.Syms.Newobject, true, []*types.Type{types.NewPtr(typ)}, s.reflectType(typ, false))[0]
 }
 
 // reflectType returns an SSA value representing a pointer to typ's
 // reflection type descriptor.
-func (s *state) reflectType(typ *types.Type) *ssa.Value {
+// If unshapify is true, use the underlying concrete type for any shape type.
+func (s *state) reflectType(typ *types.Type, unshapify bool) *ssa.Value {
+	if unshapify && typ.HasShape() {
+		d := s.dictionaries[len(s.dictionaries)-1]
+		idx := -1
+		for i, t := range d.shapes {
+			if types.Identical(t, typ) {
+				idx = i
+				break
+			}
+		}
+		if idx == -1 {
+			for _, x := range d.shapes {
+				fmt.Printf("  shape %+v\n", x)
+			}
+			s.Fatalf("can't find shape type %+v", typ)
+		}
+		addr := s.newValue1I(ssa.OpOffPtr, types.Types[types.TUINT8].PtrTo().PtrTo(), int64(idx)*s.config.PtrSize, d.dict)
+		return s.rawLoad(types.Types[types.TUINT8].PtrTo(), addr)
+	}
 	lsym := reflectdata.TypeLinksym(typ)
 	return s.entryNewValue1A(ssa.OpAddr, types.NewPtr(types.Types[types.TUINT8]), lsym, s.sb)
 }
@@ -880,6 +902,15 @@ type state struct {
 	lastDeferCount      int        // Number of defers encountered at that point
 
 	prevCall *ssa.Value // the previous call; use this to tie results to the call op.
+
+	dictionaries []dictionary // stack of dictionaries; current is last
+}
+
+type dictionary struct {
+	dict     *ssa.Value
+	shapes   []*types.Type
+	itabs    []ir.ShapeItab
+	subdicts int
 }
 
 type funcLine struct {
@@ -1866,6 +1897,18 @@ func (s *state) stmt(n ir.Node) {
 	case ir.OINLMARK:
 		n := n.(*ir.InlineMarkStmt)
 		s.newValue1I(ssa.OpInlMark, types.TypeVoid, n.Index, s.mem())
+
+	case ir.ODICTPUSH:
+		n := n.(*ir.DictPushStmt)
+		s.dictionaries = append(s.dictionaries, dictionary{
+			dict:     s.expr(n.Dictionary),
+			shapes:   n.ShapeTypes,
+			itabs:    n.ShapeItabs,
+			subdicts: n.Subdicts,
+		})
+
+	case ir.ODICTPOP:
+		s.dictionaries = s.dictionaries[:len(s.dictionaries)-1]
 
 	default:
 		s.Fatalf("unhandled stmt %v", n.Op())
@@ -6041,8 +6084,8 @@ func (s *state) floatToUint(cvttab *f2uCvtTab, n ir.Node, x *ssa.Value, ft, tt *
 // commaok indicates whether to panic or return a bool.
 // If commaok is false, resok will be nil.
 func (s *state) dottype(n *ir.TypeAssertExpr, commaok bool) (res, resok *ssa.Value) {
-	iface := s.expr(n.X)              // input interface
-	target := s.reflectType(n.Type()) // target type
+	iface := s.expr(n.X)                    // input interface
+	target := s.reflectType(n.Type(), true) // target type
 	byteptr := s.f.Config.Types.BytePtr
 
 	if n.Type().IsInterface() {
@@ -6152,9 +6195,30 @@ func (s *state) dottype(n *ir.TypeAssertExpr, commaok bool) (res, resok *ssa.Val
 	if n.X.Type().IsEmptyInterface() {
 		// Looking for pointer to target type.
 		targetITab = target
-	} else {
+	} else if n.Itab != nil {
 		// Looking for pointer to itab for target type and source interface.
 		targetITab = s.expr(n.Itab)
+	} else {
+		// Get itab we're looking for from the dictionary.
+		i := n.X.Type()
+		t := n.Type()
+		d := s.dictionaries[len(s.dictionaries)-1]
+		idx := -1
+		for j, itab := range d.itabs {
+			if types.Identical(i, itab.Iface) && types.Identical(t, itab.Typ) {
+				idx = j
+				break
+			}
+		}
+		if idx == -1 {
+			for _, itab := range d.itabs {
+				fmt.Printf("  itab i:%+v t:%+v\n", itab.Iface, itab.Typ)
+			}
+			s.Fatalf("can't find shape itab %d %+v %+v", len(d.itabs), i, t)
+		}
+		idx += len(d.shapes) + d.subdicts
+		addr := s.newValue1I(ssa.OpOffPtr, types.Types[types.TUINT8].PtrTo().PtrTo(), int64(idx)*s.config.PtrSize, d.dict)
+		targetITab = s.rawLoad(types.Types[types.TUINT8].PtrTo(), addr)
 	}
 
 	var tmp ir.Node     // temporary for use with large types
@@ -6179,7 +6243,7 @@ func (s *state) dottype(n *ir.TypeAssertExpr, commaok bool) (res, resok *ssa.Val
 	if !commaok {
 		// on failure, panic by calling panicdottype
 		s.startBlock(bFail)
-		taddr := s.reflectType(n.X.Type())
+		taddr := s.reflectType(n.X.Type(), true)
 		if n.X.Type().IsEmptyInterface() {
 			s.rtcall(ir.Syms.PanicdottypeE, false, nil, itab, target, taddr)
 		} else {
