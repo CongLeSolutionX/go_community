@@ -5,12 +5,14 @@
 package walk
 
 import (
+	"encoding/binary"
 	"fmt"
 	"go/constant"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/reflectdata"
+	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/staticinit"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -1166,6 +1168,64 @@ func (o *orderState) expr1(n, lhs ir.Node) ir.Node {
 		if n.X.Type().IsInterface() {
 			return n
 		}
+
+		// Preemptively convert small constants to interfaces that reference staticuint64s.
+		constIFace := func() ir.Node {
+			isConstInt := ir.CanInt64(n.X)
+			isConstBool := ir.IsConst(n.X, constant.Bool)
+
+			if !isConstInt && !isConstBool {
+				return nil
+			}
+
+			fromType := n.X.Type()
+			toType := n.Type()
+
+			var v int64
+			if isConstInt {
+				v = ir.Int64Val(n.X)
+				if fromType.Size() == 1 {
+					v = int64(uint8(v))
+				}
+
+				if v < 0 || v >= 256 {
+					return nil
+				}
+			} else if ir.BoolVal(n.X) {
+				v = 1
+			}
+
+			offset := v << 3
+			if ssagen.Arch.LinkArch.ByteOrder == binary.BigEndian {
+				offset += 8 - fromType.Size()
+			}
+
+			// Same as walkConvInterface.
+
+			if !ir.IsBlank(ir.CurFunc.Nname) {
+				// skip unnamed functions (func _())
+				reflectdata.MarkTypeUsedInInterface(fromType, ir.CurFunc.LSym)
+			}
+
+			var typeWord ir.Node
+			if toType.IsEmptyInterface() {
+				typeWord = reflectdata.TypePtr(fromType)
+			} else {
+				typeWord = reflectdata.ITabAddr(fromType, toType)
+			}
+
+			arrLen := 256 * (8 / fromType.Size())
+			addr := ir.NewLinksymOffsetExpr(base.Pos, ir.Syms.Staticuint64s, offset, types.NewArray(types.Types[fromType.Kind()], arrLen))
+			l := ir.NewBinaryExpr(base.Pos, ir.OEFACE, typeWord, typecheck.Expr(typecheck.NodAddr(addr)))
+			l.SetType(toType)
+			l.SetTypecheck(n.Typecheck())
+			return l
+		}()
+
+		if constIFace != nil {
+			return constIFace
+		}
+
 		if _, _, needsaddr := dataWordFuncName(n.X.Type()); needsaddr || isStaticCompositeLiteral(n.X) {
 			// Need a temp if we need to pass the address to the conversion function.
 			// We also process static composite literal node here, making a named static global
