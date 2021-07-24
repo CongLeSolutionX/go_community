@@ -1166,6 +1166,7 @@ func (o *orderState) expr1(n, lhs ir.Node) ir.Node {
 		if n.X.Type().IsInterface() {
 			return n
 		}
+
 		if _, _, needsaddr := dataWordFuncName(n.X.Type()); needsaddr || isStaticCompositeLiteral(n.X) {
 			// Need a temp if we need to pass the address to the conversion function.
 			// We also process static composite literal node here, making a named static global
