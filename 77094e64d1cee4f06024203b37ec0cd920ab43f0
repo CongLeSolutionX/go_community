@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f703d894_374d00f4",
+        "filename": "src/cmd/compile/internal/escape/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-24T02:44:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d2ef33b_831c740a",
+      "revId": "77094e64d1cee4f06024203b37ec0cd920ab43f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "903d59a6_dccb28e2",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76122ab6_9d8035ab",
+        "filename": "src/cmd/compile/internal/ir/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-24T02:44:11Z",
+      "side": 1,
+      "message": "A lot of the operations in this list are allocations (bytes2str, etc). I\u0027ll leave it as is for now.",
+      "parentUuid": "903d59a6_dccb28e2",
+      "revId": "77094e64d1cee4f06024203b37ec0cd920ab43f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b8d4bb1_03ab455b",
@@ -102,6 +138,24 @@
       "writtenOn": "2021-07-24T02:29:28Z",
       "side": 1,
       "message": "this can become an else if (...) and then you don\u0027t have to repeat do the\n\u0027n.Op() !\u003d ir.OCONVIDATA\u0027 condition.",
+      "revId": "77094e64d1cee4f06024203b37ec0cd920ab43f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1974db9_16861050",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-24T02:44:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b8d4bb1_03ab455b",
       "revId": "77094e64d1cee4f06024203b37ec0cd920ab43f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
