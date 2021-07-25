@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b0f1902_8c2591c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-25T20:15:21Z",
+      "side": 1,
+      "message": "I am still (slowly) incorporating the comments from the older CL. I won\u0027t lose those comments, no worries.",
+      "parentUuid": "bd318274_00f82fcb",
+      "revId": "8293f8affcf8d3757ff20fd82df6cb9d070f3b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6db34c68_de084c48",
@@ -104,6 +122,24 @@
       "writtenOn": "2021-07-23T22:42:51Z",
       "side": 1,
       "message": "Is it worth promoting the definition of TypeList to here, since it is recursively defined with \u0027Type\u0027 and \u0027TypeArgs\u0027 and important for generics?  With generics, seems weird for it to be first defined thousands of lines below with the typeswitch case definitions.",
+      "revId": "8293f8affcf8d3757ff20fd82df6cb9d070f3b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca7d1353_6ceede75",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-25T20:15:21Z",
+      "side": 1,
+      "message": "Good point! Fixed.\n\nAlso fixed the syntax for TypeArgs which allows a trailing comma (for symmetry, like all parameter lists).",
+      "parentUuid": "6db34c68_de084c48",
       "revId": "8293f8affcf8d3757ff20fd82df6cb9d070f3b9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -125,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21ab590_e3630a3d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-25T20:15:21Z",
+      "side": 1,
+      "message": "Agreed. Reformulated.\n\nAlso, changed the rules slightly to disallow embedded type parameters for now (per a discussion elsewhere).",
+      "parentUuid": "0d5bbb51_ec472c20",
+      "revId": "8293f8affcf8d3757ff20fd82df6cb9d070f3b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8614334a_e1c5f6f6",
@@ -138,6 +192,42 @@
       "writtenOn": "2021-07-23T22:42:51Z",
       "side": 1,
       "message": "missing an \u0027a\u0027?  -\u003e \u0027all types in a constraint interface\u0027s type set\u0027 ?\n\nAlso, I don\u0027t generally understand this sentence, and why you are specifically stating the types you listed.  Don\u0027t you at least want to say something more general as well, that any operator/operation that is implemented by all types in the type set is allowed for the typeparam in the generic function/method?",
+      "revId": "8293f8affcf8d3757ff20fd82df6cb9d070f3b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2879912_452e1074",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1700,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-25T20:15:21Z",
+      "side": 1,
+      "message": "Fixed the missing \"a\".\n\nRe: the last sentence: We already have a notion of \"integer types\", \"floating-point types\" etc. in the spec when we say things like e.g. \"the operand must be of integer type\" (w/o the need to specify which integer types each time). I am trying to extend this notion to suitably constrained type parameter types.\n\nI agree that this could be clearer, and perhaps it should move elsewhere. Will keep thinking about it.",
+      "parentUuid": "8614334a_e1c5f6f6",
+      "revId": "8293f8affcf8d3757ff20fd82df6cb9d070f3b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e71e2bea_e2d4a0d7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1700,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-07-25T20:15:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8614334a_e1c5f6f6",
       "revId": "8293f8affcf8d3757ff20fd82df6cb9d070f3b9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
