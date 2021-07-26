@@ -33,6 +33,29 @@
       "message": "NOTE FOR REVIEW: This seems inaccurate; I don\u0027t think it actually happens. Doesn\u0027t seem to matter either.",
       "revId": "c6de9f3fdee5b501a3c0d7790ae0d76657c926af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13e8fb45_a942936e",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2425,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-26T19:52:53Z",
+      "side": 0,
+      "message": "was main overwriting them?",
+      "range": {
+        "startLine": 2425,
+        "startChar": 0,
+        "endLine": 2425,
+        "endChar": 52
+      },
+      "revId": "c6de9f3fdee5b501a3c0d7790ae0d76657c926af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

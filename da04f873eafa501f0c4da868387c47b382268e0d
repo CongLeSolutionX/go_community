@@ -72,6 +72,24 @@
       "message": "NOTE FOR REVIEW: Previously, \u0027go env CC\u0027 would only print the command name, not any arguments that were part of CC. For example, if CC\u003d\u0027zig cc\u0027, only zig would be printed.\n\nThis seems like a bug, so now I\u0027m printing the raw string without unquoting it. WDYT?",
       "revId": "da04f873eafa501f0c4da868387c47b382268e0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d88bddb_901dff14",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-26T19:52:53Z",
+      "side": 1,
+      "message": "yeah printing the raw string without unquoting it sounds right here \nI\u0027d want it to print what i set the environment variable to",
+      "parentUuid": "2953f98f_6646e178",
+      "revId": "da04f873eafa501f0c4da868387c47b382268e0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
