@@ -1228,7 +1228,7 @@ func (s *state) instrumentFields(t *types.Type, addr *ssa.Value, kind instrument
 		if f.Sym.IsBlank() {
 			continue
 		}
-		offptr := s.newValue1I(ssa.OpOffPtr, types.NewPtr(f.Type), abi.FieldOffsetOf(f), addr)
+		offptr := s.newValue1I(ssa.OpOffPtr, types.NewPtr(f.Type), f.Offset, addr)
 		s.instrumentFields(f.Type, offptr, kind)
 	}
 }
@@ -4911,11 +4911,43 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		s.store(closure.Type,
 			s.newValue1I(ssa.OpOffPtr, closure.Type.PtrTo(), t.FieldOff(5), addr),
 			closure)
+<<<<<<< HEAD   (bfcb7c [dev.typeparams] cmd/compile: fix unified IR support for //g)
 		// 6: panic, set in deferprocStack
 		// 7: link, set in deferprocStack
 		// 8: fd
 		// 9: varp
 		// 10: framepc
+=======
+		// 7: panic, set in deferprocStack
+		// 8: link, set in deferprocStack
+		// 9: framepc
+		// 10: varp
+		// 11: fd
+
+		// Then, store all the arguments of the defer call.
+		ft := fn.Type()
+		off := t.FieldOff(12) // TODO register args: be sure this isn't a hardcoded param stack offset.
+		args := n.Args
+		i0 := 0
+
+		// Set receiver (for interface calls). Always a pointer.
+		if rcvr != nil {
+			p := s.newValue1I(ssa.OpOffPtr, ft.Recv().Type.PtrTo(), off, addr)
+			s.store(types.Types[types.TUINTPTR], p, rcvr)
+			i0 = 1
+		}
+		// Set receiver (for method calls).
+		if n.Op() == ir.OCALLMETH {
+			base.Fatalf("OCALLMETH missed by walkCall")
+		}
+		// Set other args.
+		// This code is only used when RegabiDefer is not enabled, and arguments are always
+		// passed on stack.
+		for i, f := range ft.Params().Fields().Slice() {
+			s.storeArgWithBase(args[0], f.Type, addr, off+params.InParam(i+i0).FrameOffset(params))
+			args = args[1:]
+		}
+>>>>>>> BRANCH (ecaa68 doc: clarify non-nil zero length slice to array pointer conv)
 
 		// Call runtime.deferprocStack with pointer to _defer record.
 		ACArgs = append(ACArgs, types.Types[types.TUINTPTR])
@@ -4923,7 +4955,16 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		callArgs = append(callArgs, addr, s.mem())
 		call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
 		call.AddArgs(callArgs...)
+<<<<<<< HEAD   (bfcb7c [dev.typeparams] cmd/compile: fix unified IR support for //g)
 		call.AuxInt = int64(types.PtrSize) // deferprocStack takes a *_defer arg
+=======
+		if stksize < int64(types.PtrSize) {
+			// We need room for both the call to deferprocStack and the call to
+			// the deferred function.
+			stksize = int64(types.PtrSize)
+		}
+		call.AuxInt = stksize
+>>>>>>> BRANCH (ecaa68 doc: clarify non-nil zero length slice to array pointer conv)
 	} else {
 		// Store arguments to stack, including defer/go arguments and receiver for method calls.
 		// These are written in SP-offset order.
