@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5f3a4ea_d831e5a8",
+        "filename": "src/cmd/internal/str/str.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-26T22:45:00Z",
+      "side": 1,
+      "message": "Changed to an equivalent switch, hopefully slightly more readable.\n\nOriginally, the loop was iterating over bytes instead of decoding UTF-8. Should be a little bit faster, but this is not a place that matters.",
+      "parentUuid": "1c9b5cef_86f795a8",
+      "range": {
+        "startLine": 170,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 3
+      },
+      "revId": "c6de9f3fdee5b501a3c0d7790ae0d76657c926af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76b226a5_f362e4cd",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-07-26T19:04:12Z",
       "side": 1,
       "message": "should there be a case where a quoted field contains the other type of quote? like\n  \u0027a \"\u0027\"\u0027b\"",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 71
+      },
+      "revId": "c6de9f3fdee5b501a3c0d7790ae0d76657c926af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f60966_6539c1eb",
+        "filename": "src/cmd/internal/str/str_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-26T22:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76b226a5_f362e4cd",
       "range": {
         "startLine": 51,
         "startChar": 2,
