@@ -101,6 +101,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88b0ad36_7a14e828",
+        "filename": "src/internal/cpu/cpu_x86.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2021-07-26T12:21:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f38a8f70_29655b91",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "23b19a32955b70bf85ae8eaf1a8497540a138ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c73e3eb8_98456c3f",
