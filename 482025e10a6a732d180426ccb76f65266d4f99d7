@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77c2887b_ebf48a08",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1411,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-26T15:18:11Z",
+      "side": 1,
+      "message": "I don\u0027t see exactly how this will work, once we go to the real Shapify(), which can create the same shape type for two distinct type args that have the same shape.  I.e. you\u0027re doing some generic Map[K, V] method, but it happens that K and V are *int and *float, so they have the same shape \"u8\".\n\nIf you want to do it this way, then I think you will have to somehow incorporate the type parameter index into the shape to make it distinct.  So maybe K and V above have the same underlying shape type, but they are given different defined type names that include the type param index.  E.g u8index1 and u8index2.",
+      "revId": "482025e10a6a732d180426ccb76f65266d4f99d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
