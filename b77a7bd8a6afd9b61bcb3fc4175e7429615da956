@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "220038b8_dfe1b215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-26T16:42:29Z",
+      "side": 1,
+      "message": "Thanks for working on this. Couple comments below.",
+      "revId": "b77a7bd8a6afd9b61bcb3fc4175e7429615da956",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef9301a3_acb85cf9",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-26T16:42:29Z",
+      "side": 1,
+      "message": "Please wrap this paragraph to 70 columns.\n\nAlso, please run src/cmd/go/mkalldocs.sh to keep the package documentation in sync.",
+      "revId": "b77a7bd8a6afd9b61bcb3fc4175e7429615da956",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e4b81e_8b866cbb",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-26T16:42:29Z",
+      "side": 1,
+      "message": "Please add a test to verify this works.\n\nThis list was last updated in CL 304689, so I think you can also test this by modifying test_cache_inputs.txt.",
+      "revId": "b77a7bd8a6afd9b61bcb3fc4175e7429615da956",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
