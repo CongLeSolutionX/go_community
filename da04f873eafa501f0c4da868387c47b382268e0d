@@ -90,6 +90,24 @@
       "parentUuid": "2953f98f_6646e178",
       "revId": "da04f873eafa501f0c4da868387c47b382268e0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b8250da_fa3e7e0f",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-26T22:45:19Z",
+      "side": 1,
+      "message": "Sounds good, just wanted to make sure I wasn\u0027t alone in thinking that.",
+      "parentUuid": "6d88bddb_901dff14",
+      "revId": "da04f873eafa501f0c4da868387c47b382268e0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

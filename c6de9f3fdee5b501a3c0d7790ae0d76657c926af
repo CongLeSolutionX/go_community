@@ -56,6 +56,30 @@
       },
       "revId": "c6de9f3fdee5b501a3c0d7790ae0d76657c926af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9828308_a680f46e",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2425,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-26T22:45:19Z",
+      "side": 0,
+      "message": "This comment made no sense to me. This was added in CL 73850, but I don\u0027t understand it even in that context. The only thing I can think of that would overwrite these is if we were loading a go.env file where CC or CXX was set with \u0027go env -w\u0027. But then why would we ever want to use the \"original\" value and not the value the user told us?",
+      "parentUuid": "13e8fb45_a942936e",
+      "range": {
+        "startLine": 2425,
+        "startChar": 0,
+        "endLine": 2425,
+        "endChar": 52
+      },
+      "revId": "c6de9f3fdee5b501a3c0d7790ae0d76657c926af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
