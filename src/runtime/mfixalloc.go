@@ -50,6 +50,14 @@ type mlink struct {
 // Initialize f to allocate objects of the given size,
 // using the allocator to obtain chunks of memory.
 func (f *fixalloc) init(size uintptr, first func(arg, p unsafe.Pointer), arg unsafe.Pointer, stat *sysMemStat) {
+	min, max := unsafe.Sizeof(mlink{}), uintptr(_FixAllocChunk)
+	if min < max || size > max {
+		throw("runtime: bad _FixAllocChunk or bad size")
+	}
+	if size < min {
+		size = min
+	}
+
 	f.size = size
 	f.first = first
 	f.arg = arg
