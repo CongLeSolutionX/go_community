@@ -31,6 +31,7 @@ type fixalloc struct {
 	list   *mlink
 	chunk  uintptr // use uintptr instead of unsafe.Pointer to avoid write barriers
 	nchunk uint32
+	nalloc uint32  // how many new bytes to allocate when run out of the free linked list
 	inuse  uintptr // in-use bytes now
 	stat   *sysMemStat
 	zero   bool // zero allocations
@@ -50,12 +51,21 @@ type mlink struct {
 // Initialize f to allocate objects of the given size,
 // using the allocator to obtain chunks of memory.
 func (f *fixalloc) init(size uintptr, first func(arg, p unsafe.Pointer), arg unsafe.Pointer, stat *sysMemStat) {
+	min, max := unsafe.Sizeof(mlink{}), uintptr(_FixAllocChunk)
+	if min > max || max > uintptr(^uint32(0)) || size > max {
+		throw("runtime: bad _FixAllocChunk or bad size")
+	}
+	if size < min {
+		size = min
+	}
+
 	f.size = size
 	f.first = first
 	f.arg = arg
 	f.list = nil
 	f.chunk = 0
 	f.nchunk = 0
+	f.nalloc = uint32(_FixAllocChunk / f.size * f.size) // _FixAllocChunk % f.size bytes at tail will never be unused
 	f.inuse = 0
 	f.stat = stat
 	f.zero = true
@@ -77,8 +87,8 @@ func (f *fixalloc) alloc() unsafe.Pointer {
 		return v
 	}
 	if uintptr(f.nchunk) < f.size {
-		f.chunk = uintptr(persistentalloc(_FixAllocChunk, 0, f.stat))
-		f.nchunk = _FixAllocChunk
+		f.chunk = uintptr(persistentalloc(uintptr(f.nalloc), 0, f.stat))
+		f.nchunk = f.nalloc
 	}
 
 	v := unsafe.Pointer(f.chunk)
