@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f3b8030_b88c4fb1",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-27T02:01:21Z",
+      "side": 1,
+      "message": "So I was thinking that the ideal is that for the purposes where the module version is compared with lazyLoadingVersionV and narrowAllVersionV we\u0027d use the wider scoped semantics (eager loading, and closing over tests of dependencies outside the main module) over the Go versions of the main modules that have paths in the loading graph to each package. Though that would make loading even more complicated and require keeping track of more package loading bits.\n\nAn alternative is that we take the semantics of the lowest Go version of each of the workspace modules.\n\nI\u0027m not sure if we\u0027d want to take it from the go.work file-- I think it would be needlessly confusing if everyone started getting lazily loaded modules in workspace mode even if none of their workspace modules were go 1.17.",
+      "parentUuid": "60b4b560_07c889de",
+      "revId": "e1fbe70a9476ff47ec177998d292039318ed8221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cee205b1_caaad832",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-07-26T20:51:32Z",
       "side": 1,
       "message": "If one main module does:\n\n  replace example.com/a v1.0.0 \u003d\u003e example.com/x v1.0.0\n\nAnd another does:\n\n  replace example.com/a \u003d\u003e example.com/y v1.0.0\n\nI don\u0027t think that should be an error. If both replacements were in the same go.mod file, we\u0027d go with the one that replaces a specific version.",
+      "revId": "e1fbe70a9476ff47ec177998d292039318ed8221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e3579a8_451463cf",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-27T02:01:21Z",
+      "side": 1,
+      "message": "How\u0027s this?",
+      "parentUuid": "cee205b1_caaad832",
       "revId": "e1fbe70a9476ff47ec177998d292039318ed8221",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +156,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cf8e2dbd_693006a6",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-27T02:01:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31e9de88_a6833c36",
+      "range": {
+        "startLine": 328,
+        "startChar": 30,
+        "endLine": 328,
+        "endChar": 38
+      },
+      "revId": "e1fbe70a9476ff47ec177998d292039318ed8221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "365e0246_893a3001",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-27T02:01:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f7b4758_d0d1c153",
+      "range": {
+        "startLine": 328,
+        "startChar": 95,
+        "endLine": 328,
+        "endChar": 121
+      },
+      "revId": "e1fbe70a9476ff47ec177998d292039318ed8221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "339c54cc_49e796c7",
         "filename": "src/cmd/go/internal/modload/modfile.go",
         "patchSetId": 10
@@ -148,6 +232,30 @@
       "writtenOn": "2021-07-26T20:51:32Z",
       "side": 1,
       "message": "It shouldn\u0027t actually matter what the main module is to checkVendorConsistency; we need the index of that module\u0027s go.mod file, specifically the go version, requirements, and replacements.\n\nCould we pass in an *index here instead?\n\nIt looks like we use modFile.Require and modFile.Replace. We print errors based on those, so the order matters, and we can\u0027t use index.require and index.replace without sorting first. So maybe either sort and iterate them, or add a *modfile.File field to *index? Or pass in a *modFile parameter.",
+      "range": {
+        "startLine": 137,
+        "startChar": 28,
+        "endLine": 137,
+        "endChar": 53
+      },
+      "revId": "e1fbe70a9476ff47ec177998d292039318ed8221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c1ef0da_853cad42",
+        "filename": "src/cmd/go/internal/modload/vendor.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-27T02:01:21Z",
+      "side": 1,
+      "message": "ok, passing index and modfile.",
+      "parentUuid": "5e7c137f_e2797545",
       "range": {
         "startLine": 137,
         "startChar": 28,
