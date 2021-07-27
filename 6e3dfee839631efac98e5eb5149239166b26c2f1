@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be82e6d4_e818469d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-07-27T11:32:08Z",
+      "side": 1,
+      "message": "Thanks for suggestion. My new patch will throw on detecting too large object size and set size to unsafe.Sizeof(mlink{}) if too small.\n\nDo you tend to also throw if object size is too small? I\u0027m concerned if fixalloc will be used for small(smaller than pointer size) object allocation in future.",
+      "parentUuid": "4ca230bf_c9bad7c7",
+      "revId": "6e3dfee839631efac98e5eb5149239166b26c2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b8cdf42_8293ebcc",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3833c057_731060d2",
+        "filename": "src/runtime/mfixalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-07-27T11:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b8cdf42_8293ebcc",
+      "revId": "6e3dfee839631efac98e5eb5149239166b26c2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47efd2bf_dede4dd0",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-07-26T18:09:37Z",
       "side": 1,
       "message": "For this, I\u0027d be inclined to detect this in fixalloc.init and just throw, like Martin suggested. f.size isn\u0027t changing, and fixalloc isn\u0027t appropriate for really large allocations.",
+      "revId": "6e3dfee839631efac98e5eb5149239166b26c2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d810e6b_924b8631",
+        "filename": "src/runtime/mfixalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2021-07-27T11:32:08Z",
+      "side": 1,
+      "message": "Agree with you and Martin on detecting and throwing in fixalloc.init function.\n\nCurrently, _FixAllocChunk % f.size bytes at tail will never be used. I\u0027d like to not alloc these unused bytes from persistentalloc. \n\nWasted bytes on darwin/amd64 tests:\n(dlv) p uintptr(runtime._FixAllocChunk) % runtime.mheap_.spanalloc.size\n64\n(dlv) p uintptr(runtime._FixAllocChunk) % runtime.mheap_.cachealloc.size\n784\n(dlv) p uintptr(runtime._FixAllocChunk) % runtime.mheap_.specialfinalizeralloc.size\n16\n(dlv) p uintptr(runtime._FixAllocChunk) % runtime.mheap_.specialprofilealloc.size\n16\n(dlv) p uintptr(runtime._FixAllocChunk) % runtime.mheap_.specialReachableAlloc.size\n16\n(dlv) p uintptr(runtime._FixAllocChunk) % runtime.mheap_.arenaHintAlloc.size\n16\n(dlv)",
+      "parentUuid": "47efd2bf_dede4dd0",
       "revId": "6e3dfee839631efac98e5eb5149239166b26c2f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
