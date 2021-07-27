@@ -49,7 +49,6 @@ func (x mybar) bar() int {
 	return int(x)
 }
 
-
 func main() {
 	var i interface{} = int(3)
 	var j I = myint(3)
@@ -69,6 +68,11 @@ func main() {
 	println(h[int](struct{a, b int}{3, 5}).a)
 
 	println(k[int](mybar(3)).bar())
+
+	type large struct {a,b,c,d,e,f int}
+	println(f[large](large{}).a)
+	l2, ok := f2[large](large{})
+	println(l2.a, ok)
 }
 func shouldpanic(x func()) {
 	defer func() {
