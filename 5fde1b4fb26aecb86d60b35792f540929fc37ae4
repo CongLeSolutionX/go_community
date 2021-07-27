@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdc1b9af_3973d139",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-07-27T13:57:47Z",
+      "side": 1,
+      "message": "The first line should try to give a sense of what the change actually does. E.g., \"runtime: ensure the fixalloc object size is valid\"",
+      "revId": "5fde1b4fb26aecb86d60b35792f540929fc37ae4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afffbf95_3ab92e34",
+        "filename": "src/runtime/mfixalloc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-07-27T13:57:47Z",
+      "side": 1,
+      "message": "I think you\u0027re overengineering this a little. Yes, these are all technically important invariants, but the runtime is also carefully controlled code. E.g., it would never make sense for someone to set _FixAllocChunk above 0xffffffff, and if they did they would quickly realize their mistake. _FixAllocChunk has changed exactly once in the history of the runtime, and that was in 2013. :) OTOH, the size of structures does change and we do introduce new fixalloc instances from time to time, so checking size is totally reasonable.\n\nif size \u003e _FixAllocChunk {\n    throw(\"runtime: fixalloc size too large\")\n}\nif min :\u003d unsafe.Sizeof(mlink{}); size \u003c min {\n    size \u003d min\n}",
+      "revId": "5fde1b4fb26aecb86d60b35792f540929fc37ae4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afe1b8ed_d2462cbd",
+        "filename": "src/runtime/mfixalloc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-07-27T13:57:47Z",
+      "side": 1,
+      "message": "This should be done in a separate CL so that each CL addresses just a single concern.",
+      "revId": "5fde1b4fb26aecb86d60b35792f540929fc37ae4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
