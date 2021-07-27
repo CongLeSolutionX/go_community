@@ -85,6 +85,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b0f13f3_7adc85a0",
+        "filename": "src/cmd/go/internal/modcmd/initwork.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-07-27T21:00:03Z",
+      "side": 1,
+      "message": "Makes sense. I think I agree.",
+      "parentUuid": "10747d53_00feff97",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 15
+      },
+      "revId": "1f7711372eec6748fcc1f7578fc9119e13779c5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e0ca424_2b537308",
