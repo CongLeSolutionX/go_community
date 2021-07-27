@@ -99,10 +99,10 @@ func genMethodExpressions[T comparable](want T) {
 	if got := f1p(&x); got != want {
 		panic(fmt.Sprintf("f1p(&x) == %d, want %d", got, want))
 	}
-	f2 := s[T].g2
-	if got1, got2 := f2(x); got1 != want || got2 != want {
-		panic(fmt.Sprintf("f2(x) == %d, %d, want %d, %d", got1, got2, want, want))
-	}
+	//f2 := s[T].g2
+	//if got1, got2 := f2(x); got1 != want || got2 != want {
+	//	panic(fmt.Sprintf("f2(x) == %d, %d, want %d, %d", got1, got2, want, want))
+	//}
 }
 
 func methodValues() {
