@@ -191,7 +191,7 @@ type Root int
 const (
 	// AutoRoot is the default for most commands. modload.Init will look for
 	// a go.mod file in the current directory or any parent. If none is found,
-	// modules may be disabled (GO111MODULE=on) or commands may run in a
+	// modules may be disabled (GO111MODULE=auto) or commands may run in a
 	// limited module mode.
 	AutoRoot Root = iota
 
@@ -602,6 +602,7 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 		return requirements, false
 	}
 
+<<<<<<< HEAD   (176baa [dev.cmdgo] cmd/go: sort roots when joining multiple main mo)
 	var modFiles []*modfile.File
 	var mainModules []module.Version
 	var indices []*modFileIndex
@@ -616,6 +617,41 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 			data, err = os.ReadFile(gomodActual)
 		} else {
 			data, err = lockedfile.Read(gomodActual)
+=======
+	gomod := ModFilePath()
+	var data []byte
+	var err error
+	if gomodActual, ok := fsys.OverlayPath(gomod); ok {
+		// Don't lock go.mod if it's part of the overlay.
+		// On Plan 9, locking requires chmod, and we don't want to modify any file
+		// in the overlay. See #44700.
+		data, err = os.ReadFile(gomodActual)
+	} else {
+		data, err = lockedfile.Read(gomodActual)
+	}
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
+
+	var fixed bool
+	f, err := modfile.Parse(gomod, data, fixVersion(ctx, &fixed))
+	if err != nil {
+		// Errors returned by modfile.Parse begin with file:line.
+		base.Fatalf("go: errors parsing go.mod:\n%s\n", err)
+	}
+	if f.Module == nil {
+		// No module declaration. Must add module path.
+		base.Fatalf("go: no module declaration in go.mod. To specify the module path:\n\tgo mod edit -module=example.com/mod")
+	}
+
+	modFile = f
+	initTarget(f.Module.Mod)
+	index = indexModFile(data, f, fixed)
+
+	if err := module.CheckImportPath(f.Module.Mod.Path); err != nil {
+		if pathErr, ok := err.(*module.InvalidPathError); ok {
+			pathErr.Kind = "module"
+>>>>>>> BRANCH (9eee0e cmd/go: fix go.mod file name printed in error messages for r)
 		}
 		if err != nil {
 			base.Fatalf("go: %v", err)
@@ -1361,6 +1397,13 @@ func commitRequirements(ctx context.Context, goVersion string, rs *Requirements)
 			if err := modfetch.WriteGoSum(keepSums(ctx, loaded, rs, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
 				base.Fatalf("go: %v", err)
 			}
+		}
+		return
+	}
+	gomod := ModFilePath()
+	if _, ok := fsys.OverlayPath(gomod); ok {
+		if dirty {
+			base.Fatalf("go: updates to go.mod needed, but go.mod is part of the overlay specified with -overlay")
 		}
 		return
 	}
