@@ -42,6 +42,11 @@ func (s *TypeSet) IsComparable() bool {
 	return s.comparable && tcomparable
 }
 
+// IsTypeSet reports whether the type set s is described by a single set of types.
+func (s *TypeSet) IsTypeSet() bool {
+	return !s.comparable && len(s.methods) == 0
+}
+
 // NumMethods returns the number of methods available.
 func (s *TypeSet) NumMethods() int { return len(s.methods) }
 

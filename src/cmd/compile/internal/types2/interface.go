@@ -30,7 +30,7 @@ func (t *Interface) is(f func(Type, bool) bool) bool {
 		// TODO(gri) should settle on top or nil to represent this case
 		return false // we must have at least one type! (was bug)
 	case *Union:
-		return t.is(func(typ Type, tilde bool) bool { return f(typ, tilde) })
+		return t.is(func(t *term) bool { return f(t.typ, t.tilde) })
 	default:
 		return f(t, false)
 	}
@@ -260,7 +260,7 @@ func (check *Checker) interfaceType(ityp *Interface, iface *syntax.InterfaceType
 	sortMethods(ityp.methods)
 
 	// Compute type set with a non-nil *Checker as soon as possible
-	// to report any errors. Subsequent uses of type sets should be
+	// to report any errors. Subsequent uses of type sets will be
 	// using this computed type set and won't need to pass in a *Checker.
 	check.later(func() { computeTypeSet(check, iface.Pos(), ityp) })
 }
