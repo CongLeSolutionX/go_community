@@ -278,7 +278,10 @@ func TestManual(t *testing.T) {
 	}
 }
 
-// TODO(gri) go/types has extra TestLongConstants and TestIndexRepresentability tests
+// TODO(gri) go/types has the following extra tests which require adjustments to testFiles:
+// - TestLongConstants
+// - TestIndexRepresentability
+// - TestIssue46453
 
 func TestCheck(t *testing.T)     { DefPredeclaredTestFuncs(); testDirFiles(t, "testdata/check", 75, false) } // TODO(gri) narrow column tolerance
 func TestExamples(t *testing.T)  { testDirFiles(t, "testdata/examples", 0, false) }
