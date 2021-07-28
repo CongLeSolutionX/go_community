@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b6ee809d_b641cd26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-28T18:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ac8b853_25c4516c",
+      "revId": "daeee126fb90ba596a35c91492e907cc80447294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3e52f9ed_7614b4e5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -87,6 +105,24 @@
       "writtenOn": "2021-07-28T16:56:39Z",
       "side": 1,
       "message": "Could this be unconditional? module.Sort should be safe on an empty list.",
+      "revId": "daeee126fb90ba596a35c91492e907cc80447294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce371825_baacd60b",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-07-28T18:15:29Z",
+      "side": 1,
+      "message": "It could, but it\u0027s unnecessary when there\u0027s only one main module. Let me know if I should make it unconditional in another CL.",
+      "parentUuid": "ae68ec77_c4c22b81",
       "revId": "daeee126fb90ba596a35c91492e907cc80447294",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
