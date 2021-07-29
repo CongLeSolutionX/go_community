@@ -12,6 +12,7 @@ import "cmd/compile/internal/syntax"
 // A Union represents a union of terms.
 type Union struct {
 	terms []*term
+	tset  *TypeSet // type set described by this union, computed lazily
 }
 
 // NewUnion returns a new Union type with the given terms (types[i], tilde[i]).
@@ -175,7 +176,7 @@ func intersect(x, y Type) (r Type) {
 	yu, _ := y.(*Union)
 	switch {
 	case xu != nil && yu != nil:
-		return &Union{intersectTerms(xu.terms, yu.terms)}
+		return &Union{intersectTerms(xu.terms, yu.terms), nil}
 
 	case xu != nil:
 		if r, _ := xu.intersect(y, false); r != nil {
@@ -252,7 +253,35 @@ L:
 	return true
 }
 
+func unionTerms(list1, list2 []*term) (result []*term) {
+	list := append(list1, list2...)
+	// We may have duplicate or overlapping (non-disjoint) terms.
+	// Quadratic algorithm, but good enough for now.
+	// TODO(gri) fix asymptotic performance
+	// L:
+	// 	for i, x := range list {
+	// 		for _, y := range list[i+1:] {
+	// 			a, b := x.union(y)
+	// 			if b == nil {
+	// 				result = append(result, a)
+	// 				continue L
+	// 			}
+	// 			case b == nil:
+	// 			case a == nil:
+	// 			}
+
+	// 		}
+	// 	}
+	return list
+}
+
 func intersectTerms(list1, list2 []*term) (list []*term) {
+	switch 0 {
+	case len(list1):
+		return list2
+	case len(list2):
+		return list1
+	}
 	// Quadratic algorithm, but good enough for now.
 	// TODO(gri) fix asymptotic performance
 	for _, x := range list1 {
@@ -262,5 +291,8 @@ func intersectTerms(list1, list2 []*term) (list []*term) {
 			}
 		}
 	}
+	// if len(list) == 0 {
+	// 	list = []*term{nil}
+	// }
 	return
 }

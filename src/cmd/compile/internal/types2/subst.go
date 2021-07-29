@@ -150,7 +150,7 @@ func (subst *subster) typ(typ Type) Type {
 			// TODO(gri) Remove duplicates that may have crept in after substitution
 			//           (unlikely but possible). This matters for the Identical
 			//           predicate on unions.
-			return &Union{terms}
+			return &Union{terms, nil}
 		}
 
 	case *Interface:

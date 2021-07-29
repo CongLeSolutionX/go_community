@@ -67,7 +67,7 @@ func (t *TypeParam) Constraint() Type {
 		if n, _ := t.bound.(*Named); n != nil {
 			pos = n.obj.pos
 		}
-		computeTypeSet(t.check, pos, iface)
+		computeInterfaceTypeSet(t.check, pos, iface)
 	}
 	return t.bound
 }

@@ -253,7 +253,7 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 		if y, ok := y.(*Interface); ok {
 			xset := x.typeSet()
 			yset := y.typeSet()
-			if !Identical(xset.types, yset.types) {
+			if !identicalTerms(xset.terms, yset.terms) {
 				return false
 			}
 			a := xset.methods

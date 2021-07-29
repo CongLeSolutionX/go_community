@@ -16,7 +16,7 @@ import (
 var nopos syntax.Pos
 
 // debugging/development support
-const debug = false // leave on during development
+const debug = true // leave on during development
 
 // If forceStrict is set, the type-checker enforces additional
 // rules not specified by the Go 1 spec, but which will

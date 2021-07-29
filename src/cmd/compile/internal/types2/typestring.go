@@ -198,13 +198,15 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 				writeSignature(buf, m.typ.(*Signature), qf, visited)
 				empty = false
 			}
-			if !empty && tset.types != nil {
-				buf.WriteString("; ")
-			}
-			if tset.types != nil {
-				buf.WriteString("type ")
-				writeType(buf, tset.types, qf, visited)
-			}
+			unimplemented()
+			// if !empty && tset.types != nil {
+			// 	buf.WriteString("; ")
+			// }
+			// if tset.types != nil {
+			// 	buf.WriteString("type ")
+			// 	panic(0)
+			// 	// writeType(buf, tset.types, qf, visited)
+			// }
 		} else {
 			// print explicit interface methods and embedded types
 			for i, m := range t.methods {

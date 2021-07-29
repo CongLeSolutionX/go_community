@@ -6,3 +6,40 @@
 // without source arguments. Use for one-off debugging.
 
 package p
+
+type E0 interface {
+	~int | ~bool | ~string
+}
+
+type E1 interface {
+	~int | ~float64 | ~string
+}
+
+type E2 interface {
+	~float64
+}
+
+type I012 interface {
+	E0
+	E1
+	E2
+}
+
+func f012[T I012]() {
+        var x T
+        trace(x)
+}
+var _ = f012[int /* ERROR does not satisfy I012 */ ]
+
+/*
+type T1 interface{ ~int }
+type T2 interface{ ~string }
+type T3 interface{ T1 | T2 }
+type T4 interface{ T3; m() }
+
+func f3[_ T3]()
+
+func _() {
+        _ = f3[int]
+}
+*/
