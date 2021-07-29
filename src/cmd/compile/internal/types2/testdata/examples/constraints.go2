@@ -18,6 +18,8 @@ type (
 	}
 )
 
+type MyInt int
+
 type (
 	// Arbitrary types may be embedded like interfaces.
 	_ interface{int}
@@ -26,10 +28,11 @@ type (
 	// Types may be combined into a union.
 	_ interface{int|~string}
 
-	// Union terms must be unique independent of whether they are ~ or not.
-	_ interface{int|int /* ERROR duplicate term int */ }
-	_ interface{int|~ /* ERROR duplicate term int */ int }
-	_ interface{~int|~ /* ERROR duplicate term int */ int }
+	// Union terms must describe disjoint (non-overlapping) type sets.
+	_ interface{int|int /* ERROR overlapping terms int */ }
+	_ interface{int|~ /* ERROR overlapping terms ~int */ int }
+	_ interface{~int|~ /* ERROR overlapping terms ~int */ int }
+	_ interface{~int|MyInt /* ERROR overlapping terms p.MyInt and ~int */ }
 
 	// For now we do not permit interfaces with methods in unions.
 	_ interface{~ /* ERROR invalid use of ~ */ interface{}}
