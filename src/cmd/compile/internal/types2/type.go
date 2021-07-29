@@ -50,22 +50,16 @@ func under(t Type) Type {
 // the incoming type parameter.
 func optype(typ Type) Type {
 	if t := asTypeParam(typ); t != nil {
+		// TODO(gri) fix this comment
 		// If the optype is typ, return the top type as we have
 		// no information. It also prevents infinite recursion
 		// via the asTypeParam converter function. This can happen
 		// for a type parameter list of the form:
 		// (type T interface { type T }).
 		// See also issue #39680.
-		if a := t.iface().typeSet().types; a != nil {
-			// If we have a union with a single entry, ignore
-			// any tilde because under(~t) == under(t).
-			if u, _ := a.(*Union); u != nil && u.NumTerms() == 1 {
-				a, _ = u.Term(0)
-			}
-			if a != typ {
-				// a != typ and a is a type parameter => under(a) != typ, so this is ok
-				return under(a)
-			}
+		if u := t.iface().typeSet().structuralType(); u != nil {
+			assert(u != typ) // "naked" type parameters cannot be embedded
+			return u
 		}
 		return theTop
 	}

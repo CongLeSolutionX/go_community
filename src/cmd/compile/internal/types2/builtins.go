@@ -144,7 +144,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 		mode := invalid
 		var typ Type
 		var val constant.Value
-		switch typ = implicitArrayDeref(optype(x.typ)); t := typ.(type) {
+		switch typ = implicitArrayDeref(under(x.typ)); t := typ.(type) {
 		case *Basic:
 			if isString(t) && id == _Len {
 				if x.mode == constant_ {
@@ -178,9 +178,9 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 				mode = value
 			}
 
-		case *Union:
+		case *TypeParam:
 			if t.underIs(func(t Type) bool {
-				switch t := t.(type) {
+				switch t := implicitArrayDeref(t).(type) {
 				case *Basic:
 					if isString(t) && id == _Len {
 						return true
@@ -196,6 +196,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 			}) {
 				mode = value
 			}
+
 		}
 
 		if mode == invalid && typ != Typ[Invalid] {
@@ -840,7 +841,7 @@ func (check *Checker) applyTypeFunc(f func(Type) Type, x Type) Type {
 		ptyp := check.NewTypeParam(tpar, &emptyInterface) // assigns type to tpar as a side-effect
 		ptyp.index = tp.index
 		tsum := newUnion(rtypes, tildes)
-		ptyp.bound = &Interface{complete: true, tset: &TypeSet{types: tsum}}
+		ptyp.bound = &Interface{complete: true, tset: &TypeSet{terms: computeUnionTypeSet(check, nopos, tsum).terms}}
 
 		return ptyp
 	}
@@ -866,6 +867,7 @@ func makeSig(res Type, args ...Type) *Signature {
 
 // implicitArrayDeref returns A if typ is of the form *A and A is an array;
 // otherwise it returns typ.
+// TODO(gri) remove in favor of explicit code?
 //
 func implicitArrayDeref(typ Type) Type {
 	if p, ok := typ.(*Pointer); ok {

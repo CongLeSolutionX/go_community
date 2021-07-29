@@ -327,7 +327,7 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 				return true
 			}
 		}
-		return w.isParameterized(tset.types)
+		return w.isParameterizedTermList(tset.terms)
 
 	case *Map:
 		return w.isParameterized(t.key) || w.isParameterized(t.elem)
@@ -394,7 +394,7 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (ty
 	// Unify type parameters with their structural constraints, if any.
 	for _, tpar := range tparams {
 		typ := tpar.typ.(*TypeParam)
-		sbound := check.structuralType(typ.bound)
+		sbound := structuralType(typ.bound)
 		if sbound != nil {
 			if !u.unify(typ, sbound) {
 				if report {
@@ -469,18 +469,9 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (ty
 }
 
 // structuralType returns the structural type of a constraint, if any.
-func (check *Checker) structuralType(constraint Type) Type {
+func structuralType(constraint Type) Type {
 	if iface, _ := under(constraint).(*Interface); iface != nil {
-		types := iface.typeSet().types
-		if u, _ := types.(*Union); u != nil {
-			if u.NumTerms() == 1 {
-				// TODO(gri) do we need to respect tilde?
-				t, _ := u.Term(0)
-				return t
-			}
-			return nil
-		}
-		return types
+		return iface.typeSet().structuralType()
 	}
 	return nil
 }
