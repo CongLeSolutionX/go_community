@@ -371,7 +371,7 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 		if y, ok := y.(*Interface); ok {
 			xset := x.typeSet()
 			yset := y.typeSet()
-			if !Identical(xset.types, yset.types) {
+			if !xset.terms.equal(yset.terms) {
 				return false
 			}
 			a := xset.methods
