@@ -147,10 +147,10 @@ func (subst *subster) typ(typ Type) Type {
 	case *Union:
 		terms, copied := subst.termList(t.terms)
 		if copied {
-			// TODO(gri) Remove duplicates that may have crept in after substitution
-			//           (unlikely but possible). This matters for the Identical
-			//           predicate on unions.
-			return &Union{terms}
+			// term list substitution may introduce duplicate terms (unlike but possible).
+			// This is ok; lazy type set computation will determine the actual type set
+			// in normal form.
+			return &Union{terms, nil}
 		}
 
 	case *Interface:
