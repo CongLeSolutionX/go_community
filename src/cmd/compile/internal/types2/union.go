@@ -11,7 +11,8 @@ import "cmd/compile/internal/syntax"
 
 // A Union represents a union of terms.
 type Union struct {
-	terms []*term
+	terms termlist
+	tset  *TypeSet // type set described by this union, computed lazily
 }
 
 // NewUnion returns a new Union type with the given terms (types[i], tilde[i]).
@@ -37,7 +38,7 @@ func newUnion(types []Type, tilde []bool) *Union {
 		return emptyUnion
 	}
 	t := new(Union)
-	t.terms = make([]*term, len(types))
+	t.terms = make(termlist, len(types))
 	for i, typ := range types {
 		t.terms[i] = &term{tilde[i], typ}
 	}
@@ -175,7 +176,7 @@ func intersect(x, y Type) (r Type) {
 	yu, _ := y.(*Union)
 	switch {
 	case xu != nil && yu != nil:
-		return &Union{intersectTerms(xu.terms, yu.terms)}
+		return &Union{xu.terms.intersect(yu.terms), nil}
 
 	case xu != nil:
 		if r, _ := xu.intersect(y, false); r != nil {
@@ -233,36 +234,4 @@ func (u *Union) intersect(y Type, yt bool) (Type, bool) {
 		}
 	}
 	return nil, false
-}
-
-func identicalTerms(list1, list2 []*term) bool {
-	if len(list1) != len(list2) {
-		return false
-	}
-	// Every term in list1 must be in list2.
-	// Quadratic algorithm, but probably good enough for now.
-	// TODO(gri) we need a fast quick type ID/hash for all types.
-L:
-	for _, x := range list1 {
-		for _, y := range list2 {
-			if x.equal(y) {
-				continue L // x is in list2
-			}
-		}
-		return false
-	}
-	return true
-}
-
-func intersectTerms(list1, list2 []*term) (list []*term) {
-	// Quadratic algorithm, but good enough for now.
-	// TODO(gri) fix asymptotic performance
-	for _, x := range list1 {
-		for _, y := range list2 {
-			if r := x.intersect(y); r != nil {
-				list = append(list, r)
-			}
-		}
-	}
-	return
 }
