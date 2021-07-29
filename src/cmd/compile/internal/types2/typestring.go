@@ -159,7 +159,15 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 
 	case *Union:
 		if t.IsEmpty() {
-			buf.WriteString("⊥")
+			buf.WriteString("∅")
+			break
+		}
+		// A nil type in a term indicates no type restriction;
+		// thus the type set of such a union is the set of all
+		// types. Syntactically, unions do not have this case,
+		// but this printing code is also used for term lists.
+		if termlist(t.terms).isTop() {
+			buf.WriteString("⊤")
 			break
 		}
 		for i, t := range t.terms {
@@ -198,13 +206,15 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 				writeSignature(buf, m.typ.(*Signature), qf, visited)
 				empty = false
 			}
-			if !empty && tset.types != nil {
-				buf.WriteString("; ")
-			}
-			if tset.types != nil {
-				buf.WriteString("type ")
-				writeType(buf, tset.types, qf, visited)
-			}
+			unimplemented()
+			// if !empty && tset.types != nil {
+			// 	buf.WriteString("; ")
+			// }
+			// if tset.types != nil {
+			// 	buf.WriteString("type ")
+			// 	panic(0)
+			// 	// writeType(buf, tset.types, qf, visited)
+			// }
 		} else {
 			// print explicit interface methods and embedded types
 			for i, m := range t.methods {
