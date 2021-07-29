@@ -76,6 +76,30 @@
       },
       "revId": "688cff6a6cfc8d009f3f15cb83c644f34b5c95e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a25daa3_f0fc1146",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2014,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-07-29T21:20:55Z",
+      "side": 1,
+      "message": "Yes, good point! Done.",
+      "parentUuid": "e1dba72d_cc9f1cb2",
+      "range": {
+        "startLine": 2014,
+        "startChar": 12,
+        "endLine": 2014,
+        "endChar": 26
+      },
+      "revId": "688cff6a6cfc8d009f3f15cb83c644f34b5c95e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
