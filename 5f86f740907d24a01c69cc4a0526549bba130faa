@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4329a22e_e1e7493f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-29T04:55:50Z",
+      "side": 1,
+      "message": "It would be nice to have a couple of tests in cmd/go/testdata/script.",
+      "revId": "5f86f740907d24a01c69cc4a0526549bba130faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "248af78e_569d3379",
