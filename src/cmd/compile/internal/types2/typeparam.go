@@ -67,7 +67,7 @@ func (t *TypeParam) Constraint() Type {
 		if n, _ := t.bound.(*Named); n != nil {
 			pos = n.obj.pos
 		}
-		computeTypeSet(t.check, pos, iface)
+		computeInterfaceTypeSet(t.check, pos, iface)
 	}
 	return t.bound
 }
@@ -86,6 +86,11 @@ func (t *TypeParam) iface() *Interface {
 		return iface
 	}
 	return &emptyInterface
+}
+
+// structuralType returns the structural type of the type parameter's constraint; or nil.
+func (t *TypeParam) structuralType() Type {
+	return t.iface().typeSet().structuralType()
 }
 
 // Bound returns the constraint interface of t.
@@ -135,6 +140,10 @@ func bindTParams(list []*TypeName) *TypeParams {
 
 // ----------------------------------------------------------------------------
 // Implementation
+
+func (t *TypeParam) is(f func(*term) bool) bool {
+	return t.iface().typeSet().is(f)
+}
 
 func (t *TypeParam) underIs(f func(Type) bool) bool {
 	return t.iface().typeSet().underIs(f)
