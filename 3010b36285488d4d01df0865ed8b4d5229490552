@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff187e9_f2e96fbe",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-29T17:03:26Z",
+      "side": 1,
+      "message": "Yes, these are needed. They are on [1]uintptr, not uintptr.",
+      "parentUuid": "a534362e_0030fb1f",
+      "revId": "3010b36285488d4d01df0865ed8b4d5229490552",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d814108_76c15bd5",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75a220f0_71d455ec",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6079,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-29T17:03:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d814108_76c15bd5",
+      "revId": "3010b36285488d4d01df0865ed8b4d5229490552",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93d3c366_1419da4b",
@@ -102,6 +138,24 @@
       "writtenOn": "2021-07-28T16:38:49Z",
       "side": 1,
       "message": "The similarity of the two names is confusing...!  Maybe you can rename the parameter to targetItabParam or targetItabIn?",
+      "revId": "3010b36285488d4d01df0865ed8b4d5229490552",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eda4624_9a85ef13",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6190,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-07-29T17:03:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93d3c366_1419da4b",
       "revId": "3010b36285488d4d01df0865ed8b4d5229490552",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
