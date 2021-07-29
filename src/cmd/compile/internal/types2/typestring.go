@@ -158,9 +158,10 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 		writeSignature(buf, t, qf, visited)
 
 	case *Union:
-		if t.IsEmpty() {
-			buf.WriteString("⊥")
-			break
+		// Unions only appear as (syntactic) embedded elements
+		// in interfaces and syntactically cannot be empty.
+		if t.NumTerms() == 0 {
+			panic("internal error: empty union")
 		}
 		for i, t := range t.terms {
 			if i > 0 {
@@ -198,13 +199,7 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 				writeSignature(buf, m.typ.(*Signature), qf, visited)
 				empty = false
 			}
-			if !empty && tset.types != nil {
-				buf.WriteString("; ")
-			}
-			if tset.types != nil {
-				buf.WriteString("type ")
-				writeType(buf, tset.types, qf, visited)
-			}
+			// TODO(gri) complete this
 		} else {
 			// print explicit interface methods and embedded types
 			for i, m := range t.methods {
