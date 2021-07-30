@@ -16,6 +16,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -200,13 +201,26 @@ func (w *worker) coordinate(ctx context.Context) error {
 			if resp.Err != "" {
 				result.crasherMsg = resp.Err
 			} else if resp.CoverageData != nil {
+				// Worker found an input that expanded coverage.
+				// Try to minimize it before sending it to the coordinator.
+				// We could minimize in the worker's fuzz RPC before returning, but that
+				// might make the worker appear unresponsive.
+				// We could minimize in the coordinator's main loop, but that seems
+				// more complicated than necessary.
 				result.coverageData = resp.CoverageData
+				if !input.coverageOnly {
+					keepCoverage := diffCoverage(input.coverageData, resp.CoverageData)
+					result, err = w.minimize(ctx, result, keepCoverage)
+					if err != nil {
+						return err
+					}
+				}
 			}
 			w.coordinator.resultC <- result
 
 		case crasher := <-w.coordinator.minimizeC:
 			// Received input to minimize from coordinator.
-			minRes, err := w.minimize(ctx, crasher)
+			minRes, err := w.minimize(ctx, crasher, nil)
 			if err != nil {
 				// Failed to minimize. Send back the original crash.
 				fmt.Fprintln(w.coordinator.opts.Log, err)
@@ -224,7 +238,7 @@ func (w *worker) coordinate(ctx context.Context) error {
 //
 // TODO: support minimizing inputs that expand coverage in a specific way,
 // for example, by ensuring that an input activates a specific set of counters.
-func (w *worker) minimize(ctx context.Context, input fuzzResult) (min fuzzResult, err error) {
+func (w *worker) minimize(ctx context.Context, input fuzzResult, keepCoverage []byte) (min fuzzResult, err error) {
 	if w.coordinator.opts.MinimizeTimeout != 0 {
 		var cancel func()
 		ctx, cancel = context.WithTimeout(ctx, w.coordinator.opts.MinimizeTimeout)
@@ -235,8 +249,9 @@ func (w *worker) minimize(ctx context.Context, input fuzzResult) (min fuzzResult
 	min.minimized = true
 
 	args := minimizeArgs{
-		Limit:   w.coordinator.opts.MinimizeLimit,
-		Timeout: w.coordinator.opts.MinimizeTimeout,
+		Limit:        w.coordinator.opts.MinimizeLimit,
+		Timeout:      w.coordinator.opts.MinimizeTimeout,
+		KeepCoverage: keepCoverage,
 	}
 	minEntry, resp, err := w.client.minimize(ctx, input.entry, args)
 	if err != nil {
@@ -253,7 +268,7 @@ func (w *worker) minimize(ctx context.Context, input fuzzResult) (min fuzzResult
 		return fuzzResult{}, fmt.Errorf("fuzzing process terminated unexpectedly while minimizing: %w", w.waitErr)
 	}
 
-	if resp.Err == "" {
+	if resp.Err == "" && keepCoverage == nil {
 		// Minimization did not find a smaller input that caused a crash.
 		return min, nil
 	}
@@ -486,6 +501,11 @@ type minimizeArgs struct {
 	// Limit is the maximum number of values to test, without spending more time
 	// than Duration. 0 indicates no limit.
 	Limit int64
+
+	// KeepCoverage is a set of coverage counters the worker should attempt to
+	// keep in minimized values. When provided, the worker will reject inputs that
+	// don't cause at least one of these bits to be set.
+	KeepCoverage []byte
 }
 
 // minimizeResponse contains results from workerServer.minimize.
@@ -669,31 +689,54 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	if cov := coverage(); len(cov) != len(ws.coverageMask) {
 		panic(fmt.Sprintf("number of coverage counters changed at runtime: %d, expected %d", len(cov), len(ws.coverageMask)))
 	}
+
+	shouldStop := func() bool {
+		return args.Limit > 0 && mem.header().count >= args.Limit
+	}
+	fuzzOnce := func(entry CorpusEntry) (dur time.Duration, cov []byte, errMsg string) {
+		mem.header().count++
+		start := time.Now()
+		err := ws.fuzzFn(entry)
+		dur = time.Since(start)
+		if err != nil {
+			errMsg = err.Error()
+			if errMsg == "" {
+				errMsg = "fuzz function failed with no input"
+			}
+			return dur, nil, errMsg
+		}
+		if countNewCoverageBits(ws.coverageMask, coverageSnapshot) > 0 {
+			return dur, coverageSnapshot, ""
+		}
+		return dur, nil, ""
+	}
+
 	for {
 		select {
 		case <-ctx.Done():
 			return resp
 
 		default:
-			mem.header().count++
 			ws.m.mutate(vals, cap(mem.valueRef()))
-			fStart := time.Now()
-			err := ws.fuzzFn(CorpusEntry{Values: vals})
-			fDur := time.Since(fStart)
-			if err != nil {
-				resp.Err = err.Error()
-				if resp.Err == "" {
-					resp.Err = "fuzz function failed with no output"
+			entry := CorpusEntry{Values: vals}
+			dur, cov, errMsg := fuzzOnce(entry)
+			if errMsg != "" {
+				resp.Err = errMsg
+				return resp
+			}
+			if cov != nil {
+				// Found new coverage. Before reporting to the coordinator,
+				// run the same values once more to deflake.
+				if !shouldStop() {
+					dur, cov, errMsg = fuzzOnce(entry)
 				}
-				return resp
+				if cov != nil {
+					resp.CoverageData = cov
+					resp.InterestingDuration = dur
+					return resp
+				}
 			}
-			if countNewCoverageBits(ws.coverageMask, coverageSnapshot) > 0 {
-				// TODO(jayconrod,katie): minimize this.
-				resp.CoverageData = coverageSnapshot
-				resp.InterestingDuration = fDur
-				return resp
-			}
-			if args.Limit > 0 && mem.header().count == args.Limit {
+			if shouldStop() {
 				return resp
 			}
 		}
@@ -718,7 +761,7 @@ func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp m
 	// Minimize the values in vals, then write to shared memory. We only write
 	// to shared memory after completing minimization. If the worker terminates
 	// unexpectedly before then, the coordinator will use the original input.
-	err = ws.minimizeInput(ctx, vals, &mem.header().count, args.Limit)
+	err = ws.minimizeInput(ctx, vals, &mem.header().count, args.Limit, args.KeepCoverage)
 	writeToMem(vals, mem)
 	if err != nil {
 		resp.Err = err.Error()
@@ -732,7 +775,13 @@ func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp m
 // mem just in case an unrecoverable error occurs. It uses the context to
 // determine how long to run, stopping once closed. It returns the last error it
 // found.
-func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, count *int64, limit int64) error {
+func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, count *int64, limit int64, keepCoverage []byte) error {
+	var bits []string
+	for i := range keepCoverage {
+		if keepCoverage[i] != 0 {
+			bits = append(bits, strconv.Itoa(i))
+		}
+	}
 	shouldStop := func() bool {
 		return ctx.Err() != nil || (limit > 0 && *count >= limit)
 	}
@@ -742,6 +791,9 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, c
 
 	var valI int
 	var retErr error
+	// tryMinimized runs the fuzz function with candidate replacing the value
+	// at index valI. tryMinimized returns true if the fuzz function returned
+	// an error or set at least one of the bits in keepCoverage (if non-nil).
 	tryMinimized := func(candidate interface{}) bool {
 		prev := vals[valI]
 		// Set vals[valI] to the candidate after it has been
@@ -797,6 +849,9 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, c
 		err := ws.fuzzFn(CorpusEntry{Values: vals})
 		if err != nil {
 			retErr = err
+			return true
+		}
+		if keepCoverage != nil && hasCoverageBit(keepCoverage, coverageSnapshot) {
 			return true
 		}
 		*count++

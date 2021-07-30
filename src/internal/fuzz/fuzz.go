@@ -621,7 +621,7 @@ func (c *coordinator) updateCoverage(newCoverage []byte) int {
 	for i := range newCoverage {
 		diff := newCoverage[i] &^ c.coverageMask[i]
 		newBitCount += bits.OnesCount8(diff)
-		newCoverage[i] |= c.coverageMask[i]
+		c.coverageMask[i] |= newCoverage[i]
 	}
 	return newBitCount
 }
