@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3932dd06_8a666386",
+        "filename": "src/runtime/mfixalloc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-07-30T19:47:04Z",
+      "side": 1,
+      "message": "The tree is not yet open, so I\u0027ve marked this wait-release so we\u0027ll come back to it. I think the tree should open within a few weeks.",
+      "parentUuid": "e2c81728_1dd973e4",
+      "revId": "5fde1b4fb26aecb86d60b35792f540929fc37ae4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afe1b8ed_d2462cbd",
