@@ -6,6 +6,7 @@ package fuzz
 
 import (
 	"internal/unsafeheader"
+	"math/bits"
 	"unsafe"
 )
 
@@ -36,26 +37,60 @@ func ResetCoverage() {
 }
 
 // SnapshotCoverage copies the current counter values into coverageSnapshot,
-// preserving them for later inspection.
+// preserving them for later inspection. SnapshotCoverage also coarsens each
+// counter, helping distinguish between code that's executed many times for
+// a given input and code that's executed less often.
 func SnapshotCoverage() {
 	cov := coverage()
-	if coverageSnapshot == nil {
-		coverageSnapshot = make([]byte, len(cov))
+	for i, b := range cov {
+		// Coarsen each counter by rounding down to the nearest power of 2.
+		b |= b >> 1
+		b |= b >> 2
+		b |= b >> 4
+		b -= b >> 1
+		coverageSnapshot[i] = b
 	}
-	copy(coverageSnapshot, cov)
 }
 
-func countEdges(cov []byte) int {
+// diffCoverage returns a set of bits set in snapshot but not in base.
+func diffCoverage(base, snapshot []byte) []byte {
+	diff := make([]byte, len(snapshot))
+	for i := range diff {
+		diff[i] = snapshot[i] &^ base[i]
+	}
+	return diff
+}
+
+// countNewCoverageBits returns the number of bits set in snapshot that are not
+// set in base.
+func countNewCoverageBits(base, snapshot []byte) int {
 	n := 0
-	for _, c := range cov {
-		if c > 0 {
-			n++
-		}
+	for i := range snapshot {
+		n += bits.OnesCount8(snapshot[i] &^ base[i])
 	}
 	return n
 }
 
-var coverageSnapshot []byte
+// hasCoverageBit returns true if snapshot has at least one bit set that is
+// also set in base.
+func hasCoverageBit(base, snapshot []byte) bool {
+	for i := range snapshot {
+		if snapshot[i]&base[i] != 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func countBits(cov []byte) int {
+	n := 0
+	for _, c := range cov {
+		n += bits.OnesCount8(c)
+	}
+	return n
+}
+
+var coverageSnapshot = make([]byte, len(coverage()))
 
 // _counters and _ecounters mark the start and end, respectively, of where
 // the 8-bit coverage counters reside in memory. They're known to cmd/link,
