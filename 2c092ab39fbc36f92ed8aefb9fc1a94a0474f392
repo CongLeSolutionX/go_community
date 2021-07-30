@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea11e39b_74b2dd30",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-07-30T20:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d45adad7_7058c689",
+      "revId": "2c092ab39fbc36f92ed8aefb9fc1a94a0474f392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "227eef1b_0bc6a2eb",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-07-30T18:54:07Z",
       "side": 1,
       "message": "Per https://beta.pkg.go.dev/encoding/gob#hdr-Encoding_Details, each floating-point number “is converted to a uint64 using math.Float64bits.”\n\nSo we should be able to do that same conversion here: we can make a slice of sorted ⟨uint64, string⟩ pairs representing the exact contents of each of the original and unmarshaled maps, and then verify that those two slices are identical.",
+      "revId": "2c092ab39fbc36f92ed8aefb9fc1a94a0474f392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50dc316d_e6893c31",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-07-30T20:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "227eef1b_0bc6a2eb",
       "revId": "2c092ab39fbc36f92ed8aefb9fc1a94a0474f392",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
