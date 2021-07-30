@@ -561,6 +561,11 @@ func IsGlobalAddr(v *Value) bool {
 	if v.Op == OpLoad && IsReadOnlyGlobalAddr(v.Args[0]) {
 		return true // loading from a read-only global - the resulting address can't be a heap address.
 	}
+	if v.Op == OpOffPtr {
+		if arg := v.Args[0]; arg.Op == OpAddr && arg.Args[0].Op == OpSB {
+			return true // offset of a global address
+		}
+	}
 	return false
 }
 

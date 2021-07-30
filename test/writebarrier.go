@@ -289,3 +289,17 @@ func f27(p *int) []interface{} {
 		p,           // ERROR "write barrier"
 	}
 }
+
+var g28 [256]uint64
+
+func f28() []interface{} {
+	return []interface{}{
+		false,      // ERROR "write barrier"
+		true,       // ERROR "write barrier"
+		0,          // no write barrier
+		1,          // no write barrier
+		uint8(127), // ERROR "write barrier"
+		int8(-4),   // ERROR "write barrier"
+		&g28[5],    // no write barrier
+	}
+}
