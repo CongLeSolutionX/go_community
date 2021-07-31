@@ -90,6 +90,24 @@
       "parentUuid": "1027dcc9_7ef0a496",
       "revId": "e73f7c2662f7c2cfe85ce08951157f75fc43252c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf80bb51_96c93c9f",
+        "filename": "src/crypto/ed25519/internal/edwards25519/field/fe_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-07-31T22:40:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "70c2203c_f721eaff",
+      "revId": "e73f7c2662f7c2cfe85ce08951157f75fc43252c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
