@@ -72,6 +72,24 @@
       "message": "Seems like this ought to be fixed in the generator program.",
       "revId": "e73f7c2662f7c2cfe85ce08951157f75fc43252c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70c2203c_f721eaff",
+        "filename": "src/crypto/ed25519/internal/edwards25519/field/fe_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-07-31T15:45:39Z",
+      "side": 1,
+      "message": "The generator program is out of tree. See https://github.com/mmcloughlin/avo/issues/183. In the meantime, it\u0027d be nice for the tree to be gofmt\u0027d for the release, if possible.",
+      "parentUuid": "1027dcc9_7ef0a496",
+      "revId": "e73f7c2662f7c2cfe85ce08951157f75fc43252c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
