@@ -2206,6 +2206,9 @@ func (l *Loader) LoadSyms(arch *sys.Arch) {
 		hashedSize += o.r.nhasheddef / 2
 		hashed64Size += o.r.nhashed64def / 2
 	}
+	if symSize == 0 {
+		return
+	}
 	// Index 0 is invalid for symbols.
 	l.objSyms = make([]objSym, 1, symSize)
 
