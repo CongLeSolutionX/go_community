@@ -108,6 +108,24 @@
       "parentUuid": "70c2203c_f721eaff",
       "revId": "e73f7c2662f7c2cfe85ce08951157f75fc43252c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b1a7ad_3ed5bf79",
+        "filename": "src/crypto/ed25519/internal/edwards25519/field/fe_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 22750
+      },
+      "writtenOn": "2021-08-01T01:06:46Z",
+      "side": 1,
+      "message": "Apologies for not getting around to it, just haven\u0027t been able to devote as much time to my side projects recently. I\u0027ll try to do this soon, it\u0027s an important update for 1.17.",
+      "parentUuid": "cf80bb51_96c93c9f",
+      "revId": "e73f7c2662f7c2cfe85ce08951157f75fc43252c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
