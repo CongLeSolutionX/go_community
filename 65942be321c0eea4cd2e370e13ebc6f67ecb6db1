@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76d2b15d_7e94e7cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-08-02T23:37:35Z",
+      "side": 1,
+      "message": "LGTM, thank you Mostafa and congrats! Thank you Ian for the review!",
+      "revId": "65942be321c0eea4cd2e370e13ebc6f67ecb6db1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
