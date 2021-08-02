@@ -7,6 +7,7 @@ package net
 import (
 	"context"
 	"internal/itoa"
+	"net/netaddr"
 	"syscall"
 )
 
@@ -24,6 +25,10 @@ type UDPAddr struct {
 	IP   IP
 	Port int
 	Zone string // IPv6 scoped addressing zone
+}
+
+func (a *UDPAddr) IPPort() netaddr.IPPort {
+	panic("TODO")
 }
 
 // Network returns the address's network name, "udp".
@@ -82,6 +87,14 @@ func ResolveUDPAddr(network, address string) (*UDPAddr, error) {
 		return nil, err
 	}
 	return addrs.forResolve(network, address).(*UDPAddr), nil
+}
+
+// UDPAddrOfIPPort returns addr as a UDPAddr.
+//
+// If addr is not valid, it returns nil. (TODO/XXX: open for debate, but
+// nil matches the style of net.ParseIP)
+func UDPAddrOfIPPort(addr netaddr.IPPort) *UDPAddr {
+	panic("TODO")
 }
 
 // UDPConn is the implementation of the Conn and PacketConn interfaces
@@ -148,6 +161,11 @@ func (c *UDPConn) ReadMsgUDP(b, oob []byte) (n, oobn, flags int, addr *UDPAddr, 
 	return
 }
 
+// ReadMsgUDPAddr is like ReadMsgUDP but returns an netaddr.IPPort instead of a UDPAddr.
+func (c *UDPConn) ReadMsgUDPAddr(b, oob []byte) (n, oobn, flags int, addr netaddr.IPPort, err error) {
+	panic("TODO")
+}
+
 // WriteToUDP acts like WriteTo but takes a UDPAddr.
 func (c *UDPConn) WriteToUDP(b []byte, addr *UDPAddr) (int, error) {
 	if !c.ok() {
@@ -158,6 +176,11 @@ func (c *UDPConn) WriteToUDP(b []byte, addr *UDPAddr) (int, error) {
 		err = &OpError{Op: "write", Net: c.fd.net, Source: c.fd.laddr, Addr: addr.opAddr(), Err: err}
 	}
 	return n, err
+}
+
+// WriteToUDPAddr acts like WriteTo but sends to the provided address.
+func (c *UDPConn) WriteToUDPAddr(b []byte, addr netaddr.IPPort) (int, error) {
+	panic("TODO")
 }
 
 // WriteTo implements the PacketConn WriteTo method.
@@ -193,6 +216,11 @@ func (c *UDPConn) WriteMsgUDP(b, oob []byte, addr *UDPAddr) (n, oobn int, err er
 		err = &OpError{Op: "write", Net: c.fd.net, Source: c.fd.laddr, Addr: addr.opAddr(), Err: err}
 	}
 	return
+}
+
+// WriteMsgUDPAddr is like WriteMsgUDP but takes a netaddr.IPPort instead of a UDPAddr.
+func (c *UDPConn) WriteMsgUDPAddr(b, oob []byte, addr netaddr.IPPort) (n, oobn int, err error) {
+	panic("TODO")
 }
 
 func newUDPConn(fd *netFD) *UDPConn { return &UDPConn{conn{fd}} }
