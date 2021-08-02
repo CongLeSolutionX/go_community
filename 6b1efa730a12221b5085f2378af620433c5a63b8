@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fb6a1aa_7151d15e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-02T04:49:18Z",
+      "side": 1,
+      "message": "reflect: add example for FieldByIndex",
+      "revId": "6b1efa730a12221b5085f2378af620433c5a63b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "36e0b52a_6392f9a7",
@@ -14,6 +31,23 @@
       "writtenOn": "2021-08-01T22:25:27Z",
       "side": 1,
       "message": "I removed the spurious newline",
+      "revId": "6b1efa730a12221b5085f2378af620433c5a63b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e11e12_a55672a4",
+        "filename": "src/reflect/example_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-02T04:49:18Z",
+      "side": 1,
+      "message": "I suggest something more like:\n\n// This example shows a case in which the name of a promoted field\n// is hidden by another field: FieldByName will not work, so\n// FieldByIndex must be used instead.",
       "revId": "6b1efa730a12221b5085f2378af620433c5a63b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
