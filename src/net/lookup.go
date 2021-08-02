@@ -8,6 +8,7 @@ import (
 	"context"
 	"internal/nettrace"
 	"internal/singleflight"
+	"net/netip"
 	"sync"
 )
 
@@ -230,6 +231,14 @@ func (r *Resolver) LookupIP(ctx context.Context, network, host string) ([]IP, er
 		ips = append(ips, addr.(*IPAddr).IP)
 	}
 	return ips, nil
+}
+
+// LookupNetAddr looks up host using the local resolver.
+// It returns a slice of that host's IP addresses of the type specified by
+// network.
+// The network must be one of "ip", "ip4" or "ip6".
+func (r *Resolver) LookupNetAddr(ctx context.Context, network, host string) ([]netip.Addr, error) {
+	panic("TODO")
 }
 
 // onlyValuesCtx is a context that uses an underlying context

@@ -8,6 +8,7 @@ import (
 	"context"
 	"internal/itoa"
 	"io"
+	"net/netip"
 	"os"
 	"syscall"
 	"time"
@@ -21,6 +22,10 @@ type TCPAddr struct {
 	IP   IP
 	Port int
 	Zone string // IPv6 scoped addressing zone
+}
+
+func (a *TCPAddr) IPPort() netip.Addr {
+	panic("TODO")
 }
 
 // Network returns the address's network name, "tcp".
@@ -79,6 +84,14 @@ func ResolveTCPAddr(network, address string) (*TCPAddr, error) {
 		return nil, err
 	}
 	return addrs.forResolve(network, address).(*TCPAddr), nil
+}
+
+// TCPAddrOfIPPort returns addr as a TCPAddr.
+//
+// If addr is not valid, it returns nil. (TODO/XXX: open for debate, but
+// nil matches the style of net.ParseIP)
+func TCPAddrOfIPPort(addr netip.AddrPort) *TCPAddr {
+	panic("TODO")
 }
 
 // TCPConn is an implementation of the Conn interface for TCP network
