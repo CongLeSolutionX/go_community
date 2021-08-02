@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1f4b517_e9f8e0a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-02T22:30:42Z",
+      "side": 1,
+      "message": "What I mean is, I would like the description of the change to be\n\nreflect: add example for FieldByIndex\n\n(The current description doesn\u0027t really describe the change.  We don\u0027t need to mention things like blank lines.  Thanks.)",
+      "parentUuid": "8a9f3069_61b4a2b4",
+      "revId": "6b1efa730a12221b5085f2378af620433c5a63b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "36e0b52a_6392f9a7",
