@@ -349,6 +349,12 @@ var depsRules = `
 	  golang.org/x/net/lif,
 	  golang.org/x/net/route;
 
+	os, runtime, strconv, sync, unsafe
+	< internal/intern;
+
+	internal/bytealg, internal/intern, internal/itoa, math/bits, sort, strconv
+	< net/netaddr;
+
 	# net is unavoidable when doing any networking,
 	# so large dependencies must be kept out.
 	# This is a long-looking list but most of these
@@ -361,7 +367,8 @@ var depsRules = `
 	internal/poll,
 	internal/singleflight,
 	internal/race,
-	os
+	os,
+	net/netaddr
 	< net;
 
 	fmt, unicode !< net;
