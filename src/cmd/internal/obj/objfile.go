@@ -169,7 +169,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	for _, list := range lists {
 		for _, s := range list {
 			for i := range s.R {
-				w.Reloc(&s.R[i])
+				w.Reloc(s.R[i])
 			}
 		}
 	}
@@ -445,7 +445,7 @@ func (w *writer) contentHash(s *LSym) goobj.HashType {
 	// it always.
 	h.Write(bytes.TrimRight(s.P, "\x00"))
 	for i := range s.R {
-		r := &s.R[i]
+		r := s.R[i]
 		binary.LittleEndian.PutUint32(tmp[:4], uint32(r.Off))
 		tmp[4] = r.Siz
 		tmp[5] = uint8(r.Type)
@@ -857,7 +857,7 @@ func (ctxt *Link) writeSymDebugNamed(s *LSym, name string) {
 }
 
 // relocByOff sorts relocations by their offsets.
-type relocByOff []Reloc
+type relocByOff []*Reloc
 
 func (x relocByOff) Len() int           { return len(x) }
 func (x relocByOff) Less(i, j int) bool { return x[i].Off < x[j].Off }

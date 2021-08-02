@@ -290,7 +290,7 @@ func makeABIAlias(f *ir.Func, wrapperABI obj.ABI) {
 	asym := &obj.LSym{
 		Name: f.LSym.Name,
 		Type: objabi.SABIALIAS,
-		R:    []obj.Reloc{{Sym: f.LSym}}, // 0 size, so "informational"
+		R:    []*obj.Reloc{{Sym: f.LSym}}, // 0 size, so "informational"
 	}
 	asym.SetABI(wrapperABI)
 	asym.Set(obj.AttrDuplicateOK, true)

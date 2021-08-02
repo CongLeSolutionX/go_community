@@ -200,8 +200,8 @@ func (s *LSym) WriteBytes(ctxt *Link, off int64, b []byte) int64 {
 
 func Addrel(s *LSym) *Reloc {
 	if s.R == nil {
-		s.R = make([]Reloc, 0, 4)
+		s.R = make([]*Reloc, 0, 4)
 	}
-	s.R = append(s.R, Reloc{})
-	return &s.R[len(s.R)-1]
+	s.R = append(s.R, &Reloc{})
+	return s.R[len(s.R)-1]
 }

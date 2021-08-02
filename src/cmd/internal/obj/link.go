@@ -497,7 +497,7 @@ type LSym struct {
 	Size   int64
 	Gotype *LSym
 	P      []byte
-	R      []Reloc
+	R      []*Reloc
 
 	Extra *interface{} // *FuncInfo or *FileInfo, if present
 

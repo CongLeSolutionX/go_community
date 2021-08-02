@@ -254,7 +254,7 @@ func (c dwCtxt) AddDWARFAddrSectionOffset(s dwarf.Sym, t interface{}, ofs int64)
 	ls := s.(*LSym)
 	rsym := t.(*LSym)
 	ls.WriteAddr(c.Link, ls.Size, size, rsym, ofs)
-	r := &ls.R[len(ls.R)-1]
+	r := ls.R[len(ls.R)-1]
 	r.Type = objabi.R_DWARFSECREF
 }
 
