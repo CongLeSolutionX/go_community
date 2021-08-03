@@ -240,7 +240,7 @@ func FuncLinksym(n *ir.Name) *obj.LSym {
 	// When dynamically linking, the necessary function
 	// symbols will be created explicitly with NeedFuncSym.
 	// See the NeedFuncSym comment for details.
-	if !base.Ctxt.Flag_dynlink && !existed {
+	if !true && !existed {
 		funcsyms = append(funcsyms, n)
 	}
 	funcsymsmu.Unlock()
@@ -283,7 +283,7 @@ func NeedFuncSym(fn *ir.Func) {
 		// funcsym for them.
 		base.Fatalf("NeedFuncSym called for _")
 	}
-	if !base.Ctxt.Flag_dynlink {
+	if !true {
 		return
 	}
 	s := fn.Nname.Sym()
