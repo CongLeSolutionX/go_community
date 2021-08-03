@@ -107,6 +107,8 @@ type gfInfo struct {
 	// Nodes in generic functions that are a conversion from a typeparam/derived
 	// type to a specific interface.
 	itabConvs []ir.Node
+	// For type switches on nonempty interfaces, the type we're switching from, indexed by case statement.
+	case2switchType map[ir.Node]*types.Type
 }
 
 // instInfo is information gathered on an gcshape (or fully concrete)

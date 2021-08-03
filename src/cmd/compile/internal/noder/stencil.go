@@ -827,11 +827,12 @@ func (g *irgen) getInstantiation(nameNode *ir.Name, shapes []*types.Type, isMeth
 // Struct containing info needed for doing the substitution as we create the
 // instantiation of a generic function with specified type arguments.
 type subster struct {
-	g        *irgen
-	isMethod bool     // If a method is being instantiated
-	newf     *ir.Func // Func node for the new stenciled function
-	ts       typecheck.Tsubster
-	info     *instInfo // Place to put extra info in the instantiation
+	g            *irgen
+	isMethod     bool     // If a method is being instantiated
+	newf         *ir.Func // Func node for the new stenciled function
+	ts           typecheck.Tsubster
+	info         *instInfo             // Place to put extra info in the instantiation
+	typeSwitches []*ir.TypeSwitchGuard // Stack of type switches we are in
 }
 
 // genericSubst returns a new function with name newsym. The function is an
@@ -1111,7 +1112,15 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			}
 		}
 
+		if x.Op() == ir.OSWITCH && x.(*ir.SwitchStmt).Tag.Op() == ir.OTYPESW {
+			subst.typeSwitches = append(subst.typeSwitches, x.(*ir.SwitchStmt).Tag.(*ir.TypeSwitchGuard))
+		}
+
 		ir.EditChildren(m, edit)
+
+		if x.Op() == ir.OSWITCH && x.(*ir.SwitchStmt).Tag.Op() == ir.OTYPESW {
+			subst.typeSwitches = subst.typeSwitches[:len(subst.typeSwitches)-1]
+		}
 
 		m.SetTypecheck(1)
 		if typecheck.IsCmp(x.Op()) {
@@ -1349,6 +1358,30 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			m = ir.NewDynamicTypeAssertExpr(dt.Pos(), op, dt.X, rt)
 			m.SetType(dt.Type())
 			m.SetTypecheck(1)
+		case ir.OCASE:
+			x := x.(*ir.CaseClause)
+			m := m.(*ir.CaseClause)
+			for i, c := range x.List {
+				if c.Op() == ir.OTYPE && c.Type().HasTParam() {
+					var ix int
+					if src := subst.typeSwitches[len(subst.typeSwitches)-1].X.Type(); src.IsEmptyInterface() {
+						ix = findDictType(subst.info, c.Type())
+					} else {
+						ix = -1
+						for i, ic := range subst.info.gfInfo.itabConvs {
+							if ic == c {
+								ix = subst.info.startItabConv + i
+								break
+							}
+						}
+					}
+					assert(ix >= 0)
+					dt := ir.NewDynamicType(c.Pos(), getDictionaryEntry(c.Pos(), subst.info.dictParam, ix, subst.info.dictLen))
+					dt.SetType(m.List[i].Type())
+					dt.SetTypecheck(1)
+					m.List[i] = dt
+				}
+			}
 		}
 		return m
 	}
@@ -1688,6 +1721,9 @@ func (g *irgen) finalizeSyms() {
 			case ir.OCONVIFACE:
 				srctype = subst.Typ(n.(*ir.ConvExpr).X.Type())
 				dsttype = subst.Typ(n.Type())
+			case ir.OTYPE:
+				srctype = subst.Typ(n.Type())
+				dsttype = subst.Typ(info.case2switchType[n])
 			default:
 				base.Fatalf("itab entry with unknown op %s", n.Op())
 			}
@@ -1843,6 +1879,22 @@ func (g *irgen) getGfInfo(gn *ir.Name) *gfInfo {
 			// the dictionary of the outer function).
 			for _, n1 := range n.(*ir.ClosureExpr).Func.Body {
 				ir.Visit(n1, visitFunc)
+			}
+		}
+		if n.Op() == ir.OSWITCH && n.(*ir.SwitchStmt).Tag.Op() == ir.OTYPESW && !n.(*ir.SwitchStmt).Tag.(*ir.TypeSwitchGuard).X.Type().IsEmptyInterface() {
+			// Type switch from a non-empty interface.
+			for _, cc := range n.(*ir.SwitchStmt).Cases {
+				for _, c := range cc.List {
+					if c.Op() == ir.OTYPE && c.Type().HasTParam() {
+						// Type switch to a parameterized type (or derived type).
+						infoPrint("  Itab for type switch: %v\n", c)
+						info.itabConvs = append(info.itabConvs, c)
+						if info.case2switchType == nil {
+							info.case2switchType = map[ir.Node]*types.Type{}
+						}
+						info.case2switchType[c] = n.(*ir.SwitchStmt).Tag.(*ir.TypeSwitchGuard).X.Type()
+					}
+				}
 			}
 		}
 		addType(&info, n, n.Type())
