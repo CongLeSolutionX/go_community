@@ -216,10 +216,6 @@ func Init() {
 	if len(list) == 0 || list[0] == "" {
 		base.Fatalf("missing $GOPATH")
 	}
-	gopath = list[0]
-	if _, err := fsys.Stat(filepath.Join(gopath, "go.mod")); err == nil {
-		base.Fatalf("$GOPATH/go.mod exists but should not")
-	}
 
 	if modRoot == "" {
 		// We're in module mode, but not inside a module.
