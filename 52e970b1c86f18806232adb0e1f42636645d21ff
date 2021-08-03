@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "935ffc94_688cb59a",
+        "filename": "src/cmd/go/testdata/script/cgo_path_space_quote.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-03T21:54:14Z",
+      "side": 1,
+      "message": "Fixed in CL 339590.",
+      "parentUuid": "23c0f64d_5e0c12ea",
+      "revId": "52e970b1c86f18806232adb0e1f42636645d21ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5114356e_57164f98",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-08-03T19:32:01Z",
       "side": 1,
       "message": "Should there be an assertion like `stdout 1` here?",
+      "revId": "52e970b1c86f18806232adb0e1f42636645d21ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "622b9c2f_f48a1c6b",
+        "filename": "src/cmd/go/testdata/script/cgo_path_space_quote.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-03T21:54:14Z",
+      "side": 1,
+      "message": "Added in CL 339590.\n\nNot strictly necessary though. The cgo code should not compile without that define.",
+      "parentUuid": "5114356e_57164f98",
       "revId": "52e970b1c86f18806232adb0e1f42636645d21ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
