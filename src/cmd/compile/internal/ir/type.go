@@ -319,3 +319,15 @@ func TypeNodeAt(pos src.XPos, t *types.Type) Ntype {
 	}
 	return newTypeNode(pos, t)
 }
+
+type DynamicType struct {
+	miniExpr
+	X Node // a *runtime._type (or, for type switches from nonempty interfaces, a *runtime.itab)
+}
+
+func NewDynamicType(pos src.XPos, x Node) *DynamicType {
+	n := &DynamicType{X: x}
+	n.pos = pos
+	n.op = ODYNAMICTYPE
+	return n
+}

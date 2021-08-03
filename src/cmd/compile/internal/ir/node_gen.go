@@ -463,6 +463,28 @@ func (n *Decl) editChildren(edit func(Node) Node) {
 	}
 }
 
+func (n *DynamicType) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
+func (n *DynamicType) copy() Node {
+	c := *n
+	c.init = copyNodes(c.init)
+	return &c
+}
+func (n *DynamicType) doChildren(do func(Node) bool) bool {
+	if doNodes(n.init, do) {
+		return true
+	}
+	if n.X != nil && do(n.X) {
+		return true
+	}
+	return false
+}
+func (n *DynamicType) editChildren(edit func(Node) Node) {
+	editNodes(n.init, edit)
+	if n.X != nil {
+		n.X = edit(n.X).(Node)
+	}
+}
+
 func (n *DynamicTypeAssertExpr) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
 func (n *DynamicTypeAssertExpr) copy() Node {
 	c := *n
