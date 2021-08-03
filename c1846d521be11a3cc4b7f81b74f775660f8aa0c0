@@ -53,6 +53,24 @@
       "message": "Just curious, you notice it yourself or this is Google internal isssue?",
       "revId": "c1846d521be11a3cc4b7f81b74f775660f8aa0c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc26d7b1_d64e3e70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-08-03T19:00:40Z",
+      "side": 1,
+      "message": "Noticed it trying to build internal projects. All of the extra wrapper functions caused the object files to exceed the build system\u0027s maximum total file size, so some targets just failed to build.",
+      "parentUuid": "660246bc_ffab6a2f",
+      "revId": "c1846d521be11a3cc4b7f81b74f775660f8aa0c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
