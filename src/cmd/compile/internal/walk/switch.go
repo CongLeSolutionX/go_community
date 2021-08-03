@@ -359,11 +359,11 @@ func walkSwitchType(sw *ir.SwitchStmt) {
 				continue
 			}
 
-			if singleType != nil && singleType.IsInterface() {
-				s.Add(ncase.Pos(), n1.Type(), caseVar, jmp)
+			if singleType != nil { //  && singleType.IsInterface() {
+				s.Add(ncase.Pos(), n1, caseVar, jmp)
 				caseVarInitialized = true
 			} else {
-				s.Add(ncase.Pos(), n1.Type(), nil, jmp)
+				s.Add(ncase.Pos(), n1, nil, jmp)
 			}
 		}
 
@@ -376,6 +376,14 @@ func walkSwitchType(sw *ir.SwitchStmt) {
 					base.Fatalf("singleType interface should have been handled in Add")
 				}
 				val = ifaceData(ncase.Pos(), s.facename, singleType)
+			}
+			if len(ncase.List) == 1 {
+				n1 := ncase.List[0]
+				if n1.Op() == ir.ODYNAMICTYPE {
+					val = ir.NewDynamicTypeAssertExpr(ncase.Pos(), ir.ODYNAMICDOTTYPE, val, n1.(*ir.DynamicType).X)
+					val.SetType(caseVar.Type())
+					val.SetTypecheck(1)
+				}
 			}
 			l := []ir.Node{
 				ir.NewDecl(ncase.Pos(), ir.ODCL, caseVar),
@@ -446,7 +454,8 @@ type typeClause struct {
 	body ir.Nodes
 }
 
-func (s *typeSwitch) Add(pos src.XPos, typ *types.Type, caseVar *ir.Name, jmp ir.Node) {
+func (s *typeSwitch) Add(pos src.XPos, n1 ir.Node, caseVar *ir.Name, jmp ir.Node) {
+	typ := n1.Type()
 	var body ir.Nodes
 	if caseVar != nil {
 		l := []ir.Node{
@@ -462,9 +471,21 @@ func (s *typeSwitch) Add(pos src.XPos, typ *types.Type, caseVar *ir.Name, jmp ir
 	// cv, ok = iface.(type)
 	as := ir.NewAssignListStmt(pos, ir.OAS2, nil, nil)
 	as.Lhs = []ir.Node{caseVar, s.okname} // cv, ok =
-	dot := ir.NewTypeAssertExpr(pos, s.facename, nil)
-	dot.SetType(typ) // iface.(type)
-	as.Rhs = []ir.Node{dot}
+	switch n1.Op() {
+	case ir.OTYPE:
+		// Static type assertion (non-generic)
+		dot := ir.NewTypeAssertExpr(pos, s.facename, nil)
+		dot.SetType(typ) // iface.(type)
+		as.Rhs = []ir.Node{dot}
+	case ir.ODYNAMICTYPE:
+		// Dynamic type assertion (generic)
+		dot := ir.NewDynamicTypeAssertExpr(pos, ir.ODYNAMICDOTTYPE, s.facename, n1.(*ir.DynamicType).X)
+		dot.SetType(typ)
+		dot.SetTypecheck(1)
+		as.Rhs = []ir.Node{dot}
+	default:
+		base.Fatalf("unhandled type case %s", n1.Op())
+	}
 	appendWalkStmt(&body, as)
 
 	// if ok { goto label }
@@ -473,9 +494,10 @@ func (s *typeSwitch) Add(pos src.XPos, typ *types.Type, caseVar *ir.Name, jmp ir
 	nif.Body = []ir.Node{jmp}
 	body.Append(nif)
 
-	if !typ.IsInterface() {
+	if n1.Op() == ir.OTYPE && !typ.IsInterface() {
+		// Defer static, noninterface cases so they can be binary searched by hash.
 		s.clauses = append(s.clauses, typeClause{
-			hash: types.TypeHash(typ),
+			hash: types.TypeHash(n1.Type()),
 			body: body,
 		})
 		return

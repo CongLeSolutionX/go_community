@@ -1344,6 +1344,33 @@ func (subst *subster) node(n ir.Node) ir.Node {
 			m = ir.NewDynamicTypeAssertExpr(dt.Pos(), op, dt.X, rt)
 			m.SetType(dt.Type())
 			m.SetTypecheck(1)
+		case ir.OCASE:
+			x := x.(*ir.CaseClause)
+			m := m.(*ir.CaseClause)
+			for i, c := range x.List {
+				if c.Op() == ir.OTYPE && c.Type().HasTParam() {
+					var ix int
+					if _, ok := subst.info.gfInfo.case2switchType[c]; ok {
+						// Type switch from nonempty interface. We need a *runtime.itab
+						// for the dynamic type.
+						ix = -1
+						for i, ic := range subst.info.gfInfo.itabConvs {
+							if ic == c {
+								ix = subst.info.startItabConv + i
+								break
+							}
+						}
+					} else {
+						// Use a *runtime._type for the dynamic type.
+						ix = findDictType(subst.info, c.Type())
+					}
+					assert(ix >= 0)
+					dt := ir.NewDynamicType(c.Pos(), getDictionaryEntry(c.Pos(), subst.info.dictParam, ix, subst.info.dictLen))
+					dt.SetType(m.List[i].Type())
+					dt.SetTypecheck(1)
+					m.List[i] = dt
+				}
+			}
 		}
 		return m
 	}
@@ -1683,6 +1710,9 @@ func (g *irgen) finalizeSyms() {
 			case ir.OCONVIFACE:
 				srctype = subst.Typ(n.(*ir.ConvExpr).X.Type())
 				dsttype = subst.Typ(n.Type())
+			case ir.OTYPE:
+				srctype = subst.Typ(n.Type())
+				dsttype = subst.Typ(info.case2switchType[n])
 			default:
 				base.Fatalf("itab entry with unknown op %s", n.Op())
 			}
@@ -1838,6 +1868,22 @@ func (g *irgen) getGfInfo(gn *ir.Name) *gfInfo {
 			// the dictionary of the outer function).
 			for _, n1 := range n.(*ir.ClosureExpr).Func.Body {
 				ir.Visit(n1, visitFunc)
+			}
+		}
+		if n.Op() == ir.OSWITCH && n.(*ir.SwitchStmt).Tag.Op() == ir.OTYPESW && !n.(*ir.SwitchStmt).Tag.(*ir.TypeSwitchGuard).X.Type().IsEmptyInterface() {
+			// Type switch from a non-empty interface.
+			for _, cc := range n.(*ir.SwitchStmt).Cases {
+				for _, c := range cc.List {
+					if c.Op() == ir.OTYPE && c.Type().HasTParam() {
+						// Type switch to a parameterized type (or derived type).
+						infoPrint("  Itab for type switch: %v\n", c)
+						info.itabConvs = append(info.itabConvs, c)
+						if info.case2switchType == nil {
+							info.case2switchType = map[ir.Node]*types.Type{}
+						}
+						info.case2switchType[c] = n.(*ir.SwitchStmt).Tag.(*ir.TypeSwitchGuard).X.Type()
+					}
+				}
 			}
 		}
 		addType(&info, n, n.Type())
