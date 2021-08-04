@@ -7,7 +7,10 @@
 package base
 
 import (
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/str"
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	exec "internal/execabs"
@@ -15,9 +18,6 @@ import (
 	"os"
 	"strings"
 	"sync"
-
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/str"
 )
 
 // A Command is an implementation of a go command
@@ -163,7 +163,7 @@ func Run(cmdargs ...interface{}) {
 	cmd := exec.Command(cmdline[0], cmdline[1:]...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
+	if err := cmd.Run(); err != nil && errors.Is(err, exec.ExitError) {
 		Errorf("%v", err)
 	}
 }
