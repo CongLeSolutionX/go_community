@@ -153,12 +153,12 @@ func (rs *Requirements) initVendor(vendorList []module.Version) {
 			inconsistent := false
 			for _, m := range vendorList {
 				if v, ok := rs.rootSelected(m.Path); !ok || v != m.Version {
-					base.Errorf("go: vendored module %v should be required explicitly in go.mod", m)
+					base.CmdErrorf("vendored module %v should be required explicitly in go.mod", m)
 					inconsistent = true
 				}
 			}
 			if inconsistent {
-				base.Fatalf("go: %v", errGoModDirty)
+				base.CmdFatalf("%v", errGoModDirty)
 			}
 
 			// Now we can treat the rest of the module graph as effectively “pruned
@@ -275,10 +275,10 @@ func readModGraph(ctx context.Context, pruning modPruning, roots []module.Versio
 				switch f {
 				case "lazymod=log":
 					debug.PrintStack()
-					fmt.Fprintf(os.Stderr, "go: read full module graph.\n")
+					base.CmdLogf("read full module graph.\n")
 				case "lazymod=strict":
 					debug.PrintStack()
-					base.Fatalf("go: read full module graph (forbidden by GODEBUG=lazymod=strict).")
+					base.CmdFatalf("read full module graph (forbidden by GODEBUG=lazymod=strict).")
 				}
 			}
 		})
@@ -459,14 +459,14 @@ func LoadModGraph(ctx context.Context, goVersion string) *ModuleGraph {
 
 		mg, err := rs.Graph(ctx)
 		if err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 		return mg
 	}
 
 	rs, mg, err := expandGraph(ctx, rs)
 	if err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	requirements = rs

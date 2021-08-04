@@ -50,7 +50,7 @@ exists $WORK/modcache/cache/download/rsc.io/quote/@v/v1.0.0.info
 # Test error when cannot create GOMODCACHE directory
 env GOMODCACHE=$WORK/modcachefile
 ! go install example.com/cmd/a@v1.0.0
-stderr 'go: could not create module cache'
+stderr '^go install: could not create module cache'
 
 # Test that the following work even with GO111MODULE=off
 env GO111MODULE=off

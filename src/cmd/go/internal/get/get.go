@@ -114,16 +114,16 @@ func init() {
 func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	if cfg.ModulesEnabled {
 		// Should not happen: main.go should install the separate module-enabled get code.
-		base.Fatalf("go get: modules not implemented")
+		base.CmdFatalf("modules not implemented")
 	}
 
 	work.BuildInit()
 
 	if *getF && !*getU {
-		base.Fatalf("go get: cannot use -f flag without -u")
+		base.CmdFatalf("cannot use -f flag without -u")
 	}
 	if *getInsecure {
-		base.Fatalf("go get: -insecure flag is no longer supported; use GOINSECURE instead")
+		base.CmdFatalf("-insecure flag is no longer supported; use GOINSECURE instead")
 	}
 
 	// Disable any prompting for passwords by Git itself.
@@ -205,7 +205,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 func downloadPaths(patterns []string) []string {
 	for _, arg := range patterns {
 		if strings.Contains(arg, "@") {
-			base.Fatalf("go: can only use path@version syntax with 'go get' and 'go install' in module-aware mode")
+			base.CmdFatalf("can only use path@version syntax with 'go get' and 'go install' in module-aware mode")
 			continue
 		}
 
@@ -218,7 +218,7 @@ func downloadPaths(patterns []string) []string {
 				continue
 			}
 			if fi, err := os.Stat(arg); err == nil && !fi.IsDir() {
-				base.Errorf("go get: %s exists as a file, but 'go get' requires package arguments", arg)
+				base.CmdErrorf("%s exists as a file, but 'go get' requires package arguments", arg)
 			}
 		}
 	}

@@ -6,7 +6,6 @@ package modconv
 
 import (
 	"fmt"
-	"os"
 	"runtime"
 	"sort"
 	"strings"
@@ -63,7 +62,7 @@ func ConvertLegacyConfig(f *modfile.File, file string, data []byte, queryPackage
 			defer func() { <-sem }()
 			version, err := queryPackage(m.Path, m.Version)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "go: converting %s: stat %s@%s: %v\n", base.ShortPath(file), m.Path, m.Version, err)
+				base.CmdLogf("converting %s: stat %s@%s: %v\n", base.ShortPath(file), m.Path, m.Version, err)
 				return
 			}
 

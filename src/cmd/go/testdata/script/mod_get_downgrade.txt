@@ -19,6 +19,7 @@ go list -m all
 stdout 'rsc.io/quote v1.5.1'
 stdout 'rsc.io/sampler v1.3.0'
 
+go mod download rsc.io/quote@v1.5.2 # avoid "downloading" chatter
 ! go get -d rsc.io/sampler@v1.0.0 rsc.io/quote@v1.5.2 golang.org/x/text@none
 stderr -count=1 '^go get:'
 stderr '^go get: rsc.io/quote@v1.5.2 requires rsc.io/sampler@v1.3.0, not rsc.io/sampler@v1.0.0$'

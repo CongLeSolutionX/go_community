@@ -120,7 +120,7 @@ func runClean(ctx context.Context, cmd *base.Command, args []string) {
 		pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
 		if modload.Enabled() {
 			if err := modload.WriteGoMod(ctx); err != nil {
-				base.Fatalf("go: %v", err)
+				base.CmdFatalf("%v", err)
 			}
 		}
 		for _, pkg := range pkgs {
@@ -340,7 +340,7 @@ func clean(p *load.Package) {
 					}
 				}
 				if err := os.RemoveAll(filepath.Join(p.Dir, name)); err != nil {
-					base.Errorf("go clean: %v", err)
+					base.CmdErrorf("%v", err)
 				}
 			}
 			continue
@@ -392,5 +392,5 @@ func removeFile(f string) {
 			return
 		}
 	}
-	base.Errorf("go clean: %v", err)
+	base.CmdErrorf("%v", err)
 }

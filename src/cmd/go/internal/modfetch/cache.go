@@ -239,7 +239,7 @@ func (r *cachingRepo) Stat(rev string) (*RevInfo, error) {
 			}
 
 			if err := writeDiskStat(file, info); err != nil {
-				fmt.Fprintf(os.Stderr, "go: writing stat cache: %v\n", err)
+				base.CmdLogf("writing stat cache: %v\n", err)
 			}
 		}
 		return cachedInfo{info, err}
@@ -294,7 +294,7 @@ func (r *cachingRepo) GoMod(version string) ([]byte, error) {
 				return cached{text, err}
 			}
 			if err := writeDiskGoMod(file, text); err != nil {
-				fmt.Fprintf(os.Stderr, "go: writing go.mod cache: %v\n", err)
+				base.CmdLogf("writing go.mod cache: %v\n", err)
 			}
 		}
 		return cached{text, err}
@@ -634,7 +634,7 @@ func tempFile(dir, prefix string, perm fs.FileMode) (f *os.File, err error) {
 // after a new *.mod file has been written.
 func rewriteVersionList(dir string) (err error) {
 	if filepath.Base(dir) != "@v" {
-		base.Fatalf("go: internal error: misuse of rewriteVersionList")
+		base.CmdFatalf("internal error: misuse of rewriteVersionList")
 	}
 
 	listFile := filepath.Join(dir, "list")

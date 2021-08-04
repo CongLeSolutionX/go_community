@@ -45,13 +45,13 @@ go get -d rsc.io/sampler@v1.2.0
 go mod edit -require rsc.io/quote@v1.5.2
 cp go.mod go.mod.inconsistent
 ! go list
-stderr 'go: updates to go.mod needed, disabled by -mod=readonly'
+stderr '^go list: updates to go.mod needed, disabled by -mod=readonly'
 cmp go.mod go.mod.inconsistent
 
 # We get a different message when -mod=readonly is used by default.
 env GOFLAGS=
 ! go list
-stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy'
+stderr '^go list: updates to go.mod needed; to update it:\n\tgo mod tidy'
 
 # However, it should not reject files missing a 'go' directive,
 # since that was not always required.

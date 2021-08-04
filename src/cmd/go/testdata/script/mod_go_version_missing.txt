@@ -55,7 +55,7 @@ cmpenv go.mod go.mod.tidy
 # directive is explicit. -mod=vendor should trigger by default, and the stronger
 # Go 1.14 consistency check should apply.
 ! go list all
-stderr '^go: inconsistent vendoring'
+stderr '^go list: inconsistent vendoring'
 ! stderr badedit
 
 

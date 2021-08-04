@@ -124,7 +124,7 @@ func main() {
 			// in the middle of directory elements, such as /tmp/git-1.8.2~rc3
 			// or C:\PROGRA~1. Only ~ as a path prefix has meaning to the shell.
 			if strings.HasPrefix(p, "~") {
-				fmt.Fprintf(os.Stderr, "go: GOPATH entry cannot start with shell metacharacter '~': %q\n", p)
+				base.CmdLogf("GOPATH entry cannot start with shell metacharacter '~': %q\n", p)
 				os.Exit(2)
 			}
 			if !filepath.IsAbs(p) {
@@ -133,7 +133,7 @@ func main() {
 					// Instead of dying, uninfer it.
 					cfg.BuildContext.GOPATH = ""
 				} else {
-					fmt.Fprintf(os.Stderr, "go: GOPATH entry is relative; must be absolute path: %q.\nFor more details see: 'go help gopath'\n", p)
+					base.CmdLogf("GOPATH entry is relative; must be absolute path: %q.\nFor more details see: 'go help gopath'\n", p)
 					os.Exit(2)
 				}
 			}
@@ -141,7 +141,7 @@ func main() {
 	}
 
 	if fi, err := os.Stat(cfg.GOROOT); err != nil || !fi.IsDir() {
-		fmt.Fprintf(os.Stderr, "go: cannot find GOROOT directory: %v\n", cfg.GOROOT)
+		base.CmdLogf("cannot find GOROOT directory: %v\n", cfg.GOROOT)
 		os.Exit(2)
 	}
 

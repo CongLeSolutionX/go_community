@@ -45,7 +45,7 @@ func readVendorList(mainModule module.Version) {
 		data, err := os.ReadFile(filepath.Join(MainModules.ModRoot(mainModule), "vendor/modules.txt"))
 		if err != nil {
 			if !errors.Is(err, fs.ErrNotExist) {
-				base.Fatalf("go: %s", err)
+				base.CmdFatalf("%s", err)
 			}
 			return
 		}
@@ -221,6 +221,6 @@ func checkVendorConsistency(index *modFileIndex, modFile *modfile.File) {
 
 	if vendErrors.Len() > 0 {
 		modRoot := MainModules.ModRoot(MainModules.mustGetSingleMainModule())
-		base.Fatalf("go: inconsistent vendoring in %s:%s\n\n\tTo ignore the vendor directory, use -mod=readonly or -mod=mod.\n\tTo sync the vendor directory, run:\n\t\tgo mod vendor", modRoot, vendErrors)
+		base.CmdFatalf("inconsistent vendoring in %s:%s\n\n\tTo ignore the vendor directory, use -mod=readonly or -mod=mod.\n\tTo sync the vendor directory, run:\n\t\tgo mod vendor", modRoot, vendErrors)
 	}
 }

@@ -83,7 +83,7 @@ mkdir $WORK/tmp/mydir
 cd $WORK/tmp/mydir
 go env GOMOD
 ! stdout .+
-stderr '^go: warning: ignoring go.mod in system temp root '
+stderr '^go env: warning: ignoring go.mod in system temp root '
 
 -- $GOPATH/src/x/y/z/go.mod --
 module x/y/z

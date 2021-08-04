@@ -371,7 +371,7 @@ func indexModFile(data []byte, modFile *modfile.File, mod module.Version, needsF
 	i.replace = make(map[module.Version]module.Version, len(modFile.Replace))
 	for _, r := range modFile.Replace {
 		if prev, dup := i.replace[r.Old]; dup && prev != r.New {
-			base.Fatalf("go: conflicting replacements for %v:\n\t%v\n\t%v", r.Old, prev, r.New)
+			base.CmdFatalf("conflicting replacements for %v:\n\t%v\n\t%v", r.Old, prev, r.New)
 		}
 		i.replace[r.Old] = r.New
 	}
@@ -687,7 +687,7 @@ func rawGoModData(m module.Version, replacedFrom string) (name string, data []by
 	} else {
 		if !semver.IsValid(m.Version) {
 			// Disallow the broader queries supported by fetch.Lookup.
-			base.Fatalf("go: internal error: %s@%s: unexpected invalid semantic version", m.Path, m.Version)
+			base.CmdFatalf("internal error: %s@%s: unexpected invalid semantic version", m.Path, m.Version)
 		}
 		name = "go.mod"
 		data, err = modfetch.GoMod(m.Path, m.Version)

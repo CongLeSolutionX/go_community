@@ -17,6 +17,7 @@ import (
 	"sort"
 	"strings"
 
+	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/modfetch"
@@ -515,7 +516,7 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 	// Look up module containing the package, for addition to the build list.
 	// Goal is to determine the module, download it to dir,
 	// and return m, dir, ImpportMissingError.
-	fmt.Fprintf(os.Stderr, "go: finding module for package %s\n", path)
+	base.CmdLogf("finding module for package %s\n", path)
 
 	mg, err := rs.Graph(ctx)
 	if err != nil {

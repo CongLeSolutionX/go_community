@@ -7,7 +7,7 @@ stderr 'go.mod:3: no module directive found, so retract cannot be used$'
 # Verifies #44494.
 go mod edit -module=rsc.io/quote/v2
 ! go list -m all
-stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy$'
+stderr '^go list: updates to go.mod needed; to update it:\n\tgo mod tidy$'
 go mod tidy
 go list -m all
 cmp go.mod go.mod.want

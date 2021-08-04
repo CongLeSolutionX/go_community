@@ -37,7 +37,7 @@ cd ..
 
 go mod edit -go=1.16
 ! go list -deps -f $MODFMT example.com/m
-stderr '^go: updates to go\.mod needed; to update it:\n\tgo mod tidy$'
+stderr '^go list: updates to go\.mod needed; to update it:\n\tgo mod tidy$'
 
 ! go mod tidy
 stderr '^example\.com/m imports\n\texample\.net/deleted: module example\.net/deleted@latest found \(v0\.2\.0, replaced by \./d2\), but does not contain package example\.net/deleted$'

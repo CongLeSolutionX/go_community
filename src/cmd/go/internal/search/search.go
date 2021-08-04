@@ -420,7 +420,7 @@ func replaceVendor(x, repl string) string {
 func WarnUnmatched(matches []*Match) {
 	for _, m := range matches {
 		if len(m.Pkgs) == 0 && len(m.Errs) == 0 {
-			fmt.Fprintf(os.Stderr, "go: warning: %q matched no packages\n", m.pattern)
+			base.CmdLogf("warning: %q matched no packages\n", m.pattern)
 		}
 	}
 }

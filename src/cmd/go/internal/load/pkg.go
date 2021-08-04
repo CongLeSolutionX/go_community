@@ -2609,7 +2609,7 @@ func mainPackagesOnly(pkgs []*Package, matches []*search.Match) []*Package {
 			}
 		}
 		if !foundMain {
-			fmt.Fprintf(os.Stderr, "go: warning: %q matched only non-main packages\n", m.Pattern())
+			base.CmdLogf("warning: %q matched only non-main packages\n", m.Pattern())
 		}
 	}
 

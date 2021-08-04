@@ -12,8 +12,6 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/internal/str"
 	"context"
-	"fmt"
-	"os"
 )
 
 var CmdFix = &base.Command{
@@ -37,7 +35,7 @@ func runFix(ctx context.Context, cmd *base.Command, args []string) {
 	// TODO(#45551): report an error if go.mod or go.sum need to be updated.
 	if modload.Enabled() {
 		if err := modload.WriteGoMod(ctx); err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 	}
 	w := 0
@@ -55,7 +53,7 @@ func runFix(ctx context.Context, cmd *base.Command, args []string) {
 	for _, pkg := range pkgs {
 		if modload.Enabled() && pkg.Module != nil && !pkg.Module.Main {
 			if !printed {
-				fmt.Fprintf(os.Stderr, "go: not fixing packages in dependency modules\n")
+				base.CmdLogf("not fixing packages in dependency modules\n")
 				printed = true
 			}
 			continue

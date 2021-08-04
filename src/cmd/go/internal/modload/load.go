@@ -408,7 +408,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 		// package shouldn't have global state. Find another way to communicate to
 		// tidy which sums we need to keep.
 		if err := modfetch.WriteGoSum(keep, mustHaveCompleteRequirements()); err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 
 		// Update the go.mod file's Go version if necessary.
@@ -671,7 +671,7 @@ func ImportFromFiles(ctx context.Context, gofiles []string) {
 	tags := imports.Tags()
 	imports, testImports, err := imports.ScanFiles(gofiles, tags)
 	if err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	loaded = loadFromRoots(ctx, loaderParams{
@@ -982,7 +982,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 		ld.GoVersion = MainModules.GoVersion()
 
 		if ld.Tidy && semver.Compare("v"+ld.GoVersion, "v"+LatestGoVersion()) > 0 {
-			ld.errorf("go mod tidy: go.mod file indicates go %s, but maximum supported version is %s\n", ld.GoVersion, LatestGoVersion())
+			ld.cmdErrorf("go.mod file indicates go %s, but maximum supported version is %s\n", ld.GoVersion, LatestGoVersion())
 			base.ExitIfErrors()
 		}
 	}
@@ -1007,7 +1007,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 	var err error
 	ld.requirements, err = convertPruning(ctx, ld.requirements, pruningForGoVersion(ld.GoVersion))
 	if err != nil {
-		ld.errorf("go: %v\n", err)
+		ld.cmdErrorf("%v\n", err)
 	}
 
 	if ld.requirements.pruning == unpruned {
@@ -1022,7 +1022,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 		var err error
 		ld.requirements, _, err = expandGraph(ctx, ld.requirements)
 		if err != nil {
-			ld.errorf("go: %v\n", err)
+			ld.cmdErrorf("%v\n", err)
 		}
 	}
 
@@ -1073,7 +1073,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 
 		changed, err := ld.updateRequirements(ctx)
 		if err != nil {
-			ld.errorf("go: %v\n", err)
+			ld.cmdErrorf("%v\n", err)
 			break
 		}
 		if changed {
@@ -1120,11 +1120,11 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 			// are more descriptive.
 			if err, ok := err.(*mvs.BuildListError); ok {
 				if pkg := modAddedBy[err.Module()]; pkg != nil {
-					ld.errorf("go: %s: %v\n", pkg.stackText(), err.Err)
+					ld.cmdErrorf("%s: %v\n", pkg.stackText(), err.Err)
 					break
 				}
 			}
-			ld.errorf("go: %v\n", err)
+			ld.cmdErrorf("%v\n", err)
 			break
 		}
 		if reflect.DeepEqual(rs.rootModules, ld.requirements.rootModules) {
@@ -1143,7 +1143,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 	if ld.Tidy {
 		rs, err := tidyRoots(ctx, ld.requirements, ld.pkgs)
 		if err != nil {
-			ld.errorf("go: %v\n", err)
+			ld.cmdErrorf("%v\n", err)
 		}
 
 		if ld.requirements.pruning == pruned {
@@ -1154,7 +1154,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 			// If that is not the case, there is a bug in the loading loop above.
 			for _, m := range rs.rootModules {
 				if v, ok := ld.requirements.rootSelected(m.Path); !ok || v != m.Version {
-					ld.errorf("go mod tidy: internal error: a requirement on %v is needed but was not added during package loading\n", m)
+					ld.cmdErrorf("internal error: a requirement on %v is needed but was not added during package loading\n", m)
 					base.ExitIfErrors()
 				}
 			}
@@ -1440,7 +1440,7 @@ func (ld *loader) resolveMissingImports(ctx context.Context) (modAddedBy map[mod
 			continue
 		}
 
-		fmt.Fprintf(os.Stderr, "go: found %s in %s %s\n", pkg.path, mod.Path, mod.Version)
+		base.CmdLogf("found %s in %s %s\n", pkg.path, mod.Path, mod.Version)
 		if modAddedBy[mod] == nil {
 			modAddedBy[mod] = pkg
 		}
@@ -1618,7 +1618,7 @@ func (ld *loader) preloadRootModules(ctx context.Context, rootPkgs []string) (ch
 		// We are missing some root dependency, and for some reason we can't load
 		// enough of the module dependency graph to add the missing root. Package
 		// loading is doomed to fail, so fail quickly.
-		ld.errorf("go: %v\n", err)
+		ld.cmdErrorf("%v\n", err)
 		base.ExitIfErrors()
 		return false
 	}
@@ -1840,7 +1840,7 @@ func (ld *loader) checkMultiplePaths() {
 		if prev, ok := firstPath[src]; !ok {
 			firstPath[src] = mod.Path
 		} else if prev != mod.Path {
-			ld.errorf("go: %s@%s used for two different module paths (%s and %s)\n", src.Path, src.Version, prev, mod.Path)
+			ld.cmdErrorf("%s@%s used for two different module paths (%s and %s)\n", src.Path, src.Version, prev, mod.Path)
 		}
 	}
 }
@@ -1896,7 +1896,7 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 
 	mg, err := rs.Graph(ctx)
 	if err != nil {
-		ld.errorf("go mod tidy: error loading go %s module graph: %v\n", ld.TidyCompatibleVersion, err)
+		ld.cmdErrorf("error loading go %s module graph: %v\n", ld.TidyCompatibleVersion, err)
 		suggestFixes()
 		return
 	}
@@ -1956,7 +1956,7 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 		for _, m := range ld.requirements.rootModules {
 			if v := mg.Selected(m.Path); v != m.Version {
 				fmt.Fprintln(os.Stderr)
-				base.Fatalf("go: internal error: failed to diagnose selected-version mismatch for module %s: go %s selects %s, but go %s selects %s\n\tPlease report this at https://golang.org/issue.", m.Path, ld.GoVersion, m.Version, ld.TidyCompatibleVersion, v)
+				base.CmdFatalf("internal error: failed to diagnose selected-version mismatch for module %s: go %s selects %s, but go %s selects %s\n\tPlease report this at https://golang.org/issue.", m.Path, ld.GoVersion, m.Version, ld.TidyCompatibleVersion, v)
 			}
 		}
 		return
@@ -1974,7 +1974,7 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 			// We already did (or will) report an error for the package itself,
 			// so don't report a duplicate (and more vebose) error for its test.
 			if _, ok := mismatches[pkg.testOf]; !ok {
-				base.Fatalf("go: internal error: mismatch recorded for test %s, but not its non-test package", pkg.path)
+				base.CmdFatalf("internal error: mismatch recorded for test %s, but not its non-test package", pkg.path)
 			}
 			continue
 		}
@@ -2051,7 +2051,7 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 			ld.errorf("%s loaded from %v,\n\tbut go %s would select %v\n", pkg.stackText(), pkg.mod, ld.TidyCompatibleVersion, mismatch.mod.Version)
 
 		default:
-			base.Fatalf("go: internal error: mismatch recorded for package %s, but no differences found", pkg.path)
+			base.CmdFatalf("internal error: mismatch recorded for package %s, but no differences found", pkg.path)
 		}
 	}
 

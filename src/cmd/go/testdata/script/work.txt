@@ -24,7 +24,7 @@ stdout 'example.com/b'
 # -mod can only be set to readonly in workspace mode
 go list -mod=readonly all
 ! go list -mod=mod all
-stderr '^go: -mod may only be set to readonly when in workspace mode'
+stderr '^go list: -mod may only be set to readonly when in workspace mode'
 go list -mod=mod -workfile=off all
 
 # Test that duplicates in the directory list return an error

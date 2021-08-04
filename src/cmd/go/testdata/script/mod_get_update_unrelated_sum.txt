@@ -64,7 +64,7 @@ cp go.sum.orig go.sum
 rm $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
 env GOPROXY=off
 ! go get -d example.com/upgrade@v0.0.2
-stderr '^go: upgraded rsc.io/quote v1.0.0 => v1.5.2: error finding sum for rsc.io/quote@v1.5.2: module lookup disabled by GOPROXY=off$'
+stderr '^go get: upgraded rsc.io/quote v1.0.0 => v1.5.2: error finding sum for rsc.io/quote@v1.5.2: module lookup disabled by GOPROXY=off$'
 
 -- go.mod.orig --
 module m

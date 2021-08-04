@@ -427,18 +427,18 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 
 		if modload.Init(); !modload.Enabled() {
-			base.Fatalf("go list -m: not using modules")
+			base.CmdFatalf("not using modules")
 		}
 
 		modload.LoadModFile(ctx) // Sets cfg.BuildMod as a side-effect.
 		if cfg.BuildMod == "vendor" {
-			const actionDisabledFormat = "go list -m: can't %s using the vendor directory\n\t(Use -mod=mod or -mod=readonly to bypass.)"
+			const actionDisabledFormat = "can't %s using the vendor directory\n\t(Use -mod=mod or -mod=readonly to bypass.)"
 
 			if *listVersions {
-				base.Fatalf(actionDisabledFormat, "determine available versions")
+				base.CmdFatalf(actionDisabledFormat, "determine available versions")
 			}
 			if *listU {
-				base.Fatalf(actionDisabledFormat, "determine available upgrades")
+				base.CmdFatalf(actionDisabledFormat, "determine available upgrades")
 			}
 
 			for _, arg := range args {
@@ -446,10 +446,10 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 				// explicit module dependencies and the modules that supply packages in
 				// the import graph. Reject queries that imply more information than that.
 				if arg == "all" {
-					base.Fatalf(actionDisabledFormat, "compute 'all'")
+					base.CmdFatalf(actionDisabledFormat, "compute 'all'")
 				}
 				if strings.Contains(arg, "...") {
-					base.Fatalf(actionDisabledFormat, "match module patterns")
+					base.CmdFatalf(actionDisabledFormat, "match module patterns")
 				}
 			}
 		}
@@ -469,16 +469,16 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 		mods, listErr := modload.ListModules(ctx, args, mode)
 		if writeErr := modload.WriteGoMod(ctx); writeErr != nil {
-			base.Fatalf("go: %v", writeErr)
+			base.CmdFatalf("%v", writeErr)
 		}
 		if !*listE {
 			for _, m := range mods {
 				if m.Error != nil {
-					base.Errorf("go list -m: %v", m.Error.Err)
+					base.CmdErrorf("%v", m.Error.Err)
 				}
 			}
 			if listErr != nil {
-				base.Errorf("go list -m: %v", listErr)
+				base.CmdErrorf("%v", listErr)
 			}
 			base.ExitIfErrors()
 		}
@@ -511,7 +511,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, args)
 	if modload.Enabled() {
 		if err := modload.WriteGoMod(ctx); err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 	}
 	if !*listE {

@@ -91,11 +91,11 @@ func (b *Builder) Do(ctx context.Context, root *Action) {
 			if strings.HasSuffix(file, ".go") {
 				// Do not overwrite Go source code in:
 				//	go build -debug-actiongraph x.go
-				base.Fatalf("go: refusing to write action graph to %v\n", file)
+				base.CmdFatalf("refusing to write action graph to %v\n", file)
 			}
 			js := actionGraphJSON(root)
 			if err := os.WriteFile(file, []byte(js), 0666); err != nil {
-				fmt.Fprintf(os.Stderr, "go: writing action graph: %v\n", err)
+				base.CmdLogf("writing action graph: %v\n", err)
 				base.SetExitStatus(1)
 			}
 		}

@@ -50,7 +50,7 @@ cmp go.mod go.mod.117
 cp lazy.go.new lazy.go
 
 ! go list all
-stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy$'
+stderr '^go list: updates to go.mod needed; to update it:\n\tgo mod tidy$'
 
 go mod tidy
 go list all

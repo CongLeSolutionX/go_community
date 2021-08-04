@@ -17,7 +17,7 @@ cp hello.go $GOTMPDIR # any file will do
 
 # 'go build' should fail if GOTMPDIR is read-only.
 ! go build -x .
-stderr '^go: creating work dir: \w+ '$GOTMPDIR
+stderr '^go build: creating work dir: \w+ '$GOTMPDIR
 
 # 'go list' should only fail if it needs to build something.
 go list -x .
@@ -26,7 +26,7 @@ stdout m
 go list -m all
 stdout m
 ! go list -x -export .
-stderr '^go: creating work dir: \w+ '$GOTMPDIR
+stderr '^go list: creating work dir: \w+ '$GOTMPDIR
 
 # 'go clean -cache' and 'go clean -modcache' should not fail.
 go clean -x -cache
@@ -38,7 +38,7 @@ go clean -x -modcache
 # Without arguments, it needs to initialize a builder to load cgo flags, and
 # that uses a temporary directory.
 ! go env
-stderr '^go: creating work dir: \w+ '$GOTMPDIR
+stderr '^go env: creating work dir: \w+ '$GOTMPDIR
 go env GOROOT
 
 -- go.mod --

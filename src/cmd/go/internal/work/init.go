@@ -25,7 +25,7 @@ func BuildInit() {
 	instrumentInit()
 	buildModeInit()
 	if err := fsys.Init(base.Cwd()); err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	// Make sure -pkgdir is absolute, because we run commands
@@ -41,7 +41,7 @@ func BuildInit() {
 	}
 
 	if cfg.BuildP <= 0 {
-		base.Fatalf("go: -p must be a positive integer: %v\n", cfg.BuildP)
+		base.CmdFatalf("-p must be a positive integer: %v\n", cfg.BuildP)
 	}
 
 	// Make sure CC, CXX, and FC are absolute paths.
