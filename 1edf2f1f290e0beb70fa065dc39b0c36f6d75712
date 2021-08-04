@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d070c1ee_4fdaa0a7",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-04T02:51:26Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "9b278386_d1bb1564",
+      "revId": "1edf2f1f290e0beb70fa065dc39b0c36f6d75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7e0e39f_0737c0d7",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1de479c_4b946a97",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-04T02:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7e0e39f_0737c0d7",
+      "revId": "1edf2f1f290e0beb70fa065dc39b0c36f6d75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e7c0943_5a05b6f0",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-08-03T16:58:49Z",
       "side": 1,
       "message": "(nit) scope the `err` variable to the `if` statement:\n\n\tif err :\u003d enc.Encode(in); err !\u003d nil {",
+      "range": {
+        "startLine": 1168,
+        "startChar": 0,
+        "endLine": 1169,
+        "endChar": 16
+      },
+      "revId": "1edf2f1f290e0beb70fa065dc39b0c36f6d75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "928eb1ff_5af652b2",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-04T02:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e7c0943_5a05b6f0",
       "range": {
         "startLine": 1168,
         "startChar": 0,
@@ -81,6 +141,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d37e1c3_a8473b91",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-04T02:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "391fc4e7_2b766b42",
+      "range": {
+        "startLine": 1175,
+        "startChar": 0,
+        "endLine": 1177,
+        "endChar": 16
+      },
+      "revId": "1edf2f1f290e0beb70fa065dc39b0c36f6d75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b399461f_3f7cf534",
@@ -98,6 +182,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9aa41a4_cfdafbef",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-04T02:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b399461f_3f7cf534",
+      "revId": "1edf2f1f290e0beb70fa065dc39b0c36f6d75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36725bea_3740facf",
@@ -111,6 +213,30 @@
       "writtenOn": "2021-08-03T16:58:49Z",
       "side": 1,
       "message": "This ensures that the sets of keys and sets of values are consistent, but wouldn\u0027t detect a key matched to the wrong value.\n\nInstead, construct slices whose elements are ⟨key, value⟩ pairs:\n\n\ttype mapEntry struct {\n\t\tkeyBits uint64\n\t\tvalue   string\n\t}\n\treadMap :\u003d func(m map[float64]string) (entries []mapEntry) {\n\t\tfor k, v :\u003d range m {\n\t\t\tentries \u003d append(entries, mapEntry{math.Float64bits(k), v})\n\t\t}\n\t\tsort.Slice(entries, func(i, j int) bool {\n\t\t\tei, ej :\u003d entries[i], entries[j]\n\t\t\tif ei.keyBits !\u003d ej.keyBits {\n\t\t\t\treturn ei.keyBits \u003c ej.keyBits\n\t\t\t}\n\t\t\treturn ei.value \u003c ej.value\n\t\t})\n\t\treturn entries\n\t}",
+      "range": {
+        "startLine": 1188,
+        "startChar": 0,
+        "endLine": 1191,
+        "endChar": 3
+      },
+      "revId": "1edf2f1f290e0beb70fa065dc39b0c36f6d75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddd54e9d_aa31373c",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-04T02:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36725bea_3740facf",
       "range": {
         "startLine": 1188,
         "startChar": 0,
