@@ -52,7 +52,7 @@ func findStandardImportPath(path string) string {
 // standard library or if the package was not successfully loaded with
 // LoadPackages or ImportFromFiles, nil is returned.
 func PackageModuleInfo(ctx context.Context, pkgpath string) *modinfo.ModulePublic {
-	if isStandardImportPath(pkgpath) || !Enabled() {
+	if isStandardImportPath(pkgpath) {
 		return nil
 	}
 	m, ok := findModule(loaded, pkgpath)
@@ -65,10 +65,6 @@ func PackageModuleInfo(ctx context.Context, pkgpath string) *modinfo.ModulePubli
 }
 
 func ModuleInfo(ctx context.Context, path string) *modinfo.ModulePublic {
-	if !Enabled() {
-		return nil
-	}
-
 	if i := strings.Index(path, "@"); i >= 0 {
 		m := module.Version{Path: path[:i], Version: path[i+1:]}
 		return moduleInfo(ctx, nil, m, 0)
@@ -340,9 +336,6 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 // for modules providing packages named by path and deps. path and deps must
 // name packages that were resolved successfully with LoadPackages.
 func PackageBuildInfo(path string, deps []string) string {
-	if !Enabled() {
-		return ""
-	}
 	target, _ := findModule(loaded, path)
 	mdeps := make(map[module.Version]bool)
 	for _, dep := range deps {

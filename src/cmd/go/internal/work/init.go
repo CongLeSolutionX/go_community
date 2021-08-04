@@ -10,7 +10,6 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
-	"cmd/go/internal/modload"
 	"cmd/internal/str"
 	"cmd/internal/sys"
 	"flag"
@@ -21,7 +20,6 @@ import (
 )
 
 func BuildInit() {
-	modload.Init()
 	instrumentInit()
 	buildModeInit()
 	if err := fsys.Init(base.Cwd()); err != nil {
@@ -260,25 +258,6 @@ func buildModeInit() {
 				cfg.BuildContext.InstallSuffix += "_"
 			}
 			cfg.BuildContext.InstallSuffix += codegenArg[1:]
-		}
-	}
-
-	switch cfg.BuildMod {
-	case "":
-		// Behavior will be determined automatically, as if no flag were passed.
-	case "readonly", "vendor", "mod":
-		if !cfg.ModulesEnabled && !base.InGOFLAGS("-mod") {
-			base.Fatalf("build flag -mod=%s only valid when using modules", cfg.BuildMod)
-		}
-	default:
-		base.Fatalf("-mod=%s not supported (can be '', 'mod', 'readonly', or 'vendor')", cfg.BuildMod)
-	}
-	if !cfg.ModulesEnabled {
-		if cfg.ModCacheRW && !base.InGOFLAGS("-modcacherw") {
-			base.Fatalf("build flag -modcacherw only valid when using modules")
-		}
-		if cfg.ModFile != "" && !base.InGOFLAGS("-mod") {
-			base.Fatalf("build flag -modfile only valid when using modules")
 		}
 	}
 }

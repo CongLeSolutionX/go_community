@@ -171,17 +171,22 @@ func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 
 	cfg.BuildContext.BuildTags = append(cfg.BuildContext.BuildTags, "generate")
 
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
+
 	// Even if the arguments are .go files, this loop suffices.
 	printed := false
-	pkgOpts := load.PackageOpts{IgnoreImports: true}
+	pkgOpts := load.PackageOpts{ModState: modState, IgnoreImports: true}
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, args)
-	if modload.Enabled() {
+	if modState != nil {
 		if err := modload.WriteGoMod(ctx); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}
 	for _, pkg := range pkgs {
-		if modload.Enabled() && pkg.Module != nil && !pkg.Module.Main {
+		if modState != nil && pkg.Module != nil && !pkg.Module.Main {
 			if !printed {
 				fmt.Fprintf(os.Stderr, "go: not generating in packages in dependency modules\n")
 				printed = true

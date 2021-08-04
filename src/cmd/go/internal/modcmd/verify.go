@@ -51,6 +51,9 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 	}
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
+	if _, err := modload.Init(modload.Opts{}); err != nil {
+		base.Fatalf("go: %v", err)
+	}
 
 	// Only verify up to GOMAXPROCS zips at once.
 	type token struct{}

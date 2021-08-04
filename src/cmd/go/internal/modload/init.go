@@ -52,8 +52,6 @@ func TODOWorkspaces(s string) error {
 
 // Variables set in Init.
 var (
-	initialized bool
-
 	// These are primarily used to initialize the MainModules, and should be
 	// eventually superceded by them but are still used in cases where the module
 	// roots are required but MainModules hasn't been initialized yet. Set to
@@ -236,7 +234,6 @@ const (
 // To make permanent changes to the require statements
 // in go.mod, edit it before loading.
 func ModFile() *modfile.File {
-	Init()
 	modFile := MainModules.ModFile(MainModules.mustGetSingleMainModule())
 	if modFile == nil {
 		die()
@@ -245,7 +242,6 @@ func ModFile() *modfile.File {
 }
 
 func BinDir() string {
-	Init()
 	return filepath.Join(gopath, "bin")
 }
 
@@ -269,15 +265,32 @@ func WorkFilePath() string {
 	return workFilePath
 }
 
+// Opts is a set of options commands can use when initializing modules with
+// modload.Init.
+type Opts struct {
+}
+
+// State holds information about modules loaded into memory. State is read
+// and potentially written by most functions in this package.
+type State struct {
+	Opts
+}
+
 // Init determines whether module mode is enabled, locates the root of the
 // current module (if any), sets environment variables for Git subprocesses, and
 // configures the cfg, codehost, load, modfetch, and search packages for use
 // with modules.
-func Init() {
-	if initialized {
-		return
-	}
-	initialized = true
+//
+// If modules are enabled, Init returns a non-nil State holding module
+// information. State may be passed to other modload functions. If modules
+// are not enabled (for example, because GO111MODULE is "off"), Init returns
+// nil.
+func Init(opts Opts) (state *State, err error) {
+	defer func() {
+		if err == nil {
+			err = checkModCommonFlags(state)
+		}
+	}()
 
 	// Keep in sync with WillBeEnabled. We perform extra validation here, and
 	// there are lots of diagnostics and side effects, so we can't use
@@ -286,23 +299,66 @@ func Init() {
 	env := cfg.Getenv("GO111MODULE")
 	switch env {
 	default:
-		base.Fatalf("go: unknown environment setting GO111MODULE=%s", env)
+		return nil, fmt.Errorf("unknown environment setting GO111MODULE=%s", env)
 	case "auto":
 		mustUseModules = ForceUseModules
 	case "on", "":
 		mustUseModules = true
 	case "off":
 		if ForceUseModules {
-			base.Fatalf("go: modules disabled by GO111MODULE=off; see 'go help modules'")
+			return nil, fmt.Errorf("modules disabled by GO111MODULE=off; see 'go help modules'")
 		}
 		mustUseModules = false
-		return
+		return nil, nil
 	}
 
 	if err := fsys.Init(base.Cwd()); err != nil {
-		base.Fatalf("go: %v", err)
+		return nil, err
 	}
 
+	if modRoots != nil {
+		// modRoot set before Init was called ("go mod init" does this).
+		// No need to search for go.mod.
+	} else if RootMode == NoRoot {
+		if cfg.ModFile != "" && !base.InGOFLAGS("-modfile") {
+			return nil, fmt.Errorf("-modfile cannot be used with commands that ignore the current module")
+		}
+		modRoots = nil
+	} else if inWorkspaceMode() {
+		// We're in workspace mode.
+	} else {
+		if modRoot := findModuleRoot(base.Cwd()); modRoot == "" {
+			if cfg.ModFile != "" {
+				return nil, fmt.Errorf("cannot find main module, but -modfile was set.\n\t-modfile cannot be used to set the module root directory.")
+			}
+			if RootMode == NeedRoot {
+				return nil, ErrNoModRoot
+			}
+			if !mustUseModules {
+				// GO111MODULE is 'auto', and we can't find a module root.
+				// Stay in GOPATH mode.
+				return nil, nil
+			}
+		} else if search.InDir(modRoot, os.TempDir()) == "." {
+			// If you create /tmp/go.mod for experimenting,
+			// then any tests that create work directories under /tmp
+			// will find it and get modules when they're not expecting them.
+			// It's a bit of a peculiar thing to disallow but quite mysterious
+			// when it happens. See golang.org/issue/26708.
+			fmt.Fprintf(os.Stderr, "go: warning: ignoring go.mod in system temp root %v\n", os.TempDir())
+			if !mustUseModules {
+				return nil, nil
+			}
+		} else {
+			modRoots = []string{modRoot}
+		}
+	}
+	if cfg.ModFile != "" && !strings.HasSuffix(cfg.ModFile, ".mod") {
+		return nil, fmt.Errorf("-modfile=%s: file does not have .mod extension", cfg.ModFile)
+	}
+
+	// We're in module mode. Set any global variables that need to be set.
+	cfg.ModulesEnabled = true
 	// Disable any prompting for passwords by Git.
 	// Only has an effect for 2.3.0 or later, but avoiding
 	// the prompt in earlier versions is just too hard.
@@ -333,67 +389,20 @@ func Init() {
 	if os.Getenv("GCM_INTERACTIVE") == "" {
 		os.Setenv("GCM_INTERACTIVE", "never")
 	}
-	if modRoots != nil {
-		// modRoot set before Init was called ("go mod init" does this).
-		// No need to search for go.mod.
-	} else if RootMode == NoRoot {
-		if cfg.ModFile != "" && !base.InGOFLAGS("-modfile") {
-			base.Fatalf("go: -modfile cannot be used with commands that ignore the current module")
-		}
-		modRoots = nil
-	} else if inWorkspaceMode() {
-		// We're in workspace mode.
-	} else {
-		if modRoot := findModuleRoot(base.Cwd()); modRoot == "" {
-			if cfg.ModFile != "" {
-				base.Fatalf("go: cannot find main module, but -modfile was set.\n\t-modfile cannot be used to set the module root directory.")
-			}
-			if RootMode == NeedRoot {
-				base.Fatalf("go: %v", ErrNoModRoot)
-			}
-			if !mustUseModules {
-				// GO111MODULE is 'auto', and we can't find a module root.
-				// Stay in GOPATH mode.
-				return
-			}
-		} else if search.InDir(modRoot, os.TempDir()) == "." {
-			// If you create /tmp/go.mod for experimenting,
-			// then any tests that create work directories under /tmp
-			// will find it and get modules when they're not expecting them.
-			// It's a bit of a peculiar thing to disallow but quite mysterious
-			// when it happens. See golang.org/issue/26708.
-			fmt.Fprintf(os.Stderr, "go: warning: ignoring go.mod in system temp root %v\n", os.TempDir())
-			if !mustUseModules {
-				return
-			}
-		} else {
-			modRoots = []string{modRoot}
-		}
-	}
-	if cfg.ModFile != "" && !strings.HasSuffix(cfg.ModFile, ".mod") {
-		base.Fatalf("go: -modfile=%s: file does not have .mod extension", cfg.ModFile)
-	}
-
-	// We're in module mode. Set any global variables that need to be set.
-	cfg.ModulesEnabled = true
-	setDefaultBuildMod()
-	_ = TODOWorkspaces("In workspace mode, mod will not be readonly for go mod download," +
-		"verify, graph, and why. Implement support for go mod download and add test cases" +
-		"to ensure verify, graph, and why work properly.")
 	list := filepath.SplitList(cfg.BuildContext.GOPATH)
 	if len(list) == 0 || list[0] == "" {
-		base.Fatalf("missing $GOPATH")
+		return nil, fmt.Errorf("missing $GOPATH")
 	}
 	gopath = list[0]
 	if _, err := fsys.Stat(filepath.Join(gopath, "go.mod")); err == nil {
-		base.Fatalf("$GOPATH/go.mod exists but should not")
+		return nil, fmt.Errorf("$GOPATH/go.mod exists but should not")
 	}
 
 	if inWorkspaceMode() {
 		var err error
 		workFileGoVersion, modRoots, err = loadWorkFile(workFilePath)
 		if err != nil {
-			base.Fatalf("reading go.work: %v", err)
+			return nil, fmt.Errorf("reading go.work: %v", err)
 		}
 		_ = TODOWorkspaces("Support falling back to individual module go.sum " +
 			"files for sums not in the workspace sum file.")
@@ -419,7 +428,14 @@ func Init() {
 	} else {
 		modfetch.GoSumFile = strings.TrimSuffix(modFilePath(modRoots[0]), ".mod") + ".sum"
 	}
+
+	return &State{Opts: opts}, nil
 }
+
+var willBeEnabled = struct {
+	once    sync.Once
+	enabled bool
+}{}
 
 // WillBeEnabled checks whether modules should be enabled but does not
 // initialize modules by installing hooks. If Init has already been called,
@@ -431,49 +447,38 @@ func Init() {
 // be called until the command is installed and flags are parsed. Instead of
 // calling Init and Enabled, the main package can call this function.
 func WillBeEnabled() bool {
-	if modRoots != nil || cfg.ModulesEnabled {
-		// Already enabled.
-		return true
-	}
-	if initialized {
-		// Initialized, not enabled.
-		return false
-	}
+	willBeEnabled.once.Do(func() {
+		// Keep in sync with Init. Init does extra validation and prints warnings or
+		// exits, so it can't call this function directly.
+		env := cfg.Getenv("GO111MODULE")
+		switch env {
+		case "on", "":
+			willBeEnabled.enabled = true
+			return
+		case "auto":
+			break
+		default:
+			willBeEnabled.enabled = false
+			return
+		}
 
-	// Keep in sync with Init. Init does extra validation and prints warnings or
-	// exits, so it can't call this function directly.
-	env := cfg.Getenv("GO111MODULE")
-	switch env {
-	case "on", "":
-		return true
-	case "auto":
-		break
-	default:
-		return false
-	}
-
-	if modRoot := findModuleRoot(base.Cwd()); modRoot == "" {
-		// GO111MODULE is 'auto', and we can't find a module root.
-		// Stay in GOPATH mode.
-		return false
-	} else if search.InDir(modRoot, os.TempDir()) == "." {
-		// If you create /tmp/go.mod for experimenting,
-		// then any tests that create work directories under /tmp
-		// will find it and get modules when they're not expecting them.
-		// It's a bit of a peculiar thing to disallow but quite mysterious
-		// when it happens. See golang.org/issue/26708.
-		return false
-	}
-	return true
-}
-
-// Enabled reports whether modules are (or must be) enabled.
-// If modules are enabled but there is no main module, Enabled returns true
-// and then the first use of module information will call die
-// (usually through MustModRoot).
-func Enabled() bool {
-	Init()
-	return modRoots != nil || cfg.ModulesEnabled
+		if modRoot := findModuleRoot(base.Cwd()); modRoot == "" {
+			// GO111MODULE is 'auto', and we can't find a module root.
+			// Stay in GOPATH mode.
+			willBeEnabled.enabled = false
+			return
+		} else if search.InDir(modRoot, os.TempDir()) == "." {
+			// If you create /tmp/go.mod for experimenting,
+			// then any tests that create work directories under /tmp
+			// will find it and get modules when they're not expecting them.
+			// It's a bit of a peculiar thing to disallow but quite mysterious
+			// when it happens. See golang.org/issue/26708.
+			willBeEnabled.enabled = false
+			return
+		}
+		willBeEnabled.enabled = true
+	})
+	return willBeEnabled.enabled
 }
 
 func VendorDir() string {
@@ -481,9 +486,6 @@ func VendorDir() string {
 }
 
 func inWorkspaceMode() bool {
-	if !initialized {
-		panic("inWorkspaceMode called before modload.Init called")
-	}
 	return workFilePath != ""
 }
 
@@ -491,14 +493,12 @@ func inWorkspaceMode() bool {
 // HasModRoot may return false even if Enabled returns true: for example, 'get'
 // does not require a main module.
 func HasModRoot() bool {
-	Init()
 	return modRoots != nil
 }
 
 // MustHaveModRoot checks that a main module or main modules are present,
 // and calls base.Fatalf if there are no main modules.
 func MustHaveModRoot() {
-	Init()
 	if !HasModRoot() {
 		die()
 	}
@@ -604,7 +604,6 @@ func LoadModFile(ctx context.Context) *Requirements {
 		return requirements
 	}
 
-	Init()
 	if len(modRoots) == 0 {
 		_ = TODOWorkspaces("Instead of creating a fake module with an empty modroot, make MainModules.Len() == 0 mean that we're in module mode but not inside any module.")
 		mainModule := module.Version{Path: "command-line-arguments"}
@@ -640,7 +639,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 	}
 
 	MainModules = makeMainModules(mainModules, modRoots, modFiles, indices, workFileGoVersion)
-	setDefaultBuildMod() // possibly enable automatic vendoring
+	maybeEnableVendoring()
 	rs := requirementsFromModFiles(ctx, modFiles)
 
 	if inWorkspaceMode() {
@@ -708,7 +707,6 @@ func LoadModFile(ctx context.Context) *Requirements {
 func CreateModFile(ctx context.Context, modPath string) {
 	modRoot := base.Cwd()
 	modRoots = []string{modRoot}
-	Init()
 	modFilePath := modFilePath(modRoot)
 	if _, err := fsys.Stat(modFilePath); err == nil {
 		base.Fatalf("go: %s already exists", modFilePath)
@@ -869,9 +867,6 @@ func fixVersion(ctx context.Context, fixed *bool) modfile.VersionFixer {
 // This function affects the default cfg.BuildMod when outside of a module,
 // so it can only be called prior to Init.
 func AllowMissingModuleImports() {
-	if initialized {
-		panic("AllowMissingModuleImports after Init")
-	}
 	allowMissingModuleImports = true
 }
 
@@ -960,17 +955,39 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 	return rs
 }
 
-// setDefaultBuildMod sets a default value for cfg.BuildMod if the -mod flag
-// wasn't provided. setDefaultBuildMod may be called multiple times.
-func setDefaultBuildMod() {
+// checkModCommonFlags checks the values of several flags common to module-aware
+// commands like -mod. If modules are not enabled (state is nil), these flags
+// must not be set explicitly.
+//
+// checkModCommonFlags sets cfg.BuildMod and BuildModReason in module-aware mode
+// if -mod was not set explicitly.
+// TODO(#40775): set a field in State instead.
+func checkModCommonFlags(state *State) error {
+	if state == nil {
+		if cfg.BuildMod != "" && !base.InGOFLAGS("-mod") {
+			return fmt.Errorf("flag -mod=%s only valid when using modules", cfg.BuildMod)
+		}
+		if cfg.ModCacheRW && !base.InGOFLAGS("-modcacherw") {
+			return fmt.Errorf("flag -modcacherw only valid when using modules")
+		}
+		if cfg.ModFile != "" && !base.InGOFLAGS("-mod") {
+			return fmt.Errorf("flag -modfile only valid when using modules")
+		}
+		return nil
+	}
+
 	if cfg.BuildModExplicit {
+		switch cfg.BuildMod {
+		case "", "mod", "readonly", "vendor":
+		default:
+			return fmt.Errorf("-mod=%s not supported (can be '', 'mod', 'readonly', or 'vendor')", cfg.BuildMod)
+		}
 		if inWorkspaceMode() && cfg.BuildMod != "readonly" {
-			base.Fatalf("go: -mod may only be set to readonly when in workspace mode, but it is set to %q"+
+			return fmt.Errorf("-mod may only be set to readonly when in workspace mode, but it is set to %q"+
 				"\n\tRemove the -mod flag to use the default readonly value,"+
 				"\n\tor set -workfile=off to disable workspace mode.", cfg.BuildMod)
 		}
-		// Don't override an explicit '-mod=' argument.
-		return
+		return nil
 	}
 
 	// TODO(#40775): commands should pass in the module mode as an option
@@ -980,17 +997,17 @@ func setDefaultBuildMod() {
 	case "get", "mod download", "mod init", "mod tidy":
 		// These commands are intended to update go.mod and go.sum.
 		cfg.BuildMod = "mod"
-		return
+		return nil
 	case "mod graph", "mod verify", "mod why":
 		// These commands should not update go.mod or go.sum, but they should be
 		// able to fetch modules not in go.sum and should not report errors if
 		// go.mod is inconsistent. They're useful for debugging, and they need
 		// to work in buggy situations.
 		cfg.BuildMod = "mod"
-		return
+		return nil
 	case "mod vendor":
 		cfg.BuildMod = "readonly"
-		return
+		return nil
 	}
 	if modRoots == nil {
 		if allowMissingModuleImports {
@@ -998,33 +1015,46 @@ func setDefaultBuildMod() {
 		} else {
 			cfg.BuildMod = "readonly"
 		}
-		return
-	}
-
-	if len(modRoots) == 1 {
-		index := MainModules.GetSingleIndexOrNil()
-		if fi, err := fsys.Stat(filepath.Join(modRoots[0], "vendor")); err == nil && fi.IsDir() {
-			modGo := "unspecified"
-			if index != nil && index.goVersionV != "" {
-				if semver.Compare(index.goVersionV, "v1.14") >= 0 {
-					// The Go version is at least 1.14, and a vendor directory exists.
-					// Set -mod=vendor by default.
-					cfg.BuildMod = "vendor"
-					cfg.BuildModReason = "Go version in go.mod is at least 1.14 and vendor directory exists."
-					return
-				} else {
-					modGo = index.goVersionV[1:]
-				}
-			}
-
-			// Since a vendor directory exists, we should record why we didn't use it.
-			// This message won't normally be shown, but it may appear with import errors.
-			cfg.BuildModReason = fmt.Sprintf("Go version in go.mod is %s, so vendor directory was not used.", modGo)
-		}
+		return nil
 	}
 
 	cfg.BuildMod = "readonly"
+	return nil
 }
+
+// maybeEnableVendoring checks whether automatic vendoring should be enabled.
+// This may change cfg.BuildMod.
+// TODO(#40775): set a field in State instead.
+func maybeEnableVendoring() {
+	if cfg.BuildModExplicit {
+		return
+	}
+	// TODO(#40775): Use something in modload.State instead of relying on
+	// command name. The command should say that it can't use automatic vendoring.
+	switch cfg.CmdName {
+	case "get", "mod download", "mod init", "mod tidy", "mod graph", "mod vendor", "mod verify", "mod why":
+		return
+	}
+	if len(modRoots) != 1 {
+		return
+	}
+	if fi, err := fsys.Stat(filepath.Join(modRoots[0], "vendor")); err != nil || !fi.IsDir() {
+		return
+	}
+	index := MainModules.GetSingleIndexOrNil()
+	if index == nil {
+		panic("main module's go.mod not indexed")
+	}
+	if semver.Compare(index.goVersionV, "v1.14") < 0 {
+		return
+	}
+	cfg.BuildMod = "vendor"
+	cfg.BuildModReason = "Go version in go.mod is at least 1.14 and vendor directory exists."
+}
+
+var _ = TODOWorkspaces("In workspace mode, mod will not be readonly for go mod download," +
+	"verify, graph, and why. Implement support for go mod download and add test cases" +
+	"to ensure verify, graph, and why work properly.")
 
 func mustHaveCompleteRequirements() bool {
 	return cfg.BuildMod != "mod" && !inWorkspaceMode()

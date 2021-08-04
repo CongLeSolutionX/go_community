@@ -42,6 +42,9 @@ func runInitwork(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 
 	modload.ForceUseModules = true
+	if _, err := modload.Init(modload.Opts{}); err != nil {
+		base.Fatalf("go: %v", err)
+	}
 
 	// TODO(matloob): support using the -workfile path
 	// To do that properly, we'll have to make the module directories

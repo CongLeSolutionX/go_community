@@ -110,8 +110,13 @@ func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 	// request that their test dependencies be included.
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
 
 	modload.LoadPackages(ctx, modload.PackageOpts{
+		State:                    modState,
 		GoVersion:                tidyGo.String(),
 		Tags:                     imports.AnyTags(),
 		Tidy:                     true,

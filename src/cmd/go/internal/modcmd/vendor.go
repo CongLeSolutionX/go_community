@@ -63,8 +63,13 @@ func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	}
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
 
 	loadOpts := modload.PackageOpts{
+		State:                    modState,
 		Tags:                     imports.AnyTags(),
 		VendorModulesInGOROOTSrc: true,
 		ResolveMissingImports:    true,

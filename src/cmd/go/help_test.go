@@ -16,7 +16,7 @@ import (
 func TestDocsUpToDate(t *testing.T) {
 	t.Parallel()
 
-	if !modload.Enabled() {
+	if !modload.WillBeEnabled() {
 		t.Skipf("help.Help in GOPATH mode is configured by main.main")
 	}
 

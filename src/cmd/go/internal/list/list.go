@@ -397,12 +397,15 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	modload.Init()
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
 	if *listRetracted {
 		if cfg.BuildMod == "vendor" {
 			base.Fatalf("go list -retracted cannot be used when vendoring is enabled")
 		}
-		if !modload.Enabled() {
+		if modState == nil {
 			base.Fatalf("go list -retracted can only be used in module-aware mode")
 		}
 	}
@@ -426,7 +429,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 			base.Fatalf("go list -test cannot be used with -m")
 		}
 
-		if modload.Init(); !modload.Enabled() {
+		if modState == nil {
 			base.Fatalf("go: not using modules")
 		}
 
@@ -505,11 +508,12 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	pkgOpts := load.PackageOpts{
+		ModState:        modState,
 		IgnoreImports:   *listFind,
 		ModResolveTests: *listTest,
 	}
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, args)
-	if modload.Enabled() {
+	if modState != nil {
 		if err := modload.WriteGoMod(ctx); err != nil {
 			base.Fatalf("go: %v", err)
 		}

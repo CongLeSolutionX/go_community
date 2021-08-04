@@ -85,10 +85,14 @@ func runVet(ctx context.Context, cmd *base.Command, args []string) {
 			base.Fatalf("%v", err)
 		}
 	}
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
 
-	pkgOpts := load.PackageOpts{ModResolveTests: true}
+	pkgOpts := load.PackageOpts{ModState: modState, ModResolveTests: true}
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, pkgArgs)
-	if modload.Enabled() {
+	if modState != nil {
 		if err := modload.WriteGoMod(ctx); err != nil {
 			base.Fatalf("go: %v", err)
 		}

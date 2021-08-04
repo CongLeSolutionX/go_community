@@ -281,10 +281,14 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	// Allow looking up modules for import paths when outside of a module.
 	// 'go get' is expected to do this, unlike other commands.
 	modload.AllowMissingModuleImports()
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
 
 	queries := parseArgs(ctx, args)
 
-	r := newResolver(ctx, queries)
+	r := newResolver(ctx, modState, queries)
 	r.performLocalQueries(ctx)
 	r.performPathQueries(ctx)
 
@@ -363,7 +367,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	if !*getD && len(pkgPatterns) > 0 {
 		work.BuildInit()
 
-		pkgOpts := load.PackageOpts{ModResolveTests: *getT}
+		pkgOpts := load.PackageOpts{ModState: modState, ModResolveTests: *getT}
 		var pkgs []*load.Package
 		for _, pkg := range load.PackagesAndErrors(ctx, pkgOpts, pkgPatterns) {
 			if pkg.Error != nil {
@@ -468,6 +472,8 @@ func parseArgs(ctx context.Context, rawArgs []string) []*query {
 }
 
 type resolver struct {
+	modState *modload.State
+
 	localQueries      []*query // queries for absolute or relative paths
 	pathQueries       []*query // package path literal queries in original order
 	wildcardQueries   []*query // path wildcard queries in original order
@@ -500,7 +506,7 @@ type versionReason struct {
 	reason  *query
 }
 
-func newResolver(ctx context.Context, queries []*query) *resolver {
+func newResolver(ctx context.Context, modState *modload.State, queries []*query) *resolver {
 	// LoadModGraph also sets modload.Target, which is needed by various resolver
 	// methods.
 	const defaultGoVersion = ""
@@ -513,6 +519,7 @@ func newResolver(ctx context.Context, queries []*query) *resolver {
 	}
 
 	r := &resolver{
+		modState:         modState,
 		work:             par.NewQueue(runtime.GOMAXPROCS(0)),
 		resolvedVersion:  map[string]versionReason{},
 		buildList:        buildList,
@@ -1161,6 +1168,7 @@ func (r *resolver) findAndUpgradeImports(ctx context.Context, queries []*query) 
 // build list.
 func (r *resolver) loadPackages(ctx context.Context, patterns []string, findPackage func(ctx context.Context, path string, m module.Version) (versionOk bool)) {
 	opts := modload.PackageOpts{
+		State:                    r.modState,
 		Tags:                     imports.AnyTags(),
 		VendorModulesInGOROOTSrc: true,
 		LoadTests:                *getT,
@@ -1510,6 +1518,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 		// LoadPackages will print errors (since it has more context) but will not
 		// exit, since we need to load retractions later.
 		pkgOpts := modload.PackageOpts{
+			State:                    r.modState,
 			VendorModulesInGOROOTSrc: true,
 			LoadTests:                *getT,
 			ResolveMissingImports:    false,

@@ -374,12 +374,16 @@ var runtimeVersion = runtime.Version()
 
 func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
 	BuildInit()
 	var b Builder
 	b.Init()
 
-	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
-	if modload.Enabled() {
+	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{ModState: modState}, args)
+	if modState != nil {
 		if err := modload.WriteGoMod(ctx); err != nil {
 			base.Fatalf("go: %v", err)
 		}
@@ -602,14 +606,19 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
 	BuildInit()
-	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
-	if modload.Enabled() {
+
+	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{ModState: modState}, args)
+	if modState != nil {
 		if err := modload.WriteGoMod(ctx); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}
-	if modload.Enabled() && !modload.HasModRoot() {
+	if modState != nil && !modload.HasModRoot() {
 		haveErrors := false
 		allMissingErrors := true
 		for _, pkg := range pkgs {
@@ -777,7 +786,10 @@ func installOutsideModule(ctx context.Context, args []string) {
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NoRoot
 	modload.AllowMissingModuleImports()
-	modload.Init()
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
 	BuildInit()
 
 	// Load packages. Ignore non-main packages.
@@ -786,7 +798,7 @@ func installOutsideModule(ctx context.Context, args []string) {
 	// packages, so be careful not to double print.
 	// TODO(golang.org/issue/40276): don't report errors loading non-main packages
 	// matched by a pattern.
-	pkgOpts := load.PackageOpts{MainOnly: true}
+	pkgOpts := load.PackageOpts{ModState: modState, MainOnly: true}
 	pkgs, err := load.PackagesAndErrorsOutsideModule(ctx, pkgOpts, args)
 	if err != nil {
 		base.Fatalf("go: %v", err)

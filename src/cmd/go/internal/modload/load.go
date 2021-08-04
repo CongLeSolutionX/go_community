@@ -135,6 +135,9 @@ var loaded *loader
 
 // PackageOpts control the behavior of the LoadPackages function.
 type PackageOpts struct {
+	// State holds information about the modules currently loaded.
+	State *State
+
 	// GoVersion is the Go version to which the go.mod file should be updated
 	// after packages have been loaded.
 	//

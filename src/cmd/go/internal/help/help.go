@@ -37,9 +37,9 @@ func Help(w io.Writer, args []string) {
 		cmds := []*base.Command{usage}
 		for _, cmd := range base.Go.Commands {
 			// Avoid duplication of the "get" documentation.
-			if cmd.UsageLine == "module-get" && modload.Enabled() {
+			if cmd.UsageLine == "module-get" && modload.WillBeEnabled() {
 				continue
-			} else if cmd.UsageLine == "gopath-get" && !modload.Enabled() {
+			} else if cmd.UsageLine == "gopath-get" && !modload.WillBeEnabled() {
 				continue
 			}
 			cmds = append(cmds, cmd)

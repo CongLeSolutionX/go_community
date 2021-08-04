@@ -84,7 +84,10 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 		modload.ForceUseModules = true
 		modload.RootMode = modload.NoRoot
 		modload.AllowMissingModuleImports()
-		modload.Init()
+	}
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
 	}
 	work.BuildInit()
 	var b work.Builder
@@ -95,7 +98,7 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 	for i < len(args) && strings.HasSuffix(args[i], ".go") {
 		i++
 	}
-	pkgOpts := load.PackageOpts{MainOnly: true}
+	pkgOpts := load.PackageOpts{ModState: modState, MainOnly: true}
 	var p *load.Package
 	if i > 0 {
 		files := args[:i]
@@ -135,7 +138,7 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 	} else {
 		base.Fatalf("go: no go files listed")
 	}
-	if modload.Enabled() && modload.HasModRoot() {
+	if modState != nil && modload.HasModRoot() {
 		if err := modload.WriteGoMod(ctx); err != nil {
 			base.Fatalf("go: %v", err)
 		}
