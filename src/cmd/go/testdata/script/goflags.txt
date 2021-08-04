@@ -23,27 +23,27 @@ stderr 'unknown flag -typoflag'
 
 env GOFLAGS=-
 ! go list runtime
-stderr '^go: parsing \$GOFLAGS: non-flag "-"'
+stderr '^go list: parsing \$GOFLAGS: non-flag "-"'
 
 env GOFLAGS=--
 ! go list runtime
-stderr '^go: parsing \$GOFLAGS: non-flag "--"'
+stderr '^go list: parsing \$GOFLAGS: non-flag "--"'
 
 env GOFLAGS=---oops
 ! go list runtime
-stderr '^go: parsing \$GOFLAGS: non-flag "---oops"'
+stderr '^go list: parsing \$GOFLAGS: non-flag "---oops"'
 
 env GOFLAGS=-=noname
 ! go list runtime
-stderr '^go: parsing \$GOFLAGS: non-flag "-=noname"'
+stderr '^go list: parsing \$GOFLAGS: non-flag "-=noname"'
 
 env GOFLAGS=-f
 ! go list runtime
-stderr '^go: flag needs an argument: -f \(from (\$GOFLAGS|%GOFLAGS%)\)$'
+stderr '^go list: flag needs an argument: -f \(from (\$GOFLAGS|%GOFLAGS%)\)$'
 
 env GOFLAGS=-e=asdf
 ! go list runtime
-stderr '^go: invalid boolean value \"asdf\" for flag -e \(from (\$GOFLAGS|%GOFLAGS%)\)'
+stderr '^go list: invalid boolean value \"asdf\" for flag -e \(from (\$GOFLAGS|%GOFLAGS%)\)'
 
 # except in go bug (untested) and go env
 go env

@@ -117,14 +117,34 @@ func Exit() {
 	os.Exit(exitStatus)
 }
 
+func Logf(format string, args ...interface{}) {
+	log.Printf(format, args...)
+}
+
+func CmdLogf(format string, args ...interface{}) {
+	Logf(cmdLogPrefix()+format, args...)
+}
+
+func Errorf(format string, args ...interface{}) {
+	Logf(format, args...)
+	SetExitStatus(1)
+}
+
+func CmdErrorf(format string, args ...interface{}) {
+	Errorf(cmdLogPrefix()+format, args...)
+}
+
 func Fatalf(format string, args ...interface{}) {
 	Errorf(format, args...)
 	Exit()
 }
 
-func Errorf(format string, args ...interface{}) {
-	log.Printf(format, args...)
-	SetExitStatus(1)
+func CmdFatalf(format string, args ...interface{}) {
+	Fatalf(cmdLogPrefix()+format, args...)
+}
+
+func cmdLogPrefix() string {
+	return "go " + cfg.CmdName + ": "
 }
 
 func ExitIfErrors() {
