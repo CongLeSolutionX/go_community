@@ -377,27 +377,27 @@ func (r *importReader) doDecl(sym *types.Sym) *ir.Name {
 	}
 }
 
-func (p *importReader) value(typ *types.Type) constant.Value {
+func (r *importReader) value(typ *types.Type) constant.Value {
 	switch constTypeOf(typ) {
 	case constant.Bool:
-		return constant.MakeBool(p.bool())
+		return constant.MakeBool(r.bool())
 	case constant.String:
-		return constant.MakeString(p.string())
+		return constant.MakeString(r.string())
 	case constant.Int:
 		var i big.Int
-		p.mpint(&i, typ)
+		r.mpint(&i, typ)
 		return constant.Make(&i)
 	case constant.Float:
-		return p.float(typ)
+		return r.float(typ)
 	case constant.Complex:
-		return makeComplex(p.float(typ), p.float(typ))
+		return makeComplex(r.float(typ), r.float(typ))
 	}
 
 	base.Fatalf("unexpected value type: %v", typ)
 	panic("unreachable")
 }
 
-func (p *importReader) mpint(x *big.Int, typ *types.Type) {
+func (r *importReader) mpint(x *big.Int, typ *types.Type) {
 	signed, maxBytes := intSize(typ)
 
 	maxSmall := 256 - maxBytes
@@ -408,7 +408,7 @@ func (p *importReader) mpint(x *big.Int, typ *types.Type) {
 		maxSmall = 256
 	}
 
-	n, _ := p.ReadByte()
+	n, _ := r.ReadByte()
 	if uint(n) < maxSmall {
 		v := int64(n)
 		if signed {
@@ -429,30 +429,30 @@ func (p *importReader) mpint(x *big.Int, typ *types.Type) {
 		base.Fatalf("weird decoding: %v, %v => %v", n, signed, v)
 	}
 	b := make([]byte, v)
-	p.Read(b)
+	r.Read(b)
 	x.SetBytes(b)
 	if signed && n&1 != 0 {
 		x.Neg(x)
 	}
 }
 
-func (p *importReader) float(typ *types.Type) constant.Value {
+func (r *importReader) float(typ *types.Type) constant.Value {
 	var mant big.Int
-	p.mpint(&mant, typ)
+	r.mpint(&mant, typ)
 	var f big.Float
 	f.SetInt(&mant)
 	if f.Sign() != 0 {
-		f.SetMantExp(&f, int(p.int64()))
+		f.SetMantExp(&f, int(r.int64()))
 	}
 	return constant.Make(&f)
 }
 
-func (p *importReader) mprat(orig constant.Value) constant.Value {
-	if !p.bool() {
+func (r *importReader) mprat(orig constant.Value) constant.Value {
+	if !r.bool() {
 		return orig
 	}
 	var rat big.Rat
-	rat.SetString(p.string())
+	rat.SetString(r.string())
 	return constant.Make(&rat)
 }
 
