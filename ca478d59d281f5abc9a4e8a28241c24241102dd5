@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f9b81ec_cf74af7f",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-04T22:49:22Z",
+      "side": 1,
+      "message": "Oh, right. Done.",
+      "parentUuid": "b13104bf_96d09b45",
+      "revId": "ca478d59d281f5abc9a4e8a28241c24241102dd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a2917ef_5c33fb88",
@@ -68,6 +86,30 @@
       "writtenOn": "2021-08-04T22:45:14Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 15
+      },
+      "revId": "ca478d59d281f5abc9a4e8a28241c24241102dd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0091803_a94154ae",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-04T22:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a2917ef_5c33fb88",
       "range": {
         "startLine": 136,
         "startChar": 10,
