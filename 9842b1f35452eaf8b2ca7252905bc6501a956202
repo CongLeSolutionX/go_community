@@ -33,6 +33,24 @@
       "message": "Do we still need this now that https://golang.org/cl/322614 has been submitted?  My impression is that we don\u0027t.",
       "revId": "9842b1f35452eaf8b2ca7252905bc6501a956202",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e445f38a_a520bb63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2021-08-04T02:15:00Z",
+      "side": 1,
+      "message": "I think so yes -- the files that cause problems #43505 are perfectly valid ELF objects so they don\u0027t fall down the path in lib.go that sets unknownObjFormat. They just can\u0027t be parsed by ldelf. The linker assumes that the cgo in e.g. os/user/cgo_lookup_unix.go only produces symbols it knows how to parse but having -flto in CFLAGS breaks that.\n\nThat said I don\u0027t particularly like this CL, it seems pretty ugly. Another approach would be to switch to internal linking if ldelf fails, but that seems a bit ugly too and might be hard to implement. Alternatively, ldelf could be taught to ignore the LTO symbols -- I have no idea what would be involved there.",
+      "parentUuid": "436f6782_9d1dfd23",
+      "revId": "9842b1f35452eaf8b2ca7252905bc6501a956202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
