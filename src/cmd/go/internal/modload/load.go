@@ -842,9 +842,19 @@ func (ld *loader) reset() {
 // according to whether ld.AllowErrors is set.
 func (ld *loader) errorf(format string, args ...interface{}) {
 	if ld.AllowErrors {
-		fmt.Fprintf(os.Stderr, format, args...)
+		base.Logf(format, args...)
 	} else {
 		base.Errorf(format, args...)
+	}
+}
+
+// cmdErrorf is like errorf, but adds a prefix like "go list: " based on
+// the go subcommand being run.
+func (ld *loader) cmdErrorf(format string, args ...interface{}) {
+	if ld.AllowErrors {
+		base.CmdLogf(format, args...)
+	} else {
+		base.CmdErrorf(format, args...)
 	}
 }
 

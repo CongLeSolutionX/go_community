@@ -52,7 +52,7 @@ func InitGOFLAGS() {
 			if hideErrors {
 				continue
 			}
-			Fatalf("go: parsing $GOFLAGS: non-flag %q", f)
+			CmdFatalf("parsing $GOFLAGS: non-flag %q", f)
 		}
 
 		name := f[1:]
@@ -66,7 +66,7 @@ func InitGOFLAGS() {
 			if hideErrors {
 				continue
 			}
-			Fatalf("go: parsing $GOFLAGS: unknown flag -%s", name)
+			CmdFatalf("parsing $GOFLAGS: unknown flag -%s", name)
 		}
 	}
 }
@@ -113,22 +113,22 @@ func SetFromGOFLAGS(flags *flag.FlagSet) {
 		if fb, ok := f.Value.(boolFlag); ok && fb.IsBoolFlag() {
 			if hasValue {
 				if err := flags.Set(f.Name, value); err != nil {
-					fmt.Fprintf(flags.Output(), "go: invalid boolean value %q for flag %s (from %s): %v\n", value, name, where, err)
+					fmt.Fprintf(flags.Output(), "%sinvalid boolean value %q for flag %s (from %s): %v\n", cmdLogPrefix(), value, name, where, err)
 					flags.Usage()
 				}
 			} else {
 				if err := flags.Set(f.Name, "true"); err != nil {
-					fmt.Fprintf(flags.Output(), "go: invalid boolean flag %s (from %s): %v\n", name, where, err)
+					fmt.Fprintf(flags.Output(), "%sinvalid boolean flag %s (from %s): %v\n", cmdLogPrefix(), name, where, err)
 					flags.Usage()
 				}
 			}
 		} else {
 			if !hasValue {
-				fmt.Fprintf(flags.Output(), "go: flag needs an argument: %s (from %s)\n", name, where)
+				fmt.Fprintf(flags.Output(), "%sflag needs an argument: %s (from %s)\n", cmdLogPrefix(), name, where)
 				flags.Usage()
 			}
 			if err := flags.Set(f.Name, value); err != nil {
-				fmt.Fprintf(flags.Output(), "go: invalid value %q for flag %s (from %s): %v\n", value, name, where, err)
+				fmt.Fprintf(flags.Output(), "%sinvalid value %q for flag %s (from %s): %v\n", cmdLogPrefix(), value, name, where, err)
 				flags.Usage()
 			}
 		}

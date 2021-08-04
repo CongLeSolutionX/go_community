@@ -49,7 +49,7 @@ stderr 'possible formatting directive'
 # tool to make this work, but not right now.)
 env GOFLAGS='-unsafeptr'
 ! go list .
-stderr 'go: parsing \$GOFLAGS: unknown flag -unsafeptr'
+stderr 'go list: parsing \$GOFLAGS: unknown flag -unsafeptr'
 env GOFLAGS=
 
 env GOCACHE=$WORK/gocache
