@@ -47,5 +47,9 @@ func runInit(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	modload.ForceUseModules = true
+	_, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.CmdFatalf("%v", err)
+	}
 	modload.CreateModFile(ctx, modPath) // does all the hard work
 }

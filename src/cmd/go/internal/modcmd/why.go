@@ -68,8 +68,13 @@ func runWhy(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.CmdFatalf("%v", err)
+	}
 
 	loadOpts := modload.PackageOpts{
+		State:                    modState,
 		Tags:                     imports.AnyTags(),
 		VendorModulesInGOROOTSrc: true,
 		LoadTests:                !*whyVendor,

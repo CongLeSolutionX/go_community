@@ -86,6 +86,9 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 
 	// Check whether modules are enabled and whether we're in a module.
 	modload.ForceUseModules = true
+	if _, err := modload.Init(modload.Opts{}); err != nil {
+		base.CmdFatalf("%v", err)
+	}
 	if !modload.HasModRoot() && len(args) == 0 {
 		base.CmdFatalf("no modules specified (see 'go help mod download')")
 	}
