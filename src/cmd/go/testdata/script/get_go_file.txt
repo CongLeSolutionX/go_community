@@ -17,7 +17,7 @@ stderr 'go get test_missing.go: arguments must be package or module paths'
 
 # argument has .go suffix, is a file and exists in sub-directory
 ! go get -d test/test.go
-stderr 'go get: test/test.go exists as a file, but ''go get'' requires package arguments'
+stderr '^go get: test/test.go exists as a file, but ''go get'' requires package arguments'
 
 # argument has .go suffix, doesn't exist and has slashes
 ! go get -d test/test_missing.go

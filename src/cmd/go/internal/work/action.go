@@ -222,7 +222,7 @@ func actionGraphJSON(a *Action) string {
 
 	js, err := json.MarshalIndent(list, "", "\t")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "go: writing debug action graph: %v\n", err)
+		base.CmdLogf("writing debug action graph: %v\n", err)
 		return ""
 	}
 	return string(js)
@@ -254,13 +254,13 @@ func (b *Builder) Init() {
 	} else {
 		tmp, err := os.MkdirTemp(cfg.Getenv("GOTMPDIR"), "go-build")
 		if err != nil {
-			base.Fatalf("go: creating work dir: %v", err)
+			base.CmdFatalf("creating work dir: %v", err)
 		}
 		if !filepath.IsAbs(tmp) {
 			abs, err := filepath.Abs(tmp)
 			if err != nil {
 				os.RemoveAll(tmp)
-				base.Fatalf("go: creating work dir: %v", err)
+				base.CmdFatalf("creating work dir: %v", err)
 			}
 			tmp = abs
 		}
@@ -284,7 +284,7 @@ func (b *Builder) Init() {
 					// on exit to avoid filling up the user's temporary directory with leaked
 					// files. (See golang.org/issue/30789.)
 					if runtime.GOOS != "windows" || time.Since(start) >= 500*time.Millisecond {
-						fmt.Fprintf(os.Stderr, "go: failed to remove work dir: %s\n", err)
+						base.CmdLogf("failed to remove work dir: %s\n", err)
 						return
 					}
 					time.Sleep(5 * time.Millisecond)

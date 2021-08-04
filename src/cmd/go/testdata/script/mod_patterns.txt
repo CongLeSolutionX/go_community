@@ -28,14 +28,14 @@ stdout '^unsafe: \[all \.\.\.\]'
 stdout 'index/suffixarray: \[\.\.\.\]'
 stdout 'cmd/pprof: \[\.\.\.\]'
 
-stderr -count=1 '^go: warning: "./xyz..." matched no packages$'
+stderr -count=1 '^go list: warning: "./xyz..." matched no packages$'
 
 # 'go list ./...' should not try to resolve the main module.
 cd ../empty
 go list -deps ./...
 ! stdout .
 ! stderr 'finding'
-stderr -count=1 '^go: warning: "./..." matched no packages'
+stderr -count=1 '^go list: warning: "./..." matched no packages'
 
 # disabling cgo should drop useC
 [short] skip

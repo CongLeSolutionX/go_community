@@ -89,15 +89,15 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 	needFullGraph := false
 	for _, arg := range args {
 		if strings.Contains(arg, `\`) {
-			base.Fatalf("go: module paths never use backslash")
+			base.CmdFatalf("module paths never use backslash")
 		}
 		if search.IsRelativePath(arg) {
-			base.Fatalf("go: cannot use relative path %s to specify module", arg)
+			base.CmdFatalf("cannot use relative path %s to specify module", arg)
 		}
 		if arg == "all" || strings.Contains(arg, "...") {
 			needFullGraph = true
 			if !HasModRoot() {
-				base.Fatalf("go: cannot match %q: %v", arg, ErrNoModRoot)
+				base.CmdFatalf("cannot match %q: %v", arg, ErrNoModRoot)
 			}
 			continue
 		}
@@ -108,7 +108,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 				if _, ok := rs.rootSelected(path); !ok || rs.pruning == unpruned {
 					needFullGraph = true
 					if !HasModRoot() {
-						base.Fatalf("go: cannot match %q: %v", arg, ErrNoModRoot)
+						base.CmdFatalf("cannot match %q: %v", arg, ErrNoModRoot)
 					}
 				}
 			}
@@ -117,7 +117,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 		if _, ok := rs.rootSelected(arg); !ok || rs.pruning == unpruned {
 			needFullGraph = true
 			if mode&ListVersions == 0 && !HasModRoot() {
-				base.Fatalf("go: cannot match %q without -versions or an explicit version: %v", arg, ErrNoModRoot)
+				base.CmdFatalf("cannot match %q without -versions or an explicit version: %v", arg, ErrNoModRoot)
 			}
 		}
 	}

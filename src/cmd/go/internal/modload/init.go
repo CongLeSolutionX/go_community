@@ -286,21 +286,21 @@ func Init() {
 	env := cfg.Getenv("GO111MODULE")
 	switch env {
 	default:
-		base.Fatalf("go: unknown environment setting GO111MODULE=%s", env)
+		base.CmdFatalf("unknown environment setting GO111MODULE=%s", env)
 	case "auto":
 		mustUseModules = ForceUseModules
 	case "on", "":
 		mustUseModules = true
 	case "off":
 		if ForceUseModules {
-			base.Fatalf("go: modules disabled by GO111MODULE=off; see 'go help modules'")
+			base.CmdFatalf("modules disabled by GO111MODULE=off; see 'go help modules'")
 		}
 		mustUseModules = false
 		return
 	}
 
 	if err := fsys.Init(base.Cwd()); err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	// Disable any prompting for passwords by Git.
@@ -338,7 +338,7 @@ func Init() {
 		// No need to search for go.mod.
 	} else if RootMode == NoRoot {
 		if cfg.ModFile != "" && !base.InGOFLAGS("-modfile") {
-			base.Fatalf("go: -modfile cannot be used with commands that ignore the current module")
+			base.CmdFatalf("-modfile cannot be used with commands that ignore the current module")
 		}
 		modRoots = nil
 	} else if inWorkspaceMode() {
@@ -346,10 +346,10 @@ func Init() {
 	} else {
 		if modRoot := findModuleRoot(base.Cwd()); modRoot == "" {
 			if cfg.ModFile != "" {
-				base.Fatalf("go: cannot find main module, but -modfile was set.\n\t-modfile cannot be used to set the module root directory.")
+				base.CmdFatalf("cannot find main module, but -modfile was set.\n\t-modfile cannot be used to set the module root directory.")
 			}
 			if RootMode == NeedRoot {
-				base.Fatalf("go: %v", ErrNoModRoot)
+				base.CmdFatalf("%v", ErrNoModRoot)
 			}
 			if !mustUseModules {
 				// GO111MODULE is 'auto', and we can't find a module root.
@@ -362,7 +362,7 @@ func Init() {
 			// will find it and get modules when they're not expecting them.
 			// It's a bit of a peculiar thing to disallow but quite mysterious
 			// when it happens. See golang.org/issue/26708.
-			fmt.Fprintf(os.Stderr, "go: warning: ignoring go.mod in system temp root %v\n", os.TempDir())
+			base.CmdLogf("warning: ignoring go.mod in system temp root %v\n", os.TempDir())
 			if !mustUseModules {
 				return
 			}
@@ -371,7 +371,7 @@ func Init() {
 		}
 	}
 	if cfg.ModFile != "" && !strings.HasSuffix(cfg.ModFile, ".mod") {
-		base.Fatalf("go: -modfile=%s: file does not have .mod extension", cfg.ModFile)
+		base.CmdFatalf("-modfile=%s: file does not have .mod extension", cfg.ModFile)
 	}
 
 	// We're in module mode. Set any global variables that need to be set.
@@ -521,7 +521,7 @@ func modFilePath(modRoot string) string {
 
 func die() {
 	if cfg.Getenv("GO111MODULE") == "off" {
-		base.Fatalf("go: modules disabled by GO111MODULE=off; see 'go help modules'")
+		base.CmdFatalf("modules disabled by GO111MODULE=off; see 'go help modules'")
 	}
 	if dir, name := findAltConfig(base.Cwd()); dir != "" {
 		rel, err := filepath.Rel(base.Cwd(), dir)
@@ -532,9 +532,9 @@ func die() {
 		if rel != "." {
 			cdCmd = fmt.Sprintf("cd %s && ", rel)
 		}
-		base.Fatalf("go: cannot find main module, but found %s in %s\n\tto create a module there, run:\n\t%sgo mod init", name, dir, cdCmd)
+		base.CmdFatalf("cannot find main module, but found %s in %s\n\tto create a module there, run:\n\t%sgo mod init", name, dir, cdCmd)
 	}
-	base.Fatalf("go: %v", ErrNoModRoot)
+	base.CmdFatalf("%v", ErrNoModRoot)
 }
 
 var ErrNoModRoot = errors.New("go.mod file not found in current directory or any parent directory; see 'go help modules'")
@@ -631,18 +631,18 @@ func LoadModFile(ctx context.Context) *Requirements {
 			data, err = lockedfile.Read(gomodActual)
 		}
 		if err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 
 		var fixed bool
 		f, err := modfile.Parse(gomod, data, fixVersion(ctx, &fixed))
 		if err != nil {
 			// Errors returned by modfile.Parse begin with file:line.
-			base.Fatalf("go: errors parsing go.mod:\n%s\n", err)
+			base.CmdFatalf("errors parsing go.mod:\n%s\n", err)
 		}
 		if f.Module == nil {
 			// No module declaration. Must add module path.
-			base.Fatalf("go: no module declaration in go.mod. To specify the module path:\n\tgo mod edit -module=example.com/mod")
+			base.CmdFatalf("no module declaration in go.mod. To specify the module path:\n\tgo mod edit -module=example.com/mod")
 		}
 
 		modFiles = append(modFiles, f)
@@ -654,7 +654,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 			if pathErr, ok := err.(*module.InvalidPathError); ok {
 				pathErr.Kind = "module"
 			}
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 	}
 
@@ -686,7 +686,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 		var err error
 		rs, err = updateRoots(ctx, rs.direct, rs, nil, nil, false)
 		if err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 	}
 
@@ -704,7 +704,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 			var err error
 			rs, err = convertPruning(ctx, rs, pruned)
 			if err != nil {
-				base.Fatalf("go: %v", err)
+				base.CmdFatalf("%v", err)
 			}
 		} else {
 			rawGoVersion.Store(mainModule, modFileGoVersion(MainModules.ModFile(mainModule)))
@@ -730,14 +730,14 @@ func CreateModFile(ctx context.Context, modPath string) {
 	Init()
 	modFilePath := modFilePath(modRoot)
 	if _, err := fsys.Stat(modFilePath); err == nil {
-		base.Fatalf("go: %s already exists", modFilePath)
+		base.CmdFatalf("%s already exists", modFilePath)
 	}
 
 	if modPath == "" {
 		var err error
 		modPath, err = findModulePath(modRoot)
 		if err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 	} else if err := module.CheckImportPath(modPath); err != nil {
 		if pathErr, ok := err.(*module.InvalidPathError); ok {
@@ -748,17 +748,17 @@ func CreateModFile(ctx context.Context, modPath string) {
 				pathErr.Err = errors.New("is a local import path")
 			}
 		}
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	} else if _, _, ok := module.SplitPathVersion(modPath); !ok {
 		if strings.HasPrefix(modPath, "gopkg.in/") {
 			invalidMajorVersionMsg := fmt.Errorf("module paths beginning with gopkg.in/ must always have a major version suffix in the form of .vN:\n\tgo mod init %s", suggestGopkgIn(modPath))
-			base.Fatalf(`go: invalid module path "%v": %v`, modPath, invalidMajorVersionMsg)
+			base.CmdFatalf(`invalid module path "%v": %v`, modPath, invalidMajorVersionMsg)
 		}
 		invalidMajorVersionMsg := fmt.Errorf("major version suffixes must be in the form of /vN and are only allowed for v2 or later:\n\tgo mod init %s", suggestModulePath(modPath))
-		base.Fatalf(`go: invalid module path "%v": %v`, modPath, invalidMajorVersionMsg)
+		base.CmdFatalf(`invalid module path "%v": %v`, modPath, invalidMajorVersionMsg)
 	}
 
-	fmt.Fprintf(os.Stderr, "go: creating new go.mod: module %s\n", modPath)
+	base.CmdLogf("creating new go.mod: module %s\n", modPath)
 	modFile := new(modfile.File)
 	modFile.AddModuleStmt(modPath)
 	MainModules = makeMainModules([]module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil}, "")
@@ -766,20 +766,20 @@ func CreateModFile(ctx context.Context, modPath string) {
 
 	convertedFrom, err := convertLegacyConfig(modFile, modRoot)
 	if convertedFrom != "" {
-		fmt.Fprintf(os.Stderr, "go: copying requirements from %s\n", base.ShortPath(convertedFrom))
+		base.CmdLogf("copying requirements from %s\n", base.ShortPath(convertedFrom))
 	}
 	if err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	rs := requirementsFromModFiles(ctx, []*modfile.File{modFile})
 	rs, err = updateRoots(ctx, rs.direct, rs, nil, nil, false)
 	if err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 	requirements = rs
 	if err := writeRequirements(ctx); err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	// Suggest running 'go mod tidy' unless the project is empty. Even if we
@@ -802,7 +802,7 @@ func CreateModFile(ctx context.Context, modPath string) {
 		}
 	}
 	if !empty {
-		fmt.Fprintf(os.Stderr, "go: to add module requirements and sums:\n\tgo mod tidy\n")
+		base.CmdLogf("to add module requirements and sums:\n\tgo mod tidy\n")
 	}
 }
 
@@ -952,9 +952,9 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 			for _, mainModule := range MainModules.Versions() {
 				if index := MainModules.Index(mainModule); index != nil && index.exclude[r.Mod] {
 					if cfg.BuildMod == "mod" {
-						fmt.Fprintf(os.Stderr, "go: dropping requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+						base.CmdLogf("dropping requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
 					} else {
-						fmt.Fprintf(os.Stderr, "go: ignoring requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+						base.CmdLogf("ignoring requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
 					}
 					continue requirement
 				}
@@ -976,7 +976,7 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 func setDefaultBuildMod() {
 	if cfg.BuildModExplicit {
 		if inWorkspaceMode() && cfg.BuildMod != "readonly" {
-			base.Fatalf("go: -mod may only be set to readonly when in workspace mode." +
+			base.CmdFatalf("-mod may only be set to readonly when in workspace mode." +
 				"\n\tRemove the -mod flag to use the default readonly value," +
 				"\n\tor set -workfile=off to disable workspace mode.")
 		}
@@ -1079,7 +1079,7 @@ func addGoStmt(modFile *modfile.File, mod module.Version, v string) {
 		return
 	}
 	if err := modFile.AddGoStmt(v); err != nil {
-		base.Fatalf("go: internal error: %v", err)
+		base.CmdFatalf("internal error: %v", err)
 	}
 	rawGoVersion.Store(mod, v)
 }
@@ -1090,7 +1090,7 @@ func LatestGoVersion() string {
 	tags := build.Default.ReleaseTags
 	version := tags[len(tags)-1]
 	if !strings.HasPrefix(version, "go") || !modfile.GoVersionRE.MatchString(version[2:]) {
-		base.Fatalf("go: internal error: unrecognized default version %q", version)
+		base.CmdFatalf("internal error: unrecognized default version %q", version)
 	}
 	return version[2:]
 }
@@ -1109,7 +1109,7 @@ func priorGoVersion(v string) string {
 
 			version := tags[i-1]
 			if !strings.HasPrefix(version, "go") || !modfile.GoVersionRE.MatchString(version[2:]) {
-				base.Fatalf("go: internal error: unrecognized version %q", version)
+				base.CmdFatalf("internal error: unrecognized version %q", version)
 			}
 			return version[2:]
 		}
@@ -1316,7 +1316,7 @@ func writeRequirements(ctx context.Context) error {
 		// go.mod files aren't updated in workspace mode, but we still want to
 		// update the go.work.sum file.
 		if err := modfetch.WriteGoSum(keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 		return nil
 	}
@@ -1360,21 +1360,21 @@ func writeRequirements(ctx context.Context) error {
 		// 'go mod init' shouldn't write go.sum, since it will be incomplete.
 		if cfg.CmdName != "mod init" {
 			if err := modfetch.WriteGoSum(keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
-				base.Fatalf("go: %v", err)
+				base.CmdFatalf("%v", err)
 			}
 		}
 		return nil
 	}
 	if _, ok := fsys.OverlayPath(modFilePath); ok {
 		if dirty {
-			base.Fatalf("go: updates to go.mod needed, but go.mod is part of the overlay specified with -overlay")
+			base.CmdFatalf("updates to go.mod needed, but go.mod is part of the overlay specified with -overlay")
 		}
 		return nil
 	}
 
 	new, err := modFile.Format()
 	if err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 	defer func() {
 		// At this point we have determined to make the go.mod file on disk equal to new.
@@ -1384,7 +1384,7 @@ func writeRequirements(ctx context.Context) error {
 		// 'go mod init' shouldn't write go.sum, since it will be incomplete.
 		if cfg.CmdName != "mod init" {
 			if err := modfetch.WriteGoSum(keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
-				base.Fatalf("go: %v", err)
+				base.CmdFatalf("%v", err)
 			}
 		}
 	}()

@@ -87,7 +87,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	// Check whether modules are enabled and whether we're in a module.
 	modload.ForceUseModules = true
 	if !modload.HasModRoot() && len(args) == 0 {
-		base.Fatalf("go mod download: no modules specified (see 'go help mod download')")
+		base.CmdFatalf("no modules specified (see 'go help mod download')")
 	}
 	haveExplicitArgs := len(args) > 0
 	if !haveExplicitArgs {
@@ -155,7 +155,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		// TODO(45551): Report an error if go.mod or go.sum need to be updated after
 		// loading the build list.
 		if err := modload.WriteGoMod(ctx); err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 	}
 
@@ -193,7 +193,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		for _, m := range mods {
 			b, err := json.MarshalIndent(m, "", "\t")
 			if err != nil {
-				base.Fatalf("go mod download: %v", err)
+				base.CmdFatalf("%v", err)
 			}
 			os.Stdout.Write(append(b, '\n'))
 			if m.Error != "" {
@@ -203,7 +203,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	} else {
 		for _, m := range mods {
 			if m.Error != "" {
-				base.Errorf("go mod download: %v", m.Error)
+				base.CmdErrorf("%v", m.Error)
 			}
 		}
 		base.ExitIfErrors()
@@ -223,6 +223,6 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	// (after we've written the checksums for the modules that were downloaded
 	// successfully).
 	if infosErr != nil {
-		base.Errorf("go mod download: %v", infosErr)
+		base.CmdErrorf("%v", infosErr)
 	}
 }

@@ -384,7 +384,7 @@ func testFlags(args []string) (packageNames, passToTest []string) {
 		if !testC {
 			buildFlag = "-i"
 		}
-		fmt.Fprintf(os.Stderr, "go test: unknown flag %s cannot be used with %s\n", firstUnknownFlag, buildFlag)
+		base.CmdLogf("unknown flag %s cannot be used with %s\n", firstUnknownFlag, buildFlag)
 		exitWithUsage()
 	}
 

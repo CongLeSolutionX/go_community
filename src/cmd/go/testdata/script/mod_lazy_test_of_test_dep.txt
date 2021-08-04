@@ -96,10 +96,10 @@ stdout example.com/b
 
 	# TODO(#36460): The hint here is wrong. We should suggest
 	# 'go get -t example.com/b@v0.1.0' instead of 'go mod tidy'.
-stderr '^go: updates to go\.mod needed; to update it:\n\tgo mod tidy$'
+stderr '^go list: updates to go\.mod needed; to update it:\n\tgo mod tidy$'
 
 [!short] ! go test -c -o $devnull example.com/b
-[!short] stderr '^go: updates to go\.mod needed; to update it:\n\tgo mod tidy$'
+[!short] stderr '^go test: updates to go\.mod needed; to update it:\n\tgo mod tidy$'
 
 go get -t example.com/b@v0.1.0
 go list -test -deps example.com/b

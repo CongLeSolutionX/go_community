@@ -13,7 +13,7 @@ stdout '^a@v1.0.0$'
 # 'go run pkg@version' reports an error if modules are disabled.
 env GO111MODULE=off
 ! go run example.com/cmd/a@v1.0.0
-stderr '^go: modules disabled by GO111MODULE=off; see ''go help modules''$'
+stderr '^go run: modules disabled by GO111MODULE=off; see ''go help modules''$'
 env GO111MODULE=on
 
 
@@ -21,7 +21,7 @@ env GO111MODULE=on
 cd m
 cp go.mod go.mod.orig
 ! go list -m all
-stderr '^go list -m: example.com/cmd@v1.1.0-doesnotexist: missing go.sum entry; to add it:\n\tgo mod download example.com/cmd$'
+stderr '^go list: example.com/cmd@v1.1.0-doesnotexist: missing go.sum entry; to add it:\n\tgo mod download example.com/cmd$'
 go run example.com/cmd/a@v1.0.0
 stdout '^a@v1.0.0$'
 cmp go.mod go.mod.orig
@@ -32,7 +32,7 @@ cd ..
 # and with a module whose go.mod file has missing requirements.
 # With a proxy, the two cases are indistinguishable.
 go run rsc.io/fortune@v1.0.0
-stderr '^go: found rsc.io/quote in rsc.io/quote v1.5.2$'
+stderr '^go run: found rsc.io/quote in rsc.io/quote v1.5.2$'
 stderr '^Hello, world.$'
 
 
@@ -56,9 +56,9 @@ cmp stderr exclude-err
 # dir is a relative or absolute path.
 go mod download rsc.io/fortune@v1.0.0
 ! go run $GOPATH/pkg/mod/rsc.io/fortune@v1.0.0
-stderr '^go: go\.mod file not found in current directory or any parent directory; see ''go help modules''$'
+stderr '^go run: go\.mod file not found in current directory or any parent directory; see ''go help modules''$'
 ! go run ../pkg/mod/rsc.io/fortune@v1.0.0
-stderr '^go: go\.mod file not found in current directory or any parent directory; see ''go help modules''$'
+stderr '^go run: go\.mod file not found in current directory or any parent directory; see ''go help modules''$'
 mkdir tmp
 cd tmp
 go mod init tmp

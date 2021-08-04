@@ -1,5 +1,8 @@
 package p1
 
-import _ "old/p2"
-import _ "new/p1"
-import _ "new"
+import (
+	_ "new/p1"
+	_ "old/p2"
+
+	_ "new"
+)

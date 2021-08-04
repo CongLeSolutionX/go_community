@@ -8,7 +8,7 @@ rm $GOPATH/bin
 # 'go install pkg@version' reports an error if modules are disabled.
 env GO111MODULE=off
 ! go install example.com/cmd/a@v1.0.0
-stderr '^go: modules disabled by GO111MODULE=off; see ''go help modules''$'
+stderr '^go install: modules disabled by GO111MODULE=off; see ''go help modules''$'
 env GO111MODULE=auto
 
 
@@ -16,7 +16,7 @@ env GO111MODULE=auto
 cd m
 cp go.mod go.mod.orig
 ! go list -m all
-stderr '^go list -m: example.com/cmd@v1.1.0-doesnotexist: missing go.sum entry; to add it:\n\tgo mod download example.com/cmd$'
+stderr '^go list: example.com/cmd@v1.1.0-doesnotexist: missing go.sum entry; to add it:\n\tgo mod download example.com/cmd$'
 go install example.com/cmd/a@latest
 cmp go.mod go.mod.orig
 exists $GOPATH/bin/a$GOEXE
@@ -33,7 +33,7 @@ env GOFLAGS=-modfile=go.mod
 go install example.com/cmd/a@latest  # same as above
 env GOFLAGS=
 ! go install -modfile=go.mod example.com/cmd/a@latest
-stderr '^go: -modfile cannot be used with commands that ignore the current module$'
+stderr '^go install: -modfile cannot be used with commands that ignore the current module$'
 cd ..
 
 
@@ -46,7 +46,7 @@ cd ..
 # and with a module whose go.mod file has missing requirements.
 # With a proxy, the two cases are indistinguishable.
 go install rsc.io/fortune@v1.0.0
-stderr '^go: found rsc.io/quote in rsc.io/quote v1.5.2$'
+stderr '^go install: found rsc.io/quote in rsc.io/quote v1.5.2$'
 exists $GOPATH/bin/fortune$GOEXE
 ! exists $GOPATH/pkg/mod/rsc.io/fortune@v1.0.0/go.mod # no go.mod file
 go version -m $GOPATH/bin/fortune$GOEXE
@@ -59,9 +59,9 @@ rm $GOPATH/bin
 env GO111MODULE=on
 go mod download rsc.io/fortune@v1.0.0
 ! go install $GOPATH/pkg/mod/rsc.io/fortune@v1.0.0
-stderr '^go: go\.mod file not found in current directory or any parent directory; see ''go help modules''$'
+stderr '^go install: go\.mod file not found in current directory or any parent directory; see ''go help modules''$'
 ! go install ../pkg/mod/rsc.io/fortune@v1.0.0
-stderr '^go: go\.mod file not found in current directory or any parent directory; see ''go help modules''$'
+stderr '^go install: go\.mod file not found in current directory or any parent directory; see ''go help modules''$'
 mkdir tmp
 cd tmp
 go mod init tmp
@@ -139,11 +139,11 @@ rm $GOPATH/bin
 ! go install example.com/cmd/nomatch...@v1.0.0
 stderr '^go install: example.com/cmd/nomatch\.\.\.@v1.0.0: module example.com/cmd@v1.0.0 found, but does not contain packages matching example.com/cmd/nomatch\.\.\.$'
 go install example.com/cmd/a@v1.0.0 example.com/cmd/nomatch...@v1.0.0
-stderr '^go: warning: "example.com/cmd/nomatch\.\.\." matched no packages$'
+stderr '^go install: warning: "example.com/cmd/nomatch\.\.\." matched no packages$'
 
 # If a wildcard matches only non-main packges, we should see a different warning.
 go install example.com/cmd/err...@v1.0.0
-stderr '^go: warning: "example.com/cmd/err\.\.\." matched only non-main packages$'
+stderr '^go install: warning: "example.com/cmd/err\.\.\." matched only non-main packages$'
 
 
 # 'go install pkg@version' should report errors if the module contains

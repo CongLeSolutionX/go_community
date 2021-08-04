@@ -21,10 +21,10 @@ cmp go.mod go.mod.orig
 # inconsistent and needs to be fixed.
 
 ! go list -deps ./useneedx2
-stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy$'
+stderr '^go list: updates to go.mod needed; to update it:\n\tgo mod tidy$'
 
 ! go list -deps example.net/needx2
-stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy$'
+stderr '^go list: updates to go.mod needed; to update it:\n\tgo mod tidy$'
 
 
 # The command printed in the error message should fix the problem.

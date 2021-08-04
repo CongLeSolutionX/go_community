@@ -6,7 +6,7 @@ stderr '^package example.net/nonmain is not a main package$'
 stderr '^package example.net/nonmain is not a main package$'
 
 ! go run ./...
-stderr '^go: warning: "\./\.\.\." matched only non-main packages$'
+stderr '^go run: warning: "\./\.\.\." matched only non-main packages$'
 stderr '^go run: no packages loaded from \./\.\.\.$'
 
 -- go.mod --

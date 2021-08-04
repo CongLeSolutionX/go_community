@@ -95,7 +95,7 @@ func (f *goVersionFlag) Set(s string) error {
 
 func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) > 0 {
-		base.Fatalf("go mod tidy: no arguments allowed")
+		base.CmdFatalf("no arguments allowed")
 	}
 
 	// Tidy aims to make 'go test' reproducible for any package in 'all', so we
@@ -123,6 +123,6 @@ func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 		SilenceMissingStdImports: true,
 	}, "all")
 	if err := modload.WriteGoMod(ctx); err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 }

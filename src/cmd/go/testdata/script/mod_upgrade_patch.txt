@@ -86,7 +86,7 @@ stdout '^patch.example.com/indirect v1.0.1'
 # Standard library packages cannot be upgraded explicitly.
 cp go.mod.orig go.mod
 ! go get cmd/vet@patch
-stderr 'go get: can''t request explicit version "patch" of standard library package cmd/vet$'
+stderr '^go get: can''t request explicit version "patch" of standard library package cmd/vet$'
 
 # However, standard-library packages without explicit versions are fine.
 go get -d -u=patch -d cmd/go

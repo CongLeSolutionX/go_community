@@ -117,15 +117,15 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 			len(workedits) > 0
 
 	if !anyFlags {
-		base.Fatalf("go mod edit: no flags specified (see 'go help mod edit').")
+		base.CmdFatalf("no flags specified (see 'go help mod edit').")
 	}
 
 	if *editworkJSON && *editworkPrint {
-		base.Fatalf("go mod edit: cannot use both -json and -print")
+		base.CmdFatalf("cannot use both -json and -print")
 	}
 
 	if len(args) > 1 {
-		base.Fatalf("go mod edit: too many arguments")
+		base.CmdFatalf("too many arguments")
 	}
 	var gowork string
 	if len(args) == 1 {
@@ -143,17 +143,17 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 
 	data, err := lockedfile.Read(gowork)
 	if err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	workFile, err := modfile.ParseWork(gowork, data, nil)
 	if err != nil {
-		base.Fatalf("go: errors parsing %s:\n%s", base.ShortPath(gowork), err)
+		base.CmdFatalf("errors parsing %s:\n%s", base.ShortPath(gowork), err)
 	}
 
 	if *editworkGo != "" {
 		if err := workFile.AddGoStmt(*editworkGo); err != nil {
-			base.Fatalf("go: internal error: %v", err)
+			base.CmdFatalf("internal error: %v", err)
 		}
 	}
 
@@ -184,7 +184,7 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 		return out, nil
 	})
 	if err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 }
 
@@ -263,7 +263,7 @@ func editworkPrintJSON(workFile *modfile.WorkFile) {
 	}
 	data, err := json.MarshalIndent(&f, "", "\t")
 	if err != nil {
-		base.Fatalf("go: internal error: %v", err)
+		base.CmdFatalf("internal error: %v", err)
 	}
 	data = append(data, '\n')
 	os.Stdout.Write(data)

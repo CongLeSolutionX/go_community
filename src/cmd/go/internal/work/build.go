@@ -381,7 +381,7 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
 	if modload.Enabled() {
 		if err := modload.WriteGoMod(ctx); err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 	}
 	load.CheckPackageErrors(pkgs)
@@ -430,7 +430,7 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 			strings.HasSuffix(cfg.BuildO, "/") ||
 			strings.HasSuffix(cfg.BuildO, string(os.PathSeparator)) {
 			if !explicitO {
-				base.Fatalf("go build: build output %q already exists and is a directory", cfg.BuildO)
+				base.CmdFatalf("build output %q already exists and is a directory", cfg.BuildO)
 			}
 			a := &Action{Mode: "go build"}
 			for _, p := range pkgs {
@@ -445,13 +445,13 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 				a.Deps = append(a.Deps, b.AutoAction(ModeInstall, depMode, p))
 			}
 			if len(a.Deps) == 0 {
-				base.Fatalf("go build: no main packages to build")
+				base.CmdFatalf("no main packages to build")
 			}
 			b.Do(ctx, a)
 			return
 		}
 		if len(pkgs) > 1 {
-			base.Fatalf("go build: cannot write multiple packages to non-directory %s", cfg.BuildO)
+			base.CmdFatalf("cannot write multiple packages to non-directory %s", cfg.BuildO)
 		} else if len(pkgs) == 0 {
 			base.Fatalf("no packages to build")
 		}
@@ -606,7 +606,7 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{}, args)
 	if modload.Enabled() {
 		if err := modload.WriteGoMod(ctx); err != nil {
-			base.Fatalf("go: %v", err)
+			base.CmdFatalf("%v", err)
 		}
 	}
 	if modload.Enabled() && !modload.HasModRoot() {
@@ -628,7 +628,7 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 				latestArgs[i] = args[i] + "@latest"
 			}
 			hint := strings.Join(latestArgs, " ")
-			base.Fatalf("go install: version is required when current directory is not in a module\n\tTry 'go install %s' to install the latest version", hint)
+			base.CmdFatalf("version is required when current directory is not in a module\n\tTry 'go install %s' to install the latest version", hint)
 		}
 	}
 	load.CheckPackageErrors(pkgs)
@@ -789,7 +789,7 @@ func installOutsideModule(ctx context.Context, args []string) {
 	pkgOpts := load.PackageOpts{MainOnly: true}
 	pkgs, err := load.PackagesAndErrorsOutsideModule(ctx, pkgOpts, args)
 	if err != nil {
-		base.Fatalf("go install: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 	load.CheckPackageErrors(pkgs)
 	patterns := make([]string, len(args))

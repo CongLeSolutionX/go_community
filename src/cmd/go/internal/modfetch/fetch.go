@@ -40,7 +40,7 @@ var downloadCache par.Cache
 // corresponding to the root of the module's file tree.
 func Download(ctx context.Context, mod module.Version) (dir string, err error) {
 	if err := checkCacheDir(); err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	// The par.Cache here avoids duplicate work.
@@ -181,7 +181,7 @@ func DownloadZip(ctx context.Context, mod module.Version) (zipfile string, err e
 
 		// The zip or ziphash file does not exist. Acquire the lock and create them.
 		if cfg.CmdName != "mod download" {
-			fmt.Fprintf(os.Stderr, "go: downloading %s %s\n", mod.Path, mod.Version)
+			base.CmdLogf("downloading %s %s\n", mod.Path, mod.Version)
 		}
 		unlock, err := lockVersion(mod)
 		if err != nil {
@@ -731,7 +731,7 @@ Outer:
 		return ErrGoSumDirty
 	}
 	if _, ok := fsys.OverlayPath(GoSumFile); ok {
-		base.Fatalf("go: updates to go.sum needed, but go.sum is part of the overlay specified with -overlay")
+		base.CmdFatalf("updates to go.sum needed, but go.sum is part of the overlay specified with -overlay")
 	}
 
 	// Make a best-effort attempt to acquire the side lock, only to exclude

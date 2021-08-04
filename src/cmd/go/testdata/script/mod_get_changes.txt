@@ -6,7 +6,7 @@ go list -m all
 go get -d rsc.io/quote@v1.5.2
 stderr '^go get: added rsc.io/quote v1.5.2$'
 stderr '^go get: upgraded rsc.io/sampler v1.0.0 => v1.3.0$'
-! stderr '^go get.*golang.org/x/text'
+! stderr '^go get: (added|upgraded).*golang.org/x/text'
 go list -m all
 stdout golang.org/x/text
 cmp go.mod go.mod.upgrade

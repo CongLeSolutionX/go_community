@@ -165,7 +165,7 @@ func ExtraEnvVarsCostly() []cfg.EnvVar {
 	cppflags, cflags, cxxflags, fflags, ldflags, err := b.CFlags(&load.Package{})
 	if err != nil {
 		// Should not happen - b.CFlags was given an empty package.
-		fmt.Fprintf(os.Stderr, "go: invalid cflags: %v\n", err)
+		base.CmdLogf("invalid cflags: %v\n", err)
 		return nil
 	}
 	cmd := b.GccCmd(".", "")
@@ -193,13 +193,13 @@ func argKey(arg string) string {
 
 func runEnv(ctx context.Context, cmd *base.Command, args []string) {
 	if *envJson && *envU {
-		base.Fatalf("go env: cannot use -json with -u")
+		base.CmdFatalf("cannot use -json with -u")
 	}
 	if *envJson && *envW {
-		base.Fatalf("go env: cannot use -json with -w")
+		base.CmdFatalf("cannot use -json with -w")
 	}
 	if *envU && *envW {
-		base.Fatalf("go env: cannot use -u with -w")
+		base.CmdFatalf("cannot use -u with -w")
 	}
 
 	// Handle 'go env -w' and 'go env -u' before calling buildcfg.Check,
@@ -220,7 +220,7 @@ func runEnv(ctx context.Context, cmd *base.Command, args []string) {
 	env = append(env, ExtraEnvVars()...)
 
 	if err := fsys.Init(base.Cwd()); err != nil {
-		base.Fatalf("go: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	// Do we need to call ExtraEnvVarsCostly, which is a bit expensive?
@@ -494,11 +494,11 @@ func checkEnvWrite(key, val string) error {
 func updateEnvFile(add map[string]string, del map[string]bool) {
 	file, err := cfg.EnvFile()
 	if file == "" {
-		base.Fatalf("go env: cannot find go env config: %v", err)
+		base.CmdFatalf("cannot find go env config: %v", err)
 	}
 	data, err := os.ReadFile(file)
 	if err != nil && (!os.IsNotExist(err) || len(add) == 0) {
-		base.Fatalf("go env: reading go env config: %v", err)
+		base.CmdFatalf("reading go env config: %v", err)
 	}
 
 	lines := strings.SplitAfter(string(data), "\n")
@@ -556,7 +556,7 @@ func updateEnvFile(add map[string]string, del map[string]bool) {
 		os.MkdirAll(filepath.Dir(file), 0777)
 		err = os.WriteFile(file, data, 0666)
 		if err != nil {
-			base.Fatalf("go env: writing go env config: %v", err)
+			base.CmdFatalf("writing go env config: %v", err)
 		}
 	}
 }

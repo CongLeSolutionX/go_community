@@ -263,19 +263,19 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	case "", "upgrade", "patch":
 		// ok
 	default:
-		base.Fatalf("go get: unknown upgrade flag -u=%s", getU.rawVersion)
+		base.CmdFatalf("unknown upgrade flag -u=%s", getU.rawVersion)
 	}
 	if *getF {
-		fmt.Fprintf(os.Stderr, "go get: -f flag is a no-op when using modules\n")
+		base.CmdLogf("-f flag is a no-op when using modules\n")
 	}
 	if *getFix {
-		fmt.Fprintf(os.Stderr, "go get: -fix flag is a no-op when using modules\n")
+		base.CmdLogf("-fix flag is a no-op when using modules\n")
 	}
 	if *getM {
-		base.Fatalf("go get: -m flag is no longer supported; consider -d to skip building packages")
+		base.CmdFatalf("-m flag is no longer supported; consider -d to skip building packages")
 	}
 	if *getInsecure {
-		base.Fatalf("go get: -insecure flag is no longer supported; use GOINSECURE instead")
+		base.CmdFatalf("-insecure flag is no longer supported; use GOINSECURE instead")
 	}
 
 	// Allow looking up modules for import paths when outside of a module.
@@ -419,7 +419,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	oldReqs := reqsFromGoMod(modload.ModFile())
 
 	if err := modload.WriteGoMod(ctx); err != nil {
-		base.Fatalf("go get: %v", err)
+		base.CmdFatalf("%v", err)
 	}
 
 	newReqs := reqsFromGoMod(modload.ModFile())
@@ -437,7 +437,7 @@ func parseArgs(ctx context.Context, rawArgs []string) []*query {
 	for _, arg := range search.CleanPatterns(rawArgs) {
 		q, err := newQuery(arg)
 		if err != nil {
-			base.Errorf("go get: %v", err)
+			base.CmdErrorf("%v", err)
 			continue
 		}
 
@@ -456,7 +456,7 @@ func parseArgs(ctx context.Context, rawArgs []string) []*query {
 				continue
 			}
 			if fi, err := os.Stat(q.raw); err == nil && !fi.IsDir() {
-				base.Errorf("go get: %s exists as a file, but 'go get' requires package arguments", q.raw)
+				base.CmdErrorf("%s exists as a file, but 'go get' requires package arguments", q.raw)
 				continue
 			}
 		}
@@ -1337,7 +1337,7 @@ func (r *resolver) applyUpgrades(ctx context.Context, upgrades []pathSet) (chang
 	var tentative []module.Version
 	for _, cs := range upgrades {
 		if cs.err != nil {
-			base.Errorf("go get: %v", cs.err)
+			base.CmdErrorf("%v", cs.err)
 			continue
 		}
 
@@ -1656,13 +1656,13 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 	// Only errors fetching sums are hard errors.
 	for _, mm := range deprecations {
 		if mm.message != "" {
-			fmt.Fprintf(os.Stderr, "go: module %s is deprecated: %s\n", mm.m.Path, mm.message)
+			base.CmdLogf("module %s is deprecated: %s\n", mm.m.Path, mm.message)
 		}
 	}
 	var retractPath string
 	for _, mm := range retractions {
 		if mm.message != "" {
-			fmt.Fprintf(os.Stderr, "go: warning: %v\n", mm.message)
+			base.CmdLogf("warning: %v\n", mm.message)
 			if retractPath == "" {
 				retractPath = mm.m.Path
 			} else {
@@ -1671,11 +1671,11 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 		}
 	}
 	if retractPath != "" {
-		fmt.Fprintf(os.Stderr, "go: to switch to the latest unretracted version, run:\n\tgo get %s@latest\n", retractPath)
+		base.CmdLogf("to switch to the latest unretracted version, run:\n\tgo get %s@latest\n", retractPath)
 	}
 	for _, err := range sumErrs {
 		if err != nil {
-			base.Errorf("go: %v", err)
+			base.CmdErrorf("%v", err)
 		}
 	}
 	base.ExitIfErrors()
@@ -1730,13 +1730,13 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 	})
 	for _, c := range sortedChanges {
 		if c.old == "" {
-			fmt.Fprintf(os.Stderr, "go get: added %s %s\n", c.path, c.new)
+			base.CmdLogf("added %s %s\n", c.path, c.new)
 		} else if c.new == "none" || c.new == "" {
-			fmt.Fprintf(os.Stderr, "go get: removed %s %s\n", c.path, c.old)
+			base.CmdLogf("removed %s %s\n", c.path, c.old)
 		} else if semver.Compare(c.new, c.old) > 0 {
-			fmt.Fprintf(os.Stderr, "go get: upgraded %s %s => %s\n", c.path, c.old, c.new)
+			base.CmdLogf("upgraded %s %s => %s\n", c.path, c.old, c.new)
 		} else {
-			fmt.Fprintf(os.Stderr, "go get: downgraded %s %s => %s\n", c.path, c.old, c.new)
+			base.CmdLogf("downgraded %s %s => %s\n", c.path, c.old, c.new)
 		}
 	}
 
@@ -1795,7 +1795,7 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 	if err != nil {
 		var constraint *modload.ConstraintError
 		if !errors.As(err, &constraint) {
-			base.Errorf("go get: %v", err)
+			base.CmdErrorf("%v", err)
 			return false
 		}
 
@@ -1807,7 +1807,7 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 			return rv.reason.ResolvedString(module.Version{Path: m.Path, Version: rv.version})
 		}
 		for _, c := range constraint.Conflicts {
-			base.Errorf("go get: %v requires %v, not %v", reason(c.Source), c.Dep, reason(c.Constraint))
+			base.CmdErrorf("%v requires %v, not %v", reason(c.Source), c.Dep, reason(c.Constraint))
 		}
 		return false
 	}
