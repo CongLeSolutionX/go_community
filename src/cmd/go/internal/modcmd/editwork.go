@@ -127,6 +127,11 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) > 1 {
 		base.CmdFatalf("too many arguments")
 	}
+
+	if _, err := modload.Init(modload.Opts{}); err != nil {
+		base.CmdFatalf("%v", err)
+	}
+
 	var gowork string
 	if len(args) == 1 {
 		gowork = args[0]

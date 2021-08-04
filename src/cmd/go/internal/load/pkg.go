@@ -2391,6 +2391,10 @@ func LoadImportWithFlags(path, srcDir string, parent *Package, stk *ImportStack,
 // PackageOpts control the behavior of PackagesAndErrors and other package
 // loading functions.
 type PackageOpts struct {
+	// ModState holds information about the modules currently loaded.
+	// ModState non-nil in module-aware mode and nil in GOPATH mode.
+	ModState *modload.State
+
 	// IgnoreImports controls whether we ignore explicit and implicit imports
 	// when loading packages.  Implicit imports are added when supporting Cgo
 	// or SWIG and when linking main packages.
@@ -2439,8 +2443,9 @@ func PackagesAndErrors(ctx context.Context, opts PackageOpts, patterns []string)
 	}
 
 	var matches []*search.Match
-	if modload.Init(); cfg.ModulesEnabled {
+	if opts.ModState != nil {
 		modOpts := modload.PackageOpts{
+			State:                 opts.ModState,
 			ResolveMissingImports: true,
 			LoadTests:             opts.ModResolveTests,
 			SilencePackageErrors:  true,
@@ -2641,8 +2646,6 @@ func setToolFlags(pkgs ...*Package) {
 // (typically named on the command line). The target is named p.a for
 // package p or named after the first Go file for package main.
 func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Package {
-	modload.Init()
-
 	for _, f := range gofiles {
 		if !strings.HasSuffix(f, ".go") {
 			pkg := new(Package)
@@ -2687,7 +2690,7 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 	}
 	ctxt.ReadDir = func(string) ([]fs.FileInfo, error) { return dirent, nil }
 
-	if cfg.ModulesEnabled {
+	if opts.ModState != nil {
 		modload.ImportFromFiles(ctx, gofiles)
 	}
 

@@ -53,6 +53,9 @@ func runGraph(ctx context.Context, cmd *base.Command, args []string) {
 	}
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
+	if _, err := modload.Init(modload.Opts{}); err != nil {
+		base.CmdFatalf("%v", err)
+	}
 	mg := modload.LoadModGraph(ctx, graphGo.String())
 
 	w := bufio.NewWriter(os.Stdout)
