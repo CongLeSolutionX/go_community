@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5feebd23_c6a17ff1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-08-04T15:51:51Z",
+      "side": 1,
+      "message": "Yeah, exactly.",
+      "parentUuid": "9e1d0e95_a5e656a5",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "79b2d5493b2578fd64ac985783778dd3b4373d35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae8c38f5_6f544217",
@@ -74,6 +98,24 @@
       "writtenOn": "2021-08-04T15:05:15Z",
       "side": 1,
       "message": "I guess this no longer cause nosplit overflow?",
+      "revId": "79b2d5493b2578fd64ac985783778dd3b4373d35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8b962e7_89755bcb",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-08-04T15:51:51Z",
+      "side": 1,
+      "message": "I guess not! :) Maybe because freedefer\u0027s callers are no longer nosplit?",
+      "parentUuid": "d17b470a_eb50607e",
       "revId": "79b2d5493b2578fd64ac985783778dd3b4373d35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
