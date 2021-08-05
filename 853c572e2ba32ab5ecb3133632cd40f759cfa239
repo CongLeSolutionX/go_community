@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c92f5db7_2bf4d6aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-08-05T18:10:46Z",
+      "side": 1,
+      "message": "This is one of two CLs updating the same comment, the other being: https://golang.org/cl/337369\n\nWhichever one gets a +2 first will win, I guess.",
+      "revId": "853c572e2ba32ab5ecb3133632cd40f759cfa239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7d08459_120fe45b",
