@@ -144,7 +144,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 		mode := invalid
 		var typ Type
 		var val constant.Value
-		switch typ = arrayPtrDeref(under(x.typ)); t := typ.(type) {
+		switch typ = arrayPtrDeref(optype(x.typ)); t := typ.(type) {
 		case *Basic:
 			if isString(t) && id == _Len {
 				if x.mode == constant_ {
@@ -154,7 +154,6 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 					mode = value
 				}
 			}
-
 		case *Array:
 			mode = value
 			// spec: "The expressions len(s) and cap(s) are constants
@@ -169,33 +168,15 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 					val = constant.MakeUnknown()
 				}
 			}
-
 		case *Slice, *Chan:
 			mode = value
-
 		case *Map:
 			if id == _Len {
 				mode = value
 			}
-
-		case *TypeParam:
-			if t.underIs(func(t Type) bool {
-				switch t := arrayPtrDeref(t).(type) {
-				case *Basic:
-					if isString(t) && id == _Len {
-						return true
-					}
-				case *Array, *Slice, *Chan:
-					return true
-				case *Map:
-					if id == _Len {
-						return true
-					}
-				}
-				return false
-			}) {
-				mode = value
-			}
+		case *top:
+			check.errorf(x, invalidArg+"%s for %s: type parameter has no structural type", x, bin.name)
+			return
 		}
 
 		if mode == invalid && typ != Typ[Invalid] {

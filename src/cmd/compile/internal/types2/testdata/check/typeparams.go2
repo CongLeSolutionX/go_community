@@ -131,7 +131,7 @@ func _[T interface{ ~[10]int }](x T) { _ = len(x) }
 func _[T interface{ ~[]byte }](x T) { _ = len(x) }
 func _[T interface{ ~map[int]int }](x T) { _ = len(x) }
 func _[T interface{ ~chan int }](x T) { _ = len(x) }
-func _[T interface{ ~string | ~[]byte | ~chan int }](x T) { _ = len(x) }
+func _[T interface{ ~string | ~[]byte | ~chan int }](x T) { _ = len(x /* ERROR no structural type */ ) }
 
 func _[T any](x T) { _ = cap(x /* ERROR invalid argument */ ) }
 func _[T interface{ ~int }](x T) { _ = cap(x /* ERROR invalid argument */ ) }
@@ -141,7 +141,7 @@ func _[T interface{ ~[10]int }](x T) { _ = cap(x) }
 func _[T interface{ ~[]byte }](x T) { _ = cap(x) }
 func _[T interface{ ~map[int]int }](x T) { _ = cap(x /* ERROR invalid argument */ ) }
 func _[T interface{ ~chan int }](x T) { _ = cap(x) }
-func _[T interface{ ~[]byte | ~chan int }](x T) { _ = cap(x) }
+func _[T interface{ ~[]byte | ~chan int }](x T) { _ = cap(x /* ERROR no structural type */ ) }
 
 // range iteration
 
