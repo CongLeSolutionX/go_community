@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b7a5c7c_fb31e287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-05T17:46:59Z",
+      "side": 1,
+      "message": "typo: by",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "9a646b7ff408f2df13e4d1e9131fd4381fae0b95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "343021bb_098b27f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-05T17:46:59Z",
+      "side": 1,
+      "message": "typo: possibly",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "9a646b7ff408f2df13e4d1e9131fd4381fae0b95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17b2a4db_9fd4f0b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
