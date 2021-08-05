@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c886e610_011057ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-05T18:02:18Z",
+      "side": 1,
+      "message": "This CL causes typeparam/cons.go to fail at line 59 in convert.go.\n\nIt\u0027s converting to an interface type that has shapes in it.\n\ntypeparam/cons.go:91:39: internal compiler error: shape type main.Function[.shape.int,.shape.int] in conversion to interface\n\nThis is generated when converting pos{} to an interface to pass to Map at cons.go:92.\n\nIt\u0027s definitely a problem to convert to an interface from a noninterface type that has shapes in it. But the error here, not sure if it is a problem or not? Can the interfacetype of a non-empty interface contain shape types?\n ",
+      "revId": "ee9bdadca11f37ddf53160cc66674221f4f2a5ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
