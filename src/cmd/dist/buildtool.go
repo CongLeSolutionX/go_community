@@ -287,7 +287,9 @@ func bootstrapFixImports(srcFile string) string {
 			inBlock = false
 			continue
 		}
+		nospace := strings.TrimSpace(line)
 		if strings.HasPrefix(line, `import "`) || strings.HasPrefix(line, `import . "`) ||
+			inBlock && (strings.HasPrefix(nospace, "\"") || strings.HasPrefix(nospace, ". \"") || strings.HasPrefix(nospace, "exec \"")) ||
 			inBlock && (strings.HasPrefix(line, "\t\"") || strings.HasPrefix(line, "\t. \"") || strings.HasPrefix(line, "\texec \"")) {
 			line = strings.Replace(line, `"cmd/`, `"bootstrap/cmd/`, -1)
 			// During bootstrap, must use plain os/exec.
