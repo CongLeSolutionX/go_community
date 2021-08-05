@@ -22,9 +22,10 @@ type tflag uint8
 
 const (
 	tflagUncommon      tflag = 1 << 0
-	tflagExtraStar     tflag = 1 << 1
-	tflagNamed         tflag = 1 << 2
-	tflagRegularMemory tflag = 1 << 3 // equal and hash can treat values of this type as a single region of t.size bytes
+	tflagExtraStar           = 1 << 1
+	tflagNamed               = 1 << 2
+	tflagRegularMemory       = 1 << 3 // equal and hash can treat values of this type as a single region of t.size bytes
+	tflagShape               = 1 << 4 // this type is a shape type for generics
 )
 
 // Needs to be in sync with ../cmd/link/internal/ld/decodesym.go:/^func.commonsize,

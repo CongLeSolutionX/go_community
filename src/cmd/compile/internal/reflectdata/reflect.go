@@ -663,6 +663,7 @@ const (
 	tflagExtraStar     = 1 << 1
 	tflagNamed         = 1 << 2
 	tflagRegularMemory = 1 << 3
+	tflagShape         = 1 << 4
 )
 
 var (
@@ -717,6 +718,9 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 	}
 	if isRegularMemory(t) {
 		tflag |= tflagRegularMemory
+	}
+	if t.HasShape() {
+		tflag |= tflagShape
 	}
 
 	exported := false

@@ -11,6 +11,8 @@ import (
 	"unsafe"
 )
 
+const debugShapes = true
+
 const itabInitSize = 512
 
 var (
@@ -34,6 +36,9 @@ func itabHashFunc(inter *interfacetype, typ *_type) uintptr {
 func getitab(inter *interfacetype, typ *_type, canfail bool) *itab {
 	if len(inter.mhdr) == 0 {
 		throw("internal error - misuse of itab")
+	}
+	if debugShapes && typ.tflag&tflagShape != 0 {
+		throw("shape type appears in an interface")
 	}
 
 	// easy case

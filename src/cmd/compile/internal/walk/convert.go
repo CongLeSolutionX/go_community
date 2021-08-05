@@ -52,6 +52,12 @@ func walkConvInterface(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
 	}
 
 	if !fromType.IsInterface() {
+		if fromType.HasShape() {
+			base.Fatalf("shape type %+v in conversion to interface", fromType)
+		}
+		if toType.HasShape() {
+			base.Fatalf("shape type %+v in conversion to interface", toType)
+		}
 		var typeWord ir.Node
 		if toType.IsEmptyInterface() {
 			typeWord = reflectdata.TypePtr(fromType)
