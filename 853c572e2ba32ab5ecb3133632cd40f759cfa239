@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74898504_5faeefb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-08-05T01:25:54Z",
+      "side": 1,
+      "message": "Remove duplicated line.",
+      "revId": "853c572e2ba32ab5ecb3133632cd40f759cfa239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7d08459_120fe45b",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-08-05T01:25:54Z",
+      "side": 1,
+      "message": "How about:\n\n// - IPv6 conforming to RFC 5952 (\"2001:db8::1\"), if ip is a valid IPv6 address.\n\nI don\u0027t think it\u0027s necessary to mention RFC 4921, since it\u0027s implied by RFC 5952 and (to the best of my knowledge) there aren\u0027t any other text representations of IPv6 addresses in common use.",
+      "revId": "853c572e2ba32ab5ecb3133632cd40f759cfa239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
