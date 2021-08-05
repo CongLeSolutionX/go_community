@@ -82,6 +82,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e5b48960_e1641172",
+        "filename": "src/cmd/compile/internal/types2/predicates.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-05T19:36:12Z",
+      "side": 1,
+      "message": "Agreed - moving in that direction step by step.",
+      "parentUuid": "bc71a45a_02aadb38",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 20
+      },
+      "revId": "d417eb53ecf210ccd3f0e669e7d4f70cfe754ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "77769d01_a4d07eeb",
         "filename": "src/cmd/compile/internal/types2/subst.go",
         "patchSetId": 20
@@ -93,6 +117,30 @@
       "writtenOn": "2021-08-05T17:45:21Z",
       "side": 1,
       "message": "optional nit: This should be termlist.",
+      "range": {
+        "startLine": 148,
+        "startChar": 25,
+        "endLine": 148,
+        "endChar": 33
+      },
+      "revId": "d417eb53ecf210ccd3f0e669e7d4f70cfe754ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e83c9f48_d1544481",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-05T19:36:12Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "77769d01_a4d07eeb",
       "range": {
         "startLine": 148,
         "startChar": 25,
@@ -126,6 +174,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5bdda20_be74af47",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-05T19:36:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd31eb14_49ffe037",
+      "range": {
+        "startLine": 150,
+        "startChar": 60,
+        "endLine": 150,
+        "endChar": 66
+      },
+      "revId": "d417eb53ecf210ccd3f0e669e7d4f70cfe754ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b71207d3_5bc09c30",
@@ -139,6 +211,30 @@
       "writtenOn": "2021-08-05T17:45:21Z",
       "side": 1,
       "message": "Ad a test for overlapping when one of the terms is an interface?",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 72
+      },
+      "revId": "d417eb53ecf210ccd3f0e669e7d4f70cfe754ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d39e8fd7_28cde05f",
+        "filename": "src/cmd/compile/internal/types2/testdata/examples/constraints.go2",
+        "patchSetId": 20
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-05T19:36:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b71207d3_5bc09c30",
       "range": {
         "startLine": 35,
         "startChar": 1,
@@ -172,6 +268,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c3e412_84e8212f",
+        "filename": "src/cmd/compile/internal/types2/typeset.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-05T19:36:12Z",
+      "side": 1,
+      "message": "Maybe it makes this code simpler but the code elsewhere more complicated?\n\nAlso, for now I wanted to preserve the existing logic for overlapping method sets.",
+      "parentUuid": "c35e825e_926cb97d",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 21
+      },
+      "revId": "d417eb53ecf210ccd3f0e669e7d4f70cfe754ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e46908e_eb621023",
@@ -195,6 +315,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b0e198_8d780375",
+        "filename": "src/cmd/compile/internal/types2/typexpr.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-05T19:36:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e46908e_eb621023",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 5
+      },
+      "revId": "d417eb53ecf210ccd3f0e669e7d4f70cfe754ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d31bcf64_440b8a36",
@@ -208,6 +352,30 @@
       "writtenOn": "2021-08-05T17:45:21Z",
       "side": 1,
       "message": "That seems like a limitation we should eliminate, since these are valid terms.",
+      "range": {
+        "startLine": 126,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 49
+      },
+      "revId": "d417eb53ecf210ccd3f0e669e7d4f70cfe754ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06e97893_d856308b",
+        "filename": "src/cmd/compile/internal/types2/union.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-05T19:36:12Z",
+      "side": 1,
+      "message": "I went back and forth about this. The reasons why I left it as is are:\n\n- When checking union terms, syntactically, terms cannot be nil nor top.\n- In the terms code, it will make the disjoint implementation slower and won\u0027t help much simplifying code that calls disjoint.\n\nIn short, disjoint is really an internal helper function that should only be used by term operations. And in this special functions, with the appropriate conditions.",
+      "parentUuid": "d31bcf64_440b8a36",
       "range": {
         "startLine": 126,
         "startChar": 2,
