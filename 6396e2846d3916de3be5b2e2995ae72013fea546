@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9710262_575b3ba5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-05T18:55:11Z",
+      "side": 1,
+      "message": "Thanks, but, as I said in my comment on the issue, I don\u0027t think we should do this.",
+      "revId": "6396e2846d3916de3be5b2e2995ae72013fea546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
