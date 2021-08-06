@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c818a144_0f591e05",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2021-08-06T22:11:00Z",
+      "side": 1,
+      "message": "Typo: \u003ccodeg\u003e.",
+      "revId": "63b968f4f86f4c23ce92b7ac2feda4fc7ca17c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
