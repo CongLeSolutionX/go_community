@@ -16,6 +16,23 @@
       "message": "I set a short context in the commit message.\n\nThanks for the review,",
       "revId": "5616f2ef24e13d3ac2dc0ef6048679286b6add3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ce06cb1_9dc2a225",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-06T20:52:14Z",
+      "side": 1,
+      "message": "The `contexts` slice is used in many cases in the tests for this package (see goapi_test.go).\n\nIf you\u0027re going to initialize that slice lazily, then you\u0027ll also need to change at least TestMain to ensure that it is initialized prior to testing.",
+      "revId": "5616f2ef24e13d3ac2dc0ef6048679286b6add3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
