@@ -53,6 +53,24 @@
       "message": "Does reflect.DeepEqual not handle NaNs in maps properly? Because if it does, this test can be much shorter. If it does not, that should be fixed before this is checked in.",
       "revId": "7d772c180475f0a34fa5fb73e452b3c906a0d3d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63083857_8df2e211",
+        "filename": "src/encoding/gob/encoder_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-06T15:29:52Z",
+      "side": 1,
+      "message": "reflect.DeepEqual is documented to match keys “using Go equality”, and Go equality defines a NaN key to be unequal to itself. So reflect.DeepEqual seems to be working as documented but not useful here.\n\nA map containing NaN keys is treated as equal to exactly itself only because reflect.DeepEqual has an additional clause making “the same map object” equal to itself irrespective of keys (https://play.golang.org/p/BK4OdhK_F6v). That special case does not extend to other maps with the same content, and here the input and output maps passed to Encode and Decode are necessarily different objects.\n\nI don\u0027t think there is anything we can fix here without breaking Go 1 compatibility.",
+      "parentUuid": "a92f7880_7b339a5b",
+      "revId": "7d772c180475f0a34fa5fb73e452b3c906a0d3d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
