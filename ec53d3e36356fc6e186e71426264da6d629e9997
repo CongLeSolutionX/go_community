@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "502f9883_b61cb219",
+        "filename": "misc/cgo/testsanitizers/testdata/msan8.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-06T02:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01504908_f7e15df2",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "ec53d3e36356fc6e186e71426264da6d629e9997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b13ffead_f7efa293",
@@ -108,6 +132,24 @@
       "writtenOn": "2021-08-05T22:14:02Z",
       "side": 1,
       "message": "Nit: The rest of the file uses tabs for indentation, maybe this should too.",
+      "revId": "ec53d3e36356fc6e186e71426264da6d629e9997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "126edcf0_f47588c6",
+        "filename": "src/runtime/cgo/gcc_traceback.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-06T02:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b13ffead_f7efa293",
       "revId": "ec53d3e36356fc6e186e71426264da6d629e9997",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
