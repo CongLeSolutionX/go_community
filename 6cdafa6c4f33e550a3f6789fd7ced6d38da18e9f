@@ -70,6 +70,23 @@
       "message": "Change itself looks small and nice, but maybe add the reproducing example as new testcase?",
       "revId": "6cdafa6c4f33e550a3f6789fd7ced6d38da18e9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66489570_b35a1f31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-08-06T16:03:17Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not quite sure I understand this. This is linking something that has no symbols at all? Then what\u0027s the point for that linking?\n",
+      "revId": "6cdafa6c4f33e550a3f6789fd7ced6d38da18e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
