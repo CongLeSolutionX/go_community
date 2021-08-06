@@ -1351,6 +1351,69 @@ func TestWriterReadFromErrNoProgress(t *testing.T) {
 	}
 }
 
+type readFromWriter struct {
+	buf           []byte
+	max           int
+	writeBytes    int
+	readFromBytes int
+}
+
+func (w *readFromWriter) Write(p []byte) (int, error) {
+	if len(p) > w.max {
+		p = p[:w.max]
+	}
+	w.buf = append(w.buf, p...)
+	w.writeBytes += len(p)
+	return len(p), nil
+}
+
+func (w *readFromWriter) ReadFrom(r io.Reader) (int64, error) {
+	b, err := io.ReadAll(r)
+	w.buf = append(w.buf, b...)
+	w.readFromBytes += len(b)
+	return int64(len(b)), err
+}
+
+// Test that calling (*Writer).ReadFrom with a partially-filled buffer
+// fills the buffer before switching over to ReadFrom.
+func TestWriterReadFromWithBufferedData(t *testing.T) {
+	const bufsize = 16
+
+	input := createTestInput(64)
+	for _, i := range []int{0, 1, 8, 16, 24, 60, 64} {
+		t.Run(fmt.Sprintf("write=%v", i), func(t *testing.T) {
+			rfw := &readFromWriter{max: bufsize}
+			w := NewWriterSize(rfw, bufsize)
+
+			if n, err := w.Write(input[:i]); n != i || err != nil {
+				t.Errorf("w.Write(%v bytes) = %v, %v; want %v, nil", i, n, err, i)
+			}
+			n, err := w.ReadFrom(bytes.NewReader(input[i:]))
+			if wantn := len(input[i:]); int(n) != wantn || err != nil {
+				t.Errorf("io.Copy(w, %v bytes) = %v, %v; want %v, nil", wantn, n, err, wantn)
+			}
+			if err := w.Flush(); err != nil {
+				t.Errorf("w.Flush() = %v, want nil", err)
+			}
+
+			wantWriteBytes := 0
+			for wantWriteBytes < i {
+				wantWriteBytes += bufsize
+			}
+
+			if got, want := rfw.writeBytes, wantWriteBytes; got != want {
+				t.Errorf("wrote %v bytes with Write, want %v", got, want)
+			}
+			if got, want := rfw.readFromBytes, len(input)-wantWriteBytes; got != want {
+				t.Errorf("wrote %v bytes with ReadFrom, want %v", got, want)
+			}
+			if got, want := rfw.buf, input; !bytes.Equal(got, want) {
+				t.Errorf("wrote bytes: %v, want %v", got, want)
+			}
+		})
+	}
+}
+
 func TestReadZero(t *testing.T) {
 	for _, size := range []int{100, 2} {
 		t.Run(fmt.Sprintf("bufsize=%d", size), func(t *testing.T) {
