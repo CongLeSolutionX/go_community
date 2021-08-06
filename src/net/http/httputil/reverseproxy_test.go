@@ -1195,6 +1195,16 @@ func TestSelectFlushInterval(t *testing.T) {
 			want: -1,
 		},
 		{
+			name: "text/event-stream parameters are ignored",
+			res: &http.Response{
+				Header: http.Header{
+					"Content-Type": {"text/event-stream;foo=bar"},
+				},
+			},
+			p:    &ReverseProxy{FlushInterval: 123},
+			want: -1,
+		},
+		{
 			name: "Content-Length: -1, overrides non-zero",
 			res: &http.Response{
 				ContentLength: -1,
