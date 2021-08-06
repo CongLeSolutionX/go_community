@@ -121,6 +121,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24b47f8f_83a7defe",
+        "filename": "src/runtime/cgo/gcc_traceback.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-08-06T16:26:33Z",
+      "side": 1,
+      "message": "Just checking my understanding of why this isn\u0027t a problem for the first three arguments: is it because cgoSigtramp tail-calls x_cgo_callers, so the initialization of those registers flows through cgoSigtramp? But MSAN doesn\u0027t understand that cgoSigtramp has initialized CX and R9?\n\nHow does MSAN normally understand that argument registers have been initialized? Is there anything we could do in cgoSigtramp instead to correctly annotate this? Is it just not worth the trouble?\n\nI\u0027m slightly concerned that we\u0027re telling msan to just \"trust us\" here and that this could mask actual bugs in the future, but this might still be the best way to do this.",
+      "revId": "ec53d3e36356fc6e186e71426264da6d629e9997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b13ffead_f7efa293",
         "filename": "src/runtime/cgo/gcc_traceback.c",
         "patchSetId": 1
