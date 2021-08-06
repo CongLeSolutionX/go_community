@@ -136,6 +136,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f655973_98d170b0",
+        "filename": "src/runtime/cgo/gcc_traceback.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-06T17:16:28Z",
+      "side": 1,
+      "message": "MSAN is tracking the status of whether a register is initialized or not through a TLS variable.  MSAN handles signals by intercepting sigaction and interposing its own signal handler.  MSAN\u0027s signal handler calls the signal handler installed by the programs\u0027s call to sigaction.  A signal handler takes three arguments.  The signal handler is presumed to be compiled with MSAN enabled.  Therefore, to make this work, the MSAN signal handler must mark the three arguments as fully initialized.  It does using an internal MSAN mechanism not available to user code.\n\nIn this case cgoSigtramp calls x_cgo_callers with six arguments.  If cgoSigtramp were compiled with MSAN enabled, the MSAN-compiled code would mark all six registers as initialized before making the call.  But, of course, cgoSigtramp is assembly code that MSAN knows nothing about.  The effect on amd64 is that registers CX, R8, and R9 are left with whatever validity state they had when the signal occurred.\n\nTheoretically we could modify cgoSigtramp to tell MSAN that the registers are valid, but MSAN does not provide any mechanism to do so.  The available API can be seen at https://www.chromium.org/developers/testing/memorysanitizer in the \"Debugging MSan reports\" section.\n\nMy undersetanding is that what I\u0027m doing here is actually the MSAN approved approach for handling assembly code: explicitly tell MSAN what is happening.  All this code is saying is that the memory in `arg` is all valid and initialized.  We know that to be true because of how this function is called, but MSAN doesn\u0027t know it because it is called from assembly code.",
+      "parentUuid": "24b47f8f_83a7defe",
+      "revId": "ec53d3e36356fc6e186e71426264da6d629e9997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b13ffead_f7efa293",
