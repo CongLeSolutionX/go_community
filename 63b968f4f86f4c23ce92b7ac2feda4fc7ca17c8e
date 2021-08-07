@@ -16,6 +16,24 @@
       "message": "Typo: \u003ccodeg\u003e.",
       "revId": "63b968f4f86f4c23ce92b7ac2feda4fc7ca17c8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "260d3a25_43d22581",
+        "filename": "doc/go1.17.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-07T01:12:51Z",
+      "side": 1,
+      "message": "Argh, thanks. Sent CL 340590 to fix.",
+      "parentUuid": "c818a144_0f591e05",
+      "revId": "63b968f4f86f4c23ce92b7ac2feda4fc7ca17c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
