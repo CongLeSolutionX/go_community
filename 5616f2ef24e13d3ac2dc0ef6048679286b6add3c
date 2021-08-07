@@ -33,6 +33,24 @@
       "message": "The `contexts` slice is used in many cases in the tests for this package (see goapi_test.go).\n\nIf you\u0027re going to initialize that slice lazily, then you\u0027ll also need to change at least TestMain to ensure that it is initialized prior to testing.",
       "revId": "5616f2ef24e13d3ac2dc0ef6048679286b6add3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32301eb0_a12a636e",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-07T08:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ce06cb1_9dc2a225",
+      "revId": "5616f2ef24e13d3ac2dc0ef6048679286b6add3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
