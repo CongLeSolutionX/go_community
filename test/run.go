@@ -32,6 +32,8 @@ import (
 	"unicode"
 )
 
+const DEFAULTGFLAG = 3
+
 var (
 	verbose        = flag.Bool("v", false, "verbose. if set, parallelism is set to 1.")
 	keep           = flag.Bool("k", false, "keep. keep temporary directory.")
@@ -581,14 +583,14 @@ func init() { checkShouldTest() }
 // over and over.
 func (t *test) goGcflags() string {
 	flags := os.Getenv("GO_GCFLAGS")
-	if t.glevel != 0 {
+	if t.glevel != DEFAULTGFLAG {
 		flags = fmt.Sprintf("%s -G=%v", flags, t.glevel)
 	}
 	return "-gcflags=all=" + flags
 }
 
 func (t *test) goGcflagsIsEmpty() bool {
-	return "" == os.Getenv("GO_GCFLAGS") && t.glevel == 0
+	return "" == os.Getenv("GO_GCFLAGS") && t.glevel == DEFAULTGFLAG
 }
 
 var errTimeout = errors.New("command exceeded time limit")
@@ -750,7 +752,7 @@ func (t *test) run() {
 			}
 		}
 
-		if hasGFlag && t.glevel != 0 {
+		if hasGFlag && t.glevel != DEFAULTGFLAG {
 			// test provides explicit -G flag already; don't run again
 			if *verbose {
 				fmt.Printf("excl\t%s\n", t.goFileName())
@@ -758,13 +760,11 @@ func (t *test) run() {
 			return false
 		}
 
-		if t.glevel == 0 && !hasGFlag && !unifiedEnabled {
-			// tests should always pass when run w/o types2 (i.e., using the
-			// legacy typechecker).
-			return true
+		// tests should always pass when run w/o types2 (i.e., using the
+		// legacy typechecker, option -G=0).
+		if !(t.glevel == 0 && !hasGFlag && !unifiedEnabled) {
+			t.initExpectFail()
 		}
-
-		t.initExpectFail()
 
 		switch tool {
 		case Build, Run:
