@@ -34,6 +34,11 @@ func WorkingDir() string {
 // and is either removed entirely or replaced by the replacement.
 func AbsFile(dir, file, rewrites string) string {
 	abs := file
+	if hasPathPrefix(file, "$GOROOT") {
+		// If file has $GOROOT already, then just return early. (IsAbs()
+		// doesn't recognize that $GOROOT is an absolute path.)
+		return abs
+	}
 	if dir != "" && !filepath.IsAbs(file) {
 		abs = filepath.Join(dir, file)
 	}
