@@ -72,6 +72,69 @@
       "message": "Let me know if I missed anything or you have any suggestions with the changes to run.go.  I\u0027ll investigate the build failures.  Not sure why linux-amd64 is failing, since all.bash runs fine locally with this CL.",
       "revId": "55bdc6bd42736d45462f3a70de4e6f1bf15b723a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0836c1ab_f22de69d",
+        "filename": "test/run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-08-09T19:50:55Z",
+      "side": 1,
+      "message": "nit: `CompilerDefaultGLevel` for Go style and consistency with naming elsewhere in run.go? (run.go already calls it \"glevel\" not \"gflag\".)\n\nMaybe also a comment like `// CompilerDefaultGLevel is the -G level used by default when not overridden by a command-line flag.`",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 18
+      },
+      "revId": "55bdc6bd42736d45462f3a70de4e6f1bf15b723a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b20d708_5c802f9d",
+        "filename": "test/run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-08-09T19:50:55Z",
+      "side": 1,
+      "message": "nit: move this logic into `initExpectFail` and just call `initExpectFail` unconditionally instead?\n\nAlso, the nested negation makes this a little hard to read IMO. If the `if` statement stays here, maybe flip it around as:\n\n```\nif t.glevel !\u003d 0 || hasGFlag || unifiedEnabled { ... }\n```",
+      "range": {
+        "startLine": 763,
+        "startChar": 0,
+        "endLine": 765,
+        "endChar": 55
+      },
+      "revId": "55bdc6bd42736d45462f3a70de4e6f1bf15b723a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eadece8_16db29a9",
+        "filename": "test/typeparam/smoketest.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-08-09T19:50:55Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "revId": "55bdc6bd42736d45462f3a70de4e6f1bf15b723a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
