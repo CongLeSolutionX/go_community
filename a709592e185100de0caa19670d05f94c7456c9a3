@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90c5c27b_7b6ff384",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-08-09T16:55:33Z",
+      "side": 1,
+      "message": "Thanks for the patch! I filed https://golang.org/issue/47568 for this issue and created https://golang.org/cl/340256 with a fix along the lines Ingo suggests. If you\u0027d like to update this CL to use that approach, I\u0027ll abandon mine.",
+      "revId": "a709592e185100de0caa19670d05f94c7456c9a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f2d86bd_c1908653",
