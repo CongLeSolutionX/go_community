@@ -33,6 +33,13 @@ func WorkingDir() string {
 // where prefix must match a leading sequence of path elements
 // and is either removed entirely or replaced by the replacement.
 func AbsFile(dir, file, rewrites string) string {
+	if strings.HasPrefix(file, "$GOROOT/") {
+		// IsAbs() doesn't recognize a file beginning with $GOROOT as an
+		// absolute file name. So, if file has $GOROOT already, then
+		// substitute in the value of GOROOT before applying rewrites.
+		// $GOROOT will get re-inserted again after that, if appropriate.
+		file = buildcfg.GOROOT + file[8:]
+	}
 	abs := file
 	if dir != "" && !filepath.IsAbs(file) {
 		abs = filepath.Join(dir, file)
