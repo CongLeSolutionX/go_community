@@ -22,10 +22,10 @@ var gcflags string = os.Getenv("GO_GCFLAGS")
 
 func TestMain(m *testing.M) {
 	flag.Parse()
-	if testing.Short() && os.Getenv("GO_BUILDER_NAME") == "" {
-		fmt.Printf("SKIP - short mode and $GO_BUILDER_NAME not set\n")
-		os.Exit(0)
-	}
+	// if testing.Short() && os.Getenv("GO_BUILDER_NAME") == "" {
+	// 	fmt.Printf("SKIP - short mode and $GO_BUILDER_NAME not set\n")
+	// 	os.Exit(0)
+	// }
 	log.SetFlags(log.Lshortfile)
 	os.Exit(testMain(m))
 }
@@ -90,7 +90,8 @@ func testMain(m *testing.M) int {
 
 	os.Setenv("LD_LIBRARY_PATH", modRoot)
 
-	goCmd(nil, "build", "-buildmode=plugin", "./plugin1")
+	//goCmd(nil, "build", "-buildmode=plugin", "./plugin1")
+	run(nil, "go", "build", "-a", "-gcflags", gcflags, "-buildmode=plugin", "./plugin1")
 	goCmd(nil, "build", "-buildmode=plugin", "./plugin2")
 	so, err := os.ReadFile("plugin2.so")
 	if err != nil {
@@ -104,7 +105,8 @@ func testMain(m *testing.M) int {
 	goCmd(nil, "build", "-buildmode=plugin", "-o=sub/plugin1.so", "./sub/plugin1")
 	goCmd(nil, "build", "-buildmode=plugin", "-o=unnamed1.so", "./unnamed1/main.go")
 	goCmd(nil, "build", "-buildmode=plugin", "-o=unnamed2.so", "./unnamed2/main.go")
-	goCmd(nil, "build", "-o", "host.exe", "./host")
+	//goCmd(nil, "build", "-o", "host.exe", "./host")
+	run(nil, "go", "build", "-a", "-gcflags", gcflags, "-o", "host.exe", "./host")
 
 	return m.Run()
 }
@@ -190,7 +192,7 @@ func TestRunHost(t *testing.T) {
 func TestUniqueTypesAndItabs(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "./iface_a")
 	goCmd(t, "build", "-buildmode=plugin", "./iface_b")
-	goCmd(t, "build", "-o", "iface.exe", "./iface")
+	goCmd(t, "build", "-a", "-o", "iface.exe", "./iface")
 	run(t, "./iface.exe")
 }
 
@@ -198,7 +200,7 @@ func TestIssue18676(t *testing.T) {
 	// make sure we don't add the same itab twice.
 	// The buggy code hangs forever, so use a timeout to check for that.
 	goCmd(t, "build", "-buildmode=plugin", "-o", "plugin.so", "./issue18676/plugin.go")
-	goCmd(t, "build", "-o", "issue18676.exe", "./issue18676/main.go")
+	goCmd(t, "build", "-a", "-o", "issue18676.exe", "./issue18676/main.go")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -211,20 +213,20 @@ func TestIssue18676(t *testing.T) {
 
 func TestIssue19534(t *testing.T) {
 	// Test that we can load a plugin built in a path with non-alpha characters.
-	goCmd(t, "build", "-buildmode=plugin", "-ldflags='-pluginpath=issue.19534'", "-o", "plugin.so", "./issue19534/plugin.go")
-	goCmd(t, "build", "-o", "issue19534.exe", "./issue19534/main.go")
+	goCmd(t, "build", "-buildmode=plugin", "-ldflags='-pluginpath=issue.19534'", "-a", "-o", "plugin.so", "./issue19534/plugin.go")
+	goCmd(t, "build", "-a", "-o", "issue19534.exe", "./issue19534/main.go")
 	run(t, "./issue19534.exe")
 }
 
 func TestIssue18584(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "-o", "plugin.so", "./issue18584/plugin.go")
-	goCmd(t, "build", "-o", "issue18584.exe", "./issue18584/main.go")
+	goCmd(t, "build", "-a", "-o", "issue18584.exe", "./issue18584/main.go")
 	run(t, "./issue18584.exe")
 }
 
 func TestIssue19418(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "-ldflags=-X main.Val=linkstr", "-o", "plugin.so", "./issue19418/plugin.go")
-	goCmd(t, "build", "-o", "issue19418.exe", "./issue19418/main.go")
+	goCmd(t, "build", "-a", "-o", "issue19418.exe", "./issue19418/main.go")
 	run(t, "./issue19418.exe")
 }
 
@@ -235,25 +237,25 @@ func TestIssue19529(t *testing.T) {
 func TestIssue22175(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "-o", "issue22175_plugin1.so", "./issue22175/plugin1.go")
 	goCmd(t, "build", "-buildmode=plugin", "-o", "issue22175_plugin2.so", "./issue22175/plugin2.go")
-	goCmd(t, "build", "-o", "issue22175.exe", "./issue22175/main.go")
+	goCmd(t, "build", "-a", "-o", "issue22175.exe", "./issue22175/main.go")
 	run(t, "./issue22175.exe")
 }
 
 func TestIssue22295(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "-o", "issue.22295.so", "./issue22295.pkg")
-	goCmd(t, "build", "-o", "issue22295.exe", "./issue22295.pkg/main.go")
+	goCmd(t, "build", "-a", "-o", "issue22295.exe", "./issue22295.pkg/main.go")
 	run(t, "./issue22295.exe")
 }
 
 func TestIssue24351(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "-o", "issue24351.so", "./issue24351/plugin.go")
-	goCmd(t, "build", "-o", "issue24351.exe", "./issue24351/main.go")
+	goCmd(t, "build", "-a", "-o", "issue24351.exe", "./issue24351/main.go")
 	run(t, "./issue24351.exe")
 }
 
 func TestIssue25756(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "-o", "life.so", "./issue25756/plugin")
-	goCmd(t, "build", "-o", "issue25756.exe", "./issue25756/main.go")
+	goCmd(t, "build", "-a", "-o", "issue25756.exe", "./issue25756/main.go")
 	// Fails intermittently, but 20 runs should cause the failure
 	for n := 20; n > 0; n-- {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
@@ -270,26 +272,26 @@ func TestIssue25756pie(t *testing.T) {
 	}
 
 	goCmd(t, "build", "-buildmode=plugin", "-o", "life.so", "./issue25756/plugin")
-	goCmd(t, "build", "-buildmode=pie", "-o", "issue25756pie.exe", "./issue25756/main.go")
+	goCmd(t, "build", "-buildmode=pie", "-a", "-o", "issue25756pie.exe", "./issue25756/main.go")
 	run(t, "./issue25756pie.exe")
 }
 
 func TestMethod(t *testing.T) {
 	// Exported symbol's method must be live.
 	goCmd(t, "build", "-buildmode=plugin", "-o", "plugin.so", "./method/plugin.go")
-	goCmd(t, "build", "-o", "method.exe", "./method/main.go")
+	goCmd(t, "build", "-a", "-o", "method.exe", "./method/main.go")
 	run(t, "./method.exe")
 }
 
 func TestMethod2(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "-o", "method2.so", "./method2/plugin.go")
-	goCmd(t, "build", "-o", "method2.exe", "./method2/main.go")
+	goCmd(t, "build", "-a", "-o", "method2.exe", "./method2/main.go")
 	run(t, "./method2.exe")
 }
 
 func TestIssue44956(t *testing.T) {
 	goCmd(t, "build", "-buildmode=plugin", "-o", "issue44956p1.so", "./issue44956/plugin1.go")
 	goCmd(t, "build", "-buildmode=plugin", "-o", "issue44956p2.so", "./issue44956/plugin2.go")
-	goCmd(t, "build", "-o", "issue44956.exe", "./issue44956/main.go")
+	goCmd(t, "build", "-a", "-o", "issue44956.exe", "./issue44956/main.go")
 	run(t, "./issue44956.exe")
 }
