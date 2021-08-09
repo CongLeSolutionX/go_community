@@ -93,10 +93,15 @@ func (t *Interface) ExplicitMethod(i int) *Func { return t.methods[i] }
 func (t *Interface) NumEmbeddeds() int { return len(t.embeddeds) }
 
 // Embedded returns the i'th embedded defined (*Named) type of interface t for 0 <= i < t.NumEmbeddeds().
-// The result is nil if the i'th embedded type is not a defined type.
+// If the i'th embedded type is not a defined type, the function panics.
 //
 // Deprecated: Use EmbeddedType which is not restricted to defined (*Named) types.
-func (t *Interface) Embedded(i int) *Named { tname, _ := t.embeddeds[i].(*Named); return tname }
+func (t *Interface) Embedded(i int) *Named {
+	if tname, _ := t.embeddeds[i].(*Named); tname != nil {
+		return tname
+	}
+	panic("embedded type is not a defined type - call EmbeddedType instead")
+}
 
 // EmbeddedType returns the i'th embedded type of interface t for 0 <= i < t.NumEmbeddeds().
 func (t *Interface) EmbeddedType(i int) Type { return t.embeddeds[i] }
