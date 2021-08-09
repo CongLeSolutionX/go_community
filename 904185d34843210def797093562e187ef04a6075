@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19b35673_07f169e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-09T03:29:05Z",
+      "side": 1,
+      "message": "Looks good to me (though I\u0027m not an expert on all the cases).  So, you can probably check in now if desired, and respond to any comments from Josh in another CL?\n",
+      "revId": "904185d34843210def797093562e187ef04a6075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e03ae3a_3638ef2b",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-09T03:29:05Z",
+      "side": 1,
+      "message": "Maybe add \"(either empty or non-empty interface)\" at the end?",
+      "revId": "904185d34843210def797093562e187ef04a6075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1434a4d_91d3a530",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-09T03:29:05Z",
+      "side": 1,
+      "message": "Remove this, since it doesn\u0027t seem to be needed?",
+      "revId": "904185d34843210def797093562e187ef04a6075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cebc1e3_bcc87378",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-09T03:29:05Z",
+      "side": 1,
+      "message": "Since you made it so CONVIDATA is treated the same way as CONVIFACE in the escape analysis, I think this should be fine (i.e.  no need for the TODO?).  Looks like the escape analysis for CONVIFACE/CONVIDATA is a bit conservative, in that it assumes allocation if n.X is not a pointer (i.e. not trying to determine the other possible optimizations).  But maybe it somehow realizes things are not allocated later in the analysis.",
+      "revId": "904185d34843210def797093562e187ef04a6075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e387c3ac_6745feae",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-09T03:29:05Z",
+      "side": 1,
+      "message": "Nit: add function header comment?",
+      "revId": "904185d34843210def797093562e187ef04a6075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04861369_060d6a14",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-09T03:29:05Z",
+      "side": 1,
+      "message": "\u0027returns a new itab when ...\u0027 -\u003e \u0027returns the new itab to be used for the destination value when...\u0027   ?",
+      "revId": "904185d34843210def797093562e187ef04a6075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
