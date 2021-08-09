@@ -154,6 +154,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a5e9517_4dec4057",
+        "filename": "src/runtime/cgo/gcc_traceback.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-08-09T12:52:16Z",
+      "side": 1,
+      "message": "Thanks for the detailed explanation!",
+      "parentUuid": "1f655973_98d170b0",
+      "revId": "ec53d3e36356fc6e186e71426264da6d629e9997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b13ffead_f7efa293",
