@@ -91,6 +91,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1d65261_843f5d58",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1689,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-09T04:27:30Z",
+      "side": 1,
+      "message": "Actually, unless I\u0027m missing something, it\u0027s not clear that c.Type() is not an interface.  It\u0027s an unusual case we can punt on for now, but a type arg can be an interface, which means c.Type() could be an interface.  I think at line 1153, you need to look at the substitute type, and not use itabs in that case (using a type assert, as I did found the bound calls at line 984.",
+      "revId": "782ea1874e00fd4f7c340b7028855f2ca7cd4164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0dc3dea_82aac3a5",
         "filename": "src/cmd/compile/internal/typecheck/stmt.go",
         "patchSetId": 5
