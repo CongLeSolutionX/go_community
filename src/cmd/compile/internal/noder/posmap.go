@@ -8,6 +8,8 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/syntax"
 	"cmd/internal/src"
+	"internal/buildcfg"
+	"strings"
 )
 
 // A posMap handles mapping from syntax.Pos to src.XPos.
@@ -45,6 +47,16 @@ func (m *posMap) makeSrcPosBase(b0 *syntax.PosBase) *src.PosBase {
 	b1, ok := m.bases[b0]
 	if !ok {
 		fn := b0.Filename()
+		if strings.HasPrefix(fn, "$GOROOT/") {
+			// types2 objects that come from the standard library can
+			// have a filename already prefixed with $GOROOT, but
+			// objabi.AbsFilename (called by absFilename/fileh) doesn't
+			// recognize that as an absolute file name, so it will add
+			// the current directory at the beginning. So, just
+			// substitute back in the value of $GOROOT. It will get
+			// re-inserted again in objabi.AbsFile(), if appropriate.
+			fn = buildcfg.GOROOT + fn[8:]
+		}
 		if b0.IsFileBase() {
 			b1 = src.NewFileBase(fn, absFilename(fn))
 		} else {
