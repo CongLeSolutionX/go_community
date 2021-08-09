@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9bbfb91_1d27ce5e",
+        "filename": "src/cmd/compile/internal/ir/node.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-09T16:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc387c68_c6a69e12",
+      "revId": "782ea1874e00fd4f7c340b7028855f2ca7cd4164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a685886_c5e6d02a",
@@ -85,6 +103,24 @@
       "writtenOn": "2021-08-06T18:03:22Z",
       "side": 1,
       "message": "Replace two lines with typed(m.List[i].Type(), dt)",
+      "revId": "782ea1874e00fd4f7c340b7028855f2ca7cd4164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d9a7130_12953ade",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-09T16:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a685886_c5e6d02a",
       "revId": "782ea1874e00fd4f7c340b7028855f2ca7cd4164",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -123,6 +159,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b4e6f1d_d8bd689f",
+        "filename": "src/cmd/compile/internal/typecheck/stmt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-09T16:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0dc3dea_82aac3a5",
+      "revId": "782ea1874e00fd4f7c340b7028855f2ca7cd4164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d02acade_dfd8f3fe",
@@ -142,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37eae864_44942363",
+        "filename": "src/cmd/compile/internal/walk/switch.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-09T16:19:39Z",
+      "side": 1,
+      "message": "I was just thinking that having the T field be sometimes a *runtime._type and sometimes a *runtime.itab is confusing. It might be better to have the T field always be a *runtime._type and have a separate ITab field for the itab, if it is needed (as I did for ir.DynamicType).",
+      "parentUuid": "d02acade_dfd8f3fe",
+      "revId": "782ea1874e00fd4f7c340b7028855f2ca7cd4164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "403d83af_ddec58d2",
         "filename": "test/typeparam/typeswitch1.go",
         "patchSetId": 5
@@ -153,6 +225,24 @@
       "writtenOn": "2021-08-06T18:03:22Z",
       "side": 1,
       "message": "This test seems to be a perfect subset of typeswitch2.go - maybe remove this one?",
+      "revId": "782ea1874e00fd4f7c340b7028855f2ca7cd4164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f77f7ef_99dc6320",
+        "filename": "test/typeparam/typeswitch1.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-09T16:19:39Z",
+      "side": 1,
+      "message": "One is a switch with a target variable, one is a switch without. I\u0027d rather leave both - they exercise some different code paths.",
+      "parentUuid": "403d83af_ddec58d2",
       "revId": "782ea1874e00fd4f7c340b7028855f2ca7cd4164",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
