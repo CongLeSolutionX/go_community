@@ -1598,6 +1598,9 @@ func (r *importReader) node() ir.Node {
 		stmts.Append(ir.NewAssignStmt(n.Pos(), n, nil))
 		return ir.NewBlockStmt(n.Pos(), stmts)
 
+	case ir.ODCLTYPE:
+		return ir.NewDecl(r.pos(), ir.ODCLTYPE, r.expr().(*ir.Name))
+
 	// case OASWB:
 	// 	unreachable - never exported
 
