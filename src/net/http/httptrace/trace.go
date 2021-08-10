@@ -84,6 +84,14 @@ type ClientTrace struct {
 	// if there's already an idle cached connection available.
 	GetConn func(hostPort string)
 
+	// ReuseConn is called when a connection is retrieved from
+	// an idle pool.
+	// If it returns false, the connection is closed and a new
+	// connection attempt is made. The default is to reuse connections
+	// unless Transport.ReuseConn or a ClientTrace.ReuseConn hook
+	// rejects the connection.
+	ReuseConn func(ReuseConnInfo) bool
+
 	// GotConn is called after a successful connection is
 	// obtained. There is no hook for failure to obtain a
 	// connection; instead, use the error from
@@ -251,5 +259,29 @@ type GotConnInfo struct {
 
 	// IdleTime reports how long the connection was previously
 	// idle, if WasIdle is true.
+	IdleTime time.Duration
+}
+
+// ReuseConnInfo is the argument to the ClientTrace.ReuseConn and
+// Transport.ReuseConn functions.
+type ReuseConnInfo struct {
+	// Conn is the connection that was obtained. It is owned by
+	// the http.Transport and should not be read, written or
+	// closed by recipients of ReuseConnInfo.
+	Conn net.Conn
+
+	// Proxy is the the proxy URL for the request.
+	Proxy string
+
+	// Scheme is the URL scheme for the request.
+	Scheme string
+
+	// HostPort is the "host:port" from the request URL.
+	HostPort string
+
+	// CreationTime is the time when the connection was created.
+	CreationTime time.Time
+
+	// IdleTime reports how long the connection was previously idle.
 	IdleTime time.Duration
 }
