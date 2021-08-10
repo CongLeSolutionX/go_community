@@ -47,8 +47,8 @@ const (
 	iexportVersionPosCol   = 1
 	iexportVersionGenerics = 2
 
-	// Start of the unstable series of versions, remove "+ n" before release.
-	iexportVersionCurrent = iexportVersionGenerics + 1
+	// TODO: before release, change to new version iexportVersionGenerics
+	iexportVersionCurrent = iexportVersionPosCol
 )
 
 const predeclReserved = 32
@@ -91,7 +91,7 @@ func iImportData(fset *token.FileSet, imports map[string]*types.Package, dataRea
 
 	version = int64(r.uint64())
 	switch version {
-	case currentVersion, iexportVersionPosCol, iexportVersionGo1_11:
+	case iexportVersionGenerics, iexportVersionPosCol, iexportVersionGo1_11:
 	default:
 		if version > iexportVersionGenerics {
 			errorf("unstable iexport format version %d, just rebuild compiler and std library", version)

@@ -119,7 +119,7 @@ func ReadImports(pkg *types.Pkg, data string) {
 
 	version := ird.uint64()
 	switch version {
-	case iexportVersionCurrent, iexportVersionPosCol, iexportVersionGo1_11:
+	case iexportVersionGenerics, iexportVersionPosCol, iexportVersionGo1_11:
 	default:
 		if version > iexportVersionGenerics {
 			base.Errorf("import %q: unstable export format version %d, just recompile", pkg.Path, version)
@@ -379,7 +379,7 @@ func (r *importReader) doDecl(sym *types.Sym) *ir.Name {
 		return n
 
 	case 'P':
-		if r.p.exportVersion < iexportVersionGenerics {
+		if false && r.p.exportVersion < iexportVersionGenerics {
 			base.Fatalf("unexpected type param type")
 		}
 		if sym.Def != nil {
@@ -810,7 +810,7 @@ func (r *importReader) typ1() *types.Type {
 		return t
 
 	case typeParamType:
-		if r.p.exportVersion < iexportVersionGenerics {
+		if false && r.p.exportVersion < iexportVersionGenerics {
 			base.Fatalf("unexpected type param type")
 		}
 		// Similar to code for defined types, since we "declared"
@@ -827,7 +827,7 @@ func (r *importReader) typ1() *types.Type {
 		return n.Type()
 
 	case instType:
-		if r.p.exportVersion < iexportVersionGenerics {
+		if false && r.p.exportVersion < iexportVersionGenerics {
 			base.Fatalf("unexpected instantiation type")
 		}
 		pos := r.pos()
@@ -841,7 +841,7 @@ func (r *importReader) typ1() *types.Type {
 		return t
 
 	case unionType:
-		if r.p.exportVersion < iexportVersionGenerics {
+		if false && r.p.exportVersion < iexportVersionGenerics {
 			base.Fatalf("unexpected instantiation type")
 		}
 		nt := int(r.uint64())

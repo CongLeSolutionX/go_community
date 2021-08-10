@@ -47,8 +47,8 @@ const (
 	iexportVersionPosCol   = 1
 	iexportVersionGenerics = 2
 
-	// Start of the unstable series of versions, remove "+ n" before release.
-	iexportVersionCurrent = iexportVersionGenerics + 1
+	// TODO: before release, change to new version iexportVersionGenerics
+	iexportVersionCurrent = iexportVersionPosCol
 )
 
 type ident struct {
@@ -99,7 +99,7 @@ func ImportData(imports map[string]*types2.Package, data, path string) (pkg *typ
 
 	version = int64(r.uint64())
 	switch version {
-	case currentVersion, iexportVersionPosCol, iexportVersionGo1_11:
+	case iexportVersionGenerics, iexportVersionPosCol, iexportVersionGo1_11:
 	default:
 		if version > iexportVersionGenerics {
 			errorf("unstable iexport format version %d, just rebuild compiler and std library", version)
@@ -362,7 +362,7 @@ func (r *importReader) obj(name string) {
 		// We need to "declare" a typeparam in order to have a name that
 		// can be referenced recursively (if needed) in the type param's
 		// bound.
-		if r.p.exportVersion < iexportVersionGenerics {
+		if false && r.p.exportVersion < iexportVersionGenerics {
 			errorf("unexpected type param type")
 		}
 		name0, sub := parseSubscript(name)
@@ -635,7 +635,7 @@ func (r *importReader) doType(base *types2.Named) types2.Type {
 		return typ
 
 	case typeParamType:
-		if r.p.exportVersion < iexportVersionGenerics {
+		if false && r.p.exportVersion < iexportVersionGenerics {
 			errorf("unexpected type param type")
 		}
 		pkg, name := r.qualifiedIdent()
@@ -649,7 +649,7 @@ func (r *importReader) doType(base *types2.Named) types2.Type {
 		return r.p.tparamIndex[id]
 
 	case instType:
-		if r.p.exportVersion < iexportVersionGenerics {
+		if false && r.p.exportVersion < iexportVersionGenerics {
 			errorf("unexpected instantiation type")
 		}
 		pos := r.pos()
@@ -666,7 +666,7 @@ func (r *importReader) doType(base *types2.Named) types2.Type {
 		return t
 
 	case unionType:
-		if r.p.exportVersion < iexportVersionGenerics {
+		if false && r.p.exportVersion < iexportVersionGenerics {
 			errorf("unexpected instantiation type")
 		}
 		terms := make([]*types2.Term, r.uint64())

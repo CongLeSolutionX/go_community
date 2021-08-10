@@ -230,8 +230,8 @@ const (
 	iexportVersionPosCol   = 1
 	iexportVersionGenerics = 2
 
-	// Start of the unstable series of versions, remove "+ n" before release.
-	iexportVersionCurrent = iexportVersionGenerics + 1
+	// TODO: before release, change to new version iexportVersionGenerics
+	iexportVersionCurrent = iexportVersionPosCol
 )
 
 // predeclReserved is the number of type offsets reserved for types
