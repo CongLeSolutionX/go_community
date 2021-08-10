@@ -2189,7 +2189,6 @@ var g3Failures = setOf(
 
 var unifiedFailures = setOf(
 	"closure3.go", // unified IR numbers closures differently than -d=inlfuncswithclosures
-	"escape4.go",  // unified IR can inline f5 and f6; test doesn't expect this
 	"inline.go",   // unified IR reports function literal diagnostics on different lines than -d=inlfuncswithclosures
 
 	"fixedbugs/issue42284.go", // prints "T(0) does not escape", but test expects "a.I(a.T(0)) does not escape"
