@@ -258,6 +258,18 @@ const (
 	REG_CR6
 	REG_CR7
 
+	// MMA registers, these shadow VSR 0-31
+	// e.g MMAx shadows VSRx*4-VSRx*4+3 or
+	//     MMA0 shadows VSR0-VSR3
+	REG_MMA0
+	REG_MMA1
+	REG_MMA2
+	REG_MMA3
+	REG_MMA4
+	REG_MMA5
+	REG_MMA6
+	REG_MMA7
+
 	REG_MSR
 	REG_FPSCR
 	REG_CR
@@ -399,6 +411,7 @@ const (
 	C_CREG     /* The condition registor (CR) */
 	C_CRBIT    /* A single bit of the CR register (0-31) */
 	C_SPR      /* special processor register */
+	C_MREG     /* MMA accumulator register */
 	C_ZCON     /* The constant zero */
 	C_U1CON    /* 1 bit unsigned constant */
 	C_U2CON    /* 2 bit unsigned constant */
