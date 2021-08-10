@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de5b39bf_68b2b5b6",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-10T20:15:25Z",
+      "side": 1,
+      "message": "I don\u0027t really understand this condition — doesn\u0027t p.Internal.Local already imply build.IsLocalImport(path)?\n\nSo perhaps the conditions here should be structured like:\n\n\tif p.Internal.Local {\n\t\t…\n\t\tif cfg.ModulesEnabled {\n\t\t\terr \u003d ImportErrorf(path, \"local import %q not supported in module mode\", path)\n\t\t} else if path !\u003d \".\" {\n\t\t\terr \u003d …\n\t\t} else {\n\t\t\terr \u003d …\n\t\t}\n\t\t…\n\t}\n\nThat probably implies that we should also have a similar test in GOPATH mode: the build.IsLocalImport(path) condition looks like it would be a regression in the GOPATH-mode error message.",
+      "revId": "b655a0b9d430b2c6024affa53793da443b327307",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
