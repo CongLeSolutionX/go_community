@@ -16,6 +16,24 @@
       "message": "At this point we have incremented mheap_.sweepers.  When we return false here, what reduces mheap_.sweepers?",
       "revId": "a25a77aed2d76b0aebff8892477f27283398a932",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea134ed9_34d0ac58",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-10T23:07:25Z",
+      "side": 1,
+      "message": "OK, I think I\u0027m getting confused about the use of l.blocking.  Sorry for the noise.",
+      "parentUuid": "330f515d_105ea579",
+      "revId": "a25a77aed2d76b0aebff8892477f27283398a932",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
