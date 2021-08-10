@@ -253,3 +253,26 @@ type GotConnInfo struct {
 	// idle, if WasIdle is true.
 	IdleTime time.Duration
 }
+
+// ReuseConnInfo is the argument to the Transport.ReuseConn function.
+type ReuseConnInfo struct {
+	// Conn is the connection that was obtained. It is owned by
+	// the http.Transport and should not be read, written or
+	// closed by recipients of ReuseConnInfo.
+	Conn net.Conn
+
+	// Proxy is the the proxy URL for the request.
+	Proxy string
+
+	// Scheme is the URL scheme for the request.
+	Scheme string
+
+	// HostPort is the "host:port" from the request URL.
+	HostPort string
+
+	// CreationTime is the time when the connection was created.
+	CreationTime time.Time
+
+	// IdleTime reports how long the connection was previously idle.
+	IdleTime time.Duration
+}

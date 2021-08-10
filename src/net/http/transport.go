@@ -162,6 +162,11 @@ type Transport struct {
 	// If both are set, DialTLSContext takes priority.
 	DialTLS func(network, addr string) (net.Conn, error)
 
+	// ReuseConn optionally specifies a func which decides whether to reuse
+	// an idle connection. If it returns false, the connection will be closed
+	// and a new connection attempt made.
+	ReuseConn func(httptrace.ReuseConnInfo) (reuse bool)
+
 	// TLSClientConfig specifies the TLS configuration to use with
 	// tls.Client.
 	// If nil, the default configuration is used.
@@ -313,6 +318,7 @@ func (t *Transport) Clone() *Transport {
 		Dial:                   t.Dial,
 		DialTLS:                t.DialTLS,
 		DialTLSContext:         t.DialTLSContext,
+		ReuseConn:              t.ReuseConn,
 		TLSHandshakeTimeout:    t.TLSHandshakeTimeout,
 		DisableKeepAlives:      t.DisableKeepAlives,
 		DisableCompression:     t.DisableCompression,
@@ -1018,13 +1024,7 @@ func (t *Transport) queueForIdleConn(w *wantConn) (delivered bool) {
 		return false
 	}
 
-	// If IdleConnTimeout is set, calculate the oldest
-	// persistConn.idleAt time we're willing to use a cached idle
-	// conn.
-	var oldTime time.Time
-	if t.IdleConnTimeout > 0 {
-		oldTime = time.Now().Add(-t.IdleConnTimeout)
-	}
+	now := time.Now()
 
 	// Look for most recently-used idle connection.
 	if list, ok := t.idleConn[w.key]; ok {
@@ -1033,17 +1033,34 @@ func (t *Transport) queueForIdleConn(w *wantConn) (delivered bool) {
 		for len(list) > 0 && !stop {
 			pconn := list[len(list)-1]
 
+			// Calculate idle time considering only the wall time (the Round(0)),
+			// in case this is a laptop or VM coming out of suspend with
+			// previously cached idle connections.
+			idleTime := now.Sub(pconn.idleAt.Round(0))
+
 			// See whether this connection has been idle too long, considering
 			// only the wall time (the Round(0)), in case this is a laptop or VM
 			// coming out of suspend with previously cached idle connections.
-			tooOld := !oldTime.IsZero() && pconn.idleAt.Round(0).Before(oldTime)
-			if tooOld {
+			shouldClose := t.IdleConnTimeout > 0 && idleTime >= t.IdleConnTimeout
+			if t.ReuseConn != nil {
+				if !t.ReuseConn(httptrace.ReuseConnInfo{
+					Conn:         pconn.conn,
+					HostPort:     w.key.addr,
+					Scheme:       w.key.scheme,
+					Proxy:        w.key.proxy,
+					CreationTime: pconn.creationTime,
+					IdleTime:     idleTime,
+				}) {
+					shouldClose = true
+				}
+			}
+			if shouldClose {
 				// Async cleanup. Launch in its own goroutine (as if a
 				// time.AfterFunc called it); it acquires idleMu, which we're
 				// holding, and does a synchronous net.Conn.Close.
 				go pconn.closeConnIfStillIdle()
 			}
-			if pconn.isBroken() || tooOld {
+			if pconn.isBroken() || shouldClose {
 				// If either persistConn.readLoop has marked the connection
 				// broken, but Transport.removeIdleConn has not yet removed it
 				// from the idle list, or if this persistConn is too old (it was
@@ -1183,9 +1200,10 @@ func (t *Transport) dial(ctx context.Context, network, addr string) (net.Conn, e
 // wantConn to coordinate and agree about the winning outcome.
 type wantConn struct {
 	cm    connectMethod
-	key   connectMethodKey // cm.key()
-	ctx   context.Context  // context for dial
-	ready chan struct{}    // closed when pc, err pair is delivered
+	key   connectMethodKey       // cm.key()
+	ctx   context.Context        // context for dial
+	trace *httptrace.ClientTrace // or nil
+	ready chan struct{}          // closed when pc, err pair is delivered
 
 	// hooks for testing to know when dials are done
 	// beforeDial is called in the getConn goroutine when the dial is queued.
@@ -1340,6 +1358,7 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (pc *persi
 		ready:      make(chan struct{}, 1),
 		beforeDial: testHookPrePendingDial,
 		afterDial:  testHookPostPendingDial,
+		trace:      trace,
 	}
 	defer func() {
 		if err != nil {
@@ -1444,6 +1463,9 @@ func (t *Transport) dialConnFor(w *wantConn) {
 	defer w.afterDial()
 
 	pc, err := t.dialConn(w.ctx, w.cm)
+	if pc != nil {
+		pc.creationTime = time.Now()
+	}
 	delivered := w.tryDeliver(pc, err)
 	if err == nil && (!delivered || pc.alt != nil) {
 		// pconn was not passed to w,
@@ -1872,19 +1894,20 @@ type persistConn struct {
 	// If it's non-nil, the rest of the fields are unused.
 	alt RoundTripper
 
-	t         *Transport
-	cacheKey  connectMethodKey
-	conn      net.Conn
-	tlsState  *tls.ConnectionState
-	br        *bufio.Reader       // from conn
-	bw        *bufio.Writer       // to conn
-	nwrite    int64               // bytes written
-	reqch     chan requestAndChan // written by roundTrip; read by readLoop
-	writech   chan writeRequest   // written by roundTrip; read by writeLoop
-	closech   chan struct{}       // closed when conn closed
-	isProxy   bool
-	sawEOF    bool  // whether we've seen EOF from conn; owned by readLoop
-	readLimit int64 // bytes allowed to be read; owned by readLoop
+	t            *Transport
+	cacheKey     connectMethodKey
+	conn         net.Conn
+	tlsState     *tls.ConnectionState
+	br           *bufio.Reader       // from conn
+	bw           *bufio.Writer       // to conn
+	nwrite       int64               // bytes written
+	reqch        chan requestAndChan // written by roundTrip; read by readLoop
+	writech      chan writeRequest   // written by roundTrip; read by writeLoop
+	closech      chan struct{}       // closed when conn closed
+	isProxy      bool
+	sawEOF       bool  // whether we've seen EOF from conn; owned by readLoop
+	readLimit    int64 // bytes allowed to be read; owned by readLoop
+	creationTime time.Time
 	// writeErrCh passes the request write error (usually nil)
 	// from the writeLoop goroutine to the readLoop which passes
 	// it off to the res.Body reader, which then uses it to decide

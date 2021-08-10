@@ -5883,6 +5883,7 @@ func TestTransportClone(t *testing.T) {
 		Dial:                   func(network, addr string) (net.Conn, error) { panic("") },
 		DialTLS:                func(network, addr string) (net.Conn, error) { panic("") },
 		DialTLSContext:         func(ctx context.Context, network, addr string) (net.Conn, error) { panic("") },
+		ReuseConn:              func(httptrace.ReuseConnInfo) (reuse bool) { panic("") },
 		TLSClientConfig:        new(tls.Config),
 		TLSHandshakeTimeout:    time.Second,
 		DisableKeepAlives:      true,
@@ -6540,4 +6541,91 @@ func TestHandlerAbortRacesBodyRead(t *testing.T) {
 		}()
 	}
 	wg.Wait()
+}
+
+func TestReuseConnHooks_h1(t *testing.T) { testReuseConnHooks(t, h1Mode) }
+
+// TODO: HTTP/2 support.
+//func TestReuseConnHooks_h2(t *testing.T) { testReuseConnHooks(t, h2Mode) }
+
+func testReuseConnHooks(t *testing.T, h2 bool) {
+	for _, test := range []struct {
+		desc   string
+		config func(context.Context, *Transport) context.Context
+
+		// Each item in wantReqs is a number of sequential requests that should reuse
+		// the same conn. For example, []int{2, 1} is two requests on one conn, followed
+		// by one on a new one.
+		wantReqs []int
+	}{{
+		desc: "always reuse conn",
+		config: func(ctx context.Context, transport *Transport) context.Context {
+			transport.ReuseConn = func(info httptrace.ReuseConnInfo) bool {
+				return false
+			}
+			return ctx
+		},
+		wantReqs: []int{1, 1, 1},
+	}, {
+		desc: "reuse conn every other request",
+		config: func(ctx context.Context, transport *Transport) context.Context {
+			count := 0
+			transport.ReuseConn = func(info httptrace.ReuseConnInfo) bool {
+				count++
+				return count%2 != 0
+			}
+			return ctx
+		},
+		wantReqs: []int{2, 2, 1},
+	}} {
+		t.Run(test.desc, func(t *testing.T) {
+			// The server assigns an ID to each new connection,
+			// and returns it in responses.
+			countKey := new(int)
+			count := 0
+			handler := HandlerFunc(func(w ResponseWriter, r *Request) {
+				fmt.Fprintf(w, "%v", r.Context().Value(countKey))
+			})
+			cst := newClientServerTest(t, h2, handler, func(s *httptest.Server) {
+				s.Config.ConnContext = func(ctx context.Context, c net.Conn) context.Context {
+					count++
+					return context.WithValue(ctx, countKey, count)
+				}
+			})
+			defer cst.close()
+			ctx := context.Background()
+			ctx = test.config(ctx, cst.c.Transport.(*Transport))
+
+			// Send a number of requests in series, and verify that new connections
+			// are created when the previous one is rejected by a ReuseConn hook.
+			totalReqs := 0
+			lastConnID := ""
+			for _, wantReqs := range test.wantReqs {
+				connReqs := 0
+				for i := 0; i < wantReqs; i++ {
+					totalReqs++
+					connReqs++
+					req, _ := NewRequest("GET", cst.ts.URL, nil)
+					req = req.WithContext(ctx)
+					res, err := cst.c.Do(req)
+					if err != nil {
+						t.Fatal(err)
+					}
+					defer res.Body.Close()
+					b, err := io.ReadAll(res.Body)
+					if err != nil {
+						t.Fatal(err)
+					}
+					connID := string(b)
+					if connReqs == 1 && connID == lastConnID {
+						t.Errorf("request %v reused a conn (id:%q, lastID:%q); should have used a new one", totalReqs, connID, lastConnID)
+					}
+					if connReqs > 1 && connID != lastConnID {
+						t.Errorf("request %v used a new conn (id:%q, lastID:%q); should have reused the previous one", totalReqs, connID, lastConnID)
+					}
+					lastConnID = connID
+				}
+			}
+		})
+	}
 }
