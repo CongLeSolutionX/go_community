@@ -469,6 +469,7 @@ func TestAddrClassifier(t *testing.T) {
 		{obj.Addr{Type: obj.TYPE_REG, Reg: REG_SPR0 + 8}, C_LR},
 		{obj.Addr{Type: obj.TYPE_REG, Reg: REG_SPR0 + 9}, C_CTR},
 		{obj.Addr{Type: obj.TYPE_REG, Reg: REG_FPSCR}, C_FPSCR},
+		{obj.Addr{Type: obj.TYPE_REG, Reg: REG_MMA1}, C_MREG},
 
 		// Memory type arguments.
 		{obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_GOTREF}, C_ADDR},
