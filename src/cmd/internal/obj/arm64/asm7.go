@@ -2000,7 +2000,7 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 
 	a1--
 	a3 := C_NONE + 1
-	if p.GetFrom3() != nil && p.RestArgs[0].Pos == 0 {
+	if p.GetFrom3() != nil && p.RestArgs[0].Pos < obj.Destination1 {
 		a3 = int(p.GetFrom3().Class)
 		if a3 == 0 {
 			a3 = c.aclass(p.GetFrom3()) + 1
