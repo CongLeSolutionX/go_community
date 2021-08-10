@@ -281,6 +281,7 @@ var OpPrec = []int{
 	OCASE:       -1,
 	OCONTINUE:   -1,
 	ODCL:        -1,
+	ODCLTYPE:    -1,
 	ODEFER:      -1,
 	OFALL:       -1,
 	OFOR:        -1,
@@ -341,6 +342,10 @@ func stmtFmt(n Node, s fmt.State) {
 	case ODCL:
 		n := n.(*Decl)
 		fmt.Fprintf(s, "var %v %v", n.X.Sym(), n.X.Type())
+
+	case ODCLTYPE:
+		n := n.(*Decl)
+		fmt.Fprintf(s, "type %v %v", n.X.Sym(), n.X.Type())
 
 	// Don't export "v = <N>" initializing statements, hope they're always
 	// preceded by the DCL which will be re-parsed and typechecked to reproduce
