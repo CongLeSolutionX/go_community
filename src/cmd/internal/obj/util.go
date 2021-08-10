@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"internal/buildcfg"
 	"io"
+	"sort"
 	"strings"
 )
 
@@ -175,8 +176,15 @@ func (p *Prog) WriteInstructionString(w io.Writer) {
 		fmt.Fprintf(w, "%s%v", sep, Rconv(int(p.Reg)))
 		sep = ", "
 	}
+	// Sort p.RestArgs based on AddrPos.Pos, because the position order of p.RestArgs
+	// matters on arm64.
+	if len(p.RestArgs) > 1 && buildcfg.GOARCH == "arm64" {
+		sort.Slice(p.RestArgs, func(i, j int) bool {
+			return p.RestArgs[i].Pos < p.RestArgs[j].Pos
+		})
+	}
 	for i := range p.RestArgs {
-		if p.RestArgs[i].Pos == Source {
+		if p.RestArgs[i].Pos < Destination1 {
 			io.WriteString(w, sep)
 			WriteDconv(w, p, &p.RestArgs[i].Addr)
 			sep = ", "
@@ -202,7 +210,7 @@ func (p *Prog) WriteInstructionString(w io.Writer) {
 		fmt.Fprintf(w, "%s%v", sep, Rconv(int(p.RegTo2)))
 	}
 	for i := range p.RestArgs {
-		if p.RestArgs[i].Pos == Destination {
+		if p.RestArgs[i].Pos >= Destination1 {
 			io.WriteString(w, sep)
 			WriteDconv(w, p, &p.RestArgs[i].Addr)
 			sep = ", "

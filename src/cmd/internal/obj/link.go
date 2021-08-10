@@ -321,8 +321,15 @@ type AddrPos struct {
 type OperandPos int8
 
 const (
-	Source OperandPos = iota
-	Destination
+	// On arm64, Source{1,2,3} and Destination{1,2} respectively represent the first to
+	// third source operands and the first to second destination operands. In other
+	// architectures, Source{1,2,3} represent the source operand, and Destination{1,2}
+	// represent the destination operand, there is no distinction in order.
+	Source1 OperandPos = iota
+	Source2
+	Source3
+	Destination1
+	Destination2
 )
 
 // From3Type returns p.GetFrom3().Type, or TYPE_NONE when
@@ -330,10 +337,7 @@ const (
 //
 // Deprecated: for the same reasons as Prog.GetFrom3.
 func (p *Prog) From3Type() AddrType {
-	if p.RestArgs == nil {
-		return TYPE_NONE
-	}
-	return p.RestArgs[0].Type
+	return p.RestArgType(Source3)
 }
 
 // GetFrom3 returns second source operand (the first is Prog.From).
@@ -346,52 +350,92 @@ func (p *Prog) From3Type() AddrType {
 // Introduced to simplify transition to []Addr.
 // Usage of this is discouraged due to fragility and lack of guarantees.
 func (p *Prog) GetFrom3() *Addr {
-	if p.RestArgs == nil {
-		return nil
-	}
-	return &p.RestArgs[0].Addr
+	return p.GetRestArg(Source3)
 }
 
-// SetFrom3 assigns []Args{{a, 0}} to p.RestArgs.
+// SetFrom3 assigns []Args{{a, Source3}} to p.RestArgs.
 // In pair with Prog.GetFrom3 it can help in emulation of Prog.From3.
 //
 // Deprecated: for the same reasons as Prog.GetFrom3.
 func (p *Prog) SetFrom3(a Addr) {
-	p.RestArgs = []AddrPos{{a, Source}}
+	p.SetRestArg(a, Source3)
 }
 
 // SetFrom3Reg calls p.SetFrom3 with a register Addr containing reg.
 //
 // Deprecated: for the same reasons as Prog.GetFrom3.
 func (p *Prog) SetFrom3Reg(reg int16) {
-	p.SetFrom3(Addr{Type: TYPE_REG, Reg: reg})
+	p.SetRestArg(Addr{Type: TYPE_REG, Reg: reg}, Source3)
 }
 
 // SetFrom3Const calls p.SetFrom3 with a const Addr containing x.
 //
 // Deprecated: for the same reasons as Prog.GetFrom3.
 func (p *Prog) SetFrom3Const(off int64) {
-	p.SetFrom3(Addr{Type: TYPE_CONST, Offset: off})
+	p.SetRestArg(Addr{Type: TYPE_CONST, Offset: off}, Source3)
 }
 
-// SetTo2 assigns []Args{{a, 1}} to p.RestArgs when the second destination
-// operand does not fit into prog.RegTo2.
+// SetTo2 assigns []Args{{a, Destination1}} to p.RestArgs when the
+// second destination operand does not fit into prog.RegTo2.
+//
+// Deprecated: for the same reasons as Prog.GetFrom3.
 func (p *Prog) SetTo2(a Addr) {
-	p.RestArgs = []AddrPos{{a, Destination}}
+	p.SetRestArg(a, Destination1)
 }
 
 // GetTo2 returns the second destination operand.
+//
+// Deprecated: for the same reasons as Prog.GetFrom3.
 func (p *Prog) GetTo2() *Addr {
+	return p.GetRestArg(Destination1)
+}
+
+// RestArgType returns p.RestArgs[pos].Type, or TYPE_NONE when
+// p.RestArgs is nil.
+func (p *Prog) RestArgType(pos OperandPos) AddrType {
+	if p.RestArgs == nil {
+		return TYPE_NONE
+	}
+	for _, a := range p.RestArgs {
+		if a.Pos == pos {
+			return a.Type
+		}
+	}
+	return TYPE_NONE
+}
+
+// GetRestArg returns &p.RestArgs[pos], or nil when p.RestArgs is nil.
+func (p *Prog) GetRestArg(pos OperandPos) *Addr {
 	if p.RestArgs == nil {
 		return nil
 	}
-	return &p.RestArgs[0].Addr
+	// Don't use range
+	for i := 0; i < len(p.RestArgs); i++ {
+		if p.RestArgs[i].Pos == pos {
+			return &p.RestArgs[i].Addr
+		}
+	}
+	return nil
 }
 
-// SetRestArgs assigns more than one source operands to p.RestArgs.
+// SetRestArg returns an element to p.RestArgs[pos].
+func (p *Prog) SetRestArg(a Addr, pos OperandPos) {
+	if p.RestArgs == nil {
+		// Reserve enough space so that append will not reallocate.
+		p.RestArgs = make([]AddrPos, 0, 5)
+	}
+	p.RestArgs = append(p.RestArgs, AddrPos{a, pos})
+}
+
+// GetRestArgs returns p.RestArgs.
+func (p *Prog) GetRestArgs() []AddrPos {
+	return p.RestArgs
+}
+
+// SetRestArgs assigns multiple elements to p.RestArgs.
 func (p *Prog) SetRestArgs(args []Addr) {
-	for i := range args {
-		p.RestArgs = append(p.RestArgs, AddrPos{args[i], Source})
+	for _, a := range args {
+		p.SetRestArg(a, Source3)
 	}
 }
 
