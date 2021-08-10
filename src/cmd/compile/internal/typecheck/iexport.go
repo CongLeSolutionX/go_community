@@ -1471,6 +1471,18 @@ func (w *exportWriter) stmt(n ir.Node) {
 		w.op(ir.ODCL)
 		w.localName(n.X)
 
+	case ir.ODCLTYPE:
+		n := n.(*ir.Decl)
+		if ir.IsBlank(n.X) {
+			return // blank declarations not useful to importers
+		}
+		w.op(ir.ODCLTYPE)
+		w.pos(n.Pos())
+		if n.X.Op() != ir.OTYPE {
+			panic("what?")
+		}
+		w.expr(n.X)
+
 	case ir.OAS:
 		// Don't export "v = <N>" initializing statements, hope they're always
 		// preceded by the DCL which will be re-parsed and typecheck to reproduce
@@ -1686,6 +1698,7 @@ func (w *exportWriter) expr(n ir.Node) {
 
 	case ir.OTYPE:
 		w.op(ir.OTYPE)
+		// TODO: name?
 		w.typ(n.Type())
 
 	case ir.OTYPESW:

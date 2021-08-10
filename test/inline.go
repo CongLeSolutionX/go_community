@@ -292,3 +292,13 @@ func conv2(v uint64) uint64 { // ERROR "can inline conv2"
 func conv1(v uint64) uint64 { // ERROR "can inline conv1"
 	return uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(v)))))))))))
 }
+
+// Make sure inlining functions with local type declarations are ok.
+func localType(x, y, z int) int { // ERROR "can inline localType"
+	type T [2]int
+	t := T{x, y}
+	return t[z]
+}
+func localTypeUse() { // ERROR "can inline localTypeUse"
+	localType(4, 5, 1) // ERROR "inlining call to localType"
+}
