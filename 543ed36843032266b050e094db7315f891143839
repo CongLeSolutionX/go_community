@@ -53,6 +53,24 @@
       "message": "I don\u0027t see how we can make this breaking change. What am I missing?",
       "revId": "543ed36843032266b050e094db7315f891143839",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76aca3a9_5f2f5c98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-10T00:57:23Z",
+      "side": 1,
+      "message": "Maybe we can\u0027t make the change. I don\u0027t have a feeling for how pervasive the use of the old API is, especially correct use.",
+      "parentUuid": "7c472fff_f049e918",
+      "revId": "543ed36843032266b050e094db7315f891143839",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
