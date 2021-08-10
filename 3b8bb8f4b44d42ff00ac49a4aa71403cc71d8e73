@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b204106e_cfa68d50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-10T21:04:20Z",
+      "side": 1,
+      "message": "maybe leave away \"before release\"\n\nas its misleading (which release?) The context below explains enough.",
+      "revId": "3b8bb8f4b44d42ff00ac49a4aa71403cc71d8e73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6f3f074_b1a5e91c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-10T21:04:20Z",
+      "side": 1,
+      "message": "Leave away in favor or the issue #\n\nFor issue #...",
+      "range": {
+        "startLine": 13,
+        "startChar": 14,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "3b8bb8f4b44d42ff00ac49a4aa71403cc71d8e73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99d3a8aa_41d83912",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -51,6 +91,23 @@
       "writtenOn": "2021-08-10T20:31:24Z",
       "side": 1,
       "message": "Here\u0027s the change that we will revert before Go 1.18.  I am temporarily changing the export version back to exportVersionPosCol (the Go 1.17 version) for better testing.\n",
+      "revId": "3b8bb8f4b44d42ff00ac49a4aa71403cc71d8e73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "229b33bf_e34a82bd",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-10T21:04:20Z",
+      "side": 1,
+      "message": "just make this\n\niexportVersionGenerics \u003d iexportVersionPosCol\n\nand then you don\u0027t have to make all these other changes?\n\n(also, we could probably use iota in this const decl)",
       "revId": "3b8bb8f4b44d42ff00ac49a4aa71403cc71d8e73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
