@@ -53,6 +53,23 @@
       "message": "Note to the reviewers: this CL incorporates changes in https://go-review.googlesource.com/c/go/+/334873 as it is not clear will that CL be submitted or not, based on the beginning of the discussion in #47309.",
       "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac3071e6_ae8c2f23",
+        "filename": "src/cmd/go/internal/test/flagdefs_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-11T22:01:45Z",
+      "side": 1,
+      "message": "The property that we\u0027re testing for here is basically “the generated code is not stale”. Perhaps we could factor out the generator method into a function in an internal package, so that the test can import and run it?\n\n(A hard-coded list in the test is not helpful, since it will presumably also be stale whenever the generated code is.)",
+      "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
