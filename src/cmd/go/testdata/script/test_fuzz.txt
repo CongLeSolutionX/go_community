@@ -77,6 +77,12 @@ stdout 'f.Fuzz function'
 stdout FAIL
 stdout 'f.Fuzz function'
 
+# Test that trying to match sub-tests doesn't work (i.e., they still run).
+! go test -run=Fuzz/OtherTest subtest_fuzz_fn_fuzz_test.go
+! stdout ^ok
+stdout FAIL
+stdout 'fatal here'
+
 # Test that a call to f.Fatal after the Fuzz func is never executed.
 go test fatal_after_fuzz_func_fuzz_test.go
 stdout ok
@@ -261,6 +267,20 @@ func Fuzz(f *testing.F) {
     f.Add([]byte("aa"))
     f.Fuzz(func(t *testing.T, b []byte) {
         f.Skip("skip here")
+    })
+}
+
+-- subtest_fuzz_fn_fuzz_test.go --
+package subtest_fuzz_fn_fuzz
+
+import "testing"
+
+func Fuzz(f *testing.F) {
+    f.Add([]byte("aa"))
+    f.Fuzz(func(t *testing.T, b []byte) {
+        t.Run("SubTest", func(t *testing.T) {
+            t.Fatal("fatal here")
+        })
     })
 }
 

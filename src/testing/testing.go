@@ -1348,10 +1348,17 @@ func tRunner(t *T, fn func(t *T)) {
 // must return before the outer test function for t returns.
 func (t *T) Run(name string, f func(t *T)) bool {
 	atomic.StoreInt32(&t.hasSub, 1)
-	testName, ok, _ := t.context.match.fullName(&t.common, name)
-	if !ok || shouldFailFast() {
-		return true
+	var testName string
+	if t.isFuzzing() {
+		testName = t.common.name + "/" + rewrite(name)
+	} else {
+		var ok bool
+		testName, ok, _ = t.context.match.fullName(&t.common, name)
+		if !ok || shouldFailFast() {
+			return true
+		}
 	}
+
 	// Record the stack trace at the point of this call so that if the subtest
 	// function - which runs in a separate stack - is marked as a helper, we can
 	// continue walking the stack into the parent test.
