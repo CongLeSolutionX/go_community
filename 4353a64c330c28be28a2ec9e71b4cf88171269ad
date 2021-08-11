@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c98cbfe_bb9fadca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-08-11T12:10:16Z",
+      "side": 1,
+      "message": "Personally LGTM, but I\u0027ll defer to Joe, since he wrote the code :) ",
+      "revId": "4353a64c330c28be28a2ec9e71b4cf88171269ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
