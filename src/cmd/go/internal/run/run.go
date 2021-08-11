@@ -83,7 +83,7 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 		// before loading packages, since it affects package locations, e.g.,
 		// for -race and -msan.
 		opts.ForceUseModules = true
-		modload.RootMode = modload.NoRoot
+		opts.RootMode = modload.NoRoot
 		modload.AllowMissingModuleImports()
 	}
 	modState, err := modload.Init(opts)

@@ -36,9 +36,6 @@ import (
 //
 // TODO(#40775): See if these can be plumbed as explicit parameters.
 var (
-	// RootMode determines whether a module root is needed.
-	RootMode Root
-
 	allowMissingModuleImports bool
 )
 
@@ -267,6 +264,9 @@ type Opts struct {
 	// ForceUseModules may be set to force modules to be enabled when
 	// GO111MODULE=auto or to report an error when GO111MODULE=off.
 	ForceUseModules bool
+
+	// RootMode determines whether a module root is needed.
+	RootMode Root
 }
 
 // State holds information about modules loaded into memory. State is read
@@ -318,7 +318,7 @@ func Init(opts Opts) (state *State, err error) {
 	if modRoots != nil {
 		// modRoot set before Init was called ("go mod init" does this).
 		// No need to search for go.mod.
-	} else if RootMode == NoRoot {
+	} else if opts.RootMode == NoRoot {
 		if cfg.ModFile != "" && !base.InGOFLAGS("-modfile") {
 			return nil, fmt.Errorf("-modfile cannot be used with commands that ignore the current module")
 		}
@@ -330,7 +330,7 @@ func Init(opts Opts) (state *State, err error) {
 			if cfg.ModFile != "" {
 				return nil, fmt.Errorf("cannot find main module, but -modfile was set.\n\t-modfile cannot be used to set the module root directory.")
 			}
-			if RootMode == NeedRoot {
+			if opts.RootMode == NeedRoot {
 				return nil, ErrNoModRoot
 			}
 			if !mustUseModules {
