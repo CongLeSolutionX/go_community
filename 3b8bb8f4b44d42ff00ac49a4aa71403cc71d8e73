@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cefeee65_5f1b2120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-11T01:23:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b204106e_cfa68d50",
+      "revId": "3b8bb8f4b44d42ff00ac49a4aa71403cc71d8e73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6f3f074_b1a5e91c",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-08-10T21:04:20Z",
       "side": 1,
       "message": "Leave away in favor or the issue #\n\nFor issue #...",
+      "range": {
+        "startLine": 13,
+        "startChar": 14,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "3b8bb8f4b44d42ff00ac49a4aa71403cc71d8e73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98c65dc_0cd7e082",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-11T01:23:23Z",
+      "side": 1,
+      "message": "Sure, assuming Matthew is happy with this change, then I\u0027ll create an issue and fill it in here.",
+      "parentUuid": "e6f3f074_b1a5e91c",
       "range": {
         "startLine": 13,
         "startChar": 14,
@@ -108,6 +150,24 @@
       "writtenOn": "2021-08-10T21:04:20Z",
       "side": 1,
       "message": "just make this\n\niexportVersionGenerics \u003d iexportVersionPosCol\n\nand then you don\u0027t have to make all these other changes?\n\n(also, we could probably use iota in this const decl)",
+      "revId": "3b8bb8f4b44d42ff00ac49a4aa71403cc71d8e73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17b294e4_2e89874b",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-11T01:23:23Z",
+      "side": 1,
+      "message": "OK, done.  I did have to fix some switch statements, which would then have a duplicate case.  Should be simple to revert most of this either way.",
+      "parentUuid": "229b33bf_e34a82bd",
       "revId": "3b8bb8f4b44d42ff00ac49a4aa71403cc71d8e73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
