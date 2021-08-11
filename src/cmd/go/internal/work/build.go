@@ -783,10 +783,10 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 //
 // See golang.org/issue/40276 for details and rationale.
 func installOutsideModule(ctx context.Context, args []string) {
-	modload.ForceUseModules = true
 	modload.RootMode = modload.NoRoot
 	modload.AllowMissingModuleImports()
-	modState, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{ForceUseModules: true}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}

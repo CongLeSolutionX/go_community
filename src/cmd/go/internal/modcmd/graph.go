@@ -51,9 +51,9 @@ func runGraph(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) > 0 {
 		base.Fatalf("go: graph takes no arguments")
 	}
-	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
-	if _, err := modload.Init(modload.Opts{}); err != nil {
+	opts := modload.Opts{ForceUseModules: true}
+	if _, err := modload.Init(opts); err != nil {
 		base.Fatalf("go: %v", err)
 	}
 	mg := modload.LoadModGraph(ctx, graphGo.String())

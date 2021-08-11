@@ -76,16 +76,17 @@ func printStderr(args ...interface{}) (int, error) {
 func runRun(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 
+	var opts modload.Opts
 	if shouldUseOutsideModuleMode(args) {
 		// Set global module flags for 'go run cmd@version'.
 		// This must be done before modload.Init, but we need to call work.BuildInit
 		// before loading packages, since it affects package locations, e.g.,
 		// for -race and -msan.
-		modload.ForceUseModules = true
+		opts.ForceUseModules = true
 		modload.RootMode = modload.NoRoot
 		modload.AllowMissingModuleImports()
 	}
-	modState, err := modload.Init(modload.Opts{})
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}

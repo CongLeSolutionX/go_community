@@ -46,8 +46,8 @@ func runInit(ctx context.Context, cmd *base.Command, args []string) {
 		modPath = args[0]
 	}
 
-	modload.ForceUseModules = true
-	_, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{ForceUseModules: true}
+	_, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}

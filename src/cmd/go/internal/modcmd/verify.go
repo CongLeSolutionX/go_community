@@ -49,9 +49,9 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 		// NOTE(rsc): Could take a module pattern.
 		base.Fatalf("go: verify takes no arguments")
 	}
-	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
-	if _, err := modload.Init(modload.Opts{}); err != nil {
+	opts := modload.Opts{ForceUseModules: true}
+	if _, err := modload.Init(opts); err != nil {
 		base.Fatalf("go: %v", err)
 	}
 

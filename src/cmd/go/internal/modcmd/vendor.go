@@ -61,9 +61,9 @@ func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) != 0 {
 		base.Fatalf("go: vendor takes no arguments")
 	}
-	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
-	modState, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{ForceUseModules: true}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}

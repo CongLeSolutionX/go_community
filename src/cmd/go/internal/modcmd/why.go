@@ -66,9 +66,9 @@ func init() {
 
 func runWhy(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
-	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
-	modState, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{ForceUseModules: true}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}

@@ -85,8 +85,8 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 
 	// Check whether modules are enabled and whether we're in a module.
-	modload.ForceUseModules = true
-	if _, err := modload.Init(modload.Opts{}); err != nil {
+	opts := modload.Opts{ForceUseModules: true}
+	if _, err := modload.Init(opts); err != nil {
 		base.Fatalf("go: %v", err)
 	}
 	if !modload.HasModRoot() && len(args) == 0 {
