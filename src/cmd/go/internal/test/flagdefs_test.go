@@ -6,6 +6,7 @@ package test
 
 import (
 	"flag"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -35,5 +36,46 @@ func TestPassFlagToTestIncludesAllTestFlags(t *testing.T) {
 		if CmdTest.Flag.Lookup(name) == nil {
 			t.Errorf("passFlagToTest contains %q, but flag -%s does not exist in 'go test' subcommand", name, name)
 		}
+	}
+}
+
+func TestVetAnalyzersSetIsCorrect(t *testing.T) {
+	// TODO: is there a better source of truth than this?
+	want := map[string]bool{
+		"composites.whitelist":       true,
+		"structtag":                  true,
+		"atomic":                     true,
+		"buildtag":                   true,
+		"asmdecl":                    true,
+		"cgocall":                    true,
+		"lostcancel":                 true,
+		"printf":                     true,
+		"tests":                      true,
+		"assign":                     true,
+		"composites":                 true,
+		"nilfunc":                    true,
+		"shift":                      true,
+		"testinggoroutine":           true,
+		"unusedresult":               true,
+		"bools":                      true,
+		"httpresponse":               true,
+		"stdmethods":                 true,
+		"unmarshal":                  true,
+		"unusedresult.funcs":         true,
+		"copylocks":                  true,
+		"unusedresult.stringmethods": true,
+		"loopclosure":                true,
+		"printf.funcs":               true,
+		"unsafeptr":                  true,
+		"unreachable":                true,
+		"errorsas":                   true,
+		"framepointer":               true,
+		"ifaceassert":                true,
+		"sigchanyzer":                true,
+		"stringintconv":              true,
+	}
+
+	if !reflect.DeepEqual(want, passAnalyzersToVet) {
+		t.Errorf("want %v; got %v", want, passAnalyzersToVet)
 	}
 }

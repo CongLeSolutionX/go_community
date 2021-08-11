@@ -150,8 +150,12 @@ func (f *outputdirFlag) getAbs() string {
 }
 
 // vetFlag implements the special parsing logic for the -vet flag:
-// a comma-separated list, with a distinguished value "off" and
-// a boolean tracking whether it was set explicitly.
+// a comma-separated list, with distinguished values "all" and
+// "off", plus a boolean tracking whether it was set explicitly.
+//
+// "all" is encoded as vetFlag{true, false, nil}, since it will
+// pass no flags to the vet binary, and by default, it runs all
+// analyzers.
 type vetFlag struct {
 	explicit bool
 	off      bool
@@ -159,6 +163,9 @@ type vetFlag struct {
 }
 
 func (f *vetFlag) String() string {
+	if !f.off && !f.explicit && len(f.flags) == 0 {
+		return "all"
+	}
 	if f.off {
 		return "off"
 	}
@@ -193,12 +200,27 @@ func (f *vetFlag) Set(value string) error {
 	if strings.Contains(value, " ") {
 		return fmt.Errorf("-vet argument is comma-separated list, cannot contain spaces")
 	}
+
 	*f = vetFlag{explicit: true}
+	var single string
 	for _, arg := range strings.Split(value, ",") {
-		if arg == "" {
+		switch arg {
+		case "":
 			return fmt.Errorf("-vet argument contains empty list element")
+		case "all":
+			single = arg
+		case "off":
+			single = arg
+			f.off = true
+		default:
+			if _, ok := passAnalyzersToVet[arg]; !ok {
+				return fmt.Errorf("-vet argument must be a supported analyzer or a distinguished value; found %s", arg)
+			}
+			f.flags = append(f.flags, "-"+arg)
 		}
-		f.flags = append(f.flags, "-"+arg)
+	}
+	if len(f.flags) > 1 && single != "" {
+		return fmt.Errorf("-vet does not accept %q in a list with other analyzers", single)
 	}
 	return nil
 }

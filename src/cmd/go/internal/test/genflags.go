@@ -9,13 +9,18 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"flag"
+	"fmt"
 	exec "internal/execabs"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 	"testing"
 	"text/template"
+
+	"cmd/go/internal/base"
 )
 
 func main() {
@@ -25,9 +30,18 @@ func main() {
 }
 
 func regenerate() error {
+	vetAnalyzers, err := vetAnalyzers()
+	if err != nil {
+		return err
+	}
+
 	t := template.Must(template.New("fileTemplate").Parse(fileTemplate))
+	tData := map[string][]string{
+		"testFlags":    testFlags(),
+		"vetAnalyzers": vetAnalyzers,
+	}
 	buf := bytes.NewBuffer(nil)
-	if err := t.Execute(buf, testFlags()); err != nil {
+	if err := t.Execute(buf, tData); err != nil {
 		return err
 	}
 
@@ -74,6 +88,65 @@ func testFlags() []string {
 	return names
 }
 
+// vetAnalyzers computes analyzers and their aliases supported by vet.
+func vetAnalyzers() ([]string, error) {
+	// get supported vet flag information
+	tool := base.Tool("vet")
+	vetcmd := exec.Command(tool, "-flags")
+	out := new(bytes.Buffer)
+	vetcmd.Stdout = out
+	if err := vetcmd.Run(); err != nil {
+		return nil, fmt.Errorf("go vet: can't execute %s -flags: %v\n", tool, err)
+	}
+	var analysisFlags []struct {
+		Name  string
+		Bool  bool
+		Usage string
+	}
+	if err := json.Unmarshal(out.Bytes(), &analysisFlags); err != nil {
+		return nil, fmt.Errorf("go vet: can't unmarshal JSON from %s -flags: %v", tool, err)
+	}
+
+	// parse the flags to figure out which ones stand for analyses
+	rEnable := regexp.MustCompile("^enable (?P<analyzer>(.+)) analysis$")
+	rDeprecated := regexp.MustCompile("^deprecated alias for -(?P<analyzer>(.+))$")
+
+	// Returns the <analyzer> match of rEnable and rDeprecated on input value.
+	// If there is no match, "" is returned.
+	analyzerMatch := func(value string) string {
+		match := rEnable.FindStringSubmatch(value)
+		for i, name := range rEnable.SubexpNames() {
+			if name == "analyzer" && i < len(match) {
+				return match[i]
+			}
+		}
+
+		match = rDeprecated.FindStringSubmatch(value)
+		for i, name := range rDeprecated.SubexpNames() {
+			if name == "analyzer" && i < len(match) {
+				return match[i]
+			}
+		}
+
+		return ""
+	}
+
+	// set is used to collect analyzer names as parsing of "deprecated ..."
+	// usage can yield an analyzer already appearing in "enable ..." usage.
+	analyzerSet := make(map[string]bool)
+	for _, flag := range analysisFlags {
+		if a := analyzerMatch(flag.Usage); a != "" {
+			analyzerSet[a] = true
+		}
+	}
+
+	var analyzers []string
+	for a := range analyzerSet {
+		analyzers = append(analyzers, a)
+	}
+	return analyzers, nil
+}
+
 const fileTemplate = `// Copyright 2019 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -85,7 +158,13 @@ package test
 // passFlagToTest contains the flags that should be forwarded to
 // the test binary with the prefix "test.".
 var passFlagToTest = map[string]bool {
-{{- range .}}
+{{- range .testFlags}}
+	"{{.}}": true,
+{{- end }}
+}
+
+var passAnalyzersToVet = map[string]bool {
+{{- range .vetAnalyzers}}
 	"{{.}}": true,
 {{- end }}
 }
