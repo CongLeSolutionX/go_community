@@ -45,7 +45,7 @@ func under(t Type) Type {
 // type parameters, the operational type is the same
 // as the underlying type (as returned by under). For
 // Type parameters, the operational type is the structural
-// type, if any; otherwise it's the top type.
+// type's underlying type, if any; otherwise it's the top type.
 // The result is never the incoming type parameter.
 func optype(typ Type) Type {
 	if t := asTypeParam(typ); t != nil {
@@ -56,9 +56,9 @@ func optype(typ Type) Type {
 		// for a type parameter list of the form:
 		// (type T interface { type T }).
 		// See also issue #39680.
-		if u := t.structuralType(); u != nil {
-			assert(u != typ) // "naked" type parameters cannot be embedded
-			return u
+		if s := t.structuralType(); s != nil {
+			assert(s != typ) // "naked" type parameters cannot be embedded
+			return under(s)
 		}
 		return theTop
 	}
