@@ -2736,8 +2736,8 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 // parent directory, if there is one. This is used in the implementation of 'go
 // install pkg@version' and other commands that support similar forms.
 //
-// modload.ForceUseModules must be true, and modload.RootMode must be NoRoot
-// before calling this function.
+// Modules must have been initialized with the options (modload.Opts)
+// ForceUseModules = true and RootMode = NoRoot.
 //
 // PackagesAndErrorsOutsideModule imposes several constraints to avoid
 // ambiguity. All arguments must have the same version suffix (not just a suffix
@@ -2750,8 +2750,8 @@ func PackagesAndErrorsOutsideModule(ctx context.Context, opts PackageOpts, args 
 	if opts.ModState == nil || !opts.ModState.ForceUseModules {
 		panic("opts.ModState.ForceUseModules must be true")
 	}
-	if modload.RootMode != modload.NoRoot {
-		panic("modload.RootMode must be NoRoot")
+	if opts.ModState.RootMode != modload.NoRoot {
+		panic("opts.ModState.RootMode must be NoRoot")
 	}
 
 	// Check that the arguments satisfy syntactic constraints.
