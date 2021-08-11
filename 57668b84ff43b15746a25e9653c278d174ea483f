@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0489a9bf_249db986",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-08-11T21:17:20Z",
+      "side": 1,
+      "message": "LGTM. Sorry for the delay in reviewing.",
+      "revId": "57668b84ff43b15746a25e9653c278d174ea483f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f92596e_a7f3422a",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-08-11T21:17:20Z",
+      "side": 1,
+      "message": "IIRC, we\u0027re not very consistent about the type of OIDATA nodes, which leads to failure to CSE later. Not something we need to fix here/now, though.",
+      "revId": "57668b84ff43b15746a25e9653c278d174ea483f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
