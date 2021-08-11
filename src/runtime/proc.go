@@ -4116,7 +4116,10 @@ func exitsyscall0(gp *g) {
 	schedule() // Never returns.
 }
 
-func beforefork() {
+// Called from syscall package before fork.
+//go:linkname syscall_runtime_BeforeFork syscall.runtime_BeforeFork
+//go:nosplit
+func syscall_runtime_BeforeFork() {
 	gp := getg().m.curg
 
 	// Block signals during a fork, so that the child does not run
@@ -4133,14 +4136,10 @@ func beforefork() {
 	gp.stackguard0 = stackFork
 }
 
-// Called from syscall package before fork.
-//go:linkname syscall_runtime_BeforeFork syscall.runtime_BeforeFork
+// Called from syscall package after fork in parent.
+//go:linkname syscall_runtime_AfterFork syscall.runtime_AfterFork
 //go:nosplit
-func syscall_runtime_BeforeFork() {
-	systemstack(beforefork)
-}
-
-func afterfork() {
+func syscall_runtime_AfterFork() {
 	gp := getg().m.curg
 
 	// See the comments in beforefork.
@@ -4149,13 +4148,6 @@ func afterfork() {
 	msigrestore(gp.m.sigmask)
 
 	gp.m.locks--
-}
-
-// Called from syscall package after fork in parent.
-//go:linkname syscall_runtime_AfterFork syscall.runtime_AfterFork
-//go:nosplit
-func syscall_runtime_AfterFork() {
-	systemstack(afterfork)
 }
 
 // inForkedChild is true while manipulating signals in the child process.
