@@ -34,6 +34,24 @@
       "parentUuid": "de5b39bf_68b2b5b6",
       "revId": "b655a0b9d430b2c6024affa53793da443b327307",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28e0ca9f_e1dec3c0",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-11T17:39:04Z",
+      "side": 1,
+      "message": "\u003e -- foo/foo.go --\n\u003e package foo\n\u003e \n\u003e go 1.17\n\nThis part is the problem. The `go` directive is in the `go.mod` file, not a `go` source file.\n\nFor a GOPATH-mode test, you can just delete that file. (GOPATH mode mostly ignores go.mod files anyway.)",
+      "parentUuid": "ff1e9225_d3bde70e",
+      "revId": "b655a0b9d430b2c6024affa53793da443b327307",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
