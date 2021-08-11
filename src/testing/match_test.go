@@ -171,6 +171,22 @@ func TestNaming(t *T) {
 		{"b", "x/b#1000"}, // rigged, see above
 		{"b", "x/b#1001"},
 
+		{"#03", "x/#03"},
+		{"", "x/#02"},
+		{"", "x/#03#01"},
+		{"#03", "x/#03#02"},
+		{"", "x/#04"},
+		{"", "x/#05"},
+		{"#04", "x/#04#01"},
+		{"#04", "x/#04#02"},
+		{"#04#01", "x/#04#01#01"},
+		{"", "x/#06"},
+		{"#07", "x/#07"},
+		{"#07#01", "x/#07#01"},
+		{"#07#01#01", "x/#07#01#01"},
+		{"#07#01#01#01", "x/#07#01#01#01"},
+		{"", "x/#07#01#01#01#01"},
+
 		// // Sanitizing
 		{"A:1 B:2", "x/A:1_B:2"},
 		{"s\t\r\u00a0", "x/s___"},
@@ -178,9 +194,32 @@ func TestNaming(t *T) {
 		{"\U0010ffff", `x/\U0010ffff`},
 	}
 
+	seen := make(map[string]bool)
 	for i, tc := range testCases {
-		if got, _, _ := m.fullName(parent, tc.name); got != tc.want {
+		got, _, _ := m.fullName(parent, tc.name)
+		if got != tc.want {
 			t.Errorf("%d:%s: got %q; want %q", i, tc.name, got, tc.want)
 		}
+		if seen[got] {
+			t.Errorf("%d:%s: generated duplicate name %q", i, tc.name, got)
+		}
+		seen[got] = true
+	}
+
+	// Insert many of the same names. Memory requirements should not grow.
+	names := []string{"apple", "orange", "banana"}
+	oldMapLen := len(m.subNames)
+	for i := 0; i < 1000; i++ {
+		for _, name := range names {
+			got, _, _ := m.fullName(parent, name)
+			if seen[got] {
+				t.Errorf("%d:%s: generated duplicate name %q", i, name, got)
+			}
+			seen[got] = true
+		}
+	}
+	newMapLen := len(m.subNames)
+	if newMapLen-oldMapLen > len(names) {
+		t.Errorf("extra memory requirement for m.subNames exceeds %d", len(names))
 	}
 }
