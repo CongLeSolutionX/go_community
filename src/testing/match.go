@@ -113,21 +113,69 @@ func splitRegexp(s string) []string {
 // with one or more counts, if necessary.
 func (m *matcher) unique(parent, subname string) string {
 	name := fmt.Sprintf("%s/%s", parent, subname)
-	empty := subname == ""
-	for {
-		next, exists := m.subNames[name]
-		if !empty && !exists {
-			m.subNames[name] = 1 // next count is 1
-			return name
-		}
-		// Name was already used. We increment with the count and append a
-		// string with the count.
-		m.subNames[name] = next + 1
 
-		// Add a count to guarantee uniqueness.
-		name = fmt.Sprintf("%s#%02d", name, next)
-		empty = false
+	// Check whether the name looks like an auto-generated name.
+	// If so, check that it does not overlap with any preexisting names.
+	var subMatch bool
+	var suffixLen int
+	for !subMatch {
+		suffix, curr := stripNumberSuffix(name[:len(name)-suffixLen])
+		if suffix == "" {
+			break
+		}
+		suffixLen += len(suffix)
+		next := m.subNames[name[:len(name)-suffixLen]]
+		subMatch = curr < next
 	}
+
+	// Return the user-specified name verbatim if unique.
+	// The subname cannot be empty.
+	next, exists := m.subNames[name]
+	if subname != "" && !exists && !subMatch {
+		m.subNames[name] = 1 // next count is 1
+		return name
+	}
+	if next == 0 && subname != "" {
+		next++ // zero-index only permitted for an empty name
+	}
+
+	// Provided name was already used,
+	// so we increment with the count and append a string with the count.
+	m.subNames[name] = next + 1
+	name = fmt.Sprintf("%s#%02d", name, next)
+	if _, exists := m.subNames[name]; !exists {
+		return name
+	}
+
+	// The auto-generated name was already used.
+	// Recursively call matcher.unique with the new number suffix.
+	return m.unique(parent, name[len(parent)+len("/"):])
+}
+
+// stripNumberSuffix strips the number suffix if it has one,
+// returning the suffix and the number in the suffix.
+// The number suffix must be of the format "#%02d".
+func stripNumberSuffix(name string) (string, int64) {
+	// Count number of trailing digits.
+	var numDigit int
+	for i := len(name) - 1; i >= 0 && '0' <= name[i] && name[i] <= '9'; i-- {
+		numDigit++
+	}
+	// Check for '#' delimiter.
+	if numDigit == len(name) || name[len(name)-len("#")-numDigit] != '#' {
+		return "", 0
+	}
+	suffix := name[len(name)-len("#")-numDigit:]
+	// Parse the number.
+	n, err := strconv.ParseInt(suffix[len("#"):], 10, 64)
+	if err != nil {
+		return "", 0
+	}
+	// The "%02d" format requires two digits and cannot have leading zeros.
+	if numDigit < 2 || (numDigit > 2 && suffix[len("#")] == '0') {
+		return "", 0
+	}
+	return suffix, n
 }
 
 // rewrite rewrites a subname to having only printable characters and no white
