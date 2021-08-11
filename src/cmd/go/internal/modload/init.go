@@ -39,10 +39,6 @@ var (
 	// RootMode determines whether a module root is needed.
 	RootMode Root
 
-	// ForceUseModules may be set to force modules to be enabled when
-	// GO111MODULE=auto or to report an error when GO111MODULE=off.
-	ForceUseModules bool
-
 	allowMissingModuleImports bool
 )
 
@@ -268,6 +264,9 @@ func WorkFilePath() string {
 // Opts is a set of options commands can use when initializing modules with
 // modload.Init.
 type Opts struct {
+	// ForceUseModules may be set to force modules to be enabled when
+	// GO111MODULE=auto or to report an error when GO111MODULE=off.
+	ForceUseModules bool
 }
 
 // State holds information about modules loaded into memory. State is read
@@ -301,11 +300,11 @@ func Init(opts Opts) (state *State, err error) {
 	default:
 		return nil, fmt.Errorf("unknown environment setting GO111MODULE=%s", env)
 	case "auto":
-		mustUseModules = ForceUseModules
+		mustUseModules = opts.ForceUseModules
 	case "on", "":
 		mustUseModules = true
 	case "off":
-		if ForceUseModules {
+		if opts.ForceUseModules {
 			return nil, fmt.Errorf("modules disabled by GO111MODULE=off; see 'go help modules'")
 		}
 		mustUseModules = false
