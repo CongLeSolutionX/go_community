@@ -72,6 +72,24 @@
       "message": "Are we going to change this?\n\nIf yes, that\u0027s almost certainly going to break people.\nIf no, then there\u0027s always this inconsistent between \"ptr\" and \"pointer\" moving forward.",
       "revId": "25189d7a6ffa3758066f7c42a593b6720720521d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e5b6b76_d72b0c4b",
+        "filename": "src/internal/reflectlite/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-08-11T18:20:30Z",
+      "side": 1,
+      "message": "I am not too concerned with that. I don\u0027t think many people look at these strings, and those that see ptr and are confused can find the reflect.Ptr docs and be unconfused.",
+      "parentUuid": "99ab7e97_ef5de12f",
+      "revId": "25189d7a6ffa3758066f7c42a593b6720720521d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
