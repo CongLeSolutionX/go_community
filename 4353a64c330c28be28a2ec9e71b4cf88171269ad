@@ -16,6 +16,23 @@
       "message": "Personally LGTM, but I\u0027ll defer to Joe, since he wrote the code :) ",
       "revId": "4353a64c330c28be28a2ec9e71b4cf88171269ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bb46e53_85fe29bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-08-11T17:15:32Z",
+      "side": 1,
+      "message": "Go\u0027s visibility only has two levels: 1) visible to the current package only, or 2) visible globally.\n\nThere are legitimate cases when someone wants to signal that something is internal to just within the scope of a type (e.g., internal state of a type), and that within a package, all code should interact with it through it\u0027s \"public\" methods (usually expressed as exported methods on a unexported type).\n\n\u003e the reader needs to consider whether the exported method might be used via some external interface or reflection.\n\nThat\u0027s a legitimate concern with this approach, but it\u0027s usually not that hard to see whether the visibility escapes. Here, the `pipe` type never gets exposed directly.\n\nAt the same time, the opposite has carries mental burdens too. When I see a direct access to an unexported field/method on another type, I feel a stronger need to check whether that access is circumventing some invariants that are imposed upon the field (e.g., it\u0027s an atomic field, must be mutated alongside something else simultaneously, etc).\n\nNot mentioned above, but a minor detriment to exported methods on unexported types is slight binary bloat. When methods are unexported, certain bookkeeping for reflection can be elided.\n\n\u003e That\u0027s not a good idea in general\n\nThere are strengths and weakness to doing it and not. I don\u0027t think we need to be dogmatic about what\u0027s the \"right\" way. I personally, prefer the exported method on an unexported type since I still find it a small helpful hint. That said, I\u0027m not opposed to change being made.",
+      "revId": "4353a64c330c28be28a2ec9e71b4cf88171269ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
