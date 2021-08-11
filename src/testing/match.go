@@ -47,6 +47,16 @@ func newMatcher(matchString func(pat, str string) (bool, error), patterns, name 
 	}
 }
 
+// clone clones the matcher. It may only be called before use with T.
+func (m *matcher) clone() *matcher {
+	m2 := *m
+	m2.subNames = map[string]int64{}
+	for name, idx := range m.subNames {
+		m2.subNames[name] = idx
+	}
+	return &m2
+}
+
 func (m *matcher) fullName(c *common, subname string) (name string, ok, partial bool) {
 	name = subname
 

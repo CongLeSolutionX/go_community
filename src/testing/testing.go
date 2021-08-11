@@ -1428,6 +1428,13 @@ func newTestContext(maxParallel int, m *matcher) *testContext {
 	}
 }
 
+// clone clones the testContext. It may only be called before use with T.
+func (c *testContext) clone() *testContext {
+	c2 := *c // shallow copy of c
+	c2.match = c2.match.clone()
+	return &c2
+}
+
 func (c *testContext) waitParallel() {
 	c.mu.Lock()
 	if c.running < c.maxParallel {

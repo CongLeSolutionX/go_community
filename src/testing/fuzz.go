@@ -356,7 +356,11 @@ func (f *F) Fuzz(ff interface{}) {
 				chatty:  f.chatty,
 				fuzzing: true,
 			},
-			context: f.testContext,
+
+			// Clone the testing context since we run the fuzz function
+			// multiple times. Each of which may mutate this state.
+			// For example, sub-tests will mutate textContext.matcher.
+			context: f.testContext.clone(),
 		}
 		t.w = indenter{&t.common}
 		if t.chatty != nil {
