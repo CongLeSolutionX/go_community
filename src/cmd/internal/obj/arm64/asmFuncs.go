@@ -1706,6 +1706,10 @@ func atomicIndex(as obj.As) uint16 {
 		return CASAxxx
 	case ACASAW:
 		return CASAwwx
+	case ACASAH:
+		return CASAHwwx
+	case ACASAB:
+		return CASABwwx
 	case ACASALD:
 		return CASALxxx
 	case ACASALW:
@@ -1718,10 +1722,26 @@ func atomicIndex(as obj.As) uint16 {
 		return CASLxxx
 	case ACASLW:
 		return CASLwwx
+	case ACASLH:
+		return CASLHwwx
+	case ACASLB:
+		return CASLBwwx
 	case ACASPD:
 		return CASPxxx
 	case ACASPW:
 		return CASPwwx
+	case ACASPAD:
+		return CASPAxxx
+	case ACASPAW:
+		return CASPAwwx
+	case ACASPALD:
+		return CASPALxxx
+	case ACASPALW:
+		return CASPALwwx
+	case ACASPLD:
+		return CASPLxxx
+	case ACASPLW:
+		return CASPLwwx
 	case ALDADDD:
 		return LDADDxxx
 	case ALDADDW:
@@ -5222,12 +5242,16 @@ var unfoldTab = []asmFunc{
 	ACASB - obj.ABaseARM64:     asmAtomicLoadOpStore,
 	ACASAD - obj.ABaseARM64:    asmAtomicLoadOpStore,
 	ACASAW - obj.ABaseARM64:    asmAtomicLoadOpStore,
+	ACASAH - obj.ABaseARM64:    asmAtomicLoadOpStore,
+	ACASAB - obj.ABaseARM64:    asmAtomicLoadOpStore,
 	ACASALD - obj.ABaseARM64:   asmAtomicLoadOpStore,
 	ACASALW - obj.ABaseARM64:   asmAtomicLoadOpStore,
 	ACASALH - obj.ABaseARM64:   asmAtomicLoadOpStore,
 	ACASALB - obj.ABaseARM64:   asmAtomicLoadOpStore,
 	ACASLD - obj.ABaseARM64:    asmAtomicLoadOpStore,
 	ACASLW - obj.ABaseARM64:    asmAtomicLoadOpStore,
+	ACASLH - obj.ABaseARM64:    asmAtomicLoadOpStore,
+	ACASLB - obj.ABaseARM64:    asmAtomicLoadOpStore,
 	ALDADDD - obj.ABaseARM64:   asmAtomicLoadOpStore,
 	ALDADDW - obj.ABaseARM64:   asmAtomicLoadOpStore,
 	ALDADDH - obj.ABaseARM64:   asmAtomicLoadOpStore,
@@ -5309,8 +5333,14 @@ var unfoldTab = []asmFunc{
 	ASWPLH - obj.ABaseARM64:    asmAtomicLoadOpStore,
 	ASWPLB - obj.ABaseARM64:    asmAtomicLoadOpStore,
 
-	ACASPD - obj.ABaseARM64: asmCASPX,
-	ACASPW - obj.ABaseARM64: asmCASPX,
+	ACASPD - obj.ABaseARM64:   asmCASPX,
+	ACASPW - obj.ABaseARM64:   asmCASPX,
+	ACASPAD - obj.ABaseARM64:  asmCASPX,
+	ACASPAW - obj.ABaseARM64:  asmCASPX,
+	ACASPALD - obj.ABaseARM64: asmCASPX,
+	ACASPALW - obj.ABaseARM64: asmCASPX,
+	ACASPLD - obj.ABaseARM64:  asmCASPX,
+	ACASPLW - obj.ABaseARM64:  asmCASPX,
 
 	ABEQ - obj.ABaseARM64: asmBCOND,
 	ABNE - obj.ABaseARM64: asmBCOND,

@@ -817,8 +817,12 @@ again:
 	CASW	R5, (R7), R6                         // e67ca588
 	CASLD	ZR, (RSP), R8                        // e8ffbfc8
 	CASLW	R9, (R10), ZR                        // 5ffda988
+	CASLH	ZR, (RSP), R8                        // e8ffbf48
+	CASLB	R9, (R10), ZR                        // 5ffda908
 	CASAD	R7, (R11), R15                       // 6f7de7c8
 	CASAW	R10, (RSP), R19                      // f37fea88
+	CASAH	R10, (RSP), R19                      // f37fea48
+	CASAB	R10, (RSP), R19                      // f37fea08
 	CASALD	R5, (R6), R7                         // c7fce5c8
 	CASALD	R5, (RSP), R7                        // e7ffe5c8
 	CASALW	R5, (R6), R7                         // c7fce588
@@ -828,6 +832,12 @@ again:
 	CASPD	(R30, ZR), (RSP), (R8, R9)           // e87f3e48
 	CASPW	(R6, R7), (R8), (R4, R5)             // 047d2608
 	CASPD	(R2, R3), (R2), (R8, R9)             // 487c2248
+	CASPAD	(R2, R3), (R2), (R8, R9)             // 487c6248
+	CASPAW	(R2, R3), (R2), (R8, R9)             // 487c6208
+	CASPALD	(R2, R3), (R2), (R8, R9)             // 48fc6248
+	CASPALW	(R2, R3), (R2), (R8, R9)             // 48fc6208
+	CASPLD	(R2, R3), (R2), (R8, R9)             // 48fc2248
+	CASPLW	(R2, R3), (R2), (R8, R9)             // 48fc2208
 
 // RET
 	RET
