@@ -88,6 +88,47 @@
       "parentUuid": "ac3071e6_ae8c2f23",
       "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082699a2_89b92125",
+        "filename": "src/cmd/go/internal/test/flagdefs_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-12T19:30:35Z",
+      "side": 1,
+      "message": "I don\u0027t think it ought to be in cmd/go/internal/test or cmd/go/internal/vet, since those are both linked into the `cmd/go` binary — and `cmd/go` itself does not need the code-generating functions at run time.\n\nPerhaps cmd/go/internal/test/genflags or cmd/go/internal/test/internal/genflags?",
+      "parentUuid": "b4300c3c_80561d07",
+      "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b254c37_8e8e9e28",
+        "filename": "src/cmd/go/internal/test/genflags.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-12T19:30:35Z",
+      "side": 1,
+      "message": "I think we actually don\u0027t want to extract the names of the analyses from these regexps. The `-vet` flag should arguably accept the deprecated alias-names in addition to the canonical names, and for a deprecated alias the name of the alias in the name of the flag itself — not the canonical name that it aliases.\n\nFor example, we should accept `go test -vet\u003dprintfuncs` in addition to `go test -vet\u003dprintf.funcs`. (I don\u0027t see `printfuncs` in the current generated list.)",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
