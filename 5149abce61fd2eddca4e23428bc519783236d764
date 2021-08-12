@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f724565_bc361ae0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "It\u0027s not really grammatically correct to use \"; and\".  You can omit the \"and\".",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6570b11_1296260d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "Comma after \"a single type\".",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "906f40ee_1fb87944",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "s/those/all of those/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc798f4e_37ca4e86",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "Maybe add a sentece like \"In other words, the type set is the set of all types that implement all the explicitly declared methods of \u003ccode\u003eT\u003c/code\u003e and also all the methods of \u003ccode\u003eE\u003c/code\u003e.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4188ad2a_0c5af0ed",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "s/its most/their most/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5caba00_0daf59a3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1503,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "Are we still making \"~int | MyInt\" invalid?",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87c12514_f263e4a9",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2370,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "Is this meant to be \"definition of a local type in a type-parameterized function\"?",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "293c7a3e_4943a192",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2498,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "This wording seems potentially confusing.  It seems like the \"if\" condition is satisfied if, for example, all the types in the type set are boolean or integer types.  But what I think you mean to say is that if all types in the type set are boolean types, then the type parameter may be used in place of a boolean, and similar for integer, floating-point, complex, or string.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "626256bf_50654b70",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2508,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "I don\u0027t think \"most specific\" is quite right here.  It describes the structure of all types in the type set.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84804106_11031117",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2510,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "s/operations/some operations/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70370e13_d0026e98",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 3068,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "Remove space after \"parameters\".",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c395ad47_2067e932",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 3608,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "This seems to assume that the element type of a string type is byte.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51f957d6_cf95abf5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4059,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "The \"and\" is a bit confusing, it would be clearer to say \"Parameterized types, and parameterized functions that are not called, require a ....\"",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edecf7de_3c7d5c12",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4063,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "s/leave it away/omit it/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da54633e_f3aeadc6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4068,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "Should we add { ... } at the end, since we say that the body of a generic function may not be omitted?",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "054fa89c_5f14c025",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4107,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "Does it help to say \"(known)\" here?  Doesn\u0027t seem to add anything.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cefda29a_3abb4514",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4117,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "This reads as though the substitution map is initialized with the ordinary function arguments.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7219dd91_3304e3c7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4195,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T04:09:57Z",
+      "side": 1,
+      "message": "s/faul/fail/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
