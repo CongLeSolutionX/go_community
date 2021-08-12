@@ -23,7 +23,7 @@ stdout 'm/vetcycle.*\[no test files\]'
 # Test with ...
 ! go test ./vetfail/...
 stderr 'Printf format %d'
-stdout 'ok\s+m/vetfail/p2'
+stdout '^WRONGPREFIXok\s+m/vetfail/p2'
 
 # Check there's no diagnosis of a bad build constraint in vetxonly mode.
 # Use -a so that we need to recompute the vet-specific export data for
