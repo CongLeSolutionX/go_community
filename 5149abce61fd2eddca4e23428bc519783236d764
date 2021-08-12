@@ -445,6 +445,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c72bc11c_5e66f84c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4165,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-12T17:12:09Z",
+      "side": 1,
+      "message": "Every time I re-read the above paragraph, even in the version that I wrote in the proposal, I stumble because I\u0027m not sure what it means for types to be equivalent.  Then it gets explained down here.  I wonder if we should first explain what it means for types to be equivalent, and then explain the rest of unification.  That is, swap this paragraph and the preceding one.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7219dd91_3304e3c7",
         "filename": "doc/go_spec.html",
         "patchSetId": 36
