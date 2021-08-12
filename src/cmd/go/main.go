@@ -11,11 +11,15 @@ import (
 	"flag"
 	"fmt"
 	"internal/buildcfg"
+	"io/fs"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
+	"syscall"
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/bug"
@@ -27,6 +31,7 @@ import (
 	"cmd/go/internal/fmtcmd"
 	"cmd/go/internal/generate"
 	"cmd/go/internal/get"
+	"cmd/go/internal/godist"
 	"cmd/go/internal/help"
 	"cmd/go/internal/list"
 	"cmd/go/internal/modcmd"
@@ -85,11 +90,15 @@ func init() {
 	}
 }
 
+var _ = go11tag
+
 func main() {
-	_ = go11tag
+	log.SetFlags(0)
+
+	setupGoRelease()
+
 	flag.Usage = base.Usage
 	flag.Parse()
-	log.SetFlags(0)
 
 	args := flag.Args()
 	if len(args) < 1 {
@@ -243,4 +252,96 @@ func maybeStartTrace(pctx context.Context) context.Context {
 	})
 
 	return ctx
+}
+
+var goLineRE = regexp.MustCompile(`^\s*go\s+([^/#\s]+)\s*$`)
+
+func setupGoRelease() {
+	if !modload.WillBeEnabled() {
+		return
+	}
+
+	rel := os.Getenv("GORELEASE")
+	if rel == "" {
+		if strings.HasPrefix(runtime.Version(), "go") {
+			rel = "auto"
+		} else {
+			rel = "installed"
+		}
+	}
+	if rel == "auto" {
+		// find go.mod or go.work
+		modFile := modload.EarlyGoMod()
+		if modFile == "" {
+			return
+		}
+		data, err := ioutil.ReadFile(modFile)
+		if err != nil {
+			panic(err)
+		}
+		for _, line := range strings.Split(string(data), "\n") {
+			if m := goLineRE.FindStringSubmatch(line); m != nil {
+				rel = m[1]
+				break
+			}
+		}
+		if rel == "auto" {
+			panic("did not find go line")
+		}
+	}
+	if rel == "installed" || rel == runtime.Version() {
+		// Let the current binary handle the command.
+		return
+	}
+
+	modload.ForceUseModules = true
+	modload.RootMode = modload.NoRoot
+	modload.Init()
+
+	v := godist.SemVer("go" + rel)
+	if v == "" {
+		panic("bad go version: " + rel)
+	}
+
+	m := &modcmd.ModuleJSON{Path: godist.ModulePath, Version: v + "." + runtime.GOOS + "-" + runtime.GOARCH}
+	modcmd.DownloadModule(context.Background(), m)
+	if m.Error != "" {
+		panic(m.Error)
+	}
+
+	// look at m.Dir for execute bits
+	dir := m.Dir
+	if runtime.GOOS != "windows" {
+		info, err := os.Stat(filepath.Join(dir, "go/bin/go"))
+		if err != nil {
+			panic(err)
+		}
+		if info.Mode()&0111 == 0 {
+			binDir := filepath.Join(dir, "go/bin") + string(filepath.Separator)
+			pkgToolDir := filepath.Join(dir, "go/pkg/tool") + string(filepath.Separator)
+			err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+				if err != nil {
+					return err
+				}
+
+				// Set execute bits on bin and pkg/tool files.
+				if (strings.HasPrefix(path, binDir) || strings.HasPrefix(path, pkgToolDir)) && !d.IsDir() {
+					info, err := os.Stat(path)
+					if err != nil {
+						return err
+					}
+					if err := os.Chmod(path, info.Mode()&0777|0111); err != nil {
+						return err
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				panic(err)
+			}
+		}
+		os.Setenv("GOROOT", filepath.Join(dir, "go"))
+		err = syscall.Exec(filepath.Join(dir, "go/bin/go"), os.Args, os.Environ())
+		panic(err)
+	}
 }

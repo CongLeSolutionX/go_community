@@ -24,6 +24,7 @@ import (
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/godist"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/web"
 
@@ -34,6 +35,13 @@ import (
 
 // useSumDB reports whether to use the Go checksum database for the given module.
 func useSumDB(mod module.Version) bool {
+	// TODO(rsc): Delete this case when the proxy has been updated
+	// with a newer go command that can synthesize the distribution modules.
+	// Then the checksum database will be able to serve checksums too.
+	if mod.Path == godist.ModulePath {
+		return false
+	}
+
 	return cfg.GOSUMDB != "off" && !module.MatchPrefixPatterns(cfg.GONOSUMDB, mod.Path)
 }
 

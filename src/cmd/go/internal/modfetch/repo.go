@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/godist"
 	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/par"
 	"cmd/go/internal/vcs"
@@ -255,8 +256,15 @@ var (
 )
 
 func lookupDirect(path string) (Repo, error) {
-	security := web.SecureOnly
+	if path == godist.ModulePath {
+		d, err := godist.New()
+		if err != nil {
+			return nil, err
+		}
+		return &distRepo{d}, nil
+	}
 
+	security := web.SecureOnly
 	if module.MatchPrefixPatterns(cfg.GOINSECURE, path) {
 		security = web.Insecure
 	}
@@ -385,4 +393,36 @@ func (notExistError) Is(target error) bool {
 
 func (e notExistError) Unwrap() error {
 	return e.err
+}
+
+// distRepo is a Go distribution repo.
+type distRepo struct {
+	// godist.Repo provides ModulePath, Versions, and Zip
+	*godist.Repo
+}
+
+func (*distRepo) Latest() (*RevInfo, error) {
+	// There is no "latest" version, because there are many
+	// different versions for each actual Go version
+	// (one per GOOS-GOARCH, plus the source archive).
+	return nil, fmt.Errorf("no latest version")
+}
+
+func (r *distRepo) GoMod(version string) ([]byte, error) {
+	if _, err := r.Stat(version); err != nil {
+		return nil, err
+	}
+	return []byte("module " + godist.ModulePath + "\n"), nil
+}
+
+func (r *distRepo) Stat(rev string) (*RevInfo, error) {
+	if !r.Known(rev) {
+		err := &module.ModuleError{
+			Path:    godist.ModulePath,
+			Version: rev,
+			Err:     fmt.Errorf("unknown version"),
+		}
+		return nil, err
+	}
+	return &RevInfo{Version: rev}, nil
 }

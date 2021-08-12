@@ -1932,6 +1932,8 @@
 // 		of module path prefixes that should always be fetched directly
 // 		or that should not be compared against the checksum database.
 // 		See https://golang.org/ref/mod#private-modules.
+//	GORELEASE
+//		The Go release to use.
 // 	GOROOT
 // 		The root of the go tree.
 // 	GOSUMDB

@@ -452,19 +452,28 @@ func WillBeEnabled() bool {
 		return false
 	}
 
-	if modRoot := findModuleRoot(base.Cwd()); modRoot == "" {
+	return EarlyGoMod() != ""
+}
+
+// EarlyGoMod returns the path to the go.mod file.
+// It is called early in the go command startup, before Init.
+// TODO(rsc): When go.work lands, this should return the go.work file if found.
+func EarlyGoMod() string {
+	modRoot := findModuleRoot(base.Cwd())
+	if modRoot == "" {
 		// GO111MODULE is 'auto', and we can't find a module root.
 		// Stay in GOPATH mode.
-		return false
-	} else if search.InDir(modRoot, os.TempDir()) == "." {
+		return ""
+	}
+	if search.InDir(modRoot, os.TempDir()) == "." {
 		// If you create /tmp/go.mod for experimenting,
 		// then any tests that create work directories under /tmp
 		// will find it and get modules when they're not expecting them.
 		// It's a bit of a peculiar thing to disallow but quite mysterious
 		// when it happens. See golang.org/issue/26708.
-		return false
+		return ""
 	}
-	return true
+	return filepath.Join(modRoot, "go.mod")
 }
 
 // Enabled reports whether modules are (or must be) enabled.

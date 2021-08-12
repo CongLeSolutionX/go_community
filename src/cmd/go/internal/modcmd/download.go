@@ -69,7 +69,8 @@ func init() {
 	base.AddWorkfileFlag(&cmdDownload.Flag)
 }
 
-type moduleJSON struct {
+// A ModuleJSON describes the result of go mod download.
+type ModuleJSON struct {
 	Path     string `json:",omitempty"`
 	Version  string `json:",omitempty"`
 	Error    string `json:",omitempty"`
@@ -111,38 +112,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	downloadModule := func(m *moduleJSON) {
-		var err error
-		m.Info, err = modfetch.InfoFile(m.Path, m.Version)
-		if err != nil {
-			m.Error = err.Error()
-			return
-		}
-		m.GoMod, err = modfetch.GoModFile(m.Path, m.Version)
-		if err != nil {
-			m.Error = err.Error()
-			return
-		}
-		m.GoModSum, err = modfetch.GoModSum(m.Path, m.Version)
-		if err != nil {
-			m.Error = err.Error()
-			return
-		}
-		mod := module.Version{Path: m.Path, Version: m.Version}
-		m.Zip, err = modfetch.DownloadZip(ctx, mod)
-		if err != nil {
-			m.Error = err.Error()
-			return
-		}
-		m.Sum = modfetch.Sum(mod)
-		m.Dir, err = modfetch.Download(ctx, mod)
-		if err != nil {
-			m.Error = err.Error()
-			return
-		}
-	}
-
-	var mods []*moduleJSON
+	var mods []*ModuleJSON
 	type token struct{}
 	sem := make(chan token, runtime.GOMAXPROCS(0))
 	infos, infosErr := modload.ListModules(ctx, args, 0)
@@ -167,7 +137,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 			// Nothing to download.
 			continue
 		}
-		m := &moduleJSON{
+		m := &ModuleJSON{
 			Path:    info.Path,
 			Version: info.Version,
 		}
@@ -178,7 +148,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		}
 		sem <- token{}
 		go func() {
-			downloadModule(m)
+			DownloadModule(ctx, m)
 			<-sem
 		}()
 	}
@@ -223,5 +193,38 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	// successfully).
 	if infosErr != nil {
 		base.Errorf("go: %v", infosErr)
+	}
+}
+
+// DownloadModule runs 'go mod download' for m.Path@m.Version,
+// leaving the results (including any error) in m itself.
+func DownloadModule(ctx context.Context, m *ModuleJSON) {
+	var err error
+	m.Info, err = modfetch.InfoFile(m.Path, m.Version)
+	if err != nil {
+		m.Error = err.Error()
+		return
+	}
+	m.GoMod, err = modfetch.GoModFile(m.Path, m.Version)
+	if err != nil {
+		m.Error = err.Error()
+		return
+	}
+	m.GoModSum, err = modfetch.GoModSum(m.Path, m.Version)
+	if err != nil {
+		m.Error = err.Error()
+		return
+	}
+	mod := module.Version{Path: m.Path, Version: m.Version}
+	m.Zip, err = modfetch.DownloadZip(ctx, mod)
+	if err != nil {
+		m.Error = err.Error()
+		return
+	}
+	m.Sum = modfetch.Sum(mod)
+	m.Dir, err = modfetch.Download(ctx, mod)
+	if err != nil {
+		m.Error = err.Error()
+		return
 	}
 }

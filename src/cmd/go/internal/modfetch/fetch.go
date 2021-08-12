@@ -23,6 +23,7 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
+	"cmd/go/internal/godist"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/par"
 	"cmd/go/internal/robustio"
@@ -139,7 +140,6 @@ func download(ctx context.Context, mod module.Version) (dir string, err error) {
 		return "", err
 	}
 	if err := modzip.Unzip(dir, mod, zipfile); err != nil {
-		fmt.Fprintf(os.Stderr, "-> %s\n", err)
 		if rmErr := RemoveAll(dir); rmErr == nil {
 			os.Remove(partialPath)
 		}
@@ -559,22 +559,25 @@ func checkModSum(mod module.Version, h string) error {
 	// to checkSumDB.
 
 	// Check whether mod+h is listed in go.sum already. If so, we're done.
-	goSum.mu.Lock()
-	inited, err := initGoSum()
-	if err != nil {
+	// We do not store the Go distribution checksums in go.sum.
+	var inited bool
+	if mod.Path != godist.ModulePath {
+		goSum.mu.Lock()
+		inited, err := initGoSum()
+		if err != nil {
+			goSum.mu.Unlock()
+			return err
+		}
+		done := inited && haveModSumLocked(mod, h)
+		if inited {
+			st := goSum.status[modSum{mod, h}]
+			st.used = true
+			goSum.status[modSum{mod, h}] = st
+		}
 		goSum.mu.Unlock()
-		return err
-	}
-	done := inited && haveModSumLocked(mod, h)
-	if inited {
-		st := goSum.status[modSum{mod, h}]
-		st.used = true
-		goSum.status[modSum{mod, h}] = st
-	}
-	goSum.mu.Unlock()
-
-	if done {
-		return nil
+		if done {
+			return nil
+		}
 	}
 
 	// Not listed, so we want to add them.
