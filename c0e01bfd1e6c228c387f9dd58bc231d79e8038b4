@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13ef6b7d_eef002f8",
+        "filename": "src/cmd/go/testdata/script/build_relative_import_not_supported.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-12T20:52:18Z",
+      "side": 1,
+      "message": "Please add leading and trailing anchors to the regexps — that way we can be sure that there isn\u0027t any extra (repetitive or misleading) text on the line:\n\nstderr \u0027^main.go:4:2: local import \"./foo\" not supported in module mode$\u0027",
+      "range": {
+        "startLine": 2,
+        "startChar": 7,
+        "endLine": 2,
+        "endChar": 71
+      },
+      "revId": "c0e01bfd1e6c228c387f9dd58bc231d79e8038b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13592841_cc0857d7",
+        "filename": "src/cmd/go/testdata/script/build_relative_import_not_supported_in_go_path_mode.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-12T20:52:18Z",
+      "side": 1,
+      "message": "(FYI) Windows uses backslashes in file paths, so when we match file paths in `stderr` assertions we need to use a looser match for the file-path separator (usually `[/\\\\]`).",
+      "range": {
+        "startLine": 4,
+        "startChar": 45,
+        "endLine": 4,
+        "endChar": 57
+      },
+      "revId": "c0e01bfd1e6c228c387f9dd58bc231d79e8038b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad9f97f1_434734ad",
+        "filename": "src/cmd/go/testdata/script/build_relative_import_not_supported_in_go_path_mode.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-12T20:52:18Z",
+      "side": 1,
+      "message": "Hmm, this isn\u0027t the error message we\u0027re trying to trigger here. We want `cannot import current directory` and/or `local import \"./foo\" in non-local package\".\n\n\nPerhaps something like:\n\nenv GO111MODULE\u003doff\n\n# Control case: in GOPATH mode,\n# a/a.go can import package \"./b\" using a relative path.\ngo build a/a.go\n! stderr .\n\n# package \"a\" itself cannot import \"./b\": \"a\" has a non-local\n# import path, so its imports must also have non-local import paths.\n! go build a\nstderr \u0027^a[/\\\\]a.go:3:8: local import \"./b\" in non-local package$\u0027\n\n# package \"c\" imports itself, which is not allowed.\n! go build c\nstderr \u0027^c[/\\\\]c.go:3:8: .: cannot import current directory$\u0027\n\n\n-- a/a.go --\npackage a\n\nimport _ \"./b\"\n-- a/b/b.go --\npackage b\n-- c/c.go --\npackage c\n\nimport _ \".\"",
+      "revId": "c0e01bfd1e6c228c387f9dd58bc231d79e8038b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
