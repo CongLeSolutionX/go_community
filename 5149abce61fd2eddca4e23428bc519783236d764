@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11622067_bdcf5b23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Thanks for the comments!",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3eb89edf_ab7c529b",
@@ -14,6 +31,24 @@
       "writtenOn": "2021-08-12T16:50:06Z",
       "side": 1,
       "message": "Is there any way you want to specify here in words what you say on line 1737:\n\nParameterized defined types must be \u003ca href\u003d\"#Instantiations\"\u003einstantiated\u003c/a\u003e when used;\n\nIt just seems that that one statement is important enough to re-iterate several times, since we are not enforcing it all in the syntax definitions.  I.e. there\u0027s no indication in the syntax that you can\u0027t use the name of a parameterized type (without type args) in any situation that calls for a Type.\n\n(For example, you could also re-emphasize that a parameterized type without type args cannot be used as an interface element.)",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5079f63_75b7fda7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eb89edf_ab7c529b",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -35,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5250b35a_ec6838c6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Hm, this may be tricky.\n\nI added a TODO for now.",
+      "parentUuid": "4057fd7f_7f0b32c7",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb5e2fa3_fa563a2d",
@@ -48,6 +101,24 @@
       "writtenOn": "2021-08-12T16:50:06Z",
       "side": 1,
       "message": "Maybe move  883-84 to just after line 846 (after change : to period)?  Just a suggestion, seems useful to give the broad definition of method set (or its usefulness) before giving the full spec of its value in various cases.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b05af6c_4cc3178d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Agreed, but I tried to minimize changes to the existing spec. Will reconsider.\nAdded a TODO.",
+      "parentUuid": "bb5e2fa3_fa563a2d",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b2feb29_b2c1a208",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f724565_bc361ae0",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6570b11_1296260d",
@@ -82,6 +171,24 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "Comma after \"a single type\".",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f214c5_79642c71",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6570b11_1296260d",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -103,6 +210,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c3dd273_422ea8bb",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "906f40ee_1fb87944",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12f9e59e_a19383d8",
@@ -116,6 +241,24 @@
       "writtenOn": "2021-08-12T16:50:06Z",
       "side": 1,
       "message": "\"which represents the set of all types\" - that seems loose.   What you really mean is that:\n\nthe empty interface can _store_ a value of any type, OR equivalently:\nthe typeset of the empty interface is all types.\n\nNot sure if you can say one of those here (maybe in a separate sentence), or just remove \"which represents the set of all types\"",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a074a1_34801373",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12f9e59e_a19383d8",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -137,6 +280,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32e73168_1276eab6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc798f4e_37ca4e86",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4188ad2a_0c5af0ed",
@@ -150,6 +311,24 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "s/its most/their most/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f264bb_4ed31a7a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4188ad2a_0c5af0ed",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -171,6 +350,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efda4d85_0c318f74",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1503,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "yes - whenever explicitly mentioned types \"overlap\", it\u0027s an error. But we allow overlapping of interface terms in unions. This matches the rules for methods and embedded interfaces.",
+      "parentUuid": "c5caba00_0daf59a3",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3980299_8e115140",
@@ -184,6 +381,24 @@
       "writtenOn": "2021-08-12T16:50:06Z",
       "side": 1,
       "message": "Put commas before/after the \u0027where\u0027 clause for better readability, since  it is so long:\n\nby a value of type \u003ccode\u003eT\u003c/code\u003e, where \u003ccode\u003eT\u003c/code\u003e is not a \u003ca href\u003d\"#Type_parameters\"\u003etype parameter\u003c/a\u003e,\nif one ...",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "478ebf62_d463c2c9",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1893,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3980299_8e115140",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -205,6 +420,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbbfec5b_b5206016",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2045,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00ffae33_e7b979f8",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87c12514_f263e4a9",
@@ -218,6 +451,24 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "Is this meant to be \"definition of a local type in a type-parameterized function\"?",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8d71ee8_98724596",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2370,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "yes - clarified",
+      "parentUuid": "87c12514_f263e4a9",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -239,6 +490,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c7378eb_a6579080",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2458,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "InterfaceType would exclude a type name denoting an interface. We cannot syntactically express the fact that a type name must be an interface.\n\n(We could say InterfaceType and then define InterfaceType as Type, but InterfaceType is already used.)\n\nIn any case, we have to express the semantic restriction in prose. I was hoping that TypeConstraint is good enough, and then we restrict that term in prose. Adding an extra \"indirection\" seems a bit overkill.",
+      "parentUuid": "e5dd8097_e00bc4fc",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de351d22_08db96c2",
@@ -252,6 +521,24 @@
       "writtenOn": "2021-08-12T16:50:06Z",
       "side": 1,
       "message": "\u0027equal\u0027 sounds strange here, since we\u0027re not talking about type equality, but you\u0027re really just talking generally.  Maybe:\n\nsimilar to but not the same as a defined type",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9cb63ce_71b77a1a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2465,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de351d22_08db96c2",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -273,6 +560,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea10a785_71975b1f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2498,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Ack, hence the \"respectively\" at the end. We have similar prose elsewhere in the spec.\n\nBut I\u0027ve reformulated.",
+      "parentUuid": "293c7a3e_4943a192",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f91f08c9_1aeca097",
@@ -286,6 +591,24 @@
       "writtenOn": "2021-08-12T16:50:06Z",
       "side": 1,
       "message": "I\u0027m not sure if you can really call this a single type in this way, can you?  It\u0027s still called a structural constraint, even it is parameterized:\n\ntype _SliceOf[E any] interface {\n        type []E\n}\n\nfunc _DoubleElems[S _SliceOf[E], E Number](s S) S {\n...\n}\n\nSo, in this case, there are many types that satisfy _SliceOf[E] (since E can be different types of numbers), but they all have the structure []E.\n\nNot sure if this is too much of a detail to worry about.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "873f83a0_f31dd3e6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2506,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "[]E is a single type - it\u0027s exactly the type []E. Note that E - even though a type parameter - is a just a type. It\u0027s not a set of types.\n\nIn the case { ~[]E } we have a set of types. But all these types have the same underlying type []E.\n\nSo I believe this is correct as is.",
+      "parentUuid": "f91f08c9_1aeca097",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -307,6 +630,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af4c4d8a_9ea9db41",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2508,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "adjusted.",
+      "parentUuid": "626256bf_50654b70",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84804106_11031117",
@@ -320,6 +661,24 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "s/operations/some operations/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f574f0f7_0289a302",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2510,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84804106_11031117",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -341,6 +700,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e414bc66_ca4d8164",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 3068,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70370e13_d0026e98",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c395ad47_2067e932",
@@ -354,6 +731,24 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "This seems to assume that the element type of a string type is byte.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "092d467b_2e0945e2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 3608,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "clarified",
+      "parentUuid": "c395ad47_2067e932",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -375,6 +770,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7181b495_45bbaa67",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4059,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51f957d6_cf95abf5",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edecf7de_3c7d5c12",
@@ -388,6 +801,24 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "s/leave it away/omit it/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc39b4ed_a6f07493",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4063,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edecf7de_3c7d5c12",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -409,6 +840,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c647039_42b0cd0d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4068,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da54633e_f3aeadc6",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "054fa89c_5f14c025",
@@ -422,6 +871,24 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "Does it help to say \"(known)\" here?  Doesn\u0027t seem to add anything.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afb4f15f_b7c5c796",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4107,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "054fa89c_5f14c025",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -443,6 +910,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abde4846_a6b903b4",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4117,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "reworded",
+      "parentUuid": "cefda29a_3abb4514",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c72bc11c_5e66f84c",
@@ -460,6 +945,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "548f2ec1_f331839b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4165,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "reorganized and rephrased",
+      "parentUuid": "c72bc11c_5e66f84c",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7219dd91_3304e3c7",
@@ -473,6 +976,24 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "s/faul/fail/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d323c9_7a052bdf",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 4195,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-12T19:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7219dd91_3304e3c7",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
