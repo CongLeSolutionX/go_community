@@ -93,6 +93,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf93a3f6_5f3687de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-08-12T19:14:07Z",
+      "side": 1,
+      "message": "I think noder/posmap.go just needs to be changed to use \u0027fileh\u0027 instead of \u0027absFilename\u0027. The change to objabi shouldn\u0027t be necessary.",
+      "revId": "4888bcc61f3bce995cfcf18bebde786faf89394f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90c5ca79_ff1b7c6a",
         "filename": "src/cmd/internal/objabi/line.go",
         "patchSetId": 6
