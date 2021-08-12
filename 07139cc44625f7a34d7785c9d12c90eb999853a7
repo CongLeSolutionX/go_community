@@ -71,6 +71,24 @@
       "parentUuid": "6bde207b_f91efba3",
       "revId": "07139cc44625f7a34d7785c9d12c90eb999853a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2841fbc_8d683015",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-08-12T19:40:03Z",
+      "side": 1,
+      "message": "Thanks. I think PS2 is okay though. PTAL. (If not, I might just comment out.)",
+      "parentUuid": "3320313c_61108413",
+      "revId": "07139cc44625f7a34d7785c9d12c90eb999853a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
