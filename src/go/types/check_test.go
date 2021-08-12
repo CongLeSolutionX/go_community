@@ -358,7 +358,22 @@ func TestCheck(t *testing.T)     { DefPredeclaredTestFuncs(); testDirFiles(t, "t
 func TestExamples(t *testing.T)  { testDirFiles(t, "testdata/examples", false) }
 func TestFixedbugs(t *testing.T) { testDirFiles(t, "testdata/fixedbugs", false) }
 
+<<<<<<< HEAD   (677dfe [dev.typeparams] cmd/compile: don't print out node pointer i)
 func testDirFiles(t *testing.T, dir string, manual bool) {
+=======
+func TestIssue47243_TypedRHS(t *testing.T) {
+	// The RHS of the shift expression below overflows uint on 32bit platforms,
+	// but this is OK as it is explicitly typed.
+	const src = "package issue47243\n\nvar a uint64; var _ = a << uint64(4294967296)" // uint64(1<<32)
+	checkFiles(t, &StdSizes{4, 4}, "", []string{"p.go"}, [][]byte{[]byte(src)}, false, nil)
+}
+
+func TestCheck(t *testing.T)     { DefPredeclaredTestFuncs(); testDir(t, "check") }
+func TestExamples(t *testing.T)  { testDir(t, "examples") }
+func TestFixedbugs(t *testing.T) { testDir(t, "fixedbugs") }
+
+func testDir(t *testing.T, dir string) {
+>>>>>>> BRANCH (46fd54 internal/goversion: update Version to 1.18)
 	testenv.MustHaveGoBuild(t)
 	dir = filepath.FromSlash(dir)
 
