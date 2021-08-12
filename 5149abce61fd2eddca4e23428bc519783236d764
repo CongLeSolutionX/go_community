@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3eb89edf_ab7c529b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "Is there any way you want to specify here in words what you say on line 1737:\n\nParameterized defined types must be \u003ca href\u003d\"#Instantiations\"\u003einstantiated\u003c/a\u003e when used;\n\nIt just seems that that one statement is important enough to re-iterate several times, since we are not enforcing it all in the syntax definitions.  I.e. there\u0027s no indication in the syntax that you can\u0027t use the name of a parameterized type (without type args) in any situation that calls for a Type.\n\n(For example, you could also re-emphasize that a parameterized type without type args cannot be used as an interface element.)",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4057fd7f_7f0b32c7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "Do you think you need to say anything special here about the underlying type of an instantiated type?  The underlying type of an instantiated type is the underlying type of the base parameterized type, substituted with the type args of the instantiation.\n\nOr maybe give an example below, using a parameterized type and an instantiation of that type.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb5e2fa3_fa563a2d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "Maybe move  883-84 to just after line 846 (after change : to period)?  Just a suggestion, seems useful to give the broad definition of method set (or its usefulness) before giving the full spec of its value in various cases.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f724565_bc361ae0",
         "filename": "doc/go_spec.html",
         "patchSetId": 36
@@ -48,6 +99,23 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "s/those/all of those/",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12f9e59e_a19383d8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "\"which represents the set of all types\" - that seems loose.   What you really mean is that:\n\nthe empty interface can _store_ a value of any type, OR equivalently:\nthe typeset of the empty interface is all types.\n\nNot sure if you can say one of those here (maybe in a separate sentence), or just remove \"which represents the set of all types\"",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -105,6 +173,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3980299_8e115140",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 1893,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "Put commas before/after the \u0027where\u0027 clause for better readability, since  it is so long:\n\nby a value of type \u003ccode\u003eT\u003c/code\u003e, where \u003ccode\u003eT\u003c/code\u003e is not a \u003ca href\u003d\"#Type_parameters\"\u003etype parameter\u003c/a\u003e,\nif one ...",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00ffae33_e7b979f8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2045,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "\"after the identifier in the TypeSpec\" - I think this is correct if you mean the name of the overall parameterized type being defined, but I read the 2nd use of \u0027identifier\u0027 as being the same as the first identifier (the typeparam), which would be incorrect for mutually referencing type params.  Can you clarify, maybe:\n\nafter the name of the parameterized type in the TypeSpec",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87c12514_f263e4a9",
         "filename": "doc/go_spec.html",
         "patchSetId": 36
@@ -122,6 +224,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5dd8097_e00bc4fc",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2458,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "Can\u0027t you replace \u0027Type\u0027 with \u0027InterfaceType\u0027 and be a bit more accurate/descriptive?  Or are you intentionally trying to being broad in the syntax definitions?",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de351d22_08db96c2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2465,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "\u0027equal\u0027 sounds strange here, since we\u0027re not talking about type equality, but you\u0027re really just talking generally.  Maybe:\n\nsimilar to but not the same as a defined type",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "293c7a3e_4943a192",
         "filename": "doc/go_spec.html",
         "patchSetId": 36
@@ -133,6 +269,23 @@
       "writtenOn": "2021-08-12T04:09:57Z",
       "side": 1,
       "message": "This wording seems potentially confusing.  It seems like the \"if\" condition is satisfied if, for example, all the types in the type set are boolean or integer types.  But what I think you mean to say is that if all types in the type set are boolean types, then the type parameter may be used in place of a boolean, and similar for integer, floating-point, complex, or string.",
+      "revId": "5149abce61fd2eddca4e23428bc519783236d764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f91f08c9_1aeca097",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 2506,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T16:50:06Z",
+      "side": 1,
+      "message": "I\u0027m not sure if you can really call this a single type in this way, can you?  It\u0027s still called a structural constraint, even it is parameterized:\n\ntype _SliceOf[E any] interface {\n        type []E\n}\n\nfunc _DoubleElems[S _SliceOf[E], E Number](s S) S {\n...\n}\n\nSo, in this case, there are many types that satisfy _SliceOf[E] (since E can be different types of numbers), but they all have the structure []E.\n\nNot sure if this is too much of a detail to worry about.",
       "revId": "5149abce61fd2eddca4e23428bc519783236d764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
