@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a24a14d_c13d3c33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-12T20:18:41Z",
+      "side": 1,
+      "message": "Thanks for the comment/suggestion!  But I\u0027m still unclear here.\n\nIf you do something like \u0027go tool compile -o pkg.a 235.go\u0027 (which run.go does), then you will get a relative path \u0027235.go\u0027 coming into makeSrcPosBase().  So, it is actually OK to use fileh() (which doesn\u0027t make relative paths be absolute) in makeSrcPosBase().  Seems like we will end up with Pos information that can have relative filenames.  Is that generally OK/expected?\n\nI\u0027m not sure of the spec for position information written out to an object file.  I would think we would want absolute file names in the position info, which means we should be using absFilename() in both calls in makeSrcPosBase(), and fix things up so $GOROOT works correctly.",
+      "parentUuid": "bf93a3f6_5f3687de",
+      "revId": "4888bcc61f3bce995cfcf18bebde786faf89394f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90c5ca79_ff1b7c6a",
         "filename": "src/cmd/internal/objabi/line.go",
         "patchSetId": 6
