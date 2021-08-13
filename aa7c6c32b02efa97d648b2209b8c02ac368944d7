@@ -443,6 +443,30 @@
       },
       "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ccc8d0_4f4f93d4",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-08-13T14:07:34Z",
+      "side": 1,
+      "message": "This seems to be fixed somewhere around the CL 320310 revamp. \n\nI\u0027ve added a testcase to make sure that any such path is rejected as a \u0027malformed module path\u0027 instead.",
+      "parentUuid": "6e06d76b_ee1ecb80",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 192
+      },
+      "revId": "aa7c6c32b02efa97d648b2209b8c02ac368944d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
