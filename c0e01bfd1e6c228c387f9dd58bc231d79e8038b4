@@ -118,6 +118,24 @@
       "message": "Hmm, this isn\u0027t the error message we\u0027re trying to trigger here. We want `cannot import current directory` and/or `local import \"./foo\" in non-local package\".\n\n\nPerhaps something like:\n\nenv GO111MODULE\u003doff\n\n# Control case: in GOPATH mode,\n# a/a.go can import package \"./b\" using a relative path.\ngo build a/a.go\n! stderr .\n\n# package \"a\" itself cannot import \"./b\": \"a\" has a non-local\n# import path, so its imports must also have non-local import paths.\n! go build a\nstderr \u0027^a[/\\\\]a.go:3:8: local import \"./b\" in non-local package$\u0027\n\n# package \"c\" imports itself, which is not allowed.\n! go build c\nstderr \u0027^c[/\\\\]c.go:3:8: .: cannot import current directory$\u0027\n\n\n-- a/a.go --\npackage a\n\nimport _ \"./b\"\n-- a/b/b.go --\npackage b\n-- c/c.go --\npackage c\n\nimport _ \".\"",
       "revId": "c0e01bfd1e6c228c387f9dd58bc231d79e8038b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f951e875_7ba0a110",
+        "filename": "src/cmd/go/testdata/script/build_relative_import_not_supported_in_go_path_mode.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 53012
+      },
+      "writtenOn": "2021-08-13T12:55:28Z",
+      "side": 1,
+      "message": "Thank you for the kind help.\nI added the test 👍",
+      "parentUuid": "ad9f97f1_434734ad",
+      "revId": "c0e01bfd1e6c228c387f9dd58bc231d79e8038b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
