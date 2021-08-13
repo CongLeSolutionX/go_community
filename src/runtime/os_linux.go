@@ -517,3 +517,16 @@ func tgkill(tgid, tid, sig int)
 func signalM(mp *m, sig int) {
 	tgkill(getpid(), int(mp.procid), sig)
 }
+
+func setProcessCPUProfiler(hz int32) {
+	setProcessCPUProfilerSetitimer(hz)
+}
+
+func setThreadCPUProfiler(hz int32) {
+	setThreadCPUProfilerSetitimer(hz)
+}
+
+//go:nosplit
+func validSIGPROF(mp *m, c *sigctxt) bool {
+	return true
+}
