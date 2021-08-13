@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02ff4b94_9ef86824",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-13T01:57:51Z",
+      "side": 1,
+      "message": "But does the type assert method work fine (see lines 1228-1231)?  It works fine for this example.  If you don\u0027t see any problem, any reason not to go with the type assert method instead?",
+      "parentUuid": "4a20d00c_66e3bd24",
+      "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8c7ab74_fe5c7d88",
         "filename": "src/cmd/compile/internal/noder/stencil.go",
         "patchSetId": 2
