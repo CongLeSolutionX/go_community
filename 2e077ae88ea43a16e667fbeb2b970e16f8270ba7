@@ -93,6 +93,58 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbcafec5_20708021",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-08-13T00:57:54Z",
+      "side": 1,
+      "message": "I think a string is fine personally.",
+      "parentUuid": "0ad4bd1d_0b0c9b28",
+      "revId": "2e077ae88ea43a16e667fbeb2b970e16f8270ba7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8080c1eb_2d4ff50d",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-08-13T00:57:54Z",
+      "side": 1,
+      "message": "Clarify that the port is always present, even if it\u0027s the implicit value (\":443\" or \":80\") for the scheme?",
+      "revId": "2e077ae88ea43a16e667fbeb2b970e16f8270ba7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e27c530_2586b94d",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-08-13T00:57:54Z",
+      "side": 1,
+      "message": "\"was most previously idle before this call\" ?\n\nso it doesn\u0027t sound like the sum of idle times, which might be a stretch interpretation, but might as well be explicit.",
+      "revId": "2e077ae88ea43a16e667fbeb2b970e16f8270ba7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "084b9dcf_9ffccd4b",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
