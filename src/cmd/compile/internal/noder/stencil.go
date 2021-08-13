@@ -1224,6 +1224,15 @@ func convertUsingDictionary(info *instInfo, dictParam *ir.Name, pos src.XPos, v 
 		}
 		assert(ix >= 0)
 		rt = getDictionaryEntry(pos, dictParam, ix, info.dictLen)
+	} else if v.Type().IsInterface() {
+		//ta := ir.NewTypeAssertExpr(pos, v, nil)
+		//ta.SetType(dst)
+		//ta.SetTypecheck(1)
+		//return ta
+		itab := ir.NewUnaryExpr(base.Pos, ir.OITAB, v)
+		itab.SetType(types.Types[types.TUINTPTR].PtrTo())
+		itab.SetTypecheck(1)
+		rt = itabType(itab)
 	} else {
 		ix := findDictType(info, src)
 		assert(ix >= 0)
@@ -1966,4 +1975,32 @@ func (g *irgen) buildClosure2(subst *subster, m, x ir.Node) ir.Node {
 
 	// Do final checks on closure and return it.
 	return ir.UseClosure(fn.OClosure, g.target)
+}
+
+// itabType loads the _type field from a runtime.itab struct.
+func itabType(itab ir.Node) ir.Node {
+	if itabTypeField == nil {
+		// runtime.itab's _type field
+		itabTypeField = runtimeField("_type", int64(types.PtrSize), types.NewPtr(types.Types[types.TUINT8]))
+	}
+	return boundedDotPtr(base.Pos, itab, itabTypeField)
+}
+
+var itabTypeField *types.Field
+
+// boundedDotPtr returns a selector expression representing ptr.field
+// and omits nil-pointer checks for ptr.
+func boundedDotPtr(pos src.XPos, ptr ir.Node, field *types.Field) *ir.SelectorExpr {
+	sel := ir.NewSelectorExpr(pos, ir.ODOTPTR, ptr, field.Sym)
+	sel.Selection = field
+	sel.SetType(field.Type)
+	sel.SetTypecheck(1)
+	sel.SetBounded(true) // guaranteed not to fault
+	return sel
+}
+
+func runtimeField(name string, offset int64, typ *types.Type) *types.Field {
+	f := types.NewField(src.NoXPos, ir.Pkgs.Runtime.Lookup(name), typ)
+	f.Offset = offset
+	return f
 }
