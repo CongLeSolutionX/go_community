@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b24fd1be_4d0dd3ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-13T21:10:16Z",
+      "side": 1,
+      "message": "As far as I know these are not documented anywhere.\n\nIt\u0027s true that \"build\" for a non-main package winds up running a compile, but using \"compile\" is quicker because it runs the compiler directly using \"go tool compile\".  And we generally want these tests to run as quickly as possible.",
+      "parentUuid": "2f22636f_844fe2bc",
+      "revId": "7ed68a324ac81934f945738e4749ed1f984b68da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c43454bb_eac5f287",
