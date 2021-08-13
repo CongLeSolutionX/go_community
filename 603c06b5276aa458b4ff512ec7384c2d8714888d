@@ -104,6 +104,24 @@
       "parentUuid": "87edb471_1a124154",
       "revId": "603c06b5276aa458b4ff512ec7384c2d8714888d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76c0d44f_7dfbd28e",
+        "filename": "src/cmd/go/testdata/script/mod_init_invalid_major.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-13T17:42:45Z",
+      "side": 1,
+      "message": "Test name seems fine to me.",
+      "parentUuid": "5f0e4de8_f0ae0518",
+      "revId": "603c06b5276aa458b4ff512ec7384c2d8714888d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
