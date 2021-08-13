@@ -53,6 +53,58 @@
       "message": "Keith, I think we may still have some more cases to fix where a type arg is an interface type.  This bug has to do with converting a type param (which is instantiated to a shape interface arg) to an empty interface.  In that case, we don\u0027t want to use the dictionary.  We can either get the run-time type from the existing interface, or we can type assert to an empty interface.  (Or do we have to do a dynamic type assert for some reason?)\n\nLet me know which way you prefer.  The type assert method is commented out, but works and requires less code (as long as it is correct...)\n",
       "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a20d00c_66e3bd24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-13T01:46:04Z",
+      "side": 1,
+      "message": "This way is fine.",
+      "parentUuid": "dac9813f_e8f4fa87",
+      "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8c7ab74_fe5c7d88",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1982,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-13T01:46:04Z",
+      "side": 1,
+      "message": "You might need:\n\ntyp \u003d nil\nif itab !\u003d nil {\n   typ \u003d itab._type\n}\n\nto handle converting nil interfaces.\n(see the use of itabType in walk/convert.go)",
+      "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10411008_ae04b8d4",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-13T01:46:04Z",
+      "side": 1,
+      "message": "Maybe we can share all this stuff with walk? Might be a good cleanup for a separate CL.",
+      "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
