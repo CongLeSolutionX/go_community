@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cbff5ef1_d49e870a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-13T02:43:42Z",
+      "side": 1,
+      "message": "Yes, I think the type assert method would work. It should boil down to exactly that case in walk/convert.go that uses itabType.",
+      "parentUuid": "02ff4b94_9ef86824",
+      "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8c7ab74_fe5c7d88",
         "filename": "src/cmd/compile/internal/noder/stencil.go",
         "patchSetId": 2
