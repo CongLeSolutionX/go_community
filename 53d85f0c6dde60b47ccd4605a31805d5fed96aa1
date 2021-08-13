@@ -16,6 +16,24 @@
       "message": "You probably could, at the beginning of this function, add\n\nif v.Op \u003d\u003d OpOffPtr { v \u003d v.Args[0] }",
       "revId": "53d85f0c6dde60b47ccd4605a31805d5fed96aa1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35754931_5076bb73",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 34507
+      },
+      "writtenOn": "2021-08-13T23:57:48Z",
+      "side": 1,
+      "message": "True, or do the same thing that IsStackAddr does above, actually (subsuming my next CL).",
+      "parentUuid": "34d8da71_0d4cd206",
+      "revId": "53d85f0c6dde60b47ccd4605a31805d5fed96aa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
