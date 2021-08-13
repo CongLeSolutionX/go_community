@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffa41295_441ee94a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-08-13T03:22:18Z",
+      "side": 1,
+      "message": "Yep, doing well! It\u0027s nice that I still get to interact with all of you despite leaving Google and the Go team :)\n\n\u003e Thanks for tracking this down. I apologize for not looking into this already; I expect there are a lot of places where we can optimize speed and memory usage\n\nNo worries, I\u0027ve been using fuzzing quite often and was wondering why one of my functions kept OOMing. It became suspiciously clear when the only function OOMing was the one with sub-tests.",
+      "parentUuid": "42f9150d_f321a6b2",
+      "revId": "eaf8b280cf1935bfce601d9ca9ef60038551cb7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69465432_f1255d04",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-08-12T16:27:39Z",
       "side": 1,
       "message": "I\u0027m nervous about cloning the test context. My understanding is that it\u0027s more or less supposed to be a singleton, shared by all subtests. This will probably work (keeping references to the same channels), but it seems like an easy place to introduce bugs in the future.\n\nInstead, in T.Run, let\u0027s check if T.common.fuzzing is true. If it is, let\u0027s not call t.context.match.fullName(\u0026t.common, name) at all. When fuzzing, each call to the fuzz function will have a different (not meaningful) name, and we probably shouldn\u0027t filter those with -test.run.\n\n(I\u0027m not actually sure whether T.common.fuzzing is the right thing to check; we might need another field. -test.run matching should work in the initial phase when we\u0027re running the seed corpus. That happens with or without -test.fuzz being set.)",
+      "revId": "eaf8b280cf1935bfce601d9ca9ef60038551cb7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5dab1c3_73fbada2",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2021-08-13T03:22:18Z",
+      "side": 1,
+      "message": "Done.\n\nLooking at where else T.common.fuzzing is checked, this seems reasonable.",
+      "parentUuid": "69465432_f1255d04",
       "revId": "eaf8b280cf1935bfce601d9ca9ef60038551cb7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
