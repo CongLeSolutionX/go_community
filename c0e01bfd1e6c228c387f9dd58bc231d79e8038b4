@@ -82,6 +82,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5a1e79c6_c7e4e5d8",
+        "filename": "src/cmd/go/testdata/script/build_relative_import_not_supported.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 53012
+      },
+      "writtenOn": "2021-08-14T05:57:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13ef6b7d_eef002f8",
+      "range": {
+        "startLine": 2,
+        "startChar": 7,
+        "endLine": 2,
+        "endChar": 71
+      },
+      "revId": "c0e01bfd1e6c228c387f9dd58bc231d79e8038b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "13592841_cc0857d7",
         "filename": "src/cmd/go/testdata/script/build_relative_import_not_supported_in_go_path_mode.txt",
         "patchSetId": 4
