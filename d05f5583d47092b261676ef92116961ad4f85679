@@ -92,6 +92,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe9db9b1_36b76c75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-14T09:50:56Z",
+      "side": 1,
+      "message": "The arm-aws failure is indeed tracked on issue https://github.com/golang/go/issues/47505\n\nI have the same when run locally when using \u0027go tool dist test -run api\u0027 as documentation suggests. I didn\u0027t find if API Check is run on all builders.\n\nPatch is also rebased,",
+      "parentUuid": "6ae179f5_9b3e1e04",
+      "revId": "d05f5583d47092b261676ef92116961ad4f85679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "001ec5a5_494cc184",
@@ -115,6 +133,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a69b744_47d18eb1",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-14T09:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "001ec5a5_494cc184",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 15
+      },
+      "revId": "d05f5583d47092b261676ef92116961ad4f85679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b9a97df_583f1cc6",
@@ -128,6 +170,24 @@
       "writtenOn": "2021-08-13T21:49:07Z",
       "side": 1,
       "message": "Consider inverting logic to keep the normal code path at a minimal indentation, similar to https://golang.org/s/style#indent-error-flow:\n\n    if !result.FirstClass {\n        continue\n    }\n    contexts \u003d append(...",
+      "revId": "d05f5583d47092b261676ef92116961ad4f85679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b82178b4_3d5298ec",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-14T09:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b9a97df_583f1cc6",
       "revId": "d05f5583d47092b261676ef92116961ad4f85679",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

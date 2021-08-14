@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24cc3df5_32a221bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-14T09:50:56Z",
+      "side": 1,
+      "message": "Rebased. Gofmt. Logic using continue.\n\nFor the error on linux builder, I can reproduce locally using go1.17rc2.\n\nLet me know if I can check how API changes are verified on the builders.",
+      "revId": "57687e3216709fd0ab32ab5a20b51b0dd03cce32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
