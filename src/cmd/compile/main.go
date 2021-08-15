@@ -10,6 +10,7 @@ import (
 	"cmd/compile/internal/arm64"
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/gc"
+	"cmd/compile/internal/loong64"
 	"cmd/compile/internal/mips"
 	"cmd/compile/internal/mips64"
 	"cmd/compile/internal/ppc64"
@@ -33,6 +34,7 @@ var archInits = map[string]func(*ssagen.ArchInfo){
 	"mipsle":   mips.Init,
 	"mips64":   mips64.Init,
 	"mips64le": mips64.Init,
+	"loong64":  loong64.Init,
 	"ppc64":    ppc64.Init,
 	"ppc64le":  ppc64.Init,
 	"riscv64":  riscv64.Init,
