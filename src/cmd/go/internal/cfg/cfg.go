@@ -261,12 +261,13 @@ var (
 	GOMODCACHE   = envOr("GOMODCACHE", gopathDir("pkg/mod"))
 
 	// Used in envcmd.MkEnv and build ID computations.
-	GOARM    = envOr("GOARM", fmt.Sprint(buildcfg.GOARM))
-	GO386    = envOr("GO386", buildcfg.GO386)
-	GOMIPS   = envOr("GOMIPS", buildcfg.GOMIPS)
-	GOMIPS64 = envOr("GOMIPS64", buildcfg.GOMIPS64)
-	GOPPC64  = envOr("GOPPC64", fmt.Sprintf("%s%d", "power", buildcfg.GOPPC64))
-	GOWASM   = envOr("GOWASM", fmt.Sprint(buildcfg.GOWASM))
+	GOARM     = envOr("GOARM", fmt.Sprint(buildcfg.GOARM))
+	GO386     = envOr("GO386", buildcfg.GO386)
+	GOMIPS    = envOr("GOMIPS", buildcfg.GOMIPS)
+	GOMIPS64  = envOr("GOMIPS64", buildcfg.GOMIPS64)
+	GOLOONG64 = envOr("GOLOONG64", buildcfg.GOLOONG64)
+	GOPPC64   = envOr("GOPPC64", fmt.Sprintf("%s%d", "power", buildcfg.GOPPC64))
+	GOWASM    = envOr("GOWASM", fmt.Sprint(buildcfg.GOWASM))
 
 	GOPROXY    = envOr("GOPROXY", "https://proxy.golang.org,direct")
 	GOSUMDB    = envOr("GOSUMDB", "sum.golang.org")
@@ -293,6 +294,8 @@ func GetArchEnv() (key, val string) {
 		return "GOMIPS", GOMIPS
 	case "mips64", "mips64le":
 		return "GOMIPS64", GOMIPS64
+	case "loong64":
+		return "GOLOONG64", GOLOONG64
 	case "ppc64", "ppc64le":
 		return "GOPPC64", GOPPC64
 	case "wasm":
