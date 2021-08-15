@@ -266,5 +266,5 @@ func Version() string {
 const GOOS string = goos.GOOS
 
 // GOARCH is the running program's architecture target:
-// one of 386, amd64, arm, s390x, and so on.
+// one of 386, amd64, arm, s390x and so on.
 const GOARCH string = goarch.GOARCH
