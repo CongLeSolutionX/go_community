@@ -174,7 +174,7 @@ func TestIssue33979(t *testing.T) {
 
 	// Skip test on platforms that do not support cgo internal linking.
 	switch runtime.GOARCH {
-	case "mips", "mipsle", "mips64", "mips64le":
+	case "mips", "mipsle", "mips64", "mips64le", "loong64":
 		t.Skipf("Skipping on %s/%s", runtime.GOOS, runtime.GOARCH)
 	}
 	if runtime.GOOS == "aix" ||
