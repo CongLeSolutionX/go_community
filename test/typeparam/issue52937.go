@@ -1,7 +1,7 @@
 // build -buildmode=plugin
 
-//go:build !js
-// +build !js
+//go:build !js, !loong64
+// +build !js, !loong64
 
 // Copyright 2022 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
