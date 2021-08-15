@@ -107,7 +107,7 @@ var ppcGnuNeed = []string{
 
 func mustHaveDisasm(t *testing.T) {
 	switch runtime.GOARCH {
-	case "mips", "mipsle", "mips64", "mips64le":
+	case "mips", "mipsle", "mips64", "mips64le", "loong64":
 		t.Skipf("skipping on %s, issue 12559", runtime.GOARCH)
 	case "riscv64":
 		t.Skipf("skipping on %s, issue 36738", runtime.GOARCH)
