@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba967881_95994138",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53338
+      },
+      "writtenOn": "2021-08-15T07:29:02Z",
+      "side": 1,
+      "message": "I tried to raise this with my google account directly using Gerrit but didn\u0027t have the permissions, I think it\u0027s because I\u0027ve never submitted code before. ",
+      "revId": "34c75f40c56281677655da02504c8ed8c58dc59b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
