@@ -21,18 +21,19 @@ import (
 var (
 	defaultGOROOT string // set by linker
 
-	GOROOT   = envOr("GOROOT", defaultGOROOT)
-	GOARCH   = envOr("GOARCH", defaultGOARCH)
-	GOOS     = envOr("GOOS", defaultGOOS)
-	GO386    = envOr("GO386", defaultGO386)
-	GOAMD64  = goamd64()
-	GOARM    = goarm()
-	GOMIPS   = gomips()
-	GOMIPS64 = gomips64()
-	GOPPC64  = goppc64()
-	GOWASM   = gowasm()
-	GO_LDSO  = defaultGO_LDSO
-	Version  = version
+	GOROOT    = envOr("GOROOT", defaultGOROOT)
+	GOARCH    = envOr("GOARCH", defaultGOARCH)
+	GOOS      = envOr("GOOS", defaultGOOS)
+	GO386     = envOr("GO386", defaultGO386)
+	GOAMD64   = goamd64()
+	GOARM     = goarm()
+	GOLOONG64 = goloong64()
+	GOMIPS    = gomips()
+	GOMIPS64  = gomips64()
+	GOPPC64   = goppc64()
+	GOWASM    = gowasm()
+	GO_LDSO   = defaultGO_LDSO
+	Version   = version
 )
 
 // Error is one of the errors found (if any) in the build configuration.
@@ -102,6 +103,15 @@ func gomips64() string {
 	}
 	Error = fmt.Errorf("invalid GOMIPS64: must be hardfloat, softfloat")
 	return defaultGOMIPS64
+}
+
+func goloong64() string {
+	switch v := envOr("GOLOONG64", defaultGOLOONG64); v {
+	case "hardfloat", "softfloat":
+		return v
+	}
+	Error = fmt.Errorf("invalid GOLOONG64: must be hardfloat, softfloat")
+	return defaultGOLOONG64
 }
 
 func goppc64() int {
