@@ -78,6 +78,8 @@ func mustHaveDisasm(t *testing.T) {
 		t.Skipf("skipping on %s, issue 36738", runtime.GOARCH)
 	case "s390x":
 		t.Skipf("skipping on %s, issue 15255", runtime.GOARCH)
+	case "loong64":
+		t.Skipf("skipping on %s.", runtime.GOARCH)
 	}
 
 	// Skip PIE platforms, pprof can't disassemble PIE.
