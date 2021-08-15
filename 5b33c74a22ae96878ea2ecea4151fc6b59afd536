@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f63d3151_89e2da61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 52588
+      },
+      "writtenOn": "2021-08-15T06:52:30Z",
+      "side": 1,
+      "message": "Its odd that the normal implementation in x/sys/cpu doesnt use it either:\nhttps://github.com/golang/sys/blob/d867a43fc93e4a7a41e33674e954dc459b27dddb/cpu/cpu_x86.s#L24\n\nCan you send a CL for x/sys/cpu correcting that with:\n\"This makes the code consistent with the gccgo implementation.\"\n\nThen we can align internal/cpu with:\n\"This makes the code consistent with the x/sys/cpu implementation.\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "5b33c74a22ae96878ea2ecea4151fc6b59afd536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "483c407e_fd4c7869",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
