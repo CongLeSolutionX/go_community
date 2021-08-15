@@ -2647,6 +2647,13 @@ func (b *Builder) gccArchArgs() []string {
 		} else if cfg.GOMIPS == "softfloat" {
 			return append(args, "-msoft-float")
 		}
+	case "loong64":
+		args := []string{"-mabi=lp64"}
+		if cfg.GOLOONG64 == "hardfloat" {
+			return append(args, "-mhard-float")
+		} else if cfg.GOLOONG64 == "softfloat" {
+			return append(args, "-msoft-float")
+		}
 	case "ppc64":
 		if cfg.Goos == "aix" {
 			return []string{"-maix64"}
