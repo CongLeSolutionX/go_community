@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build android || arm64 || riscv64
-// +build android arm64 riscv64
+//go:build android || arm64 || riscv64 || loong64
+// +build android arm64 riscv64 loong64
 
 package syscall
 
