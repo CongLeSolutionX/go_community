@@ -73,6 +73,8 @@ func f(n int) {
 		binary.BigEndian.PutUint32(ill, 0xfc000000) // MOVV R0, (R0)
 	case "mipsle", "mips64le":
 		binary.LittleEndian.PutUint32(ill, 0xfc000000) // MOVV R0, (R0)
+	case "loong64":
+		binary.LittleEndian.PutUint32(ill, 0x29c00000) // MOVV R0, (R0)
 	case "s390x":
 		ill = append(ill[:0], 0xa7, 0x09, 0x00, 0x00)         // MOVD $0, R0
 		ill = append(ill, 0xe3, 0x00, 0x00, 0x00, 0x00, 0x24) // MOVD R0, (R0)
