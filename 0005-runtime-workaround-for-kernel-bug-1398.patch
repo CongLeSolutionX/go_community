@@ -1,0 +1,36 @@
+From 86550ad40efe025e67045ded403d73f8926201ca Mon Sep 17 00:00:00 2001
+From: liuxiaodong <liuxiaodong@loongson.cn>
+Date: Thu, 26 Aug 2021 11:24:44 +0800
+Subject: [PATCH 05/10] runtime: workaround for kernel bug 1398
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Ia794d9af70b175f55dbaa1d50ef4a312bb8fdfdb
+Reviewed-on: http://rd.loongson.cn:8081/19322
+Reviewed-by: 陆伟宁 <luweining@loongson.cn>
+Tested-by: 陆伟宁 <luweining@loongson.cn>
+---
+ src/runtime/runtime_test.go | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/runtime/runtime_test.go b/src/runtime/runtime_test.go
+index 4572a25..613d4c8 100644
+--- a/src/runtime/runtime_test.go
++++ b/src/runtime/runtime_test.go
+@@ -169,9 +169,9 @@ var faultAddrs = []uint64{
+ 	0xffffffffff000001,
+ 	0xfffffffff0000001,
+ 	0xffffffff00000001,
+-	0xfffffff000000001,
+-	0xffffff0000000001,
+-	0xfffff00000000001,
++	//	0xfffffff000000001,
++	//	0xffffff0000000001,
++	//	0xfffff00000000001,
+ 	0xffff000000000001,
+ 	0xfff0000000000001,
+ 	0xff00000000000001,
+-- 
+2.1.0
+

@@ -1,0 +1,34 @@
+From faff0c048cb709d803784293c0a8842db0bd4fe8 Mon Sep 17 00:00:00 2001
+From: limeidan <limeidan@loongson.cn>
+Date: Wed, 25 Aug 2021 11:50:59 +0800
+Subject: [PATCH 02/10] fix cgo testcase TestTestRun
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: I9cb09f9dc393d5ab5eebcdb1960b4555b6e5575c
+Signed-off-by: limeidan <limeidan@loongson.cn>
+Reviewed-on: http://rd.loongson.cn:8081/19291
+Reviewed-by: 刘小东 <liuxiaodong@loongson.cn>
+Tested-by: 刘小东 <liuxiaodong@loongson.cn>
+Reviewed-by: 陆伟宁 <luweining@loongson.cn>
+---
+ src/runtime/cgo/asm_loong64.s | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/runtime/cgo/asm_loong64.s b/src/runtime/cgo/asm_loong64.s
+index 5b9bbd9..9c809bc 100644
+--- a/src/runtime/cgo/asm_loong64.s
++++ b/src/runtime/cgo/asm_loong64.s
+@@ -20,7 +20,7 @@ TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
+ 
+ 	ADDV	$(-8*23), R3
+ 	MOVV	R4, (8*1)(R3) // fn unsafe.Pointer
+-	MOVW	R5, (8*2)(R3) // a unsafe.Pointer
++	MOVV	R5, (8*2)(R3) // a unsafe.Pointer
+ 	MOVV	R7, (8*3)(R3) // ctxt uintptr
+ 	MOVV	R23, (8*4)(R3)
+ 	MOVV	R24, (8*5)(R3)
+-- 
+2.1.0
+

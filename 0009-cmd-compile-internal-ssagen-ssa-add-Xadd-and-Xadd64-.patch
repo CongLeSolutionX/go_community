@@ -1,0 +1,42 @@
+From 0238df40b5af20df4252dc1330b232da8ee2d3b1 Mon Sep 17 00:00:00 2001
+From: Guoqi Chen <chenguoqi@loongson.cn>
+Date: Fri, 27 Aug 2021 17:01:19 +0800
+Subject: [PATCH 09/10] cmd/compile/internal/ssagen/ssa: add Xadd and Xadd64
+ support for loong64.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Iae165300b45caacd28a9599c0f4de44f7e090ffc
+Signed-off-by: Guoqi Chen <chenguoqi@loongson.cn>
+Reviewed-on: http://rd.loongson.cn:8081/19449
+Reviewed-by: 刘小东 <liuxiaodong@loongson.cn>
+Tested-by: 李美丹 <limeidan@loongson.cn>
+---
+ src/cmd/compile/internal/ssagen/ssa.go | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/cmd/compile/internal/ssagen/ssa.go b/src/cmd/compile/internal/ssagen/ssa.go
+index 4a5bfdd..d52aa7d 100644
+--- a/src/cmd/compile/internal/ssagen/ssa.go
++++ b/src/cmd/compile/internal/ssagen/ssa.go
+@@ -3979,14 +3979,14 @@ func InitTables() {
+ 			s.vars[memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
+ 			return s.newValue1(ssa.OpSelect0, types.Types[types.TUINT32], v)
+ 		},
+-		sys.AMD64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
++		sys.AMD64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X, sys.LOONG64)
+ 	addF("runtime/internal/atomic", "Xadd64",
+ 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+ 			v := s.newValue3(ssa.OpAtomicAdd64, types.NewTuple(types.Types[types.TUINT64], types.TypeMem), args[0], args[1], s.mem())
+ 			s.vars[memVar] = s.newValue1(ssa.OpSelect1, types.TypeMem, v)
+ 			return s.newValue1(ssa.OpSelect0, types.Types[types.TUINT64], v)
+ 		},
+-		sys.AMD64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
++		sys.AMD64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X, sys.LOONG64)
+ 
+ 	addF("runtime/internal/atomic", "Xadd",
+ 		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicAdd32, ssa.OpAtomicAdd32Variant, types.TUINT32, types.TUINT32, atomicXchgXaddEmitterARM64),
+-- 
+2.1.0
+

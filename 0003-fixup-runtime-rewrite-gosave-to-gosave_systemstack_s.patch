@@ -1,0 +1,68 @@
+From 9549e9ceb7976bb7139ecc4282f065ac85aca5f1 Mon Sep 17 00:00:00 2001
+From: liuxiaodong <liuxiaodong@loongson.cn>
+Date: Wed, 25 Aug 2021 15:35:58 +0800
+Subject: [PATCH 03/10] fixup:runtime: rewrite gosave to
+ gosave_systemstack_switch
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Ib2ee2d8ba60acc1d539dec12af53d79a31a346b7
+Reviewed-on: http://rd.loongson.cn:8081/19289
+Reviewed-by: 陆伟宁 <luweining@loongson.cn>
+Tested-by: 陆伟宁 <luweining@loongson.cn>
+---
+ src/runtime/asm_loong64.s | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
+
+diff --git a/src/runtime/asm_loong64.s b/src/runtime/asm_loong64.s
+index 4db4bc5..9f401a7 100644
+--- a/src/runtime/asm_loong64.s
++++ b/src/runtime/asm_loong64.s
+@@ -187,12 +187,7 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
+ switch:
+ 	// save our state in g->sched. Pretend to
+ 	// be systemstack_switch if the G stack is scanned.
+-	MOVV	$runtime·systemstack_switch(SB), R6
+-	ADDV	$8, R6	// get past prologue
+-	MOVV	R6, (g_sched+gobuf_pc)(g)
+-	MOVV	R3, (g_sched+gobuf_sp)(g)
+-	MOVV	R0, (g_sched+gobuf_lr)(g)
+-	MOVV	g, (g_sched+gobuf_g)(g)
++	JAL	gosave_systemstack_switch<>(SB)
+ 
+ 	// switch to g0
+ 	MOVV	R5, g
+@@ -419,15 +414,17 @@ TEXT runtime·jmpdefer(SB), NOSPLIT|NOFRAME, $0-16
+ 	JMP	(R4)
+ 
+ // Save state of caller into g->sched. Smashes R19.
+-TEXT gosave<>(SB),NOSPLIT|NOFRAME,$0
+-	MOVV	R1, (g_sched+gobuf_pc)(g)
++TEXT gosave_systemstack_switch<>(SB),NOSPLIT|NOFRAME,$0
++	MOVV    $runtime·systemstack_switch(SB), R19
++	ADDV	$8, R19
++	MOVV	R19, (g_sched+gobuf_pc)(g)
+ 	MOVV	R3, (g_sched+gobuf_sp)(g)
+ 	MOVV	R0, (g_sched+gobuf_lr)(g)
+ 	MOVV	R0, (g_sched+gobuf_ret)(g)
+ 	// Assert ctxt is zero. See func save.
+ 	MOVV	(g_sched+gobuf_ctxt)(g), R19
+ 	BEQ	R19, 2(PC)
+-	JAL	runtime·badctxt(SB)
++	JAL	runtime·abort(SB)
+ 	RET
+ 
+ // func asmcgocall(fn, arg unsafe.Pointer) int32
+@@ -448,7 +445,7 @@ TEXT ·asmcgocall(SB),NOSPLIT,$0-20
+ 	MOVV	m_g0(R5), R6
+ 	BEQ	R6, g, g0
+ 
+-	JAL	gosave<>(SB)
++	JAL	gosave_systemstack_switch<>(SB)
+ 	MOVV	R6, g
+ 	JAL	runtime·save_g(SB)
+ 	MOVV	(g_sched+gobuf_sp)(g), R3
+-- 
+2.1.0
+

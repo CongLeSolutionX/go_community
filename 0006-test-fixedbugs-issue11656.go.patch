@@ -1,0 +1,33 @@
+From 001eccb09ab2629802d682f20faa92871dda3c6b Mon Sep 17 00:00:00 2001
+From: liuxiaodong <liuxiaodong@loongson.cn>
+Date: Thu, 26 Aug 2021 12:00:14 +0800
+Subject: [PATCH 06/10] test: fixedbugs/issue11656.go fix: SIGILL: illegal
+ instruction
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Ia3917c7f3c34dc9bcc4d2185879c8b3120e4dd89
+Reviewed-on: http://rd.loongson.cn:8081/19325
+Tested-by: 刘小东 <liuxiaodong@loongson.cn>
+Reviewed-by: 陆伟宁 <luweining@loongson.cn>
+---
+ test/fixedbugs/issue11656.go | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/test/fixedbugs/issue11656.go b/test/fixedbugs/issue11656.go
+index 85fe720..f7717b8 100644
+--- a/test/fixedbugs/issue11656.go
++++ b/test/fixedbugs/issue11656.go
+@@ -73,6 +73,8 @@ func f(n int) {
+ 		binary.BigEndian.PutUint32(ill, 0xfc000000) // MOVV R0, (R0)
+ 	case "mipsle", "mips64le":
+ 		binary.LittleEndian.PutUint32(ill, 0xfc000000) // MOVV R0, (R0)
++	case "loong64":
++		binary.LittleEndian.PutUint32(ill, 0x29c00000) // MOVV R0, (R0)
+ 	case "s390x":
+ 		ill = append(ill[:0], 0xa7, 0x09, 0x00, 0x00)         // MOVD $0, R0
+ 		ill = append(ill, 0xe3, 0x00, 0x00, 0x00, 0x00, 0x24) // MOVD R0, (R0)
+-- 
+2.1.0
+

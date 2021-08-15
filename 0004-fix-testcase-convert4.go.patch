@@ -1,0 +1,31 @@
+From f5b97363abe94b5c8581aa21194242821cba3c4d Mon Sep 17 00:00:00 2001
+From: limeidan <limeidan@loongson.cn>
+Date: Thu, 26 Aug 2021 11:56:06 +0800
+Subject: [PATCH 04/10] fix testcase convert4.go
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Ie11fb66b1f26cf9875186e3472c71756a5f1caa9
+Signed-off-by: limeidan <limeidan@loongson.cn>
+Reviewed-on: http://rd.loongson.cn:8081/19324
+Reviewed-by: 陆伟宁 <luweining@loongson.cn>
+---
+ src/runtime/asm_loong64.s | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/runtime/asm_loong64.s b/src/runtime/asm_loong64.s
+index 9f401a7..6cf58b5 100644
+--- a/src/runtime/asm_loong64.s
++++ b/src/runtime/asm_loong64.s
+@@ -818,3 +818,7 @@ TEXT runtime·panicSlice3CU(SB),NOSPLIT,$0-16
+ 	MOVV	R19, x+0(FP)
+ 	MOVV	R18, y+8(FP)
+ 	JMP	runtime·goPanicSlice3CU(SB)
++TEXT runtime·panicSliceConvert(SB),NOSPLIT,$0-16
++	MOVV	R17, x+0(FP)
++	MOVV	R4, y+8(FP)
++	JMP	runtime·goPanicSliceConvert(SB)
+-- 
+2.1.0
+

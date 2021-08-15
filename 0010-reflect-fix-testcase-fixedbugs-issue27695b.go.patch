@@ -1,0 +1,62 @@
+From a21a5648b634cf6c9c7456208bf2dc22afa594f1 Mon Sep 17 00:00:00 2001
+From: liuxiaodong <liuxiaodong@loongson.cn>
+Date: Sat, 28 Aug 2021 15:46:34 +0800
+Subject: [PATCH 10/10] reflect: fix testcase fixedbugs/issue27695b.go
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Ic176a046ff020f87597bce9ecf00dffcc286f44e
+Reviewed-on: http://rd.loongson.cn:8081/19483
+Reviewed-by: 陆伟宁 <luweining@loongson.cn>
+Reviewed-by: 陈国祺 <chenguoqi@loongson.cn>
+Tested-by: 陈国祺 <chenguoqi@loongson.cn>
+Reviewed-by: 刘小东 <liuxiaodong@loongson.cn>
+---
+ src/reflect/asm_loong64.s | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/src/reflect/asm_loong64.s b/src/reflect/asm_loong64.s
+index 76c98e8..e2bb861 100644
+--- a/src/reflect/asm_loong64.s
++++ b/src/reflect/asm_loong64.s
+@@ -13,14 +13,15 @@
+ // See the comment on the declaration of makeFuncStub in makefunc.go
+ // for more details.
+ // No arg size here, runtime pulls arg map out of the func value.
+-TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$32
++TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$40
+ 	NO_LOCAL_POINTERS
+ 	MOVV	REGCTXT, 8(R3)
+ 	MOVV	$argframe+0(FP), R19
+ 	MOVV	R19, 16(R3)
+-	MOVB	R0, 32(R3)
+-	ADDV	$32, R3, R19
++	MOVB	R0, 40(R3)
++	ADDV	$40, R3, R19
+ 	MOVV	R19, 24(R3)
++	MOVV	R0, 32(R3)
+ 	JAL	·callReflect(SB)
+ 	RET
+ 
+@@ -28,13 +29,14 @@ TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$32
+ // See the comment on the declaration of methodValueCall in makefunc.go
+ // for more details.
+ // No arg size here; runtime pulls arg map out of the func value.
+-TEXT ·methodValueCall(SB),(NOSPLIT|WRAPPER),$32
++TEXT ·methodValueCall(SB),(NOSPLIT|WRAPPER),$40
+ 	NO_LOCAL_POINTERS
+ 	MOVV	REGCTXT, 8(R3)
+ 	MOVV	$argframe+0(FP), R19
+ 	MOVV	R19, 16(R3)
+-	MOVB	R0, 32(R3)
+-	ADDV	$32, R3, R19
++	MOVB	R0, 40(R3)
++	ADDV	$40, R3, R19
+ 	MOVV	R19, 24(R3)
++	MOVV	R0, 32(R3)
+ 	JAL	·callMethod(SB)
+ 	RET
+-- 
+2.1.0
+
