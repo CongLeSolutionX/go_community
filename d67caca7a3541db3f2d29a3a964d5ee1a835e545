@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f77976f_456b45f3",
+        "filename": "src/go/types/interface.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-16T00:23:44Z",
+      "side": 0,
+      "message": "This line was not present in types2. Possibly it was missed in a previous port.",
+      "range": {
+        "startLine": 125,
+        "startChar": 1,
+        "endLine": 125,
+        "endChar": 13
+      },
+      "revId": "d67caca7a3541db3f2d29a3a964d5ee1a835e545",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
