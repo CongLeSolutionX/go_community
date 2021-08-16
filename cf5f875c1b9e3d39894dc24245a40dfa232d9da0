@@ -53,6 +53,24 @@
       "message": "in header keys. And note that invalid chars in values are tested elsewhere (above I assume?)",
       "revId": "cf5f875c1b9e3d39894dc24245a40dfa232d9da0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d47e8f5_bf175c0c",
+        "filename": "src/net/http/header_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-08-16T18:42:01Z",
+      "side": 1,
+      "message": "There\u0027s a value test in here as well, since I didn\u0027t see one above: NewlineInValue.\n\nThe only invalid chars we currently handle in values are \\r and \\n, which are converted to spaces. This does permit handlers to create invalid values, but not to inject entirely new headers or a body via a header value. That\u0027s probably okay.",
+      "parentUuid": "4045c972_8a1335ca",
+      "revId": "cf5f875c1b9e3d39894dc24245a40dfa232d9da0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
