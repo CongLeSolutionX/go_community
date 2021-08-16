@@ -125,6 +125,24 @@
       "message": "The failure is the result of the magnitude of changes in the list of ports.\n\nFor each change in the set of ports, all lines of the API are added or removed\n(see a summary at the bottom).\n\nAdditions are not taking into account the existing common lines.\nThey are listed apparently because the port was never checked before.\n\nIf all changes are added to \u0027next.txt\u0027, it will contain over 88000 lines.\nAuditing will be very cumbersome.\n\nAn intermediate solution would be to add the ~88000 lines in a specific \u0027go1.17.changeofports.txt\u0027.\nIt will not be dead easy as the merge of dev.typeparams already changed the API.\n\nAnother possibility is to skip failure when the change is not a first class port.\n\nLet me know your opinion,\n\n\nadditions: \n    7278 darwin-arm64(-cgo)\n    8922 linux-arm64(-cgo)\nremovals:\n    8464 freebsd-386(-cgo)\n    8468 freebsd-adm64(-cgo)\n    8464 freebsd-arm(-cgo)\n    7946 netbsd-386(-cgo)\n    7922 netbsd-amd64(-cgo)\n    3929 netbsd-arm\n    3933 netbsd-arm-cgo\n    3959 netbsd-arm64\n    3963 netbsd-arm64-cgo\n    7352 openbsd-386(-cgo)\n    7362 openbsd-amd64(-cgo)\n",
       "revId": "57687e3216709fd0ab32ab5a20b51b0dd03cce32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59122d62_a7a7c2c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-16T16:32:40Z",
+      "side": 1,
+      "message": "I see, I think.  I think we should do this as a series of CLs, rather than changing everything at once.  For example, a CL to add darwin-arm64, with all the required additions to next.txt.  Then one for linux-arm64.\n\nI\u0027m not sure how to handle the removals, though.  Maybe we can just add an exception list to the sources, and ignore ports that are not first-class.",
+      "parentUuid": "c9d1dfc4_c6f66f3b",
+      "revId": "57687e3216709fd0ab32ab5a20b51b0dd03cce32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
