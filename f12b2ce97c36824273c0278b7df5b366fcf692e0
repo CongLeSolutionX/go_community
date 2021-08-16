@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb75806b_3f80d223",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53338
+      },
+      "writtenOn": "2021-08-16T11:13:44Z",
+      "side": 1,
+      "message": "Title updated and text removed. \n\n",
+      "revId": "f12b2ce97c36824273c0278b7df5b366fcf692e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
