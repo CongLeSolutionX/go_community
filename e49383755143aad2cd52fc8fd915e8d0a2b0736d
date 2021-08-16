@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ba8e742_a8d03a74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-16T13:57:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e8cab44_38b0d965",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "e49383755143aad2cd52fc8fd915e8d0a2b0736d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "750e2d54_a7890e2f",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-08-16T13:32:14Z",
       "side": 1,
       "message": "This shouldn\u0027t have changed from invalidArg, and arguably the call above should be invalidArg as well.\n\nWill fix.",
+      "range": {
+        "startLine": 494,
+        "startChar": 9,
+        "endLine": 494,
+        "endChar": 15
+      },
+      "revId": "e49383755143aad2cd52fc8fd915e8d0a2b0736d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66dbfce3_dc41f42b",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-16T13:57:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea47f6cc_880fe760",
       "range": {
         "startLine": 494,
         "startChar": 9,
