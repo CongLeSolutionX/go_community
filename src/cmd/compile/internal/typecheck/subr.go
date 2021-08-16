@@ -6,15 +6,14 @@ package typecheck
 
 import (
 	"bytes"
-	"fmt"
-	"sort"
-	"strconv"
-	"strings"
-
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+	"fmt"
+	"sort"
+	"strconv"
+	"strings"
 )
 
 func AssignConv(n ir.Node, t *types.Type, context string) ir.Node {
@@ -740,9 +739,14 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 
 	if t.IsInterface() || t.IsTypeParam() {
 		if t.IsTypeParam() {
-			// A typeparam satisfies an interface if its type bound
-			// has all the methods of that interface.
-			t = t.Bound()
+			if t.OrigSym != nil {
+				// Typeparam has the method bodies when OrigSym is not nil
+				CalcMethods(t)
+			} else {
+				// A typeparam satisfies an interface if its type bound
+				// has all the methods of that interface.
+				t = t.Bound()
+			}
 		}
 		i := 0
 		tms := t.AllMethods().Slice()
