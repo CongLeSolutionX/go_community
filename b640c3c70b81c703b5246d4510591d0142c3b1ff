@@ -126,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "342391e0_adb23fe9",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1982,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-16T22:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c7ab74_fe5c7d88",
+      "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10411008_ae04b8d4",
@@ -139,6 +157,24 @@
       "writtenOn": "2021-08-13T01:46:04Z",
       "side": 1,
       "message": "Maybe we can share all this stuff with walk? Might be a good cleanup for a separate CL.",
+      "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad817b97_3b9bc238",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-16T22:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10411008_ae04b8d4",
       "revId": "b640c3c70b81c703b5246d4510591d0142c3b1ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
