@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "394d4b0e_9a8e8e51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-08-16T16:29:23Z",
+      "side": 1,
+      "message": "Notes:\n\n1. I\u0027m requesting a separate dev branch for loong64 work in #47569, because I don\u0027t think we can finish the work in the go1.18 cycle. You might want to make sure that issue is resolved before merging any work.\n\n2. I\u0027m moving this week, and as such won\u0027t be able to do development work because all my boxes are offline (in boxes, of course). I can occasionally reply with my phone, though. Sorry for any possible delays in my reply.",
+      "revId": "ade0d18a2e229455ce1cc4426d4502ceaa23f4dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "decba971_46fb2e9a",
         "filename": "src/cmd/internal/obj/loong/cpu.go",
         "patchSetId": 3
@@ -20,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3ec662b_ca47bb62",
+        "filename": "src/cmd/internal/obj/loong/cpu.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-08-16T16:29:23Z",
+      "side": 1,
+      "message": "I\u0027m thinking of not having to do git renames when we begin the 32-bit work, git renames are famously notorious when it comes to diffs and logs. 32-bit embedded use cases are certainly in Loongson\u0027s roadmap for the LoongArch development, they\u0027re just not ready yet, both inside and outside of the company. And we community developers have limited time, so we decided to focus on 64-bit, the same as Loongson employees do.\n\nDo you think renaming later would be okay?",
+      "parentUuid": "decba971_46fb2e9a",
+      "revId": "ade0d18a2e229455ce1cc4426d4502ceaa23f4dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a39e827_a1343a9e",
         "filename": "src/cmd/internal/obj/loong/cpu.go",
         "patchSetId": 3
@@ -31,6 +66,30 @@
       "writtenOn": "2021-08-16T15:32:10Z",
       "side": 1,
       "message": "Let\u0027s not do this. I think this creates more confusion than benefits. It is better to have a single name for a register.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 19
+      },
+      "revId": "ade0d18a2e229455ce1cc4426d4502ceaa23f4dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7510aa37_f6352414",
+        "filename": "src/cmd/internal/obj/loong/cpu.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-08-16T16:29:23Z",
+      "side": 1,
+      "message": "Do you mean by this comment, that the RISC-V way is a mistake after all, and we should instead all use raw numbers like \"R12\", and put the ABI conventions in documentation?",
+      "parentUuid": "6a39e827_a1343a9e",
       "range": {
         "startLine": 93,
         "startChar": 0,
