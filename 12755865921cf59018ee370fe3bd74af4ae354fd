@@ -72,6 +72,24 @@
       "message": "We don\u0027t bother to say this for bytes.Equal.  Do we need to say it here?",
       "revId": "12755865921cf59018ee370fe3bd74af4ae354fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae6ec630_552182ac",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-08-16T20:24:43Z",
+      "side": 1,
+      "message": "The definition of equality for bytes.Equal is fairly understood. On the other hand, EqualFold is not a common definition of equality.\n\nSeveral times in recent years, I was optimizing code that used EqualFold and I needed to re-convince myself that it was indeed symmetric and transitive, otherwise my optimization would be broken. It\u0027d be nice to point someone in code review to documentation that this is indeed true.",
+      "parentUuid": "17d3a9fe_f27ea74c",
+      "revId": "12755865921cf59018ee370fe3bd74af4ae354fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
