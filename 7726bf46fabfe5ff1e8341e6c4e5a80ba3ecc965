@@ -92,6 +92,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "698a10a2_51a3f674",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-16T18:58:57Z",
+      "side": 1,
+      "message": "This is a cherry-pick, so I\u0027m not going to change anything in this CL unless it\u0027s broken. I don\u0027t disagree with the second comment, so feel free to send a CL.",
+      "parentUuid": "519ef1c5_dc515451",
+      "revId": "7726bf46fabfe5ff1e8341e6c4e5a80ba3ecc965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b089a881_3dd11596",
@@ -109,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c16fcf6_c54ba1bb",
+        "filename": "src/cmd/internal/str/str.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-16T18:58:57Z",
+      "side": 1,
+      "message": "This package is used in cmd/link in the next CL, so strings.Builder can\u0027t be used here until the minimum bootstrap version is at least 1.10.",
+      "parentUuid": "b089a881_3dd11596",
+      "revId": "7726bf46fabfe5ff1e8341e6c4e5a80ba3ecc965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ce4197b_3e93898a",
@@ -122,6 +158,24 @@
       "writtenOn": "2021-08-13T10:48:57Z",
       "side": 1,
       "message": "s/[]byte(arg).../arg.../g as Go supports appending a string to a byte-slice directly.",
+      "revId": "7726bf46fabfe5ff1e8341e6c4e5a80ba3ecc965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2692ba69_4a2c63b1",
+        "filename": "src/cmd/internal/str/str.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-16T18:58:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ce4197b_3e93898a",
       "revId": "7726bf46fabfe5ff1e8341e6c4e5a80ba3ecc965",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
