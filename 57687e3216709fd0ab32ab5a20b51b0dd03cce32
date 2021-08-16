@@ -90,6 +90,41 @@
       "parentUuid": "24cc3df5_32a221bf",
       "revId": "57687e3216709fd0ab32ab5a20b51b0dd03cce32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0bf768f_57f5ce93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-16T10:01:31Z",
+      "side": 1,
+      "message": "I understand that the API is checked on one builder for all selected ports.",
+      "parentUuid": "86ec490b_7cebd17f",
+      "revId": "57687e3216709fd0ab32ab5a20b51b0dd03cce32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9d1dfc4_c6f66f3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-16T10:01:31Z",
+      "side": 1,
+      "message": "The failure is the result of the magnitude of changes in the list of ports.\n\nFor each change in the set of ports, all lines of the API are added or removed\n(see a summary at the bottom).\n\nAdditions are not taking into account the existing common lines.\nThey are listed apparently because the port was never checked before.\n\nIf all changes are added to \u0027next.txt\u0027, it will contain over 88000 lines.\nAuditing will be very cumbersome.\n\nAn intermediate solution would be to add the ~88000 lines in a specific \u0027go1.17.changeofports.txt\u0027.\nIt will not be dead easy as the merge of dev.typeparams already changed the API.\n\nAnother possibility is to skip failure when the change is not a first class port.\n\nLet me know your opinion,\n\n\nadditions: \n    7278 darwin-arm64(-cgo)\n    8922 linux-arm64(-cgo)\nremovals:\n    8464 freebsd-386(-cgo)\n    8468 freebsd-adm64(-cgo)\n    8464 freebsd-arm(-cgo)\n    7946 netbsd-386(-cgo)\n    7922 netbsd-amd64(-cgo)\n    3929 netbsd-arm\n    3933 netbsd-arm-cgo\n    3959 netbsd-arm64\n    3963 netbsd-arm64-cgo\n    7352 openbsd-386(-cgo)\n    7362 openbsd-amd64(-cgo)\n",
+      "revId": "57687e3216709fd0ab32ab5a20b51b0dd03cce32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
