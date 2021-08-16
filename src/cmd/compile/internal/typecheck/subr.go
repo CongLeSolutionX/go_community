@@ -738,11 +738,16 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 		return false
 	}
 
-	if t.IsInterface() || t.IsTypeParam() {
+	if t.IsInterface() || (t.IsTypeParam() && t.OrigSym == nil) {
 		if t.IsTypeParam() {
-			// A typeparam satisfies an interface if its type bound
-			// has all the methods of that interface.
-			t = t.Bound()
+			if t.OrigSym != nil {
+				// Typeparam has the method bodies when OrigSym is not nil
+				CalcMethods(t)
+			} else {
+				// A typeparam satisfies an interface if its type bound
+				// has all the methods of that interface.
+				t = t.Bound()
+			}
 		}
 		i := 0
 		tms := t.AllMethods().Slice()
