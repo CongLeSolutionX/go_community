@@ -275,7 +275,7 @@ func (n *Named) expand(typMap map[string]*Named) *Named {
 			}
 		}
 
-		inst := n.check.instantiate(n.instance.pos, n.orig.underlying, n.TParams().list(), n.targs, typMap)
+		inst := n.check.substitute(n.instance.pos, n.orig.underlying, n.TParams().list(), n.targs, typMap)
 		n.underlying = inst
 		n.fromRHS = inst
 		n.instance = nil
