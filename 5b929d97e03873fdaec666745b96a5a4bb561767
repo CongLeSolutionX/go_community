@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbdfbd42_dff9468a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-08-16T17:46:46Z",
+      "side": 1,
+      "message": "Hello,\n\nThanks for the CLs. To make the review process easier, it would be better to arrange your CLs as a single stack, so the order and relationship between your CLs are clear. You might find https://pkg.go.dev/golang.org/x/review@v1.0.2/git-codereview#hdr-Multiple_Commit_Work_Branches helpful if you\u0027d like to use the git-codereview tool. Thanks.",
+      "revId": "5b929d97e03873fdaec666745b96a5a4bb561767",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
