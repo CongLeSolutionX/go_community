@@ -16,6 +16,24 @@
       "message": "This test does not fail for me at tip (although the test in the issue does).\n",
       "revId": "186a9847fa8d1105a1833fabce8a29876940ae3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be9c7d02_a6632839",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-16T16:26:22Z",
+      "side": 1,
+      "message": "I updated it",
+      "parentUuid": "10385b43_17f9042c",
+      "revId": "186a9847fa8d1105a1833fabce8a29876940ae3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
