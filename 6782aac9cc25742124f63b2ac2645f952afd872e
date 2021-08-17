@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3c0d04b_8b66af45",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-08-17T09:44:29Z",
+      "side": 1,
+      "message": "Sorry; didn\u0027t look very hard and I was wary about inserting things in the middle of an iota-derived sequence in general. Fixed.",
+      "parentUuid": "3e90ee40_1fc4e799",
+      "revId": "6782aac9cc25742124f63b2ac2645f952afd872e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65e21dbe_e0b69437",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf4331c9_a07632d2",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-08-17T09:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65e21dbe_e0b69437",
+      "revId": "6782aac9cc25742124f63b2ac2645f952afd872e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc16795c_5aeaa02a",
@@ -85,6 +121,24 @@
       "writtenOn": "2021-08-16T16:13:38Z",
       "side": 1,
       "message": "Alphabetize this one too.",
+      "revId": "6782aac9cc25742124f63b2ac2645f952afd872e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7315368a_0f8707bb",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-08-17T09:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc16795c_5aeaa02a",
       "revId": "6782aac9cc25742124f63b2ac2645f952afd872e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
