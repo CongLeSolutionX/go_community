@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6296d6e9_f4dc0c3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-17T08:59:18Z",
+      "side": 1,
+      "message": "Adding reviewers manually",
+      "revId": "c5e1cbd2eef035b4d45c607682b18913b3ce0389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
