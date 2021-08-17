@@ -16,6 +16,40 @@
       "message": "Adding reviewers manually",
       "revId": "c5e1cbd2eef035b4d45c607682b18913b3ce0389",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "093ea0f6_82ebc4cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-17T19:31:56Z",
+      "side": 1,
+      "message": "This approach doesn\u0027t feel quite right to me.  We aren\u0027t introducing an exception here; it would still be a bug if openbsd-amd64 changed.  I think we should introduce another new concept, perhaps GOOS_GOARCH.txt, and add that file only if we are testing that GOOS/GOARCH.",
+      "revId": "c5e1cbd2eef035b4d45c607682b18913b3ce0389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c20ac35d_7bf774ff",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-17T19:31:56Z",
+      "side": 1,
+      "message": "This comment seems to be in the wrong place.  Or else I don\u0027t understand it.",
+      "revId": "c5e1cbd2eef035b4d45c607682b18913b3ce0389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
