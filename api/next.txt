@@ -94,10 +94,6 @@ pkg syscall (openbsd-386-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrIn
 pkg syscall (openbsd-386-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (openbsd-386-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (openbsd-386-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (openbsd-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (openbsd-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (openbsd-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (openbsd-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (openbsd-amd64-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (openbsd-amd64-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (openbsd-amd64-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error

@@ -44,7 +44,7 @@ func goCmd() string {
 var (
 	checkFile  = flag.String("c", "", "optional comma-separated filename(s) to check API against")
 	allowNew   = flag.Bool("allow_new", true, "allow API additions")
-	exceptFile = flag.String("except", "", "optional filename of packages that are allowed to change without triggering a failure in the tool")
+	exceptFile = flag.String("except", "", "optional comma-separated filename(s) with API changes without triggering a failure in the tool")
 	nextFile   = flag.String("next", "", "optional filename of tentative upcoming API features for the next release. This file can be lazily maintained. It only affects the delta warnings from the -c file printed on success.")
 	verbose    = flag.Bool("v", false, "verbose debugging")
 	forceCtx   = flag.String("contexts", "", "optional comma-separated list of <goos>-<goarch>[-cgo] to override default contexts.")
@@ -80,7 +80,6 @@ var contexts = []*build.Context{
 	{GOOS: "openbsd", GOARCH: "386", CgoEnabled: true},
 	{GOOS: "openbsd", GOARCH: "386"},
 	{GOOS: "openbsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "openbsd", GOARCH: "amd64"},
 }
 
 func contextName(c *build.Context) string {
@@ -251,7 +250,10 @@ func main() {
 		required = append(required, fileFeatures(file)...)
 	}
 	optional := fileFeatures(*nextFile)
-	exception := fileFeatures(*exceptFile)
+	var exception []string
+	for _, file := range strings.Split(*exceptFile, ",") {
+		exception = append(exception, fileFeatures(file)...)
+	}
 	fail = !compareAPI(bw, features, required, optional, exception, *allowNew)
 }
 
@@ -322,6 +324,7 @@ func compareAPI(w io.Writer, features, required, optional, exception []string, a
 				// acknowledged by being in the file
 				// "api/except.txt". No need to print them out
 				// here.
+				// If the port was removed from API check.
 			} else if portRemoved(feature) {
 				// okay.
 			} else if featureSet[featureWithoutContext(feature)] {

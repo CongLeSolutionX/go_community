@@ -45,19 +45,19 @@ func main() {
 
 	apiDir := filepath.Join(goroot, "api")
 	out, err := exec.Command(goCmd(), "tool", "api",
-		"-c", findAPIDirFiles(apiDir),
+		"-c", findAPIDirFiles(apiDir, "go1"),
 		allowNew(apiDir),
 		"-next", filepath.Join(apiDir, "next.txt"),
-		"-except", filepath.Join(apiDir, "except.txt")).CombinedOutput()
+		"-except", findAPIDirFiles(apiDir, "except")).CombinedOutput()
 	if err != nil {
 		log.Fatalf("Error running API checker: %v\n%s", err, out)
 	}
 	fmt.Print(string(out))
 }
 
-// findAPIDirFiles returns a comma-separated list of Go API files
-// (go1.txt, go1.1.txt, etc.) located in apiDir.
-func findAPIDirFiles(apiDir string) string {
+// findAPIDirFiles returns a comma-separated list of files in apiDir with the prefix.
+// Prefix go1 returns a list of Go API files (go1.txt, go1.1.txt, etc.).
+func findAPIDirFiles(apiDir string, prefix string) string {
 	dir, err := os.Open(apiDir)
 	if err != nil {
 		log.Fatal(err)
@@ -69,7 +69,7 @@ func findAPIDirFiles(apiDir string) string {
 	}
 	var apiFiles []string
 	for _, fn := range fs {
-		if strings.HasPrefix(fn, "go1") {
+		if strings.HasPrefix(fn, prefix) {
 			apiFiles = append(apiFiles, filepath.Join(apiDir, fn))
 		}
 	}

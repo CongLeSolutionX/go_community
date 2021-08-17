@@ -5,8 +5,9 @@ Each file is a list of API features, one per line.
 go1.txt (and similarly named files) are frozen once a version has been
 shipped. Each file adds new lines but does not remove any.
 
-except.txt lists features that may disappear without breaking true
-compatibility.
+except.*.txt files list features that may disappear without breaking true
+compatibility. When removing a port from API checks, adding an except.*.txt file
+avoids excessive output.
 
 next.txt is the only file intended to be mutated. It's a list of
 features that may be added to the next version. It only affects
