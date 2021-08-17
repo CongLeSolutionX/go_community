@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b35ec6a_1ca323bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34507
+      },
+      "writtenOn": "2021-08-17T04:33:42Z",
+      "side": 1,
+      "message": "One downside with the approach I\u0027ve taken here is that while usually, the code is better, it appears to be worse for struct literals that would previously have been fully static via autotmps (which is true for at least fixedbugs/issue31782.go).\n\nIt feels like it should be possible to leave an OLINKSYMOFFSET node in the tree like ONAME for autotmp (they both should be knowable statically), but I haven\u0027t had much luck so far; doing so generates very strange code, so I\u0027m missing something.\n\nAnother option may be to teach anylit to understand OEFACE, maybe.",
+      "revId": "5316d877a83d1def10c41c21a8494c3ba074e182",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
