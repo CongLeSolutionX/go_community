@@ -80,11 +80,15 @@ var contexts = []*build.Context{
 	{GOOS: "openbsd", GOARCH: "386", CgoEnabled: true},
 	{GOOS: "openbsd", GOARCH: "386"},
 	{GOOS: "openbsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "openbsd", GOARCH: "amd64"},
 }
 
 var firstClassPorts = []*build.Context{}
 var nonFirstClassPorts = []*build.Context{}
+
+// Ports removed from default API checks after Go 1.17
+var removedAPIChecks = []*build.Context{
+	{GOOS: "openbsd", GOARCH: "amd64"},
+}
 
 func contextName(c *build.Context) string {
 	s := c.GOOS + "-" + c.GOARCH
@@ -254,6 +258,20 @@ func main() {
 	}
 	optional := fileFeatures(*nextFile)
 	exception := fileFeatures(*exceptFile)
+	// Ports removed from default API checks are added as exceptions to avoid excessive output
+	if *forceCtx == "" {
+		goroot := os.Getenv("GOROOT") // should be set by run.{bash,bat}
+		if goroot != "" {
+			apiDir := filepath.Join(goroot, "api")
+			for _, c := range removedAPIChecks {
+				filename := fmt.Sprintf("%s_%s.txt", c.GOOS, c.GOARCH)
+				if c.CgoEnabled {
+					filename = fmt.Sprintf("%s_%s_cgo.txt", c.GOOS, c.GOARCH)
+				}
+				exception = append(exception, fileFeatures(filepath.Join(apiDir, filename))...)
+			}
+		}
+	}
 	fail = !compareAPI(bw, features, required, optional, exception, *allowNew)
 }
 
