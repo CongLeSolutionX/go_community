@@ -33,6 +33,24 @@
       "message": "I\u0027d rather keep this code together with the code that does this in walk.\n\nThe tricky part is by the time we get to walk, the data we need to look at is already in an stmp. But we know how to look into an stmp, see cmd/compile/internal/ssa/rewrite.go:{symIsRO,readX}. Maybe that would be easier?\n",
       "revId": "5316d877a83d1def10c41c21a8494c3ba074e182",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa9ca884_a37d6b30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34507
+      },
+      "writtenOn": "2021-08-17T16:54:36Z",
+      "side": 1,
+      "message": "That\u0027s fair. It did feel a little wrong (and that\u0027s why I was looking at trying to get order to leave a OLINKSYMOFFSET node there, like it does with the new tmp).\n\nI\u0027ll try out grabbing the value out of the stmp, though I think that will limit this optimization to conversions outside of literals.",
+      "parentUuid": "5d6c92c6_94ffe5a2",
+      "revId": "5316d877a83d1def10c41c21a8494c3ba074e182",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
