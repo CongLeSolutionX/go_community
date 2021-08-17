@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28a54792_5e0e783c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-17T03:53:02Z",
+      "side": 1,
+      "message": "I don\u0027t know whether this is a good idea, but I am quite sure that if we add it it should be documented somewhere.\n\nThe environment variable shouldn\u0027t use GOLANG.  Our existing environment variables consistently start with GO, never GOLANG.",
+      "revId": "75968aa487ccfb23a54626138cfc451acbfd3f7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
