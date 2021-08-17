@@ -106,6 +106,24 @@
       "message": "Hm, the whole point here is to make sure x gets a stack object, even if we pass \u0026x to the map routine. But if we\u0027re making a copy into an autotmp first and passing the address of that autotmp, then the careful recording of who needs a stack object and who doesn\u0027t is kind of pointless. The autotmps for map accesses would never need stack objects.\n\nMaybe we can\u0027t arrange to pass the address of a user variable to the map routines?\nConsider this code:\n\npackage main\n\ntype T struct {\n\ta, b int\n}\n\nfunc f(m map[T]bool) {\n\tvar x T\n\tg(\u0026x)\n\tm[x] \u003d true\n}\n\nfunc h(m map[T]bool, p *T) {\n\tg(p)\n\tm[*p] \u003d true\n}\n\n//go:noescape\nfunc g(t *T)\n\nIn f, the compiler makes an autotmp to pass to the map routine. In h, it doesn\u0027t - it passes p directly to the map routine. Maybe something that calls h, and h gets inlined, would cause a situation where the address of something the user declared (and thus could have its address taken in other ways that require a stack object) could happen.",
       "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85ea320c_9f6ff550",
+        "filename": "test/live.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-17T23:03:56Z",
+      "side": 1,
+      "message": "Yes, this code:\n\nfunc i(m map[T]bool) {\n\tvar x T\n\th(m, \u0026x)\n}\n\npasses the address of x to both g and to mapassign.",
+      "parentUuid": "0c96c70e_3d120a6c",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
