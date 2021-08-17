@@ -74,6 +74,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac39452_702c7f20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-17T03:54:28Z",
+      "side": 1,
+      "message": "Trybot failures are real.\n\nYou may need to change externalLinkingForced in cmd/go/internal/load/pkg.go.",
+      "revId": "c9712ee27b0873039b00ccca2891867776b076cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a8801f6_5b115484",
