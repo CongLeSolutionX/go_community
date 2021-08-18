@@ -148,6 +148,24 @@
       "parentUuid": "864c2c94_30932eaa",
       "revId": "6d16086c453d1fc27156062873b810059a29a4af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb6d86d5_1ac2fbe7",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-18T08:30:30Z",
+      "side": 1,
+      "message": "I just worried can it be trouble if there\u0027re a lot of types, then signatset size will now always increase.",
+      "parentUuid": "b7f4ef91_b810eea5",
+      "revId": "6d16086c453d1fc27156062873b810059a29a4af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
