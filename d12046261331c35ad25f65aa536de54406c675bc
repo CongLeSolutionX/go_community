@@ -53,6 +53,24 @@
       "message": "I think -run should still work when we\u0027re not fuzzing (i.e., when -fuzz is not set). So the command on L81 should succeed, but \u0027go test -fuzz\u003dFuzz -run\u003dFuzz/OtherTest subtest_fuzz_fn_fuzz_test.go\u0027 should fail.\n\nIt looks like common.fuzzing is only used in tRunner to control whether panics are propagated from the fuzz function. When we\u0027re not actually fuzzing, I think we want these to behave like normal tests, so let\u0027s not set common.fuzzing in that case. Concretely, in F.Fuzz, let\u0027s declare:\n\n  fuzzing :\u003d f.fuzzContext.runFuzzWorker !\u003d nil\n\nThen inside run, use that variable to set T.common.fuzzing instead of always setting it to true.",
       "revId": "d12046261331c35ad25f65aa536de54406c675bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86119a5f_7063e099",
+        "filename": "src/cmd/go/testdata/script/test_fuzz.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-08-18T01:59:41Z",
+      "side": 1,
+      "message": "I decided to take an entirely different approach.\n\nCurrently, -run\u003dFuzzFunc/SubTest does not work since the logic does not even call the matcher logic to check whether to skip a seed or not. That\u0027s a bug that should be fixed separately.\n\nAt the present, I\u0027m concerned with the memory leak in the matcher logic. We should ensure the property that the memory requirements for calling `t.Run` should only be proportional to the number of unique names the user provided. So calling `t.Run(\"FooBar\")` a thousand times should only take O(1) space for `FooBar` itself, and not O(1000) to remember all unique variations that are auto-generated for `FooBar`. After all, we already keep track of the number of times we emitted \"%s%02d\" for a given name. We just need to use that information when checking for uniqueness. This way, we don\u0027t need to store every auto-generated unique variant back into the map.\n\nThis approach increases complexity in matcher.unique, but has the advantage of being a surgically isolated change that doesn\u0027t have wider effects.",
+      "parentUuid": "55782aa2_566082f5",
+      "revId": "d12046261331c35ad25f65aa536de54406c675bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
