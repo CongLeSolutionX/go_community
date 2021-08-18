@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc9f0a78_a349b9d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-08-18T18:08:55Z",
+      "side": 1,
+      "message": "This patch would remove \"openbsd amd64 (non-cgo)\" from default API checks.\nThe file added for the port contains the API for the GOOS_GOARCH up to Go 1.17\nto cope with historical data.\n\nRemoving the check is done by adding the API to the list of exceptions, i.e. \nremovals which do not need to be reported.\n\nNB: The origin of the merge conflict seems related to the first CL sorting the\nlists.",
+      "revId": "199dfbd6e2c25f193be17673131bf25f90e32228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
