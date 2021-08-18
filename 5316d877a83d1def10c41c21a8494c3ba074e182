@@ -86,6 +86,24 @@
       "parentUuid": "aa9ca884_a37d6b30",
       "revId": "5316d877a83d1def10c41c21a8494c3ba074e182",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e506e17_457f682d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-18T05:33:23Z",
+      "side": 1,
+      "message": "It should, if they are not referenced anywhere. The linker should discard them.",
+      "parentUuid": "5435c9bd_51e659f4",
+      "revId": "5316d877a83d1def10c41c21a8494c3ba074e182",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
