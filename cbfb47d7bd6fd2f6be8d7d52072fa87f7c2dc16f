@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c54b8e6_a1e7bb93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-18T12:37:23Z",
+      "side": 1,
+      "message": "Thanks for the fix!  Looks good, just a few changes to make.",
+      "revId": "cbfb47d7bd6fd2f6be8d7d52072fa87f7c2dc16f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d22b8d89_b88883b6",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-18T12:37:23Z",
+      "side": 1,
+      "message": "Maybe we need a helper function here, but for now can you change this to:\n\nt.Underlying() !\u003d t\n\n(to be consistent with what I wrote at line 1027 below)",
+      "revId": "cbfb47d7bd6fd2f6be8d7d52072fa87f7c2dc16f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73bf5e4c_f0be8fd8",
