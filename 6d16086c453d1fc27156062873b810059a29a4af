@@ -112,6 +112,24 @@
       "parentUuid": "62bdd221_827ff1fc",
       "revId": "6d16086c453d1fc27156062873b810059a29a4af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "864c2c94_30932eaa",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-18T07:37:46Z",
+      "side": 1,
+      "message": "Ah, but there’re 2 problems:\n\n - writeType(T) may call NeedRuntimeType(T\u0027)\n - then we need to check whether all types in signatset are in written state to terminate the loop (signatset[T] \u003d\u003d true), which I believe will affect compile time.\n \nNote that we only care in situation that T is added to signatset when we are writing T, which we dont want. If T are added back to signatset after each iteration, it’s ok.",
+      "parentUuid": "c446fde1_7b13dda1",
+      "revId": "6d16086c453d1fc27156062873b810059a29a4af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
