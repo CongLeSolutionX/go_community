@@ -16,6 +16,24 @@
       "message": "I really like this approach, and when this lands, I think we ought to cherry-pick it into master early. That said, I\u0027m finding the logic hard to follow (coffee hasn\u0027t kicked in yet), and I wonder if we could simplify a bit.\n\nWhat if instead of stripNumberSuffix, we instead had a function stripNameUniqueSuffixes that returned a string without any of the suffixes. So:\n\n  \"foo#01/bar/baz#123\" -\u003e \"foo/bar/baz\"\n\nWe can use those stripped strings as map keys, so nothing in the map will have those suffixes. I think that would even avoid the need to loop. Something like this?\n\n  stripped :\u003d fmt.Sprintf(\"%s/%s\", stripNameUniqueSuffixes(parent), subname)\n  name :\u003d fmt.Sprintf(\"%s/%s\", parent, subname)\n  next, exists :\u003d m.subNames[stripped]\n  if subname !\u003d \"\" \u0026\u0026 !exists {\n    m.subNames[stripped] \u003d 1\n    return name\n  }\n  name \u003d fmt.Sprintf(\"%s/%s%02d\", parent, subname, next)\n  m.subNames[stripped]++\n  return name\n\nI\u0027m not sure if this is correct. It lets users pass in a literal subname like \"foo#02\" and preserves that. Maybe that\u0027s okay though?",
       "revId": "0aa72975411f2ca927deb8cd432d53caa0307d97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8dd5a45_1b51216e",
+        "filename": "src/testing/match.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-08-18T17:49:35Z",
+      "side": 1,
+      "message": "\u003e What if instead of stripNumberSuffix, we instead had a function stripNameUniqueSuffixes that returned a string without any of the suffixes. So:\n\nSomething similar to that was what I was alluding to in the CL description if we\u0027re willing to change the way names are generated.\n\nI don\u0027t like how the names can be arbitrarily nested (e.g., \"a#01#01#01\") as this creates lots of complexity. If it was a flat sequence, then the logic becomes simpler.\n\nI don\u0027t know if the auto-generation of names is technically covered by the Go compatibility agreement. Currently, my function is optimizing for backwards compatibility at the expense of complexity.\n\nBTW, you can play around with the algorithm with this snippet:\nhttps://play.golang.org/p/UJ6yM5Kr-e6\ncurrently the snippet you suggested has duplicates.",
+      "parentUuid": "2150224d_1c09302c",
+      "revId": "0aa72975411f2ca927deb8cd432d53caa0307d97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
