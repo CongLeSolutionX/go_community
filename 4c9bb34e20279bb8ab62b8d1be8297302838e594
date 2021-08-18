@@ -87,6 +87,23 @@
       "message": "Pinging after Go tree is open for general Go 1.18 development.",
       "revId": "4c9bb34e20279bb8ab62b8d1be8297302838e594",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b72d2602_3ec18a2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-08-18T04:22:28Z",
+      "side": 1,
+      "message": "Any comments?",
+      "revId": "4c9bb34e20279bb8ab62b8d1be8297302838e594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
