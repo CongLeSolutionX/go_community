@@ -581,7 +581,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *Named
 	}
 }
 
-func (check *Checker) collectTypeParams(list []*syntax.Field) *TParamList {
+func (check *Checker) collectTypeParams(list []*syntax.Field) *TypeList {
 	tparams := make([]*TypeName, len(list))
 
 	// Declare type parameters up-front.

@@ -83,39 +83,57 @@ func (t *TypeParam) SetConstraint(bound Type) {
 func (t *TypeParam) Underlying() Type { return t }
 func (t *TypeParam) String() string   { return TypeString(t, nil) }
 
-// TParamList holds a list of type parameters bound to a type.
-type TParamList struct{ tparams []*TypeName }
+type TypeList struct{ types []Type }
 
-// Len returns the number of type parameters in the list.
-// It is safe to call on a nil receiver.
-func (tps *TParamList) Len() int {
-	return len(tps.list())
-}
-
-// At returns the i'th type parameter in the list.
-func (tps *TParamList) At(i int) *TypeName {
-	return tps.list()[i]
-}
-
-func (tps *TParamList) list() []*TypeName {
-	if tps == nil {
+func (l *TypeList) Len() int      { return len(l.list()) }
+func (l *TypeList) At(i int) Type { return l.types[i] }
+func (l *TypeList) list() []*TypeName {
+	if l == nil {
 		return nil
 	}
-	return tps.tparams
+	// TODO(gri) avoid this conversion
+	list := make([]*TypeName, len(l.types))
+	for i, typ := range l.types {
+		list[i] = typ.(*TypeParam).obj
+	}
+	return list
 }
 
-func bindTParams(list []*TypeName) *TParamList {
+// // TParamList holds a list of type parameters bound to a type.
+// type TParamList struct{ tparams []*TypeName }
+
+// // Len returns the number of type parameters in the list.
+// // It is safe to call on a nil receiver.
+// func (tps *TParamList) Len() int {
+// 	return len(tps.list())
+// }
+
+// // At returns the i'th type parameter in the list.
+// func (tps *TParamList) At(i int) *TypeName {
+// 	return tps.list()[i]
+// }
+
+// func (tps *TParamList) list() []*TypeName {
+// 	if tps == nil {
+// 		return nil
+// 	}
+// 	return tps.tparams
+// }
+
+func bindTParams(list []*TypeName) *TypeList {
 	if len(list) == 0 {
 		return nil
 	}
+	types := make([]Type, len(list))
 	for i, tp := range list {
 		typ := tp.Type().(*TypeParam)
 		if typ.index >= 0 {
 			panic("type parameter bound more than once")
 		}
 		typ.index = i
+		types[i] = typ
 	}
-	return &TParamList{tparams: list}
+	return &TypeList{types: types}
 }
 
 // ----------------------------------------------------------------------------

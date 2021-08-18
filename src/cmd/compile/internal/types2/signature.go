@@ -19,13 +19,13 @@ type Signature struct {
 	// and store it in the Func Object) because when type-checking a function
 	// literal we call the general type checker which returns a general Type.
 	// We then unpack the *Signature and use the scope for the literal body.
-	rparams  *TParamList // receiver type parameters from left to right, or nil
-	tparams  *TParamList // type parameters from left to right, or nil
-	scope    *Scope      // function scope, present for package-local signatures
-	recv     *Var        // nil if not a method
-	params   *Tuple      // (incoming) parameters from left to right; or nil
-	results  *Tuple      // (outgoing) results from left to right; or nil
-	variadic bool        // true if the last parameter's type is of the form ...T (or string, for append built-in only)
+	rparams  *TypeList // receiver type parameters from left to right, or nil
+	tparams  *TypeList // type parameters from left to right, or nil
+	scope    *Scope    // function scope, present for package-local signatures
+	recv     *Var      // nil if not a method
+	params   *Tuple    // (incoming) parameters from left to right; or nil
+	results  *Tuple    // (outgoing) results from left to right; or nil
+	variadic bool      // true if the last parameter's type is of the form ...T (or string, for append built-in only)
 }
 
 // NewSignature returns a new function type for the given receiver, parameters,
@@ -54,13 +54,13 @@ func NewSignature(recv *Var, params, results *Tuple, variadic bool) *Signature {
 func (s *Signature) Recv() *Var { return s.recv }
 
 // TParams returns the type parameters of signature s, or nil.
-func (s *Signature) TParams() *TParamList { return s.tparams }
+func (s *Signature) TParams() *TypeList { return s.tparams }
 
 // SetTParams sets the type parameters of signature s.
 func (s *Signature) SetTParams(tparams []*TypeName) { s.tparams = bindTParams(tparams) }
 
 // RParams returns the receiver type parameters of signature s, or nil.
-func (s *Signature) RParams() *TParamList { return s.rparams }
+func (s *Signature) RParams() *TypeList { return s.rparams }
 
 // SetRParams sets the receiver type params of signature s.
 func (s *Signature) SetRParams(rparams []*TypeName) { s.rparams = bindTParams(rparams) }
