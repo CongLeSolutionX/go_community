@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bc03265_233d8763",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-18T04:07:31Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "a107d7b4_85e56b77",
+      "range": {
+        "startLine": 741,
+        "startChar": 40,
+        "endLine": 741,
+        "endChar": 59
+      },
+      "revId": "54d27b2587162b5abf455bfcc7baf8771f726b0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9d3c24f_eb5a1d4f",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-08-17T20:06:55Z",
       "side": 1,
       "message": "I\u0027m kind of confused in this example of why the type getting here is a type parameter.\n\ntype Baz[t any] t\nfunc (l Baz[t]) Foo(....\n\nSo both t and Baz[t] are considered type parameters. The latter doesn\u0027t really feel like a type parameter to me, but that\u0027s what the compiler thinks. Maybe that\u0027s what should be fixed?\n\nIn any case, why is OrigSym the right way to detect these cases? Would t.Underlying() !\u003d t or something like that would also work?\n\nDan, this feels very adjacent to the work you did in, e.g. CL 333456",
+      "revId": "54d27b2587162b5abf455bfcc7baf8771f726b0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9b4954_2c0607c8",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-18T04:07:31Z",
+      "side": 1,
+      "message": "Baz[t] is a types2.Named. irgen.typ0() converts Baz[t] to a types.Type.\nIn irgen.typ0(), the kind will be set to its underlying.kind. Thats why the Baz getting here is a type parameter.\n\nIn function implements(), its difficult to determine whether type parameter is converted from Type2.Named or Type2.Typeparam\nSo i used OrigSym !\u003d nil",
+      "parentUuid": "c9d3c24f_eb5a1d4f",
       "revId": "54d27b2587162b5abf455bfcc7baf8771f726b0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
