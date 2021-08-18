@@ -439,7 +439,7 @@ func (check *Checker) instantiatedType(x syntax.Expr, targsx []syntax.Expr, def 
 	}
 
 	// determine argument positions
-	posList := make([]syntax.Pos, len(targs))
+	posList := make([]syntax.Pos, targs.Len())
 	for i, arg := range targsx {
 		posList[i] = syntax.StartPos(arg)
 	}
@@ -485,7 +485,7 @@ func (check *Checker) arrayLength(e syntax.Expr) int64 {
 
 // typeList provides the list of types corresponding to the incoming expression list.
 // If an error occurred, the result is nil, but all list elements were type-checked.
-func (check *Checker) typeList(list []syntax.Expr) []Type {
+func (check *Checker) typeList(list []syntax.Expr) *TypeList {
 	res := make([]Type, len(list)) // res != nil even if len(list) == 0
 	for i, x := range list {
 		t := check.varType(x)
@@ -496,5 +496,5 @@ func (check *Checker) typeList(list []syntax.Expr) []Type {
 			res[i] = t
 		}
 	}
-	return res
+	return NewTypeList(res)
 }

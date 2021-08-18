@@ -334,7 +334,7 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 			// TODO(gri) is this always correct? what about type bounds?
 			// (Alternative is to rename/subst type parameters and compare.)
 			u := newUnifier(true)
-			u.x.init(ftyp.TParams().list())
+			u.x.init(ftyp.TParams())
 			if !u.unify(ftyp, mtyp) {
 				return m, f
 			}
@@ -394,10 +394,10 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 			// here. Exit early in this case to prevent an assertion
 			// failure in makeSubstMap.
 			// TODO(gri) Can we avoid this check by fixing the lengths?
-			if len(ftyp.RParams().list()) != len(Vn.targs) {
+			if ftyp.RParams().Len() != Vn.targs.Len() {
 				return
 			}
-			ftyp = check.subst(nopos, ftyp, makeSubstMap(ftyp.RParams().list(), Vn.targs), nil).(*Signature)
+			ftyp = check.subst(nopos, ftyp, makeSubstMap(ftyp.RParams(), Vn.targs), nil).(*Signature)
 		}
 
 		// If the methods have type parameters we don't care whether they
@@ -416,9 +416,9 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 			// unimplemented call so that we test this code if we
 			// enable method type parameters.
 			unimplemented()
-			u.x.init(append(ftyp.RParams().list(), ftyp.TParams().list()...))
+			//u.x.init(append(ftyp.RParams().list(), ftyp.TParams().list()...))
 		} else {
-			u.x.init(ftyp.RParams().list())
+			u.x.init(ftyp.RParams())
 		}
 		if !u.unify(ftyp, mtyp) {
 			return m, f

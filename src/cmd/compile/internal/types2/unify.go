@@ -62,7 +62,7 @@ func (u *unifier) unify(x, y Type) bool {
 // A tparamsList describes a list of type parameters and the types inferred for them.
 type tparamsList struct {
 	unifier *unifier
-	tparams []*TypeName
+	tparams *TypeList
 	// For each tparams element, there is a corresponding type slot index in indices.
 	// index  < 0: unifier.types[-index-1] == nil
 	// index == 0: no type slot allocated yet
@@ -77,11 +77,11 @@ type tparamsList struct {
 func (d *tparamsList) String() string {
 	var buf bytes.Buffer
 	buf.WriteByte('[')
-	for i, tname := range d.tparams {
+	for i, typ := range d.tparams.list() {
 		if i > 0 {
 			buf.WriteString(", ")
 		}
-		writeType(&buf, tname.typ, nil, nil)
+		writeType(&buf, typ, nil, nil)
 		buf.WriteString(": ")
 		writeType(&buf, d.at(i), nil, nil)
 	}
@@ -92,17 +92,17 @@ func (d *tparamsList) String() string {
 // init initializes d with the given type parameters.
 // The type parameters must be in the order in which they appear in their declaration
 // (this ensures that the tparams indices match the respective type parameter index).
-func (d *tparamsList) init(tparams []*TypeName) {
-	if len(tparams) == 0 {
+func (d *tparamsList) init(tparams *TypeList) {
+	if tparams.Len() == 0 {
 		return
 	}
 	if debug {
-		for i, tpar := range tparams {
-			assert(i == tpar.typ.(*TypeParam).index)
+		for i, typ := range tparams.list() {
+			assert(i == typ.(*TypeParam).index)
 		}
 	}
 	d.tparams = tparams
-	d.indices = make([]int, len(tparams))
+	d.indices = make([]int, tparams.Len())
 }
 
 // join unifies the i'th type parameter of x with the j'th type parameter of y.
@@ -158,8 +158,8 @@ func (d *tparamsList) index(typ Type) int {
 
 // If tpar is a type parameter in list, tparamIndex returns the type parameter index.
 // Otherwise, the result is < 0. tpar must not be nil.
-func tparamIndex(list []*TypeName, tpar *TypeParam) int {
-	if i := tpar.index; i < len(list) && list[i].typ == tpar {
+func tparamIndex(list *TypeList, tpar *TypeParam) int {
+	if i := tpar.index; i < list.Len() && list.At(i) == tpar {
 		return i
 	}
 	return -1
@@ -207,17 +207,17 @@ func (d *tparamsList) set(i int, typ Type) {
 // described by d, and an index. If all types were inferred, the returned index is < 0.
 // Otherwise, it is the index of the first type parameter which couldn't be inferred;
 // i.e., for which list[index] is nil.
-func (d *tparamsList) types() (list []Type, index int) {
-	list = make([]Type, len(d.tparams))
+func (d *tparamsList) types() (types *TypeList, index int) {
+	list := make([]Type, d.tparams.Len())
 	index = -1
-	for i := range d.tparams {
+	for i := range d.tparams.list() {
 		t := d.at(i)
 		list[i] = t
 		if index < 0 && t == nil {
 			index = i
 		}
 	}
-	return
+	return NewTypeList(list), index
 }
 
 func (u *unifier) nifyEq(x, y Type, p *ifacePair) bool {
@@ -433,9 +433,9 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 			//           in the same package if one of them is nested in a function.
 			//           Extremely unlikely but we need an always correct solution.
 			if x.obj.pkg == y.obj.pkg && x.obj.name == y.obj.name {
-				assert(len(x.targs) == len(y.targs))
-				for i, x := range x.targs {
-					if !u.nify(x, y.targs[i], p) {
+				assert(x.targs.Len() == y.targs.Len())
+				for i, x := range x.targs.list() {
+					if !u.nify(x, y.targs.At(i), p) {
 						return false
 					}
 				}

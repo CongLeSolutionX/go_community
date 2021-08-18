@@ -66,10 +66,11 @@ func (g *irgen) typ1(typ types2.Type) *types.Type {
 
 // instTypeName2 creates a name for an instantiated type, base on the type args
 // (given as types2 types).
-func instTypeName2(name string, targs []types2.Type) string {
+func instTypeName2(name string, targs *types2.TypeList) string {
 	b := bytes.NewBufferString(name)
 	b.WriteByte('[')
-	for i, targ := range targs {
+	for i := 0; i < targs.Len(); i++ {
+		targ := targs.At(i)
 		if i > 0 {
 			b.WriteByte(',')
 		}
@@ -140,9 +141,9 @@ func (g *irgen) typ0(typ types2.Type) *types.Type {
 			// non-generic types used to instantiate this type. We'll
 			// use these when instantiating the methods of the
 			// instantiated type.
-			rparams := make([]*types.Type, len(typ.TArgs()))
-			for i, targ := range typ.TArgs() {
-				rparams[i] = g.typ1(targ)
+			rparams := make([]*types.Type, typ.TArgs().Len())
+			for i := range rparams {
+				rparams[i] = g.typ1(typ.TArgs().At(i))
 			}
 			ntyp.SetRParams(rparams)
 			//fmt.Printf("Saw new type %v %v\n", instName, ntyp.HasTParam())
@@ -267,9 +268,9 @@ func (g *irgen) typ0(typ types2.Type) *types.Type {
 // and for actually generating the methods for instantiated types.
 func (g *irgen) fillinMethods(typ *types2.Named, ntyp *types.Type) {
 	if typ.NumMethods() != 0 {
-		targs := make([]*types.Type, len(typ.TArgs()))
-		for i, targ := range typ.TArgs() {
-			targs[i] = g.typ1(targ)
+		targs := make([]*types.Type, typ.TArgs().Len())
+		for i := range targs {
+			targs[i] = g.typ1(typ.TArgs().At(i))
 		}
 
 		methods := make([]*types.Field, typ.NumMethods())
@@ -306,7 +307,7 @@ func (g *irgen) fillinMethods(typ *types2.Named, ntyp *types.Type) {
 					rparams := types2.AsSignature(m.Type()).RParams()
 					tparams := make([]*types.Type, rparams.Len())
 					for i := range tparams {
-						tparams[i] = g.typ1(rparams.At(i).Type())
+						tparams[i] = g.typ1(rparams.At(i))
 					}
 					assert(len(tparams) == len(targs))
 					ts := typecheck.Tsubster{
@@ -338,7 +339,7 @@ func (g *irgen) signature(recv *types.Field, sig *types2.Signature) *types.Type 
 	tparams2 := sig.TParams()
 	tparams := make([]*types.Field, tparams2.Len())
 	for i := range tparams {
-		tp := tparams2.At(i)
+		tp := tparams2.At(i).(*types2.TypeParam).Obj()
 		tparams[i] = types.NewField(g.pos(tp), g.sym(tp), g.typ1(tp.Type()))
 	}
 

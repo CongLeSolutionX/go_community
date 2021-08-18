@@ -1872,7 +1872,7 @@ func TestInstantiate(t *testing.T) {
 	// instantiation should succeed (no endless recursion)
 	// even with a nil *Checker
 	var check *Checker
-	res := check.Instantiate(nopos, T, []Type{Typ[Int]}, nil, false)
+	res := check.Instantiate(nopos, T, NewTypeList([]Type{Typ[Int]}), nil, false)
 
 	// instantiated type should point to itself
 	if p := res.Underlying().(*Pointer).Elem(); p != res {

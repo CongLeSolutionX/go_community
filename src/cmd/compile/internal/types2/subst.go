@@ -15,11 +15,11 @@ type substMap map[*TypeParam]Type
 
 // makeSubstMap creates a new substitution map mapping tpars[i] to targs[i].
 // If targs[i] is nil, tpars[i] is not substituted.
-func makeSubstMap(tpars []*TypeName, targs []Type) substMap {
-	assert(len(tpars) == len(targs))
-	proj := make(substMap, len(tpars))
-	for i, tpar := range tpars {
-		proj[tpar.typ.(*TypeParam)] = targs[i]
+func makeSubstMap(tpars, targs *TypeList) substMap {
+	assert(tpars.Len() == targs.Len())
+	proj := make(substMap, tpars.Len())
+	for i, tpar := range tpars.list() {
+		proj[tpar.(*TypeParam)] = targs.At(i)
 	}
 	return proj
 }
@@ -188,33 +188,34 @@ func (subst *subster) typ(typ Type) Type {
 			return t // type is not parameterized
 		}
 
-		var newTArgs []Type
-		assert(len(t.targs) == t.TParams().Len())
+		var newTArgsList []Type
+		assert(t.targs.Len() == t.TParams().Len())
 
 		// already instantiated
 		dump(">>> %s already instantiated", t)
 		// For each (existing) type argument targ, determine if it needs
 		// to be substituted; i.e., if it is or contains a type parameter
 		// that has a type argument for it.
-		for i, targ := range t.targs {
+		for i, targ := range t.targs.list() {
 			dump(">>> %d targ = %s", i, targ)
 			new_targ := subst.typ(targ)
 			if new_targ != targ {
 				dump(">>> substituted %d targ %s => %s", i, targ, new_targ)
-				if newTArgs == nil {
-					newTArgs = make([]Type, t.TParams().Len())
-					copy(newTArgs, t.targs)
+				if newTArgsList == nil {
+					newTArgsList = make([]Type, t.TParams().Len())
+					copy(newTArgsList, t.targs.list())
 				}
-				newTArgs[i] = new_targ
+				newTArgsList[i] = new_targ
 			}
 		}
 
-		if newTArgs == nil {
+		if newTArgsList == nil {
 			dump(">>> nothing to substitute in %s", t)
 			return t // nothing to substitute
 		}
 
 		// before creating a new named type, check if we have this one already
+		newTArgs := NewTypeList(newTArgsList)
 		h := instantiatedHash(t, newTArgs)
 		dump(">>> new type hash: %s", h)
 		if named, found := subst.typMap[h]; found {
@@ -251,13 +252,13 @@ func (subst *subster) typ(typ Type) Type {
 
 var instanceHashing = 0
 
-func instantiatedHash(typ *Named, targs []Type) string {
+func instantiatedHash(typ *Named, targs *TypeList) string {
 	assert(instanceHashing == 0)
 	instanceHashing++
 	var buf bytes.Buffer
 	writeTypeName(&buf, typ.obj, nil)
 	buf.WriteByte('[')
-	writeTypeList(&buf, targs, nil, nil)
+	writeTypeList(&buf, targs.list(), nil, nil)
 	buf.WriteByte(']')
 	instanceHashing--
 

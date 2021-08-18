@@ -24,14 +24,14 @@ import (
 // (either a *Named or a *Signature).
 // Any methods attached to a *Named are simply copied; they are not
 // instantiated.
-func (check *Checker) Instantiate(pos syntax.Pos, typ Type, targs []Type, posList []syntax.Pos, verify bool) (res Type) {
+func (check *Checker) Instantiate(pos syntax.Pos, typ Type, targs *TypeList, posList []syntax.Pos, verify bool) (res Type) {
 	// TODO(gri) What is better here: work with TypeParams, or work with TypeNames?
-	var tparams []*TypeName
+	var tparams *TypeList
 	switch t := typ.(type) {
 	case *Named:
 		return check.instantiateLazy(pos, t, targs, posList, verify)
 	case *Signature:
-		tparams = t.TParams().list()
+		tparams = t.TParams()
 		defer func() {
 			// If we had an unexpected failure somewhere don't panic below when
 			// asserting res.(*Signature). Check for *Signature in case Typ[Invalid]
@@ -56,25 +56,25 @@ func (check *Checker) Instantiate(pos syntax.Pos, typ Type, targs []Type, posLis
 	}
 
 	inst := check.instantiate(pos, typ, tparams, targs, posList, nil)
-	if verify && len(tparams) == len(targs) {
+	if verify && tparams.Len() == targs.Len() {
 		check.verify(pos, tparams, targs, posList)
 	}
 	return inst
 }
 
-func (check *Checker) instantiate(pos syntax.Pos, typ Type, tparams []*TypeName, targs []Type, posList []syntax.Pos, typMap map[string]*Named) (res Type) {
+func (check *Checker) instantiate(pos syntax.Pos, typ Type, tparams, targs *TypeList, posList []syntax.Pos, typMap map[string]*Named) (res Type) {
 	// the number of supplied types must match the number of type parameters
-	if len(targs) != len(tparams) {
+	if targs.Len() != tparams.Len() {
 		// TODO(gri) provide better error message
 		if check != nil {
-			check.errorf(pos, "got %d arguments but %d type parameters", len(targs), len(tparams))
+			check.errorf(pos, "got %d arguments but %d type parameters", targs.Len(), tparams.Len())
 			return Typ[Invalid]
 		}
-		panic(fmt.Sprintf("%v: got %d arguments but %d type parameters", pos, len(targs), len(tparams)))
+		panic(fmt.Sprintf("%v: got %d arguments but %d type parameters", pos, targs.Len(), tparams.Len()))
 	}
 
 	if check != nil && check.conf.Trace {
-		check.trace(pos, "-- instantiating %s with %s", typ, typeListString(targs))
+		check.trace(pos, "-- instantiating %s with %s", typ, typeListString(targs.list()))
 		check.indent++
 		defer func() {
 			check.indent--
@@ -89,9 +89,9 @@ func (check *Checker) instantiate(pos syntax.Pos, typ Type, tparams []*TypeName,
 		}()
 	}
 
-	assert(len(posList) <= len(targs))
+	assert(len(posList) <= targs.Len())
 
-	if len(tparams) == 0 {
+	if tparams.Len() == 0 {
 		return typ // nothing to do (minor optimization)
 	}
 
@@ -100,11 +100,11 @@ func (check *Checker) instantiate(pos syntax.Pos, typ Type, tparams []*TypeName,
 
 // instantiateLazy avoids actually instantiating the type until needed. typ
 // must be a *Named type.
-func (check *Checker) instantiateLazy(pos syntax.Pos, base *Named, targs []Type, posList []syntax.Pos, verify bool) Type {
-	if verify && base.TParams().Len() == len(targs) {
+func (check *Checker) instantiateLazy(pos syntax.Pos, base *Named, targs *TypeList, posList []syntax.Pos, verify bool) Type {
+	if verify && base.TParams().Len() == targs.Len() {
 		// TODO: lift the nil check in verify to here.
 		check.later(func() {
-			check.verify(pos, base.tparams.list(), targs, posList)
+			check.verify(pos, base.tparams, targs, posList)
 		})
 	}
 
@@ -128,13 +128,13 @@ func (check *Checker) instantiateLazy(pos syntax.Pos, base *Named, targs []Type,
 	return named
 }
 
-func (check *Checker) verify(pos syntax.Pos, tparams []*TypeName, targs []Type, posList []syntax.Pos) {
+func (check *Checker) verify(pos syntax.Pos, tparams, targs *TypeList, posList []syntax.Pos) {
 	if check == nil {
 		panic("cannot have nil Checker if verifying constraints")
 	}
 
 	smap := makeSubstMap(tparams, targs)
-	for i, tname := range tparams {
+	for i, typ := range tparams.list() {
 		// best position for error reporting
 		pos := pos
 		if i < len(posList) {
@@ -142,7 +142,7 @@ func (check *Checker) verify(pos syntax.Pos, tparams []*TypeName, targs []Type, 
 		}
 
 		// stop checking bounds after the first failure
-		if !check.satisfies(pos, targs[i], tname.typ.(*TypeParam), smap) {
+		if !check.satisfies(pos, targs.At(i), typ.(*TypeParam), smap) {
 			break
 		}
 	}

@@ -14,15 +14,15 @@ import (
 // A Named represents a named (defined) type.
 type Named struct {
 	check      *Checker
-	info       typeInfo    // for cycle detection
-	obj        *TypeName   // corresponding declared object for declared types; placeholder for instantiated types
-	orig       *Named      // original, uninstantiated type
-	fromRHS    Type        // type (on RHS of declaration) this *Named type is derived from (for cycle reporting)
-	underlying Type        // possibly a *Named during setup; never a *Named once set up completely
-	instance   *instance   // position information for lazy instantiation, or nil
-	tparams    *TParamList // type parameters, or nil
-	targs      []Type      // type arguments (after instantiation), or nil
-	methods    []*Func     // methods declared for this type (not the method set of this type); signatures are type-checked lazily
+	info       typeInfo  // for cycle detection
+	obj        *TypeName // corresponding declared object for declared types; placeholder for instantiated types
+	orig       *Named    // original, uninstantiated type
+	fromRHS    Type      // type (on RHS of declaration) this *Named type is derived from (for cycle reporting)
+	underlying Type      // possibly a *Named during setup; never a *Named once set up completely
+	instance   *instance // position information for lazy instantiation, or nil
+	tparams    *TypeList // type parameters, or nil
+	targs      *TypeList // type arguments (after instantiation), or nil
+	methods    []*Func   // methods declared for this type (not the method set of this type); signatures are type-checked lazily
 
 	resolve func(*Named) ([]*TypeName, Type, []*Func)
 	once    sync.Once
@@ -46,7 +46,7 @@ func (t *Named) load() *Named {
 	// underlying is set when t is expanded.
 	//
 	// By convention, a type instance is loaded iff its tparams are set.
-	if len(t.targs) > 0 && t.tparams == nil {
+	if t.targs.Len() > 0 && t.tparams == nil {
 		t.orig.load()
 		t.tparams = t.orig.tparams
 		t.methods = t.orig.methods
@@ -80,7 +80,7 @@ func (t *Named) load() *Named {
 }
 
 // newNamed is like NewNamed but with a *Checker receiver and additional orig argument.
-func (check *Checker) newNamed(obj *TypeName, orig *Named, underlying Type, tparams *TParamList, methods []*Func) *Named {
+func (check *Checker) newNamed(obj *TypeName, orig *Named, underlying Type, tparams *TypeList, methods []*Func) *Named {
 	typ := &Named{check: check, obj: obj, orig: orig, fromRHS: underlying, underlying: underlying, tparams: tparams, methods: methods}
 	if typ.orig == nil {
 		typ.orig = typ
@@ -123,13 +123,13 @@ func (t *Named) Orig() *Named { return t.orig }
 
 // TParams returns the type parameters of the named type t, or nil.
 // The result is non-nil for an (originally) parameterized type even if it is instantiated.
-func (t *Named) TParams() *TParamList { return t.load().tparams }
+func (t *Named) TParams() *TypeList { return t.load().tparams }
 
 // SetTParams sets the type parameters of the named type t.
 func (t *Named) SetTParams(tparams []*TypeName) { t.load().tparams = bindTParams(tparams) }
 
 // TArgs returns the type arguments after instantiation of the named type t, or nil if not instantiated.
-func (t *Named) TArgs() []Type { return t.targs }
+func (t *Named) TArgs() *TypeList { return t.targs }
 
 // NumMethods returns the number of explicit methods whose receiver is named type t.
 func (t *Named) NumMethods() int { return len(t.load().methods) }
@@ -272,7 +272,7 @@ func (n *Named) expand(typMap map[string]*Named) *Named {
 			}
 		}
 
-		inst := n.check.instantiate(n.instance.pos, n.orig.underlying, n.TParams().list(), n.targs, n.instance.posList, typMap)
+		inst := n.check.instantiate(n.instance.pos, n.orig.underlying, n.TParams(), n.targs, n.instance.posList, typMap)
 		n.underlying = inst
 		n.fromRHS = inst
 		n.instance = nil

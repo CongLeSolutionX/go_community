@@ -476,7 +476,7 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 			return
 		}
 		if named, _ := typ.(*Named); named != nil && named.TParams().Len() > 0 {
-			writeTParamList(buf, named.TParams().list(), qf, nil)
+			writeTParamList(buf, named.TParams(), qf, nil)
 		}
 		if tname.IsAlias() {
 			buf.WriteString(" =")

@@ -19,13 +19,13 @@ type Signature struct {
 	// and store it in the Func Object) because when type-checking a function
 	// literal we call the general type checker which returns a general Type.
 	// We then unpack the *Signature and use the scope for the literal body.
-	rparams  *TParamList // receiver type parameters from left to right, or nil
-	tparams  *TParamList // type parameters from left to right, or nil
-	scope    *Scope      // function scope, present for package-local signatures
-	recv     *Var        // nil if not a method
-	params   *Tuple      // (incoming) parameters from left to right; or nil
-	results  *Tuple      // (outgoing) results from left to right; or nil
-	variadic bool        // true if the last parameter's type is of the form ...T (or string, for append built-in only)
+	rparams  *TypeList // receiver type parameters from left to right, or nil
+	tparams  *TypeList // type parameters from left to right, or nil
+	scope    *Scope    // function scope, present for package-local signatures
+	recv     *Var      // nil if not a method
+	params   *Tuple    // (incoming) parameters from left to right; or nil
+	results  *Tuple    // (outgoing) results from left to right; or nil
+	variadic bool      // true if the last parameter's type is of the form ...T (or string, for append built-in only)
 }
 
 // NewSignature returns a new function type for the given receiver, parameters,
@@ -54,13 +54,13 @@ func NewSignature(recv *Var, params, results *Tuple, variadic bool) *Signature {
 func (s *Signature) Recv() *Var { return s.recv }
 
 // TParams returns the type parameters of signature s, or nil.
-func (s *Signature) TParams() *TParamList { return s.tparams }
+func (s *Signature) TParams() *TypeList { return s.tparams }
 
 // SetTParams sets the type parameters of signature s.
 func (s *Signature) SetTParams(tparams []*TypeName) { s.tparams = bindTParams(tparams) }
 
 // RParams returns the receiver type parameters of signature s, or nil.
-func (s *Signature) RParams() *TParamList { return s.rparams }
+func (s *Signature) RParams() *TypeList { return s.rparams }
 
 // SetRParams sets the receiver type params of signature s.
 func (s *Signature) SetRParams(rparams []*TypeName) { s.rparams = bindTParams(rparams) }
@@ -126,35 +126,30 @@ func (check *Checker) funcType(sig *Signature, recvPar *syntax.Field, tparams []
 			sig.rparams = bindTParams(rlist)
 			// determine receiver type to get its type parameters
 			// and the respective type parameter bounds
-			var recvTParams []*TypeName
+			var recvTParams *TypeList
 			if rname != nil {
 				// recv should be a Named type (otherwise an error is reported elsewhere)
 				// Also: Don't report an error via genericType since it will be reported
 				//       again when we type-check the signature.
 				// TODO(gri) maybe the receiver should be marked as invalid instead?
 				if recv := asNamed(check.genericType(rname, false)); recv != nil {
-					recvTParams = recv.TParams().list()
+					recvTParams = recv.TParams()
 				}
 			}
 			// provide type parameter bounds
 			// - only do this if we have the right number (otherwise an error is reported elsewhere)
-			if sig.RParams().Len() == len(recvTParams) {
-				// We have a list of *TypeNames but we need a list of Types.
-				list := make([]Type, sig.RParams().Len())
-				for i, t := range sig.RParams().list() {
-					list[i] = t.typ
-				}
-				smap := makeSubstMap(recvTParams, list)
-				for i, tname := range sig.RParams().list() {
-					bound := recvTParams[i].typ.(*TypeParam).bound
+			if sig.RParams().Len() == recvTParams.Len() {
+				smap := makeSubstMap(recvTParams, sig.RParams())
+				for i, rparam := range sig.RParams().list() {
+					bound := recvTParams.At(i).(*TypeParam).bound
 					// bound is (possibly) parameterized in the context of the
 					// receiver type declaration. Substitute parameters for the
 					// current context.
 					// TODO(gri) should we assume now that bounds always exist?
 					//           (no bound == empty interface)
 					if bound != nil {
-						bound = check.subst(tname.pos, bound, smap, nil)
-						tname.typ.(*TypeParam).bound = bound
+						bound = check.subst(rparam.(*TypeParam).obj.pos, bound, smap, nil)
+						rparam.(*TypeParam).bound = bound
 					}
 				}
 			}

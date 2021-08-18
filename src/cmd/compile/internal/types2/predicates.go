@@ -220,7 +220,7 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 		// parameter names.
 		if y, ok := y.(*Signature); ok {
 			return x.variadic == y.variadic &&
-				identicalTParams(x.TParams().list(), y.TParams().list(), cmpTags, p) &&
+				identicalTParams(x.TParams(), y.TParams(), cmpTags, p) &&
 				identical(x.params, y.params, cmpTags, p) &&
 				identical(x.results, y.results, cmpTags, p)
 		}
@@ -308,18 +308,18 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 			xargs := x.TArgs()
 			yargs := y.TArgs()
 
-			if len(xargs) != len(yargs) {
+			if xargs.Len() != yargs.Len() {
 				return false
 			}
 
-			if len(xargs) > 0 {
+			if xargs.Len() > 0 {
 				// Instances are identical if their original type and type arguments
 				// are identical.
 				if !Identical(x.orig, y.orig) {
 					return false
 				}
-				for i, xa := range xargs {
-					if !Identical(xa, yargs[i]) {
+				for i, xa := range xargs.list() {
+					if !Identical(xa, yargs.At(i)) {
 						return false
 					}
 				}
@@ -349,13 +349,13 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 	return false
 }
 
-func identicalTParams(x, y []*TypeName, cmpTags bool, p *ifacePair) bool {
-	if len(x) != len(y) {
+func identicalTParams(x, y *TypeList, cmpTags bool, p *ifacePair) bool {
+	if x.Len() != y.Len() {
 		return false
 	}
-	for i, x := range x {
-		y := y[i]
-		if !identical(x.typ.(*TypeParam).bound, y.typ.(*TypeParam).bound, cmpTags, p) {
+	for i, x := range x.list() {
+		y := y.At(i)
+		if !identical(x.(*TypeParam).bound, y.(*TypeParam).bound, cmpTags, p) {
 			return false
 		}
 	}

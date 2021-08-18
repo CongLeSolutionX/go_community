@@ -303,7 +303,7 @@ func (pw *pkgWriter) typIdx(typ types2.Type, dict *writerDict) typeInfo {
 		// Type aliases can refer to uninstantiated generic types, so we
 		// might see len(TParams) != 0 && len(TArgs) == 0 here.
 		// TODO(mdempsky): Revisit after #46477 is resolved.
-		assert(typ.TParams().Len() == len(typ.TArgs()) || len(typ.TArgs()) == 0)
+		assert(typ.TParams().Len() == typ.TArgs().Len() || typ.TArgs().Len() == 0)
 
 		// TODO(mdempsky): Why do we need to loop here?
 		orig := typ
@@ -445,10 +445,10 @@ func (w *writer) param(param *types2.Var) {
 
 // @@@ Objects
 
-func (w *writer) obj(obj types2.Object, explicits []types2.Type) {
-	explicitInfos := make([]typeInfo, len(explicits))
-	for i, explicit := range explicits {
-		explicitInfos[i] = w.p.typIdx(explicit, w.dict)
+func (w *writer) obj(obj types2.Object, explicits *types2.TypeList) {
+	explicitInfos := make([]typeInfo, explicits.Len())
+	for i := range explicitInfos {
+		explicitInfos[i] = w.p.typIdx(explicits.At(i), w.dict)
 	}
 	info := objInfo{idx: w.p.objIdx(obj), explicits: explicitInfos}
 
@@ -622,7 +622,7 @@ func (w *writer) objDict(obj types2.Object, dict *writerDict) {
 	ntparams := tparams.Len()
 	w.len(ntparams)
 	for i := 0; i < ntparams; i++ {
-		w.typ(tparams.At(i).Type().(*types2.TypeParam).Constraint())
+		w.typ(tparams.At(i).(*types2.TypeParam).Constraint())
 	}
 
 	nderived := len(dict.derived)
@@ -646,12 +646,12 @@ func (w *writer) objDict(obj types2.Object, dict *writerDict) {
 	assert(len(dict.funcs) == nfuncs)
 }
 
-func (w *writer) typeParamNames(tparams *types2.TParamList) {
+func (w *writer) typeParamNames(tparams *types2.TypeList) {
 	w.sync(syncTypeParamNames)
 
 	ntparams := tparams.Len()
 	for i := 0; i < ntparams; i++ {
-		tparam := tparams.At(i)
+		tparam := tparams.At(i).(*types2.TypeParam).Obj()
 		w.pos(tparam)
 		w.localIdent(tparam)
 	}
@@ -1216,7 +1216,7 @@ func (w *writer) expr(expr syntax.Expr) {
 	if obj != nil {
 		if isGlobal(obj) {
 			w.code(exprName)
-			w.obj(obj, targs)
+			w.obj(obj, types2.NewTypeList(targs))
 			return
 		}
 
@@ -1325,7 +1325,7 @@ func (w *writer) expr(expr syntax.Expr) {
 
 				// As if w.expr(expr.Fun), but using inf.TArgs instead.
 				w.code(exprName)
-				w.obj(obj, inf.TArgs)
+				w.obj(obj, types2.NewTypeList(inf.TArgs))
 			} else {
 				w.expr(expr.Fun)
 			}
@@ -1483,7 +1483,7 @@ func (c *declCollector) withTParams(obj types2.Object) *declCollector {
 	copy := *c
 	copy.implicits = copy.implicits[:len(copy.implicits):len(copy.implicits)]
 	for i := 0; i < n; i++ {
-		copy.implicits = append(copy.implicits, tparams.At(i))
+		copy.implicits = append(copy.implicits, tparams.At(i).(*types2.TypeParam).Obj())
 	}
 	return &copy
 }
@@ -1715,7 +1715,7 @@ func (w *writer) pkgDecl(decl syntax.Decl) {
 		// TODO(mdempsky): Revisit after #46477 is resolved.
 		if name.IsAlias() {
 			named, ok := name.Type().(*types2.Named)
-			if ok && named.TParams().Len() != 0 && len(named.TArgs()) == 0 {
+			if ok && named.TParams().Len() != 0 && named.TArgs().Len() == 0 {
 				break
 			}
 		}
@@ -1861,7 +1861,7 @@ func fieldIndex(info *types2.Info, str *types2.Struct, key *syntax.Name) int {
 }
 
 // objTypeParams returns the type parameters on the given object.
-func objTypeParams(obj types2.Object) *types2.TParamList {
+func objTypeParams(obj types2.Object) *types2.TypeList {
 	switch obj := obj.(type) {
 	case *types2.Func:
 		sig := obj.Type().(*types2.Signature)

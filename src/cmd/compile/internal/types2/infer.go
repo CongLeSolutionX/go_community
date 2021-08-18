@@ -28,37 +28,37 @@ const useConstraintTypeInference = true
 //
 // Constraint type inference is used after each step to expand the set of type arguments.
 //
-func (check *Checker) infer(pos syntax.Pos, tparams []*TypeName, targs []Type, params *Tuple, args []*operand, report bool) (result []Type) {
+func (check *Checker) infer(pos syntax.Pos, tparams, targs *TypeList, params *Tuple, args []*operand, report bool) (result *TypeList) {
 	if debug {
 		defer func() {
-			assert(result == nil || len(result) == len(tparams))
-			for _, targ := range result {
-				assert(targ != nil)
+			assert(result == nil || result.Len() == tparams.Len())
+			for i := 0; i < result.Len(); i++ {
+				assert(result.At(i) != nil)
 			}
 			//check.dump("### inferred targs = %s", result)
 		}()
 	}
 
 	// There must be at least one type parameter, and no more type arguments than type parameters.
-	n := len(tparams)
-	assert(n > 0 && len(targs) <= n)
+	n := tparams.Len()
+	assert(n > 0 && targs.Len() <= n)
 
 	// Function parameters and arguments must match in number.
 	assert(params.Len() == len(args))
 
 	// --- 0 ---
 	// If we already have all type arguments, we're done.
-	if len(targs) == n {
+	if targs.Len() == n {
 		return targs
 	}
-	// len(targs) < n
+	// targs.Len() < n
 
 	// --- 1 ---
 	// Explicitly provided type arguments take precedence over any inferred types;
 	// and types inferred via constraint type inference take precedence over types
 	// inferred from function arguments.
 	// If we have type arguments, see how far we get with constraint type inference.
-	if len(targs) > 0 && useConstraintTypeInference {
+	if targs.Len() > 0 && useConstraintTypeInference {
 		var index int
 		targs, index = check.inferB(tparams, targs, report)
 		if targs == nil || index < 0 {
@@ -74,12 +74,12 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeName, targs []Type, p
 
 	// First, make sure we have a "full" list of type arguments, so of which
 	// may be nil (unknown).
-	if len(targs) < n {
+	if targs.Len() < n {
 		targs2 := make([]Type, n)
-		copy(targs2, targs)
-		targs = targs2
+		copy(targs2, targs.list())
+		targs = NewTypeList(targs2)
 	}
-	// len(targs) == n
+	// targs.Len() == n
 
 	// Substitute type arguments for their respective type parameters in params,
 	// if any. Note that nil targs entries are ignored by check.subst.
@@ -98,7 +98,7 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeName, targs []Type, p
 	u.x.init(tparams)
 
 	// Set the type arguments which we know already.
-	for i, targ := range targs {
+	for i, targ := range targs.list() {
 		if targ != nil {
 			u.x.set(i, targ)
 		}
@@ -115,7 +115,7 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeName, targs []Type, p
 			// If none of them could be inferred, don't try
 			// to provide the inferred type in the error msg.
 			allFailed := true
-			for _, targ := range targs {
+			for _, targ := range targs.list() {
 				if targ != nil {
 					allFailed = false
 					break
@@ -191,7 +191,7 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeName, targs []Type, p
 		// only parameter type it can possibly match against is a *TypeParam.
 		// Thus, only consider untyped arguments for generic parameters that
 		// are not of composite types and which don't have a type inferred yet.
-		if tpar, _ := par.typ.(*TypeParam); tpar != nil && targs[tpar.index] == nil {
+		if tpar, _ := par.typ.(*TypeParam); tpar != nil && targs.At(tpar.index) == nil {
 			arg := args[i]
 			targ := Default(arg.typ)
 			// The default type for an untyped nil is untyped nil. We must not
@@ -219,8 +219,8 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeName, targs []Type, p
 	}
 
 	// At least one type argument couldn't be inferred.
-	assert(targs != nil && index >= 0 && targs[index] == nil)
-	tpar := tparams[index]
+	assert(targs != nil && index >= 0 && targs.At(index) == nil)
+	tpar := tparams.At(index).(*TypeParam).Obj()
 	if report {
 		check.errorf(pos, "cannot infer %s (%s) (%s)", tpar.name, tpar.pos, targs)
 	}
@@ -229,44 +229,44 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeName, targs []Type, p
 
 // typeNamesString produces a string containing all the
 // type names in list suitable for human consumption.
-func typeNamesString(list []*TypeName) string {
+func typeNamesString(list *TypeList) string {
 	// common cases
-	n := len(list)
+	n := list.Len()
 	switch n {
 	case 0:
 		return ""
 	case 1:
-		return list[0].name
+		return list.TypeParamAt(0).Obj().name
 	case 2:
-		return list[0].name + " and " + list[1].name
+		return list.TypeParamAt(0).Obj().name + " and " + list.TypeParamAt(1).Obj().name
 	}
 
 	// general case (n > 2)
 	// Would like to use strings.Builder but it's not available in Go 1.4.
 	var b bytes.Buffer
-	for i, tname := range list[:n-1] {
+	for i := range list.list()[:n-1] {
 		if i > 0 {
 			b.WriteString(", ")
 		}
-		b.WriteString(tname.name)
+		b.WriteString(list.TypeParamAt(i).Obj().name)
 	}
 	b.WriteString(", and ")
-	b.WriteString(list[n-1].name)
+	b.WriteString(list.TypeParamAt(n - 1).Obj().name)
 	return b.String()
 }
 
 // IsParameterized reports whether typ contains any of the type parameters of tparams.
-func isParameterized(tparams []*TypeName, typ Type) bool {
+func isParameterized(tparams *TypeList, typ Type) bool {
 	w := tpWalker{
 		seen:    make(map[Type]bool),
-		tparams: tparams,
+		tparams: tparams.list(),
 	}
 	return w.isParameterized(typ)
 }
 
 type tpWalker struct {
 	seen    map[Type]bool
-	tparams []*TypeName
+	tparams []Type
 }
 
 func (w *tpWalker) isParameterized(typ Type) (res bool) {
@@ -339,7 +339,7 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 
 	case *TypeParam:
 		// t must be one of w.tparams
-		return t.index < len(w.tparams) && w.tparams[t.index].typ == t
+		return t.index < len(w.tparams) && w.tparams[t.index] == t
 
 	default:
 		unreachable()
@@ -348,9 +348,9 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 	return false
 }
 
-func (w *tpWalker) isParameterizedTypeList(list []Type) bool {
-	for _, t := range list {
-		if w.isParameterized(t) {
+func (w *tpWalker) isParameterizedTypeList(list *TypeList) bool {
+	for i := 0; i < list.Len(); i++ {
+		if w.isParameterized(list.At(i)) {
 			return true
 		}
 	}
@@ -365,8 +365,8 @@ func (w *tpWalker) isParameterizedTypeList(list []Type) bool {
 // first type argument in that list that couldn't be inferred (and thus is nil). If all
 // type arguments were inferred successfully, index is < 0. The number of type arguments
 // provided may be less than the number of type parameters, but there must be at least one.
-func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (types []Type, index int) {
-	assert(len(tparams) >= len(targs) && len(targs) > 0)
+func (check *Checker) inferB(tparams, targs *TypeList, report bool) (types *TypeList, index int) {
+	assert(tparams.Len() >= targs.Len() && targs.Len() > 0)
 
 	// Setup bidirectional unification between those structural bounds
 	// and the corresponding type arguments (which may be nil!).
@@ -375,19 +375,20 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (ty
 	u.y = u.x // type parameters between LHS and RHS of unification are identical
 
 	// Set the type arguments which we know already.
-	for i, targ := range targs {
+	for i, targ := range targs.list() {
 		if targ != nil {
 			u.x.set(i, targ)
 		}
 	}
 
 	// Unify type parameters with their structural constraints, if any.
-	for _, tpar := range tparams {
-		typ := tpar.typ.(*TypeParam)
+	for _, typ := range tparams.list() {
+		typ := typ.(*TypeParam)
 		sbound := typ.structuralType()
 		if sbound != nil {
 			if !u.unify(typ, sbound) {
 				if report {
+					tpar := typ.Obj()
 					check.errorf(tpar, "%s does not match %s", tpar, sbound)
 				}
 				return nil, 0
@@ -404,8 +405,8 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (ty
 	// until nothing changes anymore.
 	types, _ = u.x.types()
 	if debug {
-		for i, targ := range targs {
-			assert(targ == nil || types[i] == targ)
+		for i, targ := range targs.list() {
+			assert(targ == nil || types.At(i) == targ)
 		}
 	}
 
@@ -413,8 +414,8 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (ty
 	// We know that nil type entries and entries corresponding to provided (non-nil)
 	// type arguments are clean, so exclude them from the start.
 	var dirty []int
-	for i, typ := range types {
-		if typ != nil && (i >= len(targs) || targs[i] == nil) {
+	for i, typ := range types.list() {
+		if typ != nil && (i >= targs.Len() || targs.At(i) == nil) {
 			dirty = append(dirty, i)
 		}
 	}
@@ -426,9 +427,9 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (ty
 		smap := makeSubstMap(tparams, types)
 		n := 0
 		for _, index := range dirty {
-			t0 := types[index]
+			t0 := types.At(index)
 			if t1 := check.subst(nopos, t0, smap, nil); t1 != t0 {
-				types[index] = t1
+				types.list()[index] = t1
 				dirty[n] = index
 				n++
 			}
@@ -440,15 +441,15 @@ func (check *Checker) inferB(tparams []*TypeName, targs []Type, report bool) (ty
 	// e.g., a structural constraint *P may match a type parameter Q but we
 	// don't have any type arguments to fill in for *P or Q (issue #45548).
 	// Don't let such inferences escape, instead nil them out.
-	for i, typ := range types {
+	for i, typ := range types.list() {
 		if typ != nil && isParameterized(tparams, typ) {
-			types[i] = nil
+			types.list()[i] = nil
 		}
 	}
 
 	// update index
 	index = -1
-	for i, typ := range types {
+	for i, typ := range types.list() {
 		if typ == nil {
 			index = i
 			break

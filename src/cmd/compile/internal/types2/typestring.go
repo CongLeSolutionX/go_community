@@ -202,11 +202,11 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 		if t.targs != nil {
 			// instantiated type
 			buf.WriteByte('[')
-			writeTypeList(buf, t.targs, qf, visited)
+			writeTypeList(buf, t.targs.list(), qf, visited)
 			buf.WriteByte(']')
 		} else if t.TParams().Len() != 0 {
 			// parameterized type
-			writeTParamList(buf, t.TParams().list(), qf, visited)
+			writeTParamList(buf, t.TParams(), qf, visited)
 		}
 
 	case *TypeParam:
@@ -242,14 +242,14 @@ func writeTypeList(buf *bytes.Buffer, list []Type, qf Qualifier, visited []Type)
 	}
 }
 
-func writeTParamList(buf *bytes.Buffer, list []*TypeName, qf Qualifier, visited []Type) {
+func writeTParamList(buf *bytes.Buffer, list *TypeList, qf Qualifier, visited []Type) {
 	buf.WriteString("[")
 	var prev Type
-	for i, p := range list {
+	for i, typ := range list.list() {
 		// Determine the type parameter and its constraint.
 		// list is expected to hold type parameter names,
 		// but don't crash if that's not the case.
-		tpar, _ := p.typ.(*TypeParam)
+		tpar, _ := typ.(*TypeParam)
 		var bound Type
 		if tpar != nil {
 			bound = tpar.bound // should not be nil but we want to see it if it is
@@ -268,7 +268,7 @@ func writeTParamList(buf *bytes.Buffer, list []*TypeName, qf Qualifier, visited 
 		if tpar != nil {
 			writeType(buf, tpar, qf, visited)
 		} else {
-			buf.WriteString(p.name)
+			buf.WriteString(tpar.Obj().name)
 		}
 	}
 	if prev != nil {
@@ -356,7 +356,7 @@ func WriteSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier) {
 
 func writeSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier, visited []Type) {
 	if sig.TParams().Len() != 0 {
-		writeTParamList(buf, sig.TParams().list(), qf, visited)
+		writeTParamList(buf, sig.TParams(), qf, visited)
 	}
 
 	writeTuple(buf, sig.params, sig.variadic, qf, visited)

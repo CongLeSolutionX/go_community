@@ -346,10 +346,10 @@ func (r *importReader) obj(name string) {
 				// rparams of the method (since those are the
 				// typeparams being used in the method sig/body).
 				targs := baseType(msig.Recv().Type()).TArgs()
-				if len(targs) > 0 {
-					rparams := make([]*types2.TypeName, len(targs))
-					for i, targ := range targs {
-						rparams[i] = types2.AsTypeParam(targ).Obj()
+				if targs.Len() > 0 {
+					rparams := make([]*types2.TypeName, targs.Len())
+					for i := 0; i < targs.Len(); i++ {
+						rparams[i] = types2.AsTypeParam(targs.At(i)).Obj()
 					}
 					msig.SetRParams(rparams)
 				}
@@ -662,7 +662,7 @@ func (r *importReader) doType(base *types2.Named) types2.Type {
 		// The imported instantiated type doesn't include any methods, so
 		// we must always use the methods of the base (orig) type.
 		var check *types2.Checker // TODO provide a non-nil *Checker
-		t := check.Instantiate(pos, baseType, targs, nil, false)
+		t := check.Instantiate(pos, baseType, types2.NewTypeList(targs), nil, false)
 		return t
 
 	case unionType:
