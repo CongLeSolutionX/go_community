@@ -76,6 +76,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf0161b1_4832972b",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-18T10:55:08Z",
+      "side": 1,
+      "message": "If `x.Name()` was called with `SetAddrTakenNoStackObject` before, then unconditional set here will change `nameNeedStackObject` from false to true.",
+      "parentUuid": "a7bba77a_64d9eab7",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b275225f_02b0321c",
         "filename": "src/cmd/compile/internal/walk/walk.go",
         "patchSetId": 10
@@ -87,6 +105,24 @@
       "writtenOn": "2021-08-17T21:59:30Z",
       "side": 1,
       "message": "I think we would have to handle PPARAM and PPARAMOUT classes as well.\nNot sure about PAUTOHEAP.\n\nOr maybe we only ever call this with autos currently? In which case, an assert that it doesn\u0027t happen would work.",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86ecda7b_a8fa9079",
+        "filename": "src/cmd/compile/internal/walk/walk.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-18T10:55:08Z",
+      "side": 1,
+      "message": "No, we call this with all kinds of arguments.\n\nI just don\u0027t feel strongly enough handle those cases, would you mind giving me any hints to handle other classes? I will do it in follow up CL.",
+      "parentUuid": "b275225f_02b0321c",
       "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -122,6 +158,24 @@
       "side": 1,
       "message": "Yes, this code:\n\nfunc i(m map[T]bool) {\n\tvar x T\n\th(m, \u0026x)\n}\n\npasses the address of x to both g and to mapassign.",
       "parentUuid": "0c96c70e_3d120a6c",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "325f78a0_42d2aa46",
+        "filename": "test/live.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-18T10:55:08Z",
+      "side": 1,
+      "message": "\u003e The autotmps for map accesses would never need stack objects.\n\nHere\u0027s the map assign, not map accesses, is that still applied?\n\n\u003e In f, the compiler makes an autotmp to pass to the map routine. In h, it doesn\u0027t - it passes p directly to the map routine. Maybe something that calls h, and h gets inlined, would cause a situation where the address of something the user declared (and thus could have its address taken in other ways that require a stack object) could happen.\n\nBut if p was set addr taken before, then call to SetAddrTakenNoStackObject won\u0027t turn the need nameNeedStackObject from false to true, thus I think we are safe?",
+      "parentUuid": "85ea320c_9f6ff550",
       "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
