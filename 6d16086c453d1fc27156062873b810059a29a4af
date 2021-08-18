@@ -76,6 +76,24 @@
       "message": "This seems strange because then when someone subsequently calls NeedRuntimeType, we\u0027ll add it again, process it in the first half of this function, only to not do anything in writeType. Can\u0027t we leave the entry in there?",
       "revId": "6d16086c453d1fc27156062873b810059a29a4af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62bdd221_827ff1fc",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-18T05:01:38Z",
+      "side": 1,
+      "message": "Not sure I got your point. We need to remove T from signatset after finishing writeType(T), otherwise, we will go into infinite loop if leave T in signatset.\n\nPrior to this CL, it\u0027s fine to leave T in signatset like you said, but that will leave us in a weird situation during debugging, e.g, if writeType(T) add T to signatset again, you will see T in signatset while writing type for T.\n\nMy motivation to make this change is prevent that weird state, it makes hard to debug bug like one in #46386.",
+      "parentUuid": "03e3b458_cf05d83a",
+      "revId": "6d16086c453d1fc27156062873b810059a29a4af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
