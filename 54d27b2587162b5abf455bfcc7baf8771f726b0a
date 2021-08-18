@@ -81,6 +81,24 @@
       "parentUuid": "c9d3c24f_eb5a1d4f",
       "revId": "54d27b2587162b5abf455bfcc7baf8771f726b0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d59d8652_676faf74",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-18T12:28:05Z",
+      "side": 1,
+      "message": "Yes, there are always two cases for an expression with TYPEPARAM kind, since that type could be the basic typeparam T that comes from the enclosing generic function/method, or it could be be a type Baz[T], where Baz[T]\nis defined as\n\ntype Baz[T] T\n\nObviously, we use Baz[T] to attach new distinct methods to a type param.  (See similar example OrderedAbs[T] in test/typeparam/absdiff.go).\n\nSo, this change looks good.  (And we probably need to go through the code and check if we are handling the two possible cases correctly if needed in stencil.go.)   It\u0027s possible we could have a helper function that correctly chooses between t.Bound and t.AllMethods().  I can try to clean that up later.",
+      "parentUuid": "3d9b4954_2c0607c8",
+      "revId": "54d27b2587162b5abf455bfcc7baf8771f726b0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

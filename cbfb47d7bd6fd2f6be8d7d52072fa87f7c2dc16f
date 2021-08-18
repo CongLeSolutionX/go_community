@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73bf5e4c_f0be8fd8",
+        "filename": "test/typeparam/issue47708.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-18T12:28:05Z",
+      "side": 1,
+      "message": "Can you change all \u0027t\u0027 for the typeparams to capital \u0027T\u0027?\n\nAlso for readability for now, can you change the type name Foo to FooType or Fooer?   I.e. make it distinct from the function name \u0027Foo\u0027 in the interface?  Similarly for Bar below?",
+      "revId": "cbfb47d7bd6fd2f6be8d7d52072fa87f7c2dc16f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7c317a8_bcc7902e",
+        "filename": "test/typeparam/issue47708.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-18T12:28:05Z",
+      "side": 1,
+      "message": "Nit: are you missing a newline here?",
+      "revId": "cbfb47d7bd6fd2f6be8d7d52072fa87f7c2dc16f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
