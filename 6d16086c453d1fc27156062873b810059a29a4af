@@ -94,6 +94,24 @@
       "parentUuid": "03e3b458_cf05d83a",
       "revId": "6d16086c453d1fc27156062873b810059a29a4af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c446fde1_7b13dda1",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-18T05:45:41Z",
+      "side": 1,
+      "message": "If we leave types in signatset, then NeedRuntimeType will not add that type again to signatslice, and thus we\u0027ll never call writeType on it again. Doesn\u0027t that provide what you\u0027re looking for?",
+      "parentUuid": "62bdd221_827ff1fc",
+      "revId": "6d16086c453d1fc27156062873b810059a29a4af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
