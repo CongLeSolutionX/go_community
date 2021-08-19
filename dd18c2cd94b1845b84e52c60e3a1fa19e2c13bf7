@@ -148,6 +148,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9812d1cd_7143bb3c",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T18:08:20Z",
+      "side": 1,
+      "message": "Hmm, I think it does handle that case, because \"p \u003d \u0026x\" is handled at noder step (see noder.go:L774), thus \"x\" is mark addr taken + need stack object before we enter walk pass.",
+      "parentUuid": "34021772_f0ae38ab",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b275225f_02b0321c",
         "filename": "src/cmd/compile/internal/walk/walk.go",
         "patchSetId": 10
@@ -320,6 +338,24 @@
       "side": 1,
       "message": "Right, if the temp is a separate copy of x, we don\u0027t need to inherit x\u0027s markings.\nBut that\u0027s only safe if addrTemp really returns a new temporary. It doesn\u0027t always, so we have to be careful.",
       "parentUuid": "928ebbf7_d3701540",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6d0af9d_9e01afff",
+        "filename": "test/live.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T18:08:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b95a3fb1_c34cbf26",
       "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
