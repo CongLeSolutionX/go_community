@@ -341,6 +341,7 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 		switch x.mode {
 		default:
 			if kind == statement {
+				check.Inferred[s.X] = Inferred{Sig: x.typ.(*Signature), TArgs: x.typ.(*Signature).targs}
 				return
 			}
 			msg = "is not used"

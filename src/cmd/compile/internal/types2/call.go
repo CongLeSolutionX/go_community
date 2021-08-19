@@ -557,6 +557,8 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr) {
 			copy := *m
 			copy.typ = check.subst(e.Pos(), m.typ, makeSubstMap(sig.RParams().list(), targs))
 			obj = &copy
+			// FIXME
+			sig.targs = targs
 		}
 		// TODO(gri) we also need to do substitution for parameterized interface methods
 		//           (this breaks code in testdata/linalg.go2 at the moment)
