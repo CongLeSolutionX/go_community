@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "789e0ee8_9b560066",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T19:23:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a88fa692_dcaf6f31",
+      "revId": "19b6c4d8a994307bb020607d6071484300992c38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1055123_f3595ad0",
@@ -106,6 +124,24 @@
       "writtenOn": "2021-08-19T19:14:51Z",
       "side": 1,
       "message": "Both conditions are covered by\nif tmp.Op() \u003d\u003d ir.ONAME \u0026\u0026 tmp.Name().AutoTemp() {\ntmp.Name().SetAddrTakenNoStackObject()\n}\n\nAnd then without the comment.",
+      "revId": "19b6c4d8a994307bb020607d6071484300992c38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3be41a5a_e6b4e5d5",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T19:23:34Z",
+      "side": 1,
+      "message": "No, they\u0027re not equivalent. There\u0027s a case that n is not ONAME, but tmp is ONAME.",
+      "parentUuid": "d1055123_f3595ad0",
       "revId": "19b6c4d8a994307bb020607d6071484300992c38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
