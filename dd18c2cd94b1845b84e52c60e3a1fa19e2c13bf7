@@ -130,6 +130,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34021772_f0ae38ab",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-19T17:27:52Z",
+      "side": 1,
+      "message": "What about\n\nm[x] \u003d 5\np \u003d \u0026x\n\nThis correctly handles the map operation, marking x as AddrTaken but not NeedStackObject.  But when we get to p\u003d\u0026x we really want to mark x as needing a stack object. This code doesn\u0027t handle that correctly, I think.\n\nI think mapKeyArg needs to do something special to not mark the address operation it does with NeedStackObject.",
+      "parentUuid": "24bfe997_5a5663c8",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b275225f_02b0321c",
         "filename": "src/cmd/compile/internal/walk/walk.go",
         "patchSetId": 10
@@ -284,6 +302,24 @@
       "side": 1,
       "message": "I think this can be easily fixed. Currently, the autotmp get stack object, because I checked in order.go that:\n\n```\nif ov :\u003d ir.OuterValue(n); ov.Op() !\u003d ir.ONAME || !ov.Name().NeedStackObject() {\n\tif tmpOv :\u003d ir.OuterValue(tmp); tmpOv.Op() \u003d\u003d ir.ONAME {\n\t\ttmpOv.Name().SetAddrTakenNoStackObject()\n\t}\n}\n```\n\nSo here we see x get stack object (\u0026x passed to user function), so autotmp get stack object, too.\n\nWe can change the condition to:\n\n```\nif ov :\u003d ir.OuterValue(n); ov.Op() !\u003d ir.ONAME \u0026\u0026 ov.Name().AddrTaken()\n```\n\nso if x is addr taken, whether or not x get stack object, we can just set tmp with SetAddrTakenNoStackObject.",
       "parentUuid": "ff3a9755_91af21b2",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b95a3fb1_c34cbf26",
+        "filename": "test/live.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-19T17:27:52Z",
+      "side": 1,
+      "message": "Right, if the temp is a separate copy of x, we don\u0027t need to inherit x\u0027s markings.\nBut that\u0027s only safe if addrTemp really returns a new temporary. It doesn\u0027t always, so we have to be careful.",
+      "parentUuid": "928ebbf7_d3701540",
       "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
