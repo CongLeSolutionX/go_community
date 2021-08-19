@@ -45,7 +45,7 @@ func Instantiate(env *Environment, typ Type, targs []Type, validate bool) (Type,
 
 	var err error
 	if validate {
-		var tparams []*TypeName
+		var tparams []*TypeParam
 		switch t := typ.(type) {
 		case *Named:
 			tparams = t.TParams().list()
@@ -71,7 +71,7 @@ func (check *Checker) instantiation(pos token.Pos, typ Type, targs []Type, posLi
 	check.later(func() {
 		// Collect tparams again because lazily loaded *Named types may not have
 		// had tparams set up above.
-		var tparams []*TypeName
+		var tparams []*TypeParam
 		switch t := typ.(type) {
 		case *Named:
 			tparams = t.TParams().list()
@@ -149,7 +149,7 @@ func (check *Checker) instance(pos token.Pos, typ Type, targs []Type) (res Type)
 // substitute sets up and performs the substitution of typ with targs
 // substituted for tparams. If typMap is non-nil, it will be used in lieu of
 // check.typMap.
-func (check *Checker) substitute(pos token.Pos, typ Type, tparams []*TypeName, targs []Type, typMap map[string]*Named) (res Type) {
+func (check *Checker) substitute(pos token.Pos, typ Type, tparams []*TypeParam, targs []Type, typMap map[string]*Named) (res Type) {
 	// the number of supplied types must match the number of type parameters
 	if len(targs) != len(tparams) {
 		// TODO(gri) provide better error message
@@ -185,11 +185,11 @@ func (check *Checker) substitute(pos token.Pos, typ Type, tparams []*TypeName, t
 	return check.subst(pos, typ, makeSubstMap(tparams, targs), typMap)
 }
 
-func (check *Checker) verify(pos token.Pos, tparams []*TypeName, targs []Type) (int, error) {
+func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type) (int, error) {
 	smap := makeSubstMap(tparams, targs)
-	for i, tname := range tparams {
+	for i, tpar := range tparams {
 		// stop checking bounds after the first failure
-		if err := check.satisfies(pos, targs[i], tname.typ.(*TypeParam), smap); err != nil {
+		if err := check.satisfies(pos, targs[i], tpar, smap); err != nil {
 			return i, err
 		}
 	}
