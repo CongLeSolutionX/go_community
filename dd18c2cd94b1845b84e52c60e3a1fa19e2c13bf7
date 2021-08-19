@@ -112,6 +112,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24bfe997_5a5663c8",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T12:15:22Z",
+      "side": 1,
+      "message": "The problem is that we may set n addr taken before we generate \u0026n node. e.g in case of map key, in order.go:mapKeyTemp, we set the tmp key with SetAddrTakenNoStackObject, then in walk/expr.go:mapKeyArg, we generate node address there with typecheck.NodAddr",
+      "parentUuid": "24bfde0f_a4b89cc9",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b275225f_02b0321c",
         "filename": "src/cmd/compile/internal/walk/walk.go",
         "patchSetId": 10
@@ -159,6 +177,24 @@
       "side": 1,
       "message": "I think you would just need to not return for all of PAUTO, PPARAM, and PPARAMOUT.\nPAUTOHEAP is weird, I\u0027d have to think about that one. Maybe we need to mark the underlying PAUTO that points to it as well?",
       "parentUuid": "86ecda7b_a8fa9079",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d35c3acb_555e5bec",
+        "filename": "src/cmd/compile/internal/walk/walk.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T12:15:22Z",
+      "side": 1,
+      "message": "I added a TODO about handling PAUTOHEAP.\n\nDone",
+      "parentUuid": "35291946_eb375c4e",
       "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -230,6 +266,24 @@
       "side": 1,
       "message": "\u003e Here\u0027s the map assign, not map accesses, is that still applied?\n\nI think it is the same situation for both.\n\n\u003e But if p was set addr taken before, then call to SetAddrTakenNoStackObject won\u0027t turn the need nameNeedStackObject from false to true, thus I think we are safe?\n\nYes, it is safe. That\u0027s not what I was trying to describe. Here I was just trying to figure out if it ever happens that we\n 1) take the address of a variable, that the user uses\n 2) take the address of that same variable, for map operations\n\nI think my example in this comment thread demonstrates that yes, that can happen. But it requires some convoluted coding. I\u0027m surprised that it doesn\u0027t happen in the example in this test file. Why does the compiler not just pass \u0026x to the map operation in line 732? (Not to resolve in this CL, except that this test isn\u0027t testing this CL, as the variables are different.)",
       "parentUuid": "325f78a0_42d2aa46",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "928ebbf7_d3701540",
+        "filename": "test/live.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T12:15:22Z",
+      "side": 1,
+      "message": "I think this can be easily fixed. Currently, the autotmp get stack object, because I checked in order.go that:\n\n```\nif ov :\u003d ir.OuterValue(n); ov.Op() !\u003d ir.ONAME || !ov.Name().NeedStackObject() {\n\tif tmpOv :\u003d ir.OuterValue(tmp); tmpOv.Op() \u003d\u003d ir.ONAME {\n\t\ttmpOv.Name().SetAddrTakenNoStackObject()\n\t}\n}\n```\n\nSo here we see x get stack object (\u0026x passed to user function), so autotmp get stack object, too.\n\nWe can change the condition to:\n\n```\nif ov :\u003d ir.OuterValue(n); ov.Op() !\u003d ir.ONAME \u0026\u0026 ov.Name().AddrTaken()\n```\n\nso if x is addr taken, whether or not x get stack object, we can just set tmp with SetAddrTakenNoStackObject.",
+      "parentUuid": "ff3a9755_91af21b2",
       "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
