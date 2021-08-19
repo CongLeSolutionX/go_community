@@ -107,6 +107,23 @@
       "message": "I don\u0027t think this is really refactoring. You are changing how the V/VS/FP registers are accepted and recognized by the assembler for the cases where the registers overlap.\n\nYou say you are exploiting the fact they overlap but don\u0027t say in what way.\n\nI would omit the comment about the mapping of 6 bits and put that in the comments of the code because that is a low level detail.\n\n",
       "revId": "59d60d04f24257629af3d9244ea45dc5505463f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90f5e010_271caf98",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3528,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-08-19T20:27:52Z",
+      "side": 1,
+      "message": "This statement seems confusing without knowing the tricks you are playing with the register numbering. Could you either add a define for REG_VS0 that has the same value as REG_F0 or add a comment explaining how the numbering has changed so that REG_F0 and REG_VS0 now represent the same register and is encoded appropriately in the final instruction.",
+      "revId": "59d60d04f24257629af3d9244ea45dc5505463f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
