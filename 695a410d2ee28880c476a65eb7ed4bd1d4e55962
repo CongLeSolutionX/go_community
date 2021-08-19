@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4fe8db_f3558121",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T15:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91f57749_7f7f788e",
+      "revId": "695a410d2ee28880c476a65eb7ed4bd1d4e55962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01dcbf3f_ad93381e",
@@ -87,6 +105,30 @@
       "writtenOn": "2021-08-19T15:28:25Z",
       "side": 1,
       "message": "len(signats)\n\nThen we don\u0027t need n.",
+      "range": {
+        "startLine": 1260,
+        "startChar": 28,
+        "endLine": 1260,
+        "endChar": 29
+      },
+      "revId": "695a410d2ee28880c476a65eb7ed4bd1d4e55962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bac9b043_d2130444",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T15:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01dcbf3f_ad93381e",
       "range": {
         "startLine": 1260,
         "startChar": 28,
