@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4444a1c8_80b9dd24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-08-19T09:10:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb8b0a8b_878fc44e",
+      "revId": "1896dfac1c430f8afd97bd4e142ce17f7873218c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2d3ac26_8cb5bc29",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-08-11T11:22:38Z",
       "side": 1,
       "message": "nit: this last sentence spans six lines, it\u0027s too long. For example, consider:\n\nDoing so sets a bad precedent that it\u0027s OK to export methods to indicate\nan internal public API.\nThat\u0027s not a good idea in general,\nbecause exported methods increase cognitive load when reading code;\nthe reader needs to consider whether the exported method\nmight be used via some external interface or reflection.",
+      "revId": "1896dfac1c430f8afd97bd4e142ce17f7873218c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "272cf55c_71a7905f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-08-19T09:10:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2d3ac26_8cb5bc29",
       "revId": "1896dfac1c430f8afd97bd4e142ce17f7873218c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
