@@ -22,6 +22,30 @@
       },
       "revId": "b546dedc54b45dc6e6c9ce811af27b38857bf8d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a952aca_d5f48ec8",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-08-19T08:28:16Z",
+      "side": 1,
+      "message": "But checkptr also adds its own instrumentation, which may not fully match ASan semantics. There is a point not to change Checkptr at all.\n\nMakes sense. \nDirectly check whether asan is enabled, treat conversions to unsafe.Pointer as an escaping operation, without setting checkptr. Thank you.",
+      "parentUuid": "36121775_abce2732",
+      "range": {
+        "startLine": 242,
+        "startChar": 9,
+        "endLine": 242,
+        "endChar": 18
+      },
+      "revId": "b546dedc54b45dc6e6c9ce811af27b38857bf8d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
