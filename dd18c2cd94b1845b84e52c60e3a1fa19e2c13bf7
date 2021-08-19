@@ -358,6 +358,24 @@
       "parentUuid": "b95a3fb1_c34cbf26",
       "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a157eb8_30e35454",
+        "filename": "test/live.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-19T18:45:14Z",
+      "side": 1,
+      "message": "Another case is that if \"tmp \u003d\u003d n\", but n itself is an autotmp, then we can make tmp as SetAddrTakenNoStackObject, too.",
+      "parentUuid": "c6d0af9d_9e01afff",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
