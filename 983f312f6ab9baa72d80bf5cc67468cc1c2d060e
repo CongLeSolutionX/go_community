@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e0c316c_65921947",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-08-19T17:17:12Z",
+      "side": 1,
+      "message": "times",
+      "range": {
+        "startLine": 615,
+        "startChar": 48,
+        "endLine": 615,
+        "endChar": 53
+      },
+      "revId": "983f312f6ab9baa72d80bf5cc67468cc1c2d060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e11fca18_7725a796",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-08-19T17:17:12Z",
+      "side": 1,
+      "message": "This wording is somewhat hard for me to parse, perhaps something like this might be a bit more clear?\n  \n  Each byte represents a single basic execution block. Each set bit within the\n  byte indicates that an input has triggered that block at least 1 \u003c\u003c n times,\n  where n is the position of the bit in the byte. For example, a value of 12\n  indicates that separate inputs have triggered this block between 4-7 times and\n  8-15 times.\n  \nAlso it probably makes sense to move this documentation to the\ncoordinator.coverageMask field.",
+      "range": {
+        "startLine": 613,
+        "startChar": 3,
+        "endLine": 615,
+        "endChar": 77
+      },
+      "revId": "983f312f6ab9baa72d80bf5cc67468cc1c2d060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa1f078f_1f816d1b",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-08-19T17:17:12Z",
+      "side": 1,
+      "message": "Is this doing the right thing? This seems like it\u0027d only catch inputs with bits already in the coverage mask, rather than new bits.",
+      "revId": "983f312f6ab9baa72d80bf5cc67468cc1c2d060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
