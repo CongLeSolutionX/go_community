@@ -16,6 +16,24 @@
       "message": "p[T] -\u003e P[T]\n\nThanks for adding the extra comment!\n\nLooks good after fixing that.",
       "revId": "cccbaaf5dfbe73ccb72e9651a42ac43b544cd037",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54a134c3_f0fafb3f",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-08-19T14:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30a4b083_caebe2df",
+      "revId": "cccbaaf5dfbe73ccb72e9651a42ac43b544cd037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
