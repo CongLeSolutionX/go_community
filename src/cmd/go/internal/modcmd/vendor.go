@@ -64,6 +64,7 @@ func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	opts := modload.Opts{
 		ForceUseModules: true,
 		RootMode:        modload.NeedRoot,
+		ForceBuildMod:   "readonly",
 	}
 	modState, err := modload.Init(opts)
 	if err != nil {
@@ -141,7 +142,7 @@ func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 
 		goVersion := ""
 		if includeGoVersions {
-			goVersion = modload.ModuleInfo(ctx, m.Path).GoVersion
+			goVersion = modload.ModuleInfo(ctx, modState, m.Path).GoVersion
 		}
 		switch {
 		case isExplicit[m] && goVersion != "":

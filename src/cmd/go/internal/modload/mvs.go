@@ -38,6 +38,7 @@ func cmpVersion(v1, v2 string) int {
 // mvsReqs implements mvs.Reqs for module semantic versions,
 // with any exclusions or replacements applied internally.
 type mvsReqs struct {
+	state *State
 	roots []module.Version
 }
 
@@ -52,7 +53,7 @@ func (r *mvsReqs) Required(mod module.Version) ([]module.Version, error) {
 		return nil, nil
 	}
 
-	summary, err := goModSummary(mod)
+	summary, err := goModSummary(r.state, mod)
 	if err != nil {
 		return nil, err
 	}
