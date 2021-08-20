@@ -166,6 +166,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d3b748f_0a9a0310",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-20T15:49:30Z",
+      "side": 1,
+      "message": "Ok, so we\u0027re depending on all the user\u0027s addrtaken operations to be marked before any autotmps are marked. That sounds quite fragile. I think we\u0027d want a mode (kind of like IncrementalAddrTaken) to make sure that we don\u0027t introduce anything that requires stack objects after noder(?).",
+      "parentUuid": "9812d1cd_7143bb3c",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b275225f_02b0321c",
         "filename": "src/cmd/compile/internal/walk/walk.go",
         "patchSetId": 10
