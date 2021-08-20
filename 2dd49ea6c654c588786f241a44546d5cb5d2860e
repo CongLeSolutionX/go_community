@@ -71,6 +71,24 @@
       "parentUuid": "cb6dac90_9291e67f",
       "revId": "2dd49ea6c654c588786f241a44546d5cb5d2860e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f3d696f_c2e6803e",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-20T19:07:54Z",
+      "side": 1,
+      "message": "That\u0027s why I said in the \"existing code\" - which is what I have on my machine. Just wanted to verify that we don\u0027t actually call Instantiate with a Checker (but for types2\u0027s unified importer).\n\nI\u0027m ok with this change for now.",
+      "parentUuid": "305eefc5_89b85bbe",
+      "revId": "2dd49ea6c654c588786f241a44546d5cb5d2860e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
