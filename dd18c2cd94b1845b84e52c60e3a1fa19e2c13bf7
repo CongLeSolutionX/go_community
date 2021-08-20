@@ -184,6 +184,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ac25c2f_2779d489",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-20T17:38:24Z",
+      "side": 1,
+      "message": "Is it safe to always use SetAddrTakenNoStackObject after noder?\n\nI tried it out, and the following test now does not show stack object for autotmp anymore:\n\n```\nfunc f11a() *int {\n\tselect { // ERROR \"stack object .autotmp_[0-9]+ \\[2\\]struct\"\n\tcase \u003c-c:\n\t\treturn nil\n\tcase \u003c-c:\n\t\treturn nil\n\t}\n}\n```\n\nI think we still need liveness track here right? (I think the problem is that this CL currently only call markArgAlive for map operation, I think we need to apply it to all builtin call, so this stack object will turn to live at call)",
+      "parentUuid": "2d3b748f_0a9a0310",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b275225f_02b0321c",
         "filename": "src/cmd/compile/internal/walk/walk.go",
         "patchSetId": 10
