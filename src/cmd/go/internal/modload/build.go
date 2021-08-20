@@ -51,7 +51,7 @@ func findStandardImportPath(path string) string {
 // a given package. If modules are not enabled or if the package is in the
 // standard library or if the package was not successfully loaded with
 // LoadPackages or ImportFromFiles, nil is returned.
-func PackageModuleInfo(ctx context.Context, pkgpath string) *modinfo.ModulePublic {
+func PackageModuleInfo(ctx context.Context, state *State, pkgpath string) *modinfo.ModulePublic {
 	if isStandardImportPath(pkgpath) {
 		return nil
 	}
@@ -60,17 +60,17 @@ func PackageModuleInfo(ctx context.Context, pkgpath string) *modinfo.ModulePubli
 		return nil
 	}
 
-	rs := LoadModFile(ctx)
-	return moduleInfo(ctx, rs, m, 0)
+	rs := LoadModFile(ctx, state)
+	return moduleInfo(ctx, state, rs, m, 0)
 }
 
-func ModuleInfo(ctx context.Context, path string) *modinfo.ModulePublic {
+func ModuleInfo(ctx context.Context, state *State, path string) *modinfo.ModulePublic {
 	if i := strings.Index(path, "@"); i >= 0 {
 		m := module.Version{Path: path[:i], Version: path[i+1:]}
-		return moduleInfo(ctx, nil, m, 0)
+		return moduleInfo(ctx, state, nil, m, 0)
 	}
 
-	rs := LoadModFile(ctx)
+	rs := LoadModFile(ctx, state)
 
 	var (
 		v  string
@@ -80,7 +80,7 @@ func ModuleInfo(ctx context.Context, path string) *modinfo.ModulePublic {
 		v, ok = rs.rootSelected(path)
 	}
 	if !ok {
-		mg, err := rs.Graph(ctx)
+		mg, err := rs.Graph(ctx, state)
 		if err != nil {
 			base.Fatalf("go: %v", err)
 		}
@@ -96,7 +96,7 @@ func ModuleInfo(ctx context.Context, path string) *modinfo.ModulePublic {
 		}
 	}
 
-	return moduleInfo(ctx, rs, module.Version{Path: path, Version: v}, 0)
+	return moduleInfo(ctx, state, rs, module.Version{Path: path, Version: v}, 0)
 }
 
 // addUpdate fills in m.Update if an updated version is available.
@@ -207,7 +207,7 @@ func addDeprecation(ctx context.Context, m *modinfo.ModulePublic) {
 // moduleInfo returns information about module m, loaded from the requirements
 // in rs (which may be nil to indicate that m was not loaded from a requirement
 // graph).
-func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode ListMode) *modinfo.ModulePublic {
+func moduleInfo(ctx context.Context, state *State, rs *Requirements, m module.Version, mode ListMode) *modinfo.ModulePublic {
 	if m.Version == "" && MainModules.Contains(m.Path) {
 		info := &modinfo.ModulePublic{
 			Path:    m.Path,
@@ -238,12 +238,14 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 	// completeFromModCache fills in the extra fields in m using the module cache.
 	completeFromModCache := func(m *modinfo.ModulePublic, replacedFrom string) {
 		checksumOk := func(suffix string) bool {
-			return rs == nil || m.Version == "" || cfg.BuildMod == "mod" ||
+			return rs == nil || m.Version == "" || state.Mod == "mod" ||
 				modfetch.HaveSum(module.Version{Path: m.Path, Version: m.Version + suffix})
 		}
 
 		if m.Version != "" {
-			if q, err := Query(ctx, m.Path, m.Version, "", nil); err != nil {
+			if state.Mod == "vendor" {
+				m.Error = &modinfo.ModuleError{Err: newQueryDisabledError(state, "load module info").Error()}
+			} else if q, err := Query(ctx, m.Path, m.Version, "", nil); err != nil {
 				m.Error = &modinfo.ModuleError{Err: err.Error()}
 			} else {
 				m.Version = q.Version
@@ -291,7 +293,7 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 
 	r, replacedFrom := Replacement(m)
 	if r.Path == "" {
-		if cfg.BuildMod == "vendor" {
+		if state.Mod == "vendor" {
 			// It's tempting to fill in the "Dir" field to point within the vendor
 			// directory, but that would be misleading: the vendor directory contains
 			// a flattened package tree, not complete modules, and it can even
@@ -322,7 +324,7 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 		}
 		info.Replace.GoMod = filepath.Join(info.Replace.Dir, "go.mod")
 	}
-	if cfg.BuildMod != "vendor" {
+	if state.Mod != "vendor" {
 		completeFromModCache(info.Replace, replacedFrom)
 		info.Dir = info.Replace.Dir
 		info.GoMod = info.Replace.GoMod

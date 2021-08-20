@@ -59,7 +59,7 @@ func AddBuildFlagsNX(flags *flag.FlagSet) {
 
 // AddModFlag adds the -mod build flag to the flag set.
 func AddModFlag(flags *flag.FlagSet) {
-	flags.Var(explicitStringFlag{value: &cfg.BuildMod, explicit: &cfg.BuildModExplicit}, "mod", "")
+	flags.StringVar(&cfg.BuildMod, "mod", "", "")
 }
 
 // AddWorkfileFlag adds the workfile flag to the flag set. It enables workspace

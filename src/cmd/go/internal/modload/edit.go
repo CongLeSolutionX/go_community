@@ -36,8 +36,8 @@ import (
 // get', and the versions in tryUpgrade are transitive dependencies that are
 // either being upgraded by 'go get -u' or being added to satisfy some
 // otherwise-missing package import.
-func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSelect []module.Version) (edited *Requirements, changed bool, err error) {
-	limiter, err := limiterForEdit(ctx, rs, tryUpgrade, mustSelect)
+func editRequirements(ctx context.Context, state *State, rs *Requirements, tryUpgrade, mustSelect []module.Version) (edited *Requirements, changed bool, err error) {
+	limiter, err := limiterForEdit(ctx, state, rs, tryUpgrade, mustSelect)
 	if err != nil {
 		return rs, false, err
 	}
@@ -63,7 +63,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 		return rs, false, &ConstraintError{Conflicts: conflicts}
 	}
 
-	mods, changed, err := selectPotentiallyImportedModules(ctx, limiter, rs, tryUpgrade)
+	mods, changed, err := selectPotentiallyImportedModules(ctx, state, limiter, rs, tryUpgrade)
 	if err != nil {
 		return rs, false, err
 	}
@@ -98,7 +98,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 			}
 		}
 
-		roots, err = mvs.Req(MainModules.mustGetSingleMainModule(), rootPaths, &mvsReqs{roots: mods})
+		roots, err = mvs.Req(MainModules.mustGetSingleMainModule(), rootPaths, &mvsReqs{state: state, roots: mods})
 		if err != nil {
 			return nil, false, err
 		}
@@ -136,8 +136,8 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 // of its path found in the dependency graph of rs, the combined dependency
 // graph of the versions in mustSelect, or the dependencies of each individual
 // module version in tryUpgrade.
-func limiterForEdit(ctx context.Context, rs *Requirements, tryUpgrade, mustSelect []module.Version) (*versionLimiter, error) {
-	mg, err := rs.Graph(ctx)
+func limiterForEdit(ctx context.Context, state *State, rs *Requirements, tryUpgrade, mustSelect []module.Version) (*versionLimiter, error) {
+	mg, err := rs.Graph(ctx, state)
 	if err != nil {
 		return nil, err
 	}
@@ -177,7 +177,7 @@ func limiterForEdit(ctx context.Context, rs *Requirements, tryUpgrade, mustSelec
 		}
 	}
 
-	if err := raiseLimitsForUpgrades(ctx, maxVersion, rs.pruning, tryUpgrade, mustSelect); err != nil {
+	if err := raiseLimitsForUpgrades(ctx, state, maxVersion, rs.pruning, tryUpgrade, mustSelect); err != nil {
 		return nil, err
 	}
 
@@ -187,7 +187,7 @@ func limiterForEdit(ctx context.Context, rs *Requirements, tryUpgrade, mustSelec
 		restrictTo(m)
 	}
 
-	return newVersionLimiter(rs.pruning, maxVersion), nil
+	return newVersionLimiter(state, rs.pruning, maxVersion), nil
 }
 
 // raiseLimitsForUpgrades increases the module versions in maxVersions to the
@@ -202,7 +202,7 @@ func limiterForEdit(ctx context.Context, rs *Requirements, tryUpgrade, mustSelec
 // These limits provide an upper bound on how far a module may be upgraded as
 // part of an incidental downgrade, if downgrades are needed in order to select
 // the versions in mustSelect.
-func raiseLimitsForUpgrades(ctx context.Context, maxVersion map[string]string, pruning modPruning, tryUpgrade []module.Version, mustSelect []module.Version) error {
+func raiseLimitsForUpgrades(ctx context.Context, state *State, maxVersion map[string]string, pruning modPruning, tryUpgrade []module.Version, mustSelect []module.Version) error {
 	// allow raises the limit for m.Path to at least m.Version.
 	// If m.Path was already unrestricted, it remains unrestricted.
 	allow := func(m module.Version) {
@@ -251,7 +251,7 @@ func raiseLimitsForUpgrades(ctx context.Context, maxVersion map[string]string, p
 
 			allow(m)
 
-			summary, err := goModSummary(m)
+			summary, err := goModSummary(state, m)
 			if err != nil {
 				return err
 			}
@@ -291,7 +291,7 @@ func raiseLimitsForUpgrades(ctx context.Context, maxVersion map[string]string, p
 		// and since we have a large dependency graph to scan we might get
 		// a significant benefit from not revisiting dependencies that are at
 		// common versions among multiple upgrades.
-		upgradeGraph, err := readModGraph(ctx, unpruned, unprunedUpgrades)
+		upgradeGraph, err := readModGraph(ctx, state, unpruned, unprunedUpgrades)
 		if err != nil {
 			// Compute the requirement path from a module path in tryUpgrade to the
 			// error, and the requirement path (if any) from rs.rootModules to the
@@ -314,7 +314,7 @@ func raiseLimitsForUpgrades(ctx context.Context, maxVersion map[string]string, p
 		rs := newRequirements(pruning, nextRoots, nil)
 		nextRoots = nil
 
-		rs, mustGraph, err := expandGraph(ctx, rs)
+		rs, mustGraph, err := expandGraph(ctx, state, rs)
 		if err != nil {
 			return err
 		}
@@ -357,7 +357,7 @@ func raiseLimitsForUpgrades(ctx context.Context, maxVersion map[string]string, p
 // It returns the list of module versions selected by the limiter, sorted by
 // path, along with a boolean indicating whether that list is different from the
 // list of modules read from rs.
-func selectPotentiallyImportedModules(ctx context.Context, limiter *versionLimiter, rs *Requirements, tryUpgrade []module.Version) (mods []module.Version, changed bool, err error) {
+func selectPotentiallyImportedModules(ctx context.Context, state *State, limiter *versionLimiter, rs *Requirements, tryUpgrade []module.Version) (mods []module.Version, changed bool, err error) {
 	for _, m := range tryUpgrade {
 		if err := limiter.UpgradeToward(ctx, m); err != nil {
 			return nil, false, err
@@ -366,7 +366,7 @@ func selectPotentiallyImportedModules(ctx context.Context, limiter *versionLimit
 
 	var initial []module.Version
 	if rs.pruning == unpruned {
-		mg, err := rs.Graph(ctx)
+		mg, err := rs.Graph(ctx, state)
 		if err != nil {
 			return nil, false, err
 		}
@@ -392,7 +392,7 @@ func selectPotentiallyImportedModules(ctx context.Context, limiter *versionLimit
 	// downgraded module may require a higher (but still allowed) version of
 	// another. The lower version may require extraneous dependencies that aren't
 	// actually relevant, so we need to compute the actual selected versions.
-	mg, err := readModGraph(ctx, rs.pruning, mods)
+	mg, err := readModGraph(ctx, state, rs.pruning, mods)
 	if err != nil {
 		return nil, false, err
 	}
@@ -414,6 +414,8 @@ func selectPotentiallyImportedModules(ctx context.Context, limiter *versionLimit
 // A versionLimiter tracks the versions that may be selected for each module
 // subject to constraints on the maximum versions of transitive dependencies.
 type versionLimiter struct {
+	state *State
+
 	// pruning is the pruning at which the dependencies of the modules passed to
 	// Select and UpgradeToward are loaded.
 	pruning modPruning
@@ -478,12 +480,13 @@ func (dq dqState) isDisqualified() bool {
 // If module graph pruning is in effect, then if a module passed to
 // UpgradeToward or Select supports pruning, its unrestricted dependencies are
 // skipped when scanning requirements.
-func newVersionLimiter(pruning modPruning, max map[string]string) *versionLimiter {
+func newVersionLimiter(state *State, pruning modPruning, max map[string]string) *versionLimiter {
 	selected := make(map[string]string)
 	for _, m := range MainModules.Versions() {
 		selected[m.Path] = m.Version
 	}
 	return &versionLimiter{
+		state:     state,
 		pruning:   pruning,
 		max:       max,
 		selected:  selected,
@@ -575,7 +578,7 @@ func (l *versionLimiter) check(m module.Version, pruning modPruning) dqState {
 		return l.disqualify(m, dqState{conflict: m})
 	}
 
-	summary, err := goModSummary(m)
+	summary, err := goModSummary(l.state, m)
 	if err != nil {
 		// If we can't load the requirements, we couldn't load the go.mod file.
 		// There are a number of reasons this can happen, but this usually

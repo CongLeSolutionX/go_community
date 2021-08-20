@@ -111,6 +111,7 @@ func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 	opts := modload.Opts{
 		ForceUseModules: true,
 		RootMode:        modload.NeedRoot,
+		ForceBuildMod:   "mod",
 	}
 	modState, err := modload.Init(opts)
 	if err != nil {
@@ -129,7 +130,7 @@ func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 		AllowErrors:              tidyE,
 		SilenceMissingStdImports: true,
 	}, "all")
-	if err := modload.WriteGoMod(ctx); err != nil {
+	if err := modload.WriteGoMod(ctx, modState); err != nil {
 		base.Fatalf("go: %v", err)
 	}
 }

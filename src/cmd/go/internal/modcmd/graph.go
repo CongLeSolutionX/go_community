@@ -52,13 +52,16 @@ func runGraph(ctx context.Context, cmd *base.Command, args []string) {
 		base.Fatalf("go: graph takes no arguments")
 	}
 	opts := modload.Opts{
-		ForceUseModules: true,
-		RootMode:        modload.NeedRoot,
+		ForceUseModules:    true,
+		RootMode:           modload.NeedRoot,
+		ForceBuildMod:      "mod", // fetch files without hashes in go.sum, but we won't write go.mod or go.sum.
+		DontAddGoDirective: true,
 	}
-	if _, err := modload.Init(opts); err != nil {
+	modState, err := modload.Init(opts)
+	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
-	mg := modload.LoadModGraph(ctx, graphGo.String())
+	mg := modload.LoadModGraph(ctx, modState, graphGo.String())
 
 	w := bufio.NewWriter(os.Stdout)
 	defer w.Flush()

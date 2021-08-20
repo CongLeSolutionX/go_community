@@ -84,7 +84,7 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 		// for -race and -msan.
 		opts.ForceUseModules = true
 		opts.RootMode = modload.NoRoot
-		modload.AllowMissingModuleImports()
+		opts.ForceBuildMod = "mod"
 	}
 	modState, err := modload.Init(opts)
 	if err != nil {
@@ -140,7 +140,7 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 		base.Fatalf("go: no go files listed")
 	}
 	if modState != nil && modload.HasModRoot() {
-		if err := modload.WriteGoMod(ctx); err != nil {
+		if err := modload.WriteGoMod(ctx, modState); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}

@@ -280,8 +280,8 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 
 	// Allow looking up modules for import paths when outside of a module.
 	// 'go get' is expected to do this, unlike other commands.
-	modload.AllowMissingModuleImports()
-	modState, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{ForceBuildMod: "mod"}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
@@ -422,7 +422,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	// Everything succeeded. Update go.mod.
 	oldReqs := reqsFromGoMod(modload.ModFile())
 
-	if err := modload.WriteGoMod(ctx); err != nil {
+	if err := modload.WriteGoMod(ctx, modState); err != nil {
 		base.Fatalf("go: %v", err)
 	}
 
@@ -510,7 +510,7 @@ func newResolver(ctx context.Context, modState *modload.State, queries []*query)
 	// LoadModGraph also sets modload.Target, which is needed by various resolver
 	// methods.
 	const defaultGoVersion = ""
-	mg := modload.LoadModGraph(ctx, defaultGoVersion)
+	mg := modload.LoadModGraph(ctx, modState, defaultGoVersion)
 
 	buildList := mg.BuildList()
 	initialVersion := make(map[string]string, len(buildList))
@@ -602,7 +602,7 @@ func (r *resolver) queryModule(ctx context.Context, mPath, query string, selecte
 // queryPackage wraps modload.QueryPackage, substituting r.checkAllowedOr to
 // decide allowed versions.
 func (r *resolver) queryPackages(ctx context.Context, pattern, query string, selected func(string) string) (pkgMods []module.Version, err error) {
-	results, err := modload.QueryPackages(ctx, pattern, query, selected, r.checkAllowedOr(query, selected))
+	results, err := modload.QueryPackages(ctx, r.modState, pattern, query, selected, r.checkAllowedOr(query, selected))
 	if len(results) > 0 {
 		pkgMods = make([]module.Version, 0, len(results))
 		for _, qr := range results {
@@ -615,7 +615,7 @@ func (r *resolver) queryPackages(ctx context.Context, pattern, query string, sel
 // queryPattern wraps modload.QueryPattern, substituting r.checkAllowedOr to
 // decide allowed versions.
 func (r *resolver) queryPattern(ctx context.Context, pattern, query string, selected func(string) string) (pkgMods []module.Version, mod module.Version, err error) {
-	results, modOnly, err := modload.QueryPattern(ctx, pattern, query, selected, r.checkAllowedOr(query, selected))
+	results, modOnly, err := modload.QueryPattern(ctx, r.modState, pattern, query, selected, r.checkAllowedOr(query, selected))
 	if len(results) > 0 {
 		pkgMods = make([]module.Version, 0, len(results))
 		for _, qr := range results {
@@ -654,7 +654,7 @@ func (r *resolver) matchInModule(ctx context.Context, pattern string, m module.V
 	}
 
 	e := r.matchInModuleCache.Do(key{pattern, m}, func() interface{} {
-		match := modload.MatchInModule(ctx, pattern, m, imports.AnyTags())
+		match := modload.MatchInModule(ctx, r.modState, pattern, m, imports.AnyTags())
 		if len(match.Errs) > 0 {
 			return entry{match.Pkgs, match.Errs[0]}
 		}
@@ -738,7 +738,7 @@ func (r *resolver) performLocalQueries(ctx context.Context) {
 				return errSet(fmt.Errorf("%s%s is not within module%s rooted at %s", q.pattern, absDetail, plural, strings.Join(modRoots, ", ")))
 			}
 
-			match := modload.MatchInModule(ctx, pkgPattern, mainModule, imports.AnyTags())
+			match := modload.MatchInModule(ctx, r.modState, pkgPattern, mainModule, imports.AnyTags())
 			if len(match.Errs) > 0 {
 				return pathSet{err: match.Errs[0]}
 			}
@@ -1564,7 +1564,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 		}
 	}
 
-	reqs := modload.LoadModFile(ctx)
+	reqs := modload.LoadModFile(ctx, r.modState)
 	for m := range relevantMods {
 		if reqs.IsDirect(m.Path) {
 			relevantMods[m] |= direct
@@ -1800,7 +1800,7 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 		}
 	}
 
-	changed, err := modload.EditBuildList(ctx, additions, resolved)
+	changed, err := modload.EditBuildList(ctx, r.modState, additions, resolved)
 	if err != nil {
 		var constraint *modload.ConstraintError
 		if !errors.As(err, &constraint) {
@@ -1825,7 +1825,7 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 	}
 
 	const defaultGoVersion = ""
-	r.buildList = modload.LoadModGraph(ctx, defaultGoVersion).BuildList()
+	r.buildList = modload.LoadModGraph(ctx, r.modState, defaultGoVersion).BuildList()
 	r.buildListVersion = make(map[string]string, len(r.buildList))
 	for _, m := range r.buildList {
 		r.buildListVersion[m.Path] = m.Version

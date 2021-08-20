@@ -40,7 +40,7 @@ func runFix(ctx context.Context, cmd *base.Command, args []string) {
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{ModState: modState}, args)
 	// TODO(#45551): report an error if go.mod or go.sum need to be updated.
 	if modState != nil {
-		if err := modload.WriteGoMod(ctx); err != nil {
+		if err := modload.WriteGoMod(ctx, modState); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}

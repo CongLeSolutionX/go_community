@@ -52,8 +52,10 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 	opts := modload.Opts{
 		ForceUseModules: true,
 		RootMode:        modload.NeedRoot,
+		ForceBuildMod:   "mod", // fetch files without hashes in go.sum, but we won't write go.mod or go.sum.
 	}
-	if _, err := modload.Init(opts); err != nil {
+	modState, err := modload.Init(opts)
+	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
 
@@ -63,7 +65,7 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 
 	// Use a slice of result channels, so that the output is deterministic.
 	const defaultGoVersion = ""
-	mods := modload.LoadModGraph(ctx, defaultGoVersion).BuildList()[1:]
+	mods := modload.LoadModGraph(ctx, modState, defaultGoVersion).BuildList()[1:]
 	errsChans := make([]<-chan []error, len(mods))
 
 	for i, mod := range mods {

@@ -34,6 +34,10 @@ type ImportMissingError struct {
 
 	ImportingMainModule module.Version
 
+	// suppressHint skips adding 'go get' and other command hints to the error
+	// message. Set when missing imports should not be resolved.
+	suppressHint bool
+
 	// isStd indicates whether we would expect to find the package in the standard
 	// library. This is normally true for all dotless import paths, but replace
 	// directives can cause us to treat the replaced paths as also being in
@@ -57,9 +61,6 @@ func (e *ImportMissingError) Error() string {
 		if e.QueryErr != nil && e.QueryErr != ErrNoModRoot {
 			return fmt.Sprintf("cannot find module providing package %s: %v", e.Path, e.QueryErr)
 		}
-		if cfg.BuildMod == "mod" || (cfg.BuildMod == "readonly" && allowMissingModuleImports) {
-			return "cannot find module providing package " + e.Path
-		}
 
 		if e.replaced.Path != "" {
 			suggestArg := e.replaced.Path
@@ -69,6 +70,9 @@ func (e *ImportMissingError) Error() string {
 			return fmt.Sprintf("module %s provides package %s and is replaced but not required; to add it:\n\tgo get %s", e.replaced.Path, e.Path, suggestArg)
 		}
 
+		if e.suppressHint {
+			return fmt.Sprintf("cannot find module providing package %s", e.Path)
+		}
 		message := fmt.Sprintf("no required module provides package %s", e.Path)
 		if e.QueryErr != nil {
 			return fmt.Sprintf("%s: %v", message, e.QueryErr)
@@ -243,7 +247,7 @@ func (e *invalidImportError) Unwrap() error {
 //
 // If the package is not present in any module selected from the requirement
 // graph, importFromModules returns an *ImportMissingError.
-func importFromModules(ctx context.Context, path string, rs *Requirements, mg *ModuleGraph) (m module.Version, dir string, err error) {
+func importFromModules(ctx context.Context, state *State, path string, rs *Requirements, mg *ModuleGraph) (m module.Version, dir string, err error) {
 	if strings.Contains(path, "@") {
 		return module.Version{}, "", fmt.Errorf("import path should not have @version")
 	}
@@ -277,7 +281,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 
 	// -mod=vendor is special.
 	// Everything must be in the main module or the main module's vendor directory.
-	if cfg.BuildMod == "vendor" {
+	if state.Mod == "vendor" {
 		mainModule := MainModules.mustGetSingleMainModule()
 		modRoot := MainModules.ModRoot(mainModule)
 		mainDir, mainOK, mainErr := dirInModule(path, MainModules.PathPrefix(mainModule), modRoot, true)
@@ -333,7 +337,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 			m := module.Version{Path: prefix, Version: v}
 
 			needSum := true
-			root, isLocal, err := fetch(ctx, m, needSum)
+			root, isLocal, err := fetch(ctx, state, m, needSum)
 			if err != nil {
 				if sumErr := (*sumMissingError)(nil); errors.As(err, &sumErr) {
 					// We are missing a sum needed to fetch a module in the build list.
@@ -392,7 +396,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 			// We checked the full module graph and still didn't find the
 			// requested package.
 			var queryErr error
-			if !HasModRoot() {
+			if !HasModRoot() && state.RootMode != NoRoot {
 				queryErr = ErrNoModRoot
 			}
 			return module.Version{}, "", &ImportMissingError{Path: path, QueryErr: queryErr, isStd: pathIsStd}
@@ -400,7 +404,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 
 		// So far we've checked the root dependencies.
 		// Load the full module graph and try again.
-		mg, err = rs.Graph(ctx)
+		mg, err = rs.Graph(ctx, state)
 		if err != nil {
 			// We might be missing one or more transitive (implicit) dependencies from
 			// the module graph, so we can't return an ImportMissingError here — one
@@ -416,7 +420,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 //
 // Unlike QueryPattern, queryImport prefers to add a replaced version of a
 // module *before* checking the proxies for a version to add.
-func queryImport(ctx context.Context, path string, rs *Requirements) (module.Version, error) {
+func queryImport(ctx context.Context, state *State, path string, rs *Requirements) (module.Version, error) {
 	// To avoid spurious remote fetches, try the latest replacement for each
 	// module (golang.org/issue/26241).
 	var mods []module.Version
@@ -438,7 +442,7 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 						mv = module.ZeroPseudoVersion("v0")
 					}
 				}
-				mg, err := rs.Graph(ctx)
+				mg, err := rs.Graph(ctx, state)
 				if err != nil {
 					return module.Version{}, err
 				}
@@ -459,7 +463,7 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 	})
 	for _, m := range mods {
 		needSum := true
-		root, isLocal, err := fetch(ctx, m, needSum)
+		root, isLocal, err := fetch(ctx, state, m, needSum)
 		if err != nil {
 			if sumErr := (*sumMissingError)(nil); errors.As(err, &sumErr) {
 				return module.Version{}, &ImportMissingSumError{importPath: path}
@@ -469,7 +473,7 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 		if _, ok, err := dirInModule(path, m.Path, root, isLocal); err != nil {
 			return m, err
 		} else if ok {
-			if cfg.BuildMod == "readonly" {
+			if state.Mod == "readonly" {
 				return module.Version{}, &ImportMissingError{Path: path, replaced: m}
 			}
 			return m, nil
@@ -499,15 +503,15 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 		return module.Version{}, &ImportMissingError{Path: path, isStd: true}
 	}
 
-	if cfg.BuildMod == "readonly" && !allowMissingModuleImports {
+	if state.Mod == "readonly" {
 		// In readonly mode, we can't write go.mod, so we shouldn't try to look up
 		// the module. If readonly mode was enabled explicitly, include that in
 		// the error message.
 		var queryErr error
-		if cfg.BuildModExplicit {
-			queryErr = fmt.Errorf("import lookup disabled by -mod=%s", cfg.BuildMod)
-		} else if cfg.BuildModReason != "" {
-			queryErr = fmt.Errorf("import lookup disabled by -mod=%s\n\t(%s)", cfg.BuildMod, cfg.BuildModReason)
+		if cfg.BuildMod != "" {
+			queryErr = fmt.Errorf("import lookup disabled by -mod=%s", state.Mod)
+		} else if state.ModReason != "" {
+			queryErr = fmt.Errorf("import lookup disabled by -mod=%s\n\t(%s)", state.Mod, state.ModReason)
 		}
 		return module.Version{}, &ImportMissingError{Path: path, QueryErr: queryErr}
 	}
@@ -517,12 +521,12 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 	// and return m, dir, ImpportMissingError.
 	fmt.Fprintf(os.Stderr, "go: finding module for package %s\n", path)
 
-	mg, err := rs.Graph(ctx)
+	mg, err := rs.Graph(ctx, state)
 	if err != nil {
 		return module.Version{}, err
 	}
 
-	candidates, err := QueryPackages(ctx, path, "latest", mg.Selected, CheckAllowed)
+	candidates, err := QueryPackages(ctx, state, path, "latest", mg.Selected, CheckAllowed)
 	if err != nil {
 		if errors.Is(err, fs.ErrNotExist) {
 			// Return "cannot find module providing package […]" instead of whatever
@@ -649,7 +653,7 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 //
 // The isLocal return value reports whether the replacement,
 // if any, is local to the filesystem.
-func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, isLocal bool, err error) {
+func fetch(ctx context.Context, state *State, mod module.Version, needSum bool) (dir string, isLocal bool, err error) {
 	if modRoot := MainModules.ModRoot(mod); modRoot != "" {
 		return modRoot, true, nil
 	}
@@ -679,7 +683,7 @@ func fetch(ctx context.Context, mod module.Version, needSum bool) (dir string, i
 		mod = r
 	}
 
-	if HasModRoot() && cfg.BuildMod == "readonly" && !inWorkspaceMode() && needSum && !modfetch.HaveSum(mod) {
+	if HasModRoot() && state.Mod == "readonly" && !inWorkspaceMode() && needSum && !modfetch.HaveSum(mod) {
 		return "", false, module.VersionError(mod, &sumMissingError{})
 	}
 

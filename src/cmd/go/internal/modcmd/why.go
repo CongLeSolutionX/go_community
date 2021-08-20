@@ -67,8 +67,10 @@ func init() {
 func runWhy(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 	opts := modload.Opts{
-		ForceUseModules: true,
-		RootMode:        modload.NeedRoot,
+		ForceUseModules:    true,
+		RootMode:           modload.NeedRoot,
+		ForceBuildMod:      "mod", // fetch files without hashes in go.sum, but we won't write go.mod or go.sum.
+		DontAddGoDirective: true,
 	}
 	modState, err := modload.Init(opts)
 	if err != nil {
@@ -91,7 +93,7 @@ func runWhy(ctx context.Context, cmd *base.Command, args []string) {
 			}
 		}
 
-		mods, err := modload.ListModules(ctx, args, 0)
+		mods, err := modload.ListModules(ctx, modState, args, 0)
 		if err != nil {
 			base.Fatalf("go: %v", err)
 		}

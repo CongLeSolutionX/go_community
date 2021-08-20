@@ -20,6 +20,10 @@ import (
 	"unicode/utf8"
 )
 
+// PanicIfNetworkUsed should be set in situations where using the network is not
+// allowed, for example, when loading packages from a local vendor directory.
+var PanicIfNetworkUsed = false
+
 // SecurityMode specifies whether a function should make network
 // calls using insecure transports (eg, plain text HTTP).
 // The zero value is "secure".

@@ -85,8 +85,12 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 
 	// Check whether modules are enabled and whether we're in a module.
-	opts := modload.Opts{ForceUseModules: true}
-	if _, err := modload.Init(opts); err != nil {
+	opts := modload.Opts{
+		ForceUseModules: true,
+		ForceBuildMod:   "mod",
+	}
+	modState, err := modload.Init(opts)
+	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
 	if !modload.HasModRoot() && len(args) == 0 {
@@ -97,7 +101,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		args = []string{"all"}
 	}
 	if modload.HasModRoot() {
-		modload.LoadModFile(ctx) // to fill MainModules
+		modload.LoadModFile(ctx, modState) // to fill MainModules
 
 		if len(modload.MainModules.Versions()) != 1 {
 			panic(modload.TODOWorkspaces("Support workspace mode in go mod download"))
@@ -148,7 +152,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	var mods []*moduleJSON
 	type token struct{}
 	sem := make(chan token, runtime.GOMAXPROCS(0))
-	infos, infosErr := modload.ListModules(ctx, args, 0)
+	infos, infosErr := modload.ListModules(ctx, modState, args, 0)
 	if !haveExplicitArgs {
 		// 'go mod download' is sometimes run without arguments to pre-populate the
 		// module cache. It may fetch modules that aren't needed to build packages
@@ -157,7 +161,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		// inconsistencies in go.mod though.
 		// TODO(45551): Report an error if go.mod or go.sum need to be updated after
 		// loading the build list.
-		if err := modload.WriteGoMod(ctx); err != nil {
+		if err := modload.WriteGoMod(ctx, modState); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}
@@ -219,7 +223,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	//
 	// Don't save sums for 'go mod download' without arguments; see comment above.
 	if haveExplicitArgs {
-		modload.WriteGoMod(ctx)
+		modload.WriteGoMod(ctx, modState)
 	}
 
 	// If there was an error matching some of the requested packages, emit it now

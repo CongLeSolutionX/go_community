@@ -674,7 +674,7 @@ func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDi
 		parentRoot = parent.Root
 		parentIsStd = parent.Standard
 	}
-	bp, loaded, err := loadPackageData(ctx, path, parentPath, srcDir, parentRoot, parentIsStd, mode)
+	bp, loaded, err := loadPackageData(ctx, opts, path, parentPath, srcDir, parentRoot, parentIsStd, mode)
 	if loaded && pre != nil && !opts.IgnoreImports {
 		pre.preloadImports(ctx, opts, bp.Imports, bp)
 	}
@@ -777,7 +777,7 @@ func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDi
 //
 // loadPackageData returns a boolean, loaded, which is true if this is the
 // first time the package was loaded. Callers may preload imports in this case.
-func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoot string, parentIsStd bool, mode int) (bp *build.Package, loaded bool, err error) {
+func loadPackageData(ctx context.Context, opts PackageOpts, path, parentPath, parentDir, parentRoot string, parentIsStd bool, mode int) (bp *build.Package, loaded bool, err error) {
 	if path == "" {
 		panic("loadPackageData called with empty package path")
 	}
@@ -852,7 +852,7 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 			if cfg.ModulesEnabled {
 				// Override data.p.Root, since ImportDir sets it to $GOPATH, if
 				// the module is inside $GOPATH/src.
-				if info := modload.PackageModuleInfo(ctx, path); info != nil {
+				if info := modload.PackageModuleInfo(ctx, opts.ModState, path); info != nil {
 					data.p.Root = info.Dir
 				}
 			}
@@ -996,7 +996,7 @@ func (pre *preload) preloadMatches(ctx context.Context, opts PackageOpts, matche
 			case pre.sema <- struct{}{}:
 				go func(pkg string) {
 					mode := 0 // don't use vendoring or module import resolution
-					bp, loaded, err := loadPackageData(ctx, pkg, "", base.Cwd(), "", false, mode)
+					bp, loaded, err := loadPackageData(ctx, opts, pkg, "", base.Cwd(), "", false, mode)
 					<-pre.sema
 					if bp != nil && loaded && err == nil && !opts.IgnoreImports {
 						pre.preloadImports(ctx, opts, bp.Imports, bp)
@@ -1021,7 +1021,7 @@ func (pre *preload) preloadImports(ctx context.Context, opts PackageOpts, import
 			return
 		case pre.sema <- struct{}{}:
 			go func(path string) {
-				bp, loaded, err := loadPackageData(ctx, path, parent.ImportPath, parent.Dir, parent.Root, parentIsStd, ResolveImport)
+				bp, loaded, err := loadPackageData(ctx, opts, path, parent.ImportPath, parent.Dir, parent.Root, parentIsStd, ResolveImport)
 				<-pre.sema
 				if bp != nil && loaded && err == nil && !opts.IgnoreImports {
 					pre.preloadImports(ctx, opts, bp.Imports, bp)
@@ -1858,7 +1858,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		pkgPath = "command-line-arguments"
 	}
 	if cfg.ModulesEnabled {
-		p.Module = modload.PackageModuleInfo(ctx, pkgPath)
+		p.Module = modload.PackageModuleInfo(ctx, opts.ModState, pkgPath)
 	}
 
 	p.EmbedFiles, p.Internal.Embed, err = resolveEmbed(p.Dir, p.EmbedPatterns)
@@ -2691,7 +2691,7 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 	ctxt.ReadDir = func(string) ([]fs.FileInfo, error) { return dirent, nil }
 
 	if opts.ModState != nil {
-		modload.ImportFromFiles(ctx, gofiles)
+		modload.ImportFromFiles(ctx, opts.ModState, gofiles)
 	}
 
 	var err error
@@ -2801,7 +2801,7 @@ func PackagesAndErrorsOutsideModule(ctx context.Context, opts PackageOpts, args 
 		allowed = nil
 	}
 	noneSelected := func(path string) (version string) { return "none" }
-	qrs, err := modload.QueryPackages(ctx, patterns[0], version, noneSelected, allowed)
+	qrs, err := modload.QueryPackages(ctx, opts.ModState, patterns[0], version, noneSelected, allowed)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", args[0], err)
 	}
@@ -2828,7 +2828,7 @@ func PackagesAndErrorsOutsideModule(ctx context.Context, opts PackageOpts, args 
 	// Since we are in NoRoot mode, the build list initially contains only
 	// the dummy command-line-arguments module. Add a requirement on the
 	// module that provides the packages named on the command line.
-	if _, err := modload.EditBuildList(ctx, nil, []module.Version{rootMod}); err != nil {
+	if _, err := modload.EditBuildList(ctx, opts.ModState, nil, []module.Version{rootMod}); err != nil {
 		return nil, fmt.Errorf("%s: %w", args[0], err)
 	}
 

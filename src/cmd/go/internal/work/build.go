@@ -384,7 +384,7 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{ModState: modState}, args)
 	if modState != nil {
-		if err := modload.WriteGoMod(ctx); err != nil {
+		if err := modload.WriteGoMod(ctx, modState); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}
@@ -614,7 +614,7 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{ModState: modState}, args)
 	if modState != nil {
-		if err := modload.WriteGoMod(ctx); err != nil {
+		if err := modload.WriteGoMod(ctx, modState); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}
@@ -783,10 +783,10 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 //
 // See golang.org/issue/40276 for details and rationale.
 func installOutsideModule(ctx context.Context, args []string) {
-	modload.AllowMissingModuleImports()
 	opts := modload.Opts{
 		ForceUseModules: true,
 		RootMode:        modload.NoRoot,
+		ForceBuildMod:   "mod",
 	}
 	modState, err := modload.Init(opts)
 	if err != nil {

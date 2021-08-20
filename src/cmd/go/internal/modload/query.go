@@ -17,7 +17,6 @@ import (
 	"sync"
 	"time"
 
-	"cmd/go/internal/cfg"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/search"
@@ -85,15 +84,19 @@ func Query(ctx context.Context, path, query, current string, allowed AllowedFunc
 // other than ErrDisallowd may be ignored.
 type AllowedFunc func(context.Context, module.Version) error
 
-var errQueryDisabled error = queryDisabledError{}
+type queryDisabledError struct {
+	verb, mod, modReason string
+}
 
-type queryDisabledError struct{}
+func newQueryDisabledError(state *State, verb string) error {
+	return &queryDisabledError{verb: verb, mod: state.Mod, modReason: state.ModReason}
+}
 
-func (queryDisabledError) Error() string {
-	if cfg.BuildModReason == "" {
-		return fmt.Sprintf("cannot query module due to -mod=%s", cfg.BuildMod)
+func (e *queryDisabledError) Error() string {
+	if e.modReason == "" {
+		return fmt.Sprintf("cannot %s due to -mod=%s", e.verb, e.mod)
 	}
-	return fmt.Sprintf("cannot query module due to -mod=%s\n\t(%s)", cfg.BuildMod, cfg.BuildModReason)
+	return fmt.Sprintf("cannot %s due to -mod=%s\n\t(%s)", e.verb, e.mod, e.modReason)
 }
 
 func queryProxy(ctx context.Context, proxy, path, query, current string, allowed AllowedFunc) (*modfetch.RevInfo, error) {
@@ -102,9 +105,6 @@ func queryProxy(ctx context.Context, proxy, path, query, current string, allowed
 
 	if current != "" && current != "none" && !semver.IsValid(current) {
 		return nil, fmt.Errorf("invalid previous version %q", current)
-	}
-	if cfg.BuildMod == "vendor" {
-		return nil, errQueryDisabled
 	}
 	if allowed == nil {
 		allowed = func(context.Context, module.Version) error { return nil }
@@ -509,8 +509,8 @@ type QueryResult struct {
 
 // QueryPackages is like QueryPattern, but requires that the pattern match at
 // least one package and omits the non-package result (if any).
-func QueryPackages(ctx context.Context, pattern, query string, current func(string) string, allowed AllowedFunc) ([]QueryResult, error) {
-	pkgMods, modOnly, err := QueryPattern(ctx, pattern, query, current, allowed)
+func QueryPackages(ctx context.Context, state *State, pattern, query string, current func(string) string, allowed AllowedFunc) ([]QueryResult, error) {
+	pkgMods, modOnly, err := QueryPattern(ctx, state, pattern, query, current, allowed)
 
 	if len(pkgMods) == 0 && err == nil {
 		replacement, _ := Replacement(modOnly.Mod)
@@ -540,7 +540,7 @@ func QueryPackages(ctx context.Context, pattern, query string, current func(stri
 //
 // QueryPattern always returns at least one QueryResult (which may be only
 // modOnly) or a non-nil error.
-func QueryPattern(ctx context.Context, pattern, query string, current func(string) string, allowed AllowedFunc) (pkgMods []QueryResult, modOnly *QueryResult, err error) {
+func QueryPattern(ctx context.Context, state *State, pattern, query string, current func(string) string, allowed AllowedFunc) (pkgMods []QueryResult, modOnly *QueryResult, err error) {
 	ctx, span := trace.StartSpan(ctx, "modload.QueryPattern "+pattern+" "+query)
 	defer span.Done()
 
@@ -563,7 +563,7 @@ func QueryPattern(ctx context.Context, pattern, query string, current func(strin
 		}
 		match = func(mod module.Version, roots []string, isLocal bool) *search.Match {
 			m := search.NewMatch(pattern)
-			matchPackages(ctx, m, imports.AnyTags(), omitStd, []module.Version{mod})
+			matchPackages(ctx, state, m, imports.AnyTags(), omitStd, []module.Version{mod})
 			return m
 		}
 	} else {
@@ -659,7 +659,7 @@ func QueryPattern(ctx context.Context, pattern, query string, current func(strin
 			}
 			r.Mod.Version = r.Rev.Version
 			needSum := true
-			root, isLocal, err := fetch(ctx, r.Mod, needSum)
+			root, isLocal, err := fetch(ctx, state, r.Mod, needSum)
 			if err != nil {
 				return r, err
 			}
@@ -939,9 +939,9 @@ func (e *PackageNotInModuleError) ImportPath() string {
 }
 
 // moduleHasRootPackage returns whether module m contains a package m.Path.
-func moduleHasRootPackage(ctx context.Context, m module.Version) (bool, error) {
+func moduleHasRootPackage(ctx context.Context, state *State, m module.Version) (bool, error) {
 	needSum := false
-	root, isLocal, err := fetch(ctx, m, needSum)
+	root, isLocal, err := fetch(ctx, state, m, needSum)
 	if err != nil {
 		return false, err
 	}

@@ -26,17 +26,11 @@ import (
 	"cmd/go/internal/modconv"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/search"
+	"cmd/go/internal/web"
 
 	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
-)
-
-// Variables set by other packages.
-//
-// TODO(#40775): See if these can be plumbed as explicit parameters.
-var (
-	allowMissingModuleImports bool
 )
 
 func TODOWorkspaces(s string) error {
@@ -267,12 +261,34 @@ type Opts struct {
 
 	// RootMode determines whether a module root is needed.
 	RootMode Root
+
+	// ForceBuildMod forces a specific value for the -mod flag for commands that
+	// don't support the -mod flag. It may be "", "mod", "readonly", or "vendor".
+	// If "", the mode is derived from cfg.BuildMod (-mod). Use State.Mod
+	// for the effective setting.
+	ForceBuildMod string
+
+	// DontAddGoDirective instructs LoadModFile not to add a "go" directive when
+	// one absent. By default, if the main module lacks a "go" directive,
+	// LoadModFile will add one with the latest Go version and will convert
+	// requirements to be lazy. This is usually desirable, but it alters the
+	// output of commands like 'go mod graph'.
+	DontAddGoDirective bool
 }
 
 // State holds information about modules loaded into memory. State is read
 // and potentially written by most functions in this package.
 type State struct {
 	Opts
+
+	// Mod is the effective setting for the -mod flag. It may be "mod",
+	// "readonly", or "vendor". Mod may change after loading the main module's
+	// go.mod file if automatic vendoring is enabled.
+	Mod string
+
+	// ModReason is the reason Mod is set. May be "" if Mod was set by -mod or
+	// if ForceBuildMod was used.
+	ModReason string
 }
 
 // Init determines whether module mode is enabled, locates the root of the
@@ -420,7 +436,7 @@ func Init(opts Opts) (state *State, err error) {
 		// command line, but they'll see an error if those files import anything
 		// outside std.
 		//
-		// This can be overridden by calling AllowMissingModuleImports.
+		// This can be overridden by setting opts.ForceBuildMod = "mod".
 		// For example, 'go get' does this, since it is expected to resolve paths.
 		//
 		// See golang.org/issue/32027.
@@ -428,7 +444,18 @@ func Init(opts Opts) (state *State, err error) {
 		modfetch.GoSumFile = strings.TrimSuffix(modFilePath(modRoots[0]), ".mod") + ".sum"
 	}
 
-	return &State{Opts: opts}, nil
+	state = &State{Opts: opts}
+	if opts.ForceBuildMod != "" {
+		state.Mod = opts.ForceBuildMod
+	} else if cfg.BuildMod != "" {
+		state.Mod = cfg.BuildMod
+	} else {
+		state.Mod = "readonly"
+	}
+	if state.Mod == "vendor" {
+		web.PanicIfNetworkUsed = true
+	}
+	return state, nil
 }
 
 var willBeEnabled = struct {
@@ -538,19 +565,23 @@ func die() {
 
 var ErrNoModRoot = errors.New("go.mod file not found in current directory or any parent directory; see 'go help modules'")
 
-type goModDirtyError struct{}
+type goModDirtyError struct {
+	mod, modReason string
+}
 
-func (goModDirtyError) Error() string {
-	if cfg.BuildModExplicit {
+func newGoModDirtyError(state *State) error {
+	return &goModDirtyError{mod: state.Mod, modReason: state.ModReason}
+}
+
+func (e *goModDirtyError) Error() string {
+	if cfg.BuildMod != "" {
 		return fmt.Sprintf("updates to go.mod needed, disabled by -mod=%v; to update it:\n\tgo mod tidy", cfg.BuildMod)
 	}
-	if cfg.BuildModReason != "" {
-		return fmt.Sprintf("updates to go.mod needed, disabled by -mod=%s\n\t(%s)\n\tto update it:\n\tgo mod tidy", cfg.BuildMod, cfg.BuildModReason)
+	if e.modReason != "" {
+		return fmt.Sprintf("updates to go.mod needed, disabled by -mod=%s\n\t(%s)\n\tto update it:\n\tgo mod tidy", e.mod, e.modReason)
 	}
 	return "updates to go.mod needed; to update it:\n\tgo mod tidy"
 }
-
-var errGoModDirty error = goModDirtyError{}
 
 func loadWorkFile(path string) (goVersion string, modRoots []string, err error) {
 	_ = TODOWorkspaces("Clean up and write back the go.work file: add module paths for workspace modules.")
@@ -588,7 +619,7 @@ func loadWorkFile(path string) (goVersion string, modRoots []string, err error) 
 // ensuring requirements are consistent. The caller is responsible for calling
 // WriteModFile later to write those changes and any others to disk.
 //
-// As a side-effect, LoadModFile may change cfg.BuildMod to "vendor" if
+// As a side-effect, LoadModFile may change state.Mod to "vendor" if
 // -mod wasn't set explicitly and automatic vendoring should be enabled.
 //
 // If LoadModFile or CreateModFile has already been called, LoadModFile returns
@@ -598,7 +629,7 @@ func loadWorkFile(path string) (goVersion string, modRoots []string, err error) 
 // other, but unlike LoadModGraph does not load the full module graph or check
 // it for global consistency. Most callers outside of the modload package should
 // use LoadModGraph instead.
-func LoadModFile(ctx context.Context) *Requirements {
+func LoadModFile(ctx context.Context, state *State) *Requirements {
 	if requirements != nil {
 		return requirements
 	}
@@ -619,7 +650,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 	for _, modroot := range modRoots {
 		gomod := modFilePath(modroot)
 		var fixed bool
-		data, f, err := ReadModFile(gomod, fixVersion(ctx, &fixed))
+		data, f, err := ReadModFile(gomod, fixVersion(ctx, state, &fixed))
 		if err != nil {
 			base.Fatalf("go: %v", err)
 		}
@@ -627,7 +658,8 @@ func LoadModFile(ctx context.Context) *Requirements {
 		modFiles = append(modFiles, f)
 		mainModule := f.Module.Mod
 		mainModules = append(mainModules, mainModule)
-		indices = append(indices, indexModFile(data, f, mainModule, fixed))
+		canWrite := state.Mod == "mod"
+		indices = append(indices, indexModFile(data, f, mainModule, canWrite, fixed))
 
 		if err := module.CheckImportPath(f.Module.Mod.Path); err != nil {
 			if pathErr, ok := err.(*module.InvalidPathError); ok {
@@ -638,8 +670,8 @@ func LoadModFile(ctx context.Context) *Requirements {
 	}
 
 	MainModules = makeMainModules(mainModules, modRoots, modFiles, indices, workFileGoVersion)
-	maybeEnableVendoring()
-	rs := requirementsFromModFiles(ctx, modFiles)
+	maybeEnableVendoring(state)
+	rs := requirementsFromModFiles(ctx, state, modFiles)
 
 	if inWorkspaceMode() {
 		// We don't need to do anything for vendor or update the mod file so
@@ -650,12 +682,12 @@ func LoadModFile(ctx context.Context) *Requirements {
 
 	mainModule := MainModules.mustGetSingleMainModule()
 
-	if cfg.BuildMod == "vendor" {
+	if state.Mod == "vendor" {
 		readVendorList(mainModule)
 		index := MainModules.Index(mainModule)
 		modFile := MainModules.ModFile(mainModule)
 		checkVendorConsistency(index, modFile)
-		rs.initVendor(vendorList)
+		rs.initVendor(state, vendorList)
 	}
 
 	if rs.hasRedundantRoot() {
@@ -663,16 +695,14 @@ func LoadModFile(ctx context.Context) *Requirements {
 		// go.mod file needs to be updated even though we have not yet loaded any
 		// transitive dependencies.
 		var err error
-		rs, err = updateRoots(ctx, rs.direct, rs, nil, nil, false)
+		rs, err = updateRoots(ctx, state, rs.direct, rs, nil, nil, false)
 		if err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}
 
-	if MainModules.Index(mainModule).goVersionV == "" {
-		// TODO(#45551): Do something more principled instead of checking
-		// cfg.CmdName directly here.
-		if cfg.BuildMod == "mod" && cfg.CmdName != "mod graph" && cfg.CmdName != "mod why" {
+	if modFile := MainModules.Index(mainModule); modFile.goVersionV == "" {
+		if modFile.canWrite && !state.DontAddGoDirective {
 			addGoStmt(MainModules.ModFile(mainModule), mainModule, LatestGoVersion())
 
 			// We need to add a 'go' version to the go.mod file, but we must assume
@@ -681,7 +711,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 			// version uses a pruned module graph — so we need to convert the
 			// requirements to support pruning.
 			var err error
-			rs, err = convertPruning(ctx, rs, pruned)
+			rs, err = convertPruning(ctx, state, rs, pruned)
 			if err != nil {
 				base.Fatalf("go: %v", err)
 			}
@@ -703,7 +733,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 // translate it to go.mod directives. The resulting build list may not be
 // exactly the same as in the legacy configuration (for example, we can't get
 // packages at multiple versions from the same module).
-func CreateModFile(ctx context.Context, modPath string) {
+func CreateModFile(ctx context.Context, state *State, modPath string) {
 	modRoot := base.Cwd()
 	modRoots = []string{modRoot}
 	modFilePath := modFilePath(modRoot)
@@ -742,7 +772,7 @@ func CreateModFile(ctx context.Context, modPath string) {
 	MainModules = makeMainModules([]module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil}, "")
 	addGoStmt(modFile, modFile.Module.Mod, LatestGoVersion()) // Add the go directive before converted module requirements.
 
-	convertedFrom, err := convertLegacyConfig(modFile, modRoot)
+	convertedFrom, err := convertLegacyConfig(state, modFile, modRoot)
 	if convertedFrom != "" {
 		fmt.Fprintf(os.Stderr, "go: copying requirements from %s\n", base.ShortPath(convertedFrom))
 	}
@@ -750,13 +780,13 @@ func CreateModFile(ctx context.Context, modPath string) {
 		base.Fatalf("go: %v", err)
 	}
 
-	rs := requirementsFromModFiles(ctx, []*modfile.File{modFile})
-	rs, err = updateRoots(ctx, rs.direct, rs, nil, nil, false)
+	rs := requirementsFromModFiles(ctx, state, []*modfile.File{modFile})
+	rs, err = updateRoots(ctx, state, rs.direct, rs, nil, nil, false)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
 	requirements = rs
-	if err := writeRequirements(ctx); err != nil {
+	if err := writeRequirements(ctx, state); err != nil {
 		base.Fatalf("go: %v", err)
 	}
 
@@ -817,7 +847,7 @@ func CreateWorkFile(ctx context.Context, workFile string, modDirs []string) {
 // and does nothing for versions that already appear to be canonical.
 //
 // The VersionFixer sets 'fixed' if it ever returns a non-canonical version.
-func fixVersion(ctx context.Context, fixed *bool) modfile.VersionFixer {
+func fixVersion(ctx context.Context, state *State, fixed *bool) modfile.VersionFixer {
 	return func(path, vers string) (resolved string, err error) {
 		defer func() {
 			if err == nil && resolved != vers {
@@ -850,23 +880,17 @@ func fixVersion(ctx context.Context, fixed *bool) modfile.VersionFixer {
 			return vers, nil
 		}
 
+		if state.Mod != "mod" {
+			// Don't perform a query, but do indicate go.mod needs to be fixed.
+			*fixed = true
+			return "", nil
+		}
 		info, err := Query(ctx, path, vers, "", nil)
 		if err != nil {
 			return "", err
 		}
 		return info.Version, nil
 	}
-}
-
-// AllowMissingModuleImports allows import paths to be resolved to modules
-// when there is no module root. Normally, this is forbidden because it's slow
-// and there's no way to make the result reproducible, but some commands
-// like 'go get' are expected to do this.
-//
-// This function affects the default cfg.BuildMod when outside of a module,
-// so it can only be called prior to Init.
-func AllowMissingModuleImports() {
-	allowMissingModuleImports = true
 }
 
 // makeMainModules creates a MainModuleSet and associated variables according to
@@ -917,7 +941,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 
 // requirementsFromModFiles returns the set of non-excluded requirements from
 // the global modFile.
-func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Requirements {
+func requirementsFromModFiles(ctx context.Context, state *State, modFiles []*modfile.File) *Requirements {
 	rootCap := 0
 	for i := range modFiles {
 		rootCap += len(modFiles[i].Require)
@@ -934,7 +958,7 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 			// TODO(#45713): Maybe join
 			for _, mainModule := range MainModules.Versions() {
 				if index := MainModules.Index(mainModule); index != nil && index.exclude[r.Mod] {
-					if cfg.BuildMod == "mod" {
+					if state.Mod == "mod" {
 						fmt.Fprintf(os.Stderr, "go: dropping requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
 					} else {
 						fmt.Fprintf(os.Stderr, "go: ignoring requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
@@ -975,9 +999,9 @@ func checkModCommonFlags(state *State) error {
 		return nil
 	}
 
-	if cfg.BuildModExplicit {
+	if cfg.BuildMod != "" {
 		switch cfg.BuildMod {
-		case "", "mod", "readonly", "vendor":
+		case "mod", "readonly", "vendor":
 		default:
 			return fmt.Errorf("-mod=%s not supported (can be '', 'mod', 'readonly', or 'vendor')", cfg.BuildMod)
 		}
@@ -989,52 +1013,13 @@ func checkModCommonFlags(state *State) error {
 		return nil
 	}
 
-	// TODO(#40775): commands should pass in the module mode as an option
-	// to modload functions instead of relying on an implicit setting
-	// based on command name.
-	switch cfg.CmdName {
-	case "get", "mod download", "mod init", "mod tidy":
-		// These commands are intended to update go.mod and go.sum.
-		cfg.BuildMod = "mod"
-		return nil
-	case "mod graph", "mod verify", "mod why":
-		// These commands should not update go.mod or go.sum, but they should be
-		// able to fetch modules not in go.sum and should not report errors if
-		// go.mod is inconsistent. They're useful for debugging, and they need
-		// to work in buggy situations.
-		cfg.BuildMod = "mod"
-		return nil
-	case "mod vendor":
-		cfg.BuildMod = "readonly"
-		return nil
-	}
-	if modRoots == nil {
-		if allowMissingModuleImports {
-			cfg.BuildMod = "mod"
-		} else {
-			cfg.BuildMod = "readonly"
-		}
-		return nil
-	}
-
-	cfg.BuildMod = "readonly"
 	return nil
 }
 
 // maybeEnableVendoring checks whether automatic vendoring should be enabled.
-// This may change cfg.BuildMod.
-// TODO(#40775): set a field in State instead.
-func maybeEnableVendoring() {
-	if cfg.BuildModExplicit {
-		return
-	}
-	// TODO(#40775): Use something in modload.State instead of relying on
-	// command name. The command should say that it can't use automatic vendoring.
-	switch cfg.CmdName {
-	case "get", "mod download", "mod init", "mod tidy", "mod graph", "mod vendor", "mod verify", "mod why":
-		return
-	}
-	if len(modRoots) != 1 {
+// This may change state.Mod.
+func maybeEnableVendoring(state *State) {
+	if cfg.BuildMod != "" || state.Opts.ForceBuildMod != "" || len(modRoots) != 1 {
 		return
 	}
 	if fi, err := fsys.Stat(filepath.Join(modRoots[0], "vendor")); err != nil || !fi.IsDir() {
@@ -1047,24 +1032,25 @@ func maybeEnableVendoring() {
 	if semver.Compare(index.goVersionV, "v1.14") < 0 {
 		return
 	}
-	cfg.BuildMod = "vendor"
-	cfg.BuildModReason = "Go version in go.mod is at least 1.14 and vendor directory exists."
+	state.Mod = "vendor"
+	state.ModReason = "Go version in go.mod is at least 1.14 and vendor directory exists."
+	web.PanicIfNetworkUsed = true
 }
 
 var _ = TODOWorkspaces("In workspace mode, mod will not be readonly for go mod download," +
 	"verify, graph, and why. Implement support for go mod download and add test cases" +
 	"to ensure verify, graph, and why work properly.")
 
-func mustHaveCompleteRequirements() bool {
-	return cfg.BuildMod != "mod" && !inWorkspaceMode()
+func mustHaveCompleteRequirements(state *State) bool {
+	return state.Mod != "mod" && !inWorkspaceMode()
 }
 
 // convertLegacyConfig imports module requirements from a legacy vendoring
 // configuration file, if one is present.
-func convertLegacyConfig(modFile *modfile.File, modRoot string) (from string, err error) {
+func convertLegacyConfig(state *State, modFile *modfile.File, modRoot string) (from string, err error) {
 	noneSelected := func(path string) (version string) { return "none" }
 	queryPackage := func(path, rev string) (module.Version, error) {
-		pkgMods, modOnly, err := QueryPattern(context.Background(), path, rev, noneSelected, nil)
+		pkgMods, modOnly, err := QueryPattern(context.TODO(), state, path, rev, noneSelected, nil)
 		if err != nil {
 			return module.Version{}, err
 		}
@@ -1322,18 +1308,18 @@ func findImportComment(file string) string {
 }
 
 // WriteGoMod writes the current build list back to go.mod.
-func WriteGoMod(ctx context.Context) error {
-	requirements = LoadModFile(ctx)
-	return writeRequirements(ctx)
+func WriteGoMod(ctx context.Context, state *State) error {
+	requirements = LoadModFile(ctx, state)
+	return writeRequirements(ctx, state)
 }
 
 // writeRequirements rewrites the go.mod file (if there is one) using the
 // global requirements variable.
-func writeRequirements(ctx context.Context) error {
+func writeRequirements(ctx context.Context, state *State) error {
 	if inWorkspaceMode() {
 		// go.mod files aren't updated in workspace mode, but we still want to
 		// update the go.work.sum file.
-		if err := modfetch.WriteGoSum(keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
+		if err := modfetch.WriteGoSum(keepSums(ctx, state, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements(state)); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 		return nil
@@ -1365,10 +1351,10 @@ func writeRequirements(ctx context.Context) error {
 
 	index := MainModules.GetSingleIndexOrNil()
 	dirty := index.modFileIsDirty(modFile)
-	if dirty && cfg.BuildMod != "mod" {
+	if dirty && state.Mod != "mod" {
 		// If we're about to fail due to -mod=readonly,
 		// prefer to report a dirty go.mod over a dirty go.sum
-		return errGoModDirty
+		return newGoModDirtyError(state)
 	}
 
 	if !dirty && cfg.CmdName != "mod tidy" {
@@ -1377,7 +1363,7 @@ func writeRequirements(ctx context.Context) error {
 		// Don't write go.mod, but write go.sum in case we added or trimmed sums.
 		// 'go mod init' shouldn't write go.sum, since it will be incomplete.
 		if cfg.CmdName != "mod init" {
-			if err := modfetch.WriteGoSum(keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
+			if err := modfetch.WriteGoSum(keepSums(ctx, state, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements(state)); err != nil {
 				base.Fatalf("go: %v", err)
 			}
 		}
@@ -1396,12 +1382,14 @@ func writeRequirements(ctx context.Context) error {
 	}
 	defer func() {
 		// At this point we have determined to make the go.mod file on disk equal to new.
-		MainModules.SetIndex(mainModule, indexModFile(new, modFile, mainModule, false))
+		MainModules.SetIndex(mainModule, indexModFile(new, modFile, mainModule, true, false))
 
 		// Update go.sum after releasing the side lock and refreshing the index.
 		// 'go mod init' shouldn't write go.sum, since it will be incomplete.
+		// TODO(#45551): remove this special case or express it without the
+		// command name.
 		if cfg.CmdName != "mod init" {
-			if err := modfetch.WriteGoSum(keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
+			if err := modfetch.WriteGoSum(keepSums(ctx, state, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements(state)); err != nil {
 				base.Fatalf("go: %v", err)
 			}
 		}
@@ -1446,7 +1434,7 @@ func writeRequirements(ctx context.Context) error {
 // loaded by the most recent call to LoadPackages or ImportFromFiles,
 // including any go.mod files needed to reconstruct the MVS result,
 // in addition to the checksums for every module in keepMods.
-func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums) map[module.Version]bool {
+func keepSums(ctx context.Context, state *State, ld *loader, rs *Requirements, which whichSums) map[module.Version]bool {
 	// Every module in the full module graph contributes its requirements,
 	// so in order to ensure that the build list itself is reproducible,
 	// we need sums for every go.mod in the graph (regardless of whether
@@ -1484,7 +1472,7 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 				}
 			}
 
-			mg, _ := rs.Graph(ctx)
+			mg, _ := rs.Graph(ctx, state)
 			for prefix := pkg.path; prefix != "."; prefix = path.Dir(prefix) {
 				if v := mg.Selected(prefix); v != "none" {
 					m := module.Version{Path: prefix, Version: v}
@@ -1507,7 +1495,7 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 			}
 		}
 	} else {
-		mg, _ := rs.Graph(ctx)
+		mg, _ := rs.Graph(ctx, state)
 		mg.WalkBreadthFirst(func(m module.Version) {
 			if _, ok := mg.RequiredBy(m); ok {
 				// The requirements from m's go.mod file are present in the module graph,

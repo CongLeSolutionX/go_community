@@ -358,6 +358,11 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
+	modState, err := modload.Init(modload.Opts{})
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
+
 	var do func(interface{})
 	if *listJson {
 		do = func(x interface{}) {
@@ -380,7 +385,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		fm := template.FuncMap{
 			"join":    strings.Join,
 			"context": context,
-			"module":  func(path string) *modinfo.ModulePublic { return modload.ModuleInfo(ctx, path) },
+			"module":  func(path string) *modinfo.ModulePublic { return modload.ModuleInfo(ctx, modState, path) },
 		}
 		tmpl, err := template.New("main").Funcs(fm).Parse(*listFmt)
 		if err != nil {
@@ -397,16 +402,12 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	modState, err := modload.Init(modload.Opts{})
-	if err != nil {
-		base.Fatalf("go: %v", err)
-	}
 	if *listRetracted {
-		if cfg.BuildMod == "vendor" {
-			base.Fatalf("go list -retracted cannot be used when vendoring is enabled")
-		}
 		if modState == nil {
 			base.Fatalf("go list -retracted can only be used in module-aware mode")
+		}
+		if modState.Mod == "vendor" {
+			base.Fatalf("go list -retracted cannot be used when vendoring is enabled")
 		}
 	}
 
@@ -433,8 +434,8 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 			base.Fatalf("go: not using modules")
 		}
 
-		modload.LoadModFile(ctx) // Sets cfg.BuildMod as a side-effect.
-		if cfg.BuildMod == "vendor" {
+		modload.LoadModFile(ctx, modState) // Sets modState.Mod as a side-effect.
+		if modState.Mod == "vendor" {
 			const actionDisabledFormat = "go: can't %s using the vendor directory\n\t(Use -mod=mod or -mod=readonly to bypass.)"
 
 			if *listVersions {
@@ -470,8 +471,8 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 				mode |= modload.ListRetractedVersions
 			}
 		}
-		mods, listErr := modload.ListModules(ctx, args, mode)
-		if writeErr := modload.WriteGoMod(ctx); writeErr != nil {
+		mods, listErr := modload.ListModules(ctx, modState, args, mode)
+		if writeErr := modload.WriteGoMod(ctx, modState); writeErr != nil {
 			base.Fatalf("go: %v", writeErr)
 		}
 		if !*listE {
@@ -514,7 +515,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 	}
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, args)
 	if modState != nil {
-		if err := modload.WriteGoMod(ctx); err != nil {
+		if err := modload.WriteGoMod(ctx, modState); err != nil {
 			base.Fatalf("go: %v", err)
 		}
 	}
@@ -721,7 +722,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 			if *listRetracted {
 				mode |= modload.ListRetracted
 			}
-			rmods, err := modload.ListModules(ctx, args, mode)
+			rmods, err := modload.ListModules(ctx, modState, args, mode)
 			if err != nil && !*listE {
 				base.Errorf("go: %v", err)
 			}

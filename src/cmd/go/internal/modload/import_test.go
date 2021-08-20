@@ -59,11 +59,15 @@ func TestQueryImport(t *testing.T) {
 	testenv.MustHaveExternalNetwork(t)
 	testenv.MustHaveExecPath(t, "git")
 
-	oldAllowMissingModuleImports := allowMissingModuleImports
-	defer func() {
-		allowMissingModuleImports = oldAllowMissingModuleImports
-	}()
-	allowMissingModuleImports = true
+	opts := Opts{
+		RootMode:        NoRoot,
+		ForceUseModules: true,
+		ForceBuildMod:   "mod",
+	}
+	state, err := Init(opts)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	ctx := context.Background()
 	rs := newRequirements(unpruned, nil, nil)
@@ -71,7 +75,7 @@ func TestQueryImport(t *testing.T) {
 	for _, tt := range importTests {
 		t.Run(strings.ReplaceAll(tt.path, "/", "_"), func(t *testing.T) {
 			// Note that there is no build list, so Import should always fail.
-			m, err := queryImport(ctx, tt.path, rs)
+			m, err := queryImport(ctx, state, tt.path, rs)
 
 			if tt.err == "" {
 				if err != nil {

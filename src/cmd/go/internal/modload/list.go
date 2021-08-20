@@ -13,7 +13,6 @@ import (
 	"strings"
 
 	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
 	"cmd/go/internal/modinfo"
 	"cmd/go/internal/search"
 
@@ -34,8 +33,25 @@ const (
 // along with any error preventing additional matches from being identified.
 //
 // The returned slice can be nonempty even if the error is non-nil.
-func ListModules(ctx context.Context, args []string, mode ListMode) ([]*modinfo.ModulePublic, error) {
-	rs, mods, err := listModules(ctx, LoadModFile(ctx), args, mode)
+func ListModules(ctx context.Context, state *State, args []string, mode ListMode) ([]*modinfo.ModulePublic, error) {
+	if state.Mod == "vendor" {
+		var verb string
+		switch {
+		case mode&ListU != 0:
+			verb = "check for updates"
+		case mode&ListVersions != 0:
+			verb = "list versions"
+		case mode&ListRetracted != 0:
+			verb = "check for retractions"
+		case mode&ListDeprecated != 0:
+			verb = "check for deprecations"
+		}
+		if verb != "" {
+			return nil, newQueryDisabledError(state, verb)
+		}
+	}
+
+	rs, mods, err := listModules(ctx, state, LoadModFile(ctx, state), args, mode)
 
 	type token struct{}
 	sem := make(chan token, runtime.GOMAXPROCS(0))
@@ -77,11 +93,11 @@ func ListModules(ctx context.Context, args []string, mode ListMode) ([]*modinfo.
 	return mods, err
 }
 
-func listModules(ctx context.Context, rs *Requirements, args []string, mode ListMode) (_ *Requirements, mods []*modinfo.ModulePublic, mgErr error) {
+func listModules(ctx context.Context, state *State, rs *Requirements, args []string, mode ListMode) (_ *Requirements, mods []*modinfo.ModulePublic, mgErr error) {
 	if len(args) == 0 {
 		var ms []*modinfo.ModulePublic
 		for _, m := range MainModules.Versions() {
-			ms = append(ms, moduleInfo(ctx, rs, m, mode))
+			ms = append(ms, moduleInfo(ctx, state, rs, m, mode))
 		}
 		return rs, ms, nil
 	}
@@ -124,7 +140,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 
 	var mg *ModuleGraph
 	if needFullGraph {
-		rs, mg, mgErr = expandGraph(ctx, rs)
+		rs, mg, mgErr = expandGraph(ctx, state, rs)
 	}
 
 	matchedModule := map[module.Version]bool{}
@@ -147,6 +163,16 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 					continue
 				}
 			}
+			if state.Mod == "vendor" {
+				if current != "none" && vers != current {
+					base.Fatalf("go: %s: cannot query module due to -mod=vendor", arg)
+				}
+				mods = append(mods, &modinfo.ModulePublic{
+					Path:    path,
+					Version: vers,
+				})
+				continue
+			}
 
 			allowed := CheckAllowed
 			if IsRevisionQuery(vers) || mode&ListRetracted != 0 {
@@ -168,7 +194,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 			// *Requirements instead.
 			var noRS *Requirements
 
-			mod := moduleInfo(ctx, noRS, module.Version{Path: path, Version: info.Version}, mode)
+			mod := moduleInfo(ctx, state, noRS, module.Version{Path: path, Version: info.Version}, mode)
 			mods = append(mods, mod)
 			continue
 		}
@@ -197,8 +223,8 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 				continue
 			}
 			if v != "none" {
-				mods = append(mods, moduleInfo(ctx, rs, module.Version{Path: arg, Version: v}, mode))
-			} else if cfg.BuildMod == "vendor" {
+				mods = append(mods, moduleInfo(ctx, state, rs, module.Version{Path: arg, Version: v}, mode))
+			} else if state.Mod == "vendor" {
 				// In vendor mode, we can't determine whether a missing module is “a
 				// known dependency” because the module graph is incomplete.
 				// Give a more explicit error message.
@@ -226,7 +252,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 				matched = true
 				if !matchedModule[m] {
 					matchedModule[m] = true
-					mods = append(mods, moduleInfo(ctx, rs, m, mode))
+					mods = append(mods, moduleInfo(ctx, state, rs, m, mode))
 				}
 			}
 		}

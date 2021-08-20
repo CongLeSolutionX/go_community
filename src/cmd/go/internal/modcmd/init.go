@@ -46,10 +46,13 @@ func runInit(ctx context.Context, cmd *base.Command, args []string) {
 		modPath = args[0]
 	}
 
-	opts := modload.Opts{ForceUseModules: true}
-	_, err := modload.Init(opts)
+	opts := modload.Opts{
+		ForceUseModules: true,
+		ForceBuildMod:   "mod",
+	}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
-	modload.CreateModFile(ctx, modPath) // does all the hard work
+	modload.CreateModFile(ctx, modState, modPath) // does all the hard work
 }
