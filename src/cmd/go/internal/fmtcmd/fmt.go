@@ -70,7 +70,7 @@ func runFmt(ctx context.Context, cmd *base.Command, args []string) {
 	}
 	pkgs := load.PackagesAndErrors(ctx, load.PackageOpts{ModState: modState}, args)
 	if modState != nil {
-		if err := modload.WriteGoMod(ctx); err != nil {
+		if err := modload.WriteGoMod(ctx, modState); err != nil {
 			base.CmdFatalf("%v", err)
 		}
 	}

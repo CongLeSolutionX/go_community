@@ -212,10 +212,6 @@ func Lookup(proxy, path string) Repo {
 
 // lookup returns the module with the given module path.
 func lookup(proxy, path string) (r Repo, err error) {
-	if cfg.BuildMod == "vendor" {
-		return nil, errLookupDisabled
-	}
-
 	if module.MatchPrefixPatterns(cfg.GONOPROXY, path) {
 		switch proxy {
 		case "noproxy", "direct":
@@ -236,17 +232,6 @@ func lookup(proxy, path string) (r Repo, err error) {
 		return newProxyRepo(proxy, path)
 	}
 }
-
-type lookupDisabledError struct{}
-
-func (lookupDisabledError) Error() string {
-	if cfg.BuildModReason == "" {
-		return fmt.Sprintf("module lookup disabled by -mod=%s", cfg.BuildMod)
-	}
-	return fmt.Sprintf("module lookup disabled by -mod=%s\n\t(%s)", cfg.BuildMod, cfg.BuildModReason)
-}
-
-var errLookupDisabled error = lookupDisabledError{}
 
 var (
 	errProxyOff       = notExistErrorf("module lookup disabled by GOPROXY=off")

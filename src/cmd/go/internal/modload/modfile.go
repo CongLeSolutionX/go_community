@@ -15,7 +15,6 @@ import (
 	"unicode"
 
 	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch"
@@ -72,6 +71,7 @@ func modFileGoVersion(modFile *modfile.File) string {
 // at a specific point in time.
 type modFileIndex struct {
 	data            []byte
+	canWrite        bool // true if we can write go.mod
 	dataNeedsFix    bool // true if fixVersion applied a change while parsing data
 	module          module.Version
 	goVersionV      string // GoVersion with "v" prefix
@@ -343,9 +343,10 @@ func resolveReplacement(m module.Version) (module.Version, string) {
 // indexModFile rebuilds the index of modFile.
 // If modFile has been changed since it was first read,
 // modFile.Cleanup must be called before indexModFile.
-func indexModFile(data []byte, modFile *modfile.File, mod module.Version, needsFix bool) *modFileIndex {
+func indexModFile(data []byte, modFile *modfile.File, mod module.Version, canWrite, needsFix bool) *modFileIndex {
 	i := new(modFileIndex)
 	i.data = data
+	i.canWrite = canWrite
 	i.dataNeedsFix = needsFix
 
 	i.module = module.Version{}
@@ -418,7 +419,7 @@ func (i *modFileIndex) modFileIsDirty(modFile *modfile.File) bool {
 			return true
 		}
 	} else if "v"+modFile.Go.Version != i.goVersionV {
-		if i.goVersionV == "" && cfg.BuildMod != "mod" {
+		if i.goVersionV == "" && !i.canWrite {
 			// go.mod files did not always require a 'go' version, so do not error out
 			// if one is missing — we may be inside an older module in the module
 			// cache, and should bias toward providing useful behavior.
@@ -437,7 +438,7 @@ func (i *modFileIndex) modFileIsDirty(modFile *modfile.File) bool {
 		if meta, ok := i.require[r.Mod]; !ok {
 			return true
 		} else if r.Indirect != meta.indirect {
-			if cfg.BuildMod == "readonly" {
+			if !i.canWrite {
 				// The module's requirements are consistent; only the "// indirect"
 				// comments that are wrong. But those are only guaranteed to be accurate
 				// after a "go mod tidy" — it's a good idea to run those before
@@ -499,12 +500,12 @@ type retraction struct {
 // module versions.
 //
 // The caller must not modify the returned summary.
-func goModSummary(m module.Version) (*modFileSummary, error) {
+func goModSummary(state *State, m module.Version) (*modFileSummary, error) {
 	if m.Version == "" && MainModules.Contains(m.Path) {
 		panic("internal error: goModSummary called on a main module")
 	}
 
-	if cfg.BuildMod == "vendor" {
+	if state.Mod == "vendor" {
 		summary := &modFileSummary{
 			module: module.Version{Path: m.Path},
 		}
@@ -525,7 +526,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 	}
 
 	actual, replacedFrom := resolveReplacement(m)
-	if HasModRoot() && cfg.BuildMod == "readonly" && !inWorkspaceMode() && actual.Version != "" {
+	if HasModRoot() && state.Mod == "readonly" && !inWorkspaceMode() && actual.Version != "" {
 		key := module.Version{Path: actual.Path, Version: actual.Version + "/go.mod"}
 		if !modfetch.HaveSum(key) {
 			suggestion := fmt.Sprintf("; to add it:\n\tgo mod download %s", m.Path)

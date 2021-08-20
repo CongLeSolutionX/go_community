@@ -12,7 +12,7 @@ func TestReqsMax(t *testing.T) {
 	type testCase struct {
 		a, b, want string
 	}
-	reqs := new(mvsReqs)
+	reqs := &mvsReqs{state: &State{Mod: "readonly"}}
 	for _, tc := range []testCase{
 		{a: "v0.1.0", b: "v0.2.0", want: "v0.2.0"},
 		{a: "v0.2.0", b: "v0.1.0", want: "v0.2.0"},

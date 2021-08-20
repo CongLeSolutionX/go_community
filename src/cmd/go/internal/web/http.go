@@ -84,7 +84,7 @@ func get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
 	if url.Host == "localhost.localdev" {
 		return nil, fmt.Errorf("no such host localhost.localdev")
 	}
-	if os.Getenv("TESTGONETWORK") == "panic" && !strings.HasPrefix(url.Host, "127.0.0.1") && !strings.HasPrefix(url.Host, "0.0.0.0") {
+	if (PanicIfNetworkUsed || os.Getenv("TESTGONETWORK") == "panic") && !strings.HasPrefix(url.Host, "127.0.0.1") && !strings.HasPrefix(url.Host, "0.0.0.0") {
 		panic("use of network: " + url.String())
 	}
 

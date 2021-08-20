@@ -30,7 +30,7 @@ const (
 // matchPackages is like m.MatchPackages, but uses a local variable (rather than
 // a global) for tags, can include or exclude packages in the standard library,
 // and is restricted to the given list of modules.
-func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, filter stdFilter, modules []module.Version) {
+func matchPackages(ctx context.Context, state *State, m *search.Match, tags map[string]bool, filter stdFilter, modules []module.Version) {
 	m.Pkgs = []string{}
 
 	isMatch := func(string) bool { return true }
@@ -130,7 +130,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 		}
 	}
 
-	if cfg.BuildMod == "vendor" {
+	if state.Mod == "vendor" {
 		mod := MainModules.mustGetSingleMainModule()
 		if modRoot := MainModules.ModRoot(mod); modRoot != "" {
 			walkPkgs(modRoot, MainModules.PathPrefix(mod), pruneGoMod|pruneVendor)
@@ -158,7 +158,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 		} else {
 			var err error
 			const needSum = true
-			root, isLocal, err = fetch(ctx, mod, needSum)
+			root, isLocal, err = fetch(ctx, state, mod, needSum)
 			if err != nil {
 				m.AddError(err)
 				continue
@@ -182,21 +182,23 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 //
 // If m is the zero module.Version, MatchInModule matches the pattern
 // against the standard library (std and cmd) in GOROOT/src.
-func MatchInModule(ctx context.Context, pattern string, m module.Version, tags map[string]bool) *search.Match {
+func MatchInModule(ctx context.Context, state *State, pattern string, m module.Version, tags map[string]bool) *search.Match {
 	match := search.NewMatch(pattern)
 	if m == (module.Version{}) {
-		matchPackages(ctx, match, tags, includeStd, nil)
+		matchPackages(ctx, state, match, tags, includeStd, nil)
 	}
 
-	LoadModFile(ctx) // Sets Target, needed by fetch and matchPackages.
+	// TODO(#40775): ensure LoadModFile is called before this, then delete
+	// this call.
+	LoadModFile(ctx, state) // Sets Target, needed by fetch and matchPackages.
 
 	if !match.IsLiteral() {
-		matchPackages(ctx, match, tags, omitStd, []module.Version{m})
+		matchPackages(ctx, state, match, tags, omitStd, []module.Version{m})
 		return match
 	}
 
 	const needSum = true
-	root, isLocal, err := fetch(ctx, m, needSum)
+	root, isLocal, err := fetch(ctx, state, m, needSum)
 	if err != nil {
 		match.Errs = []error{err}
 		return match
