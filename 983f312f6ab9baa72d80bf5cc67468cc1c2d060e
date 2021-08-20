@@ -47,6 +47,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a16595b_b246d328",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-20T20:30:15Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s much better. Added that to coordinator.coverageMask.",
+      "parentUuid": "e11fca18_7725a796",
+      "range": {
+        "startLine": 613,
+        "startChar": 3,
+        "endLine": 615,
+        "endChar": 77
+      },
+      "revId": "983f312f6ab9baa72d80bf5cc67468cc1c2d060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8388c54_ead21dd5",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-20T20:30:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e0c316c_65921947",
+      "range": {
+        "startLine": 615,
+        "startChar": 48,
+        "endLine": 615,
+        "endChar": 53
+      },
+      "revId": "983f312f6ab9baa72d80bf5cc67468cc1c2d060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa1f078f_1f816d1b",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-08-19T17:17:12Z",
       "side": 1,
       "message": "Is this doing the right thing? This seems like it\u0027d only catch inputs with bits already in the coverage mask, rather than new bits.",
+      "revId": "983f312f6ab9baa72d80bf5cc67468cc1c2d060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "156b463c_802e3cc2",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-20T20:30:15Z",
+      "side": 1,
+      "message": "Good catch, I missed that when splitting this change into CLs. Fixed.",
+      "parentUuid": "aa1f078f_1f816d1b",
       "revId": "983f312f6ab9baa72d80bf5cc67468cc1c2d060e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
