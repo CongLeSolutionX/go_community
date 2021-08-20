@@ -53,6 +53,24 @@
       "message": "At least in the existing code (before this stack of CLs) there are Instantiate calls that provide a Checker. With this change, we lose that Checker with this change.",
       "revId": "2dd49ea6c654c588786f241a44546d5cb5d2860e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "305eefc5_89b85bbe",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-20T18:49:08Z",
+      "side": 1,
+      "message": "In go/types?  Calls of checker.instantiate will use a non-nil checker. We don\u0027t have any external calls in the standard library for go/types, and in types2 only the unified importer uses a non-nil checker.\n\nI was thinking we could hold off on porting this to types2 until Environment is implemented, but I\u0027m also OK with holding off on this CL entirely until Environment is implemented. I don\u0027t think that should block publishing the proposal, as it\u0027s just an optimization.\n\nWDYT?",
+      "parentUuid": "cb6dac90_9291e67f",
+      "revId": "2dd49ea6c654c588786f241a44546d5cb5d2860e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
