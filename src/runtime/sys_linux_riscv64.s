@@ -10,6 +10,8 @@
 #include "go_asm.h"
 
 #define AT_FDCWD -100
+#define CLOCK_REALTIME 0
+#define CLOCK_MONOTONIC 1
 
 #define SYS_brk			214
 #define SYS_clock_gettime	113
@@ -210,8 +212,70 @@ TEXT runtime·mincore(SB),NOSPLIT|NOFRAME,$0-28
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB),NOSPLIT,$24-12
-	MOV	$0, A0 // CLOCK_REALTIME
+TEXT runtime·walltime(SB),NOSPLIT,$40-12
+	MOV	$CLOCK_REALTIME, A0
+
+	MOV	runtime·vdsoClockgettimeSym(SB), A7
+	BEQZ	A7, fallback
+	MOV	X2, S2 // S2 is unchanged by C code
+	MOV	g_m(g), T0 // T0 = m
+
+	// Save the old values on stack for reentrant
+	MOV	m_vdsoPC(T0), A2
+	MOV	A2, 24(X2)
+	MOV	m_vdsoSP(T0), A3
+	MOV	A3, 32(X2)
+
+	MOV	X1, m_vdsoPC(T0)
+	MOV	$ret-8(FP), A3 // caller's SP
+	MOV	A3, m_vdsoSP(T0)
+
+	MOV	m_curg(T0), T1
+	BNE	g, T1, noswitch
+
+	MOV	m_g0(T0), T1
+	MOV	(g_sched+gobuf_sp)(T1), X2
+
+noswitch:
+	ADDI	$-24, X2 // Space for result
+	ANDI	$~7, X2 // Align for C code
+	MOV	$8(X2), A1
+
+	// Store g on gsignal's stack, see sys_linux_arm64.s for detail
+	MOVBU	runtime·iscgo(SB), A2
+	BNEZ	A2, nosaveg
+	MOV	m_gsignal(T0), A3 // g.m.gsignal
+	BEQZ	A3, nosaveg
+	BEQ	g, A3, nosaveg
+	MOV	(g_stack+stack_lo)(A3), S3 // g.m.gsignal.stack.lo
+	MOV	g, (S3)
+
+	JALR	RA, A7
+
+	MOV	X0, (S3)
+	JMP	finish
+
+nosaveg:
+	JALR	RA, A7
+
+finish:
+	MOV	8(X2), T3	// sec
+	MOV	16(X2), T4	// nsec
+
+	// restore stack
+	MOV	S2, X2
+	MOV	g_m(g), T0 // T0 = m
+	MOV	24(X2), A2
+	MOV	A2, m_vdsoPC(T0)
+
+	MOV	32(X2), A3
+	MOV	A3, m_vdsoSP(T0)
+
+	MOV	T3, sec+0(FP)
+	MOVW	T4, nsec+8(FP)
+	RET
+
+fallback:
 	MOV	$8(X2), A1
 	MOV	$SYS_clock_gettime, A7
 	ECALL
@@ -222,15 +286,78 @@ TEXT runtime·walltime(SB),NOSPLIT,$24-12
 	RET
 
 // func nanotime1() int64
-TEXT runtime·nanotime1(SB),NOSPLIT,$24-8
-	MOV	$1, A0 // CLOCK_MONOTONIC
+TEXT runtime·nanotime1(SB),NOSPLIT,$40-8
+	MOV	$CLOCK_MONOTONIC, A0
+
+	MOV	runtime·vdsoClockgettimeSym(SB), A7
+	BEQZ	A7, fallback
+	MOV	X2, S2 // S2 is unchanged by C code
+	MOV	g_m(g), T0 // T0 = m
+
+	// Save the old values on stack for reentrant
+	MOV	m_vdsoPC(T0), A2
+	MOV	A2, 24(X2)
+	MOV	m_vdsoSP(T0), A3
+	MOV	A3, 32(X2)
+
+	MOV	X1, m_vdsoPC(T0)
+	MOV	$ret-8(FP), A3 // caller's SP
+	MOV	A3, m_vdsoSP(T0)
+
+	MOV	m_curg(T0), T1
+	BNE	g, T1, noswitch
+
+	MOV	m_g0(T0), T1
+	MOV	(g_sched+gobuf_sp)(T1), X2
+noswitch:
+	ADDI	$-24, X2 // Space for result
+	ANDI	$~7, X2 // Align for C code
+	MOV	$8(X2), A1
+
+	// Store g on gsignal's stack, see sys_linux_arm64.s for detail
+	MOVBU	runtime·iscgo(SB), A2
+	BNEZ	A2, nosaveg
+	MOV	m_gsignal(T0), A3 // g.m.gsignal
+	BEQZ	A3, nosaveg
+	BEQ	g, A3, nosaveg
+	MOV	(g_stack+stack_lo)(A3), S3 // g.m.gsignal.stack.lo
+	MOV	g, (S3)
+
+	JALR	RA, A7
+
+	MOV	X0, (S3)
+	JMP	finish
+
+nosaveg:
+	JALR	RA, A7
+
+finish:
+	MOV	8(X2), T0	// sec
+	MOV	16(X2), T1	// nsec
+
+	// restore stack
+	MOV	S2, X2
+	MOV	g_m(g), T3 // T0 = m
+	MOV	24(X2), A2
+	MOV	A2, m_vdsoPC(T3)
+
+	MOV	32(X2), A3
+	MOV	A3, m_vdsoSP(T3)
+
+	// sec is in T0, nsec in T1
+	// return nsec in T0
+	MOV	$1000000000, T2
+	MUL	T2, T0
+	ADD	T1, T0
+	MOV	T0, ret+0(FP)
+	RET
+
+fallback:
 	MOV	$8(X2), A1
 	MOV	$SYS_clock_gettime, A7
 	ECALL
 	MOV	8(X2), T0	// sec
 	MOV	16(X2), T1	// nsec
-	// sec is in T0, nsec in T1
-	// return nsec in T0
 	MOV	$1000000000, T2
 	MUL	T2, T0
 	ADD	T1, T0
@@ -398,7 +525,6 @@ good:
 nog:
 	// Call fn
 	JALR	RA, T2
-
 	// It shouldn't return.  If it does, exit this thread.
 	MOV	$111, A0
 	MOV	$SYS_exit, A7
