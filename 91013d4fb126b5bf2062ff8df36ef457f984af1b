@@ -68,6 +68,109 @@
       "message": "Is this PR ok for next stage, since the new release has released?",
       "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0493ead8_837193ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-21T16:34:25Z",
+      "side": 1,
+      "message": "Thanks for the reminder.",
+      "parentUuid": "4e2e92c7_938722eb",
+      "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f2c32dc_03efafb2",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-21T16:34:25Z",
+      "side": 1,
+      "message": "Instead of hardcoding LMT (which also means America/Lima) it seems to me that we should do this when offset%60 !\u003d 0.\n\nAlso there is no reason to duplicate offset /\u003d 60 and the rest of the lines.",
+      "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc828a96_72866b7e",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-21T16:34:25Z",
+      "side": 1,
+      "message": "No reason to duplicate the code here.  Just keep the setting of enc, but use the appropriate version, and then for version 2 append the new values.",
+      "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72ff9e79_f491a8c1",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-21T16:34:25Z",
+      "side": 1,
+      "message": "We should check for a single required length, based on the version.",
+      "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82658a0a_1876b553",
+        "filename": "src/time/time_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-21T16:34:25Z",
+      "side": 1,
+      "message": "The \"time\" package is already imported using a dot-import, don\u0027t import it again.",
+      "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "783f029b_56a1f3da",
+        "filename": "src/time/time_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-08-21T16:34:25Z",
+      "side": 1,
+      "message": "Report the mismatched times.",
+      "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
