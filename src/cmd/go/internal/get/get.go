@@ -106,17 +106,14 @@ var (
 	getInsecure = CmdGet.Flag.Bool("insecure", false, "")
 )
 
+const modulesEnabled = false
+
 func init() {
 	work.AddBuildFlags(CmdGet, work.OmitModFlag|work.OmitModCommonFlags)
 	CmdGet.Run = runGet // break init loop
 }
 
 func runGet(ctx context.Context, cmd *base.Command, args []string) {
-	if cfg.ModulesEnabled {
-		// Should not happen: main.go should install the separate module-enabled get code.
-		base.Fatalf("go: modules not implemented")
-	}
-
 	work.BuildInit()
 
 	if *getF && !*getU {
@@ -226,7 +223,7 @@ func downloadPaths(patterns []string) []string {
 
 	var pkgs []string
 	noModRoots := []string{}
-	for _, m := range search.ImportPathsQuiet(patterns, noModRoots) {
+	for _, m := range search.ImportPaths(patterns, modulesEnabled, noModRoots) {
 		if len(m.Pkgs) == 0 && strings.Contains(m.Pattern(), "...") {
 			pkgs = append(pkgs, m.Pattern())
 		} else {
@@ -314,7 +311,7 @@ func download(arg string, parent *load.Package, stk *load.ImportStack, mode int)
 		// We delay this until after reloadPackage so that the old entry
 		// for p has been replaced in the package cache.
 		if wildcardOkay && strings.Contains(arg, "...") {
-			match := search.NewMatch(arg)
+			match := search.NewMatch(arg, modulesEnabled)
 			if match.IsLocal() {
 				noModRoots := []string{} // We're in gopath mode, so there are no modroots.
 				match.MatchDirs(noModRoots)
@@ -402,7 +399,7 @@ func download(arg string, parent *load.Package, stk *load.ImportStack, mode int)
 			// download does caching based on the value of path,
 			// so it must be the fully qualified path already.
 			if i >= len(p.Imports) {
-				path = load.ResolveImportPath(p, path)
+				path = load.ResolveImportPath(load.PackageOpts{}, p, path)
 			}
 			download(path, p, stk, 0)
 		}

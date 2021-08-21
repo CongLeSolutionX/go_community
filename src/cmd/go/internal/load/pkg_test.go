@@ -1,13 +1,11 @@
 package load
 
 import (
-	"cmd/go/internal/cfg"
+	"cmd/go/internal/modinfo"
 	"testing"
 )
 
 func TestPkgDefaultExecName(t *testing.T) {
-	oldModulesEnabled := cfg.ModulesEnabled
-	defer func() { cfg.ModulesEnabled = oldModulesEnabled }()
 	for _, tt := range []struct {
 		in         string
 		files      []string
@@ -29,18 +27,17 @@ func TestPkgDefaultExecName(t *testing.T) {
 		{"command-line-arguments", []string{"output.go", "foo.go"}, "output", "output"},
 	} {
 		{
-			cfg.ModulesEnabled = true
 			pkg := new(Package)
 			pkg.ImportPath = tt.in
 			pkg.GoFiles = tt.files
 			pkg.Internal.CmdlineFiles = len(tt.files) > 0
+			pkg.Module = &modinfo.ModulePublic{Path: tt.in}
 			gotMod := pkg.DefaultExecName()
 			if gotMod != tt.wantMod {
 				t.Errorf("pkg.DefaultExecName with ImportPath = %q in module mode = %v; want %v", tt.in, gotMod, tt.wantMod)
 			}
 		}
 		{
-			cfg.ModulesEnabled = false
 			pkg := new(Package)
 			pkg.ImportPath = tt.in
 			pkg.GoFiles = tt.files

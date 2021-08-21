@@ -247,7 +247,8 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 	matches = make([]*search.Match, 0, len(patterns))
 	allPatternIsRoot := false
 	for _, pattern := range patterns {
-		matches = append(matches, search.NewMatch(pattern))
+		modulesEnabled := true
+		matches = append(matches, search.NewMatch(pattern, modulesEnabled))
 		if pattern == "all" {
 			allPatternIsRoot = true
 		}

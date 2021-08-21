@@ -772,7 +772,7 @@ OverlayLoop:
 		embedcfg = js
 	}
 
-	if p.Internal.BuildInfo != "" && cfg.ModulesEnabled {
+	if p.Internal.BuildInfo != "" {
 		if err := b.writeFile(objdir+"_gomod_.go", modload.ModInfoProg(p.Internal.BuildInfo, cfg.BuildToolchainName == "gccgo")); err != nil {
 			return err
 		}

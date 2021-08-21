@@ -183,7 +183,8 @@ func matchPackages(ctx context.Context, state *State, m *search.Match, tags map[
 // If m is the zero module.Version, MatchInModule matches the pattern
 // against the standard library (std and cmd) in GOROOT/src.
 func MatchInModule(ctx context.Context, state *State, pattern string, m module.Version, tags map[string]bool) *search.Match {
-	match := search.NewMatch(pattern)
+	modulesEnabled := true
+	match := search.NewMatch(pattern, modulesEnabled)
 	if m == (module.Version{}) {
 		matchPackages(ctx, state, match, tags, includeStd, nil)
 	}

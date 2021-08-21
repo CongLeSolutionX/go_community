@@ -555,6 +555,7 @@ func QueryPattern(ctx context.Context, state *State, pattern, query string, curr
 
 	var match func(mod module.Version, roots []string, isLocal bool) *search.Match
 	matchPattern := search.MatchPattern(pattern)
+	modulesEnabled := true
 
 	if i := strings.Index(pattern, "..."); i >= 0 {
 		base = pathpkg.Dir(pattern[:i+3])
@@ -562,13 +563,13 @@ func QueryPattern(ctx context.Context, state *State, pattern, query string, curr
 			return nil, nil, &WildcardInFirstElementError{Pattern: pattern, Query: query}
 		}
 		match = func(mod module.Version, roots []string, isLocal bool) *search.Match {
-			m := search.NewMatch(pattern)
+			m := search.NewMatch(pattern, modulesEnabled)
 			matchPackages(ctx, state, m, imports.AnyTags(), omitStd, []module.Version{mod})
 			return m
 		}
 	} else {
 		match = func(mod module.Version, roots []string, isLocal bool) *search.Match {
-			m := search.NewMatch(pattern)
+			m := search.NewMatch(pattern, modulesEnabled)
 			prefix := mod.Path
 			if MainModules.Contains(mod.Path) {
 				prefix = MainModules.PathPrefix(module.Version{Path: mod.Path})
