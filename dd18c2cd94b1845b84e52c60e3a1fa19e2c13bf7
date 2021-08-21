@@ -220,6 +220,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f379a611_f8e798d3",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-21T15:03:02Z",
+      "side": 1,
+      "message": "So I think the safer approach is split into two modes, pre-noder and post-noder. In post-noder, find all places where call markAddrOf, and mark them explicitly there. Subsequent CLs, we can review all instances and incrementally inject proper keep alive for them.\n\nHow do you think?",
+      "parentUuid": "0290b7b9_35a85415",
+      "revId": "dd18c2cd94b1845b84e52c60e3a1fa19e2c13bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b275225f_02b0321c",
         "filename": "src/cmd/compile/internal/walk/walk.go",
         "patchSetId": 10
