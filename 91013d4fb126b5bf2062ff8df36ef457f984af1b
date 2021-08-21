@@ -51,6 +51,23 @@
       "parentUuid": "c4bfe30e_36a5d7ed",
       "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e2e92c7_938722eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-08-21T09:04:57Z",
+      "side": 1,
+      "message": "Is this PR ok for next stage, since the new release has released?",
+      "revId": "91013d4fb126b5bf2062ff8df36ef457f984af1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
