@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c15e31_99d0771f",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-21T16:09:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af5397c8_fa300b62",
+      "revId": "ceb67524bc38918476034901df22ec684b7bcb2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31177af1_d38cbd16",
@@ -68,6 +86,30 @@
       "writtenOn": "2021-08-20T19:24:53Z",
       "side": 1,
       "message": "s/t.targs.Len() \u003e 0/t.targs !\u003d nil/ ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 15
+      },
+      "revId": "ceb67524bc38918476034901df22ec684b7bcb2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9950236f_50a85b0f",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-21T16:09:33Z",
+      "side": 1,
+      "message": "Hmm. Yes, that would be fine but I prefer expressing the intent: \"if we have any type arguments then...\". Just like with slices, it seems inaccurate to differentiate between the empty and nil type list. I know it saves a call, but I suspect that doesn\u0027t make a difference. If you feel strongly we can change it.",
+      "parentUuid": "31177af1_d38cbd16",
       "range": {
         "startLine": 49,
         "startChar": 12,
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0265ff95_061f362d",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-21T16:09:33Z",
+      "side": 1,
+      "message": "Duh, thanks for catching.\n\nDone.",
+      "parentUuid": "1a9bb671_77645e76",
+      "range": {
+        "startLine": 131,
+        "startChar": 3,
+        "endLine": 131,
+        "endChar": 11
+      },
+      "revId": "ceb67524bc38918476034901df22ec684b7bcb2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69f2603a_f0527ab8",
@@ -114,6 +180,30 @@
       "writtenOn": "2021-08-20T19:24:53Z",
       "side": 1,
       "message": "or just pass the pointers?",
+      "range": {
+        "startLine": 263,
+        "startChar": 47,
+        "endLine": 263,
+        "endChar": 54
+      },
+      "revId": "ceb67524bc38918476034901df22ec684b7bcb2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00be5171_741a748c",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-21T16:09:33Z",
+      "side": 1,
+      "message": "In one of the code paths targs is just a slice, so doing it this way keeps validateTArgLen symmetrical in targs, tparams.",
+      "parentUuid": "69f2603a_f0527ab8",
       "range": {
         "startLine": 263,
         "startChar": 47,
@@ -147,6 +237,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "907f17f5_ec91b95d",
+        "filename": "src/go/types/typelists.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-21T16:09:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39bc62df_7f415ce9",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "ceb67524bc38918476034901df22ec684b7bcb2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "575165f9_8852c7bb",
@@ -170,6 +284,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b9e840_64b7c994",
+        "filename": "src/go/types/typelists.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-21T16:09:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "575165f9_8852c7bb",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 11
+      },
+      "revId": "ceb67524bc38918476034901df22ec684b7bcb2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f18f5aa0_02e56cac",
@@ -183,6 +321,30 @@
       "writtenOn": "2021-08-20T19:24:53Z",
       "side": 1,
       "message": "just call the receiver l",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 8
+      },
+      "revId": "ceb67524bc38918476034901df22ec684b7bcb2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a49c8b_6e2f690a",
+        "filename": "src/go/types/typelists.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-21T16:09:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f18f5aa0_02e56cac",
       "range": {
         "startLine": 32,
         "startChar": 6,
