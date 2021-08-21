@@ -622,8 +622,8 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 
 	for _, p := range pkgs {
 		// Show vendor-expanded paths in listing
-		p.TestImports = p.Resolve(p.TestImports)
-		p.XTestImports = p.Resolve(p.XTestImports)
+		p.TestImports = p.Resolve(pkgOpts, p.TestImports)
+		p.XTestImports = p.Resolve(pkgOpts, p.XTestImports)
 		p.DepOnly = !cmdline[p]
 
 		if *listCompiled {

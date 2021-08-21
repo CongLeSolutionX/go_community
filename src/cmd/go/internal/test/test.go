@@ -679,10 +679,10 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 			for _, path := range p.Imports {
 				deps[path] = true
 			}
-			for _, path := range p.Resolve(p.TestImports) {
+			for _, path := range p.Resolve(pkgOpts, p.TestImports) {
 				deps[path] = true
 			}
-			for _, path := range p.Resolve(p.XTestImports) {
+			for _, path := range p.Resolve(pkgOpts, p.XTestImports) {
 				deps[path] = true
 			}
 		}
