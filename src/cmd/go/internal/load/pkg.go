@@ -325,14 +325,14 @@ func (p *Package) setLoadPackageDataError(err error, path string, stk *ImportSta
 // can produce better error messages if it starts with the original paths.
 // The initial load of p loads all the non-test imports and rewrites
 // the vendored paths, so nothing should ever call p.vendored(p.Imports).
-func (p *Package) Resolve(imports []string) []string {
+func (p *Package) Resolve(opts PackageOpts, imports []string) []string {
 	if len(imports) > 0 && len(p.Imports) > 0 && &imports[0] == &p.Imports[0] {
 		panic("internal error: p.Resolve(p.Imports) called")
 	}
 	seen := make(map[string]bool)
 	var all []string
 	for _, path := range imports {
-		path = ResolveImportPath(p, path)
+		path = ResolveImportPath(opts, p, path)
 		if !seen[path] {
 			seen[path] = true
 			all = append(all, path)
@@ -717,7 +717,7 @@ func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDi
 		// in order to return partial information.
 		p.load(ctx, opts, path, stk, importPos, bp, err)
 
-		if !cfg.ModulesEnabled && path != cleanImport(path) {
+		if opts.ModState == nil && path != cleanImport(path) {
 			p.Error = &PackageError{
 				ImportStack: stk.Copy(),
 				Err:         ImportErrorf(path, "non-canonical import path %q: should be %q", path, pathpkg.Clean(path)),
@@ -818,14 +818,14 @@ func loadPackageData(ctx context.Context, opts PackageOpts, path, parentPath, pa
 		if build.IsLocalImport(path) {
 			r.dir = filepath.Join(parentDir, path)
 			r.path = dirToImportPath(r.dir)
-		} else if cfg.ModulesEnabled {
+		} else if opts.ModState != nil {
 			r.dir, r.path, r.err = modload.Lookup(parentPath, parentIsStd, path)
 		} else if mode&ResolveImport != 0 {
 			// We do our own path resolution, because we want to
 			// find out the key to use in packageCache without the
 			// overhead of repeated calls to buildContext.Import.
 			// The code is also needed in a few other places anyway.
-			r.path = resolveImportPath(path, parentPath, parentDir, parentRoot, parentIsStd)
+			r.path = resolveImportPath(opts, path, parentPath, parentDir, parentRoot, parentIsStd)
 		} else if mode&ResolveModule != 0 {
 			r.path = moduleImportPath(path, parentPath, parentDir, parentRoot)
 		}
@@ -845,11 +845,11 @@ func loadPackageData(ctx context.Context, opts PackageOpts, path, parentPath, pa
 		var data packageData
 		if r.dir != "" {
 			var buildMode build.ImportMode
-			if !cfg.ModulesEnabled {
+			if opts.ModState == nil {
 				buildMode = build.ImportComment
 			}
 			data.p, data.err = cfg.BuildContext.ImportDir(r.dir, buildMode)
-			if cfg.ModulesEnabled {
+			if opts.ModState != nil {
 				// Override data.p.Root, since ImportDir sets it to $GOPATH, if
 				// the module is inside $GOPATH/src.
 				if info := modload.PackageModuleInfo(ctx, opts.ModState, path); info != nil {
@@ -880,7 +880,7 @@ func loadPackageData(ctx context.Context, opts PackageOpts, path, parentPath, pa
 		} else if r.err != nil {
 			data.p = new(build.Package)
 			data.err = r.err
-		} else if cfg.ModulesEnabled && path != "unsafe" {
+		} else if opts.ModState != nil && path != "unsafe" {
 			data.p = new(build.Package)
 			data.err = fmt.Errorf("unknown import path %q: internal error: module loader did not resolve import", r.path)
 		} else {
@@ -898,12 +898,12 @@ func loadPackageData(ctx context.Context, opts PackageOpts, path, parentPath, pa
 		if !data.p.Goroot {
 			if cfg.GOBIN != "" {
 				data.p.BinDir = cfg.GOBIN
-			} else if cfg.ModulesEnabled {
+			} else if opts.ModState != nil {
 				data.p.BinDir = modload.BinDir()
 			}
 		}
 
-		if !cfg.ModulesEnabled && data.err == nil &&
+		if opts.ModState == nil && data.err == nil &&
 			data.p.ImportComment != "" && data.p.ImportComment != path &&
 			!strings.Contains(path, "/vendor/") && !strings.HasPrefix(path, "vendor/") {
 			data.err = fmt.Errorf("code in directory %s expects import %q", data.p.Dir, data.p.ImportComment)
@@ -1070,7 +1070,7 @@ func isDir(path string) bool {
 // First, there is Go 1.5 vendoring (golang.org/s/go15vendor).
 // If vendor expansion doesn't trigger, then the path is also subject to
 // Go 1.11 module legacy conversion (golang.org/issue/25069).
-func ResolveImportPath(parent *Package, path string) (found string) {
+func ResolveImportPath(opts PackageOpts, parent *Package, path string) (found string) {
 	var parentPath, parentDir, parentRoot string
 	parentIsStd := false
 	if parent != nil {
@@ -1079,11 +1079,11 @@ func ResolveImportPath(parent *Package, path string) (found string) {
 		parentRoot = parent.Root
 		parentIsStd = parent.Standard
 	}
-	return resolveImportPath(path, parentPath, parentDir, parentRoot, parentIsStd)
+	return resolveImportPath(opts, path, parentPath, parentDir, parentRoot, parentIsStd)
 }
 
-func resolveImportPath(path, parentPath, parentDir, parentRoot string, parentIsStd bool) (found string) {
-	if cfg.ModulesEnabled {
+func resolveImportPath(opts PackageOpts, path, parentPath, parentDir, parentRoot string, parentIsStd bool) (found string) {
+	if opts.ModState != nil {
 		if _, p, e := modload.Lookup(parentPath, parentIsStd, path); e == nil {
 			return p
 		}
@@ -1635,15 +1635,11 @@ var foldPath = make(map[string]string)
 // a vN path element specifying the major version, then the
 // second last element of the import path is used instead.
 func (p *Package) exeFromImportPath() string {
-	_, elem := pathpkg.Split(p.ImportPath)
-	if cfg.ModulesEnabled {
-		// If this is example.com/mycmd/v2, it's more useful to
-		// install it as mycmd than as v2. See golang.org/issue/24667.
-		if elem != p.ImportPath && isVersionElement(elem) {
-			_, elem = pathpkg.Split(pathpkg.Dir(p.ImportPath))
-		}
+	dir, base := pathpkg.Split(p.ImportPath)
+	if isVersionElement(base) && p.Module != nil && strings.HasSuffix(dir, "/") {
+		base = pathpkg.Base(dir[:len(dir)-1])
 	}
-	return elem
+	return base
 }
 
 // exeFromFiles returns an executable name for a package
@@ -1676,6 +1672,14 @@ func (p *Package) DefaultExecName() string {
 // stk contains the import stack, not including path itself.
 func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *ImportStack, importPos []token.Position, bp *build.Package, err error) {
 	p.copyBuild(opts, bp)
+
+	pkgPath := p.ImportPath
+	if p.Internal.CmdlineFiles {
+		pkgPath = "command-line-arguments"
+	}
+	if opts.ModState != nil {
+		p.Module = modload.PackageModuleInfo(ctx, opts.ModState, pkgPath)
+	}
 
 	// The localPrefix is the path we interpret ./ imports relative to.
 	// Synthesized main packages sometimes override this.
@@ -1734,7 +1738,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 			// Install cross-compiled binaries to subdirectories of bin.
 			elem = full
 		}
-		if p.Internal.Build.BinDir == "" && cfg.ModulesEnabled {
+		if p.Internal.Build.BinDir == "" && opts.ModState != nil {
 			p.Internal.Build.BinDir = modload.BinDir()
 		}
 		if p.Internal.Build.BinDir != "" {
@@ -1853,14 +1857,6 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 	stk.Push(path)
 	defer stk.Pop()
 
-	pkgPath := p.ImportPath
-	if p.Internal.CmdlineFiles {
-		pkgPath = "command-line-arguments"
-	}
-	if cfg.ModulesEnabled {
-		p.Module = modload.PackageModuleInfo(ctx, opts.ModState, pkgPath)
-	}
-
 	p.EmbedFiles, p.Internal.Embed, err = resolveEmbed(p.Dir, p.EmbedPatterns)
 	if err != nil {
 		p.Incomplete = true
@@ -1920,7 +1916,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 	p.Internal.Imports = imports
 	p.collectDeps()
 
-	if cfg.ModulesEnabled && p.Error == nil && p.Name == "main" && len(p.DepsErrors) == 0 {
+	if opts.ModState != nil && p.Error == nil && p.Name == "main" && len(p.DepsErrors) == 0 {
 		p.Internal.BuildInfo = modload.PackageBuildInfo(pkgPath, p.Deps)
 	}
 
@@ -2452,8 +2448,10 @@ func PackagesAndErrors(ctx context.Context, opts PackageOpts, patterns []string)
 		}
 		matches, _ = modload.LoadPackages(ctx, modOpts, patterns...)
 	} else {
+		modulesEnabled := false
 		noModRoots := []string{}
-		matches = search.ImportPaths(patterns, noModRoots)
+		matches = search.ImportPaths(patterns, modulesEnabled, noModRoots)
+		search.WarnUnmatched(matches)
 	}
 
 	var (
@@ -2718,7 +2716,7 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 
 		if cfg.GOBIN != "" {
 			pkg.Target = filepath.Join(cfg.GOBIN, exe)
-		} else if cfg.ModulesEnabled {
+		} else if opts.ModState != nil {
 			pkg.Target = filepath.Join(modload.BinDir(), exe)
 		}
 	}
