@@ -20,10 +20,12 @@ import (
 
 // A Match represents the result of matching a single package pattern.
 type Match struct {
-	pattern string   // the pattern itself
-	Dirs    []string // if the pattern is local, directories that potentially contain matching packages
-	Pkgs    []string // matching packages (import paths)
-	Errs    []error  // errors matching the patterns to packages, NOT errors loading those packages
+	pattern        string // the pattern itself
+	modulesEnabled bool
+
+	Dirs []string // if the pattern is local, directories that potentially contain matching packages
+	Pkgs []string // matching packages (import paths)
+	Errs []error  // errors matching the patterns to packages, NOT errors loading those packages
 
 	// Errs may be non-empty even if len(Pkgs) > 0, indicating that some matching
 	// packages could be located but results may be incomplete.
@@ -33,8 +35,8 @@ type Match struct {
 
 // NewMatch returns a Match describing the given pattern,
 // without resolving its packages or errors.
-func NewMatch(pattern string) *Match {
-	return &Match{pattern: pattern}
+func NewMatch(pattern string, modulesEnabled bool) *Match {
+	return &Match{pattern: pattern, modulesEnabled: modulesEnabled}
 }
 
 // Pattern returns the pattern to be matched.
@@ -296,7 +298,7 @@ func (m *Match) MatchDirs(modRoots []string) {
 			return filepath.SkipDir
 		}
 
-		if !top && cfg.ModulesEnabled {
+		if !top && m.modulesEnabled {
 			// Ignore other modules found in subdirectories.
 			if fi, err := fsys.Stat(filepath.Join(path, "go.mod")); err == nil && !fi.IsDir() {
 				return filepath.SkipDir
@@ -425,19 +427,15 @@ func WarnUnmatched(matches []*Match) {
 	}
 }
 
-// ImportPaths returns the matching paths to use for the given command line.
-// It calls ImportPathsQuiet and then WarnUnmatched.
-func ImportPaths(patterns, modRoots []string) []*Match {
-	matches := ImportPathsQuiet(patterns, modRoots)
-	WarnUnmatched(matches)
-	return matches
-}
-
 // ImportPathsQuiet is like ImportPaths but does not warn about patterns with no matches.
-func ImportPathsQuiet(patterns, modRoots []string) []*Match {
+func ImportPaths(patterns []string, modulesEnabled bool, modRoots []string) []*Match {
+	if !modulesEnabled && len(modRoots) > 0 {
+		panic("modRoots given, but modules not enabled")
+	}
+
 	var out []*Match
 	for _, a := range CleanPatterns(patterns) {
-		m := NewMatch(a)
+		m := NewMatch(a, modulesEnabled)
 		if m.IsLocal() {
 			m.MatchDirs(modRoots)
 
