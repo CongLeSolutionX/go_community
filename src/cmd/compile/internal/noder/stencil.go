@@ -1018,7 +1018,7 @@ func (subst *subster) node(n ir.Node) ir.Node {
 				transformDot(call.X.(*ir.SelectorExpr), true)
 				transformCall(call)
 
-			case ir.ODOT, ir.ODOTPTR:
+			case ir.ODOT, ir.ODOTPTR, ir.ODEREF:
 				// An OXDOT for a generic receiver was resolved to
 				// an access to a field which has a function
 				// value. Transform the call to that function, now
