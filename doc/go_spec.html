@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of Jul 26, 2021",
+	"Subtitle": "Version of Aug 22, 2021",
 	"Path": "/ref/spec"
 }-->
 
@@ -2999,6 +2999,19 @@ The expression <code>x</code> is evaluated and saved during the evaluation of th
 method value; the saved copy is then used as the receiver in any calls,
 which may be executed later.
 </p>
+
+<pre>
+type S struct { *T }
+type T int
+func (t T) M() { print(t) }
+
+var t = new(T)
+var s = S{T: t}
+f, g := t.M, s.M            // receiver t, s.(*t) are evaluated and saved
+*t = 42                     // does not affect saved receiver t in f and g
+</pre>
+
+<p>calling <code>f</code>, <code>g</code> all print <code>0</code>.
 
 <p>
 The type <code>T</code> may be an interface or non-interface type.
