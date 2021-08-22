@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4395d4fa_1454615f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3006,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-22T12:10:24Z",
+      "side": 1,
+      "message": "Yes, but I left the print so user want to copy-paste the example to verify is not confused because they have to inject a print statement themselves to verify the output.",
+      "parentUuid": "22914012_3b7eb01c",
+      "revId": "877e20164742501c9e5fe5c3410dead9fb6cf9b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70d6072f_8dcf85cd",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-08-22T10:34:46Z",
       "side": 1,
       "message": "t :\u003d new(T) for consistency with other declarations",
+      "revId": "877e20164742501c9e5fe5c3410dead9fb6cf9b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2af387eb_55cf6a5a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3008,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-22T12:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d6072f_8dcf85cd",
       "revId": "877e20164742501c9e5fe5c3410dead9fb6cf9b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "868b76df_2c3727de",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3009,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-22T12:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80c54c7d_10013826",
+      "revId": "877e20164742501c9e5fe5c3410dead9fb6cf9b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e07985a_26203acf",
@@ -106,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "030c98b7_73deebdd",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3010,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-22T12:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e07985a_26203acf",
+      "revId": "877e20164742501c9e5fe5c3410dead9fb6cf9b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c517ed6a_2e9c3182",
@@ -119,6 +191,24 @@
       "writtenOn": "2021-08-22T10:34:46Z",
       "side": 1,
       "message": "// does not affect stored receivers in f and g.",
+      "revId": "877e20164742501c9e5fe5c3410dead9fb6cf9b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bac3a03_bc356012",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3011,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-22T12:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c517ed6a_2e9c3182",
       "revId": "877e20164742501c9e5fe5c3410dead9fb6cf9b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
