@@ -46,6 +46,10 @@ const (
 	veryLongDuration = 1000 * time.Hour     // an arbitrary upper bound on the test's running time
 )
 
+func init() {
+	addInt32 = atomic.AddInt32
+}
+
 // quiescent returns an arbitrary duration by which the program should have
 // completed any remaining work and reached a steady (idle) state.
 func quiescent(t testingT) time.Duration {
