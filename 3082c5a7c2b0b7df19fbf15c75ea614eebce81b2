@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "091116cb_ee4638b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-22T21:02:42Z",
+      "side": 1,
+      "message": "Thanks for doing this, and nice collection of tests!\n",
+      "revId": "3082c5a7c2b0b7df19fbf15c75ea614eebce81b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10849fb2_7943578e",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-22T21:02:42Z",
+      "side": 1,
+      "message": "Can you make a separate case here for the four new values?  I know it is slightly duplicating code, but will make it easier to have correct comments.  Maybe have a comment for the new case like:\n\n\"Transform a call that was delayed because of the use of typeparam inside an expression that required a pointer deference, array indexing, map indexing, or channel receive to compute function value.\"",
+      "revId": "3082c5a7c2b0b7df19fbf15c75ea614eebce81b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
