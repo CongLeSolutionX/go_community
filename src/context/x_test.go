@@ -5,9 +5,17 @@
 package context_test
 
 import (
+	"context"
 	. "context"
+	"os"
+	"strings"
 	"testing"
 )
+
+func TestMain(m *testing.M) {
+	context.SetIsTest(strings.HasSuffix(os.Args[0], "test"))
+	m.Run()
+}
 
 func TestBackground(t *testing.T)                      { XTestBackground(t) }
 func TestTODO(t *testing.T)                            { XTestTODO(t) }
