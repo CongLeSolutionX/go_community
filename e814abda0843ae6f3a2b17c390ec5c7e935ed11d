@@ -70,6 +70,24 @@
       "message": "This is a big example for a small point. Can you make a significantly shorter one?",
       "revId": "e814abda0843ae6f3a2b17c390ec5c7e935ed11d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e16e81ed_c21f24b7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 3028,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-22T06:18:31Z",
+      "side": 1,
+      "message": "Hmm, I can\u0027t find a way to shorter this. Is it ok to merge this with all examples below?\n\nMy intention is making the example right after the sentence, so the reader won\u0027t lost the context.",
+      "parentUuid": "1c89824e_d359b190",
+      "revId": "e814abda0843ae6f3a2b17c390ec5c7e935ed11d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
