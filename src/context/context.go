@@ -246,6 +246,8 @@ func newCancelCtx(parent Context) cancelCtx {
 // goroutines counts the number of goroutines ever created; for testing.
 var goroutines int32
 
+var isTest bool
+
 // propagateCancel arranges for child to be canceled when parent is.
 func propagateCancel(parent Context, child canceler) {
 	done := parent.Done()
@@ -274,7 +276,12 @@ func propagateCancel(parent Context, child canceler) {
 		}
 		p.mu.Unlock()
 	} else {
-		atomic.AddInt32(&goroutines, +1)
+		println("isTest", isTest)
+		if isTest {
+			atomic.AddInt32(&goroutines, +1)
+		} else {
+			goroutines++
+		}
 		go func() {
 			select {
 			case <-parent.Done():
