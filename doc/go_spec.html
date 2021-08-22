@@ -3000,6 +3000,33 @@ method value; the saved copy is then used as the receiver in any calls,
 which may be executed later.
 </p>
 
+<pre>
+type T int
+
+func (t T) Mt() { print(t) }
+
+type S struct {
+	*T
+	i int
+}
+
+func (s S) Ms() { print(s.i) }
+
+var t = new(T)
+var s = S{T: t}
+
+f := s.Ms       // receiver s is evaluated and saved
+g := t.Mt       // receiver t is evaluated and saved
+h := s.Mt       // like s.T.Mt, receiver t (s.T) is evaluated and saved
+
+s.i = 42        // does not affect saved receiver s in f
+*t = 42         // does not affect saved receiver t in g and h
+
+f()             // print 0
+g()             // print 0
+h()             // print 0
+</pre>
+
 <p>
 The type <code>T</code> may be an interface or non-interface type.
 </p>
