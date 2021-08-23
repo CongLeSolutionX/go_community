@@ -2,22 +2,29 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build amd64 || (!ios && arm64) || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x
-// +build amd64 !ios,arm64 mips64 mips64le ppc64 ppc64le riscv64 s390x
-
-// See mpagealloc_32bit.go for why ios/arm64 is excluded here.
+//go:build amd64 || arm64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x
+// +build amd64 arm64 mips64 mips64le ppc64 ppc64le riscv64 s390x
 
 package runtime
 
-import "unsafe"
+import (
+	"internal/goos"
+	"unsafe"
+)
 
 const (
 	// The number of levels in the radix tree.
 	summaryLevels = 5
 
 	// Constants for testing.
-	pageAlloc32Bit = 0
-	pageAlloc64Bit = 1
+	//
+	// These are inverted for ios/arm64 because we currently treat the
+	// address space size on that platform as being addressible with 40 bits,
+	// so the relevant large-address-space-tests will fail.
+	//
+	// See #46860 for details.
+	pageAlloc32Bit = goos.IsIos
+	pageAlloc64Bit = (1 - goos.IsIos)
 
 	// Number of bits needed to represent all indices into the L1 of the
 	// chunks map.
