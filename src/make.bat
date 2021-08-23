@@ -83,7 +83,7 @@ for /f "tokens=*" %%g in ('where go 2^>nul') do (
 		)
 	)
 )
-if "x%GOROOT_BOOTSTRAP%"=="x" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\Go1.4
+if "x%GOROOT_BOOTSTRAP%"=="x" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\Go1.16
 
 :bootstrapset
 if not exist "%GOROOT_BOOTSTRAP%\bin\go.exe" goto bootstrapfail
@@ -124,7 +124,7 @@ if x%4==x--no-banner set bootstrapflags=%bootstrapflags% --no-banner
 
 :: Run dist bootstrap to complete make.bash.
 :: Bootstrap installs a proper cmd/dist, built with the new toolchain.
-:: Throw ours, built with Go 1.4, away after bootstrap.
+:: Throw ours, built with the Go bootstrap version, away after bootstrap.
 .\cmd\dist\dist.exe bootstrap -a %vflag% %bootstrapflags%
 if errorlevel 1 goto fail
 del .\cmd\dist\dist.exe
@@ -143,7 +143,7 @@ goto end
 
 :bootstrapfail
 echo ERROR: Cannot find %GOROOT_BOOTSTRAP%\bin\go.exe
-echo Set GOROOT_BOOTSTRAP to a working Go tree ^>= Go 1.4.
+echo Set GOROOT_BOOTSTRAP to a working Go tree ^>= Go 1.16.
 
 :fail
 set GOBUILDFAIL=1
