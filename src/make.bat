@@ -96,6 +96,7 @@ setlocal
 set GOROOT=%GOROOT_BOOTSTRAP%
 set GOOS=
 set GOARCH=
+set GOEXPERIMENT=
 set GOBIN=
 set GO111MODULE=off
 "%GOROOT_BOOTSTRAP%\bin\go.exe" build -o cmd\dist\dist.exe .\cmd\dist

@@ -1278,19 +1278,9 @@ func cmdbootstrap() {
 	// go tool may complain.
 	os.Setenv("GOPATH", pathf("%s/pkg/obj/gopath", goroot))
 
-	// Disable GOEXPERIMENT when building toolchain1 and
-	// go_bootstrap. We don't need any experiments for the
-	// bootstrap toolchain, and this lets us avoid duplicating the
-	// GOEXPERIMENT-related build logic from cmd/go here. If the
-	// bootstrap toolchain is < Go 1.17, it will ignore this
-	// anyway since GOEXPERIMENT is baked in; otherwise it will
-	// pick it up from the environment we set here. Once we're
-	// using toolchain1 with dist as the build system, we need to
-	// override this to keep the experiments assumed by the
-	// toolchain and by dist consistent. Once go_bootstrap takes
-	// over the build process, we'll set this back to the original
-	// GOEXPERIMENT.
-	os.Setenv("GOEXPERIMENT", "none")
+	// Unset GOEXPERIMENT while we're still using GOROOT_BOOTSTRAP,
+	// so it uses its default configuration.
+	os.Unsetenv("GOEXPERIMENT")
 
 	if debug {
 		// cmd/buildid is used in debug mode.
@@ -1329,6 +1319,11 @@ func cmdbootstrap() {
 	os.Setenv("GOHOSTOS", gohostos)
 	os.Setenv("GOARCH", goarch)
 	os.Setenv("GOOS", goos)
+
+	// Set GOEXPERIMENT=none for building go_bootstrap with toolchain1,
+	// so cmd/dist doesn't need to reproduce cmd/go's GOEXPERIMENT logic
+	// (e.g., setting build tags).
+	os.Setenv("GOEXPERIMENT", "none")
 
 	timelog("build", "go_bootstrap")
 	xprintf("Building Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.\n")
