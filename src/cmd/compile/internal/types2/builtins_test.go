@@ -90,10 +90,10 @@ var builtinCalls = []struct {
 	{"make", `const l uint = 1; _ = make([]int, l)`, `func([]int, uint) []int`},
 
 	{"new", `_ = new(int)`, `func(int) *int`},
-	{"new", `type T struct{}; _ = new(T)`, `func(p.T) *p.T`},
+	{"new", `type T struct {}; _ = new(T)`, `func(p.T) *p.T`},
 
-	{"panic", `panic(0)`, `func(interface{})`},
-	{"panic", `panic("foo")`, `func(interface{})`},
+	{"panic", `panic(0)`, `func(interface {})`},
+	{"panic", `panic("foo")`, `func(interface {})`},
 
 	{"print", `print()`, `func()`},
 	{"print", `print(0)`, `func(int)`},
@@ -103,20 +103,20 @@ var builtinCalls = []struct {
 	{"println", `println(0)`, `func(int)`},
 	{"println", `println(1, 2.0, "foo", true)`, `func(int, float64, string, bool)`},
 
-	{"recover", `recover()`, `func() interface{}`},
-	{"recover", `_ = recover()`, `func() interface{}`},
+	{"recover", `recover()`, `func() interface {}`},
+	{"recover", `_ = recover()`, `func() interface {}`},
 
 	{"Add", `var p unsafe.Pointer; _ = unsafe.Add(p, -1.0)`, `func(unsafe.Pointer, int) unsafe.Pointer`},
 	{"Add", `var p unsafe.Pointer; var n uintptr; _ = unsafe.Add(p, n)`, `func(unsafe.Pointer, uintptr) unsafe.Pointer`},
 	{"Add", `_ = unsafe.Add(nil, 0)`, `func(unsafe.Pointer, int) unsafe.Pointer`},
 
-	{"Alignof", `_ = unsafe.Alignof(0)`, `invalid type`},                 // constant
-	{"Alignof", `var x struct{}; _ = unsafe.Alignof(x)`, `invalid type`}, // constant
+	{"Alignof", `_ = unsafe.Alignof(0)`, `invalid type`},                  // constant
+	{"Alignof", `var x struct {}; _ = unsafe.Alignof(x)`, `invalid type`}, // constant
 	{"Alignof", `var x P; _ = unsafe.Alignof(x)`, `func(p.P₁) uintptr`},
 
-	{"Offsetof", `var x struct{f bool}; _ = unsafe.Offsetof(x.f)`, `invalid type`},           // constant
-	{"Offsetof", `var x struct{_ int; f bool}; _ = unsafe.Offsetof((&x).f)`, `invalid type`}, // constant
-	{"Offsetof", `var x struct{_ int; f P}; _ = unsafe.Offsetof((&x).f)`, `func(p.P₁) uintptr`},
+	{"Offsetof", `var x struct {f bool}; _ = unsafe.Offsetof(x.f)`, `invalid type`},           // constant
+	{"Offsetof", `var x struct {_ int; f bool}; _ = unsafe.Offsetof((&x).f)`, `invalid type`}, // constant
+	{"Offsetof", `var x struct {_ int; f P}; _ = unsafe.Offsetof((&x).f)`, `func(p.P₁) uintptr`},
 
 	{"Sizeof", `_ = unsafe.Sizeof(0)`, `invalid type`},                 // constant
 	{"Sizeof", `var x struct{}; _ = unsafe.Sizeof(x)`, `invalid type`}, // constant

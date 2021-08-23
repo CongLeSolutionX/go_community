@@ -48,21 +48,21 @@ var independentTestTypes = []testEntry{
 	dup("[][]int"),
 
 	// structs
-	dup("struct{}"),
-	dup("struct{x int}"),
+	dup("struct {}"),
+	dup("struct {x int}"),
 	{`struct {
 		x, y int
 		z float32 "foo"
-	}`, `struct{x int; y int; z float32 "foo"}`},
+	}`, `struct {x int; y int; z float32 "foo"}`},
 	{`struct {
 		string
 		elems []complex128
-	}`, `struct{string; elems []complex128}`},
+	}`, `struct {string; elems []complex128}`},
 
 	// pointers
 	dup("*int"),
-	dup("***struct{}"),
-	dup("*struct{a int; b float32}"),
+	dup("***struct {}"),
+	dup("*struct {a int; b float32}"),
 
 	// functions
 	dup("func()"),
@@ -88,15 +88,15 @@ var independentTestTypes = []testEntry{
 	{"func(x int, y ...int) (u string)", "func(x int, y ...int) (u string)"},
 
 	// interfaces
-	dup("interface{}"),
-	dup("interface{m()}"),
-	dup(`interface{String() string; m(int) float32}`),
-	dup("interface{int|float32|complex128}"),
-	dup("interface{int|~float32|~complex128}"),
+	dup("interface {}"),
+	dup("interface {m()}"),
+	dup(`interface {String() string; m(int) float32}`),
+	dup("interface {int|float32|complex128}"),
+	dup("interface {int|~float32|~complex128}"),
 
 	// maps
 	dup("map[string]int"),
-	{"map[struct{x, y int}][]byte", "map[struct{x int; y int}][]byte"},
+	{"map[struct {x, y int}][]byte", "map[struct {x int; y int}][]byte"},
 
 	// channels
 	dup("chan<- chan int"),
@@ -110,9 +110,9 @@ var independentTestTypes = []testEntry{
 // types that depend on other type declarations (src in TestTypes)
 var dependentTestTypes = []testEntry{
 	// interfaces
-	dup(`interface{io.Reader; io.Writer}`),
-	dup(`interface{m() int; io.Writer}`),
-	{`interface{m() interface{T}}`, `interface{m() interface{generic_p.T}}`},
+	dup(`interface {io.Reader; io.Writer}`),
+	dup(`interface {m() int; io.Writer}`),
+	{`interface {m() interface {T}}`, `interface {m() interface {generic_p.T}}`},
 }
 
 func TestTypeString(t *testing.T) {
