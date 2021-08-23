@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f6e0225_6d5e9bf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-23T18:49:11Z",
+      "side": 1,
+      "message": "Here\u0027s the change that changes the formatting of types2.TypeString() for \u0027interface{\u0027 and \u0027struct{\u0027.  Let me know if this seems fine and I fixed the types2 tests correctly.\n\nThis allows to remove special code for dealing with the \u0027interface {\u0027 difference for types2/types1 and fixes issue #47877 (with relates to the \u0027struct {\u0027 difference).\n",
+      "revId": "19750576b103e732f036395a780e02db4f920e9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
