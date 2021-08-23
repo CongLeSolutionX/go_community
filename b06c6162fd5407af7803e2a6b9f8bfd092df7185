@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7257ef5e_eabebd44",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 3010,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-23T16:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "429d6ee8_35b02e3e",
+      "range": {
+        "startLine": 3010,
+        "startChar": 40,
+        "endLine": 3010,
+        "endChar": 41
+      },
+      "revId": "b06c6162fd5407af7803e2a6b9f8bfd092df7185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12ef3ad5_18dd51d7",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a72ed879_61c5bc7d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 3011,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-23T16:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12ef3ad5_18dd51d7",
+      "range": {
+        "startLine": 3011,
+        "startChar": 40,
+        "endLine": 3011,
+        "endChar": 46
+      },
+      "revId": "b06c6162fd5407af7803e2a6b9f8bfd092df7185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d98c3ea3_e5be6660",
@@ -97,6 +145,24 @@
       "writtenOn": "2021-08-23T16:36:11Z",
       "side": 1,
       "message": "This seems out of place. Either move into the code example, or omit?",
+      "revId": "b06c6162fd5407af7803e2a6b9f8bfd092df7185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7052c26e_e1cb9b60",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 3015,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-23T16:44:26Z",
+      "side": 1,
+      "message": "Ah right, better to omit this.",
+      "parentUuid": "d98c3ea3_e5be6660",
       "revId": "b06c6162fd5407af7803e2a6b9f8bfd092df7185",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
