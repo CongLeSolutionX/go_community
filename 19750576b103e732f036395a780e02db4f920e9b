@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c45d044_89dafe9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-23T21:33:50Z",
+      "side": 1,
+      "message": "s/inteface/interface/",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "19750576b103e732f036395a780e02db4f920e9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1f6e0225_6d5e9bf4",
@@ -14,6 +37,23 @@
       "writtenOn": "2021-08-23T18:49:11Z",
       "side": 1,
       "message": "Here\u0027s the change that changes the formatting of types2.TypeString() for \u0027interface{\u0027 and \u0027struct{\u0027.  Let me know if this seems fine and I fixed the types2 tests correctly.\n\nThis allows to remove special code for dealing with the \u0027interface {\u0027 difference for types2/types1 and fixes issue #47877 (with relates to the \u0027struct {\u0027 difference).\n",
+      "revId": "19750576b103e732f036395a780e02db4f920e9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec7d90ab_32286421",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-23T21:33:50Z",
+      "side": 1,
+      "message": "Actually, now that I see this, I\u0027m not convinced we want to do this. The types2 (and go/types) format follows gofmt formatting (see https://play.golang.org/p/t0pWFXGXEea) for such types. Only for multi-line types do we add the space. Let\u0027s discuss.",
       "revId": "19750576b103e732f036395a780e02db4f920e9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
