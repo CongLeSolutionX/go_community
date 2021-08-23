@@ -2,9 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD   (98ef91 [release-branch.go1.16] cmd/link: support more load commands)
 // +build amd64 !ios,arm64 mips64 mips64le ppc64 ppc64le riscv64 s390x
 
 // See mpagealloc_32bit.go for why ios/arm64 is excluded here.
+=======
+//go:build amd64 || arm64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x
+>>>>>>> CHANGE (c27a35 runtime: set iOS addr space to 40 bits with incremental page)
 
 package runtime
 
