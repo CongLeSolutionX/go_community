@@ -131,29 +131,29 @@ func (enc *Encoding) Encode(dst, src []byte) {
 	// outside of the loop to speed up the encoder.
 	_ = enc.encode
 
-	di, si := 0, 0
-	n := (len(src) / 3) * 3
-	for si < n {
+	di := 0
+	for len(src) > 2 {
 		// Convert 3x 8bit source bytes into 4 bytes
-		val := uint(src[si+0])<<16 | uint(src[si+1])<<8 | uint(src[si+2])
+		val := uint(src[0])<<16 | uint(src[1])<<8 | uint(src[2])
 
-		dst[di+0] = enc.encode[val>>18&0x3F]
-		dst[di+1] = enc.encode[val>>12&0x3F]
-		dst[di+2] = enc.encode[val>>6&0x3F]
-		dst[di+3] = enc.encode[val&0x3F]
+		dst2 := dst[di : di+4] // early bounds check to garantee safety of writes below
+		dst2[0] = enc.encode[val>>18&0x3F]
+		dst2[1] = enc.encode[val>>12&0x3F]
+		dst2[2] = enc.encode[val>>6&0x3F]
+		dst2[3] = enc.encode[val&0x3F]
 
-		si += 3
+		src = src[3:]
 		di += 4
 	}
 
-	remain := len(src) - si
+	remain := len(src)
 	if remain == 0 {
 		return
 	}
 	// Add the remaining small block
-	val := uint(src[si+0]) << 16
+	val := uint(src[0]) << 16
 	if remain == 2 {
-		val |= uint(src[si+1]) << 8
+		val |= uint(src[1]) << 8
 	}
 
 	dst[di+0] = enc.encode[val>>18&0x3F]
