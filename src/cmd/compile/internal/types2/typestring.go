@@ -96,7 +96,7 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 		writeType(buf, t.elem, qf, visited)
 
 	case *Struct:
-		buf.WriteString("struct{")
+		buf.WriteString("struct {")
 		for i, f := range t.fields {
 			if i > 0 {
 				buf.WriteString("; ")
@@ -143,7 +143,7 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 		}
 
 	case *Interface:
-		buf.WriteString("interface{")
+		buf.WriteString("interface {")
 		first := true
 		for _, m := range t.methods {
 			if !first {

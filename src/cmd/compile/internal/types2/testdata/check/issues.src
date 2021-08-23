@@ -280,7 +280,7 @@ type issue25301b /* ERROR cycle */ = interface {
 }
 
 type issue25301c interface {
-	notE // ERROR struct\{\} is not an interface
+	notE // ERROR struct {} is not an interface
 }
 
 type notE = struct{}

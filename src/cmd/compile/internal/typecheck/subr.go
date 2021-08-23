@@ -923,10 +923,7 @@ func makeInstName1(name string, targs []*types.Type, hasBrackets bool) string {
 			b.WriteString(targ.Sym().Pkg.Name)
 			b.WriteByte('.')
 		}
-		// types1 uses "interface {" and types2 uses "interface{" - convert
-		// to consistent types2 format.
 		tstring := targ.String()
-		tstring = strings.Replace(tstring, "interface {", "interface{", -1)
 		b.WriteString(tstring)
 	}
 	b.WriteString("]")
