@@ -1551,7 +1551,7 @@ func (t *tester) makeGOROOTUnwritable() (undo func()) {
 	}
 	gocacheSubdir, _ := filepath.Rel(dir, gocache)
 
-	// Note: Can't use WalkDir here, because this has to compile with Go 1.4.
+	// TODO(#44505): Use WalkDir here once all Go builders use Go 1.16 as bootstrap compiler.
 	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		if suffix := strings.TrimPrefix(path, dir+string(filepath.Separator)); suffix != "" {
 			if suffix == gocacheSubdir {
@@ -1649,9 +1649,10 @@ func (t *tester) runPrecompiledStdTest(timeout time.Duration) error {
 	return cmd.Wait()
 }
 
-// raceDetectorSupported is a copy of the function
-// cmd/internal/sys.RaceDetectorSupported, which can't be used here
-// because cmd/dist has to be buildable by Go 1.4.
+// raceDetectorSupported is a copy of the function cmd/internal/sys.RaceDetectorSupported.
+// TODO(#44505):: replace uses with cmd/internal/sys.RaceDetectorSupported once
+// all Go builders use Go 1.16 as bootstrap compiler.
+//
 // The race detector only supports 48-bit VMA on arm64. But we don't have
 // a good solution to check VMA size(See https://golang.org/issue/29948)
 // raceDetectorSupported will always return true for arm64. But race

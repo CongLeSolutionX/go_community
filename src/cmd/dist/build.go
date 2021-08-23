@@ -1255,10 +1255,10 @@ var toolchain = []string{"cmd/asm", "cmd/cgo", "cmd/compile", "cmd/link"}
 // The bootstrap command runs a build from scratch,
 // stopping at having installed the go_bootstrap command.
 //
-// WARNING: This command runs after cmd/dist is built with Go 1.4.
+// WARNING: This command runs after cmd/dist is built with the Go bootstrap toolchain.
 // It rebuilds and installs cmd/dist with the new toolchain, so other
 // commands (like "go tool dist test" in run.bash) can rely on bug fixes
-// made since Go 1.4, but this function cannot. In particular, the uses
+// made since Go 1.16, but this function cannot. In particular, the uses
 // of os/exec in this function cannot assume that
 //	cmd.Env = append(os.Environ(), "X=Y")
 // sets $X to Y in the command's environment. That guarantee was
@@ -1360,7 +1360,7 @@ func cmdbootstrap() {
 
 	// To recap, so far we have built the new toolchain
 	// (cmd/asm, cmd/cgo, cmd/compile, cmd/link)
-	// using Go 1.4's toolchain and go command.
+	// using the Go bootstrap toolchain and go command.
 	// Then we built the new go command (as go_bootstrap)
 	// using the new toolchain and our own build logic (above).
 	//
@@ -1390,7 +1390,7 @@ func cmdbootstrap() {
 	}
 
 	// Toolchain2 should be semantically equivalent to toolchain1,
-	// but it was built using the new compilers instead of the Go 1.4 compilers,
+	// but it was built using the newly built compiler instead of the Go bootstrap compiler,
 	// so it should at the least run faster. Also, toolchain1 had no build IDs
 	// in the binaries, while toolchain2 does. In non-release builds, the
 	// toolchain's build IDs feed into constructing the build IDs of built targets,
