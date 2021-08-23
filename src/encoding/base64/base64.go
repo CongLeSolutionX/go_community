@@ -137,10 +137,11 @@ func (enc *Encoding) Encode(dst, src []byte) {
 		// Convert 3x 8bit source bytes into 4 bytes
 		val := uint(src[si+0])<<16 | uint(src[si+1])<<8 | uint(src[si+2])
 
-		dst[di+0] = enc.encode[val>>18&0x3F]
-		dst[di+1] = enc.encode[val>>12&0x3F]
-		dst[di+2] = enc.encode[val>>6&0x3F]
-		dst[di+3] = enc.encode[val&0x3F]
+		dst2 := dst[di : di+4] // early bounds check to garantee safety of writes below
+		dst2[0] = enc.encode[val>>18&0x3F]
+		dst2[1] = enc.encode[val>>12&0x3F]
+		dst2[2] = enc.encode[val>>6&0x3F]
+		dst2[3] = enc.encode[val&0x3F]
 
 		si += 3
 		di += 4
