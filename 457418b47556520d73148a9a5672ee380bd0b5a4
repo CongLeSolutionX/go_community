@@ -34,6 +34,24 @@
       "parentUuid": "214fa6ea_443d80a5",
       "revId": "457418b47556520d73148a9a5672ee380bd0b5a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32a5362b_4b29fc72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-23T04:26:59Z",
+      "side": 1,
+      "message": "My mistake - I should have provided the comments with the +2. No worries.",
+      "parentUuid": "7c5debf6_bb6caf23",
+      "revId": "457418b47556520d73148a9a5672ee380bd0b5a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
