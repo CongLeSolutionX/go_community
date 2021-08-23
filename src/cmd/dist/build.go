@@ -1290,7 +1290,7 @@ func cmdbootstrap() {
 	// toolchain and by dist consistent. Once go_bootstrap takes
 	// over the build process, we'll set this back to the original
 	// GOEXPERIMENT.
-	os.Setenv("GOEXPERIMENT", "none")
+	os.Setenv("GOEXPERIMENT", "")
 
 	if debug {
 		// cmd/buildid is used in debug mode.
