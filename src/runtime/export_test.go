@@ -1066,7 +1066,23 @@ func FreePageAlloc(pp *PageAlloc) {
 //
 // This should not be higher than 0x100*pallocChunkBytes to support
 // mips and mipsle, which only have 31-bit address spaces.
+<<<<<<< HEAD   (0f2d0d [release-branch.go1.17] go1.17.4)
 var BaseChunkIdx = ChunkIdx(chunkIndex(((0xc000*pageAlloc64Bit + 0x100*pageAlloc32Bit) * pallocChunkBytes) + arenaBaseOffset*sys.GoosAix))
+=======
+var BaseChunkIdx = func() ChunkIdx {
+	var prefix uintptr
+	if pageAlloc64Bit != 0 {
+		prefix = 0xc000
+	} else {
+		prefix = 0x100
+	}
+	baseAddr := prefix * pallocChunkBytes
+	if goos.IsAix != 0 {
+		baseAddr += arenaBaseOffset
+	}
+	return ChunkIdx(chunkIndex(baseAddr))
+}()
+>>>>>>> CHANGE (c27a35 runtime: set iOS addr space to 40 bits with incremental page)
 
 // PageBase returns an address given a chunk index and a page index
 // relative to that chunk.
