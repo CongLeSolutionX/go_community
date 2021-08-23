@@ -33,7 +33,7 @@ import (
 	modzip "golang.org/x/mod/zip"
 )
 
-var downloadCache par.Cache
+var downloadCache par.Cache[module.Version, string]
 
 // Download downloads the specific module version to the
 // local download cache and returns the name of the directory
@@ -48,15 +48,14 @@ func Download(ctx context.Context, mod module.Version) (dir string, err error) {
 		dir string
 		err error
 	}
-	c := downloadCache.Do(mod, func() interface{} {
+	return downloadCache.Do(mod, func() (string, error) {
 		dir, err := download(ctx, mod)
 		if err != nil {
-			return cached{"", err}
+			return "", err
 		}
 		checkMod(mod)
-		return cached{dir, nil}
-	}).(cached)
-	return c.dir, c.err
+		return dir, nil
+	})
 }
 
 func download(ctx context.Context, mod module.Version) (dir string, err error) {
@@ -155,27 +154,23 @@ func download(ctx context.Context, mod module.Version) (dir string, err error) {
 	return dir, nil
 }
 
-var downloadZipCache par.Cache
+var downloadZipCache par.Cache[module.Version, string]
 
 // DownloadZip downloads the specific module version to the
 // local zip cache and returns the name of the zip file.
 func DownloadZip(ctx context.Context, mod module.Version) (zipfile string, err error) {
 	// The par.Cache here avoids duplicate work.
-	type cached struct {
-		zipfile string
-		err     error
-	}
-	c := downloadZipCache.Do(mod, func() interface{} {
+	return downloadZipCache.Do(mod, func() (string, error) {
 		zipfile, err := CachePath(mod, "zip")
 		if err != nil {
-			return cached{"", err}
+			return "", err
 		}
 		ziphashfile := zipfile + "hash"
 
 		// Return without locking if the zip and ziphash files exist.
 		if _, err := os.Stat(zipfile); err == nil {
 			if _, err := os.Stat(ziphashfile); err == nil {
-				return cached{zipfile, nil}
+				return zipfile, nil
 			}
 		}
 
@@ -185,16 +180,15 @@ func DownloadZip(ctx context.Context, mod module.Version) (zipfile string, err e
 		}
 		unlock, err := lockVersion(mod)
 		if err != nil {
-			return cached{"", err}
+			return "", err
 		}
 		defer unlock()
 
 		if err := downloadZip(ctx, mod, zipfile); err != nil {
-			return cached{"", err}
+			return "", err
 		}
-		return cached{zipfile, nil}
-	}).(cached)
-	return c.zipfile, c.err
+		return zipfile, nil
+	})
 }
 
 func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err error) {

@@ -53,25 +53,3 @@ func TestWorkParallel(t *testing.T) {
 	}
 	t.Fatalf("par.Work.Do does not seem to be parallel")
 }
-
-func TestCache(t *testing.T) {
-	var cache Cache
-
-	n := 1
-	v := cache.Do(1, func() interface{} { n++; return n })
-	if v != 2 {
-		t.Fatalf("cache.Do(1) did not run f")
-	}
-	v = cache.Do(1, func() interface{} { n++; return n })
-	if v != 2 {
-		t.Fatalf("cache.Do(1) ran f again!")
-	}
-	v = cache.Do(2, func() interface{} { n++; return n })
-	if v != 3 {
-		t.Fatalf("cache.Do(2) did not run f")
-	}
-	v = cache.Do(1, func() interface{} { n++; return n })
-	if v != 2 {
-		t.Fatalf("cache.Do(1) did not returned saved value from original cache.Do(1)")
-	}
-}

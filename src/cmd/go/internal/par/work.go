@@ -8,7 +8,6 @@ package par
 import (
 	"math/rand"
 	"sync"
-	"sync/atomic"
 )
 
 // Work manages a set of work items to be executed in parallel, at most once each.
@@ -100,91 +99,4 @@ func (w *Work) runner() {
 
 		w.f(item)
 	}
-}
-
-// Cache runs an action once per key and caches the result.
-type Cache struct {
-	m sync.Map
-}
-
-type cacheEntry struct {
-	done   uint32
-	mu     sync.Mutex
-	result interface{}
-}
-
-// Do calls the function f if and only if Do is being called for the first time with this key.
-// No call to Do with a given key returns until the one call to f returns.
-// Do returns the value returned by the one call to f.
-func (c *Cache) Do(key interface{}, f func() interface{}) interface{} {
-	entryIface, ok := c.m.Load(key)
-	if !ok {
-		entryIface, _ = c.m.LoadOrStore(key, new(cacheEntry))
-	}
-	e := entryIface.(*cacheEntry)
-	if atomic.LoadUint32(&e.done) == 0 {
-		e.mu.Lock()
-		if atomic.LoadUint32(&e.done) == 0 {
-			e.result = f()
-			atomic.StoreUint32(&e.done, 1)
-		}
-		e.mu.Unlock()
-	}
-	return e.result
-}
-
-// Get returns the cached result associated with key.
-// It returns nil if there is no such result.
-// If the result for key is being computed, Get does not wait for the computation to finish.
-func (c *Cache) Get(key interface{}) interface{} {
-	entryIface, ok := c.m.Load(key)
-	if !ok {
-		return nil
-	}
-	e := entryIface.(*cacheEntry)
-	if atomic.LoadUint32(&e.done) == 0 {
-		return nil
-	}
-	return e.result
-}
-
-// Clear removes all entries in the cache.
-//
-// Concurrent calls to Get may return old values. Concurrent calls to Do
-// may return old values or store results in entries that have been deleted.
-//
-// TODO(jayconrod): Delete this after the package cache clearing functions
-// in internal/load have been removed.
-func (c *Cache) Clear() {
-	c.m.Range(func(key, value interface{}) bool {
-		c.m.Delete(key)
-		return true
-	})
-}
-
-// Delete removes an entry from the map. It is safe to call Delete for an
-// entry that does not exist. Delete will return quickly, even if the result
-// for a key is still being computed; the computation will finish, but the
-// result won't be accessible through the cache.
-//
-// TODO(jayconrod): Delete this after the package cache clearing functions
-// in internal/load have been removed.
-func (c *Cache) Delete(key interface{}) {
-	c.m.Delete(key)
-}
-
-// DeleteIf calls pred for each key in the map. If pred returns true for a key,
-// DeleteIf removes the corresponding entry. If the result for a key is
-// still being computed, DeleteIf will remove the entry without waiting for
-// the computation to finish. The result won't be accessible through the cache.
-//
-// TODO(jayconrod): Delete this after the package cache clearing functions
-// in internal/load have been removed.
-func (c *Cache) DeleteIf(pred func(key interface{}) bool) {
-	c.m.Range(func(key, _ interface{}) bool {
-		if pred(key) {
-			c.Delete(key)
-		}
-		return true
-	})
 }

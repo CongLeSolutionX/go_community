@@ -169,8 +169,10 @@ func SideLock() (unlock func(), err error) {
 // (so that it can be returned from Lookup multiple times).
 // It serializes calls to the underlying Repo.
 type cachingRepo struct {
-	path  string
-	cache par.Cache // cache for all operations
+	path string
+
+	// TODO(jayconrod): should we split this into caches with distinct types?
+	cache par.Cache[string, interface{}]
 
 	once     sync.Once
 	initRepo func() (Repo, error)
@@ -200,31 +202,20 @@ func (r *cachingRepo) ModulePath() string {
 }
 
 func (r *cachingRepo) Versions(prefix string) ([]string, error) {
-	type cached struct {
-		list []string
-		err  error
+	v, err := r.cache.Do("versions:"+prefix, func() (interface{}, error) {
+		return r.repo().Versions(prefix)
+	})
+	if err != nil {
+		return nil, err
 	}
-	c := r.cache.Do("versions:"+prefix, func() interface{} {
-		list, err := r.repo().Versions(prefix)
-		return cached{list, err}
-	}).(cached)
-
-	if c.err != nil {
-		return nil, c.err
-	}
-	return append([]string(nil), c.list...), nil
-}
-
-type cachedInfo struct {
-	info *RevInfo
-	err  error
+	return append([]string(nil), v.([]string)...), nil
 }
 
 func (r *cachingRepo) Stat(rev string) (*RevInfo, error) {
-	c := r.cache.Do("stat:"+rev, func() interface{} {
+	v, err := r.cache.Do("stat:"+rev, func() (interface{}, error) {
 		file, info, err := readDiskStat(r.path, rev)
 		if err == nil {
-			return cachedInfo{info, nil}
+			return info, nil
 		}
 
 		info, err = r.repo().Stat(rev)
@@ -233,8 +224,8 @@ func (r *cachingRepo) Stat(rev string) (*RevInfo, error) {
 			// then save the information under the proper version, for future use.
 			if info.Version != rev {
 				file, _ = CachePath(module.Version{Path: r.path, Version: info.Version}, "info")
-				r.cache.Do("stat:"+info.Version, func() interface{} {
-					return cachedInfo{info, err}
+				r.cache.Do("stat:"+info.Version, func() (interface{}, error) {
+					return info, err
 				})
 			}
 
@@ -242,68 +233,64 @@ func (r *cachingRepo) Stat(rev string) (*RevInfo, error) {
 				fmt.Fprintf(os.Stderr, "go: writing stat cache: %v\n", err)
 			}
 		}
-		return cachedInfo{info, err}
-	}).(cachedInfo)
+		return info, err
+	})
 
-	if c.err != nil {
-		return nil, c.err
+	if err != nil {
+		return nil, err
 	}
-	info := *c.info
+	info := *v.(*RevInfo)
 	return &info, nil
 }
 
 func (r *cachingRepo) Latest() (*RevInfo, error) {
-	c := r.cache.Do("latest:", func() interface{} {
+	v, err := r.cache.Do("latest:", func() (interface{}, error) {
 		info, err := r.repo().Latest()
 
 		// Save info for likely future Stat call.
 		if err == nil {
-			r.cache.Do("stat:"+info.Version, func() interface{} {
-				return cachedInfo{info, err}
+			r.cache.Do("stat:"+info.Version, func() (interface{}, error) {
+				return info, err
 			})
 			if file, _, err := readDiskStat(r.path, info.Version); err != nil {
 				writeDiskStat(file, info)
 			}
 		}
 
-		return cachedInfo{info, err}
-	}).(cachedInfo)
+		return info, err
+	})
 
-	if c.err != nil {
-		return nil, c.err
+	if err != nil {
+		return nil, err
 	}
-	info := *c.info
+	info := *v.(*RevInfo)
 	return &info, nil
 }
 
 func (r *cachingRepo) GoMod(version string) ([]byte, error) {
-	type cached struct {
-		text []byte
-		err  error
-	}
-	c := r.cache.Do("gomod:"+version, func() interface{} {
+	v, err := r.cache.Do("gomod:"+version, func() (interface{}, error) {
 		file, text, err := readDiskGoMod(r.path, version)
 		if err == nil {
 			// Note: readDiskGoMod already called checkGoMod.
-			return cached{text, nil}
+			return text, nil
 		}
 
 		text, err = r.repo().GoMod(version)
 		if err == nil {
 			if err := checkGoMod(r.path, version, text); err != nil {
-				return cached{text, err}
+				return text, err
 			}
 			if err := writeDiskGoMod(file, text); err != nil {
 				fmt.Fprintf(os.Stderr, "go: writing go.mod cache: %v\n", err)
 			}
 		}
-		return cached{text, err}
-	}).(cached)
+		return text, err
+	})
 
-	if c.err != nil {
-		return nil, c.err
+	if err != nil {
+		return nil, err
 	}
-	return append([]byte(nil), c.text...), nil
+	return append([]byte(nil), v.([]byte)...), nil
 }
 
 func (r *cachingRepo) Zip(dst io.Writer, version string) error {

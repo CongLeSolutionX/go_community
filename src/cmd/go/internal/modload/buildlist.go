@@ -239,7 +239,7 @@ func (rs *Requirements) IsDirect(path string) bool {
 // transitive dependencies of non-root (implicit) dependencies.
 type ModuleGraph struct {
 	g         *mvs.Graph
-	loadCache par.Cache // module.Version → summaryError
+	loadCache par.Cache[module.Version, ] // module.Version → summaryError
 
 	buildListOnce sync.Once
 	buildList     []module.Version

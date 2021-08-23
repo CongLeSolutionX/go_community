@@ -44,24 +44,17 @@ func (notExistError) Is(err error) bool { return err == fs.ErrNotExist }
 
 const gitWorkDirType = "git3"
 
-var gitRepoCache par.Cache
+type gitRepoKey struct {
+	remote  string
+	localOK bool
+}
+
+var gitRepoCache par.Cache[gitRepoKey, Repo]
 
 func newGitRepoCached(remote string, localOK bool) (Repo, error) {
-	type key struct {
-		remote  string
-		localOK bool
-	}
-	type cached struct {
-		repo Repo
-		err  error
-	}
-
-	c := gitRepoCache.Do(key{remote, localOK}, func() interface{} {
-		repo, err := newGitRepo(remote, localOK)
-		return cached{repo, err}
-	}).(cached)
-
-	return c.repo, c.err
+	return gitRepoCache.Do(gitRepoKey{remote, localOK}, func() (Repo, error) {
+		return newGitRepo(remote, localOK)
+	})
 }
 
 func newGitRepo(remote string, localOK bool) (Repo, error) {
@@ -130,7 +123,7 @@ type gitRepo struct {
 
 	fetchLevel int
 
-	statCache par.Cache
+	statCache par.Cache[string, *RevInfo]
 
 	refsOnce sync.Once
 	// refs maps branch and tag refs (e.g., "HEAD", "refs/heads/master")
@@ -503,11 +496,9 @@ func (r *gitRepo) Stat(rev string) (*RevInfo, error) {
 		info *RevInfo
 		err  error
 	}
-	c := r.statCache.Do(rev, func() interface{} {
-		info, err := r.stat(rev)
-		return cached{info, err}
-	}).(cached)
-	return c.info, c.err
+	return r.statCache.Do(rev, func() (*RevInfo, error) {
+		return r.stat(rev)
+	})
 }
 
 func (r *gitRepo) ReadFile(rev, file string, maxSize int64) ([]byte, error) {
