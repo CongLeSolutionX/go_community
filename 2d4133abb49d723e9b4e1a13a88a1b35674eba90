@@ -16,6 +16,23 @@
       "message": "TRY\u003driscv64",
       "revId": "2d4133abb49d723e9b4e1a13a88a1b35674eba90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a27f8a44_c0ed6a96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-08-23T15:18:52Z",
+      "side": 1,
+      "message": "I\u0027ve proposed a change (https://go-review.googlesource.com/c/go/+/344449) that changes the test data so that the location of the instructions does not matter. This means the existing groupings can remain and we should avoid output changing entirely.",
+      "revId": "2d4133abb49d723e9b4e1a13a88a1b35674eba90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
