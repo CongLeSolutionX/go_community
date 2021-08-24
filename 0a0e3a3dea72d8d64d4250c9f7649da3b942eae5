@@ -34,6 +34,24 @@
       "parentUuid": "bd9355b2_ede4a04b",
       "revId": "0a0e3a3dea72d8d64d4250c9f7649da3b942eae5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "691d571c_b840fabb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-08-24T17:58:28Z",
+      "side": 1,
+      "message": "Thanks. DWARF has DW_AT_trampoline (which is what I was toying with in CL 270864), but it is very generic -- there isn\u0027t really a way to say \"this is a trampoline of flavor X\". So it would be a little weird to mark defer wrappers as trampolines but not method wrappers.  I think changing the name would be simpler under the circumstances. I will look into sending a CL.",
+      "parentUuid": "d954ea83_ddfd9c11",
+      "revId": "0a0e3a3dea72d8d64d4250c9f7649da3b942eae5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
