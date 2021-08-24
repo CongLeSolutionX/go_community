@@ -388,7 +388,7 @@ func (pr *pkgReader2) objIdx(idx int) (*types2.Package, string) {
 
 		case objFunc:
 			pos := r.pos()
-			tparams := r.typeParamNames()
+			tparams := r.typeParams()
 			sig := r.signature(nil)
 			sig.SetTParams(tparams)
 			return types2.NewFunc(pos, objPkg, objName, sig)
@@ -396,8 +396,8 @@ func (pr *pkgReader2) objIdx(idx int) (*types2.Package, string) {
 		case objType:
 			pos := r.pos()
 
-			return types2.NewTypeNameLazy(pos, objPkg, objName, func(named *types2.Named) (tparams []*types2.TypeName, underlying types2.Type, methods []*types2.Func) {
-				tparams = r.typeParamNames()
+			return types2.NewTypeNameLazy(pos, objPkg, objName, func(named *types2.Named) (tparams []*types2.TypeParam, underlying types2.Type, methods []*types2.Func) {
+				tparams = r.typeParams()
 
 				// TODO(mdempsky): Rewrite receiver types to underlying is an
 				// Interface? The go/types importer does this (I think because
@@ -453,7 +453,8 @@ func (pr *pkgReader2) objDictIdx(idx int) *reader2Dict {
 	return &dict
 }
 
-func (r *reader2) typeParamNames() []*types2.TypeName {
+func (r *reader2) typeParams() []*types2.TypeParam {
+	// TODO should this be syncTypeParams now?
 	r.sync(syncTypeParamNames)
 
 	// Note: This code assumes it only processes objects without
@@ -470,21 +471,20 @@ func (r *reader2) typeParamNames() []*types2.TypeName {
 	// create all the TypeNames and TypeParams, then we construct and
 	// set the bound type.
 
-	names := make([]*types2.TypeName, len(r.dict.bounds))
 	r.dict.tparams = make([]*types2.TypeParam, len(r.dict.bounds))
 	for i := range r.dict.bounds {
 		pos := r.pos()
 		pkg, name := r.localIdent()
 
-		names[i] = types2.NewTypeName(pos, pkg, name, nil)
-		r.dict.tparams[i] = r.p.check.NewTypeParam(names[i], nil)
+		tname := types2.NewTypeName(pos, pkg, name, nil)
+		r.dict.tparams[i] = r.p.check.NewTypeParam(tname, nil)
 	}
 
 	for i, bound := range r.dict.bounds {
 		r.dict.tparams[i].SetConstraint(r.p.typIdx(bound, r.dict))
 	}
 
-	return names
+	return r.dict.tparams
 }
 
 func (r *reader2) method() *types2.Func {
@@ -492,7 +492,7 @@ func (r *reader2) method() *types2.Func {
 	pos := r.pos()
 	pkg, name := r.selector()
 
-	rparams := r.typeParamNames()
+	rparams := r.typeParams()
 	sig := r.signature(r.param())
 	sig.SetRParams(rparams)
 
