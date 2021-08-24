@@ -40,6 +40,13 @@ func BuildInit() {
 		cfg.BuildPkgdir = p
 	}
 
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
+=======
+	if cfg.BuildP <= 0 {
+		base.Fatalf("go: -p must be a positive integer: %v\n", cfg.BuildP)
+	}
+
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 	// Make sure CC, CXX, and FC are absolute paths.
 	for _, key := range []string{"CC", "CXX", "FC"} {
 		value := cfg.Getenv(key)
