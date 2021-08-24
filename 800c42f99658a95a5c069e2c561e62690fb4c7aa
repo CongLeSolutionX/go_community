@@ -70,6 +70,24 @@
       "message": "Would it makes sense for me to push up the environment construction so we reuse it across all instantiations?",
       "revId": "800c42f99658a95a5c069e2c561e62690fb4c7aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "152bb977_e5b4107a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-24T15:57:43Z",
+      "side": 1,
+      "message": "Yes, I think that would be good. Eventually the plan is that this Environment can be used to de-dup multiple identical instances w/o needing a *Checker. rfindley has a pending CL in the works to do that.",
+      "parentUuid": "30a2f7b7_9933b6cc",
+      "revId": "800c42f99658a95a5c069e2c561e62690fb4c7aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
