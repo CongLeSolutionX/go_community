@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91ccf0fa_c636fca8",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-08-24T22:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0adae561_1de5fd72",
+      "revId": "af68034a4a02cd96f0ffad1b27d7595f7f0ddfbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "113a92df_8ad50c20",
@@ -102,6 +120,24 @@
       "writtenOn": "2021-08-19T22:09:29Z",
       "side": 1,
       "message": "Do you know that the unconditional branch is not too far?",
+      "revId": "af68034a4a02cd96f0ffad1b27d7595f7f0ddfbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a8e889_a175ace9",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-08-24T22:17:29Z",
+      "side": 1,
+      "message": "We assume a branch insn provides sufficient range (as does the existing code). If this ever proves insufficient, we can implement handling for such an offset.",
+      "parentUuid": "113a92df_8ad50c20",
       "revId": "af68034a4a02cd96f0ffad1b27d7595f7f0ddfbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -123,6 +159,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d704a6f_04699769",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-08-24T22:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63d33184_525b42df",
+      "revId": "af68034a4a02cd96f0ffad1b27d7595f7f0ddfbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "087e16cf_2deade7f",
@@ -136,6 +190,24 @@
       "writtenOn": "2021-08-19T22:09:29Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "af68034a4a02cd96f0ffad1b27d7595f7f0ddfbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55d49546_866ef1b5",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-08-24T22:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "087e16cf_2deade7f",
       "revId": "af68034a4a02cd96f0ffad1b27d7595f7f0ddfbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
