@@ -2185,7 +2185,8 @@ var g3Failures = setOf(
 
 	"typeparam/nested.go", // -G=3 doesn't support function-local types with generics
 
-	"typeparam/mdempsky/4.go", // -G=3 can't export functions with labeled breaks in loops
+	"typeparam/mdempsky/4.go",  // -G=3 can't export functions with labeled breaks in loops
+	"typeparam/issue47925c.go", // -G=3 can't handle I2I casts yet
 )
 
 var unifiedFailures = setOf(
