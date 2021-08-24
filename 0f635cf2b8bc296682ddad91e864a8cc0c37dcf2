@@ -72,6 +72,24 @@
       "message": "Ugh, this isn\u0027t as easy as I was hoping.",
       "revId": "0f635cf2b8bc296682ddad91e864a8cc0c37dcf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8a5353f_ce5bf120",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-24T07:13:21Z",
+      "side": 1,
+      "message": "Not sure it\u0027s specific to transform.go or not, the problem code path is sync/rwmutex.go:L157. We have special case where Name.Func is nil for compiler generated func, but not sure why it happens here.",
+      "parentUuid": "53839c16_d0e2a03e",
+      "revId": "0f635cf2b8bc296682ddad91e864a8cc0c37dcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
