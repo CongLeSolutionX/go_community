@@ -330,7 +330,7 @@ func methods(t *types.Type) []*typeSig {
 		if f.Type.Recv() == nil {
 			base.Fatalf("receiver with no type on %v method %v %v", mt, f.Sym, f)
 		}
-		if f.Nointerface() {
+		if ir.IsNoInterfaceMethod(f) {
 			continue
 		}
 

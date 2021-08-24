@@ -402,7 +402,7 @@ func Assignop(src, dst *types.Type) (ir.Op, string) {
 		var why string
 		if isptrto(src, types.TINTER) {
 			why = fmt.Sprintf(":\n\t%v is pointer to interface, not interface", src)
-		} else if have != nil && have.Sym == missing.Sym && have.Nointerface() {
+		} else if have != nil && have.Sym == missing.Sym && ir.IsNoInterfaceMethod(have) {
 			why = fmt.Sprintf(":\n\t%v does not implement %v (%v method is marked 'nointerface')", src, dst, missing.Sym)
 		} else if have != nil && have.Sym == missing.Sym {
 			why = fmt.Sprintf(":\n\t%v does not implement %v (wrong type for %v method)\n"+
@@ -789,7 +789,7 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 			return false
 		}
 		tm := tms[i]
-		if tm.Nointerface() || !types.Identical(tm.Type, im.Type) {
+		if ir.IsNoInterfaceMethod(tm) || !types.Identical(tm.Type, im.Type) {
 			*m = im
 			*samename = tm
 			*ptr = 0
@@ -1278,9 +1278,6 @@ func (ts *Tsubster) tstruct(t *types.Type, force bool) *types.Type {
 			newfields[i].Embedded = f.Embedded
 			if f.IsDDD() {
 				newfields[i].SetIsDDD(true)
-			}
-			if f.Nointerface() {
-				newfields[i].SetNointerface(true)
 			}
 			if f.Nname != nil && ts.Vars != nil {
 				v := ts.Vars[f.Nname.(*ir.Name)]

@@ -984,9 +984,6 @@ func (r *importReader) funcExt(n *ir.Name) {
 }
 
 func (r *importReader) methExt(m *types.Field) {
-	if r.bool() {
-		m.SetNointerface(true)
-	}
 	r.funcExt(m.Nname.(*ir.Name))
 }
 

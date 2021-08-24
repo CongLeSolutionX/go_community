@@ -249,7 +249,6 @@ func addmethod(n *ir.Func, msym *types.Sym, t *types.Type, local, nointerface bo
 
 	f := types.NewField(base.Pos, msym, t)
 	f.Nname = n.Nname
-	f.SetNointerface(nointerface)
 
 	mt.Methods().Append(f)
 	return f

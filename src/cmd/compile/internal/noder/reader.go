@@ -753,7 +753,6 @@ func (r *reader) method() *types.Field {
 
 	meth := types.NewField(name.Func.Pos(), sym, typ)
 	meth.Nname = name
-	meth.SetNointerface(name.Func.Pragma&ir.Nointerface != 0)
 
 	return meth
 }

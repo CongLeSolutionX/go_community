@@ -1378,7 +1378,6 @@ func (w *exportWriter) funcExt(n *ir.Name) {
 }
 
 func (w *exportWriter) methExt(m *types.Field) {
-	w.bool(m.Nointerface())
 	w.funcExt(m.Nname.(*ir.Name))
 }
 

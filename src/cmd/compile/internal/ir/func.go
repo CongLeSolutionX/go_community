@@ -279,6 +279,14 @@ func PkgFuncName(f *Func) string {
 	return p + "." + s.Name
 }
 
+// IsNoInterfaceMethod reports whether method m is marked as
+// //go:nointerface.
+func IsNoInterfaceMethod(m *types.Field) bool {
+	// m.Nname can be nil for interface methods.
+	// TODO(mdempsky): Assert that m isn't a field or parameter?
+	return m.Nname != nil && m.Nname.(*Name).Func.Pragma&Nointerface != 0
+}
+
 var CurFunc *Func
 
 // WithFunc invokes do with CurFunc and base.Pos set to curfn and

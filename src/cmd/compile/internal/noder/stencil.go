@@ -496,9 +496,6 @@ func (g *irgen) instantiateMethods() {
 		baseSym := typ.OrigSym
 		baseType := baseSym.Def.(*ir.Name).Type()
 		for j, _ := range typ.Methods().Slice() {
-			if baseType.Methods().Slice()[j].Nointerface() {
-				typ.Methods().Slice()[j].SetNointerface(true)
-			}
 			baseNname := baseType.Methods().Slice()[j].Nname.(*ir.Name)
 			// Eagerly generate the instantiations and dictionaries that implement these methods.
 			// We don't use the instantiations here, just generate them (and any
