@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed78d480_bbf64a6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-24T17:57:49Z",
+      "side": 1,
+      "message": "Thanks for the review.  Great that you noticed the other bug was fixed too, added that to the commit message.",
+      "revId": "8788016e1304677d5c97eccdd6c2e179463f8b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
