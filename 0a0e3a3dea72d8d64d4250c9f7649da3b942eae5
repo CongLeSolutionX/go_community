@@ -16,6 +16,24 @@
       "message": "\nLook like as part of this change we moved from the previous naming scheme for defer wrappers (using \"dwrap\") to using generic names for them. This appears to be problematic for delve, since it uses the name to \"undo\" the wrapping when debugging: https://github.com/go-delve/delve/blob/a1a726d3152481f48ac1f1612988a70c1bdabf5f/pkg/proc/target.go#L521\n\nWould there be any objections to undoing this part of the change? An alternative would be to tag the wrappers in DWARF (e.g. https://go-review.googlesource.com/c/go/+/270864 or something like it), but that comes with a good deal more complexity.\n\n\n",
       "revId": "0a0e3a3dea72d8d64d4250c9f7649da3b942eae5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d954ea83_ddfd9c11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-08-24T17:40:03Z",
+      "side": 1,
+      "message": "If there\u0027s a proper way to indicate this via DWARF, that seems like the more robust solution to me. But I think renaming the generated closures to continue using \"dwrap\" in the name seems fine too if that\u0027s a more pragmatic solution.",
+      "parentUuid": "bd9355b2_ede4a04b",
+      "revId": "0a0e3a3dea72d8d64d4250c9f7649da3b942eae5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
