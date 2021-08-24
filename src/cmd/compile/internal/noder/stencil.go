@@ -737,7 +737,7 @@ func (g *irgen) genericSubst(newsym *types.Sym, nameNode *ir.Name, shapes []*typ
 				return
 			}
 			c := n.(*ir.ConvExpr)
-			if c.X.Type().HasShape() {
+			if c.X.Type().HasShape() && !c.X.Type().IsInterface() {
 				ir.Dump("BAD FUNCTION", newf)
 				ir.Dump("BAD CONVERSION", c)
 				base.Fatalf("converting shape type to interface")
@@ -1227,6 +1227,21 @@ func convertUsingDictionary(info *instInfo, dictParam *ir.Name, pos src.XPos, v 
 	assert(src.HasTParam())
 	assert(dst.IsInterface())
 
+	if v.Type().IsInterface() {
+		// Converting from an interface. The shape-ness of the source doesn't really matter, as
+		// we'll be using the concrete type from the first interface word.
+		if dst.IsEmptyInterface() {
+			// Converting I2E. OCONVIFACE does that for us, and the shape-ness
+			// of the destination doesn't matter. No dictionary entry needed.
+			v = ir.NewConvExpr(pos, ir.OCONVIFACE, dst, v)
+			v.SetTypecheck(1)
+			return v
+		}
+		// Need an ODYNAMICCONVIFACE opcode? We get the interface type from the dictionary and the concrete
+		// type from the argument's itab. Will probably use runtime.convI2I.
+		base.Fatalf("can't handle I2I yet")
+	}
+
 	var rt ir.Node
 	if !dst.IsEmptyInterface() {
 		// We should have an itab entry in the dictionary. Using this itab
@@ -1241,11 +1256,6 @@ func convertUsingDictionary(info *instInfo, dictParam *ir.Name, pos src.XPos, v 
 		}
 		assert(ix >= 0)
 		rt = getDictionaryEntry(pos, dictParam, ix, info.dictLen)
-	} else if v.Type().IsInterface() {
-		ta := ir.NewTypeAssertExpr(pos, v, nil)
-		ta.SetType(dst)
-		ta.SetTypecheck(1)
-		return ta
 	} else {
 		ix := findDictType(info, src)
 		assert(ix >= 0)
@@ -1254,19 +1264,13 @@ func convertUsingDictionary(info *instInfo, dictParam *ir.Name, pos src.XPos, v 
 	}
 
 	// Figure out what the data field of the interface will be.
-	var data ir.Node
-	if v.Type().IsInterface() {
-		data = ir.NewUnaryExpr(pos, ir.OIDATA, v)
-	} else {
-		data = ir.NewConvExpr(pos, ir.OCONVIDATA, nil, v)
-	}
+	data := ir.NewConvExpr(pos, ir.OCONVIDATA, nil, v)
 	typed(types.Types[types.TUNSAFEPTR], data)
 
 	// Build an interface from the type and data parts.
 	var i ir.Node = ir.NewBinaryExpr(pos, ir.OEFACE, rt, data)
 	typed(dst, i)
 	return i
-
 }
 
 func (subst *subster) namelist(l []*ir.Name) []*ir.Name {
@@ -1550,7 +1554,7 @@ func (g *irgen) finalizeSyms() {
 			default:
 				base.Fatalf("itab entry with unknown op %s", n.Op())
 			}
-			if srctype.IsInterface() {
+			if srctype.IsInterface() || dsttype.IsEmptyInterface() {
 				// No itab is wanted if src type is an interface. We
 				// will use a type assert instead.
 				d.off = objw.Uintptr(lsym, d.off, 0)
