@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7c8554a_b417ba9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-24T22:10:00Z",
+      "side": 1,
+      "message": "Couple small nits that \u0027go mod tidy\u0027 will fix. All the conflict resolutions look good. Make sure to run slowbots.",
+      "revId": "393b044e1eb84af9db617ba18f6f11fc510b6c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65947260_f6a5583b",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-24T22:10:00Z",
+      "side": 1,
+      "message": "Missing newline: \u0027go mod tidy\u0027 will add it back.",
+      "revId": "393b044e1eb84af9db617ba18f6f11fc510b6c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
