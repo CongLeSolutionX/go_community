@@ -51,6 +51,23 @@
       "parentUuid": "649c6bef_6d93ae10",
       "revId": "ae6f46c2119e18be159eab4bfeecdc265573f51d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f04c5cb7_d350d3cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2021-08-24T15:51:23Z",
+      "side": 1,
+      "message": "Reminder: Now that\u0027s Go 1.17 is released, this could be merged.",
+      "revId": "ae6f46c2119e18be159eab4bfeecdc265573f51d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
