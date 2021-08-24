@@ -1321,6 +1321,12 @@ func (ts *Tsubster) tstruct(t *types.Type, force bool) *types.Type {
 // tinter substitutes type params in types of the methods of an interface type.
 func (ts *Tsubster) tinter(t *types.Type) *types.Type {
 	if t.Methods().Len() == 0 {
+		if t.HasTParam() {
+			// For an empty interface, we need to return a new type,
+			// since it may now be fully instantiated (HasTParam
+			// becomes false).
+			return types.NewInterface(t.Pkg(), nil)
+		}
 		return t
 	}
 	var newfields []*types.Field
