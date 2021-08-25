@@ -45,7 +45,6 @@ var (
 	// the modRoots of the main modules.
 	// modRoots != nil implies len(modRoots) > 0
 	modRoots          []string
-	gopath            string
 	workFileGoVersion string
 )
 
@@ -228,10 +227,6 @@ func ModFile() *modfile.File {
 	return modFile
 }
 
-func BinDir() string {
-	return filepath.Join(gopath, "bin")
-}
-
 // InitWorkfile initializes the workFilePath variable for commands that
 // operate in workspace mode. It should not be called by other commands,
 // for example 'go mod tidy', that don't operate in workspace mode.
@@ -404,12 +399,11 @@ func Init(opts Opts) (state *State, err error) {
 	if os.Getenv("GCM_INTERACTIVE") == "" {
 		os.Setenv("GCM_INTERACTIVE", "never")
 	}
-	list := filepath.SplitList(cfg.BuildContext.GOPATH)
-	if len(list) == 0 || list[0] == "" {
+	gopath := filepath.SplitList(cfg.BuildContext.GOPATH)
+	if len(gopath) == 0 || gopath[0] == "" {
 		return nil, fmt.Errorf("missing $GOPATH")
 	}
-	gopath = list[0]
-	if _, err := fsys.Stat(filepath.Join(gopath, "go.mod")); err == nil {
+	if _, err := fsys.Stat(filepath.Join(gopath[0], "go.mod")); err == nil {
 		return nil, fmt.Errorf("$GOPATH/go.mod exists but should not")
 	}
 
