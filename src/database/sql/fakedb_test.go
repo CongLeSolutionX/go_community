@@ -1196,10 +1196,10 @@ func converterForType(typ string) driver.ValueConverter {
 		return driver.NotNull{Converter: fakeDriverString{}}
 	case "nullstring":
 		return driver.Null{Converter: fakeDriverString{}}
-	case "int64":
+	case "int64", "uint64":
 		// TODO(coopernurse): add type-specific converter
 		return driver.NotNull{Converter: driver.DefaultParameterConverter}
-	case "nullint64":
+	case "nullint64", "nulluint64":
 		// TODO(coopernurse): add type-specific converter
 		return driver.Null{Converter: driver.DefaultParameterConverter}
 	case "float64":
@@ -1240,6 +1240,10 @@ func colTypeToReflectType(typ string) reflect.Type {
 		return reflect.TypeOf(int64(0))
 	case "nullint64":
 		return reflect.TypeOf(NullInt64{})
+	case "uint64":
+		return reflect.TypeOf(uint64(0))
+	case "nulluint64":
+		return reflect.TypeOf(NullUint64{})
 	case "float64":
 		return reflect.TypeOf(float64(0))
 	case "nullfloat64":

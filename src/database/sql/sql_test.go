@@ -1796,6 +1796,18 @@ func TestNullStringParam(t *testing.T) {
 }
 
 func TestNullInt64Param(t *testing.T) {
+	spec := nullTestSpec{"nulluint64", "uint64", [6]nullTestRow{
+		{NullUint64{31, true}, 1, NullUint64{31, true}},
+		{NullUint64{22, false}, 1, NullUint64{0, false}},
+		{22, 1, NullUint64{22, true}},
+		{NullUint64{33, true}, 1, NullUint64{33, true}},
+		{NullUint64{222, false}, 1, NullUint64{0, false}},
+		{0, NullUint64{31, false}, nil},
+	}}
+	nullTestRun(t, spec)
+}
+
+func TestNullUint64Param(t *testing.T) {
 	spec := nullTestSpec{"nullint64", "int64", [6]nullTestRow{
 		{NullInt64{31, true}, 1, NullInt64{31, true}},
 		{NullInt64{-22, false}, 1, NullInt64{0, false}},
