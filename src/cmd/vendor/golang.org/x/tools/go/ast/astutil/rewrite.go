@@ -439,8 +439,15 @@ func (a *application) apply(parent ast.Node, name string, iter *iterator, n ast.
 		}
 
 	default:
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 		if typeparams.IsListExpr(n) {
 			a.applyList(n, "ElemList")
+=======
+		if ix := typeparams.GetIndexExprData(n); ix != nil {
+			a.apply(n, "X", nil, ix.X)
+			// *ast.IndexExpr was handled above, so n must be an *ast.MultiIndexExpr.
+			a.applyList(n, "Indices")
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 		} else {
 			panic(fmt.Sprintf("Apply: unexpected node type %T", n))
 		}
