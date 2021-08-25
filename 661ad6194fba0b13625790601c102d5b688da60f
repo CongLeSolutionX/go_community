@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "721de8ad_1000a5e3",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-25T16:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22239ae3_5fd28461",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 15
+      },
+      "revId": "661ad6194fba0b13625790601c102d5b688da60f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1242df8_1c0bd540",
@@ -91,6 +115,24 @@
       "writtenOn": "2021-08-25T16:19:57Z",
       "side": 1,
       "message": "Rename to build_gcflags_order.txt.",
+      "revId": "661ad6194fba0b13625790601c102d5b688da60f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af556302_701051aa",
+        "filename": "src/cmd/go/testdata/script/issue47682.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-25T16:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1242df8_1c0bd540",
       "revId": "661ad6194fba0b13625790601c102d5b688da60f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -112,6 +154,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ead41d_dc0172ad",
+        "filename": "src/cmd/go/testdata/script/issue47682.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-25T16:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57968916_23a47732",
+      "revId": "661ad6194fba0b13625790601c102d5b688da60f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30c80d36_3e23ef46",
@@ -125,6 +185,24 @@
       "writtenOn": "2021-08-25T16:19:57Z",
       "side": 1,
       "message": "We can speed up the test and avoid building the package here by running with the -n flag and examining the output. Something like:\n\n  go build -n -gcflags\u003d-lang\u003dgo1.17\n  stderr \u0027 -lang\u003dgo1.16.* -lang\u003dgo1.17\u0027",
+      "revId": "661ad6194fba0b13625790601c102d5b688da60f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "087af839_7f84e93e",
+        "filename": "src/cmd/go/testdata/script/issue47682.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-25T16:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30c80d36_3e23ef46",
       "revId": "661ad6194fba0b13625790601c102d5b688da60f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
