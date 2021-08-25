@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fc12f54_ce4a729e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2021-08-25T13:27:12Z",
+      "side": 1,
+      "message": "Databases don\u0027t tend to have unsigned integers. Some do. But nothing is special about this code. I suspect that much of this will be able to be cleaned up when generics land.",
+      "revId": "5736f47836cf29417c7f9af4bcd86fa3a310db92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
