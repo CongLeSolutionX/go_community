@@ -1,0 +1,20 @@
+# Tests golang.org/issue/47682
+
+cd m
+go build -gcflags=-lang=go1.17 .
+
+! stderr '.'
+
+-- m/go.mod --
+module example.com
+
+go 1.16
+
+-- m/main.go --
+package main
+
+func main() {
+    var s = []int{1, 2, 3}
+    var pa = (*[2]int)(s[1:])
+    println(pa[1])
+}
