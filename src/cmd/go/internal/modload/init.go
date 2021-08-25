@@ -655,6 +655,7 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 
 	MainModules = makeMainModules(mainModules, modRoots, modFiles, indices)
 	setDefaultBuildMod() // possibly enable automatic vendoring
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 	rs = requirementsFromModFiles(ctx, modFiles)
 
 	if inWorkspaceMode() {
@@ -667,6 +668,9 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 
 	mainModule := MainModules.mustGetSingleMainModule()
 
+=======
+	rs = requirementsFromModFile()
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 	if cfg.BuildMod == "vendor" {
 		readVendorList(mainModule)
 		index := MainModules.Index(mainModule)
@@ -674,7 +678,21 @@ func loadModFile(ctx context.Context) (rs *Requirements, needCommit bool) {
 		checkVendorConsistency(index, modFile)
 		rs.initVendor(vendorList)
 	}
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 	if MainModules.Index(mainModule).goVersionV == "" {
+=======
+	if rs.hasRedundantRoot() {
+		// If any module path appears more than once in the roots, we know that the
+		// go.mod file needs to be updated even though we have not yet loaded any
+		// transitive dependencies.
+		rs, err = updateRoots(ctx, rs.direct, rs, nil, nil, false)
+		if err != nil {
+			base.Fatalf("go: %v", err)
+		}
+	}
+
+	if index.goVersionV == "" {
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 		// TODO(#45551): Do something more principled instead of checking
 		// cfg.CmdName directly here.
 		if cfg.BuildMod == "mod" && cfg.CmdName != "mod graph" && cfg.CmdName != "mod why" {
@@ -734,6 +752,13 @@ func CreateModFile(ctx context.Context, modPath string) {
 			}
 		}
 		base.Fatalf("go: %v", err)
+	} else if _, _, ok := module.SplitPathVersion(modPath); !ok {
+		if strings.HasPrefix(modPath, "gopkg.in/") {
+			invalidMajorVersionMsg := fmt.Errorf("module paths beginning with gopkg.in/ must always have a major version suffix in the form of .vN:\n\tgo mod init %s", suggestGopkgIn(modPath))
+			base.Fatalf(`go: invalid module path "%v": %v`, modPath, invalidMajorVersionMsg)
+		}
+		invalidMajorVersionMsg := fmt.Errorf("major version suffixes must be in the form of /vN and are only allowed for v2 or later:\n\tgo mod init %s", suggestModulePath(modPath))
+		base.Fatalf(`go: invalid module path "%v": %v`, modPath, invalidMajorVersionMsg)
 	}
 
 	fmt.Fprintf(os.Stderr, "go: creating new go.mod: module %s\n", modPath)
@@ -750,7 +775,16 @@ func CreateModFile(ctx context.Context, modPath string) {
 		base.Fatalf("go: %v", err)
 	}
 
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 	commitRequirements(ctx, modFileGoVersion(), requirementsFromModFiles(ctx, []*modfile.File{modFile}))
+=======
+	rs := requirementsFromModFile()
+	rs, err = updateRoots(ctx, rs.direct, rs, nil, nil, false)
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
+	commitRequirements(ctx, modFileGoVersion(), rs)
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 
 	// Suggest running 'go mod tidy' unless the project is empty. Even if we
 	// imported all the correct requirements above, we're probably missing
@@ -879,10 +913,27 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		mainModules.modFiles[m] = modFiles[i]
 		mainModules.indices[m] = indices[i]
 
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 		if mainModules.modRoot[m] == modRootContainingCWD {
 			mainModules.modContainingCWD = m
+=======
+// requirementsFromModFile returns the set of non-excluded requirements from
+// the global modFile.
+func requirementsFromModFile() *Requirements {
+	roots := make([]module.Version, 0, len(modFile.Require))
+	direct := map[string]bool{}
+	for _, r := range modFile.Require {
+		if index != nil && index.exclude[r.Mod] {
+			if cfg.BuildMod == "mod" {
+				fmt.Fprintf(os.Stderr, "go: dropping requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+			} else {
+				fmt.Fprintf(os.Stderr, "go: ignoring requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+			}
+			continue
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 		}
 
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 		if rel := search.InDir(rootDirs[i], cfg.GOROOTsrc); rel != "" {
 			mainModules.inGorootSrc[m] = true
 			if m.Path == "std" {
@@ -934,25 +985,15 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 			if !r.Indirect {
 				direct[r.Mod.Path] = true
 			}
+=======
+		roots = append(roots, r.Mod)
+		if !r.Indirect {
+			direct[r.Mod.Path] = true
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 		}
 	}
 	module.Sort(roots)
 	rs := newRequirements(modDepthFromGoVersion(modFileGoVersion()), roots, direct)
-
-	// If any module path appears more than once in the roots, we know that the
-	// go.mod file needs to be updated even though we have not yet loaded any
-	// transitive dependencies.
-	for _, n := range mPathCount {
-		if n > 1 {
-			var err error
-			rs, err = updateRoots(ctx, rs.direct, rs, nil, nil, false)
-			if err != nil {
-				base.Fatalf("go: %v", err)
-			}
-			break
-		}
-	}
-
 	return rs
 }
 
@@ -1540,4 +1581,57 @@ const (
 // file is stored in the go.sum file.
 func modkey(m module.Version) module.Version {
 	return module.Version{Path: m.Path, Version: m.Version + "/go.mod"}
+}
+
+func suggestModulePath(path string) string {
+	var m string
+
+	i := len(path)
+	for i > 0 && ('0' <= path[i-1] && path[i-1] <= '9' || path[i-1] == '.') {
+		i--
+	}
+	url := path[:i]
+	url = strings.TrimSuffix(url, "/v")
+	url = strings.TrimSuffix(url, "/")
+
+	f := func(c rune) bool {
+		return c > '9' || c < '0'
+	}
+	s := strings.FieldsFunc(path[i:], f)
+	if len(s) > 0 {
+		m = s[0]
+	}
+	m = strings.TrimLeft(m, "0")
+	if m == "" || m == "1" {
+		return url + "/v2"
+	}
+
+	return url + "/v" + m
+}
+
+func suggestGopkgIn(path string) string {
+	var m string
+	i := len(path)
+	for i > 0 && (('0' <= path[i-1] && path[i-1] <= '9') || (path[i-1] == '.')) {
+		i--
+	}
+	url := path[:i]
+	url = strings.TrimSuffix(url, ".v")
+	url = strings.TrimSuffix(url, "/v")
+	url = strings.TrimSuffix(url, "/")
+
+	f := func(c rune) bool {
+		return c > '9' || c < '0'
+	}
+	s := strings.FieldsFunc(path, f)
+	if len(s) > 0 {
+		m = s[0]
+	}
+
+	m = strings.TrimLeft(m, "0")
+
+	if m == "" {
+		return url + ".v1"
+	}
+	return url + ".v" + m
 }

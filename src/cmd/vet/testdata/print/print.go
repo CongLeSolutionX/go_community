@@ -491,10 +491,19 @@ type recursiveStringer int
 func (s recursiveStringer) String() string {
 	_ = fmt.Sprintf("%d", s)
 	_ = fmt.Sprintf("%#v", s)
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 	_ = fmt.Sprintf("%v", s)  // ERROR "Sprintf format %v with arg s causes recursive \(cmd/vet/testdata/print\.recursiveStringer\)\.String method call"
 	_ = fmt.Sprintf("%v", &s) // ERROR "Sprintf format %v with arg &s causes recursive \(cmd/vet/testdata/print\.recursiveStringer\)\.String method call"
+=======
+	_ = fmt.Sprintf("%v", s)  // ERROR "Sprintf format %v with arg s causes recursive .*String method call"
+	_ = fmt.Sprintf("%v", &s) // ERROR "Sprintf format %v with arg &s causes recursive .*String method call"
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 	_ = fmt.Sprintf("%T", s)  // ok; does not recursively call String
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 	return fmt.Sprintln(s)    // ERROR "Sprintln arg s causes recursive call to \(cmd/vet/testdata/print\.recursiveStringer\)\.String method"
+=======
+	return fmt.Sprintln(s)    // ERROR "Sprintln arg s causes recursive call to .*String method"
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 }
 
 type recursivePtrStringer int
@@ -502,7 +511,11 @@ type recursivePtrStringer int
 func (p *recursivePtrStringer) String() string {
 	_ = fmt.Sprintf("%v", *p)
 	_ = fmt.Sprint(&p)     // ok; prints address
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 	return fmt.Sprintln(p) // ERROR "Sprintln arg p causes recursive call to \(\*cmd/vet/testdata/print\.recursivePtrStringer\)\.String method"
+=======
+	return fmt.Sprintln(p) // ERROR "Sprintln arg p causes recursive call to .*String method"
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 }
 
 type BoolFormatter bool
