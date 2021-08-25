@@ -46,6 +46,7 @@ type Name struct {
 	val       constant.Value
 	Opt       interface{} // for use by escape analysis
 	Embed     *[]Embed    // list of embedded files, for ONAME var
+	DictIndex uint32      // index of the dictionary entry describing the type of this variable declaration plus 1
 
 	PkgName *PkgName // real package for import . names
 	// For a local variable (not param) or extern, the initializing assignment (OAS or OAS2).
