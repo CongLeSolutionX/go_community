@@ -195,6 +195,30 @@
       },
       "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d8a333_143867ba",
+        "filename": "src/cmd/go/internal/test/genflags.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 44008
+      },
+      "writtenOn": "2021-08-25T22:00:21Z",
+      "side": 1,
+      "message": "Done\n\nYes, it is flag for additional parameters to printf analyzer.",
+      "parentUuid": "7e39d878_f886ac92",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
