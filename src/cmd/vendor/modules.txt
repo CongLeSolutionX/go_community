@@ -48,7 +48,11 @@ golang.org/x/sys/windows
 # golang.org/x/term v0.0.0-20210503060354-a79de5458b56
 ## explicit; go 1.17
 golang.org/x/term
+<<<<<<< HEAD   (e2e198 [dev.cmdgo] cmd/link: fix TestBuildForTvOS)
 # golang.org/x/tools v0.1.6-0.20210726171848-ebce39e5e3d6
+=======
+# golang.org/x/tools v0.1.6-0.20210809225032-337cebd2c151
+>>>>>>> BRANCH (c2f96e cmd/compile: mark ODYNAMICDOTTYPE as an expression that can )
 ## explicit; go 1.17
 golang.org/x/tools/cover
 golang.org/x/tools/go/analysis
