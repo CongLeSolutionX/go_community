@@ -899,7 +899,7 @@ func loadPackageData(ctx context.Context, opts PackageOpts, path, parentPath, pa
 			if cfg.GOBIN != "" {
 				data.p.BinDir = cfg.GOBIN
 			} else if opts.ModState != nil {
-				data.p.BinDir = modload.BinDir()
+				data.p.BinDir = defaultBinDir()
 			}
 		}
 
@@ -1667,6 +1667,21 @@ func (p *Package) DefaultExecName() string {
 	return p.exeFromImportPath()
 }
 
+// defaultBinDir returns the default directory to install executables in
+// module-aware mode. This returns GOPATH[0]/bin, so callers must ensure
+// GOPATH is set. modload.Init checks this, for example.
+//
+// Note that GOBIN overrides this and packages in GOROOT will be installed
+// to GOROOT/bin or GOROOT/pkg/tool. In GOPATH mode, packages are installed in
+// the GOPATH directory they were loaded from.
+func defaultBinDir() string {
+	gopath := filepath.SplitList(cfg.BuildContext.GOPATH)
+	if len(gopath) == 0 {
+		panic("GOPATH not set; should have been checked and reported earlier")
+	}
+	return filepath.Join(gopath[0], "bin")
+}
+
 // load populates p using information from bp, err, which should
 // be the result of calling build.Context.Import.
 // stk contains the import stack, not including path itself.
@@ -1739,7 +1754,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 			elem = full
 		}
 		if p.Internal.Build.BinDir == "" && opts.ModState != nil {
-			p.Internal.Build.BinDir = modload.BinDir()
+			p.Internal.Build.BinDir = defaultBinDir()
 		}
 		if p.Internal.Build.BinDir != "" {
 			// Install to GOBIN or bin of GOPATH entry.
@@ -2717,7 +2732,7 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 		if cfg.GOBIN != "" {
 			pkg.Target = filepath.Join(cfg.GOBIN, exe)
 		} else if opts.ModState != nil {
-			pkg.Target = filepath.Join(modload.BinDir(), exe)
+			pkg.Target = filepath.Join(defaultBinDir(), exe)
 		}
 	}
 
