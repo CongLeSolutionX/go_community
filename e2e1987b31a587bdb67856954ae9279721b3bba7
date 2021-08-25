@@ -16,6 +16,24 @@
       "message": "It looks like this sum is still needed. \u0027go mod tidy\u0027 will add it back.",
       "revId": "e2e1987b31a587bdb67856954ae9279721b3bba7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "405c0190_90807b70",
+        "filename": "src/cmd/go.sum",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-08-25T13:35:14Z",
+      "side": -1,
+      "message": "Done",
+      "parentUuid": "88623fef_ab7ded02",
+      "revId": "e2e1987b31a587bdb67856954ae9279721b3bba7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

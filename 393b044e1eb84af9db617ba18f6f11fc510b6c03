@@ -33,6 +33,24 @@
       "message": "Missing newline: \u0027go mod tidy\u0027 will add it back.",
       "revId": "393b044e1eb84af9db617ba18f6f11fc510b6c03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca1a0fb0_794cb5ca",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-08-25T13:35:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65947260_f6a5583b",
+      "revId": "393b044e1eb84af9db617ba18f6f11fc510b6c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
