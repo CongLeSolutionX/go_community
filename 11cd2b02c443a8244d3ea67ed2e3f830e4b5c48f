@@ -16,6 +16,40 @@
       "message": "Hi,Dan\nI think this may be a situation that CL 313652 missed",
       "revId": "11cd2b02c443a8244d3ea67ed2e3f830e4b5c48f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "255ad31a_56b42bb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-25T16:33:42Z",
+      "side": 1,
+      "message": "Looks good!  Thanks for doing this.",
+      "revId": "11cd2b02c443a8244d3ea67ed2e3f830e4b5c48f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0474113_1769cdc2",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-25T16:33:42Z",
+      "side": 1,
+      "message": "Add comment above this line:\n// Need to test for t.HasTParam() again because of special TFUNC case above.",
+      "revId": "11cd2b02c443a8244d3ea67ed2e3f830e4b5c48f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
