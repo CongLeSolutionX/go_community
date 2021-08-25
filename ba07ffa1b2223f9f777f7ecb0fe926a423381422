@@ -171,6 +171,30 @@
       },
       "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e39d878_f886ac92",
+        "filename": "src/cmd/go/internal/test/genflags.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-25T18:47:45Z",
+      "side": 1,
+      "message": "Ooh, interesting. `-printfuncs` is not actually an analyzer.\n\nSo I guess we do need to extract the flag name from the `deprecated alias for` comments, so that we can determine whether the flag is an alias for an analyzer flag or for some other flag entirely.",
+      "parentUuid": "b4466628_06278172",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "ba07ffa1b2223f9f777f7ecb0fe926a423381422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
