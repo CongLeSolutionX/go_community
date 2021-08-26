@@ -12,11 +12,13 @@ package main
 extern void C1(void);
 extern void C2(void);
 extern void tcContext(void*);
-extern void tcContextSimple(void*);
 extern void tcTraceback(void*);
+extern void tcContextSimple(void*);
+extern void tcTracebackSimple(void*);
 extern void tcSymbolizer(void*);
 extern int getContextCount(void);
 extern void TracebackContextPreemptionCallGo(int);
+extern void callPanicSWIG(void);
 */
 import "C"
 
@@ -30,6 +32,7 @@ import (
 func init() {
 	register("TracebackContext", TracebackContext)
 	register("TracebackContextPreemption", TracebackContextPreemption)
+	register("TracebackContextCgoPanic", TracebackContextCgoPanic)
 }
 
 var tracebackOK bool
@@ -133,4 +136,28 @@ func TracebackContextPreemption() {
 func TracebackContextPreemptionGoFunction(i C.int) {
 	// Do some busy work.
 	fmt.Sprintf("%d\n", i)
+}
+
+// TracebackContextCgoPanic is a regression test for issue 47995. It verifies
+// that SWIG-style panic calls do not propagate a garbage context.
+func TracebackContextCgoPanic() {
+	runtime.SetCgoTraceback(0, unsafe.Pointer(C.tcTracebackSimple), unsafe.Pointer(C.tcContextSimple), unsafe.Pointer(C.tcSymbolizer))
+
+	// Panicking will trigger allocations. Always sampling those
+	// allocations will force calls to tcTracebackSimple.
+	runtime.MemProfileRate = 1
+
+	defer func() {
+		r := recover()
+		if r == nil {
+			fmt.Println("did not panic")
+			return
+		}
+		if r.(string) != "panic from C" {
+			fmt.Println("wrong panic:", r)
+			return
+		}
+		fmt.Println("OK")
+	}()
+	C.callPanicSWIG()
 }

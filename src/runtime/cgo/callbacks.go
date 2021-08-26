@@ -36,15 +36,10 @@ import "unsafe"
 // to use that instead of the above pattern, and then we can drop
 // backwards-compatibility from crosscall2 and stop exporting it.
 
-//go:linkname _runtime_cgo_panic_internal runtime._cgo_panic_internal
-func _runtime_cgo_panic_internal(p *byte)
-
 //go:linkname _cgo_panic _cgo_panic
 //go:cgo_export_static _cgo_panic
 //go:cgo_export_dynamic _cgo_panic
-func _cgo_panic(a *struct{ cstr *byte }) {
-	_runtime_cgo_panic_internal(a.cstr)
-}
+func _cgo_panic(a *struct{ cstr *byte })
 
 //go:cgo_import_static x_cgo_init
 //go:linkname x_cgo_init x_cgo_init
