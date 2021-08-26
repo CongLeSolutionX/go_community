@@ -43,7 +43,7 @@ type Optab struct {
 // "1","2","3","4": 1, 2, 3 or 4 vetor register.
 // The name doesn't matter, just make sure it is distinguishable.
 const (
-	INull = iota
+	INull uint16 = iota
 	ADCwww
 	ADCxxx
 	ADCSwww
