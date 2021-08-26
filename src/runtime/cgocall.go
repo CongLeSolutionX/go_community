@@ -85,6 +85,7 @@
 package runtime
 
 import (
+	"internal/abi"
 	"internal/goarch"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
@@ -250,6 +251,10 @@ func cgocallbackg(fn, frame unsafe.Pointer, ctxt uintptr) {
 	gp.m.syscall = syscall
 }
 
+// Defined in runtime/cgo/callbacks.go.
+//go:linkname _cgo_panic _cgo_panic
+func _cgo_panic(a *struct{ cstr *byte })
+
 func cgocallbackg1(fn, frame unsafe.Pointer, ctxt uintptr) {
 	gp := getg()
 
@@ -262,6 +267,15 @@ func cgocallbackg1(fn, frame unsafe.Pointer, ctxt uintptr) {
 		systemstack(newextram)
 	}
 
+	if uintptr(fn) == abi.FuncPCABIInternal(_cgo_panic) {
+		// SWIG calls crosscall2 with three arguments when passing
+		// _cgo_panic, omitting the ctxt argument. Clear ctxt in this
+		// case so we don't treat garbage values in the ctxt argument
+		// as a valid context.
+		//
+		// See comment in runtime/cgo/callbacks.go.
+		ctxt = 0
+	}
 	if ctxt != 0 {
 		s := append(gp.cgoCtxt, ctxt)
 

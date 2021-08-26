@@ -291,6 +291,15 @@ func TestCgoTracebackContextPreemption(t *testing.T) {
 	}
 }
 
+func TestCgoTracebackContextCgoPanic(t *testing.T) {
+	t.Parallel()
+	got := runTestProg(t, "testprogcgo", "TracebackContextCgoPanic")
+	want := "OK\n"
+	if got != want {
+		t.Errorf("expected %q got %v", want, got)
+	}
+}
+
 func testCgoPprof(t *testing.T, buildArg, runArg, top, bottom string) {
 	t.Parallel()
 	if runtime.GOOS != "linux" || (runtime.GOARCH != "amd64" && runtime.GOARCH != "ppc64le") {

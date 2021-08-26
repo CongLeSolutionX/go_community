@@ -39,6 +39,7 @@ import "unsafe"
 //go:linkname _runtime_cgo_panic_internal runtime._cgo_panic_internal
 func _runtime_cgo_panic_internal(p *byte)
 
+// Also linkname'd in runtime/cgocall.go.
 //go:linkname _cgo_panic _cgo_panic
 //go:cgo_export_static _cgo_panic
 //go:cgo_export_dynamic _cgo_panic
