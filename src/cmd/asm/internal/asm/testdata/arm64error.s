@@ -142,7 +142,7 @@ TEXT errors(SB),$0
 	VPMULL2	V1.D1, V2.D1, V3.Q1                              // ERROR "arrangement dismatch"
 	VPMULL2	V1.B8, V2.B8, V3.H8                              // ERROR "arrangement dismatch"
 	VEXT	$8, V1.B16, V2.B8, V2.B16                        // ERROR "illegal combination"
-	VEXT	$8, V1.H8, V2.H8, V2.H8                          // ERROR "invalid arrangement, should be B8 or B16"
+	VEXT	$8, V1.H8, V2.H8, V2.H8                          // ERROR "invalid arrangement"
 	VRBIT	V1.B16, V2.B8                                    // ERROR "illegal combination"
 	VRBIT	V1.H4, V2.H4                                     // ERROR "invalid arrangement"
 	VUSHR	$56, V1.D2, V2.H4                                // ERROR "illegal combination"

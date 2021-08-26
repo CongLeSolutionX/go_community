@@ -257,7 +257,7 @@ func (a *Addr) SetConst(v int64) {
 	a.Offset = v
 }
 
-// Prog describes a single machine instruction.
+// Prog describes a single Go assembly instruction.
 //
 // The general instruction form is:
 //
@@ -298,6 +298,7 @@ type Prog struct {
 	Forwd    *Prog     // for x86 back end
 	Rel      *Prog     // for x86, arm back ends
 	Reloc    *Reloc    // for arm64 back end
+	Insts    *Inst     // for arm64 back end
 	Pc       int64     // for back ends or assembler: virtual or actual program counter, depending on phase
 	Pos      src.XPos  // source position of this instruction
 	Spadj    int32     // effect of instruction on stack pointer (increment or decrement amount)
@@ -311,6 +312,16 @@ type Prog struct {
 	Ft       uint8     // for x86 back end: type index of Prog.From
 	Tt       uint8     // for x86 back end: type index of Prog.To
 	Isize    uint8     // for x86 back end: size of the instruction in bytes
+}
+
+// Inst describes a single arch-related machine instruction.
+// Inst only contains fields related to encoding.
+type Inst struct {
+	As    As       // assembler opcode
+	Optab uint16   // arch-specific opcode index
+	Link  *Inst    // next Inst in linked list
+	Args  []Addr   // operands, in the same order as the machine instruction operands.
+	Pos   src.XPos // source position of this instruction
 }
 
 // Pos indicates whether the oprand is the source or the destination.
