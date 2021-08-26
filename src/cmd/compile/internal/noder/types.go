@@ -150,6 +150,11 @@ func (g *irgen) typ0(typ types2.Type) *types.Type {
 			g.fillinMethods(typ, ntyp)
 			// Save the symbol for the base generic type.
 			ntyp.OrigSym = g.pkg(typ.Obj().Pkg()).Lookup(typ.Obj().Name())
+			if ntyp.HasTParam() && ntyp.OrigSym.Def == nil {
+				nname := ir.NewDeclNameAt(g.pos(typ.Obj().Pos()), ir.OTYPE, s)
+				ntyp.OrigSym.Def = nname
+				nname.SetType(ntyp.Underlying())
+			}
 			return ntyp
 		}
 		obj := g.obj(typ.Obj())
