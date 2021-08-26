@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3ef6f4e_8b95f487",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-26T16:54:24Z",
+      "side": 1,
+      "message": "Wayne, thanks for taking a look at this!  But as I note below, your fix is not correct.  I have been working on the fix through another bug (the last case given in issue #47514).  See my change https://go-review.googlesource.com/c/go/+/345411.\n\nDo you want to keep this CL, remove the fix, but keep the tests, and check in the new tests you\u0027ve added after I check in my CL above?  I\u0027ve verified that my CL fixes all your new tests (i.e. the cases in issue #47892).",
+      "revId": "5cd59637f01a285898656cce0d239321405b5fa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07ce6f11_88b96ffc",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-08-26T16:54:24Z",
+      "side": 1,
+      "message": "This is not correct, because for ntyp, which is an instantiated type, ntyp.Underlying() is NOT the type of the base generic type.  It is the underlying type of ntyp (i.e. the underlying type of the defined type of ntyp, the type without the defined name).",
+      "revId": "5cd59637f01a285898656cce0d239321405b5fa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
