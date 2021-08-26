@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d1a2c8d_9f548fe7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-08-26T01:29:57Z",
+      "side": 1,
+      "message": "Hi Michael, is there any progress on this CL?",
+      "revId": "392d3b92c702864e9f61ec062695b0b24caad441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
