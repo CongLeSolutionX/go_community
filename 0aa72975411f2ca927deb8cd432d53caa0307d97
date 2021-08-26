@@ -52,6 +52,24 @@
       "parentUuid": "a8dd5a45_1b51216e",
       "revId": "0aa72975411f2ca927deb8cd432d53caa0307d97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c478ed4_bb4d4da2",
+        "filename": "src/testing/match.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-08-26T16:51:14Z",
+      "side": 1,
+      "message": "Sorry for taking so long to come back to this. Brain fog has been a real problem for me lately.\n\nI\u0027d still like to simplify this, even if it means an observable change in names (staying without the bounds of what T.Name promises though).\n\nHere\u0027s what I\u0027ve been trying. This version should avoid duplicates and should ensure subname is always there, even if it appears to contain a suffix. https://play.golang.org/p/GsuzNjjRNr-. WDYT of this approach?",
+      "parentUuid": "f19fa0a2_f7eac100",
+      "revId": "0aa72975411f2ca927deb8cd432d53caa0307d97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
