@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93460bd4_9c685ded",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2021-08-26T08:48:40Z",
+      "side": 1,
+      "message": "Hi,Dan, Keith! I think this issue is caused by didn\u0027t set Origim.Def when instantiating a generic type.",
+      "revId": "97a2f6f74c4a2e4232d5bb2df3da7451536b9e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
