@@ -63,13 +63,6 @@ void tcContext(void* parg) {
 	}
 }
 
-void tcContextSimple(void* parg) {
-	struct cgoContextArg* arg = (struct cgoContextArg*)(parg);
-	if (arg->context == 0) {
-		arg->context = 1;
-	}
-}
-
 void tcTraceback(void* parg) {
 	int base, i;
 	struct cgoTracebackArg* arg = (struct cgoTracebackArg*)(parg);
@@ -83,6 +76,21 @@ void tcTraceback(void* parg) {
 		if (i < arg->max) {
 			arg->buf[i] = base + i;
 		}
+	}
+}
+
+void tcContextSimple(void* parg) {
+	struct cgoContextArg* arg = (struct cgoContextArg*)(parg);
+	if (arg->context == 0) {
+		arg->context = 1;
+	}
+}
+
+void tcTracebackSimple(void* parg) {
+	struct cgoTracebackArg* arg = (struct cgoTracebackArg*)(parg);
+	if (arg->context != 0 && arg->context != 1) {
+		// This shouldn't happen in this program.
+		abort();
 	}
 }
 
@@ -100,4 +108,18 @@ void tcSymbolizer(void *parg) {
 
 void TracebackContextPreemptionCallGo(int i) {
 	TracebackContextPreemptionGoFunction(i);
+}
+
+extern void crosscall2(void (*fn)(void *, int), void *, int, void *);
+extern void _cgo_panic(void *, int);
+
+void callPanicSWIG(void) {
+	struct { const char *p; } a;
+	a.p = "panic from C";
+	// SWIG's definition of crosscall2 omits the context argument entirely.
+	// Here we simulate passing a garbage, uninitialized value without
+	// depending on the value the compile happens to place in the fourth
+	// argument register.
+	crosscall2(_cgo_panic, &a, sizeof a, (void *)0xdeadbeef);
+	*(int*)1 = 1;
 }

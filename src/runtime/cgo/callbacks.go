@@ -24,27 +24,11 @@ import "unsafe"
 //go:cgo_export_static crosscall2
 //go:cgo_export_dynamic crosscall2
 
-// Panic. The argument is converted into a Go string.
-
-// Call like this in code compiled with gcc:
-//   struct { const char *p; } a;
-//   a.p = /* string to pass to panic */;
-//   crosscall2(_cgo_panic, &a, sizeof a);
-//   /* The function call will not return.  */
-
-// TODO: We should export a regular C function to panic, change SWIG
-// to use that instead of the above pattern, and then we can drop
-// backwards-compatibility from crosscall2 and stop exporting it.
-
-//go:linkname _runtime_cgo_panic_internal runtime._cgo_panic_internal
-func _runtime_cgo_panic_internal(p *byte)
-
+// Defined in package runtime, exported here.
 //go:linkname _cgo_panic _cgo_panic
 //go:cgo_export_static _cgo_panic
 //go:cgo_export_dynamic _cgo_panic
-func _cgo_panic(a *struct{ cstr *byte }) {
-	_runtime_cgo_panic_internal(a.cstr)
-}
+func _cgo_panic(a *struct{ cstr *byte })
 
 //go:cgo_import_static x_cgo_init
 //go:linkname x_cgo_init x_cgo_init
