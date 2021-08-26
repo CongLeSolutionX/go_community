@@ -169,7 +169,7 @@ func IsAtomicInstruction(as obj.As) bool {
 func buildop(ctxt *obj.Link) {
 }
 
-// assembly entry.
+// arm64 assembly entry.
 func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	if ctxt.Retpoline {
 		ctxt.Diag("-spectre=ret not supported on arm64")
@@ -184,7 +184,7 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	c := ctxt7{ctxt: ctxt, newprog: newprog, cursym: cursym, autosize: int32(p.To.Offset & 0xffffffff), extrasize: int32(p.To.Offset >> 32)}
 	p.To.Offset &= 0xffffffff // extrasize is no longer needed
 
-	c.unfold(p)            // expand compound instructions
+	c.unfold(p)            // convert Go macro assembly instructions to low level machine instructions
 	pc := c.literalPool(p) // handle literal pool
 	// if any procedure is large enough to generate a large SBRA branch, then
 	// generate extra passes putting branches around jmps to fix. this is rare.
@@ -200,20 +200,12 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	obj.MarkUnsafePoints(c.ctxt, c.cursym.Func().Text, c.newprog, c.isUnsafePoint, c.isRestartable)
 }
 
-// unfold determines what arm64 instruction should be used to encode a Prog,
-// and the corresponding relationship between the Prog operand and the arm64
-// instruction operand. If a Prog corresponds to multiple machine instructions,
-// unfold will expand the Prog into a Prog list, where each Prog corresponds
-// to only one machine instruction. Then determine the correspondence between
-// each Prog in the list and the arm64 instruction. The list is stored in the
-// Rel field of the Prog structure. The Optab field of Prog is used to record
-// the correspondence between a Prog and an optab instruction table entry,
-// and the Addr.Class field is used to record the correspondence between the
-// operand of Prog and the operand of the arm64 instruction.
+// unfold converts each valid Prog of the text to the low level machine instruction representation,
+// and set the relocation type, literal pool mark and branch mark, if necessary.
 func (c *ctxt7) unfold(text *obj.Prog) {
 	pre := text
 	for p := pre.Link; p != nil; p = p.Link {
-		// Special cases.
+		// Special cases that don't need to unfold
 		switch p.As {
 		case obj.ATEXT, obj.ANOP, obj.AFUNCDATA, obj.APCDATA, obj.APCALIGN, ADWORD, AWORD:
 			continue
@@ -222,7 +214,7 @@ func (c *ctxt7) unfold(text *obj.Prog) {
 		if p.As < obj.A_ARCHSPECIFIC {
 			index = p.As
 		}
-		p = unfoldTab[index](c, p)
+		unfoldTab[index](c, p)
 	}
 }
 
@@ -231,7 +223,7 @@ func validPcAlignLength(alignedValue int64) bool {
 	return (alignedValue&(alignedValue-1) == 0) && 8 <= alignedValue && alignedValue <= 2048
 }
 
-// literalPool handles progs in text that require a literal pool.
+// literalPool deals with literal pool and computes the PC value of each Prog.
 func (c *ctxt7) literalPool(text *obj.Prog) int64 {
 	pc := int64(0)
 	text.Pc = pc
@@ -254,11 +246,7 @@ func (c *ctxt7) literalPool(text *obj.Prog) int64 {
 		case ADWORD:
 			pc += 8 // DWORD holds 2 instructions
 		default:
-			if p.Rel != nil {
-				// One Prog may correspond to multiple machine instructions
-				if p.Isize < 4 {
-					c.ctxt.Diag("Invalid Isize %d for: %v", p.Isize, p)
-				}
+			if p.Isize > 4 { // One Prog corresponds to multiple machine instructions.
 				pc += int64(p.Isize)
 			} else {
 				pc += 4
@@ -309,12 +297,11 @@ func (c *ctxt7) flushpool(p *obj.Prog, skip int) {
 		}
 		q := c.newprog()
 		q.As = AB
-		q.Optab = Bl
+		q.Pos = p.Pos
 		q.To.Type = obj.TYPE_BRANCH
 		q.To.SetTarget(p.Link)
-		q.To.Class = 1
+		q.Insts = convertToInst(q, Bl, []obj.Addr{p.To})
 		q.Link = c.blitrl
-		q.Pos = p.Pos
 		c.blitrl = q
 	} else if p.Pc+int64(c.pool.size)-int64(c.pool.start) < maxPCDisp && p.Link != nil {
 		return
@@ -431,7 +418,7 @@ func ispcdisp(v int32) bool {
 }
 
 // branchFixup handles large branches that exceed the jump range of
-// a specific branch instruction.
+// a specific branch instruction, and computes the PC value of each Prog.
 func (c *ctxt7) branchFixup(text *obj.Prog) int64 {
 	bflag := 1
 	pc := int64(0)
@@ -458,11 +445,7 @@ func (c *ctxt7) branchFixup(text *obj.Prog) int64 {
 			case ADWORD:
 				pc += 8 // DWORD holds 2 instructions
 			default:
-				if p.Rel != nil {
-					// One Prog may correspond to multiple machine instructions
-					if p.Isize < 4 {
-						c.ctxt.Diag("Invalid Isize %d for: %v", p.Isize, p)
-					}
+				if p.Isize > 4 { // One Prog corresponds to multiple machine instructions
 					pc += int64(p.Isize)
 				} else {
 					pc += 4
@@ -485,21 +468,21 @@ func (c *ctxt7) branchFixup(text *obj.Prog) int64 {
 					q.Link = p.Link
 					p.Link = q
 					q.As = AB
-					q.Optab = Bl
+					q.Pos = p.Pos
 					q.To.Type = obj.TYPE_BRANCH
 					q.To.SetTarget(p.To.Target())
-					q.To.Class = 1
-					q.Pos = p.Pos
+					q.Insts = convertToInst(q, Bl, []obj.Addr{q.To})
 					p.To.SetTarget(q)
+
 					q = c.newprog()
 					q.Link = p.Link
 					p.Link = q
 					q.As = AB
-					q.Optab = Bl
-					q.To.Type = obj.TYPE_BRANCH
-					q.To.Class = 1
 					q.Pos = p.Pos
+					q.To.Type = obj.TYPE_BRANCH
 					q.To.SetTarget(q.Link.Link)
+					q.Insts = convertToInst(q, Bl, []obj.Addr{q.To})
+
 					bflag = 1
 				}
 			}
@@ -508,7 +491,7 @@ func (c *ctxt7) branchFixup(text *obj.Prog) int64 {
 	return pc
 }
 
-// emitCode encodes each Prog and write the encoding into Lsym.P.
+// emitCode encodes each Prog and writes the encoding into Lsym.P.
 func (c *ctxt7) emitCode() {
 	c.cursym.Grow(c.cursym.Size)
 	bp := c.cursym.P
@@ -556,24 +539,22 @@ func (c *ctxt7) emitCode() {
 				bp = bp[4:]
 			}
 		default:
-			if p.Rel != nil {
-				for q := p.Rel; q != nil; q = q.Link {
-					var out uint32 = c.asmins(q)
-					c.ctxt.Arch.ByteOrder.PutUint32(bp, out)
-					bp = bp[4:]
-				}
+			if p.Insts == nil {
+				c.ctxt.Diag("illegal combination: %v", p)
 				continue
 			}
-			var out uint32 = c.asmins(p)
-			c.ctxt.Arch.ByteOrder.PutUint32(bp, out)
-			bp = bp[4:]
+			for q := p.Insts; q != nil; q = q.Link {
+				var out uint32 = c.asmins(p, q)
+				c.ctxt.Arch.ByteOrder.PutUint32(bp, out)
+				bp = bp[4:]
+			}
 		}
 	}
 }
 
-// asmins encodes a Prog and returns the binary.
-func (c *ctxt7) asmins(p *obj.Prog) uint32 {
-	if p.Optab < 1 {
+// asmins encodes an Inst q of p and returns the binary.
+func (c *ctxt7) asmins(p *obj.Prog, q *obj.Inst) uint32 {
+	if q.Optab < 1 {
 		// This is supposed to be something that stops execution.
 		// It's not supposed to be reached, ever, but if it is, we'd
 		// like to be able to tell how we got there. Assemble as
@@ -581,22 +562,10 @@ func (c *ctxt7) asmins(p *obj.Prog) uint32 {
 		// exception.
 		return 0x0000ffff
 	}
-	enc := optab[int(p.Optab)].skeleton
+	enc := optab[int(q.Optab)].skeleton
 	enc |= c.encodeOpcode(p)
-	if p.From.Class > 0 {
-		enc |= c.encodeArg(p, &p.From, optab[int(p.Optab)].args[int(p.From.Class-1)])
-	}
-	if p.To.Class > 0 {
-		enc |= c.encodeArg(p, &p.To, optab[int(p.Optab)].args[int(p.To.Class-1)])
-	}
-	for _, a := range p.RestArgs {
-		if a.Addr.Class > 0 {
-			enc |= c.encodeArg(p, &a.Addr, optab[int(p.Optab)].args[int(a.Addr.Class-1)])
-		} else if p.Mark&LFROM128 == 0 {
-			// if a exists, then a.Class shouldn't be 0.
-			// Those marked with LFROM128 are special cases.
-			c.ctxt.Diag("illegal combination: %v\n", p)
-		}
+	for i, a := range q.Args {
+		enc |= c.encodeArg(p, &a, optab[int(q.Optab)].args[i])
 	}
 	return enc
 }

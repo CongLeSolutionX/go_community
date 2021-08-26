@@ -141,7 +141,7 @@ func rclass(r int16) argtype {
 	return C_NONE
 }
 
-// memclass classifies memory offset o
+// memclass classifies memory offset o.
 func memclass(o int64) argtype {
 	if o == 0 {
 		return C_ZOREG
@@ -152,7 +152,7 @@ func memclass(o int64) argtype {
 	return C_VOREG
 }
 
-// aclass determines the class of p's argument a.
+// aclass classifies p's argument a.
 func (c *ctxt7) aclass(p *obj.Prog, a *obj.Addr) argtype {
 	if a == nil {
 		return C_NONE
@@ -242,6 +242,7 @@ func (c *ctxt7) aclass(p *obj.Prog, a *obj.Addr) argtype {
 		return c.con64class(a.Offset)
 
 	case obj.TYPE_ADDR:
+		c.instoffset = a.Offset
 		switch a.Name {
 		case obj.NAME_NONE:
 			break
@@ -258,19 +259,19 @@ func (c *ctxt7) aclass(p *obj.Prog, a *obj.Addr) argtype {
 		case obj.NAME_AUTO:
 			// The original offset is relative to the pseudo SP,
 			// adjust it to be relative to the RSP register.
-			if a.Reg == obj.REG_NONE {
-				a.Reg = REG_RSP
+			if a.Reg == REG_RSP {
+				a.Reg = obj.REG_NONE
 			}
 			// The frame top 8 or 16 bytes are for FP
-			a.Offset = int64(c.autosize) + a.Offset - int64(c.extrasize)
+			c.instoffset = int64(c.autosize) + a.Offset - int64(c.extrasize)
 
 		case obj.NAME_PARAM:
 			// The original offset is relative to the pseudo FP,
 			// adjust it to be relative to the RSP register.
-			if a.Reg == obj.REG_NONE {
-				a.Reg = REG_RSP
+			if a.Reg == REG_RSP {
+				a.Reg = obj.REG_NONE
 			}
-			a.Offset = int64(c.autosize) + a.Offset + 8
+			c.instoffset = int64(c.autosize) + a.Offset + 8
 		default:
 			return C_GOK
 		}
@@ -282,136 +283,97 @@ func (c *ctxt7) aclass(p *obj.Prog, a *obj.Addr) argtype {
 	return C_NONE
 }
 
-// op1S1D3A sets the optab index and optab argument index for a three-operand
-// Prog with 1 source operand and 1 destination operand, and the third operand
-// can be regarded as either the source or the destination operand. This is for
-// LDADDx series instructions. The third operand is stored in p.RegTo2.
-func op1S1D3A(p *obj.Prog, idx uint16) *obj.Prog {
-	p.Optab = idx
-	p.To.Class, p.From.Class = 3, 1
-	// p.RegTo2 only records the register number, but we need to
-	// set the class information of the argument. So make an
-	// obj.Addr object for p.RegTo2 and store it in p.RestArg.
-	a := obj.Addr{Reg: p.RegTo2, Type: obj.TYPE_REG, Class: 2}
-	p.RegTo2 = 0
-	p.SetRestArg(a, obj.Destination1)
-	return p
+// newinst returns a pointer to a newly created Inst.
+func newinst() *obj.Inst {
+	return new(obj.Inst)
 }
 
-// op2A sets the optab index and optab argument index for Prog
-// with two operands p.From and p.To. The operand order of p must
-// be exactly the opposite of the operand order of the corresponding
-// arm64 instruction.
-func op2A(p *obj.Prog, idx uint16) *obj.Prog {
-	p.Optab = idx
-	p.To.Class, p.From.Class = 1, 2
-	return p
+// newInst constructs a new Inst with the given arguments.
+func newInst(as obj.As, idx uint16, pos src.XPos, args []obj.Addr) *obj.Inst {
+	inst := newinst()
+	inst.As = as
+	inst.Optab = idx
+	inst.Pos = pos
+	inst.Args = args
+	return inst
 }
 
-// op2ASO sets the optab index and optab argument index for Prog
-// with two operands p.From and p.To. The operand order of p must
-// be exactly the same with the operand order of the corresponding
-// arm64 instruction.
-func op2ASO(p *obj.Prog, idx uint16) *obj.Prog {
-	p.Optab = idx
-	p.To.Class, p.From.Class = 2, 1
-	return p
+// convertToInst constructs a new Inst with p.As, idx, p.Pos and args.
+func convertToInst(p *obj.Prog, idx uint16, args []obj.Addr) *obj.Inst {
+	return newInst(p.As, idx, p.Pos, args)
 }
 
-// op2D3A sets the optab index and optab argument index for a three-operand
-// Prog with two destination operands, such as STLXR instruction. The second
-// destination operand is stored in p.RegTo2.
-func op2D3A(p *obj.Prog, idx uint16) *obj.Prog {
-	p.Optab = idx
-	p.To.Class, p.From.Class = 3, 2
-	// p.RegTo2 only records the register number, but we need to
-	// set the class information of the argument. So make an
-	// obj.Addr object for p.RegTo2 and store it in p.RestArg.
-	a := obj.Addr{Reg: p.RegTo2, Type: obj.TYPE_REG, Class: 1}
-	p.RegTo2 = 0
-	p.SetRestArg(a, obj.Destination1)
-	return p
+// op2A returns the corresponding Inst of p which has two operands, and the
+// operand order of p is exactly the opposite of that of the arm64 instruction.
+func op2A(p *obj.Prog, idx uint16) *obj.Inst {
+	return convertToInst(p, idx, []obj.Addr{p.To, p.From})
 }
 
-// op2SA sets the optab index and optab argument index for Prog
-// with two source operands: opcode Rm(or $imm), Rn. The operand
-// order of p must be exactly the opposite of the operand order
-// of the corresponding arm64 instruction.
-func op2SA(p *obj.Prog, idx uint16) *obj.Prog {
-	p.Optab = idx
-	// Make a Addr object for the second source operand.
-	a := obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG}
-	p.Reg = 0
-	a.Class, p.From.Class = 1, 2
-	p.SetRestArg(a, obj.Source2)
-	return p
+// op2ASO returns the corresponding Inst of p which has two operands, and the
+// operand order of p is exactly the same as that of the arm64 instruction.
+func op2ASO(p *obj.Prog, idx uint16) *obj.Inst {
+	return convertToInst(p, idx, []obj.Addr{p.From, p.To})
 }
 
-// op3A sets the optab index and optab argument index for Prog
-// with three operands: opcode Rm(or $imm), <Rn,> Rd.
-// Rn is the second source operand and can be omitted. If Rn is
-// omitted, Rn = Rd. The operand order of p must be exactly the
-// opposite of the operand order of the corresponding arm64
-// instruction.
-func op3A(p *obj.Prog, idx uint16) *obj.Prog {
-	p.Optab = idx
-	p.To.Class, p.From.Class = 1, 3
-	// p.Reg only records the register number, but we need to
-	// set the class information of the argument. So make an
-	// obj.Addr object for p.Reg and store it in p.RestArg.
+// op2D3A returns the corresponding Inst of a three-operand Prog with two
+// destination operands, such as STLXR instruction. The second destination
+// operand is stored in p.RegTo2.
+func op2D3A(p *obj.Prog, idx uint16) *obj.Inst {
+	a := []obj.Addr{{Reg: p.RegTo2, Type: obj.TYPE_REG}, p.From, p.To}
+	return convertToInst(p, idx, a)
+}
+
+// op2SA returns the corresponding Inst of a Prog with two sourc operands:
+// opcode Rm(or $imm), Rn. The operand order of p must be exactly the opposite
+// of the operand order of the corresponding arm64 instruction.
+func op2SA(p *obj.Prog, idx uint16) *obj.Inst {
+	a := []obj.Addr{{Reg: p.Reg, Type: obj.TYPE_REG}, p.From}
+	return convertToInst(p, idx, a)
+}
+
+// op3A returns the corresponding Inst of p which has three operands, and the
+// operand order of p is exactly the opposite of that of the arm64 instruction.
+func op3A(p *obj.Prog, idx uint16) *obj.Inst {
+	// create an Addr for the second operand.
 	r := p.Reg
-	p.Reg = 0
 	if r == 0 {
 		r = p.To.Reg
 	}
-	a := obj.Addr{Reg: r, Type: obj.TYPE_REG, Class: 2}
-	p.SetRestArg(a, obj.Source2)
-	return p
+	a := []obj.Addr{p.To, {Reg: r, Type: obj.TYPE_REG}, p.From}
+	return convertToInst(p, idx, a)
 }
 
-// op3S4A sets the optab index and optab argument index for a four-operand
-// Prog with three source operands, such as MADD instruction. The three source
-// operands are stored in p.RestArg3, p.From and p.Reg respectively.
-func op3S4A(p *obj.Prog, idx uint16) *obj.Prog {
-	p.Optab = idx
-	p.To.Class, p.From.Class = 1, 3
-	p.GetRestArg(obj.Source3).Class = 2
-	// p.Reg only records the register number, but we need to
-	// set the class information of the argument. So make an
-	// obj.Addr object for p.Reg and store it in p.RestArg.
-	a := obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG, Class: 4}
-	p.Reg = 0
-	p.SetRestArg(a, obj.Source2)
-	return p
+// op3S4A returns the corresponding Inst of a four-operand Prog with three
+// source operands, such as MADD instruction. The three source operands are
+// stored in p.RestArg3, p.From and p.Reg respectively.
+func op3S4A(p *obj.Prog, idx uint16) *obj.Inst {
+	from3 := p.GetRestArg(obj.Source3)
+	a := []obj.Addr{p.To, *from3, p.From, {Reg: p.Reg, Type: obj.TYPE_REG}}
+	return convertToInst(p, idx, a)
 }
 
-// op4A sets the optab index and optab argument index for Prog
-// with four operands: p.From, p.Reg, p.GetRestArg(obj.Source3)
-// and p.To. The argument order of the Go instruction is exactly
-// the opposite of that of the arm64 instruction.
-func op4A(p *obj.Prog, idx uint16) *obj.Prog {
-	p.Optab = idx
-	p.To.Class, p.GetRestArg(obj.Source3).Class, p.From.Class = 1, 2, 4
-	p.SetRestArg(obj.Addr{Reg: p.Reg, Class: 3, Type: obj.TYPE_REG}, obj.Source2)
-	p.Reg = 0
-	return p
+// op4A returns the corresponding Inst of a Prog with four operands:
+// p.From, p.Reg, p.GetRestArg(obj.Source3) and p.To. The argument order of
+// the Go instruction is exactly the opposite of that of the arm64 instruction.
+func op4A(p *obj.Prog, idx uint16) *obj.Inst {
+	from3 := p.GetRestArg(obj.Source3)
+	a := []obj.Addr{p.To, *from3, {Reg: p.Reg, Type: obj.TYPE_REG}, p.From}
+	return convertToInst(p, idx, a)
 }
 
 // movcon64 moves the 64-bit constant con64 into the rto register by
 // MOVZ/MOVN/MOVK instructions, returns the head and tail of a piece
-// of Prog list and the total instruction size.
-func (c *ctxt7) movcon64(con64 int64, rto int16, pos src.XPos) (head, tail *obj.Prog, siz int) {
+// of Inst list and the total instruction size.
+func (c *ctxt7) movcon64(con64 int64, rto int16, pos src.XPos) (head, tail *obj.Inst, siz int) {
 	ctyp := c.con64class(con64)
 	d := uint64(con64)
 	dn := d
-	head = c.newprog()
-	head.As = AMOVZ
-	head.Pos = pos
+	as := AMOVZ
 	zOrN := uint64(0)
 	idx := MOVZxis
 	siz += 4
 	if ctyp == C_MOVCONN1K1 || ctyp == C_MOVCONN1K2 || ctyp == C_MOVCONN {
-		head.As = AMOVN
+		as = AMOVN
 		zOrN = 0xffff
 		dn = ^d
 		idx = MOVNxis
@@ -425,20 +387,15 @@ func (c *ctxt7) movcon64(con64 int64, rto int16, pos src.XPos) (head, tail *obj.
 		}
 	}
 	// Here obj.Addr.Scale is used to store the shift offset of imm.
-	head.From = obj.Addr{Offset: int64(imm), Type: obj.TYPE_CONST, Scale: int16(i << 4)}
-	head.To = rt
-	head = op2A(head, uint16(idx))
+	args := []obj.Addr{rt, {Offset: int64(imm), Type: obj.TYPE_CONST, Scale: int16(i << 4)}}
+	head = newInst(as, idx, pos, args)
 	tail = head
 	for i++; i < 4; i++ {
 		imm = (d >> uint(i*16)) & 0xffff
 		if imm != zOrN {
-			tail.Link = c.newprog()
+			args = []obj.Addr{rt, {Offset: int64(imm), Type: obj.TYPE_CONST, Scale: int16(i << 4)}}
+			tail.Link = newInst(AMOVK, MOVKxis, pos, args)
 			tail = tail.Link
-			tail.As = AMOVK
-			tail.From = obj.Addr{Offset: int64(imm), Type: obj.TYPE_CONST, Scale: int16(i << 4)}
-			tail.To = rt
-			tail.Pos = pos
-			tail = op2A(tail, MOVKxis)
 			siz += 4
 		}
 	}
@@ -447,19 +404,19 @@ func (c *ctxt7) movcon64(con64 int64, rto int16, pos src.XPos) (head, tail *obj.
 
 // movCon64ToReg moves the 64-bit constant con64 into the rto register by
 // MOVZ/MOVN/MOVK instructions, returns the head and tail of a piece of
-// Prog list and the total instruction size.
-func (c *ctxt7) movCon64ToReg(con64 int64, rto int16, pos src.XPos) (*obj.Prog, *obj.Prog, int) {
+// Inst list and the total instruction size.
+func (c *ctxt7) movCon64ToReg(con64 int64, rto int16, pos src.XPos) (*obj.Inst, *obj.Inst, int) {
 	if movcon(con64) >= 0 {
 		// -> MOVZ $imm, rto
-		p := progIR(c, AMOVD, con64, rto, MOVZxis, pos)
+		p := instIR(AMOVD, con64, rto, MOVZxis, pos)
 		return p, p, 4
 	} else if movcon(^con64) >= 0 {
 		// -> MOVN $imm, rto
-		p := progIR(c, AMOVD, ^con64, rto, MOVNxis, pos)
+		p := instIR(AMOVD, ^con64, rto, MOVNxis, pos)
 		return p, p, 4
 	} else if isbitcon(uint64(con64)) {
 		// -> MOV $imm, rto
-		p := progIR(c, AMOVD, con64, rto, MOVxi_b, pos)
+		p := instIR(AMOVD, con64, rto, MOVxi_b, pos)
 		return p, p, 4
 	}
 	// Any other 64-bit integer constant.
@@ -468,21 +425,13 @@ func (c *ctxt7) movCon64ToReg(con64 int64, rto int16, pos src.XPos) (*obj.Prog, 
 }
 
 // movcon32 moves the 32-bit constant con32 into the rto register by one MOVZW
-// and one MOVKW instruction, returns the head and tail of a piece of Prog list.
-func (c *ctxt7) movcon32(con32 int64, rto int16, pos src.XPos) (head, tail *obj.Prog, siz int) {
-	head = c.newprog()
-	head.As = AMOVZW
-	head.Pos = pos
-	head.From = obj.Addr{Offset: con32 & 0xffff, Type: obj.TYPE_CONST}
-	head.To = obj.Addr{Reg: rto, Type: obj.TYPE_REG}
-	head = op2A(head, MOVZwis)
-	tail = c.newprog()
-	tail.As = AMOVKW
-	tail.Pos = pos
+// and one MOVKW instruction, returns the head and tail of a piece of Inst list.
+func (c *ctxt7) movcon32(con32 int64, rto int16, pos src.XPos) (head, tail *obj.Inst, siz int) {
+	args := []obj.Addr{{Reg: rto, Type: obj.TYPE_REG}, {Offset: con32 & 0xffff, Type: obj.TYPE_CONST}}
+	head = newInst(AMOVZW, MOVZwis, pos, args)
 	// Here obj.Addr.Scale is used to store the shift number of the offset.
-	tail.From = obj.Addr{Offset: (con32 >> 16) & 0xffff, Type: obj.TYPE_CONST, Scale: 16}
-	tail.To = head.To
-	tail = op2A(tail, MOVKwis)
+	args = []obj.Addr{{Reg: rto, Type: obj.TYPE_REG}, {Offset: (con32 >> 16) & 0xffff, Type: obj.TYPE_CONST, Scale: 16}}
+	tail = newInst(AMOVKW, MOVKwis, pos, args)
 	head.Link = tail
 	siz = 8
 	return
@@ -492,19 +441,19 @@ func (c *ctxt7) movcon32(con32 int64, rto int16, pos src.XPos) (head, tail *obj.
 // MOVZW/MOVNW/MOVKW instructions, returns the head and tail of a piece of
 // Prog list and the total instruction size. Note that the type of con32 is
 // int64, which is for 32-bit BITCON checking.
-func (c *ctxt7) movCon32ToReg(con32 int64, rto int16, pos src.XPos) (head, tail *obj.Prog, siz int) {
+func (c *ctxt7) movCon32ToReg(con32 int64, rto int16, pos src.XPos) (head, tail *obj.Inst, siz int) {
 	v := uint32(con32)
 	if movcon(int64(v)) >= 0 {
 		// -> MOVZW $imm, rto
-		p := progIR(c, AMOVW, int64(v), rto, MOVZwis, pos)
+		p := instIR(AMOVW, int64(v), rto, MOVZwis, pos)
 		return p, p, 4
 	} else if movcon(int64(^v)) >= 0 {
 		// -> MOVNW $imm, rto
-		p := progIR(c, AMOVW, int64(^v), rto, MOVNwis, pos)
+		p := instIR(AMOVW, int64(^v), rto, MOVNwis, pos)
 		return p, p, 4
 	} else if isbitcon(uint64(con32)) {
 		// -> MOVW $imm, rto
-		p := progIR(c, AMOVW, con32, rto, MOVwi_b, pos)
+		p := instIR(AMOVW, con32, rto, MOVwi_b, pos)
 		return p, p, 4
 	}
 	// Any other 32-bit integer constant.
@@ -566,113 +515,90 @@ func (c *ctxt7) bCond(as obj.As) int64 {
 	return -1
 }
 
-// progLoad generates a Prog for a load instruction, such as MOVD, MOVW.
-func progLoad(c *ctxt7, as obj.As, rf, rt, fromIndex int16, fromOffset int64, idx uint16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = as
-	p.Pos = pos
-	p.From = obj.Addr{Type: obj.TYPE_MEM, Reg: rf, Offset: fromOffset, Index: fromIndex}
-	p.To = obj.Addr{Type: obj.TYPE_REG, Reg: rt}
-	p = op2A(p, idx)
-	return p
+// instLoad generates a Inst for a load instruction, such as MOVD, MOVW.
+func instLoad(as obj.As, rf, rt, fromIndex int16, fromOffset int64, idx uint16, pos src.XPos) *obj.Inst {
+	inst := newInst(as, idx, pos, nil)
+	args := []obj.Addr{{Type: obj.TYPE_REG, Reg: rt}, {Type: obj.TYPE_MEM, Reg: rf, Offset: fromOffset, Index: fromIndex}}
+	inst.Args = args
+	return inst
 }
 
-// progLoadPair generates a Prog for a LDP like instruction, such as LDP, LDPW.
-func progLoadPair(c *ctxt7, as obj.As, rf, rt1, rt2 int16, fromOffset int64, idx uint16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = as
-	p.Pos = pos
-	p.From = obj.Addr{Type: obj.TYPE_MEM, Reg: rf, Offset: fromOffset}
-	p.To = obj.Addr{Type: obj.TYPE_REGREG, Reg: rt1, Offset: int64(rt2)}
-	p = op2A(p, idx)
-	return p
+// instLoadPair generates a Inst for a LDP like instruction, such as LDP, LDPW.
+func instLoadPair(as obj.As, rf, rt1, rt2 int16, fromOffset int64, idx uint16, pos src.XPos) *obj.Inst {
+	inst := newInst(as, idx, pos, nil)
+	args := []obj.Addr{{Type: obj.TYPE_REGREG, Reg: rt1, Offset: int64(rt2)}, {Type: obj.TYPE_MEM, Reg: rf, Offset: fromOffset}}
+	inst.Args = args
+	return inst
 }
 
-// progStore generates a Prog for a store instruction, such as MOVD, MOVW.
-func progStore(c *ctxt7, as obj.As, rf, rt, toIndex int16, toOffset int64, idx uint16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = as
-	p.Pos = pos
-	p.From = obj.Addr{Type: obj.TYPE_REG, Reg: rf}
-	p.To = obj.Addr{Type: obj.TYPE_MEM, Reg: rt, Offset: toOffset, Index: toIndex}
-	p = op2ASO(p, idx)
-	return p
+// instStore generates a Inst for a store instruction, such as MOVD, MOVW.
+func instStore(as obj.As, rf, rt, toIndex int16, toOffset int64, idx uint16, pos src.XPos) *obj.Inst {
+	inst := newInst(as, idx, pos, nil)
+	args := []obj.Addr{{Type: obj.TYPE_REG, Reg: rf}, {Type: obj.TYPE_MEM, Reg: rt, Offset: toOffset, Index: toIndex}}
+	inst.Args = args
+	return inst
 }
 
-// progStorePair generates a Prog for a STP like instruction, such as STP, STPW.
-func progStorePair(c *ctxt7, as obj.As, rt, rf1, rf2 int16, toOffset int64, idx uint16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = as
-	p.Pos = pos
-	p.From = obj.Addr{Type: obj.TYPE_REGREG, Reg: rf1, Offset: int64(rf2)}
-	p.To = obj.Addr{Type: obj.TYPE_MEM, Reg: rt, Offset: toOffset}
-	p = op2ASO(p, idx)
-	return p
+// instStorePair generates a Inst for a STP like instruction, such as STP, STPW.
+func instStorePair(as obj.As, rt, rf1, rf2 int16, toOffset int64, idx uint16, pos src.XPos) *obj.Inst {
+	inst := newInst(as, idx, pos, nil)
+	args := []obj.Addr{{Type: obj.TYPE_REGREG, Reg: rf1, Offset: int64(rf2)}, {Type: obj.TYPE_MEM, Reg: rt, Offset: toOffset}}
+	inst.Args = args
+	return inst
 }
 
-// adrp generates a Prog corresponding to the ADRP instruction.
+// adrp generates a Inst corresponding to the ADRP instruction.
 // p.From.Offset is set to 0.
-func adrp(c *ctxt7, rt int16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = AADRP
-	p.Pos = pos
-	p.From = obj.Addr{Type: obj.TYPE_BRANCH, Offset: 0}
-	p.To = obj.Addr{Reg: rt, Type: obj.TYPE_REG}
-	p = op2A(p, ADRPxl)
-	return p
+func adrp(rt int16, pos src.XPos) *obj.Inst {
+	inst := newInst(AADRP, ADRPxl, pos, nil)
+	args := []obj.Addr{{Reg: rt, Type: obj.TYPE_REG}, {Type: obj.TYPE_BRANCH, Offset: 0}}
+	inst.Args = args
+	return inst
 }
 
-// progIR generates a Prog with two parameters, and the first parameter
+// instIR generates a Inst with two parameters, and the first parameter
 // is constant type, the second is register types. idx is the corresponding
 // index of arm64 instruction in optab.
-func progIR(c *ctxt7, as obj.As, imm int64, rt int16, idx uint16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = as
-	p.Pos = pos
-	p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: imm}
-	p.To = obj.Addr{Reg: rt, Type: obj.TYPE_REG}
-	p = op2A(p, idx)
-	return p
+func instIR(as obj.As, imm int64, rt int16, idx uint16, pos src.XPos) *obj.Inst {
+	inst := newInst(as, idx, pos, nil)
+	args := []obj.Addr{{Reg: rt, Type: obj.TYPE_REG}, {Type: obj.TYPE_CONST, Offset: imm}}
+	inst.Args = args
+	return inst
 }
 
-// progIRR generates a Prog with three parameters, and the first parameter
+// instIRR generates a Inst with three parameters, and the first parameter
 // is constant type, the second and third parameters are register types.
 // idx is the corresponding index of arm64 instruction in optab.
-func progIRR(c *ctxt7, as obj.As, imm int64, rn, rt int16, idx uint16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = as
-	p.Pos = pos
-	p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: imm}
-	p.Reg = rn
-	p.To = obj.Addr{Reg: rt, Type: obj.TYPE_REG}
-	p = op3A(p, idx)
-	return p
+func instIRR(as obj.As, imm int64, rn, rt int16, idx uint16, pos src.XPos) *obj.Inst {
+	inst := newInst(as, idx, pos, nil)
+	if rn == 0 {
+		rn = rt
+	}
+	args := []obj.Addr{{Reg: rt, Type: obj.TYPE_REG}, {Reg: rn, Type: obj.TYPE_REG}, {Type: obj.TYPE_CONST, Offset: imm}}
+	inst.Args = args
+	return inst
 }
 
-// prog2SR generates a Prog with two source parameters of register type.
+// inst2SR generates a Inst with two source parameters of register type.
 // The first operand is p.From and the second operand is p.Reg.
 // idx is the corresponding index of arm64 instruction in optab.
-func prog2SR(c *ctxt7, as obj.As, rm, rn int16, idx uint16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = as
-	p.Pos = pos
-	p.From = obj.Addr{Reg: rm, Type: obj.TYPE_REG}
-	p.Reg = rn
-	p = op2SA(p, idx)
-	return p
+func inst2SR(as obj.As, rm, rn int16, idx uint16, pos src.XPos) *obj.Inst {
+	inst := newInst(as, idx, pos, nil)
+	args := []obj.Addr{{Reg: rn, Type: obj.TYPE_REG}, {Reg: rm, Type: obj.TYPE_REG}}
+	inst.Args = args
+	return inst
 }
 
-// progRRR generates a Prog with three register type parameters.
+// instRRR generates a Inst with three register type parameters.
 // idx is the corresponding index of arm64 instruction in optab.
-func progRRR(c *ctxt7, as obj.As, rm, rn, rt int16, idx uint16, pos src.XPos) *obj.Prog {
-	p := c.newprog()
-	p.As = as
-	p.Pos = pos
-	p.From = obj.Addr{Reg: rm, Type: obj.TYPE_REG}
-	p.Reg = rn
-	p.To = obj.Addr{Reg: rt, Type: obj.TYPE_REG}
-	p = op3A(p, idx)
-	return p
+func instRRR(as obj.As, rm, rn, rt int16, idx uint16, pos src.XPos) *obj.Inst {
+	inst := newInst(as, idx, pos, nil)
+	if rn == 0 {
+		rn = rt
+	}
+	args := []obj.Addr{{Reg: rt, Type: obj.TYPE_REG}, {Reg: rn, Type: obj.TYPE_REG}, {Reg: rm, Type: obj.TYPE_REG}}
+	inst.Args = args
+	return inst
 }
 
 /* form offset parameter to SYS; special register number */
@@ -702,11 +628,10 @@ func newRelocation(f *obj.LSym, size uint8, sym *obj.LSym, add int64, typ objabi
 // addSub deals with ADD/ADDW/SUB/SUBW/ADDS/ADDSW/SUBS/SUBSW instructions.
 // cidx, sidx and eidx are the indexs of the immediate, shifted register
 // and extended register format instructions in the optab table, respectively.
-func addSub(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16, setflag, is32bit bool, movToReg func(int64, int16, src.XPos) (*obj.Prog, *obj.Prog, int)) *obj.Prog {
+func addSub(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16, setflag, is32bit bool, movToReg func(int64, int16, src.XPos) (*obj.Inst, *obj.Inst, int)) *obj.Inst {
 	tc := c.aclass(p, &p.To)
-	if tc != C_REG {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+	if tc != C_REG || p.RestArgs != nil || p.RegTo2 != 0 {
+		return nil
 	}
 	switch p.From.Type {
 	case obj.TYPE_CONST:
@@ -718,25 +643,23 @@ func addSub(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16, setflag, is32bit boo
 			return op3A(p, cidx) // -> ADD/SUB(immediate)
 		} else if !setflag && isaddcon2(v) {
 			// -> ADD/SUB(immediate) + ADD/SUB(immediate)
-			p1 := progIRR(c, p.As, v&0xfff, p.Reg, p.To.Reg, cidx, p.Pos)
-			p2 := progIRR(c, p.As, v&0xfff000, p.To.Reg, p.To.Reg, cidx, p.Pos)
+			p1 := instIRR(p.As, v&0xfff, p.Reg, p.To.Reg, cidx, p.Pos)
+			p2 := instIRR(p.As, v&0xfff000, p.To.Reg, p.To.Reg, cidx, p.Pos)
 			p1.Link = p2
-			p.Rel = p1
 			p.Isize = 8
 			p.Mark |= NOTUSETMP
-			return p
+			return p1
 		}
 		if p.Reg == REGTMP {
 			c.ctxt.Diag("cannot use REGTMP as source: %v\n", p)
-			return p
+			return nil
 		}
 		// MOVD $con, Rtmp + ADD/SUB Rtmp, Rn, Rt
-		p1 := progRRR(c, p.As, REGTMP, p.Reg, p.To.Reg, eidx, p.Pos)
+		p1 := instRRR(p.As, REGTMP, p.Reg, p.To.Reg, eidx, p.Pos)
 		h, t, siz := movToReg(p.From.Offset, REGTMP, p.Pos)
 		t.Link = p1
-		p.Rel = h
 		p.Isize = uint8(siz) + 4
-		return p
+		return h
 	case obj.TYPE_SHIFT:
 		return op3A(p, sidx)
 	case obj.TYPE_REG:
@@ -752,16 +675,14 @@ func addSub(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16, setflag, is32bit boo
 			return op3A(p, eidx) // -> ADD/SUB(extended register)
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
+	return nil
 }
 
 // bitwiseOp deals with AND/ANDW/EOR/EORW/ORR/ORRW/BIC/BICW/EON/EONW/ORN/ORNW/ANDS/ANDSW/BICS/BICSW instructions.
-func bitwiseOp(c *ctxt7, p *obj.Prog, cidx, sidx uint16, neg, supportZR bool, movToReg func(int64, int16, src.XPos) (*obj.Prog, *obj.Prog, int)) *obj.Prog {
+func bitwiseOp(c *ctxt7, p *obj.Prog, cidx, sidx uint16, neg, supportZR bool, movToReg func(int64, int16, src.XPos) (*obj.Inst, *obj.Inst, int)) *obj.Inst {
 	tc := c.aclass(p, &p.To)
 	if tc != C_REG {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return nil
 	}
 	switch p.From.Type {
 	case obj.TYPE_CONST:
@@ -774,20 +695,18 @@ func bitwiseOp(c *ctxt7, p *obj.Prog, cidx, sidx uint16, neg, supportZR bool, mo
 		}
 		if p.Reg == REGTMP {
 			c.ctxt.Diag("cannot use REGTMP as source: %v\n", p)
-			return p
+			return nil
 		}
 		// MOVD $con, Rtmp + p.As Rtmp, Rn, Rt
-		p1 := progRRR(c, p.As, REGTMP, p.Reg, p.To.Reg, sidx, p.Pos)
+		p1 := instRRR(p.As, REGTMP, p.Reg, p.To.Reg, sidx, p.Pos)
 		h, t, siz := movToReg(v, REGTMP, p.Pos)
 		t.Link = p1
-		p.Rel = h
 		p.Isize = uint8(siz) + 4
-		return p
+		return h
 	case obj.TYPE_SHIFT, obj.TYPE_REG:
 		return op3A(p, sidx) // -> Op(shift register)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
+	return nil
 }
 
 // splitAddCon checks if the large offset v of a load/store instruction can be split into
@@ -812,7 +731,7 @@ func splitAddCon(c *ctxt7, p *obj.Prog, v int32, s int) (int32, bool) {
 }
 
 // immOffsetStore handles the store of addresses with immediate offset values.
-func immOffsetStore(c *ctxt7, p *obj.Prog, eidx, uidx, pidx, widx, idx256 uint16, movToReg func(int64, int16, src.XPos) (*obj.Prog, *obj.Prog, int), checkUnpredicate bool) *obj.Prog {
+func immOffsetStore(c *ctxt7, p *obj.Prog, eidx, uidx, pidx, widx, idx256 uint16, movToReg func(int64, int16, src.XPos) (*obj.Inst, *obj.Inst, int), checkUnpredicate bool) *obj.Inst {
 	a := p.To
 	if a.Reg == obj.REG_NONE {
 		a.Reg = REG_RSP
@@ -820,15 +739,15 @@ func immOffsetStore(c *ctxt7, p *obj.Prog, eidx, uidx, pidx, widx, idx256 uint16
 	if p.Scond == C_XPOST || p.Scond == C_XPRE {
 		if checkUnpredicate && a.Reg != REG_RSP && p.From.Reg == a.Reg {
 			c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-			return p
+			return nil
 		}
 		if p.To.Reg == 0 { // pseudo registers, like FP, SP
 			c.ctxt.Diag("pre and post index format don't support pseudo register: %v", p)
-			return p
+			return nil
 		}
 		if p.To.Offset < -256 || p.To.Offset > 255 {
 			c.ctxt.Diag("offset out of range [-256,255]: %v", p)
-			return p
+			return nil
 		}
 		if p.Scond == C_XPOST {
 			return op2ASO(p, pidx) // -> store (immediate post-index)
@@ -838,59 +757,46 @@ func immOffsetStore(c *ctxt7, p *obj.Prog, eidx, uidx, pidx, widx, idx256 uint16
 	s := movesize(p.As)
 	if s < 0 {
 		c.ctxt.Diag("unexpected long move, %v", p)
-		return p
+		return nil
 	}
 	v := c.instoffset
 	// fit one store instruction
 	if v >= 0 && v <= (0xfff<<uint(s)) && (v&((1<<uint(s))-1) == 0) {
-		// Input and output arguments usually use FP or SP pseudo registers,
-		// but they need to be converted to RSP for encoding. Although the
-		// current Prog only needs one machine instruction for encoding,
-		// in order to print out the FP or SP register when printing, create
-		// a new Prog for encoding.
-		q := progStore(c, p.As, p.From.Reg, a.Reg, 0, v, uidx, p.Pos)
-		p.Rel = q
-		p.Isize = 4
-		return p
+		return instStore(p.As, p.From.Reg, a.Reg, 0, v, uidx, p.Pos)
 	}
 
 	// use Store Register (unscaled) instruction if -256 <= c.instoffset < 256
 	if v >= -256 && v < 256 {
-		q := progStore(c, p.As, p.From.Reg, a.Reg, 0, v, idx256, p.Pos)
-		p.Rel = q
-		p.Isize = 4
-		return p
+		return instStore(p.As, p.From.Reg, a.Reg, 0, v, idx256, p.Pos)
 	}
 	// if offset v can be split into hi+lo, and both fit into instructions, convert
 	// to ADD $hi, Rt, Rtmp + store Rs, lo(Rtmp)
-	var p1, p2 *obj.Prog
+	var p1, p2 *obj.Inst
 	v32 := int32(v)
 	hi, ok := splitAddCon(c, p, v32, s)
 	if !ok {
 		goto storeusemov
 	}
-	p1 = progIRR(c, AADD, int64(hi), a.Reg, REGTMP, ADDxxis, p.Pos)
-	p2 = progStore(c, p.As, p.From.Reg, REGTMP, 0, int64(v32-hi), uidx, p.Pos)
+	p1 = instIRR(AADD, int64(hi), a.Reg, REGTMP, ADDxxis, p.Pos)
+	p2 = instStore(p.As, p.From.Reg, REGTMP, 0, int64(v32-hi), uidx, p.Pos)
 	p1.Link = p2
-	p.Rel = p1
 	p.Isize = 8
-	return p
+	return p1
 storeusemov:
 	// -> MOVZ/MOVN $imm, Rtmp + (MOVK $imm, Rtmp)+ + store R, (Rt)(Rtmp)
 	if p.From.Reg == REGTMP || a.Reg == REGTMP {
 		c.ctxt.Diag("REGTMP used in large offset store: %v", p)
-		return p
+		return nil
 	}
 	h, t, siz := movToReg(v, REGTMP, p.Pos)
-	p1 = progStore(c, p.As, p.From.Reg, a.Reg, REGTMP, 0, eidx, p.Pos)
+	p1 = instStore(p.As, p.From.Reg, a.Reg, REGTMP, 0, eidx, p.Pos)
 	t.Link = p1
-	p.Rel = h
 	p.Isize = uint8(siz) + 4
-	return p
+	return h
 }
 
 // immOffsetStore handles the load of addresses with immediate offset values.
-func immOffsetLoad(c *ctxt7, p *obj.Prog, eidx, uidx, pidx, widx, idx256 uint16, movToReg func(int64, int16, src.XPos) (*obj.Prog, *obj.Prog, int), checkUnpredicate bool) *obj.Prog {
+func immOffsetLoad(c *ctxt7, p *obj.Prog, eidx, uidx, pidx, widx, idx256 uint16, movToReg func(int64, int16, src.XPos) (*obj.Inst, *obj.Inst, int), checkUnpredicate bool) *obj.Inst {
 	a := p.From
 	if a.Reg == obj.REG_NONE {
 		a.Reg = REG_RSP
@@ -898,15 +804,15 @@ func immOffsetLoad(c *ctxt7, p *obj.Prog, eidx, uidx, pidx, widx, idx256 uint16,
 	if p.Scond == C_XPOST || p.Scond == C_XPRE {
 		if checkUnpredicate && a.Reg != REG_RSP && a.Reg == p.To.Reg {
 			c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-			return p
+			return nil
 		}
 		if p.From.Reg == 0 { // pseudo registers, like FP, SP
 			c.ctxt.Diag("pre and post index format don't support pseudo register: %v", p)
-			return p
+			return nil
 		}
 		if p.From.Offset < -256 || p.From.Offset > 255 {
 			c.ctxt.Diag("offset out of range [-256,255]: %v", p)
-			return p
+			return nil
 		}
 		if p.Scond == C_XPOST {
 			return op2A(p, pidx) // -> load (immediate post-index)
@@ -916,54 +822,41 @@ func immOffsetLoad(c *ctxt7, p *obj.Prog, eidx, uidx, pidx, widx, idx256 uint16,
 	s := movesize(p.As)
 	if s < 0 {
 		c.ctxt.Diag("unexpected long move, %v", p)
-		return p
+		return nil
 	}
 	v := c.instoffset
 	// fit one load instruction
 	if v >= 0 && v <= (0xfff<<uint(s)) && (v&((1<<uint(s))-1) == 0) {
-		// Input and output arguments usually use FP or SP pseudo registers,
-		// but they need to be converted to RSP for encoding. Although the
-		// current Prog only needs one machine instruction for encoding,
-		// in order to print out the FP or SP register when printing, create
-		// a new Prog for encoding.
-		q := progLoad(c, p.As, a.Reg, p.To.Reg, 0, v, uidx, p.Pos)
-		p.Rel = q
-		p.Isize = 4
-		return p
+		return instLoad(p.As, a.Reg, p.To.Reg, 0, v, uidx, p.Pos)
 	}
 	// use Load Register (unscaled) instruction if -256 <= v < 256
 	if v >= -256 && v < 256 {
-		q := progLoad(c, p.As, a.Reg, p.To.Reg, 0, v, idx256, p.Pos)
-		p.Rel = q
-		p.Isize = 4
-		return p
+		return instLoad(p.As, a.Reg, p.To.Reg, 0, v, idx256, p.Pos)
 	}
 	// if offset v can be split into hi+lo, and both fit into instructions, do
 	// MOVD $imm(Rs), Rt -> ADD $hi, Rs, Rtmp + load lo(Rtmp), Rt
-	var p1, p2 *obj.Prog
+	var p1, p2 *obj.Inst
 	v32 := int32(v)
 	hi, ok := splitAddCon(c, p, v32, s)
 	if !ok {
 		goto loadusemov
 	}
-	p1 = progIRR(c, AADD, int64(hi), a.Reg, REGTMP, ADDxxis, p.Pos)
-	p2 = progLoad(c, p.As, REGTMP, p.To.Reg, 0, int64(v32-hi), uidx, p.Pos)
+	p1 = instIRR(AADD, int64(hi), a.Reg, REGTMP, ADDxxis, p.Pos)
+	p2 = instLoad(p.As, REGTMP, p.To.Reg, 0, int64(v32-hi), uidx, p.Pos)
 	p1.Link = p2
-	p.Rel = p1
 	p.Isize = 8
-	return p
+	return p1
 loadusemov:
 	// -> MOVZ/MOVN $imm, Rtmp + (MOVK $imm, Rtmp)+ + load (Rs)(Rtmp), R
 	if a.Reg == REGTMP {
 		c.ctxt.Diag("REGTMP used in large offset load: %v", p)
-		return p
+		return nil
 	}
 	h, t, siz := movToReg(v, REGTMP, p.Pos)
-	p1 = progLoad(c, p.As, a.Reg, p.To.Reg, REGTMP, 0, eidx, p.Pos)
+	p1 = instLoad(p.As, a.Reg, p.To.Reg, REGTMP, 0, eidx, p.Pos)
 	t.Link = p1
-	p.Rel = h
 	p.Isize = uint8(siz) + 4
-	return p
+	return h
 }
 
 // generalStore expands the store form of instructions MOVD, MOVW, etc.
@@ -971,7 +864,7 @@ loadusemov:
 // the register, Unsigned offset, Post-index, Pre-index and unscaled format instructions
 // in the optab table, respectively. movToReg is c.movCon64ToReg for 64-bit instructions
 // and c.movCon32ToReg for 32-bit instructions.
-func generalStore(c *ctxt7, p *obj.Prog, toTyp argtype, eidx, uidx, pidx, widx, idx256 uint16, movToReg func(int64, int16, src.XPos) (*obj.Prog, *obj.Prog, int), checkUnpredicate bool) *obj.Prog {
+func generalStore(c *ctxt7, p *obj.Prog, toTyp argtype, eidx, uidx, pidx, widx, idx256 uint16, movToReg func(int64, int16, src.XPos) (*obj.Inst, *obj.Inst, int), checkUnpredicate bool) *obj.Inst {
 	switch toTyp {
 	case C_ROFF:
 		return op2ASO(p, eidx) // -> store (register)
@@ -979,77 +872,72 @@ func generalStore(c *ctxt7, p *obj.Prog, toTyp argtype, eidx, uidx, pidx, widx, 
 		// -> ADRP + ADD (immediate) + reloc + store (immediate)
 		if p.From.Reg == REGTMP {
 			c.ctxt.Diag("cannot use REGTMP as source: %v\n", p)
-			return p
+			return nil
 		}
 		p.RelocIdx = newRelocation(c.cursym, 8, p.To.Sym, p.To.Offset, objabi.R_ADDRARM64)
-		p1 := adrp(c, REGTMP, p.Pos)
-		p2 := progIRR(c, AADD, 0, REGTMP, REGTMP, ADDxxis, p.Pos)
-		p3 := progStore(c, p.As, p.From.Reg, REGTMP, 0, 0, uidx, p.Pos)
+		p1 := adrp(REGTMP, p.Pos)
+		p2 := instIRR(AADD, 0, REGTMP, REGTMP, ADDxxis, p.Pos)
+		p3 := instStore(p.As, p.From.Reg, REGTMP, 0, 0, uidx, p.Pos)
 		p1.Link = p2
 		p2.Link = p3
-		p.Rel = p1
 		p.Isize = 12
-		return p
+		return p1
 	case C_ZOREG, C_LOREG, C_VOREG:
 		return immOffsetStore(c, p, eidx, uidx, pidx, widx, idx256, movToReg, checkUnpredicate)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
+	return nil
 }
 
 // generalLoad expands the load form of instructions MOVD, MOVW, etc.
 // The meaning of the parameter is the same as generalStore.
-func generalLoad(c *ctxt7, p *obj.Prog, fromTyp argtype, eidx, uidx, pidx, widx, idx256 uint16, movToReg func(int64, int16, src.XPos) (*obj.Prog, *obj.Prog, int), checkUnpredicate bool) *obj.Prog {
+func generalLoad(c *ctxt7, p *obj.Prog, fromTyp argtype, eidx, uidx, pidx, widx, idx256 uint16, movToReg func(int64, int16, src.XPos) (*obj.Inst, *obj.Inst, int), checkUnpredicate bool) *obj.Inst {
 	switch fromTyp {
 	case C_ROFF:
 		return op2A(p, eidx) // -> load (register)
 	case C_ADDR:
 		// -> ADRP + ADD (immediate) + reloc + load (REGTMP), Rt
 		p.RelocIdx = newRelocation(c.cursym, 8, p.From.Sym, p.From.Offset, objabi.R_ADDRARM64)
-		p1 := adrp(c, REGTMP, p.Pos)
-		p2 := progIRR(c, AADD, 0, REGTMP, REGTMP, ADDxxis, p.Pos)
-		p3 := progLoad(c, p.As, REGTMP, p.To.Reg, 0, 0, uidx, p.Pos)
+		p1 := adrp(REGTMP, p.Pos)
+		p2 := instIRR(AADD, 0, REGTMP, REGTMP, ADDxxis, p.Pos)
+		p3 := instLoad(p.As, REGTMP, p.To.Reg, 0, 0, uidx, p.Pos)
 		p1.Link = p2
 		p2.Link = p3
-		p.Rel = p1
 		p.Isize = 12
-		return p
+		return p1
 	case C_ZOREG, C_LOREG, C_VOREG:
 		return immOffsetLoad(c, p, eidx, uidx, pidx, widx, idx256, movToReg, checkUnpredicate)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
+	return nil
 }
 
 // loadPair expands the load form of instructions LDP, LDPW, etc.
 // "shift" is the shift value of the offset value.
-func loadPair(c *ctxt7, p *obj.Prog, fromTyp argtype, uidx, pidx, widx uint16, shift uint) *obj.Prog {
+func loadPair(c *ctxt7, p *obj.Prog, fromTyp argtype, uidx, pidx, widx uint16, shift uint) *obj.Inst {
 	switch fromTyp {
 	case C_ADDR:
 		// -> ADRP + ADD (immediate) + reloc + LDP (Rtmp), (Rt1, Rt2)
 		p.RelocIdx = newRelocation(c.cursym, 8, p.From.Sym, p.From.Offset, objabi.R_ADDRARM64)
-		p1 := adrp(c, REGTMP, p.Pos)
-		p2 := progIRR(c, AADD, 0, REGTMP, REGTMP, ADDxxis, p.Pos)
-		p3 := progLoadPair(c, p.As, REGTMP, p.To.Reg, int16(p.To.Offset), 0, uidx, p.Pos)
+		p1 := adrp(REGTMP, p.Pos)
+		p2 := instIRR(AADD, 0, REGTMP, REGTMP, ADDxxis, p.Pos)
+		p3 := instLoadPair(p.As, REGTMP, p.To.Reg, int16(p.To.Offset), 0, uidx, p.Pos)
 		p1.Link = p2
 		p2.Link = p3
-		p.Rel = p1
 		p.Isize = 12
-		return p
+		return p1
 	case C_ZOREG, C_LOREG, C_VOREG:
 		a := p.From
 		if p.Scond == C_XPOST || p.Scond == C_XPRE {
-			if p.From.Reg == 0 { // pseudo registers, like FP, SP
+			if a.Reg == obj.REG_NONE { // pseudo registers, like FP, SP
 				c.ctxt.Diag("pre and post index format don't support pseudo register: %v", p)
-				return p
+				return nil
 			}
 			if a.Offset < -64<<shift || a.Offset > 63<<shift {
 				c.ctxt.Diag("offset out of range [%d,%d]: %v", -64<<shift, 63<<shift, p)
-				return p
+				return nil
 			}
 			if a.Offset&(1<<shift-1) != 0 {
 				c.ctxt.Diag("offset must be a multiple of %d: %v", 1<<shift, p)
-				return p
+				return nil
 			}
 			if p.Scond == C_XPOST {
 				return op2A(p, pidx) // -> LDP (post-index)
@@ -1062,15 +950,7 @@ func loadPair(c *ctxt7, p *obj.Prog, fromTyp argtype, uidx, pidx, widx uint16, s
 		v := c.instoffset
 		// fit one LDP(signed offset) instruction
 		if v >= -64<<shift && v <= 63<<shift && v&(1<<shift-1) == 0 {
-			// Input and output arguments usually use FP or SP pseudo registers,
-			// but they need to be converted to RSP for encoding. Although the
-			// current Prog only needs one machine instruction for encoding,
-			// in order to print out the FP or SP register when printing, create
-			// a new Prog for encoding.
-			q := progLoadPair(c, p.As, a.Reg, p.To.Reg, int16(p.To.Offset), v, uidx, p.Pos)
-			p.Rel = q
-			p.Isize = 4
-			return p
+			return instLoadPair(p.As, a.Reg, p.To.Reg, int16(p.To.Offset), v, uidx, p.Pos)
 		} else if isaddcon(v) || isaddcon(-v) {
 			// -> ADD/SUB $imm, Rf, Rtmp + LDP (Rtmp), (Rt1, Rt2)
 			as := AADD
@@ -1080,46 +960,42 @@ func loadPair(c *ctxt7, p *obj.Prog, fromTyp argtype, uidx, pidx, widx uint16, s
 				v = -v
 				idx = SUBxxis
 			}
-			p1 := progIRR(c, as, v, a.Reg, REGTMP, uint16(idx), p.Pos)
-			p2 := progLoadPair(c, p.As, REGTMP, p.To.Reg, int16(p.To.Offset), 0, uidx, p.Pos)
+			p1 := instIRR(as, v, a.Reg, REGTMP, idx, p.Pos)
+			p2 := instLoadPair(p.As, REGTMP, p.To.Reg, int16(p.To.Offset), 0, uidx, p.Pos)
 			p1.Link = p2
-			p.Rel = p1
 			p.Isize = 8
-			return p
+			return p1
 		} else {
 			// -> MOVZ/MOVN $imm, Rtmp + (MOVK $imm, Rtmp)+ + ADD Rtmp, Rf, Rtmp + LDP (Rtmp), (Rt1, Rt2)
 			if a.Reg == REGTMP {
 				c.ctxt.Diag("REGTMP used in large offset load: %v", p)
-				return p
+				return nil
 			}
 			h, t, siz := c.movCon64ToReg(v, REGTMP, p.Pos)
-			p1 := progRRR(c, AADD, REGTMP, a.Reg, REGTMP, ADDxxre, p.Pos)
-			p2 := progLoadPair(c, p.As, REGTMP, p.To.Reg, int16(p.To.Offset), 0, uidx, p.Pos)
+			p1 := instRRR(AADD, REGTMP, a.Reg, REGTMP, ADDxxre, p.Pos)
+			p2 := instLoadPair(p.As, REGTMP, p.To.Reg, int16(p.To.Offset), 0, uidx, p.Pos)
 			t.Link = p1
 			p1.Link = p2
-			p.Rel = h
 			p.Isize = uint8(siz) + 8
-			return p
+			return h
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
+	return nil
 }
 
 // storePair expands the store form of instructions STP, STPW, etc.
-func storePair(c *ctxt7, p *obj.Prog, toTyp argtype, uidx, pidx, widx uint16, shift uint) *obj.Prog {
+func storePair(c *ctxt7, p *obj.Prog, toTyp argtype, uidx, pidx, widx uint16, shift uint) *obj.Inst {
 	switch toTyp {
 	case C_ADDR:
 		// -> ADRP + ADD (immediate) + reloc + STP (Rt1, Rt2), (Rtmp)
 		p.RelocIdx = newRelocation(c.cursym, 8, p.To.Sym, p.To.Offset, objabi.R_ADDRARM64)
-		p1 := adrp(c, REGTMP, p.Pos)
-		p2 := progIRR(c, AADD, 0, REGTMP, REGTMP, ADDxxis, p.Pos)
-		p3 := progStorePair(c, p.As, REGTMP, p.From.Reg, int16(p.From.Offset), 0, uidx, p.Pos)
+		p1 := adrp(REGTMP, p.Pos)
+		p2 := instIRR(AADD, 0, REGTMP, REGTMP, ADDxxis, p.Pos)
+		p3 := instStorePair(p.As, REGTMP, p.From.Reg, int16(p.From.Offset), 0, uidx, p.Pos)
 		p1.Link = p2
 		p2.Link = p3
-		p.Rel = p1
 		p.Isize = 12
-		return p
+		return p1
 	case C_ZOREG, C_LOREG, C_VOREG:
 		a := p.To
 		if a.Reg == obj.REG_NONE {
@@ -1128,19 +1004,19 @@ func storePair(c *ctxt7, p *obj.Prog, toTyp argtype, uidx, pidx, widx uint16, sh
 		if p.Scond == C_XPOST || p.Scond == C_XPRE {
 			if checkUnpredictable(false, true, a.Reg, p.From.Reg, int16(p.From.Offset)) {
 				c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-				return p
+				return nil
 			}
 			if p.To.Reg == 0 { // pseudo registers, like FP, SP
 				c.ctxt.Diag("pre and post index format don't support pseudo register: %v", p)
-				return p
+				return nil
 			}
 			if a.Offset < -64<<shift || a.Offset > 63<<shift {
 				c.ctxt.Diag("offset out of range [%d,%d]: %v", -64<<shift, 63<<shift, p)
-				return p
+				return nil
 			}
 			if a.Offset&(1<<shift-1) != 0 {
 				c.ctxt.Diag("offset must be a multiple of %d: %v", 1<<shift, p)
-				return p
+				return nil
 			}
 			if p.Scond == C_XPOST {
 				return op2ASO(p, pidx) // -> STP (post-index)
@@ -1150,15 +1026,7 @@ func storePair(c *ctxt7, p *obj.Prog, toTyp argtype, uidx, pidx, widx uint16, sh
 		v := c.instoffset
 		// fit one STP(signed offset) instruction
 		if v >= -64<<shift && v <= 63<<shift && v&(1<<shift-1) == 0 {
-			// Input and output arguments usually use FP or SP pseudo registers,
-			// but they need to be converted to RSP for encoding. Although the
-			// current Prog only needs one machine instruction for encoding,
-			// in order to print out the FP or SP register when printing, create
-			// a new Prog for encoding.
-			q := progStorePair(c, p.As, a.Reg, p.From.Reg, int16(p.From.Offset), v, uidx, p.Pos)
-			p.Rel = q
-			p.Isize = 4
-			return p
+			return instStorePair(p.As, a.Reg, p.From.Reg, int16(p.From.Offset), v, uidx, p.Pos)
 		} else if isaddcon(v) || isaddcon(-v) {
 			// -> ADD/SUB $imm, Rt, Rtmp + STP (Rt1, Rt2), (Rtmp)
 			as := AADD
@@ -1168,39 +1036,35 @@ func storePair(c *ctxt7, p *obj.Prog, toTyp argtype, uidx, pidx, widx uint16, sh
 				v = -v
 				idx = SUBxxis
 			}
-			p1 := progIRR(c, as, v, a.Reg, REGTMP, uint16(idx), p.Pos)
-			p2 := progStorePair(c, p.As, REGTMP, p.From.Reg, int16(p.From.Offset), 0, uidx, p.Pos)
+			p1 := instIRR(as, v, a.Reg, REGTMP, idx, p.Pos)
+			p2 := instStorePair(p.As, REGTMP, p.From.Reg, int16(p.From.Offset), 0, uidx, p.Pos)
 			p1.Link = p2
-			p.Rel = p1
 			p.Isize = 8
-			return p
+			return p1
 		} else {
 			// -> MOVZ/MOVN $imm, Rtmp + (MOVK $imm, Rtmp)+ + ADD Rtmp, Rt, Rtmp + STP (Rt1, Rt2), (Rtmp)
 			if a.Reg == REGTMP {
 				c.ctxt.Diag("REGTMP used in large offset load: %v", p)
-				return p
+				return nil
 			}
 			h, t, siz := c.movCon64ToReg(v, REGTMP, p.Pos)
-			p1 := progRRR(c, AADD, REGTMP, a.Reg, REGTMP, ADDxxre, p.Pos)
-			p2 := progStorePair(c, p.As, REGTMP, p.From.Reg, int16(p.From.Offset), 0, uidx, p.Pos)
+			p1 := instRRR(AADD, REGTMP, a.Reg, REGTMP, ADDxxre, p.Pos)
+			p2 := instStorePair(p.As, REGTMP, p.From.Reg, int16(p.From.Offset), 0, uidx, p.Pos)
 			t.Link = p1
 			p1.Link = p2
-			p.Rel = h
 			p.Isize = uint8(siz) + 8
-			return p
+			return h
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
+	return nil
 }
 
 // cmpCmn deals with CMP and CMN instructions. cidx, sidx and eidx are the indexs of
 // the immediate, shifted register and extended register format instructions in the
 // optab table, respectively.
-func cmpCmn(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16) *obj.Prog {
+func cmpCmn(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16) *obj.Inst {
 	if !(p.Reg != 0 && p.To.Type == obj.TYPE_NONE) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return nil
 	}
 	switch p.From.Type {
 	case obj.TYPE_REG:
@@ -1221,30 +1085,27 @@ func cmpCmn(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16) *obj.Prog {
 		}
 		if p.Reg == REGTMP {
 			c.ctxt.Diag("cannot use REGTMP as source: %v\n", p)
-			return p
+			return nil
 		}
 		idx := sidx
 		if p.Reg == REGSP {
 			idx = eidx
 		}
 		// MOVD $con, Rtmp + CMP Rtmp, R
-		p1 := prog2SR(c, p.As, REGTMP, p.Reg, idx, p.Pos)
+		p1 := inst2SR(p.As, REGTMP, p.Reg, idx, p.Pos)
 		h, t, siz := c.movCon64ToReg(v, REGTMP, p.Pos)
 		t.Link = p1
-		p.Rel = h
 		p.Isize = uint8(siz) + 4
-		return p
+		return h
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
+	return nil
 }
 
 // cmpCmn32 deals with CMPW and CMNW instructions.
 // The meaning of the parameter is the same as cmpCmn.
-func cmpCmn32(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16) *obj.Prog {
+func cmpCmn32(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16) *obj.Inst {
 	if !(p.Reg != 0 && p.To.Type == obj.TYPE_NONE) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return nil
 	}
 	switch p.From.Type {
 	case obj.TYPE_REG:
@@ -1265,22 +1126,20 @@ func cmpCmn32(c *ctxt7, p *obj.Prog, cidx, sidx, eidx uint16) *obj.Prog {
 		}
 		if p.Reg == REGTMP {
 			c.ctxt.Diag("cannot use REGTMP as source: %v\n", p)
-			return p
+			return nil
 		}
 		idx := sidx
 		if p.Reg == REGSP {
 			idx = eidx
 		}
 		// MOVW $con, Rtmp + CMPW Rtmp, R
-		p1 := prog2SR(c, p.As, REGTMP, p.Reg, idx, p.Pos)
+		p1 := inst2SR(p.As, REGTMP, p.Reg, idx, p.Pos)
 		h, t, siz := c.movCon32ToReg(p.From.Offset, REGTMP, p.Pos)
 		t.Link = p1
-		p.Rel = h
 		p.Isize = uint8(siz) + 4
-		return p
+		return h
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
+	return nil
 }
 
 // opWithCarryIndex returns the index of the arm64 op-with-carry instruction corresponding
@@ -2139,12 +1998,12 @@ func arng3Index(as obj.As) uint16 {
 
 // asm functions
 
-func asmCall(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCall(c *ctxt7, p *obj.Prog) {
 	tc := c.aclass(p, &p.To)
 	switch tc {
 	case C_SBRA:
 		// DUFFCOPY/DUFFZERO/BL label -> BL <label>
-		p.Optab = BLl
+		p.Insts = convertToInst(p, BLl, []obj.Addr{p.To})
 		p.Mark |= BRANCH26BITS
 		if p.To.Sym != nil {
 			p.RelocIdx = newRelocation(c.cursym, 4, p.To.Sym, p.To.Offset, objabi.R_CALLARM64)
@@ -2152,21 +2011,17 @@ func asmCall(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case C_REG, C_ZOREG:
 		// BL Rn -> BLR <Xn>
 		// BL (Rn) or BL 0(Rn) -> BLR <Xn>
-		p.Optab = BLRx
+		p.Insts = convertToInst(p, BLRx, []obj.Addr{p.To})
 		p.RelocIdx = newRelocation(c.cursym, 0, nil, 0, objabi.R_CALLIND)
-	default:
-		c.ctxt.Diag("illegal combination: %v", p)
 	}
-	p.To.Class = 1
-	return p
 }
 
-func asmJMP(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmJMP(c *ctxt7, p *obj.Prog) {
 	tc := c.aclass(p, &p.To)
 	switch tc {
 	case C_SBRA:
 		// B label -> B <label>
-		p.Optab = Bl
+		p.Insts = convertToInst(p, Bl, []obj.Addr{p.To})
 		p.Mark |= BRANCH26BITS
 		if p.To.Sym != nil {
 			p.RelocIdx = newRelocation(c.cursym, 4, p.To.Sym, p.To.Offset, objabi.R_CALLARM64)
@@ -2174,309 +2029,305 @@ func asmJMP(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case C_REG, C_ZOREG:
 		// B Rn -> BR <Xn>
 		// B (Rn) or BL 0(Rn) -> BR <Xn>
-		p.Optab = BRx
-	default:
-		c.ctxt.Diag("illegal combination: %v", p)
+		p.Insts = convertToInst(p, BRx, []obj.Addr{p.To})
 	}
-	p.To.Class = 1
-	return p
 }
 
-func asmRET(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmRET(c *ctxt7, p *obj.Prog) {
 	// RET -> RET {<Xn>}
-	p.Optab = RETx
-	p.To.Class = 1
-	return p
+	p.Insts = convertToInst(p, RETx, []obj.Addr{p.To})
 }
 
-func asmUNDEF(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmUNDEF(c *ctxt7, p *obj.Prog) {
 	if !(p.From.Type == obj.TYPE_NONE && p.To.Type == obj.TYPE_NONE) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	p.Optab = UDFi
-	// ignore the immediate value and encode UNDEF as 0x0000ffff permanently.
-	p.To.Class = 0
-	return p
+	p.Insts = convertToInst(p, UDFi, nil)
 }
 
 // adc/adcs/sbc/sbcs
-func asmOpWithCarry(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmOpWithCarry(c *ctxt7, p *obj.Prog) {
 	fc := c.aclass(p, &p.From)
 	tc := c.aclass(p, &p.To)
 	if !(fc == C_REG && tc == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op3A(p, opWithCarryIndex(p.As))
+	p.Insts = op3A(p, opWithCarryIndex(p.As))
 }
 
 // ngc/ngcs
-func asmNGCX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmNGCX(c *ctxt7, p *obj.Prog) {
 	fc := c.aclass(p, &p.From)
 	tc := c.aclass(p, &p.To)
 	if !(fc == C_REG && p.Reg == 0 && tc == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, opWithCarryIndex(p.As))
+	p.Insts = op2A(p, opWithCarryIndex(p.As))
 }
 
 // ADD/ADDW/SUB/SUBW/ADDS/ADDSW/SUBS/SUBSW
-func asmADD(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return addSub(c, p, ADDxxis, ADDxxxs, ADDxxre, false, false, c.movCon64ToReg)
+func asmADD(c *ctxt7, p *obj.Prog) {
+	p.Insts = addSub(c, p, ADDxxis, ADDxxxs, ADDxxre, false, false, c.movCon64ToReg)
 }
 
-func asmADDW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return addSub(c, p, ADDwwis, ADDwwws, ADDwwwe, false, true, c.movCon32ToReg)
+func asmADDW(c *ctxt7, p *obj.Prog) {
+	p.Insts = addSub(c, p, ADDwwis, ADDwwws, ADDwwwe, false, true, c.movCon32ToReg)
 }
 
-func asmSUB(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return addSub(c, p, SUBxxis, SUBxxxs, SUBxxre, false, false, c.movCon64ToReg)
+func asmSUB(c *ctxt7, p *obj.Prog) {
+	p.Insts = addSub(c, p, SUBxxis, SUBxxxs, SUBxxre, false, false, c.movCon64ToReg)
 }
 
-func asmSUBW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return addSub(c, p, SUBwwis, SUBwwws, SUBwwwe, false, true, c.movCon32ToReg)
+func asmSUBW(c *ctxt7, p *obj.Prog) {
+	p.Insts = addSub(c, p, SUBwwis, SUBwwws, SUBwwwe, false, true, c.movCon32ToReg)
 }
 
-func asmADDS(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return addSub(c, p, ADDSxxis, ADDSxxxs, ADDSxxre, true, false, c.movCon64ToReg)
+func asmADDS(c *ctxt7, p *obj.Prog) {
+	p.Insts = addSub(c, p, ADDSxxis, ADDSxxxs, ADDSxxre, true, false, c.movCon64ToReg)
 }
 
-func asmADDSW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return addSub(c, p, ADDSwwis, ADDSwwws, ADDSwwwe, true, true, c.movCon32ToReg)
+func asmADDSW(c *ctxt7, p *obj.Prog) {
+	p.Insts = addSub(c, p, ADDSwwis, ADDSwwws, ADDSwwwe, true, true, c.movCon32ToReg)
 }
 
-func asmSUBS(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return addSub(c, p, SUBSxxis, SUBSxxxs, SUBSxxre, true, false, c.movCon64ToReg)
+func asmSUBS(c *ctxt7, p *obj.Prog) {
+	p.Insts = addSub(c, p, SUBSxxis, SUBSxxxs, SUBSxxre, true, false, c.movCon64ToReg)
 }
 
-func asmSUBSW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return addSub(c, p, SUBSwwis, SUBSwwws, SUBSwwwe, true, true, c.movCon32ToReg)
+func asmSUBSW(c *ctxt7, p *obj.Prog) {
+	p.Insts = addSub(c, p, SUBSwwis, SUBSwwws, SUBSwwwe, true, true, c.movCon32ToReg)
 }
 
 // asmADRX deals with ADR and ADRP instructions.
-func asmADRX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmADRX(c *ctxt7, p *obj.Prog) {
 	tc := c.aclass(p, &p.To)
 	if !(tc == C_REG && p.From.Type == obj.TYPE_BRANCH) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	idx := uint16(0)
 	if p.As == AADR {
-		idx = ADRxl
+		p.Insts = op2A(p, ADRxl)
 	} else if p.As == AADRP {
-		idx = ADRPxl
+		p.Insts = op2A(p, ADRPxl)
 	} else {
 		c.ctxt.Diag("invalid opcode: %v", p)
-		return p
 	}
-	return op2A(p, idx)
 }
 
 // AND/ANDW/EOR/EORW/ORR/ORRW/BIC/BICW/EON/EONW/ORN/ORNW/ANDS/ANDSW/BICS/BICSW
-func asmAND(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ANDxxi, ANDxxxs, false, p.To.Reg != REGZERO, c.movCon64ToReg)
+func asmAND(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ANDxxi, ANDxxxs, false, p.To.Reg != REGZERO, c.movCon64ToReg)
 }
 
-func asmANDW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ANDwwi, ANDwwws, false, p.To.Reg != REGZERO, c.movCon32ToReg)
+func asmANDW(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ANDwwi, ANDwwws, false, p.To.Reg != REGZERO, c.movCon32ToReg)
 }
 
-func asmEOR(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, EORxxi, EORxxxs, false, p.To.Reg != REGZERO, c.movCon64ToReg)
+func asmEOR(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, EORxxi, EORxxxs, false, p.To.Reg != REGZERO, c.movCon64ToReg)
 }
 
-func asmEORW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, EORwwi, EORwwws, false, p.To.Reg != REGZERO, c.movCon32ToReg)
+func asmEORW(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, EORwwi, EORwwws, false, p.To.Reg != REGZERO, c.movCon32ToReg)
 }
 
-func asmORR(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ORRxxi, ORRxxxs, false, p.To.Reg != REGZERO, c.movCon64ToReg)
+func asmORR(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ORRxxi, ORRxxxs, false, p.To.Reg != REGZERO, c.movCon64ToReg)
 }
 
-func asmORRW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ORRwwi, ORRwwws, false, p.To.Reg != REGZERO, c.movCon32ToReg)
+func asmORRW(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ORRwwi, ORRwwws, false, p.To.Reg != REGZERO, c.movCon32ToReg)
 }
 
-func asmBIC(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ANDxxi, BICxxxs, true, p.To.Reg != REGZERO, c.movCon64ToReg)
+func asmBIC(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ANDxxi, BICxxxs, true, p.To.Reg != REGZERO, c.movCon64ToReg)
 }
 
-func asmBICW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ANDwwi, BICwwws, true, p.To.Reg != REGZERO, c.movCon32ToReg)
+func asmBICW(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ANDwwi, BICwwws, true, p.To.Reg != REGZERO, c.movCon32ToReg)
 }
 
-func asmEON(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, EORxxi, EONxxxs, true, p.To.Reg != REGZERO, c.movCon64ToReg)
+func asmEON(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, EORxxi, EONxxxs, true, p.To.Reg != REGZERO, c.movCon64ToReg)
 }
 
-func asmEONW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, EORwwi, EONwwws, true, p.To.Reg != REGZERO, c.movCon32ToReg)
+func asmEONW(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, EORwwi, EONwwws, true, p.To.Reg != REGZERO, c.movCon32ToReg)
 }
 
-func asmORN(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ORRxxi, ORNxxxs, true, p.To.Reg != REGZERO, c.movCon64ToReg)
+func asmORN(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ORRxxi, ORNxxxs, true, p.To.Reg != REGZERO, c.movCon64ToReg)
 }
 
-func asmORNW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ORRwwi, ORNwwws, true, p.To.Reg != REGZERO, c.movCon32ToReg)
+func asmORNW(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ORRwwi, ORNwwws, true, p.To.Reg != REGZERO, c.movCon32ToReg)
 }
 
-func asmANDS(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ANDSxxi, ANDSxxxs, false, true, c.movCon64ToReg)
+func asmANDS(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ANDSxxi, ANDSxxxs, false, true, c.movCon64ToReg)
 }
 
-func asmANDSW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ANDSwwi, ANDSwwws, false, true, c.movCon32ToReg)
+func asmANDSW(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ANDSwwi, ANDSwwws, false, true, c.movCon32ToReg)
 }
 
-func asmBICS(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ANDSxxi, BICSxxxs, true, true, c.movCon64ToReg)
+func asmBICS(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ANDSxxi, BICSxxxs, true, true, c.movCon64ToReg)
 }
 
-func asmBICSW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return bitwiseOp(c, p, ANDSwwi, BICSwwws, true, true, c.movCon32ToReg)
+func asmBICSW(c *ctxt7, p *obj.Prog) {
+	p.Insts = bitwiseOp(c, p, ANDSwwi, BICSwwws, true, true, c.movCon32ToReg)
 }
 
 // TST/TSTW
-func asmTST(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmTST(c *ctxt7, p *obj.Prog) {
 	tc := c.aclass(p, &p.To)
 	if tc != C_NONE {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	cidx, sidx, movConToReg := uint16(TSTxi), uint16(TSTxxs), c.movCon64ToReg
+	cidx, sidx, movConToReg := TSTxi, TSTxxs, c.movCon64ToReg
 	if p.As == ATSTW {
-		cidx, sidx, movConToReg = uint16(TSTwi), uint16(TSTwws), c.movCon32ToReg
+		cidx, sidx, movConToReg = TSTwi, TSTwws, c.movCon32ToReg
 	}
 	switch p.From.Type {
 	case obj.TYPE_CONST:
 		v := p.From.Offset
 		if isbitcon(uint64(v)) {
-			return op2SA(p, cidx) // -> TST/TSTW(immediate)
+			p.Insts = op2SA(p, cidx) // -> TST/TSTW(immediate)
+			return
 		}
 		if p.Reg == REGTMP {
 			c.ctxt.Diag("cannot use REGTMP as source: %v\n", p)
-			return p
+			return
 		}
 		// MOVD $con, Rtmp + TST/TSTW Rtmp, Rt
-		p1 := prog2SR(c, p.As, REGTMP, p.Reg, sidx, p.Pos)
+		p1 := inst2SR(p.As, REGTMP, p.Reg, sidx, p.Pos)
 		h, t, siz := movConToReg(v, REGTMP, p.Pos)
 		t.Link = p1
-		p.Rel = h
+		p.Insts = h
 		p.Isize = uint8(siz) + 4
-		return p
 	case obj.TYPE_SHIFT, obj.TYPE_REG:
-		return op2SA(p, sidx) // -> TST/TSTW(shift register)
+		p.Insts = op2SA(p, sidx) // -> TST/TSTW(shift register)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // asmBitFieldOps deals with bitfield operation instructions, such as BFM, BFI, etc.
-func asmBitFieldOps(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmBitFieldOps(c *ctxt7, p *obj.Prog) {
 	from3 := p.GetRestArg(obj.Source3)
 	tc := c.aclass(p, &p.To)
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && tc == C_REG && from3 != nil && (from3.Type == obj.TYPE_CONST || from3.Reg == REGZERO)) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p // return immediately in case from3 is nil.
+		return
 	}
-	from3.Class = 4
 	switch p.As {
 	case ABFXIL, ABFXILW, ASBFX, ASBFXW, AUBFX, AUBFXW:
 		// Save p.From.Offset in from3.Index because encoding from3 requires the value.
 		from3.Index = int16(p.From.Offset)
 	}
-	return op3A(p, bitFieldOpsIndex(p.As))
+	r := p.Reg
+	if r == 0 {
+		r = p.To.Reg
+	}
+	a := []obj.Addr{p.To, {Reg: r, Type: obj.TYPE_REG}, p.From, *from3}
+	p.Insts = convertToInst(p, bitFieldOpsIndex(p.As), a)
 }
 
 // load & store
-func asmMOVD(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMOVD(c *ctxt7, p *obj.Prog) {
 	// MOVD can be translated into several different kinds of instructions,
 	// including MOV, LDR, STR, MSR etc.
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	switch p.From.Type {
 	case obj.TYPE_CONST:
 		ttyp := c.aclass(p, &p.To)
 		if ttyp == C_SPR {
-			return op2A(p, MSRi) // -> MSR (immediate)
+			p.Insts = op2A(p, MSRi) // -> MSR (immediate)
+			break
 		}
 		if ttyp != C_REG {
 			break
 		}
 		v := p.From.Offset
 		if isbitcon(uint64(v)) && p.To.Reg != REGZERO {
-			return op2A(p, MOVxi_b) // -> MOV $bitcon, R
-		}
-		if movcon(v) >= 0 {
-			return op2A(p, MOVZxis) // -> MOVZ $imm, R
+			p.Insts = op2A(p, MOVxi_b) // -> MOV $bitcon, R
+		} else if movcon(v) >= 0 {
+			p.Insts = op2A(p, MOVZxis) // -> MOVZ $imm, R
 		} else if movcon(^v) >= 0 {
-			p.From.Offset = ^v
-			return op2A(p, MOVNxis) // -> MOVN $imm, R
+			a := []obj.Addr{p.To, {Type: obj.TYPE_CONST, Offset: ^v}}
+			p.Insts = convertToInst(p, MOVNxis, a) // -> MOVN $imm, R
 		} else { // Any other 64-bit integer constant.
 			// -> MOVZ/MOVN $imm, R + (MOVK $imm, R)+
 			h, _, siz := c.movcon64(v, p.To.Reg, p.Pos)
-			p.Rel = h
+			p.Insts = h
 			p.Isize = uint8(siz)
 			p.Mark |= NOTUSETMP
-			return p
 		}
 	case obj.TYPE_REG:
 		ftyp := rclass(p.From.Reg)
 		ttyp := c.aclass(p, &p.To)
 		if ftyp == C_SPR && ttyp == C_REG {
-			return op2A(p, MRSx) // -> MRS
+			p.Insts = op2A(p, MRSx) // -> MRS
+			break
 		}
 		if ftyp != C_REG {
 			break
 		}
 		if ttyp == C_SPR {
-			return op2A(p, MSRx) // -> MSR (register)
+			p.Insts = op2A(p, MSRx) // -> MSR (register)
+			break
 		}
 		if ttyp == C_REG {
 			if p.From.Reg == REG_RSP || p.To.Reg == REG_RSP {
-				return op2A(p, MOVxx_sp) // MOV (to/from SP)
+				p.Insts = op2A(p, MOVxx_sp) // MOV (to/from SP)
+			} else {
+				p.Insts = op2A(p, MOVxx) // MOV (register)
 			}
-			return op2A(p, MOVxx) // MOV (register)
+			break
 		}
 		// Store
-		return generalStore(c, p, ttyp, STRxxre, STRxx, STRxxi_p, STRxx_w, STURxx, c.movCon64ToReg, true)
+		p.Insts = generalStore(c, p, ttyp, STRxxre, STRxx, STRxxi_p, STRxx_w, STURxx, c.movCon64ToReg, true)
 	case obj.TYPE_ADDR:
 		ftyp := c.aclass(p, &p.From)
 		ttyp := c.aclass(p, &p.To)
 		if ttyp != C_REG {
 			break
 		}
+		a, v := p.From, c.instoffset
+		if a.Reg == obj.REG_NONE {
+			a.Reg = REG_RSP
+		}
 		if ftyp == C_VCONADDR {
 			// -> ADRP + ADD + reloc
-			p.RelocIdx = newRelocation(c.cursym, 8, p.From.Sym, p.From.Offset, objabi.R_ADDRARM64)
-			p1 := adrp(c, p.To.Reg, p.Pos)
-			p2 := progIRR(c, AADD, 0, 0, p.To.Reg, ADDxxis, p.Pos)
+			p.RelocIdx = newRelocation(c.cursym, 8, p.From.Sym, v, objabi.R_ADDRARM64)
+			p1 := adrp(p.To.Reg, p.Pos)
+			p2 := instIRR(AADD, 0, 0, p.To.Reg, ADDxxis, p.Pos)
 			p1.Link = p2
-			p.Rel = p1
+			p.Insts = p1
 			p.Isize = 8
 			p.Mark |= NOTUSETMP
-			return p
+			break
 		}
 		if ftyp != C_LACON {
 			break
 		}
 		// MOVD $offset(Rf), Rt -> ADD/SUB $offset, Rf, Rt
-		p.Reg = p.From.Reg
-		p.From.Reg = 0
-		p.From.Type = obj.TYPE_CONST
-		p.From.Name = obj.NAME_NONE
-		if p.From.Offset < 0 {
-			p.From.Offset = -p.From.Offset
-			p.As = ASUB
-			return asmSUB(c, p)
+		// Create a temporary Prog to compute p.Insts.
+		q := c.newprog()
+		q.Reg = a.Reg
+		q.To = p.To
+		if v < 0 {
+			q.As = ASUB
+			q.From = obj.Addr{Type: obj.TYPE_CONST, Offset: -v}
+			p.Insts = addSub(c, q, SUBxxis, SUBxxxs, SUBxxre, false, false, c.movCon64ToReg)
+		} else {
+			q.As = AADD
+			q.From = obj.Addr{Type: obj.TYPE_CONST, Offset: v}
+			p.Insts = addSub(c, q, ADDxxis, ADDxxxs, ADDxxre, false, false, c.movCon64ToReg)
 		}
-		p.As = AADD
-		return asmADD(c, p)
+		p.Isize = q.Isize
+		if q.Mark&NOTUSETMP != 0 {
+			p.Mark |= NOTUSETMP
+		}
 	case obj.TYPE_MEM:
 		// Load
 		ttyp := c.aclass(p, &p.To)
@@ -2488,47 +2339,40 @@ func asmMOVD(c *ctxt7, p *obj.Prog) *obj.Prog {
 		case C_GOTADDR:
 			// MOVD sym@GOT, Rt -> ADRP + LDR (REGTMP), Rt + relocs
 			p.RelocIdx = newRelocation(c.cursym, 8, p.From.Sym, 0, objabi.R_ARM64_GOTPCREL)
-			p1 := adrp(c, REGTMP, p.Pos)
-			p2 := progLoad(c, p.As, REGTMP, p.To.Reg, 0, 0, LDRxx, p.Pos)
+			p1 := adrp(REGTMP, p.Pos)
+			p2 := instLoad(p.As, REGTMP, p.To.Reg, 0, 0, LDRxx, p.Pos)
 			p1.Link = p2
-			p.Rel = p1
+			p.Insts = p1
 			p.Isize = 8
-			return p
 		case C_TLS_LE:
 			// LE model MOVD $tlsvar, Rt -> MOVZ + reloc
 			if p.From.Offset != 0 {
 				c.ctxt.Diag("invalid offset on MOVD $tlsvar")
-				return p
+				return
 			}
-			p.From.Reg = 0
-			p.From.Type = obj.TYPE_CONST
 			p.RelocIdx = newRelocation(c.cursym, 4, p.From.Sym, 0, objabi.R_ARM64_TLS_LE)
-			return op2A(p, MOVZxis)
+			p.Insts = convertToInst(p, MOVZxis, []obj.Addr{p.To, {Type: obj.TYPE_CONST}})
 		case C_TLS_IE:
 			// IE model MOVD $tlsvar, Rt -> ADRP + LDR (REGTMP), Rt + relocs
 			if p.From.Offset != 0 {
 				c.ctxt.Diag("invalid offset on MOVD $tlsvar")
-				return p
+				return
 			}
 			p.RelocIdx = newRelocation(c.cursym, 8, p.From.Sym, 0, objabi.R_ARM64_TLS_IE)
-			p1 := adrp(c, REGTMP, p.Pos)
-			p2 := progLoad(c, p.As, REGTMP, p.To.Reg, 0, 0, LDRxx, p.Pos)
+			p1 := adrp(REGTMP, p.Pos)
+			p2 := instLoad(p.As, REGTMP, p.To.Reg, 0, 0, LDRxx, p.Pos)
 			p1.Link = p2
-			p.Rel = p1
+			p.Insts = p1
 			p.Isize = 8
-			return p
 		default:
-			return generalLoad(c, p, ftyp, LDRxxre, LDRxx, LDRxxi_p, LDRxx_w, LDURxx, c.movCon64ToReg, true)
+			p.Insts = generalLoad(c, p, ftyp, LDRxxre, LDRxx, LDRxxi_p, LDRxx_w, LDURxx, c.movCon64ToReg, true)
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmMOVW(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMOVW(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	switch p.From.Type {
 	case obj.TYPE_CONST:
@@ -2537,21 +2381,21 @@ func asmMOVW(c *ctxt7, p *obj.Prog) *obj.Prog {
 			break
 		}
 		if isbitcon(uint64(p.From.Offset)) && p.To.Reg != REGZERO {
-			return op2A(p, MOVwi_b) // -> MOVW $bitcon, R
+			p.Insts = op2A(p, MOVwi_b) // -> MOVW $bitcon, R
+			break
 		}
 		v := uint32(p.From.Offset)
 		if movcon(int64(v)) >= 0 {
-			return op2A(p, MOVZwis) // -> MOVZW $imm, R
+			p.Insts = op2A(p, MOVZwis) // -> MOVZW $imm, R
 		} else if movcon(int64(^v)) >= 0 {
-			p.From.Offset = int64(^v)
-			return op2A(p, MOVNwis) // -> MOVNW $imm, R
+			a := []obj.Addr{p.To, {Type: obj.TYPE_CONST, Offset: int64(^v)}}
+			p.Insts = convertToInst(p, MOVNwis, a) // -> MOVNW $imm, R
 		} else { // Any other 32-bit integer constant.
 			// -> MOVZW $imm, R + MOVKW $imm, R
 			h, _, siz := c.movcon32(p.From.Offset, p.To.Reg, p.Pos)
-			p.Rel = h
+			p.Insts = h
 			p.Isize = uint8(siz)
 			p.Mark |= NOTUSETMP
-			return p
 		}
 	case obj.TYPE_REG:
 		ftyp := rclass(p.From.Reg)
@@ -2560,26 +2404,24 @@ func asmMOVW(c *ctxt7, p *obj.Prog) *obj.Prog {
 		}
 		ttyp := c.aclass(p, &p.To)
 		if ttyp == C_REG {
-			return op2A(p, SXTWxw) // -> SXTW
+			p.Insts = op2A(p, SXTWxw) // -> SXTW
+			break
 		}
 		// Store
-		return generalStore(c, p, ttyp, STRwxre, STRwx, STRwxi_p, STRwx_w, STURwx, c.movCon32ToReg, true)
+		p.Insts = generalStore(c, p, ttyp, STRwxre, STRwx, STRwxi_p, STRwx_w, STURwx, c.movCon32ToReg, true)
 	case obj.TYPE_MEM:
 		// Load
 		if c.aclass(p, &p.To) != C_REG {
 			break
 		}
 		ftyp := c.aclass(p, &p.From)
-		return generalLoad(c, p, ftyp, LDRSWxxre, LDRSWxx, LDRSWxxi_p, LDRSWxx_w, LDURSWxx, c.movCon32ToReg, true)
+		p.Insts = generalLoad(c, p, ftyp, LDRSWxxre, LDRSWxx, LDRSWxxi_p, LDRSWxx_w, LDURSWxx, c.movCon32ToReg, true)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmMOVWU(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMOVWU(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	switch p.From.Type {
 	// For moving the 32-bit immediate value to a register, use MOVW instead, because arm64 doesn't
@@ -2592,28 +2434,27 @@ func asmMOVWU(c *ctxt7, p *obj.Prog) *obj.Prog {
 		ttyp := c.aclass(p, &p.To)
 		if ttyp == C_REG {
 			if p.From.Reg == REG_RSP || p.To.Reg == REG_RSP {
-				return op2A(p, MOVww_sp) // -> MOVW (to/from SP)
+				p.Insts = op2A(p, MOVww_sp) // -> MOVW (to/from SP)
+			} else {
+				p.Insts = op2A(p, MOVww) // -> MOVW (register)
 			}
-			return op2A(p, MOVww) // -> MOVW (register)
+			return
 		}
 		// Store, same as MOVW
-		return generalStore(c, p, ttyp, STRwxre, STRwx, STRwxi_p, STRwx_w, STURwx, c.movCon32ToReg, true)
+		p.Insts = generalStore(c, p, ttyp, STRwxre, STRwx, STRwxi_p, STRwx_w, STURwx, c.movCon32ToReg, true)
 	case obj.TYPE_MEM:
 		// Load
 		if c.aclass(p, &p.To) != C_REG {
 			break
 		}
 		ftyp := c.aclass(p, &p.From)
-		return generalLoad(c, p, ftyp, LDRwxre, LDRwx, LDRwxi_p, LDRwx_w, LDURwx, c.movCon32ToReg, true)
+		p.Insts = generalLoad(c, p, ftyp, LDRwxre, LDRwx, LDRwxi_p, LDRwx_w, LDURwx, c.movCon32ToReg, true)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmMOVH(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMOVH(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	switch p.From.Type {
 	case obj.TYPE_REG:
@@ -2623,10 +2464,11 @@ func asmMOVH(c *ctxt7, p *obj.Prog) *obj.Prog {
 		}
 		ttyp := c.aclass(p, &p.To)
 		if ttyp == C_REG {
-			return op2A(p, SXTHxw) // -> SXTH
+			p.Insts = op2A(p, SXTHxw) // -> SXTH
+			break
 		}
 		// Store
-		return generalStore(c, p, ttyp, STRHwxre, STRHwx, STRHwxi_p, STRHwx_w, STURHwx, c.movCon32ToReg, true)
+		p.Insts = generalStore(c, p, ttyp, STRHwxre, STRHwx, STRHwxi_p, STRHwx_w, STURHwx, c.movCon32ToReg, true)
 	case obj.TYPE_MEM:
 		// Load
 		ttyp := c.aclass(p, &p.To)
@@ -2634,16 +2476,13 @@ func asmMOVH(c *ctxt7, p *obj.Prog) *obj.Prog {
 			break
 		}
 		ftyp := c.aclass(p, &p.From)
-		return generalLoad(c, p, ftyp, LDRSHxxre, LDRSHxx, LDRSHxxi_p, LDRSHxx_w, LDURSHxx, c.movCon32ToReg, true)
+		p.Insts = generalLoad(c, p, ftyp, LDRSHxxre, LDRSHxx, LDRSHxxi_p, LDRSHxx_w, LDURSHxx, c.movCon32ToReg, true)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmMOVHU(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMOVHU(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	switch p.From.Type {
 	case obj.TYPE_REG:
@@ -2653,10 +2492,11 @@ func asmMOVHU(c *ctxt7, p *obj.Prog) *obj.Prog {
 		}
 		ttyp := c.aclass(p, &p.To)
 		if ttyp == C_REG {
-			return op2A(p, UXTHww) // -> UXTH
+			p.Insts = op2A(p, UXTHww) // -> UXTH
+			break
 		}
 		// Store, same as MOVH
-		return generalStore(c, p, ttyp, STRHwxre, STRHwx, STRHwxi_p, STRHwx_w, STURHwx, c.movCon32ToReg, true)
+		p.Insts = generalStore(c, p, ttyp, STRHwxre, STRHwx, STRHwxi_p, STRHwx_w, STURHwx, c.movCon32ToReg, true)
 	case obj.TYPE_MEM:
 		// Load
 		ttyp := c.aclass(p, &p.To)
@@ -2664,16 +2504,13 @@ func asmMOVHU(c *ctxt7, p *obj.Prog) *obj.Prog {
 			break
 		}
 		ftyp := c.aclass(p, &p.From)
-		return generalLoad(c, p, ftyp, LDRHwxre, LDRHwx, LDRHwxi_p, LDRHwx_w, LDURHwx, c.movCon32ToReg, true)
+		p.Insts = generalLoad(c, p, ftyp, LDRHwxre, LDRHwx, LDRHwxi_p, LDRHwx_w, LDURHwx, c.movCon32ToReg, true)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmMOVB(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMOVB(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	switch p.From.Type {
 	case obj.TYPE_REG:
@@ -2683,26 +2520,24 @@ func asmMOVB(c *ctxt7, p *obj.Prog) *obj.Prog {
 		}
 		ttyp := c.aclass(p, &p.To)
 		if ttyp == C_REG {
-			return op2A(p, SXTBxw) // -> SXTB
+			p.Insts = op2A(p, SXTBxw) // -> SXTB
+			break
 		}
 		// Store
-		return generalStore(c, p, ttyp, STRBwxre, STRBwx, STRBwxi_p, STRBwx_w, STURBwx, c.movCon32ToReg, true)
+		p.Insts = generalStore(c, p, ttyp, STRBwxre, STRBwx, STRBwxi_p, STRBwx_w, STURBwx, c.movCon32ToReg, true)
 	case obj.TYPE_MEM:
 		// Load
 		if c.aclass(p, &p.To) != C_REG {
 			break
 		}
 		ftyp := c.aclass(p, &p.From)
-		return generalLoad(c, p, ftyp, LDRSBxxre, LDRSBxx, LDRSBxxi_p, LDRSBxx_w, LDURSBxx, c.movCon32ToReg, true)
+		p.Insts = generalLoad(c, p, ftyp, LDRSBxxre, LDRSBxx, LDRSBxxi_p, LDRSBxx_w, LDURSBxx, c.movCon32ToReg, true)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmMOVBU(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMOVBU(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	switch p.From.Type {
 	case obj.TYPE_REG:
@@ -2712,27 +2547,25 @@ func asmMOVBU(c *ctxt7, p *obj.Prog) *obj.Prog {
 		}
 		ttyp := c.aclass(p, &p.To)
 		if ttyp == C_REG {
-			return op2A(p, UXTBww) // -> UXTB
+			p.Insts = op2A(p, UXTBww) // -> UXTB
+			break
 		}
 		// Store, same as MOVB
-		return generalStore(c, p, ttyp, STRBwxre, STRBwx, STRBwxi_p, STRBwx_w, STURBwx, c.movCon32ToReg, true)
+		p.Insts = generalStore(c, p, ttyp, STRBwxre, STRBwx, STRBwxi_p, STRBwx_w, STURBwx, c.movCon32ToReg, true)
 	case obj.TYPE_MEM:
 		// Load
 		if c.aclass(p, &p.To) != C_REG {
 			break
 		}
 		ftyp := c.aclass(p, &p.From)
-		return generalLoad(c, p, ftyp, LDRBwxre, LDRBwx, LDRBwxi_p, LDRBwx_w, LDURBwx, c.movCon32ToReg, true)
+		p.Insts = generalLoad(c, p, ftyp, LDRBwxre, LDRBwx, LDRBwxi_p, LDRBwx_w, LDURBwx, c.movCon32ToReg, true)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // floating point load/store
-func asmFMOVQ(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFMOVQ(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
@@ -2741,30 +2574,27 @@ func asmFMOVQ(c *ctxt7, p *obj.Prog) *obj.Prog {
 		// store
 		switch ttyp {
 		case C_ROFF:
-			return op2ASO(p, STRqxre) // -> STR (register, SIMD&FP)
+			p.Insts = op2ASO(p, STRqxre) // -> STR (register, SIMD&FP)
 		case C_ZOREG, C_LOREG, C_VOREG:
-			return immOffsetStore(c, p, STRqxre, STRqx, STRqxi_p, STRqx_w, STURqx, c.movCon64ToReg, false)
+			p.Insts = immOffsetStore(c, p, STRqxre, STRqx, STRqxi_p, STRqx_w, STURqx, c.movCon64ToReg, false)
 		}
 	case C_ROFF:
 		if ttyp != C_FREG {
 			break
 		}
-		return op2A(p, LDRqxre) // -> LDR (register, SIMD&FP)
+		p.Insts = op2A(p, LDRqxre) // -> LDR (register, SIMD&FP)
 	case C_ZOREG, C_LOREG, C_VOREG:
 		// Load
 		if ttyp != C_FREG {
 			break
 		}
-		return immOffsetLoad(c, p, LDRqxre, LDRqx, LDRqxi_p, LDRqx_w, LDURqx, c.movCon64ToReg, false)
+		p.Insts = immOffsetLoad(c, p, LDRqxre, LDRqx, LDRqxi_p, LDRqx_w, LDURqx, c.movCon64ToReg, false)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmFMOVD(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFMOVD(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
@@ -2773,37 +2603,34 @@ func asmFMOVD(c *ctxt7, p *obj.Prog) *obj.Prog {
 		if ttyp != C_FREG {
 			break
 		}
-		return op2A(p, FMOVdi)
+		p.Insts = op2A(p, FMOVdi)
 	case C_REG:
 		if ttyp != C_FREG {
 			break
 		}
-		return op2A(p, FMOVdx)
+		p.Insts = op2A(p, FMOVdx)
 	case C_FREG:
 		switch ttyp {
 		case C_REG:
-			return op2A(p, FMOVxd)
+			p.Insts = op2A(p, FMOVxd)
 		case C_FREG:
-			return op2A(p, FMOVdd)
+			p.Insts = op2A(p, FMOVdd)
 		default:
 			// Store
-			return generalStore(c, p, ttyp, STRdxre, STRdx, STRdxi_p, STRdx_w, STURdx, c.movCon64ToReg, false)
+			p.Insts = generalStore(c, p, ttyp, STRdxre, STRdx, STRdxi_p, STRdx_w, STURdx, c.movCon64ToReg, false)
 		}
 	default:
 		// Load
 		if ttyp != C_FREG {
 			break
 		}
-		return generalLoad(c, p, ftyp, LDRdxre, LDRdx, LDRdxi_p, LDRdx_w, LDURdx, c.movCon64ToReg, false)
+		p.Insts = generalLoad(c, p, ftyp, LDRdxre, LDRdx, LDRdxi_p, LDRdx_w, LDURdx, c.movCon64ToReg, false)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmFMOVS(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFMOVS(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
@@ -2812,175 +2639,161 @@ func asmFMOVS(c *ctxt7, p *obj.Prog) *obj.Prog {
 		if ttyp != C_FREG {
 			break
 		}
-		return op2A(p, FMOVsi)
+		p.Insts = op2A(p, FMOVsi)
 	case C_REG:
 		if ttyp != C_FREG {
 			break
 		}
-		return op2A(p, FMOVsw)
+		p.Insts = op2A(p, FMOVsw)
 	case C_FREG:
 		switch ttyp {
 		case C_REG:
-			return op2A(p, FMOVws)
+			p.Insts = op2A(p, FMOVws)
 		case C_FREG:
-			return op2A(p, FMOVss)
+			p.Insts = op2A(p, FMOVss)
 		default:
 			// Store
-			return generalStore(c, p, ttyp, STRsxre, STRsx, STRsxi_p, STRsx_w, STURsx, c.movCon32ToReg, false)
+			p.Insts = generalStore(c, p, ttyp, STRsxre, STRsx, STRsxi_p, STRsx_w, STURsx, c.movCon32ToReg, false)
 		}
 	default:
 		// Load
 		if ttyp != C_FREG {
 			break
 		}
-		return generalLoad(c, p, ftyp, LDRsxre, LDRsx, LDRsxi_p, LDRsx_w, LDURsx, c.movCon32ToReg, false)
+		p.Insts = generalLoad(c, p, ftyp, LDRsxre, LDRsx, LDRsxi_p, LDRsx_w, LDURsx, c.movCon32ToReg, false)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // load & store pair
-func asmLDP(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmLDP(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(ttyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if checkUnpredictable(true, p.Scond == C_XPOST || p.Scond == C_XPRE, p.From.Reg, p.To.Reg, int16(p.To.Offset)) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
-	return loadPair(c, p, ftyp, LDPxxx, LDPxxxi_p, LDPxxx_w, 3)
+	p.Insts = loadPair(c, p, ftyp, LDPxxx, LDPxxxi_p, LDPxxx_w, 3)
 }
 
-func asmLDPW(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmLDPW(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(ttyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if checkUnpredictable(true, p.Scond == C_XPOST || p.Scond == C_XPRE, p.From.Reg, p.To.Reg, int16(p.To.Offset)) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
-	return loadPair(c, p, ftyp, LDPwwx, LDPwwxi_p, LDPwwx_w, 2)
+	p.Insts = loadPair(c, p, ftyp, LDPwwx, LDPwwxi_p, LDPwwx_w, 2)
 }
 
-func asmLDPSW(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmLDPSW(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(ttyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if checkUnpredictable(true, p.Scond == C_XPOST || p.Scond == C_XPRE, p.From.Reg, p.To.Reg, int16(p.To.Offset)) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
-	return loadPair(c, p, ftyp, LDPSWxxx, LDPSWxxxi_p, LDPSWxxx_w, 2)
+	p.Insts = loadPair(c, p, ftyp, LDPSWxxx, LDPSWxxxi_p, LDPSWxxx_w, 2)
 }
 
-func asmFLDPQ(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFLDPQ(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(ttyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if checkUnpredictable(true, false, p.From.Reg, p.To.Reg, int16(p.To.Offset)) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
-	return loadPair(c, p, ftyp, LDPqqx, LDPqqxi_p, LDPqqx_w, 4)
+	p.Insts = loadPair(c, p, ftyp, LDPqqx, LDPqqxi_p, LDPqqx_w, 4)
 }
 
-func asmFLDPD(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFLDPD(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(ttyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if checkUnpredictable(true, false, p.From.Reg, p.To.Reg, int16(p.To.Offset)) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
-	return loadPair(c, p, ftyp, LDPddx, LDPddxi_p, LDPddx_w, 3)
+	p.Insts = loadPair(c, p, ftyp, LDPddx, LDPddxi_p, LDPddx_w, 3)
 }
 
-func asmFLDPS(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFLDPS(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(ttyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if checkUnpredictable(true, false, p.From.Reg, p.To.Reg, int16(p.To.Offset)) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
-	return loadPair(c, p, ftyp, LDPssx, LDPssxi_p, LDPssx_w, 2)
+	p.Insts = loadPair(c, p, ftyp, LDPssx, LDPssxi_p, LDPssx_w, 2)
 }
 
-func asmSTP(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSTP(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(ftyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ttyp := c.aclass(p, &p.To)
-	return storePair(c, p, ttyp, STPxxx, STPxxxi_p, STPxxx_w, 3)
+	p.Insts = storePair(c, p, ttyp, STPxxx, STPxxxi_p, STPxxx_w, 3)
 }
 
-func asmSTPW(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSTPW(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(ftyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ttyp := c.aclass(p, &p.To)
-	return storePair(c, p, ttyp, STPwwx, STPwwxi_p, STPwwx_w, 2)
+	p.Insts = storePair(c, p, ttyp, STPwwx, STPwwxi_p, STPwwx_w, 2)
 }
 
-func asmFSTPQ(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFSTPQ(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(ftyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ttyp := c.aclass(p, &p.To)
-	return storePair(c, p, ttyp, STPqqx, STPqqxi_p, STPqqx_w, 4)
+	p.Insts = storePair(c, p, ttyp, STPqqx, STPqqxi_p, STPqqx_w, 4)
 }
 
-func asmFSTPD(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFSTPD(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(ftyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ttyp := c.aclass(p, &p.To)
-	return storePair(c, p, ttyp, STPddx, STPddxi_p, STPddx_w, 3)
+	p.Insts = storePair(c, p, ttyp, STPddx, STPddxi_p, STPddx_w, 3)
 }
 
-func asmFSTPS(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFSTPS(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(ftyp == C_PAIR && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ttyp := c.aclass(p, &p.To)
-	return storePair(c, p, ttyp, STPssx, STPssxi_p, STPssx_w, 2)
+	p.Insts = storePair(c, p, ttyp, STPssx, STPssxi_p, STPssx_w, 2)
 }
 
 // asmCBZX deals with CBZ/CBZW/CBNZ/CBNZW instructions.
-func asmCBZX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCBZX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_REG && p.Reg == 0 && ttyp == C_SBRA) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -2994,71 +2807,53 @@ func asmCBZX(c *ctxt7, p *obj.Prog) *obj.Prog {
 		idx = CBNZwl
 	}
 	p.Mark |= BRANCH19BITS
-	return op2ASO(p, idx)
+	p.Insts = op2ASO(p, idx)
 }
 
 // asmCondCMP deals with CCMP, CCMPW, CCMN and CCMNW instructions.
-func asmCondCMP(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCondCMP(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	from3 := p.GetRestArg(obj.Source3)
 	if !(ftyp == C_COND && p.Reg != 0 && from3 != nil && (p.To.Type == obj.TYPE_CONST || p.To.Reg == REGZERO)) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p // return immediately in case from3 is nil.
+		return
 	}
+	idx := uint16(0)
 	switch from3.Type {
 	case obj.TYPE_REG:
-		p.Optab = condCmpRegOpIndex(p.As)
+		idx = condCmpRegOpIndex(p.As)
 	case obj.TYPE_CONST:
-		p.Optab = condCmpImmOpIndex(p.As)
+		idx = condCmpImmOpIndex(p.As)
 	default:
-		c.ctxt.Diag("illegal combination: %v", p)
-		return p
+		return
 	}
-	// store p.Reg in p.RestArgs
-	a := obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG, Class: 1}
-	p.SetRestArg(a, obj.Source2)
-	p.Reg = 0
-	from3.Class = 2
-	p.To.Class = 3
-	p.From.Class = 4
-	return p
+	p.Insts = convertToInst(p, idx, []obj.Addr{{Reg: p.Reg, Type: obj.TYPE_REG}, *from3, p.To, p.From})
 }
 
 // asmCSELX deals with CSEL, CSINC, CSINV and CSNEG series instructions.
-func asmCSELX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCSELX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	from3 := p.GetRestArg(obj.Source3)
 	if !(ftyp == C_COND && p.Reg != 0 && from3 != nil && from3.Type == obj.TYPE_REG && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p // return immediately in case from3 is nil.
+		return
 	}
-	p.Optab = cselOpIndex(p.As)
-	p.To.Class = 1
-	// store p.Reg in p.RestArgs
-	a := obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG, Class: 2}
-	p.SetRestArg(a, obj.Source2)
-	p.Reg = 0
-	from3.Class = 3
-	p.From.Class = 4
-	return p
+	idx := cselOpIndex(p.As)
+	p.Insts = convertToInst(p, idx, []obj.Addr{p.To, {Reg: p.Reg, Type: obj.TYPE_REG, Class: 2}, *from3, p.From})
 }
 
 // asmCSETX deals with CSET/CSETW/CSETM/CSETMW instructions.
-func asmCSETX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCSETX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(ftyp == C_COND && p.Reg == 0 && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, csetOpIndex(p.As))
+	p.Insts = op2A(p, csetOpIndex(p.As))
 }
 
 // asmCINCX deals with CINC/CINV/CNEG series instructions.
-func asmCINCX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCINCX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
-	if !(ftyp == C_COND && p.Reg != 0 && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+	if !(ftyp == C_COND && p.Reg != 0 && p.To.Type == obj.TYPE_REG && p.RestArgs == nil && p.RegTo2 == 0) {
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3075,16 +2870,15 @@ func asmCINCX(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case ACNEGW:
 		idx = CNEGwwc
 	}
-	return op3A(p, idx)
+	p.Insts = op3A(p, idx)
 }
 
 // asmFloatingCondCMP deals with FCCMPD/FCCMPED series instructions.
-func asmFloatingCondCMP(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFloatingCondCMP(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	from3 := p.GetRestArg(obj.Source3)
 	if !(ftyp == C_COND && p.Reg != 0 && from3 != nil && from3.Type == obj.TYPE_REG && (p.To.Type == obj.TYPE_CONST || p.To.Reg == REGZERO)) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p // return immediately in case from3 is nil.
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3097,62 +2891,46 @@ func asmFloatingCondCMP(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case AFCCMPES:
 		idx = FCCMPEssic
 	}
-	p.Optab = idx
-	from3.Class = 1
-	// store p.Reg in p.RestArgs
-	a := obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG, Class: 2}
-	p.SetRestArg(a, obj.Source2)
-	p.Reg = 0
-	p.To.Class = 3
-	p.From.Class = 4
-	return p
+	p.Insts = convertToInst(p, idx, []obj.Addr{*from3, {Reg: p.Reg, Type: obj.TYPE_REG}, p.To, p.From})
 }
 
 //
-func asmCLREX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCLREX(c *ctxt7, p *obj.Prog) {
 	if !(p.From.Type == obj.TYPE_NONE && p.Reg == 0 && (p.To.Type == obj.TYPE_CONST || p.To.Reg == REGZERO || p.To.Type == obj.TYPE_NONE)) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	if p.To.Type == obj.TYPE_NONE {
-		p.To.Offset = 0xf
-	}
-	p.Optab = CLREXi
-	p.To.Class = 1
-	return p
+	p.Insts = convertToInst(p, CLREXi, []obj.Addr{p.To})
 }
 
 // asmCLSX deals with CLS/CLZ series instructions.
-func asmCLSX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCLSX(c *ctxt7, p *obj.Prog) {
 	if !(p.From.Type == obj.TYPE_REG && p.Reg == 0 && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, CLSOpIndex(p.As))
+	p.Insts = op2A(p, CLSOpIndex(p.As))
 }
 
 // cmp/cmn
-func asmCMP(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return cmpCmn(c, p, CMPxis, CMPxxs, CMPxre)
+func asmCMP(c *ctxt7, p *obj.Prog) {
+	p.Insts = cmpCmn(c, p, CMPxis, CMPxxs, CMPxre)
 }
 
-func asmCMPW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return cmpCmn32(c, p, CMPwis, CMPwws, CMPwwe)
+func asmCMPW(c *ctxt7, p *obj.Prog) {
+	p.Insts = cmpCmn32(c, p, CMPwis, CMPwws, CMPwwe)
 }
 
-func asmCMN(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return cmpCmn(c, p, CMNxis, CMNxxs, CMNxre)
+func asmCMN(c *ctxt7, p *obj.Prog) {
+	p.Insts = cmpCmn(c, p, CMNxis, CMNxxs, CMNxre)
 }
 
-func asmCMNW(c *ctxt7, p *obj.Prog) *obj.Prog {
-	return cmpCmn32(c, p, CMNwis, CMNwws, CMNwwe)
+func asmCMNW(c *ctxt7, p *obj.Prog) {
+	p.Insts = cmpCmn32(c, p, CMNwis, CMNwws, CMNwwe)
 }
 
 // asmDMBX deals with DMB/DSB/ISB series instructions.
-func asmDMBX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmDMBX(c *ctxt7, p *obj.Prog) {
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && p.Reg == 0 && p.To.Type == obj.TYPE_NONE) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3165,27 +2943,22 @@ func asmDMBX(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case AHINT:
 		idx = HINTi
 	}
-	p.Optab = idx
-	p.From.Class = 1
-	return p
+	p.Insts = convertToInst(p, idx, []obj.Addr{p.From})
 }
 
 // asmOpwithoutArg deals with ERET/WFE/WFI series instructions that have no arguments.
-func asmOpwithoutArg(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmOpwithoutArg(c *ctxt7, p *obj.Prog) {
 	if !(p.From.Type == obj.TYPE_NONE && p.Reg == 0 && p.To.Type == obj.TYPE_NONE) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	p.Optab = opWithoutArgIndex(p.As)
-	return p
+	p.Insts = convertToInst(p, opWithoutArgIndex(p.As), nil)
 }
 
 // asmEXTRX deals with EXTR and EXTRW instructions.
-func asmEXTRX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmEXTRX(c *ctxt7, p *obj.Prog) {
 	from3 := p.GetRestArg(obj.Source3)
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && p.Reg != 0 && from3 != nil && from3.Type == obj.TYPE_REG && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p // return immediately in case from3 is nil.
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3195,40 +2968,30 @@ func asmEXTRX(c *ctxt7, p *obj.Prog) *obj.Prog {
 		idx = EXTRwwwi
 	default:
 		c.ctxt.Diag("invalid opcode: %v", p)
-		return p
+		return
 	}
-	p.Optab = idx
-	p.To.Class = 1
-	from3.Class = 2
-	// Make a Addr object for the second source operand.
-	a := obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG, Class: 3}
-	p.SetRestArg(a, obj.Source2)
-	p.Reg = 0
-	p.From.Class = 4
-	return p
+	p.Insts = convertToInst(p, idx, []obj.Addr{p.To, *from3, {Reg: p.Reg, Type: obj.TYPE_REG}, p.From})
 }
 
 // asmLoadAcquire deals with LDAR/LDAXR/LDXR series instructions.
-func asmLoadAcquire(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmLoadAcquire(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(ftyp == C_ZOREG && p.Reg == 0 && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, loadAcquireIndex(p.As))
+	p.Insts = op2A(p, loadAcquireIndex(p.As))
 }
 
 // asmLDXPX deals with LDXP/LDAXP series instructions.
-func asmLDXPX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmLDXPX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_ZOREG && p.Reg == 0 && ttyp == C_PAIR) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if int(p.To.Reg) == int(p.To.Offset) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3241,15 +3004,14 @@ func asmLDXPX(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case ALDAXPW:
 		idx = LDAXPwwx
 	}
-	return op2A(p, idx)
+	p.Insts = op2A(p, idx)
 }
 
 // asmSTLRX deals with STLR series instructions.
-func asmSTLRX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSTLRX(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(p.From.Type == obj.TYPE_REG && p.Reg == 0 && ttyp == C_ZOREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3262,19 +3024,18 @@ func asmSTLRX(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case ASTLRB:
 		idx = STLRBwx
 	}
-	return op2ASO(p, idx)
+	p.Insts = op2ASO(p, idx)
 }
 
 // asmSTXRX deals with STLXR/STXR series instructions.
-func asmSTXRX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSTXRX(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(p.From.Type == obj.TYPE_REG && p.Reg == 0 && ttyp == C_ZOREG && p.RegTo2 != 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if p.RegTo2 == p.From.Reg || (p.RegTo2 == p.To.Reg && p.To.Reg != REGSP) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3295,20 +3056,19 @@ func asmSTXRX(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case ASTLXRB:
 		idx = STLXRBwwx
 	}
-	return op2D3A(p, idx)
+	p.Insts = op2D3A(p, idx)
 }
 
 // asmSTXPX deals with STXP/STLXP series instructions.
-func asmSTXPX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSTXPX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_PAIR && p.Reg == 0 && ttyp == C_ZOREG && p.RegTo2 != 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if (p.RegTo2 == p.From.Reg || p.RegTo2 == int16(p.From.Offset)) || (p.RegTo2 == p.To.Reg && p.To.Reg != REGSP) {
 		c.ctxt.Diag("constrained unpredictable behavior: %v", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3321,47 +3081,44 @@ func asmSTXPX(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case ASTLXPW:
 		idx = STLXPwwwx
 	}
-	return op2D3A(p, idx)
+	p.Insts = op2D3A(p, idx)
 }
 
 // asmShiftOp deals with LSL/LSR/ASR/ROR series instructions.
-func asmShiftOp(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmShiftOp(c *ctxt7, p *obj.Prog) {
 	if !((p.From.Type == obj.TYPE_REG || p.From.Type == obj.TYPE_CONST) && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	// For LSL (immediate), imms != 0b111111, that means the shift number can't be 0.
 	// Luckily we have converted $0 to ZR, so we won't encounter this problem.
 	if p.From.Type == obj.TYPE_REG {
-		return op3A(p, shiftRegIndex(p.As))
+		p.Insts = op3A(p, shiftRegIndex(p.As))
+	} else {
+		p.Insts = op3A(p, shiftImmIndex(p.As))
 	}
-	return op3A(p, shiftImmIndex(p.As))
 }
 
 // asmFuseOp deals with MADD/MSUB/SMADDL/UMADDL/FMADD/FMSUB/FNMADD/FNMSUB series instructions.
-func asmFuseOp(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFuseOp(c *ctxt7, p *obj.Prog) {
 	from3 := p.GetRestArg(obj.Source3)
 	if !(p.From.Type == obj.TYPE_REG && p.Reg != 0 && from3 != nil && from3.Type == obj.TYPE_REG && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p // return immediately in case from3 is nil.
+		return
 	}
-	return op3S4A(p, fuseOpIndex(p.As))
+	p.Insts = op3S4A(p, fuseOpIndex(p.As))
 }
 
 // asmMultipleX deals with MUL/MNEG/SMNEGL/UMNEGL/SMULH/SMULL/UMULH/UMULL series instructions.
-func asmMultipleX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMultipleX(c *ctxt7, p *obj.Prog) {
 	if !(p.From.Type == obj.TYPE_REG && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op3A(p, multipleOpIndex(p.As))
+	p.Insts = op3A(p, multipleOpIndex(p.As))
 }
 
 // asmMOVX deals with MOVK/MOVN/MOVZ series instructions.
-func asmMOVX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMOVX(c *ctxt7, p *obj.Prog) {
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && p.Reg == 0 && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3378,43 +3135,38 @@ func asmMOVX(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case AMOVZW:
 		idx = MOVZwis
 	}
-	return op2A(p, idx)
+	p.Insts = op2A(p, idx)
 }
 
 // mrs
-func asmMRS(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMRS(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(ftyp == C_SPR && p.Reg == 0 && p.To.Type == obj.TYPE_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, MRSx)
+	p.Insts = op2A(p, MRSx)
 }
 
 // msr
-func asmMSR(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMSR(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(p.Reg == 0 && ttyp == C_SPR) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if ftyp == C_REG {
-		return op2A(p, MSRx)
+		p.Insts = op2A(p, MSRx)
 	} else if p.From.Type == obj.TYPE_CONST {
-		return op2A(p, MSRi)
+		p.Insts = op2A(p, MSRi)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // asmMVN deals with MVN and MVNW instructions.
-func asmMVN(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmMVN(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !((ftyp == C_REG || ftyp == C_SHIFT) && p.Reg == 0 && ttyp == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3423,16 +3175,15 @@ func asmMVN(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case AMVNW:
 		idx = MVNwws
 	}
-	return op2A(p, idx)
+	p.Insts = op2A(p, idx)
 }
 
 // asmNEGX deals with NEG and NEGS series instructions.
-func asmNEGX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmNEGX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !((ftyp == C_REG || ftyp == C_SHIFT || ftyp == C_NONE) && p.Reg == 0 && ttyp == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3445,102 +3196,83 @@ func asmNEGX(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case ANEGSW:
 		idx = NEGSwws
 	}
-	return op2A(p, idx)
+	p.Insts = op2A(p, idx)
 }
 
 // prfm
-func asmPRFM(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmPRFM(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(p.Reg == 0 && (ttyp == C_SPR || p.To.Type == obj.TYPE_CONST)) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
 	switch ftyp {
 	case C_ZOREG, C_LOREG:
-		return op2A(p, PRFMix)
+		p.Insts = op2A(p, PRFMix)
 	case C_SBRA:
 		p.Mark |= BRANCH19BITS
-		return op2A(p, PRFMil)
+		p.Insts = op2A(p, PRFMil)
 	case C_ROFF:
-		return op2A(p, PRFMixre)
+		p.Insts = op2A(p, PRFMixre)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // asmREMX deals with REM and UREM series instructions.
-func asmREMX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmREMX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_REG && ttyp == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	// REM Rf, <Rn, > Rt -> SDIV Rf, Rn, Rtmp + MSUB Rf, Rn, Rtmp, Rt
 	if p.From.Reg == REGTMP || p.Reg == REGTMP {
 		c.ctxt.Diag("cannot use REGTMP as source: %v", p)
-		return p
+		return
 	}
 	r := p.Reg
 	if r == 0 {
 		r = p.To.Reg
 	}
-	p1 := c.newprog()
-	p2 := c.newprog()
-	p1Idx := uint16(0)
+	p1As, p1Idx := obj.As(0), uint16(0)
+	p2As, p2Idx := obj.As(0), uint16(0)
 	switch p.As {
 	case AREM:
-		p1.As, p1Idx = ASDIV, SDIVxxx
-		p2.As, p2.Optab = AMSUB, MSUBxxxx
+		p1As, p1Idx = ASDIV, SDIVxxx
+		p2As, p2Idx = AMSUB, MSUBxxxx
 	case AREMW:
-		p1.As, p1Idx = ASDIVW, SDIVwww
-		p2.As, p2.Optab = AMSUBW, MSUBwwww
+		p1As, p1Idx = ASDIVW, SDIVwww
+		p2As, p2Idx = AMSUBW, MSUBwwww
 	case AUREM:
-		p1.As, p1Idx = AUDIV, UDIVxxx
-		p2.As, p2.Optab = AMSUB, MSUBxxxx
+		p1As, p1Idx = AUDIV, UDIVxxx
+		p2As, p2Idx = AMSUB, MSUBxxxx
 	case AUREMW:
-		p1.As, p1Idx = AUDIVW, UDIVwww
-		p2.As, p2.Optab = AMSUBW, MSUBwwww
+		p1As, p1Idx = AUDIVW, UDIVwww
+		p2As, p2Idx = AMSUBW, MSUBwwww
 	}
-	p1.From = p.From
-	p1.Reg = r
-	p1.To = obj.Addr{Reg: REGTMP, Type: obj.TYPE_REG}
-	p1.Pos = p.Pos
-	p1 = op3A(p1, p1Idx)
-	p2.From = obj.Addr{Reg: p.From.Reg, Type: obj.TYPE_REG, Class: 3}
-	p2.SetRestArg(obj.Addr{Reg: r, Type: obj.TYPE_REG, Class: 4}, obj.Source2)
-	p2.SetRestArg(obj.Addr{Reg: REGTMP, Type: obj.TYPE_REG, Class: 2}, obj.Source3)
-	p2.To = obj.Addr{Reg: p.To.Reg, Type: obj.TYPE_REG, Class: 1}
-	p2.Pos = p.Pos
+	p1 := newInst(p1As, p1Idx, p.Pos, []obj.Addr{{Reg: REGTMP, Type: obj.TYPE_REG}, {Reg: r, Type: obj.TYPE_REG}, p.From})
+	p2Args := []obj.Addr{{Reg: p.To.Reg, Type: obj.TYPE_REG}, {Reg: REGTMP, Type: obj.TYPE_REG},
+		{Reg: p.From.Reg, Type: obj.TYPE_REG}, {Reg: r, Type: obj.TYPE_REG}}
+	p2 := newInst(p2As, p2Idx, p.Pos, p2Args)
 	p1.Link = p2
-	p.Rel = p1
+	p.Insts = p1
 	p.Isize = 8
-	return p
 }
 
 // asmDIVCRC deals with SDIV and CRC series instructions.
-func asmDIVCRC(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmDIVCRC(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_REG && ttyp == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op3A(p, divCRCIndex(p.As))
+	p.Insts = op3A(p, divCRCIndex(p.As))
 }
 
 // asmPE deals with SVC, HVC, HLT, SMC, BRK, DCPS{1, 2, 3} etc. instructions.
-func asmPE(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmPE(c *ctxt7, p *obj.Prog) {
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO || p.From.Type == obj.TYPE_NONE) && p.Reg == 0 && p.To.Type == obj.TYPE_NONE) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	if p.From.Type == obj.TYPE_NONE {
-		// the argument is optional, if not present, immediate is set to 0.
-		p.From.Offset = 0
-	}
-	p.From.Class = 1
 	idx := uint16(0)
 	switch p.As {
 	case ASVC:
@@ -3560,28 +3292,25 @@ func asmPE(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case ADCPS3:
 		idx = DCPS3i
 	}
-	p.Optab = idx
-	return p
+	p.Insts = convertToInst(p, idx, []obj.Addr{p.From})
 }
 
 // asmExtend deals with SXTB, SXTH series extend instructions.
-func asmExtend(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmExtend(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_REG && p.Reg == 0 && ttyp == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, extendIndex(p.As))
+	p.Insts = op2A(p, extendIndex(p.As))
 }
 
 // asmUnsignedExtend deals with UXTB, UXTH and UXTW instructions.
-func asmUnsignedExtend(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmUnsignedExtend(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_REG && p.Reg == 0 && ttyp == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	off := int64(0)
 	switch p.As {
@@ -3593,77 +3322,58 @@ func asmUnsignedExtend(c *ctxt7, p *obj.Prog) *obj.Prog {
 		off = 31 // UXTW Rn, Rd -> UBFM $0, Rn, $31, Rd
 	default:
 		c.ctxt.Diag("unexpected opcode: %v", p)
-		return p
+		return
 	}
-	p.As = AUBFM
-	p.Reg = p.From.Reg
-	p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: 0}
-	p.SetRestArg(obj.Addr{Type: obj.TYPE_CONST, Offset: off}, obj.Source3)
-	return asmBitFieldOps(c, p)
+	args := []obj.Addr{p.To, {Reg: p.From.Reg, Type: obj.TYPE_REG},
+		{Type: obj.TYPE_CONST, Offset: 0}, {Type: obj.TYPE_CONST, Offset: off}}
+	p.Insts = newInst(AUBFM, bitFieldOpsIndex(p.As), p.Pos, args)
 }
 
 // sys
-func asmSYS(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSYS(c *ctxt7, p *obj.Prog) {
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && p.Reg == 0 && (p.To.Type == obj.TYPE_NONE || p.To.Type == obj.TYPE_REG)) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if (p.From.Offset &^ int64(SYSARG4(0x7, 0xF, 0xF, 0x7))) != 0 {
 		c.ctxt.Diag("illegal SYS argument: %v", p)
-		return p
+		return
 	}
-	p1 := c.newprog()
-	p1.As, p1.Optab, p1.Pos = p.As, SYSix, p.Pos
 	// p.From.Offset integrated op1, Cn, Cm, Op2, in order to encode these arguments, p.From.Offset
 	// needs to be split into multiple obj.Addr arguments.
-	// op1
-	p1.From = obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 16) & 0x7, Class: 1}
-	// Cn
-	p1.SetRestArg(obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 12) & 0xf, Class: 2}, obj.Source1)
-	// Cm
-	p1.SetRestArg(obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 8) & 0xf, Class: 3}, obj.Source2)
+	op1 := obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 16) & 0x7}
+	cn := obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 12) & 0xf}
+	cm := obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 8) & 0xf}
 	// op2{, <Xt>}, integrate p.To.Reg into op2 because there's only one argument in optab for them.
-	p1.SetRestArg(obj.Addr{Type: obj.TYPE_CONST, Index: p.To.Reg, Offset: (p.From.Offset >> 5) & 0x7, Class: 4}, obj.Source3)
-	p.Rel, p.Isize = p1, 4
-	return p
+	op2 := obj.Addr{Type: obj.TYPE_CONST, Index: p.To.Reg, Offset: (p.From.Offset >> 5) & 0x7}
+	p.Insts = convertToInst(p, SYSix, []obj.Addr{op1, cn, cm, op2})
 }
 
 // sysl
-func asmSYSL(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSYSL(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && p.Reg == 0 && ttyp == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if (p.From.Offset &^ int64(SYSARG4(0x7, 0xF, 0xF, 0x7))) != 0 {
 		c.ctxt.Diag("illegal SYSL argument: %v", p)
-		return p
+		return
 	}
-	p1 := c.newprog()
 	// p.From.Offset integrated op1, Cn, Cm, Op2, in order to encode these arguments, p.From.Offset
 	// needs to be split into multiple obj.Addr arguments.
-	p1.As, p1.Optab, p1.Pos = p.As, SYSLix, p.Pos
-	// Xt
-	p1.To = obj.Addr{Type: obj.TYPE_REG, Reg: p.To.Reg, Class: 1}
-	// op1
-	p1.From = obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 16) & 0x7, Class: 2}
-	// Cn
-	p1.SetRestArg(obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 12) & 0xf, Class: 3}, obj.Source1)
-	// Cm
-	p1.SetRestArg(obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 8) & 0xf, Class: 4}, obj.Source2)
-	// op2
-	p1.SetRestArg(obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 5) & 0x7, Class: 5}, obj.Source3)
-	p.Rel, p.Isize = p1, 4
-	return p
+	xt := obj.Addr{Type: obj.TYPE_REG, Reg: p.To.Reg}
+	op1 := obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 16) & 0x7}
+	cn := obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 12) & 0xf}
+	cm := obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 8) & 0xf}
+	op2 := obj.Addr{Type: obj.TYPE_CONST, Offset: (p.From.Offset >> 5) & 0x7}
+	p.Insts = convertToInst(p, SYSLix, []obj.Addr{xt, op1, cn, cm, op2})
 }
 
 // asmSYSAlias deals with SYS alias instructions such as AT, DC, IC and TLBI.
-func asmSYSAlias(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSYSAlias(c *ctxt7, p *obj.Prog) {
 	// TODO: The existence of the destination register is based on p.From.Offset.
 	// But we have not double-checked the value at the moment.
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && p.Reg == 0 && (p.To.Type == obj.TYPE_NONE || p.To.Type == obj.TYPE_REG)) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx, fields := uint16(0), int64(0)
 	switch p.As {
@@ -3678,154 +3388,138 @@ func asmSYSAlias(c *ctxt7, p *obj.Prog) *obj.Prog {
 	}
 	if (p.From.Offset &^ fields) != 0 {
 		c.ctxt.Diag("illegal system instruction argument: %v", p)
-		return p
+		return
 	}
-	p.Optab = idx
-	// integrate Xt into p.From.Index because there is only
-	// one corresponding argument in optab. This doesn't affect
-	// the assembly printing.
-	p.From.Index = p.To.Reg
-	p.From.Class = 1
-	return p
+	op := p.From
+	// integrate Xt into op because there is only
+	// one corresponding argument in optab.
+	op.Index = p.To.Reg
+	p.Insts = convertToInst(p, idx, []obj.Addr{op})
 }
 
 // asmTBZX deals with TBZ and TBNZ instructions.
-func asmTBZX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmTBZX(c *ctxt7, p *obj.Prog) {
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && p.Reg != 0 && p.To.Type == obj.TYPE_BRANCH) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	p.Mark |= BRANCH14BITS
-	p.To.Class = 3
+	idx := TBZril
 	if p.As == ATBNZ {
-		return op2SA(p, TBNZril)
+		idx = TBNZril
 	}
-	return op2SA(p, TBZril)
+	p.Insts = convertToInst(p, idx, []obj.Addr{{Reg: p.Reg, Type: obj.TYPE_REG}, p.From, p.To})
 }
 
 // asmAtomicLoadOpStore deals with LDADD, LDEOR series atomic instructions.
-func asmAtomicLoadOpStore(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmAtomicLoadOpStore(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	t2typ := rclass(p.RegTo2)
 	if !(ftyp == C_REG && p.Reg == 0 && ttyp == C_ZOREG && t2typ == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op1S1D3A(p, atomicIndex(p.As))
+	args := []obj.Addr{p.From, {Reg: p.RegTo2, Type: obj.TYPE_REG}, p.To}
+	p.Insts = convertToInst(p, atomicIndex(p.As), args)
 }
 
 // asmAtomicLoadOpStore deals with CASP series atomic instructions.
-func asmCASPX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmCASPX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	to2 := p.GetRestArg(obj.Destination1)
 	t2typ := c.aclass(p, to2)
 	if !(ftyp == C_PAIR && p.Reg == 0 && ttyp == C_ZOREG && t2typ == C_PAIR) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	p.Optab = atomicIndex(p.As)
-	p.From.Class, p.To.Class, to2.Class = 1, 3, 2
-	return p
+	args := []obj.Addr{p.From, *to2, p.To}
+	p.Insts = convertToInst(p, atomicIndex(p.As), args)
 }
 
 // asmBCOND deals with B.<cond> series instructions.
-func asmBCOND(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmBCOND(c *ctxt7, p *obj.Prog) {
 	if !(p.From.Type == obj.TYPE_NONE && p.Reg == 0 && p.To.Type == obj.TYPE_BRANCH) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	p.Optab = Bcl
-	p.To.Class = 2
 	p.Mark |= BRANCH19BITS
-	// save the first argument in p.From, this doesn't affect the assembly printing.
-	p.From.Offset, p.From.Class = c.bCond(p.As), 1
-	return p
+	args := []obj.Addr{{Offset: c.bCond(p.As)}, p.To}
+	p.Insts = convertToInst(p, Bcl, args)
 }
 
 // asmFloatingOp deals with some floating point instructions such as FADD, FSUB etc.
-func asmFloatingOp(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFloatingOp(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_FREG && ttyp == C_FREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op3A(p, floatingOpIndex(p.As))
+	p.Insts = op3A(p, floatingOpIndex(p.As))
 }
 
 // asmFCMPX deals with FCMPD, FCMPED series instructions.
-func asmFCMPX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFCMPX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	if !(p.Reg != 0 && p.To.Type == obj.TYPE_NONE) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if ftyp == C_FREG {
-		return op2SA(p, fcmpRegIndex(p.As))
+		p.Insts = op2SA(p, fcmpRegIndex(p.As))
 	} else if ftyp == C_FCON {
-		return op2SA(p, fcmpImmIndex(p.As))
+		p.Insts = op2SA(p, fcmpImmIndex(p.As))
+	} else {
+		c.ctxt.Diag("illegal combination: %v", p)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // asmFConvertRounding deals with floating point conversion and rounding series instructions.
-func asmFConvertRounding(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFConvertRounding(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_FREG && p.Reg == 0 && ttyp == C_FREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, fConvertRoundingIndex(p.As))
+	p.Insts = op2A(p, fConvertRoundingIndex(p.As))
 }
 
 // asmFConvertToFixed deals with floating point convert to fixed-point series instructions.
-func asmFConvertToFixed(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFConvertToFixed(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_FREG && p.Reg == 0 && ttyp == C_REG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, fConvertRoundingIndex(p.As))
+	p.Insts = op2A(p, fConvertRoundingIndex(p.As))
 }
 
 // asmFixedToFloating deals with fixed-point convert to floating point series instructions.
-func asmFixedToFloating(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFixedToFloating(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_REG && p.Reg == 0 && ttyp == C_FREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, fConvertRoundingIndex(p.As))
+	p.Insts = op2A(p, fConvertRoundingIndex(p.As))
 }
 
 // asmAESSHA deals with some AES and SHA instructions that support
 // 'opcode VREG, VREG' and 'opcode ARNG, ARNG' formats.
-func asmAESSHA(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmAESSHA(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	af, at := int((p.From.Reg>>5)&15), int((p.To.Reg>>5)&15)
 	// support the C_VREG format for compatibility with old code.
 	if !((ftyp == C_VREG && ttyp == C_VREG || ftyp == C_ARNG && ttyp == C_ARNG && af == at) && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op2A(p, cryptoOpIndex(p.As))
+	p.Insts = op2A(p, cryptoOpIndex(p.As))
 }
 
 // asmFBitwiseOp deals with some floating point bitwise operation instructions such as VREV16 and VCNT.
-func asmFBitwiseOp(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmFBitwiseOp(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	af, at := int((p.From.Reg>>5)&15), int((p.To.Reg>>5)&15)
 	if !(ftyp == C_ARNG && ttyp == C_ARNG && af == at && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -3840,115 +3534,95 @@ func asmFBitwiseOp(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case AVRBIT:
 		idx = RBITvv_t
 	}
-	return op2A(p, idx)
+	p.Insts = op2A(p, idx)
 }
 
 // sha1h
-func asmSHA1H(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSHA1H(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_VREG && ttyp == C_VREG && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
+	from, to := p.From, p.To
 	// SHA1H uses the V register in the Go assembly syntax, but in fact it uses the
-	// S register in the Arm assembly syntax. In order not to break the original
-	// instruction format, we create a new Prog for encoding.
-	p1 := c.newprog()
-	p1.As = p.As
-	p1.From = p.From
-	p1.To = p.To
-	p1.From.Reg = p.From.Reg - REG_V0 + REG_F0
-	p1.To.Reg = p.To.Reg - REG_V0 + REG_F0
-	p1.Pos = p.Pos
-	p1 = op2A(p1, SHA1Hss)
-	p.Rel, p.Isize = p1, 4
-	return p
+	// floating point register in the Arm assembly syntax.
+	from.Reg = p.From.Reg - REG_V0 + REG_F0
+	to.Reg = p.To.Reg - REG_V0 + REG_F0
+	p.Insts = convertToInst(p, SHA1Hss, []obj.Addr{to, from})
 }
 
 // asmSHAX deals with some SHA algorithm related instructions.
-func asmSHAX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmSHAX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	f2typ := rclass(p.Reg)
 	ttyp := c.aclass(p, &p.To)
 	// SHA1C once supported the "ASHA1C C_VREG, C_REG, C_VREG" format, but it is obviously
 	// very strange. Do we need to continue to support it for compatibility ?
 	if !(ftyp == C_ARNG && f2typ == C_VREG && ttyp == C_VREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
+	from, to := p.From, p.To
 	// Adjust the registers used in Go assembly syntax to be consistent with the registers
-	// used in Arm assembly syntax for encoding. In order not to break the original
-	// instruction format, we create a new Prog.
-	p1 := c.newprog()
-	p1.As = p.As
-	p1.From = p.From
-	p1.To = p.To
-	p1.Reg = p.Reg - REG_V0 + REG_F0
-	p1.To.Reg = p.To.Reg - REG_V0 + REG_F0
-	p1.Pos = p.Pos
-	p1 = op3A(p1, cryptoOpIndex(p.As))
-	p.Rel, p.Isize = p1, 4
-	return p
+	// used in Arm assembly syntax for encoding.
+	to.Reg = p.To.Reg - REG_V0 + REG_F0
+	p.Insts = convertToInst(p, cryptoOpIndex(p.As), []obj.Addr{to, {Type: obj.TYPE_REG, Reg: p.Reg - REG_V0 + REG_F0}, from})
 }
 
 // asmARNG3 deals with instructions with three ARNG format operands.
-func asmARNG3(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmARNG3(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	f2typ := rclass(p.Reg)
 	ttyp := c.aclass(p, &p.To)
 	af, an, at := int((p.From.Reg>>5)&15), int((p.Reg>>5)&15), int((p.To.Reg>>5)&15)
 	if !(ftyp == C_ARNG && f2typ == C_ARNG && ttyp == C_ARNG && af == an && an == at) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op3A(p, arng3Index(p.As))
+	p.Insts = op3A(p, arng3Index(p.As))
 }
 
 // asmVPMULLX deals with VPMULL and VPMULL2 instructions.
-func asmVPMULLX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVPMULLX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	f2typ := rclass(p.Reg)
 	ttyp := c.aclass(p, &p.To)
 	tb, tb2, ta := (p.From.Reg>>5)&15, (p.Reg>>5)&15, (p.To.Reg>>5)&15
 	if !(ftyp == C_ARNG && f2typ == C_ARNG && ttyp == C_ARNG && tb == tb2) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	idx, Q := uint16(PMULLvvv_t), int16(0)
+	idx, Q := PMULLvvv_t, int16(0)
 	if p.As == AVPMULL2 {
-		idx, Q = uint16(PMULL2vvv_t), 1
+		idx, Q = PMULL2vvv_t, 1
 	}
 	if !sizeTaMatchTb2(ta, tb, Q) {
 		c.ctxt.Diag("arrangement dismatch: %v", p)
-		return p
+		return
 	}
-	return op3A(p, idx)
+	p.Insts = op3A(p, idx)
 }
 
 // asmVUADDWX deals with VUADDW and VUADDW2 instructions.
-func asmVUADDWX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVUADDWX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	f2typ := rclass(p.Reg)
 	ttyp := c.aclass(p, &p.To)
 	tb, ta, ta2 := (p.From.Reg>>5)&15, (p.Reg>>5)&15, (p.To.Reg>>5)&15
 	if !(ftyp == C_ARNG && f2typ == C_ARNG && ttyp == C_ARNG && ta == ta2) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	idx, Q := uint16(UADDWvvv_t), int16(0)
+	idx, Q := UADDWvvv_t, int16(0)
 	if p.As == AVUADDW2 {
-		idx, Q = uint16(UADDW2vvv_t), 1
+		idx, Q = UADDW2vvv_t, 1
 	}
 	if _, match := immhTaMatchTb(ta, tb, Q); !match {
 		c.ctxt.Diag("arrangement dismatch: %v", p)
-		return p
+		return
 	}
-	return op3A(p, idx)
+	p.Insts = op3A(p, idx)
 }
 
 // asmVReg3OrARNG3 deals with instructions with three VREG or ARNG format operands.
-func asmVReg3OrARNG3(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVReg3OrARNG3(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	f2typ := rclass(p.Reg)
 	ttyp := c.aclass(p, &p.To)
@@ -3968,7 +3642,7 @@ func asmVReg3OrARNG3(c *ctxt7, p *obj.Prog) *obj.Prog {
 		case AVCMTST:
 			idx = CMTSTvvv
 		}
-		return op3A(p, idx)
+		p.Insts = op3A(p, idx)
 	case C_ARNG:
 		af, an, at := int((p.From.Reg>>5)&15), int((p.Reg>>5)&15), int((p.To.Reg>>5)&15)
 		if !(f2typ == C_ARNG && ttyp == C_ARNG && af == an && an == at) {
@@ -3985,22 +3659,19 @@ func asmVReg3OrARNG3(c *ctxt7, p *obj.Prog) *obj.Prog {
 		case AVCMTST:
 			idx = CMTSTvvv_t
 		}
-		return op3A(p, idx)
+		p.Insts = op3A(p, idx)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // asmARNG4 deals with instructions with four ARNG format operands.
-func asmARNG4(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmARNG4(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	f2typ := rclass(p.Reg)
 	f3typ := c.aclass(p, p.GetRestArg(obj.Source3))
 	ttyp := c.aclass(p, &p.To)
 	aa, ma, na, ta := (p.From.Reg>>5)&15, (p.Reg>>5)&15, (p.GetRestArg(obj.Source3).Reg>>5)&15, (p.To.Reg>>5)&15
 	if !(ftyp == C_ARNG && f2typ == C_ARNG && f3typ == C_ARNG && ttyp == C_ARNG && aa == ma && aa == na && aa == ta) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	idx := uint16(0)
 	switch p.As {
@@ -4009,42 +3680,39 @@ func asmARNG4(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case AVBCAX:
 		idx = BCAXvvv
 	}
-	return op4A(p, idx)
+	p.Insts = op4A(p, idx)
 }
 
 // ext
-func asmVEXT(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVEXT(c *ctxt7, p *obj.Prog) {
 	ntyp := rclass(p.Reg)
 	f3typ := c.aclass(p, p.GetRestArg(obj.Source3))
 	ttyp := c.aclass(p, &p.To)
 	at, an, af3 := (p.To.Reg>>5)&15, (p.Reg>>5)&15, (p.GetRestArg(obj.Source3).Reg>>5)&15
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && ntyp == C_ARNG && f3typ == C_ARNG && ttyp == C_ARNG && at == an && at == af3) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
+	p.Insts = op4A(p, EXTvvvi_t)
 	// record the arrangement specifier in p.From.Index so that we know the value when encoding.
-	p.From.Index = at
-	return op4A(p, EXTvvvi_t)
+	p.Insts.Args[3].Index = at
 }
 
 // xar
-func asmVXAR(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVXAR(c *ctxt7, p *obj.Prog) {
 	ntyp := rclass(p.Reg)
 	f3typ := c.aclass(p, p.GetRestArg(obj.Source3))
 	ttyp := c.aclass(p, &p.To)
 	at, an, af3 := (p.To.Reg>>5)&15, (p.Reg>>5)&15, (p.GetRestArg(obj.Source3).Reg>>5)&15
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && ntyp == C_ARNG && f3typ == C_ARNG && ttyp == C_ARNG && at == an && at == af3) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
-	return op4A(p, XARvvvi_t)
+	p.Insts = op4A(p, XARvvvi_t)
 }
 
 // vmov
-func asmVMOV(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVMOV(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
@@ -4052,89 +3720,78 @@ func asmVMOV(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case C_REG:
 		switch ttyp {
 		case C_ARNG:
-			return op2A(p, DUPvr_t)
+			p.Insts = op2A(p, DUPvr_t)
 		case C_ELEM:
-			return op2A(p, MOVvr_ti)
+			p.Insts = op2A(p, MOVvr_ti)
 		}
 	case C_ARNG:
 		if ttyp != C_ARNG {
 			break
 		}
-		// VMOV <Vd>.<T>, <Vn>.<T> -> VORR <Vd>.<T>, <Vn>.<T>, <Vn>.<T>
-		p.As = AVORR
-		p.Reg = p.From.Reg
-		return op3A(p, ORRvvv_t)
+		// VMOV <Vn>.<T>, <Vd>.<T> -> VORR <Vn>.<T>, <Vn>.<T>, <Vd>.<T>
+		p.Insts = newInst(AVORR, ORRvvv_t, p.Pos, []obj.Addr{p.To, {Reg: p.From.Reg, Type: obj.TYPE_REG}, p.From})
 	case C_ELEM:
 		switch ttyp {
 		case C_REG:
 			switch (p.From.Reg >> 5) & 15 {
 			case ARNG_B, ARNG_H:
-				return op2A(p, UMOVwv_ti)
+				p.Insts = op2A(p, UMOVwv_ti)
 			case ARNG_S:
-				return op2A(p, MOVwv_si)
+				p.Insts = op2A(p, MOVwv_si)
 			case ARNG_D:
-				return op2A(p, MOVxv_di)
+				p.Insts = op2A(p, MOVxv_di)
 			}
 		case C_VREG:
-			return op2A(p, MOVvv_ti)
+			p.Insts = op2A(p, MOVvv_ti)
 		case C_ELEM:
 			if ((p.From.Reg >> 5) & 15) != ((p.To.Reg >> 5) & 15) {
 				c.ctxt.Diag("operand mismatch: %v", p)
-				return p
+				return
 			}
-			return op2A(p, MOVvv_tii)
+			p.Insts = op2A(p, MOVvv_tii)
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // vmovq/vmovd/vmovs
-func asmVMOVQ(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVMOVQ(c *ctxt7, p *obj.Prog) {
 	from3 := p.GetRestArg(obj.Source3)
 	ttyp := c.aclass(p, &p.To)
 	if !(p.From.Type == obj.TYPE_CONST && p.Reg == 0 && from3 != nil && from3.Type == obj.TYPE_CONST && ttyp == C_VREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p // return immediately in case from3 is nil.
+		return
 	}
 	p.Mark |= LFROM128
 	// Adjust the registers used in Go assembly syntax to be consistent with the registers
 	// used in Arm assembly syntax.
-	p.To.Reg = p.To.Reg - REG_V0 + REG_F0
-	return op2A(p, LDRql)
+	p.Insts = convertToInst(p, LDRql, []obj.Addr{{Reg: p.To.Reg - REG_V0 + REG_F0, Type: obj.TYPE_REG}, p.From})
 }
 
-func asmVMOVD(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVMOVD(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(p.From.Type == obj.TYPE_CONST && p.Reg == 0 && ttyp == C_VREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	p.Mark |= LFROM
 	// Adjust the registers used in Go assembly syntax to be consistent with the registers
 	// used in Arm assembly syntax.
-	p.To.Reg = p.To.Reg - REG_V0 + REG_F0
-	return op2A(p, LDRdl)
+	p.Insts = convertToInst(p, LDRdl, []obj.Addr{{Reg: p.To.Reg - REG_V0 + REG_F0, Type: obj.TYPE_REG}, p.From})
 }
 
-func asmVMOVS(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVMOVS(c *ctxt7, p *obj.Prog) {
 	ttyp := c.aclass(p, &p.To)
 	if !(p.From.Type == obj.TYPE_CONST && p.Reg == 0 && ttyp == C_VREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	p.Mark |= LFROM
 	// Adjust the registers used in Go assembly syntax to be consistent with the registers
 	// used in Arm assembly syntax.
-	p.To.Reg = p.To.Reg - REG_V0 + REG_F0
-	return op2A(p, LDRsl)
+	p.Insts = convertToInst(p, LDRsl, []obj.Addr{{Reg: p.To.Reg - REG_V0 + REG_F0, Type: obj.TYPE_REG}, p.From})
 }
 
 // ld1/ld2/ld3/ld4/st1/st2/st3/st4
-func asmVLD1(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVLD1(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
@@ -4147,27 +3804,30 @@ func asmVLD1(c *ctxt7, p *obj.Prog) *obj.Prog {
 			switch opcode {
 			case 0x7:
 				if p.Scond == C_XPOST {
-					return op2A(p, LD1vxi_tp1) // Post-index
+					p.Insts = op2A(p, LD1vxi_tp1) // Post-index
+				} else {
+					p.Insts = op2A(p, LD1vx_t1) // one register
 				}
-				return op2A(p, LD1vx_t1) // one register
 			case 0xa:
 				if p.Scond == C_XPOST {
-					return op2A(p, LD1vxi_tp2)
+					p.Insts = op2A(p, LD1vxi_tp2)
+				} else {
+					p.Insts = op2A(p, LD1vx_t2) // two registers
 				}
-				return op2A(p, LD1vx_t2) // two registers
 			case 0x6:
 				if p.Scond == C_XPOST {
-					return op2A(p, LD1vxi_tp3)
+					p.Insts = op2A(p, LD1vxi_tp3)
+				} else {
+					p.Insts = op2A(p, LD1vx_t3) // three registers
 				}
-				return op2A(p, LD1vx_t3) // three registers
 			case 0x2:
 				if p.Scond == C_XPOST {
-					return op2A(p, LD1vxi_tp4)
+					p.Insts = op2A(p, LD1vxi_tp4)
+				} else {
+					p.Insts = op2A(p, LD1vx_t4) // four registers
 				}
-				return op2A(p, LD1vx_t4) // four registers
 			default:
 				c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-				return p
 			}
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
@@ -4175,17 +3835,17 @@ func asmVLD1(c *ctxt7, p *obj.Prog) *obj.Prog {
 			}
 			switch opcode {
 			case 0x7:
-				return op2A(p, LD1vxx_tp1) // one register
+				p.Insts = op2A(p, LD1vxx_tp1) // one register
 			case 0xa:
-				return op2A(p, LD1vxx_tp2) // two registers
+				p.Insts = op2A(p, LD1vxx_tp2) // two registers
 			case 0x6:
-				return op2A(p, LD1vxx_tp3) // three registers
+				p.Insts = op2A(p, LD1vxx_tp3) // three registers
 			case 0x2:
-				return op2A(p, LD1vxx_tp4) // four registers
+				p.Insts = op2A(p, LD1vxx_tp4) // four registers
 			default:
 				c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-				return p
 			}
+			return
 		case C_LOREG:
 			regSize, q, index := int64(0), (p.To.Offset>>30)&1, uint16(0)
 			switch opcode {
@@ -4199,12 +3859,12 @@ func asmVLD1(c *ctxt7, p *obj.Prog) *obj.Prog {
 				regSize, index = 4, LD1vxi_tp4 // four registers
 			default:
 				c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-				return p
+				return
 			}
 			if !(p.Scond == C_XPOST && immRegSizeQMatch(p.From.Offset, regSize, q)) {
 				break
 			}
-			return op2A(p, index)
+			p.Insts = op2A(p, index)
 		}
 	case C_ELEM:
 		// single structure
@@ -4213,13 +3873,15 @@ func asmVLD1(c *ctxt7, p *obj.Prog) *obj.Prog {
 		case C_ZOREG:
 			switch at {
 			case ARNG_B:
-				return op2A(p, LD1vx_bi1)
+				p.Insts = op2A(p, LD1vx_bi1)
 			case ARNG_H:
-				return op2A(p, LD1vx_hi1)
+				p.Insts = op2A(p, LD1vx_hi1)
 			case ARNG_S:
-				return op2A(p, LD1vx_si1)
+				p.Insts = op2A(p, LD1vx_si1)
 			case ARNG_D:
-				return op2A(p, LD1vx_di1)
+				p.Insts = op2A(p, LD1vx_di1)
+			default:
+				c.ctxt.Diag("illegal destination operand arrangement: %v", p)
 			}
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
@@ -4227,13 +3889,15 @@ func asmVLD1(c *ctxt7, p *obj.Prog) *obj.Prog {
 			}
 			switch at {
 			case ARNG_B:
-				return op2A(p, LD1vxx_bip1)
+				p.Insts = op2A(p, LD1vxx_bip1)
 			case ARNG_H:
-				return op2A(p, LD1vxx_hip1)
+				p.Insts = op2A(p, LD1vxx_hip1)
 			case ARNG_S:
-				return op2A(p, LD1vxx_sip1)
+				p.Insts = op2A(p, LD1vxx_sip1)
 			case ARNG_D:
-				return op2A(p, LD1vxx_dip1)
+				p.Insts = op2A(p, LD1vxx_dip1)
+			default:
+				c.ctxt.Diag("illegal destination operand arrangement: %v", p)
 			}
 		case C_LOREG:
 			if p.Scond != C_XPOST {
@@ -4241,24 +3905,23 @@ func asmVLD1(c *ctxt7, p *obj.Prog) *obj.Prog {
 			}
 			switch at {
 			case ARNG_B:
-				return op2A(p, LD1vxi_bip1)
+				p.Insts = op2A(p, LD1vxi_bip1)
 			case ARNG_H:
-				return op2A(p, LD1vxi_hip1)
+				p.Insts = op2A(p, LD1vxi_hip1)
 			case ARNG_S:
-				return op2A(p, LD1vxi_sip1)
+				p.Insts = op2A(p, LD1vxi_sip1)
 			case ARNG_D:
-				return op2A(p, LD1vxi_dip1)
+				p.Insts = op2A(p, LD1vxi_dip1)
+			default:
+				c.ctxt.Diag("illegal destination operand arrangement: %v", p)
 			}
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVST1(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVST1(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
@@ -4271,27 +3934,30 @@ func asmVST1(c *ctxt7, p *obj.Prog) *obj.Prog {
 			switch opcode {
 			case 0x7:
 				if p.Scond == C_XPOST {
-					return op2ASO(p, ST1vxi_tp1) // Post-index
+					p.Insts = op2ASO(p, ST1vxi_tp1) // Post-index
+				} else {
+					p.Insts = op2ASO(p, ST1vx_t1) // one register
 				}
-				return op2ASO(p, ST1vx_t1) // one register
 			case 0xa:
 				if p.Scond == C_XPOST {
-					return op2ASO(p, ST1vxi_tp2)
+					p.Insts = op2ASO(p, ST1vxi_tp2)
+				} else {
+					p.Insts = op2ASO(p, ST1vx_t2) // two registers
 				}
-				return op2ASO(p, ST1vx_t2) // two registers
 			case 0x6:
 				if p.Scond == C_XPOST {
-					return op2ASO(p, ST1vxi_tp3)
+					p.Insts = op2ASO(p, ST1vxi_tp3)
+				} else {
+					p.Insts = op2ASO(p, ST1vx_t3) // three registers
 				}
-				return op2ASO(p, ST1vx_t3) // three registers
 			case 0x2:
 				if p.Scond == C_XPOST {
-					return op2ASO(p, ST1vxi_tp4)
+					p.Insts = op2ASO(p, ST1vxi_tp4)
+				} else {
+					p.Insts = op2ASO(p, ST1vx_t4) // four registers
 				}
-				return op2ASO(p, ST1vx_t4) // four registers
 			default:
 				c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-				return p
 			}
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.To) {
@@ -4299,16 +3965,15 @@ func asmVST1(c *ctxt7, p *obj.Prog) *obj.Prog {
 			}
 			switch opcode {
 			case 0x7:
-				return op2ASO(p, ST1vxx_tp1) // one register
+				p.Insts = op2ASO(p, ST1vxx_tp1) // one register
 			case 0xa:
-				return op2ASO(p, ST1vxx_tp2) // two registers
+				p.Insts = op2ASO(p, ST1vxx_tp2) // two registers
 			case 0x6:
-				return op2ASO(p, ST1vxx_tp3) // three registers
+				p.Insts = op2ASO(p, ST1vxx_tp3) // three registers
 			case 0x2:
-				return op2ASO(p, ST1vxx_tp4) // four registers
+				p.Insts = op2ASO(p, ST1vxx_tp4) // four registers
 			default:
 				c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-				return p
 			}
 		case C_LOREG:
 			regSize, q, index := int64(0), (p.From.Offset>>30)&1, uint16(0)
@@ -4323,12 +3988,12 @@ func asmVST1(c *ctxt7, p *obj.Prog) *obj.Prog {
 				regSize, index = 4, ST1vxi_tp4 // four registers
 			default:
 				c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-				return p
+				return
 			}
 			if !(p.Scond == C_XPOST && immRegSizeQMatch(p.To.Offset, regSize, q)) {
 				break
 			}
-			return op2ASO(p, index)
+			p.Insts = op2ASO(p, index)
 		}
 	case C_ELEM:
 		// single structure
@@ -4337,13 +4002,15 @@ func asmVST1(c *ctxt7, p *obj.Prog) *obj.Prog {
 		case C_ZOREG:
 			switch af {
 			case ARNG_B:
-				return op2ASO(p, ST1vx_bi1)
+				p.Insts = op2ASO(p, ST1vx_bi1)
 			case ARNG_H:
-				return op2ASO(p, ST1vx_hi1)
+				p.Insts = op2ASO(p, ST1vx_hi1)
 			case ARNG_S:
-				return op2ASO(p, ST1vx_si1)
+				p.Insts = op2ASO(p, ST1vx_si1)
 			case ARNG_D:
-				return op2ASO(p, ST1vx_di1)
+				p.Insts = op2ASO(p, ST1vx_di1)
+			default:
+				c.ctxt.Diag("illegal source operand arrangement: %v", p)
 			}
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.To) {
@@ -4351,13 +4018,15 @@ func asmVST1(c *ctxt7, p *obj.Prog) *obj.Prog {
 			}
 			switch af {
 			case ARNG_B:
-				return op2ASO(p, ST1vxx_bip1)
+				p.Insts = op2ASO(p, ST1vxx_bip1)
 			case ARNG_H:
-				return op2ASO(p, ST1vxx_hip1)
+				p.Insts = op2ASO(p, ST1vxx_hip1)
 			case ARNG_S:
-				return op2ASO(p, ST1vxx_sip1)
+				p.Insts = op2ASO(p, ST1vxx_sip1)
 			case ARNG_D:
-				return op2ASO(p, ST1vxx_dip1)
+				p.Insts = op2ASO(p, ST1vxx_dip1)
+			default:
+				c.ctxt.Diag("illegal source operand arrangement: %v", p)
 			}
 		case C_LOREG:
 			if p.Scond != C_XPOST {
@@ -4365,27 +4034,26 @@ func asmVST1(c *ctxt7, p *obj.Prog) *obj.Prog {
 			}
 			switch af {
 			case ARNG_B:
-				return op2ASO(p, ST1vxi_bip1)
+				p.Insts = op2ASO(p, ST1vxi_bip1)
 			case ARNG_H:
-				return op2ASO(p, ST1vxi_hip1)
+				p.Insts = op2ASO(p, ST1vxi_hip1)
 			case ARNG_S:
-				return op2ASO(p, ST1vxi_sip1)
+				p.Insts = op2ASO(p, ST1vxi_sip1)
 			case ARNG_D:
-				return op2ASO(p, ST1vxi_dip1)
+				p.Insts = op2ASO(p, ST1vxi_dip1)
+			default:
+				c.ctxt.Diag("illegal source operand arrangement: %v", p)
 			}
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVLD2(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVLD2(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.To.Offset >> 12) & 15
 	if !(p.Reg == 0 && opcode == 0xa) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // two registers
 	switch ttyp {
 	case C_LIST:
@@ -4393,35 +4061,33 @@ func asmVLD2(c *ctxt7, p *obj.Prog) *obj.Prog {
 		switch ftyp {
 		case C_ZOREG:
 			if p.Scond == C_XPOST {
-				return op2A(p, LD2vxi_tp2) // Post-index
+				p.Insts = op2A(p, LD2vxi_tp2) // Post-index
+			} else {
+				p.Insts = op2A(p, LD2vx_t2)
 			}
-			return op2A(p, LD2vx_t2)
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
 				break
 			}
-			return op2A(p, LD2vxx_tp2)
+			p.Insts = op2A(p, LD2vxx_tp2)
 		case C_LOREG:
 			regSize, q := int64(2), (p.To.Offset>>30)&1
 			if !(p.Scond == C_XPOST && immRegSizeQMatch(p.From.Offset, regSize, q)) {
 				break
 			}
-			return op2A(p, LD2vxi_tp2)
+			p.Insts = op2A(p, LD2vxi_tp2)
 		}
 	case C_ELEM:
 		// TODO: single structure
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVLD3(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVLD3(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.To.Offset >> 12) & 15
 	if !(p.Reg == 0 && opcode == 0x6) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // three registers
 	switch ttyp {
 	case C_LIST:
@@ -4429,35 +4095,33 @@ func asmVLD3(c *ctxt7, p *obj.Prog) *obj.Prog {
 		switch ftyp {
 		case C_ZOREG:
 			if p.Scond == C_XPOST {
-				return op2A(p, LD3vxi_tp3) // Post-index
+				p.Insts = op2A(p, LD3vxi_tp3) // Post-index
+			} else {
+				p.Insts = op2A(p, LD3vx_t3)
 			}
-			return op2A(p, LD3vx_t3)
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
 				break
 			}
-			return op2A(p, LD3vxx_tp3)
+			p.Insts = op2A(p, LD3vxx_tp3)
 		case C_LOREG:
 			regSize, q := int64(3), (p.To.Offset>>30)&1
 			if !(p.Scond == C_XPOST && immRegSizeQMatch(p.From.Offset, regSize, q)) {
 				break
 			}
-			return op2A(p, LD3vxi_tp3)
+			p.Insts = op2A(p, LD3vxi_tp3)
 		}
 	case C_ELEM:
 		// TODO: single structure
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVLD4(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVLD4(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.To.Offset >> 12) & 15
 	if !(p.Reg == 0 && opcode == 0x2) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // four registers
 	switch ttyp {
 	case C_LIST:
@@ -4465,35 +4129,33 @@ func asmVLD4(c *ctxt7, p *obj.Prog) *obj.Prog {
 		switch ftyp {
 		case C_ZOREG:
 			if p.Scond == C_XPOST {
-				return op2A(p, LD4vxi_tp4) // Post-index
+				p.Insts = op2A(p, LD4vxi_tp4) // Post-index
+			} else {
+				p.Insts = op2A(p, LD4vx_t4)
 			}
-			return op2A(p, LD4vx_t4)
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
 				break
 			}
-			return op2A(p, LD4vxx_tp4)
+			p.Insts = op2A(p, LD4vxx_tp4)
 		case C_LOREG:
 			regSize, q := int64(4), (p.To.Offset>>30)&1
 			if !(p.Scond == C_XPOST && immRegSizeQMatch(p.From.Offset, regSize, q)) {
 				break
 			}
-			return op2A(p, LD4vxi_tp4)
+			p.Insts = op2A(p, LD4vxi_tp4)
 		}
 	case C_ELEM:
 		// TODO: single structure
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVST2(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVST2(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.From.Offset >> 12) & 15
 	if !(p.Reg == 0 && opcode == 0xa) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // two registers
 	switch ftyp {
 	case C_LIST:
@@ -4501,35 +4163,33 @@ func asmVST2(c *ctxt7, p *obj.Prog) *obj.Prog {
 		switch ttyp {
 		case C_ZOREG:
 			if p.Scond == C_XPOST {
-				return op2ASO(p, ST2vxi_tp2) // Post-index
+				p.Insts = op2ASO(p, ST2vxi_tp2) // Post-index
+			} else {
+				p.Insts = op2ASO(p, ST2vx_t2)
 			}
-			return op2ASO(p, ST2vx_t2)
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.To) {
 				break
 			}
-			return op2ASO(p, ST2vxx_tp2)
+			p.Insts = op2ASO(p, ST2vxx_tp2)
 		case C_LOREG:
 			regSize, q := int64(2), (p.From.Offset>>30)&1
 			if !(p.Scond == C_XPOST && immRegSizeQMatch(p.To.Offset, regSize, q)) {
 				break
 			}
-			return op2ASO(p, ST2vxi_tp2)
+			p.Insts = op2ASO(p, ST2vxi_tp2)
 		}
 	case C_ELEM:
 		// TODO: single structure
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVST3(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVST3(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.From.Offset >> 12) & 15
 	if !(p.Reg == 0 && opcode == 0x6) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // three registers
 	switch ftyp {
 	case C_LIST:
@@ -4537,35 +4197,33 @@ func asmVST3(c *ctxt7, p *obj.Prog) *obj.Prog {
 		switch ttyp {
 		case C_ZOREG:
 			if p.Scond == C_XPOST {
-				return op2ASO(p, ST3vxi_tp3) // Post-index
+				p.Insts = op2ASO(p, ST3vxi_tp3) // Post-index
+			} else {
+				p.Insts = op2ASO(p, ST3vx_t3)
 			}
-			return op2ASO(p, ST3vx_t3)
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.To) {
 				break
 			}
-			return op2ASO(p, ST3vxx_tp3)
+			p.Insts = op2ASO(p, ST3vxx_tp3)
 		case C_LOREG:
 			regSize, q := int64(3), (p.From.Offset>>30)&1
 			if !(p.Scond == C_XPOST && immRegSizeQMatch(p.To.Offset, regSize, q)) {
 				break
 			}
-			return op2ASO(p, ST3vxi_tp3)
+			p.Insts = op2ASO(p, ST3vxi_tp3)
 		}
 	case C_ELEM:
 		// TODO: single structure
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVST4(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVST4(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.From.Offset >> 12) & 15
 	if !(p.Reg == 0 && opcode == 0x2) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // four registers
 	switch ftyp {
 	case C_LIST:
@@ -4573,154 +4231,144 @@ func asmVST4(c *ctxt7, p *obj.Prog) *obj.Prog {
 		switch ttyp {
 		case C_ZOREG:
 			if p.Scond == C_XPOST {
-				return op2ASO(p, ST4vxi_tp4) // Post-index
+				p.Insts = op2ASO(p, ST4vxi_tp4) // Post-index
+			} else {
+				p.Insts = op2ASO(p, ST4vx_t4)
 			}
-			return op2ASO(p, ST4vx_t4)
 		case C_ROFF:
 			if p.Scond != C_XPOST || isRegShiftOrExt(&p.To) {
 				break
 			}
-			return op2ASO(p, ST4vxx_tp4)
+			p.Insts = op2ASO(p, ST4vxx_tp4)
 		case C_LOREG:
 			regSize, q := int64(4), (p.From.Offset>>30)&1
 			if !(p.Scond == C_XPOST && immRegSizeQMatch(p.To.Offset, regSize, q)) {
 				break
 			}
-			return op2ASO(p, ST4vxi_tp4)
+			p.Insts = op2ASO(p, ST4vxi_tp4)
 		}
 	case C_ELEM:
 		// TODO: single structure
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // ld1r/ld2r/ld3r/ld4r
-func asmVLD1R(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVLD1R(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.To.Offset >> 12) & 15
 	if !(p.Reg == 0 && ttyp == C_LIST && opcode == 0x7) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	switch ftyp {
 	case C_ZOREG:
 		if p.Scond == C_XPOST {
-			return op2A(p, LD1Rvxi_tp1) // Post-index
+			p.Insts = op2A(p, LD1Rvxi_tp1) // Post-index
+		} else {
+			p.Insts = op2A(p, LD1Rvx_t1)
 		}
-		return op2A(p, LD1Rvx_t1)
 	case C_ROFF:
 		if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
 			break
 		}
-		return op2A(p, LD1Rvxx_tp1)
+		p.Insts = op2A(p, LD1Rvxx_tp1)
 	case C_LOREG:
 		regSize, size := int64(1), uint(p.To.Offset>>10)&3
 		if !(p.Scond == C_XPOST && p.From.Offset == regSize<<size) {
 			break
 		}
-		return op2A(p, LD1Rvxi_tp1)
+		p.Insts = op2A(p, LD1Rvxi_tp1)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVLD2R(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVLD2R(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.To.Offset >> 12) & 15
 	if !(p.Reg == 0 && ttyp == C_LIST && opcode == 0xa) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // two registers
 	switch ftyp {
 	case C_ZOREG:
 		if p.Scond == C_XPOST {
-			return op2A(p, LD2Rvxi_tp2) // Post-index
+			p.Insts = op2A(p, LD2Rvxi_tp2) // Post-index
+		} else {
+			p.Insts = op2A(p, LD2Rvx_t2)
 		}
-		return op2A(p, LD2Rvx_t2)
 	case C_ROFF:
 		if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
 			break
 		}
-		return op2A(p, LD2Rvxx_tp2)
+		p.Insts = op2A(p, LD2Rvxx_tp2)
 	case C_LOREG:
 		regSize, size := int64(2), uint(p.To.Offset>>10)&3
 		if !(p.Scond == C_XPOST && p.From.Offset == regSize<<size) {
 			break
 		}
-		return op2A(p, LD2Rvxi_tp2)
+		p.Insts = op2A(p, LD2Rvxi_tp2)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVLD3R(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVLD3R(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.To.Offset >> 12) & 15
 	if !(p.Reg == 0 && ttyp == C_LIST && opcode == 0x6) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // three registers
 	switch ftyp {
 	case C_ZOREG:
 		if p.Scond == C_XPOST {
-			return op2A(p, LD3Rvxi_tp3) // Post-index
+			p.Insts = op2A(p, LD3Rvxi_tp3) // Post-index
+		} else {
+			p.Insts = op2A(p, LD3Rvx_t3)
 		}
-		return op2A(p, LD3Rvx_t3)
 	case C_ROFF:
 		if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
 			break
 		}
-		return op2A(p, LD3Rvxx_tp3)
+		p.Insts = op2A(p, LD3Rvxx_tp3)
 	case C_LOREG:
 		regSize, size := int64(3), uint(p.To.Offset>>10)&3
 		if !(p.Scond == C_XPOST && p.From.Offset == regSize<<size) {
 			break
 		}
-		return op2A(p, LD3Rvxi_tp3)
+		p.Insts = op2A(p, LD3Rvxi_tp3)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-func asmVLD4R(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVLD4R(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	opcode := (p.To.Offset >> 12) & 15
 	if !(p.Reg == 0 && ttyp == C_LIST && opcode == 0x2) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	} // four registers
 	switch ftyp {
 	case C_ZOREG:
 		if p.Scond == C_XPOST {
-			return op2A(p, LD4Rvxi_tp4) // Post-index
+			p.Insts = op2A(p, LD4Rvxi_tp4) // Post-index
+		} else {
+			p.Insts = op2A(p, LD4Rvx_t4)
 		}
-		return op2A(p, LD4Rvx_t4)
 	case C_ROFF:
 		if p.Scond != C_XPOST || isRegShiftOrExt(&p.From) {
 			break
 		}
-		return op2A(p, LD4Rvxx_tp4)
+		p.Insts = op2A(p, LD4Rvxx_tp4)
 	case C_LOREG:
 		regSize, size := int64(4), uint(p.To.Offset>>10)&3
 		if !(p.Scond == C_XPOST && p.From.Offset == regSize<<size) {
 			break
 		}
-		return op2A(p, LD4Rvxi_tp4)
+		p.Insts = op2A(p, LD4Rvxi_tp4)
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // vdup
-func asmVDUP(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVDUP(c *ctxt7, p *obj.Prog) {
 	if p.Reg != 0 {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
@@ -4729,78 +4377,73 @@ func asmVDUP(c *ctxt7, p *obj.Prog) *obj.Prog {
 		if ttyp != C_ARNG {
 			break
 		}
-		return op2A(p, DUPvr_t)
+		p.Insts = op2A(p, DUPvr_t)
 	case C_ELEM:
 		switch ttyp {
 		case C_VREG:
-			return op2A(p, DUPvv_i)
+			p.Insts = op2A(p, DUPvv_i)
 		case C_ARNG:
 			Ts, T := (p.From.Reg>>5)&15, (p.To.Reg>>5)&15
 			if !arngTsMatchT(Ts, T) {
 				c.ctxt.Diag("arrangement dismatch: %v", p)
-				return p
+				return
 			}
-			return op2A(p, DUPvv_ti)
+			p.Insts = op2A(p, DUPvv_ti)
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
 // uxtl/uxtl2
-func asmVUXTLX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVUXTLX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_ARNG && ttyp == C_ARNG && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	Tb, Ta := (p.From.Reg>>5)&15, (p.To.Reg>>5)&15
-	idx, Q := uint16(UXTLvv_t), int16(0)
+	idx, Q := UXTLvv_t, int16(0)
 	if p.As == AVUXTL2 {
-		idx, Q = uint16(UXTL2vv_t), 1
+		idx, Q = UXTL2vv_t, 1
 	}
 	if _, match := immhTaMatchTb(Ta, Tb, Q); !match {
 		c.ctxt.Diag("arrangement dismatch: %v", p)
-		return p
+		return
 	}
-	return op2A(p, idx)
+	p.Insts = op2A(p, idx)
 }
 
 // asmVUSHLLX deals with VUSHLL and VUSHLL2 instructions.
-func asmVUSHLLX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVUSHLLX(c *ctxt7, p *obj.Prog) {
 	ntyp := rclass(p.Reg)
 	ttyp := c.aclass(p, &p.To)
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && ntyp == C_ARNG && ttyp == C_ARNG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	Tb, Ta := (p.Reg>>5)&15, (p.To.Reg>>5)&15
 	shift, max := int(p.From.Offset), 0
 	match := false
-	idx, Q := uint16(USHLLvvi_t), int16(0)
+	idx, Q := USHLLvvi_t, int16(0)
 	if p.As == AVUSHLL2 {
-		idx, Q = uint16(USHLL2vvi_t), 1
+		idx, Q = USHLL2vvi_t, 1
 	}
 	if max, match = immhTaMatchTb(Ta, Tb, Q); !match {
 		c.ctxt.Diag("arrangement dismatch: %v", p)
-		return p
+		return
 	}
 	if shift < 0 || shift > max {
 		c.ctxt.Diag("shift amount out of range: %v\n", p)
-		return p
+		return
 	}
-	return op3A(p, idx)
+	p.Insts = op3A(p, idx)
 }
 
 // asmVectorShift deals with some vector shift instructions such as SHL, SLI.
-func asmVectorShift(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVectorShift(c *ctxt7, p *obj.Prog) {
 	ntyp := rclass(p.Reg)
 	ttyp := c.aclass(p, &p.To)
 	at, an := (p.To.Reg>>5)&15, (p.Reg>>5)&15
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && ntyp == C_ARNG && ttyp == C_ARNG && at == an) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	// record the arrangement specifier in p.From.Index so that we know the value when encoding.
 	p.From.Index = at
@@ -4817,61 +4460,59 @@ func asmVectorShift(c *ctxt7, p *obj.Prog) *obj.Prog {
 	case AVUSHR:
 		idx = USHRvvi_t
 	}
-	return op3A(p, idx)
+	p.Insts = op3A(p, idx)
 }
 
 // tbl
-func asmVTBL(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVTBL(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	from3 := p.GetRestArg(obj.Source3)
 	af, at := (p.From.Reg>>5)&15, (p.To.Reg>>5)&15
 	if !(ftyp == C_ARNG && p.Reg == 0 && from3 != nil && from3.Type == obj.TYPE_REGLIST && ttyp == C_ARNG && af == at) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p // return immediately in case from3 is nil.
+		return
 	}
 	regCntCode := (from3.Offset >> 12) & 15
+	idx := uint16(0)
 	switch regCntCode {
 	case 0x7:
-		p.Optab = TBLvvv_t1 // one register
+		idx = TBLvvv_t1 // one register
 	case 0xa:
-		p.Optab = TBLvvv_t2 // two register
+		idx = TBLvvv_t2 // two register
 	case 0x6:
-		p.Optab = TBLvvv_t3 // three registers
+		idx = TBLvvv_t3 // three registers
 	case 0x2:
-		p.Optab = TBLvvv_t4 // four registers
+		idx = TBLvvv_t4 // four registers
 	default:
 		c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-		return p
+		return
 	}
-	p.To.Class, from3.Class, p.From.Class = 1, 2, 3
-	return p
+	p.Insts = convertToInst(p, idx, []obj.Addr{p.To, *from3, p.From})
 }
 
 // asmVADDVX deals with VADDV and VUADDLV instructions.
-func asmVADDVX(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVADDVX(c *ctxt7, p *obj.Prog) {
 	ftyp := c.aclass(p, &p.From)
 	ttyp := c.aclass(p, &p.To)
 	if !(ftyp == C_ARNG && p.Reg == 0 && ttyp == C_VREG) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	if p.As == AVADDV {
-		return op2A(p, ADDVvv_t)
+		p.Insts = op2A(p, ADDVvv_t)
+	} else {
+		p.Insts = op2A(p, UADDLVvv_t)
 	}
-	return op2A(p, UADDLVvv_t)
 }
 
 // vmovi
-func asmVMOVI(c *ctxt7, p *obj.Prog) *obj.Prog {
+func asmVMOVI(c *ctxt7, p *obj.Prog) {
 	if !((p.From.Type == obj.TYPE_CONST || p.From.Reg == REGZERO) && p.Reg == 0) {
-		c.ctxt.Diag("illegal combination: %v\n", p)
-		return p
+		return
 	}
 	ttyp := c.aclass(p, &p.To)
 	switch ttyp {
 	case C_FREG: // MOVI $imm, Fd
-		return op2A(p, MOVIdi)
+		p.Insts = op2A(p, MOVIdi)
 	case C_ARNG:
 		from3 := p.GetRestArg(obj.Source3)
 		if from3 != nil {
@@ -4879,26 +4520,26 @@ func asmVMOVI(c *ctxt7, p *obj.Prog) *obj.Prog {
 				break
 			}
 			// VMOVI $<imm8>, $<amount>, <Vd>.<T> -> MOVI <Vd>.<T>, #<imm8>, MSL #<amount>
-			from3.Class = 3
-			return op2A(p, MOVIvii_ts)
+			p.Insts = convertToInst(p, MOVIvii_ts, []obj.Addr{p.To, p.From, *from3})
+			break
 		}
 		at := (p.To.Reg >> 5) & 15
 		switch at {
 		case ARNG_2D:
-			return op2A(p, MOVIvi)
+			p.Insts = op2A(p, MOVIvi)
 		case ARNG_2S, ARNG_4S:
-			return op2A(p, MOVIvi_ts)
+			p.Insts = op2A(p, MOVIvi_ts)
 		case ARNG_4H, ARNG_8H:
-			return op2A(p, MOVIvi_th)
+			p.Insts = op2A(p, MOVIvi_th)
 		case ARNG_8B, ARNG_16B:
-			return op2A(p, MOVIvi_tb)
+			p.Insts = op2A(p, MOVIvi_tb)
+		default:
+			c.ctxt.Diag("illegal destination operand arrangement: %v", p)
 		}
 	}
-	c.ctxt.Diag("illegal combination: %v", p)
-	return p
 }
 
-type asmFunc func(c *ctxt7, p *obj.Prog) *obj.Prog
+type asmFunc func(c *ctxt7, p *obj.Prog)
 
 // asm function table
 var unfoldTab = []asmFunc{
