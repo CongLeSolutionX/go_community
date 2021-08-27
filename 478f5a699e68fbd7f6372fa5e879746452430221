@@ -50,6 +50,23 @@
       "message": "I don\u0027t object to this, but please see my comments on https://go-review.googlesource.com/c/go/+/337270",
       "revId": "478f5a699e68fbd7f6372fa5e879746452430221",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a319331b_42fac092",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53556
+      },
+      "writtenOn": "2021-08-27T17:40:59Z",
+      "side": 1,
+      "message": "I know, but `moreso` has not been fully accepted, we should avoid using it\n\nPlease refer to https://english.stackexchange.com/questions/211458/more-so-or-moreso",
+      "revId": "478f5a699e68fbd7f6372fa5e879746452430221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
