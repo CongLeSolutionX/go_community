@@ -59,6 +59,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd5d3cc0_ab353d19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-08-27T22:06:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure this helps much because of the sudden arrival of precise technical jargon. I know a little math but had to stop and think hard to understand what you are saying here, which means it derails my thinking rather than clarifies it.\n\nIt also raises the question: what equality operations are *not* reflexive, symmetric, and transitive?\n\nFor me, this adds more confusion than clarity. What is the actual problem you are trying to sovle?",
+      "revId": "12755865921cf59018ee370fe3bd74af4ae354fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17d3a9fe_f27ea74c",
         "filename": "src/bytes/bytes.go",
         "patchSetId": 2
