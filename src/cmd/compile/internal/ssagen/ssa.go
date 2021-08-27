@@ -96,6 +96,7 @@ func InitConfig() {
 	ir.Syms.AssertE2I2 = typecheck.LookupRuntimeFunc("assertE2I2")
 	ir.Syms.AssertI2I = typecheck.LookupRuntimeFunc("assertI2I")
 	ir.Syms.AssertI2I2 = typecheck.LookupRuntimeFunc("assertI2I2")
+	ir.Syms.CheckPtrAlignment = typecheck.LookupRuntimeFunc("checkptrAlignment")
 	ir.Syms.Deferproc = typecheck.LookupRuntimeFunc("deferproc")
 	ir.Syms.DeferprocStack = typecheck.LookupRuntimeFunc("deferprocStack")
 	ir.Syms.Deferreturn = typecheck.LookupRuntimeFunc("deferreturn")
@@ -366,6 +367,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	if fn.Pragma&ir.CgoUnsafeArgs != 0 {
 		s.cgoUnsafeArgs = true
 	}
+	s.shouldCheckPtr = ir.ShouldCheckPtr(fn, 1)
 
 	fe := ssafn{
 		curfn: fn,
@@ -709,6 +711,27 @@ func (s *state) newObject(typ *types.Type) *ssa.Value {
 	return s.rtcall(ir.Syms.Newobject, true, []*types.Type{types.NewPtr(typ)}, s.reflectType(typ))[0]
 }
 
+func (s *state) checkPtrAlignment(n *ir.ConvExpr, count *ssa.Value) {
+	if !s.shouldCheckPtr || !n.Type().IsPtr() || !n.X.Type().IsUnsafePtr() {
+		return
+	}
+	elem := n.Type().Elem()
+	if count != nil {
+		if !elem.IsArray() {
+			s.Fatalf("expected array type: %v", elem)
+		}
+		elem = elem.Elem()
+	}
+	size := elem.Size()
+	if elem.Alignment() == 1 && (size == 0 || size == 1 || count == nil) {
+		return
+	}
+	if count == nil {
+		count = s.constInt(types.Types[types.TINT], 1)
+	}
+	s.rtcall(ir.Syms.CheckPtrAlignment, true, nil, s.expr(n.X), s.reflectType(elem), count)
+}
+
 // reflectType returns an SSA value representing a pointer to typ's
 // reflection type descriptor.
 func (s *state) reflectType(typ *types.Type) *ssa.Value {
@@ -861,10 +884,11 @@ type state struct {
 	// Used to deduplicate panic calls.
 	panics map[funcLine]*ssa.Block
 
-	cgoUnsafeArgs bool
-	hasdefer      bool // whether the function contains a defer statement
-	softFloat     bool
-	hasOpenDefers bool // whether we are doing open-coded defers
+	cgoUnsafeArgs  bool
+	hasdefer       bool // whether the function contains a defer statement
+	softFloat      bool
+	hasOpenDefers  bool // whether we are doing open-coded defers
+	shouldCheckPtr bool // whether inserting checkptr instrumentation
 
 	// If doing open-coded defers, list of info about the defer calls in
 	// scanning order. Hence, at exit we should run these defers in reverse
@@ -2323,6 +2347,15 @@ func (s *state) ssaShiftOp(op ir.Op, t *types.Type, u *types.Type) ssa.Op {
 	return x
 }
 
+func (s *state) exprNoCheckptr(n ir.Node) *ssa.Value {
+	old := s.shouldCheckPtr
+	s.shouldCheckPtr = false
+	v := s.expr(n)
+	s.shouldCheckPtr = old
+	return v
+
+}
+
 // expr converts the expression n to ssa, adds it to s and returns the ssa result.
 func (s *state) expr(n ir.Node) *ssa.Value {
 	if ir.HasUniquePos(n) {
@@ -2443,6 +2476,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 		to := n.Type()
 		from := n.X.Type()
 
+		s.checkPtrAlignment(n, nil)
 		// Assume everything will work out, so set up our return value.
 		// Anything interesting that happens from here is a fatal.
 		x := s.expr(n.X)
@@ -3078,7 +3112,7 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 
 	case ir.OSLICE, ir.OSLICEARR, ir.OSLICE3, ir.OSLICE3ARR:
 		n := n.(*ir.SliceExpr)
-		v := s.expr(n.X)
+		v := s.exprNoCheckptr(n.X)
 		var i, j, k *ssa.Value
 		if n.Low != nil {
 			i = s.expr(n.Low)
@@ -3090,8 +3124,8 @@ func (s *state) expr(n ir.Node) *ssa.Value {
 			k = s.expr(n.Max)
 		}
 		p, l, c := s.slice(v, i, j, k, n.Bounded())
-		if n.CheckPtrCall != nil {
-			s.stmt(n.CheckPtrCall)
+		if n.X.Op() == ir.OCONVNOP {
+			s.checkPtrAlignment(n.X.(*ir.ConvExpr), k)
 		}
 		return s.newValue3(ssa.OpSliceMake, n.Type(), p, l, c)
 
