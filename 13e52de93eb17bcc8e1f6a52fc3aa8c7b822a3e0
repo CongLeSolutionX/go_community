@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b47bdf0_f28f3999",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1242,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-27T15:12:12Z",
+      "side": 1,
+      "message": "Yes, I mean \"it doesn\u0027t matter if the destination is E[.shape.int] or E[.shape.float64]\". If the destination is empty interface, what it was stenciled with doesn\u0027t matter. We don\u0027t need to look up dst in the dictionary to construct the result.\nReworded.",
+      "parentUuid": "d70f0425_6449e55d",
+      "revId": "13e52de93eb17bcc8e1f6a52fc3aa8c7b822a3e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebbd0395_5a1345f4",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-08-27T00:23:35Z",
       "side": 1,
       "message": "Nit: clearer if you change \"We get the interface type\" to \"We get the destination interface type\" (if I\u0027m understanding?).",
+      "revId": "13e52de93eb17bcc8e1f6a52fc3aa8c7b822a3e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b63b8653_ba46ba17",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-27T15:12:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebbd0395_5a1345f4",
       "revId": "13e52de93eb17bcc8e1f6a52fc3aa8c7b822a3e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63911150_ad145419",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-27T15:12:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fc934cf_9e71f023",
+      "revId": "13e52de93eb17bcc8e1f6a52fc3aa8c7b822a3e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03d1e7c9_d4536bb3",
@@ -102,6 +156,24 @@
       "writtenOn": "2021-08-27T00:23:35Z",
       "side": 1,
       "message": "Shouldn\u0027t work now (with Typecheck fix), so remove this.",
+      "revId": "13e52de93eb17bcc8e1f6a52fc3aa8c7b822a3e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a0130a4_7fabb506",
+        "filename": "test/run.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2189,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-27T15:12:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03d1e7c9_d4536bb3",
       "revId": "13e52de93eb17bcc8e1f6a52fc3aa8c7b822a3e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
