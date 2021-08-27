@@ -104,6 +104,24 @@
       "parentUuid": "5435c9bd_51e659f4",
       "revId": "5316d877a83d1def10c41c21a8494c3ba074e182",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab61c64_0c01031c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34507
+      },
+      "writtenOn": "2021-08-27T04:26:20Z",
+      "side": 1,
+      "message": "I\u0027ve updated a new patch set that grabs values out of the stmps.\n\nAfter some more thought, I\u0027m not sure if this is a good idea; I\u0027m basing this reading off of code in the SSA passes that can read out of the stmps, but, replacing them with new symbols that won\u0027t have those values, so some SSA passes may end up regressing.\n\nPerhaps this is done better still during SSA as some sort of rewrite, after the values have had a chance to be used?",
+      "parentUuid": "9e506e17_457f682d",
+      "revId": "5316d877a83d1def10c41c21a8494c3ba074e182",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
