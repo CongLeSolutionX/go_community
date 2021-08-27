@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20afb6e1_0e1de590",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-08-27T00:04:58Z",
+      "side": 1,
+      "message": "LGTM, thank you Roland!",
+      "revId": "731a65ac1bf76c1559a7e294f51e6a7f03279c72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
