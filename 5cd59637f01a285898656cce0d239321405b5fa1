@@ -33,6 +33,24 @@
       "message": "This is not correct, because for ntyp, which is an instantiated type, ntyp.Underlying() is NOT the type of the base generic type.  It is the underlying type of ntyp (i.e. the underlying type of the defined type of ntyp, the type without the defined name).",
       "revId": "5cd59637f01a285898656cce0d239321405b5fa1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "166d01b3_bc0f2645",
+        "filename": "src/cmd/compile/internal/noder/types.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2021-08-27T01:09:28Z",
+      "side": 1,
+      "message": "Thanks for explanation. I think I missunderstood the the OrigSym and the base generic type, and it is clear with your explanation.",
+      "parentUuid": "07ce6f11_88b96ffc",
+      "revId": "5cd59637f01a285898656cce0d239321405b5fa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
