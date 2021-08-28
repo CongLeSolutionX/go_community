@@ -67,6 +67,42 @@
       "message": "I know, but `moreso` has not been fully accepted, we should avoid using it\n\nPlease refer to https://english.stackexchange.com/questions/211458/more-so-or-moreso",
       "revId": "478f5a699e68fbd7f6372fa5e879746452430221",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73ffaa1f_02cf001c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2021-08-28T01:40:01Z",
+      "side": 1,
+      "message": "I have not seen that before. I am glad to see all `typos` have been clarified.",
+      "parentUuid": "21e2baf6_01fd183e",
+      "revId": "478f5a699e68fbd7f6372fa5e879746452430221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4452085_ce0bb42b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2021-08-28T01:40:01Z",
+      "side": 1,
+      "message": "I think we should not argue this, we should pay attention to the functionality/quality/efficiency of the source code.",
+      "parentUuid": "a319331b_42fac092",
+      "revId": "478f5a699e68fbd7f6372fa5e879746452430221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
