@@ -34,6 +34,24 @@
       "message": "I would just add the test to checkptr.go. No need for a new file.",
       "revId": "1280b5cb5d68e701c9ea3d88251d291ecaae3206",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4253dab8_d167f82f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-28T05:07:46Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "72dc6b6b_045b6e61",
+      "revId": "1280b5cb5d68e701c9ea3d88251d291ecaae3206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
