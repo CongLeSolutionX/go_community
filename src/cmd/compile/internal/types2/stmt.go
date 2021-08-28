@@ -274,37 +274,37 @@ func (check *Checker) isNil(e syntax.Expr) bool {
 	return false
 }
 
-func (check *Checker) caseTypes(x *operand, xtyp *Interface, types []syntax.Expr, seen map[Type]syntax.Expr) (T Type) {
+func (check *Checker) caseTypes(x *operand, xtyp *Interface, types []syntax.Expr, seen map[string]syntax.Expr) (T Type) {
 	var dummy operand
 L:
 	for _, e := range types {
 		// The spec allows the value nil instead of a type.
+		var hash string
 		if check.isNil(e) {
-			T = nil
 			check.expr(&dummy, e) // run e through expr so we get the usual Info recordings
+			T = nil
+			hash = "<nil>" // avoid collision with a type named nil
 		} else {
 			T = check.varType(e)
 			if T == Typ[Invalid] {
 				continue L
 			}
+			hash = typeHash(T, nil)
 		}
 		// look for duplicate types
-		// (quadratic algorithm, but type switches tend to be reasonably small)
-		for t, other := range seen {
-			if T == nil && t == nil || T != nil && t != nil && Identical(T, t) {
-				// talk about "case" rather than "type" because of nil case
-				Ts := "nil"
-				if T != nil {
-					Ts = T.String()
-				}
-				var err error_
-				err.errorf(e, "duplicate case %s in type switch", Ts)
-				err.errorf(other, "previous case")
-				check.report(&err)
-				continue L
+		if other := seen[hash]; other != nil {
+			// talk about "case" rather than "type" because of nil case
+			Ts := "nil"
+			if T != nil {
+				Ts = TypeString(T, check.qualifier)
 			}
+			var err error_
+			err.errorf(e, "duplicate case %s in type switch", Ts)
+			err.errorf(other, "previous case")
+			check.report(&err)
+			continue L
 		}
-		seen[T] = e
+		seen[hash] = e
 		if T != nil {
 			check.typeAssertion(e.Pos(), x, xtyp, T)
 		}
@@ -714,8 +714,8 @@ func (check *Checker) typeSwitchStmt(inner stmtContext, s *syntax.SwitchStmt, gu
 
 	check.multipleSwitchDefaults(s.Body)
 
-	var lhsVars []*Var                 // list of implicitly declared lhs variables
-	seen := make(map[Type]syntax.Expr) // map of seen types to positions
+	var lhsVars []*Var                   // list of implicitly declared lhs variables
+	seen := make(map[string]syntax.Expr) // map of seen type hashes to type expressions
 	for i, clause := range s.Body {
 		if clause == nil {
 			check.error(s, invalidAST+"incorrect type switch case")
