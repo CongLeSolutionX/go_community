@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4d7ec7b_c7973b29",
+        "filename": "src/runtime/cgo/callbacks.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-08-28T19:42:15Z",
+      "side": 0,
+      "message": "Update this comment to mention what else we would want to rip out, including the check for _cgo_panic in cgocallbackg1 (that one might be obvious if we actually fixed SWIG) and callPanicSWIG from the test (I don\u0027t think we would detect that one at all).",
+      "revId": "770df2e18df01e64f8770301b0d3a5d6bfa04027",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b315972_03844d03",
+        "filename": "src/runtime/cgo/callbacks.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-08-28T19:42:15Z",
+      "side": 0,
+      "message": "Maybe we should, like, actually fix SWIG...",
+      "revId": "770df2e18df01e64f8770301b0d3a5d6bfa04027",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
