@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88e80018_014fb812",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-28T01:36:40Z",
+      "side": 1,
+      "message": "The check was added in CL 201839, AFAIU, casting from larger type to smaller type is always ok, thus this check is a fast path, if we are casting to smallest type, don\u0027t emit the check",
+      "parentUuid": "9c4ecc57_ce863f9e",
+      "revId": "7fcc0584436224c8ddb34be4700cb379f72f5aa0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba7e61d6_5012d669",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 2
@@ -68,6 +86,24 @@
       "writtenOn": "2021-08-27T22:14:52Z",
       "side": 1,
       "message": "I don\u0027t think we want to call \u0027s.expr(n.X)\u0027 in here: that could result in it being evaluated twice. I think we want the caller to pass in the *ssa.Value for the pointer instead.\n\nI also think we want to insert conversions to ensure this is an unsafe.Pointer argument and that count is uintptr, or whatever the appropriate types are.",
+      "revId": "7fcc0584436224c8ddb34be4700cb379f72f5aa0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fceb5fb_c5686ba1",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-28T01:36:40Z",
+      "side": 1,
+      "message": "Hmm, when instrumenting during walk, we make a copy of n.X then perform instrumentation with this copy. How can we do the same thing on SSA?",
+      "parentUuid": "ba7e61d6_5012d669",
       "revId": "7fcc0584436224c8ddb34be4700cb379f72f5aa0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
