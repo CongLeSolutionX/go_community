@@ -55,7 +55,7 @@ func WriteType(buf *bytes.Buffer, typ Type, qf Qualifier) {
 	newTypeWriter(buf, qf).typ(typ)
 }
 
-// instanceMarker is the prefix for an instantiated type in non-expanded form.
+// instanceMarker is the prefix for an instantiated type in unexpanded form.
 const instanceMarker = '#'
 
 type typeWriter struct {
@@ -203,7 +203,11 @@ func (w *typeWriter) typ(typ Type) {
 		}
 
 	case *Named:
-		if t.instPos != nil {
+		// Instance markers indicate unexpanded instantiated
+		// types. Write them to aid debugging, but don't write
+		// them when we need an instance hash: whether a type
+		// is fully expanded or not doesn't matter for identity.
+		if instanceHashing == 0 && t.instPos != nil {
 			w.byte(instanceMarker)
 		}
 		w.typeName(t.obj)
