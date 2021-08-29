@@ -39,6 +39,24 @@
       "message": "This might make the compiler not crash, but is the generated code correct?",
       "revId": "69124f719cdaf68a872fcdb9a9aa37abb90f0305",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e13e9f66_ec47ac8e",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2021-08-29T00:38:08Z",
+      "side": 1,
+      "message": "Sorry, I really can’t prove its correctness.  \nI tried to experiment as follows\n```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nvar global int\n\ntype app struct {\n\tName string\n}\n\nfunc bug() func() {\n\treturn func() {\n\n\t\t// the issue is this if true block\n\t\tif true {\n\t\t\tglobal \u003d 1\n\t\t\treturn\n\t\t}\n\n\t\tvar xx \u003d []app{{\"aaa\"}}\n\t\tvar gapp app\n\t\tfor _, app :\u003d range xx {\n\t\t\tif strings.ToUpper(\"\") \u003d\u003d app.Name {\n\t\t\t\tfmt.Printf(\"%v\\n\", app)\n\t\t\t\tgapp \u003d app\n\t\t\t}\n\t\t}\n\t\tfmt.Println(gapp)\n\t}\n}\n\nfunc main() {\n\tbug()()\n\tfmt.Println(global)\n}\n\n```  \nBefore the modification, it can still reproduce the problem.  \nAfter the modification, it can compiler success, and it will print 1 when execute.",
+      "parentUuid": "f1eb30ca_d1217a34",
+      "revId": "69124f719cdaf68a872fcdb9a9aa37abb90f0305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
