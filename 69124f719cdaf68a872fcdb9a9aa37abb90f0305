@@ -81,6 +81,24 @@
       "parentUuid": "f1eb30ca_d1217a34",
       "revId": "69124f719cdaf68a872fcdb9a9aa37abb90f0305",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "583f5767_4494e438",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-29T16:18:34Z",
+      "side": 1,
+      "message": "@Keith: This should not affect the generated code, but make the AST in inconsistent state. You can read more context in #45743. If we\u0027re going to backport this to go1.17, then I think this is the safest way.\n\nThen we can decide whether to fix the actual missing \"Defn\" for go1.18, e.g, you can see I attempted to fix in CL 319191 chain for type switch, but going to abandon it as unified IR fixed it already.",
+      "parentUuid": "e13e9f66_ec47ac8e",
+      "revId": "69124f719cdaf68a872fcdb9a9aa37abb90f0305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
