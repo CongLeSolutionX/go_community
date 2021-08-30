@@ -99,6 +99,24 @@
       "parentUuid": "e13e9f66_ec47ac8e",
       "revId": "69124f719cdaf68a872fcdb9a9aa37abb90f0305",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a22e0248_d6f3e9ce",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-08-30T19:51:38Z",
+      "side": 1,
+      "message": "I\u0027m just worried that inlining closures (added in 1.17) is somehow wrong in the presence of range statements in that closure. This CL would just silently accept that incorrect code, especially as the test here doesn\u0027t actually execute the range statement - it is dead code eliminated.\n\nBut never mind, ORANGE is still not inlineable. So this CL only matters when the ORANGE is statically dead (and thus not counted during the inline budget check).\n\nSo, this looks fine for me. Maybe put some of this text in the comment.",
+      "parentUuid": "583f5767_4494e438",
+      "revId": "69124f719cdaf68a872fcdb9a9aa37abb90f0305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
