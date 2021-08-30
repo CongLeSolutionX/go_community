@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d14906d_7dc221f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-08-30T18:15:14Z",
+      "side": 1,
+      "message": "Chatting with Ian, a possibly better way to fix this is to rename crosscall2 to crosscall3, and add a crosscall2 that takes the SWIG-expected signature, sets ctxt to 0, and calls crosscal3. It\u0027s kind of annoying because we have to write a little assembly for every architecture, but it\u0027s definitely correct and would help prevent surprises in the future.",
+      "revId": "6e567d0d90251bece3178dff596e52e6eafa3503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ed5d08a_744bfb7b",
