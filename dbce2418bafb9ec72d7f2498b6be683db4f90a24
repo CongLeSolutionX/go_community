@@ -59,6 +59,30 @@
       },
       "revId": "dbce2418bafb9ec72d7f2498b6be683db4f90a24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b74d873_09613be6",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2326,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-08-30T02:14:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b72189_13e994d8",
+      "range": {
+        "startLine": 2326,
+        "startChar": 46,
+        "endLine": 2326,
+        "endChar": 62
+      },
+      "revId": "dbce2418bafb9ec72d7f2498b6be683db4f90a24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
