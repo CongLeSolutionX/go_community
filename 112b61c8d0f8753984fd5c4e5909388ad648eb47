@@ -34,6 +34,24 @@
       "message": "Might be worth searching for other instances of this. For example, we do the same thing in crypto/sha1.\n",
       "revId": "112b61c8d0f8753984fd5c4e5909388ad648eb47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c07a0d0c_c83032ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-08-30T17:42:54Z",
+      "side": 1,
+      "message": "I updated to CL to handle md5, sha1, sha256, and sha512.",
+      "parentUuid": "63ad6d8c_4998f0aa",
+      "revId": "112b61c8d0f8753984fd5c4e5909388ad648eb47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
