@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef61f4df_b2ed5022",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-08-30T18:49:50Z",
+      "side": 1,
+      "message": "Moving myself to CC to clean up my queue. Let\u0027s revisit after #46423 is accepted/rejected.",
+      "revId": "2dc1be32bd3d4627553579f91c6a3ce51f58d46c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
