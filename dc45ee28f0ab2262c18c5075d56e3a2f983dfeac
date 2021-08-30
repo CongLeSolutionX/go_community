@@ -78,6 +78,30 @@
       },
       "revId": "dc45ee28f0ab2262c18c5075d56e3a2f983dfeac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5c5ec27_8af421a2",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-08-30T20:55:09Z",
+      "side": 1,
+      "message": "Yes. Also, it never happened. As long as we die during type hashing I\u0027m ok with it. The rest is just resilience for debugging strings and error messages.\n\nIf we wanted to be certain we\u0027d have to add more nil checks throughout.\n\nE.g. the t.obj \u003d\u003d nil check below for type parameters is probably overkill, too. It was useful in the rapid prototyping phase.",
+      "parentUuid": "3f549c85_74a567c1",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 234,
+        "endChar": 19
+      },
+      "revId": "dc45ee28f0ab2262c18c5075d56e3a2f983dfeac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
