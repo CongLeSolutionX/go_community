@@ -35,9 +35,6 @@ const (
 	opRead      readOp = -1 // Any other read operation.
 	opInvalid   readOp = 0  // Non-read operation.
 	opReadRune1 readOp = 1  // Read rune of size 1.
-	opReadRune2 readOp = 2  // Read rune of size 2.
-	opReadRune3 readOp = 3  // Read rune of size 3.
-	opReadRune4 readOp = 4  // Read rune of size 4.
 )
 
 // ErrTooLarge is passed to panic if memory cannot be allocated to store data in a buffer.
