@@ -16,6 +16,86 @@
       "message": "Removing myself as this should be reviewed by somebody familiar with DWARF.",
       "revId": "45c82c0fa49ec2d6dfa1292457053ff3ffffcbce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be89c4fe_6aed31d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-08-31T13:28:25Z",
+      "side": 1,
+      "message": "Looks good so far.\n\nIs there a test case? I\u0027d like to have something I can compile so that I can inspect the generated DWARF. Thanks.\n\n",
+      "revId": "45c82c0fa49ec2d6dfa1292457053ff3ffffcbce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f5a139c_d1760385",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-08-31T13:28:25Z",
+      "side": 1,
+      "message": "directory entry?",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 54
+      },
+      "revId": "45c82c0fa49ec2d6dfa1292457053ff3ffffcbce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cbd46d3_a0118429",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-08-31T13:28:25Z",
+      "side": 1,
+      "message": "types",
+      "range": {
+        "startLine": 1432,
+        "startChar": 56,
+        "endLine": 1432,
+        "endChar": 60
+      },
+      "revId": "45c82c0fa49ec2d6dfa1292457053ff3ffffcbce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26a2fa55_b759defa",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1460,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-08-31T13:28:25Z",
+      "side": 1,
+      "message": "This is an interesting way of doing things.",
+      "revId": "45c82c0fa49ec2d6dfa1292457053ff3ffffcbce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
