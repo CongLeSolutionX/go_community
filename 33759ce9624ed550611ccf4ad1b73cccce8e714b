@@ -76,6 +76,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbfd13c9_c6a00ffd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-31T16:47:42Z",
+      "side": 1,
+      "message": "LGTM modulo fixing the builder failures.",
+      "revId": "33759ce9624ed550611ccf4ad1b73cccce8e714b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e18c2fb1_384b9555",
@@ -112,6 +129,24 @@
       "writtenOn": "2021-08-25T20:39:40Z",
       "side": 1,
       "message": "If there\u0027s no go directive in go.mod, we pass -lang\u003dgo1.16 to the compiler. fix should probably use that as the version here.\n\nThat\u0027s currently hardcoded in cmd/go/internal/work.gcToolchain.gc, but it might be worth making that a constant in modload or base.",
+      "revId": "33759ce9624ed550611ccf4ad1b73cccce8e714b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ab17b1_8cdb4476",
+        "filename": "src/cmd/go/internal/fix/fix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-08-31T16:47:42Z",
+      "side": 1,
+      "message": "This is the pkg.Standard case, though — those packages are in weird quasi-modules. We currently don\u0027t pass the `-lang` flag at all when compiling them,¹ but (except for bootstrapping) we can reasonably assume that they are built with the current version of the toolchain.\n\nPerhaps at some point we should start passing the `-lang` flag explicitly for the standard library...\n\n¹https://github.com/golang/go/blob/68152359fdd45e8d51aaaec64075aad4ff8f68b2/src/cmd/go/internal/work/gc.go#L79-L99",
+      "parentUuid": "0e8925f7_c1039ccb",
       "revId": "33759ce9624ed550611ccf4ad1b73cccce8e714b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
