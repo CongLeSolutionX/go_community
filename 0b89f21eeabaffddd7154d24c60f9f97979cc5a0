@@ -16,6 +16,24 @@
       "message": "This is an extraneous (albeit harmless) change. I\u0027d leave it out just because it\u0027s good to minimize any CLs that touch scheduler code.",
       "revId": "0b89f21eeabaffddd7154d24c60f9f97979cc5a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5514f20a_726c0777",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 6011,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-08-31T04:25:55Z",
+      "side": 1,
+      "message": "So, I guess we are good to go?",
+      "parentUuid": "03ebefa1_69fefc30",
+      "revId": "0b89f21eeabaffddd7154d24c60f9f97979cc5a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
