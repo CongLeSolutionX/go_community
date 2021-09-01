@@ -52,6 +52,24 @@
       "parentUuid": "60cceb28_488ae551",
       "revId": "5e32f3b58779572a30f05be54427a02535298e31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2efa141_0a023586",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-01T15:01:35Z",
+      "side": 1,
+      "message": "\u003e \u003e Note that the DW_AT_type attribute of .param1 still references the map type so a debugger that is unaware could still use that. However I checked with gdb and it doesn\u0027t do that, so that\u0027s an actual problem. I don\u0027t know how much of a problem that is, though, because if you do this:\n\u003e \u003e \n\u003e \u003e     testfn(\u0026somestruct{ ... })\n\u003e \u003e     \n\u003e \u003e the instantiation of testfn will use .shape.*uint8 and map[int]%2eshape.*uint8 which isn\u0027t going to be very useful anyway.\n\u003e \u003e \n\u003e \u003e The other solution would be to put the DW_AT_go_dict_index on the variables themselves, I just didn\u0027t do that because of how messy abbrev selection already is.\n\u003e \n\u003e I see. Yes, it does look like \".param1\" points to the map type DIE. I guess I wonder whether this will generalize-- so for example, consider this somewhat more complicated code in which the map refers to two type parameters, not one:\n\u003e \n\u003e    package main\n\u003e \n\u003e    import \"fmt\"\n\u003e \n\u003e    type Apple int\n\u003e    type Orange int\n\u003e    type Pear int\n\u003e \n\u003e    func testfn[K comparable, J comparable, L comparable](karg K, jarg J, larg L) {\n\u003e \t   var mapvar \u003d make(map[K]J)\n\u003e \t   mapvar[karg] \u003d jarg\n\u003e \t   fmt.Println(mapvar)\n\u003e \t   var mapvar2 \u003d make(map[J]L)\n\u003e \t   mapvar2[jarg] \u003d larg\n\u003e \t   fmt.Println(mapvar2)\n\u003e    }\n\u003e \n\u003e    func main() {\n\u003e \t   testfn(Apple(42), Orange(43), Pear(101))\n\u003e \t   testfn(Orange(43), Pear(101), Apple(33))\n\u003e    }\n\u003e \n\u003e I compiled this and it looks as though the type for \"mapvar\" points at this DIE:\n\u003e \n\u003e  \u003c2\u003e\u003c77f0a\u003e: Abbrev Number: 39 (DW_TAG_typedef)\n\u003e     \u003c77f0b\u003e   DW_AT_name        : .param3\n\u003e     \u003c77f13\u003e   DW_AT_type        : \u003c0x6942f\u003e\n\u003e     \u003c77f17\u003e   Unknown AT value: 2906: 3\n\u003e \n\u003e This DIE above has a single instance of DW_AT_go_dict_index even though the variable in question refers to two type params: in order for the debugger to have complete information on the type it would need both.  [ For maps etc it isn\u0027t clear whether this really buys you anything, but maybe in other cases like structs it might be more important ].\n\nMy understanding is that the dictionary will have an entry for every derived parametric type so if I looked up entry number 3 of the dictionary I would get a *runtime._type for the map type, fully instantiated, in this case `map[main.Apple]main.Orange`.\nIs this wrong?\nIncidentally trying to verify this I discovered that I can\u0027t turn the *runtime._type into a DIE because no DIEs are emitted for types that are used like this, for example the above code doesn\u0027t even have a DIE for main.Apple, let alone map[main.Apple]main.Orange.\n\nTo give more context: I\u0027m trying to make this process (figuring out the real type of an instantiated parametric type) similar to what delve does with the data field of interfaces: we take the *runtime._type field of the interface and use the DW_AT_go_runtime_type to convert it into a DIE.\n\n\u003e \u003e \u003e I wonder if this might be the time to seriously think about doing that? Or is there a way to pass enough info along to the linker that it can do the right thing?\n\u003e \u003e \n\u003e \u003e I\u0027m not sure what you have in mind here.\n\u003e \n\u003e This is just the first time we\u0027re having the compiler emit an actual type DIE -- used to be that those were only generated in the linker.  Not that I think this is a bad thing, on the contrary I think it\u0027s a good thing, just wondering if it might make sense to start thinking about moving even more type DIE generation into the compiler (since it will improve link times); this is something we\u0027ve talked about periodically.",
+      "parentUuid": "a87b089f_ca5dd5a7",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
