@@ -128,7 +128,9 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 		base.CmdFatalf("too many arguments")
 	}
 
-	if _, err := modload.Init(modload.Opts{}); err != nil {
+	opts := modload.Opts{AllowWorkspace: true}
+	modState, err := modload.Init(opts)
+	if err != nil {
 		base.CmdFatalf("%v", err)
 	}
 
@@ -136,8 +138,7 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) == 1 {
 		gowork = args[0]
 	} else {
-		modload.InitWorkfile()
-		gowork = modload.WorkFilePath()
+		gowork = modState.WorkFilePath
 	}
 
 	if *editworkGo != "" {

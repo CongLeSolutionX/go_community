@@ -74,8 +74,6 @@ func printStderr(args ...interface{}) (int, error) {
 }
 
 func runRun(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
-
 	var opts modload.Opts
 	if shouldUseOutsideModuleMode(args) {
 		// Set global module flags for 'go run cmd@version'.
@@ -85,6 +83,8 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 		opts.ForceUseModules = true
 		opts.RootMode = modload.NoRoot
 		opts.ForceBuildMod = "mod"
+	} else {
+		opts.AllowWorkspace = true
 	}
 	modState, err := modload.Init(opts)
 	if err != nil {
