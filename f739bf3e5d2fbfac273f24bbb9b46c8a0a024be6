@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bf41d5b_3a0cfe35",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 50270
+      },
+      "writtenOn": "2021-09-01T09:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09a948e1_c8df927b",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 38
+      },
+      "revId": "f739bf3e5d2fbfac273f24bbb9b46c8a0a024be6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3111bdcc_d50a6d86",
@@ -108,6 +132,30 @@
       "writtenOn": "2021-09-01T07:43:22Z",
       "side": 1,
       "message": "Same here but with section 12.4.",
+      "range": {
+        "startLine": 373,
+        "startChar": 1,
+        "endLine": 377,
+        "endChar": 0
+      },
+      "revId": "f739bf3e5d2fbfac273f24bbb9b46c8a0a024be6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e87463a7_c29f8572",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 50270
+      },
+      "writtenOn": "2021-09-01T09:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3111bdcc_d50a6d86",
       "range": {
         "startLine": 373,
         "startChar": 1,
