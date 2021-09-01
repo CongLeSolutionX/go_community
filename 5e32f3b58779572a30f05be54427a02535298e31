@@ -163,6 +163,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a5e3fa_a4cd6c0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-01T16:28:47Z",
+      "side": 1,
+      "message": "ir/stencil changes look good!\n\nThe unified IR experiment doesn\u0027t support dictionaries yet, so you may need to disable the TestDictIndex for that case.  Matthew, if that seems right, what is the best way to skip that test in the case of GOEXPERIMENT\u003dunified?\n\n",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76c2fa78_9c6bc2c7",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-01T16:28:47Z",
+      "side": 1,
+      "message": "Is it worth making this a unt16 and moving it to right after line 42?  Then there would be no extra cost for this new field on 64-bit architectures, as things are currently arranged, since it will fill in the padding spot after the flags field.  This is nice, since ir.Name nodes are quite common.\n\nProbably not worth optimizing right now if it is at all a pain to make the DictIndex field be a uint16.",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f590ccb4_4dc170f3",
