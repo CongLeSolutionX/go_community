@@ -583,7 +583,6 @@ var defaultVetFlags = []string{
 }
 
 func runTest(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
 	pkgArgs, testArgs = testFlags(args)
 
 	if cfg.DebugTrace != "" {
@@ -609,7 +608,8 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 	work.VetFlags = testVet.flags
 	work.VetExplicit = testVet.explicit
 
-	modState, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{AllowWorkspace: true}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}

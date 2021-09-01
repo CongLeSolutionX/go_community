@@ -65,10 +65,10 @@ func init() {
 }
 
 func runWhy(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
 	opts := modload.Opts{
 		ForceUseModules:    true,
 		RootMode:           modload.NeedRoot,
+		AllowWorkspace:     true,
 		ForceBuildMod:      "mod", // fetch files without hashes in go.sum, but we won't write go.mod or go.sum.
 		DontAddGoDirective: true,
 	}

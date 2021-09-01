@@ -337,8 +337,6 @@ var (
 var nl = []byte{'\n'}
 
 func runList(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
-
 	if *listFmt != "" && *listJson == true {
 		base.Fatalf("go list -f cannot be used with -json")
 	}
@@ -358,7 +356,8 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	modState, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{AllowWorkspace: true}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}

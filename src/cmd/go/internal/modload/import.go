@@ -683,7 +683,7 @@ func fetch(ctx context.Context, state *State, mod module.Version, needSum bool) 
 		mod = r
 	}
 
-	if HasModRoot() && state.Mod == "readonly" && !inWorkspaceMode() && needSum && !modfetch.HaveSum(mod) {
+	if HasModRoot() && state.Mod == "readonly" && state.WorkFilePath == "" && needSum && !modfetch.HaveSum(mod) {
 		return "", false, module.VersionError(mod, &sumMissingError{})
 	}
 

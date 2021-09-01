@@ -48,13 +48,12 @@ var (
 	workFileGoVersion string
 )
 
-// Variable set in InitWorkfile
-var (
-	// Set to the path to the go.work file, or "" if workspace mode is disabled.
-	workFilePath string
-)
-
 type MainModuleSet struct {
+	// workspaceMode indicates whether the go command is running in a workspace,
+	// which may contain multiple main modules. If workspaceMode is false, there
+	// may be at most one main module.
+	workspaceMode bool
+
 	// versions are the module.Version values of each of the main modules.
 	// For each of them, the Path fields are ordinary module paths and the Version
 	// fields are empty strings.
@@ -128,7 +127,7 @@ func (mms *MainModuleSet) mustGetSingleMainModule() module.Version {
 		panic("internal error: mustGetSingleMainModule called in context with no main modules")
 	}
 	if len(mms.versions) != 1 {
-		if inWorkspaceMode() {
+		if mms.workspaceMode {
 			panic("internal error: mustGetSingleMainModule called in workspace mode")
 		} else {
 			panic("internal error: multiple main modules present outside of workspace mode")
@@ -180,7 +179,7 @@ func (mms *MainModuleSet) ModContainingCWD() module.Version {
 // GoVersion returns the go version set on the single module, in module mode,
 // or the go.work file in workspace mode.
 func (mms *MainModuleSet) GoVersion() string {
-	if !inWorkspaceMode() {
+	if !mms.workspaceMode {
 		return modFileGoVersion(mms.ModFile(mms.mustGetSingleMainModule()))
 	}
 	v := mms.workFileGoVersion
@@ -227,26 +226,6 @@ func ModFile() *modfile.File {
 	return modFile
 }
 
-// InitWorkfile initializes the workFilePath variable for commands that
-// operate in workspace mode. It should not be called by other commands,
-// for example 'go mod tidy', that don't operate in workspace mode.
-func InitWorkfile() {
-	switch cfg.WorkFile {
-	case "off":
-		workFilePath = ""
-	case "", "auto":
-		workFilePath = findWorkspaceFile(base.Cwd())
-	default:
-		workFilePath = cfg.WorkFile
-	}
-}
-
-// WorkFilePath returns the path of the go.work file, or "" if not in
-// workspace mode. WorkFilePath must be called after InitWorkfile.
-func WorkFilePath() string {
-	return workFilePath
-}
-
 // Opts is a set of options commands can use when initializing modules with
 // modload.Init.
 type Opts struct {
@@ -256,6 +235,10 @@ type Opts struct {
 
 	// RootMode determines whether a module root is needed.
 	RootMode Root
+
+	// AllowWorkspace indicates whether a workspace may be defined in a go.work
+	// file. cfg.WorkFile controls whether workspace mode is actually enabled.
+	AllowWorkspace bool
 
 	// ForceBuildMod forces a specific value for the -mod flag for commands that
 	// don't support the -mod flag. It may be "", "mod", "readonly", or "vendor".
@@ -284,6 +267,10 @@ type State struct {
 	// ModReason is the reason Mod is set. May be "" if Mod was set by -mod or
 	// if ForceBuildMod was used.
 	ModReason string
+
+	// WorkFilePath is the path to the go.work file or "" if workspace mode
+	// is disabled.
+	WorkFilePath string
 }
 
 // Init determines whether module mode is enabled, locates the root of the
@@ -326,6 +313,18 @@ func Init(opts Opts) (state *State, err error) {
 		return nil, err
 	}
 
+	var workFilePath string
+	if opts.AllowWorkspace {
+		switch cfg.WorkFile {
+		case "off":
+			workFilePath = ""
+		case "", "auto":
+			workFilePath = findWorkspaceFile(base.Cwd())
+		default:
+			workFilePath = cfg.WorkFile
+		}
+	}
+
 	if modRoots != nil {
 		// modRoot set before Init was called ("go mod init" does this).
 		// No need to search for go.mod.
@@ -334,7 +333,7 @@ func Init(opts Opts) (state *State, err error) {
 			return nil, fmt.Errorf("-modfile cannot be used with commands that ignore the current module")
 		}
 		modRoots = nil
-	} else if inWorkspaceMode() {
+	} else if workFilePath != "" {
 		// We're in workspace mode.
 	} else {
 		if modRoot := findModuleRoot(base.Cwd()); modRoot == "" {
@@ -407,7 +406,7 @@ func Init(opts Opts) (state *State, err error) {
 		return nil, fmt.Errorf("$GOPATH/go.mod exists but should not")
 	}
 
-	if inWorkspaceMode() {
+	if workFilePath != "" {
 		var err error
 		workFileGoVersion, modRoots, err = loadWorkFile(workFilePath)
 		if err != nil {
@@ -438,7 +437,10 @@ func Init(opts Opts) (state *State, err error) {
 		modfetch.GoSumFile = strings.TrimSuffix(modFilePath(modRoots[0]), ".mod") + ".sum"
 	}
 
-	state = &State{Opts: opts}
+	state = &State{
+		Opts:         opts,
+		WorkFilePath: workFilePath,
+	}
 	if opts.ForceBuildMod != "" {
 		state.Mod = opts.ForceBuildMod
 	} else if cfg.BuildMod != "" {
@@ -503,10 +505,6 @@ func WillBeEnabled() bool {
 
 func VendorDir() string {
 	return filepath.Join(MainModules.ModRoot(MainModules.mustGetSingleMainModule()), "vendor")
-}
-
-func inWorkspaceMode() bool {
-	return workFilePath != ""
 }
 
 // HasModRoot reports whether a main module is present.
@@ -631,7 +629,7 @@ func LoadModFile(ctx context.Context, state *State) *Requirements {
 	if len(modRoots) == 0 {
 		_ = TODOWorkspaces("Instead of creating a fake module with an empty modroot, make MainModules.Len() == 0 mean that we're in module mode but not inside any module.")
 		mainModule := module.Version{Path: "command-line-arguments"}
-		MainModules = makeMainModules([]module.Version{mainModule}, []string{""}, []*modfile.File{nil}, []*modFileIndex{nil}, "")
+		MainModules = makeMainModules(state.WorkFilePath != "", []module.Version{mainModule}, []string{""}, []*modfile.File{nil}, []*modFileIndex{nil}, "")
 		goVersion := LatestGoVersion()
 		rawGoVersion.Store(mainModule, goVersion)
 		requirements = newRequirements(pruningForGoVersion(goVersion), nil, nil)
@@ -663,11 +661,11 @@ func LoadModFile(ctx context.Context, state *State) *Requirements {
 		}
 	}
 
-	MainModules = makeMainModules(mainModules, modRoots, modFiles, indices, workFileGoVersion)
+	MainModules = makeMainModules(state.WorkFilePath != "", mainModules, modRoots, modFiles, indices, workFileGoVersion)
 	maybeEnableVendoring(state)
 	rs := requirementsFromModFiles(ctx, state, modFiles)
 
-	if inWorkspaceMode() {
+	if state.WorkFilePath != "" {
 		// We don't need to do anything for vendor or update the mod file so
 		// return early.
 		requirements = rs
@@ -763,7 +761,7 @@ func CreateModFile(ctx context.Context, state *State, modPath string) {
 	fmt.Fprintf(os.Stderr, "go: creating new go.mod: module %s\n", modPath)
 	modFile := new(modfile.File)
 	modFile.AddModuleStmt(modPath)
-	MainModules = makeMainModules([]module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil}, "")
+	MainModules = makeMainModules(state.WorkFilePath != "", []module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil}, "")
 	addGoStmt(modFile, modFile.Module.Mod, LatestGoVersion()) // Add the go directive before converted module requirements.
 
 	convertedFrom, err := convertLegacyConfig(state, modFile, modRoot)
@@ -889,7 +887,7 @@ func fixVersion(ctx context.Context, state *State, fixed *bool) modfile.VersionF
 
 // makeMainModules creates a MainModuleSet and associated variables according to
 // the given main modules.
-func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile.File, indices []*modFileIndex, workFileGoVersion string) *MainModuleSet {
+func makeMainModules(workspaceMode bool, ms []module.Version, rootDirs []string, modFiles []*modfile.File, indices []*modFileIndex, workFileGoVersion string) *MainModuleSet {
 	for _, m := range ms {
 		if m.Version != "" {
 			panic("mainModulesCalled with module.Version with non empty Version field: " + fmt.Sprintf("%#v", m))
@@ -897,6 +895,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 	}
 	modRootContainingCWD := findModuleRoot(base.Cwd())
 	mainModules := &MainModuleSet{
+		workspaceMode:     workspaceMode,
 		versions:          ms[:len(ms):len(ms)],
 		inGorootSrc:       map[module.Version]bool{},
 		pathPrefix:        map[module.Version]string{},
@@ -999,7 +998,7 @@ func checkModCommonFlags(state *State) error {
 		default:
 			return fmt.Errorf("-mod=%s not supported (can be '', 'mod', 'readonly', or 'vendor')", cfg.BuildMod)
 		}
-		if inWorkspaceMode() && cfg.BuildMod != "readonly" {
+		if state.WorkFilePath != "" && cfg.BuildMod != "readonly" {
 			return fmt.Errorf("-mod may only be set to readonly when in workspace mode, but it is set to %q"+
 				"\n\tRemove the -mod flag to use the default readonly value,"+
 				"\n\tor set -workfile=off to disable workspace mode.", cfg.BuildMod)
@@ -1036,7 +1035,7 @@ var _ = TODOWorkspaces("In workspace mode, mod will not be readonly for go mod d
 	"to ensure verify, graph, and why work properly.")
 
 func mustHaveCompleteRequirements(state *State) bool {
-	return state.Mod != "mod" && !inWorkspaceMode()
+	return state.Mod != "mod" && state.WorkFilePath == ""
 }
 
 // convertLegacyConfig imports module requirements from a legacy vendoring
@@ -1310,7 +1309,7 @@ func WriteGoMod(ctx context.Context, state *State) error {
 // writeRequirements rewrites the go.mod file (if there is one) using the
 // global requirements variable.
 func writeRequirements(ctx context.Context, state *State) error {
-	if inWorkspaceMode() {
+	if state.WorkFilePath != "" {
 		// go.mod files aren't updated in workspace mode, but we still want to
 		// update the go.work.sum file.
 		if err := modfetch.WriteGoSum(keepSums(ctx, state, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements(state)); err != nil {

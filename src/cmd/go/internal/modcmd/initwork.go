@@ -39,9 +39,10 @@ func init() {
 }
 
 func runInitwork(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
-
-	opts := modload.Opts{ForceUseModules: true}
+	opts := modload.Opts{
+		ForceUseModules: true,
+		AllowWorkspace:  true,
+	}
 	if _, err := modload.Init(opts); err != nil {
 		base.Fatalf("go: %v", err)
 	}

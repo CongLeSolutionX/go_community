@@ -554,7 +554,7 @@ func goModSummary(state *State, m module.Version) (*modFileSummary, error) {
 	}
 
 	actual, replacedFrom := resolveReplacement(m)
-	if HasModRoot() && state.Mod == "readonly" && !inWorkspaceMode() && actual.Version != "" {
+	if HasModRoot() && state.Mod == "readonly" && state.WorkFilePath == "" && actual.Version != "" {
 		key := module.Version{Path: actual.Path, Version: actual.Version + "/go.mod"}
 		if !modfetch.HaveSum(key) {
 			suggestion := fmt.Sprintf("; to add it:\n\tgo mod download %s", m.Path)

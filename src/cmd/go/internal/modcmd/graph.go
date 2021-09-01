@@ -46,14 +46,13 @@ func init() {
 }
 
 func runGraph(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
-
 	if len(args) > 0 {
 		base.Fatalf("go: graph takes no arguments")
 	}
 	opts := modload.Opts{
 		ForceUseModules:    true,
 		RootMode:           modload.NeedRoot,
+		AllowWorkspace:     true,
 		ForceBuildMod:      "mod", // fetch files without hashes in go.sum, but we won't write go.mod or go.sum.
 		DontAddGoDirective: true,
 	}

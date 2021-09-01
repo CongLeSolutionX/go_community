@@ -82,12 +82,11 @@ type moduleJSON struct {
 }
 
 func runDownload(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
-
 	// Check whether modules are enabled and whether we're in a module.
 	opts := modload.Opts{
 		ForceUseModules: true,
 		ForceBuildMod:   "mod",
+		AllowWorkspace:  true,
 	}
 	modState, err := modload.Init(opts)
 	if err != nil {

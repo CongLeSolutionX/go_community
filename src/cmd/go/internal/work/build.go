@@ -373,8 +373,8 @@ var pkgsFilter = func(pkgs []*load.Package) []*load.Package { return pkgs }
 var runtimeVersion = runtime.Version()
 
 func runBuild(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
-	modState, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{AllowWorkspace: true}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
@@ -606,7 +606,8 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	modState, err := modload.Init(modload.Opts{})
+	opts := modload.Opts{AllowWorkspace: true}
+	modState, err := modload.Init(opts)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}

@@ -43,8 +43,6 @@ func init() {
 }
 
 func runVerify(ctx context.Context, cmd *base.Command, args []string) {
-	modload.InitWorkfile()
-
 	if len(args) != 0 {
 		// NOTE(rsc): Could take a module pattern.
 		base.Fatalf("go: verify takes no arguments")
@@ -52,6 +50,7 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 	opts := modload.Opts{
 		ForceUseModules: true,
 		RootMode:        modload.NeedRoot,
+		AllowWorkspace:  true,
 		ForceBuildMod:   "mod", // fetch files without hashes in go.sum, but we won't write go.mod or go.sum.
 	}
 	modState, err := modload.Init(opts)
