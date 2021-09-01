@@ -70,6 +70,24 @@
       "parentUuid": "a87b089f_ca5dd5a7",
       "revId": "5e32f3b58779572a30f05be54427a02535298e31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fa7ea0b_8f1c24ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-09-01T15:18:30Z",
+      "side": 1,
+      "message": "\u003e My understanding is that the dictionary will have an entry for every derived parametric type so if I looked up entry number 3 of the dictionary I would get a *runtime._type for the map type, fully instantiated, in this case `map[main.Apple]main.Orange`.\n\u003e Is this wrong?\n\nRight, of course. Yes, that makes sense (my misunderstanding).\n\n\n\u003e Incidentally trying to verify this I discovered that I can\u0027t turn the *runtime._type into a DIE because no DIEs are emitted for types that are used like this, for example the above code doesn\u0027t even have a DIE for main.Apple, let alone map[main.Apple]main.Orange.\n\nIndeed. I think this is related to \n\nhttps://github.com/golang/go/issues/46670",
+      "parentUuid": "f2efa141_0a023586",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
