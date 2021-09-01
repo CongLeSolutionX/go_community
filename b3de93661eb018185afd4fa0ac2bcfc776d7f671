@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb673435_afc16744",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-09-01T09:23:28Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-riscv64",
+      "revId": "b3de93661eb018185afd4fa0ac2bcfc776d7f671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
