@@ -143,9 +143,12 @@ func (p *crawler) markEmbed(t *types.Type) {
 	// in markType, we include even unexported methods here, because we
 	// still need to generate wrappers for them, even if the user can't
 	// refer to them directly.
+	//
+	// Also unlike markType, we call markInlBody directly to avoid
+	// crawling the method's result types as user reachable.
 	if t.Sym() != nil && t.Kind() != types.TINTER {
 		for _, m := range t.Methods().Slice() {
-			p.markObject(m.Nname.(*ir.Name))
+			p.markInlBody(m.Nname.(*ir.Name))
 		}
 	}
 
