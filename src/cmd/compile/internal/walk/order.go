@@ -940,7 +940,11 @@ func (o *orderState) stmt(n ir.Node) {
 					// Delete the ODCL nodes here and recreate them inside the body below.
 					if colas {
 						if len(init) > 0 && init[0].Op() == ir.ODCL && init[0].(*ir.Decl).X == n {
-							init = init[1:]
+							if len(init) > 1 && init[1].Op() == ir.OAS && init[1].(*ir.AssignStmt).X == n {
+								init = init[2:]
+							} else {
+								init = init[1:]
+							}
 						}
 						dcl := typecheck.Stmt(ir.NewDecl(base.Pos, ir.ODCL, n.(*ir.Name)))
 						ncas.PtrInit().Append(dcl)

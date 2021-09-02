@@ -1607,7 +1607,10 @@ func (r *importReader) node() ir.Node {
 	// 	unreachable - never exported
 
 	case ir.OAS:
-		return ir.NewAssignStmt(r.pos(), r.expr(), r.expr())
+		n := ir.NewAssignStmt(r.pos(), r.expr(), r.expr())
+		n.SetInit(r.stmtList())
+		n.Def = r.bool()
+		return n
 
 	case ir.OASOP:
 		n := ir.NewAssignOpStmt(r.pos(), r.op(), r.expr(), nil)
@@ -1624,7 +1627,10 @@ func (r *importReader) node() ir.Node {
 			// unreachable - mapped to case OAS2 by exporter
 			goto error
 		}
-		return ir.NewAssignListStmt(r.pos(), op, r.exprList(), r.exprList())
+		n := ir.NewAssignListStmt(r.pos(), op, r.exprList(), r.exprList())
+		n.SetInit(r.stmtList())
+		n.Def = r.bool()
+		return n
 
 	case ir.ORETURN:
 		return ir.NewReturnStmt(r.pos(), r.exprList())
@@ -1709,7 +1715,10 @@ func (r *importReader) node() ir.Node {
 		return n
 
 	case ir.OSELRECV2:
-		return ir.NewAssignListStmt(r.pos(), ir.OSELRECV2, r.exprList(), r.exprList())
+		n := ir.NewAssignListStmt(r.pos(), ir.OSELRECV2, r.exprList(), r.exprList())
+		n.SetInit(r.stmtList())
+		n.Def = r.bool()
+		return n
 
 	default:
 		base.Fatalf("cannot import %v (%d) node\n"+
