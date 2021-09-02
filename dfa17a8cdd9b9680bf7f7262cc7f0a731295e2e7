@@ -72,6 +72,29 @@
       "message": "This is ready for review. (The proposal is approved.)",
       "revId": "dfa17a8cdd9b9680bf7f7262cc7f0a731295e2e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd420677_aeb75e3d",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-02T17:46:49Z",
+      "side": 1,
+      "message": "should this be marked as deprecated?",
+      "range": {
+        "startLine": 272,
+        "startChar": 12,
+        "endLine": 272,
+        "endChar": 19
+      },
+      "revId": "dfa17a8cdd9b9680bf7f7262cc7f0a731295e2e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
