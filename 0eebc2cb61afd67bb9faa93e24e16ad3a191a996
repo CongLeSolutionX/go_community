@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea12cadd_58894e93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-09-02T18:59:19Z",
+      "side": 1,
+      "message": "Are you saying that the linker treats them as Forwarder RVA exports even with the underscore? (This would seem to be a problem for essentially all Go symbols if so.)",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203d53e0_8aab8e55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-09-02T18:59:19Z",
+      "side": 1,
+      "message": "If I\u0027m not mistaken, we had to add underscore prefixes for Mach-O, and I think we did it to all symbols (Cherry, do you know?). Unless it actually breaks something, I\u0027d much rather just consistently add underscores to everything for object formats that expect that.",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d64461_d95ee5ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
@@ -161,6 +195,23 @@
         "endLine": 436,
         "endChar": 17
       },
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29fd0154_efc9f123",
+        "filename": "src/debug/gosym/symtab.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-09-02T18:59:19Z",
+      "side": 1,
+      "message": "debug/gosym is intended to work on older Go binaries as well, so I think you have to look for both \".\" and \":\".",
       "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
