@@ -9,6 +9,7 @@ package types2
 import (
 	"bytes"
 	"cmd/compile/internal/syntax"
+	"fmt"
 )
 
 const useConstraintTypeInference = true
@@ -409,6 +410,30 @@ func (check *Checker) inferB(tparams []*TypeParam, targs []Type, report bool) (t
 		}
 	}
 
+	// Consider the graph consisting of all (provided or inferred) types (each of which
+	// providing a sub-graph consisting of the data structure representing the type),
+	// with additional edges from each type parameter to it's respective type. The roots
+	// of the graph are all type parameters.
+	// The substitution process described above will not stop if there are cycles through
+	// type parameters in this graph. For instance, for [A interface{ *A }], without any
+	// type argument provided for A, unification produces the type list [*A]. Substituting
+	// A in *A with the value for A will lead to infinite expansion by producing [**A],
+	// and then [***A], etc., because the respective graph A -> *A has a cycle through A.
+	// Generally, cycles may occur across multiple type parameters and inferred types
+	// (for instance, consider [P interface{ *Q }, Q interface{ func(P) }]).
+	// We eliminate cycles by walking the graph, starting with each root. If a cycle
+	// through a type parameter is detected, cycleFinder nils out the respectice type.
+	//
+	// TODO(gri) If useful, we could report the respective cycle as an error. We don't
+	//           do this now because type inference will fail anyway, and furthermore,
+	//           constraints with cycles of this kind cannot currently be satisfied by
+	//           any user-suplied type. But should that change, reporting an error
+	//           would be wrong.
+	w := cycleFinder{tparams, types, make(map[Type]bool)}
+	for _, t := range tparams {
+		w.typ(t) // t != nil
+	}
+
 	// dirty tracks the indices of all types that may still contain type parameters.
 	// We know that nil type entries and entries corresponding to provided (non-nil)
 	// type arguments are clean, so exclude them from the start.
@@ -456,4 +481,97 @@ func (check *Checker) inferB(tparams []*TypeParam, targs []Type, report bool) (t
 	}
 
 	return
+}
+
+type cycleFinder struct {
+	tparams []*TypeParam
+	types   []Type
+	seen    map[Type]bool
+}
+
+func (w *cycleFinder) typ(typ Type) {
+	if w.seen[typ] {
+		// We have seen typ before. If it is one of the type parameters
+		// in tparams, substitution will lead to infinite expansion.
+		// In that case, nil out the inferred type which effectively
+		// kills the cycle.
+		if tpar, _ := typ.(*TypeParam); tpar != nil {
+			if i := tparamIndex(w.tparams, tpar); i >= 0 {
+				// cycle through tpar
+				w.types[i] = nil
+			}
+		}
+		// If we don't have one our type parameters, the cycle is due
+		// due a valid recursive data structure and we can just stop
+		// walking it.
+		return
+	}
+	w.seen[typ] = true
+	defer delete(w.seen, typ)
+
+	switch t := typ.(type) {
+	case *Basic, *top:
+		// nothing to do
+
+	case *Array:
+		w.typ(t.elem)
+
+	case *Slice:
+		w.typ(t.elem)
+
+	case *Struct:
+		w.varList(t.fields)
+
+	case *Pointer:
+		w.typ(t.base)
+
+	case *Signature:
+		// There are no "method types" so we should never see a recv.
+		assert(t.recv == nil)
+		if t.params != nil {
+			w.varList(t.params.vars)
+		}
+		if t.results != nil {
+			w.varList(t.results.vars)
+		}
+
+	case *Union:
+		for _, t := range t.terms {
+			w.typ(t.typ)
+		}
+
+	case *Interface:
+		for _, m := range t.methods {
+			w.typ(m.typ)
+		}
+		for _, t := range t.embeddeds {
+			w.typ(t)
+		}
+
+	case *Map:
+		w.typ(t.key)
+		w.typ(t.elem)
+
+	case *Chan:
+		w.typ(t.elem)
+
+	case *Named:
+		for _, tpar := range t.TArgs().list() {
+			w.typ(tpar)
+		}
+
+	case *TypeParam:
+		if i := tparamIndex(w.tparams, t); i >= 0 && w.types[i] != nil {
+			w.typ(w.types[i])
+		}
+
+	default:
+		panic(fmt.Sprintf("unexpected %T", typ))
+	}
+}
+
+func (w *cycleFinder) varList(list []*Var) {
+	for _, v := range list {
+		w.typ(v.typ)
+	}
 }
