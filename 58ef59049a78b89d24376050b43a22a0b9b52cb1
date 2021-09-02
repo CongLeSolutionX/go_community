@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42cf202f_68f5d6d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-02T22:05:56Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-amd64-longtest,linux-amd64-longtest,windows-amd64-longtest",
+      "revId": "58ef59049a78b89d24376050b43a22a0b9b52cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bcc166b_3346c313",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-02T22:05:56Z",
+      "side": 1,
+      "message": "Moved this down as a drive-by fix. Previously, I think the defer would block forever if callLocked panicked.",
+      "revId": "58ef59049a78b89d24376050b43a22a0b9b52cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
