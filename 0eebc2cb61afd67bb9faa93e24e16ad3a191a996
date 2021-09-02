@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2dfce272_b01ef0d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-02T19:10:37Z",
+      "side": 1,
+      "message": "No. I mean only for \"go.buildid\", which is STEXT, and \"type.*\" which is STYPE, they are not prefixed with underscore. I guess other symbols of those kinds are also affected. But the failed test in trybot did not show any symbols other than \"go.buildid\" and \"type.*\"",
+      "parentUuid": "ea12cadd_58894e93",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "203d53e0_8aab8e55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-02T18:59:19Z",
       "side": 1,
       "message": "If I\u0027m not mistaken, we had to add underscore prefixes for Mach-O, and I think we did it to all symbols (Cherry, do you know?). Unless it actually breaks something, I\u0027d much rather just consistently add underscores to everything for object formats that expect that.",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "204a49a4_454c35c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-02T19:10:37Z",
+      "side": 1,
+      "message": "AFAIK, we only add the underscore prefix for windoes/386",
+      "parentUuid": "203d53e0_8aab8e55",
       "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -212,6 +248,24 @@
       "writtenOn": "2021-09-02T18:59:19Z",
       "side": 1,
       "message": "debug/gosym is intended to work on older Go binaries as well, so I think you have to look for both \".\" and \":\".",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcc9dd83_50098272",
+        "filename": "src/debug/gosym/symtab.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-02T19:10:37Z",
+      "side": 1,
+      "message": "Hmm, ah right, so we need to change the prefix base on go version.",
+      "parentUuid": "29fd0154_efc9f123",
       "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
