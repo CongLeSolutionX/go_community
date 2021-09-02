@@ -72,6 +72,24 @@
       "message": "This is a minor optimization to crawler that I found during porting it to unified IR, but backporting it to -G\u003d3 revealed that something seems to be broken there. See the typeparam/mdempsky/15.go failures with PS1.\n\nPS2 now includes a workaround so the tests pass, but it seems like a proper fix is needed. Evidently IsInstantiatedGeneric is reporting false for \"X[int]\", but it seems like it should report true?",
       "revId": "1387d1e71eb2f571782a92cceb6e58caeaf1a779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60647a49_1edaa64f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-02T14:23:42Z",
+      "side": 1,
+      "message": "IsInstantiatedGeneric() is explicitly only true for a type that is re-instantiated with a new typeparam, e.g. X[T2].  This kind of type occurs when you define a method for generic type.  X[T2]\u0027s methods don\u0027t add anything over X\u0027s methods, hence the check above.  However, X[int] has real methods and their types matter, though whether the methods will actually be created and used depends on whether you are doing pure stenciling or dictionaries.\n\nHopefully you can get this optimization working in all cases, without the workaround for -G\u003d3\n\n(BTW, IsFullyInstantiated() returns true for something like X[int], but false for X or X[T2].)",
+      "parentUuid": "b93ee328_5ae3541a",
+      "revId": "1387d1e71eb2f571782a92cceb6e58caeaf1a779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
