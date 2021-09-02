@@ -84,13 +84,13 @@ func (g *irgen) stmt(stmt syntax.Stmt) ir.Node {
 		// to know the types of the left and right sides in various cases.
 		delay := false
 		for _, e := range lhs {
-			if e.Typecheck() == 3 {
+			if e.Type().HasTParam() || e.Typecheck() == 3 {
 				delay = true
 				break
 			}
 		}
 		for _, e := range rhs {
-			if e.Typecheck() == 3 {
+			if e.Type().HasTParam() || e.Typecheck() == 3 {
 				delay = true
 				break
 			}
@@ -154,8 +154,35 @@ func (g *irgen) stmt(stmt syntax.Stmt) ir.Node {
 		return g.forStmt(stmt)
 	case *syntax.SelectStmt:
 		n := g.selectStmt(stmt)
-		transformSelect(n.(*ir.SelectStmt))
-		n.SetTypecheck(1)
+
+		delay := false
+		for _, ncase := range n.(*ir.SelectStmt).Cases {
+			if ncase.Comm != nil && ncase.Comm.Typecheck() == 3 {
+				delay = true
+				break
+			}
+		}
+		if delay {
+			n.SetTypecheck(3)
+			// Even if we delay transformSelect, we need to nil out an
+			// init list on Comm nodes of the select cases (this will
+			// also be done be transformSelect). iexport.go treats init
+			// lists strangely in general, and doesn't handle them
+			// correctly at all for case.Comm nodes.
+			for _, ncase := range n.(*ir.SelectStmt).Cases {
+				if ncase.Comm != nil {
+					switch a := ncase.Comm.(type) {
+					case *ir.AssignStmt:
+						a.SetInit(nil)
+					case *ir.AssignListStmt:
+						a.SetInit(nil)
+					}
+				}
+			}
+		} else {
+			transformSelect(n.(*ir.SelectStmt))
+			n.SetTypecheck(1)
+		}
 		return n
 	case *syntax.SwitchStmt:
 		return g.switchStmt(stmt)
