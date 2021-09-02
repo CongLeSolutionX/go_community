@@ -23,7 +23,7 @@ type Environment struct {
 	// Environment is currently un-implemented, because our instantiatedHash
 	// logic doesn't correctly handle Named type identity across multiple
 	// packages.
-	// TODO(rfindley): implement this.
+	// TODO(rfindley): implement this, soon.
 }
 
 // Instantiate instantiates the type typ with the given type arguments targs.
