@@ -180,6 +180,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7279d734_312a82de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-09-02T13:43:52Z",
+      "side": 1,
+      "message": "We\u0027ve talked about only emitting derived types when a function actually needs the rtype (e.g., when the type goes into an interface or gets used for new/make) just to reduce the size of dictionaries. Given that it\u0027s not even clear right now how much that would save and it clearly makes debugging harder, we decided not to do it for now, but if the overhead turns out to be significant, we may have to revisit that.\n\n*If* we wind up going down that path, I think the DWARF would probably have to push the dictionary-placeholder types down the DIE tree. E.g., a map[T]U derived type would look like a regular map type DIE that points to a shape type DIE for T, where T\u0027s type DIE has the DW_AT_go_dict_index attribute (and likewise for U). The result would be sort of a mix of DIE-based types and rtype-based types.\n\nNot something we have to solve right now, I just wanted to share our thinking.",
+      "parentUuid": "5fa7ea0b_8f1c24ce",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76c2fa78_9c6bc2c7",
