@@ -86,20 +86,15 @@ start:
 	SRA	$1, X5					// 93d21240
 
 	// 2.5: Control Transfer Instructions
-
-	// These jumps and branches get printed as a jump or branch
-	// to 2 because they transfer control to the second instruction
-	// in the function (the first instruction being an invisible
-	// stack pointer adjustment).
-	JAL	X5, start	// JAL	X5, 2		// eff25ff0
+	JAL	X5, 2(PC)				// ef028000
 	JALR	X6, (X5)				// 67830200
 	JALR	X6, 4(X5)				// 67834200
-	BEQ	X5, X6, start	// BEQ	X5, X6, 2	// e38c62ee
-	BNE	X5, X6, start	// BNE	X5, X6, 2	// e39a62ee
-	BLT	X5, X6, start	// BLT	X5, X6, 2	// e3c862ee
-	BLTU	X5, X6, start	// BLTU	X5, X6, 2	// e3e662ee
-	BGE	X5, X6, start	// BGE	X5, X6, 2	// e3d462ee
-	BGEU	X5, X6, start	// BGEU	X5, X6, 2	// e3f262ee
+	BEQ	X5, X6, 2(PC)				// 63846200
+	BNE	X5, X6, 2(PC)				// 63946200
+	BLT	X5, X6, 2(PC)				// 63c46200
+	BLTU	X5, X6, 2(PC)				// 63e46200
+	BGE	X5, X6, 2(PC)				// 63d46200
+	BGEU	X5, X6, 2(PC)				// 63f46200
 
 	// 2.6: Load and Store Instructions
 	LW	(X5), X6				// 03a30200
@@ -219,6 +214,10 @@ start:
 	FMVSX	X5, F0					// 538002f0
 	FMVXW	F0, X5					// d30200e0
 	FMVWX	X5, F0					// 538002f0
+	FMADDS	F1, F2, F3, F4				// 43822018
+	FMSUBS	F1, F2, F3, F4				// 47822018
+	FNMSUBS	F1, F2, F3, F4				// 4b822018
+	FNMADDS	F1, F2, F3, F4				// 4f822018
 
 	// 11.8: Single-Precision Floating-Point Compare Instructions
 	FEQS	F0, F1, X7				// d3a300a0
@@ -259,6 +258,10 @@ start:
 	FSGNJXD	F1, F0, F2				// 53211022
 	FMVXD	F0, X5					// d30200e2
 	FMVDX	X5, F0					// 538002f2
+	FMADDD	F1, F2, F3, F4				// 4382201a
+	FMSUBD	F1, F2, F3, F4				// 4782201a
+	FNMSUBD	F1, F2, F3, F4				// 4b82201a
+	FNMADDD	F1, F2, F3, F4				// 4f82201a
 
 	// 12.6: Double-Precision Floating-Point Classify Instruction
 	FCLASSD	F0, X5					// d31200e2
@@ -325,10 +328,11 @@ start:
 	NEGW	X5					// bb025040
 	NEGW	X5, X6					// 3b035040
 
-	// These jumps can get printed as jumps to 2 because they go to the
-	// second instruction in the function (the first instruction is an
-	// invisible stack pointer adjustment).
-	JMP	start		// JMP	2		// 6ff01fc2
+	// This jumps to the second instruction in the function (the
+	// first instruction is an invisible stack pointer adjustment).
+	JMP	start					// JMP	2
+
+	JMP	2(PC)					// 6f008000
 	JMP	(X5)					// 67800200
 	JMP	4(X5)					// 67804200
 
@@ -341,16 +345,16 @@ start:
 	JMP	asmtest(SB)				// 970f0000
 
 	// Branch pseudo-instructions
-	BEQZ	X5, start	// BEQZ	X5, 2		// e38202c0
-	BGEZ	X5, start	// BGEZ	X5, 2		// e3d002c0
-	BGT	X5, X6, start	// BGT	X5, X6, 2	// e34e53be
-	BGTU	X5, X6, start	// BGTU	X5, X6, 2	// e36c53be
-	BGTZ	X5, start	// BGTZ	X5, 2		// e34a50be
-	BLE	X5, X6, start	// BLE	X5, X6, 2	// e35853be
-	BLEU	X5, X6, start	// BLEU	X5, X6, 2	// e37653be
-	BLEZ	X5, start	// BLEZ	X5, 2		// e35450be
-	BLTZ	X5, start	// BLTZ	X5, 2		// e3c202be
-	BNEZ	X5, start	// BNEZ	X5, 2		// e39002be
+	BEQZ	X5, 2(PC)				// 63840200
+	BGEZ	X5, 2(PC)				// 63d40200
+	BGT	X5, X6, 2(PC)				// 63445300
+	BGTU	X5, X6, 2(PC)				// 63645300
+	BGTZ	X5, 2(PC)				// 63445000
+	BLE	X5, X6, 2(PC)				// 63545300
+	BLEU	X5, X6, 2(PC)				// 63745300
+	BLEZ	X5, 2(PC)				// 63545000
+	BLTZ	X5, 2(PC)				// 63c40200
+	BNEZ	X5, 2(PC)				// 63940200
 
 	// Set pseudo-instructions
 	SEQZ	X15, X15				// 93b71700

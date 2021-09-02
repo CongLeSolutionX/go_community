@@ -84,6 +84,30 @@ func NegAddFromConstNeg(a int) int {
 	return c
 }
 
+func SubSubNegSimplify(a, b int) int {
+	// amd64:"NEGQ"
+	r := (a - b) - a
+	return r
+}
+
+func SubAddSimplify(a, b int) int {
+	// amd64:-"SUBQ",-"ADDQ"
+	r := a + (b - a)
+	return r
+}
+
+func SubAddNegSimplify(a, b int) int {
+	// amd64:"NEGQ",-"ADDQ",-"SUBQ"
+	r := a - (b + a)
+	return r
+}
+
+func AddAddSubSimplify(a, b, c int) int {
+	// amd64:-"SUBQ"
+	r := a + (b + (c - a))
+	return r
+}
+
 // -------------------- //
 //    Multiplication    //
 // -------------------- //
@@ -202,7 +226,7 @@ func ConstDivs(n1 uint, n2 int) (uint, int) {
 
 	// amd64:"MOVQ\t[$]-1085102592571150095","IMULQ",-"IDIVQ"
 	// 386:"MOVL\t[$]-252645135","IMULL",-"IDIVL"
-	// arm64:`MOVD`,`SMULH`,-`DIV`
+	// arm64:`SMULH`,-`DIV`
 	// arm:`MOVW`,`MUL`,-`.*udiv`
 	b := n2 / 17 // signed
 
@@ -266,7 +290,7 @@ func ConstMods(n1 uint, n2 int) (uint, int) {
 
 	// amd64:"MOVQ\t[$]-1085102592571150095","IMULQ",-"IDIVQ"
 	// 386:"MOVL\t[$]-252645135","IMULL",-"IDIVL"
-	// arm64:`MOVD`,`SMULH`,-`DIV`
+	// arm64:`SMULH`,-`DIV`
 	// arm:`MOVW`,`MUL`,-`.*udiv`
 	b := n2 % 17 // signed
 
@@ -550,4 +574,12 @@ func constantFold3(i, j int) int {
 	// arm64: "MOVD\t[$]30","MUL",-"ADD",-"LSL"
 	r := (5 * i) * (6 * j)
 	return r
+}
+
+func addConst(i int64) (int64, int64) {
+	// riscv64:`ADDI`,-`LUI`
+	a := i + 3001
+	// riscv64:`LUI`,`ADDIW`
+	b := i + 5009
+	return a, b
 }
