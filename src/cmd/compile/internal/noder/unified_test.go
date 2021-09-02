@@ -37,6 +37,9 @@ var (
 // command's -run flag for subtest matching is recommended for less
 // powerful machines.
 func TestUnifiedCompare(t *testing.T) {
+	if true {
+		t.Skip()
+	}
 	targets, err := exec.Command("go", "tool", "dist", "list").Output()
 	if err != nil {
 		t.Fatal(err)
