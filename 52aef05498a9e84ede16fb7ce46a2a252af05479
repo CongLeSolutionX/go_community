@@ -70,6 +70,24 @@
       "parentUuid": "bf084a5e_15b2461e",
       "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "216c1b82_b4e4a15f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-03T17:38:55Z",
+      "side": 1,
+      "message": "\u003e How about \"nil if the identifier was not resolved within the set of files being parsed\"?\n\nI think this is more confused, e.g, in CL 347089, Ident.Obj is only nil within the file scope (a.go), and it\u0027s not nil in other file scope (b.go), so here it\u0027s nil in just one file, and not nil in set files being parsed.",
+      "parentUuid": "861e8052_127eedb9",
+      "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
