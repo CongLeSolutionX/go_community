@@ -88,6 +88,24 @@
       "parentUuid": "861e8052_127eedb9",
       "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac61189b_7640d516",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-03T18:15:05Z",
+      "side": 1,
+      "message": "Right. It would be resolved if those files were grouped with NewPackage.\n\nMaybe we should revert or just say \"nil if the identifier was not resolved\", and leave it at that.\n\nCuong, I defer to you since you filed the documentation issue: what would have helped you?",
+      "parentUuid": "216c1b82_b4e4a15f",
+      "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
