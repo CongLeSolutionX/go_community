@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc0048bd_7fea7294",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2021-09-03T17:02:17Z",
+      "side": 1,
+      "message": "This still is not quite right. This is documenting the state for inputs and outputs to ast.NewPackage or the output of parser.ParseFile (etc.). nil just means unresolved within the ast package. I think we should have something that captures this nuance (and is likely longer) or revert this.",
+      "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
