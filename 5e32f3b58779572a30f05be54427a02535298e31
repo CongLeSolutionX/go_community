@@ -198,6 +198,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d294cee_78cb5cd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-03T09:51:52Z",
+      "side": 1,
+      "message": "sgtm",
+      "parentUuid": "7279d734_312a82de",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76c2fa78_9c6bc2c7",
@@ -211,6 +229,24 @@
       "writtenOn": "2021-09-01T16:28:47Z",
       "side": 1,
       "message": "Is it worth making this a unt16 and moving it to right after line 42?  Then there would be no extra cost for this new field on 64-bit architectures, as things are currently arranged, since it will fill in the padding spot after the flags field.  This is nice, since ir.Name nodes are quite common.\n\nProbably not worth optimizing right now if it is at all a pain to make the DictIndex field be a uint16.",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51ed0491_e3779efb",
+        "filename": "src/cmd/compile/internal/ir/name.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-03T09:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76c2fa78_9c6bc2c7",
       "revId": "5e32f3b58779572a30f05be54427a02535298e31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -251,6 +287,42 @@
       "writtenOn": "2021-09-01T18:36:38Z",
       "side": 1,
       "message": "I think you can add a check here:\n\n```\nif buildcfg.Unified !\u003d 0 {\n  t.Skip(\"GOEXPERIMENT\u003dunified does not emit dictionaries yet\")\n}\n```",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ad507f9_6f9831c9",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1768,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-03T09:51:52Z",
+      "side": 1,
+      "message": "Did you mean goexperiment.Unified?",
+      "parentUuid": "53a3a766_83f445af",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e2d8221_46ecb147",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1768,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-03T09:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53a3a766_83f445af",
       "revId": "5e32f3b58779572a30f05be54427a02535298e31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
