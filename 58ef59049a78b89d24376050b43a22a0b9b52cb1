@@ -57,6 +57,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7e70c492_c89f4c3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-03T16:54:06Z",
+      "side": 1,
+      "message": "Nice, thanks!",
+      "revId": "58ef59049a78b89d24376050b43a22a0b9b52cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9bcc166b_3346c313",
         "filename": "src/internal/fuzz/worker.go",
         "patchSetId": 1
