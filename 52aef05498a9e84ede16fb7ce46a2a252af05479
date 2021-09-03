@@ -124,6 +124,24 @@
       "parentUuid": "216c1b82_b4e4a15f",
       "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8de1a69e_c9c208b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-03T18:45:07Z",
+      "side": 1,
+      "message": "\u003e I think we should document this so it makes sense w.r.t the \"go/ast\" package.\n\nPoint taken. I agree.\n\n\u003e If this identifier is unresolved after object resolution, it does not refer to an object in this File.\n\nI think that\u0027s accurate, with some exceptions that we probably don\u0027t want to enumerate (such as selectors). However, it _is_ a mouthful, and is an incomplete description of how Obj behaves: the nilness of Obj also depends on whether it has been resolved in a package via ast.NewPackage, and whether or not the SkipObjectResolution mode was used during parsing, though again we shouldn\u0027t mention parsing explicitly. On that note, mentioning object resolution is also coupling the documentation to the behavior of the parser package.\n\nI think the original documentation was about as good as we can do without being misleading in some way: if Obj is non nil then it should point to the denoted object. If Obj is nil, then this denoted object was not resolved, or has not yet been resolved.\n\nI vote for just reverting. The original documentation, while brief, was not misleading.",
+      "parentUuid": "b996bc8e_cd56321c",
+      "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
