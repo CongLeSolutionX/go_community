@@ -16,6 +16,23 @@
       "message": "all.bash passed.",
       "revId": "01a4f04a0f8af7990d7e634c659b452e12710e33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81f6664c_59d4c80c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-03T09:03:46Z",
+      "side": 1,
+      "message": "Patch dependency is not clear; because the obj/internal and asm changes haven\u0027t been approved yet, this CL cannot be reviewed right now.",
+      "revId": "01a4f04a0f8af7990d7e634c659b452e12710e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
