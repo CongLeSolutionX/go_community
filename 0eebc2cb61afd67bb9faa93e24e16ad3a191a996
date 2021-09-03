@@ -268,6 +268,24 @@
       "parentUuid": "29fd0154_efc9f123",
       "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "657e8917_4a351fb3",
+        "filename": "src/debug/gosym/symtab.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-03T08:45:15Z",
+      "side": 1,
+      "message": "Hmm, I\u0027m a bit confused, if we still look for both \".\" and \":\", then a symbol like \"go.uber.org/zap/buffer.(*Buffer).AppendString\" is still be reported as empty package. Can we introduce new method to reflect the new change instead, something like Sym.PackageName18()?",
+      "parentUuid": "bcc9dd83_50098272",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
