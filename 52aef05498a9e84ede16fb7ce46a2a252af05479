@@ -34,6 +34,24 @@
       "parentUuid": "bc0048bd_7fea7294",
       "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf084a5e_15b2461e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-03T17:27:24Z",
+      "side": 1,
+      "message": "I suggested \u0027parsed scope\u0027 because I thought it worked for either file or package, but you\u0027re right that it\u0027s a bit ambigious (especially since Scope means something specific).\n\nHow about \"nil if the identifier was not resolved within the set of files being parsed\"?\n\nThis avoids the ambiguous usage of the word \u0027scope\u0027, and is a bit more specific about why a declaration might not be found.",
+      "parentUuid": "7fe865e9_805b80d7",
+      "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
