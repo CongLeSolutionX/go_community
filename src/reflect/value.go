@@ -508,7 +508,7 @@ func (v Value) call(op string, in []Value) []Value {
 				// Copy values to "integer registers."
 				if v.flag&flagIndir != 0 {
 					offset := add(v.ptr, st.offset, "precomputed value offset")
-					memmove(regArgs.IntRegArgAddr(st.ireg, st.size), offset, st.size)
+					regStoreInt(&regArgs, st.ireg, st.size, offset)
 				} else {
 					if st.kind == abiStepPointer {
 						// Duplicate this pointer in the pointer area of the
@@ -524,7 +524,7 @@ func (v Value) call(op string, in []Value) []Value {
 					panic("attempted to copy pointer to FP register")
 				}
 				offset := add(v.ptr, st.offset, "precomputed value offset")
-				memmove(regArgs.FloatRegArgAddr(st.freg, st.size), offset, st.size)
+				regStoreFloat(&regArgs, st.freg, st.size, offset)
 			default:
 				panic("unknown ABI part kind")
 			}
@@ -610,13 +610,13 @@ func (v Value) call(op string, in []Value) []Value {
 				switch st.kind {
 				case abiStepIntReg:
 					offset := add(s, st.offset, "precomputed value offset")
-					memmove(offset, regArgs.IntRegArgAddr(st.ireg, st.size), st.size)
+					regLoadInt(&regArgs, st.ireg, st.size, offset)
 				case abiStepPointer:
 					s := add(s, st.offset, "precomputed value offset")
 					*((*unsafe.Pointer)(s)) = regArgs.Ptrs[st.ireg]
 				case abiStepFloatReg:
 					offset := add(s, st.offset, "precomputed value offset")
-					memmove(offset, regArgs.FloatRegArgAddr(st.freg, st.size), st.size)
+					regLoadFloat(&regArgs, st.freg, st.size, offset)
 				case abiStepStack:
 					panic("register-based return value has stack component")
 				default:
@@ -698,13 +698,13 @@ func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer, retValid *bool, regs 
 					switch st.kind {
 					case abiStepIntReg:
 						offset := add(v.ptr, st.offset, "precomputed value offset")
-						memmove(offset, regs.IntRegArgAddr(st.ireg, st.size), st.size)
+						regLoadInt(regs, st.ireg, st.size, offset)
 					case abiStepPointer:
 						s := add(v.ptr, st.offset, "precomputed value offset")
 						*((*unsafe.Pointer)(s)) = regs.Ptrs[st.ireg]
 					case abiStepFloatReg:
 						offset := add(v.ptr, st.offset, "precomputed value offset")
-						memmove(offset, regs.FloatRegArgAddr(st.freg, st.size), st.size)
+						regLoadFloat(regs, st.freg, st.size, offset)
 					case abiStepStack:
 						panic("register-based return value has stack component")
 					default:
@@ -784,7 +784,7 @@ func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer, retValid *bool, regs 
 					// Copy values to "integer registers."
 					if v.flag&flagIndir != 0 {
 						offset := add(v.ptr, st.offset, "precomputed value offset")
-						memmove(regs.IntRegArgAddr(st.ireg, st.size), offset, st.size)
+						regStoreInt(regs, st.ireg, st.size, offset)
 					} else {
 						// Only populate the Ints space on the return path.
 						// This is safe because out is kept alive until the
@@ -799,7 +799,7 @@ func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer, retValid *bool, regs 
 						panic("attempted to copy pointer to FP register")
 					}
 					offset := add(v.ptr, st.offset, "precomputed value offset")
-					memmove(regs.FloatRegArgAddr(st.freg, st.size), offset, st.size)
+					regStoreFloat(regs, st.freg, st.size, offset)
 				default:
 					panic("unknown ABI part kind")
 				}
@@ -982,9 +982,9 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool, regs *a
 					methodRegs.Ptrs[mStep.ireg] = *(*unsafe.Pointer)(from)
 					fallthrough // We need to make sure this ends up in Ints, too.
 				case abiStepIntReg:
-					memmove(methodRegs.IntRegArgAddr(mStep.ireg, mStep.size), from, mStep.size)
+					regStoreInt(&methodRegs, mStep.ireg, mStep.size, from)
 				case abiStepFloatReg:
-					memmove(methodRegs.FloatRegArgAddr(mStep.freg, mStep.size), from, mStep.size)
+					regStoreFloat(&methodRegs, mStep.freg, mStep.size, from)
 				default:
 					panic("unexpected method step")
 				}
@@ -1000,9 +1000,9 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool, regs *a
 					// Do the pointer copy directly so we get a write barrier.
 					*(*unsafe.Pointer)(to) = valueRegs.Ptrs[vStep.ireg]
 				case abiStepIntReg:
-					memmove(to, valueRegs.IntRegArgAddr(vStep.ireg, vStep.size), vStep.size)
+					regLoadInt(valueRegs, vStep.ireg, vStep.size, to)
 				case abiStepFloatReg:
-					memmove(to, valueRegs.FloatRegArgAddr(vStep.freg, vStep.size), vStep.size)
+					regLoadFloat(valueRegs, vStep.freg, vStep.size, to)
 				default:
 					panic("unexpected value step")
 				}
