@@ -504,6 +504,11 @@ func (d *dwctxt) dotypedef(parent *dwarf.DWDie, name string, def *dwarf.DWDie) *
 
 // Define gotype, for composite ones recurse into constituents.
 func (d *dwctxt) defgotype(gotype loader.Sym) loader.Sym {
+	return d.defgotypeMaybe(gotype, false)
+}
+
+// defgotypeMaybe is like defgotype but can silently ignore non-types
+func (d *dwctxt) defgotypeMaybe(gotype loader.Sym, ignoreNonType bool) loader.Sym {
 	if gotype == 0 {
 		return d.mustFind("<unspecified>")
 	}
@@ -515,7 +520,9 @@ func (d *dwctxt) defgotype(gotype loader.Sym) loader.Sym {
 
 	sn := d.ldr.SymName(gotype)
 	if !strings.HasPrefix(sn, "type.") {
-		d.linkctxt.Errorf(gotype, "dwarf: type name doesn't start with \"type.\"")
+		if !ignoreNonType {
+			d.linkctxt.Errorf(gotype, "dwarf: type name doesn't start with \"type.\"")
+		}
 		return d.mustFind("<unspecified>")
 	}
 	name := sn[5:] // could also decode from Type.string
@@ -1890,6 +1897,8 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 	// global variables. For each global of this sort, locate
 	// the corresponding compiler-generated DIE symbol and tack
 	// it onto the list associated with the unit.
+	// Also looks for dictionary symbols and generates DIE symbols for each
+	// type they reference.
 	for idx := loader.Sym(1); idx < loader.Sym(d.ldr.NDef()); idx++ {
 		if !d.ldr.AttrReachable(idx) ||
 			d.ldr.AttrNotInSymbolTable(idx) ||
@@ -1903,9 +1912,23 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		default:
 			continue
 		}
-		// Skip things with no type
+		// Skip things with no type, unless it's a dictionary
 		gt := d.ldr.SymGoType(idx)
 		if gt == 0 {
+			if t == sym.SRODATA {
+				sn := d.ldr.SymName(idx)
+				if i := strings.Index(sn, "..dict"); i >= 0 && sn[:i] == d.ldr.SymPkg(idx) {
+					// This is a dictionary, make sure that all types referenced by this dictionary are reachable
+					relocs := d.ldr.Relocs(idx)
+					for i := 0; i < relocs.Count(); i++ {
+						reloc := relocs.At(i)
+						if reloc.Type() != objabi.R_ADDR {
+							continue
+						}
+						d.defgotypeMaybe(reloc.Sym(), true)
+					}
+				}
+			}
 			continue
 		}
 		// Skip file local symbols (this includes static tmps, stack
