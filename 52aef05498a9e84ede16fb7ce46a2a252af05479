@@ -106,6 +106,24 @@
       "parentUuid": "216c1b82_b4e4a15f",
       "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b996bc8e_cd56321c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2021-09-03T18:31:16Z",
+      "side": 1,
+      "message": "\u003e Or are you objecting to the use of \u0027parse\u0027, since this is in the AST package.\n\nMostly. I think we should document this so it makes sense w.r.t the \"go/ast\" package. Not what the post-condition of \"go/parser\"\u0027s ParseFile is. This is also a correct comment for the pre-condition of ast.NewPackage, which also does some resolution.\n\nThis comment is not really correct for the main user of the Obj field, \"go/parser\"\u0027s resolver type. nil is a valid state for the \"go/parser\" package and the parser will resolve the identifier when possible up to the given scope.\n\nAs for a suggestion, I think this should either be reverted or something like:\n\n\tIdent struct {\n\t\tNamePos token.Pos // identifier position\n\t\tName    string    // identifier name\n\t\t// Obj is the denoted object; or nil if the identifier is unresolved.\n\t\t// If this identifier is unresolved after object resolution,\n\t\t// it does not refer to an object in this File.\n\t\tObj     *Object\n\t}\n\nThis is quite the mouthful. But I think this is closer to the goal.\n\nOne way of viewing this is that we are arguably swimming upstream here because we are trying to expand on the documentation of parser.ParseFile when SkipObjectResolution is not set:\n\nhttps://cs.opensource.google/go/go/+/release-branch.go1.17:src/go/parser/interface.go;l\u003d71-74\n\n// The mode parameter controls the amount of source text parsed and other\n// optional parser functionality. If the SkipObjectResolution mode bit is set,\n// the object resolution phase of parsing will be skipped, causing File.Scope,\n// File.Unresolved, and all Ident.Obj fields to be nil.",
+      "parentUuid": "216c1b82_b4e4a15f",
+      "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
