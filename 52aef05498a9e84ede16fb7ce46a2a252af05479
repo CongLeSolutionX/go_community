@@ -142,6 +142,24 @@
       "parentUuid": "b996bc8e_cd56321c",
       "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e21664d_d48a6d47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-03T19:16:16Z",
+      "side": 1,
+      "message": "I’m ok, too, with reverting. But as Tim reviewed CL 347089, he asked for documentation but I find none, that’s why I filed the issue.",
+      "parentUuid": "8de1a69e_c9c208b1",
+      "revId": "52aef05498a9e84ede16fb7ce46a2a252af05479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
