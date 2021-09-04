@@ -90,6 +90,190 @@
       "parentUuid": "a417d427_b9a1cbd8",
       "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a607784_91c46464",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-04T12:50:05Z",
+      "side": 1,
+      "message": "nit: this sounded odd, so I looked for some grammatical references:\nhttps://forum.wordreference.com/threads/each-of-which-the-form-of-the-following-sentence.2780419/\n\nI think this should be \u0027each providing...\u0027 or \u0027each of which provides...\u0027",
+      "range": {
+        "startLine": 413,
+        "startChar": 71,
+        "endLine": 414,
+        "endChar": 13
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e97e1d0c_8ed02aea",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-04T12:50:05Z",
+      "side": 1,
+      "message": "I did not understand this paragraph the first time I read it (granted it was the first thing I read, but that\u0027s perhaps evidence that it could be improved).\n\nIn particular, I didn\u0027t understand the definition of nodes and edges. It sounds like you\u0027re considering all intermediate type expressions in the definition of each type, but that\u0027s hard to think about. How about instead:\n\n\u003e Consider the graph with vertices V_i for to all (provided or inferred) type arguments. Assign an edge between V_i and V_j if the i\u0027th type argument references the j\u0027th type parameter. So in the example above, we would have V_0 \u003d int, V_1 \u003d []C, and V_2 \u003d *A, with edges (V_1, V_2) and (V_2, V_0).",
+      "range": {
+        "startLine": 413,
+        "startChar": 0,
+        "endLine": 416,
+        "endChar": 41
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "964dce2e_6a1292c5",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-04T12:50:05Z",
+      "side": 1,
+      "message": "My 2p: we will probably want to produce meaningful errors here, eventually, because this could be confusing.\n\nIt looks like it should be easy to produce a meaningful error: just keep track of the []*TypeParam path that we\u0027ve seen (resetting at each top-level iteration of the loop below).",
+      "range": {
+        "startLine": 427,
+        "startChar": 4,
+        "endLine": 427,
+        "endChar": 13
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "091a0adf_f139512d",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-04T12:50:05Z",
+      "side": 1,
+      "message": "Considering essentially the next we\u0027re going to do is create a substMap, I feel like we could do that beforehand and use it instead of tparamIndex. A minor optimization, though it might also simplify the code (esp. with the todo below to reuse the substMap).\n\nNot for this CL.",
+      "range": {
+        "startLine": 432,
+        "startChar": 18,
+        "endLine": 432,
+        "endChar": 32
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca93133e_ce9bffb6",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-04T12:50:05Z",
+      "side": 1,
+      "message": "Is \u0027w\u0027 for \u0027walker\u0027?\n\nSeems fine though, \u0027f\u0027 is generally not a great receiver name, and \u0027c\u0027 does not match the verb.",
+      "range": {
+        "startLine": 492,
+        "startChar": 6,
+        "endLine": 492,
+        "endChar": 7
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18ac38fe_0b889924",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-04T12:50:05Z",
+      "side": 1,
+      "message": "This is a particularly elegant solution.",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 505,
+        "endChar": 8
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94973052_d75fec27",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-04T12:50:05Z",
+      "side": 1,
+      "message": "This case should be below *Pointer, following the standard ordering.",
+      "range": {
+        "startLine": 523,
+        "startChar": 1,
+        "endLine": 523,
+        "endChar": 16
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db36dd7_ade25151",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-04T12:50:05Z",
+      "side": 1,
+      "message": "typo: should",
+      "range": {
+        "startLine": 524,
+        "startChar": 19,
+        "endLine": 524,
+        "endChar": 26
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
