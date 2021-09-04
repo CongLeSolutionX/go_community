@@ -285,14 +285,32 @@ func (v Value) Bool() bool {
 }
 
 // Bytes returns v's underlying value.
-// It panics if v's underlying value is not a slice of bytes.
+// It panics if v's underlying value is not a slice of bytes,
+// a non-nil pointer to an array of bytes, or an addressable array of bytes.
 func (v Value) Bytes() []byte {
-	v.mustBe(Slice)
-	if v.typ.Elem().Kind() != Uint8 {
-		panic("reflect.Value.Bytes of non-byte slice")
+	k := v.kind()
+	switch k {
+	case Slice:
+		if v.typ.Elem().Kind() != Uint8 {
+			panic("reflect.Value.Bytes of non-byte slice")
+		}
+		// Slice is always bigger than a word; assume flagIndir.
+		return *(*[]byte)(v.ptr)
+	case Pointer:
+		v = v.Elem() // may panic for nil pointers
+		fallthrough
+	case Array:
+		if v.typ.Elem().Kind() != Uint8 {
+			panic("reflect.Value.Bytes of non-byte array")
+		}
+		if !v.CanAddr() {
+			panic("reflect.Value.Bytes of unaddressable byte array")
+		}
+		p := (*byte)(v.ptr)
+		n := int((*arrayType)(unsafe.Pointer(v.typ)).len)
+		return unsafe.Slice(p, n)
 	}
-	// Slice is always bigger than a word; assume flagIndir.
-	return *(*[]byte)(v.ptr)
+	panic(&ValueError{"reflect.Value.Bytes", v.kind()})
 }
 
 // runes returns v's underlying value.
@@ -1973,14 +1991,38 @@ func (v Value) SetBool(x bool) {
 }
 
 // SetBytes sets v's underlying value.
-// It panics if v's underlying value is not a slice of bytes.
+// It panics if v's underlying value is not a slice of bytes,
+// a non-nil pointer to an array of bytes, or an addressable array of bytes.
+// When storing into an array, the slice length must match the array length.
 func (v Value) SetBytes(x []byte) {
 	v.mustBeAssignable()
-	v.mustBe(Slice)
-	if v.typ.Elem().Kind() != Uint8 {
-		panic("reflect.Value.SetBytes of non-byte slice")
+	k := v.kind()
+	switch k {
+	case Slice:
+		if v.typ.Elem().Kind() != Uint8 {
+			panic("reflect.Value.SetBytes of non-byte slice")
+		}
+		*(*[]byte)(v.ptr) = x
+		return
+	case Pointer:
+		v = v.Elem() // may panic for nil pointers
+		fallthrough
+	case Array:
+		if v.typ.Elem().Kind() != Uint8 {
+			panic("reflect.Value.SetBytes of non-byte array")
+		}
+		if !v.CanAddr() {
+			panic("reflect.Value.SetBytes of unaddressable byte array")
+		}
+		p := (*byte)(v.ptr)
+		n := int((*arrayType)(unsafe.Pointer(v.typ)).len)
+		if n != len(x) {
+			panic("reflect.Value.SetBytes from slice of length " + itoa.Itoa(len(x)) + " to byte array of length " + itoa.Itoa(n))
+		}
+		copy(unsafe.Slice(p, n), x)
+		return
 	}
-	*(*[]byte)(v.ptr) = x
+	panic(&ValueError{"reflect.Value.SetBytes", v.kind()})
 }
 
 // setRunes sets v's underlying value.
