@@ -115,6 +115,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2144118_b88afd81",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-04T18:07:53Z",
+      "side": 1,
+      "message": "reformulated",
+      "parentUuid": "2a607784_91c46464",
+      "range": {
+        "startLine": 413,
+        "startChar": 71,
+        "endLine": 414,
+        "endChar": 13
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e97e1d0c_8ed02aea",
@@ -128,6 +152,30 @@
       "writtenOn": "2021-09-04T12:50:05Z",
       "side": 1,
       "message": "I did not understand this paragraph the first time I read it (granted it was the first thing I read, but that\u0027s perhaps evidence that it could be improved).\n\nIn particular, I didn\u0027t understand the definition of nodes and edges. It sounds like you\u0027re considering all intermediate type expressions in the definition of each type, but that\u0027s hard to think about. How about instead:\n\n\u003e Consider the graph with vertices V_i for to all (provided or inferred) type arguments. Assign an edge between V_i and V_j if the i\u0027th type argument references the j\u0027th type parameter. So in the example above, we would have V_0 \u003d int, V_1 \u003d []C, and V_2 \u003d *A, with edges (V_1, V_2) and (V_2, V_0).",
+      "range": {
+        "startLine": 413,
+        "startChar": 0,
+        "endLine": 416,
+        "endChar": 41
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4723510e_e8e92b03",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-04T18:07:53Z",
+      "side": 1,
+      "message": "reformulated",
+      "parentUuid": "e97e1d0c_8ed02aea",
       "range": {
         "startLine": 413,
         "startChar": 0,
@@ -163,6 +211,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d7891f69_62d38c4d",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-04T18:07:53Z",
+      "side": 1,
+      "message": "Sure. But I think there are higher-priority errors that need attention first. This is after all a pretty esoteric case that we\u0027re detecting.",
+      "parentUuid": "964dce2e_6a1292c5",
+      "range": {
+        "startLine": 427,
+        "startChar": 4,
+        "endLine": 427,
+        "endChar": 13
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "091a0adf_f139512d",
         "filename": "src/cmd/compile/internal/types2/infer.go",
         "patchSetId": 2
@@ -174,6 +246,30 @@
       "writtenOn": "2021-09-04T12:50:05Z",
       "side": 1,
       "message": "Considering essentially the next we\u0027re going to do is create a substMap, I feel like we could do that beforehand and use it instead of tparamIndex. A minor optimization, though it might also simplify the code (esp. with the todo below to reuse the substMap).\n\nNot for this CL.",
+      "range": {
+        "startLine": 432,
+        "startChar": 18,
+        "endLine": 432,
+        "endChar": 32
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e792a5f3_adba3656",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-04T18:07:53Z",
+      "side": 1,
+      "message": "I already played with that. But I think maybe substMap should use two slices and tparamIndex instead of a map because tparamIndex is always a O(1) lookup. Another CL. Not urgent.",
+      "parentUuid": "091a0adf_f139512d",
       "range": {
         "startLine": 432,
         "startChar": 18,
@@ -209,6 +305,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8dfb2679_c8b2bfc0",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-04T18:07:53Z",
+      "side": 1,
+      "message": "yes, it was called walker before. I debated a better recv name, but decided to leave w for now.",
+      "parentUuid": "ca93133e_ce9bffb6",
+      "range": {
+        "startLine": 492,
+        "startChar": 6,
+        "endLine": 492,
+        "endChar": 7
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "18ac38fe_0b889924",
         "filename": "src/cmd/compile/internal/types2/infer.go",
         "patchSetId": 2
@@ -220,6 +340,30 @@
       "writtenOn": "2021-09-04T12:50:05Z",
       "side": 1,
       "message": "This is a particularly elegant solution.",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 505,
+        "endChar": 8
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46e3a8ff_6340ffef",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-04T18:07:53Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "18ac38fe_0b889924",
       "range": {
         "startLine": 497,
         "startChar": 0,
@@ -253,6 +397,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "146c3398_7e6d65ce",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-04T18:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94973052_d75fec27",
+      "range": {
+        "startLine": 523,
+        "startChar": 1,
+        "endLine": 523,
+        "endChar": 16
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6db36dd7_ade25151",
@@ -266,6 +434,30 @@
       "writtenOn": "2021-09-04T12:50:05Z",
       "side": 1,
       "message": "typo: should",
+      "range": {
+        "startLine": 524,
+        "startChar": 19,
+        "endLine": 524,
+        "endChar": 26
+      },
+      "revId": "acf8b1cbe54131339efa95b5f95fd850caeb907b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3318a839_9ad955a6",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-04T18:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6db36dd7_ade25151",
       "range": {
         "startLine": 524,
         "startChar": 19,
