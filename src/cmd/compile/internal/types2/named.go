@@ -6,7 +6,7 @@ package types2
 
 import (
 	"cmd/compile/internal/syntax"
-	"sync"
+	"sync/atomic"
 )
 
 // A Named represents a named (defined) type.
@@ -22,8 +22,8 @@ type Named struct {
 	targs      *TypeList   // type arguments (after instantiation), or nil
 	methods    []*Func     // methods declared for this type (not the method set of this type); signatures are type-checked lazily
 
-	resolve func(*Named) ([]*TypeParam, Type, []*Func)
-	once    sync.Once
+	resolve  func(*Named) ([]*TypeParam, Type, []*Func)
+	resolved int32
 }
 
 // NewNamed returns a new named type for the given type name, underlying type, and associated methods.
@@ -53,7 +53,7 @@ func (t *Named) load() *Named {
 		return t
 	}
 
-	t.once.Do(func() {
+	if atomic.CompareAndSwapInt32(&t.resolved, 0, 1) {
 		// TODO(mdempsky): Since we're passing t to resolve anyway
 		// (necessary because types2 expects the receiver type for methods
 		// on defined interface types to be the Named rather than the
@@ -73,7 +73,7 @@ func (t *Named) load() *Named {
 		t.tparams = bindTParams(tparams)
 		t.underlying = underlying
 		t.methods = methods
-	})
+	}
 	return t
 }
 
