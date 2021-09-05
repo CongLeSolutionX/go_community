@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2842c967_f82748f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-05T22:14:44Z",
+      "side": 1,
+      "message": "all: update URLs in comments to go.dev\n\nAlso update a few other URLs to current locations.",
+      "revId": "02e0649e0be52f760f7d3ad2086748511cd01a1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
