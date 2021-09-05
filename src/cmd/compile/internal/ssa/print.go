@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"fmt"
+	"hash"
 	"io"
 )
 
@@ -27,6 +28,14 @@ func (f *Func) String() string {
 	p := stringFuncPrinter{w: &buf}
 	fprintFunc(p, f)
 	return buf.String()
+}
+
+// rewriteHash returns a hash of f suitable for detecting rewrite cycles.
+func (f *Func) rewriteHash() string {
+	h := sha256.New()
+	p := hashFuncPrinter{h: h}
+	fprintFunc(p, f)
+	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
 type funcPrinter interface {
@@ -157,3 +166,49 @@ func fprintFunc(p funcPrinter, f *Func) {
 		p.named(*name, f.NamedValues[*name])
 	}
 }
+
+type rewriteHashFuncPrinter struct {
+	h hash.Hash
+}
+
+func (p rewriteHashFuncPrinter) header(f *Func) {}
+
+func (p rewriteHashFuncPrinter) startBlock(b *Block, reachable bool) {
+	if !reachable {
+		// Don't print unreachable blocks.
+		// Rewrite cycles can generate new unreachable blocks
+		// without making progress towards stabilization.
+		return
+	}
+	fmt.Fprintf(p.h, "  b%d:", b.ID)
+	if len(b.Preds) > 0 {
+		io.WriteString(p.h, " <-")
+		for _, e := range b.Preds {
+			pred := e.b
+			fmt.Fprintf(p.h, " b%d", pred.ID)
+		}
+	}
+	io.WriteString(p.h, "\n")
+}
+
+func (p rewriteHashFuncPrinter) endBlock(b *Block) {
+	fmt.Fprintln(p.h, "    "+b.LongString())
+}
+
+func (p rewriteHashFuncPrinter) value(v *Value, live bool) {
+	if !live {
+		// Don't print dead values.
+		// Rewrite cycles can generate new dead values
+		// without making progress towards stabilization.
+		return
+	}
+	fmt.Fprintln(p.h, "    ", v.LongString())
+}
+
+func (p rewriteHashFuncPrinter) startDepCycle() {
+	fmt.Fprintln(p.h, "dependency cycle!")
+}
+
+func (p rewriteHashFuncPrinter) endDepCycle() {}
+
+func (p rewriteHashFuncPrinter) named(n LocalSlot, vals []*Value) {}
