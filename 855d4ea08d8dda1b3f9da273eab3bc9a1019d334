@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92537f52_efcdafe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-05T22:26:43Z",
+      "side": 1,
+      "message": "Please see https://golang.org/wiki/CommitMessage.  Thanks.",
+      "revId": "855d4ea08d8dda1b3f9da273eab3bc9a1019d334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3abb5e54_b85e87e1",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-05T22:26:43Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need a space before these periods.",
+      "revId": "855d4ea08d8dda1b3f9da273eab3bc9a1019d334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
