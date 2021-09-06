@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7674d4b5_b589b957",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T07:08:03Z",
+      "side": 1,
+      "message": "Aside from problems pointed out below, CL 339009 is merged now, so this should be dropped from your series, and other patches adjusted accordingly; sorry for your inconvenience.",
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "089c9a43_380ac639",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T07:08:03Z",
+      "side": 1,
+      "message": "This list is sorted alphabetically, so the entry should be moved earlier. And the name \"LOONG\" is not an acronym like others, so it should be spelled \"Loong\" instead. (This is also why \"Wasm\" is not \"WASM\" in this file.)\n\nAlso 32-bit support is not currently being considered nor implemented in upstream submitted versions of various components (toolchain \u0026 kernel), so it\u0027s better to remove the 32-bit version for now.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 8
+      },
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52b60177_ae1a18a5",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T07:08:03Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceb61623_8312fea9",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T07:08:03Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
