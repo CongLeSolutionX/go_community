@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26b3c6b6_9f468ae6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T05:59:04Z",
+      "side": 1,
+      "message": "Overall the code is still too much MIPS-like (the encoding logic could be substantially simplified as in CL 339010), and without documentation for the assembly syntax which is not easily converted back-and-forth from the official manual syntax.\n\nAside from technical points, the whole work is duplicated; it seems the earlier CL 339010 was ignored by your side. IMO we should first agree on a technically acceptable base to work with, rather than silently ignoring and competing with each other like it\u0027s alive-or-dead matter.",
+      "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa12154e_2bf3cb84",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T05:59:04Z",
+      "side": 1,
+      "message": "The loong32 support is incomplete and temporarily dropped in upstream version of kernel and toolchain, so we should do the same in Go. That can always come later.",
+      "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33c605aa_74accd0b",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T05:59:04Z",
+      "side": 1,
+      "message": "What does this function do? I see quite a lot of convoluted control flow including conditional early returns and fallthrough\u0027s, yet cannot fathom the meaning behind the simplistic name \"cmp\". Adding comments and renaming would be good.",
+      "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de6539b_bc987c0a",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T05:59:04Z",
+      "side": 1,
+      "message": "This is unnecessary; no LoongArch implementation has an r0 that\u0027s not hardwired to zero.",
+      "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7135198a_1a13d228",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T05:59:04Z",
+      "side": 1,
+      "message": "These formats are not used anywhere, please remove.",
+      "range": {
+        "startLine": 1104,
+        "startChar": 0,
+        "endLine": 1110,
+        "endChar": 1
+      },
+      "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "396484cf_96a9ce0f",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T05:59:04Z",
+      "side": 1,
+      "message": "Seems all o.type_ values are magic numbers, and that\u0027s not good for future maintenance. Please use a distinct enum type for this.",
+      "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
