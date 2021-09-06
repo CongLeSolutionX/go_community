@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "586a6b43_97bad567",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-06T07:21:38Z",
+      "side": 1,
+      "message": "Ah, expected changes in Patchset 4 was inadvertently undone... Filed CL 347731 to fix that, sorry for the noise.",
+      "revId": "c7f09eeb1397e177508c8761c469dd377ce390cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
