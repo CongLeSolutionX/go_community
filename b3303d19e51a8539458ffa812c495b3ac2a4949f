@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5412d73_43e7e87d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-07T14:35:45Z",
+      "side": 1,
+      "message": "Add \u0027Updates #48185\u0027?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "b3303d19e51a8539458ffa812c495b3ac2a4949f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd138bb2_36100962",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -106,6 +129,24 @@
       "side": 1,
       "message": "\u003e This looks superficially fine to me. It should avoid the deadlock, and nothing I\u0027m doing is in conflict with this change.\n\u003e \n\u003e However, it seems like there could be some side effects of this that need to be understood: what is the code-path that leads to re-entrancy, and does that code path use tparams, methods, or underlying? mdempsky@ would probably know.\n\nSee my comment in the issue for the code that introduce this.\n\nThe problem is the lazy resolution API of types2. In reader2.go:L374, we register \"resolve\" function for various kind of object. for objFunc, we call r.signature -\u003e r.params -\u003e r.param -\u003e r.typ -\u003e r.p.typIdx -\u003e r.doTyp\n\nNow, r.doTyp call types2.Instantiate with some targs, these targs also have the same \"resolve\" function above, so when doing typHash in types2.Instantiate causes the reentrancy issue, if one of the targ is the same as the one is being resolved.\n\nIf you looked at the code in the issue, it\u0027s the arshalers type.",
       "parentUuid": "5e084338_ec517def",
+      "revId": "b3303d19e51a8539458ffa812c495b3ac2a4949f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41b05a76_c2c38867",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-07T14:35:45Z",
+      "side": 1,
+      "message": "Thanks for the analysis.\n\nAfter considering, I no longer think we should make this change as-is. I think we should instead panic on re-entrancy, and fix codepaths that would re-enter.\n\nFor example, in typeHash, we don\u0027t need to format type parameters if we\u0027re hashing (but why are we encountering an uninstantiated parameterized type in typeHash anyway...)?\n\nI think this needs to be further investigated, probably with some fixes to typeHash. If you agree, you could modify this CL to instead produce a useful panic when re-entrancy is detected.\n\n@mdempsky, @gri, do you agree?",
+      "parentUuid": "1fb2c49e_5449f3c4",
       "revId": "b3303d19e51a8539458ffa812c495b3ac2a4949f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
