@@ -55,6 +55,46 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49498df5_872da6d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-07T17:04:07Z",
+      "side": 1,
+      "message": "LGTM after addressing the pending comments.",
+      "revId": "3d6a6f00fa0ec1a55d8e3fbe174420d04e2de36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e54d6f6_c565d64a",
+        "filename": "test/typeparam/issue48185a.dir/p.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-07T17:04:07Z",
+      "side": 1,
+      "message": "maybe\n\ns/arshalers/marshalers/\n\nor _Marshalers",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "3d6a6f00fa0ec1a55d8e3fbe174420d04e2de36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1ebbb31_82f7b18a",
