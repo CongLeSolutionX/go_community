@@ -167,6 +167,24 @@
       "parentUuid": "41b05a76_c2c38867",
       "revId": "b3303d19e51a8539458ffa812c495b3ac2a4949f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d62ed5_4e5e323e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-07T16:12:01Z",
+      "side": 1,
+      "message": "\u003e I think it\u0027s reasonable, `T[int]` and `T[int8]` are different.\n\nI was referring to this, where there are no targs.\nhttps://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/types2/typestring.go;l\u003d237;drc\u003d1a9807906df1d1cb9955dfda387b92e03375c0f0\n\nWe actually don\u0027t know whether there are tparams until after loading, so it _is_ reasonable to hit this code path. However, for the purpose of type hashing we don\u0027t need to actually format the TParams (and shouldn\u0027t hit this code path anyway with non-empty TParams, I think). So we can avoid this panic by not checking TParams().Len() if we are hashing.",
+      "parentUuid": "a88a37bc_6cd84076",
+      "revId": "b3303d19e51a8539458ffa812c495b3ac2a4949f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
