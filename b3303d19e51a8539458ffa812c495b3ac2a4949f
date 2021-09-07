@@ -149,6 +149,24 @@
       "parentUuid": "1fb2c49e_5449f3c4",
       "revId": "b3303d19e51a8539458ffa812c495b3ac2a4949f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a88a37bc_6cd84076",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-07T15:34:03Z",
+      "side": 1,
+      "message": "\u003e After considering, I no longer think we should make this change as-is. I think we should instead panic on re-entrancy, and fix codepaths that would re-enter.\n\nI\u0027m not sure, but as we provide the \"resolve\" function for lazy resolution, then user is free to do anything, e.g this code go to infinite loop:\n\n```\npkg1.Scope().InsertLazy(\"arshalers\", func() Object {\n\tpkg1.Scope().Lookup(\"arshalers\")\n\t_, err \u003d Instantiate(env, tt.Type(), []Type{O, E}, false)\n\treturn tt\n})\n```\n\n\u003e For example, in typeHash, we don\u0027t need to format type parameters if we\u0027re hashing (but why are we encountering an uninstantiated parameterized type in typeHash anyway...)?\n\nThe document of typHash:\n\n```\n// If typ is a *Named type and targs is not empty, typ is printed as if it were\n// instantiated with targs.\n```\n\nI think it\u0027s reasonable, `T[int]` and `T[int8]` are different.\n\nThe reason can be:\n\n```\ntype Marshalers \u003d arshalers[MarshalOptions, Encoder]\n\ntype MarshalOptions struct {\n\tMarshalers *Marshalers\n}\n```\n\nNote that this is type-checked ok, just panic in process of reconstructing the types2 objects using lazy resolution API.",
+      "parentUuid": "41b05a76_c2c38867",
+      "revId": "b3303d19e51a8539458ffa812c495b3ac2a4949f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
