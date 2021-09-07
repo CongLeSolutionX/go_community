@@ -40,6 +40,21 @@ func TestMinimizeInput(t *testing.T) {
 		},
 		{
 			fn: func(e CorpusEntry) error {
+				b := e.Values[0].([]byte)
+				if len(b) < 2 {
+					return nil
+				}
+				if len(b) == 2 && b[0] == 1 && b[1] == 2 {
+					return nil
+				}
+
+				return fmt.Errorf("bad %v", e.Values[0])
+			},
+			input:    []interface{}{[]byte{1, 2, 3, 4, 5}},
+			expected: []interface{}{[]byte{2, 3}},
+		},
+		{
+			fn: func(e CorpusEntry) error {
 				b := e.Values[0].(string)
 				ones := 0
 				for _, v := range b {
