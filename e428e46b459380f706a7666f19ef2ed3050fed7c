@@ -131,6 +131,24 @@
       "message": "Seems all o.type_ values are magic numbers, and that\u0027s not good for future maintenance. Please use a distinct enum type for this.",
       "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10d1bb99_93c18dd5",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-07T21:25:53Z",
+      "side": 1,
+      "message": "Please don\u0027t.",
+      "parentUuid": "396484cf_96a9ce0f",
+      "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
