@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f6b3770_254fd76b",
+        "filename": "test/typeparam/issue48185a.dir/p.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-07T17:24:27Z",
+      "side": 1,
+      "message": "Yay, I just copied this from the original example in the issue.\n\nFixed.",
+      "parentUuid": "7e54d6f6_c565d64a",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "3d6a6f00fa0ec1a55d8e3fbe174420d04e2de36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1ebbb31_82f7b18a",
@@ -108,6 +132,24 @@
       "writtenOn": "2021-09-07T16:57:20Z",
       "side": 1,
       "message": "nit: add a use of \u0027p\u0027. Evidently lazy import resolution is broken, since we shouldn\u0027t need to import anything here if there aren\u0027t any uses. And once that\u0027s fixed, we still want this test case to test that the cyclic case is handled correclty.",
+      "revId": "3d6a6f00fa0ec1a55d8e3fbe174420d04e2de36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4433564_be00bb40",
+        "filename": "test/typeparam/issue48185a.dir/p_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-07T17:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1ebbb31_82f7b18a",
       "revId": "3d6a6f00fa0ec1a55d8e3fbe174420d04e2de36a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
