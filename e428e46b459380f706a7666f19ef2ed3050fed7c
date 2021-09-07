@@ -92,6 +92,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0978536_136fed0b",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-07T07:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7135198a_1a13d228",
+      "range": {
+        "startLine": 1104,
+        "startChar": 0,
+        "endLine": 1110,
+        "endChar": 1
+      },
+      "revId": "e428e46b459380f706a7666f19ef2ed3050fed7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "396484cf_96a9ce0f",
