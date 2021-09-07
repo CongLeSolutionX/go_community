@@ -70,6 +70,24 @@
       "message": "Can there still be interface conversion in this case? For example,\n\nm :\u003d map[int]int{...}\nvar x interface{}\nvar ok bool\nx, ok \u003d m[5]\n\nThere\u0027s an implicit interface conversion in the assignment.\n\n(and extra tricky, ok can also be declared as an interface{})",
       "revId": "4bc8b5c7be63c525d14a82002219da9112bbefea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19050f00_fe39a38e",
+        "filename": "src/cmd/compile/internal/noder/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-07T23:10:44Z",
+      "side": 1,
+      "message": "Good point!  I put a TODO in for this case.  It\u0027s tricky, because we can\u0027t just put an CONVIFACE around an AS2MAPR or AS2RECV node (which returns two values).  Currently those kind of nodes are rewritten in order phase (where the CONVIFACE node may be added by as2ok().  It seems like we may have to do that rewriting earlier, but that\u0027s a bigger change and can wait a while until we see if there are other restructurings.",
+      "parentUuid": "24d50947_f6261c73",
+      "revId": "4bc8b5c7be63c525d14a82002219da9112bbefea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
