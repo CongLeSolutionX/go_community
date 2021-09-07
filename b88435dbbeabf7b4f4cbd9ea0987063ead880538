@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "371758f8_61af025b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-07T16:37:12Z",
+      "side": 1,
+      "message": "Not sure why it added all the other reviewers automatically.\n\nI am also working on a prototype where we just delay all possible transformations on generic functions until stencil time.  This would get rid of all the delay checking code with a simpler check as to whether the current function is generic.  But better to fix this bug right now.  Then it will be easier to judge if the prototype actually simplifies things that much.  ",
+      "revId": "b88435dbbeabf7b4f4cbd9ea0987063ead880538",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
