@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "840f8810_bc7538e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-07T16:47:13Z",
+      "side": 1,
+      "message": "This seems like a reasonable fix, but I\u0027m trying to work out a potential test in TestMinimizeInput (in internal/fuzz/minimize_test.go) that can replicate this behavior so we don\u0027t have a future regression. If you can come up with one before I do, please add that to this change. Thanks!",
+      "revId": "f85765106b55d517bb4ecdc4b980101728d0682e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b178fde_4a121542",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-07T16:47:13Z",
+      "side": 1,
+      "message": "This should be safe because c should never be nil AFAICT",
+      "range": {
+        "startLine": 790,
+        "startChar": 17,
+        "endLine": 790,
+        "endChar": 39
+      },
+      "revId": "f85765106b55d517bb4ecdc4b980101728d0682e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
