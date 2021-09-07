@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f763d68_efbee015",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-07T20:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ade51c9c_1eb5bf12",
+      "revId": "a92d2ff02aeddb737cce6bcf3a8a61840dadada0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab2b7f69_09f64fc7",
@@ -185,6 +203,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a3b23f_4159c031",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-07T20:23:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "070ead2d_f4c1bb3c",
+      "revId": "a92d2ff02aeddb737cce6bcf3a8a61840dadada0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "133a3750_a65dc4c5",
@@ -198,6 +234,24 @@
       "writtenOn": "2021-09-07T17:40:38Z",
       "side": 1,
       "message": "nit: change this to issue48185b.go, since when the fix for unified IR was already named issue48185a.go",
+      "revId": "a92d2ff02aeddb737cce6bcf3a8a61840dadada0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a58a3cd8_e7845c8d",
+        "filename": "test/typeparam/issue48185.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-07T20:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133a3750_a65dc4c5",
       "revId": "a92d2ff02aeddb737cce6bcf3a8a61840dadada0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
