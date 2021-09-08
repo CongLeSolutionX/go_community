@@ -68,6 +68,63 @@
       "message": "Needs a TODO, issue link, or something.",
       "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "915b2d38_dcc0f0d3",
+        "filename": "src/cmd/compile/internal/noder/unified_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-08T19:14:17Z",
+      "side": 1,
+      "message": "Does this CL break this test? If so, that seems suspicious.",
+      "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c79ee6fc_311b940a",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-08T19:14:17Z",
+      "side": 1,
+      "message": "Below Init list is only written out for ir.OAS when Y!\u003dnil, but there\u0027s no analogous check for that here?",
+      "range": {
+        "startLine": 1461,
+        "startChar": 6,
+        "endLine": 1461,
+        "endChar": 12
+      },
+      "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4d99153_f663cbe1",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-08T19:14:17Z",
+      "side": 1,
+      "message": "Please write out Init before X, but probably after Pos. It semantically before X, and it makes me nervous any time we traverse the AST in non-semantic order. (We also delta encode positions, so serializing the AST out of order implies a less efficient encoding.)\n\nSame comments below.",
+      "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
