@@ -241,7 +241,18 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	FADDS	F2, F3, F4                      // 6428221e
 	FADDD	F1, F2                          // 4228611e
 	VDUP	V19.S[0], V17.S4                // 7106044e
-
+	SQDMLALS	V10.H[6], V1, V3        // 23386a5f
+	SQDMLALD	V20.S[3], V1, V3        // 2338b45f
+	VSQDMLAL	V14.H[6], V1.H4, V3.S4  // 23386e0f
+	VSQDMLAL	V20.S[3], V1.S2, V3.D2  // 2338b40f
+	VSQDMLAL2	V14.H[6], V1.H8, V3.S4  // 23386e4f
+	VSQDMLAL2	V20.S[3], V1.S4, V3.D2  // 2338b44f
+	SQDMLALS	V2, V1, V3              // 2390625e
+	SQDMLALD	V2, V1, V3              // 2390a25e
+	VSQDMLAL	V20.S2, V1.S2, V3.D2    // 2390b40e
+	VSQDMLAL	V20.H4, V1.H4, V3.S4    // 2390740e
+	VSQDMLAL2	V20.S4, V1.S4, V3.D2    // 2390b44e
+	VSQDMLAL2	V20.H8, V1.H8, V3.S4    // 2390744e
 
 // special
 	PRFM	(R2), PLDL1KEEP                 // 400080f9

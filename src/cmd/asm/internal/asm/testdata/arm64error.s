@@ -390,4 +390,12 @@ TEXT errors(SB),$0
 	MOVD.W  x-8(SP), R1                                      // ERROR "pre and post index format don't support pseudo register"
 	LDP.P   x+8(FP), (R0, R1)                                // ERROR "pre and post index format don't support pseudo register"
 	LDP.W   x+8(SP), (R0, R1)                                // ERROR "pre and post index format don't support pseudo register"
+	SQDMLALS	V10.S[6], V1, V3                         // ERROR "invalid arrangement"
+	SQDMLALD	V20.H[3], V1, V3                         // ERROR "invalid arrangement"
+	VSQDMLAL	V14.S[6], V1.H4, V3.S4                   // ERROR "arrangement dismatch"
+	VSQDMLAL	V20.S[3], V1.H4, V3.D2                   // ERROR "arrangement dismatch"
+	VSQDMLAL2	V14.S[6], V1.H8, V3.S4                   // ERROR "arrangement dismatch"
+	VSQDMLAL2	V20.H[3], V1.S4, V3.D2                   // ERROR "arrangement dismatch"
+	SQDMLALS	F2, V1, V3                               // ERROR "illegal combination"
+	SQDMLALD	F2, V1, V3                               // ERROR "illegal combination"
 	RET

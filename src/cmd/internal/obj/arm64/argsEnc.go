@@ -333,6 +333,18 @@ func immhTaMatchTb(Ta, Tb, Q int16) (int, bool) {
 	return maxShift, match
 }
 
+// taTbTsMatch checks if the arrangement specifier Ta, Tb, Ts and Q match.
+func taTbTsQMatch(Ta, Tb, Ts, Q int16) bool {
+	match := false
+	switch Ta {
+	case ARNG_4S:
+		match = Tb == ARNG_4H && Ts == ARNG_H && Q == 0 || Tb == ARNG_8H && Ts == ARNG_H && Q == 1
+	case ARNG_2D:
+		match = Tb == ARNG_2S && Ts == ARNG_S && Q == 0 || Tb == ARNG_4S && Ts == ARNG_S && Q == 1
+	}
+	return match
+}
+
 // sizeTaMatchTb2 checks if the arrangement specifier Ta matches Tb, Tb and Q when Tb is encoded in size:Q.
 func sizeTaMatchTb2(Ta, Tb, Q int16) bool {
 	switch Ta {
@@ -624,16 +636,32 @@ func (c *ctxt7) size_Q___8B_00__16B_01__1D_30__2D_31(p *obj.Prog, arng int) (uin
 	return size, Q
 }
 
-// size_Q___8B_00__16B_01__4H_10__8H_11__4S_21 returns the size and Q value corresponding to the arrangement specifier.
-func (c *ctxt7) size_Q___8B_00__16B_01__4H_10__8H_11__4S_21(p *obj.Prog, arng int) (uint32, uint32) {
+// size_Q___4H_10__8H_11__2S_20__4S_21 returns the size and Q value corresponding to the arrangement specifier.
+func (c *ctxt7) size_Q___4H_10__8H_11__2S_20__4S_21(p *obj.Prog, arng int) (uint32, uint32) {
 	size, Q := uint32(0), uint32(0)
 	switch arng {
+	case ARNG_4H:
+		size, Q = 1, 0
+	case ARNG_8H:
+		size, Q = 1, 1
+	case ARNG_2S:
+		size, Q = 2, 0
 	case ARNG_4S:
 		size, Q = 2, 1
 	default:
-		return c.size_Q___8B_00__16B_01__4H_10__8H_11(p, arng)
+		c.ctxt.Diag("invalid arrangement: %v", p)
 	}
 	return size, Q
+}
+
+// size_Q___8B_00__16B_01__4H_10__8H_11__4S_21 returns the size and Q value corresponding to the arrangement specifier.
+func (c *ctxt7) size_Q___8B_00__16B_01__4H_10__8H_11__4S_21(p *obj.Prog, arng int) (uint32, uint32) {
+	switch arng {
+	case ARNG_4S:
+		return 2, 1
+	default:
+		return c.size_Q___8B_00__16B_01__4H_10__8H_11(p, arng)
+	}
 }
 
 // size_Q___8B_00__16B_01__4H_10__8H_11 returns the size and Q value corresponding to the arrangement specifier.
@@ -656,38 +684,32 @@ func (c *ctxt7) size_Q___8B_00__16B_01__4H_10__8H_11(p *obj.Prog, arng int) (uin
 
 // size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__1D_30__2D_31 returns the size and Q value corresponding to the arrangement specifier.
 func (c *ctxt7) size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__1D_30__2D_31(p *obj.Prog, arng int) (uint32, uint32) {
-	size, Q := uint32(0), uint32(0)
 	switch arng {
 	case ARNG_1D:
-		size, Q = 3, 0
+		return 3, 0
 	default:
 		return c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31(p, arng)
 	}
-	return size, Q
 }
 
 // size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21 returns the size and Q value corresponding to the arrangement specifier.
 func (c *ctxt7) size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21(p *obj.Prog, arng int) (uint32, uint32) {
-	size, Q := uint32(0), uint32(0)
 	switch arng {
 	case ARNG_2S:
-		size, Q = 2, 0
+		return 2, 0
 	default:
 		return c.size_Q___8B_00__16B_01__4H_10__8H_11__4S_21(p, arng)
 	}
-	return size, Q
 }
 
 // size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31 returns the size and Q value corresponding to the arrangement specifier.
 func (c *ctxt7) size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31(p *obj.Prog, arng int) (uint32, uint32) {
-	size, Q := uint32(0), uint32(0)
 	switch arng {
 	case ARNG_2D:
-		size, Q = 3, 1
+		return 3, 1
 	default:
 		return c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21(p, arng)
 	}
-	return size, Q
 }
 
 // size___8H_0__1Q_3 returns the size value corresponding to the arrangement specifier.
@@ -706,10 +728,18 @@ func (c *ctxt7) size___8H_0__1Q_3(p *obj.Prog, arng int) uint32 {
 
 // size___8H_0__4S_1__2D_2 returns the size value corresponding to the arrangement specifier.
 func (c *ctxt7) size___8H_0__4S_1__2D_2(p *obj.Prog, arng int) uint32 {
-	size := uint32(0)
 	switch arng {
 	case ARNG_8H:
-		size = 0
+		return 0
+	default:
+		return c.size___4S_1__2D_2(p, arng)
+	}
+}
+
+// size___4S_1__2D_2 returns the size value corresponding to the arrangement specifier.
+func (c *ctxt7) size___4S_1__2D_2(p *obj.Prog, arng int) uint32 {
+	size := uint32(0)
+	switch arng {
 	case ARNG_4S:
 		size = 1
 	case ARNG_2D:
@@ -903,7 +933,10 @@ func (c *ctxt7) encodeArg(p *obj.Prog, arg *obj.Addr, atyp argtype) uint32 {
 	case arg_Sm, arg_Dm:
 		c.isFReg(p, arg.Reg)
 		return (uint32(arg.Reg) & 0x1f) << 16
-	case arg_Vd_16_5__B_1__H_2__S_4__D_8, arg_Vd_22_2__B_0__H_1__S_2, arg_Vd_22_2__H_0__S_1__D_2:
+	case arg_Vd_16_5__B_1__H_2__S_4__D_8,
+		arg_Vd_22_2__B_0__H_1__S_2,
+		arg_Vd_22_2__H_0__S_1__D_2,
+		arg_Vd_22_2__S_1__D_2:
 		c.isVReg(p, arg.Reg)
 		return uint32(arg.Reg) & 0x1f
 	case arg_Vd_22_2__D_3:
@@ -912,9 +945,15 @@ func (c *ctxt7) encodeArg(p *obj.Prog, arg *obj.Addr, atyp argtype) uint32 {
 	case arg_Vn_22_2__D_3:
 		c.isVReg(p, arg.Reg)
 		return (uint32(arg.Reg)&0x1f)<<5 | 3<<22
+	case arg_Vn_22_2__H_1__S_2:
+		c.isVReg(p, arg.Reg)
+		return (uint32(arg.Reg) & 0x1f) << 5
 	case arg_Vm_22_2__D_3:
 		c.isVReg(p, arg.Reg)
 		return (uint32(arg.Reg)&0x1f)<<16 | 3<<22
+	case arg_Vm_22_2__H_1__S_2:
+		c.isVReg(p, arg.Reg)
+		return (uint32(arg.Reg) & 0x1f) << 16
 	case arg_Vn_1_arrangement_16B:
 		Vn := int16(arg.Offset) & 0x1f    // register is encoded in arg.Offset[4:0]
 		opcode := (arg.Offset >> 12) & 15 // opcode
@@ -1136,51 +1175,79 @@ func (c *ctxt7) encodeArg(p *obj.Prog, arg *obj.Addr, atyp argtype) uint32 {
 	case arg_Vd_arrangement_size_Q___8B_00__16B_01:
 		size, q := c.size_Q___8B_00__16B_01(p, int(arg.Reg>>5)&15)
 		return uint32(arg.Reg)&0x1f | size<<22 | q<<30
-	case arg_Vn_arrangement_size_Q___8B_00__16B_01:
-		size, q := c.size_Q___8B_00__16B_01(p, int(arg.Reg>>5)&15)
-		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
 	case arg_Vd_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11:
 		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11(p, int(arg.Reg>>5)&15)
 		return uint32(arg.Reg)&0x1f | size<<22 | q<<30
-	case arg_Vn_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11:
-		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11(p, int(arg.Reg>>5)&15)
-		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
 	case arg_Vd_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21:
 		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21(p, int(arg.Reg>>5)&15)
 		return uint32(arg.Reg)&0x1f | size<<22 | q<<30
-	case arg_Vn_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21:
-		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21(p, int(arg.Reg>>5)&15)
-		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
-	case arg_Vm_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21:
-		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21(p, int(arg.Reg>>5)&15)
-		return (uint32(arg.Reg)&0x1f)<<16 | size<<22 | q<<30
 	case arg_Vd_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31:
 		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31(p, int(arg.Reg>>5)&15)
 		return uint32(arg.Reg)&0x1f | size<<22 | q<<30
-	case arg_Vn_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31:
-		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31(p, int(arg.Reg>>5)&15)
-		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
-	case arg_Vm_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31:
-		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31(p, int(arg.Reg>>5)&15)
-		return (uint32(arg.Reg)&0x1f)<<16 | size<<22 | q<<30
-	case arg_Vn_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__4S_21:
-		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__4S_21(p, int(arg.Reg>>5)&15)
-		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
 	case arg_Vd_arrangement_size___8H_0__1Q_3:
 		size := c.size___8H_0__1Q_3(p, int(arg.Reg>>5)&15)
 		return uint32(arg.Reg)&0x1f | size<<22
 	case arg_Vd_arrangement_size___8H_0__4S_1__2D_2:
 		size := c.size___8H_0__4S_1__2D_2(p, int(arg.Reg>>5)&15)
 		return uint32(arg.Reg)&0x1f | size<<22
+	case arg_Vd_arrangement_size___4S_1__2D_2:
+		size := c.size___4S_1__2D_2(p, int(arg.Reg>>5)&15)
+		return uint32(arg.Reg)&0x1f | size<<22
+	case arg_Vn_arrangement_size_Q___8B_00__16B_01:
+		size, q := c.size_Q___8B_00__16B_01(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
+	case arg_Vn_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11:
+		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
+	case arg_Vn_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21:
+		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
+	case arg_Vn_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31:
+		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
+	case arg_Vn_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__4S_21:
+		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__4S_21(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<5 | size<<22 | q<<30
 	case arg_Vn_arrangement_size___8H_0__4S_1__2D_2:
 		size := c.size___8H_0__4S_1__2D_2(p, int(arg.Reg>>5)&15)
 		return (uint32(arg.Reg)&0x1f)<<5 | size<<22
 	case arg_Vn_arrangement_size_Q___8B_00__16B_01__1D_30__2D_31:
 		size, _ := c.size_Q___8B_00__16B_01__1D_30__2D_31(p, int(arg.Reg>>5)&15)
 		return (uint32(arg.Reg)&0x1f)<<5 | size<<22
+	case arg_Vn_arrangement_size_Q___4H_10__8H_11__2S_20__4S_21:
+		size, _ := c.size_Q___4H_10__8H_11__2S_20__4S_21(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<5 | size<<22
+	case arg_Vm_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21:
+		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<16 | size<<22 | q<<30
+	case arg_Vm_arrangement_size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31:
+		size, q := c.size_Q___8B_00__16B_01__4H_10__8H_11__2S_20__4S_21__2D_31(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<16 | size<<22 | q<<30
 	case arg_Vm_arrangement_size_Q___8B_00__16B_01__1D_30__2D_31:
 		size, _ := c.size_Q___8B_00__16B_01__1D_30__2D_31(p, int(arg.Reg>>5)&15)
 		return (uint32(arg.Reg)&0x1f)<<16 | size<<22
+	case arg_Vm_arrangement_size_Q___4H_10__8H_11__2S_20__4S_21:
+		size, _ := c.size_Q___4H_10__8H_11__2S_20__4S_21(p, int(arg.Reg>>5)&15)
+		return (uint32(arg.Reg)&0x1f)<<16 | size<<22
+	case arg_Vm_arrangement_size___H_1__S_2_index__size_L_H_M__HLM_1__HL_2_1:
+		arng := (arg.Reg >> 5) & 15
+		size := 0
+		if arng == ARNG_H {
+			size = 1
+		} else if arng == ARNG_S {
+			size = 2
+		} else {
+			c.ctxt.Diag("invalid arrangement: %v", p)
+		}
+		index := arg.Index
+		if index < 0 || size == 1 && index > 7 || size == 2 && index > 3 {
+			c.ctxt.Diag("index out of range: %v", p)
+		}
+		if size == 1 {
+			return uint32(arg.Reg&15)<<16 | uint32(index&4)<<9 | uint32(index&2)<<20 | uint32(index&1)<<20
+		} else {
+			return uint32(arg.Reg&31)<<16 | uint32(index&2)<<10 | uint32(index&1)<<21
+		}
 	case arg_Vd_arrangement_sz_Q___2S_00__4S_01__2D_11:
 		sz, q := c.sz_Q___2S_00__4S_01__2D_11(p, int(arg.Reg>>5)&15)
 		return uint32(arg.Reg)&0x1f | sz<<22 | q<<30
@@ -1692,6 +1759,10 @@ func (c *ctxt7) encodeArg(p *obj.Prog, arg *obj.Addr, atyp argtype) uint32 {
 // encodeOpcode encodes the opcode of p.
 func (c *ctxt7) encodeOpcode(p *obj.Prog) uint32 {
 	switch p.As {
+	case ASQDMLALD:
+		return 2 << 22
+	case ASQDMLALS:
+		return 1 << 22
 	default:
 		return 0
 	}

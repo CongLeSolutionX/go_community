@@ -4898,6 +4898,63 @@ func asmVMOVI(c *ctxt7, p *obj.Prog) *obj.Prog {
 	return p
 }
 
+// SQDMLAL
+func asmSQDMLALScalar(c *ctxt7, p *obj.Prog) *obj.Prog {
+	ntyp := rclass(p.Reg)
+	ttyp := c.aclass(p, &p.To)
+	if !(ntyp == C_VREG && ttyp == C_VREG) {
+		c.ctxt.Diag("illegal combination: %v\n", p)
+		return p
+	}
+	ftyp := c.aclass(p, &p.From)
+	switch ftyp {
+	case C_VREG:
+		return op3A(p, SQDMLALvvv)
+	case C_ELEM:
+		arng := (p.From.Reg >> 5) & 15
+		if !(p.As == ASQDMLALD && arng == ARNG_S || p.As == ASQDMLALS && arng == ARNG_H) {
+			c.ctxt.Diag("invalid arrangement: %v", p)
+		}
+		return op3A(p, SQDMLALvvv_tis)
+	}
+	c.ctxt.Diag("illegal combination: %v", p)
+	return p
+}
+
+func asmSQDMLALVector(c *ctxt7, p *obj.Prog) *obj.Prog {
+	ntyp := rclass(p.Reg)
+	ttyp := c.aclass(p, &p.To)
+	if !(ntyp == C_ARNG && ttyp == C_ARNG) {
+		c.ctxt.Diag("illegal combination: %v\n", p)
+		return p
+	}
+	aidx, eidx, Q := uint16(0), uint16(0), int16(0)
+	switch p.As {
+	case AVSQDMLAL:
+		aidx, eidx = SQDMLALvvv_t, SQDMLALvvv_tiv
+	case AVSQDMLAL2:
+		aidx, eidx, Q = SQDMLAL2vvv_t, SQDMLAL2vvv_ti, 1
+	}
+	ftyp := c.aclass(p, &p.From)
+	switch ftyp {
+	case C_ARNG:
+		tb, tb2, ta := (p.From.Reg>>5)&15, (p.Reg>>5)&15, (p.To.Reg>>5)&15
+		if _, match := immhTaMatchTb(ta, tb, Q); !match || tb != tb2 {
+			c.ctxt.Diag("arrangement dismatch: %v", p)
+			return p
+		}
+		return op3A(p, aidx)
+	case C_ELEM:
+		ts, tb, ta := (p.From.Reg>>5)&15, (p.Reg>>5)&15, (p.To.Reg>>5)&15
+		if !taTbTsQMatch(ta, tb, ts, Q) {
+			c.ctxt.Diag("arrangement dismatch: %v", p)
+		}
+		return op3A(p, eidx)
+	}
+	c.ctxt.Diag("illegal combination: %v", p)
+	return p
+}
+
 type asmFunc func(c *ctxt7, p *obj.Prog) *obj.Prog
 
 // asm function table
@@ -5501,4 +5558,9 @@ var unfoldTab = []asmFunc{
 	AVUADDLV - obj.ABaseARM64: asmVADDVX,
 
 	AVMOVI - obj.ABaseARM64: asmVMOVI,
+
+	AVSQDMLAL - obj.ABaseARM64:  asmSQDMLALVector,
+	AVSQDMLAL2 - obj.ABaseARM64: asmSQDMLALVector,
+	ASQDMLALD - obj.ABaseARM64:  asmSQDMLALScalar,
+	ASQDMLALS - obj.ABaseARM64:  asmSQDMLALScalar,
 }
