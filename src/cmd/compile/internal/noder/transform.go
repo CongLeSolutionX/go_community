@@ -555,6 +555,7 @@ func transformSelect(sel *ir.SelectStmt) {
 				selrecv.Def = def
 				selrecv.SetTypecheck(1)
 				ncase.Comm = selrecv
+				selrecv.SetInit(n.Init())
 			}
 			switch n.Op() {
 			case ir.OAS:
