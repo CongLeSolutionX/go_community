@@ -51,6 +51,24 @@
       "parentUuid": "81f6664c_59d4c80c",
       "revId": "01a4f04a0f8af7990d7e634c659b452e12710e33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0310466c_57064022",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-08T07:17:35Z",
+      "side": 1,
+      "message": "Because to rebuild a CLs dependency order is difficult. I want to set this CL to WIP status and start to review until obj/internal and asm changes merged. Is it OK?",
+      "parentUuid": "31da915e_a8dfeaef",
+      "revId": "01a4f04a0f8af7990d7e634c659b452e12710e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
