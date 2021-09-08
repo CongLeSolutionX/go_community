@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e011afa3_03e33b3b",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2021-09-08T00:44:17Z",
+      "side": 1,
+      "message": "Typo: behaves → behave.",
+      "revId": "17910ed4ff5a3cb3dcf4367d4af23ad5a7fe5809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
