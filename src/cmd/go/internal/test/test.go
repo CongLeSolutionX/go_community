@@ -29,10 +29,11 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
 	"cmd/go/internal/lockedfile"
+	"cmd/go/internal/modload"
 	"cmd/go/internal/search"
-	"cmd/go/internal/str"
 	"cmd/go/internal/trace"
 	"cmd/go/internal/work"
+	"cmd/internal/str"
 	"cmd/internal/test2json"
 )
 
@@ -78,7 +79,8 @@ binary. Only a high-confidence subset of the default go vet checks are
 used. That subset is: 'atomic', 'bool', 'buildtags', 'errorsas',
 'ifaceassert', 'nilfunc', 'printf', and 'stringintconv'. You can see
 the documentation for these and other vet tests via "go doc cmd/vet".
-To disable the running of go vet, use the -vet=off flag.
+To disable the running of go vet, use the -vet=off flag. To run all
+checks, use the -vet=all flag.
 
 All test output and summary lines are printed to the go command's
 standard output, even if the test printed them to its own standard
@@ -119,18 +121,16 @@ elapsed time in the summary line.
 The rule for a match in the cache is that the run involves the same
 test binary and the flags on the command line come entirely from a
 restricted set of 'cacheable' test flags, defined as -benchtime, -cpu,
--list, -parallel, -run, -short, and -v. If a run of go test has any test
-or non-test flags outside this set, the result is not cached. To
-disable test caching, use any test flag or argument other than the
-cacheable flags. The idiomatic way to disable test caching explicitly
-is to use -count=1. Tests that open files within the package's source
-root (usually $GOPATH) or that consult environment variables only
-match future runs in which the files and environment variables are unchanged.
-A cached test result is treated as executing in no time at all,
-so a successful package test result will be cached and reused
-regardless of -timeout setting.
-
-Run 'go help fuzz' for details around how the go command handles fuzz targets.
+-list, -parallel, -run, -short, -timeout, -failfast, and -v.
+If a run of go test has any test or non-test flags outside this set,
+the result is not cached. To disable test caching, use any test flag
+or argument other than the cacheable flags. The idiomatic way to disable
+test caching explicitly is to use -count=1. Tests that open files within
+the package's source root (usually $GOPATH) or that consult environment
+variables only match future runs in which the files and environment
+variables are unchanged. A cached test result is treated as executing
+in no time at all,so a successful package test result will be cached and
+reused regardless of -timeout setting.
 
 In addition to the build flags, the flags handled by 'go test' itself are:
 
@@ -626,6 +626,7 @@ var defaultVetFlags = []string{
 }
 
 func runTest(ctx context.Context, cmd *base.Command, args []string) {
+	modload.InitWorkfile()
 	pkgArgs, testArgs = testFlags(args)
 
 	if cfg.DebugTrace != "" {
@@ -1437,6 +1438,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 			"-test.run",
 			"-test.short",
 			"-test.timeout",
+			"-test.failfast",
 			"-test.v":
 			// These are cacheable.
 			// Note that this list is documented above,
