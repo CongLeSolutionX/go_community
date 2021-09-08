@@ -1243,6 +1243,11 @@ func tRunner(t *T, fn func(t *T)) {
 
 		// Do not lock t.done to allow race detector to detect race in case
 		// the user does not appropriately synchronizes a goroutine.
+		//
+		// NOTE: If you're looking at this code because the race detector
+		// has reported a race here, it's quite likely because your test
+		// has called t.Log inside a goroutine that was still running
+		// after the test had completed.
 		t.done = true
 		if t.parent != nil && atomic.LoadInt32(&t.hasSub) == 0 {
 			t.setRan()
