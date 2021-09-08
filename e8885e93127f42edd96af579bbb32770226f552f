@@ -16,6 +16,24 @@
       "message": "Instead of always making a copy (even when we\u0027re going to throw it away at line 805 if this didn\u0027t produce a crasher), let\u0027s instead only make a copy if we need to.\n\nSo for example, this could be added at line 801\n  switch c :\u003d candidate.(type) {\n  case []byte:\n        // c could change later while we continue to minimize, so\n\t// make a copy since we\u0027ll be keeping this candidate around.\n\tvals[valI] \u003d append([]byte{}, c...)\n  }\n  \nHowever, we\u0027ll also need to adjust that around a bit when you rebase this after some recent changes to this code. If you\u0027re willing to rebase it, then I can give you the code snippet I had in mind.",
       "revId": "e8885e93127f42edd96af579bbb32770226f552f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b382104f_f9b7aeba",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 53211
+      },
+      "writtenOn": "2021-09-08T09:25:39Z",
+      "side": 1,
+      "message": "I\u0027ve rebased the changes. \n\nYour suggestion: I wonder if it\u0027d be slightly weird to treat []byte differently to all the other types where copies are made e.g. just below a string copy is made?",
+      "parentUuid": "9ad193cf_ca7bf095",
+      "revId": "e8885e93127f42edd96af579bbb32770226f552f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

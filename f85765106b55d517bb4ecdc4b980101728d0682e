@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebfd23a7_94393c7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53211
+      },
+      "writtenOn": "2021-09-08T09:25:39Z",
+      "side": 1,
+      "message": "I\u0027ve pushed a test case which fails when reverting the fix. Running locally with\n\n```\ndiff --git a/src/internal/fuzz/worker.go b/src/internal/fuzz/worker.go\nindex bab0f07036..3497e56a92 100644\n--- a/src/internal/fuzz/worker.go\n+++ b/src/internal/fuzz/worker.go\n@@ -787,7 +787,8 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, c\n                case []byte:\n                        switch prev.(type) {\n                        case []byte:\n-                               vals[valI] \u003d append([]byte{}, c...)\n+                               //vals[valI] \u003d append([]byte{}, c...)\n+                               vals[valI] \u003d c\n                        case string:\n                                vals[valI] \u003d string(c)\n                        default:\n\n```\ngives me\n```\n--- FAIL: TestMinimizeInput (0.00s)\n    minimize_test.go:223: unexpected error: got bad [2 3], want bad [3 3]\n    minimize_test.go:226: unexpected results: got [[3 3]], want [[2 3]]\n ```\n \n The corruption of first byte of the expected output (3 instead of a 2) is the closest I could get to the original problem without messing around with unicode.",
+      "parentUuid": "840f8810_bc7538e2",
+      "revId": "f85765106b55d517bb4ecdc4b980101728d0682e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9b178fde_4a121542",
