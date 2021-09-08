@@ -72,6 +72,24 @@
       "message": "Hi Keith, how do you think with latest patch?",
       "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a18b6f1a_56354d20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-08T15:30:27Z",
+      "side": 1,
+      "message": "Hi Keith, a gentle ping 😊",
+      "parentUuid": "30b020ca_4d9656a1",
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
