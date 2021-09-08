@@ -78,8 +78,6 @@ type reader struct {
 
 	p *pkgReader
 
-	ext *reader
-
 	dict *readerDict
 
 	// TODO(mdempsky): The state below is all specific to reading
@@ -568,10 +566,10 @@ func (pr *pkgReader) objIdx(idx int, implicits, explicits []*types.Type) ir.Node
 	dict := pr.objDictIdx(sym, idx, implicits, explicits)
 
 	r := pr.newReader(relocObj, idx, syncObject1)
-	r.ext = pr.newReader(relocObjExt, idx, syncObject1)
+	rext := pr.newReader(relocObjExt, idx, syncObject1)
 
 	r.dict = dict
-	r.ext.dict = dict
+	rext.dict = dict
 
 	sym = r.mangle(sym)
 	if !sym.IsBlank() && sym.Def != nil {
@@ -624,7 +622,7 @@ func (pr *pkgReader) objIdx(idx int, implicits, explicits []*types.Type) ir.Node
 		name.Func = ir.NewFunc(r.pos())
 		name.Func.Nname = name
 
-		r.ext.funcExt(name)
+		rext.funcExt(name)
 		return name
 
 	case objType:
@@ -633,7 +631,7 @@ func (pr *pkgReader) objIdx(idx int, implicits, explicits []*types.Type) ir.Node
 		setType(name, typ)
 
 		// Important: We need to do this before SetUnderlying.
-		r.ext.typeExt(name)
+		rext.typeExt(name)
 
 		// We need to defer CheckSize until we've called SetUnderlying to
 		// handle recursive types.
@@ -643,7 +641,7 @@ func (pr *pkgReader) objIdx(idx int, implicits, explicits []*types.Type) ir.Node
 
 		methods := make([]*types.Field, r.len())
 		for i := range methods {
-			methods[i] = r.method()
+			methods[i] = r.method(rext)
 		}
 		if len(methods) != 0 {
 			typ.Methods().Set(methods)
@@ -656,7 +654,7 @@ func (pr *pkgReader) objIdx(idx int, implicits, explicits []*types.Type) ir.Node
 	case objVar:
 		name := do(ir.ONAME, false)
 		setType(name, r.typ())
-		r.ext.varExt(name)
+		rext.varExt(name)
 		return name
 	}
 }
@@ -738,7 +736,7 @@ func (r *reader) typeParamNames() {
 	}
 }
 
-func (r *reader) method() *types.Field {
+func (r *reader) method(rext *reader) *types.Field {
 	r.sync(syncMethod)
 	pos := r.pos()
 	pkg, sym := r.selector()
@@ -754,7 +752,7 @@ func (r *reader) method() *types.Field {
 	name.Func = ir.NewFunc(r.pos())
 	name.Func.Nname = name
 
-	r.ext.funcExt(name)
+	rext.funcExt(name)
 
 	meth := types.NewField(name.Func.Pos(), sym, typ)
 	meth.Nname = name
