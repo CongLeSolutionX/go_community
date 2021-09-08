@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aa46ae7_1135c957",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53713
+      },
+      "writtenOn": "2021-09-08T07:36:55Z",
+      "side": 1,
+      "message": "I have submitted another commit according to your comments.",
+      "revId": "c9fe38a9d1508888965c919d2417250f3a6da1c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
