@@ -76,6 +76,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea747a89_29ca46c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-08T21:19:32Z",
+      "side": 1,
+      "message": "That would certainly be cleaner. I\u0027ll see what it looks like.\n\nAre we sure that SWIG is the only user of crosscall2 with a context? If not, those users would have their context dropped until they switch to crosscall3.\n\nIn my search, I\u0027ve found uses in delve that would need updating (https://github.com/go-delve/delve/blob/f6681c60903cc126ba060f01e2eab1341b06b526/pkg/proc/arm64_arch.go#L143, etc), but not any others.",
+      "parentUuid": "7d14906d_7dc221f5",
+      "revId": "6e567d0d90251bece3178dff596e52e6eafa3503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ed5d08a_744bfb7b",
         "filename": "src/runtime/cgo/callbacks.go",
         "patchSetId": 2
@@ -87,6 +105,24 @@
       "writtenOn": "2021-08-28T19:42:15Z",
       "side": 1,
       "message": "I\u0027m unclear on the effect of declaring _cgo_panic both here and in runtime, both linknamed to _cgo_panic. I\u0027m also not clear what happens when the go:cgo_export_* directives live here but the actual declaration is in a different package. Is it possible to just move the whole thing to the runtime package?",
+      "revId": "6e567d0d90251bece3178dff596e52e6eafa3503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "346ecade_aee80019",
+        "filename": "src/runtime/cgo/callbacks.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-08T21:19:32Z",
+      "side": 1,
+      "message": "I\u0027m not sure of the effects either, but this is definitely a fragile mechanism.\n\nAttempts to move everything to package runtime, cause build failures like \"runtime.gcdata: missing Go type information for global symbol .dynsym: size 24\" (even if I put the cgo_export_... in a +build cgo file).\n\nAttempts to leave only the cgo_export_... here without a declaration result in an undefined reference to _cgo_panic in src/runtime/testdata/testprogcgo/tracebackctxt_c.c.\n\nI need to look into this more.",
+      "parentUuid": "1ed5d08a_744bfb7b",
       "revId": "6e567d0d90251bece3178dff596e52e6eafa3503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -116,6 +152,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f749963a_bc0a9d32",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-08T21:19:32Z",
+      "side": 1,
+      "message": "I don\u0027t know, that\u0027s a good point. I\u0027ll have to look into it more.",
+      "parentUuid": "0d14b360_bec3fa7c",
+      "range": {
+        "startLine": 266,
+        "startChar": 13,
+        "endLine": 266,
+        "endChar": 61
+      },
+      "revId": "6e567d0d90251bece3178dff596e52e6eafa3503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a143fa07_a3e219be",
         "filename": "src/runtime/cgocallback.go",
         "patchSetId": 2
@@ -127,6 +187,30 @@
       "writtenOn": "2021-08-27T17:14:40Z",
       "side": 1,
       "message": "is _cgo_panic_internal necessary at all?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 1
+      },
+      "revId": "6e567d0d90251bece3178dff596e52e6eafa3503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5229f08a_653bfe90",
+        "filename": "src/runtime/cgocallback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-08T21:19:32Z",
+      "side": 1,
+      "message": "I don\u0027t think so, I just left this simple to reduce backport risk.",
+      "parentUuid": "a143fa07_a3e219be",
       "range": {
         "startLine": 19,
         "startChar": 0,
