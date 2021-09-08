@@ -176,6 +176,29 @@
       "message": "It\u0027s certainly confusing here what the difference is between the two branches of the \"if\". One is \"x \u003d true\", the other is \"if !x { x \u003d true }\". The complexity is all in SetAddrTaken and the fact that it doesn\u0027t do what it says it does (or, more precisely, does more than just what it says it does).\nI think we need to name at least one of these calls differently somehow.",
       "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4264accd_65ebef73",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-08T23:55:06Z",
+      "side": 1,
+      "message": "Or maybe this is just SetAddrTakenNoStackObject()?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 28
+      },
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
