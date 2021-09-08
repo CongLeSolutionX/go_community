@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "874d1041_ede57649",
+        "filename": "src/cmd/compile/internal/ssa/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-08T02:05:44Z",
+      "side": 1,
+      "message": "hashFunc prints dead blocks and values (annotated by \"DEAD\"). Unfortunately, rewrite cycles can add additional dead blocks/values on every iteration, so if we print them, we never detect cycles. I\u0027ve reworked the code a bit to make this clearer and less duplicative. Thanks for asking.",
+      "parentUuid": "4cad4d01_ef9f0f2f",
+      "revId": "108cb6161e94cbb92a2b09d334a7bad94b4a3e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "505cf94a_43c84d55",
@@ -158,6 +176,24 @@
       "writtenOn": "2021-09-07T19:39:27Z",
       "side": 1,
       "message": "If user sets debug\u003e\u003d2, maybe we could start cycle detection at the beginning.",
+      "revId": "108cb6161e94cbb92a2b09d334a7bad94b4a3e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc9f275f_9c7735b4",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-08T02:05:44Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "f40ed4aa_cb812767",
       "revId": "108cb6161e94cbb92a2b09d334a7bad94b4a3e7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
