@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d76a9f93_ad60e7de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-08T12:58:39Z",
+      "side": 1,
+      "message": "This sounds good to me.\n\nI wonder if we could clearly error in this scenario, even when the race detector isn\u0027t running. Should make these mistakes easier/faster to correct, and I think a good error is better than a good source code comment.",
+      "revId": "283323f76f1b17b8c0a3e9a2f9b0f8290f62829f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
