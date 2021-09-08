@@ -394,11 +394,14 @@ func tcSelect(sel *ir.SelectStmt) {
 		} else {
 			n := Stmt(ncase.Comm)
 			ncase.Comm = n
-			oselrecv2 := func(dst, recv ir.Node, def bool) {
+			oselrecv2 := func(dst, recv ir.Node, def bool, init ir.Nodes) {
 				n := ir.NewAssignListStmt(n.Pos(), ir.OSELRECV2, []ir.Node{dst, ir.BlankNode}, []ir.Node{recv})
 				n.Def = def
 				n.SetTypecheck(1)
 				ncase.Comm = n
+				if init != nil {
+					n.SetInit(init)
+				}
 			}
 			switch n.Op() {
 			default:
@@ -427,7 +430,7 @@ func tcSelect(sel *ir.SelectStmt) {
 					base.ErrorfAt(n.Pos(), "select assignment must have receive on right hand side")
 					break
 				}
-				oselrecv2(n.X, n.Y, n.Def)
+				oselrecv2(n.X, n.Y, n.Def, n.Init())
 
 			case ir.OAS2RECV:
 				n := n.(*ir.AssignListStmt)
@@ -440,7 +443,7 @@ func tcSelect(sel *ir.SelectStmt) {
 			case ir.ORECV:
 				// convert <-c into _, _ = <-c
 				n := n.(*ir.UnaryExpr)
-				oselrecv2(ir.BlankNode, n, false)
+				oselrecv2(ir.BlankNode, n, false, n.Init())
 
 			case ir.OSEND:
 				break

@@ -545,7 +545,7 @@ func transformSelect(sel *ir.SelectStmt) {
 	for _, ncase := range sel.Cases {
 		if ncase.Comm != nil {
 			n := ncase.Comm
-			oselrecv2 := func(dst, recv ir.Node, def bool) {
+			oselrecv2 := func(dst, recv ir.Node, def bool, init ir.Nodes) {
 				selrecv := ir.NewAssignListStmt(n.Pos(), ir.OSELRECV2, []ir.Node{dst, ir.BlankNode}, []ir.Node{recv})
 				if dst.Op() == ir.ONAME && dst.(*ir.Name).Defn == n {
 					// Must fix Defn for dst, since we are
@@ -555,6 +555,9 @@ func transformSelect(sel *ir.SelectStmt) {
 				selrecv.Def = def
 				selrecv.SetTypecheck(1)
 				ncase.Comm = selrecv
+				if init != nil {
+					selrecv.SetInit(init)
+				}
 			}
 			switch n.Op() {
 			case ir.OAS:
@@ -568,7 +571,7 @@ func transformSelect(sel *ir.SelectStmt) {
 						n.Y = r.X
 					}
 				}
-				oselrecv2(n.X, n.Y, n.Def)
+				oselrecv2(n.X, n.Y, n.Def, n.Init())
 
 			case ir.OAS2RECV:
 				n := n.(*ir.AssignListStmt)
@@ -577,7 +580,7 @@ func transformSelect(sel *ir.SelectStmt) {
 			case ir.ORECV:
 				// convert <-c into _, _ = <-c
 				n := n.(*ir.UnaryExpr)
-				oselrecv2(ir.BlankNode, n, false)
+				oselrecv2(ir.BlankNode, n, false, n.Init())
 
 			case ir.OSEND:
 				break
