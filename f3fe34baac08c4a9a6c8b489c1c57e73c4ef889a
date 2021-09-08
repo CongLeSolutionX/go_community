@@ -70,6 +70,30 @@
       },
       "revId": "f3fe34baac08c4a9a6c8b489c1c57e73c4ef889a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90d406ec_f6c915fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-09-08T08:11:09Z",
+      "side": 1,
+      "message": "Please take a look at contribution guide https://golang.org/doc/contribute#main_content which requires benchstat to format performance change.",
+      "parentUuid": "cdff0565_bb12d624",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 70
+      },
+      "revId": "f3fe34baac08c4a9a6c8b489c1c57e73c4ef889a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
