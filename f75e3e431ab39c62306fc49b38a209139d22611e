@@ -72,6 +72,24 @@
       "message": "I wonder whether this assertion is necessary now, since when we now push the responsibility to the caller for when they make the call to s.checkPtrAlignment?",
       "revId": "f75e3e431ab39c62306fc49b38a209139d22611e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34615c4d_8f953a9a",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-08T20:40:22Z",
+      "side": 1,
+      "message": "Please keep it. The purpose of assertions is to verify that callers did the right thing.",
+      "parentUuid": "5e8a9c72_3ab313b6",
+      "revId": "f75e3e431ab39c62306fc49b38a209139d22611e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
