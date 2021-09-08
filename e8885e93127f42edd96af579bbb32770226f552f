@@ -34,6 +34,24 @@
       "parentUuid": "9ad193cf_ca7bf095",
       "revId": "e8885e93127f42edd96af579bbb32770226f552f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c33c8745_7873e644",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 53211
+      },
+      "writtenOn": "2021-09-08T09:50:55Z",
+      "side": 1,
+      "message": "Maybe it\u0027s premature pessimism on my part but I\u0027d avoid an optimization here. This codes runs only when we find crashers which should be (relative to all the other work the fuzzer is doing) rare. Without some demonstrable bottleneck, I\u0027d not bother optimizing.\n\nIt\u0027s conceptually clear that we copy candidates, try them and if they don\u0027t crash, revert. Having an exception to that is too much cognitive load for me.",
+      "parentUuid": "b382104f_f9b7aeba",
+      "revId": "e8885e93127f42edd96af579bbb32770226f552f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
