@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eac15c99_7688643d",
+        "filename": "src/cmd/compile/internal/noder/unified_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-09T16:39:12Z",
+      "side": 1,
+      "message": "I won\u0027t check in until this is resolved.",
+      "parentUuid": "fd944743_6c30fbac",
+      "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "915b2d38_dcc0f0d3",
@@ -102,6 +120,24 @@
       "writtenOn": "2021-09-08T19:14:17Z",
       "side": 1,
       "message": "Does this CL break this test? If so, that seems suspicious.",
+      "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4357882_aef5ea76",
+        "filename": "src/cmd/compile/internal/noder/unified_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-09T16:39:12Z",
+      "side": 1,
+      "message": "The error message is the same is https://github.com/golang/go/issues/48265 , so it could possibly be that the test is overly strict on compiler output, as mentioned in the issue.  I definitely won\u0027t check in until this is resolved (which can be next week).",
+      "parentUuid": "915b2d38_dcc0f0d3",
       "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -129,6 +165,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b824031_552c22fc",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-09T16:39:12Z",
+      "side": 1,
+      "message": "OK, thanks for getting me to check that out.  I didn\u0027t realize the magic that was happening for empty assignments due to standard variable declarations - the DCL in the Init was being written out, but not the assignment itself.  Fixed.",
+      "parentUuid": "c79ee6fc_311b940a",
+      "range": {
+        "startLine": 1461,
+        "startChar": 6,
+        "endLine": 1461,
+        "endChar": 12
+      },
+      "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4d99153_f663cbe1",
@@ -142,6 +202,24 @@
       "writtenOn": "2021-09-08T19:14:17Z",
       "side": 1,
       "message": "Please write out Init before X, but probably after Pos. It semantically before X, and it makes me nervous any time we traverse the AST in non-semantic order. (We also delta encode positions, so serializing the AST out of order implies a less efficient encoding.)\n\nSame comments below.",
+      "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5af12757_cc682c6d",
+        "filename": "src/cmd/compile/internal/typecheck/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-09T16:39:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d99153_f663cbe1",
       "revId": "e08413c5b79e3e93734d104a17ef65591de9b9d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
