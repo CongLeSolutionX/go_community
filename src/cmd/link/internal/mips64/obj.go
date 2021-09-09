@@ -46,11 +46,13 @@ func Init() (*sys.Arch, ld.Arch) {
 	}
 
 	theArch := ld.Arch{
-		Funcalign:        funcAlign,
-		Maxalign:         maxAlign,
-		Minalign:         minAlign,
-		Dwarfregsp:       dwarfRegSP,
-		Dwarfreglr:       dwarfRegLR,
+		Funcalign:  funcAlign,
+		Maxalign:   maxAlign,
+		Minalign:   minAlign,
+		Dwarfregsp: dwarfRegSP,
+		Dwarfreglr: dwarfRegLR,
+
+		Adddynrel:        adddynrel,
 		Archinit:         archinit,
 		Archreloc:        archreloc,
 		Archrelocvariant: archrelocvariant,
