@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f2a2b2c_ddd8468f",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-09-09T20:32:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d1d231e_09403882",
+      "revId": "14f6d8614902cdf87169c991f60ca9cbb976a54d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b2a7576_0d74c3fb",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-09-09T17:19:01Z",
       "side": 1,
       "message": "Please add code to test that the receiver value foo is valid.  You can probably think of a better solution, but one way is to add \"val int\" preceding line 12 (add val field to Foo), and then initialize the val field to 1 in the struct literals at line 19 and 20, and then add these lines above line 15:\n\n\tif foo.val !\u003d 1 {\n\t\tpanic(\"bad val field in Foo receiver\")\n\t}",
+      "revId": "14f6d8614902cdf87169c991f60ca9cbb976a54d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc2a885b_008a3cca",
+        "filename": "test/typeparam/issue48225.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2021-09-09T20:32:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b2a7576_0d74c3fb",
       "revId": "14f6d8614902cdf87169c991f60ca9cbb976a54d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
