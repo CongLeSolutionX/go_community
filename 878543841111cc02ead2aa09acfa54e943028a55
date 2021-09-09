@@ -72,6 +72,24 @@
       "message": "FWIW, I don\u0027t think this can work without looking up f.name in its scope to figure out what TypeName it was bound to. E.g., I don\u0027t think it will work correctly for:\n\n```\ntype A \u003d int\ntype B \u003d *int\n\ntype S struct { *A; B }\n```",
       "revId": "878543841111cc02ead2aa09acfa54e943028a55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "368f8c85_a03e3353",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-09T22:32:52Z",
+      "side": 1,
+      "message": "Yes, I just realized this independently. Not sure what I was thinking. I seemed too easy; that should have been a hint.",
+      "parentUuid": "c3240960_ae6d1894",
+      "revId": "878543841111cc02ead2aa09acfa54e943028a55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
