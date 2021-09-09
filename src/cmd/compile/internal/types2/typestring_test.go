@@ -109,6 +109,12 @@ var independentTestTypes = []testEntry{
 
 // types that depend on other type declarations (src in TestTypes)
 var dependentTestTypes = []testEntry{
+	// structs
+	{`struct {
+		A // embedded alias
+		W // embedded non-alias
+	}`, `struct{A; W}`},
+
 	// interfaces
 	dup(`interface{io.Reader; io.Writer}`),
 	dup(`interface{m() int; io.Writer}`),
@@ -123,7 +129,7 @@ func TestTypeString(t *testing.T) {
 	tests = append(tests, dependentTestTypes...)
 
 	for _, test := range tests {
-		src := `package generic_p; import "io"; type _ io.Writer; type T ` + test.src
+		src := `package generic_p; import "io"; type (A = map[string]int; W io.Writer); type T ` + test.src
 		pkg, err := makePkg(src)
 		if err != nil {
 			t.Errorf("%s: %s", src, err)
