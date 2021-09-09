@@ -349,6 +349,24 @@
       "parentUuid": "53a3a766_83f445af",
       "revId": "5e32f3b58779572a30f05be54427a02535298e31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bd13466_546d8d9d",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1768,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-09T18:58:43Z",
+      "side": 1,
+      "message": "No, I meant buildcfg.Unified. goexperiment indicates what experiments were used to compile dwarf_test.go itself, whereas here you want to base your decision on how running \u0027go build\u0027 is going to compile \u0027prog\u0027, which is what buildcfg is for. Those will typically be the same, which is why this passes the trybots, but not necessarily.",
+      "parentUuid": "0e2d8221_46ecb147",
+      "revId": "5e32f3b58779572a30f05be54427a02535298e31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
