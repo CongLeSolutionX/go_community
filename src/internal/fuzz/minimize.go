@@ -44,6 +44,7 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 		copy(candidate[:i], v[:i])
 		copy(candidate[i:], v[i+1:])
 		if !try(candidate) {
+			copy(tmp[i:], v[i:])
 			continue
 		}
 		// Update v to delete the value at index i.
@@ -64,6 +65,7 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 			candidate := tmp[:len(v)-j+i]
 			copy(candidate[i:], v[j:])
 			if !try(candidate) {
+				copy(candidate[i:], v[i:])
 				continue
 			}
 			// Update v and reset the loop with the new length.
