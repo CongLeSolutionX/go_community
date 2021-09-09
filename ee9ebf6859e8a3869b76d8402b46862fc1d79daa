@@ -1,0 +1,353 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a73c2ef_5749e373",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this part. It\u0027s not really right either, there\u0027s no forcing.",
+      "range": {
+        "startLine": 55,
+        "startChar": 77,
+        "endLine": 55,
+        "endChar": 121
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8786598_cece3d1e",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "at least",
+      "range": {
+        "startLine": 55,
+        "startChar": 40,
+        "endLine": 55,
+        "endChar": 41
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cf9791c_be39622c",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "at least",
+      "range": {
+        "startLine": 56,
+        "startChar": 40,
+        "endLine": 56,
+        "endChar": 41
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55e7a020_4c2b3c94",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "Same here, not needed.",
+      "range": {
+        "startLine": 56,
+        "startChar": 82,
+        "endLine": 56,
+        "endChar": 126
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ceae99d_bb4dbbcb",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "FORs which are not \"big\".",
+      "range": {
+        "startLine": 57,
+        "startChar": 59,
+        "endLine": 57,
+        "endChar": 75
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d9d4f29_b2fe55a2",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "Was there any process you used to decide these constants?",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c8a9d2f_4507365d",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "\"inl\" is not necessary here. Not sure what a good name would be \"callStack\" comes to mind, but I\u0027m not super happy with that.",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 4
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceff4b77_7978d141",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "I",
+      "range": {
+        "startLine": 76,
+        "startChar": 7,
+        "endLine": 76,
+        "endChar": 8
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d3ac40e_e30221ce",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "Match doc name with function",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 80,
+        "endChar": 13
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8562cb12_4d058ea7",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "These are deferred or go-ed calls. We should probably treat a FOR as \"big\" if there are any of those.",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3059999e_4f0b4442",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "The docs for inlineBigForCallNodes implies it is all calls, not just the inlineable ones. Which I think I agree with. If there are 100 non-inlineable calls and 1 inlineable one, should we inline? I guess I could see an argument in both directions. Was that your intent? If so, the doc for inlineBigForCallNodes should be updated.",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4925de17_c005fd81",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "These three functions might be better as methods on inlContext.",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "160c3530_2cb2472b",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "This mechanism to pop FORs off the stack when they are done seems unnecessarily complicated to me.\nCan\u0027t you just do, somewhere early in inlnode:\n\nif n.Op() \u003d\u003d ir.OFOR {\n   inlCtx.Push(...)\n   defer inlCtx.Pop()\n}\n\nThen you don\u0027t need liveCounter and maybe some other things.",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87611d8a_f55a6b8d",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "Note that this is the only current callsite-modifier for inlining. You\u0027re introducing a second one. Maybe there\u0027s a way to unify those two somehow?\n(I would imagine we\u0027ll have more in the future.)",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "018254fb_db61722e",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "Edit this comment to make it clear that it is talking about inlCtx.inlMap (whatever that gets named).\nMaybe move this comment into inlCtx for the inlMap field?",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f1cca6a_b4b35251",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "It\u0027s not necessary to make a 0-sized slice. The nil value works fine for that.",
+      "range": {
+        "startLine": 604,
+        "startChar": 47,
+        "endLine": 604,
+        "endChar": 68
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8124a2ff_353a5404",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-09T18:03:32Z",
+      "side": 1,
+      "message": "You can just call this ctx. \"inl\" is implied by the function name.",
+      "range": {
+        "startLine": 627,
+        "startChar": 39,
+        "endLine": 627,
+        "endChar": 45
+      },
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
