@@ -62,6 +62,10 @@ var independentTestTypes = []testEntry{
 		string
 		elems []complex128
 	}`, `struct{string; elems []complex128}`},
+	{`struct {
+		A // embedded alias
+		W // embedded non-alias
+	}`, `struct{A; W}`},
 
 	// pointers
 	dup("*int"),
@@ -131,7 +135,7 @@ func TestTypeString(t *testing.T) {
 	tests = append(tests, dependentTestTypes...)
 
 	for _, test := range tests {
-		src := `package p; import "io"; type _ io.Writer; type T ` + test.src
+		src := `package p; import "io"; type (A = map[string]int; W io.Writer); type T ` + test.src
 		pkg, err := makePkg(src)
 		if err != nil {
 			t.Errorf("%s: %s", src, err)
