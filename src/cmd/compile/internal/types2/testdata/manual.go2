@@ -6,3 +6,12 @@
 // without source arguments. Use for one-off debugging.
 
 package p
+
+type E = map[string]int
+type S struct {
+   E "foo"
+}
+
+func _(s S) {
+        s.E = nil
+}
