@@ -51,9 +51,12 @@ crosscall1:
 
 	move	$20, $4 // save R4
 	move	$1, $6
-	jalr	$5	// call setg_gcc (clobbers R4)
-	jalr	$20	// call fn
-
+	// It is a ABI convention that to call a function must use R25 register in MIPS PIC code.
+	// So save r25 and move call target to r25 register, and then call the function.
+	move	$25, $5
+	jalr	$25	// call setg_gcc (clobbers R4)
+	move	$25, $20
+	jalr	$25	// call fn
 	ld	$16, 8($29)
 	ld	$17, 16($29)
 	ld	$18, 24($29)
