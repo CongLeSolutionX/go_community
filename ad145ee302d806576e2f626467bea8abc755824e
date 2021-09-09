@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c22222f_e2819f11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T21:42:30Z",
+      "side": 1,
+      "message": "The code looks like supporting both big and little endian. Is there any reason to limit this to little endian?",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "ad145ee302d806576e2f626467bea8abc755824e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feb20f1d_4ad0bde3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T21:42:30Z",
+      "side": 1,
+      "message": "Remove \"golang/go\" part. This is for cross-repo reference, but we are already in the go repo.",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "ad145ee302d806576e2f626467bea8abc755824e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c343601_808f89a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T21:42:30Z",
+      "side": 1,
+      "message": "Remove this line. Thanks.",
+      "revId": "ad145ee302d806576e2f626467bea8abc755824e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
