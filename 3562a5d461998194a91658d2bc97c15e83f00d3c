@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48ab0602_a88fbe7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T15:56:42Z",
+      "side": 1,
+      "message": "This sounds like vector instructions will now take FP registers (along with vector registers). Do we want to do that? Is this necessary? If the instruction operates as vector registers then I guess we don\u0027t want to use FP registers for them?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "3562a5d461998194a91658d2bc97c15e83f00d3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
