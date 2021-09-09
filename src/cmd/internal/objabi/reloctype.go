@@ -269,6 +269,22 @@ const (
 	// in a symbol and target any symbols.
 	R_XCOFFREF
 
+	// R_MIPS_GPREL_HI16 resolves to the high 16-bit of the GOT address in PIC mode.
+	R_MIPS_GPREL_HI16
+	// R_MIPS_GPREL_LO16 resolves to the low 16-bit of the GOT address in PIC mode.
+	R_MIPS_GPREL_LO16
+	// R_MIPS_CALL16 resolves to the GOT entry of the function call in PIC mode.
+	R_MIPS_CALL16
+	// R_MIPS_JALR is used to optimize JALR jumps to JAL or BGEZAL for symbols
+	// which is not preempted.
+	R_MIPS_JALR
+	// R_MIPS_TLS_GD resolves to the TLS variable address by GD mode in PIC mode.
+	R_MIPS_TLS_GD
+	// R_MIPS_GOT_PAGE resolves to the GOT page pointer of a symbol in PIC mode.
+	R_MIPS_GOT_PAGE
+	// R_MIPS_GOT_OFST resolves to the GOT page offset of a symbol in PIC mode.
+	R_MIPS_GOT_OFST
+
 	// R_WEAK marks the relocation as a weak reference.
 	// A weak relocation does not make the symbol it refers to reachable,
 	// and is only honored by the linker if the symbol is in some other way
