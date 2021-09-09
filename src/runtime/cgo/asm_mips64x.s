@@ -46,11 +46,13 @@ TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
 	MOVD	F30, (8*21)(R29)
 	MOVD	F31, (8*22)(R29)
 #endif
+#ifndef GOASM_shared
 	// Initialize Go ABI environment
 	// prepare SB register = PC & 0xffffffff00000000
 	BGEZAL	R0, 1(PC)
 	SRLV	$32, R31, RSB
 	SLLV	$32, RSB
+#endif
 	JAL	runtime·load_g(SB)
 
 	JAL	runtime·cgocallback(SB)
