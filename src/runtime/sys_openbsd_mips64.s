@@ -239,10 +239,11 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$192
 	// initialize REGSB = PC&0xffffffff00000000
+#ifndef GOASM_shared
 	BGEZAL	R0, 1(PC)
 	SRLV	$32, R31, RSB
 	SLLV	$32, RSB
-
+#endif
 	// this might be called in external code context,
 	// where g is not set.
 	MOVB	runtime·iscgo(SB), R1
