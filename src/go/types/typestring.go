@@ -72,23 +72,23 @@ type typeWriter struct {
 	buf  *bytes.Buffer
 	seen map[Type]bool
 	qf   Qualifier
-	env  *Environment // if non-nil, we are type hashing
+	ctxt *Context // if non-nil, we are type hashing
 }
 
 func newTypeWriter(buf *bytes.Buffer, qf Qualifier) *typeWriter {
 	return &typeWriter{buf, make(map[Type]bool), qf, nil}
 }
 
-func newTypeHasher(buf *bytes.Buffer, env *Environment) *typeWriter {
-	assert(env != nil)
-	return &typeWriter{buf, make(map[Type]bool), nil, env}
+func newTypeHasher(buf *bytes.Buffer, ctxt *Context) *typeWriter {
+	assert(ctxt != nil)
+	return &typeWriter{buf, make(map[Type]bool), nil, ctxt}
 }
 
 func (w *typeWriter) byte(b byte)                               { w.buf.WriteByte(b) }
 func (w *typeWriter) string(s string)                           { w.buf.WriteString(s) }
 func (w *typeWriter) writef(format string, args ...interface{}) { fmt.Fprintf(w.buf, format, args...) }
 func (w *typeWriter) error(msg string) {
-	if w.env != nil {
+	if w.ctxt != nil {
 		panic(msg)
 	}
 	w.string("<" + msg + ">")
@@ -230,7 +230,7 @@ func (w *typeWriter) typ(typ Type) {
 		// types. Write them to aid debugging, but don't write
 		// them when we need an instance hash: whether a type
 		// is fully expanded or not doesn't matter for identity.
-		if w.env == nil && t.instPos != nil {
+		if w.ctxt == nil && t.instPos != nil {
 			w.byte(instanceMarker)
 		}
 		w.typePrefix(t)
@@ -238,7 +238,7 @@ func (w *typeWriter) typ(typ Type) {
 		if t.targs != nil {
 			// instantiated type
 			w.typeList(t.targs.list())
-		} else if w.env == nil && t.TypeParams().Len() != 0 { // For type hashing, don't need to format the TypeParams
+		} else if w.ctxt == nil && t.TypeParams().Len() != 0 { // For type hashing, don't need to format the TypeParams
 			// parameterized type
 			w.tParamList(t.TypeParams().list())
 		}
@@ -267,12 +267,12 @@ func (w *typeWriter) typ(typ Type) {
 	}
 }
 
-// If w.env is non-nil, typePrefix writes a unique prefix for the named type t
-// based on the types already observed by w.env. If w.env is nil, it does
+// If w.ctxt is non-nil, typePrefix writes a unique prefix for the named type t
+// based on the types already observed by w.ctxt. If w.ctxt is nil, it does
 // nothing.
 func (w *typeWriter) typePrefix(t *Named) {
-	if w.env != nil {
-		w.string(strconv.Itoa(w.env.idForType(t)))
+	if w.ctxt != nil {
+		w.string(strconv.Itoa(w.ctxt.idForType(t)))
 	}
 }
 
@@ -331,7 +331,7 @@ func (w *typeWriter) tuple(tup *Tuple, variadic bool) {
 				w.string(", ")
 			}
 			// parameter names are ignored for type identity and thus type hashes
-			if w.env == nil && v.name != "" {
+			if w.ctxt == nil && v.name != "" {
 				w.string(v.name)
 				w.byte(' ')
 			}
@@ -372,7 +372,7 @@ func (w *typeWriter) signature(sig *Signature) {
 	}
 
 	w.byte(' ')
-	if n == 1 && (w.env != nil || sig.results.vars[0].name == "") {
+	if n == 1 && (w.ctxt != nil || sig.results.vars[0].name == "") {
 		// single unnamed result (if type hashing, name must be ignored)
 		w.typ(sig.results.vars[0].typ)
 		return
