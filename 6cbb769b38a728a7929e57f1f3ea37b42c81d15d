@@ -1,0 +1,296 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1362542_a8fae6b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "Remove this line.",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4168ac37_906127a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "I think this needs some high-level description, either in the CL description or as a comment in the code (or both). Otherwise it seems hard to follow for me. Like, what\u0027s the meaning of 3-operand MOV instruction? What is the meaning of REGSB here and there? Thanks.",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9129f54_8db87f0a",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "This needs comment.",
+      "range": {
+        "startLine": 317,
+        "startChar": 1,
+        "endLine": 317,
+        "endChar": 9
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f09e37b_ae99e5aa",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "This needs comment as well.",
+      "range": {
+        "startLine": 323,
+        "startChar": 1,
+        "endLine": 323,
+        "endChar": 9
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf21ad08_7d4e5664",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "What does a three-operand MOV mean?",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d05c955_8db0f246",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "Order cases numerically. Also below.",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d756d113_9ea644c4",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1410,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "Do not use names like v0, t9. We don\u0027t use it anywhere else. If it is a specific register like R25 or REGTMP,  just name it. Otherwise you could just use r.",
+      "range": {
+        "startLine": 1410,
+        "startChar": 50,
+        "endLine": 1410,
+        "endChar": 52
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f856f1_4af613ad",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "Need some comment about this variable. The name by itself is hard to understand.",
+      "range": {
+        "startLine": 61,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 9
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af38a7c1_567f5d6a",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "\"R25\" is enough for the comment.",
+      "range": {
+        "startLine": 151,
+        "startChar": 17,
+        "endLine": 151,
+        "endChar": 24
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5810ff0c_a012b109",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "The code here doesn\u0027t seem to do this. What does the comment mean? Also above about CALL rewriting.",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 20
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe51a755_5d2e1715",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "Do we need this? I think STATIC symbol is alwayd local.",
+      "range": {
+        "startLine": 174,
+        "startChar": 90,
+        "endLine": 174,
+        "endChar": 101
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc1ffa51_dcd1203d",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "Delete commented-out code. Other places as well.",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46b95544_a6969e1f",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "Typo: calculate.",
+      "range": {
+        "startLine": 422,
+        "startChar": 43,
+        "endLine": 422,
+        "endChar": 51
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "add125f8_8b15144a",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-09T22:01:50Z",
+      "side": 1,
+      "message": "Why these functions are special?",
+      "range": {
+        "startLine": 423,
+        "startChar": 29,
+        "endLine": 427,
+        "endChar": 64
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
