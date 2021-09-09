@@ -277,7 +277,15 @@ func (check *Checker) typInternal(e0 syntax.Expr, def *Named) (T Type) {
 		typ := new(Array)
 		def.setUnderlying(typ)
 		if e.Len != nil {
-			typ.len = check.arrayLength(e.Len)
+			// If e.Len is an undeclared identifier this might be an attempt
+			// at a parameterized type declaration (with missing constraint).
+			// Provide a better error message than just "undeclared name: X".
+			if name, _ := e.Len.(*syntax.Name); name != nil && check.lookup(name.Value) == nil {
+				check.errorf(name, "undeclared name %s for array length", name.Value)
+				typ.len = -1
+			} else {
+				typ.len = check.arrayLength(e.Len)
+			}
 		} else {
 			// [...]array
 			check.error(e, "invalid use of [...] array (outside a composite literal)")
