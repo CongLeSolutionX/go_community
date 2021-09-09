@@ -95,6 +95,30 @@
       },
       "revId": "9bdad1771be47e68c357780de45dd46cdc66ac6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ede972a_2938a205",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2767,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-09T16:25:35Z",
+      "side": 1,
+      "message": "Good catch, sorry about that.\n\n(Ugh, mixed tabs and spaces, whyyyy)",
+      "parentUuid": "91d297f2_340faa23",
+      "range": {
+        "startLine": 2767,
+        "startChar": 4,
+        "endLine": 2767,
+        "endChar": 5
+      },
+      "revId": "9bdad1771be47e68c357780de45dd46cdc66ac6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
