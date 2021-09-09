@@ -52,6 +52,24 @@
       "parentUuid": "b382104f_f9b7aeba",
       "revId": "e8885e93127f42edd96af579bbb32770226f552f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e92b03_e916ef60",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 53211
+      },
+      "writtenOn": "2021-09-09T14:59:46Z",
+      "side": 1,
+      "message": "Ah, I\u0027m not correct in saying that minimization only happens on a crash. It happens on new coverage as well. I did some benchmarking and found that the time in minimizeInput is dominated by minimizeBytes and friends. That\u0027s only performance on one axis though; didn\u0027t look at memory usage.\n\nI think it may be moot in any case as to be correct here we need to make copies of byte slices to pass in ws.fuzzFn because it can modify the contents of the slice. Here\u0027s a failing unit test showing the corruption problem:\n\n```\niff --git a/src/internal/fuzz/minimize_test.go b/src/internal/fuzz/minimize_test.go\nindex 390cd6af20..b404b1cbdd 100644\n--- a/src/internal/fuzz/minimize_test.go\n+++ b/src/internal/fuzz/minimize_test.go\n@@ -42,7 +42,7 @@ func TestMinimizeInput(t *testing.T) {\n                        expected: []interface{}{[]byte{1, 1, 1}},\n                },\n                {\n-                       name: \"ones_string\",\n+                       name: \"byte_slice_min_corruption\",\n                        fn: func(e CorpusEntry) error {\n                                b :\u003d e.Values[0].([]byte)\n                                if len(b) \u003c 2 {\n@@ -58,6 +58,20 @@ func TestMinimizeInput(t *testing.T) {\n                        expected: []interface{}{[]byte{2, 3}},\n                },\n                {\n+                       name: \"fuzz_function_corruption\",\n+                       fn: func(e CorpusEntry) error {\n+                               b :\u003d e.Values[0].([]byte)\n+                               err :\u003d fmt.Errorf(\"bad %v\", e.Values[0])\n+                               for i :\u003d range b {\n+                                       b[i] \u003d 0\n+                               }\n+                               return err\n+                       },\n+                       input:    []interface{}{[]byte{1, 2, 3, 4, 5}},\n+                       expected: []interface{}{[]byte{1}},\n+               },\n+               {\n+                       name: \"ones_string\",\n                        fn: func(e CorpusEntry) error {\n                                b :\u003d e.Values[0].(string)\n                                ones :\u003d 0\n\n```",
+      "parentUuid": "c33c8745_7873e644",
+      "revId": "e8885e93127f42edd96af579bbb32770226f552f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
