@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02017858_25da24d0",
+        "filename": "src/internal/fuzz/minimize_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 53211
+      },
+      "writtenOn": "2021-09-09T15:01:05Z",
+      "side": 1,
+      "message": "Oops, I\u0027ve managed to copy the name of the test below to this case.",
+      "revId": "98f92a9b1606fb7139132401e83e83ad7fc2c2de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
