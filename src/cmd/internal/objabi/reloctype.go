@@ -269,6 +269,23 @@ const (
 	// in a symbol and target any symbols.
 	R_XCOFFREF
 
+	// R_MIPS_GPREL_HI16 relocates high 16 bit GOT address for PIC code.
+	R_MIPS_GPREL_HI16
+	// R_MIPS_GPREL_LO16 relocates low 16 bit GOT address for PIC code.
+	R_MIPS_GPREL_LO16
+	// R_MIPS_CALL16 locates GOT entry for function call.
+	R_MIPS_CALL16
+	// R_MIPS_JALR is used to optimize jumps to protected symbols.
+	R_MIPS_JALR
+	// R_MIPS_GOT_DISP resolves the offset of that pointer from gp.
+	R_MIPS_GOT_DISP
+	// R_MIPS_TLS_GD relocates TLS variable in GD mode.
+	R_MIPS_TLS_GD
+	// R_MIPS_GOT_PAGE relocates for GOT page pointer.
+	R_MIPS_GOT_PAGE
+	// R_MIPS_GOT_OFST relocates for GOT page offset.
+	R_MIPS_GOT_OFST
+
 	// R_WEAK marks the relocation as a weak reference.
 	// A weak relocation does not make the symbol it refers to reachable,
 	// and is only honored by the linker if the symbol is in some other way
