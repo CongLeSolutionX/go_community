@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea751d8_48853356",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-09T08:31:19Z",
+      "side": 1,
+      "message": "To display relation chain, I upload the CLs in multiple-commit way.\nreference to : https://go-review.googlesource.com/c/go/+/339051\n\nThanks.",
+      "revId": "a95e1e913b7ed7d8b063568770f7405e0eb21b34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
