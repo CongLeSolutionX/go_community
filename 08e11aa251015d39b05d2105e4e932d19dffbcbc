@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bb7df93_92c0014f",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1901,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-09T22:17:36Z",
+      "side": 1,
+      "message": "yes, at some point these comments should be fixed",
+      "parentUuid": "e39a5345_b3ef7abc",
+      "range": {
+        "startLine": 1901,
+        "startChar": 0,
+        "endLine": 1901,
+        "endChar": 53
+      },
+      "revId": "08e11aa251015d39b05d2105e4e932d19dffbcbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84918ef7_728fc299",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7dd9d04_1d7b9e6b",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1914,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-09T22:17:36Z",
+      "side": 1,
+      "message": "indeed, good catch!\n\nwill fix separately",
+      "parentUuid": "84918ef7_728fc299",
+      "range": {
+        "startLine": 1914,
+        "startChar": 11,
+        "endLine": 1914,
+        "endChar": 25
+      },
+      "revId": "08e11aa251015d39b05d2105e4e932d19dffbcbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a94b2160_41f4bde9",
@@ -97,6 +145,30 @@
       "writtenOn": "2021-09-09T17:50:25Z",
       "side": 1,
       "message": "Am I misreading the test below? It looks like it\u0027s positioned on the last name.",
+      "range": {
+        "startLine": 1970,
+        "startChar": 15,
+        "endLine": 1970,
+        "endChar": 45
+      },
+      "revId": "08e11aa251015d39b05d2105e4e932d19dffbcbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6832817e_af6b9612",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1970,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-09T22:17:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand. At least the test behaves as expected.\nHappy to address in follow-up; there\u0027s probably more room for fine-tuning.",
+      "parentUuid": "a94b2160_41f4bde9",
       "range": {
         "startLine": 1970,
         "startChar": 15,
