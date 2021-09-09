@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da002ad8_69d57f33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27872
+      },
+      "writtenOn": "2021-09-09T15:37:54Z",
+      "side": 1,
+      "message": "I posted the memory cost comparison on github comment",
+      "revId": "2f27e9af72e5931f28e0e91bdd4e7c450254e1c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
