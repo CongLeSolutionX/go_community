@@ -51,7 +51,101 @@ const (
 
 	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
 	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
+
+	inlineBigForNodes     = 37 // FORs with this many nodes are considered "big" and functions are not forced to be inlined.
+	inlineBigForCallNodes = 3  // FORs with this many call nodes are considered "big" and functions are not forced to be inlined.
+	inlineExtraForBudget  = 13 // Extra budget to inline into not a "big" FOR.
+
+	// The upper budget for a visitor. It accounts the maximum cost with which a function could be inlined.
+	inlineVisitorBudget = inlineMaxBudget + inlineExtraForBudget
 )
+
+type forContext struct {
+	liveCounter int
+	totalNodes  int
+	callNodes   int
+}
+
+type inlContext struct {
+	inlMap    map[*ir.Func]bool
+	forsStack []forContext
+}
+
+// isinlinable checks if the function can be inlined in a 'typical' scenario
+// when no boosts are applied.
+func isinlinable(fn *ir.Func) bool {
+	return fn != nil && fn.Inl != nil && fn.Inl.Cost <= inlineMaxBudget
+}
+
+// countNodes returns count of child nodes and inlinable child call nodes.
+func countInlinableCallNodes(n ir.Node) (int, int) {
+	child_nodes := 0
+	child_inlinable_call_nodes := 0
+	ir.Any(n, func(n ir.Node) bool {
+		child_nodes++
+		switch n.Op() {
+		case ir.OCALLFUNC:
+			call := n.(*ir.CallExpr)
+			if call.NoInline {
+				break
+			}
+			if ir.IsIntrinsicCall(call) {
+				break
+			}
+			if fn := inlCallee(call.X); fn != nil && fn.Inl != nil {
+				child_inlinable_call_nodes++
+			}
+		}
+		return false
+	})
+	return child_nodes, child_inlinable_call_nodes
+}
+
+// updateForsStack maintains forsStack, which is used to recognise
+// which call nodes are located inside fors, while doing inlnode.
+func updateForsStack(inlCtx *inlContext, n ir.Node) {
+	outdated := 0
+	for i := len(inlCtx.forsStack) - 1; i >= 0; i-- {
+		inlCtx.forsStack[i].liveCounter--
+		if inlCtx.forsStack[i].liveCounter < 0 {
+			outdated++
+		}
+	}
+	inlCtx.forsStack = inlCtx.forsStack[:len(inlCtx.forsStack)-outdated]
+
+	// If we are in a "big" FOR, it's useless to calculate node count
+	// for this FOR, since no function will be inlined.
+	if n.Op() == ir.OFOR && (len(inlCtx.forsStack) == 0 || ancestorForsAreSmall(inlCtx)) {
+		child_nodes, child_inlinable_call_nodes := countInlinableCallNodes(n)
+		inlCtx.forsStack = append(inlCtx.forsStack, forContext{child_nodes - 1, child_nodes - 1, child_inlinable_call_nodes})
+
+		if base.Flag.LowerM > 1 {
+			fmt.Printf("%v: add for to stack %v\n", ir.Line(n), inlCtx.forsStack)
+		}
+	}
+}
+
+// fixupForsStackAfterInline fixes forsStack after a call node was replaced with inlined node.
+func fixupForsStackAfterInline(inlCtx *inlContext, n ir.Node, call *ir.InlinedCallExpr) {
+	if len(inlCtx.forsStack) == 0 {
+		return
+	}
+
+	child_nodes, child_inlinable_call_nodes := countInlinableCallNodes(call)
+
+	for i := 0; i < len(inlCtx.forsStack); i++ {
+		inlCtx.forsStack[i].liveCounter += child_nodes - 1
+		inlCtx.forsStack[i].callNodes += child_inlinable_call_nodes
+	}
+
+	if base.Flag.LowerM > 1 {
+		fmt.Printf("%v: fixup inline %v\n", ir.Line(n), inlCtx.forsStack)
+	}
+}
+
+func ancestorForsAreSmall(inlCtx *inlContext) bool {
+	return len(inlCtx.forsStack) > 0 && inlCtx.forsStack[0].totalNodes < inlineBigForNodes && inlCtx.forsStack[0].callNodes < inlineBigForCallNodes
+}
 
 // InlinePackage finds functions that can be inlined and clones them before walk expands them.
 func InlinePackage() {
@@ -167,7 +261,7 @@ func CanInline(fn *ir.Func) {
 	// list. See issue 25249 for more context.
 
 	visitor := hairyVisitor{
-		budget:        inlineMaxBudget,
+		budget:        inlineVisitorBudget,
 		extraCallCost: cc,
 	}
 	if visitor.tooHairy(fn) {
@@ -176,7 +270,7 @@ func CanInline(fn *ir.Func) {
 	}
 
 	n.Func.Inl = &ir.Inline{
-		Cost: inlineMaxBudget - visitor.budget,
+		Cost: inlineVisitorBudget - visitor.budget,
 		Dcl:  pruneUnusedAutos(n.Defn.(*ir.Func).Dcl, &visitor),
 		Body: inlcopylist(fn.Body),
 
@@ -184,12 +278,16 @@ func CanInline(fn *ir.Func) {
 	}
 
 	if base.Flag.LowerM > 1 {
-		fmt.Printf("%v: can inline %v with cost %d as: %v { %v }\n", ir.Line(fn), n, inlineMaxBudget-visitor.budget, fn.Type(), ir.Nodes(n.Func.Inl.Body))
-	} else if base.Flag.LowerM != 0 {
+		if isinlinable(n.Func) {
+			fmt.Printf("%v: can inline %v with cost %d as: %v { %v }\n", ir.Line(fn), n, n.Func.Inl.Cost, fn.Type(), ir.Nodes(n.Func.Inl.Body))
+		} else {
+			fmt.Printf("%v: can inline only into small FORs %v with cost %d as: %v { %v }\n", ir.Line(fn), n, n.Func.Inl.Cost, fn.Type(), ir.Nodes(n.Func.Inl.Body))
+		}
+	} else if base.Flag.LowerM != 0 && isinlinable(n.Func) {
 		fmt.Printf("%v: can inline %v\n", ir.Line(fn), n)
 	}
 	if logopt.Enabled() {
-		logopt.LogOpt(fn.Pos(), "canInlineFunction", "inline", ir.FuncName(fn), fmt.Sprintf("cost: %d", inlineMaxBudget-visitor.budget))
+		logopt.LogOpt(fn.Pos(), "canInlineFunction", "inline", ir.FuncName(fn), fmt.Sprintf("cost: %d", n.Func.Inl.Cost))
 	}
 }
 
@@ -241,7 +339,7 @@ func (v *hairyVisitor) tooHairy(fn *ir.Func) bool {
 		return true
 	}
 	if v.budget < 0 {
-		v.reason = fmt.Sprintf("function too complex: cost %d exceeds budget %d", inlineMaxBudget-v.budget, inlineMaxBudget)
+		v.reason = fmt.Sprintf("function too complex: cost %d exceeds budget %d", inlineVisitorBudget-v.budget, inlineVisitorBudget)
 		return true
 	}
 	return false
@@ -503,10 +601,11 @@ func InlineCalls(fn *ir.Func) {
 	// but allow inlining if there is a recursion cycle of many functions.
 	// Most likely, the inlining will stop before we even hit the beginning of
 	// the cycle again, but the map catches the unusual case.
-	inlMap := make(map[*ir.Func]bool)
+	inlCtx := inlContext{make(map[*ir.Func]bool), make([]forContext, 0)}
+
 	var edit func(ir.Node) ir.Node
 	edit = func(n ir.Node) ir.Node {
-		return inlnode(n, maxCost, inlMap, edit)
+		return inlnode(n, maxCost, &inlCtx, edit)
 	}
 	ir.EditChildren(fn, edit)
 	ir.CurFunc = savefn
@@ -525,9 +624,14 @@ func InlineCalls(fn *ir.Func) {
 // shorter and less complicated.
 // The result of inlnode MUST be assigned back to n, e.g.
 // 	n.Left = inlnode(n.Left)
-func inlnode(n ir.Node, maxCost int32, inlMap map[*ir.Func]bool, edit func(ir.Node) ir.Node) ir.Node {
+func inlnode(n ir.Node, maxCost int32, inlCtx *inlContext, edit func(ir.Node) ir.Node) ir.Node {
 	if n == nil {
 		return n
+	}
+
+	if updateForsStack(inlCtx, n); ancestorForsAreSmall(inlCtx) && maxCost == inlineMaxBudget {
+		// Boosts only regular functions
+		maxCost += inlineExtraForBudget
 	}
 
 	switch n.Op() {
@@ -584,7 +688,7 @@ func inlnode(n ir.Node, maxCost int32, inlMap map[*ir.Func]bool, edit func(ir.No
 			break
 		}
 		if fn := inlCallee(call.X); fn != nil && fn.Inl != nil {
-			n = mkinlcall(call, fn, maxCost, inlMap, edit)
+			n = mkinlcall(call, fn, maxCost, inlCtx, edit)
 		}
 	}
 
@@ -657,7 +761,7 @@ var NewInline = func(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCa
 // parameters.
 // The result of mkinlcall MUST be assigned back to n, e.g.
 // 	n.Left = mkinlcall(n.Left, fn, isddd)
-func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]bool, edit func(ir.Node) ir.Node) ir.Node {
+func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlCtx *inlContext, edit func(ir.Node) ir.Node) ir.Node {
 	if fn.Inl == nil {
 		if logopt.Enabled() {
 			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(ir.CurFunc),
@@ -693,15 +797,15 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 		return n
 	}
 
-	if inlMap[fn] {
+	if inlCtx.inlMap[fn] {
 		if base.Flag.LowerM > 1 {
 			fmt.Printf("%v: cannot inline %v into %v: repeated recursive cycle\n", ir.Line(n), fn, ir.FuncName(ir.CurFunc))
 		}
 		return n
 	}
-	inlMap[fn] = true
+	inlCtx.inlMap[fn] = true
 	defer func() {
-		inlMap[fn] = false
+		inlCtx.inlMap[fn] = false
 	}()
 
 	typecheck.FixVariadicCall(n)
@@ -729,6 +833,8 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 	if res == nil {
 		res = oldInline(n, fn, inlIndex)
 	}
+
+	fixupForsStackAfterInline(inlCtx, n, res)
 
 	// transitive inlining
 	// might be nice to do this before exporting the body,
