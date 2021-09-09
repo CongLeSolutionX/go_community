@@ -74,7 +74,7 @@ func (mode *BuildMode) Set(s string) error {
 		*mode = BuildModeCArchive
 	case "c-shared":
 		switch buildcfg.GOARCH {
-		case "386", "amd64", "arm", "arm64", "ppc64le", "riscv64", "s390x":
+		case "386", "amd64", "arm", "arm64", "mips64", "mips64le", "ppc64le", "riscv64", "s390x":
 		default:
 			return badmode()
 		}
