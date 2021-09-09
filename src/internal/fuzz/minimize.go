@@ -19,6 +19,16 @@ func isMinimizable(t reflect.Type) bool {
 }
 
 func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool) {
+	tmp := make([]byte, len(v))
+	defer func() {
+		// If minimization was successful at any point during minimizeBytes,
+		// then the vals slice in (*workerServer).minimizeInput will point to
+		// tmp. Since tmp is altered while making new candidates, we need to
+		// make sure that it is equal to the correct value, v, before exiting
+		// this function.
+		copy(tmp, v)
+	}()
+
 	// First, try to cut the tail.
 	for n := 1024; n != 0; n /= 2 {
 		for len(v) > n {
@@ -35,7 +45,6 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 	}
 
 	// Then, try to remove each individual byte.
-	tmp := make([]byte, len(v))
 	for i := 0; i < len(v)-1; i++ {
 		if shouldStop() {
 			return
@@ -72,8 +81,6 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 			j = len(v)
 		}
 	}
-
-	return
 }
 
 func minimizeInteger(v uint, try func(interface{}) bool, shouldStop func() bool) {
@@ -90,7 +97,6 @@ func minimizeInteger(v uint, try func(interface{}) bool, shouldStop func() bool)
 		// re-trigger the crash.
 		try(v)
 	}
-	return
 }
 
 func minimizeFloat(v float64, try func(interface{}) bool, shouldStop func() bool) {
@@ -109,5 +115,4 @@ func minimizeFloat(v float64, try func(interface{}) bool, shouldStop func() bool
 			return
 		}
 	}
-	return
 }
