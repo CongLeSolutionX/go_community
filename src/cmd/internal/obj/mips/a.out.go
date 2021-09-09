@@ -301,6 +301,9 @@ const (
 	C_STCON /* $tlsvar */
 	C_SBRA
 	C_LBRA
+	C_SSBRA  /* call or jump to shared small offset */
+	C_SLBRA  /* call or jump to shared large offset */
+	C_SYMBRA /* call or jump to GOT sym */
 	C_SAUTO
 	C_LAUTO
 	C_SEXT
@@ -310,7 +313,18 @@ const (
 	C_LOREG
 	C_GOK
 	C_ADDR
-	C_TLS
+	C_GOTADDR // for GOT address type sym
+
+	// TLS "var" in local exec mode: will become a constant offset from
+	// thread local base that is ultimately chosen by the program linker.
+	C_TLS_LE
+
+	// TLS "var" in general dynamic mode: obtain module ID and TLS variable
+	// offset when program is running. Then get the TLS variable address by
+	// calling function __tls_get_addr() with arguments (module ID and the
+	// offset).
+	C_TLS_GD
+
 	C_TEXTSIZE
 
 	C_NCLASS /* must be the last */
