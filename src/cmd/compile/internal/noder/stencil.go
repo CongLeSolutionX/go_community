@@ -396,13 +396,17 @@ func (g *irgen) buildClosure(outer *ir.Func, x ir.Node) ir.Node {
 	if rcvrValue != nil {
 		rcvrVar = ir.NewNameAt(pos, typecheck.LookupNum(".rcvr", g.dnum))
 		g.dnum++
-		rcvrVar.Class = ir.PAUTO
 		typed(rcvrValue.Type(), rcvrVar)
-		rcvrVar.Curfn = outer
-		rcvrAssign = ir.NewAssignStmt(pos, rcvrVar, rcvrValue)
-		rcvrAssign.SetTypecheck(1)
-		rcvrVar.Defn = rcvrAssign
-		outer.Dcl = append(outer.Dcl, rcvrVar)
+		if outer == nil {
+			rcvrVar.Class = ir.PEXTERN
+		} else {
+			rcvrVar.Class = ir.PAUTO
+			rcvrVar.Curfn = outer
+			rcvrAssign = ir.NewAssignStmt(pos, rcvrVar, rcvrValue)
+			rcvrAssign.SetTypecheck(1)
+			rcvrVar.Defn = rcvrVar
+			outer.Dcl = append(outer.Dcl, rcvrVar)
+		}
 	}
 
 	// Build body of closure. This involves just calling the wrapped function directly
