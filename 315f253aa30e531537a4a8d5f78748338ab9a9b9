@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cad87146_16a93ce8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-09T17:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e714de65_84f8e532",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 17
+      },
+      "revId": "315f253aa30e531537a4a8d5f78748338ab9a9b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "be1d0b8b_c458d5a1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -95,6 +119,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e5dd3ca_70187484",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-09T17:01:30Z",
+      "side": 1,
+      "message": "Yeah it\u0027s a really tricky issue that took a while to actually understand. LMK if you see a way to comment that better 👍",
+      "parentUuid": "92fdca56_71a647a8",
+      "revId": "315f253aa30e531537a4a8d5f78748338ab9a9b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f45d869e_a1117de0",
@@ -108,6 +150,24 @@
       "writtenOn": "2021-09-09T16:08:52Z",
       "side": 1,
       "message": "FWIW defer copy(tmp, v) would work too.",
+      "revId": "315f253aa30e531537a4a8d5f78748338ab9a9b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ced0ad27_a865760d",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-09T17:01:30Z",
+      "side": 1,
+      "message": "True. Done.",
+      "parentUuid": "f45d869e_a1117de0",
       "revId": "315f253aa30e531537a4a8d5f78748338ab9a9b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
