@@ -72,6 +72,29 @@
       "message": "This should be ready to go. Katie, PTAL when you get a chance.",
       "revId": "9bdad1771be47e68c357780de45dd46cdc66ac6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d297f2_340faa23",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2767,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-09T14:06:02Z",
+      "side": 1,
+      "message": "Is this change needed? It looks like it just slightly changes the spacing, and in a way that\u0027s inconsistent with most of the rest of the file.\nSame for the other file.",
+      "range": {
+        "startLine": 2767,
+        "startChar": 4,
+        "endLine": 2767,
+        "endChar": 5
+      },
+      "revId": "9bdad1771be47e68c357780de45dd46cdc66ac6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
