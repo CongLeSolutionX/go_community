@@ -131,14 +131,11 @@ func (w *typeWriter) typ(typ Type) {
 			if i > 0 {
 				w.string("; ")
 			}
-			// This doesn't do the right thing for embedded type
-			// aliases where we should print the alias name, not
-			// the aliased type (see issue #44410).
+			w.string(f.name)
 			if !f.embedded {
-				w.string(f.name)
 				w.byte(' ')
+				w.typ(f.typ)
 			}
-			w.typ(f.typ)
 			if tag := t.Tag(i); tag != "" {
 				w.writef(" %q", tag)
 			}
