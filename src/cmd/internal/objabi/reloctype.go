@@ -113,6 +113,20 @@ const (
 	// of a JMP instruction, by encoding the address into the instruction.
 	// The stack nosplit check ignores this since it is not a function call.
 	R_JMPMIPS
+	// R_MIPS_GOTPCREL calculates GOT address for PIC code.
+	R_MIPS_GOTPCREL
+	// R_MIPS_CALL16 locates GOT entry for function call.
+	R_MIPS_CALL16
+	// R_MIPS_JALR advances function call that used jalr instruction.
+	R_MIPS_JALR
+	// R_MIPS_GOT_DISP resolves the offset of that pointer from gp.
+	R_MIPS_GOT_DISP
+	// R_MIPS_TLS_GD relocates TLS variable in GD mode.
+	R_MIPS_TLS_GD
+	// R_MIPS_GOT_PAGE relocates for GOT page pointer.
+	R_MIPS_GOT_PAGE
+	// R_MIPS_GOT_OFST relocates for GOT page offset.
+	R_MIPS_GOT_OFST
 
 	// R_DWARFSECREF resolves to the offset of the symbol from its section.
 	// Target of relocation must be size 4 (in current implementation).
