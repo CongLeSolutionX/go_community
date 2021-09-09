@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9758368_ff3cbc67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-09T15:19:40Z",
+      "side": 1,
+      "message": "Hi Steven! Thanks for reporting this issue and working on the patch. I wanted to avoid a new allocation at all costs, so I was looking into alternative options to fix this. I ended up going a completely different direction (I also needed to make a few fixes to the current test code as well), so I made a new patch here and credited you: https://go-review.googlesource.com/c/go/+/348610\n\nThanks again!",
+      "revId": "98f92a9b1606fb7139132401e83e83ad7fc2c2de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02017858_25da24d0",
