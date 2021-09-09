@@ -348,6 +348,23 @@ const (
 	// just used in the linker to order the inittask records appropriately.
 	R_INITORDER
 
+	// R_MIPS_GPREL_HI16 resolves to the high 16-bit of the GOT address in PIC mode.
+	R_MIPS_GPREL_HI16
+	// R_MIPS_GPREL_LO16 resolves to the low 16-bit of the GOT address in PIC mode.
+	R_MIPS_GPREL_LO16
+	// R_MIPS_CALL16 resolves to (low 16 bits of) the address of the lazy evaluation
+	// stub of the function in PIC mode.
+	R_MIPS_CALL16
+	// R_MIPS_JALR tells the linker the concrete call target of a "CALL (R25)"
+	// instruction in PIC mode, so the linker can optimize it back to a concrete call.
+	R_MIPS_JALR
+	// R_MIPS_TLS_GD resolves to the TLS variable address by GD mode in PIC mode.
+	R_MIPS_TLS_GD
+	// R_MIPS_GOT_PAGE resolves to the GOT page pointer of a symbol in PIC mode.
+	R_MIPS_GOT_PAGE
+	// R_MIPS_GOT_OFST resolves to the GOT page offset of a symbol in PIC mode.
+	R_MIPS_GOT_OFST
+
 	// R_WEAK marks the relocation as a weak reference.
 	// A weak relocation does not make the symbol it refers to reachable,
 	// and is only honored by the linker if the symbol is in some other way
@@ -365,7 +382,9 @@ const (
 // the target address in register or memory.
 func (r RelocType) IsDirectCall() bool {
 	switch r {
-	case R_CALL, R_CALLARM, R_CALLARM64, R_CALLLOONG64, R_CALLMIPS, R_CALLPOWER, R_RISCV_CALL, R_RISCV_CALL_TRAMP:
+	// R_MIPS_JALR is not a hardware direct call but we know the call
+	// target and the linker can treat it as a direct call.
+	case R_CALL, R_CALLARM, R_CALLARM64, R_CALLLOONG64, R_CALLMIPS, R_MIPS_JALR, R_CALLPOWER, R_RISCV_CALL, R_RISCV_CALL_TRAMP:
 		return true
 	}
 	return false
