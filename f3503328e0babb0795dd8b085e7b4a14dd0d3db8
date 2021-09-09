@@ -109,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4a6cf8c_ea4e6608",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-09T02:12:52Z",
+      "side": 1,
+      "message": "Hi Cherry, beside performance of tracing stack object, it also affects binary size. I can\u0027t find my old analysis now, but last time I tried, if we can introduce all SetAddrTakenNoStackObject after the noder, compilecmp -n 0 -obj will report the total reduction of 0.2% binary size.\n\nBut this CL now only limit to just map key, thus the gain will be small. But it opens more opportunity for future changes.\n\nAnd for safety, everything just happens like before, that means SetAddrTaken will always causes stack object. We need to find all cases that can be optimized and do it ourselves, example this CL does that optimization for map keys tmp.",
+      "parentUuid": "9c6af434_7ecf3199",
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee809062_d125f2d1",
@@ -122,6 +140,30 @@
       "writtenOn": "2021-09-08T21:33:31Z",
       "side": 1,
       "message": "This should be m.\nMaybe a helper function, copyAddrTaken(dst, src *ir.Name) which does this if/elseif would help? We can use it above and here.",
+      "range": {
+        "startLine": 1031,
+        "startChar": 2,
+        "endLine": 1031,
+        "endChar": 3
+      },
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbbe3553_06afdf19",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-09T02:12:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee809062_d125f2d1",
       "range": {
         "startLine": 1031,
         "startChar": 2,
@@ -155,6 +197,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d45bd72_d8d72bab",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-09T02:12:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3a35f42_e12d63aa",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 38
+      },
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "974d7dee_d2704f16",
@@ -168,6 +234,30 @@
       "writtenOn": "2021-09-08T21:33:31Z",
       "side": 1,
       "message": "nodes",
+      "range": {
+        "startLine": 79,
+        "startChar": 48,
+        "endLine": 79,
+        "endChar": 52
+      },
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75abb7b1_8a31bb97",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-09T02:12:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "974d7dee_d2704f16",
       "range": {
         "startLine": 79,
         "startChar": 48,
@@ -197,6 +287,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b3b5df5_ad2328ba",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-09T02:12:52Z",
+      "side": 1,
+      "message": "Hmm, the point here is \"After the noder, if x.Name() was marked addr taken manually, we don\u0027t want to override the addr taken property\". Maybe change it to:\n\n```\nif x.Name().AddrTaken() {\n    // After the noder, allow manually marking the addr taken property,\n    // since when we may know the lifetime of an autotmp and don\u0027t want\n    // to generate stack object for it.\n} else {\n    x.Name().SetAddrTaken()\n}\n```",
+      "parentUuid": "29a3600a_af230038",
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4264accd_65ebef73",
         "filename": "src/cmd/compile/internal/typecheck/subr.go",
         "patchSetId": 22
@@ -208,6 +316,30 @@
       "writtenOn": "2021-09-08T23:55:06Z",
       "side": 1,
       "message": "Or maybe this is just SetAddrTakenNoStackObject()?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 28
+      },
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "739c0663_ed623ce3",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-09T02:12:52Z",
+      "side": 1,
+      "message": "I think no, SetAddrTakenNoStackObject should be called at the caller side of markAddrOf, maybe see my suggestions above.",
+      "parentUuid": "4264accd_65ebef73",
       "range": {
         "startLine": 99,
         "startChar": 0,
