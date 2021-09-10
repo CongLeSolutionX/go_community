@@ -19,7 +19,6 @@ type Named struct {
 	underlying Type      // possibly a *Named during setup; never a *Named once set up completely
 
 	// TODO(rfindley): instPos can be eliminated.
-	instPos *token.Pos     // position information for lazy instantiation, or nil
 	tparams *TypeParamList // type parameters, or nil
 	targs   *TypeList      // type arguments (after instantiation), or nil
 	methods []*Func        // methods declared for this type (not the method set of this type); signatures are type-checked lazily
@@ -215,11 +214,11 @@ func (n *Named) setUnderlying(typ Type) {
 
 // expandNamed ensures that the underlying type of n is instantiated.
 // The underlying type will be Typ[Invalid] if there was an error.
-func expandNamed(env *Environment, n *Named) (*TypeParamList, Type, []*Func) {
+func expandNamed(env *Environment, n *Named, instPos token.Pos) (*TypeParamList, Type, []*Func) {
 	n.orig.load(env)
 
 	var u Type
-	if n.check.validateTArgLen(*n.instPos, n.orig.tparams.Len(), n.targs.Len()) {
+	if n.check.validateTArgLen(instPos, n.orig.tparams.Len(), n.targs.Len()) {
 		// TODO(rfindley): handling an optional Checker and Environment here (and
 		// in subst) feels overly complicated. Can we simplify?
 		if env == nil {
@@ -238,11 +237,10 @@ func expandNamed(env *Environment, n *Named) (*TypeParamList, Type, []*Func) {
 			// shouldn't return that instance from expand.
 			env.typeForHash(h, n)
 		}
-		u = n.check.subst(*n.instPos, n.orig.underlying, makeSubstMap(n.orig.tparams.list(), n.targs.list()), env)
+		u = n.check.subst(instPos, n.orig.underlying, makeSubstMap(n.orig.tparams.list(), n.targs.list()), env)
 	} else {
 		u = Typ[Invalid]
 	}
-	n.instPos = nil
 	return n.orig.tparams, u, n.orig.methods
 }
 
