@@ -5,6 +5,7 @@
 package types_test
 
 import (
+	"fmt"
 	. "go/types"
 	"testing"
 )
@@ -68,5 +69,26 @@ func TestInstantiateNonEquality(t *testing.T) {
 	}
 	if Identical(res1, res2) {
 		t.Errorf("instance from pkg1 (%s) is identical to instance from pkg2 (%s)", res1, res2)
+	}
+}
+
+func TestInstantiateMethods(t *testing.T) {
+	const src = genericPkg + `p
+type T[P interface { ~int|~int32|~int64 }] int
+
+func (r T[P]) m() P {
+	return P(r)
+}
+
+var X T[int64]
+`
+	pkg, err := pkgFor(".", src, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	typ := pkg.Scope().Lookup("X").Type().(*Named)
+	fmt.Println(typ.String())
+	for i := 0; i < typ.NumMethods(); i++ {
+		fmt.Println(typ.Method(i).Type().String())
 	}
 }

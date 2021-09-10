@@ -217,13 +217,16 @@ func (n *Named) setUnderlying(typ Type) {
 func expandNamed(env *Environment, n *Named, instPos token.Pos) (*TypeParamList, Type, []*Func) {
 	n.orig.resolve(env)
 
+	check := n.check
+
 	var u Type
-	if n.check.validateTArgLen(instPos, n.orig.tparams.Len(), n.targs.Len()) {
+	var methods []*Func
+	if check.validateTArgLen(instPos, n.orig.tparams.Len(), n.targs.Len()) {
 		// TODO(rfindley): handling an optional Checker and Environment here (and
 		// in subst) feels overly complicated. Can we simplify?
 		if env == nil {
-			if n.check != nil {
-				env = n.check.conf.Environment
+			if check != nil {
+				env = check.conf.Environment
 			} else {
 				// If we're instantiating lazily, we might be outside the scope of a
 				// type-checking pass. In that case we won't have a pre-existing
@@ -237,11 +240,70 @@ func expandNamed(env *Environment, n *Named, instPos token.Pos) (*TypeParamList,
 			// shouldn't return that instance from expand.
 			env.typeForHash(h, n)
 		}
-		u = n.check.subst(instPos, n.orig.underlying, makeSubstMap(n.orig.tparams.list(), n.targs.list()), env)
+		smap := makeSubstMap(n.orig.tparams.list(), n.targs.list())
+		u = n.check.subst(instPos, n.orig.underlying, smap, env)
+		for i := 0; i < n.orig.NumMethods(); i++ {
+			origm := n.orig.Method(i)
+
+			// During type checking origm may not have a fully set up type, so defer
+			// instantiation of its signature until later.
+			//
+			// Create a stub signature to hold the instantiated receiver type, which
+			// will be needed for instantiating the method, for access to targs and
+			// uninstantiated methods.
+			sig := new(Signature)
+			sig.recv = NewParam(token.NoPos, nil, "", n)
+			m := NewFunc(origm.pos, origm.pkg, origm.name, sig)
+			m.isIncompleteMethod = true
+			m.setColor(black)
+
+			methods = append(methods, m)
+		}
 	} else {
 		u = Typ[Invalid]
 	}
-	return n.orig.tparams, u, n.orig.methods
+	check.later(func() {
+		for _, m := range methods {
+			check.completeMethod(env, m)
+		}
+	})
+	return n.orig.tparams, u, methods
+}
+
+func (check *Checker) completeMethod(env *Environment, m *Func) {
+	if !m.isIncompleteMethod {
+		return
+	}
+	m.isIncompleteMethod = false
+
+	sig := m.typ.(*Signature)
+	rtyp := sig.recv.typ.(*Named)
+	assert(rtyp.TypeArgs().Len() > 0)
+
+	// Look up the original method.
+	_, orig := lookupMethod(rtyp.orig.methods, rtyp.obj.pkg, m.name)
+	assert(orig != nil)
+	if check != nil {
+		check.objDecl(orig, nil)
+	}
+	origSig := orig.typ.(*Signature)
+	if origSig.RecvTypeParams().Len() != rtyp.targs.Len() {
+		return // error reported elsewhere
+	}
+
+	smap := makeSubstMap(origSig.RecvTypeParams().list(), rtyp.targs.list())
+	subst := check.subster(orig.pos, smap, env)
+
+	// Populate the signature, subst'ing params and results.
+	sig.params = subst.tuple(origSig.params)
+	sig.results = subst.tuple(origSig.results)
+	sig.variadic = origSig.variadic
+	sig.tparams = origSig.tparams
+
+	sig.recv.name = origSig.recv.name
+	sig.recv.pkg = origSig.recv.pkg
+	sig.recv.pos = origSig.recv.pos
+	sig.recv.typ = rtyp
 }
 
 // safeUnderlying returns the underlying of typ without expanding instances, to

@@ -168,7 +168,7 @@ func (check *Checker) validateTArgLen(pos token.Pos, ntparams, ntargs int) bool 
 	return true
 }
 
-func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type) (int, error) {
+func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type) (index int, _ error) {
 	smap := makeSubstMap(tparams, targs)
 	for i, tpar := range tparams {
 		// stop checking bounds after the first failure
