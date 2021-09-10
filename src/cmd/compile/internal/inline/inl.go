@@ -51,7 +51,102 @@ const (
 
 	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
 	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
+
+	inlineBigForCost                    = 51 // FORs with at least this cost are considered "big".
+	inlineForMaxCost                    = 37 // FORs should be cheaper than this to boost inlining into themselves.
+	inlineIntoForExtraCallCost          = 6  // These extra costs were benchmarked to provided most benefit with no bad surprises.
+	inlineIntoForExtraInlinableCallCost = 10
+	inlineIntoForExtraBudget            = 16 // Extra budget when inlining into FORs which are not "big".
+
+	// The upper budget for a visitor. It accounts the maximum cost with which a function could be inlined.
+	inlineVisitorBudget = inlineMaxBudget + inlineIntoForExtraBudget
 )
+
+// isInlinable checks if the function can be inlined in a 'typical' scenario
+// when no boosts are applied.
+func isInlinable(fn *ir.Func) bool {
+	return fn != nil && fn.Inl != nil && fn.Inl.Cost <= inlineMaxBudget
+}
+
+type forContext struct {
+	cost int32
+}
+
+type inlContext struct {
+	// Map to keep track of functions that have been inlined at a particular
+	// call site, in order to stop inlining when we reach the beginning of a
+	// recursion cycle again. We don't inline immediately recursive functions,
+	// but allow inlining if there is a recursion cycle of many functions.
+	// Most likely, the inlining will stop before we even hit the beginning of
+	// the cycle again, but the map catches the unusual case.
+	inlinedCallees map[*ir.Func]bool
+
+	// Stack to recognise which call nodes are located inside fors, while doing inlnode.
+	forsStack           []forContext
+	initialInlineBudget int32 // Initial inline budget, boosts are calculated related to this.
+}
+
+func (ctx inlContext) canBoostInliningIntoFor() bool {
+	// The decision is based on:
+	//   1) The first FOR in the stack is not "big".
+	//   2) The last FOR cost should be less inlineForMaxCost.
+	return len(ctx.forsStack) > 0 && ctx.forsStack[0].cost < inlineBigForCost && ctx.forsStack[len(ctx.forsStack)-1].cost < inlineForMaxCost
+}
+
+func (ctx *inlContext) Init(fn *ir.Func) {
+	ctx.inlinedCallees = make(map[*ir.Func]bool)
+
+	if isBigFunc(fn) {
+		ctx.initialInlineBudget = inlineBigFunctionMaxCost
+	} else {
+		ctx.initialInlineBudget = inlineMaxBudget
+	}
+}
+
+func (ctx *inlContext) PushFor(n ir.Node) {
+	ctx.forsStack = append(ctx.forsStack, forContext{forCost(n)})
+
+	if base.Flag.LowerM > 1 {
+		fmt.Printf("%v: add for to stack %v\n", ir.Line(n), ctx.forsStack)
+	}
+}
+
+func (ctx *inlContext) PopFor() {
+	ctx.forsStack = ctx.forsStack[:len(ctx.forsStack)-1]
+}
+
+func (ctx inlContext) InlineBudget() int32 {
+	finalBudget := ctx.initialInlineBudget
+	if ctx.canBoostInliningIntoFor() && ctx.initialInlineBudget == inlineMaxBudget {
+		// Boosts only regular functions
+		finalBudget += inlineIntoForExtraBudget
+	}
+
+	return finalBudget
+}
+
+func forCost(n ir.Node) int32 {
+	cost := int32(inlineBigForCost)
+	ir.Any(n, func(n ir.Node) bool {
+		cost--
+
+		switch n.Op() {
+		case ir.OCALLFUNC:
+			call := n.(*ir.CallExpr)
+			if ir.IsIntrinsicCall(call) {
+				// Treat like any other node.
+				break
+			}
+
+			cost -= inlineIntoForExtraCallCost
+			if fn := inlCallee(call.X); fn != nil && fn.Inl != nil {
+				cost -= inlineIntoForExtraInlinableCallCost
+			}
+		}
+		return cost < 0
+	})
+	return inlineBigForCost - cost
+}
 
 // InlinePackage finds functions that can be inlined and clones them before walk expands them.
 func InlinePackage() {
@@ -167,7 +262,7 @@ func CanInline(fn *ir.Func) {
 	// list. See issue 25249 for more context.
 
 	visitor := hairyVisitor{
-		budget:        inlineMaxBudget,
+		budget:        inlineVisitorBudget,
 		extraCallCost: cc,
 	}
 	if visitor.tooHairy(fn) {
@@ -176,7 +271,7 @@ func CanInline(fn *ir.Func) {
 	}
 
 	n.Func.Inl = &ir.Inline{
-		Cost: inlineMaxBudget - visitor.budget,
+		Cost: inlineVisitorBudget - visitor.budget,
 		Dcl:  pruneUnusedAutos(n.Defn.(*ir.Func).Dcl, &visitor),
 		Body: inlcopylist(fn.Body),
 
@@ -184,12 +279,16 @@ func CanInline(fn *ir.Func) {
 	}
 
 	if base.Flag.LowerM > 1 {
-		fmt.Printf("%v: can inline %v with cost %d as: %v { %v }\n", ir.Line(fn), n, inlineMaxBudget-visitor.budget, fn.Type(), ir.Nodes(n.Func.Inl.Body))
-	} else if base.Flag.LowerM != 0 {
+		if isInlinable(n.Func) {
+			fmt.Printf("%v: can inline %v with cost %d as: %v { %v }\n", ir.Line(fn), n, n.Func.Inl.Cost, fn.Type(), ir.Nodes(n.Func.Inl.Body))
+		} else {
+			fmt.Printf("%v: can inline only into small FORs %v with cost %d as: %v { %v }\n", ir.Line(fn), n, n.Func.Inl.Cost, fn.Type(), ir.Nodes(n.Func.Inl.Body))
+		}
+	} else if base.Flag.LowerM != 0 && isInlinable(n.Func) {
 		fmt.Printf("%v: can inline %v\n", ir.Line(fn), n)
 	}
 	if logopt.Enabled() {
-		logopt.LogOpt(fn.Pos(), "canInlineFunction", "inline", ir.FuncName(fn), fmt.Sprintf("cost: %d", inlineMaxBudget-visitor.budget))
+		logopt.LogOpt(fn.Pos(), "canInlineFunction", "inline", ir.FuncName(fn), fmt.Sprintf("cost: %d", n.Func.Inl.Cost))
 	}
 }
 
@@ -241,7 +340,7 @@ func (v *hairyVisitor) tooHairy(fn *ir.Func) bool {
 		return true
 	}
 	if v.budget < 0 {
-		v.reason = fmt.Sprintf("function too complex: cost %d exceeds budget %d", inlineMaxBudget-v.budget, inlineMaxBudget)
+		v.reason = fmt.Sprintf("function too complex: cost %d exceeds budget %d", inlineVisitorBudget-v.budget, inlineVisitorBudget)
 		return true
 	}
 	return false
@@ -493,20 +592,13 @@ func inlcopy(n ir.Node) ir.Node {
 func InlineCalls(fn *ir.Func) {
 	savefn := ir.CurFunc
 	ir.CurFunc = fn
-	maxCost := int32(inlineMaxBudget)
-	if isBigFunc(fn) {
-		maxCost = inlineBigFunctionMaxCost
-	}
-	// Map to keep track of functions that have been inlined at a particular
-	// call site, in order to stop inlining when we reach the beginning of a
-	// recursion cycle again. We don't inline immediately recursive functions,
-	// but allow inlining if there is a recursion cycle of many functions.
-	// Most likely, the inlining will stop before we even hit the beginning of
-	// the cycle again, but the map catches the unusual case.
-	inlMap := make(map[*ir.Func]bool)
+
+	var inlCtx inlContext
+	inlCtx.Init(fn)
+
 	var edit func(ir.Node) ir.Node
 	edit = func(n ir.Node) ir.Node {
-		return inlnode(n, maxCost, inlMap, edit)
+		return inlnode(n, &inlCtx, edit)
 	}
 	ir.EditChildren(fn, edit)
 	ir.CurFunc = savefn
@@ -525,9 +617,14 @@ func InlineCalls(fn *ir.Func) {
 // shorter and less complicated.
 // The result of inlnode MUST be assigned back to n, e.g.
 // 	n.Left = inlnode(n.Left)
-func inlnode(n ir.Node, maxCost int32, inlMap map[*ir.Func]bool, edit func(ir.Node) ir.Node) ir.Node {
+func inlnode(n ir.Node, ctx *inlContext, edit func(ir.Node) ir.Node) ir.Node {
 	if n == nil {
 		return n
+	}
+
+	if n.Op() == ir.OFOR {
+		ctx.PushFor(n)
+		defer ctx.PopFor()
 	}
 
 	switch n.Op() {
@@ -584,7 +681,7 @@ func inlnode(n ir.Node, maxCost int32, inlMap map[*ir.Func]bool, edit func(ir.No
 			break
 		}
 		if fn := inlCallee(call.X); fn != nil && fn.Inl != nil {
-			n = mkinlcall(call, fn, maxCost, inlMap, edit)
+			n = mkinlcall(call, fn, ctx, edit)
 		}
 	}
 
@@ -657,7 +754,7 @@ var NewInline = func(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCa
 // parameters.
 // The result of mkinlcall MUST be assigned back to n, e.g.
 // 	n.Left = mkinlcall(n.Left, fn, isddd)
-func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]bool, edit func(ir.Node) ir.Node) ir.Node {
+func mkinlcall(n *ir.CallExpr, fn *ir.Func, ctx *inlContext, edit func(ir.Node) ir.Node) ir.Node {
 	if fn.Inl == nil {
 		if logopt.Enabled() {
 			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(ir.CurFunc),
@@ -665,12 +762,12 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 		}
 		return n
 	}
-	if fn.Inl.Cost > maxCost {
+	if fn.Inl.Cost > ctx.InlineBudget() {
 		// The inlined function body is too big. Typically we use this check to restrict
 		// inlining into very big functions.  See issue 26546 and 17566.
 		if logopt.Enabled() {
 			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(ir.CurFunc),
-				fmt.Sprintf("cost %d of %s exceeds max large caller cost %d", fn.Inl.Cost, ir.PkgFuncName(fn), maxCost))
+				fmt.Sprintf("cost %d of %s exceeds max large caller cost %d", fn.Inl.Cost, ir.PkgFuncName(fn), ctx.InlineBudget()))
 		}
 		return n
 	}
@@ -693,15 +790,15 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 		return n
 	}
 
-	if inlMap[fn] {
+	if ctx.inlinedCallees[fn] {
 		if base.Flag.LowerM > 1 {
 			fmt.Printf("%v: cannot inline %v into %v: repeated recursive cycle\n", ir.Line(n), fn, ir.FuncName(ir.CurFunc))
 		}
 		return n
 	}
-	inlMap[fn] = true
+	ctx.inlinedCallees[fn] = true
 	defer func() {
-		inlMap[fn] = false
+		ctx.inlinedCallees[fn] = false
 	}()
 
 	typecheck.FixVariadicCall(n)
