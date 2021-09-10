@@ -16,7 +16,7 @@ import (
 
 // debugging/development support
 const (
-	debug = false // leave on during development
+	debug = true  // leave on during development
 	trace = false // turn on for detailed type resolution traces
 )
 
@@ -142,12 +142,18 @@ func (check *Checker) rememberUntyped(e ast.Expr, lhs bool, mode operandMode, ty
 	m[e] = exprInfo{lhs, mode, typ, val}
 }
 
-// later pushes f on to the stack of actions that will be processed later;
-// either at the end of the current statement, or in case of a local constant
-// or variable declaration, before the constant or variable is in scope
-// (so that f still sees the scope before any new declarations).
+// When called with a non-nil receiver, later pushes f on to the stack of
+// actions that will be processed later; either at the end of the current
+// statement, or in case of a local constant or variable declaration, before
+// the constant or variable is in scope (so that f still sees the scope before
+// any new declarations). When called with a nil receiver, later executes f
+// immediately.
 func (check *Checker) later(f func()) {
-	check.delayed = append(check.delayed, f)
+	if check == nil {
+		f()
+	} else {
+		check.delayed = append(check.delayed, f)
+	}
 }
 
 // push pushes obj onto the object path and returns its index in the path.

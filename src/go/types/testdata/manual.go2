@@ -7,3 +7,9 @@
 
 package p
 
+type T1[A any] struct{ a A }
+
+func (t T1[A]) m1() A { return t.a }
+
+var x T1[int]
+var _ int = x.m1()
