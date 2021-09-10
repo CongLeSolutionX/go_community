@@ -1164,6 +1164,12 @@ func (r *importReader) stmtList() []ir.Node {
 		if n == nil {
 			break
 		}
+		var label *types.Sym
+		if len(list) > 0 {
+			if last := list[len(list)-1]; last.Op() == ir.OLABEL {
+				label = last.(*ir.LabelStmt).Label
+			}
+		}
 		// OBLOCK nodes are not written to the import data directly,
 		// but the handling of ODCL calls liststmt, which creates one.
 		// Inline them into the statement list.
@@ -1171,9 +1177,18 @@ func (r *importReader) stmtList() []ir.Node {
 			n := n.(*ir.BlockStmt)
 			list = append(list, n.List...)
 		} else {
+			switch n.Op() {
+			case ir.OFOR:
+				n.(*ir.ForStmt).Label = label
+			case ir.ORANGE:
+				n.(*ir.RangeStmt).Label = label
+			case ir.OSELECT:
+				n.(*ir.SelectStmt).Label = label
+			case ir.OSWITCH:
+				n.(*ir.SwitchStmt).Label = label
+			}
 			list = append(list, n)
 		}
-
 	}
 	return list
 }
