@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9e2dbd2_6f1a4359",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-09-10T11:11:35Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t remove the existing instruction. There may be existing code that uses it, and it works correctly for nonzero shifts. Just add a new one, and keep the old one. \n\n@Cherry I thought about it again, and felt that it was more reasonable not remove the existing syntax. I did not realize that some other projects might use it. The lastest version keeps the old one. Thank you.\n",
+      "revId": "fdb26d2addcafd9546e8a781afcefef5513325b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
