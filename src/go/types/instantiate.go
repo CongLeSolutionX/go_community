@@ -119,6 +119,7 @@ func (check *Checker) instance(pos token.Pos, typ Type, targs []Type, env *Envir
 		named := check.newNamed(tname, t, nil, nil, nil) // methods and tparams are set when named is loaded
 		named.targs = NewTypeList(targs)
 		named.instPos = &pos
+		named.resolve = expandNamed
 		if env != nil {
 			// It's possible that we've lost a race to add named to the environment.
 			// In this case, use whichever instance is recorded in the environment.

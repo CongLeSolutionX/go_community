@@ -232,8 +232,28 @@ func NewTypeName(pos token.Pos, pkg *Package, name string, typ Type) *TypeName {
 
 // _NewTypeNameLazy returns a new defined type like NewTypeName, but it
 // lazily calls resolve to finish constructing the Named object.
-func _NewTypeNameLazy(pos token.Pos, pkg *Package, name string, resolve func(named *Named) (tparams []*TypeParam, underlying Type, methods []*Func)) *TypeName {
+func _NewTypeNameLazy(pos token.Pos, pkg *Package, name string, load func(named *Named) (tparams []*TypeParam, underlying Type, methods []*Func)) *TypeName {
 	obj := NewTypeName(pos, pkg, name, nil)
+
+	// TODO(mdempsky): Since we're passing t to resolve anyway
+	// (necessary because types2 expects the receiver type for methods
+	// on defined interface types to be the Named rather than the
+	// underlying Interface), maybe it should just handle calling
+	// SetTypeParams, SetUnderlying, and AddMethod instead?  Those
+	// methods would need to support reentrant calls though.  It would
+	// also make the API more future-proof towards further extensions
+	// (like SetTypeParams).
+	resolve := func(_ *Environment, t *Named) (*TypeParamList, Type, []*Func) {
+		tparams, underlying, methods := load(t)
+
+		switch underlying.(type) {
+		case nil, *Named:
+			panic(fmt.Sprintf("invalid underlying type %T", t.underlying))
+		}
+
+		return bindTParams(tparams), underlying, methods
+	}
+
 	NewNamed(obj, nil, nil).resolve = resolve
 	return obj
 }
