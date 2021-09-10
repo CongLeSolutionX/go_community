@@ -323,6 +323,10 @@ func (r *importReader) obj(name string) {
 			tparams = r.tparamList()
 		}
 
+		if r.currPkg.Scope().Lookup(name) != nil {
+			return
+		}
+
 		// Types can be recursive. We need to setup a stub
 		// declaration before recursing.
 		obj := types2.NewTypeName(pos, r.currPkg, name, nil)
