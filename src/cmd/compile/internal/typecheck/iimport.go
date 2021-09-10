@@ -321,6 +321,9 @@ func (r *importReader) doDecl(sym *types.Sym) *ir.Name {
 			rparams = r.typeList()
 		}
 
+		if sym.PkgDef() != nil {
+			return sym.PkgDef().(*ir.Name)
+		}
 		// Types can be recursive. We need to setup a stub
 		// declaration before recursing.
 		n := importtype(pos, sym)
