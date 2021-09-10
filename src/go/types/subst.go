@@ -52,6 +52,11 @@ func (check *Checker) subst(pos token.Pos, typ Type, smap substMap, env *Environ
 	}
 
 	// general case
+	subst := check.subster(pos, smap, env)
+	return subst.typ(typ)
+}
+
+func (check *Checker) subster(pos token.Pos, smap substMap, env *Environment) subster {
 	var subst subster
 	subst.pos = pos
 	subst.smap = smap
@@ -70,8 +75,7 @@ func (check *Checker) subst(pos token.Pos, typ Type, smap substMap, env *Environ
 		env = NewEnvironment()
 	}
 	subst.env = env
-
-	return subst.typ(typ)
+	return subst
 }
 
 type subster struct {
@@ -125,8 +129,7 @@ func (subst *subster) typ(typ Type) Type {
 		if recv != t.recv || params != t.params || results != t.results {
 			return &Signature{
 				rparams: t.rparams,
-				// TODO(rFindley) why can't we nil out tparams here, rather than in
-				//                instantiate above?
+				// TODO(rFindley) why can't we nil out tparams here, rather than in instantiate?
 				tparams:  t.tparams,
 				scope:    t.scope,
 				recv:     recv,
