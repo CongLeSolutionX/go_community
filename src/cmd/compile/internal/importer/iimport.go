@@ -318,17 +318,16 @@ func (r *importReader) obj(name string) {
 		r.declare(types2.NewFunc(pos, r.currPkg, name, sig))
 
 	case 'T', 'U':
-		var tparams []*types2.TypeParam
-		if tag == 'U' {
-			tparams = r.tparamList()
-		}
-
 		// Types can be recursive. We need to setup a stub
 		// declaration before recursing.
 		obj := types2.NewTypeName(pos, r.currPkg, name, nil)
 		named := types2.NewNamed(obj, nil, nil)
-		named.SetTypeParams(tparams)
 		r.declare(obj)
+		// Do this after r.declare to prevent tparams bound more than once, see #48280.
+		if tag == 'U' {
+			tparams := r.tparamList()
+			named.SetTypeParams(tparams)
+		}
 
 		underlying := r.p.typAt(r.uint64(), named).Underlying()
 		named.SetUnderlying(underlying)
