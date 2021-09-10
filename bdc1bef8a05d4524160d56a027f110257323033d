@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0aae85d_fc1fbb2e",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-10T21:32:07Z",
+      "side": 0,
+      "message": "This code isn\u0027t really dead.  The actual names don\u0027t appear below, but the values will appear thanks to the assignment \"b.lastRead \u003d readOp(n)\".  In other words, these values can appear in the lastRead field, and when debugging it may be helpful to have names for those values.  We should not remove these lines.",
+      "revId": "bdc1bef8a05d4524160d56a027f110257323033d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
