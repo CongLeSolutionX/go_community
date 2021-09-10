@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2999cc61_b15154ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-09-10T17:44:54Z",
+      "side": 1,
+      "message": "Talking with Lynn offline, there are no down sides to promoting VR arguments to VSR arguments. That covers most interesting cases.",
+      "revId": "d9d5bcdf553699e4b5905646e76ffd2726b33cf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
