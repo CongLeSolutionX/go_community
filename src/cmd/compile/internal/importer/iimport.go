@@ -293,6 +293,8 @@ type importReader struct {
 	prevColumn  int64
 }
 
+// obj reads import declaration for an object. It may not read
+// the entire declaration, e.g, for recursive type.
 func (r *importReader) obj(name string) {
 	tag := r.byte()
 	pos := r.pos()
@@ -321,6 +323,15 @@ func (r *importReader) obj(name string) {
 		var tparams []*types2.TypeParam
 		if tag == 'U' {
 			tparams = r.tparamList()
+		}
+
+		if r.currPkg.Scope().Lookup(name) != nil {
+			// If name already exists, don't perform stub declaration.
+			// Otherwise, tparams will be bound more than once, see #48280.
+			// We don't have to read the entire declaration here, since when
+			// each call to r.obj use its own importReader, and the importReader
+			// is never used after a call to r.obj.
+			return
 		}
 
 		// Types can be recursive. We need to setup a stub
