@@ -125,8 +125,7 @@ func (subst *subster) typ(typ Type) Type {
 		if recv != t.recv || params != t.params || results != t.results {
 			return &Signature{
 				rparams: t.rparams,
-				// TODO(rFindley) why can't we nil out tparams here, rather than in
-				//                instantiate above?
+				// TODO(rFindley) why can't we nil out tparams here, rather than in instantiate?
 				tparams:  t.tparams,
 				scope:    t.scope,
 				recv:     recv,
@@ -223,8 +222,8 @@ func (subst *subster) typ(typ Type) Type {
 		// occurs on t (we don't call validType on named), but we use subst.pos to
 		// help with debugging.
 		t.orig.load(subst.env)
-		inst, err := Instantiate(subst.env, t.orig, newTArgs, false)
-		assert(err == nil)
+		// TODO: is subst.pos right here?!
+		inst := subst.check.instance(subst.pos, t.orig, newTArgs, subst.env)
 		named := inst.(*Named)
 		// TODO(rfindley): document why we must load.
 		named.load(subst.env)

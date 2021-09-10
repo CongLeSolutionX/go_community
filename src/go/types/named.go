@@ -217,13 +217,24 @@ func (n *Named) setUnderlying(typ Type) {
 func expandNamed(env *Environment, n *Named, instPos token.Pos) (*TypeParamList, Type, []*Func) {
 	n.orig.load(env)
 
+	check := n.check
+	if check != nil && trace {
+		check.trace(instPos, "expand %s", n)
+		check.indent++
+		defer func() {
+			check.indent--
+			check.trace(instPos, "=> %s", n)
+		}()
+	}
+
 	var u Type
-	if n.check.validateTArgLen(instPos, n.orig.tparams.Len(), n.targs.Len()) {
+	var methods []*Func
+	if check.validateTArgLen(instPos, n.orig.tparams.Len(), n.targs.Len()) {
 		// TODO(rfindley): handling an optional Checker and Environment here (and
 		// in subst) feels overly complicated. Can we simplify?
 		if env == nil {
-			if n.check != nil {
-				env = n.check.conf.Environment
+			if check != nil {
+				env = check.conf.Environment
 			} else {
 				// If we're instantiating lazily, we might be outside the scope of a
 				// type-checking pass. In that case we won't have a pre-existing
@@ -237,11 +248,130 @@ func expandNamed(env *Environment, n *Named, instPos token.Pos) (*TypeParamList,
 			// shouldn't return that instance from expand.
 			env.typeForHash(h, n)
 		}
-		u = n.check.subst(instPos, n.orig.underlying, makeSubstMap(n.orig.tparams.list(), n.targs.list()), env)
+		smap := makeSubstMap(n.orig.tparams.list(), n.targs.list())
+		u = n.check.subst(instPos, n.orig.underlying, smap, env)
+		for i := 0; i < n.orig.NumMethods(); i++ {
+			m := n.orig.Method(i)
+			newsig := new(Signature)                          // must be wrong.
+			newsig.recv = NewParam(token.NoPos, m.pkg, "", n) // partial receiver allows resolving targs.
+			newm := NewFunc(m.pos, m.pkg, m.name, newsig)
+			newm.setColor(black)
+
+			// newm.typ = Typ[Invalid] // TODO: this has got to be broken somehow.
+			/* if m.Type() != nil {
+				if sig, _ := m.Type().(*Signature); sig != nil {
+					smap := makeSubstMap(sig.RecvTypeParams().list(), n.targs.list())
+					// TODO(rFindley): what's the best position to use here?
+					typ := n.check.subst(instPos, sig, smap, env).(*Signature)
+					if sig.recv == nil {
+						panic("nil receiver wat?")
+					}
+					typ.recv = NewParam(sig.recv.pos, sig.recv.pkg, sig.recv.name, n)
+					newm.typ = typ
+					// Aha. need to substitute type parameters.
+					fmt.Println("here1", sig, newm.typ, smap)
+					newm.setColor(black)
+				} else {
+					panic(fmt.Sprintf("here, signature is %T", m.Type()))
+				}
+			} else { */
+			/*
+				newm.setColor(black)
+				newsig := new(Signature)                        // must be wrong.
+				newsig.recv = NewParam(token.NoPos, nil, "", n) // partial receiver allows resolving targs.
+				newm.typ = newsig
+				check := n.check
+				laterIfPossible(check, func() {
+					if sig, _ := m.Type().(*Signature); sig != nil {
+						if sig.RecvTypeParams().Len() != n.targs.Len() {
+							// error reported elsewhere, but what to do here?
+							return
+						}
+						// TODO(rFindley): what's the best position to use here?
+						smap := makeSubstMap(sig.RecvTypeParams().list(), n.targs.list())
+						mapped := check.subst(instPos, sig, smap, env).(*Signature)
+						newsig.params = mapped.params
+						newsig.variadic = mapped.variadic
+						newsig.results = mapped.results
+						newsig.recv = NewParam(sig.recv.pos, sig.recv.pkg, sig.recv.name, n)
+						// newm.setColor(black)
+					} else {
+						panic(fmt.Sprintf("here, signature is %T, check is %v", m.Type(), n.check))
+					}
+				})
+			*/
+			// }
+
+			methods = append(methods, newm)
+		}
 	} else {
 		u = Typ[Invalid]
 	}
-	return n.orig.tparams, u, n.orig.methods
+	laterIfPossible(check, func() {
+		for _, m := range methods {
+			check.completeMethod(env, m)
+		}
+	})
+	return n.orig.tparams, u, methods
+}
+
+func isIncompleteMethod(m *Func) bool {
+	sig, _ := m.typ.(*Signature)
+	if sig == nil || sig.recv == nil {
+		return false // not a method
+	}
+	n, _ := sig.recv.typ.(*Named)
+	if n == nil || sig.recv.pos.IsValid() || n.TypeArgs().Len() == 0 {
+		// not an incomplete instance method
+		return false
+	}
+	return true
+}
+
+func (check *Checker) completeMethod(env *Environment, m *Func) {
+	if !isIncompleteMethod(m) {
+		return
+	}
+	if check != nil && trace {
+		check.trace(m.pos, "completeMethod %s", m)
+		check.indent++
+		defer func() {
+			check.indent--
+			check.trace(m.pos, "=> %s", m)
+		}()
+	}
+	newsig := m.typ.(*Signature)
+	rtyp, _ := newsig.recv.typ.(*Named)
+	assert(rtyp.TypeArgs().Len() > 0)
+	_, orig := lookupMethod(rtyp.orig.methods, rtyp.obj.pkg, m.name)
+	assert(orig != nil)
+	if check != nil {
+		check.objDecl(orig, nil)
+	}
+	sig := orig.typ.(*Signature)
+	if sig.RecvTypeParams().Len() != rtyp.targs.Len() {
+		return // error reported elsewhere
+	}
+	newsig.recv.name = sig.recv.name
+	newsig.recv.pkg = sig.recv.pkg
+	newsig.recv.pos = sig.recv.pos
+	smap := makeSubstMap(sig.RecvTypeParams().list(), rtyp.targs.list())
+	mapped := check.subst(orig.pos, sig, smap, nil).(*Signature)
+	newsig.params = mapped.params
+	newsig.variadic = mapped.variadic
+	newsig.results = mapped.results
+	newsig.tparams = mapped.tparams
+	newsig.recv = NewParam(sig.recv.pos, sig.recv.pkg, sig.recv.name, rtyp)
+	m.typ = newsig
+	m.setColor(black)
+}
+
+func laterIfPossible(check *Checker, f func()) {
+	if check != nil {
+		check.later(f)
+		return
+	}
+	f()
 }
 
 // safeUnderlying returns the underlying of typ without expanding instances, to

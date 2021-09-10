@@ -168,7 +168,15 @@ func (check *Checker) validateTArgLen(pos token.Pos, ntparams, ntargs int) bool 
 	return true
 }
 
-func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type) (int, error) {
+func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type) (index int, _ error) {
+	if trace {
+		check.trace(pos, "verify %v %v", tparams, targs)
+		check.indent++
+		defer func() {
+			check.indent--
+			check.trace(pos, "=> %d", index)
+		}()
+	}
 	smap := makeSubstMap(tparams, targs)
 	for i, tpar := range tparams {
 		// stop checking bounds after the first failure
@@ -218,6 +226,7 @@ func (check *Checker) satisfies(pos token.Pos, targ Type, tpar *TypeParam, smap 
 	// targ must implement iface (methods)
 	// - check only if we have methods
 	if iface.NumMethods() > 0 {
+		// check.dump("checking methods in %v for %v", iface, targ)
 		// If the type argument is a pointer to a type parameter, the type argument's
 		// method set is empty.
 		// TODO(gri) is this what we want? (spec question)

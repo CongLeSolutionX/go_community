@@ -200,10 +200,11 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 			var err string
 			switch T := rtyp.(type) {
 			case *Named:
+				// TODO: here we want to load, but maybe not expand?
 				T.load(check.conf.Environment)
 				// The receiver type may be an instantiated type referred to
 				// by an alias (which cannot have receiver parameters for now).
-				if T.TypeArgs() != nil && sig.RecvTypeParams() == nil {
+				if T.targs != nil && sig.rparams == nil {
 					check.errorf(atPos(recv.pos), _Todo, "cannot define methods on instantiated type %s", recv.typ)
 					break
 				}

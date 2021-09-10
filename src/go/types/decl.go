@@ -65,6 +65,10 @@ func (check *Checker) objDecl(obj Object, def *Named) {
 		}()
 	}
 
+	if m, _ := obj.(*Func); m != nil && isIncompleteMethod(m) {
+		check.completeMethod(check.conf.Environment, m)
+	}
+
 	// Checking the declaration of obj means inferring its type
 	// (and possibly its value, for constants).
 	// An object's type (and thus the object) may be in one of
