@@ -65,6 +65,12 @@ func (check *Checker) objDecl(obj Object, def *Named) {
 		}()
 	}
 
+	// Instantiated methods may be untyped, but won't be in objMap. We must
+	// compute their type them via completeMethod.
+	if m, _ := obj.(*Func); m != nil && m.instRecv != nil {
+		check.completeMethod(check.conf.Environment, m)
+	}
+
 	// Checking the declaration of obj means inferring its type
 	// (and possibly its value, for constants).
 	// An object's type (and thus the object) may be in one of

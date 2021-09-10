@@ -224,13 +224,16 @@ func (n *Named) setUnderlying(typ Type) {
 func expandNamed(env *Environment, n *Named, instPos token.Pos) (*TypeParamList, Type, []*Func) {
 	n.orig.resolve(env)
 
+	check := n.check
+
 	var u Type
-	if n.check.validateTArgLen(instPos, n.orig.tparams.Len(), n.targs.Len()) {
+	var methods []*Func
+	if check.validateTArgLen(instPos, n.orig.tparams.Len(), n.targs.Len()) {
 		// TODO(rfindley): handling an optional Checker and Environment here (and
 		// in subst) feels overly complicated. Can we simplify?
 		if env == nil {
-			if n.check != nil {
-				env = n.check.conf.Environment
+			if check != nil {
+				env = check.conf.Environment
 			} else {
 				// If we're instantiating lazily, we might be outside the scope of a
 				// type-checking pass. In that case we won't have a pre-existing
@@ -244,11 +247,68 @@ func expandNamed(env *Environment, n *Named, instPos token.Pos) (*TypeParamList,
 			// shouldn't return that instance from expand.
 			env.typeForHash(h, n)
 		}
-		u = n.check.subst(instPos, n.orig.underlying, makeSubstMap(n.orig.tparams.list(), n.targs.list()), env)
+		smap := makeSubstMap(n.orig.tparams.list(), n.targs.list())
+		u = n.check.subst(instPos, n.orig.underlying, smap, env)
+		for i := 0; i < n.orig.NumMethods(); i++ {
+			origm := n.orig.Method(i)
+
+			// During type checking origm may not have a fully set up type, so defer
+			// instantiation of its signature until later.
+			m := NewFunc(origm.pos, origm.pkg, origm.name, nil)
+			// Setting instRecv here allows us to complete later (we need the
+			// instRecv to get targs and the original method).
+			m.instRecv = n
+
+			methods = append(methods, m)
+		}
 	} else {
 		u = Typ[Invalid]
 	}
-	return n.orig.tparams, u, n.orig.methods
+
+	// Methods should not escape the go/types API without being completed. If
+	// we're in the context of a type checking pass, we need to defer this until
+	// later (not all methods may have types).
+	completeMethods := func() {
+		for _, m := range methods {
+			if m.instRecv != nil {
+				check.completeMethod(env, m)
+			}
+		}
+	}
+	if check != nil {
+		check.later(completeMethods)
+	} else {
+		completeMethods()
+	}
+
+	return n.orig.tparams, u, methods
+}
+
+func (check *Checker) completeMethod(env *Environment, m *Func) {
+	assert(m.instRecv != nil)
+	rtyp := m.instRecv
+	m.instRecv = nil
+	m.setColor(black)
+
+	assert(rtyp.TypeArgs().Len() > 0)
+
+	// Look up the original method.
+	_, orig := lookupMethod(rtyp.orig.methods, rtyp.obj.pkg, m.name)
+	assert(orig != nil)
+	if check != nil {
+		check.objDecl(orig, nil)
+	}
+	origSig := orig.typ.(*Signature)
+	if origSig.RecvTypeParams().Len() != rtyp.targs.Len() {
+		m.typ = origSig // or new(Signature), but we can't use Typ[Invalid]: Funcs must have Signature type
+		return          // error reported elsewhere
+	}
+
+	smap := makeSubstMap(origSig.RecvTypeParams().list(), rtyp.targs.list())
+	sig := check.subst(orig.pos, origSig, smap, env).(*Signature)
+	sig.recv = NewParam(origSig.recv.pos, origSig.recv.pkg, origSig.recv.name, rtyp)
+
+	m.typ = sig
 }
 
 // safeUnderlying returns the underlying of typ without expanding instances, to
