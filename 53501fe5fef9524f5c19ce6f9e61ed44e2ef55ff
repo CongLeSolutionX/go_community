@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "838a6979_ff13437b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-10T21:44:50Z",
+      "side": 1,
+      "message": "html/template: clarify comment to say that Tree is updated after Execute",
+      "revId": "53501fe5fef9524f5c19ce6f9e61ed44e2ef55ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9ca99cf_407587d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-10T21:44:50Z",
+      "side": 1,
+      "message": "We don\u0027t need this paragraph, it doesn\u0027t add anything useful.",
+      "revId": "53501fe5fef9524f5c19ce6f9e61ed44e2ef55ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
