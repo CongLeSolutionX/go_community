@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d24b0b64_d27c1505",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-10T13:03:04Z",
+      "side": 0,
+      "message": "Please don\u0027t drop explanatory comments without explanation (duh), because:\n\n- If the reason stated in the comment is accurate, dropping it serves no purpose;\n- If the comment is inaccurate, that means \"unaligned accesses on LoongArch ARE guaranteed to be fast\", then there should not be minimal alignment requirement in the first place, so the code should become \"Alignment: 1\" instead.",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 110,
+        "endChar": 66
+      },
+      "revId": "2091bd3f26e5143bd050833b3558893e1bc34625",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

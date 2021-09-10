@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "654aebda_3ff559fb",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-10T13:03:04Z",
+      "side": 1,
+      "message": "Now this is real code churn, already unfortunate because of the (inadvertently) submitted CL 339009; so maybe keep it that way. No need to enter into edit war over this.",
+      "parentUuid": "65319073_720565e7",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 8
+      },
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52b60177_ae1a18a5",
         "filename": "src/cmd/internal/sys/arch.go",
         "patchSetId": 3
@@ -78,6 +102,24 @@
       "writtenOn": "2021-09-06T07:08:03Z",
       "side": 1,
       "message": "Same as above.",
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71437504_45fab057",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-10T13:03:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52b60177_ae1a18a5",
       "revId": "99ad1b88163433afef137b6307d31e18675311eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -95,6 +137,24 @@
       "writtenOn": "2021-09-06T07:08:03Z",
       "side": 1,
       "message": "Same as above.",
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a4368f2_f3feb924",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-10T13:03:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceb61623_8312fea9",
       "revId": "99ad1b88163433afef137b6307d31e18675311eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
