@@ -313,6 +313,13 @@ func (r *importReader) obj(name string) {
 		if tag == 'U' {
 			tparams = r.tparamList()
 		}
+
+		if r.currPkg.Scope().Lookup(name) != nil {
+			// If name already exist, don't perform stub declaration.
+			// Otherwise, tparams will be bound more than once, see #48280.
+			return
+		}
+
 		// Types can be recursive. We need to setup a stub
 		// declaration before recursing.
 		obj := types.NewTypeName(pos, r.currPkg, name, nil)
