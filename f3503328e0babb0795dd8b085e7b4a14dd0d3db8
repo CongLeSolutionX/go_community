@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a6a0297_1a5da740",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-10T16:51:20Z",
+      "side": 1,
+      "message": "Yeah, there is also a binary size win. I just wonder how big it is.\n\nFor the subtlety, I\u0027m most thinking about things like, when to use SetAddrTaken/SetAddrTakenNoStackObject, whether it is correct, along with manually marking things alive. Also, the global state change makes it more subtle.\n\nThat said, I\u0027m not objecting this. I think it is probably a good idea if there is a good win. (I just wonder if there will a good win to overweigh the complexity.)\n\nThanks.",
+      "parentUuid": "c4a6cf8c_ea4e6608",
+      "revId": "f3503328e0babb0795dd8b085e7b4a14dd0d3db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee809062_d125f2d1",
