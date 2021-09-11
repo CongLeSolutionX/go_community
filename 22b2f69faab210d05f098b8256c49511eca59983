@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a825592_23dc2594",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-11T21:14:23Z",
+      "side": 1,
+      "message": "Thanks.  This is an API change and we normally implement API changes through the proposal process.  See https://golang.org/s/proposal.\n\nThis is a pretty minor one, but it should at least have an issue, and the issue may as well be a proposal.",
+      "revId": "22b2f69faab210d05f098b8256c49511eca59983",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
