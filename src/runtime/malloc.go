@@ -1131,7 +1131,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		if rate != 1 && size < c.nextSample {
 			c.nextSample -= size
 		} else {
-			profilealloc(mp, x, size)
+			profilealloc(x, size)
 		}
 	}
 	mp.mallocing = 0
@@ -1246,7 +1246,7 @@ func reflect_unsafe_NewArray(typ *_type, n int) unsafe.Pointer {
 	return newarray(typ, n)
 }
 
-func profilealloc(mp *m, x unsafe.Pointer, size uintptr) {
+func profilealloc(x unsafe.Pointer, size uintptr) {
 	c := getMCache()
 	if c == nil {
 		throw("profilealloc called without a P or outside bootstrapping")
