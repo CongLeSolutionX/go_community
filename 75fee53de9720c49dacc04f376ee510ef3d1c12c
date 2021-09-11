@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75bf53e4_215632ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T09:53:01Z",
+      "side": 1,
+      "message": "rebuild CLs dependency order : https://go-review.googlesource.com/c/go/+/349291",
+      "revId": "75fee53de9720c49dacc04f376ee510ef3d1c12c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
