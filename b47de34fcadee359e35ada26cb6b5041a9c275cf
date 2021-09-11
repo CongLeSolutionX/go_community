@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c6b8e20_25af4ad7",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "814b53cb_e2be15ac",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4599cb13_ef9f7e00",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-09-07T21:25:53Z",
       "side": 1,
       "message": "Add a space after //.\n\nDoes the machine have more registers? Are they ever needed? If not, drop.",
+      "range": {
+        "startLine": 94,
+        "startChar": 11,
+        "endLine": 94,
+        "endChar": 43
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dbad033_9ca748dd",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4599cb13_ef9f7e00",
       "range": {
         "startLine": 94,
         "startChar": 11,
@@ -81,6 +129,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf5c283d_738bcf86",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbaa9d04_d887cbd6",
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77c6e784_9335a758",
@@ -94,6 +160,24 @@
       "writtenOn": "2021-09-07T21:25:53Z",
       "side": 1,
       "message": "The \"0\" in the file names are for MIPS, originated from Plan 9\u0027s convention. Drop. Or choose a different letter (that is different from all other architectures).",
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42d2dd3c_2acbde04",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77c6e784_9335a758",
       "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -121,6 +205,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34acd976_4a27b5bf",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9a4493_fce79e7c",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 8
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be133747_7ef82ff4",
@@ -138,6 +246,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02905152_8e357397",
+        "filename": "src/cmd/internal/obj/loong64/asm0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be133747_7ef82ff4",
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79036d91_9f5b05bc",
@@ -151,6 +277,30 @@
       "writtenOn": "2021-09-07T21:25:53Z",
       "side": 1,
       "message": "Just return s.",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 10
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0e8b537_dc096e65",
+        "filename": "src/cmd/internal/obj/loong64/list0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79036d91_9f5b05bc",
       "range": {
         "startLine": 45,
         "startChar": 1,
@@ -184,6 +334,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59c95374_59518786",
+        "filename": "src/cmd/internal/obj/loong64/obj0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a1103b0_4a7f5402",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45cdfccd_1818dc56",
@@ -197,6 +371,30 @@
       "writtenOn": "2021-09-07T21:25:53Z",
       "side": 1,
       "message": "Remove conditions like this. It should be always true.",
+      "range": {
+        "startLine": 54,
+        "startChar": 33,
+        "endLine": 54,
+        "endChar": 69
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d36b940_e8d91780",
+        "filename": "src/cmd/internal/obj/loong64/obj0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45cdfccd_1818dc56",
       "range": {
         "startLine": 54,
         "startChar": 33,
@@ -224,6 +422,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af865a12_25b362f3",
+        "filename": "src/cmd/internal/obj/loong64/obj0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8447b438_1dc18d3d",
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ae1173d_e3e7689f",
@@ -237,6 +453,30 @@
       "writtenOn": "2021-09-07T21:25:53Z",
       "side": 1,
       "message": "Does Loong64 need instruction scheduling at all? Like, filling delay slots? If not, remove this and all related code.",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 16
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2b09aac_64273582",
+        "filename": "src/cmd/internal/obj/loong64/obj0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ae1173d_e3e7689f",
       "range": {
         "startLine": 99,
         "startChar": 0,
@@ -270,6 +510,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "506adee2_dc790d28",
+        "filename": "src/cmd/internal/obj/loong64/obj0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e920b9ac_0c742266",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 2
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a5185da_0300d821",
@@ -283,6 +547,30 @@
       "writtenOn": "2021-09-07T21:25:53Z",
       "side": 1,
       "message": "We probably don\u0027t need to support the historical way.",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 36
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19e88ec0_b40f1d22",
+        "filename": "src/cmd/internal/obj/loong64/obj0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5185da_0300d821",
       "range": {
         "startLine": 108,
         "startChar": 0,
@@ -316,6 +604,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46ee92f_b17ba738",
+        "filename": "src/cmd/internal/obj/loong64/obj0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ec13016_99e94bd5",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 4
+      },
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df1334d8_3be3729c",
@@ -329,6 +641,24 @@
       "writtenOn": "2021-09-07T21:25:53Z",
       "side": 1,
       "message": "Drop the condition and just use the constants.",
+      "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb10157d_ee13371e",
+        "filename": "src/cmd/internal/obj/loong64/obj0.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-11T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df1334d8_3be3729c",
       "revId": "b47de34fcadee359e35ada26cb6b5041a9c275cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
