@@ -162,6 +162,24 @@
       "parentUuid": "c6e9f9b4_5dd2024a",
       "revId": "4355e610e824f95c6262bdf90279c1ca33b82443",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d966569_30ab0723",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-09-11T04:49:09Z",
+      "side": 1,
+      "message": "@filippo: Ping! Does this CL look good to you?",
+      "parentUuid": "08072dcb_882fe656",
+      "revId": "4355e610e824f95c6262bdf90279c1ca33b82443",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
