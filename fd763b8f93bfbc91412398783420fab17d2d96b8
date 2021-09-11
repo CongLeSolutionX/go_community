@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f71004_d5275c34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2021-09-11T00:55:16Z",
+      "side": 1,
+      "message": "My initial implementation is add the Label field, it would be something like:\niimport.go\n```\ncase ir.OFOR:\n\tpos :\u003d r.pos()\n\tlabel :\u003d r.string()\n\tinit :\u003dr.stmtList()\n\tcond, post :\u003d r.exprsOrNil()\n\tn :\u003d ir.NewForStmt(pos, nil, cond, post, r.stmtList())\n\tif label !\u003d \"\" {\n\t\tn.Label \u003d Lookup(label)\n\t}\n\t*n.PtrInit() \u003d init\n\treturn n\n```\n\nin iexport.go\n```\ncase ir.OFOR:\n\tn :\u003d n.(*ir.ForStmt)\n\tw.op(ir.OFOR)\n\tw.pos(n.Pos())\n\tvar label string\n\tif n.Label !\u003d nil {\n\t\tlabel \u003d n.Label.Name\n\t}\n\tw.string(label)\n\tw.stmtList(n.Init())\n\tw.exprsOrNil(n.Cond, n.Post)\n\tw.stmtList(n.Body)\n```\n\n\nBut before I uploaded, I had saw unified ir\u0027s solution(noder/reader.go#L1195-L1200). So I change it to this version.",
+      "parentUuid": "bba87697_c0ea486c",
+      "revId": "fd763b8f93bfbc91412398783420fab17d2d96b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8ea5b07_194d5412",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-09-10T17:08:02Z",
       "side": 1,
       "message": "Seems like it will be clearer if you move 1167--1117 to just after 1179 (i.e. only need to compute label in NON-OBLOCK case).\n\nAlso, can you add a short comment, something like:  check for an optional label that can only immediately precede a for/range/select/switch statement.",
+      "revId": "fd763b8f93bfbc91412398783420fab17d2d96b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d33f3c32_c3c0be13",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2021-09-11T00:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8ea5b07_194d5412",
       "revId": "fd763b8f93bfbc91412398783420fab17d2d96b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
