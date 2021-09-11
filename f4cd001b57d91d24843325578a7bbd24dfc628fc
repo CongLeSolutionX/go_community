@@ -16,6 +16,24 @@
       "message": "Why is this test being removed?",
       "revId": "f4cd001b57d91d24843325578a7bbd24dfc628fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab885127_e1a60561",
+        "filename": "src/testing/helper_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2021-09-11T23:24:47Z",
+      "side": 0,
+      "message": "I noticed issues with this test: besides the typo in the name, it relies on line numbering within this file, so changes here break the test (and I did by accident, initially, when preparing this CL).\n\nWhen I originally wrote the helper tests back in CL 38796, I specifically wrote helperfuncs_test.go to be the only file where the line numbering is golden, and noted that property with a comment at the top of that file.\n\nWhile fixing this it seemed nicer to add a new case to the existing test (TestTBHelper -- see helperSubCallingHelper in helperfuncs_test.go) rather than maintain a separate test. That saves around 20 lines of copy-pasted boilerplate.\n\nI can move all this to a separate CL if you prefer. It seemed like reasonably adjacent cleanup to just do here.",
+      "parentUuid": "4b855814_32bcb430",
+      "revId": "f4cd001b57d91d24843325578a7bbd24dfc628fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
