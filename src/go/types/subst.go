@@ -57,25 +57,12 @@ func (check *Checker) subst(pos token.Pos, typ Type, smap substMap, env *Environ
 }
 
 func (check *Checker) subster(pos token.Pos, smap substMap, env *Environment) subster {
-	var subst subster
-	subst.pos = pos
-	subst.smap = smap
-
-	if check != nil {
-		subst.check = check
-		if env == nil {
-			env = check.conf.Environment
-		}
+	return subster{
+		pos:   pos,
+		smap:  smap,
+		check: check,
+		env:   check.bestEnv(env),
 	}
-	if env == nil {
-		// If we don't have a *Checker and its global type map,
-		// use a local version. Besides avoiding duplicate work,
-		// the type map prevents infinite recursive substitution
-		// for recursive types (example: type T[P any] *T[P]).
-		env = NewEnvironment()
-	}
-	subst.env = env
-	return subst
 }
 
 type subster struct {
@@ -226,14 +213,7 @@ func (subst *subster) typ(typ Type) Type {
 		// occurs on t (we don't call validType on named), but we use subst.pos to
 		// help with debugging.
 		t.orig.resolve(subst.env)
-		inst := subst.check.instance(subst.pos, t.orig, newTArgs, subst.env)
-		named := inst.(*Named)
-		// TODO(rfindley): we probably don't need to resolve here. Investigate if
-		// this can be removed.
-		named.resolve(subst.env)
-		assert(named.underlying != nil)
-
-		return named
+		return subst.check.instance(subst.pos, t.orig, newTArgs, subst.env)
 
 	case *TypeParam:
 		return subst.smap.lookup(t)
