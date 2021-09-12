@@ -16,6 +16,24 @@
       "message": "Looks like the use of mp was removed in CL 246976.\n\nSince all callers of getMCache appear to have mp available, I suggest that we instead change getMCache to take an mp argument, rather than requiring it to call getg.  Now that we have a register based calling convention it seems like that would save a memory load.  And probably getMCache is inlined anyhow.",
       "revId": "98f76dde08becf4ac1fdd53d82a747f3b86ddc5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de601f0a_a7beb657",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2021-09-12T02:50:58Z",
+      "side": 1,
+      "message": "Good idea.  \nAfter modification, getMCache is inlined too.  \n\n./mcache.go:125:6: can inline getMCache\n./malloc.go:1250:16: inlining call to getMCache\n./malloc.go:975:16: inlining call to getMCache\n\n\nBefore modification\n\n```\nTEXT runtime.profilealloc(SB) /Users/leonardwang/Local/go/src/runtime/malloc.go\nfunc profilealloc(mp *m, x unsafe.Pointer, size uintptr) {\n  0x100bcc0\t\t493b6610\t\tCMPQ 0x10(R14), SP\t\n  0x100bcc4\t\t0f869c000000\t\tJBE 0x100bd66\t\t\n  0x100bcca\t\t4883ec30\t\tSUBQ $0x30, SP\t\t\n  0x100bcce\t\t48896c2428\t\tMOVQ BP, 0x28(SP)\t\n  0x100bcd3\t\t488d6c2428\t\tLEAQ 0x28(SP), BP\t\n\tpp :\u003d getg().m.p.ptr()\n  0x100bcd8\t\t498b5630\t\tMOVQ 0x30(R14), DX\t\n  0x100bcdc\t\t488b92d0000000\t\tMOVQ 0xd0(DX), DX\t\n\tif pp \u003d\u003d nil {\n  0x100bce3\t\t4885d2\t\t\tTESTQ DX, DX\t\t\n  0x100bce6\t\t7406\t\t\tJE 0x100bcee\t\t\n``` \n\n\nAfter modification\n\n```\nTEXT runtime.profilealloc(SB) /Users/leonardwang/Project/GOPATH/src/gerrit/go/src/runtime/malloc.go\nfunc profilealloc(mp *m, x unsafe.Pointer, size uintptr) {\n  0x100be80\t\t493b6610\t\tCMPQ 0x10(R14), SP\t\n  0x100be84\t\t0f869c000000\t\tJBE 0x100bf26\t\t\n  0x100be8a\t\t4883ec30\t\tSUBQ $0x30, SP\t\t\n  0x100be8e\t\t48896c2428\t\tMOVQ BP, 0x28(SP)\t\n  0x100be93\t\t488d6c2428\t\tLEAQ 0x28(SP), BP\t\n\tc :\u003d getMCache(mp)\n  0x100be98\t\t488b90d0000000\t\tMOVQ 0xd0(AX), DX\t\n\tpp :\u003d mp.p.ptr()\n  0x100be9f\t\t90\t\t\tNOPL\t\t\t\n\tif pp \u003d\u003d nil {\n  0x100bea0\t\t4885d2\t\t\tTESTQ DX, DX\t\t\n  0x100bea3\t\t7406\t\t\tJE 0x100beab\t\t\n```\n\nSince the current g is placed in R14, it seems that we can get the mp directly through 0x30 (R14),\nI think it just saves the call to getg, it doesn\u0027t seem to save an extra memory load operation, right? (So I did not put the “save a memory load” in the commit message)\n\nThank you!",
+      "parentUuid": "3c901dd9_9e6b0deb",
+      "revId": "98f76dde08becf4ac1fdd53d82a747f3b86ddc5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
