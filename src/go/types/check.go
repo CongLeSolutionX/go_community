@@ -406,12 +406,36 @@ func (check *Checker) recordCommaOkTypes(x ast.Expr, a [2]Type) {
 	}
 }
 
-func (check *Checker) recordInferred(call ast.Expr, targs []Type, sig *Signature) {
-	assert(call != nil)
+func (check *Checker) recordInferred(fun ast.Expr, targs []Type, sig *Signature) {
+	ident := inferredIdent(fun)
+	assert(ident != nil)
 	assert(sig != nil)
 	if m := check.Inferred; m != nil {
-		m[call] = Inferred{NewTypeList(targs), sig}
+		m[ident] = Inferred{NewTypeList(targs), sig}
 	}
+}
+
+func inferredIdent(expr ast.Expr) *ast.Ident {
+	var selOrIdent ast.Expr
+	switch e := expr.(type) {
+	case *ast.IndexExpr:
+		selOrIdent = e.X
+	case *ast.IndexListExpr:
+		selOrIdent = e.X
+	case *ast.SelectorExpr, *ast.Ident:
+		selOrIdent = e
+	default:
+		unreachable()
+	}
+	switch x := selOrIdent.(type) {
+	case *ast.Ident:
+		return x
+	case *ast.SelectorExpr:
+		return x.Sel
+	default:
+		unreachable()
+	}
+	return nil
 }
 
 func (check *Checker) recordDef(id *ast.Ident, obj Object) {
