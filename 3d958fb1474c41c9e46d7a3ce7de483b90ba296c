@@ -53,6 +53,24 @@
       "message": "Hi Robert and Matthew,\n\nWhat do you think about making just this change to Info.Inferred? See also\nhttps://github.com/golang/go/issues/47916#issuecomment-918366501",
       "revId": "3d958fb1474c41c9e46d7a3ce7de483b90ba296c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9603890_e437eaed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-13T18:49:26Z",
+      "side": 1,
+      "message": "I like it. I agree renaming the Info field seems appropriate.",
+      "parentUuid": "56aefde7_a3224b45",
+      "revId": "3d958fb1474c41c9e46d7a3ce7de483b90ba296c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
