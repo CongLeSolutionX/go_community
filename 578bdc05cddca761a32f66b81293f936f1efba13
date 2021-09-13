@@ -53,6 +53,40 @@
       "message": "Thanks. I think Dan should review this, since my suggestion was speculative :)\n\nPerhaps there\u0027s a reason to do r.tparamList() first...",
       "revId": "578bdc05cddca761a32f66b81293f936f1efba13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d6e6e25_32e2d769",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-13T22:10:44Z",
+      "side": 1,
+      "message": "Looks good!\n\nRobert, we need to port this change to gcimporter/iimport.go, right?\n\n",
+      "revId": "578bdc05cddca761a32f66b81293f936f1efba13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b090346c_9adb9ecc",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-13T22:10:44Z",
+      "side": 1,
+      "message": "Can you improve this comment, something like:\n\n// Declare obj before calling r.tparamList, so the new type name is recognized if used in the constraint of one of its own typeparams (see #48280).\n\nLooks great now!  Thanks for doing this, and for the suggested change, Robert.",
+      "revId": "578bdc05cddca761a32f66b81293f936f1efba13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
