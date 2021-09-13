@@ -83,6 +83,30 @@
       },
       "revId": "3b5c9ca468ab3eefebf76ce2e723355d458aabcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43bc3022_dba2a436",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-13T16:45:22Z",
+      "side": 1,
+      "message": "Ah, this works because it hits the tparamIndex when recursing.\n\nI don\u0027t yet see why it wouldn\u0027t work to just move the r.tparamList() below r.declare() below.\n\ni.e.\nobj :\u003d ...\nnamed :\u003d ...\nr.declare(obj)\nif tag \u003d\u003d \u0027U\u0027 {\n  tparams \u003d r.tparamList()\n  named.SetTypeParams(tparams)\n}\n\nThen we could avoid having to do the scope Lookup in two places (we\u0027ll just hit it in doDecl.\n\nBut I am naive to this code.",
+      "parentUuid": "b8471bf8_2fe255a5",
+      "range": {
+        "startLine": 326,
+        "startChar": 5,
+        "endLine": 326,
+        "endChar": 35
+      },
+      "revId": "3b5c9ca468ab3eefebf76ce2e723355d458aabcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
