@@ -70,6 +70,24 @@
       "parentUuid": "03f32178_dfde1bb8",
       "revId": "98f76dde08becf4ac1fdd53d82a747f3b86ddc5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2284430_194dfca0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-09-13T18:22:40Z",
+      "side": 1,
+      "message": "FWIW, I believe we have a test to ensure getMCache gets inlined. when I added that it didn\u0027t for one reason or another, and it managed to actually cause a performance regression.\n\n(see src/cmd/compile/internal/test/inl_test.go)",
+      "parentUuid": "e37338b0_b361085e",
+      "revId": "98f76dde08becf4ac1fdd53d82a747f3b86ddc5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
