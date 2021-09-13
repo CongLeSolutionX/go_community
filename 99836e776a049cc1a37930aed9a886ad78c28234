@@ -89,6 +89,24 @@
       "parentUuid": "42cf2f0b_6aa30e5c",
       "revId": "99836e776a049cc1a37930aed9a886ad78c28234",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "575c08cc_1ca803e5",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-13T15:28:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb36784d_29333ccd",
+      "revId": "99836e776a049cc1a37930aed9a886ad78c28234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

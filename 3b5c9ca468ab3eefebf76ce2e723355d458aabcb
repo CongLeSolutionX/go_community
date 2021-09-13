@@ -59,6 +59,30 @@
       },
       "revId": "3b5c9ca468ab3eefebf76ce2e723355d458aabcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8471bf8_2fe255a5",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-13T15:28:18Z",
+      "side": 1,
+      "message": "`tparamList` call triggers the recursive call, thus we need to check after it called, otherwise, \"name\" does not exist before `tparamList()`, the check would fail.",
+      "parentUuid": "1f54c333_70ae54be",
+      "range": {
+        "startLine": 326,
+        "startChar": 5,
+        "endLine": 326,
+        "endChar": 35
+      },
+      "revId": "3b5c9ca468ab3eefebf76ce2e723355d458aabcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
