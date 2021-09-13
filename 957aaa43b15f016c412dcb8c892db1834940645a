@@ -70,6 +70,24 @@
       "message": "The unified IR failure seems related to this CL\u0027s change to start exporting the Def field on OAS nodes, but I can\u0027t immediately make sense of why. I do know the ODCL/OAS handling quirk has been there since at least bexport days. And while I\u0027m not a fan of it either, I think there\u0027s latent other code that assumes it works that way.\n\nAre there test cases that necessitate the changes to the OAS* import/export logic? If not, I\u0027d prefer we leave it alone for now, or at least split out into a separate CL.\n\nThe changes to fix \u0027select\u0027 statements (i.e., importing/exporting OSELRECV\u0027s n.Init list, and the change to walk/order.go) seem right, but I think they need tests.",
       "revId": "957aaa43b15f016c412dcb8c892db1834940645a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b2e7992_a2ca90b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-13T03:33:55Z",
+      "side": 1,
+      "message": "Yes, I can see that if I only export Def on OAS nodes, then unified fails.  I wonder if you can look into this a bit more?  See https://go-review.googlesource.com/c/go/+/349509 - here I am exporting Def on OAS nodes, and importing but not even make use of the Def value on import, so it can\u0027t be changing any code results.  So, that seems like the unified test is too specific - it may fail even if I innocuously just slightly change the import/export format of functions?\n\nI need to export Def on OAS/OAS2 nodes for this bug, because OAS nodes may not be transformed to OSELRECV2 nodes until stenciling of a generic function, and I need Def set correctly for the eventual OSELRECV2 nodes created during stenciling of an imported function (because of the use of Def in (*ordererState).stmt() in order.go).",
+      "parentUuid": "558c69b4_7d01b244",
+      "revId": "957aaa43b15f016c412dcb8c892db1834940645a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
