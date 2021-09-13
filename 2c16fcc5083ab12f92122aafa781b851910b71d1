@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "669c97e6_e6086c9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-13T22:34:12Z",
+      "side": 1,
+      "message": "I think the mechanism in this CL is starting to look pretty good.\nI\u0027m still not sure about the heuristic. What exactly is it trying to achieve? How is whether a FOR loop being big relate to that goal?\n\nThat said, the worst that can happen is to increase the budget from 80 to 96, so it can\u0027t be that much worse than status quo.\n\nWhat goes wrong if we just do \"80-\u003e96\" inside any FOR loop? Are there examples of big FOR loops for which that\u0027s a bad idea?\n",
+      "revId": "2c16fcc5083ab12f92122aafa781b851910b71d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0d1dca_b4ad845b",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-13T22:34:12Z",
+      "side": 1,
+      "message": "Needs a comment.",
+      "revId": "2c16fcc5083ab12f92122aafa781b851910b71d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1391de2_fe26dcc8",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-13T22:34:12Z",
+      "side": 1,
+      "message": "\"first\" and \"last\" is kind of confusing here. \"outermost\" and \"innermost\" might be clearer.\n\nI guess all the FORs need to be small, because they can\u0027t be bigger than the outermost FOR.",
+      "range": {
+        "startLine": 91,
+        "startChar": 13,
+        "endLine": 91,
+        "endChar": 18
+      },
+      "revId": "2c16fcc5083ab12f92122aafa781b851910b71d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bdbdf02_e81638d8",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-13T22:34:12Z",
+      "side": 1,
+      "message": "There are some other calls, like OCALLINTER.",
+      "revId": "2c16fcc5083ab12f92122aafa781b851910b71d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "240b755c_9bbf684a",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-13T22:34:12Z",
+      "side": 1,
+      "message": "It seems strange that we\u0027ve invented a new visitor for computing some sort of modified cost for a for loop. Can\u0027t we just reuse hairyVisitor to analyze just the for loop? Then it handles all the weird cases (e.g. the call to growslice in an OAPPEND).\n\nAt a higher level, it\u0027s not clear to me exactly what this is trying to achieve. Keeping the body of the loop in the instruction cache? Definitely worth an explanation somewhere (the doc comment for forCost?).",
+      "revId": "2c16fcc5083ab12f92122aafa781b851910b71d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6984dc4_9798bdb5",
+        "filename": "test/inline_for.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-13T22:34:12Z",
+      "side": 1,
+      "message": "I guess this is the situation I didn\u0027t understand, where for loops can be non-monotonic in size because their size was not measured at the same time. Interesting, and a bit disturbing.",
+      "range": {
+        "startLine": 33,
+        "startChar": 89,
+        "endLine": 33,
+        "endChar": 109
+      },
+      "revId": "2c16fcc5083ab12f92122aafa781b851910b71d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
