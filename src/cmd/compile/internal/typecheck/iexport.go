@@ -1497,6 +1497,7 @@ func (w *exportWriter) stmt(n ir.Node) {
 			w.pos(n.Pos())
 			w.expr(n.X)
 			w.expr(n.Y)
+			w.bool(n.Def)
 		}
 
 	case ir.OASOP:

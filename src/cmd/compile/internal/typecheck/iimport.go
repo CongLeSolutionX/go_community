@@ -1607,7 +1607,9 @@ func (r *importReader) node() ir.Node {
 	// 	unreachable - never exported
 
 	case ir.OAS:
-		return ir.NewAssignStmt(r.pos(), r.expr(), r.expr())
+		n := ir.NewAssignStmt(r.pos(), r.expr(), r.expr())
+		_ = r.bool()
+		return n
 
 	case ir.OASOP:
 		n := ir.NewAssignOpStmt(r.pos(), r.op(), r.expr(), nil)
