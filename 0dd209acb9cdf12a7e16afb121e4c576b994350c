@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b005be62_93ec73fe",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-13T00:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d092c555_c0fea887",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 12
+      },
+      "revId": "0dd209acb9cdf12a7e16afb121e4c576b994350c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a072517_f5939696",
@@ -93,6 +117,30 @@
       "writtenOn": "2021-09-12T22:41:14Z",
       "side": 1,
       "message": "maybe just: \"instantiated\"? (flip meaning)",
+      "range": {
+        "startLine": 321,
+        "startChar": 1,
+        "endLine": 321,
+        "endChar": 19
+      },
+      "revId": "0dd209acb9cdf12a7e16afb121e4c576b994350c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3532027d_33162416",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-13T00:27:31Z",
+      "side": 1,
+      "message": "I knew I\u0027d get a comment here 😊\n\n\u0027instantiated\u0027 is not quite flipping the meaning, as this flag reports whether the func is both (1) instantiated and (2) incomplete. Using the zero value for the previous behavior has advantages as well: we set this only in expandNamed, and unset it only in completeMethod.\n\nWe can probably come up with a better name, but I don\u0027t think we should change the meaning.",
+      "parentUuid": "8a072517_f5939696",
       "range": {
         "startLine": 321,
         "startChar": 1,
