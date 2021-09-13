@@ -10,6 +10,7 @@
 package foo
 
 import (
+	"encoding/binary"
 	"runtime"
 	"unsafe"
 )
@@ -291,4 +292,9 @@ func conv2(v uint64) uint64 { // ERROR "can inline conv2"
 }
 func conv1(v uint64) uint64 { // ERROR "can inline conv1"
 	return uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(uint64(v)))))))))))
+}
+
+// Ensure that simple encoding/binary functions are cheap.
+func endian(b []byte) uint64 { // ERROR "can inline endian" "b does not escape"
+	return binary.LittleEndian.Uint64(b) + binary.BigEndian.Uint64(b) // ERROR "inlining call to binary.littleEndian.Uint64" "inlining call to binary.bigEndian.Uint64"
 }

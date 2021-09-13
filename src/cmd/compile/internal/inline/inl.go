@@ -275,14 +275,30 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		}
 		if n.X.Op() == ir.OMETHEXPR {
 			if meth := ir.MethodExprName(n.X); meth != nil {
-				fn := meth.Func
-				if fn != nil && types.IsRuntimePkg(fn.Sym().Pkg) && fn.Sym().Name == "heapBits.nextArena" {
-					// Special case: explicitly allow
-					// mid-stack inlining of
-					// runtime.heapBits.next even though
-					// it calls slow-path
-					// runtime.heapBits.nextArena.
-					break
+				if fn := meth.Func; fn != nil {
+					s := fn.Sym()
+					var cheap bool
+					if types.IsRuntimePkg(s.Pkg) && s.Name == "heapBits.nextArena" {
+						// Special case: explicitly allow mid-stack inlining of
+						// runtime.heapBits.next even though it calls slow-path
+						// runtime.heapBits.nextArena.
+						cheap = true
+					}
+					if s.Pkg.Path == "encoding/binary" {
+						switch s.Name {
+						case "littleEndian.Uint64", "littleEndian.Uint32", "littleEndian.Uint16",
+							"bigEndian.Uint64", "bigEndian.Uint32", "bigEndian.Uint16",
+							"littleEndian.PutUint64", "littleEndian.PutUint32", "littleEndian.PutUint16",
+							"bigEndian.PutUint64", "bigEndian.PutUint32", "bigEndian.PutUint16":
+							// Special case: explicitly mark encoding/binary methods
+							// as cheap, because in practice they are, but our inlining
+							// budgeting system does not see that. See issue 42958.
+							cheap = true
+						}
+					}
+					if cheap {
+						break // treat like any other node, that is, cost of 1
+					}
 				}
 			}
 		}
