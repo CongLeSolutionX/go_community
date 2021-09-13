@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f667a004_2a2e9ea4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-13T22:15:24Z",
+      "side": 1,
+      "message": "Yes, but Cuong has already done that in the next CL in this stack :)",
+      "parentUuid": "7d6e6e25_32e2d769",
+      "revId": "578bdc05cddca761a32f66b81293f936f1efba13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b090346c_9adb9ecc",
