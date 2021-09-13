@@ -5,6 +5,7 @@
 package fuzz
 
 import (
+	"fmt"
 	"internal/unsafeheader"
 	"math/bits"
 	"unsafe"
@@ -54,6 +55,9 @@ func SnapshotCoverage() {
 // diffCoverage returns a set of bits set in snapshot but not in base.
 // If there are no new bits set, diffCoverage returns nil.
 func diffCoverage(base, snapshot []byte) []byte {
+	if len(base) != len(snapshot) {
+		panic(fmt.Sprintf("the number of coverage bits changed: before=%d, after=%d", len(base), len(snapshot)))
+	}
 	found := false
 	for i := range snapshot {
 		if snapshot[i]&^base[i] != 0 {
