@@ -53,6 +53,24 @@
       "message": "I have little knowledge of cmd/compile/internal/typecheck, so I\u0027ll defer to mdempsky for this review, if that\u0027s alright.\n\nIt does look small, but it would still take me some time to get to the point where I feel comfortable reviewing.",
       "revId": "d5d0b5ced7663e715f0fae8ffbfdb87a3e6bcc0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee6e9346_2e56ef80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-13T17:13:49Z",
+      "side": 1,
+      "message": "It\u0027s turn out that the fix is quite simple and the same as what you suggested in CL 349009",
+      "parentUuid": "713b3013_b4ecd4c3",
+      "revId": "d5d0b5ced7663e715f0fae8ffbfdb87a3e6bcc0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
