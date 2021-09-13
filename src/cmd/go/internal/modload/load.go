@@ -327,7 +327,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 		}
 	}
 
-	initialRS, _ := loadModFile(ctx) // Ignore needCommit — we're going to commit at the end regardless.
+	initialRS := LoadModFile(ctx)
 
 	ld := loadFromRoots(ctx, loaderParams{
 		PackageOpts:  opts,
@@ -396,7 +396,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 			}
 		}
 
-		if allowWriteGoMod {
+		if !ExplicitWriteGoMod {
 			modfetch.TrimGoSum(keep)
 
 			// commitRequirements below will also call WriteGoSum, but the "keep" map
@@ -418,7 +418,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 
 	// Success! Update go.mod and go.sum (if needed) and return the results.
 	loaded = ld
-	commitRequirements(ctx, loaded.requirements)
+	requirements = loaded.requirements
 
 	for _, pkg := range ld.pkgs {
 		if !pkg.isTest() {
@@ -426,6 +426,13 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 		}
 	}
 	sort.Strings(loadedPackages)
+
+	if !ExplicitWriteGoMod {
+		if err := writeRequirements(ctx); err != nil {
+			base.Fatalf("go: %v", err)
+		}
+	}
+
 	return matches, loadedPackages
 }
 
@@ -685,7 +692,7 @@ func ImportFromFiles(ctx context.Context, gofiles []string) {
 			return roots
 		},
 	})
-	commitRequirements(ctx, loaded.requirements)
+	requirements = loaded.requirements
 }
 
 // DirImportPath returns the effective import path for dir,
