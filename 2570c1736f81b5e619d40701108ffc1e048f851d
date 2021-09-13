@@ -70,6 +70,24 @@
       "message": "s/exist/exists/",
       "revId": "2570c1736f81b5e619d40701108ffc1e048f851d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad401201_c1e74809",
+        "filename": "src/go/internal/gcimporter/iimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-13T11:08:32Z",
+      "side": 1,
+      "message": "Thanks, Fixed.",
+      "parentUuid": "abd0cf98_7b4cf9c5",
+      "revId": "2570c1736f81b5e619d40701108ffc1e048f851d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
