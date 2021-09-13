@@ -71,6 +71,24 @@
       "parentUuid": "cbf6d6d0_90137bb0",
       "revId": "99836e776a049cc1a37930aed9a886ad78c28234",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb36784d_29333ccd",
+        "filename": "src/cmd/compile/internal/importer/iimport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-13T14:43:08Z",
+      "side": 1,
+      "message": "After reminding myself of the importer code, I agree that this should be fine: we never use the importReader after a call to obj(). But it does look a bit fragile. At the least, I think a longer comment here and an update to the doc comment of obj  (\"obj may not read the entire declaration\", etc etc) would be helpful.",
+      "parentUuid": "42cf2f0b_6aa30e5c",
+      "revId": "99836e776a049cc1a37930aed9a886ad78c28234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
