@@ -5,31 +5,31 @@ env GOPROXY=direct
 # GOVCS stops go get
 env GOVCS='*:none'
 ! go get github.com/google/go-cmp
-stderr '^go get: GOVCS disallows using git for public github.com/google/go-cmp; see ''go help vcs''$'
+stderr '^go: GOVCS disallows using git for public github.com/google/go-cmp; see ''go help vcs''$'
 env GOPRIVATE='github.com/google'
 ! go get github.com/google/go-cmp
-stderr '^go get: GOVCS disallows using git for private github.com/google/go-cmp; see ''go help vcs''$'
+stderr '^go: GOVCS disallows using git for private github.com/google/go-cmp; see ''go help vcs''$'
 
 # public pattern works
 env GOPRIVATE='github.com/google'
 env GOVCS='public:all,private:none'
 ! go get github.com/google/go-cmp
-stderr '^go get: GOVCS disallows using git for private github.com/google/go-cmp; see ''go help vcs''$'
+stderr '^go: GOVCS disallows using git for private github.com/google/go-cmp; see ''go help vcs''$'
 
 # private pattern works
 env GOPRIVATE='hubgit.com/google'
 env GOVCS='private:all,public:none'
 ! go get github.com/google/go-cmp
-stderr '^go get: GOVCS disallows using git for public github.com/google/go-cmp; see ''go help vcs''$'
+stderr '^go: GOVCS disallows using git for public github.com/google/go-cmp; see ''go help vcs''$'
 
 # other patterns work (for more patterns, see TestGOVCS)
 env GOPRIVATE=
 env GOVCS='github.com:svn|hg'
 ! go get github.com/google/go-cmp
-stderr '^go get: GOVCS disallows using git for public github.com/google/go-cmp; see ''go help vcs''$'
+stderr '^go: GOVCS disallows using git for public github.com/google/go-cmp; see ''go help vcs''$'
 env GOVCS='github.com/google/go-cmp/inner:git,github.com:svn|hg'
 ! go get github.com/google/go-cmp
-stderr '^go get: GOVCS disallows using git for public github.com/google/go-cmp; see ''go help vcs''$'
+stderr '^go: GOVCS disallows using git for public github.com/google/go-cmp; see ''go help vcs''$'
 
 # bad patterns are reported (for more bad patterns, see TestGOVCSErrors)
 env GOVCS='git'
