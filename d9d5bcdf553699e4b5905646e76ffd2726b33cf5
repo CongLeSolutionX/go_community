@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfdb5bb6_4f4e4450",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-13T12:09:22Z",
+      "side": 1,
+      "message": "Give me a specific example of an instruction you are referring to in this paragraph.",
+      "revId": "d9d5bcdf553699e4b5905646e76ffd2726b33cf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90058c12_22f0ff11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-13T12:09:22Z",
+      "side": 1,
+      "message": "did you mean assembly writers here?",
+      "revId": "d9d5bcdf553699e4b5905646e76ffd2726b33cf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "897c95c9_d4b1eb4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-13T12:09:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this means. Are you disallowing something that was allowed before? If so, why? If it was allowed before there could be assembler files that expect it to work and now it will no longer work.",
+      "revId": "d9d5bcdf553699e4b5905646e76ffd2726b33cf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2999cc61_b15154ee",
