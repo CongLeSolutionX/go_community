@@ -453,7 +453,7 @@ type fuzzInput struct {
 	// value.
 	interestingCount int64
 
-	// coverageData reflects the coordinator's current coverageData.
+	// coverageData reflects the coordinator's current coverageMask.
 	coverageData []byte
 }
 
@@ -621,7 +621,7 @@ func newCoordinator(opts CoordinateFuzzingOpts) (*coordinator, error) {
 	if covSize == 0 {
 		fmt.Fprintf(c.opts.Log, "warning: the test binary was not built with coverage instrumentation, so fuzzing will run without coverage guidance and may be inefficient\n")
 	} else {
-		// Set c.coverageData to a clean []byte full of zeros.
+		// Set c.coverageMask to a clean []byte full of zeros.
 		c.coverageMask = make([]byte, covSize)
 		c.covOnlyInputs = len(c.corpus.entries)
 		for _, e := range c.corpus.entries {
@@ -681,13 +681,17 @@ func (c *coordinator) peekInput() (fuzzInput, bool) {
 	if !ok {
 		panic("input queue empty after refill")
 	}
+	var coverageData []byte
+	if c.coverageMask != nil {
+		coverageData = make([]byte, len(c.coverageMask))
+		copy(coverageData, c.coverageMask)
+	}
 	input := fuzzInput{
 		entry:            entry.(CorpusEntry),
 		interestingCount: c.interestingCount,
-		coverageData:     make([]byte, len(c.coverageMask)),
+		coverageData:     coverageData,
 		timeout:          workerFuzzDuration,
 	}
-	copy(input.coverageData, c.coverageMask)
 
 	if c.coverageOnlyRun() {
 		// This is a coverage-only run, so this input shouldn't be fuzzed.
@@ -797,7 +801,7 @@ func (c *coordinator) coverageOnlyRun() bool {
 	return c.covOnlyInputs > 0
 }
 
-// updateCoverage sets bits in c.coverageData that are set in newCoverage.
+// updateCoverage sets bits in c.coverageMask that are set in newCoverage.
 // updateCoverage returns the number of newly set bits. See the comment on
 // coverageMask for the format.
 func (c *coordinator) updateCoverage(newCoverage []byte) int {

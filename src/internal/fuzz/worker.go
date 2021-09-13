@@ -98,9 +98,13 @@ func (w *worker) cleanup() error {
 // those inputs to the worker process, then passes the results back to
 // the coordinator.
 func (w *worker) coordinate(ctx context.Context) error {
-	// interestingCount starts at -1, like the coordinator does, so that the
-	// worker client's coverage data is updated after a coverage-only run.
-	interestingCount := int64(-1)
+	interestingCount := w.coordinator.interestingCount
+	if w.coordinator.coverageMask != nil {
+		// interestingCount starts at -1 when coverage is enabled, like the
+		// coordinator does, so the worker knows to update it's coverage data
+		// after the coverage-only run is finished.
+		interestingCount = -1
+	}
 
 	// Main event loop.
 	for {
@@ -152,7 +156,7 @@ func (w *worker) coordinate(ctx context.Context) error {
 		case input := <-w.coordinator.inputC:
 			// Received input from coordinator.
 			args := fuzzArgs{Limit: input.limit, Timeout: input.timeout, CoverageOnly: input.coverageOnly}
-			if interestingCount < input.interestingCount {
+			if int64(interestingCount) < input.interestingCount {
 				// The coordinator's coverage data has changed, so send the data
 				// to the client.
 				args.CoverageData = input.coverageData
