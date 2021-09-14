@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "615ce7de_cc9f0d74",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-14T16:42:59Z",
+      "side": 1,
+      "message": "About \u0027go mod why\u0027, I agree though I\u0027d like that to be in a follow-up CL to keep this a pure refactor.\n\nAbout \u0027go mod download\u0027, I agree but it may be much tricker to get that right, since WriteGoMod is coupled with updating go.sum, and \u0027go mod download\u0027 should be able to update go.sum.\n\nAbout \u0027go list\u0027, I think it should stay consistent with \u0027go build\u0027 and other commands: it should write go.mod if -mod\u003dmod is set, and report an error in other modes if go.mod is dirty. I think it should work that way now.",
+      "parentUuid": "983cd81b_4aa5561a",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 3
+      },
+      "revId": "235ad72a56b970f5b5640a22b6902cb3abd68c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "125974c5_4b3c0d57",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "writtenOn": "2021-09-14T15:44:43Z",
       "side": 1,
       "message": "Here I think the condition can be `cfg.BuildMod \u003d\u003d \"mod\" \u0026\u0026 opt.ResolveMissingImports`.\n\nThe `cfg.BuildMod \u003d\u003d \"mod\"` condition covers most commands, which should be in readonly or vendor mode by default to begin with.\n\nThe `ResolveMissingImports` condition is currently set in \u0027go mod tidy\u0027, \u0027go mod vendor\u0027, `modload.ImportFromFiles`, and `load.PackagesAndErrors`. `modload.ImportFromFiles` is used in `go build\u0027 and `go run`, so that case is already covered by the `cfg.BuildMod` condition.\n\nThat leaves `load.PackagesAndErrors`, which is a trickier problem. From https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/load/pkg.go;l\u003d2444;drc\u003dmaster, I see xrefs in two categories.\n\nThese should be covered by the cfg.BuildMod conditionn, if they aren\u0027t already:\n• \u0027go build\u0027\n• \u0027go clean\u0027\n• \u0027go fix\u0027\n• \u0027go fmt\u0027\n• \u0027go generate\u0027\n• \u0027go list\u0027\n• \u0027go run\u0027\n• \u0027go test\u0027\n• \u0027go vet\u0027\n\n\nThat leaves:\n• \u0027go get\u0027, which does not have the `-mod` flag.\n\nIt makes exactly one call to load.PackagesAndErrors:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/go/internal/modget/get.go;l\u003d373;drc\u003d3b523caf4145c2d915c5ead69440f9b890634587\n\nWe\u0027ve already loaded dependencies and checked them for errors by that point, so in theory there should be no changes left to make because we\u0027ve already made them. In practice, um... I hope that\u0027s true‽\n\nBut here\u0027s the kicker: that call site goes away when we fix #43684! So we can apply the Gordian solution to that particular tangle.",
+      "range": {
+        "startLine": 430,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 2
+      },
+      "revId": "235ad72a56b970f5b5640a22b6902cb3abd68c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "961012f1_f589c71d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-14T16:42:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the condition.\n\nWe still need to call modload.writeRequirements in readonly in vendor mode: it reports an error if go.mod needs to be updated. So I think writeRequirements should check cfg.BuildMod, not the caller. Maybe writeRequirements should have a different name though.\n\nopts.ResolveMissingImports doesn\u0027t make sense to me either. Why would that control whether we update go.mod or report that it needs to be updated?",
+      "parentUuid": "125974c5_4b3c0d57",
       "range": {
         "startLine": 430,
         "startChar": 0,
