@@ -16,6 +16,24 @@
       "message": "i suggest that instead you just call it with false here, preserving the code for debugging.\n\nyou might even make it a compile-time constant, or perhaps a global variable, again to aid with debugging.",
       "revId": "181e8cde301cd8205489e746334174fee7290c9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29289b68_b5638673",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2021-09-14T23:19:52Z",
+      "side": 0,
+      "message": "Thanks for the comment - done.\nOpen to suggestions on the naming and placement of the constant.",
+      "parentUuid": "bed573dd_2dd63132",
+      "revId": "181e8cde301cd8205489e746334174fee7290c9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
