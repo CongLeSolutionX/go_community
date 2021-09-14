@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42725c27_c081775b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T09:03:43Z",
+      "side": 1,
+      "message": "Dear Austin Clements,\n\nThanks for your code review, I am so sorry that I abandoned original CL. To build a relation chain on Gerrit, I submit this CL.\n\nI have completed the fixes to your review.\n\nThanks! ",
+      "revId": "81e326ce3a63b1b7c0c93682eba011fd61042ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
