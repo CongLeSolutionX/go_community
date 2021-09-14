@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af82c6f_b25d5aef",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c639e1e1_f6b7843d",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "f9fabce0071512dc9d2082a191fc184f37f610a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1a34386_8497df55",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-09-13T21:26:32Z",
       "side": 1,
       "message": "maybe atomically nil out t.resolver when we\u0027re done",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "f9fabce0071512dc9d2082a191fc184f37f610a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ddb951a_be437e64",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:12:53Z",
+      "side": 1,
+      "message": "This turned out to be a bit tricky, and I think it should be done in a separate CL, if at all.",
+      "parentUuid": "e1a34386_8497df55",
       "range": {
         "startLine": 55,
         "startChar": 4,
@@ -107,6 +155,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ef64895_744e3114",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f3a83fd_9a3de66b",
+      "range": {
+        "startLine": 185,
+        "startChar": 7,
+        "endLine": 185,
+        "endChar": 11
+      },
+      "revId": "f9fabce0071512dc9d2082a191fc184f37f610a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98cfc417_f57edeb9",
@@ -120,6 +192,24 @@
       "writtenOn": "2021-09-13T21:26:32Z",
       "side": 1,
       "message": "just do the type assertion on the same line and get rid of inst",
+      "revId": "f9fabce0071512dc9d2082a191fc184f37f610a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfdb3ed1_8a5d7f09",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98cfc417_f57edeb9",
       "revId": "f9fabce0071512dc9d2082a191fc184f37f610a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
