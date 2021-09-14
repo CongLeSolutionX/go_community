@@ -231,6 +231,10 @@ func (server *Server) RegisterName(name string, rcvr interface{}) error {
 	return server.register(rcvr, name, true)
 }
 
+// reportRegisterErr controls whether failure of registering methods is reported
+// to log. Useful for debugging.
+const reportRegisterErr = false
+
 func (server *Server) register(rcvr interface{}, name string, useName bool) error {
 	s := new(service)
 	s.typ = reflect.TypeOf(rcvr)
@@ -252,7 +256,7 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 	s.name = sname
 
 	// Install the methods
-	s.method = suitableMethods(s.typ, true)
+	s.method = suitableMethods(s.typ, reportRegisterErr)
 
 	if len(s.method) == 0 {
 		str := ""
@@ -274,7 +278,7 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 	return nil
 }
 
-// suitableMethods returns suitable Rpc methods of typ, it will report
+// suitableMethods returns suitable Rpc methods of typ. It will report
 // error using log if reportErr is true.
 func suitableMethods(typ reflect.Type, reportErr bool) map[string]*methodType {
 	methods := make(map[string]*methodType)
