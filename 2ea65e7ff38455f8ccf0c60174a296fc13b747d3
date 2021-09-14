@@ -102,6 +102,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "101def4f_f889f0ef",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T23:40:37Z",
+      "side": 1,
+      "message": "Ack. Done.",
+      "parentUuid": "a16263f7_94b5e82f",
+      "range": {
+        "startLine": 540,
+        "startChar": 2,
+        "endLine": 540,
+        "endChar": 37
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b00f3ec_ca9f3d14",
@@ -115,6 +139,30 @@
       "writtenOn": "2021-09-14T17:16:56Z",
       "side": 1,
       "message": "I think this may be the only place where we call check.infer with the error reporting turned off. If so, we can remove that argument from infer. Maybe add a TODO for a follow-up-CL.",
+      "range": {
+        "startLine": 568,
+        "startChar": 99,
+        "endLine": 568,
+        "endChar": 104
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcb57aa_98ed447d",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T23:40:37Z",
+      "side": 1,
+      "message": "Just added a TODO in order to keep the diff minimal.",
+      "parentUuid": "1b00f3ec_ca9f3d14",
       "range": {
         "startLine": 568,
         "startChar": 99,
