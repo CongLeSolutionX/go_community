@@ -94,6 +94,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02343d65_c2c1e058",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-09-14T15:44:03Z",
+      "side": 1,
+      "message": "Oh no 🙈\n\nI suspect there\u0027s nothing else, but will ask around. Overall, I think it will be more robust to go the crosscall3 route and fix up things that know about crosscall2.\n\nIf I\u0027m reading the Delve code correctly, there are several references to crosscall2, but other than the one you linked to, they\u0027re all about applying a quirk to fix up a bad CFA for crosscall2 that older Go toolchains produced. Hopefully we no longer produce the bad CFA so these fixups don\u0027t matter.",
+      "parentUuid": "ea747a89_29ca46c4",
+      "revId": "6e567d0d90251bece3178dff596e52e6eafa3503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ed5d08a_744bfb7b",
         "filename": "src/runtime/cgo/callbacks.go",
         "patchSetId": 2
