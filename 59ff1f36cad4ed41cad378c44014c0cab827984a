@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c4f184_616ed565",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44364
+      },
+      "writtenOn": "2021-09-14T22:31:38Z",
+      "side": 1,
+      "message": "rejecting this after explanation from Bryan.. this was due to my own misunderstanding here. Thanks for your review and time.",
+      "revId": "59ff1f36cad4ed41cad378c44014c0cab827984a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5517f76_da68886f",
