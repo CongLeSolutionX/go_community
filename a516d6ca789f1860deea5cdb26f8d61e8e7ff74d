@@ -16,6 +16,24 @@
       "message": "Write this as CL 320252 rather than the git commit hash.",
       "revId": "a516d6ca789f1860deea5cdb26f8d61e8e7ff74d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a5d55d1_f8cfc7bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 53818
+      },
+      "writtenOn": "2021-09-14T18:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd31ac9f_b3ab8e7e",
+      "revId": "a516d6ca789f1860deea5cdb26f8d61e8e7ff74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
