@@ -252,13 +252,13 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 	s.name = sname
 
 	// Install the methods
-	s.method = suitableMethods(s.typ, true)
+	s.method = suitableMethods(s.typ)
 
 	if len(s.method) == 0 {
 		str := ""
 
 		// To help the user, see if a pointer receiver would work.
-		method := suitableMethods(reflect.PtrTo(s.typ), false)
+		method := suitableMethods(reflect.PtrTo(s.typ))
 		if len(method) != 0 {
 			str = "rpc.Register: type " + sname + " has no exported methods of suitable type (hint: pass a pointer to value of that type)"
 		} else {
@@ -274,9 +274,8 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 	return nil
 }
 
-// suitableMethods returns suitable Rpc methods of typ, it will report
-// error using log if reportErr is true.
-func suitableMethods(typ reflect.Type, reportErr bool) map[string]*methodType {
+// suitableMethods returns suitable Rpc methods of typ.
+func suitableMethods(typ reflect.Type) map[string]*methodType {
 	methods := make(map[string]*methodType)
 	for m := 0; m < typ.NumMethod(); m++ {
 		method := typ.Method(m)
@@ -288,46 +287,28 @@ func suitableMethods(typ reflect.Type, reportErr bool) map[string]*methodType {
 		}
 		// Method needs three ins: receiver, *args, *reply.
 		if mtype.NumIn() != 3 {
-			if reportErr {
-				log.Printf("rpc.Register: method %q has %d input parameters; needs exactly three\n", mname, mtype.NumIn())
-			}
 			continue
 		}
 		// First arg need not be a pointer.
 		argType := mtype.In(1)
 		if !isExportedOrBuiltinType(argType) {
-			if reportErr {
-				log.Printf("rpc.Register: argument type of method %q is not exported: %q\n", mname, argType)
-			}
 			continue
 		}
 		// Second arg must be a pointer.
 		replyType := mtype.In(2)
 		if replyType.Kind() != reflect.Ptr {
-			if reportErr {
-				log.Printf("rpc.Register: reply type of method %q is not a pointer: %q\n", mname, replyType)
-			}
 			continue
 		}
 		// Reply type must be exported.
 		if !isExportedOrBuiltinType(replyType) {
-			if reportErr {
-				log.Printf("rpc.Register: reply type of method %q is not exported: %q\n", mname, replyType)
-			}
 			continue
 		}
 		// Method needs one out.
 		if mtype.NumOut() != 1 {
-			if reportErr {
-				log.Printf("rpc.Register: method %q has %d output parameters; needs exactly one\n", mname, mtype.NumOut())
-			}
 			continue
 		}
 		// The return type of the method must be error.
 		if returnType := mtype.Out(0); returnType != typeOfError {
-			if reportErr {
-				log.Printf("rpc.Register: return type of method %q is %q, must be error\n", mname, returnType)
-			}
 			continue
 		}
 		methods[mname] = &methodType{method: method, ArgType: argType, ReplyType: replyType}
