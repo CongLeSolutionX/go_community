@@ -57,6 +57,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1afcbeef_ab7d61af",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:21:59Z",
+      "side": 1,
+      "message": "This should no longer be necessary, and all tests pass with it removed, though I\u0027ve updated expandNamed to set hasPtrRecv.\n\nAny concerns with removing this?",
+      "range": {
+        "startLine": 540,
+        "startChar": 2,
+        "endLine": 540,
+        "endChar": 37
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83cedd2c_76d7ae0c",
         "filename": "src/go/types/check.go",
         "patchSetId": 8
@@ -68,6 +91,30 @@
       "writtenOn": "2021-09-13T21:47:30Z",
       "side": 1,
       "message": "let\u0027s not do this for now and have the if at the call site",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 12
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a84a5f_d37fc7a8",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83cedd2c_76d7ae0c",
       "range": {
         "startLine": 152,
         "startChar": 11,
@@ -95,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "251ad35d_885dd3b4",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65dfcf6a_7f4e1d04",
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1c37dbf_6d7b3626",
@@ -108,6 +173,30 @@
       "writtenOn": "2021-09-13T21:47:30Z",
       "side": 1,
       "message": "this needs a comment",
+      "range": {
+        "startLine": 367,
+        "startChar": 7,
+        "endLine": 367,
+        "endChar": 25
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "611364b6_0277f9d4",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:21:59Z",
+      "side": 1,
+      "message": "I think it\u0027s actually safe to remove this: if we are reaching this with nil checker we should have already completed the methods.\n\nI\u0027d add an assert, but we\u0027ll panic below anyway if the types are not set.",
+      "parentUuid": "e1c37dbf_6d7b3626",
       "range": {
         "startLine": 367,
         "startChar": 7,
@@ -141,6 +230,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d4344b3_e2777ae4",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:21:59Z",
+      "side": 1,
+      "message": "We actually need the instantiated receiver type (on which we can look up the receiver base type, as well as the type arguments).\n\nDone. It cleaned things up significantly.",
+      "parentUuid": "0352f700_d1db752f",
+      "range": {
+        "startLine": 264,
+        "startChar": 5,
+        "endLine": 264,
+        "endChar": 23
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa93dd18_7c1a1461",
@@ -154,6 +267,30 @@
       "writtenOn": "2021-09-13T21:47:30Z",
       "side": 1,
       "message": "have the explicit check !\u003d nil here for now\nwe can always generalize later",
+      "range": {
+        "startLine": 272,
+        "startChar": 7,
+        "endLine": 272,
+        "endChar": 12
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b15830a0_a2413961",
+        "filename": "src/go/types/named.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa93dd18_7c1a1461",
       "range": {
         "startLine": 272,
         "startChar": 7,
@@ -187,6 +324,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5c2fe77_3563415f",
+        "filename": "src/go/types/signature.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca179d3_24b9cac1",
+      "range": {
+        "startLine": 206,
+        "startChar": 15,
+        "endLine": 206,
+        "endChar": 16
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7954faf2_f213b576",
@@ -200,6 +361,30 @@
       "writtenOn": "2021-09-13T21:47:30Z",
       "side": 1,
       "message": "per discussion this may go away",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 4
+      },
+      "revId": "2ea65e7ff38455f8ccf0c60174a296fc13b747d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d334ded6_e90ca101",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-14T15:21:59Z",
+      "side": 1,
+      "message": "Yes, this is reverted.",
+      "parentUuid": "7954faf2_f213b576",
       "range": {
         "startLine": 59,
         "startChar": 0,
