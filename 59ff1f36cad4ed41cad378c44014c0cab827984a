@@ -16,6 +16,24 @@
       "message": "I think this is even more confusing. To me it implies that the default value of the `-count` field may be arbitrarily different from 1 if the test is cached, but that isn\u0027t true — specifying any value at all on the command line causes the test not to be cached, so the default behavior can only run the test 0 or 1 times.\n\nEspecially given that the caching behavior is already covered in the paragraph at line 121, I don\u0027t think this is a net improvement.",
       "revId": "59ff1f36cad4ed41cad378c44014c0cab827984a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d48eede9_f6f09e9f",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 44364
+      },
+      "writtenOn": "2021-09-14T22:27:17Z",
+      "side": 1,
+      "message": "yes, you are right here ! I agree .",
+      "parentUuid": "e5517f76_da68886f",
+      "revId": "59ff1f36cad4ed41cad378c44014c0cab827984a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
