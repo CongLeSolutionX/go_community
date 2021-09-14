@@ -53,6 +53,189 @@
       "message": "Here\u0027s the change to compute the dictionary format on instantiated functions, rather than the generic function.  Note the new dictionary pass and the change to Shapify().\n\nThe next CL in the stack shows the early transform code that can be removed after this change.\n",
       "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5e48b67_c13d7b4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "Seems reasonable to me. A lot less code churn than I was expecting.\n",
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9450ce8_354ae39e",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "\"type params\" elsewhere means generic parameters. Maybe better say \"types substituted for the type parameters, which are shape types\".",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 19
+      },
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba31b2d6_d6b8f370",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "Add a comment",
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3905d2e9_a94a0706",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "Will map iteration order matter here, as far as making the compiler nondeterministic?",
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca5b7e17_df69f4ee",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "Again here, I don\u0027t think tparam is the right name. Maybe shapeToBound? Something else that makes it clear the key is not the type parameter itself.",
+      "range": {
+        "startLine": 777,
+        "startChar": 7,
+        "endLine": 777,
+        "endChar": 13
+      },
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55cf422e_47e80187",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "remove \"does\"",
+      "range": {
+        "startLine": 1168,
+        "startChar": 12,
+        "endLine": 1168,
+        "endChar": 16
+      },
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d3833f4_4f7b54ad",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 1169,
+        "startChar": 36,
+        "endLine": 1169,
+        "endChar": 38
+      },
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39bce1b1_bc4b6aac",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "Is this always true?\nI worry about x.M where x is a struct and M is the method of a generic type embedded in that struct. Then src would be HasShape but not IsShape.",
+      "range": {
+        "startLine": 1196,
+        "startChar": 14,
+        "endLine": 1196,
+        "endChar": 21
+      },
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b20c4a22_ecd645ac",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-14T23:30:29Z",
+      "side": 1,
+      "message": "Probably clearer to do fmt.Sprintf(\"%s_%d\", u.LinkString(), index)",
+      "revId": "bf024961e145c6b82444f9b087a4b0256436e420",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
