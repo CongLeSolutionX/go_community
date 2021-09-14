@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1bd46e48_c6a0e3a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK, I will do it.",
+      "parentUuid": "b1362542_a8fae6b4",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4168ac37_906127a4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "238c920c_40aa10ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK, I will fix it.",
+      "parentUuid": "4168ac37_906127a4",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9129f54_8db87f0a",
         "filename": "src/cmd/internal/obj/mips/a.out.go",
         "patchSetId": 1
@@ -48,6 +84,30 @@
       "writtenOn": "2021-09-09T22:01:50Z",
       "side": 1,
       "message": "This needs comment.",
+      "range": {
+        "startLine": 317,
+        "startChar": 1,
+        "endLine": 317,
+        "endChar": 9
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2579705c_380591ff",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK, I will add comment for it.",
+      "parentUuid": "d9129f54_8db87f0a",
       "range": {
         "startLine": 317,
         "startChar": 1,
@@ -83,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9293c332_298a1431",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK, I will add comment.",
+      "parentUuid": "7f09e37b_ae99e5aa",
+      "range": {
+        "startLine": 323,
+        "startChar": 1,
+        "endLine": 323,
+        "endChar": 9
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf21ad08_7d4e5664",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 1
@@ -94,6 +178,24 @@
       "writtenOn": "2021-09-09T22:01:50Z",
       "side": 1,
       "message": "What does a three-operand MOV mean?",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47eec11e_b7b3a316",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "I rewrite the middle operand C_NONE to C_REG for base register(REGSB) in PIC code. If there is a problem, I can change back to two operand.\nThanks.",
+      "parentUuid": "bf21ad08_7d4e5664",
       "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -117,6 +219,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2502fcf3_425c862e",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK,I will do it.",
+      "parentUuid": "6d05c955_8db0f246",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d756d113_9ea644c4",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2021-09-09T22:01:50Z",
       "side": 1,
       "message": "Do not use names like v0, t9. We don\u0027t use it anywhere else. If it is a specific register like R25 or REGTMP,  just name it. Otherwise you could just use r.",
+      "range": {
+        "startLine": 1410,
+        "startChar": 50,
+        "endLine": 1410,
+        "endChar": 52
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef0522af_07ca8279",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1410,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK, I will fix them.",
+      "parentUuid": "d756d113_9ea644c4",
       "range": {
         "startLine": 1410,
         "startChar": 50,
@@ -163,6 +307,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a175a59a_5f786f9e",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK, I will add a comment.",
+      "parentUuid": "d5f856f1_4af613ad",
+      "range": {
+        "startLine": 61,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 9
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af38a7c1_567f5d6a",
         "filename": "src/cmd/internal/obj/mips/obj0.go",
         "patchSetId": 1
@@ -174,6 +342,30 @@
       "writtenOn": "2021-09-09T22:01:50Z",
       "side": 1,
       "message": "\"R25\" is enough for the comment.",
+      "range": {
+        "startLine": 151,
+        "startChar": 17,
+        "endLine": 151,
+        "endChar": 24
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e126f7ca_2efdb56e",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK, I will fix it.",
+      "parentUuid": "af38a7c1_567f5d6a",
       "range": {
         "startLine": 151,
         "startChar": 17,
@@ -209,6 +401,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d33b6927_4b968787",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "Yes, you are right. I am sorry. I will fix the comment.",
+      "parentUuid": "5810ff0c_a012b109",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 20
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe51a755_5d2e1715",
         "filename": "src/cmd/internal/obj/mips/obj0.go",
         "patchSetId": 1
@@ -220,6 +436,30 @@
       "writtenOn": "2021-09-09T22:01:50Z",
       "side": 1,
       "message": "Do we need this? I think STATIC symbol is alwayd local.",
+      "range": {
+        "startLine": 174,
+        "startChar": 90,
+        "endLine": 174,
+        "endChar": 101
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef05820e_1d35d0e9",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "I found some STATIC data symbol in plan9 lead to fault segmentation error when I debug the test program. So I fix that issue with this.",
+      "parentUuid": "fe51a755_5d2e1715",
       "range": {
         "startLine": 174,
         "startChar": 90,
@@ -249,6 +489,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2167fd1_ca22012a",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "OK, I will delete them.",
+      "parentUuid": "dc1ffa51_dcd1203d",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46b95544_a6969e1f",
         "filename": "src/cmd/internal/obj/mips/obj0.go",
         "patchSetId": 1
@@ -272,6 +530,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6fff35f_d4a0cd9f",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "Yes, it is. I will fix it.",
+      "parentUuid": "46b95544_a6969e1f",
+      "range": {
+        "startLine": 422,
+        "startChar": 43,
+        "endLine": 422,
+        "endChar": 51
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "add125f8_8b15144a",
         "filename": "src/cmd/internal/obj/mips/obj0.go",
         "patchSetId": 1
@@ -283,6 +565,30 @@
       "writtenOn": "2021-09-09T22:01:50Z",
       "side": 1,
       "message": "Why these functions are special?",
+      "range": {
+        "startLine": 423,
+        "startChar": 29,
+        "endLine": 427,
+        "endChar": 64
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97001fce_8c3c3c4e",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-14T02:36:00Z",
+      "side": 1,
+      "message": "We use r28(gp) register save the GOT address globally.\nThe GOT address is calculated by the following instructions:\n\nlui     gp,0x0              // R_MIPS_GPREL16    foo\n                            // R_MIPS_SUB        *ABS*\n                            // R_MIPS_HI16       *ABS* \ndaddu   gp,gp,t9\ndaddiu  gp,gp,0            // R_MIPS_GPREL16    foo\n                           // R_MIPS_SUB        *ABS*\n                           // R_MIPS_LO16       *ABS*\nThat call a C function could change r28(gp) since the GOT address is different among modules, leading to some errors when call back Go function. So we should compute the GOT address again when call back to Go function,\nThese function are the edge that C function call Go function.",
+      "parentUuid": "add125f8_8b15144a",
       "range": {
         "startLine": 423,
         "startChar": 29,
