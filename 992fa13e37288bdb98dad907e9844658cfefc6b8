@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92ae368c_3d3857c5",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-09-15T09:31:32Z",
+      "side": 1,
+      "message": "logRegisterError specifies whether to log problems during method registration.\nTo debug registration, recompile the package with this set to true.",
+      "revId": "992fa13e37288bdb98dad907e9844658cfefc6b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f98beeb_15e28e7f",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-09-15T09:31:32Z",
+      "side": 1,
+      "message": "i suggest logRegisterError.\nbe sure to update the comment.",
+      "revId": "992fa13e37288bdb98dad907e9844658cfefc6b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7b6aa0a_11b394ed",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-09-15T09:31:32Z",
+      "side": 1,
+      "message": "It will log errors if reportErr is true.\n\nbut maybe s/reportErr/logErr/",
+      "revId": "992fa13e37288bdb98dad907e9844658cfefc6b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
