@@ -52,6 +52,24 @@
       "parentUuid": "59068546_e6cc8358",
       "revId": "4ba3beb1a8f48f06bc80327f48d2b12be492e137",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12fb4fd5_4ccf75fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53828
+      },
+      "writtenOn": "2021-09-15T04:54:07Z",
+      "side": 1,
+      "message": "Totally understandable, and I agree with your assessment! I actually have already started a separate tool because I anticipated this outcome, and wanted to try opening a PR/CL to just make sure it wasn\u0027t wanted, and because it would be fun. Thank you for reviewing, and please close this change request at your leisure (I\u0027m new to this interface so I can try to poke around and figure out how to do it too if you like).",
+      "parentUuid": "9c49d000_07fe040a",
+      "revId": "4ba3beb1a8f48f06bc80327f48d2b12be492e137",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
