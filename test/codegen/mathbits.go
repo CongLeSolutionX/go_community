@@ -118,7 +118,8 @@ func Len8(n uint8) int {
 //    bits.OnesCount    //
 // -------------------- //
 
-// TODO(register args) Restore a m d 6 4 :.*x86HasPOPCNT when only one ABI is tested.
+// TODO(register args) Restore a m d 6 4 / v 1 :.*x86HasPOPCNT when only one ABI is tested.
+// amd64/v2:-".*x86HasPOPCNT" amd64/v3:-".*x86HasPOPCNT"
 func OnesCount(n uint) int {
 	// amd64:"POPCNTQ"
 	// arm64:"VCNT","VUADDLV"
@@ -129,6 +130,7 @@ func OnesCount(n uint) int {
 	return bits.OnesCount(n)
 }
 
+// amd64/v2:-".*x86HasPOPCNT" amd64/v3:-".*x86HasPOPCNT"
 func OnesCount64(n uint64) int {
 	// amd64:"POPCNTQ"
 	// arm64:"VCNT","VUADDLV"
@@ -139,6 +141,7 @@ func OnesCount64(n uint64) int {
 	return bits.OnesCount64(n)
 }
 
+// amd64/v2:-".*x86HasPOPCNT" amd64/v3:-".*x86HasPOPCNT"
 func OnesCount32(n uint32) int {
 	// amd64:"POPCNTL"
 	// arm64:"VCNT","VUADDLV"
@@ -149,6 +152,7 @@ func OnesCount32(n uint32) int {
 	return bits.OnesCount32(n)
 }
 
+// amd64/v2:-".*x86HasPOPCNT" amd64/v3:-".*x86HasPOPCNT"
 func OnesCount16(n uint16) int {
 	// amd64:"POPCNTL"
 	// arm64:"VCNT","VUADDLV"
