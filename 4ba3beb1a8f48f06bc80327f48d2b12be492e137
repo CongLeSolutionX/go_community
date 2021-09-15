@@ -34,6 +34,24 @@
       "parentUuid": "c2fad5b3_4626e307",
       "revId": "4ba3beb1a8f48f06bc80327f48d2b12be492e137",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c49d000_07fe040a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-15T04:41:35Z",
+      "side": 1,
+      "message": "All objdump does is disassemble code.  It doesn\u0027t display symbol information.  We aren\u0027t going to be adding functionality to objdump.\n\nobjdump is also not ELF-specific, and the information you are adding is at least partially ELF-specific.\n\nFor handling ELF information, or more generally anything other than disassembly, I think it would make more sense to write your own tool that uses debug/elf and friends.  You can start with your own copy of cmd/internal/objfile if you find that to be useful.  We don\u0027t want to maintain code in cmd/internal/objfile that isn\u0027t going to be used by any of the tools in cmd.\n\nThanks.",
+      "parentUuid": "59068546_e6cc8358",
+      "revId": "4ba3beb1a8f48f06bc80327f48d2b12be492e137",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
