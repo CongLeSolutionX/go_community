@@ -53,6 +53,24 @@
       "message": "Alessandro: I think this is all set to submit, or is there something you wanted to do?  I think you can submit this, but let me know if you want me to submit it.\n\nI have a big change to dictionary code (shouldn\u0027t change the dictionary format much at all), so I wanted to get your change in before I commit my change, so you won\u0027t have to deal with merge conflicts.\n\n",
       "revId": "8f36301b71a10647e6b3bef2b26aa18850741964",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d7550a2_2ff3bf60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-15T07:17:07Z",
+      "side": 1,
+      "message": "I don\u0027t have submit permissions, so someone else has to do it.",
+      "parentUuid": "221eb789_18868333",
+      "revId": "8f36301b71a10647e6b3bef2b26aa18850741964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
