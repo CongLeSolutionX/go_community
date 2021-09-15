@@ -4237,6 +4237,12 @@ func InitTables() {
 				s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 				return s.variable(n, types.Types[types.TFLOAT64])
 			}
+
+			fmaValue := s.newValue3(ssa.OpFMA, types.Types[types.TFLOAT64], args[0], args[1], args[2])
+			if buildcfg.GOAMD64 >= 3 {
+				return fmaValue
+			}
+
 			v := s.entryNewValue0A(ssa.OpHasCPUFeature, types.Types[types.TBOOL], ir.Syms.X86HasFMA)
 			b := s.endBlock()
 			b.Kind = ssa.BlockIf
@@ -4250,7 +4256,7 @@ func InitTables() {
 
 			// We have the intrinsic - use it directly.
 			s.startBlock(bTrue)
-			s.vars[n] = s.newValue3(ssa.OpFMA, types.Types[types.TFLOAT64], args[0], args[1], args[2])
+			s.vars[n] = fmaValue
 			s.endBlock().AddEdgeTo(bEnd)
 
 			// Call the pure Go version.
@@ -4299,6 +4305,11 @@ func InitTables() {
 
 	makeRoundAMD64 := func(op ssa.Op) func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+			sse41Value := s.newValue1(op, types.Types[types.TFLOAT64], args[0])
+			if buildcfg.GOAMD64 >= 2 {
+				return sse41Value
+			}
+
 			v := s.entryNewValue0A(ssa.OpHasCPUFeature, types.Types[types.TBOOL], ir.Syms.X86HasSSE41)
 			b := s.endBlock()
 			b.Kind = ssa.BlockIf
@@ -4312,7 +4323,7 @@ func InitTables() {
 
 			// We have the intrinsic - use it directly.
 			s.startBlock(bTrue)
-			s.vars[n] = s.newValue1(op, types.Types[types.TFLOAT64], args[0])
+			s.vars[n] = sse41Value
 			s.endBlock().AddEdgeTo(bEnd)
 
 			// Call the pure Go version.
@@ -4505,6 +4516,16 @@ func InitTables() {
 
 	makeOnesCountAMD64 := func(op64 ssa.Op, op32 ssa.Op) func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+			op := op64
+			if s.config.PtrSize == 4 {
+				op = op32
+			}
+
+			popcntValue := s.newValue1(op, types.Types[types.TINT], args[0])
+			if buildcfg.GOAMD64 >= 2 {
+				return popcntValue
+			}
+
 			v := s.entryNewValue0A(ssa.OpHasCPUFeature, types.Types[types.TBOOL], ir.Syms.X86HasPOPCNT)
 			b := s.endBlock()
 			b.Kind = ssa.BlockIf
@@ -4518,11 +4539,7 @@ func InitTables() {
 
 			// We have the intrinsic - use it directly.
 			s.startBlock(bTrue)
-			op := op64
-			if s.config.PtrSize == 4 {
-				op = op32
-			}
-			s.vars[n] = s.newValue1(op, types.Types[types.TINT], args[0])
+			s.vars[n] = popcntValue
 			s.endBlock().AddEdgeTo(bEnd)
 
 			// Call the pure Go version.
