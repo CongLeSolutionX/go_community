@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95e658d2_12c37f4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-15T19:10:41Z",
+      "side": 1,
+      "message": "No problem! Just wanted to check in to make sure we dedicated the time to fix this before the freeze if needed.",
+      "parentUuid": "849c4daf_6707bcca",
+      "revId": "0aa72975411f2ca927deb8cd432d53caa0307d97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2150224d_1c09302c",
