@@ -89,6 +89,24 @@
       "message": "DO NOT SUBMIT\n\nCL 343431 must be merged, tagged, required, and vendored first.",
       "revId": "e2cced8349ca03e876564806c00e5e0131e16b5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c15428_c1b91893",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-15T17:32:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb1d5331_09a74468",
+      "revId": "e2cced8349ca03e876564806c00e5e0131e16b5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
