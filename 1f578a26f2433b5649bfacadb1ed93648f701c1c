@@ -463,6 +463,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06adb43a_a94011f2",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-15T20:02:06Z",
+      "side": 1,
+      "message": "SG. We can adjust later if needed.",
+      "parentUuid": "b986070d_36007d3f",
+      "range": {
+        "startLine": 236,
+        "startChar": 84,
+        "endLine": 236,
+        "endChar": 101
+      },
+      "revId": "1f578a26f2433b5649bfacadb1ed93648f701c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14db1285_b5c96663",
@@ -611,6 +635,24 @@
       "side": 1,
       "message": "I went ahead and removed the second context. I\u0027m not sure I understand what you are suggesting with \"skip matching fuzz targets below\". Are you suggesting that runFuzzTargets returns a slice of fuzzTargets to use with runFuzzing?",
       "parentUuid": "6aff24d1_31563445",
+      "revId": "1f578a26f2433b5649bfacadb1ed93648f701c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e170ecf8_baa82f5c",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-15T20:02:06Z",
+      "side": 1,
+      "message": "Looks good, this is what I meant.",
+      "parentUuid": "4c48e1fd_3f322495",
       "revId": "1f578a26f2433b5649bfacadb1ed93648f701c1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
