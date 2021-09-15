@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2fad5b3_4626e307",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-15T01:10:24Z",
+      "side": 1,
+      "message": "Thanks.  It\u0027s not clear to me how you plan to use this information.  The cmd/internal/objfile package is, of course, an internal package that is only used by the various Go tools.  Just adding the fields to cmd/internal/objfile doesn\u0027t do anything by itself.  What\u0027s the next step here?\n",
+      "revId": "4ba3beb1a8f48f06bc80327f48d2b12be492e137",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
