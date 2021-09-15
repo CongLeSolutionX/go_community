@@ -106,6 +106,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "577528be_49cb867c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "Thanks for the review! I aim to send a fresh revision by the end of the week. If you have time ahead of that, I\u0027ve asked for clarifications on a couple points -- but if not, I have a plan for how to move forward on each.",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69e63ce0_529ec3b3",
@@ -119,6 +136,30 @@
       "writtenOn": "2021-09-09T20:22:02Z",
       "side": 1,
       "message": "See my comment below about whether or not we need flags (particularly the shutdown flag), but if so I think the flags can go in a dedicated word separate from the timer ID. The timer ID is only accessed by the owning thread, so it doesn\u0027t need to be part of the atomic word.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8338f1ac_d5e5aabd",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "Yes, it looks like the shutdown flag can go away. That means no atomics here! So less need to pack this all into a single value.\n\nThe valid flag lets us see when we have a valid timer with id 0. An early revision of this added 1 to the OS\u0027s timer id before storing it in a field here. Is that the right move, or is it OK to have a separate field for the flag? (We won\u0027t have so many runtime.m structs in a process, a few extra bytes is fine, right?)",
+      "parentUuid": "69e63ce0_529ec3b3",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -146,6 +187,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea4a6abd_0ff37654",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "17632046_6191424e",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e8f5fc2_067abd7d",
@@ -159,6 +218,24 @@
       "writtenOn": "2021-09-09T20:22:02Z",
       "side": 1,
       "message": "Should we ignore SI_USER signals as well (i.e., manually sent from another process)?",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29255848_f17d63e1",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "How about this position: SI_USER wasn\u0027t ignored before, so the behavior around it shouldn\u0027t change. When using the dual mechanisms (setitimer and timer_create), the profiler will only ignore the signals that it knows it generates itself. That means using code\u003d\u003dSI_KERNEL as a positive signal to ignore when we have an M and it has a timer, and code\u003d\u003dSI_TIMER as a positive signal to ignore when we don\u0027t have an M.\n\nDoes that sound good to you? If we\u0027re going to look for two sigcode values, looking specifically for the two we expect seems best. And since there was no filtering by sigcode before, using them only to reject specific signal deliveries seems like less of a change than using them to only allow specific signal deliveries.",
+      "parentUuid": "2e8f5fc2_067abd7d",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -239,6 +316,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b75a652_7ab86827",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "This seems like it allows all of the code paths to get regular exercise: We know we can destroy a timer that exists, and we know that attempting to destroy a timer when there isn\u0027t one works too. Trying to create a timer when one already exists would be rare, so bugs there could survive for a long time.",
+      "parentUuid": "eb6e7108_54d9c70a",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0378e6c2_da7e61a7",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 15
@@ -250,6 +345,24 @@
       "writtenOn": "2021-09-09T20:22:02Z",
       "side": 1,
       "message": "I haven\u0027t fully thought through this, but it seems like we don\u0027t need this flag? If we move the assignment of mp.profilehz into this function, then I think we could check if mp.profilehz !\u003d hz to determine if we need to do timer creation/deletion/modification.\n\nIf this function races with another thread disabling profiling, that is ok: the next time we go through execute we\u0027ll disable the timer.",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e8a9bb2_7b1a83b7",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "The shutdown flag lets the assignment of mp.profilehz stay out of this function, which gives some sense of the timer_create path being separate from the setitimer path, and for the go118UseTimerCreateProfiler flag to mainly control which functions get called rather than finer-grained detail of how those functions act. I erred towards that approach to limit how much the Linux implementation diverged from the other unix-style OSes.\n\nIt looks like that\u0027s the sole driver for the shutdown flag. I\u0027ll try ripping it out, at the cost of marginally more Linux-specific behavior.",
+      "parentUuid": "0378e6c2_da7e61a7",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -273,6 +386,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5aaa8625_5506d267",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "The man page describes a way it could fail from resource limits, and this is a limit that the Go runtime hasn\u0027t (to my knowledge) consumed before. What\u0027s the appropriate response?\n\n\"\"\"\nThe kernel preallocates a \"queued real-time signal\" for each\ntimer created using timer_create().  Consequently, the number of\ntimers is limited by the RLIMIT_SIGPENDING resource limit (see\nsetrlimit(2)).\n\"\"\"",
+      "parentUuid": "6b9c8bbe_ecba8f9c",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b37e260_ff5adeb7",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 15
@@ -290,6 +421,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7208d808_eede247d",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "I do not expect this one to fail; I\u0027ll make it throw.",
+      "parentUuid": "3b37e260_ff5adeb7",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf72371e_fbbdd688",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 15
@@ -301,6 +450,30 @@
       "writtenOn": "2021-09-09T20:22:02Z",
       "side": 1,
       "message": "Does this matter? What is this lock protecting? If yes, please add assertLockHeld(\u0026cpuprof.lock).",
+      "range": {
+        "startLine": 719,
+        "startChar": 3,
+        "endLine": 719,
+        "endChar": 35
+      },
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abbdb004_602c185d",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-15T22:56:19Z",
+      "side": 1,
+      "message": "This is the same preamble as in setProcessCPUProfiler, added in CL 34018. At the time, the CAS lock that protects prof.hz and indicates to the SIGPROF handlers that cpuprof.log is ready to use was called \"prof.lock\". That CL specifically placed the call to the new setProcessCPUProfiler function inside the few lines of code where the CAS lock is held. I don\u0027t fully understand why, and whether it\u0027s a key component of the fix for #18220.\n\nCL 36712 renamed the CAS lock to \"prof.signalLock\", but didn\u0027t catch the comment. I\u0027ll update the comment here and in signal_unix.go to reflect the new name.",
+      "parentUuid": "cf72371e_fbbdd688",
       "range": {
         "startLine": 719,
         "startChar": 3,
