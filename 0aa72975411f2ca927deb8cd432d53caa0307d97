@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cd6ac35_d7e4c2a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-15T19:05:07Z",
+      "side": 1,
+      "message": "Hey Joe - is this still something you want to work on before the freeze, or should one of us plan to pick it up? Thanks!",
+      "revId": "0aa72975411f2ca927deb8cd432d53caa0307d97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2150224d_1c09302c",
