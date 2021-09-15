@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d97bb0_7552590e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10205
+      },
+      "writtenOn": "2021-09-15T10:14:24Z",
+      "side": 1,
+      "message": "Any update on this Daniel? It\u0027s been pending for over a year now and we\u0027ve been using a version of go with this patch for all that time and its behaving as expected.",
+      "revId": "205b51f564d6d5bc96b7373c741dfd36ec27af38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
