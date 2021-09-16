@@ -16,6 +16,24 @@
       "message": "+Dan\n\niexport.go speaks of instType and InstType as well, so perhaps renaming this was a bit hasty.\n\nDan, do you want to rename InstType to InstanceType? If not, I think we should actually revert this change.",
       "revId": "e4dfd788e66f4a44825598dd3cb6ca9626369228",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed06dd64_1bc0cf30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-16T16:03:45Z",
+      "side": 1,
+      "message": "instType was intended to be an abbreviation for instantiatedType (which includes both concrete instantiations like List[int] and re-instantiations like List[T2]).  Does it work for you to just rename instType -\u003e instantiatedType everywhere (there was really no need for the abbreviation).  Or do you prefer instanceType?  instanceType doesn\u0027t make as much sense to me, especially in the case of a re-instantiation like List[T2].",
+      "parentUuid": "7b89e1a4_f442cd60",
+      "revId": "e4dfd788e66f4a44825598dd3cb6ca9626369228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
