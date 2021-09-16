@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c29e02a4_3233fd71",
+        "filename": "src/time/time.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-16T17:47:29Z",
+      "side": 1,
+      "message": "I think this code will be clearer if we avoid the duplication.\n\nwantLen :\u003d /*version*/ 1+ /*sec*/ 8+ /*nsec*/ 4+ /*zone offset*/ 2\nif version \u003d\u003d timeBinaryVersionV2 {\n    wantLen++\n}\nif len(buf) !\u003d wantLen { return errors.New(...) }",
+      "revId": "4c58d9f85064b119cfb31c771195e7c8bbd239fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7cd7160_20596241",
+        "filename": "src/time/time.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-16T17:47:29Z",
+      "side": 1,
+      "message": "We can avoid duplication here too.\n\noffset :\u003d int(int16(buf[1])|int16(buf[0])\u003c\u003c8) * 60\nif version \u003d\u003d timeBinaryVersionV2 {\n    offset +\u003d int(buf[2])\n}",
+      "revId": "4c58d9f85064b119cfb31c771195e7c8bbd239fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
