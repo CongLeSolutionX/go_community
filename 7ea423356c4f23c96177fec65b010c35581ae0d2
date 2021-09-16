@@ -92,6 +92,24 @@
       "parentUuid": "59f9f7d4_0c9879cb",
       "revId": "7ea423356c4f23c96177fec65b010c35581ae0d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "447942db_0d51737b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 47769
+      },
+      "writtenOn": "2021-09-16T07:23:10Z",
+      "side": 1,
+      "message": "Hi Jay, I have rebased the current branch on top of master.",
+      "parentUuid": "f8d10966_9588441a",
+      "revId": "7ea423356c4f23c96177fec65b010c35581ae0d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
