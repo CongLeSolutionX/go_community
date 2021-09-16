@@ -72,6 +72,24 @@
       "message": "Let\u0027s initialize this to len(coverage()) \u003e 0 instead of assigning in CoordinateFuzzing. Just to guard against code doing the wrong thing if it runs before that point in CoordinateFuzzing.",
       "revId": "a64a1d0384cdca0fc45f666a307b515c354995d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e56f3e1_86ef5577",
+        "filename": "src/internal/fuzz/coverage.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-16T13:20:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c772139_68c0c2aa",
+      "revId": "a64a1d0384cdca0fc45f666a307b515c354995d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
