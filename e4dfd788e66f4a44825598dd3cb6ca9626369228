@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b89e1a4_f442cd60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-16T12:03:51Z",
+      "side": 1,
+      "message": "+Dan\n\niexport.go speaks of instType and InstType as well, so perhaps renaming this was a bit hasty.\n\nDan, do you want to rename InstType to InstanceType? If not, I think we should actually revert this change.",
+      "revId": "e4dfd788e66f4a44825598dd3cb6ca9626369228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
