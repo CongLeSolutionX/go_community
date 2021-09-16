@@ -1133,9 +1133,10 @@ func Foo() bool {
     <p><!-- CL 288298, CL 288300 -->
       The Windows version of
       <a href="/pkg/syscall/#SysProcAttr"><code>SysProcAttr</code></a>
-      has two new fields. <code>AdditionalInheritedHandles</code> is
-      a list of additional handles to be inherited by the new child
-      process. <code>ParentProcess</code> permits specifying the
+      has two new fields. Rather than blindly inheriting all inheritable
+      handles from a parent process, <code>AdditionalInheritedHandles</code>
+      represents a list of additional handles that will be inherited by the new
+      child process. <code>ParentProcess</code> permits specifying the
       parent process of the new process.
 
     <p><!-- CL 311570 -->
