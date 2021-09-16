@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "174b0c5b_6b46a9da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-16T16:53:23Z",
+      "side": 1,
+      "message": "Ok, then I think just using hairyVisitor to exclude loops with lots of code in them, might be enough.",
+      "parentUuid": "3784f5bc_e8dbbfba",
+      "revId": "2c16fcc5083ab12f92122aafa781b851910b71d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb0d1dca_b4ad845b",
