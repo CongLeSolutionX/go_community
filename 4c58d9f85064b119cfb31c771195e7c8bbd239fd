@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "781efd53_9052ecd5",
+        "filename": "src/time/time.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-09-16T18:22:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c29e02a4_3233fd71",
+      "revId": "4c58d9f85064b119cfb31c771195e7c8bbd239fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7cd7160_20596241",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-16T17:47:29Z",
       "side": 1,
       "message": "We can avoid duplication here too.\n\noffset :\u003d int(int16(buf[1])|int16(buf[0])\u003c\u003c8) * 60\nif version \u003d\u003d timeBinaryVersionV2 {\n    offset +\u003d int(buf[2])\n}",
+      "revId": "4c58d9f85064b119cfb31c771195e7c8bbd239fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66be8884_1fcc8025",
+        "filename": "src/time/time.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 36548
+      },
+      "writtenOn": "2021-09-16T18:22:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7cd7160_20596241",
       "revId": "4c58d9f85064b119cfb31c771195e7c8bbd239fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
