@@ -92,6 +92,258 @@
       "parentUuid": "0fc2fdf1_8f6bdba4",
       "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa14fdac_ebf09cc6",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "I\u0027d make this a capital Instantiating",
+      "range": {
+        "startLine": 216,
+        "startChar": 15,
+        "endLine": 216,
+        "endChar": 28
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a259e17d_d908a535",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "s/fun/name/\n\nit\u0027s not just functions anymore",
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d24b80_fd252efe",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "s/sig/typ/",
+      "range": {
+        "startLine": 409,
+        "startChar": 2,
+        "endLine": 409,
+        "endChar": 5
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a94f337_f2ca1a72",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "maybe: s/test.fun/test.name/ ? since it\u0027s not just functions anymore",
+      "range": {
+        "startLine": 526,
+        "startChar": 32,
+        "endLine": 526,
+        "endChar": 35
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22fed161_3bd32840",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "s/generic/parameterized/",
+      "range": {
+        "startLine": 532,
+        "startChar": 48,
+        "endLine": 532,
+        "endChar": 55
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bc30de4_39216216",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "s/gen/ptype/ (parameterized type)",
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e8eb421_1f7d2870",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "it\u0027s not just signatures, isn\u0027t it?\n\n\"want parameterized type\"",
+      "range": {
+        "startLine": 536,
+        "startChar": 53,
+        "endLine": 536,
+        "endChar": 60
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed31a62_9813c419",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "maybe:\n\n%v and %v are not identical",
+      "range": {
+        "startLine": 547,
+        "startChar": 32,
+        "endLine": 547,
+        "endChar": 33
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a04edfa_033d50e6",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "// check that the types match",
+      "range": {
+        "startLine": 569,
+        "startChar": 16,
+        "endLine": 569,
+        "endChar": 25
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6b9b8f2_9703be66",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "are we guaranteed that this is never say a parenthesized expression? Maybe add a suitable test case",
+      "range": {
+        "startLine": 420,
+        "startChar": 13,
+        "endLine": 420,
+        "endChar": 17
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bb1c74a_2cf99d4b",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "you can remove the default case - selOrIdent will be nil and then the code fails below",
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30274230_2838efab",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T19:43:34Z",
+      "side": 1,
+      "message": "I\u0027d remove this default case as well and end in a panic at the end of the function\n\npanic(\"invalid instance expression\") or similar",
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
