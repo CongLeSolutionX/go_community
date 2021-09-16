@@ -34,6 +34,24 @@
       "parentUuid": "7b89e1a4_f442cd60",
       "revId": "e4dfd788e66f4a44825598dd3cb6ca9626369228",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fd66b7a_8426f51e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-16T17:38:55Z",
+      "side": 1,
+      "message": "I may have suggested instType to Dan (if so, mea culpa) and I suggested to change instType to instanceType.\n\nWe can change to instantiatedType but that\u0027s really long (and has to be changed in multiple files).\n\nIt also doesn\u0027t matter much. Maybe a TODO is good enough for now so it\u0027s clear in the source how the names correspond.",
+      "parentUuid": "ed06dd64_1bc0cf30",
+      "revId": "e4dfd788e66f4a44825598dd3cb6ca9626369228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
