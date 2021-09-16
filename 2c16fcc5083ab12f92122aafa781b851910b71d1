@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3784f5bc_e8dbbfba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2021-09-16T16:47:15Z",
+      "side": 1,
+      "message": "Thanks for your comments.\n\nThe initial solution was to inline into all FORs as you said. But later benchmarking of the solution showed worse performance on fmt benchmarks. \n\nAs far as I see the problem arises because of increased size of doPrintf(). It grew from ~4000 bytes to ~4700 bytes. A machine, where all benchmarks were set, has 8-way 32K l1i cache - 64 sets at total, while increased doPrintf() takes ~74 sets now. That\u0027s the reason of increased cache-misses, leading to performance drop of fmt benchmarks.\n\nThe heuristic is about not having big loops, which could not fit in l1i cache.",
+      "parentUuid": "669c97e6_e6086c9b",
+      "revId": "2c16fcc5083ab12f92122aafa781b851910b71d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb0d1dca_b4ad845b",
