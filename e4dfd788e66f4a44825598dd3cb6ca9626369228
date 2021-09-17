@@ -88,6 +88,24 @@
       "parentUuid": "9819def9_92ddb4a1",
       "revId": "e4dfd788e66f4a44825598dd3cb6ca9626369228",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f08181c_5e5f9a08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-17T00:41:07Z",
+      "side": 1,
+      "message": "OK, I will update typecheck/{iiexport.go,iimport.go} to change instType -\u003e instance Type in the next few days.  In the same change, I will update to the header comment in iexport.go to describe the meaning/format of instanceType and typeParamType.",
+      "parentUuid": "0c2e3879_df729579",
+      "revId": "e4dfd788e66f4a44825598dd3cb6ca9626369228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
