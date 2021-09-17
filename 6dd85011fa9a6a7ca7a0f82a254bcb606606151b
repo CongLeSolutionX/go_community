@@ -53,6 +53,41 @@
       "message": "This check is pretty ugly and brittle, I\u0027m open to suggestions.",
       "revId": "6dd85011fa9a6a7ca7a0f82a254bcb606606151b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8c46c4d_1ad8dd2f",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1920,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-09-17T14:54:41Z",
+      "side": 1,
+      "message": "Generally we want to avoid materializing symbol names in the linker if at all possible (it is a source of performance slowdowns). DWARF-gen is unfortunately a culprit when it comes to this, so adding more of it is undesirable but not a show-stopper. \n\nI think a better solution (more work) would be to apply a special flag in the object file sym for the dictionary, similar to what we do with itabs, e.g. \n\nhttps://go.googlesource.com/go/+/03df68d3c33e83a23cf5f22389a37f2d09721bef/src/cmd/internal/obj/objfile.go#341\n\nand then \n\nhttps://go.googlesource.com/go/+/03df68d3c33e83a23cf5f22389a37f2d09721bef/src/cmd/link/internal/loader/loader.go#1209\n\nI can send a CL for that if it would help, or you can do it yourself, either way.",
+      "parentUuid": "ef4e6ede_2a367949",
+      "revId": "6dd85011fa9a6a7ca7a0f82a254bcb606606151b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16c82330_140abc2d",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1925,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-09-17T14:54:41Z",
+      "side": 1,
+      "message": "Looking at the code that populates dictionaries here:\n\nhttps://go.googlesource.com/go/+/03df68d3c33e83a23cf5f22389a37f2d09721bef/src/cmd/compile/internal/noder/stencil.go#1493\n\nit looks as though you should be able to look for USEIFACE relocations, that should give you the type syms. E.g. for the dictionary in your test case, the symbol looks like this in the linker:\n\n %S32590: main..dict.testfn[main.CustomInt]\u003c0\u003e t\u003dSRODATA sz\u003d16 dlen\u003d16 val\u003d0\n  + R0: R_ADDR    o\u003d0 a\u003d0 tgt\u003dtype.main.CustomInt\u003c0\u003e\n  + R1: R_USEIFACE o\u003d0 a\u003d0 tgt\u003dtype.main.CustomInt\u003c0\u003e\n  + R2: R_ADDR    o\u003d8 a\u003d0 tgt\u003dtype.map[int]main.CustomInt\u003c0\u003e\n  + R3: R_USEIFACE o\u003d0 a\u003d0 tgt\u003dtype.map[int]main.CustomInt\u003c0\u003e\n\nI am not 100% sure, but it looks like you should be able to just pick out the R_USEIFACE targets and not the R_ADDR targets.",
+      "revId": "6dd85011fa9a6a7ca7a0f82a254bcb606606151b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
