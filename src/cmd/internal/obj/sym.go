@@ -414,7 +414,7 @@ func (ctxt *Link) traverseFuncAux(flag traverseFlag, fsym *LSym, fn func(parent 
 	}
 
 	dwsyms := []*LSym{fninfo.dwarfRangesSym, fninfo.dwarfLocSym, fninfo.dwarfDebugLinesSym, fninfo.dwarfInfoSym}
-	for _, dws := range dwsyms {
+	for _, dws := range append(dwsyms, fninfo.WasmImportSym) {
 		if dws == nil || dws.Size == 0 {
 			continue
 		}
