@@ -120,7 +120,6 @@ type CmdFlags struct {
 	SymABIs            string       "help:\"read symbol ABIs from `file`\""
 	TraceProfile       string       "help:\"write an execution trace to `file`\""
 	TrimPath           string       "help:\"remove `prefix` from recorded source file paths\""
-	WB                 bool         "help:\"enable write barrier\"" // TODO: remove
 
 	// Configuration derived from flags; not a flag itself.
 	Cfg struct {
@@ -159,7 +158,6 @@ func ParseFlags() {
 	Flag.ImportMap = addImportMap
 	Flag.LinkShared = &Ctxt.Flag_linkshared
 	Flag.Shared = &Ctxt.Flag_shared
-	Flag.WB = true
 
 	Debug.InlFuncsWithClosures = 1
 	if buildcfg.Experiment.Unified {
