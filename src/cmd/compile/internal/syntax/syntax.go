@@ -54,6 +54,12 @@ type Pragma interface{}
 // Blank specifies whether the line is blank before the pragma.
 type PragmaHandler func(pos Pos, blank bool, text string, current Pragma) Pragma
 
+// Wasmimport stores metadata associated with the //go:wasmimport pragma
+type Wasmimport struct {
+	Module string
+	Name   string
+}
+
 // Parse parses a single Go source file from src and returns the corresponding
 // syntax tree. If there are errors, Parse will return the first error found,
 // and a possibly partially constructed syntax tree, or nil.
