@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6f4863c_02ca69ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T23:54:22Z",
+      "side": 1,
+      "message": "The flag is still useful for testing and compiler development. Don\u0027t do it, thanks.",
+      "revId": "222b39946aa321118f3e57f6c8078ed9269cfe87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
