@@ -244,6 +244,8 @@ func (state *pclntab) generatePCHeader(ctxt *Link) {
 		header.SetUint8(ctxt.Arch, 7, uint8(ctxt.Arch.PtrSize))
 		off := header.SetUint(ctxt.Arch, 8, uint64(state.nfunc))
 		off = header.SetUint(ctxt.Arch, off, uint64(state.nfiles))
+		// TODO: Why is this zero instead of a properly resolved reloc?
+		off = header.SetAddr(ctxt.Arch, off, state.firstFunc)
 		off = writeSymOffset(off, state.funcnametab)
 		off = writeSymOffset(off, state.cutab)
 		off = writeSymOffset(off, state.filetab)
@@ -251,7 +253,7 @@ func (state *pclntab) generatePCHeader(ctxt *Link) {
 		off = writeSymOffset(off, state.pclntab)
 	}
 
-	size := int64(8 + 7*ctxt.Arch.PtrSize)
+	size := int64(8 + 8*ctxt.Arch.PtrSize)
 	state.pcheader = state.addGeneratedSym(ctxt, "runtime.pcheader", size, writeHeader)
 }
 

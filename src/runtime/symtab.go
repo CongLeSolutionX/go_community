@@ -375,6 +375,7 @@ type pcHeader struct {
 	ptrSize        uint8   // size of a ptr in bytes
 	nfunc          int     // number of functions in the module
 	nfiles         uint    // number of entries in the file tab
+	minPC          uintptr // lowest PC in this module
 	funcnameOffset uintptr // offset to the funcnametab variable from pcHeader
 	cuOffset       uintptr // offset to the cutab variable from pcHeader
 	filetabOffset  uintptr // offset to the filetab variable from pcHeader
@@ -575,6 +576,9 @@ func moduledataverify1(datap *moduledata) {
 		}
 		println()
 		throw("invalid function symbol table\n")
+	}
+	if hdr.minPC != datap.minpc {
+		println("pcHeader minPC = ", hex(hdr.minPC), "moduledata minpc = ", hex(datap.minpc))
 	}
 
 	// ftab is lookup table for function by program counter.
