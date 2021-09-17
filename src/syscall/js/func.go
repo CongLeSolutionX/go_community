@@ -7,7 +7,10 @@
 
 package js
 
-import "sync"
+import (
+	"sync"
+	_ "unsafe"
+)
 
 var (
 	funcsMu    sync.Mutex
