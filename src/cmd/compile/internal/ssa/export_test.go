@@ -86,9 +86,6 @@ func (TestFrontend) AllocFrame(f *Func) {
 func (d TestFrontend) Syslook(s string) *obj.LSym {
 	return d.ctxt.Lookup(s)
 }
-func (TestFrontend) UseWriteBarrier() bool {
-	return true // only writebarrier_test cares
-}
 func (TestFrontend) SetWBPos(pos src.XPos) {
 }
 

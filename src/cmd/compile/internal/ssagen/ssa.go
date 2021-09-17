@@ -7541,10 +7541,6 @@ func (e *ssafn) Debug_checknil() bool {
 	return base.Debug.Nil != 0
 }
 
-func (e *ssafn) UseWriteBarrier() bool {
-	return base.Flag.WB
-}
-
 func (e *ssafn) Syslook(name string) *obj.LSym {
 	switch name {
 	case "goschedguarded":

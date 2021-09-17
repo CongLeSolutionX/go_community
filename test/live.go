@@ -1,4 +1,4 @@
-// errorcheckwithauto -0 -l -live -wb=0 -d=ssa/insert_resched_checks/off
+// errorcheckwithauto -0 -l -live -d=ssa/insert_resched_checks/off
 // +build !ppc64,!ppc64le,!goexperiment.regabiargs
 
 // ppc64 needs a better tighten pass to make f18 pass

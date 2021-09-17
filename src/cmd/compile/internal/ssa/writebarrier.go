@@ -89,10 +89,6 @@ func needwb(v *Value, zeroes map[ID]ZeroRegion) bool {
 // A sequence of WB stores for many pointer fields of a single type will
 // be emitted together, with a single branch.
 func writebarrier(f *Func) {
-	if !f.fe.UseWriteBarrier() {
-		return
-	}
-
 	var sb, sp, wbaddr, const0 *Value
 	var typedmemmove, typedmemclr, gcWriteBarrier *obj.LSym
 	var stores, after []*Value
