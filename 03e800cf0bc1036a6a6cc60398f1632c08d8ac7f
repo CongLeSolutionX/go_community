@@ -62,6 +62,30 @@
       },
       "revId": "03e800cf0bc1036a6a6cc60398f1632c08d8ac7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51199e2c_8fc93896",
+        "filename": "src/cmd/compile/internal/types2/named.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-17T23:48:04Z",
+      "side": 1,
+      "message": "duh - ignore this (this won\u0027t work)",
+      "parentUuid": "f0996572_69a94378",
+      "range": {
+        "startLine": 320,
+        "startChar": 20,
+        "endLine": 320,
+        "endChar": 25
+      },
+      "revId": "03e800cf0bc1036a6a6cc60398f1632c08d8ac7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
