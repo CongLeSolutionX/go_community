@@ -133,6 +133,10 @@ type Func struct {
 	// function for go:nowritebarrierrec analysis. Only filled in
 	// if nowritebarrierrecCheck != nil.
 	NWBRCalls *[]SymAndPos
+
+	// WasmImport is used by the //go:wasmimport directive to store info about
+	// a WebAssembly function import.
+	WasmImport *WasmImport
 }
 
 func NewFunc(pos src.XPos) *Func {
