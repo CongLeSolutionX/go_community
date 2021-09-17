@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "765a7fca_370015a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-17T23:37:53Z",
+      "side": 1,
+      "message": "LGTM\n\n(I was wondering about the pointer-ness, I had a TODO on my list of things to check)\n\nAn alternative might be to store the pointer type and then deref if needed for lookup. This might also allow us to get rid of the ptr receiver flag. Not for this CL, though.",
+      "revId": "03e800cf0bc1036a6a6cc60398f1632c08d8ac7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a28984f2_6d904ed5",
+        "filename": "src/cmd/compile/internal/types2/named.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-17T23:37:53Z",
+      "side": 1,
+      "message": "how about s/named/base/\n\nbecause we call this type usually the receiver base type\n\n(and maybe instRecv should also be called recvBase - not this CL)",
+      "range": {
+        "startLine": 292,
+        "startChar": 1,
+        "endLine": 292,
+        "endChar": 6
+      },
+      "revId": "03e800cf0bc1036a6a6cc60398f1632c08d8ac7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
