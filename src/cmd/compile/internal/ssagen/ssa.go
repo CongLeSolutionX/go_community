@@ -7542,7 +7542,7 @@ func (e *ssafn) Debug_checknil() bool {
 }
 
 func (e *ssafn) UseWriteBarrier() bool {
-	return base.Flag.WB
+	return true
 }
 
 func (e *ssafn) Syslook(name string) *obj.LSym {
