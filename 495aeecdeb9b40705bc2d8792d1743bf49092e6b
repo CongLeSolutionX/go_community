@@ -16,6 +16,24 @@
       "message": "https://github.com/golang/go/issues/48066 - confirmed issue. I\u0027m going to recheck the patch as soon as the issue will be fixed. ",
       "revId": "495aeecdeb9b40705bc2d8792d1743bf49092e6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b013858_76f82d48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 47743
+      },
+      "writtenOn": "2021-09-17T21:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ab9bb65_fffe16d0",
+      "revId": "495aeecdeb9b40705bc2d8792d1743bf49092e6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
