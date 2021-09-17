@@ -16,6 +16,23 @@
       "message": "Can you help review this patch? Thank you.",
       "revId": "c0cc33cdcce9ada6642711ff5ae22769b74d724c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c6b314c_1c8242e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T15:14:00Z",
+      "side": 1,
+      "message": "I\u0027m still not sure we want to do this. I think it is very rare for this case to appear in hand-written assembly. Probably just print a warning for the confusing case and move on. No new syntax.\n",
+      "revId": "c0cc33cdcce9ada6642711ff5ae22769b74d724c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
