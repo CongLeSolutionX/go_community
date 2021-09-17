@@ -53,6 +53,23 @@
       "message": "Adding you as a reviewer because you were the last one to touch it, sorry if someone else is the maintainer.\n\nI\u0027m not sure how useful it is in this state, I think what worked did work, more or less, accidentally.\nBut I didn\u0027t want to be the one breaking it further, due to my conflict of interest. So I restored it to its prior state.\n",
       "revId": "81aa018e506859df116c7cb441e262df0ddcfe53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e1f9bf6_47d73b11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-09-17T14:58:18Z",
+      "side": 1,
+      "message": "lgtm",
+      "revId": "81aa018e506859df116c7cb441e262df0ddcfe53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
