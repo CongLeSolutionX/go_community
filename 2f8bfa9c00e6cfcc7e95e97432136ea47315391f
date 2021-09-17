@@ -71,6 +71,23 @@
       "message": "I pulled out the import/export changes that were originally in https://go-review.googlesource.com/c/go/+/347915 , so they go in as a separate change, as you suggested.  Let me know if this seems fine now.",
       "revId": "2f8bfa9c00e6cfcc7e95e97432136ea47315391f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "232baf69_52a13161",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-17T21:28:54Z",
+      "side": 1,
+      "message": "Are there tests that can be added for this? The followup CL\u0027s tests don\u0027t include any OAS2* or select statements.",
+      "revId": "2f8bfa9c00e6cfcc7e95e97432136ea47315391f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
