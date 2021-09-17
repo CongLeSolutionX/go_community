@@ -289,31 +289,37 @@ func expandNamed(env *Environment, n *Named, instPos syntax.Pos) (tparams *TypeP
 
 func (check *Checker) completeMethod(env *Environment, m *Func) {
 	assert(m.instRecv != nil)
-	rtyp := m.instRecv
+	named := m.instRecv
 	m.instRecv = nil
 	m.setColor(black)
 
-	assert(rtyp.TypeArgs().Len() > 0)
+	assert(named.TypeArgs().Len() > 0)
 
 	// Look up the original method.
-	_, orig := lookupMethod(rtyp.orig.methods, rtyp.obj.pkg, m.name)
+	_, orig := lookupMethod(named.orig.methods, named.obj.pkg, m.name)
 	assert(orig != nil)
 	if check != nil {
 		check.objDecl(orig, nil)
 	}
 	origSig := orig.typ.(*Signature)
-	if origSig.RecvTypeParams().Len() != rtyp.targs.Len() {
+	if origSig.RecvTypeParams().Len() != named.targs.Len() {
 		m.typ = origSig // or new(Signature), but we can't use Typ[Invalid]: Funcs must have Signature type
 		return          // error reported elsewhere
 	}
 
-	smap := makeSubstMap(origSig.RecvTypeParams().list(), rtyp.targs.list())
+	smap := makeSubstMap(origSig.RecvTypeParams().list(), named.targs.list())
 	sig := check.subst(orig.pos, origSig, smap, env).(*Signature)
 	if sig == origSig {
 		// No substitution occurred, but we still need to create a new signature to
 		// hold the instantiated receiver.
 		copy := *origSig
 		sig = &copy
+	}
+	var rtyp Type
+	if m.hasPtrRecv {
+		rtyp = NewPointer(named)
+	} else {
+		rtyp = named
 	}
 	sig.recv = NewParam(origSig.recv.pos, origSig.recv.pkg, origSig.recv.name, rtyp)
 

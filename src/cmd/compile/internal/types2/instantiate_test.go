@@ -76,6 +76,7 @@ var X T[int]
 	}{
 		{"func (r T[P]) m() P", "func (T[int]).m() int"},
 		{"func (r T[P]) m(P)", "func (T[int]).m(int)"},
+		{"func (r *T[P]) m(P)", "func (*T[int]).m(int)"},
 		{"func (r T[P]) m() func() P", "func (T[int]).m() func() int"},
 		{"func (r T[P]) m() T[P]", "func (T[int]).m() T[int]"},
 		{"func (r T[P]) m(T[P])", "func (T[int]).m(T[int])"},
@@ -89,7 +90,7 @@ var X T[int]
 		if err != nil {
 			t.Fatal(err)
 		}
-		typ := pkg.Scope().Lookup("X").Type().(*Named)
+		typ := NewPointer(pkg.Scope().Lookup("X").Type())
 		obj, _, _ := LookupFieldOrMethod(typ, false, pkg, "m")
 		m, _ := obj.(*Func)
 		if m == nil {
