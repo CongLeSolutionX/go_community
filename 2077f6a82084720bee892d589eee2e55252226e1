@@ -170,6 +170,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fe55936_471db38d",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-17T20:38:48Z",
+      "side": 1,
+      "message": "Personally, I think it would be cleanest to set this to -1 as the \u0027no timer\u0027 value.",
+      "parentUuid": "8338f1ac_d5e5aabd",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "17632046_6191424e",
@@ -236,6 +260,24 @@
       "side": 1,
       "message": "How about this position: SI_USER wasn\u0027t ignored before, so the behavior around it shouldn\u0027t change. When using the dual mechanisms (setitimer and timer_create), the profiler will only ignore the signals that it knows it generates itself. That means using code\u003d\u003dSI_KERNEL as a positive signal to ignore when we have an M and it has a timer, and code\u003d\u003dSI_TIMER as a positive signal to ignore when we don\u0027t have an M.\n\nDoes that sound good to you? If we\u0027re going to look for two sigcode values, looking specifically for the two we expect seems best. And since there was no filtering by sigcode before, using them only to reject specific signal deliveries seems like less of a change than using them to only allow specific signal deliveries.",
       "parentUuid": "2e8f5fc2_067abd7d",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c85aee88_a1a81fae",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-17T20:38:48Z",
+      "side": 1,
+      "message": "Yes, I think that is fine, I don\u0027t feel strongly here.",
+      "parentUuid": "29255848_f17d63e1",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -398,6 +440,24 @@
       "side": 1,
       "message": "The man page describes a way it could fail from resource limits, and this is a limit that the Go runtime hasn\u0027t (to my knowledge) consumed before. What\u0027s the appropriate response?\n\n\"\"\"\nThe kernel preallocates a \"queued real-time signal\" for each\ntimer created using timer_create().  Consequently, the number of\ntimers is limited by the RLIMIT_SIGPENDING resource limit (see\nsetrlimit(2)).\n\"\"\"",
       "parentUuid": "6b9c8bbe_ecba8f9c",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cb9f668_919a25f1",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-17T20:38:48Z",
+      "side": 1,
+      "message": "Hm, ok. I do see that failure path in the kernel (in siqqueue_alloc in https://elixir.bootlin.com/linux/v5.14.1/source/kernel/time/posix-timers.c#L523). A bit awkward that it returns EAGAIN in that case too.\n\nRLIMIT_SIGPENDING has a high default limit which I am skeptical anyone significantly lowers (searching around OSS code I haven\u0027t found a single program that obviously sets this limit), thus I\u0027d be still beinclined to throw on error and reconsider if we hear from anyone that actually cares about this limit.\n\nThat said, the logic in ignoreSIGPROF should make things gracefully fall back to the itimer samples, so I don\u0027t think it would be too bad to keep this as-is if we are concerned.",
+      "parentUuid": "5aaa8625_5506d267",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
