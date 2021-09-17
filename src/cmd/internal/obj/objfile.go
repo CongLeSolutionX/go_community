@@ -580,7 +580,12 @@ func (w *writer) Aux(s *LSym) {
 		for _, pcSym := range fn.Pcln.Pcdata {
 			w.aux1(goobj.AuxPcdata, pcSym)
 		}
-
+		if fn.WasmImportSym != nil {
+			if fn.WasmImportSym.Size == 0 {
+				panic("wasmimport aux sym must have non-zero size")
+			}
+			w.aux1(goobj.AuxWasmImport, fn.WasmImportSym)
+		}
 	}
 }
 
@@ -675,6 +680,12 @@ func nAuxSym(s *LSym) int {
 			n++
 		}
 		n += len(fn.Pcln.Pcdata)
+		if fn.WasmImport != nil {
+			if fn.WasmImportSym == nil || fn.WasmImportSym.Size == 0 {
+				panic("wasmimport aux sym must exist and have non-zero size")
+			}
+			n++
+		}
 	}
 	return n
 }
@@ -730,7 +741,7 @@ func genFuncInfoSyms(ctxt *Link) {
 		b.Reset()
 
 		dwsyms := []*LSym{fn.dwarfRangesSym, fn.dwarfLocSym, fn.dwarfDebugLinesSym, fn.dwarfInfoSym}
-		for _, s := range dwsyms {
+		for _, s := range append(dwsyms, fn.WasmImportSym) {
 			if s == nil || s.Size == 0 {
 				continue
 			}
