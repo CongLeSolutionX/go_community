@@ -51,7 +51,7 @@ type pclntab struct {
 }
 
 // addGeneratedSym adds a generator symbol to pclntab, returning the new Sym.
-// It is the caller's responsibility to save they symbol in state.
+// It is the caller's responsibility to save the symbol in state.
 func (state *pclntab) addGeneratedSym(ctxt *Link, name string, size int64, f generatorFunc) loader.Sym {
 	size = Rnd(size, int64(ctxt.Arch.PtrSize))
 	state.size += size
