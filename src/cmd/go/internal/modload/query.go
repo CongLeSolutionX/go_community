@@ -996,15 +996,10 @@ func lookupRepo(proxy, path string) (repo versionRepo, err error) {
 		repo = emptyRepo{path: path, err: err}
 	}
 
-	// TODO(#45713): Join all the highestReplaced fields into a single value.
-	for _, mm := range MainModules.Versions() {
-		index := MainModules.Index(mm)
-		if index == nil {
-			continue
-		}
-		if _, ok := index.highestReplaced[path]; ok {
-			return &replacementRepo{repo: repo}, nil
-		}
+	if MainModules == nil {
+		return repo, err
+	} else if _, ok := MainModules.HighestReplaced()[path]; ok {
+		return &replacementRepo{repo: repo}, nil
 	}
 
 	return repo, err
@@ -1108,24 +1103,7 @@ func (rr *replacementRepo) Latest() (*modfetch.RevInfo, error) {
 	info, err := rr.repo.Latest()
 	path := rr.ModulePath()
 
-	highestReplaced, found := "", false
-	for _, mm := range MainModules.Versions() {
-		if index := MainModules.Index(mm); index != nil {
-			if v, ok := index.highestReplaced[path]; ok {
-				if !found {
-					highestReplaced, found = v, true
-					continue
-				}
-				if semver.Compare(v, highestReplaced) > 0 {
-					highestReplaced = v
-				}
-			}
-		}
-	}
-
-	if found {
-		v := highestReplaced
-
+	if v, ok := MainModules.HighestReplaced()[path]; ok {
 		if v == "" {
 			// The only replacement is a wildcard that doesn't specify a version, so
 			// synthesize a pseudo-version with an appropriate major version and a

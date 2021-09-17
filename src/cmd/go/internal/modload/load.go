@@ -607,10 +607,10 @@ func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) string
 	tryMod := func(m module.Version) (string, bool) {
 		var root string
 		var err error
-		if repl, replModRoot := Replacement(m); repl.Path != "" && repl.Version == "" {
+		if repl, replFromFile := Replacement(m); repl.Path != "" && repl.Version == "" {
 			root = repl.Path
 			if !filepath.IsAbs(root) {
-				root = filepath.Join(replModRoot, root)
+				root = filepath.Join(filepath.Dir(replFromFile), root)
 			}
 		} else if repl.Path != "" {
 			root, err = modfetch.DownloadDir(repl)
