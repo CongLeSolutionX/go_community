@@ -375,6 +375,7 @@ type pcHeader struct {
 	ptrSize        uint8   // size of a ptr in bytes
 	nfunc          int     // number of functions in the module
 	nfiles         uint    // number of entries in the file tab
+	minPC          uintptr // lowest PC in this module
 	funcnameOffset uintptr // offset to the funcnametab variable from pcHeader
 	cuOffset       uintptr // offset to the cutab variable from pcHeader
 	filetabOffset  uintptr // offset to the filetab variable from pcHeader
@@ -568,8 +569,8 @@ const debugPcln = false
 func moduledataverify1(datap *moduledata) {
 	// Check that the pclntab's format is valid.
 	hdr := datap.pcHeader
-	if hdr.magic != 0xfffffffa || hdr.pad1 != 0 || hdr.pad2 != 0 || hdr.minLC != sys.PCQuantum || hdr.ptrSize != goarch.PtrSize {
-		println("runtime: function symbol table header:", hex(hdr.magic), hex(hdr.pad1), hex(hdr.pad2), hex(hdr.minLC), hex(hdr.ptrSize))
+	if hdr.magic != 0xfffffffa || hdr.pad1 != 0 || hdr.pad2 != 0 || hdr.minLC != sys.PCQuantum || hdr.ptrSize != goarch.PtrSize || hdr.minPC != datap.minpc {
+		println("runtime: function symbol table header:", hex(hdr.magic), hex(hdr.pad1), hex(hdr.pad2), hex(hdr.minLC), hex(hdr.ptrSize), hex(hdr.minPC), hex(datap.minpc))
 		if datap.pluginpath != "" {
 			print(", plugin:", datap.pluginpath)
 		}
