@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f5fed19_90920229",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-09-17T21:06:47Z",
+      "side": 1,
+      "message": "Okay. I think the commit message could be clearer about this, but let\u0027s resolve underscore prefixing all symbols first.",
+      "parentUuid": "2dfce272_b01ef0d3",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "203d53e0_8aab8e55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "AFAIK, we only add the underscore prefix for windoes/386",
       "parentUuid": "203d53e0_8aab8e55",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f11c5369_8ad63087",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-09-17T21:06:47Z",
+      "side": 1,
+      "message": "Sorry, that\u0027s not really what I was asking.\n\nRather than hack around this for a few symbols that seem to cause problems on windows/386, I would rather just prefix *all* symbols on windows/386. We already do this on some platforms. For example, here\u0027s where we do it for Mach-O: https://github.com/golang/go/blob/974b0166d6a7c20b98f7e517e49197bea46fc5e2/src/cmd/link/internal/ld/macho.go#L1045",
+      "parentUuid": "204a49a4_454c35c8",
       "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -308,6 +344,24 @@
       "side": 1,
       "message": "Hmm, I\u0027m a bit confused, if we still look for both \".\" and \":\", then a symbol like \"go.uber.org/zap/buffer.(*Buffer).AppendString\" is still be reported as empty package. Can we introduce new method to reflect the new change instead, something like Sym.PackageName18()?",
       "parentUuid": "bcc9dd83_50098272",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee978d29_29a3be74",
+        "filename": "src/debug/gosym/symtab.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-09-17T21:06:47Z",
+      "side": 1,
+      "message": "Hmm, that\u0027s true. I don\u0027t think introducing a new method is a good solution because clients of this package aren\u0027t going to know any better which method to call, and most of them just won\u0027t get updated at all. I\u0027m not sure what the right answer here is. gosym does do some version sniffing. Maybe that could be applied here, too?",
+      "parentUuid": "657e8917_4a351fb3",
       "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
