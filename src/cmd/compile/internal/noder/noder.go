@@ -334,6 +334,26 @@ func (p *noder) processPragmas() {
 		n.Sym().Linkname = l.remote
 	}
 	typecheck.Target.CgoPragmas = append(typecheck.Target.CgoPragmas, p.pragcgobuf...)
+
+	// process WebAssembly import pragmas
+	if p.file != nil {
+		for _, decl := range p.file.DeclList {
+			if fdecl, ok := decl.(*syntax.FuncDecl); ok {
+				if p, ok := fdecl.Pragma.(*pragmas); ok {
+					if p.Wasmimport != nil {
+						name := typecheck.Lookup(fdecl.Name.Value).Def.(*ir.Name)
+						f := name.Defn.(*ir.Func)
+						f.Wasmimport = p.Wasmimport
+
+						// While functions annotated with //go:wasmimport are
+						// bodyless, the compiler generates a WebAssembly body for
+						// them. However, the body will never grow the Go stack.
+						f.Pragma |= ir.Nosplit
+					}
+				}
+			}
+		}
+	}
 }
 
 func (p *noder) decls(decls []syntax.Decl) (l []ir.Node) {
@@ -603,6 +623,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 	f.Nname.Defn = f
 	f.Nname.Ntype = t
 
+	isWasmImport := false
 	if pragma, ok := fun.Pragma.(*pragmas); ok {
 		f.Pragma = pragma.Flag & funcPragmas
 		if pragma.Flag&ir.Systemstack != 0 && pragma.Flag&ir.Nosplit != 0 {
@@ -610,6 +631,10 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 		}
 		pragma.Flag &^= funcPragmas
 		p.checkUnused(pragma)
+
+		if pragma.Wasmimport != nil {
+			isWasmImport = true
+		}
 	}
 
 	if fun.Recv == nil {
@@ -633,7 +658,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) ir.Node {
 					break
 				}
 			}
-			if !isLinknamed {
+			if !isLinknamed && !isWasmImport {
 				base.ErrorfAt(f.Pos(), "missing function body")
 			}
 		}
@@ -1584,9 +1609,10 @@ var allowedStdPragmas = map[string]bool{
 
 // *pragmas is the value stored in a syntax.pragmas during parsing.
 type pragmas struct {
-	Flag   ir.PragmaFlag // collected bits
-	Pos    []pragmaPos   // position of each individual flag
-	Embeds []pragmaEmbed
+	Flag       ir.PragmaFlag // collected bits
+	Pos        []pragmaPos   // position of each individual flag
+	Embeds     []pragmaEmbed
+	Wasmimport *syntax.Wasmimport
 }
 
 type pragmaPos struct {
@@ -1650,6 +1676,23 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 	}
 
 	switch {
+	case strings.HasPrefix(text, "go:wasmimport "):
+		if buildcfg.GOARCH == "wasm" {
+			f := strings.Fields(text)
+			if len(f) != 3 {
+				p.error(syntax.Error{Pos: pos, Msg: "usage: //go:wasmimport module_name import_name"})
+			}
+			if !base.Flag.CompilingRuntime && base.Ctxt.Pkgpath != "syscall/js" && base.Ctxt.Pkgpath != "syscall/js_test" {
+				p.error(syntax.Error{Pos: pos, Msg: "//go:wasmimport directive cannot be used outside of runtime or syscall/js"})
+			}
+			module := f[1]
+			name := f[2]
+			pragma.Wasmimport = &syntax.Wasmimport{
+				Module: module,
+				Name:   name,
+			}
+		}
+
 	case strings.HasPrefix(text, "go:linkname "):
 		f := strings.Fields(text)
 		if !(2 <= len(f) && len(f) <= 3) {
