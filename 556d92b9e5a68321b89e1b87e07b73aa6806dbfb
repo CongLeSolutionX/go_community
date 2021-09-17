@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c48e93f_21cfdb11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "Add a space after ).",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c247d25_a7fa02c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "Write what this means after the relocations, maybe something like hi16(sym@GOT) [this is just an example]. Apply to other places.",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95ab125f_e768becc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand what this means.",
+      "range": {
+        "startLine": 27,
+        "startChar": 32,
+        "endLine": 27,
+        "endChar": 53
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6ed9d45_7d4c1f7f",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "In most of the file, the instructions in comment are Go conventions, with source at first and destination at the end. Do the same, otherwise it would be confusing. No need to correspond exactly to GNU instructions, which are irrelevant anyway.",
+      "range": {
+        "startLine": 1800,
+        "startChar": 10,
+        "endLine": 1807,
+        "endChar": 20
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aea3e580_963d4e74",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "Maybe add the expanded instructions like other cases.",
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd7dfe0_8a5f5ba3",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1915,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "I don\u0027t see how this differs from a normal jump (case 6). Maybe I missed something.",
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "614a9072_9466b54f",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "Add a space after //. Apply everywhere.",
+      "range": {
+        "startLine": 113,
+        "startChar": 1,
+        "endLine": 113,
+        "endChar": 18
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d24e0c73_9514b119",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "I think you want to explain in words what this resolves to, like, the PC-relative address of the GOT entry of the symbol. Quoting ELF references isn\u0027t to really helpful, and perhaps more confusing (which is Go relocation, which is ELF relocation?)\n\nAlso otheres. CALL16, JALR, GOT_DISP all seem unclear to me.",
+      "range": {
+        "startLine": 113,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 17
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db8a4b11_8f08442a",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "Mention GOT?",
+      "range": {
+        "startLine": 129,
+        "startChar": 33,
+        "endLine": 129,
+        "endChar": 45
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94a32718_9488d3ed",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "Lowercase. Unless it has a special meaning?",
+      "range": {
+        "startLine": 131,
+        "startChar": 37,
+        "endLine": 131,
+        "endChar": 41
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86eccf0f_53dc3c5f",
+        "filename": "src/cmd/internal/sys/supported.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-17T19:53:08Z",
+      "side": 1,
+      "message": "I don\u0027t think we should change this in this CL. This should be changed at the end, after all other changes went in.",
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
