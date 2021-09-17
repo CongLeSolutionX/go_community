@@ -99,14 +99,13 @@ func modFileGoVersion(modFile *modfile.File) string {
 // A modFileIndex is an index of data corresponding to a modFile
 // at a specific point in time.
 type modFileIndex struct {
-	data            []byte
-	dataNeedsFix    bool // true if fixVersion applied a change while parsing data
-	module          module.Version
-	goVersionV      string // GoVersion with "v" prefix
-	require         map[module.Version]requireMeta
-	replace         map[module.Version]module.Version
-	highestReplaced map[string]string // highest replaced version of each module path; empty string for wildcard-only replacements
-	exclude         map[module.Version]bool
+	data         []byte
+	dataNeedsFix bool // true if fixVersion applied a change while parsing data
+	module       module.Version
+	goVersionV   string // GoVersion with "v" prefix
+	require      map[module.Version]requireMeta
+	replace      map[module.Version]module.Version
+	exclude      map[module.Version]bool
 }
 
 type requireMeta struct {
@@ -323,26 +322,29 @@ func CheckDeprecation(ctx context.Context, m module.Version) (deprecation string
 	return summary.deprecated, nil
 }
 
-func replacement(mod module.Version, index *modFileIndex) (fromVersion string, to module.Version, ok bool) {
-	if r, ok := index.replace[mod]; ok {
+func replacement(mod module.Version, replace map[module.Version]module.Version) (fromVersion string, to module.Version, ok bool) {
+	if r, ok := replace[mod]; ok {
 		return mod.Version, r, true
 	}
-	if r, ok := index.replace[module.Version{Path: mod.Path}]; ok {
+	if r, ok := replace[module.Version{Path: mod.Path}]; ok {
 		return "", r, true
 	}
 	return "", module.Version{}, false
 }
 
-// Replacement returns the replacement for mod, if any, and and the module root
+// Replacement returns the replacement for mod, if any, and the module root
 // directory of the main module containing the replace directive.
 // If there is no replacement for mod, Replacement returns
 // a module.Version with Path == "".
 func Replacement(mod module.Version) (module.Version, string) {
 	_ = TODOWorkspaces("Support replaces in the go.work file.")
 	foundFrom, found, foundModRoot := "", module.Version{}, ""
+	if _, r, ok := replacement(mod, workFileReplaceMap); ok {
+		return r, filepath.Dir(WorkFilePath())
+	}
 	for _, v := range MainModules.Versions() {
 		if index := MainModules.Index(v); index != nil {
-			if from, r, ok := replacement(mod, index); ok {
+			if from, r, ok := replacement(mod, index.replace); ok {
 				modRoot := MainModules.ModRoot(v)
 				if foundModRoot != "" && foundFrom != from && found != r {
 					_ = TODOWorkspaces("once the go.work file supports replaces, recommend them as a way to override conflicts")
@@ -366,6 +368,17 @@ func resolveReplacement(m module.Version) (module.Version, string) {
 		return r, replacedFrom
 	}
 	return m, ""
+}
+
+func toReplaceMap(replacements []*modfile.Replace) map[module.Version]module.Version {
+	replaceMap := make(map[module.Version]module.Version, len(replacements))
+	for _, r := range replacements {
+		if prev, dup := replaceMap[r.Old]; dup && prev != r.New {
+			base.Fatalf("go: conflicting replacements for %v:\n\t%v\n\t%v", r.Old, prev, r.New)
+		}
+		replaceMap[r.Old] = r.New
+	}
+	return replaceMap
 }
 
 // indexModFile rebuilds the index of modFile.
@@ -396,21 +409,7 @@ func indexModFile(data []byte, modFile *modfile.File, mod module.Version, needsF
 		i.require[r.Mod] = requireMeta{indirect: r.Indirect}
 	}
 
-	i.replace = make(map[module.Version]module.Version, len(modFile.Replace))
-	for _, r := range modFile.Replace {
-		if prev, dup := i.replace[r.Old]; dup && prev != r.New {
-			base.Fatalf("go: conflicting replacements for %v:\n\t%v\n\t%v", r.Old, prev, r.New)
-		}
-		i.replace[r.Old] = r.New
-	}
-
-	i.highestReplaced = make(map[string]string)
-	for _, r := range modFile.Replace {
-		v, ok := i.highestReplaced[r.Old.Path]
-		if !ok || semver.Compare(r.Old.Version, v) > 0 {
-			i.highestReplaced[r.Old.Path] = r.Old.Version
-		}
-	}
+	i.replace = toReplaceMap(modFile.Replace)
 
 	i.exclude = make(map[module.Version]bool, len(modFile.Exclude))
 	for _, x := range modFile.Exclude {

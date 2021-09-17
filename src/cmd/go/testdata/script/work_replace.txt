@@ -1,0 +1,29 @@
+# Support replace statement in go.work file
+
+go list -m example.com/dep
+stdout 'example.com/dep v1.0.0 => ./dep'
+
+-- go.work --
+directory m
+
+replace example.com/dep => ./dep
+
+-- m/go.mod --
+module example.com/m
+
+require example.com/dep v1.0.0
+-- m/m.go --
+package m
+
+import "example.com/dep"
+
+func F() {
+	dep.G()
+}
+-- dep/go.mod --
+module example.com/dep
+-- dep/dep.go --
+package dep
+
+func G() {
+}
