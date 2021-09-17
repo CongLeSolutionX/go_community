@@ -194,6 +194,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "90a9efad_a8556c00",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "The zero value for an M also has no profiling timer set -- outside of some kind of flag or offset, I don\u0027t see how to keep the zero value useful (and I haven\u0027t considered that as a rule that\u0027s OK to break here). I\u0027ve changed this to be an int32 for the id and a bool for whether its valid.",
+      "parentUuid": "4fe55936_471db38d",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "17632046_6191424e",
@@ -282,6 +306,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b163beb_0afc95ff",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c85aee88_a1a81fae",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40624d96_ee003781",
@@ -295,6 +337,24 @@
       "writtenOn": "2021-09-09T20:22:02Z",
       "side": 1,
       "message": "next \u0026^\u003d profileTimerShutdown",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "531202bb_502ecd85",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40624d96_ee003781",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -322,6 +382,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c18a49c9_fe3c9ddc",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4ed6b3e_85e3266b",
+      "range": {
+        "startLine": 633,
+        "startChar": 0,
+        "endLine": 634,
+        "endChar": 34
+      },
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f20deb2_bdb156b4",
@@ -335,6 +419,24 @@
       "writtenOn": "2021-09-09T20:22:02Z",
       "side": 1,
       "message": "Check for errors",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91a3e672_41c23609",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f20deb2_bdb156b4",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -409,6 +511,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46c2dec3_444efb9f",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e8a9bb2_7b1a83b7",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b9c8bbe_ecba8f9c",
@@ -462,6 +582,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1971c3d_71b0c39c",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "The fallback to processing signals from setitimer needs to be in place anyway for threads that are created outside of Go and which never interact with the Go scheduler. Programs that do significant processing in cgo on cgo-created threads, and programs that have low sigpending limits, will continue to see the effects of #35057.",
+      "parentUuid": "0cb9f668_919a25f1",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b37e260_ff5adeb7",
@@ -493,6 +631,24 @@
       "side": 1,
       "message": "I do not expect this one to fail; I\u0027ll make it throw.",
       "parentUuid": "3b37e260_ff5adeb7",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6499d40d_dd7c9bf0",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7208d808_eede247d",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -544,6 +700,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ec56f62_bfc5a9c8",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbdb004_602c185d",
+      "range": {
+        "startLine": 719,
+        "startChar": 3,
+        "endLine": 719,
+        "endChar": 35
+      },
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adc9cb17_7799d78f",
@@ -557,6 +737,24 @@
       "writtenOn": "2021-09-09T20:22:02Z",
       "side": 1,
       "message": "Perhaps note in a comment that new Ms will start with timers allowed (!profileTimerShutdown) even if sched.profilehz \u003d\u003d 0. This is OK because those threads won\u0027t try to create a timer anyways.",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76ad2d0_d1000d50",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-17T22:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adc9cb17_7799d78f",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
