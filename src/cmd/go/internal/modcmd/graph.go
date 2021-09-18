@@ -12,6 +12,7 @@ import (
 	"os"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
 	"cmd/go/internal/modload"
 
 	"golang.org/x/mod/module"
@@ -41,6 +42,7 @@ var (
 
 func init() {
 	cmdGraph.Flag.Var(&graphGo, "go", "")
+	cmdGraph.Flag.BoolVar(&cfg.BuildX, "x", false, "")
 	base.AddModCommonFlags(&cmdGraph.Flag)
 	base.AddWorkfileFlag(&cmdGraph.Flag)
 }
