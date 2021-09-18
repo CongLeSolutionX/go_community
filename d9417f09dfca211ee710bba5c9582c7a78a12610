@@ -232,6 +232,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ad512ca_ef9b8e19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-09-18T02:04:25Z",
+      "side": 1,
+      "message": "Excellent work here.  As I am personally interested in seeing this code reach a release at some point, I have done some refactoring and minor simplification to help push it along: https://go-review.googlesource.com/c/go/+/350737.",
+      "revId": "d9417f09dfca211ee710bba5c9582c7a78a12610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c03d1022_360c1825",
