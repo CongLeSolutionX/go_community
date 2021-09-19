@@ -1671,9 +1671,11 @@ func (r *importReader) node() ir.Node {
 		return n
 
 	case ir.ORANGE:
-		pos := r.pos()
+		pos, init := r.pos(), r.stmtList()
 		k, v := r.exprsOrNil()
-		return ir.NewRangeStmt(pos, k, v, r.expr(), r.stmtList())
+		n := ir.NewRangeStmt(pos, k, v, r.expr(), r.stmtList())
+		*n.PtrInit() = init
+		return n
 
 	case ir.OSELECT:
 		pos := r.pos()
