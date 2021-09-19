@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa97baa2_b729f69d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-19T02:11:43Z",
+      "side": 1,
+      "message": "Hi Alex, the only part concern is \"src/cmd/link/internal/ld/pe.go\". To summary:\n\n - This Cl change the compiler generated symbol from using \".\" to \":\", so \"go.builid\" now becomes \"go:builid\".\n - With this change, on windows/386, the external linker complains that \"go:buildid\" symbol not found\n - I found that on windows/386, we are adding \"_\" prefix for some symbols, but not for \"go:buildid\".\n - The test works so far, because \"go.buildid\" are seen as a Forwarder RVA export symbol (due to the \".\" in name).\n - I propose to do a hack for \"go.buildid\" only, that mean it now becomes \"_go:buildid\", but Austin thinks that it\u0027s better to just prefix all external symbols with \"_\"\n \nI found we were doing that for almost external symbols on windows/386, until you changed them in CL 35076. So I want to ask you whether it\u0027s safe to just prefix all external symbols with \"_\" on windows/386?",
+      "parentUuid": "51914d98_e45cfc4f",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d64461_d95ee5ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
