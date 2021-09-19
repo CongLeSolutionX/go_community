@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "51914d98_e45cfc4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-09-19T02:03:59Z",
+      "side": 1,
+      "message": "What in particular would you like my opinion about?\n\nI tried reading this CL description, and I don\u0027t understand what this CL is about. Perhaps it is just me being slow.\n\nI also tried looking at your code changes, but there are just too many changes for me to gather the essence of your change.",
+      "parentUuid": "9a3efeb0_65f21e7c",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d64461_d95ee5ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
