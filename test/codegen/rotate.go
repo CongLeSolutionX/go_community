@@ -21,21 +21,21 @@ func rot64(x uint64) uint64 {
 	a += x<<7 | x>>57
 
 	// amd64:"ROLQ\t[$]8"
-	// arm64:"ROR\t[$]56"
+	// arm64:"ADD\tR[0-9]+@>56"
 	// s390x:"RISBGZ\t[$]0, [$]63, [$]8, "
 	// ppc64:"ROTL\t[$]8"
 	// ppc64le:"ROTL\t[$]8"
 	a += x<<8 + x>>56
 
 	// amd64:"ROLQ\t[$]9"
-	// arm64:"ROR\t[$]55"
+	// arm64:"ADD\tR[0-9]+@>55"
 	// s390x:"RISBGZ\t[$]0, [$]63, [$]9, "
 	// ppc64:"ROTL\t[$]9"
 	// ppc64le:"ROTL\t[$]9"
 	a += x<<9 ^ x>>55
 
 	// amd64:"ROLQ\t[$]10"
-	// arm64:"ROR\t[$]54"
+	// arm64:"ADD\tR[0-9]+@>54"
 	// s390x:"RISBGZ\t[$]0, [$]63, [$]10, "
 	// ppc64:"ROTL\t[$]10"
 	// ppc64le:"ROTL\t[$]10"
@@ -225,4 +225,43 @@ func checkMaskedRotate32(a []uint32, r int) {
 	// ppc64: "RLWNM\t[$]4, R[0-9]+, [$]20, [$]11, R[0-9]+"
 	a[i] = bits.RotateLeft32(a[3], 4) & 0xFFF00FFF
 	i++
+}
+
+// combined arithmetic and rotate on arm64
+func checkArithmeticWithRotate(a *[1000]uint64) {
+	// arm64: "ADD\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	a[2] = a[1] + bits.RotateLeft64(a[0], 13)
+	// arm64: "SUB\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	a[5] = a[4] - bits.RotateLeft64(a[3], 13)
+	// arm64: "AND\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	a[8] = a[7] & bits.RotateLeft64(a[6], 13)
+	// arm64: "ORR\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	a[11] = a[10] | bits.RotateLeft64(a[9], 13)
+	// arm64: "EOR\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	a[14] = a[13] ^ bits.RotateLeft64(a[12], 13)
+	// arm64: "MVN\tR[0-9]+@>51, R[0-9]+"
+	a[16] = ^bits.RotateLeft64(a[15], 13)
+	// arm64: "NEG\tR[0-9]+@>51, R[0-9]+"
+	a[18] = -bits.RotateLeft64(a[17], 13)
+	// arm64: "BIC\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	a[21] = a[20] &^ bits.RotateLeft64(a[19], 13)
+	// arm64: "EON\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	a[24] = a[23] ^ ^bits.RotateLeft64(a[22], 13)
+	// arm64: "ORN\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	a[27] = a[26] | ^bits.RotateLeft64(a[25], 13)
+	// arm64: "CMP\tR[0-9]+@>51, R[0-9]+"
+	if a[28] == bits.RotateLeft64(a[29], 13) {
+		a[30] = 1
+	}
+	// Note: this uses ADD+CBNZ instead of CMN+BEQ. Either would be ok.
+	// arm64: "ADD\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	if a[31]+bits.RotateLeft64(a[32], 13) == 0 {
+		a[33] = 1
+	}
+	// Note: this uses AND+CBNZ instead of TST+BEQ. Either would be ok.
+	// arm64: "AND\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
+	if a[34]&bits.RotateLeft64(a[35], 13) == 0 {
+		a[36] = 1
+	}
+
 }

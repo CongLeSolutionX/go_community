@@ -3245,10 +3245,6 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if is64bit == 0 && amount >= 32 {
 			c.ctxt.Diag("shift amount out of range 0 to 31: %v", p)
 		}
-		shift := (p.From.Offset >> 22) & 3
-		if (shift > 2 || shift < 0) && (isADDop(p.As) || isADDWop(p.As) || isNEGop(p.As)) {
-			c.ctxt.Diag("unsupported shift operator: %v", p)
-		}
 		o1 |= uint32(p.From.Offset) /* includes reg, op, etc */
 		rt := int(p.To.Reg)
 		if p.To.Type == obj.TYPE_NONE {
