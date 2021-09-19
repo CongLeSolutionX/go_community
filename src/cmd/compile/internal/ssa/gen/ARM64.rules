@@ -1736,34 +1736,34 @@
 (TSTshiftRO x (MOVDconst [c]) [d]) => (TSTconst x [rotateRight64(c, d)])
 
 // simplification with *shift ops
-(SUBshiftLL x (SLLconst x [c]) [d]) && c==d => (MOVDconst [0])
-(SUBshiftRL x (SRLconst x [c]) [d]) && c==d => (MOVDconst [0])
-(SUBshiftRA x (SRAconst x [c]) [d]) && c==d => (MOVDconst [0])
-(SUBshiftRO x (RORconst x [c]) [d]) && c==d => (MOVDconst [0])
-(ANDshiftLL x y:(SLLconst x [c]) [d]) && c==d => y
-(ANDshiftRL x y:(SRLconst x [c]) [d]) && c==d => y
-(ANDshiftRA x y:(SRAconst x [c]) [d]) && c==d => y
-(ANDshiftRO x y:(RORconst x [c]) [d]) && c==d => y
-(ORshiftLL  x y:(SLLconst x [c]) [d]) && c==d => y
-(ORshiftRL  x y:(SRLconst x [c]) [d]) && c==d => y
-(ORshiftRA  x y:(SRAconst x [c]) [d]) && c==d => y
-(ORshiftRO  x y:(RORconst x [c]) [d]) && c==d => y
-(XORshiftLL x (SLLconst x [c]) [d]) && c==d => (MOVDconst [0])
-(XORshiftRL x (SRLconst x [c]) [d]) && c==d => (MOVDconst [0])
-(XORshiftRA x (SRAconst x [c]) [d]) && c==d => (MOVDconst [0])
-(XORshiftRO x (RORconst x [c]) [d]) && c==d => (MOVDconst [0])
-(BICshiftLL x (SLLconst x [c]) [d]) && c==d => (MOVDconst [0])
-(BICshiftRL x (SRLconst x [c]) [d]) && c==d => (MOVDconst [0])
-(BICshiftRA x (SRAconst x [c]) [d]) && c==d => (MOVDconst [0])
-(BICshiftRO x (RORconst x [c]) [d]) && c==d => (MOVDconst [0])
-(EONshiftLL x (SLLconst x [c]) [d]) && c==d => (MOVDconst [-1])
-(EONshiftRL x (SRLconst x [c]) [d]) && c==d => (MOVDconst [-1])
-(EONshiftRA x (SRAconst x [c]) [d]) && c==d => (MOVDconst [-1])
-(EONshiftRO x (RORconst x [c]) [d]) && c==d => (MOVDconst [-1])
-(ORNshiftLL x (SLLconst x [c]) [d]) && c==d => (MOVDconst [-1])
-(ORNshiftRL x (SRLconst x [c]) [d]) && c==d => (MOVDconst [-1])
-(ORNshiftRA x (SRAconst x [c]) [d]) && c==d => (MOVDconst [-1])
-(ORNshiftRO x (RORconst x [c]) [d]) && c==d => (MOVDconst [-1])
+(SUBshiftLL x (SLLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(SUBshiftRL x (SRLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(SUBshiftRA x (SRAconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(SUBshiftRO x (RORconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(ANDshiftLL x y:(SLLconst x [c]) [d]) && c==d && debugPanic() => y
+(ANDshiftRL x y:(SRLconst x [c]) [d]) && c==d && debugPanic() => y
+(ANDshiftRA x y:(SRAconst x [c]) [d]) && c==d && debugPanic() => y
+(ANDshiftRO x y:(RORconst x [c]) [d]) && c==d && debugPanic() => y
+(ORshiftLL  x y:(SLLconst x [c]) [d]) && c==d && debugPanic() => y
+(ORshiftRL  x y:(SRLconst x [c]) [d]) && c==d && debugPanic() => y
+(ORshiftRA  x y:(SRAconst x [c]) [d]) && c==d && debugPanic() => y
+(ORshiftRO  x y:(RORconst x [c]) [d]) && c==d && debugPanic() => y
+(XORshiftLL x (SLLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(XORshiftRL x (SRLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(XORshiftRA x (SRAconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(XORshiftRO x (RORconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(BICshiftLL x (SLLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(BICshiftRL x (SRLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(BICshiftRA x (SRAconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(BICshiftRO x (RORconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [0])
+(EONshiftLL x (SLLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [-1])
+(EONshiftRL x (SRLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [-1])
+(EONshiftRA x (SRAconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [-1])
+(EONshiftRO x (RORconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [-1])
+(ORNshiftLL x (SLLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [-1])
+(ORNshiftRL x (SRLconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [-1])
+(ORNshiftRA x (SRAconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [-1])
+(ORNshiftRO x (RORconst x [c]) [d]) && c==d && debugPanic() => (MOVDconst [-1])
 
 // Generate rotates with const shift
 (ADDshiftLL [c] (SRLconst x [64-c]) x) => (RORconst [64-c] x)
