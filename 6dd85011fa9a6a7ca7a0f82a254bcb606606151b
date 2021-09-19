@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14dadf2b_a1e342a1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1920,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-19T14:25:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c46c4d_1ad8dd2f",
+      "revId": "6dd85011fa9a6a7ca7a0f82a254bcb606606151b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16c82330_140abc2d",
@@ -86,6 +104,42 @@
       "writtenOn": "2021-09-17T14:54:41Z",
       "side": 1,
       "message": "Looking at the code that populates dictionaries here:\n\nhttps://go.googlesource.com/go/+/03df68d3c33e83a23cf5f22389a37f2d09721bef/src/cmd/compile/internal/noder/stencil.go#1493\n\nit looks as though you should be able to look for USEIFACE relocations, that should give you the type syms. E.g. for the dictionary in your test case, the symbol looks like this in the linker:\n\n %S32590: main..dict.testfn[main.CustomInt]\u003c0\u003e t\u003dSRODATA sz\u003d16 dlen\u003d16 val\u003d0\n  + R0: R_ADDR    o\u003d0 a\u003d0 tgt\u003dtype.main.CustomInt\u003c0\u003e\n  + R1: R_USEIFACE o\u003d0 a\u003d0 tgt\u003dtype.main.CustomInt\u003c0\u003e\n  + R2: R_ADDR    o\u003d8 a\u003d0 tgt\u003dtype.map[int]main.CustomInt\u003c0\u003e\n  + R3: R_USEIFACE o\u003d0 a\u003d0 tgt\u003dtype.map[int]main.CustomInt\u003c0\u003e\n\nI am not 100% sure, but it looks like you should be able to just pick out the R_USEIFACE targets and not the R_ADDR targets.",
+      "revId": "6dd85011fa9a6a7ca7a0f82a254bcb606606151b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aae2dfe_b4a38edc",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1925,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-19T14:25:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16c82330_140abc2d",
+      "revId": "6dd85011fa9a6a7ca7a0f82a254bcb606606151b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d39f581b_0dd20271",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1925,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2021-09-19T14:25:50Z",
+      "side": 1,
+      "message": "Done. There\u0027s a TODO item in stencil.go about removing these relocations, I\u0027ve added a note to it.",
+      "parentUuid": "16c82330_140abc2d",
       "revId": "6dd85011fa9a6a7ca7a0f82a254bcb606606151b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
