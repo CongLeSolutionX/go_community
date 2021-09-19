@@ -181,6 +181,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eff8cbfe_8041f012",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-19T08:01:18Z",
+      "side": 1,
+      "message": "\u003e If you expect me to comment on that statement, you should provide more details. How do I reproduce the \"external linker complains\"?\n\n\u003e Which test? I don\u0027t know anything about \"Forwarder RVA export symbol\". Why are these important.\n\nYou can apply patch set 11, build the toolchain, then run `TestNumberOfExportedFunctions` in `misc/cgo/testcshared`, you will see error like https://storage.googleapis.com/go-build-log/5a6a4464/windows-386-2008_20291edc.log\n\nThe main motivation of this CL is changing generated symbols name. Currently, we use \".\" in generated symbols, for example, \"go.buildid\", the \"go.\" prefix can be conflicted with user symbols, so we want to change it to \"go:buildid\". Changing to use \":\" works on all platform, except above test on windows/386. I looked at the code of the external linker (https://sourceware.org/git/?p\u003dbinutils-gdb.git;a\u003dblob;f\u003dld/pe-dll.c;h\u003de7b82ba6ffadf74dc1b9ee71dc13d48336941e51;hb\u003dHEAD#l972), and see that \"go:buildid\" can\u0027t be seen by the linker, \"go.buildid\" did, because the linker treats it as a Forwarder RVA symbol (https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#export-address-table)",
+      "parentUuid": "94a79eb9_edaf3294",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d64461_d95ee5ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
