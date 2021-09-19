@@ -1938,3 +1938,10 @@ func logicFlags32(x int32) flagConstant {
 	fcb.N = x < 0
 	return fcb.encode()
 }
+
+func debugPanic() bool {
+	if true {
+		panic("bad")
+	}
+	return true
+}
