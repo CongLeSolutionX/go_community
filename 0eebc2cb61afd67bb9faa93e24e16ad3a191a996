@@ -163,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94a79eb9_edaf3294",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-09-19T07:44:42Z",
+      "side": 1,
+      "message": "\u003e Hi Alex, the only part concern is \"src/cmd/link/internal/ld/pe.go\". \n\nYou changed 2 lines in \"src/cmd/link/internal/ld/pe.go\". I don\u0027t understand why your changes is required. So it is hard for me to judge if it is correct or not.\n\n\n\u003e To summary:\n\u003e \n\u003e  - This Cl change the compiler generated symbol from using \".\" to \":\", so \"go.builid\" now becomes \"go:builid\".\n\nI don\u0027t think it is good idea to change external symbols, because some users might be using these symbols to search for things in their programs. Just like it happened in\n\nhttps://github.com/golang/go/issues/18416\n\nThe change will break their tools.\n\nBut I suppose you know what you are doing.\n\n\u003e  - With this change, on windows/386, the external linker complains that \"go:buildid\" symbol not found\n\nIf you expect me to comment on that statement, you should provide more details. How do I reproduce the \"external linker complains\"?\n\n\u003e  - I found that on windows/386, we are adding \"_\" prefix for some symbols, but not for \"go:buildid\".\n\nOK.\n\n\u003e  - The test works so far, because \"go.buildid\" are seen as a Forwarder RVA export symbol (due to the \".\" in name).\n\nWhich test? I don\u0027t know anything about \"Forwarder RVA export symbol\". Why are these important.\n\n\u003e  - I propose to do a hack for \"go.buildid\" only, that mean it now becomes \"_go:buildid\", but Austin thinks that it\u0027s better to just prefix all external symbols with \"_\"\n\nIf you ask my opinion, I would say that we should not change external symbols.\n\n\n\u003e  \n\u003e I found we were doing that for almost external symbols on windows/386, until you changed them in CL 35076. \n\nCL 35076 was to fix issue #18416 (we broke cmd/pprof).\n\n\u003e So I want to ask you whether it\u0027s safe to just prefix all external symbols with \"_\" on windows/386?\n\nNo idea. Sorry I cannot help here.",
+      "parentUuid": "fa97baa2_b729f69d",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d64461_d95ee5ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
