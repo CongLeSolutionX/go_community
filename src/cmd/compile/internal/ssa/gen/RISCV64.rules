@@ -617,6 +617,18 @@
 (BGE (MOVDconst [0]) cond yes no) => (BLEZ cond yes no)
 (BGE cond (MOVDconst [0]) yes no) => (BGEZ cond yes no)
 
+// Convert signed comparison with one to comparison with zero.
+(BGE x (MOVDconst [1]) yes no) => (BGTZ x yes no)
+(BLT x (MOVDconst [1]) yes no) => (BLEZ x yes no)
+
+// Convert signed comparison with minus one to comparison with zero.
+(BGE (MOVDconst [-1]) x yes no) => (BLTZ x yes no)
+(BLT (MOVDconst [-1]) x yes no) => (BGEZ x yes no)
+
+// Convert unsigned comparison with one to comparison with zero.
+(BGEU x (MOVDconst [1]) yes no) => (BGTZ x yes no)
+(BLTU x (MOVDconst [1]) yes no) => (BEQZ x yes no)
+
 // Store zero
 (MOVBstore [off] {sym} ptr (MOVDconst [0]) mem) => (MOVBstorezero [off] {sym} ptr mem)
 (MOVHstore [off] {sym} ptr (MOVDconst [0]) mem) => (MOVHstorezero [off] {sym} ptr mem)
