@@ -107,6 +107,24 @@
       "parentUuid": "e2ec47cc_09ac297a",
       "revId": "ee77a954d60e02dd49b9de5f286e00fa2e9abd20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eaa2814_91497f39",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-20T20:38:33Z",
+      "side": 1,
+      "message": "No, it doesn\u0027t work with internal linking either. Darwin/arm64 uses internal linking by default, just like amd64, unless you\u0027re using cgo.\n\nThe problem is that currently this is a \"generator symbol\" (see line 257, addGeneratedSym), and in the current mechanism generator symbols are written after relocations are applied, which means it cannot contain relocations.\n\nGenerator symbols are written late in order to reduce linker memory usage. The header is pretty small, so the easiest thing is probably just change this as a regular symbol. (For a more complicated case, see generateFunctab for a 2-pass mechanism, which is a bit subtle.)",
+      "parentUuid": "d675585f_a6d6662b",
+      "revId": "ee77a954d60e02dd49b9de5f286e00fa2e9abd20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
