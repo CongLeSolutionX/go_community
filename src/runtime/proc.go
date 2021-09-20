@@ -8,6 +8,7 @@ import (
 	"internal/abi"
 	"internal/cpu"
 	"internal/goarch"
+	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -2786,21 +2787,23 @@ top:
 		}
 	}
 
-	// We have nothing to do.
-	//
-	// If we're in the GC mark phase, can safely scan and blacken objects,
-	// and have work to do, run idle-time marking rather than give up the
-	// P.
-	if gcBlackenEnabled != 0 && gcMarkWorkAvailable(_p_) {
-		node := (*gcBgMarkWorkerNode)(gcBgMarkWorkerPool.pop())
-		if node != nil {
-			_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
-			gp := node.gp.ptr()
-			casgstatus(gp, _Gwaiting, _Grunnable)
-			if trace.enabled {
-				traceGoUnpark(gp, 0)
+	if !goexperiment.IdleGCOff {
+		// We have nothing to do.
+		//
+		// If we're in the GC mark phase, can safely scan and blacken objects,
+		// and have work to do, run idle-time marking rather than give up the
+		// P.
+		if gcBlackenEnabled != 0 && gcMarkWorkAvailable(_p_) {
+			node := (*gcBgMarkWorkerNode)(gcBgMarkWorkerPool.pop())
+			if node != nil {
+				_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
+				gp := node.gp.ptr()
+				casgstatus(gp, _Gwaiting, _Grunnable)
+				if trace.enabled {
+					traceGoUnpark(gp, 0)
+				}
+				return gp, false
 			}
-			return gp, false
 		}
 	}
 
@@ -2889,20 +2892,22 @@ top:
 			goto top
 		}
 
-		// Check for idle-priority GC work again.
-		_p_, gp = checkIdleGCNoP()
-		if _p_ != nil {
-			acquirep(_p_)
-			_g_.m.spinning = true
-			atomic.Xadd(&sched.nmspinning, 1)
+		if !goexperiment.IdleGCOff {
+			// Check for idle-priority GC work again.
+			_p_, gp = checkIdleGCNoP()
+			if _p_ != nil {
+				acquirep(_p_)
+				_g_.m.spinning = true
+				atomic.Xadd(&sched.nmspinning, 1)
 
-			// Run the idle worker.
-			_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
-			casgstatus(gp, _Gwaiting, _Grunnable)
-			if trace.enabled {
-				traceGoUnpark(gp, 0)
+				// Run the idle worker.
+				_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
+				casgstatus(gp, _Gwaiting, _Grunnable)
+				if trace.enabled {
+					traceGoUnpark(gp, 0)
+				}
+				return gp, false
 			}
-			return gp, false
 		}
 
 		// Finally, check for timer creation or expiry concurrently with

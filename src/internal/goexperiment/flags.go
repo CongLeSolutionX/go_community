@@ -86,4 +86,7 @@ type Flags struct {
 
 	// PacerRedesign enables the new GC pacer in the runtime.
 	PacerRedesign bool
+
+	// IdleGCOff disables idle GC workers that run on idle Ps.
+	IdleGCOff bool
 }
