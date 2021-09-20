@@ -72,6 +72,46 @@
       "message": "Thanks for the review Michael; PTAL.",
       "revId": "ed786756f4a2d9f18f75fabb974c3ec631e4c3a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e9b9ba8_c9d8e699",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-20T18:33:06Z",
+      "side": 1,
+      "message": "Thanks, this looks great! Just one more comment.",
+      "revId": "ed786756f4a2d9f18f75fabb974c3ec631e4c3a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79614952_89dff6fe",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-20T18:33:06Z",
+      "side": 1,
+      "message": "One thing to consider:\n\nThough this is only accessed from the owning M, it is accessed from the signal handler. The compiler can reorder writes, so profileTimerValid may not be reset until after profileTimer is reset (and vice versa below when creating a timer). A signal could then be delivered in between in the bad state.\n\nI don\u0027t think this matters now, because the signal handler only accesses profileTimerValid, so no true barrier is required. But this would be easy for a future change to start depending. Thus we want to make profileTimerValid atomic in order to introduce an explicit compiler memory barrier.",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 601,
+        "endChar": 21
+      },
+      "revId": "ed786756f4a2d9f18f75fabb974c3ec631e4c3a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

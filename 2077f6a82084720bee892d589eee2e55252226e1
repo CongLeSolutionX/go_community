@@ -220,6 +220,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "91453e79_0231423a",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-20T18:33:06Z",
+      "side": 1,
+      "message": "LGTM.\n\nAlternative would be to set -1 in allocm or mcommoninit, but it is a bit ugly since this is OS-specific.",
+      "parentUuid": "90a9efad_a8556c00",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "17632046_6191424e",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 15
@@ -476,6 +500,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "426f3fd1_9225a42d",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-20T18:33:06Z",
+      "side": 1,
+      "message": "Sounds good. We can revisit if this turns out to be expensive.",
+      "parentUuid": "1b75a652_7ab86827",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0378e6c2_da7e61a7",
@@ -525,6 +567,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "3e8a9bb2_7b1a83b7",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69999452_c94fddcd",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-20T18:33:06Z",
+      "side": 1,
+      "message": "This is SO much simpler. :D",
+      "parentUuid": "46c2dec3_444efb9f",
       "revId": "2077f6a82084720bee892d589eee2e55252226e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
