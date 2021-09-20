@@ -112,6 +112,30 @@
       },
       "revId": "ed786756f4a2d9f18f75fabb974c3ec631e4c3a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f83fea_ebfb2d48",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-20T18:34:23Z",
+      "side": 1,
+      "message": "Thus we *may want* to make profileTimerValid atomic in order to introduce an explicit compiler memory barrier.",
+      "parentUuid": "79614952_89dff6fe",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 601,
+        "endChar": 21
+      },
+      "revId": "ed786756f4a2d9f18f75fabb974c3ec631e4c3a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
