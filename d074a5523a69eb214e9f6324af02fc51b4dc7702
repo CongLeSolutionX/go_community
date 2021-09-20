@@ -51,6 +51,41 @@
       "message": "There was another similar CL that went in recently, CL 346050. Is this related to / redundant to / ... that one?\n\nIt works on a generic level, which might also be worth doing here, as maybe many architectures would benefit (and none would be made worse, I think).",
       "revId": "d074a5523a69eb214e9f6324af02fc51b4dc7702",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f087b131_593810c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50270
+      },
+      "writtenOn": "2021-09-20T21:43:02Z",
+      "side": 1,
+      "message": "Interesting, I wasn\u0027t aware of that. Yeah, a generic approach would probably be better. This CL covers more cases than CL 346050. I\u0027ll do some experimentation. Thanks Keith!",
+      "parentUuid": "14c2b968_13cf65b0",
+      "revId": "d074a5523a69eb214e9f6324af02fc51b4dc7702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac17fcd8_b341b4a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50270
+      },
+      "writtenOn": "2021-09-20T21:43:02Z",
+      "side": 1,
+      "message": "(There is a bug here: the BGEU rule needs to use an unsigned version of BGTZ, unfortunately BGTUZ doesn\u0027t currently exist as a pseudo instruction.)",
+      "revId": "d074a5523a69eb214e9f6324af02fc51b4dc7702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
