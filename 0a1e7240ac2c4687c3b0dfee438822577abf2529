@@ -53,6 +53,40 @@
       "message": "LGTM. Dan, maybe you could take a quick look?",
       "revId": "0a1e7240ac2c4687c3b0dfee438822577abf2529",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15568de6_8697978b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-20T17:57:56Z",
+      "side": 1,
+      "message": "Than, I\u0027ll let you check this in (since Alessandro doesn\u0027t have permission to submit).",
+      "revId": "0a1e7240ac2c4687c3b0dfee438822577abf2529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f03f1a7_d022af77",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-09-20T17:57:56Z",
+      "side": 1,
+      "message": "Not for this CL, but Than, can you suggest a place where we can put the constant definition of \".dict\" (maybe cmd/internal/objabi or cmd/internal/goobj\"), so then we can reference it here and also in stencil.go/subr.go.  Otherwise, the use of \".dict\" in the code will keep proliferating.",
+      "revId": "0a1e7240ac2c4687c3b0dfee438822577abf2529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
