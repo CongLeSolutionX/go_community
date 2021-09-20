@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12d5e8c0_e3e25e3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-20T18:00:45Z",
+      "side": 1,
+      "message": "s/Fixes/For/\n\nThere may be other places which need to be addressed. This CL addresses on place, which is a fine start.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "535996a4ff82d99bfba8e2e96ce5507900d2aa4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7901cbf4_1130af42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-20T18:00:45Z",
+      "side": 1,
+      "message": "Thanks, this is a fine start, but we shouldn\u0027t close this bug quite yet. There may be more places to fix.\n\nAlso, this change should be applied to go/types as well.",
+      "revId": "535996a4ff82d99bfba8e2e96ce5507900d2aa4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b000fe6_84a7d8d9",
+        "filename": "test/fixedbugs/issue48472.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-20T18:00:45Z",
+      "side": 1,
+      "message": "This is fine, but you should add a test case to types2/testcase/fixedbugs because those tests will run much faster.",
+      "revId": "535996a4ff82d99bfba8e2e96ce5507900d2aa4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
