@@ -589,6 +589,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c6be5f_569e2145",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-20T19:12:10Z",
+      "side": 1,
+      "message": "I appreciate your advice and fresh eyes, thank you!",
+      "parentUuid": "69999452_c94fddcd",
+      "revId": "2077f6a82084720bee892d589eee2e55252226e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b9c8bbe_ecba8f9c",

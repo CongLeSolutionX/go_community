@@ -136,6 +136,30 @@
       },
       "revId": "ed786756f4a2d9f18f75fabb974c3ec631e4c3a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1185cf3e_11ac7664",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-20T19:12:10Z",
+      "side": 1,
+      "message": "Done\n\nYes, that sounds good, thanks for spelling it out. I\u0027ve turned the valid field back into an atomic (uint32). At the very least, it\u0027s an opportunity to leave a note about what factors to consider in future changes. Maybe it\u0027ll become necessary again to merge that flag and the timer ID back into a single atomic value, but because the signal handler only needs the valid bit we don\u0027t yet need that complexity.",
+      "parentUuid": "45f83fea_ebfb2d48",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 601,
+        "endChar": 21
+      },
+      "revId": "ed786756f4a2d9f18f75fabb974c3ec631e4c3a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
