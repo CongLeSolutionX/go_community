@@ -16,6 +16,7 @@ import (
 )
 
 var (
+	flagCmp      = flag.Bool("cmp", false, "enable TestUnifiedCompare")
 	flagPkgs     = flag.String("pkgs", "std", "list of packages to compare (ignored in -short mode)")
 	flagAll      = flag.Bool("all", false, "enable testing of all GOOS/GOARCH targets")
 	flagParallel = flag.Bool("parallel", false, "test GOOS/GOARCH targets in parallel")
@@ -37,7 +38,16 @@ var (
 // command's -run flag for subtest matching is recommended for less
 // powerful machines.
 func TestUnifiedCompare(t *testing.T) {
+<<<<<<< HEAD   (51ca57 [dev.fuzz] cmd/go: in 'go test' don't allow multiple package)
 	t.Skip("TODO(#48265): this fails on testing/internal/testdeps, possibly due to type aliases. Fix before merging to master.")
+=======
+	// TODO(mdempsky): Either re-enable or delete. Disabled for now to
+	// avoid impeding others' forward progress.
+	if !*flagCmp {
+		t.Skip("skipping TestUnifiedCompare (use -cmp to enable)")
+	}
+
+>>>>>>> BRANCH (af72dd cmd/compile: extend dump-to-file to handle "genssa" (asm) ca)
 	targets, err := exec.Command("go", "tool", "dist", "list").Output()
 	if err != nil {
 		t.Fatal(err)
