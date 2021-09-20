@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40f512e9_008f27f3",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-20T17:41:13Z",
+      "side": 1,
+      "message": "\u003e About \u0027go mod why\u0027, I agree though I\u0027d like that to be in a follow-up CL to keep this a pure refactor.\n\u003e \n\u003e About \u0027go mod download\u0027, I agree but it may be much tricker to get that right, since WriteGoMod is coupled with updating go.sum, and \u0027go mod download\u0027 should be able to update go.sum.\n\nSGTM. Maybe add a TODO in the comment for ExplicitWriteGoMod for the semantic changes in `why` and `download`?",
+      "parentUuid": "615ce7de_cc9f0d74",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 3
+      },
+      "revId": "235ad72a56b970f5b5640a22b6902cb3abd68c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "125974c5_4b3c0d57",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 1
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "I\u0027m not sure I understand the condition.\n\nWe still need to call modload.writeRequirements in readonly in vendor mode: it reports an error if go.mod needs to be updated. So I think writeRequirements should check cfg.BuildMod, not the caller. Maybe writeRequirements should have a different name though.\n\nopts.ResolveMissingImports doesn\u0027t make sense to me either. Why would that control whether we update go.mod or report that it needs to be updated?",
       "parentUuid": "125974c5_4b3c0d57",
+      "range": {
+        "startLine": 430,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 2
+      },
+      "revId": "235ad72a56b970f5b5640a22b6902cb3abd68c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9553e56f_c9aeb6d2",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-20T17:41:13Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure I understand the condition.\n\u003e \n\u003e We still need to call modload.writeRequirements in readonly in vendor mode: it reports an error if go.mod needs to be updated. So I think writeRequirements should check cfg.BuildMod, not the caller. Maybe writeRequirements should have a different name though.\n\nAh, that\u0027s a good point. Probably we should rename it. Perhaps we could even split it into two or three functions (a “write”, a “check”, and perhaps a helper function underpinning both)..?\n\n \n\u003e opts.ResolveMissingImports doesn\u0027t make sense to me either. Why would that control whether we update go.mod or report that it needs to be updated?\n\n!ResolveMissingImports implies that either we think the requirements are already complete, or we want to examine the requirement and import graphs as they are today. In both of those cases, we shouldn\u0027t modify the go.mod file because we\u0027re not trying to resolve any problems we encounter.\n\nIn contrast, ResolveMissingImports indicates that we should upgrade the requirement graph as needed to be able to resolve whatever it is we\u0027re trying to load: changes are expected, so changes purely for consistency should be fine too.",
+      "parentUuid": "961012f1_f589c71d",
       "range": {
         "startLine": 430,
         "startChar": 0,
