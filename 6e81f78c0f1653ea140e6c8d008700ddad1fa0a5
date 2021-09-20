@@ -16,6 +16,23 @@
       "message": "FYI: This CL appears to have broken the long test.",
       "revId": "6e81f78c0f1653ea140e6c8d008700ddad1fa0a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96df9662_9c4f5a02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-20T23:51:52Z",
+      "side": 1,
+      "message": "https://build.golang.org/log/27ba947491451bd12f59cf91c2ff949e1597e5b9",
+      "revId": "6e81f78c0f1653ea140e6c8d008700ddad1fa0a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
