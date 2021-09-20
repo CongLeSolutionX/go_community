@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "614c4762_47914163",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-20T18:37:34Z",
+      "side": 1,
+      "message": "The equivalent code in bytes.go doesn\u0027t use this call. Either both Index implementations use this, or none, as they should remain in sync as much as possible.",
+      "range": {
+        "startLine": 1110,
+        "startChar": 22,
+        "endLine": 1110,
+        "endChar": 29
+      },
+      "revId": "4bb623ab7d346dd7e6415f6cd9fdb7d42ae5eceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
