@@ -59,6 +59,30 @@
       },
       "revId": "b3fc64e8ae94ad99ce3f385985521c87cd913854",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41565504_771027f3",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-21T16:16:08Z",
+      "side": 1,
+      "message": "Indeed. I took the opportunity to generally clean this up, including printing the pluginpath unilaterally (why not).",
+      "parentUuid": "392c3416_b6f6b5a1",
+      "range": {
+        "startLine": 572,
+        "startChar": 2,
+        "endLine": 572,
+        "endChar": 9
+      },
+      "revId": "b3fc64e8ae94ad99ce3f385985521c87cd913854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
