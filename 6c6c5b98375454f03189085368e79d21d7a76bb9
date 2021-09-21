@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bfe953c_1a1a834a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-09-21T18:49:14Z",
+      "side": 1,
+      "message": "Replacement for https://golang.org/cl/c/349989/3, but on master instead.",
+      "revId": "6c6c5b98375454f03189085368e79d21d7a76bb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
