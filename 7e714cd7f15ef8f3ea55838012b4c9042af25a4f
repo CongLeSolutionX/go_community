@@ -88,6 +88,24 @@
       "message": "Can we move this CL along?\n",
       "revId": "7e714cd7f15ef8f3ea55838012b4c9042af25a4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d5e5fb0_b734c045",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52588
+      },
+      "writtenOn": "2021-09-21T15:48:20Z",
+      "side": 1,
+      "message": "Will sync it within a day and run trybots. So its free to be merged.\n\nNote that we cant only submit this cl without a go1.16 enforcement check as none of the trybots actually use go1.16 for bootstrap: https://github.com/golang/go/issues/47914\n\nSo I was unsure if we actually want to add this CL for go1.18 when we currently cant do cleanups to remove pre go1.16 bootstrap code because none of the trybots cant handle that yet.",
+      "parentUuid": "fee33e42_04e04bb0",
+      "revId": "7e714cd7f15ef8f3ea55838012b4c9042af25a4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
