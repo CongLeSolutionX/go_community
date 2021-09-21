@@ -124,6 +124,23 @@
       "parentUuid": "e46ab257_06befffe",
       "revId": "58e9a0ba009fda38f421b382d253d8f418992347",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cb28cfa_d203ae00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2021-09-21T13:25:01Z",
+      "side": 1,
+      "message": "sorrt for ping...  \nCan the pr be merged now?  \nThank you!",
+      "revId": "58e9a0ba009fda38f421b382d253d8f418992347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
