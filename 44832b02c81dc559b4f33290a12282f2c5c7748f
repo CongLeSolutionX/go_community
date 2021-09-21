@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "714c9487_a4572472",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-21T00:39:56Z",
+      "side": 1,
+      "message": "nit: s/when/for/",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "44832b02c81dc559b4f33290a12282f2c5c7748f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b55e511c_b895a1ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-21T00:39:56Z",
+      "side": 1,
+      "message": "LGTM, with a minor correction for the CL description. Thanks for doing this.",
+      "revId": "44832b02c81dc559b4f33290a12282f2c5c7748f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
