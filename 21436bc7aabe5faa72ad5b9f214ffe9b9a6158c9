@@ -63,6 +63,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0afbb169_d1dfaee7",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-21T23:15:47Z",
+      "side": 1,
+      "message": "I think it\u0027s weird too, but that\u0027s the order that the instruction takes them. It seemed preferable to have the operand order consistent with -S output, but I don\u0027t feel strongly. If you think it\u0027s better to swap the operand order, I can tweak amd64/ssa.go accordingly.",
+      "parentUuid": "444e8204_aa6f0f61",
+      "range": {
+        "startLine": 913,
+        "startChar": 85,
+        "endLine": 913,
+        "endChar": 97
+      },
+      "revId": "21436bc7aabe5faa72ad5b9f214ffe9b9a6158c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d7f060e_e4ba6cfd",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
         "patchSetId": 1
@@ -74,6 +98,30 @@
       "writtenOn": "2021-09-21T16:58:50Z",
       "side": 1,
       "message": "\u0026",
+      "range": {
+        "startLine": 915,
+        "startChar": 90,
+        "endLine": 915,
+        "endChar": 91
+      },
+      "revId": "21436bc7aabe5faa72ad5b9f214ffe9b9a6158c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "338a1e6a_42d44069",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-21T23:15:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7f060e_e4ba6cfd",
       "range": {
         "startLine": 915,
         "startChar": 90,
@@ -97,6 +145,30 @@
       "writtenOn": "2021-09-21T16:58:50Z",
       "side": 1,
       "message": "\u0026",
+      "range": {
+        "startLine": 916,
+        "startChar": 90,
+        "endLine": 916,
+        "endChar": 91
+      },
+      "revId": "21436bc7aabe5faa72ad5b9f214ffe9b9a6158c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5411e75e_178ac515",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-21T23:15:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6befa34c_41d43a5f",
       "range": {
         "startLine": 916,
         "startChar": 90,
