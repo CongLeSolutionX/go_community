@@ -60,9 +60,23 @@ func BuildInit() {
 	}
 }
 
+// FuzzInstrumentFlags returns compiler flags that enable fuzzing instrumation
+// on supported platforms. On unsupported platforms, FuzzInstrumentFlags returns
+// nil.
 func FuzzInstrumentFlags() []string {
-	if cfg.Goarch != "amd64" && cfg.Goarch != "arm64" {
-		// Instrumentation is only supported on 64-bit architectures.
+	// TODO: expand the set of supported platforms, with testing.
+	// Nothing about the instrumentation is OS or arch or 32/64-bit specific.
+	// We just haven't tested other platforms yet and want to be cautious.
+	//
+	// Keep in sync with build constraints in internal/fuzz/counters_{un,}supported.go
+	switch cfg.Goos {
+	case "darwin", "freebsd", "linux", "windows":
+	default:
+		return nil
+	}
+	switch cfg.Goarch {
+	case "386", "amd64", "arm", "arm64":
+	default:
 		return nil
 	}
 	return []string{"-d=libfuzzer"}
