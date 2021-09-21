@@ -235,6 +235,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "984fe300_2245f3e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-21T08:20:32Z",
+      "side": 1,
+      "message": "It\u0027s strange!\n\nWhat\u0027s the external linker you use? Here\u0027s the version use in trybot:\n\n```\n--- FAIL: TestNumberOfExportedFunctions (4.20s)\n    --- FAIL: TestNumberOfExportedFunctions/All (2.06s)\n        cshared_test.go:395: build failure: exit status 2\n            # command-line-arguments\n            C:\\workdir\\go\\pkg\\tool\\windows_386\\link.exe: running gcc failed: exit status 1\n            Cannot export go:buildid: symbol not found\n            Cannot export type:*: symbol not found\n            collect2.exe: error: ld returned 1 exit status\n            \n            \n            GNU ld (GNU Binutils) 2.24\n            Copyright 2013 Free Software Foundation, Inc.\n            This program is free software; you may redistribute it under the terms of\n            the GNU General Public License version 3 or (at your option) a later version.\n            This program has absolutely no warranty.\n            \nFAIL\ngo tool dist: Failed: exit status 1\n```",
+      "parentUuid": "4052becc_91b3e632",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d64461_d95ee5ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
