@@ -87,6 +87,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "779d560e_f9631908",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-21T23:26:09Z",
+      "side": 1,
+      "message": "It doesn\u0027t need to match the assembly output, e.g. SUBQ is arg0-arg1, but the instruction is SUBQ arg1, arg0. I like x\u0026^y better, but I don\u0027t feel strongly either. Up to you.",
+      "parentUuid": "0afbb169_d1dfaee7",
+      "range": {
+        "startLine": 913,
+        "startChar": 85,
+        "endLine": 913,
+        "endChar": 97
+      },
+      "revId": "21436bc7aabe5faa72ad5b9f214ffe9b9a6158c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d7f060e_e4ba6cfd",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
         "patchSetId": 1
