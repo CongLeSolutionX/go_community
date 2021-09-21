@@ -46,6 +46,30 @@
       },
       "revId": "a6cb5367610f8149376180dd674e082ef8df4985",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9b8c403_94bf42ef",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-21T19:25:49Z",
+      "side": 1,
+      "message": "Ok, so I wouldn\u0027t consider those helper functions. Those contain the actual body of the method.\n\nAlso I got confused by \"and the shape type\", expecting that the *type* was the argument. I think you mean \"and the receiver (of shape type)\" or something like that.",
+      "parentUuid": "1a98c226_63610845",
+      "range": {
+        "startLine": 361,
+        "startChar": 62,
+        "endLine": 362,
+        "endChar": 15
+      },
+      "revId": "a6cb5367610f8149376180dd674e082ef8df4985",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
