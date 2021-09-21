@@ -226,6 +226,7 @@ func quickSort(data Interface, a, b, maxDepth int) {
 // Sort sorts data.
 // It makes one call to data.Len to determine n and O(n*log(n)) calls to
 // data.Less and data.Swap. The sort is not guaranteed to be stable.
+// The result is sorted in ascending order according to the Less method.
 func Sort(data Interface) {
 	n := data.Len()
 	quickSort(data, 0, n, maxDepth(n))
