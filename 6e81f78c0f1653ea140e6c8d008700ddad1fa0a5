@@ -33,6 +33,24 @@
       "message": "https://build.golang.org/log/27ba947491451bd12f59cf91c2ff949e1597e5b9",
       "revId": "6e81f78c0f1653ea140e6c8d008700ddad1fa0a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab6ba972_4b4d6655",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-21T15:34:19Z",
+      "side": 1,
+      "message": "Thanks Robert. Sorry about that. Jay filed https://github.com/golang/go/issues/48504 and we should be able to fix the builders today.",
+      "parentUuid": "fb81fb24_5367dbb0",
+      "revId": "6e81f78c0f1653ea140e6c8d008700ddad1fa0a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
