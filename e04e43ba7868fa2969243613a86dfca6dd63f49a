@@ -89,6 +89,24 @@
       "message": "I think the new rules are reasonable but I\u0027m not sure they carry their weight. compilecmp results just looked like noise for riscv64. That said they do improve the code generated in the examples given.",
       "revId": "e04e43ba7868fa2969243613a86dfca6dd63f49a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50055521_696bd28c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50270
+      },
+      "writtenOn": "2021-09-21T10:34:10Z",
+      "side": 1,
+      "message": "Note to self: double check that this doesn\u0027t interfere with range-check detection. Comparisons with 1 seem to often be used to test if the value is within a certain range.",
+      "parentUuid": "129fa8f6_61fc3825",
+      "revId": "e04e43ba7868fa2969243613a86dfca6dd63f49a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
