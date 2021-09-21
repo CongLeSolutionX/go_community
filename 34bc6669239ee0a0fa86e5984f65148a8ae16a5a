@@ -70,6 +70,29 @@
       "message": "Didn\u0027t review this closely assuming that there are no diffs between this and https://go-review.googlesource.com/c/go/+/350154. LMK if there are any diffs I should review 👍",
       "revId": "34bc6669239ee0a0fa86e5984f65148a8ae16a5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a05c9611_eb416520",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-21T15:45:39Z",
+      "side": 1,
+      "message": "s/identical/assignable/, maybe?\n\n(Maybe it doesn\u0027t matter much today, but given `type ByteSlice []byte` it seems reasonable to allow fuzzing a function that accepts a `ByteSlice` as input, and to allow the `Add` calls to accept `[]byte`-literal arguments.)",
+      "range": {
+        "startLine": 173,
+        "startChar": 27,
+        "endLine": 173,
+        "endChar": 36
+      },
+      "revId": "34bc6669239ee0a0fa86e5984f65148a8ae16a5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
