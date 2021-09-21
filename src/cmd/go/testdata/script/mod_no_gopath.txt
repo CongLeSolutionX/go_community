@@ -1,0 +1,11 @@
+env HOME=''
+env home=''
+env GOPATH=''
+
+go list -deps main.go
+stdout '^io$'
+
+-- main.go --
+package main
+
+import _ "io"
