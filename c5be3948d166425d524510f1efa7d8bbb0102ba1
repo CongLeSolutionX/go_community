@@ -107,6 +107,23 @@
       "parentUuid": "603fc118_badb6212",
       "revId": "c5be3948d166425d524510f1efa7d8bbb0102ba1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "183507df_07e87efb",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-21T23:34:23Z",
+      "side": 1,
+      "message": "The reset method seems to be roughly quadratic in the number of P\u0027s, and the number of P\u0027s can be large.  The version in the runtime package only calls reset when the number of P\u0027s changes, which happens rarely.  This algorithm is going to call reset for every pool, which could be a lot.  That doesn\u0027t seem ideal.  Since this code already depends on runtime internals, can we just use runtime.stealOrder somehow?",
+      "revId": "c5be3948d166425d524510f1efa7d8bbb0102ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
