@@ -217,6 +217,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4052becc_91b3e632",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-09-21T08:13:55Z",
+      "side": 1,
+      "message": "I just tried your instructions, and I cannot reproduce your error.\n\n```\nc:\\Users\\alexb\\dev\\go\\misc\\cgo\\testcshared\u003egit rev-parse --short HEAD\nbd018f6208\n\nc:\\Users\\alexb\\dev\\go\\misc\\cgo\\testcshared\u003egit status\nOn branch change-317917\nnothing to commit, working tree clean\n\nc:\\Users\\alexb\\dev\\go\\misc\\cgo\\testcshared\u003ego test\nPASS\nok      misc/cgo/testcshared    68.637s\n\nc:\\Users\\alexb\\dev\\go\\misc\\cgo\\testcshared\u003e\n```\n\nWhat am I doing wrong?\n\nAlex",
+      "parentUuid": "7f9f999f_3ffeece0",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d64461_d95ee5ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
