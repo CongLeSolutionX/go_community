@@ -93,60 +93,65 @@ func fuseIntegerComparisons(b *Block) bool {
 
 // getConstIntArgIndex returns the index of the first argument that is a
 // constant integer or -1 if no such argument exists.
-func getConstIntArgIndex(v *Value) int {
+func getConstIntArgIndex(v *Value) (int, bool) {
 	for i, a := range v.Args {
 		switch a.Op {
 		case OpConst8, OpConst16, OpConst32, OpConst64:
-			return i
+			return i, true
 		}
 	}
-	return -1
+	return -1, false
 }
 
-// isSignedInequality reports whether op represents the inequality < or ≤
-// in the signed domain.
-func isSignedInequality(v *Value) bool {
+// isSignedInequalityWithConst reports whether v represents the inequality <
+// or ≤ in the signed domain with a constant operand. If the check is
+// successful the index of the constant operand is returned.
+func isSignedInequalityWithConst(v *Value) (int, bool) {
 	switch v.Op {
 	case OpLess64, OpLess32, OpLess16, OpLess8,
 		OpLeq64, OpLeq32, OpLeq16, OpLeq8:
-		return true
+		return getConstIntArgIndex(v)
 	}
-	return false
+	return -1, false
 }
 
-// isUnsignedInequality reports whether op represents the inequality < or ≤
-// in the unsigned domain.
-func isUnsignedInequality(v *Value) bool {
+// isUnignedInequalityWithConst checks whether v represents the inequality <
+// or ≤ in the unsigned domain with a constant operand. If the check is
+// successful the index of the constant operand is returned.
+//
+// Note that x == 0 and x != 0 are considered inequalities since they are
+// equivalent to x < 1 and x > 0 respectively.
+func isUnsignedInequalityWithConst(v *Value) (int, bool) {
 	switch v.Op {
 	case OpLess64U, OpLess32U, OpLess16U, OpLess8U,
 		OpLeq64U, OpLeq32U, OpLeq16U, OpLeq8U:
-		return true
+		return getConstIntArgIndex(v)
+	case OpEq64, OpEq32, OpEq16, OpEq8,
+		OpNeq64, OpNeq32, OpNeq16, OpNeq8:
+		idx, ok := getConstIntArgIndex(v)
+		if !ok || !isConstZero(v.Args[idx]) {
+			return -1, false
+		}
+		return idx, true
 	}
-	return false
+	return -1, false
 }
 
 func areMergeableInequalities(x, y *Value) bool {
 	// We need both inequalities to be either in the signed or unsigned domain.
-	// TODO(mundaym): it would also be good to merge when we have an Eq op that
-	// could be transformed into a Less/Leq. For example in the unsigned
-	// domain 'x == 0 || 3 < x' is equivalent to 'x <= 0 || 3 < x'
-	inequalityChecks := [...]func(*Value) bool{
-		isSignedInequality,
-		isUnsignedInequality,
+	inequalityChecks := [...]func(*Value) (int, bool){
+		isSignedInequalityWithConst,
+		isUnsignedInequalityWithConst,
 	}
 	for _, f := range inequalityChecks {
-		if !f(x) || !f(y) {
+		// Check that both inequalities are comparisons with constants.
+		xi, ok := f(x)
+		if !ok {
 			continue
 		}
-
-		// Check that both inequalities are comparisons with constants.
-		xi := getConstIntArgIndex(x)
-		if xi < 0 {
-			return false
-		}
-		yi := getConstIntArgIndex(y)
-		if yi < 0 {
-			return false
+		yi, ok := f(y)
+		if !ok {
+			continue
 		}
 
 		// Check that the non-constant arguments to the inequalities

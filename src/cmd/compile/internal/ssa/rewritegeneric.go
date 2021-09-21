@@ -5066,6 +5066,334 @@ func rewriteValuegeneric_OpAndB(v *Value) bool {
 		}
 		break
 	}
+	// match: (AndB (Neq64 x (Const64 [0])) (Less64U x (Const64 [d])))
+	// cond: uint64(d) >= 1
+	// result: (Less64U (Sub64 <x.Type> x (Const64 <x.Type> [1])) (Const64 <x.Type> [d-1]))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpNeq64 {
+				continue
+			}
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				if v_0_1.Op != OpConst64 || auxIntToInt64(v_0_1.AuxInt) != 0 || v_1.Op != OpLess64U {
+					continue
+				}
+				_ = v_1.Args[1]
+				if x != v_1.Args[0] {
+					continue
+				}
+				v_1_1 := v_1.Args[1]
+				if v_1_1.Op != OpConst64 {
+					continue
+				}
+				d := auxIntToInt64(v_1_1.AuxInt)
+				if !(uint64(d) >= 1) {
+					continue
+				}
+				v.reset(OpLess64U)
+				v0 := b.NewValue0(v.Pos, OpSub64, x.Type)
+				v1 := b.NewValue0(v.Pos, OpConst64, x.Type)
+				v1.AuxInt = int64ToAuxInt(1)
+				v0.AddArg2(x, v1)
+				v2 := b.NewValue0(v.Pos, OpConst64, x.Type)
+				v2.AuxInt = int64ToAuxInt(d - 1)
+				v.AddArg2(v0, v2)
+				return true
+			}
+		}
+		break
+	}
+	// match: (AndB (Neq64 x (Const64 [0])) (Leq64U x (Const64 [d])))
+	// cond: uint64(d) >= 1
+	// result: (Leq64U (Sub64 <x.Type> x (Const64 <x.Type> [1])) (Const64 <x.Type> [d-1]))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpNeq64 {
+				continue
+			}
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				if v_0_1.Op != OpConst64 || auxIntToInt64(v_0_1.AuxInt) != 0 || v_1.Op != OpLeq64U {
+					continue
+				}
+				_ = v_1.Args[1]
+				if x != v_1.Args[0] {
+					continue
+				}
+				v_1_1 := v_1.Args[1]
+				if v_1_1.Op != OpConst64 {
+					continue
+				}
+				d := auxIntToInt64(v_1_1.AuxInt)
+				if !(uint64(d) >= 1) {
+					continue
+				}
+				v.reset(OpLeq64U)
+				v0 := b.NewValue0(v.Pos, OpSub64, x.Type)
+				v1 := b.NewValue0(v.Pos, OpConst64, x.Type)
+				v1.AuxInt = int64ToAuxInt(1)
+				v0.AddArg2(x, v1)
+				v2 := b.NewValue0(v.Pos, OpConst64, x.Type)
+				v2.AuxInt = int64ToAuxInt(d - 1)
+				v.AddArg2(v0, v2)
+				return true
+			}
+		}
+		break
+	}
+	// match: (AndB (Neq32 x (Const32 [0])) (Less32U x (Const32 [d])))
+	// cond: uint32(d) >= 1
+	// result: (Less32U (Sub32 <x.Type> x (Const32 <x.Type> [1])) (Const32 <x.Type> [d-1]))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpNeq32 {
+				continue
+			}
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				if v_0_1.Op != OpConst32 || auxIntToInt32(v_0_1.AuxInt) != 0 || v_1.Op != OpLess32U {
+					continue
+				}
+				_ = v_1.Args[1]
+				if x != v_1.Args[0] {
+					continue
+				}
+				v_1_1 := v_1.Args[1]
+				if v_1_1.Op != OpConst32 {
+					continue
+				}
+				d := auxIntToInt32(v_1_1.AuxInt)
+				if !(uint32(d) >= 1) {
+					continue
+				}
+				v.reset(OpLess32U)
+				v0 := b.NewValue0(v.Pos, OpSub32, x.Type)
+				v1 := b.NewValue0(v.Pos, OpConst32, x.Type)
+				v1.AuxInt = int32ToAuxInt(1)
+				v0.AddArg2(x, v1)
+				v2 := b.NewValue0(v.Pos, OpConst32, x.Type)
+				v2.AuxInt = int32ToAuxInt(d - 1)
+				v.AddArg2(v0, v2)
+				return true
+			}
+		}
+		break
+	}
+	// match: (AndB (Neq32 x (Const32 [0])) (Leq32U x (Const32 [d])))
+	// cond: uint32(d) >= 1
+	// result: (Leq32U (Sub32 <x.Type> x (Const32 <x.Type> [1])) (Const32 <x.Type> [d-1]))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpNeq32 {
+				continue
+			}
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				if v_0_1.Op != OpConst32 || auxIntToInt32(v_0_1.AuxInt) != 0 || v_1.Op != OpLeq32U {
+					continue
+				}
+				_ = v_1.Args[1]
+				if x != v_1.Args[0] {
+					continue
+				}
+				v_1_1 := v_1.Args[1]
+				if v_1_1.Op != OpConst32 {
+					continue
+				}
+				d := auxIntToInt32(v_1_1.AuxInt)
+				if !(uint32(d) >= 1) {
+					continue
+				}
+				v.reset(OpLeq32U)
+				v0 := b.NewValue0(v.Pos, OpSub32, x.Type)
+				v1 := b.NewValue0(v.Pos, OpConst32, x.Type)
+				v1.AuxInt = int32ToAuxInt(1)
+				v0.AddArg2(x, v1)
+				v2 := b.NewValue0(v.Pos, OpConst32, x.Type)
+				v2.AuxInt = int32ToAuxInt(d - 1)
+				v.AddArg2(v0, v2)
+				return true
+			}
+		}
+		break
+	}
+	// match: (AndB (Neq16 x (Const16 [0])) (Less16U x (Const16 [d])))
+	// cond: uint16(d) >= 1
+	// result: (Less16U (Sub16 <x.Type> x (Const16 <x.Type> [1])) (Const16 <x.Type> [d-1]))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpNeq16 {
+				continue
+			}
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				if v_0_1.Op != OpConst16 || auxIntToInt16(v_0_1.AuxInt) != 0 || v_1.Op != OpLess16U {
+					continue
+				}
+				_ = v_1.Args[1]
+				if x != v_1.Args[0] {
+					continue
+				}
+				v_1_1 := v_1.Args[1]
+				if v_1_1.Op != OpConst16 {
+					continue
+				}
+				d := auxIntToInt16(v_1_1.AuxInt)
+				if !(uint16(d) >= 1) {
+					continue
+				}
+				v.reset(OpLess16U)
+				v0 := b.NewValue0(v.Pos, OpSub16, x.Type)
+				v1 := b.NewValue0(v.Pos, OpConst16, x.Type)
+				v1.AuxInt = int16ToAuxInt(1)
+				v0.AddArg2(x, v1)
+				v2 := b.NewValue0(v.Pos, OpConst16, x.Type)
+				v2.AuxInt = int16ToAuxInt(d - 1)
+				v.AddArg2(v0, v2)
+				return true
+			}
+		}
+		break
+	}
+	// match: (AndB (Neq16 x (Const16 [0])) (Leq16U x (Const16 [d])))
+	// cond: uint16(d) >= 1
+	// result: (Leq16U (Sub16 <x.Type> x (Const16 <x.Type> [1])) (Const16 <x.Type> [d-1]))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpNeq16 {
+				continue
+			}
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				if v_0_1.Op != OpConst16 || auxIntToInt16(v_0_1.AuxInt) != 0 || v_1.Op != OpLeq16U {
+					continue
+				}
+				_ = v_1.Args[1]
+				if x != v_1.Args[0] {
+					continue
+				}
+				v_1_1 := v_1.Args[1]
+				if v_1_1.Op != OpConst16 {
+					continue
+				}
+				d := auxIntToInt16(v_1_1.AuxInt)
+				if !(uint16(d) >= 1) {
+					continue
+				}
+				v.reset(OpLeq16U)
+				v0 := b.NewValue0(v.Pos, OpSub16, x.Type)
+				v1 := b.NewValue0(v.Pos, OpConst16, x.Type)
+				v1.AuxInt = int16ToAuxInt(1)
+				v0.AddArg2(x, v1)
+				v2 := b.NewValue0(v.Pos, OpConst16, x.Type)
+				v2.AuxInt = int16ToAuxInt(d - 1)
+				v.AddArg2(v0, v2)
+				return true
+			}
+		}
+		break
+	}
+	// match: (AndB (Neq8 x (Const8 [0])) (Less8U x (Const8 [d])))
+	// cond: uint8(d) >= 1
+	// result: (Less8U (Sub8 <x.Type> x (Const8 <x.Type> [1])) (Const8 <x.Type> [d-1]))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpNeq8 {
+				continue
+			}
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				if v_0_1.Op != OpConst8 || auxIntToInt8(v_0_1.AuxInt) != 0 || v_1.Op != OpLess8U {
+					continue
+				}
+				_ = v_1.Args[1]
+				if x != v_1.Args[0] {
+					continue
+				}
+				v_1_1 := v_1.Args[1]
+				if v_1_1.Op != OpConst8 {
+					continue
+				}
+				d := auxIntToInt8(v_1_1.AuxInt)
+				if !(uint8(d) >= 1) {
+					continue
+				}
+				v.reset(OpLess8U)
+				v0 := b.NewValue0(v.Pos, OpSub8, x.Type)
+				v1 := b.NewValue0(v.Pos, OpConst8, x.Type)
+				v1.AuxInt = int8ToAuxInt(1)
+				v0.AddArg2(x, v1)
+				v2 := b.NewValue0(v.Pos, OpConst8, x.Type)
+				v2.AuxInt = int8ToAuxInt(d - 1)
+				v.AddArg2(v0, v2)
+				return true
+			}
+		}
+		break
+	}
+	// match: (AndB (Neq8 x (Const8 [0])) (Leq8U x (Const8 [d])))
+	// cond: uint8(d) >= 1
+	// result: (Leq8U (Sub8 <x.Type> x (Const8 <x.Type> [1])) (Const8 <x.Type> [d-1]))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpNeq8 {
+				continue
+			}
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				if v_0_1.Op != OpConst8 || auxIntToInt8(v_0_1.AuxInt) != 0 || v_1.Op != OpLeq8U {
+					continue
+				}
+				_ = v_1.Args[1]
+				if x != v_1.Args[0] {
+					continue
+				}
+				v_1_1 := v_1.Args[1]
+				if v_1_1.Op != OpConst8 {
+					continue
+				}
+				d := auxIntToInt8(v_1_1.AuxInt)
+				if !(uint8(d) >= 1) {
+					continue
+				}
+				v.reset(OpLeq8U)
+				v0 := b.NewValue0(v.Pos, OpSub8, x.Type)
+				v1 := b.NewValue0(v.Pos, OpConst8, x.Type)
+				v1.AuxInt = int8ToAuxInt(1)
+				v0.AddArg2(x, v1)
+				v2 := b.NewValue0(v.Pos, OpConst8, x.Type)
+				v2.AuxInt = int8ToAuxInt(d - 1)
+				v.AddArg2(v0, v2)
+				return true
+			}
+		}
+		break
+	}
 	return false
 }
 func rewriteValuegeneric_OpArraySelect(v *Value) bool {
@@ -22317,6 +22645,302 @@ func rewriteValuegeneric_OpOrB(v *Value) bool {
 			v1.AddArg2(x, v2)
 			v.AddArg2(v0, v1)
 			return true
+		}
+		break
+	}
+	// match: (OrB (Less64U (Const64 [c]) x) (Eq64 x (Const64 [0])))
+	// cond: c != 0
+	// result: (Less64U (Const64 <x.Type> [c-1]) (Sub64 <x.Type> x (Const64 <x.Type> [1])))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpLess64U {
+				continue
+			}
+			x := v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpConst64 {
+				continue
+			}
+			c := auxIntToInt64(v_0_0.AuxInt)
+			if v_1.Op != OpEq64 {
+				continue
+			}
+			_ = v_1.Args[1]
+			v_1_0 := v_1.Args[0]
+			v_1_1 := v_1.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_1_0, v_1_1 = _i1+1, v_1_1, v_1_0 {
+				if x != v_1_0 || v_1_1.Op != OpConst64 || auxIntToInt64(v_1_1.AuxInt) != 0 || !(c != 0) {
+					continue
+				}
+				v.reset(OpLess64U)
+				v0 := b.NewValue0(v.Pos, OpConst64, x.Type)
+				v0.AuxInt = int64ToAuxInt(c - 1)
+				v1 := b.NewValue0(v.Pos, OpSub64, x.Type)
+				v2 := b.NewValue0(v.Pos, OpConst64, x.Type)
+				v2.AuxInt = int64ToAuxInt(1)
+				v1.AddArg2(x, v2)
+				v.AddArg2(v0, v1)
+				return true
+			}
+		}
+		break
+	}
+	// match: (OrB (Leq64U (Const64 [c]) x) (Eq64 x (Const64 [0])))
+	// cond: c != 0
+	// result: (Leq64U (Const64 <x.Type> [c-1]) (Sub64 <x.Type> x (Const64 <x.Type> [1])))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpLeq64U {
+				continue
+			}
+			x := v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpConst64 {
+				continue
+			}
+			c := auxIntToInt64(v_0_0.AuxInt)
+			if v_1.Op != OpEq64 {
+				continue
+			}
+			_ = v_1.Args[1]
+			v_1_0 := v_1.Args[0]
+			v_1_1 := v_1.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_1_0, v_1_1 = _i1+1, v_1_1, v_1_0 {
+				if x != v_1_0 || v_1_1.Op != OpConst64 || auxIntToInt64(v_1_1.AuxInt) != 0 || !(c != 0) {
+					continue
+				}
+				v.reset(OpLeq64U)
+				v0 := b.NewValue0(v.Pos, OpConst64, x.Type)
+				v0.AuxInt = int64ToAuxInt(c - 1)
+				v1 := b.NewValue0(v.Pos, OpSub64, x.Type)
+				v2 := b.NewValue0(v.Pos, OpConst64, x.Type)
+				v2.AuxInt = int64ToAuxInt(1)
+				v1.AddArg2(x, v2)
+				v.AddArg2(v0, v1)
+				return true
+			}
+		}
+		break
+	}
+	// match: (OrB (Less32U (Const32 [c]) x) (Eq32 x (Const32 [0])))
+	// cond: c != 0
+	// result: (Less32U (Const32 <x.Type> [c-1]) (Sub32 <x.Type> x (Const32 <x.Type> [1])))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpLess32U {
+				continue
+			}
+			x := v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpConst32 {
+				continue
+			}
+			c := auxIntToInt32(v_0_0.AuxInt)
+			if v_1.Op != OpEq32 {
+				continue
+			}
+			_ = v_1.Args[1]
+			v_1_0 := v_1.Args[0]
+			v_1_1 := v_1.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_1_0, v_1_1 = _i1+1, v_1_1, v_1_0 {
+				if x != v_1_0 || v_1_1.Op != OpConst32 || auxIntToInt32(v_1_1.AuxInt) != 0 || !(c != 0) {
+					continue
+				}
+				v.reset(OpLess32U)
+				v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+				v0.AuxInt = int32ToAuxInt(c - 1)
+				v1 := b.NewValue0(v.Pos, OpSub32, x.Type)
+				v2 := b.NewValue0(v.Pos, OpConst32, x.Type)
+				v2.AuxInt = int32ToAuxInt(1)
+				v1.AddArg2(x, v2)
+				v.AddArg2(v0, v1)
+				return true
+			}
+		}
+		break
+	}
+	// match: (OrB (Leq32U (Const32 [c]) x) (Eq32 x (Const32 [0])))
+	// cond: c != 0
+	// result: (Leq32U (Const32 <x.Type> [c-1]) (Sub32 <x.Type> x (Const32 <x.Type> [1])))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpLeq32U {
+				continue
+			}
+			x := v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpConst32 {
+				continue
+			}
+			c := auxIntToInt32(v_0_0.AuxInt)
+			if v_1.Op != OpEq32 {
+				continue
+			}
+			_ = v_1.Args[1]
+			v_1_0 := v_1.Args[0]
+			v_1_1 := v_1.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_1_0, v_1_1 = _i1+1, v_1_1, v_1_0 {
+				if x != v_1_0 || v_1_1.Op != OpConst32 || auxIntToInt32(v_1_1.AuxInt) != 0 || !(c != 0) {
+					continue
+				}
+				v.reset(OpLeq32U)
+				v0 := b.NewValue0(v.Pos, OpConst32, x.Type)
+				v0.AuxInt = int32ToAuxInt(c - 1)
+				v1 := b.NewValue0(v.Pos, OpSub32, x.Type)
+				v2 := b.NewValue0(v.Pos, OpConst32, x.Type)
+				v2.AuxInt = int32ToAuxInt(1)
+				v1.AddArg2(x, v2)
+				v.AddArg2(v0, v1)
+				return true
+			}
+		}
+		break
+	}
+	// match: (OrB (Less16U (Const16 [c]) x) (Eq16 x (Const16 [0])))
+	// cond: c != 0
+	// result: (Less16U (Const16 <x.Type> [c-1]) (Sub16 <x.Type> x (Const16 <x.Type> [1])))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpLess16U {
+				continue
+			}
+			x := v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpConst16 {
+				continue
+			}
+			c := auxIntToInt16(v_0_0.AuxInt)
+			if v_1.Op != OpEq16 {
+				continue
+			}
+			_ = v_1.Args[1]
+			v_1_0 := v_1.Args[0]
+			v_1_1 := v_1.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_1_0, v_1_1 = _i1+1, v_1_1, v_1_0 {
+				if x != v_1_0 || v_1_1.Op != OpConst16 || auxIntToInt16(v_1_1.AuxInt) != 0 || !(c != 0) {
+					continue
+				}
+				v.reset(OpLess16U)
+				v0 := b.NewValue0(v.Pos, OpConst16, x.Type)
+				v0.AuxInt = int16ToAuxInt(c - 1)
+				v1 := b.NewValue0(v.Pos, OpSub16, x.Type)
+				v2 := b.NewValue0(v.Pos, OpConst16, x.Type)
+				v2.AuxInt = int16ToAuxInt(1)
+				v1.AddArg2(x, v2)
+				v.AddArg2(v0, v1)
+				return true
+			}
+		}
+		break
+	}
+	// match: (OrB (Leq16U (Const16 [c]) x) (Eq16 x (Const16 [0])))
+	// cond: c != 0
+	// result: (Leq16U (Const16 <x.Type> [c-1]) (Sub16 <x.Type> x (Const16 <x.Type> [1])))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpLeq16U {
+				continue
+			}
+			x := v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpConst16 {
+				continue
+			}
+			c := auxIntToInt16(v_0_0.AuxInt)
+			if v_1.Op != OpEq16 {
+				continue
+			}
+			_ = v_1.Args[1]
+			v_1_0 := v_1.Args[0]
+			v_1_1 := v_1.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_1_0, v_1_1 = _i1+1, v_1_1, v_1_0 {
+				if x != v_1_0 || v_1_1.Op != OpConst16 || auxIntToInt16(v_1_1.AuxInt) != 0 || !(c != 0) {
+					continue
+				}
+				v.reset(OpLeq16U)
+				v0 := b.NewValue0(v.Pos, OpConst16, x.Type)
+				v0.AuxInt = int16ToAuxInt(c - 1)
+				v1 := b.NewValue0(v.Pos, OpSub16, x.Type)
+				v2 := b.NewValue0(v.Pos, OpConst16, x.Type)
+				v2.AuxInt = int16ToAuxInt(1)
+				v1.AddArg2(x, v2)
+				v.AddArg2(v0, v1)
+				return true
+			}
+		}
+		break
+	}
+	// match: (OrB (Less8U (Const8 [c]) x) (Eq8 x (Const8 [0])))
+	// cond: c != 0
+	// result: (Less8U (Const8 <x.Type> [c-1]) (Sub8 <x.Type> x (Const8 <x.Type> [1])))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpLess8U {
+				continue
+			}
+			x := v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpConst8 {
+				continue
+			}
+			c := auxIntToInt8(v_0_0.AuxInt)
+			if v_1.Op != OpEq8 {
+				continue
+			}
+			_ = v_1.Args[1]
+			v_1_0 := v_1.Args[0]
+			v_1_1 := v_1.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_1_0, v_1_1 = _i1+1, v_1_1, v_1_0 {
+				if x != v_1_0 || v_1_1.Op != OpConst8 || auxIntToInt8(v_1_1.AuxInt) != 0 || !(c != 0) {
+					continue
+				}
+				v.reset(OpLess8U)
+				v0 := b.NewValue0(v.Pos, OpConst8, x.Type)
+				v0.AuxInt = int8ToAuxInt(c - 1)
+				v1 := b.NewValue0(v.Pos, OpSub8, x.Type)
+				v2 := b.NewValue0(v.Pos, OpConst8, x.Type)
+				v2.AuxInt = int8ToAuxInt(1)
+				v1.AddArg2(x, v2)
+				v.AddArg2(v0, v1)
+				return true
+			}
+		}
+		break
+	}
+	// match: (OrB (Leq8U (Const8 [c]) x) (Eq8 x (Const8 [0])))
+	// cond: c != 0
+	// result: (Leq8U (Const8 <x.Type> [c-1]) (Sub8 <x.Type> x (Const8 <x.Type> [1])))
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpLeq8U {
+				continue
+			}
+			x := v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpConst8 {
+				continue
+			}
+			c := auxIntToInt8(v_0_0.AuxInt)
+			if v_1.Op != OpEq8 {
+				continue
+			}
+			_ = v_1.Args[1]
+			v_1_0 := v_1.Args[0]
+			v_1_1 := v_1.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_1_0, v_1_1 = _i1+1, v_1_1, v_1_0 {
+				if x != v_1_0 || v_1_1.Op != OpConst8 || auxIntToInt8(v_1_1.AuxInt) != 0 || !(c != 0) {
+					continue
+				}
+				v.reset(OpLeq8U)
+				v0 := b.NewValue0(v.Pos, OpConst8, x.Type)
+				v0.AuxInt = int8ToAuxInt(c - 1)
+				v1 := b.NewValue0(v.Pos, OpSub8, x.Type)
+				v2 := b.NewValue0(v.Pos, OpConst8, x.Type)
+				v2.AuxInt = int8ToAuxInt(1)
+				v1.AddArg2(x, v2)
+				v.AddArg2(v0, v1)
+				return true
+			}
 		}
 		break
 	}

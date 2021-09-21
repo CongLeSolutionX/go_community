@@ -164,6 +164,34 @@ func ui4c(c <-chan uint8) {
 	}
 }
 
+func ui5c(c <-chan uint64) {
+	// amd64:"CMPQ\t.+, [$]3","DECQ\t"
+	// s390x:"CLGIJ\t[$]4, R[0-9]+, [$]3","ADD\t[$]-1,"
+	for x := <-c; x != 0 && x < 4; x = <-c {
+	}
+}
+
+func ui6c(c <-chan uint32) {
+	// amd64:"CMPL\t.+, [$]3","DECL\t"
+	// s390x:"CLIJ\t[$]4, R[0-9]+, [$]3","ADDW\t[$]-1,"
+	for x := <-c; x != 0 && x < 4; x = <-c {
+	}
+}
+
+func ui7c(c <-chan uint16) {
+	// amd64:"CMPW\t.+, [$]3","DECL\t"
+	// s390x:"CLIJ\t[$]4, R[0-9]+, [$]3","ADDW\t[$]-1,"
+	for x := <-c; x != 0 && x < 4; x = <-c {
+	}
+}
+
+func ui8c(c <-chan uint8) {
+	// amd64:"CMPB\t.+, [$]3","DECL\t"
+	// s390x:"CLIJ\t[$]4, R[0-9]+, [$]3","ADDW\t[$]-1,"
+	for x := <-c; x != 0 && x < 4; x = <-c {
+	}
+}
+
 // ------------------------------------ //
 // unsigned integer range (disjunction) //
 // ------------------------------------ //
@@ -193,5 +221,33 @@ func ui4d(c <-chan uint8) {
 	// amd64:"CMPB\t.+, [$]2","ADDL\t[$]-126,"
 	// s390x:"CLIJ\t[$]10, R[0-9]+, [$]2","ADDW\t[$]-126,"
 	for x := <-c; x < 126 || x >= 128; x = <-c {
+	}
+}
+
+func ui5d(c <-chan uint64) {
+	// amd64:"CMPQ\t.+, [$]251","DECQ\t"
+	// s390x:"CLGIJ\t[$]10, R[0-9]+, [$]251","ADD\t[$]-1,"
+	for x := <-c; x >= 252 || x == 0; x = <-c {
+	}
+}
+
+func ui6d(c <-chan uint32) {
+	// amd64:"CMPL\t.+, [$]251","DECL\t"
+	// s390x:"CLIJ\t[$]10, R[0-9]+, [$]251","ADDW\t[$]-1,"
+	for x := <-c; x >= 252 || x == 0; x = <-c {
+	}
+}
+
+func ui7d(c <-chan uint16) {
+	// amd64:"CMPW\t.+, [$]251","DECL\t"
+	// s390x:"CLIJ\t[$]10, R[0-9]+, [$]251","ADDW\t[$]-1,"
+	for x := <-c; x >= 252 || x == 0; x = <-c {
+	}
+}
+
+func ui8d(c <-chan uint8) {
+	// amd64:"CMPB\t.+, [$]-5","DECL\t"
+	// s390x:"CLIJ\t[$]10, R[0-9]+, [$]251","ADDW\t[$]-1,"
+	for x := <-c; x >= 252 || x == 0; x = <-c {
 	}
 }
