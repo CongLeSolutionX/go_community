@@ -142,6 +142,24 @@
       "parentUuid": "183507df_07e87efb",
       "revId": "c5be3948d166425d524510f1efa7d8bbb0102ba1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b514f3d8_8905f27e",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 47743
+      },
+      "writtenOn": "2021-09-21T23:59:37Z",
+      "side": 1,
+      "message": "Also, according to this line:\n```\n\ts :\u003d p.localSize\n\tif uintptr(pid) \u003c s {\n\t\treturn indexLocal(l, pid), pid\n\t}\n\t// If GOMAXPROCS changes between GCs, we re-allocate the array and lose the old one.\n```\n\nReset will happen only if there is a new P try to pin.",
+      "parentUuid": "1d471743_abaa4992",
+      "revId": "c5be3948d166425d524510f1efa7d8bbb0102ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
