@@ -53,6 +53,24 @@
       "message": "This test also needs to be added to types2/testdata/fixedbugs",
       "revId": "9ee45a0af674f3c449aee9d46a926d27018308e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d14158e4_1797a1d0",
+        "filename": "src/go/types/testdata/fixedbugs/issue48472.go2",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2021-09-21T00:35:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3291856f_e6e20cfb",
+      "revId": "9ee45a0af674f3c449aee9d46a926d27018308e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
