@@ -109,6 +109,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "881a62a8_94c0e7c8",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-09-21T23:47:42Z",
+      "side": 1,
+      "message": "Okay, operand order swapped.",
+      "parentUuid": "779d560e_f9631908",
+      "range": {
+        "startLine": 913,
+        "startChar": 85,
+        "endLine": 913,
+        "endChar": 97
+      },
+      "revId": "21436bc7aabe5faa72ad5b9f214ffe9b9a6158c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d7f060e_e4ba6cfd",
