@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83271a1b_6e360cff",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-21T16:15:27Z",
+      "side": 1,
+      "message": "I don\u0027t think it is critical, but it would simplify some code a bit. Based on what little I know, I\u0027d call it a \"low priority cleanup\".",
+      "parentUuid": "05989042_d902e79f",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 38
+      },
+      "revId": "2bd3801ee2bd5088a452e018a736480916a9c665",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cc1ea04_1d9c90df",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bb4c883_2be25be3",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-21T16:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cc1ea04_1d9c90df",
+      "range": {
+        "startLine": 161,
+        "startChar": 3,
+        "endLine": 161,
+        "endChar": 21
+      },
+      "revId": "2bd3801ee2bd5088a452e018a736480916a9c665",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fc6f701_38dd7f4e",
@@ -97,6 +145,30 @@
       "writtenOn": "2021-09-21T14:34:12Z",
       "side": 1,
       "message": "Maybe remove. I think we already do it.",
+      "range": {
+        "startLine": 162,
+        "startChar": 12,
+        "endLine": 162,
+        "endChar": 25
+      },
+      "revId": "2bd3801ee2bd5088a452e018a736480916a9c665",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1759fb44_4232ed26",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-21T16:15:27Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "1fc6f701_38dd7f4e",
       "range": {
         "startLine": 162,
         "startChar": 12,
