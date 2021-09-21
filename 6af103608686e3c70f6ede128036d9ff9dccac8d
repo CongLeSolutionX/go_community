@@ -117,6 +117,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "468eb5cc_5c8d682f",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa14fdac_ebf09cc6",
+      "range": {
+        "startLine": 216,
+        "startChar": 15,
+        "endLine": 216,
+        "endChar": 28
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a259e17d_d908a535",
@@ -134,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d6c8e1c_bcccf16b",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a259e17d_d908a535",
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8d24b80_fd252efe",
@@ -147,6 +189,30 @@
       "writtenOn": "2021-09-16T19:43:34Z",
       "side": 1,
       "message": "s/sig/typ/",
+      "range": {
+        "startLine": 409,
+        "startChar": 2,
+        "endLine": 409,
+        "endChar": 5
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "414a54ab_908b5960",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d24b80_fd252efe",
       "range": {
         "startLine": 409,
         "startChar": 2,
@@ -180,6 +246,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "155b726c_f49ab2d5",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a94f337_f2ca1a72",
+      "range": {
+        "startLine": 526,
+        "startChar": 32,
+        "endLine": 526,
+        "endChar": 35
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22fed161_3bd32840",
@@ -193,6 +283,30 @@
       "writtenOn": "2021-09-16T19:43:34Z",
       "side": 1,
       "message": "s/generic/parameterized/",
+      "range": {
+        "startLine": 532,
+        "startChar": 48,
+        "endLine": 532,
+        "endChar": 55
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34e08969_dd4a4331",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22fed161_3bd32840",
       "range": {
         "startLine": 532,
         "startChar": 48,
@@ -220,6 +334,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11b97f09_2c0c1ab9",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc30de4_39216216",
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e8eb421_1f7d2870",
@@ -233,6 +365,30 @@
       "writtenOn": "2021-09-16T19:43:34Z",
       "side": 1,
       "message": "it\u0027s not just signatures, isn\u0027t it?\n\n\"want parameterized type\"",
+      "range": {
+        "startLine": 536,
+        "startChar": 53,
+        "endLine": 536,
+        "endChar": 60
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b3ba3d4_c01b3f70",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Yeah, forgot to update names in this function.\n\nDone.",
+      "parentUuid": "5e8eb421_1f7d2870",
       "range": {
         "startLine": 536,
         "startChar": 53,
@@ -266,6 +422,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac2c5da_ca25c4fc",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eed31a62_9813c419",
+      "range": {
+        "startLine": 547,
+        "startChar": 32,
+        "endLine": 547,
+        "endChar": 33
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a04edfa_033d50e6",
@@ -279,6 +459,30 @@
       "writtenOn": "2021-09-16T19:43:34Z",
       "side": 1,
       "message": "// check that the types match",
+      "range": {
+        "startLine": 569,
+        "startChar": 16,
+        "endLine": 569,
+        "endChar": 25
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79bee25b_843dd66d",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a04edfa_033d50e6",
       "range": {
         "startLine": 569,
         "startChar": 16,
@@ -312,6 +516,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ed3dba6_0b2af72a",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "With our current call sites yes (well 99.99% yes), but I agree that this looks (and frankly is) a bit fragile.\n\nAdded a TODO to recordInstance to revisit this. Perhaps we could bubble up the actual identifier that is type checked.",
+      "parentUuid": "d6b9b8f2_9703be66",
+      "range": {
+        "startLine": 420,
+        "startChar": 13,
+        "endLine": 420,
+        "endChar": 17
+      },
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bb1c74a_2cf99d4b",
@@ -329,6 +557,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47a7c9a9_61e21cf9",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bb1c74a_2cf99d4b",
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30274230_2838efab",
@@ -342,6 +588,24 @@
       "writtenOn": "2021-09-16T19:43:34Z",
       "side": 1,
       "message": "I\u0027d remove this default case as well and end in a panic at the end of the function\n\npanic(\"invalid instance expression\") or similar",
+      "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66781bd8_2919d0c6",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-21T03:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30274230_2838efab",
       "revId": "6af103608686e3c70f6ede128036d9ff9dccac8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
