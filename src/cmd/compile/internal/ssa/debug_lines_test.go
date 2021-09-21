@@ -43,10 +43,18 @@ func testGoArch() string {
 	return *testGoArchFlag
 }
 
-func TestDebugLines(t *testing.T) {
+// needHome ensures that $HOME is defined and skips the test if it is not, as a workaround to #43938.
+// This family of tests doesn't need to run on all possible OSes, so skipping a few should be okay.
+func needHome(t *testing.T) {
 	if runtime.GOOS == "windows" {
-		t.Skip("Windows lacks $HOME which complicates workaround for 'missing $GOPATH'") // $HOME needed to work around #43938
+		t.Skip("Windows lacks $HOME which complicates workaround for 'missing $GOPATH'")
 	}
+	if runtime.GOOS == "plan9" {
+		t.Skip("Plan9 lacks $HOME which complicates workaround for 'missing $GOPATH'")
+	}
+}
+
+func TestDebugLines(t *testing.T) {
 	// This test is potentially fragile, the goal is that debugging should step properly through "sayhi"
 	// If the blocks are reordered in a way that changes the statement order but execution flows correctly,
 	// then rearrange the expected numbers.  Register abi and not-register-abi also have different sequences,
@@ -65,9 +73,6 @@ func TestDebugLines(t *testing.T) {
 }
 
 func TestInlineLines(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("Windows lacks $HOME which complicates workaround for 'missing $GOPATH'") // $HOME needed to work around #43938
-	}
 	if runtime.GOARCH != "amd64" && *testGoArchFlag == "" {
 		// As of september 2021, works for everything except mips64, but still potentially fragile
 		t.Skip("only runs for amd64 unless -arch explicitly supplied")
@@ -78,6 +83,7 @@ func TestInlineLines(t *testing.T) {
 }
 
 func compileAndDump(t *testing.T, file, function, moreGCFlags string) []byte {
+	needHome(t)
 	testenv.MustHaveGoBuild(t)
 
 	tmpdir, err := ioutil.TempDir("", "debug_lines_test")
