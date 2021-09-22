@@ -143,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d906d9b4_10a81856",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-22T23:44:51Z",
+      "side": 1,
+      "message": "Tinkered with this a bit more. This CL shouldn\u0027t cause a change in semantics (tested in previous CL). Added some CL comments explaining what was happening before.",
+      "parentUuid": "40f512e9_008f27f3",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 3
+      },
+      "revId": "235ad72a56b970f5b5640a22b6902cb3abd68c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "125974c5_4b3c0d57",
@@ -204,6 +228,30 @@
       "side": 1,
       "message": "\u003e I\u0027m not sure I understand the condition.\n\u003e \n\u003e We still need to call modload.writeRequirements in readonly in vendor mode: it reports an error if go.mod needs to be updated. So I think writeRequirements should check cfg.BuildMod, not the caller. Maybe writeRequirements should have a different name though.\n\nAh, that\u0027s a good point. Probably we should rename it. Perhaps we could even split it into two or three functions (a “write”, a “check”, and perhaps a helper function underpinning both)..?\n\n \n\u003e opts.ResolveMissingImports doesn\u0027t make sense to me either. Why would that control whether we update go.mod or report that it needs to be updated?\n\n!ResolveMissingImports implies that either we think the requirements are already complete, or we want to examine the requirement and import graphs as they are today. In both of those cases, we shouldn\u0027t modify the go.mod file because we\u0027re not trying to resolve any problems we encounter.\n\nIn contrast, ResolveMissingImports indicates that we should upgrade the requirement graph as needed to be able to resolve whatever it is we\u0027re trying to load: changes are expected, so changes purely for consistency should be fine too.",
       "parentUuid": "961012f1_f589c71d",
+      "range": {
+        "startLine": 430,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 2
+      },
+      "revId": "235ad72a56b970f5b5640a22b6902cb3abd68c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69d012a1_7b784051",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-22T23:44:51Z",
+      "side": 1,
+      "message": "\u003e Ah, that\u0027s a good point. Probably we should rename it. Perhaps we could even split it into two or three functions (a “write”, a “check”, and perhaps a helper function underpinning both)..?\n\nRenamed back to commitRequirements. Let me know if you think of a better name. checkOrWriteRequirements is a mouthful, and I don\u0027t want call sites to have too much logic deciding which to call.\n\nSome refactoring could be done, but I\u0027d like to wait until cfg.BuildMod is moved to modload.Opts.\n\n\u003e !ResolveMissingImports implies  ...\n\nThat makes more sense now. I\u0027ve been thinking that ResolveMissingImports was purely redundant with cfg.BuildMod \u003d\u003d \"mod\", but I see a few places where it\u0027s not set. I\u0027ve added a check in LoadPackages for it.",
+      "parentUuid": "9553e56f_c9aeb6d2",
       "range": {
         "startLine": 430,
         "startChar": 0,

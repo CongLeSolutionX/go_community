@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef9e2902_c353809a",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-22T23:44:51Z",
+      "side": 1,
+      "message": "This shouldn\u0027t actually be a change in semantics. Previously, go.mod was written by LoadModFile or ListModules above.",
+      "revId": "63e5ad9854799ff33cfc499785e0e5b84bf29d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c10d66b1_708c573e",
+        "filename": "src/cmd/go/internal/modcmd/why.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-22T23:44:51Z",
+      "side": 1,
+      "message": "This also shouldn\u0027t be a change. Previously, ListModules and LoadPackages would attempt to write go.mod, but allowWriteGoMod was implicitly disabled in setDefaultBuildMod using the command name.\n\nThis is not needed for graph and verify because they don\u0027t call ListModules or LoadPackages.",
+      "revId": "63e5ad9854799ff33cfc499785e0e5b84bf29d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
