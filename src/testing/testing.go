@@ -1316,6 +1316,19 @@ func tRunner(t *T, fn func(t *T)) {
 			if err != nil {
 				panic(err)
 			}
+			if t.signal == nil {
+				panic("signal channel nil")
+			}
+			if cap(t.signal) == 0 {
+				panic("signal channel unbuffered")
+			}
+			n := cap(t.signal) - len(t.signal)
+			if n == 0 {
+				panic("signal channel full")
+			}
+			if n < 0 {
+				panic("signal channel corrupted")
+			}
 			// Only report that the test is complete if it doesn't panic,
 			// as otherwise the test binary can exit before the panic is
 			// reported to the user. See issue 41479.
