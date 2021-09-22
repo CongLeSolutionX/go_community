@@ -76,6 +76,30 @@
       },
       "revId": "4247a99a3cd7b3c303a5bd66eed00c45fded0307",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01efbab1_edc6cee0",
+        "filename": "src/constraints/constraints_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-22T22:05:35Z",
+      "side": 1,
+      "message": "I kind of feel that lots of use of _ makes the code harder to read, though.",
+      "parentUuid": "3a76ad57_9fb22893",
+      "range": {
+        "startLine": 18,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 53
+      },
+      "revId": "4247a99a3cd7b3c303a5bd66eed00c45fded0307",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
