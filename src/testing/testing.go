@@ -1217,6 +1217,7 @@ func (t *T) Parallel() {
 		t.chatty.Updatef(t.name, "=== PAUSE %s\n", t.name)
 	}
 
+	println("Parallel: signaling")
 	t.signal <- true   // Release calling test.
 	<-t.parent.barrier // Wait for the parent test to complete.
 	t.context.waitParallel()
@@ -1261,6 +1262,7 @@ func tRunner(t *T, fn func(t *T)) {
 	// a call to runtime.Goexit, record the duration and send
 	// a signal saying that the test is done.
 	defer func() {
+		println("tRunner: in defer 1")
 		if t.Failed() {
 			atomic.AddUint32(&numFailed, 1)
 		}
@@ -1310,16 +1312,32 @@ func tRunner(t *T, fn func(t *T)) {
 		// complete even if a cleanup function calls t.FailNow. See issue 41355.
 		didPanic := false
 		defer func() {
+			println("tRunner: in defer 2")
 			if didPanic {
 				return
 			}
 			if err != nil {
 				panic(err)
 			}
+			if t.signal == nil {
+				panic("signal channel nil")
+			}
+			if cap(t.signal) == 0 {
+				panic("signal channel unbuffered")
+			}
+			n := cap(t.signal) - len(t.signal)
+			if n == 0 {
+				panic("signal channel full")
+			}
+			if n < 0 {
+				panic("signal channel corrupted")
+			}
+			println("tRunner: signaling with remaining cap", n)
 			// Only report that the test is complete if it doesn't panic,
 			// as otherwise the test binary can exit before the panic is
 			// reported to the user. See issue 41479.
 			t.signal <- signal
+			println("tRunner: signaled")
 		}()
 
 		doPanic := func(err interface{}) {
@@ -1437,6 +1455,8 @@ func (t *T) Run(name string, f func(t *T)) bool {
 	// without being preempted, even when their parent is a parallel test. This
 	// may especially reduce surprises if *parallel == 1.
 	go tRunner(t, f)
+	println("Run: waiting for", name)
+	defer println("Run: done waiting for", name)
 	if !<-t.signal {
 		// At this point, it is likely that FailNow was called on one of the
 		// parent tests by one of the subtests. Continue aborting up the chain.
@@ -1777,9 +1797,12 @@ func runTests(matchString func(pat, str string) (bool, error), tests []InternalT
 			}
 			tRunner(t, func(t *T) {
 				for _, test := range tests {
+					println("tRunner: running", test.Name)
 					t.Run(test.Name, test.F)
+					println("tRunner: ran", test.Name)
 				}
 			})
+			println("runTests: waiting for", t.Name())
 			select {
 			case <-t.signal:
 			default:
