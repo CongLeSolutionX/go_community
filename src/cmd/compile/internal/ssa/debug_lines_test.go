@@ -44,9 +44,6 @@ func testGoArch() string {
 }
 
 func TestDebugLines(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("Windows lacks $HOME which complicates workaround for 'missing $GOPATH'") // $HOME needed to work around #43938
-	}
 	// This test is potentially fragile, the goal is that debugging should step properly through "sayhi"
 	// If the blocks are reordered in a way that changes the statement order but execution flows correctly,
 	// then rearrange the expected numbers.  Register abi and not-register-abi also have different sequences,
@@ -66,7 +63,7 @@ func TestDebugLines(t *testing.T) {
 
 func TestInlineLines(t *testing.T) {
 	if runtime.GOOS == "windows" {
-		t.Skip("Windows lacks $HOME which complicates workaround for 'missing $GOPATH'") // $HOME needed to work around #43938
+		t.Skip("broken on Windows; see https://golang.org/issue/48550")
 	}
 	if runtime.GOARCH != "amd64" && *testGoArchFlag == "" {
 		// As of september 2021, works for everything except mips64, but still potentially fragile
@@ -98,8 +95,7 @@ func compileAndDump(t *testing.T, file, function, moreGCFlags string) []byte {
 	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "foo.o", "-gcflags=-d=ssa/genssa/dump="+function+" "+moreGCFlags, source)
 	cmd.Dir = tmpdir
 	cmd.Env = replaceEnv(cmd.Env, "GOSSADIR", tmpdir)
-	cmd.Env = replaceEnv(cmd.Env, "HOME", os.Getenv("HOME")) // workaround for #43938
-	testGoos := "linux"                                      // default to linux
+	testGoos := "linux" // default to linux
 	if testGoArch() == "wasm" {
 		testGoos = "js"
 	}
