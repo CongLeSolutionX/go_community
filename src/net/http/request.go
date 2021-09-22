@@ -793,15 +793,12 @@ func ParseHTTPVersion(vers string) (major, minor int, ok bool) {
 	if !strings.HasPrefix(vers, "HTTP/") {
 		return 0, 0, false
 	}
-	dot := strings.Index(vers, ".")
-	if dot < 0 {
-		return 0, 0, false
-	}
-	major, err := strconv.Atoi(vers[5:dot])
+	majorStr, minorStr, _ := strings.Cut(vers[len("HTTP/"):], ".")
+	major, err := strconv.Atoi(majorStr)
 	if err != nil || major < 0 || major > Big {
 		return 0, 0, false
 	}
-	minor, err = strconv.Atoi(vers[dot+1:])
+	minor, err = strconv.Atoi(minorStr)
 	if err != nil || minor < 0 || minor > Big {
 		return 0, 0, false
 	}
@@ -939,7 +936,7 @@ func NewRequestWithContext(ctx context.Context, method, url string, body io.Read
 func (r *Request) BasicAuth() (username, password string, ok bool) {
 	auth := r.Header.Get("Authorization")
 	if auth == "" {
-		return
+		return "", "", false
 	}
 	return parseBasicAuth(auth)
 }
@@ -950,18 +947,18 @@ func parseBasicAuth(auth string) (username, password string, ok bool) {
 	const prefix = "Basic "
 	// Case insensitive prefix match. See Issue 22736.
 	if len(auth) < len(prefix) || !ascii.EqualFold(auth[:len(prefix)], prefix) {
-		return
+		return "", "", false
 	}
 	c, err := base64.StdEncoding.DecodeString(auth[len(prefix):])
 	if err != nil {
-		return
+		return "", "", false
 	}
 	cs := string(c)
-	s := strings.IndexByte(cs, ':')
-	if s < 0 {
-		return
+	username, password, ok = strings.Cut(cs, ":")
+	if !ok {
+		return "", "", false
 	}
-	return cs[:s], cs[s+1:], true
+	return username, password, true
 }
 
 // SetBasicAuth sets the request's Authorization header to use HTTP
@@ -979,13 +976,12 @@ func (r *Request) SetBasicAuth(username, password string) {
 
 // parseRequestLine parses "GET /foo HTTP/1.1" into its three parts.
 func parseRequestLine(line string) (method, requestURI, proto string, ok bool) {
-	s1 := strings.Index(line, " ")
-	s2 := strings.Index(line[s1+1:], " ")
-	if s1 < 0 || s2 < 0 {
-		return
+	method, rest, ok := strings.Cut(line, " ")
+	requestURI, proto, ok = strings.Cut(rest, " ")
+	if !ok {
+		return "", "", "", false
 	}
-	s2 += s1 + 1
-	return line[:s1], line[s1+1 : s2], line[s2+1:], true
+	return method, requestURI, proto, true
 }
 
 var textprotoReaderPool sync.Pool
