@@ -97,14 +97,16 @@ func compileAndDump(t *testing.T, file, function, moreGCFlags string) []byte {
 
 	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "foo.o", "-gcflags=-d=ssa/genssa/dump="+function+" "+moreGCFlags, source)
 	cmd.Dir = tmpdir
-	cmd.Env = replaceEnv(cmd.Env, "GOSSADIR", tmpdir)
-	cmd.Env = replaceEnv(cmd.Env, "HOME", os.Getenv("HOME")) // workaround for #43938
-	testGoos := "linux"                                      // default to linux
+	testGoos := "linux" // default to linux
 	if testGoArch() == "wasm" {
 		testGoos = "js"
 	}
-	cmd.Env = replaceEnv(cmd.Env, "GOOS", testGoos)
-	cmd.Env = replaceEnv(cmd.Env, "GOARCH", testGoArch())
+	cmd.Env = []string{
+		"GOSSADIR=" + tmpdir,
+		"HOME=" + os.Getenv("HOME"), // workaround for #43938
+		"GOOS=" + testGoos,
+		"GOARCH=" + testGoArch(),
+	}
 
 	if testing.Verbose() {
 		fmt.Printf("About to run %s\n", asCommandLine("", cmd))

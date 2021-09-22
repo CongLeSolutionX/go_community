@@ -506,7 +506,7 @@ type delveState struct {
 
 func newDelve(tag, executable string, args ...string) dbgr {
 	cmd := exec.Command("dlv", "exec", executable)
-	cmd.Env = replaceEnv(cmd.Env, "TERM", "dumb")
+	cmd.Env = []string{"TERM=dumb"}
 	if len(args) > 0 {
 		cmd.Args = append(cmd.Args, "--")
 		cmd.Args = append(cmd.Args, args...)
@@ -594,7 +594,7 @@ func newGdb(tag, executable string, args ...string) dbgr {
 	cmd := exec.Command(gdb, "-nx",
 		"-iex", fmt.Sprintf("add-auto-load-safe-path %s/src/runtime", runtime.GOROOT()),
 		"-ex", "set startup-with-shell off", executable)
-	cmd.Env = replaceEnv(cmd.Env, "TERM", "dumb")
+	cmd.Env = []string{"TERM=dumb"}
 	s := &gdbState{tagg: tag, cmd: cmd, args: args}
 	s.atLineRe = regexp.MustCompile("(^|\n)([0-9]+)(.*)")
 	s.funcFileLinePCre = regexp.MustCompile(
@@ -947,23 +947,6 @@ func (s *ioState) readSimpleExpecting(expectedRE string) tstring {
 		fmt.Printf("<= %s%s", s.last.o, s.last.e)
 	}
 	return s.last
-}
-
-// replaceEnv returns a new environment derived from env
-// by removing any existing definition of ev and adding ev=evv.
-func replaceEnv(env []string, ev string, evv string) []string {
-	evplus := ev + "="
-	var found bool
-	for i, v := range env {
-		if strings.HasPrefix(v, evplus) {
-			found = true
-			env[i] = evplus + evv
-		}
-	}
-	if !found {
-		env = append(env, evplus+evv)
-	}
-	return env
 }
 
 // asCommandLine renders cmd as something that could be copy-and-pasted into a command line
