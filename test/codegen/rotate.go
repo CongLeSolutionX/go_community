@@ -228,7 +228,7 @@ func checkMaskedRotate32(a []uint32, r int) {
 }
 
 // combined arithmetic and rotate on arm64
-func checkArithmeticWithRotate(a *[1000]uint64) {
+func checkArithmeticWithRotate(a *[1000]uint64, b *[1000]uint32) {
 	// arm64: "AND\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
 	a[2] = a[1] & bits.RotateLeft64(a[0], 13)
 	// arm64: "ORR\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
@@ -248,4 +248,22 @@ func checkArithmeticWithRotate(a *[1000]uint64) {
 		a[20] = 1
 	}
 
+	// arm64: "ANDW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	b[2] = b[1] & bits.RotateLeft32(b[0], 13)
+	// arm64: "ORRW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	b[5] = b[4] | bits.RotateLeft32(b[3], 13)
+	// arm64: "EORW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	b[8] = b[7] ^ bits.RotateLeft32(b[6], 13)
+	// arm64: "MVNW\tR[0-9]+@>19, R[0-9]+"
+	b[10] = ^bits.RotateLeft32(b[9], 13)
+	// arm64: "BICW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	b[13] = b[12] &^ bits.RotateLeft32(b[11], 13)
+	// arm64: "EONW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	b[16] = b[15] ^ ^bits.RotateLeft32(b[14], 13)
+	// arm64: "ORNW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	b[19] = b[18] | ^bits.RotateLeft32(b[17], 13)
+	// arm64: "TSTW\tR[0-9]+@>19, R[0-9]+"
+	if b[18]&bits.RotateLeft32(b[19], 13) == 0 {
+		b[20] = 1
+	}
 }

@@ -318,7 +318,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.SHIFT_LR, v.AuxInt)
 	case ssa.OpARM64MVNshiftRA, ssa.OpARM64NEGshiftRA:
 		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.SHIFT_AR, v.AuxInt)
-	case ssa.OpARM64MVNshiftRO:
+	case ssa.OpARM64MVNshiftRO,
+		ssa.OpARM64MVNWshiftRO:
 		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.SHIFT_ROR, v.AuxInt)
 	case ssa.OpARM64ADDshiftLL,
 		ssa.OpARM64SUBshiftLL,
@@ -352,7 +353,13 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssa.OpARM64XORshiftRO,
 		ssa.OpARM64EONshiftRO,
 		ssa.OpARM64ORNshiftRO,
-		ssa.OpARM64BICshiftRO:
+		ssa.OpARM64BICshiftRO,
+		ssa.OpARM64ANDWshiftRO,
+		ssa.OpARM64ORWshiftRO,
+		ssa.OpARM64XORWshiftRO,
+		ssa.OpARM64EONWshiftRO,
+		ssa.OpARM64ORNWshiftRO,
+		ssa.OpARM64BICWshiftRO:
 		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.SHIFT_ROR, v.AuxInt)
 	case ssa.OpARM64MOVDconst:
 		p := s.Prog(v.Op.Asm())
@@ -401,7 +408,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.SHIFT_LR, v.AuxInt)
 	case ssa.OpARM64CMPshiftRA, ssa.OpARM64CMNshiftRA, ssa.OpARM64TSTshiftRA:
 		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.SHIFT_AR, v.AuxInt)
-	case ssa.OpARM64TSTshiftRO:
+	case ssa.OpARM64TSTshiftRO,
+		ssa.OpARM64TSTWshiftRO:
 		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.SHIFT_ROR, v.AuxInt)
 	case ssa.OpARM64MOVDaddr:
 		p := s.Prog(arm64.AMOVD)
