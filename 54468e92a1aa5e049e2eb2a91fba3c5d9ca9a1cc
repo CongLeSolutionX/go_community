@@ -115,6 +115,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "943e12c3_418c0080",
+        "filename": "src/cmd/go/internal/test/internal/genflags/vetflag.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 44008
+      },
+      "writtenOn": "2021-09-22T00:46:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86d8027a_015abd97",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "54468e92a1aa5e049e2eb2a91fba3c5d9ca9a1cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7cf7a22_a721f02a",
@@ -128,6 +152,24 @@
       "writtenOn": "2021-09-21T19:14:01Z",
       "side": 1,
       "message": "I noticed that the order of a bunch of stuff changed in the generated file in the most recent patch set — Go map iteration order is nondeterministic, so we should probably sort this slice before returning it.",
+      "revId": "54468e92a1aa5e049e2eb2a91fba3c5d9ca9a1cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "856b6477_73680681",
+        "filename": "src/cmd/go/internal/test/internal/genflags/vetflag.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 44008
+      },
+      "writtenOn": "2021-09-22T00:46:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7cf7a22_a721f02a",
       "revId": "54468e92a1aa5e049e2eb2a91fba3c5d9ca9a1cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
