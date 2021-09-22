@@ -1572,6 +1572,10 @@ func rotateLeft32(v, rotate int64) int64 {
 	return int64(bits.RotateLeft32(uint32(v), int(rotate)))
 }
 
+func rotateRight32(v, rotate int64) int64 {
+	return int64(bits.RotateLeft32(uint32(v), int(-rotate)))
+}
+
 func rotateRight64(v, rotate int64) int64 {
 	return int64(bits.RotateLeft64(uint64(v), int(-rotate)))
 }

@@ -249,3 +249,24 @@ func checkArithmeticWithRotate(a *[1000]uint64) {
 	}
 
 }
+
+func checkArithmeticWithRotate32(a *[1000]uint32) {
+	// arm64: "ANDW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	a[2] = a[1] & bits.RotateLeft32(a[0], 13)
+	// arm64: "ORRW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	a[5] = a[4] | bits.RotateLeft32(a[3], 13)
+	// arm64: "EORW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	a[8] = a[7] ^ bits.RotateLeft32(a[6], 13)
+	// arm64: "MVNW\tR[0-9]+@>19, R[0-9]+"
+	a[10] = ^bits.RotateLeft32(a[9], 13)
+	// arm64: "BICW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	a[13] = a[12] &^ bits.RotateLeft32(a[11], 13)
+	// arm64: "EONW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	a[16] = a[15] ^ ^bits.RotateLeft32(a[14], 13)
+	// arm64: "ORNW\tR[0-9]+@>19, R[0-9]+, R[0-9]+"
+	a[19] = a[18] | ^bits.RotateLeft32(a[17], 13)
+	// arm64: "TSTW\tR[0-9]+@>19, R[0-9]+"
+	if a[18]&bits.RotateLeft32(a[19], 13) == 0 {
+		a[20] = 1
+	}
+}
