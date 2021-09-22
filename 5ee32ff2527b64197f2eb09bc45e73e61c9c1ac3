@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a074663_ddd70934",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2021-09-22T17:53:48Z",
+      "side": 1,
+      "message": "This still fails TestDebugLines on plan9 - see https://build.golang.org/log/bd22515071e88c0a372ab416171cc991ad8ee002 \n\nThe error message is \"build cache is required, but could not be located: GOCACHE is not defined and $home is not defined\", but if you look at the Running message at the top of the log, GOCACHE and home are both in env. Is something clearing the environment instead of adding to it?",
+      "revId": "5ee32ff2527b64197f2eb09bc45e73e61c9c1ac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
