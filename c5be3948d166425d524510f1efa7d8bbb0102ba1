@@ -160,6 +160,24 @@
       "parentUuid": "1d471743_abaa4992",
       "revId": "c5be3948d166425d524510f1efa7d8bbb0102ba1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "001bc65b_5ca63581",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-22T00:44:06Z",
+      "side": 1,
+      "message": "I understand that runtime.stealOrder is not exported, but this package already reaches into the runtime package using //go:linkname.  We can do that for stealOrder as well.\n\nI agree that Reset will only happen if there is a new P, but my point is that it will happen for every sync.Pool in the program.",
+      "parentUuid": "b514f3d8_8905f27e",
+      "revId": "c5be3948d166425d524510f1efa7d8bbb0102ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
