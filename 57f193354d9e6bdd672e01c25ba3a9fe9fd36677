@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bf569f3_4c618f00",
+        "filename": "src/constraints/constraints_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-22T02:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e3906dd_416d78fa",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 4
+      },
+      "revId": "57f193354d9e6bdd672e01c25ba3a9fe9fd36677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b279064_3152a96c",
@@ -91,6 +115,30 @@
       "writtenOn": "2021-09-22T00:34:20Z",
       "side": 1,
       "message": "the field names are not used as far as I can tell - change them to _ ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 4
+      },
+      "revId": "57f193354d9e6bdd672e01c25ba3a9fe9fd36677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "432988fe_60816140",
+        "filename": "src/constraints/constraints_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-22T02:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b279064_3152a96c",
       "range": {
         "startLine": 29,
         "startChar": 1,
@@ -124,6 +172,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e38a4919_2f95e374",
+        "filename": "src/constraints/constraints_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-22T02:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "282f54d7_e5396dfd",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 4
+      },
+      "revId": "57f193354d9e6bdd672e01c25ba3a9fe9fd36677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab0caff1_19898808",
@@ -137,6 +209,30 @@
       "writtenOn": "2021-09-22T00:34:20Z",
       "side": 1,
       "message": "This test could use a little comment explaining what it does. It took me a while to reverse engineer. Maybe just a short paragraph before the for loop?",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 97,
+        "endChar": 4
+      },
+      "revId": "57f193354d9e6bdd672e01c25ba3a9fe9fd36677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bafa9ba_10556b46",
+        "filename": "src/constraints/constraints_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-09-22T02:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab0caff1_19898808",
       "range": {
         "startLine": 97,
         "startChar": 1,
