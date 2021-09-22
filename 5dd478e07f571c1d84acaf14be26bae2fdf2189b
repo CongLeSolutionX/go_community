@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e0393d8_08fe8bce",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-22T00:44:31Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s necessary, and don\u0027t see it as a common pattern. We also don\u0027t have one for types.Error.\n\nLet\u0027s not for now; I suppose we can always add one later.",
+      "parentUuid": "802a0342_5573ba97",
+      "range": {
+        "startLine": 66,
+        "startChar": 5,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "5dd478e07f571c1d84acaf14be26bae2fdf2189b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55ddcd24_10249f02",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-09-22T00:36:35Z",
       "side": 1,
       "message": "Any specific reason why we shouldn\u0027t embed error as before?",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 7
+      },
+      "revId": "5dd478e07f571c1d84acaf14be26bae2fdf2189b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e284b59_29a6919f",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-22T00:44:31Z",
+      "side": 1,
+      "message": "Yes: we don\u0027t want the non-pointer receiver to implement Error.",
+      "parentUuid": "55ddcd24_10249f02",
       "range": {
         "startLine": 68,
         "startChar": 4,
