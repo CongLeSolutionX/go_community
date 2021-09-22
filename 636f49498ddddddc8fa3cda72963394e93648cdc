@@ -115,6 +115,30 @@
       },
       "revId": "636f49498ddddddc8fa3cda72963394e93648cdc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "313cb23d_fb020348",
+        "filename": "src/cmd/compile/internal/ssa/debug_lines_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-22T15:57:25Z",
+      "side": 1,
+      "message": "I\u0027ve sent CL 351529 to remove the workarounds from these tests. (It\u0027s running SlowBots now, but will hopefully show that the problem is resolved.)",
+      "parentUuid": "3e25b1cd_f42f02c7",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 1
+      },
+      "revId": "636f49498ddddddc8fa3cda72963394e93648cdc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
