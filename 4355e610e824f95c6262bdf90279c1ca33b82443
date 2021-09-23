@@ -180,6 +180,24 @@
       "parentUuid": "08072dcb_882fe656",
       "revId": "4355e610e824f95c6262bdf90279c1ca33b82443",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c5fee1c_4fb1c41a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-09-23T16:14:02Z",
+      "side": 1,
+      "message": "Oh, this is different from https://golang.org/issue/46134 because inlining here is not instrumental to avoiding the allocation, plain simple escape analysis is! So yep, this is great.",
+      "parentUuid": "4d966569_30ab0723",
+      "revId": "4355e610e824f95c6262bdf90279c1ca33b82443",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
