@@ -858,8 +858,8 @@ const (
 // Keep in sync with linker (../cmd/link/internal/ld/pcln.go:/pclntab)
 // and with package debug/gosym and with symtab.go in package runtime.
 type _func struct {
-	entryPC uintptr // start pc
-	nameoff int32   // function name
+	entryoff uintptr // start pc, as offset from runtime.text
+	nameoff  int32   // function name
 
 	args        int32  // in/out args size
 	deferreturn uint32 // offset of start of a deferreturn call instruction from entry, if any.

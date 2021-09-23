@@ -387,12 +387,13 @@ const (
 
 // pcHeader holds data used by the pclntab lookups.
 type pcHeader struct {
-	magic          uint32  // 0xFFFFFFFA
+	magic          uint32  // 0xFFFFFFF0
 	pad1, pad2     uint8   // 0,0
 	minLC          uint8   // min instruction size
 	ptrSize        uint8   // size of a ptr in bytes
 	nfunc          int     // number of functions in the module
 	nfiles         uint    // number of entries in the file tab
+	runtimeText    uintptr // address of runtime.text in this module
 	funcnameOffset uintptr // offset to the funcnametab variable from pcHeader
 	cuOffset       uintptr // offset to the cutab variable from pcHeader
 	filetabOffset  uintptr // offset to the filetab variable from pcHeader
@@ -586,10 +587,11 @@ const debugPcln = false
 func moduledataverify1(datap *moduledata) {
 	// Check that the pclntab's format is valid.
 	hdr := datap.pcHeader
-	if hdr.magic != 0xfffffffa || hdr.pad1 != 0 || hdr.pad2 != 0 ||
-		hdr.minLC != sys.PCQuantum || hdr.ptrSize != goarch.PtrSize {
+	if hdr.magic != 0xfffffff0 || hdr.pad1 != 0 || hdr.pad2 != 0 ||
+		hdr.minLC != sys.PCQuantum || hdr.ptrSize != goarch.PtrSize || hdr.runtimeText != datap.text {
 		println("runtime: pcHeader: magic=", hex(hdr.magic), "pad1=", hdr.pad1, "pad2=", hdr.pad2,
-			"minLC=", hdr.minLC, "ptrSize=", hdr.ptrSize, "pluginpath=", datap.pluginpath)
+			"minLC=", hdr.minLC, "ptrSize=", hdr.ptrSize, "pcHeader.runtimeText=", hex(hdr.runtimeText),
+			"text=", hex(datap.text), "pluginpath=", datap.pluginpath)
 		throw("invalid function symbol table")
 	}
 
@@ -734,12 +736,12 @@ func (f funcInfo) _Func() *Func {
 
 // isInlined reports whether f should be re-interpreted as a *funcinl.
 func (f *_func) isInlined() bool {
-	return f.entryPC == ^uintptr(0) // see comment for funcinl.ones
+	return f.entryoff == ^uintptr(0) // see comment for funcinl.ones
 }
 
 // entry returns the entry PC for f.
 func (f funcInfo) entry() uintptr {
-	return f.entryPC
+	return f.datap.text + f.entryoff
 }
 
 // findfunc looks up function metadata for a PC.
