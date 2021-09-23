@@ -53,6 +53,24 @@
       "message": "Most bytes functions return fresh slices. If this is the exception (probably it should be), that needs to be in the doc string.",
       "revId": "e1a50d3a706980e26dba95ebdf225686d0a70a86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e6ed513_ace9a64a",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-09-23T04:20:42Z",
+      "side": 1,
+      "message": "Thanks. Done. \nIt does match Split and SplitN so it\u0027s not too exceptional.",
+      "parentUuid": "a8c39c50_f1152880",
+      "revId": "e1a50d3a706980e26dba95ebdf225686d0a70a86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
