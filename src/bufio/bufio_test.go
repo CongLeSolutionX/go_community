@@ -304,6 +304,23 @@ func TestNoUnreadByteAfterPeek(t *testing.T) {
 	}
 }
 
+func TestUnreadByteAfterDiscard(t *testing.T) {
+	br := NewReader(strings.NewReader("example"))
+	br.ReadByte()
+	br.Discard(1)
+	if err := br.UnreadByte(); err == nil {
+		t.Error("UnreadByte didn't fail after Discard")
+	}
+}
+
+func TestUnreadByteAfterWriteTo(t *testing.T) {
+	br := NewReader(strings.NewReader("example"))
+	br.WriteTo(io.Discard)
+	if err := br.UnreadByte(); err == nil {
+		t.Error("UnreadByte didn't fail after WriteTo")
+	}
+}
+
 func TestUnreadByte(t *testing.T) {
 	segments := []string{"Hello, ", "world"}
 	r := NewReader(&StringReader{data: segments})
