@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "add06d13_1b32b4b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-23T19:50:25Z",
+      "side": 1,
+      "message": "That\u0027s a good CL anyway. Happy to review it! 😁",
+      "parentUuid": "b2435132_d08e67cd",
+      "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbfccd3a_a116f865",
@@ -86,6 +104,30 @@
       "writtenOn": "2021-09-23T16:24:26Z",
       "side": 1,
       "message": "and Discard",
+      "range": {
+        "startLine": 273,
+        "startChar": 49,
+        "endLine": 273,
+        "endChar": 50
+      },
+      "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9d1ac8_51c8e571",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-23T19:50:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbfccd3a_a116f865",
       "range": {
         "startLine": 273,
         "startChar": 49,
@@ -121,6 +163,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "43dc0430_8c9ebcb4",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-23T19:50:25Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "28c7d399_58b3887c",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 2
+      },
+      "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "97620e5f_ccdf95a5",
         "filename": "src/bufio/bufio_test.go",
         "patchSetId": 1
@@ -132,6 +198,30 @@
       "writtenOn": "2021-09-23T16:24:26Z",
       "side": 1,
       "message": "If we expect this to be invalid, perhaps we should verify it as such.\n\nSimilarly for TestUnreadByteAfterWriteTo",
+      "range": {
+        "startLine": 332,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 15
+      },
+      "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1234557_96f149ba",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-23T19:50:25Z",
+      "side": 1,
+      "message": "Done.\n\n(I was really just copying the tests from the issue, but I should harmonize them better.)",
+      "parentUuid": "97620e5f_ccdf95a5",
       "range": {
         "startLine": 332,
         "startChar": 0,
