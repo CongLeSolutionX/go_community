@@ -1303,16 +1303,7 @@ func (w *writer) expr(expr syntax.Expr) {
 				}
 			}
 
-			if inf, ok := w.p.info.Inferred[expr]; ok {
-				obj, _ := lookupObj(w.p.info, expr.Fun)
-				assert(obj != nil)
-
-				// As if w.expr(expr.Fun), but using inf.TArgs instead.
-				w.code(exprName)
-				w.obj(obj, inf.TArgs)
-			} else {
-				w.expr(expr.Fun)
-			}
+			w.expr(expr.Fun)
 			w.bool(false) // not a method call (i.e., normal function call)
 		}
 
@@ -1760,27 +1751,13 @@ func isGlobal(obj types2.Object) bool {
 // arguments are returned as well.
 func lookupObj(info *types2.Info, expr syntax.Expr) (obj types2.Object, targs *types2.TypeList) {
 	if index, ok := expr.(*syntax.IndexExpr); ok {
-		if inf, ok := info.Inferred[index]; ok {
-			targs = inf.TArgs
-		} else {
-			args := unpackListExpr(index.Index)
-
-			if len(args) == 1 {
-				tv, ok := info.Types[args[0]]
-				assert(ok)
-				if tv.IsValue() {
-					return // normal index expression
-				}
+		args := unpackListExpr(index.Index)
+		if len(args) == 1 {
+			tv, ok := info.Types[args[0]]
+			assert(ok)
+			if tv.IsValue() {
+				return // normal index expression
 			}
-
-			list := make([]types2.Type, len(args))
-			for i, arg := range args {
-				tv, ok := info.Types[arg]
-				assert(ok)
-				assert(tv.IsType())
-				list[i] = tv.Type
-			}
-			targs = types2.NewTypeList(list)
 		}
 
 		expr = index.X
@@ -1795,7 +1772,8 @@ func lookupObj(info *types2.Info, expr syntax.Expr) (obj types2.Object, targs *t
 	}
 
 	if name, ok := expr.(*syntax.Name); ok {
-		obj, _ = info.Uses[name]
+		obj = info.Uses[name]
+		targs = info.Instances[name].TypeArgs
 	}
 	return
 }
