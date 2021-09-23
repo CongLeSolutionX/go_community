@@ -224,8 +224,10 @@ func makeInlSyms(ctxt *Link, funcs []loader.Sym, nameOffsets map[loader.Sym]uint
 // generatePCHeader creates the runtime.pcheader symbol, setting it up as a
 // generator to fill in its data later.
 func (state *pclntab) generatePCHeader(ctxt *Link) {
+	ldr := ctxt.loader
+	runtimeTextOff := int64(8 + 2*ctxt.Arch.PtrSize)
+	size := int64(8 + 8*ctxt.Arch.PtrSize)
 	writeHeader := func(ctxt *Link, s loader.Sym) {
-		ldr := ctxt.loader
 		header := ctxt.loader.MakeSymbolUpdater(s)
 
 		writeSymOffset := func(off int64, ws loader.Sym) int64 {
@@ -238,21 +240,30 @@ func (state *pclntab) generatePCHeader(ctxt *Link) {
 		}
 
 		// Write header.
-		// Keep in sync with runtime/symtab.go:pcHeader.
-		header.SetUint32(ctxt.Arch, 0, 0xfffffffa)
+		// Keep in sync with runtime/symtab.go:pcHeader and package debug/gosym.
+		header.SetUint32(ctxt.Arch, 0, 0xfffffff0)
 		header.SetUint8(ctxt.Arch, 6, uint8(ctxt.Arch.MinLC))
 		header.SetUint8(ctxt.Arch, 7, uint8(ctxt.Arch.PtrSize))
 		off := header.SetUint(ctxt.Arch, 8, uint64(state.nfunc))
 		off = header.SetUint(ctxt.Arch, off, uint64(state.nfiles))
+		if off != runtimeTextOff {
+			panic(fmt.Sprintf("pcHeader runtimeTextOff: %d != %d", off, runtimeTextOff))
+		}
+		off += int64(ctxt.Arch.PtrSize) // skip runtimeText relocation
 		off = writeSymOffset(off, state.funcnametab)
 		off = writeSymOffset(off, state.cutab)
 		off = writeSymOffset(off, state.filetab)
 		off = writeSymOffset(off, state.pctab)
 		off = writeSymOffset(off, state.pclntab)
+		if off != size {
+			panic(fmt.Sprintf("pcHeader size: %d != %d", off, size))
+		}
 	}
 
-	size := int64(8 + 7*ctxt.Arch.PtrSize)
 	state.pcheader = state.addGeneratedSym(ctxt, "runtime.pcheader", size, writeHeader)
+	// Create the runtimeText relocation.
+	sb := ldr.MakeSymbolUpdater(state.pcheader)
+	sb.SetAddr(ctxt.Arch, runtimeTextOff, ldr.Lookup("runtime.text", 0))
 }
 
 // walkFuncs iterates over the funcs, calling a function for each unique
@@ -523,9 +534,8 @@ type pclnSetUint func(*loader.SymbolBuilder, *sys.Arch, int64, uint64) int64
 // The first pass is executed early in the link, and it creates any needed
 // relocations to lay out the data. The pieces that need relocations are:
 //   1) the PC->func table.
-//   2) The entry points in the func objects.
-//   3) The funcdata.
-// (1) and (2) are handled in writePCToFunc. (3) is handled in writeFuncdata.
+//   2) The funcdata.
+// (1) is handled in writePCToFunc. (3) is handled in writeFuncdata.
 //
 // After relocations, once we know where to write things in the output buffer,
 // we execute the second pass, which is actually writing the data.
@@ -688,9 +698,6 @@ func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, sta
 		setAddr(sb, ctxt.Arch, int64(funcIndex*2*ctxt.Arch.PtrSize), s, 0)
 		setUint(sb, ctxt.Arch, int64((funcIndex*2+1)*ctxt.Arch.PtrSize), uint64(startLocations[i]))
 		funcIndex++
-
-		// Write the entry location.
-		setAddr(sb, ctxt.Arch, int64(startLocations[i]), s, 0)
 	}
 
 	// Final entry of table is just end pc.
@@ -741,6 +748,7 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 	ldr := ctxt.loader
 	deferReturnSym := ldr.Lookup("runtime.deferreturn", abiInternalVer)
 	funcdata, funcdataoff := []loader.Sym{}, []int64{}
+	textBase := ldr.SymValue(ldr.Lookup("runtime.text", 0))
 
 	// Write the individual func objects.
 	for i, s := range funcs {
@@ -749,10 +757,13 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 			fi.Preload()
 		}
 
-		// Note we skip the space for the entry value -- that's handled in
-		// writePCToFunc. We don't write it here, because it might require a
-		// relocation.
-		off := startLocations[i] + uint32(ctxt.Arch.PtrSize) // entry
+		off := startLocations[i]
+		// entry uintptr (offset of func entry PC from textBase)
+		entryOff := ldr.SymValue(s) - textBase
+		if entryOff < 0 {
+			panic(fmt.Sprintf("expected func %s(%x) to be placed before or at textBase (%x)", ldr.SymName(s), ldr.SymValue(s), textBase))
+		}
+		off = uint32(sb.SetUintptr(ctxt.Arch, int64(off), uintptr(entryOff)))
 
 		// name int32
 		nameoff, ok := nameOffsets[s]

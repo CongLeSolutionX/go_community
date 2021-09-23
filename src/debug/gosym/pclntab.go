@@ -22,6 +22,7 @@ const (
 	ver11
 	ver12
 	ver116
+	ver118
 )
 
 // A LineTable is a data structure mapping program counters to line numbers.
@@ -48,10 +49,11 @@ type LineTable struct {
 	// Contains the version of the pclntab section.
 	version version
 
-	// Go 1.2/1.16 state
+	// Go 1.2/1.16/1.18 state
 	binary      binary.ByteOrder
 	quantum     uint32
 	ptrsize     uint32
+	runtimeText uintptr // address of runtime.text symbol (1.18+)
 	funcnametab []byte
 	cutab       []byte
 	funcdata    []byte
@@ -166,8 +168,11 @@ func (t *LineTable) isGo12() bool {
 	return t.version >= ver12
 }
 
-const go12magic = 0xfffffffb
-const go116magic = 0xfffffffa
+const (
+	go12magic  = 0xfffffffb
+	go116magic = 0xfffffffa
+	go118magic = 0xfffffff0
+)
 
 // uintptr returns the pointer-sized value encoded at b.
 // The pointer size is dictated by the table being read.
@@ -217,11 +222,15 @@ func (t *LineTable) parsePclnTab() {
 		t.binary, possibleVersion = binary.LittleEndian, ver116
 	case beMagic == go116magic:
 		t.binary, possibleVersion = binary.BigEndian, ver116
+	case leMagic == go118magic:
+		t.binary, possibleVersion = binary.LittleEndian, ver118
+	case beMagic == go118magic:
+		t.binary, possibleVersion = binary.BigEndian, ver118
 	default:
 		return
 	}
 
-	// quantum and ptrSize are the same between 1.2 and 1.16
+	// quantum and ptrSize are the same between 1.2, 1.16, and 1.18
 	t.quantum = uint32(t.Data[6])
 	t.ptrsize = uint32(t.Data[7])
 
@@ -236,6 +245,18 @@ func (t *LineTable) parsePclnTab() {
 	}
 
 	switch possibleVersion {
+	case ver118:
+		t.nfunctab = uint32(offset(0))
+		t.nfiletab = uint32(offset(1))
+		t.runtimeText = uintptr(offset(2))
+		t.funcnametab = data(3)
+		t.cutab = data(4)
+		t.filetab = data(5)
+		t.pctab = data(6)
+		t.funcdata = data(7)
+		t.functab = data(7)
+		functabsize := t.nfunctab*2*t.ptrsize + t.ptrsize
+		t.functab = t.functab[:functabsize]
 	case ver116:
 		t.nfunctab = uint32(offset(0))
 		t.nfiletab = uint32(offset(1))
@@ -453,7 +474,7 @@ func (t *LineTable) go12PCToLine(pc uint64) (line int) {
 	if f == nil {
 		return -1
 	}
-	entry := t.uintptr(f)
+	entry := t.uintptr(f) + uint64(t.runtimeText)
 	linetab := t.binary.Uint32(f[t.ptrsize+5*4:])
 	return int(t.pcvalue(linetab, entry, pc))
 }
@@ -470,7 +491,7 @@ func (t *LineTable) go12PCToFile(pc uint64) (file string) {
 	if f == nil {
 		return ""
 	}
-	entry := t.uintptr(f)
+	entry := t.uintptr(f) + uint64(t.runtimeText)
 	filetab := t.binary.Uint32(f[t.ptrsize+4*4:])
 	fno := t.pcvalue(filetab, entry, pc)
 	if t.version == ver12 {
@@ -510,7 +531,7 @@ func (t *LineTable) go12LineToPC(file string, line int) (pc uint64) {
 	var cutab []byte
 	for i := uint32(0); i < t.nfunctab; i++ {
 		f := t.funcdata[t.uintptr(t.functab[2*t.ptrsize*i+t.ptrsize:]):]
-		entry := t.uintptr(f)
+		entry := t.uintptr(f) + uint64(t.runtimeText)
 		filetab := t.binary.Uint32(f[t.ptrsize+4*4:])
 		linetab := t.binary.Uint32(f[t.ptrsize+5*4:])
 		if t.version == ver116 {

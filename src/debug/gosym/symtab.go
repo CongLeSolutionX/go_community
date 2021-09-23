@@ -442,7 +442,7 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 			fn.Params = make([]*Sym, 0, np)
 			fn.Locals = make([]*Sym, 0, na)
 			fn.Sym = sym
-			fn.Entry = sym.Value
+			fn.Entry = sym.Value + uint64(pcln.runtimeText)
 			fn.Obj = obj
 			if t.go12line != nil {
 				// All functions share the same line table.
