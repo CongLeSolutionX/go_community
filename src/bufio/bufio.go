@@ -173,6 +173,10 @@ func (b *Reader) Discard(n int) (discarded int, err error) {
 	if n == 0 {
 		return
 	}
+
+	b.lastByte = -1
+	b.lastRuneSize = -1
+
 	remain := n
 	for {
 		skip := b.Buffered()
@@ -502,6 +506,9 @@ func (b *Reader) ReadString(delim byte) (string, error) {
 // If the underlying reader supports the WriteTo method,
 // this calls the underlying WriteTo without buffering.
 func (b *Reader) WriteTo(w io.Writer) (n int64, err error) {
+	b.lastByte = -1
+	b.lastRuneSize = -1
+
 	n, err = b.writeBuf(w)
 	if err != nil {
 		return

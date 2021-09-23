@@ -304,6 +304,80 @@ func TestNoUnreadByteAfterPeek(t *testing.T) {
 	}
 }
 
+func TestUnreadByteAfterDiscard(t *testing.T) {
+	check := func(err error) {
+		if err != nil {
+			t.Helper()
+			t.Fatal(err)
+		}
+	}
+
+	const in = "abc\n"
+	t.Logf("reading %q", in)
+
+	b := NewReader(strings.NewReader(in))
+
+	c, err := b.ReadByte()
+	check(err)
+	t.Logf("read byte %q", c)
+
+	n, err := b.Discard(1)
+	check(err)
+	t.Logf("discarded %v byte(s)", n)
+
+	err = b.UnreadByte()
+	t.Logf("UnreadByte: %v", err)
+	var want string
+	if err == nil {
+		want = in[1:]
+	} else {
+		want = in[2:]
+	}
+
+	s, err := b.ReadString('\n')
+	check(err)
+	if s != want {
+		t.Fatalf("buffer corrupted: read %q, expected %q", s, want)
+	}
+}
+
+func TestUnreadByteAfterWriteTo(t *testing.T) {
+	check := func(err error) {
+		if err != nil {
+			t.Helper()
+			t.Fatal(err)
+		}
+	}
+
+	const in = "abcdef"
+	buf := bytes.NewBuffer(nil)
+	out := bytes.NewBuffer(nil)
+	want := new(strings.Builder)
+
+	b := NewReader(buf)
+	buf.WriteString(in[:3])
+	want.WriteString(in[:3])
+
+	c, err := b.ReadByte()
+	check(err)
+	out.Write([]byte{c})
+	_, err = b.WriteTo(out)
+	check(err)
+
+	if err := b.UnreadByte(); err == nil {
+		want.WriteString(in[2:3])
+	}
+
+	buf.WriteString(in[3:])
+	want.WriteString(in[3:])
+	_, err = b.WriteTo(out)
+	check(err)
+
+	if out.String() != want.String() {
+		t.Fatalf("copied %q, but input was %q", out, want)
+	}
+}
+
 func TestUnreadByte(t *testing.T) {
 	segments := []string{"Hello, ", "world"}
 	r := NewReader(&StringReader{data: segments})
