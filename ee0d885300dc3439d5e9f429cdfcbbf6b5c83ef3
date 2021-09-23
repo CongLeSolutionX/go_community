@@ -16,6 +16,24 @@
       "message": "Isn\u0027t there a problem with a leading drive letter?\n",
       "revId": "ee0d885300dc3439d5e9f429cdfcbbf6b5c83ef3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93663731_043a72be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-23T18:01:39Z",
+      "side": 1,
+      "message": "There was in PS6. There no longer is in PS7, because I removed the leading `/`. (It now matches the `.*` part of the regexp.)\n\nOn Unix the leading thing could be `/`. On Windows it could be either `\\\\` or `[a-zA-Z]:\\` — is it important to the test that the path be absolute?",
+      "parentUuid": "eb0d4731_5c0c7dc1",
+      "revId": "ee0d885300dc3439d5e9f429cdfcbbf6b5c83ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
