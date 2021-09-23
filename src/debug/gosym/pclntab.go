@@ -279,13 +279,13 @@ func (t *LineTable) go12Funcs() []Func {
 		f := &funcs[i]
 		f.Entry = t.uintptr(t.functab[2*i*int(t.ptrsize):])
 		f.End = t.uintptr(t.functab[(2*i+2)*int(t.ptrsize):])
-		info := t.funcdata[t.uintptr(t.functab[(2*i+1)*int(t.ptrsize):]):]
+		info := t.funcData(uint32(i))
 		f.LineTable = t
-		f.FrameSize = int(t.binary.Uint32(info[t.ptrsize+2*4:]))
+		f.FrameSize = int(info.field(3))
 		f.Sym = &Sym{
 			Value:  f.Entry,
 			Type:   'T',
-			Name:   t.funcName(t.binary.Uint32(info[t.ptrsize:])),
+			Name:   t.funcName(info.field(1)),
 			GoType: 0,
 			Func:   f,
 		}
@@ -293,8 +293,8 @@ func (t *LineTable) go12Funcs() []Func {
 	return funcs
 }
 
-// findFunc returns the func corresponding to the given program counter.
-func (t *LineTable) findFunc(pc uint64) []byte {
+// findFunc returns the funcData corresponding to the given program counter.
+func (t *LineTable) findFunc(pc uint64) *funcData {
 	if pc < t.uintptr(t.functab) || pc >= t.uintptr(t.functab[len(t.functab)-int(t.ptrsize):]) {
 		return nil
 	}
@@ -307,7 +307,8 @@ func (t *LineTable) findFunc(pc uint64) []byte {
 		m := nf / 2
 		fm := f[2*t.ptrsize*m:]
 		if t.uintptr(fm) <= pc && pc < t.uintptr(fm[2*t.ptrsize:]) {
-			return t.funcdata[t.uintptr(fm[t.ptrsize:]):]
+			data := t.funcdata[t.uintptr(fm[t.ptrsize:]):]
+			return &funcData{t: t, data: data}
 		} else if pc < t.uintptr(fm) {
 			nf = m
 		} else {
@@ -359,6 +360,35 @@ func (t *LineTable) stringFrom(arr []byte, off uint32) string {
 // string returns a Go string found at off.
 func (t *LineTable) string(off uint32) string {
 	return t.stringFrom(t.funcdata, off)
+}
+
+// funcData is memory corresponding to an _func struct.
+type funcData struct {
+	t    *LineTable // LineTable of this data is a part
+	data []byte     // raw memory for the function
+}
+
+// funcData returns the ith funcData in t.functab.
+func (t *LineTable) funcData(i uint32) *funcData {
+	data := t.funcdata[t.uintptr(t.functab[2*t.ptrsize*i+t.ptrsize:]):]
+	return &funcData{t: t, data: data}
+}
+
+// entryPC returns the func's entry PC.
+func (f *funcData) entryPC() uint64 {
+	return uint64(f.t.uintptr(f.data))
+}
+
+// funcFieldOffset returns the nth field of the _func struct.
+// It panics if n == 0 or n > 9; for n == 0, call f.entryPC.
+func (f *funcData) field(n uint32) uint32 {
+	if n == 0 || n > 9 {
+		panic("bad funcdata field")
+	}
+	sz0 := f.t.ptrsize
+	off := sz0 + (n-1)*4 // subsequent fields are 4 bytes each
+	data := f.data[off:]
+	return f.t.binary.Uint32(data)
 }
 
 // step advances to the next pc, value pair in the encoded table.
@@ -454,8 +484,8 @@ func (t *LineTable) go12PCToLine(pc uint64) (line int) {
 	if f == nil {
 		return -1
 	}
-	entry := t.uintptr(f)
-	linetab := t.binary.Uint32(f[t.ptrsize+5*4:])
+	entry := f.entryPC()
+	linetab := f.field(6)
 	return int(t.pcvalue(linetab, entry, pc))
 }
 
@@ -471,8 +501,8 @@ func (t *LineTable) go12PCToFile(pc uint64) (file string) {
 	if f == nil {
 		return ""
 	}
-	entry := t.uintptr(f)
-	filetab := t.binary.Uint32(f[t.ptrsize+4*4:])
+	entry := f.entryPC()
+	filetab := f.field(5)
 	fno := t.pcvalue(filetab, entry, pc)
 	if t.version == ver12 {
 		if fno <= 0 {
@@ -484,7 +514,7 @@ func (t *LineTable) go12PCToFile(pc uint64) (file string) {
 	if fno < 0 { // 0 is valid for ≥ 1.16
 		return ""
 	}
-	cuoff := t.binary.Uint32(f[t.ptrsize+7*4:])
+	cuoff := f.field(8)
 	if fnoff := t.binary.Uint32(t.cutab[(cuoff+uint32(fno))*4:]); fnoff != ^uint32(0) {
 		return t.stringFrom(t.filetab, fnoff)
 	}
@@ -510,12 +540,12 @@ func (t *LineTable) go12LineToPC(file string, line int) (pc uint64) {
 	// mapping file number to a list of functions with code from that file.
 	var cutab []byte
 	for i := uint32(0); i < t.nfunctab; i++ {
-		f := t.funcdata[t.uintptr(t.functab[2*t.ptrsize*i+t.ptrsize:]):]
-		entry := t.uintptr(f)
-		filetab := t.binary.Uint32(f[t.ptrsize+4*4:])
-		linetab := t.binary.Uint32(f[t.ptrsize+5*4:])
+		f := t.funcData(i)
+		entry := f.entryPC()
+		filetab := f.field(5)
+		linetab := f.field(6)
 		if t.version == ver116 {
-			cuoff := t.binary.Uint32(f[t.ptrsize+7*4:]) * 4
+			cuoff := f.field(8) * 4
 			cutab = t.cutab[cuoff:]
 		}
 		pc := t.findFileLine(entry, filetab, linetab, int32(filenum), int32(line), cutab)
