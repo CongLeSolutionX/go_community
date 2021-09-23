@@ -271,6 +271,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ce7c586_72983934",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2021-09-23T16:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0392753_a3b789ae",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c8a9d2f_4507365d",
@@ -502,6 +520,24 @@
       "side": 1,
       "message": "In the patchset 4 I have changes the cost model. Now in case \"100 non-inlineable calls and 1 inlineable one\" we should not inline.",
       "parentUuid": "3059999e_4f0b4442",
+      "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fa39393_00ff07a4",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2021-09-23T16:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3daeddb4_45894b3e",
       "revId": "ee9ebf6859e8a3869b76d8402b46862fc1d79daa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
