@@ -102,6 +102,30 @@
       },
       "revId": "31dfb19a8f1d4ab26054d6c151f717476fc46474",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6deecf_9a41fe63",
+        "filename": "src/cmd/compile/internal/types2/assignments.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-23T19:33:25Z",
+      "side": 1,
+      "message": "Ack, thanks for confirming.",
+      "parentUuid": "21e1d97a_fcb30825",
+      "range": {
+        "startLine": 363,
+        "startChar": 22,
+        "endLine": 363,
+        "endChar": 25
+      },
+      "revId": "31dfb19a8f1d4ab26054d6c151f717476fc46474",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
