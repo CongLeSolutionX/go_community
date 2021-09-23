@@ -860,16 +860,24 @@ func ITabLsym(typ, iface *types.Type) *obj.LSym {
 
 // ITabAddr returns an expression representing a pointer to the itab
 // for concrete type typ implementing interface iface.
-func ITabAddr(typ, iface *types.Type) *ir.AddrExpr {
+func ITabAddr(typ, iface *types.Type) ir.Node {
 	s, existed := ir.Pkgs.Itab.LookupOK(typ.LinkString() + "," + iface.LinkString())
 	lsym := s.Linksym()
-
 	if !existed {
 		writeITab(lsym, typ, iface)
 	}
-
+	if base.Ctxt.ItabAddrTab {
+		// if ItabAddrTab is true, we should create a new symbol which
+		// hold the address of this itab. And it can be rewritten in runtime.
+		sa, existed := ir.Pkgs.ItabAddr.LookupOK(typ.LinkString() + "," + iface.LinkString())
+		salsym := sa.Linksym()
+		if !existed {
+			writeGlobalAddr(salsym, lsym)
+		}
+		return ir.NewLinksymExpr(base.Pos, salsym, types.Types[types.TUINTPTR])
+	}
 	n := ir.NewLinksymExpr(base.Pos, lsym, types.Types[types.TUINT8])
-	return typecheck.Expr(typecheck.NodAddr(n)).(*ir.AddrExpr)
+	return typecheck.Expr(typecheck.NodAddr(n))
 }
 
 // needkeyupdate reports whether map updates with t as a key
@@ -1274,6 +1282,14 @@ func WriteRuntimeTypes() {
 	for _, ts := range gcsyms {
 		dgcsym(ts.t, true)
 	}
+}
+
+// writeITab writes the itab for concrete type typ implementing
+// interface iface.
+func writeGlobalAddr(lsym *obj.LSym, ptrTo *obj.LSym) {
+	// Nothing writes static itabs, so they are read only.
+	o := objw.SymPtr(lsym, 0, ptrTo, 0)
+	objw.Global(lsym, int32(o), int16(obj.DUPOK|obj.NOPTR|obj.LOCAL))
 }
 
 // writeITab writes the itab for concrete type typ implementing

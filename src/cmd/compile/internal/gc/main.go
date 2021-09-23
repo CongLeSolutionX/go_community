@@ -98,6 +98,10 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	ir.Pkgs.Itab = types.NewPkg("go.itab", "go.itab")
 	ir.Pkgs.Itab.Prefix = "go.itab" // not go%2eitab
 
+	// pseudo-packages used in symbol tables
+	ir.Pkgs.ItabAddr = types.NewPkg("go.itabaddr", "go.itabaddr")
+	ir.Pkgs.ItabAddr.Prefix = "go.itabaddr" // not go%2eitabaddr
+
 	// pseudo-package used for methods with anonymous receivers
 	ir.Pkgs.Go = types.NewPkg("go", "")
 
