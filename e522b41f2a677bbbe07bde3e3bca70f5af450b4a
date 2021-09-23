@@ -93,6 +93,30 @@
       },
       "revId": "e522b41f2a677bbbe07bde3e3bca70f5af450b4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a749be65_338c848a",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-23T22:58:23Z",
+      "side": 1,
+      "message": "Updated to disable everything except amd64 and arm64 again, pointing to the runtime stuff.\n\nI didn\u0027t remember where this limitation came from. Compiler didn\u0027t seem to complain on other platforms, so I figured we were just initially cautious like with shared memory.",
+      "parentUuid": "2f40b2db_7f7675c3",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 71
+      },
+      "revId": "e522b41f2a677bbbe07bde3e3bca70f5af450b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
