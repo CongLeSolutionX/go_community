@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d4a79f_9b4de387",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-09-23T08:37:37Z",
+      "side": 1,
+      "message": "Small nit on tests documented purposes. ",
+      "revId": "1319b1476ea6f55c780936d133a005054fa81234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9d0af17_ac03da71",
+        "filename": "src/cmd/go/testdata/script/test_vet.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-09-23T08:37:37Z",
+      "side": 1,
+      "message": "Are the comments in line 31 and line 27 reversed? The tests look like they do the complete opposite of what the comment says they do.",
+      "revId": "1319b1476ea6f55c780936d133a005054fa81234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
