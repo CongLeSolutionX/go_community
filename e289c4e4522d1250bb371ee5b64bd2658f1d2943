@@ -34,6 +34,93 @@
       "message": "Joe: you touched it last so you get to review it! 😁\n\n(But let me know if you\u0027d rather I find a different reviewer. This change is pretty trivial.)",
       "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2435132_d08e67cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-09-23T16:24:26Z",
+      "side": 1,
+      "message": "I scratch your back, you scratch mine 😜\n\nhttps://go-review.googlesource.com/c/go/+/349994",
+      "parentUuid": "c3608306_5fd37392",
+      "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbfccd3a_a116f865",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-09-23T16:24:26Z",
+      "side": 1,
+      "message": "and Discard",
+      "range": {
+        "startLine": 273,
+        "startChar": 49,
+        "endLine": 273,
+        "endChar": 50
+      },
+      "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28c7d399_58b3887c",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-09-23T16:24:26Z",
+      "side": 1,
+      "message": "Optional: Seems a bit silly given that this doesn\u0027t save anything. 6 lines here and 3 lines for each call. Doing the error check directly would be 3*3 lines.\n\nSimilarly  for TestUnreadByteAfterWriteTo",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 2
+      },
+      "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97620e5f_ccdf95a5",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-09-23T16:24:26Z",
+      "side": 1,
+      "message": "If we expect this to be invalid, perhaps we should verify it as such.\n\nSimilarly for TestUnreadByteAfterWriteTo",
+      "range": {
+        "startLine": 332,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 15
+      },
+      "revId": "e289c4e4522d1250bb371ee5b64bd2658f1d2943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
