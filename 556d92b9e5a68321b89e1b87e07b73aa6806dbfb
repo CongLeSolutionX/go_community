@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e718b7a7_71417bd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I will fix it.",
+      "parentUuid": "2c48e93f_21cfdb11",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c247d25_a7fa02c5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-17T19:53:08Z",
       "side": 1,
       "message": "Write what this means after the relocations, maybe something like hi16(sym@GOT) [this is just an example]. Apply to other places.",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ab32e01_42126012",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I will fix them.",
+      "parentUuid": "2c247d25_a7fa02c5",
       "range": {
         "startLine": 15,
         "startChar": 12,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89d1afea_c12b83ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "I means that GOT should be used to obtain the function address in PIC code.\nI will fix it.",
+      "parentUuid": "95ab125f_e768becc",
+      "range": {
+        "startLine": 27,
+        "startChar": 32,
+        "endLine": 27,
+        "endChar": 53
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f6ed9d45_7d4c1f7f",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 6
@@ -83,6 +155,30 @@
       "writtenOn": "2021-09-17T19:53:08Z",
       "side": 1,
       "message": "In most of the file, the instructions in comment are Go conventions, with source at first and destination at the end. Do the same, otherwise it would be confusing. No need to correspond exactly to GNU instructions, which are irrelevant anyway.",
+      "range": {
+        "startLine": 1800,
+        "startChar": 10,
+        "endLine": 1807,
+        "endChar": 20
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "660616a3_7b9d9058",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I will fix it.",
+      "parentUuid": "f6ed9d45_7d4c1f7f",
       "range": {
         "startLine": 1800,
         "startChar": 10,
@@ -112,6 +208,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dbf97b71_c845db44",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I will fix it.",
+      "parentUuid": "aea3e580_963d4e74",
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dbd7dfe0_8a5f5ba3",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 6
@@ -129,6 +243,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "986981af_c35a952e",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1915,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "JMP 16(PC) \u003d\u003e To: offset \u003d 16 val \u003d nil\nv \u003d int32(p.To.Offset)\u003e\u003e2   (line 1920)\nThis is not handled in case 6.\n\nJMP 63 \u003d\u003e To: offset\u003d 0 val \u003d 63\nv \u003d int32(p.To.Target().Pc-p.Pc-4)\u003e\u003e2",
+      "parentUuid": "dbd7dfe0_8a5f5ba3",
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "614a9072_9466b54f",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 6
@@ -140,6 +272,30 @@
       "writtenOn": "2021-09-17T19:53:08Z",
       "side": 1,
       "message": "Add a space after //. Apply everywhere.",
+      "range": {
+        "startLine": 113,
+        "startChar": 1,
+        "endLine": 113,
+        "endChar": 18
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8959a5a4_395e8ecb",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I will fix them.",
+      "parentUuid": "614a9072_9466b54f",
       "range": {
         "startLine": 113,
         "startChar": 1,
@@ -175,6 +331,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49f3ff17_edb925a6",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I will rewrite it.",
+      "parentUuid": "d24e0c73_9514b119",
+      "range": {
+        "startLine": 113,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 17
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "db8a4b11_8f08442a",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 6
@@ -186,6 +366,30 @@
       "writtenOn": "2021-09-17T19:53:08Z",
       "side": 1,
       "message": "Mention GOT?",
+      "range": {
+        "startLine": 129,
+        "startChar": 33,
+        "endLine": 129,
+        "endChar": 45
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b97621db_84f12a5b",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I wil fix it.",
+      "parentUuid": "db8a4b11_8f08442a",
       "range": {
         "startLine": 129,
         "startChar": 33,
@@ -221,6 +425,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50268839_b546ed92",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I will fix it.",
+      "parentUuid": "94a32718_9488d3ed",
+      "range": {
+        "startLine": 131,
+        "startChar": 37,
+        "endLine": 131,
+        "endChar": 41
+      },
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86eccf0f_53dc3c5f",
         "filename": "src/cmd/internal/sys/supported.go",
         "patchSetId": 6
@@ -232,6 +460,24 @@
       "writtenOn": "2021-09-17T19:53:08Z",
       "side": 1,
       "message": "I don\u0027t think we should change this in this CL. This should be changed at the end, after all other changes went in.",
+      "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b40d81_8e1f269e",
+        "filename": "src/cmd/internal/sys/supported.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "I will split this change into another CL.",
+      "parentUuid": "86eccf0f_53dc3c5f",
       "revId": "556d92b9e5a68321b89e1b87e07b73aa6806dbfb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

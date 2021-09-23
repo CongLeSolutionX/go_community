@@ -304,6 +304,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85bfaddc_b71897cf",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-09-23T01:14:04Z",
+      "side": 1,
+      "message": "OK, I will fix it to two-perand.",
+      "parentUuid": "bcf5eb6a_c80c5f73",
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d05c955_8db0f246",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 1
