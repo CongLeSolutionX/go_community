@@ -301,6 +301,7 @@ const (
 	SymFlagUsedInIface = 1 << iota
 	SymFlagItab
 	SymFlagDict
+	SymFlagItabAddr
 )
 
 // Returns the length of the name of the symbol.
