@@ -507,13 +507,9 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		symgcbits   = groupSym("runtime.gcbits.*", sym.SGCBITS)
 	)
 
-	var symgofuncrel loader.Sym
-	if !ctxt.DynlinkingGo() {
-		if ctxt.UseRelro() {
-			symgofuncrel = groupSym("go.funcrel.*", sym.SGOFUNCRELRO)
-		} else {
-			symgofuncrel = symgofunc
-		}
+	symgofuncrel := symgofunc
+	if ctxt.UseRelro() {
+		symgofuncrel = groupSym("go.funcrel.*", sym.SGOFUNCRELRO)
 	}
 
 	symt := ldr.CreateSymForUpdate("runtime.symtab", 0)
@@ -559,7 +555,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 			}
 			if ctxt.UseRelro() {
 				symGroupType[s] = sym.SGOFUNCRELRO
-				if symgofuncrel != 0 {
+				if !ctxt.DynlinkingGo() {
 					ldr.SetCarrierSym(s, symgofuncrel)
 				}
 			} else {
@@ -570,7 +566,9 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		case strings.HasPrefix(name, "gcargs."),
 			strings.HasPrefix(name, "gclocals."),
 			strings.HasPrefix(name, "gclocals·"),
-			ldr.SymType(s) == sym.SGOFUNC && s != symgofunc: // inltree, see pcln.go
+			ldr.SymType(s) == sym.SGOFUNC && s != symgofunc, // inltree, see pcln.go
+			strings.HasSuffix(name, ".args_stackmap"),
+			strings.HasSuffix(name, ".stkobj"):
 			// GC stack maps and inltrees have 32-bit fields.
 			align = 4
 			fallthrough
@@ -578,9 +576,14 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 			strings.HasSuffix(name, ".arginfo0"),
 			strings.HasSuffix(name, ".arginfo1"):
 			// These are just bytes, or varints, use align 1 (set before the switch).
-			symGroupType[s] = sym.SGOFUNC
 			ldr.SetAttrNotInSymbolTable(s, true)
-			ldr.SetCarrierSym(s, symgofunc)
+			if ctxt.UseRelro() && strings.HasSuffix(name, ".stkobj") {
+				symGroupType[s] = sym.SGOFUNCRELRO
+				ldr.SetCarrierSym(s, symgofuncrel)
+			} else {
+				symGroupType[s] = sym.SGOFUNC
+				ldr.SetCarrierSym(s, symgofunc)
+			}
 			if a := ldr.SymAlign(s); a < align {
 				ldr.SetSymAlign(s, align)
 			} else {
