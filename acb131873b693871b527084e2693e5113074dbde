@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "488da51a_634ee300",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-24T17:36:13Z",
+      "side": 1,
+      "message": "This could use a test. Something in test/codegen that checks we don\u0027t reference x86HasPOPCNT and friends?\n(We used to have a check that we did reference those, it looks like CL 309649 disabled that test, not sure exactly why.)\n",
+      "revId": "acb131873b693871b527084e2693e5113074dbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bef9c77f_03ed514f",
@@ -14,6 +31,23 @@
       "writtenOn": "2021-09-24T17:26:55Z",
       "side": 1,
       "message": "Rather than duplicate the construction of this Value, let\u0027s construct it once and then re-use it.\n\nfma :\u003d s.newValue3(ssa.OpFMA, etc etc)\nif building.GOAMD64 \u003e\u003d 3 {\n  return fma\n}\n\n// and use fma at line 4257\n  \n  \nDitto for the other changes.",
+      "revId": "acb131873b693871b527084e2693e5113074dbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b9833f8_5c1341c0",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4517,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-24T17:36:13Z",
+      "side": 1,
+      "message": "I think this is a remnant of amd64p32. PtrSize should always be 8 on amd64 now.\n(This code is ok as is, but maybe you could clean that up in a separate CL.)",
       "revId": "acb131873b693871b527084e2693e5113074dbde",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
