@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "66079973_8de8b51c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-24T20:04:47Z",
+      "side": 1,
+      "message": "\u003e Another option might be to explicitly error out in `go mod why` if the requested module path is not the selected version of itself, or (more generally) error out if any package in the path was not loaded from the selected version of its module.\n\nNot sure I understand. Args to \u0027go mod why -m\u0027 are module paths, and it\u0027s an error to use an arg with an \u0027@\u0027. The packages loaded are always \"all\". So from the user\u0027s perspective, no module version is requested, other than what MVS selects.",
+      "parentUuid": "697dcefc_114090da",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 42
+      },
+      "revId": "224d2fd0aa6e4fdccbf77e83834af7348d2208d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "67b79298_53e289b0",
