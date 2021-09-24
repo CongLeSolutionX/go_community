@@ -626,9 +626,9 @@ func funcData(fi loader.FuncInfo, inlSym loader.Sym, fdSyms []loader.Sym, fdOffs
 
 // calculateFunctabSize calculates the size of the pclntab, and the offsets in
 // the output buffer for individual func entries.
-func (state pclntab) calculateFunctabSize(ctxt *Link, funcs []loader.Sym) (int64, []uint32) {
+func (state pclntab) calculateFunctabSize(ctxt *Link, funcs []loader.Sym) (int64, []int64) {
 	ldr := ctxt.loader
-	startLocations := make([]uint32, len(funcs))
+	startLocations := make([]int64, len(funcs))
 
 	// Allocate space for the pc->func table. This structure consists of a pc
 	// and an offset to the func structure. After that, we have a single pc
@@ -640,7 +640,7 @@ func (state pclntab) calculateFunctabSize(ctxt *Link, funcs []loader.Sym) (int64
 	// requires alignment.
 	for i, s := range funcs {
 		size = Rnd(size, int64(ctxt.Arch.PtrSize))
-		startLocations[i] = uint32(size)
+		startLocations[i] = size
 		fi := ldr.FuncInfo(s)
 		size += int64(state.funcSize)
 		if fi.Valid() {
@@ -665,7 +665,7 @@ func (state pclntab) calculateFunctabSize(ctxt *Link, funcs []loader.Sym) (int64
 // writePCToFunc writes the PC->func lookup table.
 // This function walks the pc->func lookup table, executing callbacks
 // to generate relocations and writing the values for the table.
-func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, startLocations []uint32, setAddr pclnSetAddr, setUint pclnSetUint) {
+func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, startLocations []int64, setAddr pclnSetAddr, setUint pclnSetUint) {
 	ldr := ctxt.loader
 	var prevFunc loader.Sym
 	prevSect := ldr.SymSect(funcs[0])
@@ -696,7 +696,7 @@ func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, sta
 }
 
 // writeFuncs writes the func structures and pcdata to runtime.functab.
-func (state *pclntab) writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSyms map[loader.Sym]loader.Sym, startLocations, cuOffsets []uint32, nameOffsets map[loader.Sym]uint32) {
+func (state *pclntab) writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSyms map[loader.Sym]loader.Sym, startLocations []int64, cuOffsets []uint32, nameOffsets map[loader.Sym]uint32) {
 	ldr := ctxt.loader
 	deferReturnSym := ldr.Lookup("runtime.deferreturn", abiInternalVer)
 	gofuncBase := ldr.SymValue(ldr.Lookup("go.func.*", 0))
@@ -716,14 +716,14 @@ func (state *pclntab) writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []l
 		if entryOff < 0 {
 			panic(fmt.Sprintf("expected func %s(%x) to be placed before or at textBase (%x)", ldr.SymName(s), ldr.SymValue(s), textBase))
 		}
-		off = uint32(sb.SetUintptr(ctxt.Arch, int64(off), uintptr(entryOff)))
+		off = sb.SetUintptr(ctxt.Arch, off, uintptr(entryOff))
 
 		// name int32
 		nameoff, ok := nameOffsets[s]
 		if !ok {
 			panic("couldn't find function name offset")
 		}
-		off = uint32(sb.SetUint32(ctxt.Arch, int64(off), uint32(nameoff)))
+		off = sb.SetUint32(ctxt.Arch, off, uint32(nameoff))
 
 		// args int32
 		// TODO: Move into funcinfo.
@@ -731,56 +731,56 @@ func (state *pclntab) writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []l
 		if fi.Valid() {
 			args = uint32(fi.Args())
 		}
-		off = uint32(sb.SetUint32(ctxt.Arch, int64(off), args))
+		off = sb.SetUint32(ctxt.Arch, off, args)
 
 		// deferreturn
 		deferreturn := computeDeferReturn(ctxt, deferReturnSym, s)
-		off = uint32(sb.SetUint32(ctxt.Arch, int64(off), deferreturn))
+		off = sb.SetUint32(ctxt.Arch, off, deferreturn)
 
 		// pcdata
 		if fi.Valid() {
-			off = uint32(sb.SetUint32(ctxt.Arch, int64(off), uint32(ldr.SymValue(fi.Pcsp()))))
-			off = uint32(sb.SetUint32(ctxt.Arch, int64(off), uint32(ldr.SymValue(fi.Pcfile()))))
-			off = uint32(sb.SetUint32(ctxt.Arch, int64(off), uint32(ldr.SymValue(fi.Pcline()))))
+			off = sb.SetUint32(ctxt.Arch, off, uint32(ldr.SymValue(fi.Pcsp())))
+			off = sb.SetUint32(ctxt.Arch, off, uint32(ldr.SymValue(fi.Pcfile())))
+			off = sb.SetUint32(ctxt.Arch, off, uint32(ldr.SymValue(fi.Pcline())))
 		} else {
 			off += 12
 		}
-		off = uint32(sb.SetUint32(ctxt.Arch, int64(off), uint32(numPCData(fi))))
+		off = sb.SetUint32(ctxt.Arch, off, uint32(numPCData(fi)))
 
 		// Store the offset to compilation unit's file table.
 		cuIdx := ^uint32(0)
 		if cu := ldr.SymUnit(s); cu != nil {
 			cuIdx = cuOffsets[cu.PclnIndex]
 		}
-		off = uint32(sb.SetUint32(ctxt.Arch, int64(off), cuIdx))
+		off = sb.SetUint32(ctxt.Arch, off, cuIdx)
 
 		// funcID uint8
 		var funcID objabi.FuncID
 		if fi.Valid() {
 			funcID = fi.FuncID()
 		}
-		off = uint32(sb.SetUint8(ctxt.Arch, int64(off), uint8(funcID)))
+		off = sb.SetUint8(ctxt.Arch, off, uint8(funcID))
 
 		// flag uint8
 		var flag objabi.FuncFlag
 		if fi.Valid() {
 			flag = fi.FuncFlag()
 		}
-		off = uint32(sb.SetUint8(ctxt.Arch, int64(off), uint8(flag)))
+		off = sb.SetUint8(ctxt.Arch, off, uint8(flag))
 
 		off += 1 // pad
 
 		// nfuncdata must be the final entry.
 		funcdata, funcdataoff = funcData(fi, 0, funcdata, funcdataoff)
-		off = uint32(sb.SetUint8(ctxt.Arch, int64(off), uint8(len(funcdata))))
+		off = sb.SetUint8(ctxt.Arch, off, uint8(len(funcdata)))
 
 		// Output the pcdata.
 		if fi.Valid() {
 			for j, pcSym := range fi.Pcdata() {
-				sb.SetUint32(ctxt.Arch, int64(off+uint32(j*4)), uint32(ldr.SymValue(pcSym)))
+				sb.SetUint32(ctxt.Arch, off+int64(j*4), uint32(ldr.SymValue(pcSym)))
 			}
 			if fi.NumInlTree() > 0 {
-				sb.SetUint32(ctxt.Arch, int64(off+objabi.PCDATA_InlTreeIndex*4), uint32(ldr.SymValue(fi.Pcinline())))
+				sb.SetUint32(ctxt.Arch, off+objabi.PCDATA_InlTreeIndex*4, uint32(ldr.SymValue(fi.Pcinline())))
 			}
 		}
 
@@ -788,10 +788,10 @@ func (state *pclntab) writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []l
 		funcdata, funcdataoff = funcData(fi, inlSyms[s], funcdata, funcdataoff)
 		// funcdata must be pointer-aligned and we're only int32-aligned.
 		// Missing funcdata will be ^0. See runtime:funcdata.
-		off = uint32(startLocations[i] + state.funcSize + numPCData(fi)*4)
-		off = uint32(Rnd(int64(off), int64(ctxt.Arch.PtrSize)))
+		off = startLocations[i] + int64(state.funcSize) + int64(numPCData(fi))*4
+		off = Rnd(off, int64(ctxt.Arch.PtrSize))
 		for j := range funcdata {
-			dataoff := off + uint32(ctxt.Arch.PtrSize*j)
+			dataoff := off + int64(ctxt.Arch.PtrSize*j)
 			if funcdata[j] == 0 {
 				if off := funcdataoff[j]; off != 0 {
 					panic(fmt.Sprintf("funcdata %s#%d has non-zero offset %x", ldr.SymName(s), j, off))
