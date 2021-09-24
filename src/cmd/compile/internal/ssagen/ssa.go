@@ -6595,9 +6595,13 @@ func EmitArgInfo(f *ir.Func, abiInfo *abi.ABIParamResultInfo) *obj.LSym {
 	n := 0
 	writebyte := func(o uint8) { wOff = objw.Uint8(x, wOff, o) }
 
+	generic := strings.Contains(f.LSym.Name, "[")
+
 	// Write one non-aggrgate arg/field/element.
 	write1 := func(sz, offset int64) {
-		if offset >= _special {
+		if generic && n == 0 {
+			// skip the dictionary argument - it is implicit and the user doesn't need to see it.
+		} else if offset >= _special {
 			writebyte(_offsetTooLarge)
 		} else {
 			writebyte(uint8(offset))
