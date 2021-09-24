@@ -70,6 +70,24 @@
       "message": "I\u0027m not sure I understand the benefit of having two fuzz tests in each file: an empty seed, and a good seed corpus. I don\u0027t think these need to be testing the fuzzing engine in any way. They just need to be as effective as possible at finding issues should someone choose to run them. And considering they are in the stdlib, they should act as good examples for what a target should look like (I assume a lot of people will use the stdlib as a point of reference when writing their first fuzz targets, especially at first). Could you clarify a bit?",
       "revId": "1f25f220299b52d6e35015c73e684b74738b6d5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a33b36b_ff177ae0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-09-24T19:45:41Z",
+      "side": 1,
+      "message": "Quoting from a previous discussion of this on 345097\n\n\u003e There was either a paper, or a blog post, that I read (which I am now completely unable to find) which suggested that the selection of the input corpus could have a significant impact on what the fuzzer would find. This is because a well formed input strongly directs the initial direction of the fuzzer, since it already has a valid (likely somewhat deep) execution path, whereas when using an empty input the fuzzer is starting from scratch, building an execution graph which is likely to be significantly shallower, but likely somewhat wider (if that makes sense, I feel like I\u0027m not using the correct graph terminology).\n\u003e \n\u003e That said, it probably makes sense for all of these targets to just use a single, well-formed seed input, and leave more complex seeding approaches for more complex, targeted targets.\n\nI entirely forgot my suggestion at the time, and am happy to just go back to using a single input. That said, if we intend these to be examples of how best to write targets, selection of the initial corpus and how that will impact how the fuzzer operates is something that needs to be considered (perhaps not explicitly in the stdlib targets themselves, but at least somewhere in the documentation.)",
+      "parentUuid": "ccc2324f_fe441f21",
+      "revId": "1f25f220299b52d6e35015c73e684b74738b6d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
