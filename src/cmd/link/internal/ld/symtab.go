@@ -566,6 +566,27 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 				ldr.SetCarrierSym(s, symgofunc)
 			}
 
+		case strings.HasSuffix(name, ".stkobj"):
+			if !ctxt.DynlinkingGo() {
+				ldr.SetAttrNotInSymbolTable(s, true)
+			}
+			if ctxt.UseRelro() {
+				symGroupType[s] = sym.SGOFUNCRELRO
+				if symgofuncrel != 0 {
+					ldr.SetCarrierSym(s, symgofuncrel)
+				}
+			} else {
+				symGroupType[s] = sym.SGOFUNC
+				ldr.SetCarrierSym(s, symgofunc)
+			}
+			align := int32(4)
+			if a := ldr.SymAlign(s); a < align {
+				ldr.SetSymAlign(s, align)
+			} else {
+				align = a
+			}
+			liveness += (ldr.SymSize(s) + int64(align) - 1) &^ (int64(align) - 1)
+
 		case strings.HasPrefix(name, "gcargs."),
 			strings.HasPrefix(name, "gclocals."),
 			strings.HasPrefix(name, "gclocals·"),
