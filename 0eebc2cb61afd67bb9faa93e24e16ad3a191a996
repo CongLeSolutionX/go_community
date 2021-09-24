@@ -253,6 +253,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cfe1e3e1_ba9490b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-09-24T02:43:38Z",
+      "side": 1,
+      "message": "I made mistake when testing your repro - I forgotten to set GOARCH\u003d386. Now that I set GOARCH\u003d386, I can reproduce your failure.\n\nI will spend some time trying to understand why it fails.\n\nAlex",
+      "parentUuid": "984fe300_2245f3e5",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d64461_d95ee5ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
