@@ -558,11 +558,8 @@ type pclnSetUint func(*loader.SymbolBuilder, *sys.Arch, int64, uint64) int64
 //
 // Because of timing in the linker, generating this table takes two passes.
 // The first pass is executed early in the link, and it creates any needed
-// relocations to lay out the data. The pieces that need relocations are:
-//   1) the PC->func table.
-//   2) The funcdata.
-// (1) is handled in writePCToFunc. (3) is handled in writeFuncdata.
-//
+// relocations to lay out the data. The piece that needs relocations is
+// the PC->func table, handled in writePCToFunc.
 // After relocations, once we know where to write things in the output buffer,
 // we execute the second pass, which is actually writing the data.
 func (state *pclntab) generateFunctab(ctxt *Link, funcs []loader.Sym, inlSyms map[loader.Sym]loader.Sym, cuOffsets []uint32, nameOffsets map[loader.Sym]uint32) {
@@ -742,6 +739,7 @@ func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, sta
 // generateFunctab.
 func (state *pclntab) writeFuncData(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSyms map[loader.Sym]loader.Sym, startLocations []uint32, setAddr pclnSetAddr, setUint pclnSetUint) {
 	ldr := ctxt.loader
+	gofuncBase := ldr.SymValue(ldr.Lookup("go.func.*", 0))
 	funcdata, funcdataoff := []loader.Sym{}, []int64{}
 	for i, s := range funcs {
 		fi := ldr.FuncInfo(s)
@@ -751,7 +749,7 @@ func (state *pclntab) writeFuncData(ctxt *Link, sb *loader.SymbolBuilder, funcs 
 		fi.Preload()
 
 		// funcdata, must be pointer-aligned and we're only int32-aligned.
-		// Missing funcdata will be 0 (nil pointer).
+		// Missing funcdata will be ^0. See runtime:funcdata.
 		funcdata, funcdataoff := funcData(fi, inlSyms[s], funcdata, funcdataoff)
 		if len(funcdata) > 0 {
 			off := int64(startLocations[i] + state.funcSize + numPCData(fi)*4)
@@ -759,11 +757,18 @@ func (state *pclntab) writeFuncData(ctxt *Link, sb *loader.SymbolBuilder, funcs 
 			for j := range funcdata {
 				dataoff := off + int64(ctxt.Arch.PtrSize*j)
 				if funcdata[j] == 0 {
-					setUint(sb, ctxt.Arch, dataoff, uint64(funcdataoff[j]))
+					if off := funcdataoff[j]; off != 0 {
+						panic(fmt.Sprintf("funcdata %s#%d has non-zero offset %x", ldr.SymName(s), j, off))
+					}
+					setUint(sb, ctxt.Arch, dataoff, ^uint64(0)) // ^0 is a sentinel for "no value"
 					continue
 				}
-				// TODO: Does this need deduping?
-				setAddr(sb, ctxt.Arch, dataoff, funcdata[j], funcdataoff[j])
+				rel := ldr.SymValue(funcdata[j]) - gofuncBase
+				if rel < 0 {
+					panic(fmt.Sprintf("expected symbol %s(%x) (funcdata %s#%d) to be placed after go.func.* (%x)",
+						ldr.SymName(funcdata[j]), ldr.SymValue(funcdata[j]), ldr.SymName(s), j, gofuncBase))
+				}
+				setUint(sb, ctxt.Arch, dataoff, uint64(rel+funcdataoff[j]))
 			}
 		}
 	}
