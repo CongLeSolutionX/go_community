@@ -404,9 +404,9 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 					inlFunc.funcID = inltree[ix].funcID
 
 					if (flags&_TraceRuntimeFrames) != 0 || showframe(inlFuncInfo, gp, nprint == 0, inlFuncInfo.funcID, lastFuncID) {
-						name := funcname(inlFuncInfo)
+						printFuncName(inlFuncInfo)
+						print("(...)\n")
 						file, line := funcline(f, tracepc)
-						print(name, "(...)\n")
 						print("\t", file, ":", line, "\n")
 						nprint++
 					}
@@ -420,15 +420,12 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 				//	main(0x1, 0x2, 0x3)
 				//		/home/rsc/go/src/runtime/x.go:23 +0xf
 				//
-				name := funcname(f)
-				file, line := funcline(f, tracepc)
-				if name == "runtime.gopanic" {
-					name = "panic"
-				}
-				print(name, "(")
+				printFuncName(f)
+				print("(")
 				argp := unsafe.Pointer(frame.argp)
 				printArgs(f, argp)
 				print(")\n")
+				file, line := funcline(f, tracepc)
 				print("\t", file, ":", line)
 				if frame.pc > f.entry {
 					print(" +", hex(frame.pc-f.entry))
@@ -726,7 +723,9 @@ func printcreatedby(gp *g) {
 }
 
 func printcreatedby1(f funcInfo, pc uintptr) {
-	print("created by ", funcname(f), "\n")
+	print("created by ")
+	printFuncName(f)
+	print("\n")
 	tracepc := pc // back up to CALL instruction for funcline.
 	if pc > f.entry {
 		tracepc -= sys.PCQuantum
@@ -828,22 +827,23 @@ func printAncestorTraceback(ancestor ancestorInfo) {
 // due to only have access to the pcs at the time of the caller
 // goroutine being created.
 func printAncestorTracebackFuncInfo(f funcInfo, pc uintptr) {
-	name := funcname(f)
+	entry := f.entry
 	if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
 		inltree := (*[1 << 20]inlinedCall)(inldata)
 		ix := pcdatavalue(f, _PCDATA_InlTreeIndex, pc, nil)
 		if ix >= 0 {
-			name = funcnameFromNameoff(f, inltree[ix].func_)
+			var inlFunc _func
+			inlFunc.nameoff = inltree[ix].func_
+			inlFunc.funcID = inltree[ix].funcID
+			f._func = &inlFunc
 		}
 	}
+	printFuncName(f)
+	print("(...)\n")
 	file, line := funcline(f, pc)
-	if name == "runtime.gopanic" {
-		name = "panic"
-	}
-	print(name, "(...)\n")
 	print("\t", file, ":", line)
-	if pc > f.entry {
-		print(" +", hex(pc-f.entry))
+	if pc > entry {
+		print(" +", hex(pc-entry))
 	}
 	print("\n")
 }
@@ -1345,6 +1345,27 @@ func printOneCgoTraceback(pc uintptr, max int, arg *cgoSymbolizerArg) int {
 		}
 	}
 	return c
+}
+
+func printFuncName(f funcInfo) {
+	name := funcname(f)
+	i := bytealg.IndexByteString(name, '[')
+	if i < 0 {
+		if name == "runtime.gopanic" {
+			name = "panic"
+		}
+		print(name)
+		return
+	}
+	// For generics, print everything within the outermost "[]" as "...".
+	// See issue 48578.
+	j := len(name) - 1
+	for name[j] != ']' {
+		j--
+	}
+	print(name[:i])
+	print("[...]")
+	print(name[j+1:])
 }
 
 // callCgoSymbolizer calls the cgoSymbolizer function.
