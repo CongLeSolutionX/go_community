@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c14990e2_de31334d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-24T17:55:23Z",
+      "side": 1,
+      "message": "Is this WAI? I guess ListModules should not load the module graph and cannot return the correct result. This feels weird though.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 42
+      },
+      "revId": "224d2fd0aa6e4fdccbf77e83834af7348d2208d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67b79298_53e289b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-09-24T17:55:23Z",
+      "side": 1,
+      "message": "Perhaps another way to solve this would be to call LoadPackages first, then ListModules. ListModules should return the correct result because the module graph has been loaded (I think).",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "224d2fd0aa6e4fdccbf77e83834af7348d2208d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
