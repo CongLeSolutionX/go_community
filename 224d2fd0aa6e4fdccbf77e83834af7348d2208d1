@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "697dcefc_114090da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-24T19:52:56Z",
+      "side": 1,
+      "message": "This isn\u0027t quite right, because it\u0027s possible that the package we\u0027re reporting doesn\u0027t actually reside in the selected version of the module.\n\nThat said, it still seems like a strict improvement over the status quo.\n\nAnother option might be to explicitly error out in `go mod why` if the requested module path is not the selected version of itself, or (more generally) error out if any package in the path was not loaded from the selected version of its module.",
+      "parentUuid": "c14990e2_de31334d",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 42
+      },
+      "revId": "224d2fd0aa6e4fdccbf77e83834af7348d2208d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "67b79298_53e289b0",
