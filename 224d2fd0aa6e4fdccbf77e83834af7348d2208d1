@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c8c06fa8_34acffab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-24T20:43:47Z",
+      "side": 1,
+      "message": "Hmm... `go mod why -m` more-or-less answers the question “why do I need to download the source code for this module?”\n\nI suppose that it still answers that question even if the module graph is inconsistent, because `go build` will still need to download (some version of) the module even if the build ultimately fails due to inconsistency.\n\nSo I think what you\u0027ve got here is pretty much the best we can do. 👍",
+      "parentUuid": "66079973_8de8b51c",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 42
+      },
+      "revId": "224d2fd0aa6e4fdccbf77e83834af7348d2208d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "67b79298_53e289b0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
