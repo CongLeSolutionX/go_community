@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d81474a9_063e36fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-09-25T02:55:29Z",
+      "side": 1,
+      "message": "Hi Alex, thanks for looking into this.\n\nDo you mean the \"cannot\" and \"Cannot\" cause you think message is different? The message go through translation, so maybe it was changed. I will verify once I’m back with my laptop.\n\nI think another way to verify is turn \"go:buildid\" and \"types:*\" back to \"go.buildid\" and \"types:*\", then see if the test pass.",
+      "parentUuid": "5bc08fdc_a5dae3bc",
+      "range": {
+        "startLine": 19,
+        "startChar": 18,
+        "endLine": 23,
+        "endChar": 127
+      },
+      "revId": "4a12ede2f191b36c3d6eef2ee79bd5be727a446b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d99c98c8_1f14b057",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
