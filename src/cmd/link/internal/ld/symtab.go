@@ -595,7 +595,9 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 			ldr.SymType(s) == sym.SGOFUNC && s != symgofunc,
 			strings.HasSuffix(name, ".opendefer"),
 			strings.HasSuffix(name, ".arginfo0"),
-			strings.HasSuffix(name, ".arginfo1"):
+			strings.HasSuffix(name, ".arginfo1"),
+			strings.HasSuffix(name, ".args_stackmap"),
+			name == "runtime.no_pointers_stackmap":
 			symGroupType[s] = sym.SGOFUNC
 			ldr.SetAttrNotInSymbolTable(s, true)
 			ldr.SetCarrierSym(s, symgofunc)
