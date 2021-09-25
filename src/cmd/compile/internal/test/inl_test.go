@@ -126,6 +126,10 @@ func TestIntendedInlining(t *testing.T) {
 			"ValidRune",
 		},
 		"reflect": {
+			"Value.CanInt",
+			"Value.CanUint",
+			"Value.CanFloat",
+			"Value.CanComplex",
 			"Value.CanAddr",
 			"Value.CanSet",
 			"Value.CanInterface",
