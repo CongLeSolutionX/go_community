@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a63c8433_4bbf5fa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-09-25T03:15:39Z",
+      "side": 1,
+      "message": "\u003e Hi Alex, thanks for looking into this.\n\u003e \n\u003e Do you mean the \"cannot\" and \"Cannot\" cause you think message is different?\n\nYes. That is what I meant.\n\n\u003e The message go through translation, so maybe it was changed. I will verify once I’m back with my laptop.\n\nYou obviously know more about gcc code than me.\n\n\u003e \n\u003e I think another way to verify is turn \"go:buildid\" and \"types:*\" back to \"go.buildid\" and \"types:*\", then see if the test pass.\n\nDid you mean \"types.*\"? If yes, then I did try that. And it does fixes the test. I even renamed some random symbols into random names. And some changes still pass test. And other changes did not pass. For example, it appears that adding _ in front always help.\n\nUnfortunately I could not make any reasonable guess about why some renames worked and others did not. So without having gcc source to debug this, it is impossible to say anything.",
+      "parentUuid": "d81474a9_063e36fb",
+      "range": {
+        "startLine": 19,
+        "startChar": 18,
+        "endLine": 23,
+        "endChar": 127
+      },
+      "revId": "4a12ede2f191b36c3d6eef2ee79bd5be727a446b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d99c98c8_1f14b057",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
