@@ -88,6 +88,24 @@
       "parentUuid": "ccc2324f_fe441f21",
       "revId": "1f25f220299b52d6e35015c73e684b74738b6d5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "199da8c3_dbb0a9be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-27T15:28:56Z",
+      "side": 1,
+      "message": "Gotcha. I hadn\u0027t seen that other discussion (or forgot). Maybe then you could add two f.Add lines in the same fuzz test. One for a good seed, and one for an empty seed? That way we have at least once branch that\u0027s starting from scratch while the other branch is starting farther down the code tree. Wdyt?\n\n\u003e if we intend these to be examples of how best to write targets, selection of the initial corpus and how that will impact how the fuzzer operates is something that needs to be considered \n\nI don\u0027t think we have to necessarily \"intend\" for these to be examples, for them to become examples. I just have a feeling people will treat them as such when they\u0027re trying to write their first fuzz tests since its in the stdlib.\n\nWe should definitely outline how to choose a good corpus in the documentation anyway though. That\u0027s included as something here: https://github.com/golang/go/issues/48255",
+      "parentUuid": "0a33b36b_ff177ae0",
+      "revId": "1f25f220299b52d6e35015c73e684b74738b6d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
