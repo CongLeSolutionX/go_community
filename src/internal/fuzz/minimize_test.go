@@ -14,6 +14,8 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
+	"unicode"
+	"unicode/utf8"
 )
 
 func TestMinimizeInput(t *testing.T) {
@@ -89,6 +91,61 @@ func TestMinimizeInput(t *testing.T) {
 			},
 			input:    []interface{}{"001010001000000000000000000"},
 			expected: []interface{}{"111"},
+		},
+		{
+			name: "string_minimized",
+			fn: func(e CorpusEntry) error {
+				b := e.Values[0].(string)
+				if len(b) == 5 {
+					return fmt.Errorf("bad %v", e.Values[0])
+				}
+				return nil
+			},
+			input:    []interface{}{"zzzzz"},
+			expected: []interface{}{"00000"},
+		},
+		{
+			name: "string_minimized_with_letter",
+			fn: func(e CorpusEntry) error {
+				b := e.Values[0].(string)
+				r, _ := utf8.DecodeRune([]byte(b))
+				if len(b) == 5 && unicode.IsLetter(r) {
+					return fmt.Errorf("bad %v", e.Values[0])
+				}
+				return nil
+			},
+			input:    []interface{}{"zzzzz"},
+			expected: []interface{}{"a0000"},
+		},
+		{
+			name: "string_minimized_with_symbol",
+			fn: func(e CorpusEntry) error {
+				b := e.Values[0].(string)
+				if len(b) == 5 {
+					r, _ := utf8.DecodeRune([]byte(b)[4:])
+					if unicode.IsSymbol(r) {
+						return fmt.Errorf("bad %v", e.Values[0])
+					}
+				}
+				return nil
+			},
+			input:    []interface{}{"^^^^^"},
+			expected: []interface{}{"0000$"},
+		},
+		{
+			name: "string_minimized_with_punct",
+			fn: func(e CorpusEntry) error {
+				b := e.Values[0].(string)
+				if len(b) == 5 {
+					r, _ := utf8.DecodeRune([]byte(b)[3:])
+					if unicode.IsPunct(r) {
+						return fmt.Errorf("bad %v", e.Values[0])
+					}
+				}
+				return nil
+			},
+			input:    []interface{}{"!?#(]"},
+			expected: []interface{}{"000.0"},
 		},
 		{
 			name: "int",

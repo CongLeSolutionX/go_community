@@ -934,7 +934,7 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, c
 			}
 			minimizeInteger(uint(v), tryMinimized, shouldStop)
 		case string:
-			minimizeBytes([]byte(v), tryMinimized, shouldStop)
+			minimizeString([]byte(v), tryMinimized, shouldStop)
 		case []byte:
 			minimizeBytes(v, tryMinimized, shouldStop)
 		default:
