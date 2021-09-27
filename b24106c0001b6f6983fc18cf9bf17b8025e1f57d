@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57cb2633_fd604c7c",
+        "filename": "src/reflect/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-27T23:11:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0bf7250c_9f8fd015",
+      "revId": "b24106c0001b6f6983fc18cf9bf17b8025e1f57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62127c7c_e635f301",
@@ -131,6 +149,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be303dc1_5d1aca01",
+        "filename": "src/reflect/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-27T23:11:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8f7fe52_6052125c",
+      "revId": "b24106c0001b6f6983fc18cf9bf17b8025e1f57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2585e899_0a83fc29",
@@ -144,6 +180,30 @@
       "writtenOn": "2021-09-27T16:21:08Z",
       "side": 1,
       "message": "The slot for saving R11 doesn\u0027t need to be special. Just outside other areas so it won\u0027t be clobbered. Otherwise it doesn\u0027t matter.",
+      "range": {
+        "startLine": 31,
+        "startChar": 30,
+        "endLine": 31,
+        "endChar": 63
+      },
+      "revId": "b24106c0001b6f6983fc18cf9bf17b8025e1f57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5939584a_6d5bf323",
+        "filename": "src/reflect/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-27T23:11:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2585e899_0a83fc29",
       "range": {
         "startLine": 31,
         "startChar": 30,
@@ -171,6 +231,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a66d69eb_c37ebd8d",
+        "filename": "src/reflect/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-27T23:11:42Z",
+      "side": 1,
+      "message": "A comment that I should have removed.",
+      "parentUuid": "8940b445_875fb68b",
+      "revId": "b24106c0001b6f6983fc18cf9bf17b8025e1f57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fa7f45e_ec337f5d",
@@ -184,6 +262,30 @@
       "writtenOn": "2021-09-27T16:21:08Z",
       "side": 1,
       "message": "Remove. This is an argument for callReflect.",
+      "range": {
+        "startLine": 38,
+        "startChar": 26,
+        "endLine": 38,
+        "endChar": 31
+      },
+      "revId": "b24106c0001b6f6983fc18cf9bf17b8025e1f57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eee95d0_25ee41bb",
+        "filename": "src/reflect/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-27T23:11:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3fa7f45e_ec337f5d",
       "range": {
         "startLine": 38,
         "startChar": 26,
