@@ -76,6 +76,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "47c1d7ed_ddacad63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-27T18:55:55Z",
+      "side": 1,
+      "message": "We can\u0027t put generic code in the stdlib until go vet can handle it.",
+      "parentUuid": "f0305038_6d338de2",
+      "revId": "1595e1ef40f6e6b048e9394cf0768352acebddd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "97cebbb7_0ecda45f",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 3
@@ -87,6 +105,24 @@
       "writtenOn": "2021-09-27T16:08:52Z",
       "side": 1,
       "message": "You are eliminatiing the optimization to avoid loading the symbol where possible in SymNameLen(), but this is fine, right (?), because you will have to load the actual symbol shortly in writeFuncNameTab call at line 330.  (In other words, the SymNameLen optimization was not very useful in this case anyway.)",
+      "revId": "1595e1ef40f6e6b048e9394cf0768352acebddd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43f3a647_0887f097",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-27T18:55:55Z",
+      "side": 1,
+      "message": "Right.",
+      "parentUuid": "97cebbb7_0ecda45f",
       "revId": "1595e1ef40f6e6b048e9394cf0768352acebddd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -104,6 +140,24 @@
       "writtenOn": "2021-09-27T16:08:52Z",
       "side": 1,
       "message": "Nit:  include function name:\n\nAddCStringAt adds str plus a null terminating byte to the builder sb.",
+      "revId": "1595e1ef40f6e6b048e9394cf0768352acebddd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acc6469a_41aceef9",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-09-27T18:55:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "719e394b_de418a5f",
       "revId": "1595e1ef40f6e6b048e9394cf0768352acebddd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
