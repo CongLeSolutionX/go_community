@@ -22,6 +22,30 @@
       },
       "revId": "1ce6fd03b8a72fd8346fb23a975124edf977d25e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd7ca4ee_399d324c",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2649,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-27T20:11:07Z",
+      "side": 0,
+      "message": "Alright so I did some digging, and this change caused a regression. You can reproduce it by putting a print statement in newCoordinator and seeing the length of the coverageMask. It goes from several thousand to the single digits after this change.\n\nFor now, I\u0027m going to make a CL to put this logic back, then we can work together (and with Bryan as needed) to do something more robust if we\u0027re concerned about races.\n\nWe should also try to merge a test that can check for regressions like this. I filed https://github.com/golang/go/issues/48654 for tracking this.",
+      "parentUuid": "eb012f00_9916fa9b",
+      "range": {
+        "startLine": 2631,
+        "startChar": 0,
+        "endLine": 2649,
+        "endChar": 0
+      },
+      "revId": "1ce6fd03b8a72fd8346fb23a975124edf977d25e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
