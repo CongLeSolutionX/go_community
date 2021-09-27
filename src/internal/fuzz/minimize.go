@@ -7,6 +7,7 @@ package fuzz
 import (
 	"math"
 	"reflect"
+	"unicode"
 )
 
 func isMinimizable(t reflect.Type) bool {
@@ -18,7 +19,7 @@ func isMinimizable(t reflect.Type) bool {
 	return false
 }
 
-func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool) {
+func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool) []byte {
 	tmp := make([]byte, len(v))
 	// If minimization was successful at any point during minimizeBytes,
 	// then the vals slice in (*workerServer).minimizeInput will point to
@@ -31,7 +32,7 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 	for n := 1024; n != 0; n /= 2 {
 		for len(v) > n {
 			if shouldStop() {
-				return
+				return v
 			}
 			candidate := v[:len(v)-n]
 			if !try(candidate) {
@@ -45,7 +46,7 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 	// Then, try to remove each individual byte.
 	for i := 0; i < len(v)-1; i++ {
 		if shouldStop() {
-			return
+			return v
 		}
 		candidate := tmp[:len(v)-1]
 		copy(candidate[:i], v[:i])
@@ -66,7 +67,7 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 		copy(tmp, v[:i])
 		for j := len(v); j > i+1; j-- {
 			if shouldStop() {
-				return
+				return v
 			}
 			candidate := tmp[:len(v)-j+i]
 			copy(candidate[i:], v[j:])
@@ -78,6 +79,44 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 			v = v[:len(candidate)]
 			j = len(v)
 		}
+	}
+	return v
+}
+
+func minimizeString(v []byte, try func(interface{}) bool, shouldStop func() bool) {
+	v = minimizeBytes(v, try, shouldStop)
+
+	for i, c := range string(v) {
+		if shouldStop() {
+			return
+		}
+
+		candidate := make([]byte, len(v))
+		copy(candidate, v)
+
+		// Try to replace every character with zeros.
+		candidate[i] = 48 // 0
+		if try(candidate) {
+			v = candidate
+			continue
+		}
+
+		// If zero doesn't work, try to replace with the simpliest same type of
+		// character.
+		if unicode.IsLetter(c) {
+			candidate[i] = 97 // a
+		}
+		if unicode.IsSymbol(c) {
+			candidate[i] = 36 // $
+		}
+		if unicode.IsPunct(c) {
+			candidate[i] = 46 // .
+		}
+		if !try(candidate) {
+			continue
+		}
+		// Set v to the new value and continue iterating.
+		v = candidate
 	}
 }
 
