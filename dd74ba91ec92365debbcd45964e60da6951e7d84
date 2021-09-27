@@ -53,6 +53,52 @@
       "message": "Hold off with reviewing this. I think there\u0027s no issue here, actually.",
       "revId": "dd74ba91ec92365debbcd45964e60da6951e7d84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2094ea1_3e6c6526",
+        "filename": "src/cmd/compile/internal/types2/testdata/examples/functions.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-27T17:31:40Z",
+      "side": 1,
+      "message": "But passing x, y should be fine, right? Maybe add that case here as well?",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 2
+      },
+      "revId": "dd74ba91ec92365debbcd45964e60da6951e7d84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "769f4ce9_51ad38c2",
+        "filename": "src/cmd/compile/internal/types2/testdata/fixedbugs/issue48638.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-27T17:31:40Z",
+      "side": 1,
+      "message": "I don\u0027t understand why these two cases aren\u0027t errors. x is a P, not an int or string.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "dd74ba91ec92365debbcd45964e60da6951e7d84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
