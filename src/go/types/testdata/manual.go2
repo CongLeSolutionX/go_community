@@ -7,3 +7,6 @@
 
 package p
 
+func f[P any](a, b P) {
+	f(&a, &b)
+}

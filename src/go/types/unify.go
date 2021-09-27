@@ -157,7 +157,7 @@ func (d *tparamsList) index(typ Type) int {
 // If tpar is a type parameter in list, tparamIndex returns the type parameter index.
 // Otherwise, the result is < 0. tpar must not be nil.
 func tparamIndex(list []*TypeParam, tpar *TypeParam) int {
-	if i := tpar.index; i < len(list) && list[i] == tpar {
+	if i := tpar.index; i >= 0 && i < len(list) && list[i] == tpar {
 		return i
 	}
 	return -1
@@ -253,8 +253,12 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 		return u.nifyEq(u.x.at(i), u.y.at(j), p)
 
 	case i >= 0:
+		// fmt.Printf("x: %T, y: %T\n", x, y)
 		// x is a type parameter, y is not
 		if tx := u.x.at(i); tx != nil {
+			if tx == x {
+				return tx == y
+			}
 			return u.nifyEq(tx, y, p)
 		}
 		// otherwise, infer type from y
@@ -264,6 +268,9 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 	case j >= 0:
 		// y is a type parameter, x is not
 		if ty := u.y.at(j); ty != nil {
+			if ty == y {
+				return ty == x
+			}
 			return u.nifyEq(x, ty, p)
 		}
 		// otherwise, infer type from x

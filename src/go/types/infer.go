@@ -132,6 +132,19 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 		}
 	}
 
+	// Quick and dirty experiment: substitute fake type parameters for any
+	// current type parameters that may occur in arguments (as in the recursive
+	// call func[P any](a, b P) { f(&a, &b) })
+	var fakeTparams []*TypeParam
+	var fakeTypes []Type
+	for _, tparam := range tparams {
+		tname := NewTypeName(token.NoPos, tparam.Obj().Pkg(), tparam.Obj().Name(), nil)
+		tp := NewTypeParam(tname, nil)
+		fakeTparams = append(fakeTparams, tp)
+		fakeTypes = append(fakeTypes, tp)
+	}
+	fakeSmap := makeSubstMap(tparams, fakeTypes)
+
 	// indices of the generic parameters with untyped arguments - save for later
 	var indices []int
 	for i, arg := range args {
@@ -147,6 +160,7 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 				continue
 			}
 			if targ := arg.typ; isTyped(targ) {
+				targ = check.subst(token.NoPos, targ, fakeSmap, nil)
 				// If we permit bidirectional unification, and targ is
 				// a generic function, we need to initialize u.y with
 				// the respective type parameters of targ.
@@ -164,6 +178,15 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 	var index int
 	targs, index = u.x.types()
 	if index < 0 {
+		// Un-substitute any fake parameters that may have been substituted in the
+		// arguments.
+		var ttypes []Type
+		for _, tparam := range tparams {
+			ttypes = append(ttypes, tparam)
+		}
+		for i := range targs {
+			targs[i] = check.subst(token.NoPos, targs[i], makeSubstMap(fakeTparams, ttypes), nil)
+		}
 		return targs
 	}
 
@@ -188,7 +211,7 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 		// are not of composite types and which don't have a type inferred yet.
 		if tpar, _ := par.typ.(*TypeParam); tpar != nil && targs[tpar.index] == nil {
 			arg := args[i]
-			targ := Default(arg.typ)
+			targ := check.subst(token.NoPos, Default(arg.typ), fakeSmap, nil)
 			// The default type for an untyped nil is untyped nil. We must not
 			// infer an untyped nil type as type parameter type. Ignore untyped
 			// nil by making sure all default argument types are typed.
