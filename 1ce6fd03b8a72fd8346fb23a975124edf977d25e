@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb012f00_9916fa9b",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2649,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-27T17:53:15Z",
+      "side": 0,
+      "message": "This was necessary at one point to prevent the -d\u003dlibfuzzer gcflag from being cleared out. setToolFlags was being called multiple times in some circumstances. When that happened, the p.Internal.Gcflags which held the -d\u003dlibfuzzer flag would get removed.\n(See https://go-review.googlesource.com/c/go/+/312009/comments/d0df4c34_13994fd0 and https://go-review.googlesource.com/c/go/+/321960 for the previous context)\n\nHowever, I tried to reproduce this locally to see if the same problem occurs now that the code is removed, and I can\u0027t reproduce it. I just wish I knew what was changed to no longer require this workaround. I\u0027ll look into it.",
+      "range": {
+        "startLine": 2631,
+        "startChar": 0,
+        "endLine": 2649,
+        "endChar": 0
+      },
+      "revId": "1ce6fd03b8a72fd8346fb23a975124edf977d25e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

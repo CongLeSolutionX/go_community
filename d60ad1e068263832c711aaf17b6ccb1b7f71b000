@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec09723b_fe0b2d2e",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-27T17:53:15Z",
+      "side": 1,
+      "message": "possible refactor:\n  \n  var fuzzNotCalled bool\n  f.mu.RLock()\n  if !f.skipped \u0026\u0026 !f.failed {\n    if !f.finished {\n      err \u003d errNilPanicOrGoexit\n    } else if !f.fuzzCalled {\n      fuzzNotCalled \u003d true\n    }\n  }\n  f.mu.RUnlock()\n  if fuzzNotCalled {\n    f.Error(\"returned without calling F.Fuzz, F.Fail, or F.Skip\")\n  }\n  \nMakes it slightly more readable to me. I don\u0027t love that we check `!f.skipped \u0026\u0026 !f.failed` twice. Up to you though.",
+      "range": {
+        "startLine": 696,
+        "startChar": 0,
+        "endLine": 699,
+        "endChar": 4
+      },
+      "revId": "d60ad1e068263832c711aaf17b6ccb1b7f71b000",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
