@@ -79,6 +79,42 @@ func minimizeBytes(v []byte, try func(interface{}) bool, shouldStop func() bool)
 			j = len(v)
 		}
 	}
+
+	// Then, try to make it more human-readable and simplified.
+	for i, b := range v {
+		if shouldStop() {
+			return
+		}
+
+		candidate := make([]byte, len(v))
+		copy(candidate, v)
+
+		// Try to replace every byte with '0'.
+		candidate[i] = '0'
+		if try(candidate) {
+			v = candidate
+			continue
+		}
+
+		// If '0' doesn't work, then try to replace each byte with a printable,
+		// single byte character depending on the original byte's value.
+		switch {
+		case b < 32 || b >= 127: // Control chars and non-ASCII chars
+			candidate[i] = '?'
+		case b >= 65 && b <= 90: // Uppercase latin letters A-Z
+			candidate[i] = 'A'
+		case b >= 97 && b <= 122: // Lowercase latin letters a-z
+			candidate[i] = 'a'
+		default: // ASCII punctuation and symbols
+			candidate[i] = '.'
+		}
+
+		if !try(candidate) {
+			continue
+		}
+		// Set v to the new value and continue iterating.
+		v = candidate
+	}
 }
 
 func minimizeInteger(v uint, try func(interface{}) bool, shouldStop func() bool) {
