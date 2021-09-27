@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "555cc197_7c0d4710",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-09-27T04:45:22Z",
+      "side": 1,
+      "message": "this is a little weird but okay I guess.",
+      "revId": "c6f33efce9115c31596fc16acea88a6d056f54ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41dc4bd6_9dbc3838",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-09-27T04:45:22Z",
+      "side": 1,
+      "message": "this test doesn\u0027t fail nicely (see https://github.com/golang/go/wiki/CodeReviewComments#useful-test-failures)\n\nWhen it fails, it doesn\u0027t have enough context. It\u0027ll say \"#5. got false, want true\" but what\u0027s 5? and which of the 4 tests cases of 5?",
+      "revId": "c6f33efce9115c31596fc16acea88a6d056f54ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
