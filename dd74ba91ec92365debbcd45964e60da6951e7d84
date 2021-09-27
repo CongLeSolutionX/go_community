@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb7e7ce8_a36357dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-27T17:52:15Z",
+      "side": 1,
+      "message": "Per discussion on the issue, there is actually no bug to fix and this CL is not needed (and in fact incorrect). Mea culpa.",
+      "revId": "dd74ba91ec92365debbcd45964e60da6951e7d84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2094ea1_3e6c6526",
