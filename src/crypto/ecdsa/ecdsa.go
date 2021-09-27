@@ -205,12 +205,8 @@ func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err err
 	// [Coron]: https://cs.nyu.edu/~dodis/ps/merkle.pdf
 	// [Larsson]: https://web.archive.org/web/20040719170906/https://www.nada.kth.se/kurser/kth/2D1441/semteo03/lecturenotes/assump.pdf
 
-	// Get min(log2(q) / 2, 256) bits of entropy from rand.
-	entropylen := (priv.Curve.Params().BitSize + 7) / 16
-	if entropylen > 32 {
-		entropylen = 32
-	}
-	entropy := make([]byte, entropylen)
+	// Get 256 bits of entropy from rand.
+	entropy := make([]byte, 32)
 	_, err = io.ReadFull(rand, entropy)
 	if err != nil {
 		return
