@@ -92,7 +92,10 @@ func g2a[P, Q any](x P, y Q) {
 }
 
 func g2b[P, Q any](x P, y Q) {
-	g2b(y, x)
+	g2b(
+		y /* ERROR cannot use y \(variable of type parameter P constrained by interface{}\) as Q value in argument to g2b */ ,
+		x /* ERROR cannot use x \(variable of type parameter Q constrained by interface{}\) as P value in argument to g2b */ ,
+	)
 }
 
 // Here's an example of a recursive function call with variadic

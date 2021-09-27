@@ -328,6 +328,7 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 	}
 
 	// infer type arguments and instantiate signature if necessary
+	var smap substMap // used for signature instantiation; compute on demand if nil
 	if sig.TypeParams().Len() > 0 {
 		if !check.allowVersion(check.pkg, 1, 18) {
 			if iexpr, _ := call.Fun.(*syntax.IndexExpr); iexpr != nil {
@@ -338,12 +339,13 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 		}
 		// TODO(gri) provide position information for targs so we can feed
 		//           it to the instantiate call for better error reporting
-		targs := check.infer(call.Pos(), sig.TypeParams().list(), targs, sigParams, args)
+		targs = check.infer(call.Pos(), sig.TypeParams().list(), targs, sigParams, args)
 		if targs == nil {
 			return // error already reported
 		}
 
 		// compute result signature
+		// TODO(gri) check.instantiate computes a substMap which we have to recompute below
 		rsig = check.instantiate(call.Pos(), sig, targs, nil).(*Signature)
 		assert(rsig.TypeParams().Len() == 0) // signature is not generic anymore
 		check.recordInferred(call, targs, rsig)
@@ -352,7 +354,8 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 		// need to compute it from the adjusted list; otherwise we can
 		// simply use the result signature's parameter list.
 		if adjusted {
-			sigParams = check.subst(call.Pos(), sigParams, makeSubstMap(sig.TypeParams().list(), targs), nil).(*Tuple)
+			smap = makeSubstMap(sig.TypeParams().list(), targs)
+			sigParams = check.subst(call.Pos(), sigParams, smap, nil).(*Tuple)
 		} else {
 			sigParams = rsig.params
 		}
@@ -360,8 +363,23 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 
 	// check arguments
 	if len(args) > 0 {
+		// If a type-parameterized function f is calling itself recursively, arguments
+		// whose types are parameterized with type parameters of f must have those types
+		// instantiated with the (provided or inferred) type arguments for f, otherwise
+		// parameter-passing will use the wrong types (issue #48638).
+		// Example: func f[P any](x P) { f[int](x) }
+		if sig.TypeParams().Len() > 0 && smap == nil {
+			smap = makeSubstMap(sig.TypeParams().list(), targs)
+		}
 		context := check.sprintf("argument to %s", call.Fun)
 		for i, a := range args {
+			// instantiate function argument if necessary
+			if sig.TypeParams().Len() > 0 {
+				// TODO(gri) maybe we don't need to make a copy
+				copy := *a
+				copy.typ = check.subst(copy.expr.Pos(), copy.typ, smap, nil)
+				a = &copy
+			}
 			check.assignment(a, sigParams.vars[i].typ, context)
 		}
 	}

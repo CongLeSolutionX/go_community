@@ -1,0 +1,25 @@
+// Copyright 2021 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+func f1[P any](x P) {
+        f1[int](x)
+        f1[string](x)
+        f1[int](0)
+        f1[string]("foo")
+        f1(0)
+        f1("foo")
+}
+
+func f2[P any](x []P) {
+        f2[int]([]int{})
+        f2[string]([]string{})
+}
+
+func f3[P, Q any](x P, y Q) {
+        f3[P, Q](x, y)
+        f3(x, y)
+        f3[Q, P](x, y)
+}
