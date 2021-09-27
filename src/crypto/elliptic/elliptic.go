@@ -353,7 +353,8 @@ func GenerateKey(curve Curve, rand io.Reader) (priv []byte, x, y *big.Int, err e
 }
 
 // Marshal converts a point on the curve into the uncompressed form specified in
-// section 4.3.6 of ANSI X9.62.
+// SEC 1, Version 2.0, Section 2.3.3. If the point is not on the curve (or is
+// the conventional point at infinity), the output is undefined.
 func Marshal(curve Curve, x, y *big.Int) []byte {
 	byteLen := (curve.Params().BitSize + 7) / 8
 
@@ -367,7 +368,8 @@ func Marshal(curve Curve, x, y *big.Int) []byte {
 }
 
 // MarshalCompressed converts a point on the curve into the compressed form
-// specified in section 4.3.6 of ANSI X9.62.
+// specified in SEC 1, Version 2.0, Section 2.3.3. If the point is not on the
+// curve (or is the conventional point at infinity), the output is undefined.
 func MarshalCompressed(curve Curve, x, y *big.Int) []byte {
 	byteLen := (curve.Params().BitSize + 7) / 8
 	compressed := make([]byte, 1+byteLen)
@@ -376,9 +378,9 @@ func MarshalCompressed(curve Curve, x, y *big.Int) []byte {
 	return compressed
 }
 
-// Unmarshal converts a point, serialized by Marshal, into an x, y pair.
-// It is an error if the point is not in uncompressed form or is not on the curve.
-// On error, x = nil.
+// Unmarshal converts a point, serialized by Marshal, into an x, y pair. It is
+// an error if the point is not in uncompressed form, is not on the curve, or is
+// the point at infinity. On error, x = nil.
 func Unmarshal(curve Curve, data []byte) (x, y *big.Int) {
 	byteLen := (curve.Params().BitSize + 7) / 8
 	if len(data) != 1+2*byteLen {
@@ -399,9 +401,9 @@ func Unmarshal(curve Curve, data []byte) (x, y *big.Int) {
 	return
 }
 
-// UnmarshalCompressed converts a point, serialized by MarshalCompressed, into an x, y pair.
-// It is an error if the point is not in compressed form or is not on the curve.
-// On error, x = nil.
+// UnmarshalCompressed converts a point, serialized by MarshalCompressed, into
+// an x, y pair. It is an error if the point is not in compressed form, is not
+// on the curve, or is the point at infinity. On error, x = nil.
 func UnmarshalCompressed(curve Curve, data []byte) (x, y *big.Int) {
 	byteLen := (curve.Params().BitSize + 7) / 8
 	if len(data) != 1+byteLen {
