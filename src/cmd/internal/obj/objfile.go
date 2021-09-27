@@ -418,9 +418,11 @@ func (w *writer) contentHash(s *LSym) goobj.HashType {
 	binary.LittleEndian.PutUint64(tmp[:8], uint64(s.Size))
 	h.Write(tmp[:8])
 
-	// Don't dedup type symbols with others, as they are in a different
-	// section.
-	if strings.HasPrefix(s.Name, "type.") {
+	// Don't dedup pcdata and type symbols with others, as they are in different
+	// sections.
+	if s.IsPcdata() {
+		h.Write([]byte{'P'})
+	} else if strings.HasPrefix(s.Name, "type.") {
 		h.Write([]byte{'T'})
 	} else {
 		h.Write([]byte{0})
@@ -641,16 +643,6 @@ func nAuxSym(s *LSym) int {
 func genFuncInfoSyms(ctxt *Link) {
 	infosyms := make([]*LSym, 0, len(ctxt.Text))
 	hashedsyms := make([]*LSym, 0, 4*len(ctxt.Text))
-	preparePcSym := func(s *LSym) *LSym {
-		if s == nil {
-			return s
-		}
-		s.PkgIdx = goobj.PkgIdxHashed
-		s.SymIdx = int32(len(hashedsyms) + len(ctxt.hasheddefs))
-		s.Set(AttrIndexed, true)
-		hashedsyms = append(hashedsyms, s)
-		return s
-	}
 	var b bytes.Buffer
 	symidx := int32(len(ctxt.defs))
 	for _, s := range ctxt.Text {
@@ -665,13 +657,13 @@ func genFuncInfoSyms(ctxt *Link) {
 			FuncFlag: fn.FuncFlag,
 		}
 		pc := &fn.Pcln
-		o.Pcsp = makeSymRef(preparePcSym(pc.Pcsp))
-		o.Pcfile = makeSymRef(preparePcSym(pc.Pcfile))
-		o.Pcline = makeSymRef(preparePcSym(pc.Pcline))
-		o.Pcinline = makeSymRef(preparePcSym(pc.Pcinline))
+		o.Pcsp = makeSymRef(pc.Pcsp)
+		o.Pcfile = makeSymRef(pc.Pcfile)
+		o.Pcline = makeSymRef(pc.Pcline)
+		o.Pcinline = makeSymRef(pc.Pcinline)
 		o.Pcdata = make([]goobj.SymRef, len(pc.Pcdata))
 		for i, pcSym := range pc.Pcdata {
-			o.Pcdata[i] = makeSymRef(preparePcSym(pcSym))
+			o.Pcdata[i] = makeSymRef(pcSym)
 		}
 		o.Funcdataoff = make([]uint32, len(pc.Funcdataoff))
 		for i, x := range pc.Funcdataoff {
