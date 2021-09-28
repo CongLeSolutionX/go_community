@@ -224,6 +224,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 				coverage.Func(fn)
 			}
 		}
+		coverage.FinishPackage()
 	}
 
 	// Eliminate some obviously dead code.
