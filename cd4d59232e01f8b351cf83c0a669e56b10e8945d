@@ -52,6 +52,24 @@
       "parentUuid": "1c9206f1_62fcd070",
       "revId": "cd4d59232e01f8b351cf83c0a669e56b10e8945d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91bfae20_fef250c9",
+        "filename": "test/codegen/noextend.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-28T17:39:18Z",
+      "side": 0,
+      "message": "OK, I\u0027ll do that.",
+      "parentUuid": "9bdc01b2_47de4726",
+      "revId": "cd4d59232e01f8b351cf83c0a669e56b10e8945d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
