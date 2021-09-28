@@ -67,6 +67,13 @@ func (p Pos) LineNumber() string {
 	return p.lico.lineNumber()
 }
 
+func (p Pos) ColumnNumber() string {
+	if !p.IsKnown() {
+		return "?"
+	}
+	return p.lico.columnNumber()
+}
+
 func (p Pos) LineNumberHTML() string {
 	if !p.IsKnown() {
 		return "?"
@@ -454,6 +461,10 @@ func (x lico) withStmt(stmt uint) lico {
 
 func (x lico) lineNumber() string {
 	return fmt.Sprintf("%d", x.Line())
+}
+
+func (x lico) columnNumber() string {
+	return fmt.Sprintf("%d", x.Col())
 }
 
 func (x lico) lineNumberHTML() string {
