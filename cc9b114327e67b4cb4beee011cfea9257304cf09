@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cd52e1a_f8b4a4c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-09-28T16:01:06Z",
+      "side": 1,
+      "message": "Hello 👋\n\nI originally open this code for this issue golang/go#48657, which ended up being duplicate/subset of golang/go#48129.\n\n\nSome open thoughts I have on this change: \n* I am not in love with how I changed the function signature for minimizeBytes. Your feedback on this is welcome.\n* I wasn\u0027t sure if I should minimize symbols to \"$\". Maybe that is too American centric? \"\u003d\" is another option.\n* In issue golang/go#48129 Russ Cox suggested a different algorithm for minimizing. If you would prefer that algorithm I am happy to change this.",
+      "revId": "cc9b114327e67b4cb4beee011cfea9257304cf09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
