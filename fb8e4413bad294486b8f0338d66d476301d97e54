@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47772b6c_e97d26dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21426
+      },
+      "writtenOn": "2021-09-28T23:23:13Z",
+      "side": 1,
+      "message": "👍 Thanks for catching. I\u0027ve removed it. ",
+      "revId": "fb8e4413bad294486b8f0338d66d476301d97e54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

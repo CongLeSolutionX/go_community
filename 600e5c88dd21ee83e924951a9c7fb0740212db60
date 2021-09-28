@@ -16,6 +16,24 @@
       "message": "We need to remove \"finally\" here.",
       "revId": "600e5c88dd21ee83e924951a9c7fb0740212db60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a8ecd5_b97095fa",
+        "filename": "src/time/zoneinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 21426
+      },
+      "writtenOn": "2021-09-28T23:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "591e3957_d1e35494",
+      "revId": "600e5c88dd21ee83e924951a9c7fb0740212db60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
