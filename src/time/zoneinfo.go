@@ -636,7 +636,10 @@ var zoneinfoOnce sync.Once
 // LoadLocation looks in the directory or uncompressed zip file
 // named by the ZONEINFO environment variable, if any, then looks in
 // known installation locations on Unix systems,
-// and finally looks in $GOROOT/lib/time/zoneinfo.zip.
+// and looks in $GOROOT/lib/time/zoneinfo.zip.
+// If the time/tzdata package is imported, LoadLocation will load
+// the time zone database from that package if it could not be
+// loaded from any other location.
 func LoadLocation(name string) (*Location, error) {
 	if name == "" || name == "UTC" {
 		return UTC, nil
