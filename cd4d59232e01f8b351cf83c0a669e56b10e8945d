@@ -34,6 +34,24 @@
       "parentUuid": "da72b2d0_9322dc83",
       "revId": "cd4d59232e01f8b351cf83c0a669e56b10e8945d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bdc01b2_47de4726",
+        "filename": "test/codegen/noextend.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-28T15:21:39Z",
+      "side": 0,
+      "message": "Yeah, this change should be in a separate CL. Instead of deleting the test entirely, you could try to adjust the test so it works with both ABI. E.g. using global variables instead of arguments, or forcing the arguments to be passed on stack, e.g. loading an element of [2]uint8 instead of a uint8 directly, or using fields of a large stack-passing struct. (I did some of them in CL 309335.)",
+      "parentUuid": "1c9206f1_62fcd070",
+      "revId": "cd4d59232e01f8b351cf83c0a669e56b10e8945d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

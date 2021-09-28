@@ -158,6 +158,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afb1cdfa_ef3ba8d3",
+        "filename": "src/reflect/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-28T15:21:39Z",
+      "side": 1,
+      "message": "Hmmm. The size of abi.RegArgs should be 296, not 288. (But 336 is right.)\n\nI think LOCAL_RETVALID should be 32+FIXED_FRAME, LOCAL_REGARGS should be 40+FIXED_FRAME. This is what the formula says.",
+      "parentUuid": "34dc031f_31872a56",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "b24106c0001b6f6983fc18cf9bf17b8025e1f57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8f7fe52_6052125c",
         "filename": "src/reflect/asm_ppc64x.s",
         "patchSetId": 1
