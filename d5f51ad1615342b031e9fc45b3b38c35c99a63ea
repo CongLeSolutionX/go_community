@@ -63,6 +63,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5adf3ebb_5dc9333b",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-28T23:58:34Z",
+      "side": 1,
+      "message": "yeah, agreed: changed to masks",
+      "parentUuid": "e0e7bcd6_e1c6cd5b",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 8
+      },
+      "revId": "d5f51ad1615342b031e9fc45b3b38c35c99a63ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a2e932f4_17214e44",
         "filename": "src/cmd/compile/internal/types2/unify.go",
         "patchSetId": 2
@@ -74,6 +98,30 @@
       "writtenOn": "2021-09-28T23:42:33Z",
       "side": 1,
       "message": "This is an elegant solution, that avoids both falling back on types.Identical, and having to substitute placeholder parameters for type arguments.  I think what is effectively happening here is that masks mark the type parameter as a placeholder for subsequent unification.\n\nIt is however rather complicated. I think it should work, but am not 100% sure.",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 22
+      },
+      "revId": "d5f51ad1615342b031e9fc45b3b38c35c99a63ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c83181d7_d9d7278b",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-28T23:58:34Z",
+      "side": 1,
+      "message": "The way to think about it, in my mind at least, is that a type parameter P which has been unified against a type T stands for that type T, no matter what T looks like (specifically, no matter whether T is or contains P).\n\nIn the recursive type-matching process - which in essence is a simple recursive type comparison - when we encounter a type parameter P with a T, we must keep comparing the T \"as is\" - there\u0027s no further unpacking of P allowed if P appears in T (that would mean that T is a cyclic type of sorts w/o using a Named type, which is not possible; the cycle is the cause for the infinite recursion). Because it\u0027s a simple recursive type comparison, masking/unmasking in a stack-fashion works.\n\nThe mechanism may in fact allow us to get rid of the u.y vector if we wanted to, I think (we need it for bi-directional unification for constraint type inference, but there both u.x and u.y are identical).",
+      "parentUuid": "a2e932f4_17214e44",
       "range": {
         "startLine": 273,
         "startChar": 0,
