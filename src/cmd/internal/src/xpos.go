@@ -93,6 +93,14 @@ func (p XPos) LineNumber() string {
 	return p.lico.lineNumber()
 }
 
+// ColumnNumber returns a string for the column number, "?" if it is not known.
+func (p XPos) ColumnNumber() string {
+	if !p.IsKnown() {
+		return "?"
+	}
+	return p.lico.columnNumber()
+}
+
 // FileIndex returns a smallish non-negative integer corresponding to the
 // file for this source position.  Smallish is relative; it can be thousands
 // large, but not millions.
