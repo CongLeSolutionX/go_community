@@ -16,6 +16,24 @@
       "message": "Is this change related?",
       "revId": "cd4d59232e01f8b351cf83c0a669e56b10e8945d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9206f1_62fcd070",
+        "filename": "test/codegen/noextend.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-09-28T14:56:53Z",
+      "side": 0,
+      "message": "If you mean is this related to this CL? I could put this in a separate one. With the current change, you can build with the appropriate GOEXPERIMENT settings and almost all tests will work except this one and another which I haven\u0027t figured out (the one I mentioned in the ABI issue).\n\nBut there are two things in the CL that have me confused. As you mention, the stack size should be 336 in the makeFuncStub but it doesn\u0027t build with GOEXPERIMENT unless I have it at 360. Also, without setting GOEXPERIMENT, there are failures as show in the Trybot results which I don\u0027t understand. Almost like there is data corruption. makeFuncStub is allocating a large stack for regArgs but that space is not really used without GOEXPERIMENT, so I don\u0027t know if that is related to the Trybot test errors.",
+      "parentUuid": "da72b2d0_9322dc83",
+      "revId": "cd4d59232e01f8b351cf83c0a669e56b10e8945d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
