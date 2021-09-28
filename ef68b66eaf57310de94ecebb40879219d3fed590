@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0dd110e6_c9f2648b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-28T00:33:18Z",
+      "side": 1,
+      "message": "Thanks. You can submit that one. I\u0027ll rebase.",
+      "parentUuid": "e9036acb_cdaabdf0",
+      "revId": "ef68b66eaf57310de94ecebb40879219d3fed590",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fcddd81f_d964a6b2",
         "filename": "src/cmd/internal/obj/sym.go",
         "patchSetId": 1
@@ -85,6 +103,24 @@
       "writtenOn": "2021-09-27T21:59:45Z",
       "side": 1,
       "message": "I assume this gets inlined away.",
+      "revId": "ef68b66eaf57310de94ecebb40879219d3fed590",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08163c95_6f8d03b5",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-28T00:33:18Z",
+      "side": 1,
+      "message": "Yes, it does.",
+      "parentUuid": "fcddd81f_d964a6b2",
       "revId": "ef68b66eaf57310de94ecebb40879219d3fed590",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
