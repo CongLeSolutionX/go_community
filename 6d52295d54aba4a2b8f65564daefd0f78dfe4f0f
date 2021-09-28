@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "100b8819_f0dcfe02",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2640,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-28T18:15:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ee5fb256_0089d392",
+      "revId": "6d52295d54aba4a2b8f65564daefd0f78dfe4f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be81e101_3bff3de0",
@@ -104,6 +122,42 @@
       "writtenOn": "2021-09-27T20:45:25Z",
       "side": 1,
       "message": "This still seems too stateful / racy to me.\n\nHere we\u0027re relying on a state transition in the Gcflags field. Earlier, as far as I can tell, the field was either nil or fully-populated, but now it is either empty, roughed-in, or fully-populated, with the status not clearly indicated in the code and the mutations to the shared state even occurring in separate packages (`work` vs. `load`).\n\nLooking at the code in a bit more depth, I see that the p.Internal.Gcflags field seems to be intended to hold only explicit, per-package gcflags. There is a separate `work.forcedGcflags` variable that holds global, tool-wide flags,¹ and also separate fields of the `PackageInternal` struct for per-package variations like `CoverMode`.\n\nGiven that the cmd/go/internal/work package is already the one that defines FuzzInstrumentFlags, I think those flags probably make the most sense as an internal detail of the `work` package, toggled by a PackageInternal field along the lines of `CoverMode` (perhaps `FuzzInstrument bool`?).\n\nThen the `cmd/go/internal/test` package would set `p.Internal.FuzzInstrument \u003d true`, and the `work` package would use the state of the `FuzzInstrument` field to add whatever gcflags, ldflags, etc. are needed.\n\n¹https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/work/gc.go;l\u003d146;drc\u003dmaster",
+      "revId": "6d52295d54aba4a2b8f65564daefd0f78dfe4f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23230c5f_302d92ee",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2641,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-28T18:15:08Z",
+      "side": 1,
+      "message": "Thanks for the idea. I went ahead and did something pretty similar to what I think you were suggesting, and confirmed that it now works as expected. LMK if you see issues with what I\u0027ve done.",
+      "parentUuid": "be81e101_3bff3de0",
+      "revId": "6d52295d54aba4a2b8f65564daefd0f78dfe4f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab3c7b7_5aead2db",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2641,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-28T18:15:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be81e101_3bff3de0",
       "revId": "6d52295d54aba4a2b8f65564daefd0f78dfe4f0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
