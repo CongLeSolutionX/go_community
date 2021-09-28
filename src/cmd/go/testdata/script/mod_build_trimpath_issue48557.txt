@@ -1,0 +1,39 @@
+# Regression test for issue #48557.
+# Since builds in module mode do not support relative imports at all, the build
+# ID for (and other contents of) a binary built with -trimpath in module mode
+# should not depend on its working directory, even if the binary is specified as
+# a list of relative source files.
+
+[short] skip  # links and runs binaries
+
+env GOFLAGS=-trimpath
+
+cd $WORK/tmp/foo
+go build -o a.exe main.go
+
+go tool buildid a.exe
+cp stdout ../foo-buildid.txt
+go version a.exe
+cp stdout ../foo-version.txt
+cd ..
+
+mkdir bar
+cp foo/main.go bar/main.go
+cd bar
+go build -o a.exe main.go
+
+go tool buildid a.exe
+cp stdout ../bar-buildid.txt
+go version a.exe
+cp stdout ../bar-version.txt
+cd ..
+
+cmp bar-buildid.txt foo-buildid.txt
+cmp bar-version.txt foo-version.txt
+cmp bar/a.exe foo/a.exe
+
+
+-- $WORK/tmp/foo/main.go --
+package main
+
+func main() {}
