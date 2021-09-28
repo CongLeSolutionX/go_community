@@ -446,6 +446,56 @@ func (n *ConvExpr) editChildren(edit func(Node) Node) {
 	}
 }
 
+func (n *CoverCtrUpdateExpr) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
+func (n *CoverCtrUpdateExpr) copy() Node {
+	c := *n
+	c.init = copyNodes(c.init)
+	return &c
+}
+func (n *CoverCtrUpdateExpr) doChildren(do func(Node) bool) bool {
+	if doNodes(n.init, do) {
+		return true
+	}
+	if n.CtrVar != nil && do(n.CtrVar) {
+		return true
+	}
+	return false
+}
+func (n *CoverCtrUpdateExpr) editChildren(edit func(Node) Node) {
+	editNodes(n.init, edit)
+	if n.CtrVar != nil {
+		n.CtrVar = edit(n.CtrVar).(Node)
+	}
+}
+
+func (n *CoverFuncRegExpr) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
+func (n *CoverFuncRegExpr) copy() Node {
+	c := *n
+	c.init = copyNodes(c.init)
+	return &c
+}
+func (n *CoverFuncRegExpr) doChildren(do func(Node) bool) bool {
+	if doNodes(n.init, do) {
+		return true
+	}
+	if n.CtrVar != nil && do(n.CtrVar) {
+		return true
+	}
+	if n.PkgId != nil && do(n.PkgId) {
+		return true
+	}
+	return false
+}
+func (n *CoverFuncRegExpr) editChildren(edit func(Node) Node) {
+	editNodes(n.init, edit)
+	if n.CtrVar != nil {
+		n.CtrVar = edit(n.CtrVar).(Node)
+	}
+	if n.PkgId != nil {
+		n.PkgId = edit(n.PkgId).(Node)
+	}
+}
+
 func (n *Decl) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
 func (n *Decl) copy() Node {
 	c := *n

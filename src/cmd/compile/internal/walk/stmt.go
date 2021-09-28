@@ -163,6 +163,14 @@ func walkStmt(n ir.Node) ir.Node {
 	case ir.ORANGE:
 		n := n.(*ir.RangeStmt)
 		return walkRange(n)
+
+	case ir.OCOVERFUNCREG:
+		n := n.(*ir.CoverFuncRegExpr)
+		return n
+
+	case ir.OCOVERCTRUPDATE:
+		n := n.(*ir.CoverCtrUpdateExpr)
+		return n
 	}
 
 	// No return! Each case must return (or panic),

@@ -918,6 +918,15 @@ func typecheck1(n ir.Node, top int) ir.Node {
 		n.X = typecheck(n.X, ctxType).(*ir.Name)
 		types.CheckSize(n.X.Type())
 		return n
+
+	case ir.OCOVERCTRUPDATE:
+		n := n.(*ir.CoverCtrUpdateExpr)
+		return n
+
+	case ir.OCOVERFUNCREG:
+		n := n.(*ir.CoverFuncRegExpr)
+		n.PkgId = DefaultLit(n.PkgId, types.Types[types.TINT])
+		return n
 	}
 
 	// No return n here!

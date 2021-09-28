@@ -1816,6 +1816,22 @@ func (r *importReader) node() ir.Node {
 		n.Def = r.bool()
 		return n
 
+	case ir.OCOVERCTRUPDATE:
+		pos := r.pos()
+		c := r.expr()
+		sl := r.uint64()
+		n := ir.NewCoverCtrUpdateExpr(pos, c, uint32(sl))
+		return n
+
+	case ir.OCOVERFUNCREG:
+		pos := r.pos()
+		c := r.expr()
+		p := r.expr()
+		nc := r.uint64()
+		fn := r.uint64()
+		n := ir.NewCoverFuncRegExpr(pos, c, p, uint32(nc), uint32(fn))
+		return n
+
 	default:
 		base.Fatalf("cannot import %v (%d) node\n"+
 			"\t==> please file an issue and assign to gri@", op, int(op))

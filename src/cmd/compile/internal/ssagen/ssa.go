@@ -12,6 +12,7 @@ import (
 	"go/constant"
 	"html"
 	"internal/buildcfg"
+	"internal/coverage"
 	"os"
 	"path/filepath"
 	"sort"
@@ -1926,6 +1927,49 @@ func (s *state) stmt(n ir.Node) {
 	case ir.OINLMARK:
 		n := n.(*ir.InlineMarkStmt)
 		s.newValue1I(ssa.OpInlMark, types.TypeVoid, n.Index, s.mem())
+
+	case ir.OCOVERFUNCREG:
+		n := n.(*ir.CoverFuncRegExpr)
+
+		// generate:
+		// ctr[numCtrsOffset] = numCtrs
+		idxVal := s.constInt32(types.Types[types.TUINT32], int32(coverage.NumCtrsOffset))
+		ctrAddr := s.addr(n.CtrVar)
+		idx := s.newValue2(ssa.OpPtrIndex, types.NewPtr(n.CtrVar.Type().Elem()), ctrAddr, idxVal)
+		nc := s.constInt32(types.Types[types.TUINT32], int32(n.NumCtrs))
+		s.store(types.Types[types.TUINT32], idx, nc)
+
+		// generated:
+		// counters[pkgIdOffset] = pkgIdVar
+		idxVal = s.constInt32(types.Types[types.TUINT32], int32(coverage.PkgIdOffset))
+		ctrAddr = s.addr(n.CtrVar)
+		idx = s.newValue2(ssa.OpPtrIndex, types.NewPtr(n.CtrVar.Type().Elem()), ctrAddr, idxVal)
+		pkx := s.expr(n.PkgId)
+		s.store(types.Types[types.TUINT32], idx, pkx)
+
+		// generate:
+		// counters[funcIdOffset] = funcId
+		idxVal = s.constInt32(types.Types[types.TUINT32], int32(coverage.FuncIdOffset))
+		ctrAddr = s.addr(n.CtrVar)
+		idx = s.newValue2(ssa.OpPtrIndex, types.NewPtr(n.CtrVar.Type().Elem()), ctrAddr, idxVal)
+		fid := s.constInt32(types.Types[types.TUINT32], int32(n.FuncId))
+		s.store(types.Types[types.TUINT32], idx, fid)
+
+	case ir.OCOVERCTRUPDATE:
+		n := n.(*ir.CoverCtrUpdateExpr)
+
+		// FIXME: add code here to implement different counter modes,
+		// e.g. atomic, etc. Also instead of adding or storing 1,
+		// add or store a global var (so that we can turn on/off counter updates
+		// at runtime).
+
+		// generate:
+		// counters[slot] = 1
+		idxVal := s.constInt32(types.Types[types.TUINT32], int32(n.Slot))
+		ctrAddr := s.addr(n.CtrVar)
+		idx := s.newValue2(ssa.OpPtrIndex, types.NewPtr(n.CtrVar.Type().Elem()), ctrAddr, idxVal)
+		one := s.constInt32(types.Types[types.TUINT32], int32(1))
+		s.store(types.Types[types.TUINT32], idx, one)
 
 	default:
 		s.Fatalf("unhandled stmt %v", n.Op())
