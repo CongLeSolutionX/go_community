@@ -420,6 +420,19 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 
 	case ir.OMETHEXPR:
 		v.budget++ // Hack for toolstash -cmp.
+
+	case ir.OCOVERFUNCREG, ir.OCOVERCTRUPDATE:
+		// Coverage counter updates and coverage func registrations.
+		// Although these correspond to real operations (ssagen will
+		// expand them into stores into the counter array) we treat
+		// them as zero cost for the moment. This is primarily due to
+		// the existence of tests that are sensitive to inlining-- if
+		// the insertion of coverage instrumentation happens to tip a
+		// given function over the threshold and move it from
+		// "inlinable" to "not-inlinable", this can cause changes in
+		// allocation behavior, which can then result in test failures
+		// (a good example is the TestAllocations in crypto/ed25519).
+		return false
 	}
 
 	v.budget--

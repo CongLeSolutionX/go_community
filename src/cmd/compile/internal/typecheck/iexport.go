@@ -2172,6 +2172,22 @@ func (w *exportWriter) expr(n ir.Node) {
 		w.exprList(n.Rhs)
 		w.bool(n.Def)
 
+	case ir.OCOVERCTRUPDATE:
+		n := n.(*ir.CoverCtrUpdateExpr)
+		w.op(ir.OCOVERCTRUPDATE)
+		w.pos(n.Pos())
+		w.expr(n.CtrVar)
+		w.uint64(uint64(n.Slot))
+
+	case ir.OCOVERFUNCREG:
+		n := n.(*ir.CoverFuncRegExpr)
+		w.op(ir.OCOVERFUNCREG)
+		w.pos(n.Pos())
+		w.expr(n.CtrVar)
+		w.expr(n.PkgId)
+		w.uint64(uint64(n.NumCtrs))
+		w.uint64(uint64(n.FuncId))
+
 	default:
 		base.Fatalf("cannot export %v (%d) node\n"+
 			"\t==> please file an issue and assign to gri@", n.Op(), int(n.Op()))
