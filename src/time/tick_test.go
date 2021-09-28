@@ -85,6 +85,60 @@ func TestTicker(t *testing.T) {
 	logErrs()
 }
 
+var objs [][]*int
+
+func TestTimerDelayDuringGC(t *testing.T) {
+	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(4))
+	compl := make(chan bool, 2)
+	// prepareGarbage for long GC mark time
+	objs = make([][]*int, 100)
+	for i := range objs {
+		objs[i] = make([]*int, 1000000)
+	}
+	defer func() {
+		objs = nil
+	}()
+
+	// for keeping all P busy
+	for i := 0; i < 4; i++ {
+		go func() {
+			for {
+			}
+		}()
+	}
+
+	// creat some timers on different P
+	for i := 0; i < 10; i++ {
+		go func() {
+			tc := NewTicker(100 * Millisecond)
+			var last Time
+			var index = 0
+			last = Now()
+			for ti := range tc.C {
+				elapseTime := ti.Sub(last).Milliseconds()
+				if elapseTime > 200 {
+					compl <- false
+				}
+				last = ti
+				index++
+				if index == 10 {
+					compl <- true
+					tc.Stop()
+				}
+			}
+		}()
+	}
+
+	go func() {
+		Sleep(80 * Millisecond)
+		runtime.GC()
+	}()
+
+	if !<-compl {
+		t.Errorf("timer is strongly delayed")
+	}
+}
+
 // Issue 21874
 func TestTickerStopWithDirectInitialization(t *testing.T) {
 	c := make(chan Time)

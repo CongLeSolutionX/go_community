@@ -3320,6 +3320,19 @@ top:
 
 	checkTimers(pp, 0)
 
+	// Timer extremely delay check: if a timer expire, and it's local
+	// P cannot execute it immediately, it needs to be stolen by other P
+	// as soon as possible. Usually, this happens when GC occurs, the
+	// dedicated P cannot check it own timer before the mark job finished.
+	// The timerDelayP only can be checked once for reducing the
+	// contention on checkTimers.
+	p2 := (*p)(unsafe.Pointer(sched.timerDelayP))
+	if p2 != nil && p2 != pp {
+		if atomic.Cas64(&p2.timerDelay, 1, 0) {
+			checkTimers(p2, 0)
+		}
+	}
+
 	var gp *g
 	var inheritTime bool
 
@@ -3423,6 +3436,9 @@ func dropg() {
 // We pass now in and out to avoid extra calls of nanotime.
 //go:yeswritebarrierrec
 func checkTimers(pp *p, now int64) (rnow, pollUntil int64, ran bool) {
+	// Set the timerDelay to 0 for reducing the contention on checkTimers.
+	atomic.Cas64(&pp.timerDelay, 1, 0)
+
 	// If it's not yet time for the first timer, or the first adjusted
 	// timer, then there is nothing to do.
 	next := int64(atomic.Load64(&pp.timer0When))
@@ -5346,26 +5362,34 @@ func sysmon() {
 			}
 		}
 		mDoFixup()
-		if GOOS == "netbsd" && needSysmonWorkaround {
-			// netpoll is responsible for waiting for timer
-			// expiration, so we typically don't have to worry
-			// about starting an M to service timers. (Note that
-			// sleep for timeSleepUntil above simply ensures sysmon
-			// starts running again when that timer expiration may
-			// cause Go code to run again).
-			//
-			// However, netbsd has a kernel bug that sometimes
-			// misses netpollBreak wake-ups, which can lead to
-			// unbounded delays servicing timers. If we detect this
-			// overrun, then startm to get something to handle the
-			// timer.
-			//
-			// See issue 42515 and
-			// https://gnats.netbsd.org/cgi-bin/query-pr-single.pl?number=50094.
-			if next, _ := timeSleepUntil(); next < now {
+		sched.timerDelayP = 0
+		next, p2 := timeSleepUntil()
+		if next < now {
+			if GOOS == "netbsd" && needSysmonWorkaround {
+				// netpoll is responsible for waiting for timer
+				// expiration, so we typically don't have to worry
+				// about starting an M to service timers. (Note that
+				// sleep for timeSleepUntil above simply ensures sysmon
+				// starts running again when that timer expiration may
+				// cause Go code to run again).
+				//
+				// However, netbsd has a kernel bug that sometimes
+				// misses netpollBreak wake-ups, which can lead to
+				// unbounded delays servicing timers. If we detect this
+				// overrun, then startm to get something to handle the
+				// timer.
+				//
+				// See issue 42515 and
+				// https://gnats.netbsd.org/cgi-bin/query-pr-single.pl?number=50094.
 				startm(nil, false)
 			}
+			// If exist a timer delayed more than 20ms, the timerDelay flag is marked.
+			if (now - next) > 20*1000000 {
+				atomic.Cas64(&p2.timerDelay, 0, 1)
+				sched.timerDelayP = (uintptr)(unsafe.Pointer(p2))
+			}
 		}
+
 		if atomic.Load(&scavenge.sysmonWake) != 0 {
 			// Kick the scavenger awake if someone requested it.
 			wakeScavenger()
