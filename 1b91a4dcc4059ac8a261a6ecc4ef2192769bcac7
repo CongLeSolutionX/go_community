@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d113878_6224ad3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-09-28T15:19:07Z",
+      "side": 1,
+      "message": "Please use a lower-case verb after the colon. This is for consistency with style used by most Go commits. See output of `git log --oneline` and https://golang.org/wiki/CommitMessage.",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "1b91a4dcc4059ac8a261a6ecc4ef2192769bcac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
