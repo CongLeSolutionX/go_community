@@ -10,16 +10,48 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/staticinit"
+	"cmd/compile/internal/typecheck"
+	"cmd/compile/internal/types"
+	"cmd/internal/objabi"
 	"cmd/internal/src"
 )
+
+// pkgIdVar is a package-level temp var to hold pkg ID
+var pkgIdVar *ir.Name
 
 // covmgr maintains state for the coverage phase/pass during the walk
 // of a given function.
 type covmgr struct {
-	ind   int
-	unit  covRange
-	units []covRange
+	ind      int // debug trace output indent level
+	unit     covRange
+	units    []covRange
+	counters *ir.Name
+	fnPos    src.XPos
 }
+
+// NB: the "counters" object we generate for each instrumented function
+// can be thought of as a struct of the following form:
+//
+// struct {
+//     numCtrs uint32
+//     pkgid uint32
+//     funcid uint32
+//     counterArray [numBlocks]uint32
+// }
+//
+// where "numCtrs" is the number of blocks / coverable units within the
+// function, "pkgid" is the unique index assigned to this package by
+// the runtime, "funcid" is the index of this function within its containing
+// packge, and "counterArray" stores the actual counters.
+//
+// The counter variable itself is created not as a struct but as a flat
+// array of uint32's; we then use the offsets below to index into it.
+
+const numCtrsOffet = 0
+const pkgIdOffset = 1
+const funcIdOffset = 2
+const firstCtrOffset = 3
 
 // Func visits a function and take actions needed for compiler-based
 // code coverage instrumentation.
@@ -33,8 +65,40 @@ func Func(fn *ir.Func) {
 	if base.Flag.CompilingRuntime {
 		return
 	}
-	c := &covmgr{}
+	c := newCovMgr()
 	c.Func(fn)
+}
+
+func newCovMgr() *covmgr {
+
+	// TODO: make sure this works with set/counter/atomic modes.
+
+	// The counter variable for each instrumented function is a flat
+	// array of uint32 values: a set of three prolog values (containing
+	// the number of counters, pkg ID, and func ID) then the actual
+	// counter values themselves.
+	//
+	// We won't know how many counters we have until we're done
+	// instrumenting the function, so we can't construct an accurate
+	// type at this point. Fudge things instead: just treat the
+	// counter var as an array of uint32 with a dummy length, then
+	// eventually update it once we know how long it will be.
+	//
+	dummyLength := int64(1)
+	ctrType := types.NewArray(types.Types[types.TUINT32], dummyLength)
+	counters := staticinit.StaticName(ctrType)
+	counters.SetCoverageCounter(true)
+	counters.Linksym().Type = objabi.SCOVERAGE_COUNTER
+
+	// Create a static var to hold the pkg ID. This will be filled
+	// as part of pkg init (in a subsequent patch).
+	if pkgIdVar == nil {
+		pkgIdVar = staticinit.StaticName(types.Types[types.TUINT32])
+	}
+
+	return &covmgr{
+		counters: counters,
+	}
 }
 
 func (c *covmgr) verb(s string, a ...interface{}) {
@@ -90,6 +154,23 @@ func disposition(n ir.Node) stmtDisposition {
 	case ir.OLABEL:
 		return stmtEndsBlock
 	case ir.OBLOCK:
+		// FIXME: the legacy cmd/cover implementation seems to count
+		// empty blocks as executable statements, with the exception
+		// of the outermost function block. Examples:
+		//
+		// func A() { }
+		// func B() { { { { } } } }
+		//
+		// For function "A", cmd/cover creates a counter to record
+		// whether the function ever executes, but considers the
+		// function to have zero stmts. For function B, cmd/cover
+		// treats it has having three executable statements. Not clear
+		// whether we want to replicate this behavior. Might also be
+		// worth trying other coverage tools to see how they treat
+		// these cases.
+		//
+		// For now, empty blocks are treated as having no executable
+		// statements.
 		return 0
 	case ir.OFUNCINST:
 		// Shouldn't see any of these given the current position in
@@ -133,9 +214,9 @@ func (c *covmgr) pnode(n ir.Node) {
 //  L15:  }
 //
 // The top level statement here is the CALLFUNC at line 11, however we
-// would like the ending source position for the statement to be line
-// 14, not line 11. Figuring this our requires walking into
-// sub-expressions to visit their positions.
+// would like the ending source position for the statement in the
+// meta-data to be line 14, not line 11. Figuring this our requires
+// walking into sub-expressions to visit their positions.
 //
 func (c *covmgr) expr(n ir.Node) {
 	if n == nil {
@@ -171,19 +252,25 @@ func (c *covmgr) exprList(nn *ir.Nodes) {
 
 // Func method visits a function for coverage instrumentation.
 func (c *covmgr) Func(fn *ir.Func) {
-	if base.Debug.NewCovDebug != 0 {
-		fmt.Fprintf(os.Stderr, "\n\n")
-	}
-	c.verb("fn %v", fn.Sym())
-
 	if len(fn.Body) == 0 {
-		c.verb("len(fn.Body) is 0")
+		// don't process assembly functions.
 		return
 	}
 
+	c.verb("\n\nfn %v", fn.Sym())
+
 	c.stmts(&fn.Body)
 
+	// In the case of an empty function, we want to make sure we get a
+	// single coverable unit with with nxStmts set to 0. From a
+	// statement coverage perspective, an empty function contains no
+	// statements (which would argue for no counters), but we'd like
+	// to be able to detect that the function was called. Hence a
+	// single coverable unit (and counter) with zero exec stmts.
 	if c.unit.nxStmts != 0 {
+		c.units = append(c.units, c.unit)
+	} else if len(c.units) == 0 {
+		fn.Body = append(fn.Body, c.counterGen(fn.Pos())...)
 		c.units = append(c.units, c.unit)
 	}
 
@@ -192,6 +279,63 @@ func (c *covmgr) Func(fn *ir.Func) {
 	for k, u := range c.units {
 		c.verb("%d: %s", k, u.String())
 	}
+
+	funcId := uint32(0) // dummy value (real value to be added in a later patch)
+	c.fixup(fn, funcId, uint32(len(c.units)))
+
+	c.verb("final bod: %+v", fn.Body)
+}
+
+// fixup updates the type of the counter array (now that the number of counters is known)
+// and inserts code into the entry basic block to record the meta-data symbol, func ID,
+// and number of counters into the initial portion of the counter array.
+func (c *covmgr) fixup(fn *ir.Func, funcId uint32, nCtrs uint32) {
+
+	bpsave := base.Pos
+	defer func() { base.Pos = bpsave }()
+	base.Pos = c.fnPos
+
+	if nCtrs == 0 {
+		// something went wrong -- even for empty functions we should have
+		// a coverable unit.
+		panic("bad")
+	}
+
+	// We now know the length of the counter array, so update its type.
+	// update the type of the counter array.
+	t := types.NewArray(types.Types[types.TUINT32], int64(nCtrs)+firstCtrOffset)
+	c.counters.SetType(t)
+
+	// emit: counters[numCtrsOffet] = <num counters>
+	ixc := ir.NewIndexExpr(c.fnPos, c.counters, ir.NewInt(numCtrsOffet))
+	ixc.SetBounded(true)
+	assign1 := typecheck.Stmt(ir.NewAssignStmt(c.fnPos, ixc, ir.NewInt(int64(nCtrs))))
+
+	// emit: counters[pkgIdOffset] = pkgIdVar
+	ixp := ir.NewIndexExpr(c.fnPos, c.counters, ir.NewInt(pkgIdOffset))
+	ixp.SetBounded(true)
+	assign2 := typecheck.Stmt(ir.NewAssignStmt(c.fnPos, ixp, pkgIdVar))
+
+	// emit: counters[funcidOffset] = <func id>
+	ixf := ir.NewIndexExpr(c.fnPos, c.counters, ir.NewInt(funcIdOffset))
+	ixf.SetBounded(true)
+	assign3 := typecheck.Stmt(ir.NewAssignStmt(c.fnPos, ixf, ir.NewInt(int64(funcId))))
+
+	// prepend to function body.
+	fn.Body = append([]ir.Node{assign1, assign2, assign3}, fn.Body...)
+}
+
+func (c *covmgr) counterGen(pos src.XPos) []ir.Node {
+	var rval []ir.Node
+
+	// counter[k] = 1
+	k := int64(len(c.units))
+	c.verb("adding counters[%d] update", k)
+	ix := ir.NewIndexExpr(pos, c.counters, ir.NewInt(k+firstCtrOffset))
+	ix.SetBounded(true)
+	update := ir.NewAssignStmt(pos, ix, ir.NewInt(1))
+	rval = append(rval, typecheck.Stmt(update))
+	return rval
 }
 
 // stmts() visits a set of statements, collecting coverage meta
@@ -199,18 +343,26 @@ func (c *covmgr) Func(fn *ir.Func) {
 func (c *covmgr) stmts(nn *ir.Nodes) {
 	c.ind++
 	defer func() { c.ind-- }()
-
+	out := []ir.Node{}
 	for i, n := range *nn {
 		c.verb("stmts: idx=%d op='%v' %v", i, n.Op(), n)
 		c.pnode(n)
-		c.stmt(n)
+		nx := c.stmt(n)
+		if nx != nil {
+			out = append(out, nx...)
+		}
+		out = append(out, n)
 	}
+	*nn = out
 }
 
-// Visit examines the statement corresponding to node 'n',
-func (c *covmgr) stmt(n ir.Node) {
+// Visit examines the statement corresponding to node 'n', optionally
+// returning a new node corresponding to a counter update, if we
+// decided to add a counter up for this node.
+func (c *covmgr) stmt(n ir.Node) []ir.Node {
+	var ctr []ir.Node
 	if false {
-		// Q: do I need to visit init ?
+		// Q: do I need to examine the init clause here?
 		if len(n.Init()) != 0 {
 			ni := n.(ir.InitNode)
 			c.appendPos(n)
@@ -220,6 +372,9 @@ func (c *covmgr) stmt(n ir.Node) {
 	disp := disposition(n)
 	if disp&stmtIsExecutable != 0 {
 		c.appendPos(n)
+		if c.unit.nxStmts == 0 {
+			ctr = c.counterGen(n.Pos())
+		}
 		c.unit.nxStmts++
 	}
 	if disp&stmtHasStmtChildren == 0 {
@@ -290,4 +445,5 @@ func (c *covmgr) stmt(n ir.Node) {
 			panic("unhandled")
 		}
 	}
+	return ctr
 }
