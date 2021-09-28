@@ -738,6 +738,10 @@ type p struct {
 	// scheduler ASAP (regardless of what G is running on it).
 	preempt bool
 
+	// timerDelay is used to identify whether existed a timer extremely delay in this p
+	// This is 0 if no timer delay
+	timerDelay uint64
+
 	// Padding is no longer needed. False sharing is now not a worry because p is large enough
 	// that its size class is an integer multiple of the cache line size (for any of our architectures).
 }
@@ -838,6 +842,10 @@ type schedt struct {
 	//
 	// timeToRun is protected by sched.lock.
 	timeToRun timeHistogram
+
+	// timerDelayP is used to identify whether existed a timer extremely delay in one p
+	// This is 0 if no timer delay
+	timerDelayP uintptr
 }
 
 // Values for the flags field of a sigTabT.
