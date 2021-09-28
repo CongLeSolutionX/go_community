@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f525ccb3_3b9cb98f",
+        "filename": "src/go/types/signature.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-28T15:20:47Z",
+      "side": 1,
+      "message": "Done, and also changed to \"must have a receiver\" to be consistent with the suggestion below.",
+      "parentUuid": "7bc8c555_4b9e7112",
+      "range": {
+        "startLine": 61,
+        "startChar": 19,
+        "endLine": 61,
+        "endChar": 20
+      },
+      "revId": "70efbe0dd0e34d37ce418125e524cecc2fce54fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe93fff8_06d7d974",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-09-28T00:59:41Z",
       "side": 1,
       "message": "s/methods/method/\n\nmaybe, to be more explicit:\n\n\"function with type parameters cannot be a method\" (or: \"... cannot have a receiver\")",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 17
+      },
+      "revId": "70efbe0dd0e34d37ce418125e524cecc2fce54fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c295a928_c4baf946",
+        "filename": "src/go/types/signature.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-09-28T15:20:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe93fff8_06d7d974",
       "range": {
         "startLine": 67,
         "startChar": 10,
