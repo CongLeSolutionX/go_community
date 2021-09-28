@@ -1777,7 +1777,13 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 	sect = state.allocateNamedSectionAndAssignSyms(&Segdata, ".noptrbss", sym.SNOPTRBSS, sym.Sxxx, 06)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.noptrbss", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.enoptrbss", 0), sect)
+	//	}
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.end", 0), sect)
+
+	// Code coverage counters.
+	sect = state.allocateNamedSectionAndAssignSyms(&Segdata, ".covctrs", sym.SCOVERAGE_COUNTER, sym.Sxxx, 06)
+	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.covctrs", 0), sect)
+	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.ecovctrs", 0), sect)
 
 	// Coverage instrumentation counters for libfuzzer.
 	if len(state.data[sym.SLIBFUZZER_EXTRA_COUNTER]) > 0 {
@@ -2541,6 +2547,7 @@ func (ctxt *Link) address() []*sym.Segment {
 	var bss *sym.Section
 	var noptrbss *sym.Section
 	var fuzzCounters *sym.Section
+	var covctrs *sym.Section
 	for i, s := range Segdata.Sections {
 		if (ctxt.IsELF || ctxt.HeadType == objabi.Haix) && s.Name == ".tbss" {
 			continue
@@ -2563,6 +2570,8 @@ func (ctxt *Link) address() []*sym.Segment {
 			noptrbss = s
 		case "__libfuzzer_extra_counters":
 			fuzzCounters = s
+		case ".covctrs":
+			covctrs = s
 		}
 	}
 
@@ -2677,6 +2686,8 @@ func (ctxt *Link) address() []*sym.Segment {
 	ctxt.xdefine("runtime.edata", sym.SDATA, int64(data.Vaddr+data.Length))
 	ctxt.xdefine("runtime.noptrbss", sym.SNOPTRBSS, int64(noptrbss.Vaddr))
 	ctxt.xdefine("runtime.enoptrbss", sym.SNOPTRBSS, int64(noptrbss.Vaddr+noptrbss.Length))
+	ctxt.xdefine("runtime.covctrs", sym.SCOVERAGE_COUNTER, int64(covctrs.Vaddr))
+	ctxt.xdefine("runtime.ecovctrs", sym.SCOVERAGE_COUNTER, int64(covctrs.Vaddr+covctrs.Length))
 	ctxt.xdefine("runtime.end", sym.SBSS, int64(Segdata.Vaddr+Segdata.Length))
 
 	if fuzzCounters != nil {

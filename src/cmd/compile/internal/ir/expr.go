@@ -1144,3 +1144,35 @@ func MethodExprFunc(n Node) *types.Field {
 	base.Fatalf("unexpected node: %v (%v)", n, n.Op())
 	panic("unreachable")
 }
+
+// A CoverFuncRegExpr is a code-coverage helper expression that
+// records details on a covered function.
+type CoverFuncRegExpr struct {
+	miniExpr
+	CtrVar  Node
+	PkgId   Node
+	NumCtrs uint32
+	FuncId  uint32
+}
+
+func NewCoverFuncRegExpr(pos src.XPos, ctrVar, pkId Node, numCtrs, funcId uint32) *CoverFuncRegExpr {
+	n := &CoverFuncRegExpr{NumCtrs: numCtrs, FuncId: funcId, PkgId: pkId, CtrVar: ctrVar}
+	n.pos = pos
+	n.op = OCOVERFUNCREG
+	return n
+}
+
+// A CoverCtrUpdateExpr is a code-coverage helper expression that
+// encapsulates a code-coverage counter update.
+type CoverCtrUpdateExpr struct {
+	miniExpr
+	CtrVar Node
+	Slot   uint32
+}
+
+func NewCoverCtrUpdateExpr(pos src.XPos, ctrVar Node, slot uint32) *CoverCtrUpdateExpr {
+	n := &CoverCtrUpdateExpr{CtrVar: ctrVar, Slot: slot}
+	n.pos = pos
+	n.op = OCOVERCTRUPDATE
+	return n
+}

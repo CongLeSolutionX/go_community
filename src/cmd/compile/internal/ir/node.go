@@ -306,19 +306,21 @@ const (
 	// for the captured variables, parameters, retvars, & INLMARK op),
 	// Body (body of the inlined function), and ReturnVars (list of
 	// return values)
-	OINLCALL       // intermediary representation of an inlined call.
-	OEFACE         // itable and data words of an empty-interface value.
-	OITAB          // itable word of an interface value.
-	OIDATA         // data word of an interface value in X
-	OSPTR          // base pointer of a slice or string.
-	OCFUNC         // reference to c function pointer (not go func value)
-	OCHECKNIL      // emit code to ensure pointer/interface not nil
-	OVARDEF        // variable is about to be fully initialized
-	OVARKILL       // variable is dead
-	OVARLIVE       // variable is alive
-	ORESULT        // result of a function call; Xoffset is stack offset
-	OINLMARK       // start of an inlined body, with file/line of caller. Xoffset is an index into the inline tree.
-	OLINKSYMOFFSET // offset within a name
+	OINLCALL        // intermediary representation of an inlined call.
+	OEFACE          // itable and data words of an empty-interface value.
+	OITAB           // itable word of an interface value.
+	OIDATA          // data word of an interface value in X
+	OSPTR           // base pointer of a slice or string.
+	OCFUNC          // reference to c function pointer (not go func value)
+	OCHECKNIL       // emit code to ensure pointer/interface not nil
+	OVARDEF         // variable is about to be fully initialized
+	OVARKILL        // variable is dead
+	OVARLIVE        // variable is alive
+	ORESULT         // result of a function call; Xoffset is stack offset
+	OINLMARK        // start of an inlined body, with file/line of caller. Xoffset is an index into the inline tree.
+	OLINKSYMOFFSET  // offset within a name
+	OCOVERFUNCREG   // register function for coverage testing
+	OCOVERCTRUPDATE // update coverage counter
 
 	// opcodes for generics
 	ODYNAMICDOTTYPE  // x = i.(T) where T is a type parameter (or derived from a type parameter)
