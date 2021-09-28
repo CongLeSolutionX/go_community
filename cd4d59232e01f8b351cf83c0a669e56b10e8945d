@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da72b2d0_9322dc83",
+        "filename": "test/codegen/noextend.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-28T14:34:21Z",
+      "side": 0,
+      "message": "Is this change related?",
+      "revId": "cd4d59232e01f8b351cf83c0a669e56b10e8945d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
