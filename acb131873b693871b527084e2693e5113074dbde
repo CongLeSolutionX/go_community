@@ -68,6 +68,24 @@
       "message": "I think this is a remnant of amd64p32. PtrSize should always be 8 on amd64 now.\n(This code is ok as is, but maybe you could clean that up in a separate CL.)",
       "revId": "acb131873b693871b527084e2693e5113074dbde",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b627706_8c79fd82",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4517,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2021-09-28T06:40:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b9833f8_5c1341c0",
+      "revId": "acb131873b693871b527084e2693e5113074dbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
