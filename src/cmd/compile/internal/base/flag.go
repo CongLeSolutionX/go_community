@@ -112,6 +112,7 @@ type CmdFlags struct {
 	MemProfileRate     int          "help:\"set runtime.MemProfileRate to `rate`\""
 	MutexProfile       string       "help:\"write mutex profile to `file`\""
 	NoLocalImports     bool         "help:\"reject local (relative) imports\""
+	NewCov             bool         "help:\"turn on new coverage inst.\""
 	Pack               bool         "help:\"write to file.a instead of file.o\""
 	Race               bool         "help:\"enable race detector\""
 	Shared             *bool        "help:\"generate code that can be linked into a shared library\"" // &Ctxt.Flag_shared, set below
