@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b064b7e_00df1dfa",
+        "filename": "src/cmd/internal/objfile/goobj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-28T15:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a216cc9f_8e0877d3",
+      "revId": "61dcca35a8336ca8bfedfdb2f91418da3670a973",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1104a85c_6a78b237",
@@ -104,6 +122,24 @@
       "writtenOn": "2021-09-27T22:05:31Z",
       "side": 1,
       "message": "You can save some line noise by putting the zero values first in the comparison. Or adding an IsZero method.",
+      "revId": "61dcca35a8336ca8bfedfdb2f91418da3670a973",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "363597c4_b5766e3a",
+        "filename": "src/cmd/internal/objfile/goobj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-09-28T15:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1104a85c_6a78b237",
       "revId": "61dcca35a8336ca8bfedfdb2f91418da3670a973",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
