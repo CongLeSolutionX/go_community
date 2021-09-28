@@ -111,6 +111,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc660da5_6b749752",
+        "filename": "src/cmd/go/internal/load/flag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-28T19:17:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e1eba35_f3941f70",
+      "revId": "504169163952c83349bcf9aef2f9725cb1c9e3bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9a3a2f1_254723d7",
@@ -134,6 +152,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fe6b14a_b26d1e22",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-28T19:17:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9a3a2f1_254723d7",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 3
+      },
+      "revId": "504169163952c83349bcf9aef2f9725cb1c9e3bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9362fb97_62c1c619",
@@ -147,6 +189,24 @@
       "writtenOn": "2021-09-28T19:07:05Z",
       "side": 1,
       "message": "This seems like the simplest place to inject the flags — into the defaultGcFlags slice somewhere between here and line 144.",
+      "revId": "504169163952c83349bcf9aef2f9725cb1c9e3bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7244ede_cff61f6f",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-28T19:17:17Z",
+      "side": 1,
+      "message": "I was trying to do this earlier based on your suggestion, but was running into problems.\ne.g.\n  # internal/unsafeheader\ncompile: cannot use concurrent backend compilation with provided flags; invoked as [/Users/katiehockman/godev/pkg/tool/darwin_amd64/compile -o $WORK/b007/_pkg_.a -trimpath $WORK/b007\u003d\u003e -p internal/unsafeheader -std -complete -buildid 4ashRJxnX1Th87KSO_9m/4ashRJxnX1Th87KSO_9m -d\u003dlibfuzzer -c\u003d4 -importcfg $WORK/b007/importcfg -pack internal/unsafeheader/unsafeheader.go]\n\nWill keep looking into it.",
+      "parentUuid": "9362fb97_62c1c619",
       "revId": "504169163952c83349bcf9aef2f9725cb1c9e3bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
