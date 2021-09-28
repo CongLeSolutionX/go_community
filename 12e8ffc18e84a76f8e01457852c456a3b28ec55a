@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beb9d522_a5843c50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-09-28T08:06:46Z",
+      "side": 1,
+      "message": "I found a possible way to return an error instead of adjusting the passed in values.\n\nAdjusting the values seems a little risky, since it may lead to exposing data that thr caller should not see. \nDeferring the error return to the first Read call seems safer to me. ",
+      "revId": "12e8ffc18e84a76f8e01457852c456a3b28ec55a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17731d89_c489ed68",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-09-28T08:06:46Z",
+      "side": 1,
+      "message": "You could return an error by encoding a negative sentinel value in e.g. the base field and react on it in the Read method without ever using the underlying io. Reader.Read in field r.\n\nThat would also allow handling underflow as well and as a separate conditions.",
+      "revId": "12e8ffc18e84a76f8e01457852c456a3b28ec55a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
