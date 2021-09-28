@@ -1298,6 +1298,7 @@ func (ctxt *Link) doelf() {
 	shstrtab.Addstring(".bss")
 	shstrtab.Addstring(".noptrbss")
 	shstrtab.Addstring("__libfuzzer_extra_counters")
+	shstrtab.Addstring(".covctrs")
 	shstrtab.Addstring(".go.buildinfo")
 	if ctxt.IsMIPS() {
 		shstrtab.Addstring(".MIPS.abiflags")
