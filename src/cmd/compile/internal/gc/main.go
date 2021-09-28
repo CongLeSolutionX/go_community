@@ -107,7 +107,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// Record flags that affect the build result. (And don't
 	// record flags that don't, since that would cause spurious
 	// changes in the binary.)
-	dwarfgen.RecordFlags("B", "N", "l", "msan", "race", "asan", "shared", "dynlink", "dwarf", "dwarflocationlists", "dwarfbasentries", "smallframes", "spectre")
+	dwarfgen.RecordFlags("B", "N", "l", "msan", "race", "asan", "shared", "dynlink", "dwarf", "dwarflocationlists", "dwarfbasentries", "smallframes", "spectre", "newcov")
 
 	if !base.EnableTrace && base.Flag.LowerT {
 		log.Fatalf("compiler not built with support for -t")
@@ -211,6 +211,16 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// Fix up init routines if building for code coverage.
 	if base.Flag.Cfg.CoverageInfo != nil {
 		coverage.Fixup()
+	}
+
+	// Coverage instrumentation addition and meta-data generation.
+	// Must happen before deadcode.
+	if base.Flag.NewCov {
+		for _, n := range typecheck.Target.Decls {
+			if fn, ok := n.(*ir.Func); ok {
+				coverage.Func(fn)
+			}
+		}
 	}
 
 	// Eliminate some obviously dead code.
