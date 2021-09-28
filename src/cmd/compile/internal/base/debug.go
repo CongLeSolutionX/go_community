@@ -28,6 +28,8 @@ type DebugFlags struct {
 	GCProg               int    `help:"print dump of GC programs"`
 	InlFuncsWithClosures int    `help:"allow functions with closures to be inlined"`
 	Libfuzzer            int    `help:"enable coverage instrumentation for libfuzzer"`
+	ThanDebug            int    `help:"than debug"`
+	NewCovDebug          int    `help:"new coverage debug"`
 	LocationLists        int    `help:"print information about DWARF location list creation"`
 	Nil                  int    `help:"print information about nil checks"`
 	NoOpenDefer          int    `help:"disable open-coded defers"`
