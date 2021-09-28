@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"bytes"
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/coverage"
 	"cmd/compile/internal/deadcode"
 	"cmd/compile/internal/devirtualize"
 	"cmd/compile/internal/dwarfgen"
@@ -214,6 +215,16 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		sort.SliceStable(s, func(i, j int) bool {
 			return s[i].Pos().Before(s[j].Pos())
 		})
+	}
+
+	// Coverage instrumentation addition and meta-data generation.
+	// Must happen before deadcode.
+	if base.Flag.NewCov {
+		for _, n := range typecheck.Target.Decls {
+			if fn, ok := n.(*ir.Func); ok {
+				coverage.Func(fn)
+			}
+		}
 	}
 
 	// Eliminate some obviously dead code.
