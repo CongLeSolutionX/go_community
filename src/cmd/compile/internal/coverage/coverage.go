@@ -10,10 +10,13 @@ import (
 	"cmd/compile/internal/staticinit"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
+	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
+	"crypto/md5"
 	"fmt"
 	"internal/coverage"
+	"internal/coverage/encodemeta"
 	"os"
 	"path/filepath"
 	"strings"
@@ -21,6 +24,12 @@ import (
 
 // pkgIdVar is a package-level temp var to hold pkg ID
 var pkgIdVar *ir.Name
+
+// mdbuilder is a helper object for building/encoding meta-data for the package.
+var mdbuilder *encodemeta.CoverageMetaDataBuilder
+
+// mdname is a package-level readonly var holding meta-data for the pkg
+var mdname *ir.Name
 
 // covmgr maintains state for the coverage phase/pass during the walk
 // of a given function.
@@ -44,6 +53,31 @@ func Func(fn *ir.Func) {
 	}
 	// TODO: figure out if there are parts of the runtime that are
 	// unsafe to compile with coverage instrumentation.
+
+	if mdbuilder == nil {
+		mdbuilder = encodemeta.NewCoverageMetaDataBuilder(base.Ctxt.Pkgpath)
+
+		// Create the coverage meta-data symbol. This will be a
+		// package-level, read-only symbol that is exported (so as to
+		// allow it to be referred to by inlined routine bodies in
+		// other packages). Assign the symbol a dummy type of
+		// "[1]uint8"; later on we'll fix up the type to "[K]uint"
+		// where K is the actual length of the underlying LSym's data.
+		// Mark the symbol as local so as to ensure that the linker
+		// doesn't emit a DWARF type DIE for it (since it is not a
+		// real Go variable).
+		mdname = typecheck.NewName(typecheck.Lookup(".covmeta"))
+		dummyLength := int64(1)
+		metaType := types.NewArray(types.Types[types.TUINT8], dummyLength)
+		mdname.SetType(metaType)
+		typecheck.Declare(mdname, ir.PEXTERN)
+		typecheck.Export(mdname)
+		mdname.MarkReadonly()
+		mdsym := mdname.Linksym()
+		mdsym.Set(obj.AttrStatic, true)
+		mdsym.Set(obj.AttrLocal, true)
+	}
+
 	c := newCovMgr()
 	c.Func(fn)
 }
@@ -264,8 +298,8 @@ func (c *covmgr) Func(fn *ir.Func) {
 		c.verb("%d: %s", k, u.String())
 	}
 
-	funcId := uint32(0) // dummy value (real value to be added in a later patch)
-	c.fixup(fn, funcId, uint32(len(c.units)))
+	funcId := c.recordMetaData(fn)
+	c.fixup(fn, uint32(funcId), uint32(len(c.units)))
 
 	c.verb("final bod: %+v", fn.Body)
 }
@@ -309,6 +343,38 @@ func (c *covmgr) fixup(fn *ir.Func, funcId uint32, nCtrs uint32) {
 
 	// prepend to function body.
 	fn.Body = append([]ir.Node{assign1, assign2, assign3}, fn.Body...)
+}
+
+// recordMetaData registers the function we've just visited with the
+// meta-data builder. The builder adds an entry for the function in
+// its data structures, so as to include it in the final meta-data
+// symbol for the package.
+func (c *covmgr) recordMetaData(fn *ir.Func) uint {
+	cunits := make([]coverage.CoverableUnit, 0, len(c.units))
+	for _, u := range c.units {
+		cu := coverage.CoverableUnit{
+			StLine:  uint32(u.st.Line()),
+			StCol:   uint32(u.st.Col()),
+			EnLine:  uint32(u.en.Line()),
+			EnCol:   uint32(u.en.Col()),
+			NxStmts: uint32(u.nxStmts),
+		}
+		cunits = append(cunits, cu)
+	}
+	xp := fn.Pos()
+	fnpos := base.Ctxt.PosTable.Pos(xp)
+	fname := fn.Linksym().Name
+	if strings.HasPrefix(fname, types.LocalPkg.Prefix+".") {
+		fname = fname[3:]
+	}
+	fd := coverage.FuncDesc{
+		Funcname: fname,
+		Srcfile:  fnpos.Filename(),
+		Units:    cunits,
+	}
+
+	// record what we've seen with the meta-data builder
+	return mdbuilder.AddFunc(fd)
 }
 
 func (c *covmgr) counterGen(pos src.XPos) []ir.Node {
@@ -466,4 +532,49 @@ func (c *covmgr) stmt(n ir.Node) []ir.Node {
 		}
 	}
 	return ctr
+}
+
+type symbolWriteSeeker struct {
+	ctxt *obj.Link
+	sym  *obj.LSym
+	off  int64
+}
+
+func (d *symbolWriteSeeker) Write(p []byte) (n int, err error) {
+	amt := len(p)
+	d.sym.WriteBytes(d.ctxt, d.off, p)
+	d.off += int64(amt)
+	return amt, nil
+}
+
+func (d *symbolWriteSeeker) Seek(offset int64, whence int) (int64, error) {
+	if whence == os.SEEK_SET {
+		d.off = offset
+		return offset, nil
+	}
+	// other modes not supported
+	panic("bad")
+}
+
+// FinishPackage is called once we've visited all of the functions
+// in the package; it finalizes the meta-data symbol for the package.
+func FinishPackage() {
+
+	// Write accumulated content to the meta-data symbol.
+	mdsym := mdname.Linksym()
+	writer := &symbolWriteSeeker{
+		sym:  mdsym,
+		ctxt: base.Ctxt,
+	}
+	mdbuilder.Emit(writer)
+	mdbuilder = nil
+
+	if base.Debug.NewCovDebug != 0 {
+		fmt.Fprintf(os.Stderr, "=-= pkg=%s mdlen=%d sum=%s 4b=%x\n", base.Ctxt.Pkgpath, len(mdsym.P), fmt.Sprintf("%x", md5.Sum(mdsym.P)), mdsym.P[0:4])
+	}
+
+	// Now that we know the length, update the type of the meta-data symbol
+	// to reflect reality.
+	mdname.SetType(types.NewArray(types.Types[types.TUINT8], int64(len(mdsym.P))))
+	mdname = nil
 }
