@@ -1246,6 +1246,8 @@ func colTypeToReflectType(typ string) reflect.Type {
 		return reflect.TypeOf(NullFloat64{})
 	case "datetime":
 		return reflect.TypeOf(time.Time{})
+	case "nulltime":
+		return reflect.TypeOf(NullTime{})
 	case "any":
 		return reflect.TypeOf(new(interface{})).Elem()
 	}
