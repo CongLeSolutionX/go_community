@@ -92,6 +92,23 @@
       "parentUuid": "23eb51e8_00b85ece",
       "revId": "4018cffb01c9d868824e1268621457d44cebd9e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69b87190_07884931",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-09-29T15:16:52Z",
+      "side": 1,
+      "message": "(optional)\n\nI suppose that FuzzInstrument technically doen\u0027t make a difference if fuzzInstrumentFlags returns an empty slice. So you could improve the cache hit rate somewhat by checking that:\n\n\tif p.Internal.FuzzInstrument {\n\t\tif fuzzFlags :\u003d fuzzInstrumentFlags(); len(fuzzFlags) \u003e 0 {\n\t\t\tfmt.Fprintf(…)\n\t\t}\n\t}\n\n(But it probably doesn\u0027t make a huge difference either way.)",
+      "revId": "4018cffb01c9d868824e1268621457d44cebd9e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
