@@ -16,6 +16,24 @@
       "message": "It seems unfortunate to wait until a timer is delayed to run it.  If we believe that the problem is restricted to the GC, perhaps when a thread enter a potentially long unpreemptible section it can hand timers off to some other thread.",
       "revId": "bb41dbf382f89110731475b2c6d9b6064b45b87d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4216eb86_2aae4380",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49059
+      },
+      "writtenOn": "2021-09-29T04:15:31Z",
+      "side": 1,
+      "message": "Fisrtly, it not to wait, only when a timer is stremely delay and be marked by sysmon other P will help to check it as soon as possible. And you mentioned that hand timers off to other P before enter a potentially long unpreemptible section will be more difficult, because it hard determine exactly how long the potentially unpreemptible section will be and at the same time the contention affect will be large.",
+      "parentUuid": "bea92a55_bcb48b30",
+      "revId": "bb41dbf382f89110731475b2c6d9b6064b45b87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
