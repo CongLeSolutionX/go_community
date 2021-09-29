@@ -1,138 +1,310 @@
-pkg syscall (darwin-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (darwin-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (darwin-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (darwin-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg debug/elf, const EM_LOONGARCH = 258
+pkg debug/elf, const EM_LOONGARCH Machine
+pkg debug/elf, const R_LARCH_32 = 1
+pkg debug/elf, const R_LARCH_32 R_LARCH
+pkg debug/elf, const R_LARCH_64 = 2
+pkg debug/elf, const R_LARCH_64 R_LARCH
+pkg debug/elf, const R_LARCH_ADD16 = 48
+pkg debug/elf, const R_LARCH_ADD16 R_LARCH
+pkg debug/elf, const R_LARCH_ADD24 = 49
+pkg debug/elf, const R_LARCH_ADD24 R_LARCH
+pkg debug/elf, const R_LARCH_ADD32 = 50
+pkg debug/elf, const R_LARCH_ADD32 R_LARCH
+pkg debug/elf, const R_LARCH_ADD64 = 51
+pkg debug/elf, const R_LARCH_ADD64 R_LARCH
+pkg debug/elf, const R_LARCH_ADD8 = 47
+pkg debug/elf, const R_LARCH_ADD8 R_LARCH
+pkg debug/elf, const R_LARCH_COPY = 4
+pkg debug/elf, const R_LARCH_COPY R_LARCH
+pkg debug/elf, const R_LARCH_IRELATIVE = 12
+pkg debug/elf, const R_LARCH_IRELATIVE R_LARCH
+pkg debug/elf, const R_LARCH_JUMP_SLOT = 5
+pkg debug/elf, const R_LARCH_JUMP_SLOT R_LARCH
+pkg debug/elf, const R_LARCH_MARK_LA = 20
+pkg debug/elf, const R_LARCH_MARK_LA R_LARCH
+pkg debug/elf, const R_LARCH_MARK_PCREL = 21
+pkg debug/elf, const R_LARCH_MARK_PCREL R_LARCH
+pkg debug/elf, const R_LARCH_NONE = 0
+pkg debug/elf, const R_LARCH_NONE R_LARCH
+pkg debug/elf, const R_LARCH_RELATIVE = 3
+pkg debug/elf, const R_LARCH_RELATIVE R_LARCH
+pkg debug/elf, const R_LARCH_SOP_ADD = 35
+pkg debug/elf, const R_LARCH_SOP_ADD R_LARCH
+pkg debug/elf, const R_LARCH_SOP_AND = 36
+pkg debug/elf, const R_LARCH_SOP_AND R_LARCH
+pkg debug/elf, const R_LARCH_SOP_ASSERT = 30
+pkg debug/elf, const R_LARCH_SOP_ASSERT R_LARCH
+pkg debug/elf, const R_LARCH_SOP_IF_ELSE = 37
+pkg debug/elf, const R_LARCH_SOP_IF_ELSE R_LARCH
+pkg debug/elf, const R_LARCH_SOP_NOT = 31
+pkg debug/elf, const R_LARCH_SOP_NOT R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_0_10_10_16_S2 = 45
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_0_10_10_16_S2 R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_0_5_10_16_S2 = 44
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_0_5_10_16_S2 R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_12 = 40
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_12 R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_16 = 41
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_16 R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_16_S2 = 42
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_16_S2 R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_5 = 38
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_5 R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_5_20 = 43
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_5_20 R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_U_10_12 = 39
+pkg debug/elf, const R_LARCH_SOP_POP_32_U_10_12 R_LARCH
+pkg debug/elf, const R_LARCH_SOP_POP_32_U = 46
+pkg debug/elf, const R_LARCH_SOP_POP_32_U R_LARCH
+pkg debug/elf, const R_LARCH_SOP_PUSH_ABSOLUTE = 23
+pkg debug/elf, const R_LARCH_SOP_PUSH_ABSOLUTE R_LARCH
+pkg debug/elf, const R_LARCH_SOP_PUSH_DUP = 24
+pkg debug/elf, const R_LARCH_SOP_PUSH_DUP R_LARCH
+pkg debug/elf, const R_LARCH_SOP_PUSH_GPREL = 25
+pkg debug/elf, const R_LARCH_SOP_PUSH_GPREL R_LARCH
+pkg debug/elf, const R_LARCH_SOP_PUSH_PCREL = 22
+pkg debug/elf, const R_LARCH_SOP_PUSH_PCREL R_LARCH
+pkg debug/elf, const R_LARCH_SOP_PUSH_PLT_PCREL = 29
+pkg debug/elf, const R_LARCH_SOP_PUSH_PLT_PCREL R_LARCH
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_GD = 28
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_GD R_LARCH
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_GOT = 27
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_GOT R_LARCH
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_TPREL = 26
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_TPREL R_LARCH
+pkg debug/elf, const R_LARCH_SOP_SL = 33
+pkg debug/elf, const R_LARCH_SOP_SL R_LARCH
+pkg debug/elf, const R_LARCH_SOP_SR = 34
+pkg debug/elf, const R_LARCH_SOP_SR R_LARCH
+pkg debug/elf, const R_LARCH_SOP_SUB = 32
+pkg debug/elf, const R_LARCH_SOP_SUB R_LARCH
+pkg debug/elf, const R_LARCH_SUB16 = 53
+pkg debug/elf, const R_LARCH_SUB16 R_LARCH
+pkg debug/elf, const R_LARCH_SUB24 = 54
+pkg debug/elf, const R_LARCH_SUB24 R_LARCH
+pkg debug/elf, const R_LARCH_SUB32 = 55
+pkg debug/elf, const R_LARCH_SUB32 R_LARCH
+pkg debug/elf, const R_LARCH_SUB64 = 56
+pkg debug/elf, const R_LARCH_SUB64 R_LARCH
+pkg debug/elf, const R_LARCH_SUB8 = 52
+pkg debug/elf, const R_LARCH_SUB8 R_LARCH
+pkg debug/elf, const R_LARCH_TLS_DTPMOD32 = 6
+pkg debug/elf, const R_LARCH_TLS_DTPMOD32 R_LARCH
+pkg debug/elf, const R_LARCH_TLS_DTPMOD64 = 7
+pkg debug/elf, const R_LARCH_TLS_DTPMOD64 R_LARCH
+pkg debug/elf, const R_LARCH_TLS_DTPREL32 = 8
+pkg debug/elf, const R_LARCH_TLS_DTPREL32 R_LARCH
+pkg debug/elf, const R_LARCH_TLS_DTPREL64 = 9
+pkg debug/elf, const R_LARCH_TLS_DTPREL64 R_LARCH
+pkg debug/elf, const R_LARCH_TLS_TPREL32 = 10
+pkg debug/elf, const R_LARCH_TLS_TPREL32 R_LARCH
+pkg debug/elf, const R_LARCH_TLS_TPREL64 = 11
+pkg debug/elf, const R_LARCH_TLS_TPREL64 R_LARCH
+pkg debug/elf, method (R_LARCH) GoString() string
+pkg debug/elf, method (R_LARCH) String() string
+pkg debug/elf, type R_LARCH int
+pkg go/ast, method (*IndexListExpr) End() token.Pos
+pkg go/ast, method (*IndexListExpr) Pos() token.Pos
+pkg go/ast, type FuncType struct, TypeParams *FieldList
+pkg go/ast, type IndexListExpr struct
+pkg go/ast, type IndexListExpr struct, Indices []Expr
+pkg go/ast, type IndexListExpr struct, Lbrack token.Pos
+pkg go/ast, type IndexListExpr struct, Rbrack token.Pos
+pkg go/ast, type IndexListExpr struct, X Expr
+pkg go/ast, type TypeSpec struct, TypeParams *FieldList
+pkg go/constant, method (Kind) String() string
+pkg go/token, const TILDE = 88
+pkg go/token, const TILDE Token
+pkg go/types, func Instantiate(*Environment, Type, []Type, bool) (Type, error)
+pkg go/types, func NewEnvironment() *Environment
+pkg go/types, func NewTerm(bool, Type) *Term
+pkg go/types, func NewTypeList([]Type) *TypeList
+pkg go/types, func NewTypeParam(*TypeName, Type) *TypeParam
+pkg go/types, func NewUnion([]*Term) *Union
+pkg go/types, method (ArgumentError) Error() string
+pkg go/types, method (ArgumentError) Index() int
+pkg go/types, method (*Interface) IsComparable() bool
+pkg go/types, method (*Interface) IsConstraint() bool
+pkg go/types, method (*Named) SetTypeParams([]*TypeParam)
+pkg go/types, method (*Named) TypeArgs() *TypeList
+pkg go/types, method (*Named) TypeParams() *TypeParamList
+pkg go/types, method (*Signature) RecvTypeParams() *TypeParamList
+pkg go/types, method (*Signature) SetRecvTypeParams([]*TypeParam)
+pkg go/types, method (*Signature) SetTypeParams([]*TypeParam)
+pkg go/types, method (*Signature) TypeParams() *TypeParamList
+pkg go/types, method (*Term) String() string
+pkg go/types, method (*Term) Tilde() bool
+pkg go/types, method (*Term) Type() Type
+pkg go/types, method (*TypeList) At(int) Type
+pkg go/types, method (*TypeList) Len() int
+pkg go/types, method (*TypeList) String() string
+pkg go/types, method (*TypeParam) Constraint() Type
+pkg go/types, method (*TypeParamList) At(int) *TypeParam
+pkg go/types, method (*TypeParamList) Len() int
+pkg go/types, method (*TypeParam) Obj() *TypeName
+pkg go/types, method (*TypeParam) SetConstraint(Type)
+pkg go/types, method (*TypeParam) String() string
+pkg go/types, method (*TypeParam) Underlying() Type
+pkg go/types, method (*Union) Len() int
+pkg go/types, method (*Union) String() string
+pkg go/types, method (*Union) Term(int) *Term
+pkg go/types, method (*Union) Underlying() Type
+pkg go/types, type ArgumentError struct
+pkg go/types, type Config struct, Environment *Environment
+pkg go/types, type Config struct, GoVersion string
+pkg go/types, type Environment struct
+pkg go/types, type Inferred struct
+pkg go/types, type Inferred struct, Sig *Signature
+pkg go/types, type Inferred struct, TArgs *TypeList
+pkg go/types, type Info struct, Inferred map[ast.Expr]Inferred
+pkg go/types, type Term struct
+pkg go/types, type TypeList struct
+pkg go/types, type TypeParamList struct
+pkg go/types, type TypeParam struct
+pkg go/types, type Union struct
+pkg reflect, const Pointer = 22
+pkg reflect, const Pointer Kind
+pkg reflect, func PointerTo(Type) Type
+pkg reflect, method (*MapIter) Reset(Value)
+pkg reflect, method (*MapIter) SetKey(Value)
+pkg reflect, method (*MapIter) SetValue(Value)
 pkg syscall (darwin-amd64-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (darwin-amd64-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (darwin-amd64-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (darwin-amd64-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (freebsd-386), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (freebsd-386), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (freebsd-386), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (freebsd-386), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (darwin-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (darwin-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (darwin-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (darwin-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (freebsd-386-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (freebsd-386-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (freebsd-386-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (freebsd-386-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (freebsd-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (freebsd-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (freebsd-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (freebsd-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (freebsd-386), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (freebsd-386), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (freebsd-386), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (freebsd-386), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (freebsd-amd64-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (freebsd-amd64-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (freebsd-amd64-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (freebsd-amd64-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (freebsd-arm), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (freebsd-arm), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (freebsd-arm), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (freebsd-arm), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (freebsd-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (freebsd-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (freebsd-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (freebsd-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (freebsd-arm-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (freebsd-arm-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (freebsd-arm-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (freebsd-arm-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (linux-386), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (linux-386), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (linux-386), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (linux-386), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (freebsd-arm), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (freebsd-arm), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (freebsd-arm), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (freebsd-arm), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (linux-386-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (linux-386-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (linux-386-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (linux-386-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (linux-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (linux-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (linux-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (linux-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (linux-386), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (linux-386), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (linux-386), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (linux-386), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (linux-amd64-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (linux-amd64-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (linux-amd64-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (linux-amd64-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (linux-arm), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (linux-arm), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (linux-arm), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (linux-arm), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (linux-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (linux-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (linux-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (linux-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (linux-arm-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (linux-arm-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (linux-arm-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (linux-arm-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (netbsd-386), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (netbsd-386), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (netbsd-386), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (netbsd-386), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (linux-arm), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (linux-arm), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (linux-arm), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (linux-arm), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (netbsd-386-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (netbsd-386-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (netbsd-386-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (netbsd-386-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (netbsd-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (netbsd-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (netbsd-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (netbsd-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (netbsd-386), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (netbsd-386), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (netbsd-386), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (netbsd-386), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (netbsd-amd64-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (netbsd-amd64-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (netbsd-amd64-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (netbsd-amd64-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (netbsd-arm), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (netbsd-arm), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (netbsd-arm), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (netbsd-arm), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (netbsd-arm-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (netbsd-arm-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (netbsd-arm-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (netbsd-arm-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (netbsd-arm64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (netbsd-arm64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (netbsd-arm64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (netbsd-arm64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (netbsd-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (netbsd-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (netbsd-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (netbsd-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (netbsd-arm64-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (netbsd-arm64-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (netbsd-arm64-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (netbsd-arm64-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (openbsd-386), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (openbsd-386), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (openbsd-386), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (openbsd-386), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (netbsd-arm64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (netbsd-arm64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (netbsd-arm64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (netbsd-arm64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (netbsd-arm-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (netbsd-arm-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (netbsd-arm-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (netbsd-arm-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (netbsd-arm), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (netbsd-arm), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (netbsd-arm), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (netbsd-arm), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (openbsd-386-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (openbsd-386-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (openbsd-386-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (openbsd-386-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
-pkg syscall (openbsd-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
-pkg syscall (openbsd-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
-pkg syscall (openbsd-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
-pkg syscall (openbsd-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (openbsd-386), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (openbsd-386), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (openbsd-386), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (openbsd-386), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
 pkg syscall (openbsd-amd64-cgo), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
 pkg syscall (openbsd-amd64-cgo), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
 pkg syscall (openbsd-amd64-cgo), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
 pkg syscall (openbsd-amd64-cgo), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (openbsd-amd64), func RecvfromInet4(int, []uint8, int, *SockaddrInet4) (int, error)
+pkg syscall (openbsd-amd64), func RecvfromInet6(int, []uint8, int, *SockaddrInet6) (int, error)
+pkg syscall (openbsd-amd64), func SendtoInet4(int, []uint8, int, SockaddrInet4) error
+pkg syscall (openbsd-amd64), func SendtoInet6(int, []uint8, int, SockaddrInet6) error
+pkg syscall (windows-386), func SyscallN(uintptr, ...uintptr) (uintptr, uintptr, Errno)
 pkg syscall (windows-386), func WSASendtoInet4(Handle, *WSABuf, uint32, *uint32, uint32, SockaddrInet4, *Overlapped, *uint8) error
 pkg syscall (windows-386), func WSASendtoInet6(Handle, *WSABuf, uint32, *uint32, uint32, SockaddrInet6, *Overlapped, *uint8) error
+pkg syscall (windows-amd64), func SyscallN(uintptr, ...uintptr) (uintptr, uintptr, Errno)
 pkg syscall (windows-amd64), func WSASendtoInet4(Handle, *WSABuf, uint32, *uint32, uint32, SockaddrInet4, *Overlapped, *uint8) error
 pkg syscall (windows-amd64), func WSASendtoInet6(Handle, *WSABuf, uint32, *uint32, uint32, SockaddrInet6, *Overlapped, *uint8) error
 pkg testing, func Fuzz(func(*F)) FuzzResult
 pkg testing, func MainStart(testDeps, []InternalTest, []InternalBenchmark, []InternalFuzzTarget, []InternalExample) *M
-pkg testing, func RunFuzzTargets(func(string, string) (bool, error), []InternalFuzzTarget) bool
 pkg testing, func RunFuzzing(func(string, string) (bool, error), []InternalFuzzTarget) bool
+pkg testing, func RunFuzzTargets(func(string, string) (bool, error), []InternalFuzzTarget) bool
 pkg testing, method (*B) Setenv(string, string)
 pkg testing, method (*F) Add(...interface{})
 pkg testing, method (*F) Cleanup(func())
-pkg testing, method (*F) Error(...interface{})
 pkg testing, method (*F) Errorf(string, ...interface{})
+pkg testing, method (*F) Error(...interface{})
 pkg testing, method (*F) Fail()
-pkg testing, method (*F) FailNow()
 pkg testing, method (*F) Failed() bool
-pkg testing, method (*F) Fatal(...interface{})
+pkg testing, method (*F) FailNow()
 pkg testing, method (*F) Fatalf(string, ...interface{})
+pkg testing, method (*F) Fatal(...interface{})
 pkg testing, method (*F) Fuzz(interface{})
 pkg testing, method (*F) Helper()
-pkg testing, method (*F) Log(...interface{})
 pkg testing, method (*F) Logf(string, ...interface{})
+pkg testing, method (*F) Log(...interface{})
 pkg testing, method (*F) Name() string
 pkg testing, method (*F) Setenv(string, string)
+pkg testing, method (*F) Skipf(string, ...interface{})
 pkg testing, method (*F) Skip(...interface{})
 pkg testing, method (*F) SkipNow()
-pkg testing, method (*F) Skipf(string, ...interface{})
 pkg testing, method (*F) Skipped() bool
 pkg testing, method (*F) TempDir() string
-pkg testing, method (*T) Setenv(string, string)
 pkg testing, method (FuzzResult) String() string
+pkg testing, method (*T) Setenv(string, string)
 pkg testing, type F struct
 pkg testing, type FuzzResult struct
 pkg testing, type FuzzResult struct, Crasher entry
@@ -142,3 +314,4 @@ pkg testing, type FuzzResult struct, T time.Duration
 pkg testing, type InternalFuzzTarget struct
 pkg testing, type InternalFuzzTarget struct, Fn func(*F)
 pkg testing, type InternalFuzzTarget struct, Name string
+pkg unicode/utf8, func AppendRune([]uint8, int32) []uint8
