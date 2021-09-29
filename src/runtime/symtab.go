@@ -628,6 +628,37 @@ func moduledataverify1(datap *moduledata) {
 	}
 }
 
+// textOffset returns md.text + off, with special handling for multiple text sections.
+//
+// The text, or instruction stream is generated as one large buffer.  The off (offset) for a method is
+// its offset within this buffer.  If the total text size gets too large, there can be issues on platforms like ppc64 if
+// the target of calls are too far for the call instruction.  To resolve the large text issue, the text is split
+// into multiple text sections to allow the linker to generate long calls when necessary.  When this happens, the vaddr
+// for each text section is set to its offset within the text.  Each method's offset is compared against the section
+// vaddrs and sizes to determine the containing section.  Then the section relative offset is added to the section's
+// relocated baseaddr to compute the method addess.
+func (md *moduledata) textOffset(off uintptr) uintptr {
+	var res uintptr
+	if len(md.textsectmap) > 1 {
+		for i := range md.textsectmap {
+			sectaddr := md.textsectmap[i].vaddr
+			sectlen := md.textsectmap[i].length
+			if uintptr(off) >= sectaddr && uintptr(off) < sectaddr+sectlen {
+				res = md.textsectmap[i].baseaddr + uintptr(off) - uintptr(md.textsectmap[i].vaddr)
+				break
+			}
+		}
+	} else {
+		// single text section
+		res = md.text + uintptr(off)
+	}
+	if res > md.etext && GOARCH != "wasm" { // on wasm, functions do not live in the same address space as the linear memory
+		println("runtime: textOff", hex(off), "out of range", hex(md.text), "-", hex(md.etext))
+		throw("runtime: text offset out of range")
+	}
+	return res
+}
+
 // FuncForPC returns a *Func describing the function that contains the
 // given program counter address, or else nil.
 //
