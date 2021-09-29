@@ -66,22 +66,28 @@ type MetaFileHeader struct {
 
 const MetaFilePref = "covmeta"
 
-// A counter data file is composed of a file header, then a series of
-// counter entries each containing the counter data for a specific
-// function.
+// A counter data file is composed of a file header, offsets section,
+// string section, then a series of counter entries each containing
+// the counter data for a specific function.
 
 // CovCounterMagic holds the magic string for a coverage counter-data file.
 var CovCounterMagic = [4]byte{'\x00', '\x63', '\x77', '\x6d'}
 
 // CounterFileHeader stores files header information for a counter-data file.
 type CounterFileHeader struct {
-	Magic       [4]byte
-	_           [4]byte // padding
-	TotalLength uint64  // size in bytes
-	Entries     uint64
-	MetaHash    [16]byte
-	BigEndian   bool
-	_           [7]byte // padding
+	Magic          [4]byte
+	_              [4]byte // padding
+	TotalLength    uint64  // size in bytes
+	MetaHash       [16]byte
+	FcnEntries     uint64
+	StrTabOff      uint32
+	StrTabLen      uint32
+	StrTabNentries uint32
+	ArgsOff        uint32
+	ArgsLen        uint32
+	ArgsNentries   uint32
+	BigEndian      bool
+	_              [7]byte // padding
 }
 
 const CounterFilePref = "covcounters"

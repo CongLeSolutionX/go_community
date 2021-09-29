@@ -6,6 +6,7 @@ package stringtab
 
 import (
 	"fmt"
+	"internal/coverage/slicereader"
 	"io"
 )
 
@@ -85,4 +86,33 @@ func (stw *StringTableWriter) WriteStringTable(w io.Writer) error {
 		}
 	}
 	return nil
+}
+
+type StringTableReader struct {
+	r    *slicereader.Reader
+	strs []string
+}
+
+func NewReader(r *slicereader.Reader) *StringTableReader {
+	str := &StringTableReader{
+		r: r,
+	}
+	return str
+}
+
+func (str *StringTableReader) Entries() int {
+	return len(str.strs)
+}
+
+func (str *StringTableReader) Get(idx uint32) string {
+	return str.strs[idx]
+}
+
+func (str *StringTableReader) Read(numEntries int) {
+	// Read the table itself.
+	str.strs = make([]string, 0, numEntries)
+	for idx := 0; idx < numEntries; idx++ {
+		slen := str.r.ReadULEB128()
+		str.strs = append(str.strs, str.r.ReadString(int64(slen)))
+	}
 }
