@@ -34,6 +34,24 @@
       "message": "Thanks for making the revisions — I\u0027m much happier about maintaining this structure going forward!",
       "revId": "c23fc1065614b7116e18d2c7b783dcc3c659f2a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3863b76_c52836ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-09-29T15:56:27Z",
+      "side": 1,
+      "message": "Definitely agree! Thanks for the suggestions. I feel better about this too.",
+      "parentUuid": "8de45ca8_7630d724",
+      "revId": "c23fc1065614b7116e18d2c7b783dcc3c659f2a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
