@@ -296,6 +296,7 @@ func (t *LineTable) go12Funcs() []Func {
 
 	n := len(t.functab) / int(t.ptrsize) / 2
 	funcs := make([]Func, n)
+	syms := make([]Sym, n)
 	for i := range funcs {
 		f := &funcs[i]
 		f.Entry = t.uintptr(t.functab[2*i*int(t.ptrsize):])
@@ -303,13 +304,14 @@ func (t *LineTable) go12Funcs() []Func {
 		info := t.funcData(uint32(i))
 		f.LineTable = t
 		f.FrameSize = int(info.deferreturn())
-		f.Sym = &Sym{
+		syms[i] = Sym{
 			Value:  f.Entry,
 			Type:   'T',
 			Name:   t.funcName(info.nameoff()),
 			GoType: 0,
 			Func:   f,
 		}
+		f.Sym = &syms[i]
 	}
 	return funcs
 }
