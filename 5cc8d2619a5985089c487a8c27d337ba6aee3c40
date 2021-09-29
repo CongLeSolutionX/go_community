@@ -242,6 +242,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22e3874e_8f410565",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-29T21:42:06Z",
+      "side": 1,
+      "message": "Thanks, Cherry.",
+      "revId": "5cc8d2619a5985089c487a8c27d337ba6aee3c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ce225a7_3e86c9b6",
@@ -282,6 +299,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "238c7b06_a688e88b",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-29T21:42:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc302070_a64b235e",
+      "range": {
+        "startLine": 631,
+        "startChar": 3,
+        "endLine": 631,
+        "endChar": 13
+      },
+      "revId": "5cc8d2619a5985089c487a8c27d337ba6aee3c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bab9369_8f5d3494",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-29T21:42:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ce225a7_3e86c9b6",
+      "revId": "5cc8d2619a5985089c487a8c27d337ba6aee3c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "351129a1_dbf18cb9",
@@ -295,6 +354,30 @@
       "writtenOn": "2021-09-29T21:21:09Z",
       "side": 1,
       "message": "function? It will be used more than methods.\n\nAlso a few occurrences below.",
+      "range": {
+        "startLine": 633,
+        "startChar": 93,
+        "endLine": 633,
+        "endChar": 99
+      },
+      "revId": "5cc8d2619a5985089c487a8c27d337ba6aee3c40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5822c05c_cadfcb4f",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-09-29T21:42:06Z",
+      "side": 1,
+      "message": "Replaced all. Also reflowed the comment to use semantic line breaks.",
+      "parentUuid": "351129a1_dbf18cb9",
       "range": {
         "startLine": 633,
         "startChar": 93,
