@@ -34,6 +34,24 @@
       "parentUuid": "6bb0f958_147e7385",
       "revId": "8a1a6fbe0f5818d615b8d40e48c1e691aa6c4520",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf0dd345_e3ecc169",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-09-29T12:10:18Z",
+      "side": 1,
+      "message": "Okay, you removed everything in Patchset 1 and that was clearly wrong; I see your additions in Patchset 2. However as the CLs are individually reviewed, tested and merged, I think you must roll the API changes into your individual CLs, instead of adding them all at once like in this CL.",
+      "parentUuid": "69be251e_9b0d42f0",
+      "revId": "8a1a6fbe0f5818d615b8d40e48c1e691aa6c4520",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
