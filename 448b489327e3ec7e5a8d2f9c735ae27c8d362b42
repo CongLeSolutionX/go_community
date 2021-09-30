@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b16f1506_f7717dca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-30T19:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55b105d7_bade3e2a",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "448b489327e3ec7e5a8d2f9c735ae27c8d362b42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32b2acfa_946fa675",
@@ -80,6 +104,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88b58e9b_a86ebe8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-30T19:43:58Z",
+      "side": 1,
+      "message": "I\u0027m not sure what to say there. Evidently, the performance difference isn\u0027t significant :) I think \"go fmt\" was already fast enough for the vast majority of users, it was just \"gofmt\" that lacked any parallelism at all.\n\nI\u0027m leaning towards not mentioning it at all there now, but I\u0027m happy for it to be mentioned if others disagree.",
+      "parentUuid": "a46b85b6_82c473d6",
+      "revId": "448b489327e3ec7e5a8d2f9c735ae27c8d362b42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0bd98484_51903263",
         "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
         "patchSetId": 1
@@ -91,6 +133,30 @@
       "writtenOn": "2021-09-30T17:36:41Z",
       "side": 1,
       "message": "(nit) s/space/separator/\n\nI don\u0027t think the underlying syscall actually bothers to pass the spaces explicitly. (Probably this extra byte is actually a null-terminator?) 🙂",
+      "range": {
+        "startLine": 86,
+        "startChar": 40,
+        "endLine": 86,
+        "endChar": 45
+      },
+      "revId": "448b489327e3ec7e5a8d2f9c735ae27c8d362b42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0dad47_c4dff37c",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-30T19:43:58Z",
+      "side": 1,
+      "message": "Done. I admit I was thinking about this in terms of shell. But you\u0027re right, at the C level it will likely end up as an array of null-terminated strings.",
+      "parentUuid": "0bd98484_51903263",
       "range": {
         "startLine": 86,
         "startChar": 40,
@@ -114,6 +180,24 @@
       "writtenOn": "2021-09-30T17:36:41Z",
       "side": 1,
       "message": "(nit) This comment ought to have a topic sentence.\n\nPerhaps:\n\n// ExecArgLengthLimit is the number of bytes we can safely\n// pass as arguments to an exec.Command.\n//\n// Windows has a limit of 32 KB. …",
+      "revId": "448b489327e3ec7e5a8d2f9c735ae27c8d362b42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ee1a9c_c90976f5",
+        "filename": "src/cmd/internal/sys/args.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-30T19:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1fc29f2_1b26d4f8",
       "revId": "448b489327e3ec7e5a8d2f9c735ae27c8d362b42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
