@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21a55d38_5fdbb0e9",
+        "filename": "src/cmd/api/goapi_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-09-30T21:06:18Z",
+      "side": 0,
+      "message": "It is possible to add a test case similar to above to avoid this behavior change from regressing. That said, it seems the API check itself provides sufficient coverage.",
+      "revId": "9c43872bd831396ccf637f4569a18d784d1e9bce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
