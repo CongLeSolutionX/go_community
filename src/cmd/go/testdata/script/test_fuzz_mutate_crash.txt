@@ -105,6 +105,16 @@ stdout 'testdata[/\\]fuzz[/\\]FuzzString[/\\]'
 stdout 'this input caused a crash!'
 go run check_testdata.go FuzzString
 
+# The crasher written to testdata should be the input originally given to the
+# fuzz target, not the bytes that may have changed during execution of the
+# function.
+! go test -run=FuzzCorruptBytes -fuzz=FuzzCorruptBytes -fuzztime=100x -fuzzminimizetime=1000x
+stdout 'testdata[/\\]fuzz[/\\]FuzzCorruptBytes[/\\]'
+stdout 'this input caused a crash!'
+go run check_testdata.go FuzzCorruptBytes
+# The crasher written should be the failing one, so the unit test should fail.
+! go test -run=FuzzCorruptBytes
+
 -- go.mod --
 module m
 
@@ -258,6 +268,15 @@ func FuzzString(f *testing.F) {
 	f.Fuzz(func(t *testing.T, a string) {
 		if a != "" {
 			panic("this input caused a crash!")
+		}
+	})
+}
+
+func FuzzCorruptBytes(f *testing.F) {
+	f.Fuzz(func(t *testing.T, b []byte) {
+		if len(b) >= 1 && b[0] != 0 {
+			b[0] = 0 // change b such that it no longer crashes
+			t.Error("this input caused a crash!")
 		}
 	})
 }
