@@ -142,7 +142,8 @@ func TestReadFile(t *testing.T) {
 		{
 			name:  "valid_modules",
 			build: buildWithModules,
-			want: "path\texample.com/m\n" +
+			want: "go\t$GOVERSION\n" +
+				"path\texample.com/m\n" +
 				"mod\texample.com/m\t(devel)\t\n",
 		},
 		{
@@ -157,7 +158,7 @@ func TestReadFile(t *testing.T) {
 		{
 			name:  "valid_gopath",
 			build: buildWithGOPATH,
-			want:  "",
+			want:  "go\t$GOVERSION\n",
 		},
 		{
 			name: "invalid_gopath",
@@ -191,7 +192,8 @@ func TestReadFile(t *testing.T) {
 						if tc.wantErr != "" {
 							t.Fatalf("unexpected success; want error containing %q", tc.wantErr)
 						} else {
-							if got := info.String(); got != tc.want {
+							got := strings.ReplaceAll(info.String(), runtime.Version(), "$GOVERSION")
+							if got != tc.want {
 								t.Fatalf("got:\n%s\nwant:\n%s", got, tc.want)
 							}
 						}
