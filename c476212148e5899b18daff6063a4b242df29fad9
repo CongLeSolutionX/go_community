@@ -102,6 +102,30 @@
       },
       "revId": "c476212148e5899b18daff6063a4b242df29fad9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dddc17a_777bba04",
+        "filename": "src/runtime/defs_linux_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-09-30T14:55:58Z",
+      "side": 1,
+      "message": "I think the identical files would be nice, but could you add a comment explaining the components to make it more obvious to future readers?",
+      "parentUuid": "d182d37b_5adbec77",
+      "range": {
+        "startLine": 140,
+        "startChar": 19,
+        "endLine": 140,
+        "endChar": 68
+      },
+      "revId": "c476212148e5899b18daff6063a4b242df29fad9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
