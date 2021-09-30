@@ -78,6 +78,30 @@
       },
       "revId": "c476212148e5899b18daff6063a4b242df29fad9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d182d37b_5adbec77",
+        "filename": "src/runtime/defs_linux_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-09-30T14:44:53Z",
+      "side": 1,
+      "message": "Yes, for this line to be identical in all files. And the pointer-length field needs pointer-length alignment, so on 64-bit architectures it\u0027s 3*4 (32-bit fields) + 1*4 (padding) + 1*8 (pointer length field).\n\nI\u0027d guess that si_addr should be a uintptr on all platforms too, though that\u0027s a bigger change. Is \"smaller differences between these files\" the direction the runtime team wants this to go, and how do you trade that off against simpler individual files (with 4*4 and 3*4+1*4+1*8)?",
+      "parentUuid": "872a67ec_fc98ee7b",
+      "range": {
+        "startLine": 140,
+        "startChar": 19,
+        "endLine": 140,
+        "endChar": 68
+      },
+      "revId": "c476212148e5899b18daff6063a4b242df29fad9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
