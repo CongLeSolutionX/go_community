@@ -91,6 +91,21 @@ func TestMinimizeInput(t *testing.T) {
 			expected: []interface{}{"111"},
 		},
 		{
+			name: "corrupts_bytes",
+			fn: func(e CorpusEntry) error {
+				b := e.Values[0].([]byte)
+				if len(b) >= 1 {
+					err := fmt.Errorf("bad %v", e.Values[0])
+					b[0] = 0
+					return err
+
+				}
+				return nil
+			},
+			input:    []interface{}{[]byte{1, 1}},
+			expected: []interface{}{[]byte{1}},
+		},
+		{
 			name: "int",
 			fn: func(e CorpusEntry) error {
 				i := e.Values[0].(int)
@@ -245,6 +260,7 @@ func TestMinimizeInput(t *testing.T) {
 			}
 			count := int64(0)
 			vals := tc.input
+			ws.allocateScratchVals(vals, 1000)
 			success, err := ws.minimizeInput(context.Background(), vals, &count, 0, nil)
 			if !success {
 				t.Errorf("minimizeInput did not succeed")
@@ -273,6 +289,7 @@ func TestMinimizeInputCoverageError(t *testing.T) {
 	keepCoverage := make([]byte, len(coverageSnapshot))
 	count := int64(0)
 	vals := []interface{}{[]byte(nil)}
+	ws.allocateScratchVals(vals, 1000)
 	success, err := ws.minimizeInput(context.Background(), vals, &count, 0, keepCoverage)
 	if success {
 		t.Error("unexpected success")
