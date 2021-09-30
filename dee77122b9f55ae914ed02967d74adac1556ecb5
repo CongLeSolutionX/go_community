@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2586d80e_c083e7ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-09-30T19:10:41Z",
+      "side": 1,
+      "message": "Was this meant to be \u0027discontinuity\u0027 or \"continuity error\" perhaps?\n\n(Patch set 2 answered this question.)",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 50
+      },
+      "revId": "dee77122b9f55ae914ed02967d74adac1556ecb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "75b7667d_650ec8b5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -106,6 +129,47 @@
       "side": 1,
       "message": "I\u0027ve made the changes to the old API files in the latest patch set. Only awkward part is that it seems that only in go1.1.txt were the values of constants added (go1.txt just has the type). So that is precedent for the tool changing and not retroactively updating old files.",
       "parentUuid": "07e331e3_0bc2ed36",
+      "revId": "dee77122b9f55ae914ed02967d74adac1556ecb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe94391e_36cd70b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-09-30T19:10:41Z",
+      "side": 1,
+      "message": "(It seems cmd/api will need further changes as part of generics support as well, per issue #48706.)\n\nIn general we consider historical api/go*.txt files frozen and don\u0027t try to maintain them, as the api/README says:\n\n\u003e go1.txt (and similarly named files) are frozen once a version has been shipped.\n\nIt doesn\u0027t talk about what to do in an exceptional case such as this one, so we need to make a judgement call. Given the different/more accurate cmd/api output, the new lines need to go _somewhere_, and the only options are next.txt (which will end up being go1.18.txt), except.txt (meant for APIs whose values may change without generating a test failure), past go1.n.txt files as patch set 2 does, or creating a new file for corrections.\n\nAs far as I know, the primary supported purpose that the cmd/api command serves is inside the Go repo: to produce api/*.txt files and then run the API check. This is used during each release to review and audit API additions before the final release (e.g., #46688, #43407, etc.). There are some uses of api/go*.txt files outside of the Go repo (I\u0027m not sure how supported they are) such as goimports and the golang.org/pkg/?m\u003dold doc server.\n\nOverall, with the information I have, I think updating past go1.n.txt files as done in PS2 is the best path to integrate this correction, and I think this improvement to cmd/api accuracy is worth making.",
+      "parentUuid": "07e331e3_0bc2ed36",
+      "revId": "dee77122b9f55ae914ed02967d74adac1556ecb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb2365c3_7b76dfb0",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-09-30T19:10:41Z",
+      "side": 1,
+      "message": "Is it better to use w.context.Compiler instead of \"gc\" literal here?",
+      "range": {
+        "startLine": 658,
+        "startChar": 25,
+        "endLine": 658,
+        "endChar": 29
+      },
       "revId": "dee77122b9f55ae914ed02967d74adac1556ecb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
