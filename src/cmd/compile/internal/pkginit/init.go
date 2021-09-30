@@ -22,12 +22,14 @@ import (
 // can use Info.InitOrder instead.
 func MakeInit() {
 	nf := initOrder(typecheck.Target.Decls)
-	if len(nf) == 0 {
+	if len(nf) == 0 && !initRequiredForCoverage(typecheck.Target.Decls) {
 		return
 	}
 
 	// Make a function that contains all the initialization statements.
-	base.Pos = nf[0].Pos() // prolog/epilog gets line number of first init stmt
+	if len(nf) != 0 {
+		base.Pos = nf[0].Pos() // prolog/epilog gets line number of first init stmt
+	}
 	initializers := typecheck.Lookup("init")
 	fn := typecheck.DeclFunc(initializers, ir.NewFuncType(base.Pos, nil, nil, nil))
 	for _, dcl := range typecheck.InitTodoFunc.Dcl {
@@ -141,4 +143,19 @@ func Task() *ir.Name {
 	// It's not quite read only, the state field must be modifiable.
 	objw.Global(lsym, int32(ot), obj.NOPTR)
 	return task
+}
+
+// initRequiredForCoverage returns TRUE if we need to force creation
+// of an init function for the package so as to insert a coverage
+// runtime registration call.
+func initRequiredForCoverage(l []ir.Node) bool {
+	if !base.Flag.NewCov {
+		return false
+	}
+	for _, n := range l {
+		if n.Op() == ir.ODCLFUNC {
+			return true
+		}
+	}
+	return false
 }

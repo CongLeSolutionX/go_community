@@ -31,6 +31,10 @@ var mdbuilder *encodemeta.CoverageMetaDataBuilder
 // mdname is a package-level readonly var holding meta-data for the pkg
 var mdname *ir.Name
 
+// init function for package, recorded during the initial walk
+// and then used when we're finalizing the package.
+var initfn *ir.Func
+
 // covmgr maintains state for the coverage phase/pass during the walk
 // of a given function.
 type covmgr struct {
@@ -49,10 +53,9 @@ func Func(fn *ir.Func) {
 	// init functions but not compiler-generated init functions.
 	fname := ir.FuncName(fn)
 	if fname == "init" || strings.HasPrefix(fname, "init.") {
+		initfn = fn
 		return
 	}
-	// TODO: figure out if there are parts of the runtime that are
-	// unsafe to compile with coverage instrumentation.
 
 	if mdbuilder == nil {
 		mdbuilder = encodemeta.NewCoverageMetaDataBuilder(base.Ctxt.Pkgpath)
@@ -70,6 +73,7 @@ func Func(fn *ir.Func) {
 		dummyLength := int64(1)
 		metaType := types.NewArray(types.Types[types.TUINT8], dummyLength)
 		mdname.SetType(metaType)
+		mdname.SetPos(fn.Pos())
 		typecheck.Declare(mdname, ir.PEXTERN)
 		typecheck.Export(mdname)
 		mdname.MarkReadonly()
@@ -105,7 +109,7 @@ func newCovMgr() *covmgr {
 
 	// Create a static var to hold the pkg ID. This will be filled
 	// as part of pkg init (in a subsequent patch).
-	if pkgIdVar == nil {
+	if hardCodedPkgId() == NotHardCoded && pkgIdVar == nil {
 		pkgIdVar = staticinit.StaticName(types.Types[types.TUINT32])
 	}
 
@@ -275,7 +279,7 @@ func (c *covmgr) Func(fn *ir.Func) {
 		return
 	}
 
-	c.verb("\n\nfn %v", fn.Sym())
+	c.verb("\n\nfn %s.%v", base.Ctxt.Pkgpath, fn.Sym())
 
 	c.stmts(&fn.Body)
 
@@ -329,7 +333,12 @@ func (c *covmgr) fixup(fn *ir.Func, funcId uint32, nCtrs uint32) {
 	//    counters[numCtrsOffet] = <num counters>
 	//    counters[pkgIdOffset] = pkgIdVar
 	//    counters[funcidOffset] = <func id>
-	regfunc := typecheck.Expr(ir.NewCoverFuncRegExpr(c.fnPos, c.counters, pkgIdVar, nCtrs, funcId))
+	var val ir.Node = pkgIdVar
+	pkid := hardCodedPkgId()
+	if pkid != NotHardCoded {
+		val = ir.NewInt(int64(pkid))
+	}
+	regfunc := typecheck.Expr(ir.NewCoverFuncRegExpr(c.fnPos, c.counters, val, nCtrs, funcId))
 
 	// prepend to function body.
 	fn.Body = append([]ir.Node{regfunc}, fn.Body...)
@@ -547,6 +556,20 @@ func (d *symbolWriteSeeker) Seek(offset int64, whence int) (int64, error) {
 // FinishPackage is called once we've visited all of the functions
 // in the package; it finalizes the meta-data symbol for the package.
 func FinishPackage() {
+	if mdbuilder == nil {
+		return
+	}
+	if initfn == nil {
+		panic("missing init function")
+	}
+
+	// Q: what pos should we be using for this init code? Is this OK?
+	pos := mdname.Pos()
+	if len(initfn.Body) != 0 {
+		pos = initfn.Body[0].Pos()
+	} else if !initfn.Pos().IsKnown() {
+		initfn.SetPos(pos)
+	}
 
 	// Write accumulated content to the meta-data symbol.
 	mdsym := mdname.Linksym()
@@ -564,5 +587,73 @@ func FinishPackage() {
 	// Now that we know the length, update the type of the meta-data symbol
 	// to reflect reality.
 	mdname.SetType(types.NewArray(types.Types[types.TUINT8], int64(len(mdsym.P))))
-	mdname = nil
+
+	// Materalize expression corresponding to address of the meta-data symbol.
+	mdax := typecheck.NodAddr(mdname)
+	mdauspx := typecheck.ConvNop(mdax, types.Types[types.TUNSAFEPTR])
+
+	// Materialize expression for length.
+	len := uint32(len(mdsym.P))
+	lenx := ir.NewInt(int64(len)) // untyped
+
+	// Materialize expression for hash (an array literal)
+	hash := md5.Sum(mdsym.P)
+	elist := make([]ir.Node, 0, 16)
+	for i := 0; i < 16; i++ {
+		elem := ir.NewInt(int64(hash[i]))
+		elist = append(elist, elem)
+	}
+	ht := types.NewArray(types.Types[types.TUINT8], 16)
+	hashx := ir.NewCompLitExpr(pos, ir.OCOMPLIT, ir.TypeNode(ht), elist)
+
+	// Generate a call to runtime.addcovmeta, e.g.
+	//
+	//   pkgIdVar = runtime.addcovmeta(&sym, len, hash)
+	//
+	fn := typecheck.LookupRuntime("addcovmeta")
+	pkid := hardCodedPkgId()
+	pkIdNode := ir.NewInt(int64(pkid))
+	pkPathNode := ir.NewString(base.Ctxt.Pkgpath)
+	callx := typecheck.Call(pos, fn, []ir.Node{mdauspx, lenx, hashx,
+		pkPathNode, pkIdNode}, false)
+	assign := callx
+	if pkid == NotHardCoded {
+		assign = typecheck.Stmt(ir.NewAssignStmt(pos, pkgIdVar, callx))
+	}
+
+	// Tack the call onto the start of our init function. We do this
+	// early in the init since it's possible that instrumented function
+	// bodies (with counter updates) might be inlined into init.
+	initfn.Body.Prepend(assign)
+}
+
+// Building the runtime package with coverage instrumentation enabled
+// is tricky.  For all other packages, you can be guaranteed that
+// the package init function is run before any functions are executed,
+// but this invariant is not maintained for packges such as "runtime",
+// "internal/cpu", etc. To handle this, hard-code the package ID for
+// the set of packages whose functions may be running before the
+// init function of the package is complete.
+
+var rtPkgs = [...]string{
+	"internal/cpu",
+	"runtime/internal/atomic",
+	"runtime/internal/sys",
+	"internal/abi",
+	"runtime/internal/math",
+	"internal/bytealg",
+	"runtime",
+}
+
+const NotHardCoded = -1
+
+// hardCodedPkgId returns the hard-coded ID for the current package, or
+// -1 if we don't use a hard-coded ID.
+func hardCodedPkgId() int {
+	for k, p := range rtPkgs {
+		if p == base.Ctxt.Pkgpath {
+			return k + 1
+		}
+	}
+	return NotHardCoded
 }
