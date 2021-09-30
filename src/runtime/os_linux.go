@@ -440,6 +440,24 @@ func pipe() (r, w int32, errno int32)
 func pipe2(flags int32) (r, w int32, errno int32)
 func setNonblock(fd int32)
 
+const (
+	_si_max_size    = 128
+	_sigev_max_size = 64
+)
+
+func _() {
+	// Assert that the Go definitions of structures exchanged with the kernel
+	// are the same size as what the kernel defines.
+	//
+	// Checking within a function body hides this from the cmd/api typechecker,
+	// which does not understand architecture-specific pointer sizes and
+	// alignment rules.
+	var (
+		_ [_si_max_size]struct{}    = [unsafe.Sizeof(siginfo{})]struct{}{}
+		_ [_sigev_max_size]struct{} = [unsafe.Sizeof(sigevent{})]struct{}{}
+	)
+}
+
 //go:nosplit
 //go:nowritebarrierrec
 func setsig(i uint32, fn uintptr) {

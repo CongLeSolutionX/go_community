@@ -8,6 +8,8 @@
 
 package runtime
 
+import "internal/goarch"
+
 const (
 	_EINTR  = 0x4
 	_EAGAIN = 0xb
@@ -143,6 +145,8 @@ type siginfo struct {
 	__pad0   [1]int32
 	// below here is a union; si_addr is the only field we use
 	si_addr uint64
+
+	_ [_si_max_size - (3*4 + (1-4/goarch.PtrSize)*4 + 1*goarch.PtrSize)]byte
 }
 
 type itimerspec struct {
@@ -161,6 +165,8 @@ type sigevent struct {
 	notify int32
 	// below here is a union; sigev_notify_thread_id is the only field we use
 	sigev_notify_thread_id int32
+
+	_ [_sigev_max_size - (1*goarch.PtrSize + 3*4)]byte
 }
 
 type epollevent struct {
