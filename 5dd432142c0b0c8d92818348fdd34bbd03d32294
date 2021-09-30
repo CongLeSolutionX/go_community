@@ -16,6 +16,40 @@
       "message": "Is anyone taking a look at this CL?",
       "revId": "5dd432142c0b0c8d92818348fdd34bbd03d32294",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f568883_36b36c12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-30T08:36:35Z",
+      "side": 1,
+      "message": "I\u0027m slightly surprised this gave you better performance. In https://github.com/golang/go/issues/28942 I specifically wrote about reslicing removing bounds checks but slowing down the code. Maybe the compiler has changed since then?",
+      "revId": "5dd432142c0b0c8d92818348fdd34bbd03d32294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "269ede46_850e39a4",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-30T08:36:35Z",
+      "side": 1,
+      "message": "did you try doing the same with src[2]?",
+      "revId": "5dd432142c0b0c8d92818348fdd34bbd03d32294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
