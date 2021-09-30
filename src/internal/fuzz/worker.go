@@ -609,6 +609,41 @@ type workerServer struct {
 	// fuzzFn runs the worker's fuzz function on the given input and returns
 	// an error if it finds a crasher (the process may also exit or crash).
 	fuzzFn func(CorpusEntry) error
+
+	// scratchVals is a scratch slice that should be used when calling fuzzFn.
+	// fuzzFn may alter the underlying data when it is called, so to mitigate
+	// this we should pass a deep copy of the values to fuzzFn, rather than the
+	// values themselves.
+	scratchVals []interface{}
+}
+
+// allocateScratchVals allocates the memory necessary to hold a copy of vals.
+// A new []byte is allocated, using the totalCap to determine capacity, for each
+// []byte present in vals.
+func (ws *workerServer) allocateScratchVals(vals []interface{}, totalCap int) {
+	if ws.scratchVals == nil {
+		ws.scratchVals = make([]interface{}, len(vals))
+		c := capPerValue(totalCap, vals)
+		for i := range vals {
+			if _, ok := vals[i].([]byte); ok {
+				ws.scratchVals[i] = make([]byte, 0, c)
+			}
+		}
+	}
+}
+
+// generateEntry creates a CorpusEntry whose Values field holds a copy of vals.
+// If any []byte are present, the copy in Values will be a deep copy.
+func (ws *workerServer) generateEntry(vals []interface{}) CorpusEntry {
+	for i := range vals {
+		if v, ok := vals[i].([]byte); ok {
+			ws.scratchVals[i] = ws.scratchVals[i].([]byte)[:len(v)]
+			copy(ws.scratchVals[i].([]byte), v)
+		} else {
+			ws.scratchVals[i] = vals[i]
+		}
+	}
+	return CorpusEntry{Values: ws.scratchVals}
 }
 
 // serve reads serialized RPC messages on fuzzIn. When serve receives a message,
@@ -692,12 +727,14 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	if err != nil {
 		panic(err)
 	}
+	ws.allocateScratchVals(vals, cap(mem.valueRef()))
 
 	shouldStop := func() bool {
 		return args.Limit > 0 && mem.header().count >= args.Limit
 	}
-	fuzzOnce := func(entry CorpusEntry) (dur time.Duration, cov []byte, errMsg string) {
+	fuzzOnce := func(vals []interface{}) (dur time.Duration, cov []byte, errMsg string) {
 		mem.header().count++
+		entry := ws.generateEntry(vals)
 		start := time.Now()
 		err := ws.fuzzFn(entry)
 		dur = time.Since(start)
@@ -715,7 +752,7 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	}
 
 	if args.Warmup {
-		dur, _, errMsg := fuzzOnce(CorpusEntry{Values: vals})
+		dur, _, errMsg := fuzzOnce(vals)
 		if errMsg != "" {
 			resp.Err = errMsg
 			return resp
@@ -734,8 +771,7 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 
 		default:
 			ws.m.mutate(vals, cap(mem.valueRef()))
-			entry := CorpusEntry{Values: vals}
-			dur, cov, errMsg := fuzzOnce(entry)
+			dur, cov, errMsg := fuzzOnce(vals)
 			if errMsg != "" {
 				resp.Err = errMsg
 				return resp
@@ -744,7 +780,7 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 				// Found new coverage. Before reporting to the coordinator,
 				// run the same values once more to deflake.
 				if !shouldStop() {
-					dur, cov, errMsg = fuzzOnce(entry)
+					dur, cov, errMsg = fuzzOnce(vals)
 					if errMsg != "" {
 						resp.Err = errMsg
 						return resp
@@ -772,6 +808,7 @@ func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp m
 	if err != nil {
 		panic(err)
 	}
+	ws.allocateScratchVals(vals, cap(mem.valueRef()))
 	if args.Timeout != 0 {
 		var cancel func()
 		ctx, cancel = context.WithTimeout(ctx, args.Timeout)
@@ -814,7 +851,7 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, c
 	// If not, then whatever caused us to think the value was interesting may
 	// have been a flake, and we can't minimize it.
 	*count++
-	if retErr = ws.fuzzFn(CorpusEntry{Values: vals}); retErr == nil && wantError {
+	if retErr = ws.fuzzFn(ws.generateEntry(vals)); retErr == nil && wantError {
 		return false, nil
 	} else if retErr != nil && !wantError {
 		return false, retErr
@@ -880,8 +917,7 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, c
 			panic("impossible")
 		}
 		*count++
-		err := ws.fuzzFn(CorpusEntry{Values: vals})
-		if err != nil {
+		if err := ws.fuzzFn(ws.generateEntry(vals)); err != nil {
 			retErr = err
 			return wantError
 		}
@@ -947,6 +983,13 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []interface{}, c
 func writeToMem(vals []interface{}, mem *sharedMem) {
 	b := marshalCorpusFile(vals...)
 	mem.setValue(b)
+}
+
+// capPerValue is the maximum number of bytes that each value be allowed,
+// including during fuzzing, giving an equal amount of capacity to each value.
+// Allow a little wiggle room for the encoding.
+func capPerValue(capacity int, vals []interface{}) int {
+	return capacity/len(vals) - 100
 }
 
 // ping does nothing. The coordinator calls this method to ensure the worker
