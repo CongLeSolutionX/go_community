@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fddf078b_4f3bdcc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-30T13:27:54Z",
+      "side": 1,
+      "message": "I am not sure how you got that -4% number, but I consistently get a significant performance penalty:\n\nname               old time/op   new time/op   delta\nEncodeToString-16   21.0µs ± 1%   25.2µs ± 2%  +19.66%  (p\u003d0.000 n\u003d8+8)\n\nname               old speed     new speed     delta\nEncodeToString-16  389MB/s ± 1%  325MB/s ± 2%  -16.41%  (p\u003d0.000 n\u003d8+8)\n\nWhich, again, aligns with the previous issue that says that reslicing is more expensive than a bounds check.\n\nI think the way to further optimize these loops is to improve the compiler, particularly in its prove pass, so that we can avoid the extra bounds checks without needing reslicing.\n\nI\u0027m giving a temporary -2 for now, to signal that at least this doesn\u0027t seem to be a positive optimization. There\u0027s a chance that the performance uplift might depend on the machine, but a 20% slow-down on my laptop makes that pretty unlikely.",
+      "revId": "d9197b65c5d5729fc55902dbcb050705871fd144",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
