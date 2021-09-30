@@ -53,6 +53,23 @@
       "message": "There\u0027s some precedent for updating historic api/go*.txt files in CL 17360, though I understand ideally we do it as infrequently as possible.\n\nThis change to cmd/api, and the corresponding updates to api/go*.txt files look good to me.\n\nDo you ming seeing if Robert is also okay with making this change? He\u0027s more familiar with this command and its historical decisions.",
       "revId": "c0b0d11b508cf01a8dff48bb1c509f27377b79f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c6f25d3_cb611436",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-09-30T21:11:38Z",
+      "side": 1,
+      "message": "I haven\u0027t looked at this yet but I don\u0027t principally see a problem at the moment.\n\nBut I\u0027ll add @rfindley as well because he\u0027s planning to look at this api checker as well to make sure it\u0027s ready for exposing generic features.",
+      "revId": "c0b0d11b508cf01a8dff48bb1c509f27377b79f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
