@@ -6,6 +6,7 @@ package debug
 
 import (
 	"fmt"
+	"runtime"
 	"strings"
 )
 
@@ -22,18 +23,32 @@ func ReadBuildInfo() (info *BuildInfo, ok bool) {
 	}
 	data = data[16 : len(data)-16]
 	info, err := ParseBuildInfo(data)
-	return info, err == nil
+	if err != nil {
+		return nil, false
+	}
+
+	// The go version is stored separately from other build info, mostly for
+	// historical reasons. It is not part of the modinfo() string, and
+	// ParseBuildInfo does not recognize it. We inject it here to hide this
+	// awkwardness from the user.
+	info.GoVersion = runtime.Version()
+
+	return info, true
 }
 
 // BuildInfo represents the build information read from a Go binary.
 type BuildInfo struct {
-	Path string    // The main package path
-	Main Module    // The module containing the main package
-	Deps []*Module // Module dependencies
+	GoVersion string    // Version of Go that produced this binary.
+	Path      string    // The main package path
+	Main      Module    // The module containing the main package
+	Deps      []*Module // Module dependencies
 }
 
 func (bi *BuildInfo) String() string {
 	sb := &strings.Builder{}
+	if bi.GoVersion != "" {
+		fmt.Fprintf(sb, "go\t%s\n", bi.GoVersion)
+	}
 	if bi.Path != "" {
 		fmt.Fprintf(sb, "path\t%s\n", bi.Path)
 	}
@@ -112,7 +127,7 @@ func ParseBuildInfo(data string) (info *BuildInfo, err error) {
 		line string
 		ok   bool
 	)
-	// Reverse of BuildInfo.String()
+	// Reverse of BuildInfo.String(), except for go version.
 	for len(data) > 0 {
 		line, data, ok = strings.Cut(data, "\n")
 		if !ok {
