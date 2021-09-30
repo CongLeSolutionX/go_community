@@ -16,11 +16,16 @@ func modinfo() string
 // in the running binary. The information is available only
 // in binaries built with module support.
 func ReadBuildInfo() (info *BuildInfo, ok bool) {
-	return readBuildInfo(modinfo())
+	data := modinfo()
+	if len(data) < 32 {
+		return nil, false
+	}
+	data = data[16 : len(data)-16]
+	info, err := ParseBuildInfo(data)
+	return info, err == nil
 }
 
-// BuildInfo represents the build information read from
-// the running binary.
+// BuildInfo represents the build information read from a Go binary.
 type BuildInfo struct {
 	Path string    // The main package path
 	Main Module    // The module containing the main package
@@ -70,11 +75,14 @@ type Module struct {
 	Replace *Module // replaced by this module
 }
 
-func readBuildInfo(data string) (*BuildInfo, bool) {
-	if len(data) < 32 {
-		return nil, false
-	}
-	data = data[16 : len(data)-16]
+// ParseBuildInfo parses a build info string obtained from a Go binary.
+func ParseBuildInfo(data string) (info *BuildInfo, err error) {
+	lineNum := 1
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("could not parse Go build info: line %d: %w", lineNum, err)
+		}
+	}()
 
 	const (
 		pathLine = "path\t"
@@ -83,9 +91,9 @@ func readBuildInfo(data string) (*BuildInfo, bool) {
 		repLine  = "=>\t"
 	)
 
-	readEntryFirstLine := func(elem []string) (Module, bool) {
+	readModuleLine := func(elem []string) (Module, error) {
 		if len(elem) != 2 && len(elem) != 3 {
-			return Module{}, false
+			return Module{}, fmt.Errorf("expected 2 or 3 columns; got %d", len(elem))
 		}
 		sum := ""
 		if len(elem) == 3 {
@@ -95,16 +103,16 @@ func readBuildInfo(data string) (*BuildInfo, bool) {
 			Path:    elem[0],
 			Version: elem[1],
 			Sum:     sum,
-		}, true
+		}, nil
 	}
 
+	info = &BuildInfo{}
 	var (
-		info = &BuildInfo{}
 		last *Module
 		line string
 		ok   bool
 	)
-	// Reverse of cmd/go/internal/modload.PackageBuildInfo
+	// Reverse of BuildInfo.String()
 	for len(data) > 0 {
 		line, data, ok = strings.Cut(data, "\n")
 		if !ok {
@@ -117,25 +125,25 @@ func readBuildInfo(data string) (*BuildInfo, bool) {
 		case strings.HasPrefix(line, modLine):
 			elem := strings.Split(line[len(modLine):], "\t")
 			last = &info.Main
-			*last, ok = readEntryFirstLine(elem)
-			if !ok {
-				return nil, false
+			*last, err = readModuleLine(elem)
+			if err != nil {
+				return nil, err
 			}
 		case strings.HasPrefix(line, depLine):
 			elem := strings.Split(line[len(depLine):], "\t")
 			last = new(Module)
 			info.Deps = append(info.Deps, last)
-			*last, ok = readEntryFirstLine(elem)
-			if !ok {
-				return nil, false
+			*last, err = readModuleLine(elem)
+			if err != nil {
+				return nil, err
 			}
 		case strings.HasPrefix(line, repLine):
 			elem := strings.Split(line[len(repLine):], "\t")
 			if len(elem) != 3 {
-				return nil, false
+				return nil, fmt.Errorf("expected 3 columns for replacement; got %d", len(elem))
 			}
 			if last == nil {
-				return nil, false
+				return nil, fmt.Errorf("replacement with no module on previous line")
 			}
 			last.Replace = &Module{
 				Path:    elem[0],
@@ -144,6 +152,7 @@ func readBuildInfo(data string) (*BuildInfo, bool) {
 			}
 			last = nil
 		}
+		lineNum++
 	}
-	return info, true
+	return info, nil
 }
