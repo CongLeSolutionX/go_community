@@ -16,11 +16,15 @@ func modinfo() string
 // in the running binary. The information is available only
 // in binaries built with module support.
 func ReadBuildInfo() (info *BuildInfo, ok bool) {
-	return readBuildInfo(modinfo())
+	data := modinfo()
+	if len(data) < 32 {
+		return nil, false
+	}
+	data = data[16 : len(data)-16]
+	return parseBuildInfo(data)
 }
 
-// BuildInfo represents the build information read from
-// the running binary.
+// BuildInfo represents the build information read from a Go binary.
 type BuildInfo struct {
 	Path string    // The main package path
 	Main Module    // The module containing the main package
@@ -70,12 +74,7 @@ type Module struct {
 	Replace *Module // replaced by this module
 }
 
-func readBuildInfo(data string) (*BuildInfo, bool) {
-	if len(data) < 32 {
-		return nil, false
-	}
-	data = data[16 : len(data)-16]
-
+func parseBuildInfo(data string) (*BuildInfo, bool) {
 	const (
 		pathLine = "path\t"
 		modLine  = "mod\t"
