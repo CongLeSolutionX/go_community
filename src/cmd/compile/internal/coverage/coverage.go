@@ -31,6 +31,10 @@ var mdbuilder *encodemeta.CoverageMetaDataBuilder
 // mdname is a package-level readonly var holding meta-data for the pkg
 var mdname *ir.Name
 
+// init function for package, recorded during the initial walk
+// and then used when we're finalizing the package.
+var initfn *ir.Func
+
 // covmgr maintains state for the coverage phase/pass during the walk
 // of a given function.
 type covmgr struct {
@@ -67,13 +71,13 @@ const firstCtrOffset = 3
 // Func visits a function and take actions needed for compiler-based
 // code coverage instrumentation.
 func Func(fn *ir.Func) {
-	// TODO: is there a better or more reliable way to skip init functions?
-	if fmt.Sprintf("%v", fn.Sym()) == "init" {
-		return
-	}
 	// TODO: figure out if there are parts of the runtime that are
 	// safe to compile with coverage instrumentation.
 	if base.Flag.CompilingRuntime {
+		return
+	}
+	if fmt.Sprintf("%v", fn.Sym()) == "init" {
+		initfn = fn
 		return
 	}
 
@@ -542,6 +546,9 @@ func (d *symbolWriteSeeker) Seek(offset int64, whence int) (int64, error) {
 // FinishPackage is called once we've visited all of the functions
 // in the package; it finalizes the meta-data symbol for the package.
 func FinishPackage() {
+	if mdbuilder == nil || initfn == nil {
+		return
+	}
 
 	// Write accumulated content to the meta-data symbol.
 	mdsym := mdname.Linksym()
@@ -559,5 +566,37 @@ func FinishPackage() {
 	// Now that we know the length, update the type of the meta-data symbol
 	// to reflect reality.
 	mdname.SetType(types.NewArray(types.Types[types.TUINT8], int64(len(mdsym.P))))
-	mdname = nil
+
+	// Q: what pos should we be using for code that goes into
+	// the init function -- is this ok?
+	pos := base.Pos
+
+	// Materalize expression corresponding to address of the meta-data symbol.
+	mdax := typecheck.NodAddr(mdname)
+	mdauspx := typecheck.ConvNop(mdax, types.Types[types.TUNSAFEPTR])
+
+	// Materialize expression for length.
+	len := uint32(len(mdsym.P))
+	lenx := ir.NewInt(int64(len)) // untyped
+
+	// Materialize expression for hash (an array literal)
+	hash := md5.Sum(mdsym.P)
+	elist := make([]ir.Node, 0, 16)
+	for i := 0; i < 16; i++ {
+		elem := ir.NewInt(int64(hash[i]))
+		elist = append(elist, elem)
+	}
+	ht := types.NewArray(types.Types[types.TUINT8], 16)
+	hashx := ir.NewCompLitExpr(pos, ir.OCOMPLIT, ir.TypeNode(ht), elist)
+
+	// Generate a call to runtime.addcovmeta, e.g.
+	//
+	//   pkgIdVar = runtime.addcovmeta(&sym, len, hash)
+	//
+	fn := typecheck.LookupRuntime("addcovmeta")
+	callx := typecheck.Call(pos, fn, []ir.Node{mdauspx, lenx, hashx}, false)
+	assign := typecheck.Stmt(ir.NewAssignStmt(pos, pkgIdVar, callx))
+
+	// Tack the call onto the end of our init function.
+	initfn.Body.Append(assign)
 }
