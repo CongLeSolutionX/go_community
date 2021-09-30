@@ -440,6 +440,16 @@ func pipe() (r, w int32, errno int32)
 func pipe2(flags int32) (r, w int32, errno int32)
 func setNonblock(fd int32)
 
+const (
+	_si_max_size    = 128
+	_sigev_max_size = 64
+)
+
+var (
+	_ [_si_max_size]struct{}    = [unsafe.Sizeof(siginfo{})]struct{}{}
+	_ [_sigev_max_size]struct{} = [unsafe.Sizeof(sigevent{})]struct{}{}
+)
+
 //go:nosplit
 //go:nowritebarrierrec
 func setsig(i uint32, fn uintptr) {
