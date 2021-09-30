@@ -5,6 +5,7 @@
 package debug
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -24,6 +25,41 @@ type BuildInfo struct {
 	Path string    // The main package path
 	Main Module    // The module containing the main package
 	Deps []*Module // Module dependencies
+}
+
+func (bi *BuildInfo) String() string {
+	sb := &strings.Builder{}
+	if bi.Path != "" {
+		fmt.Fprintf(sb, "path\t%s\n", bi.Path)
+	}
+	var formatMod func(string, Module)
+	formatMod = func(word string, m Module) {
+		sb.WriteString(word)
+		sb.WriteByte('\t')
+		sb.WriteString(m.Path)
+		mv := m.Version
+		if mv == "" {
+			mv = "(devel)"
+		}
+		sb.WriteByte('\t')
+		sb.WriteString(mv)
+		if m.Replace == nil {
+			sb.WriteByte('\t')
+			sb.WriteString(m.Sum)
+		} else {
+			sb.WriteByte('\n')
+			formatMod("=>", *m.Replace)
+		}
+		sb.WriteByte('\n')
+	}
+	if bi.Main.Path != "" {
+		formatMod("mod", bi.Main)
+	}
+	for _, dep := range bi.Deps {
+		formatMod("dep", *dep)
+	}
+
+	return sb.String()
 }
 
 // Module represents a module.
