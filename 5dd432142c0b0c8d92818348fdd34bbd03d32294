@@ -72,6 +72,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33da4a7b_c58eac91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-09-30T08:43:00Z",
+      "side": 1,
+      "message": "The failure should go away if you rebase.",
+      "revId": "5dd432142c0b0c8d92818348fdd34bbd03d32294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "269ede46_850e39a4",
