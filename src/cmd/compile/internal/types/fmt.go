@@ -63,8 +63,9 @@ var NumImport = make(map[string]int)
 // fmtMode represents the kind of printing being done.
 // The default is regular Go syntax (fmtGo).
 // fmtDebug is like fmtGo but for debugging dumps and prints the type kind too.
-// fmtTypeID and fmtTypeIDName are for generating various unique representations
-// of types used in hashes and the linker.
+// fmtTypeID, fmtTypeIDName, and fmtTypeIDUniq are for generating various unique
+// representations of types used in hashes, the linker, and function/method
+// instantiations.
 type fmtMode int
 
 const (
@@ -72,6 +73,7 @@ const (
 	fmtDebug
 	fmtTypeID
 	fmtTypeIDName
+	fmtTypeIDUniq
 )
 
 // Sym
@@ -170,6 +172,25 @@ func pkgqual(pkg *Pkg, verb rune, mode fmtMode) string {
 		case fmtTypeIDName:
 			// dcommontype, typehash
 			return pkg.Name
+
+		case fmtTypeIDUniq:
+			if pkg == LocalPkg {
+				if base.Ctxt.Pkgpath != "" {
+					return base.Ctxt.Pkgpath
+				} else {
+					// For any real build, Pkgpath should be set,
+					// but use Name if we're doing a solo
+					// compile.
+					return pkg.Name
+				}
+			} else {
+				path := pkg.Path
+				if mapped, ok := base.Flag.Cfg.ImportMap[path]; ok {
+					// Do any mapping of the path due to vendoring.
+					path = mapped
+				}
+				return path
+			}
 
 		case fmtTypeID:
 			// (methodsym), typesym, weaksym
@@ -276,6 +297,14 @@ func (t *Type) NameString() string {
 	return tconv(t, 0, fmtTypeIDName)
 }
 
+// UniqString generates a completely unique string description for t with no spaces.
+// It uses full package paths for all non-builtin type names. It does import path
+// mapping to deal with vendoring. It uses '#' instead of space to separate field
+// name and type, if necessary.
+func (t *Type) UniqString() string {
+	return tconv(t, 0, fmtTypeIDUniq)
+}
+
 func tconv(t *Type, verb rune, mode fmtMode) string {
 	buf := fmtBufferPool.Get().(*bytes.Buffer)
 	buf.Reset()
@@ -325,7 +354,7 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 	if t == ByteType || t == RuneType {
 		// in %-T mode collapse rune and byte with their originals.
 		switch mode {
-		case fmtTypeIDName, fmtTypeID:
+		case fmtTypeIDName, fmtTypeID, fmtTypeIDUniq:
 			t = Types[t.Kind()]
 		default:
 			sconv2(b, t.Sym(), 'S', mode)
@@ -461,15 +490,25 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 
 	case TINTER:
 		if t.IsEmptyInterface() {
-			b.WriteString("interface {}")
+			if mode == fmtTypeIDUniq {
+				b.WriteString("interface{}")
+			} else {
+				b.WriteString("interface {}")
+			}
 			break
 		}
-		b.WriteString("interface {")
+		if mode == fmtTypeIDUniq {
+			b.WriteString("interface{")
+		} else {
+			b.WriteString("interface {")
+		}
 		for i, f := range t.AllMethods().Slice() {
 			if i != 0 {
 				b.WriteByte(';')
 			}
-			b.WriteByte(' ')
+			if mode != fmtTypeIDUniq {
+				b.WriteByte(' ')
+			}
 			switch {
 			case f.Sym == nil:
 				// Check first that a symbol is defined for this type.
@@ -478,14 +517,14 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 			case IsExported(f.Sym.Name):
 				sconv2(b, f.Sym, 'S', mode)
 			default:
-				if mode != fmtTypeIDName {
+				if mode != fmtTypeIDName && mode != fmtTypeIDUniq {
 					mode = fmtTypeID
 				}
 				sconv2(b, f.Sym, 'v', mode)
 			}
 			tconv2(b, f.Type, 'S', mode, visited)
 		}
-		if t.AllMethods().Len() != 0 {
+		if t.AllMethods().Len() != 0 && mode != fmtTypeIDUniq {
 			b.WriteByte(' ')
 		}
 		b.WriteByte('}')
@@ -560,15 +599,21 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 			}
 			b.WriteByte(byte(close))
 		} else {
-			b.WriteString("struct {")
+			if mode == fmtTypeIDUniq {
+				b.WriteString("struct{")
+			} else {
+				b.WriteString("struct {")
+			}
 			for i, f := range t.Fields().Slice() {
 				if i != 0 {
 					b.WriteByte(';')
 				}
-				b.WriteByte(' ')
+				if mode != fmtTypeIDUniq {
+					b.WriteByte(' ')
+				}
 				fldconv(b, f, 'L', mode, visited, funarg)
 			}
-			if t.NumFields() != 0 {
+			if t.NumFields() != 0 && mode != fmtTypeIDUniq {
 				b.WriteByte(' ')
 			}
 			b.WriteByte('}')
@@ -641,7 +686,7 @@ func fldconv(b *bytes.Buffer, f *Field, verb rune, mode fmtMode, visited map[*Ty
 				if name == ".F" {
 					name = "F" // Hack for toolstash -cmp.
 				}
-				if !IsExported(name) && mode != fmtTypeIDName {
+				if !IsExported(name) && mode != fmtTypeIDName && mode != fmtTypeIDUniq {
 					name = sconv(s, 0, mode) // qualify non-exported names (used on structs, not on funarg)
 				}
 			} else {
@@ -652,7 +697,11 @@ func fldconv(b *bytes.Buffer, f *Field, verb rune, mode fmtMode, visited map[*Ty
 
 	if name != "" {
 		b.WriteString(name)
-		b.WriteString(" ")
+		if mode == fmtTypeIDUniq {
+			b.WriteString("#")
+		} else {
+			b.WriteString(" ")
+		}
 	}
 
 	if f.IsDDD() {
@@ -667,7 +716,11 @@ func fldconv(b *bytes.Buffer, f *Field, verb rune, mode fmtMode, visited map[*Ty
 	}
 
 	if verb != 'S' && funarg == FunargNone && f.Note != "" {
-		b.WriteString(" ")
+		if mode != fmtTypeIDUniq {
+			b.WriteString(" ")
+		}
+		// TODO: for fmtTypeIDUniq, we should possibly using %-quoting, so
+		// space is %20, etc.
 		b.WriteString(strconv.Quote(f.Note))
 	}
 }

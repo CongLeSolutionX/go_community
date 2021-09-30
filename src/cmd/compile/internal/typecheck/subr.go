@@ -919,14 +919,11 @@ func addTargs(b *bytes.Buffer, targs []*types.Type) {
 		if i > 0 {
 			b.WriteByte(',')
 		}
-		// Use NameString(), which includes the package name for the local
-		// package, to make sure that type arguments (including type params),
-		// are uniquely specified.
-		tstring := targ.NameString()
-		// types1 uses "interface {" and types2 uses "interface{" - convert
-		// to consistent types2 format.  Same for "struct {"
-		tstring = strings.Replace(tstring, "interface {", "interface{", -1)
-		tstring = strings.Replace(tstring, "struct {", "struct{", -1)
+		// Make sure that type arguments (including type params), are
+		// uniquely specified. Use UniqString(), which eliminates all spaces
+		// and includes the package path in all cases (including the local
+		// package).
+		tstring := targ.UniqString()
 		b.WriteString(tstring)
 	}
 	b.WriteString("]")
@@ -1440,7 +1437,8 @@ func Shapify(t *types.Type, index int) *types.Type {
 		return s
 	}
 
-	nm := fmt.Sprintf("%s_%d", u.LinkString(), index)
+	// UniqString specifies the type uniquely, but has no spaces.
+	nm := fmt.Sprintf("%s_%d", u.UniqString(), index)
 	sym := types.ShapePkg.Lookup(nm)
 	if sym.Def != nil {
 		// Use any existing type with the same name
