@@ -133,6 +133,14 @@
 // 		arguments to pass on each go tool asm invocation.
 // 	-buildmode mode
 // 		build mode to use. See 'go help buildmode' for more.
+// 	-buildvcs
+// 		Whether to stamp binaries with version control information. This
+// 		information may be read with 'go version -m file' or
+// 		debug/buildinfo.ReadFile, along with module information and other build
+// 		settings. By default, this flag is enabled, and version control information
+// 		will be stamped in binaries that include one or more packages from the
+// 		repository containing the current directory (if there is a repository).
+// 		Use -buildvcs=false to disable this entirely.
 // 	-compiler name
 // 		name of compiler to use, as in runtime.Compiler (gccgo or gc).
 // 	-gccgoflags '[pattern=]arg list'
