@@ -191,6 +191,9 @@ func (ts *testScript) setup() {
 		ts.env = append(ts.env, "TESTGONETWORK=panic", "TESTGOVCS=panic")
 	}
 
+	if runtime.GOOS == "windows" {
+		ts.env = append(ts.env, os.Getenv("PATHEXT"))
+	}
 	if runtime.GOOS == "plan9" {
 		ts.env = append(ts.env, "path="+testBin+string(filepath.ListSeparator)+os.Getenv("path"))
 	}
@@ -1130,6 +1133,13 @@ func (ts *testScript) startBackground(want simpleStatus, command string, args ..
 		done: done,
 	}
 
+	if !strings.Contains(command, "/") {
+		var err error
+		command, err = ts.lookPath(command)
+		if err != nil {
+			return nil, err
+		}
+	}
 	cmd := exec.Command(command, args...)
 	cmd.Dir = ts.cd
 	cmd.Env = append(ts.env, "PWD="+ts.cd)
@@ -1144,6 +1154,28 @@ func (ts *testScript) startBackground(want simpleStatus, command string, args ..
 		close(done)
 	}()
 	return bg, nil
+}
+
+// lookPath is (roughly) like exec.LookPath, but it uses the test script's PATH
+// instead of the test process's PATH to find the executable. We don't change
+// the test process's PATH since it may run scripts in parallel.
+func (ts *testScript) lookPath(command string) (string, error) {
+	for _, dir := range strings.Split(ts.envMap["PATH"], string(filepath.ListSeparator)) {
+		if runtime.GOOS == "windows" {
+			for _, ext := range strings.Split(ts.envMap["PATHEXT"], string(filepath.ListSeparator)) {
+				path := dir + string(filepath.Separator) + command + ext
+				if fi, err := os.Stat(path); err == nil && fi.Mode().IsRegular() {
+					return path, nil
+				}
+			}
+		} else {
+			path := dir + string(filepath.Separator) + command
+			if fi, err := os.Stat(path); err == nil && fi.Mode().IsRegular() && fi.Mode().Perm()&0111 != 0 {
+				return path, nil
+			}
+		}
+	}
+	return "", &exec.Error{Name: command, Err: exec.ErrNotFound}
 }
 
 // waitOrStop waits for the already-started command cmd by calling its Wait method.
