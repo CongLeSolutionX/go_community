@@ -56,7 +56,6 @@ import (
 	"internal/abi"
 	"internal/goarch"
 	"runtime/internal/atomic"
-	"unsafe"
 )
 
 type suspendGState struct {
@@ -405,7 +404,7 @@ func isAsyncSafePoint(gp *g, pc, sp, lr uintptr) (bool, uintptr) {
 		// functions (except at calls).
 		return false, 0
 	}
-	if fd := funcdata(f, _FUNCDATA_LocalsPointerMaps); fd == nil || fd == unsafe.Pointer(&no_pointers_stackmap) {
+	if fd := funcdata(f, _FUNCDATA_LocalsPointerMaps); fd == nil || f.flag&funcFlag_ASM != 0 {
 		// This is assembly code. Don't assume it's
 		// well-formed. We identify assembly code by
 		// checking that it has either no stack map, or
@@ -455,5 +454,3 @@ func isAsyncSafePoint(gp *g, pc, sp, lr uintptr) (bool, uintptr) {
 	}
 	return true, pc
 }
-
-var no_pointers_stackmap uint64 // defined in assembly, for NO_LOCAL_POINTERS macro
