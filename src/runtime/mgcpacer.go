@@ -474,7 +474,7 @@ func (c *gcControllerState) revise() {
 // endCycle computes the trigger ratio for the next cycle.
 // userForced indicates whether the current GC cycle was forced
 // by the application.
-func (c *gcControllerState) endCycle(userForced bool) float64 {
+func (c *gcControllerState) endCycle(now int64, gomaxprocs int32, userForced bool) float64 {
 	// Record last heap goal for the scavenger.
 	// We'll be updating the heap goal soon.
 	gcController.lastHeapGoal = gcController.heapGoal
@@ -505,7 +505,7 @@ func (c *gcControllerState) endCycle(userForced bool) float64 {
 	// heap growth is the error.
 	goalGrowthRatio := c.effectiveGrowthRatio()
 	actualGrowthRatio := float64(c.heapLive)/float64(c.heapMarked) - 1
-	assistDuration := nanotime() - c.markStartTime
+	assistDuration := now - c.markStartTime
 
 	// Assume background mark hit its utilization goal.
 	utilization := gcBackgroundUtilization
