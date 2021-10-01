@@ -16,6 +16,29 @@
       "message": "Can you help to review this patch? Thank you.",
       "revId": "47172566c3ee439a71952b3d2f8e834b6f85e452",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ebde62f_491e0a31",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-01T21:41:49Z",
+      "side": 1,
+      "message": "This is GNU syntax, right? I don\u0027t think GNU syntax looks like this.",
+      "range": {
+        "startLine": 108,
+        "startChar": 37,
+        "endLine": 108,
+        "endChar": 56
+      },
+      "revId": "47172566c3ee439a71952b3d2f8e834b6f85e452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
