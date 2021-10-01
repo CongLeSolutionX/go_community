@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "360bda10_a4f60e4c",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-01T15:07:34Z",
+      "side": 1,
+      "message": "It looks like it might be cleaner to propagate \u0027typeParam bool\u0027, that would control the follow, typeSetsOk, and whether variadic is ok.",
+      "range": {
+        "startLine": 1852,
+        "startChar": 44,
+        "endLine": 1852,
+        "endChar": 61
+      },
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c604883_54835582",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-01T15:07:34Z",
+      "side": 1,
+      "message": "optional nit: I\u0027d probably factor out p.allowTypeSets() and p.allowTypeLists(). It\u0027s just easier to read, even if there\u0027s only one occurrence.",
+      "range": {
+        "startLine": 1852,
+        "startChar": 15,
+        "endLine": 1852,
+        "endChar": 40
+      },
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f67f13c_498770f0",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1914,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-01T15:07:34Z",
+      "side": 1,
+      "message": "Not necessarily this CL, but this looks like it might interact badly with type parameter lists.",
+      "range": {
+        "startLine": 1905,
+        "startChar": 0,
+        "endLine": 1914,
+        "endChar": 10
+      },
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0297242a_3dbb6484",
+        "filename": "src/cmd/compile/internal/syntax/parser_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-01T15:07:34Z",
+      "side": 1,
+      "message": "Why do we need to allow type lists now? Seems like we should be avoiding this flag if it\u0027s not necessary for legacy tests.",
+      "range": {
+        "startLine": 29,
+        "startChar": 85,
+        "endLine": 29,
+        "endChar": 99
+      },
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
