@@ -237,6 +237,30 @@
       },
       "revId": "0b3bdf567144bd9a8652c589ecef3bd684feada6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7890e75c_faed6569",
+        "filename": "src/cmd/compile/internal/noder/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-01T17:45:26Z",
+      "side": 1,
+      "message": "That\u0027s a good point.  I didn\u0027t realize that local generic types were working inside non-generic functions.  Note that they would not work for an exported, inlinable non-generic function, since we would try to export them in that case as well, which would fail.\n\nIt seems that going from the unique id to the \"path\" prefix will break this case (could cause two different type params in local definitions to be treated as the same).  But I don\u0027t necessarily think that should hold up this CL.  I think we should either support local generic types completely, or completely disallow their use for 1.18, so this case should either be fixed or disallowed.\n\nI can add a comment to issue https://github.com/golang/go/issues/47631 about this case.",
+      "parentUuid": "4640fc48_87ca04e6",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 162,
+        "endChar": 28
+      },
+      "revId": "0b3bdf567144bd9a8652c589ecef3bd684feada6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
