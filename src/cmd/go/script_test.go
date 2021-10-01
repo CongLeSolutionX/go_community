@@ -1130,6 +1130,16 @@ func (ts *testScript) startBackground(want simpleStatus, command string, args ..
 		done: done,
 	}
 
+	if runtime.GOOS == "windows" {
+		command = strings.ReplaceAll(command, `/`, `\`)
+	}
+	if !strings.Contains(command, string(filepath.Separator)) {
+		var err error
+		command, err = ts.lookPath(command)
+		if err != nil {
+			return nil, err
+		}
+	}
 	cmd := exec.Command(command, args...)
 	cmd.Dir = ts.cd
 	cmd.Env = append(ts.env, "PWD="+ts.cd)
@@ -1144,6 +1154,31 @@ func (ts *testScript) startBackground(want simpleStatus, command string, args ..
 		close(done)
 	}()
 	return bg, nil
+}
+
+// lookPath is (roughly) like exec.LookPath, but it uses the test script's PATH
+// instead of the test process's PATH to find the executable. We don't change
+// the test process's PATH since it may run scripts in parallel.
+func (ts *testScript) lookPath(command string) (string, error) {
+	for _, dir := range strings.Split(ts.envMap["PATH"], string(filepath.ListSeparator)) {
+		if runtime.GOOS == "windows" {
+			// Use the test process's PathExt instead of the script's.
+			// If PathExt is set in the command's environment, cmd.Start fails with
+			// "parameter is invalid". Not sure why.
+			for _, ext := range strings.Split(os.Getenv("PathExt"), string(filepath.ListSeparator)) {
+				path := dir + string(filepath.Separator) + command + ext
+				if fi, err := os.Stat(path); err == nil && fi.Mode().IsRegular() {
+					return path, nil
+				}
+			}
+		} else {
+			path := dir + string(filepath.Separator) + command
+			if fi, err := os.Stat(path); err == nil && fi.Mode().IsRegular() && fi.Mode().Perm()&0111 != 0 {
+				return path, nil
+			}
+		}
+	}
+	return "", &exec.Error{Name: command, Err: exec.ErrNotFound}
 }
 
 // waitOrStop waits for the already-started command cmd by calling its Wait method.

@@ -32,10 +32,11 @@ func ReadBuildInfo() (info *BuildInfo, ok bool) {
 
 // BuildInfo represents the build information read from a Go binary.
 type BuildInfo struct {
-	GoVersion string    // Version of Go that produced this binary.
-	Path      string    // The main package path
-	Main      Module    // The module containing the main package
-	Deps      []*Module // Module dependencies
+	GoVersion string         // Version of Go that produced this binary.
+	Path      string         // The main package path
+	Main      Module         // The module containing the main package
+	Deps      []*Module      // Module dependencies
+	Settings  []BuildSetting // Other information about the build.
 }
 
 func (bi *BuildInfo) String() string {
@@ -72,6 +73,9 @@ func (bi *BuildInfo) String() string {
 	for _, dep := range bi.Deps {
 		formatMod("dep", *dep)
 	}
+	for _, s := range bi.Settings {
+		fmt.Fprintf(sb, "build\t%s\t%s\n", s.Key, s.Value)
+	}
 
 	return sb.String()
 }
@@ -84,6 +88,12 @@ type Module struct {
 	Replace *Module // replaced by this module
 }
 
+// BuildSetting describes a setting that may be used to understand how the
+// binary was built. For example, VCS commit and dirty status is stored here.
+type BuildSetting struct {
+	Key, Value string
+}
+
 // ParseBuildInfo parses a build info string stamped into a Go binary.
 func ParseBuildInfo(data string) (info *BuildInfo, err error) {
 	lineNum := 1
@@ -94,10 +104,11 @@ func ParseBuildInfo(data string) (info *BuildInfo, err error) {
 	}()
 
 	const (
-		pathLine = "path\t"
-		modLine  = "mod\t"
-		depLine  = "dep\t"
-		repLine  = "=>\t"
+		pathLine  = "path\t"
+		modLine   = "mod\t"
+		depLine   = "dep\t"
+		repLine   = "=>\t"
+		buildLine = "build\t"
 	)
 
 	readModuleLine := func(elem []string) (Module, error) {
@@ -160,6 +171,15 @@ func ParseBuildInfo(data string) (info *BuildInfo, err error) {
 				Sum:     elem[2],
 			}
 			last = nil
+		case strings.HasPrefix(line, buildLine):
+			elem := strings.Split(line[len(buildLine):], "\t")
+			if len(elem) != 2 {
+				return nil, fmt.Errorf("expected 2 columns for build setting; got %d", len(elem))
+			}
+			if elem[0] == "" {
+				return nil, fmt.Errorf("empty key")
+			}
+			info.Settings = append(info.Settings, BuildSetting{Key: elem[0], Value: elem[1]})
 		}
 		lineNum++
 	}
