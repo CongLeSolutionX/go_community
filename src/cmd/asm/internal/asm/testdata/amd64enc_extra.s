@@ -7,7 +7,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT asmtest(SB),DUPOK|NOSPLIT,$0
+TEXT asmtest(SB),DUPOK|NOSPLIT|ASM,$0
 	// AVX2GATHER: basic combinations.
 	VPGATHERDQ Y2, (BP)(X7*2), Y1           // c4e2ed904c7d00
 	VPGATHERDQ X12, (R13)(X14*2), X11       // c40299905c7500

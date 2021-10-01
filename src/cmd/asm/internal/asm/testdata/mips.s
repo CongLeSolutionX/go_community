@@ -7,7 +7,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT foo(SB),DUPOK|NOSPLIT,$0
+TEXT foo(SB),DUPOK|NOSPLIT|ASM,$0
 
 	//inst:
 	//

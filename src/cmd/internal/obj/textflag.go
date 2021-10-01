@@ -55,4 +55,7 @@ const (
 
 	// Function is an ABI wrapper.
 	ABIWRAPPER = 4096
+
+	// Function is implemented in assembly.
+	ASM = 8192
 )

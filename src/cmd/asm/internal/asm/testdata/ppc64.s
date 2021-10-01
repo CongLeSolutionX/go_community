@@ -8,7 +8,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT asmtest(SB),DUPOK|NOSPLIT,$0
+TEXT asmtest(SB),DUPOK|NOSPLIT|ASM,$0
 	// move constants
 	MOVD $1, R3                     // 38600001
 	MOVD $-1, R4                    // 3880ffff

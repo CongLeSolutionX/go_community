@@ -4,7 +4,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT asmtest(SB),DUPOK|NOSPLIT,$0
+TEXT asmtest(SB),DUPOK|NOSPLIT|ASM,$0
 	// Instructions that were encoded with BYTE sequences.
 	// Included to simplify validation of CL that fixed that.
 	MOVQ (AX), M0  // 0f6f00

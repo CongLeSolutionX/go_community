@@ -8,7 +8,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT	foo(SB), DUPOK|NOSPLIT, $-8
+TEXT	foo(SB), DUPOK|NOSPLIT|ASM, $-8
 
 
 // arithmetic operations

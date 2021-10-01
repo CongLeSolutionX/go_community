@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512bw(SB), NOSPLIT, $0
+TEXT asmtest_avx512bw(SB), NOSPLIT|ASM, $0
 	KADDD K4, K7, K5                                   // c4e1c54aec
 	KADDD K6, K7, K5                                   // c4e1c54aee
 	KADDD K4, K6, K5                                   // c4e1cd4aec

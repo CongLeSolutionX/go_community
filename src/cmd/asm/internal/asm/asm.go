@@ -133,6 +133,7 @@ func (p *Parser) asmText(operands [][]lex.Token) {
 		flag = p.evalInteger("TEXT", operands[1])
 		next++
 	}
+	flag |= obj.ASM // mark function as implemented in assembly
 
 	// Issue an error if we see a function defined as ABIInternal
 	// without NOSPLIT. In ABIInternal, obj needs to know the function

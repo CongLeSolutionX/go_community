@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512_vbmi(SB), NOSPLIT, $0
+TEXT asmtest_avx512_vbmi(SB), NOSPLIT|ASM, $0
 	VPERMB X26, X20, K1, X23                           // 62825d018dfa
 	VPERMB X19, X20, K1, X23                           // 62a25d018dfb
 	VPERMB X0, X20, K1, X23                            // 62e25d018df8

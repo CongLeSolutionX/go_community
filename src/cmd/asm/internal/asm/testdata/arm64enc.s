@@ -9,7 +9,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT asmtest(SB),DUPOK|NOSPLIT,$-8
+TEXT asmtest(SB),DUPOK|NOSPLIT|ASM,$-8
 
    AND $(1<<63), R1                           // AND $-9223372036854775808, R1     // 21004192
    ADCW ZR, R8, R10                           // 0a011f1a

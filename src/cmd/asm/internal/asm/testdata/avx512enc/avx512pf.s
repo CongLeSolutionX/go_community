@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512pf(SB), NOSPLIT, $0
+TEXT asmtest_avx512pf(SB), NOSPLIT|ASM, $0
 	VGATHERPF0DPD K5, (R10)(Y29*8)                     // 6292fd45c60cea
 	VGATHERPF0DPD K5, (SP)(Y4*2)                       // 62f2fd4dc60c64
 	VGATHERPF0DPD K5, (DX)(Y10*4)                      // 62b2fd4dc60c92

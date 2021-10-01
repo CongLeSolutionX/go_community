@@ -3,7 +3,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT asmtest(SB),DUPOK|NOSPLIT,$0
+TEXT asmtest(SB),DUPOK|NOSPLIT|ASM,$0
 	ADCB $7, AL                             // 1407
 	ADCW $61731, AX                         // 661523f1
 	ADCL $4045620583, AX                    // 15674523f1

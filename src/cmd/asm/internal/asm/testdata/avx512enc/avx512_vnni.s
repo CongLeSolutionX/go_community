@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512_vnni(SB), NOSPLIT, $0
+TEXT asmtest_avx512_vnni(SB), NOSPLIT|ASM, $0
 	VPDPBUSD X15, X16, K2, X6                          // 62d27d0250f7
 	VPDPBUSD X11, X16, K2, X6                          // 62d27d0250f3
 	VPDPBUSD X1, X16, K2, X6                           // 62f27d0250f1

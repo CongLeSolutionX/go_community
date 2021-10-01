@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512cd(SB), NOSPLIT, $0
+TEXT asmtest_avx512cd(SB), NOSPLIT|ASM, $0
 	VPBROADCASTMB2Q K1, X25                            // 6262fe082ac9
 	VPBROADCASTMB2Q K5, X25                            // 6262fe082acd
 	VPBROADCASTMB2Q K1, X11                            // 6272fe082ad9

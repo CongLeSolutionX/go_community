@@ -37,3 +37,6 @@
 #define TOPFRAME 2048
 // Function is an ABI wrapper.
 #define ABIWRAPPER 4096
+// Function is implemented in assembly.
+// Added automatically by assembler.
+#define ASM 8192

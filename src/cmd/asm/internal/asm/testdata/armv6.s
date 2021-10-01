@@ -4,7 +4,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT	foo(SB), DUPOK|NOSPLIT, $0
+TEXT	foo(SB), DUPOK|NOSPLIT|ASM, $0
 
 	ADDF	F0, F1, F2    // 002a31ee
 	ADDD.EQ	F3, F4, F5    // 035b340e

@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512_ifma(SB), NOSPLIT, $0
+TEXT asmtest_avx512_ifma(SB), NOSPLIT|ASM, $0
 	VPMADD52HUQ X7, X11, K1, X18                       // 62e2a509b5d7
 	VPMADD52HUQ X0, X11, K1, X18                       // 62e2a509b5d0
 	VPMADD52HUQ 17(SP)(BP*2), X11, K1, X18             // 62e2a509b5946c11000000

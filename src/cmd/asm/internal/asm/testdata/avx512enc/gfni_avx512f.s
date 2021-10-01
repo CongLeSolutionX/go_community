@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_gfni_avx512f(SB), NOSPLIT, $0
+TEXT asmtest_gfni_avx512f(SB), NOSPLIT|ASM, $0
 	VGF2P8AFFINEINVQB $64, X8, X31, K3, X26            // 62438503cfd040
 	VGF2P8AFFINEINVQB $64, X1, X31, K3, X26            // 62638503cfd140
 	VGF2P8AFFINEINVQB $64, X0, X31, K3, X26            // 62638503cfd040

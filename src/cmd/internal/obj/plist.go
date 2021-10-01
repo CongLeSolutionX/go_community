@@ -177,6 +177,9 @@ func toFuncFlag(flag int) objabi.FuncFlag {
 	if flag&TOPFRAME != 0 {
 		out |= objabi.FuncFlag_TOPFRAME
 	}
+	if flag&ASM != 0 {
+		out |= objabi.FuncFlag_ASM
+	}
 	return out
 }
 

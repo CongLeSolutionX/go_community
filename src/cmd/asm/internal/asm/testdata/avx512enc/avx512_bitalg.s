@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512_bitalg(SB), NOSPLIT, $0
+TEXT asmtest_avx512_bitalg(SB), NOSPLIT|ASM, $0
 	VPOPCNTB X14, K4, X16                              // 62c27d0c54c6
 	VPOPCNTB X19, K4, X16                              // 62a27d0c54c3
 	VPOPCNTB X8, K4, X16                               // 62c27d0c54c0

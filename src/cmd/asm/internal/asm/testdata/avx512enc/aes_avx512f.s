@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_aes_avx512f(SB), NOSPLIT, $0
+TEXT asmtest_aes_avx512f(SB), NOSPLIT|ASM, $0
 	VAESDEC X24, X7, X11                               // 62124508ded8 or 6212c508ded8
 	VAESDEC X20, X7, X11                               // 62324508dedc or 6232c508dedc
 	VAESDEC X24, X0, X11                               // 62127d08ded8 or 6212fd08ded8

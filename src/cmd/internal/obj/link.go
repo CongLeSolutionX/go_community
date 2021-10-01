@@ -817,6 +817,12 @@ func (s *LSym) TextAttrString() string {
 		}
 		attr += "TOPFRAME"
 	}
+	if s.Func().FuncFlag&objabi.FuncFlag_ASM != 0 {
+		if attr != "" {
+			attr += "|"
+		}
+		attr += "ASM"
+	}
 	return attr
 }
 

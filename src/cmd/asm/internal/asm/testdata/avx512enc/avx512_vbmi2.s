@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512_vbmi2(SB), NOSPLIT, $0
+TEXT asmtest_avx512_vbmi2(SB), NOSPLIT|ASM, $0
 	VPCOMPRESSB X7, K1, X15                            // 62d27d0963ff
 	VPCOMPRESSB X13, K1, X15                           // 62527d0963ef
 	VPCOMPRESSB X8, K1, X15                            // 62527d0963c7

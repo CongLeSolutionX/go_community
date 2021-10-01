@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_vpclmulqdq_avx512f(SB), NOSPLIT, $0
+TEXT asmtest_vpclmulqdq_avx512f(SB), NOSPLIT|ASM, $0
 	VPCLMULQDQ $127, X22, X21, X15                     // 6233550044fe7f or 6233d50044fe7f
 	VPCLMULQDQ $127, X7, X21, X15                      // 6273550044ff7f or 6273d50044ff7f
 	VPCLMULQDQ $127, X19, X21, X15                     // 6233550044fb7f or 6233d50044fb7f

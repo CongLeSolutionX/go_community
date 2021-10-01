@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512_4vnniw(SB), NOSPLIT, $0
+TEXT asmtest_avx512_4vnniw(SB), NOSPLIT|ASM, $0
 	VP4DPWSSD 7(SI)(DI*1), [Z2-Z5], K4, Z17            // 62e26f4c528c3e07000000
 	VP4DPWSSD 15(DX)(BX*8), [Z2-Z5], K4, Z17           // 62e26f4c528cda0f000000
 	VP4DPWSSD 7(SI)(DI*1), [Z12-Z15], K4, Z17          // 62e21f4c528c3e07000000

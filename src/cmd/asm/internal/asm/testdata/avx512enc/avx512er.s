@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512er(SB), NOSPLIT, $0
+TEXT asmtest_avx512er(SB), NOSPLIT|ASM, $0
 	VEXP2PD Z17, K7, Z20                               // 62a2fd4fc8e1
 	VEXP2PD Z0, K7, Z20                                // 62e2fd4fc8e0
 	VEXP2PD Z17, K7, Z0                                // 62b2fd4fc8c1

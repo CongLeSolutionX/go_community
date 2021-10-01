@@ -4,7 +4,7 @@
 
 #include "../../../../../runtime/textflag.h"
 
-TEXT main·foo(SB),DUPOK|NOSPLIT,$16-0 // TEXT main.foo(SB), DUPOK|NOSPLIT, $16-0
+TEXT main·foo(SB),DUPOK|NOSPLIT|ASM,$16-0 // TEXT main.foo(SB), DUPOK|NOSPLIT|ASM, $16-0
 	MOVD	R1, R2                // b9040021
 	MOVW	R3, R4                // b9140043
 	MOVH	R5, R6                // b9070065
@@ -516,9 +516,9 @@ TEXT main·foo(SB),DUPOK|NOSPLIT,$16-0 // TEXT main.foo(SB), DUPOK|NOSPLIT, $16-
 	RET
 	RET	foo(SB)
 
-TEXT main·init(SB),DUPOK|NOSPLIT,$0 // TEXT main.init(SB), DUPOK|NOSPLIT, $0
+TEXT main·init(SB),DUPOK|NOSPLIT|ASM,$0 // TEXT main.init(SB), DUPOK|NOSPLIT|ASM, $0
 	RET
 
-TEXT main·main(SB),DUPOK|NOSPLIT,$0 // TEXT main.main(SB), DUPOK|NOSPLIT, $0
+TEXT main·main(SB),DUPOK|NOSPLIT|ASM,$0 // TEXT main.main(SB), DUPOK|NOSPLIT|ASM, $0
 	BL      main·foo(SB)    // CALL main.foo(SB)
 	RET

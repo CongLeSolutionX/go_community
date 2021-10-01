@@ -2,7 +2,7 @@
 
 #include "../../../../../../runtime/textflag.h"
 
-TEXT asmtest_avx512_4fmaps(SB), NOSPLIT, $0
+TEXT asmtest_avx512_4fmaps(SB), NOSPLIT|ASM, $0
 	V4FMADDPS 17(SP), [Z0-Z3], K2, Z0                  // 62f27f4a9a842411000000
 	V4FMADDPS -17(BP)(SI*4), [Z0-Z3], K2, Z0           // 62f27f4a9a84b5efffffff
 	V4FMADDPS 17(SP), [Z10-Z13], K2, Z0                // 62f22f4a9a842411000000
