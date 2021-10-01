@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "003b23d4_0995cc12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-01T02:30:17Z",
+      "side": 1,
+      "message": "This LGTM for the importer change. It will also be easy to make the x/tools importer resilient to the new format: just strip both subscript AND prefix. I can do that to avoid builder failure.",
+      "revId": "0b3bdf567144bd9a8652c589ecef3bd684feada6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
