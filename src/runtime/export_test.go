@@ -1230,3 +1230,68 @@ func GCTestPointerClass(p unsafe.Pointer) string {
 }
 
 const Raceenabled = raceenabled
+
+const (
+	GCBackgroundUtilization = gcBackgroundUtilization
+	GCGoalUtilization       = gcGoalUtilization
+)
+
+type GCController struct {
+	gcControllerState
+}
+
+func NewGCController(gcPercent int) *GCController {
+	g := new(GCController)
+	g.init(int32(gcPercent))
+	return g
+}
+
+func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac float64) {
+	c.scannableStackSize = stackSize
+	c.globalsScan = globalsSize
+	c.heapLive = c.trigger
+	c.heapScan += uint64(float64(c.trigger-c.heapMarked) * scannableFrac)
+	c.startCycle(0)
+}
+
+func (c *GCController) AssistWorkPerByte() float64 {
+	return *(*float64)(unsafe.Pointer(&c.assistWorkPerByte))
+}
+
+func (c *GCController) HeapGoal() uint64 {
+	return c.heapGoal
+}
+
+func (c *GCController) HeapLive() uint64 {
+	return c.heapLive
+}
+
+func (c *GCController) HeapMarked() uint64 {
+	return c.heapMarked
+}
+
+func (c *GCController) Trigger() uint64 {
+	return c.trigger
+}
+
+type GCControllerReviseDelta struct {
+	HeapLive        int64
+	HeapScan        int64
+	HeapScanWork    int64
+	StackScanWork   int64
+	GlobalsScanWork int64
+}
+
+func (c *GCController) Revise(d GCControllerReviseDelta) {
+	c.heapLive += uint64(d.HeapLive)
+	c.heapScan += uint64(d.HeapScan)
+	c.scanWork += d.HeapScanWork + d.StackScanWork + d.GlobalsScanWork
+	c.revise()
+}
+
+func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, gomaxprocs int) {
+	c.assistTime = assistTime
+	triggerRatio := c.endCycle(elapsed, int32(gomaxprocs), false)
+	c.resetLive(bytesMarked)
+	c.commit(triggerRatio)
+}
