@@ -38,6 +38,7 @@ import (
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
 	"cmd/go/internal/trace"
+	"cmd/go/internal/vcs"
 	"cmd/internal/str"
 	"cmd/internal/sys"
 
@@ -2258,6 +2259,43 @@ func (p *Package) setBuildInfo() {
 		Main: main,
 		Deps: deps,
 	}
+
+	// Add VCS status if all conditions are true:
+	//
+	// - -buildvcs is enabled.
+	// - p is contained within a main module (there may be multiple main modules
+	//   in a workspace, but local replacements don't count).
+	// - Both the current directory and p's module's root directory are contained
+	//   in the same local repository.
+	// - We know the VCS commands needed to get the status.
+	setVCSError := func(err error) {
+		if p.Error == nil {
+			p.Error = &PackageError{Err: fmt.Errorf("error obtaining VCS status: %v\n\tUse -buildvcs=false to disable VCS stamping.", err)}
+		}
+	}
+
+	var repoDir string
+	var vcsCmd *vcs.Cmd
+	var err error
+	if cfg.BuildBuildvcs && p.Module != nil && p.Module.Version == "" {
+		repoDir, vcsCmd, err = vcs.FromDir(base.Cwd(), "")
+		if err != nil && !errors.Is(err, os.ErrNotExist) {
+			setVCSError(err)
+			return
+		}
+	}
+	if repoDir != "" && vcsCmd.Status != nil && str.HasFilePathPrefix(p.Module.Dir, repoDir) {
+		st, err := vcsCmd.Status(vcsCmd, repoDir)
+		if err != nil {
+			setVCSError(err)
+			return
+		}
+		info.Settings = []debug.BuildSetting{
+			{Key: vcsCmd.Cmd + "revision", Value: st.Revision},
+			{Key: vcsCmd.Cmd + "uncommitted", Value: strconv.FormatBool(st.Uncommitted)},
+		}
+	}
+
 	p.Internal.BuildInfo = info.String()
 }
 
