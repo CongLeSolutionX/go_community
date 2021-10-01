@@ -727,6 +727,9 @@ func (s *state) evalCall(dot, fun reflect.Value, isBuiltin bool, node parse.Node
 		if final != missingVal {
 			v = s.validateType(final, argType)
 		}
+		if v.Type() == reflectValueType {
+			v = v.Interface().(reflect.Value)
+		}
 		return v
 	}
 
