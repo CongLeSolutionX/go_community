@@ -16,6 +16,23 @@
       "message": "I moved `GoPathError` to cmd/go/internal/cfg as per Jay Conrod\u0027s suggestion. Is anyone able to review my Patchset 2?",
       "revId": "91edacc19948de3074731d21b83a6faca5d11792",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5dc2e3c_084209bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-01T16:12:55Z",
+      "side": 1,
+      "message": "Gerrit is showing a merge conflict — this probably needs to be rebased and retested after CL 351329.",
+      "revId": "91edacc19948de3074731d21b83a6faca5d11792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
