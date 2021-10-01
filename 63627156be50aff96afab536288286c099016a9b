@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e088f58d_79dff6c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-01T16:43:11Z",
+      "side": 1,
+      "message": "Thanks for the review!",
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "360bda10_a4f60e4c",
@@ -86,6 +103,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6a3f2ad2_ddb5fa7a",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-01T16:43:11Z",
+      "side": 1,
+      "message": "I had that but it seemed overkill. Especially since we\u0027re either going to abandon this again or make it permanent. In any case, the flag will disappear.",
+      "parentUuid": "1c604883_54835582",
+      "range": {
+        "startLine": 1852,
+        "startChar": 15,
+        "endLine": 1852,
+        "endChar": 40
+      },
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d32bef45_eccc1f90",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-01T16:43:11Z",
+      "side": 1,
+      "message": "follow \u003d\u003d _Rbrack is equivalent to saying typeParam \u003d true, at least for now. I\u0027d rather not have redundancy in the logic, here.\n\nI am allowing variadic type parameters for leniency on purpose. I\u0027ll revisit eventually. I think there\u0027s also an issue regarding this.",
+      "parentUuid": "360bda10_a4f60e4c",
+      "range": {
+        "startLine": 1852,
+        "startChar": 44,
+        "endLine": 1852,
+        "endChar": 61
+      },
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2f67f13c_498770f0",
         "filename": "src/cmd/compile/internal/syntax/parser.go",
         "patchSetId": 7
@@ -97,6 +162,30 @@
       "writtenOn": "2021-10-01T15:07:34Z",
       "side": 1,
       "message": "Not necessarily this CL, but this looks like it might interact badly with type parameter lists.",
+      "range": {
+        "startLine": 1905,
+        "startChar": 0,
+        "endLine": 1914,
+        "endChar": 10
+      },
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c10d7940_e4fd9e34",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1914,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-01T16:43:11Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "2f67f13c_498770f0",
       "range": {
         "startLine": 1905,
         "startChar": 0,
@@ -120,6 +209,30 @@
       "writtenOn": "2021-10-01T15:07:34Z",
       "side": 1,
       "message": "Why do we need to allow type lists now? Seems like we should be avoiding this flag if it\u0027s not necessary for legacy tests.",
+      "range": {
+        "startLine": 29,
+        "startChar": 85,
+        "endLine": 29,
+        "endChar": 99
+      },
+      "revId": "63627156be50aff96afab536288286c099016a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70cadafa_b4886e59",
+        "filename": "src/cmd/compile/internal/syntax/parser_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-01T16:43:11Z",
+      "side": 1,
+      "message": "removed where we don\u0027t need it anymore\n\nI will remove the this flag altogether eventually, of course.",
+      "parentUuid": "0297242a_3dbb6484",
       "range": {
         "startLine": 29,
         "startChar": 85,
