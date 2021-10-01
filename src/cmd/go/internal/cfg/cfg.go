@@ -26,6 +26,7 @@ import (
 var (
 	BuildA                 bool   // -a flag
 	BuildBuildmode         string // -buildmode flag
+	BuildBuildstamp        bool   // -buildstamp flag
 	BuildContext           = defaultContext()
 	BuildMod               string                  // -mod flag
 	BuildModExplicit       bool                    // whether -mod was set explicitly

@@ -38,6 +38,7 @@ import (
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
 	"cmd/go/internal/trace"
+	"cmd/go/internal/vcs"
 	"cmd/internal/str"
 	"cmd/internal/sys"
 
@@ -2200,6 +2201,13 @@ func (p *Package) collectDeps() {
 //
 // This information can be retrieved using debug.ReadBuildInfo.
 func (p *Package) setBuildInfo() {
+	var repoDir string
+	var vcsCmd *vcs.Cmd
+	if cfg.BuildBuildstamp {
+		repoDir, vcsCmd = vcs.FindContainingRepo(base.Cwd())
+	}
+	haveModInRepo := false
+
 	var debugModFromModinfo func(*modinfo.ModulePublic) *debug.Module
 	debugModFromModinfo = func(mi *modinfo.ModulePublic) *debug.Module {
 		dm := &debug.Module{
@@ -2210,6 +2218,9 @@ func (p *Package) setBuildInfo() {
 			dm.Replace = debugModFromModinfo(mi.Replace)
 		} else {
 			dm.Sum = modfetch.Sum(module.Version{Path: mi.Path, Version: mi.Version})
+		}
+		if repoDir != "" && str.HasFilePathPrefix(mi.Dir, repoDir) {
+			haveModInRepo = true
 		}
 		return dm
 	}
@@ -2253,6 +2264,16 @@ func (p *Package) setBuildInfo() {
 		Main: main,
 		Deps: deps,
 	}
+
+	if cfg.BuildBuildstamp && haveModInRepo && vcsCmd.Status != nil {
+		if st, err := vcsCmd.Status(vcsCmd, repoDir); err == nil {
+			info.Settings = []debug.BuildSetting{
+				{Key: vcsCmd.Cmd + "revision", Value: st.Revision},
+				{Key: vcsCmd.Cmd + "uncommitted", Value: strconv.FormatBool(st.Uncommitted)},
+			}
+		}
+	}
+
 	p.Internal.BuildInfo = info.String()
 }
 

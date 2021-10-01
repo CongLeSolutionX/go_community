@@ -31,10 +31,15 @@ func ReadBuildInfo() (info *BuildInfo, ok bool) {
 
 // BuildInfo represents the build information read from a Go binary.
 type BuildInfo struct {
-	GoVersion string    // Version of Go that produced this binary.
-	Path      string    // The main package path
-	Main      Module    // The module containing the main package
-	Deps      []*Module // Module dependencies
+	GoVersion string         // Version of Go that produced this binary.
+	Path      string         // The main package path
+	Main      Module         // The module containing the main package
+	Deps      []*Module      // Module dependencies
+	Settings  []BuildSetting // Other information about the build.
+}
+
+type BuildSetting struct {
+	Key, Value string
 }
 
 func (bi *BuildInfo) String() string {
@@ -71,6 +76,9 @@ func (bi *BuildInfo) String() string {
 	for _, dep := range bi.Deps {
 		formatMod("dep", *dep)
 	}
+	for _, s := range bi.Settings {
+		fmt.Fprintf(sb, "build\t%s\t%s\n", s.Key, s.Value)
+	}
 
 	return sb.String()
 }
@@ -84,14 +92,7 @@ type Module struct {
 }
 
 func parseBuildInfo(data string) (*BuildInfo, bool) {
-	const (
-		pathLine = "path\t"
-		modLine  = "mod\t"
-		depLine  = "dep\t"
-		repLine  = "=>\t"
-	)
-
-	readEntryFirstLine := func(elem []string) (Module, bool) {
+	readMod := func(elem []string) (Module, bool) {
 		if len(elem) != 2 && len(elem) != 3 {
 			return Module{}, false
 		}
@@ -119,27 +120,32 @@ func parseBuildInfo(data string) (*BuildInfo, bool) {
 			break
 		}
 		line, data = data[:i], data[i+1:]
-		switch {
-		case strings.HasPrefix(line, pathLine):
-			elem := line[len(pathLine):]
-			info.Path = elem
-		case strings.HasPrefix(line, modLine):
-			elem := strings.Split(line[len(modLine):], "\t")
+		i = strings.IndexByte(line, '\t')
+		if i <= 0 {
+			continue
+		}
+		word, rest := line[:i], line[i+1:]
+
+		switch word {
+		case "path":
+			info.Path = rest
+		case "mod":
+			elem := strings.Split(rest, "\t")
 			last = &info.Main
-			*last, ok = readEntryFirstLine(elem)
+			*last, ok = readMod(elem)
 			if !ok {
 				return nil, false
 			}
-		case strings.HasPrefix(line, depLine):
-			elem := strings.Split(line[len(depLine):], "\t")
+		case "dep":
+			elem := strings.Split(rest, "\t")
 			last = new(Module)
 			info.Deps = append(info.Deps, last)
-			*last, ok = readEntryFirstLine(elem)
+			*last, ok = readMod(elem)
 			if !ok {
 				return nil, false
 			}
-		case strings.HasPrefix(line, repLine):
-			elem := strings.Split(line[len(repLine):], "\t")
+		case "=>":
+			elem := strings.Split(rest, "\t")
 			if len(elem) != 3 {
 				return nil, false
 			}
@@ -152,6 +158,15 @@ func parseBuildInfo(data string) (*BuildInfo, bool) {
 				Sum:     elem[2],
 			}
 			last = nil
+		case "build":
+			i := strings.IndexByte(rest, '\t')
+			if i < 0 {
+				return nil, false
+			}
+			info.Settings = append(info.Settings, BuildSetting{
+				Key:   rest[:i],
+				Value: rest[i+1:],
+			})
 		}
 	}
 	return info, true

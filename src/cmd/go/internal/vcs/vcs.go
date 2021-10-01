@@ -5,6 +5,7 @@
 package vcs
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -29,11 +30,12 @@ import (
 	"golang.org/x/mod/module"
 )
 
-// A vcsCmd describes how to use a version control system
+// A Cmd describes how to use a version control system
 // like Mercurial, Git, or Subversion.
 type Cmd struct {
-	Name string
-	Cmd  string // name of binary to invoke command
+	Name    string
+	Cmd     string // name of binary to invoke command
+	DirName string // name of control directory at repository root (like ".git"), if any
 
 	CreateCmd   []string // commands to download a fresh copy of a repository
 	DownloadCmd []string // commands to download updates into an existing repository
@@ -48,6 +50,13 @@ type Cmd struct {
 
 	RemoteRepo  func(v *Cmd, rootDir string) (remoteRepo string, err error)
 	ResolveRepo func(v *Cmd, rootDir, remoteRepo string) (realRepo string, err error)
+	Status      func(v *Cmd, rootDir string) (Status, error)
+}
+
+// Status is the current state of a local repository.
+type Status struct {
+	Revision    string
+	Uncommitted bool
 }
 
 var defaultSecureScheme = map[string]bool{
@@ -118,8 +127,9 @@ func vcsByCmd(cmd string) *Cmd {
 
 // vcsHg describes how to use Mercurial.
 var vcsHg = &Cmd{
-	Name: "Mercurial",
-	Cmd:  "hg",
+	Name:    "Mercurial",
+	Cmd:     "hg",
+	DirName: ".hg",
 
 	CreateCmd:   []string{"clone -U -- {repo} {dir}"},
 	DownloadCmd: []string{"pull"},
@@ -139,6 +149,7 @@ var vcsHg = &Cmd{
 	Scheme:     []string{"https", "http", "ssh"},
 	PingCmd:    "identify -- {scheme}://{repo}",
 	RemoteRepo: hgRemoteRepo,
+	Status:     hgStatus,
 }
 
 func hgRemoteRepo(vcsHg *Cmd, rootDir string) (remoteRepo string, err error) {
@@ -149,10 +160,32 @@ func hgRemoteRepo(vcsHg *Cmd, rootDir string) (remoteRepo string, err error) {
 	return strings.TrimSpace(string(out)), nil
 }
 
+func hgStatus(vcsHg *Cmd, rootDir string) (Status, error) {
+	out, err := vcsHg.runOutput(rootDir, "identify -i")
+	if err != nil {
+		return Status{}, err
+	}
+	rev := strings.TrimSpace(string(out))
+	uncommitted := strings.HasSuffix(rev, "+")
+	if uncommitted {
+		// "+" means a tracked file is edited.
+		rev = rev[:len(rev)-len("+")]
+	} else {
+		// Also look for untracked files.
+		out, err = vcsHg.runOutput(rootDir, "status")
+		if err != nil {
+			return Status{}, err
+		}
+		uncommitted = len(out) > 0
+	}
+	return Status{Revision: rev, Uncommitted: uncommitted}, nil
+}
+
 // vcsGit describes how to use Git.
 var vcsGit = &Cmd{
-	Name: "Git",
-	Cmd:  "git",
+	Name:    "Git",
+	Cmd:     "git",
+	DirName: ".git",
 
 	CreateCmd:   []string{"clone -- {repo} {dir}", "-go-internal-cd {dir} submodule update --init --recursive"},
 	DownloadCmd: []string{"pull --ff-only", "submodule update --init --recursive"},
@@ -182,6 +215,7 @@ var vcsGit = &Cmd{
 	PingCmd: "ls-remote {scheme}://{repo}",
 
 	RemoteRepo: gitRemoteRepo,
+	Status:     gitStatus,
 }
 
 // scpSyntaxRe matches the SCP-like addresses used by Git to access
@@ -232,10 +266,25 @@ func gitRemoteRepo(vcsGit *Cmd, rootDir string) (remoteRepo string, err error) {
 	return "", errParse
 }
 
+func gitStatus(cmd *Cmd, repoDir string) (Status, error) {
+	out, err := cmd.runOutput(repoDir, "rev-parse HEAD")
+	if err != nil {
+		return Status{}, err
+	}
+	rev := string(bytes.TrimSpace(out))
+	out, err = cmd.runOutput(repoDir, "status --porcelain")
+	if err != nil {
+		return Status{}, err
+	}
+	uncommitted := len(out) != 0
+	return Status{Revision: rev, Uncommitted: uncommitted}, nil
+}
+
 // vcsBzr describes how to use Bazaar.
 var vcsBzr = &Cmd{
-	Name: "Bazaar",
-	Cmd:  "bzr",
+	Name:    "Bazaar",
+	Cmd:     "bzr",
+	DirName: ".bzr",
 
 	CreateCmd: []string{"branch -- {repo} {dir}"},
 
@@ -296,8 +345,9 @@ func bzrResolveRepo(vcsBzr *Cmd, rootDir, remoteRepo string) (realRepo string, e
 
 // vcsSvn describes how to use Subversion.
 var vcsSvn = &Cmd{
-	Name: "Subversion",
-	Cmd:  "svn",
+	Name:    "Subversion",
+	Cmd:     "svn",
+	DirName: ".svn",
 
 	CreateCmd:   []string{"checkout -- {repo} {dir}"},
 	DownloadCmd: []string{"update"},
@@ -768,6 +818,32 @@ func CheckNested(vcs *Cmd, dir, srcRoot string) error {
 	}
 
 	return nil
+}
+
+// FindContainingRepo locates the root directory of the local repository that
+// contains dir.
+//
+// NOTE: fossil is not supported because repositories are in SQLite database
+// files instead of directories.
+func FindContainingRepo(dir string) (string, *Cmd) {
+	d := dir
+	for {
+		for _, cmd := range vcsList {
+			if cmd.DirName == "" {
+				continue
+			}
+			if fi, err := os.Stat(filepath.Join(d, cmd.DirName)); err == nil && fi.IsDir() {
+				return d, cmd
+			} else if !os.IsNotExist(err) {
+				return "", nil
+			}
+		}
+		if parent := filepath.Dir(d); parent == d {
+			return "", nil
+		} else {
+			d = parent
+		}
+	}
 }
 
 // RepoRoot describes the repository root for a tree of source code.

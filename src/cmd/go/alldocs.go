@@ -133,6 +133,12 @@
 // 		arguments to pass on each go tool asm invocation.
 // 	-buildmode mode
 // 		build mode to use. See 'go help buildmode' for more.
+// 	-buildstamp
+// 		Whether to stamp build information into binaries that can be read with
+// 		'go version -m exe' or runtime/debug.ReadBuildInfoFromFile.
+// 		This flag is enabled by default, so use -buildstamp=false to disable it.
+// 		The Go version is always stamped regardless of this flag, and module
+// 		information is stamped if modules are enabled (see 'go help modules').
 // 	-compiler name
 // 		name of compiler to use, as in runtime.Compiler (gccgo or gc).
 // 	-gccgoflags '[pattern=]arg list'
