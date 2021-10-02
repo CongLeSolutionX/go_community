@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0f1a34a_bad6c3dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52598
+      },
+      "writtenOn": "2021-10-02T02:48:28Z",
+      "side": 1,
+      "message": "Fixed merge conflict and re-tested with `./all.bash` - all tests passed.",
+      "revId": "32e8eb43b7113f2fb11a5bdd8b34f1db1899cab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
