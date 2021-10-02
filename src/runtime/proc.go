@@ -2577,6 +2577,13 @@ top:
 
 	// Try to schedule a GC worker.
 	if gcBlackenEnabled != 0 {
+		// Since we have the current time, check if the GC CPU limiter
+		// hasn't had an update in a while. This check is necessary in
+		// case the limiter is on but hasn't been checked in a while and
+		// so may have left sufficient headroom to turn off again.
+		if gcCPULimiter.needUpdate(now) {
+			gcCPULimiter.update(gcController.assistTime.Load(), now)
+		}
 		gp = gcController.findRunnableGCWorker(_p_)
 		if gp != nil {
 			return gp, false, true
@@ -4870,6 +4877,10 @@ func procresize(nprocs int32) *p {
 	stealOrder.reset(uint32(nprocs))
 	var int32p *int32 = &gomaxprocs // make compiler check that gomaxprocs is an int32
 	atomic.Store((*uint32)(unsafe.Pointer(int32p)), uint32(nprocs))
+	if old != nprocs {
+		// Notify the limiter that the amount of procs has changed.
+		gcCPULimiter.resetCapacity(now, nprocs)
+	}
 	return runnablePs
 }
 
