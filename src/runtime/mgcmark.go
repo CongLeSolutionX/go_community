@@ -413,6 +413,14 @@ func gcAssistAlloc(gp *g) {
 
 	traced := false
 retry:
+	if gcCPULimiter.enabled() {
+		// If the CPU limiter is enabled, intentionally don't
+		// assist to reduce the amount of CPU time spent in the GC.
+		if traced {
+			traceGCMarkAssistDone()
+		}
+		return
+	}
 	// Compute the amount of scan work we need to do to make the
 	// balance positive. When the required amount of work is low,
 	// we over-assist to build up credit for future allocations
@@ -585,7 +593,7 @@ func gcAssistAlloc1(gp *g, scanWork int64) {
 	_p_ := gp.m.p.ptr()
 	_p_.gcAssistTime += duration
 	if _p_.gcAssistTime > gcAssistTimeSlack {
-		atomic.Xaddint64(&gcController.assistTime, _p_.gcAssistTime)
+		gcController.assistTime.Add(_p_.gcAssistTime)
 		_p_.gcAssistTime = 0
 	}
 }
