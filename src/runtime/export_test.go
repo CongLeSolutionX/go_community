@@ -1307,7 +1307,7 @@ func (c *GCController) Revise(d GCControllerReviseDelta) {
 }
 
 func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, gomaxprocs int) {
-	c.assistTime = assistTime
+	c.assistTime.Store(assistTime)
 	c.endCycle(elapsed, gomaxprocs, false)
 	c.resetLive(bytesMarked)
 	c.commit()
