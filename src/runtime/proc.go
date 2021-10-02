@@ -5061,6 +5061,7 @@ func procresize(nprocs int32) *p {
 	stealOrder.reset(uint32(nprocs))
 	var int32p *int32 = &gomaxprocs // make compiler check that gomaxprocs is an int32
 	atomic.Store((*uint32)(unsafe.Pointer(int32p)), uint32(nprocs))
+	gcCPULimiter.resetCapacity(nprocs)
 	return runnablePs
 }
 
@@ -5281,6 +5282,11 @@ func sysmon() {
 		usleep(delay)
 		mDoFixup()
 
+		// Update the CPU limiter. Don't bother re-updating now after this,
+		// this operation should be very fast.
+		now := nanotime()
+		gcCPULimiter.update(gcBlackenEnabled != 0, gcController.assistTime.Load(), now, gomaxprocs)
+
 		// sysmon should not enter deep sleep if schedtrace is enabled so that
 		// it can print that information at the right time.
 		//
@@ -5296,7 +5302,6 @@ func sysmon() {
 		// application starts work again. It does not reset idle when waking
 		// from a timer to avoid adding system load to applications that spend
 		// most of their time sleeping.
-		now := nanotime()
 		if debug.schedtrace <= 0 && (sched.gcwaiting != 0 || atomic.Load(&sched.npidle) == uint32(gomaxprocs)) {
 			lock(&sched.lock)
 			if atomic.Load(&sched.gcwaiting) != 0 || atomic.Load(&sched.npidle) == uint32(gomaxprocs) {
