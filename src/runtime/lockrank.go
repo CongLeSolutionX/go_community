@@ -93,6 +93,7 @@ const (
 	// hchan locks.
 	lockRankHchanLeaf
 	lockRankPanic
+	lockRankGCCPULimiter
 
 	// Leaf locks with no dependencies, so these constants are not actually used anywhere.
 	// There are other architecture-dependent leaf locks as well.
@@ -237,9 +238,10 @@ var lockPartialOrder [][]lockRank = [][]lockRank{
 	lockRankGlobalAlloc:   {lockRankProf, lockRankSpanSetSpine, lockRankMheap, lockRankMheapSpecial},
 	lockRankPageAllocScav: {lockRankMheap},
 
-	lockRankGFree:     {lockRankSched},
-	lockRankHchanLeaf: {lockRankGscan, lockRankHchanLeaf},
-	lockRankPanic:     {lockRankDeadlock}, // plus any other lock held on throw.
+	lockRankGFree:        {lockRankSched},
+	lockRankHchanLeaf:    {lockRankGscan, lockRankHchanLeaf},
+	lockRankPanic:        {lockRankDeadlock}, // plus any other lock held on throw.
+	lockRankGCCPULimiter: {lockRankSched},
 
 	lockRankNewmHandoff:   {},
 	lockRankDebugPtrmask:  {},
