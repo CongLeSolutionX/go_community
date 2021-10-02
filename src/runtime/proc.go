@@ -4848,6 +4848,9 @@ func procresize(nprocs int32) *p {
 	stealOrder.reset(uint32(nprocs))
 	var int32p *int32 = &gomaxprocs // make compiler check that gomaxprocs is an int32
 	atomic.Store((*uint32)(unsafe.Pointer(int32p)), uint32(nprocs))
+
+	// Notify the limiter that the amount of procs has changed.
+	gcCPULimiter.resetCapacity(now, nprocs)
 	return runnablePs
 }
 
