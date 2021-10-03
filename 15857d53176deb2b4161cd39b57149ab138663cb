@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "364de424_3b997b79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38590
+      },
+      "writtenOn": "2021-10-03T15:22:19Z",
+      "side": 1,
+      "message": "Yeah, good spot.  It won\u0027t change the benchmarks I quoted, which are measuring execution not compilation, but could make a difference in compilation time for a very complex regex.\n",
+      "revId": "15857d53176deb2b4161cd39b57149ab138663cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "813eb8a5_cc0956c9",
