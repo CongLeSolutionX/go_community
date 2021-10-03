@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c036ee18_85f7860e",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2021-10-03T04:35:47Z",
+      "side": 1,
+      "message": "`// // go:wasmimport go add`",
+      "revId": "43b47bd437c50f8dbc27989acfd210acd296795b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
