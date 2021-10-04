@@ -484,6 +484,7 @@ var passes = [...]pass{
 	{name: "branchelim", fn: branchelim},
 	{name: "late fuse", fn: fuseLate},
 	{name: "dse", fn: dse},
+	{name: "jumptable", fn: jumpTable},
 	{name: "writebarrier", fn: writebarrier, required: true}, // expand write barrier ops
 	{name: "insert resched checks", fn: insertLoopReschedChecks,
 		disabled: !buildcfg.Experiment.PreemptibleLoops}, // insert resched checks in loops.

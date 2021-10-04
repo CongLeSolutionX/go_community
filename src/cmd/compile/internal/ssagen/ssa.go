@@ -6459,6 +6459,9 @@ type State struct {
 	// and where they would like to go.
 	Branches []Branch
 
+	// JumpTables remembers all the jump tables we've seen.
+	JumpTables []*ssa.Block
+
 	// bstart remembers where each block starts (indexed by block ID)
 	bstart []*obj.Prog
 
@@ -7005,6 +7008,20 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 			br.P.Pos = br.P.Pos.WithNotStmt()
 		}
 
+	}
+
+	// Resolve jump table destinations.
+	for _, jt := range s.JumpTables {
+		// Convert from *Block targets to *Prog targets.
+		targets := make([]*obj.Prog, len(jt.Succs))
+		for i, e := range jt.Succs {
+			targets[i] = s.bstart[e.Block().ID]
+		}
+		// Add to list of jump tables to be resolved at assembly time.
+		// The assembler converts from *Prog entries to absolute addresses
+		// once it knows instruction byte offsets.
+		fi := pp.CurFunc.LSym.Func()
+		fi.JumpTables = append(fi.JumpTables, obj.JumpTable{Sym: jt.Aux.(*obj.LSym), Targets: targets})
 	}
 
 	if e.log { // spew to stdout

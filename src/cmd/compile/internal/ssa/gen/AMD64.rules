@@ -2245,3 +2245,5 @@
   && mergePoint(b,x0,x1) != nil
   && clobber(x0, x1, sh)
   => @mergePoint(b,x0,x1) (MOVBEQload [i] {s} p1 mem)
+
+(JumpTable idx) => (JUMPTABLE {makeJumpTableSym(b)} (LEAQ <typ.Uintptr> {makeJumpTableSym(b)} (SB)) idx)

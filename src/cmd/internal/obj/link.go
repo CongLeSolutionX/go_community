@@ -486,8 +486,14 @@ type FuncInfo struct {
 	StackObjects       *LSym
 	OpenCodedDeferInfo *LSym
 	ArgInfo            *LSym // argument info for traceback
+	JumpTables         []JumpTable
 
 	FuncInfoSym *LSym
+}
+
+type JumpTable struct {
+	Sym     *LSym
+	Targets []*Prog
 }
 
 // NewFuncInfo allocates and returns a FuncInfo for LSym.
