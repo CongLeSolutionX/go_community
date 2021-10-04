@@ -90,8 +90,18 @@ func SetCPUProfileRate(hz int) {
 // of stack.
 //go:nowritebarrierrec
 func (p *cpuProfile) add(gp *g, stk []uintptr) {
-	// Simple cas-lock to coordinate with setcpuprofilerate.
-	for !atomic.Cas(&prof.signalLock, 0, 1) {
+	// Lock to coordinate with setcpuprofilerate.
+	for {
+		v := atomic.Load(&prof.signalLock)
+		if v == 2 {
+			// Lock held by setcpuprofilerate, which could have been running on
+			// this thread before the signal arrived. Give up.
+			return
+		}
+		if v == 0 && atomic.Cas(&prof.signalLock, 0, 1) {
+			break
+		}
+		// Lock held by a signal handler like us. Try again in a moment.
 		osyield()
 	}
 
@@ -129,11 +139,21 @@ func (p *cpuProfile) add(gp *g, stk []uintptr) {
 //go:nosplit
 //go:nowritebarrierrec
 func (p *cpuProfile) addNonGo(stk []uintptr) {
-	// Simple cas-lock to coordinate with SetCPUProfileRate.
+	// Lock to coordinate with setcpuprofilerate.
 	// (Other calls to add or addNonGo should be blocked out
 	// by the fact that only one SIGPROF can be handled by the
 	// process at a time. If not, this lock will serialize those too.)
-	for !atomic.Cas(&prof.signalLock, 0, 1) {
+	for {
+		v := atomic.Load(&prof.signalLock)
+		if v == 2 {
+			// Lock held by setcpuprofilerate, which could have been running on
+			// this thread before the signal arrived. Give up.
+			return
+		}
+		if v == 0 && atomic.Cas(&prof.signalLock, 0, 1) {
+			break
+		}
+		// Lock held by a signal handler like us. Try again in a moment.
 		osyield()
 	}
 

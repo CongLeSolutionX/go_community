@@ -4723,7 +4723,9 @@ func setcpuprofilerate(hz int32) {
 	// it would deadlock.
 	setThreadCPUProfiler(0)
 
-	for !atomic.Cas(&prof.signalLock, 0, 1) {
+	for !atomic.Cas(&prof.signalLock, 0, 2) {
+		// Set lock to 2, indicating that signal handlers (especially any that
+		// run on this thread, interrupting our work here) should not retry.
 		osyield()
 	}
 	if prof.hz != hz {
