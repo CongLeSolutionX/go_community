@@ -1470,3 +1470,7 @@
         && clobber(call)
         => (Move [sz] dst src mem)
 
+// Prefetch instructions (aux is option: 0 - DCBT ; 8 - DCBT stream)
+(PrefetchCache ptr idx)         => (DCBT ptr idx [0])
+(PrefetchCacheStreamed ptr idx)  => (DCBT ptr idx [8])
+
