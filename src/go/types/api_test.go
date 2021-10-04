@@ -347,8 +347,9 @@ func TestTypesInfo(t *testing.T) {
 		// parameterized functions
 		{genericPkg + `p0; func f[T any](T) {}; var _ = f[int]`, `f`, `func[generic_p0.T₁ interface{}](generic_p0.T₁)`},
 		{genericPkg + `p1; func f[T any](T) {}; var _ = f[int]`, `f[int]`, `func(int)`},
-		{genericPkg + `p2; func f[T any](T) {}; func _() { f(42) }`, `f`, `func[generic_p2.T₁ interface{}](generic_p2.T₁)`},
-		{genericPkg + `p3; func f[T any](T) {}; func _() { f(42) }`, `f(42)`, `()`},
+		{genericPkg + `p2; func f[T any](T) {}; func _() { f(42) }`, `f`, `func(int)`},
+		{genericPkg + `p3; func f[T any](T) {}; func _() { f[int](42) }`, `f[int]`, `func(int)`},
+		{genericPkg + `p4; func f[T any](T) {}; func _() { f(42) }`, `f(42)`, `()`},
 
 		// type parameters
 		{genericPkg + `t0; type t[] int; var _ t`, `t`, `generic_t0.t`}, // t[] is a syntax error that is ignored in this test in favor of t
@@ -521,12 +522,13 @@ type T[P any] []P
 		conf := Config{Importer: imports}
 		instances := make(map[*ast.Ident]Instance)
 		uses := make(map[*ast.Ident]Object)
+		types := make(map[ast.Expr]TypeAndValue)
 		makePkg := func(src string) *Package {
 			f, err := parser.ParseFile(fset, "p.go", src, 0)
 			if err != nil {
 				t.Fatal(err)
 			}
-			pkg, err := conf.Check("", fset, []*ast.File{f}, &Info{Instances: instances, Uses: uses})
+			pkg, err := conf.Check("", fset, []*ast.File{f}, &Info{Instances: instances, Uses: uses, Types: types})
 			if err != nil {
 				t.Fatal(err)
 			}
