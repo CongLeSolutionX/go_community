@@ -72,6 +72,223 @@
       "message": "[pruning the excessive reviewers list]",
       "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34d92231_d81fcd79",
+        "filename": "src/cmd/compile/internal/ir/func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "nit: Follow standard Go practice here: name the field \"WasmImport\" and write the godoc as \"// WasmImport ...\" (e.g., \"// WasmImport stores info ...\").\n\nAlso, only noder and types2 are allowed to depend on package syntax. If necessary, introduce a new type in package ir to which noder translates the syntax type.",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b21a988_b79a9ba1",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "The checkUnused* functions need to warn if Wasmimport!\u003dnil.",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "334256b7_69a6f9cf",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1680,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "Should it be an error to use //go:wasmimport on non-wasm targets? Or do we want to just silently ignore it?",
+      "range": {
+        "startLine": 1680,
+        "startChar": 5,
+        "endLine": 1680,
+        "endChar": 30
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dcbcb8a_252aa86e",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1689,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "nit: I\u0027d just use f[1] and f[2] in the struct literal below. Declaring variables that are named the same as the fields and only used once doesn\u0027t seem to add any value.",
+      "range": {
+        "startLine": 1688,
+        "startChar": 0,
+        "endLine": 1689,
+        "endChar": 15
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ecac4c3_23ca42c0",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "Is this necessary? If so, add a comment explaining why; if not, remove. (Normally, we calculate size on demand; but that\u0027s not safe concurrently.)",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab7046d_c59e2401",
+        "filename": "src/cmd/compile/internal/syntax/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "//line is the only pragma that\u0027s supported directly by package syntax; everything else needs to be handled via the pragma handler.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 1
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd02bcd7_c6f34173",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "nit: combine into one line",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 15
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded1ace0_257a7b53",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "nit: use a bytes.Reader?",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abad6140_db42c7cf",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "Do we want these \"//go:noescape\" directives or should they be implicit? (I haven\u0027t thought about it at all just asking because they\u0027re being added here and below.)",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1636643b_21bb6f76",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "FYI, I think SSA is going to constant fold this to 8 anyway.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 18
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "376a7494_1fb0659a",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T19:23:54Z",
+      "side": 1,
+      "message": "nit: follow the got/want pattern used below",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
