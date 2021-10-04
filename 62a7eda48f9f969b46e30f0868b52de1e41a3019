@@ -53,6 +53,23 @@
       "message": "Looks (superficially) good to me, but I\u0027m rather unfamiliar with this code.",
       "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d276ef64_7c452f96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-04T21:53:00Z",
+      "side": 1,
+      "message": "Thanks for the review, Rob.\n\nMatthew, can you take a look?  Based on our discussion this morning, I see that the packages created in readImportFile() are already using the resolved path in resolveImportPath() that includes the vendoring remapping.  So, I think I should just remove lines 188-191 in fmt.go.  I.e there\u0027s really nothing else we need to do to make sure package paths are unique, even in the presence of vendoring.\n",
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
