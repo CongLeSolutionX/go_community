@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44850b34_d0691981",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-04T16:30:13Z",
+      "side": 1,
+      "message": "This seems like unnecessary churn. For legacy reasons many of these APIs cannot be updated to return wrapped errors anyway,¹ so there is no need to check them using errors.Is.\n\nIf there are specific places where error checks are wrong today, we should fix those specific places. Otherwise, it is fine for the Go standard library to keep checking its own errors using the same mechanism as user code that predates errors.Is, which we cannot break.\n\n¹ See https://golang.org/doc/go1compat (and, to a lesser extent, https://www.hyrumslaw.com/). ",
+      "revId": "759bf04d9948b4f866efd6b5ac760c246cd0b726",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
