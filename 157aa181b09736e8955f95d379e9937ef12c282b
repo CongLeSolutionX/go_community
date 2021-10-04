@@ -103,6 +103,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f7a2803_874ae044",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-04T21:58:52Z",
+      "side": 1,
+      "message": "Align the \"\u003d\u003e\" on the two lines.",
+      "revId": "157aa181b09736e8955f95d379e9937ef12c282b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b59e09c_98bb82b6",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 2
