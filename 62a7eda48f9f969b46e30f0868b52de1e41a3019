@@ -70,6 +70,63 @@
       "message": "Thanks for the review, Rob.\n\nMatthew, can you take a look?  Based on our discussion this morning, I see that the packages created in readImportFile() are already using the resolved path in resolveImportPath() that includes the vendoring remapping.  So, I think I should just remove lines 188-191 in fmt.go.  I.e there\u0027s really nothing else we need to do to make sure package paths are unique, even in the presence of vendoring.\n",
       "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73ede121_2c4a4a65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T21:59:55Z",
+      "side": 1,
+      "message": "Historically, we\u0027ve avoided relying on the -p flag (base.Ctxt.Pkgpath) for correctness. I think we need to decide first whether we\u0027re willing to relax that here.\n\nType.LinkString is supposed to already be the mostly unique string representation that the linker knows how to rewrite to be fully unique.",
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7951dca_17379b05",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T21:59:55Z",
+      "side": 1,
+      "message": "The compiler\u0027s not supposed to rely on this except for error messages.",
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4159f3a7_b7955efb",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T21:59:55Z",
+      "side": 1,
+      "message": "As discussed, I think this is wrong: pkg.Path should already be the translated path.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
