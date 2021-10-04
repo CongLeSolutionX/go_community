@@ -415,6 +415,10 @@ func (check *Checker) collectObjects() {
 				if len(s.TParamList) != 0 && !check.allowVersion(pkg, 1, 18) {
 					check.softErrorf(s.TParamList[0], "type parameters require go1.18 or later")
 				}
+				if s.Alias && s.TParamList != nil {
+					// The parser will ensure this but we may still get an invalid AST.
+					check.error(s, "alias cannot have type parameters")
+				}
 				obj := NewTypeName(s.Name.Pos(), pkg, s.Name.Value, nil)
 				check.declarePkgObj(s.Name, obj, &declInfo{file: fileScope, tdecl: s})
 

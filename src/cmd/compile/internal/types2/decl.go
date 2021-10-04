@@ -549,16 +549,9 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *Named
 		}
 	})
 
-	alias := tdecl.Alias
-	if alias && tdecl.TParamList != nil {
-		// The parser will ensure this but we may still get an invalid AST.
-		// Complain and continue as regular type definition.
-		check.error(tdecl, "generic type cannot be alias")
-		alias = false
-	}
-
 	// alias declaration
-	if alias {
+	// (if there are type parameters the resolver complained)
+	if tdecl.Alias && tdecl.TParamList == nil {
 		if !check.allowVersion(check.pkg, 1, 9) {
 			if check.conf.CompilerErrorMessages {
 				check.error(tdecl, "type aliases only supported as of -lang=go1.9")
