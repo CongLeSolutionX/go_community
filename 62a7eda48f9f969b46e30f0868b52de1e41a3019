@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4aabc056_dbe1dc0b",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T22:23:20Z",
+      "side": 1,
+      "message": "\u003e No.\n\nMore precisely, not currently, but it\u0027s not out of the question to change that. See previous discussion at https://github.com/golang/go/issues/24693#issuecomment-378861448.\n\nI\u0027d be okay with changing it, but it\u0027s something that needs team buy in. But I also think the existing linker functionality should already be adequate here.",
+      "parentUuid": "cc6a113f_98dc8b94",
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4159f3a7_b7955efb",
         "filename": "src/cmd/compile/internal/types/fmt.go",
         "patchSetId": 1
