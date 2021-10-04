@@ -3,10 +3,12 @@
 
 package ssa
 
-import "internal/buildcfg"
-import "math"
-import "cmd/internal/obj"
-import "cmd/compile/internal/types"
+import (
+	"cmd/compile/internal/types"
+	"cmd/internal/obj"
+	"internal/buildcfg"
+	"math"
+)
 
 func rewriteValueAMD64(v *Value) bool {
 	switch v.Op {
@@ -33762,6 +33764,7 @@ func rewriteValueAMD64_OpZero(v *Value) bool {
 	return false
 }
 func rewriteBlockAMD64(b *Block) bool {
+	typ := &b.Func.Config.Types
 	switch b.Kind {
 	case BlockAMD64EQ:
 		// match: (EQ (TESTL (SHLL (MOVLconst [1]) x) y))
@@ -34294,6 +34297,19 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0 := b.NewValue0(cond.Pos, OpAMD64TESTB, types.TypeFlags)
 			v0.AddArg2(cond, cond)
 			b.resetWithControl(BlockAMD64NE, v0)
+			return true
+		}
+	case BlockJumpTable:
+		// match: (JumpTable idx)
+		// result: (JUMPTABLE {makeJumpTableSym(b)} (LEAQ <typ.Uintptr> {makeJumpTableSym(b)} (SB)) idx)
+		for {
+			idx := b.Controls[0]
+			v0 := b.NewValue0(idx.Pos, OpAMD64LEAQ, typ.Uintptr)
+			v0.Aux = symToAux(makeJumpTableSym(b))
+			v1 := b.NewValue0(idx.Pos, OpSB, typ.Uintptr)
+			v0.AddArg(v1)
+			b.resetWithControl2(BlockAMD64JUMPTABLE, v0, idx)
+			b.Aux = symToAux(makeJumpTableSym(b))
 			return true
 		}
 	case BlockAMD64LE:
