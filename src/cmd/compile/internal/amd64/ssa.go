@@ -1384,6 +1384,16 @@ func ssaGenBlock(s *ssagen.State, b, next *ssa.Block) {
 			}
 		}
 
+	case ssa.BlockAMD64JUMPTABLE:
+		// JMP      *(TABLE)(INDEX*8)
+		p := s.Prog(obj.AJMP)
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = b.ControlValue(1).Reg()
+		p.To.Index = b.ControlValue(0).Reg()
+		p.To.Scale = 8
+		// Save jump tables for later resolution of the target blocks.
+		s.JumpTables = append(s.JumpTables, b)
+
 	default:
 		b.Fatalf("branch not implemented: %s", b.LongString())
 	}
