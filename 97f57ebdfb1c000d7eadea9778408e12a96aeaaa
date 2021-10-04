@@ -93,6 +93,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35a3f686_3c0eaaa8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T18:53:13Z",
+      "side": 1,
+      "message": "The behavior change implied by api_test.go LGTM, thanks. The call.go change seems okay too, but you and gri@ know the nuances there better than me.",
+      "parentUuid": "a786820c_9d35a87a",
+      "revId": "97f57ebdfb1c000d7eadea9778408e12a96aeaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77891521_216db307",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T18:53:13Z",
+      "side": 1,
+      "message": "Add a test that `f` here is the generic type?",
+      "revId": "97f57ebdfb1c000d7eadea9778408e12a96aeaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4faba3e_01797ba5",
