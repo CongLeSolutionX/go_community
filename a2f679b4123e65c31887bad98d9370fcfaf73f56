@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a502647_5c49821c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-04T20:57:15Z",
+      "side": 1,
+      "message": "\u003e Should we actually make this a requirement?\nI would lean towards no. I think it\u0027s pretty reasonable that a function could alter the underlying bytes, and that those kinds of functions are worth fuzzing. It\u0027s also minimal work to allow this, so it seems like we should try.\n\nYou make a fair point about structs. If we\u0027re concerned about this for structs, we can always make it requirement that you can\u0027t alter the data structure when fuzzing structs for example, but still allow it for []byte types. Wdyt?",
+      "parentUuid": "c2537067_7a7e74d7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "a2f679b4123e65c31887bad98d9370fcfaf73f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "50f39648_fbf94774",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
