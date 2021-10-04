@@ -5,6 +5,7 @@
 package ssa
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/logopt"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
@@ -1946,4 +1947,8 @@ func logicFlags32(x int32) flagConstant {
 	fcb.Z = x == 0
 	fcb.N = x < 0
 	return fcb.encode()
+}
+
+func makeJumpTableSym(b *Block) *obj.LSym {
+	return base.Ctxt.Lookup(fmt.Sprintf("%s.%s.jump%d", types.LocalPkg.Prefix, b.Func.Name, b.ID))
 }

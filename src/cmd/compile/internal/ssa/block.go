@@ -157,6 +157,11 @@ func (b *Block) NumControls() int {
 	return 2
 }
 
+// ControlValue returns the nth control value of b.
+func (b *Block) ControlValue(n int) *Value {
+	return b.Controls[n]
+}
+
 // ControlValues returns a slice containing the non-nil control
 // values of the block. The index of each control value will be
 // the same as it is in the Controls property and can be used
