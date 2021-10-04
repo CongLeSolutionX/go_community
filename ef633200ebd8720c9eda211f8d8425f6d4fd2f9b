@@ -72,6 +72,23 @@
       "message": "Fixed trybot error, added some comment (which is a little subtle). PTAL.  Thanks.",
       "revId": "ef633200ebd8720c9eda211f8d8425f6d4fd2f9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3a91a29_b05efbb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-04T22:00:50Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "ef633200ebd8720c9eda211f8d8425f6d4fd2f9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
