@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc6a113f_98dc8b94",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-04T22:15:27Z",
+      "side": 1,
+      "message": "\u003e Is there any allowed way to know the path of the current (local) package?\n\nNo.\n\n\u003e If not, how can we know that type Typ in the current package is the same as type a.b.Typ that we reference from another package to the current package (i.e. the path of the current package is a.b).\n\nPackages are acyclic, so a Type declared in the current package will never appear in any package that it imports.\n\n\u003e The goal here is to name a function instantiation f[a.b.Typ] uniquely, so that it can be deduplicated properly, and there is no confusion with another type c.b.Typ.\n\nUnderstood. If you name the functions using LinkString, the linker should handle renaming them to make them unique.\n\nThis is how we handle emitting other DUPOK symbols like type descriptors and method value wrappers.",
+      "parentUuid": "5e09bba7_773c39f0",
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4159f3a7_b7955efb",
         "filename": "src/cmd/compile/internal/types/fmt.go",
         "patchSetId": 1
