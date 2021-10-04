@@ -70,6 +70,24 @@
       "message": "I haven\u0027t looked at this yet but I don\u0027t principally see a problem at the moment.\n\nBut I\u0027ll add @rfindley as well because he\u0027s planning to look at this api checker as well to make sure it\u0027s ready for exposing generic features.",
       "revId": "c0b0d11b508cf01a8dff48bb1c509f27377b79f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b570a18f_90bad230",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-04T19:43:05Z",
+      "side": 1,
+      "message": "I\u0027m still not that familiar with the cmd/api code, but I just read this CL as well as the feature de-duplication logic, and this change makes sense to me.\n\nGoing to just +1 though; I feel like someone with more context on the usage of cmd/api should +2. I don\u0027t have a sense of what (if any) implications there could be when changing the API files for older Go versions.",
+      "parentUuid": "4c6f25d3_cb611436",
+      "revId": "c0b0d11b508cf01a8dff48bb1c509f27377b79f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
