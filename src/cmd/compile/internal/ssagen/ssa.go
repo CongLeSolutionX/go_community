@@ -318,6 +318,7 @@ func dvarint(x *obj.LSym, off int, v int64) int {
 //    - Offset of the closure value to call
 func (s *state) emitOpenDeferInfo() {
 	x := base.Ctxt.Lookup(s.curfn.LSym.Name + ".opendefer")
+	x.Set(obj.AttrContentAddressable, true)
 	s.curfn.LSym.Func().OpenCodedDeferInfo = x
 	off := 0
 	off = dvarint(x, off, -s.deferBitsTemp.FrameOffset())
@@ -6550,6 +6551,7 @@ func emitArgInfo(e *ssafn, f *ssa.Func, pp *objw.Progs) {
 // emit argument info (locations on stack) of f for traceback.
 func EmitArgInfo(f *ir.Func, abiInfo *abi.ABIParamResultInfo) *obj.LSym {
 	x := base.Ctxt.Lookup(fmt.Sprintf("%s.arginfo%d", f.LSym.Name, f.ABI))
+	x.Set(obj.AttrContentAddressable, true)
 
 	PtrSize := int64(types.PtrSize)
 	uintptrTyp := types.Types[types.TUINTPTR]
