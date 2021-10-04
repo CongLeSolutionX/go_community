@@ -128,6 +128,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dd13921_fbf4f23b",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-04T19:17:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77891521_216db307",
+      "revId": "97f57ebdfb1c000d7eadea9778408e12a96aeaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4faba3e_01797ba5",
@@ -159,6 +177,24 @@
       "side": 1,
       "message": "Yeah, it also runs into problems with defined function types (see the x/tools failure). Guarding this with a check for generic functions should fix both problems.",
       "parentUuid": "f4faba3e_01797ba5",
+      "revId": "97f57ebdfb1c000d7eadea9778408e12a96aeaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed5263c8_bbef1959",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-04T19:17:01Z",
+      "side": 1,
+      "message": "Ok, adding a guard fixed the x/tools tests, and should prevent unnecessary re-recording of types. PTAL.",
+      "parentUuid": "b25ccae2_664ab547",
       "revId": "97f57ebdfb1c000d7eadea9778408e12a96aeaaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
