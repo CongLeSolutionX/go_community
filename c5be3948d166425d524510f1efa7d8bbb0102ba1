@@ -214,6 +214,24 @@
       "parentUuid": "a929ed6c_cb262d69",
       "revId": "c5be3948d166425d524510f1efa7d8bbb0102ba1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab68df3b_6bdbcf44",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 47743
+      },
+      "writtenOn": "2021-10-04T20:29:55Z",
+      "side": 1,
+      "message": "I added additional checking before to reset `pOrder`. So, now it will be reset only once after actual P count change.",
+      "parentUuid": "dba721d5_90d44b00",
+      "revId": "c5be3948d166425d524510f1efa7d8bbb0102ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
