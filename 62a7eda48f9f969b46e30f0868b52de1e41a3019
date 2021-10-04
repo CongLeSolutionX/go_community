@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e09bba7_773c39f0",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-04T22:10:56Z",
+      "side": 1,
+      "message": "Is there any allowed way to know the path of the current (local) package?  If not, how can we know that type Typ in the current package is the same as type a.b.Typ that we reference from another package to the current package (i.e. the path of the current package is a.b).  The goal here is to name a function instantiation f[a.b.Typ] uniquely, so that it can be deduplicated properly, and there is no confusion with another type c.b.Typ.  If we don\u0027t use package path (as opposed to package name), we can confuse a.b.Typ with c.b.Typ, right?",
+      "parentUuid": "f7951dca_17379b05",
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4159f3a7_b7955efb",
         "filename": "src/cmd/compile/internal/types/fmt.go",
         "patchSetId": 1
