@@ -76,6 +76,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a786820c_9d35a87a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-04T18:47:47Z",
+      "side": 1,
+      "message": "Hi Robert and Matthew.\n\nWhat do you think about this change, ",
+      "revId": "97f57ebdfb1c000d7eadea9778408e12a96aeaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4faba3e_01797ba5",
@@ -89,6 +106,24 @@
       "writtenOn": "2021-10-04T18:34:39Z",
       "side": 1,
       "message": "Do we end up doing this twice if we didn\u0027t have inference? If so, maybe this needs a flag to avoid the unnecessary call (which would be the common case).",
+      "revId": "97f57ebdfb1c000d7eadea9778408e12a96aeaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b25ccae2_664ab547",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-04T18:47:47Z",
+      "side": 1,
+      "message": "Yeah, it also runs into problems with defined function types (see the x/tools failure). Guarding this with a check for generic functions should fix both problems.",
+      "parentUuid": "f4faba3e_01797ba5",
       "revId": "97f57ebdfb1c000d7eadea9778408e12a96aeaaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
