@@ -16,6 +16,24 @@
       "message": "`// // go:wasmimport go add`",
       "revId": "43b47bd437c50f8dbc27989acfd210acd296795b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a78a780b_0b989992",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-04T14:56:56Z",
+      "side": 1,
+      "message": "Thank you!  Fixed.",
+      "parentUuid": "c036ee18_85f7860e",
+      "revId": "43b47bd437c50f8dbc27989acfd210acd296795b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
