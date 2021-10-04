@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a4fba19_d5fe8598",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-04T12:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3abd0006_849f908f",
+      "revId": "1caa110abf2ee2227ad35a677448f5bb02a25981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d53ce61d_e98523e8",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b9c0b68_c4a2845e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-04T12:52:34Z",
+      "side": 1,
+      "message": "Updated comment",
+      "parentUuid": "d53ce61d_e98523e8",
+      "revId": "1caa110abf2ee2227ad35a677448f5bb02a25981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8861ba32_31d56a66",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-10-04T12:31:00Z",
       "side": 1,
       "message": "I don\u0027t think you need to mention the CL here.",
+      "revId": "1caa110abf2ee2227ad35a677448f5bb02a25981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31089f19_0a3a986e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-04T12:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8861ba32_31d56a66",
       "revId": "1caa110abf2ee2227ad35a677448f5bb02a25981",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
