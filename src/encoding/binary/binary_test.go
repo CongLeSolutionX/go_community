@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package binary
+package binary_test
 
 import (
 	"bytes"
+	"encoding/binary"
 	"fmt"
 	"io"
 	"math"
@@ -113,7 +114,7 @@ var src = []byte{1, 2, 3, 4, 5, 6, 7, 8}
 var res = []int32{0x01020304, 0x05060708}
 var putbuf = []byte{0, 0, 0, 0, 0, 0, 0, 0}
 
-func checkResult(t *testing.T, dir string, order ByteOrder, err error, have, want interface{}) {
+func checkResult(t *testing.T, dir string, order binary.ByteOrder, err error, have, want interface{}) {
 	if err != nil {
 		t.Errorf("%v %v: %v", dir, order, err)
 		return
@@ -123,55 +124,55 @@ func checkResult(t *testing.T, dir string, order ByteOrder, err error, have, wan
 	}
 }
 
-func testRead(t *testing.T, order ByteOrder, b []byte, s1 interface{}) {
+func testRead(t *testing.T, order binary.ByteOrder, b []byte, s1 interface{}) {
 	var s2 Struct
-	err := Read(bytes.NewReader(b), order, &s2)
+	err := binary.Read(bytes.NewReader(b), order, &s2)
 	checkResult(t, "Read", order, err, s2, s1)
 }
 
-func testWrite(t *testing.T, order ByteOrder, b []byte, s1 interface{}) {
+func testWrite(t *testing.T, order binary.ByteOrder, b []byte, s1 interface{}) {
 	buf := new(bytes.Buffer)
-	err := Write(buf, order, s1)
+	err := binary.Write(buf, order, s1)
 	checkResult(t, "Write", order, err, buf.Bytes(), b)
 }
 
-func TestLittleEndianRead(t *testing.T)     { testRead(t, LittleEndian, little, s) }
-func TestLittleEndianWrite(t *testing.T)    { testWrite(t, LittleEndian, little, s) }
-func TestLittleEndianPtrWrite(t *testing.T) { testWrite(t, LittleEndian, little, &s) }
+func TestLittleEndianRead(t *testing.T)     { testRead(t, binary.LittleEndian, little, s) }
+func TestLittleEndianWrite(t *testing.T)    { testWrite(t, binary.LittleEndian, little, s) }
+func TestLittleEndianPtrWrite(t *testing.T) { testWrite(t, binary.LittleEndian, little, &s) }
 
-func TestBigEndianRead(t *testing.T)     { testRead(t, BigEndian, big, s) }
-func TestBigEndianWrite(t *testing.T)    { testWrite(t, BigEndian, big, s) }
-func TestBigEndianPtrWrite(t *testing.T) { testWrite(t, BigEndian, big, &s) }
+func TestBigEndianRead(t *testing.T)     { testRead(t, binary.BigEndian, big, s) }
+func TestBigEndianWrite(t *testing.T)    { testWrite(t, binary.BigEndian, big, s) }
+func TestBigEndianPtrWrite(t *testing.T) { testWrite(t, binary.BigEndian, big, &s) }
 
 func TestReadSlice(t *testing.T) {
 	slice := make([]int32, 2)
-	err := Read(bytes.NewReader(src), BigEndian, slice)
-	checkResult(t, "ReadSlice", BigEndian, err, slice, res)
+	err := binary.Read(bytes.NewReader(src), binary.BigEndian, slice)
+	checkResult(t, "ReadSlice", binary.BigEndian, err, slice, res)
 }
 
 func TestWriteSlice(t *testing.T) {
 	buf := new(bytes.Buffer)
-	err := Write(buf, BigEndian, res)
-	checkResult(t, "WriteSlice", BigEndian, err, buf.Bytes(), src)
+	err := binary.Write(buf, binary.BigEndian, res)
+	checkResult(t, "WriteSlice", binary.BigEndian, err, buf.Bytes(), src)
 }
 
 func TestReadBool(t *testing.T) {
 	var res bool
 	var err error
-	err = Read(bytes.NewReader([]byte{0}), BigEndian, &res)
-	checkResult(t, "ReadBool", BigEndian, err, res, false)
+	err = binary.Read(bytes.NewReader([]byte{0}), binary.BigEndian, &res)
+	checkResult(t, "ReadBool", binary.BigEndian, err, res, false)
 	res = false
-	err = Read(bytes.NewReader([]byte{1}), BigEndian, &res)
-	checkResult(t, "ReadBool", BigEndian, err, res, true)
+	err = binary.Read(bytes.NewReader([]byte{1}), binary.BigEndian, &res)
+	checkResult(t, "ReadBool", binary.BigEndian, err, res, true)
 	res = false
-	err = Read(bytes.NewReader([]byte{2}), BigEndian, &res)
-	checkResult(t, "ReadBool", BigEndian, err, res, true)
+	err = binary.Read(bytes.NewReader([]byte{2}), binary.BigEndian, &res)
+	checkResult(t, "ReadBool", binary.BigEndian, err, res, true)
 }
 
 func TestReadBoolSlice(t *testing.T) {
 	slice := make([]bool, 4)
-	err := Read(bytes.NewReader([]byte{0, 1, 2, 255}), BigEndian, slice)
-	checkResult(t, "ReadBoolSlice", BigEndian, err, slice, []bool{false, true, true, true})
+	err := binary.Read(bytes.NewReader([]byte{0, 1, 2, 255}), binary.BigEndian, slice)
+	checkResult(t, "ReadBoolSlice", binary.BigEndian, err, slice, []bool{false, true, true, true})
 }
 
 // Addresses of arrays are easier to manipulate with reflection than are slices.
@@ -204,13 +205,13 @@ func TestSliceRoundTrip(t *testing.T) {
 		}
 		buf.Reset()
 		srcSlice := src.Slice(0, src.Len())
-		err := Write(buf, BigEndian, srcSlice.Interface())
+		err := binary.Write(buf, binary.BigEndian, srcSlice.Interface())
 		if err != nil {
 			t.Fatal(err)
 		}
 		dst := reflect.New(src.Type()).Elem()
 		dstSlice := dst.Slice(0, dst.Len())
-		err = Read(buf, BigEndian, dstSlice.Interface())
+		err = binary.Read(buf, binary.BigEndian, dstSlice.Interface())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -223,7 +224,7 @@ func TestSliceRoundTrip(t *testing.T) {
 func TestWriteT(t *testing.T) {
 	buf := new(bytes.Buffer)
 	ts := T{}
-	if err := Write(buf, BigEndian, ts); err == nil {
+	if err := binary.Write(buf, binary.BigEndian, ts); err == nil {
 		t.Errorf("WriteT: have err == nil, want non-nil")
 	}
 
@@ -233,7 +234,7 @@ func TestWriteT(t *testing.T) {
 		if typ == "[4]int" {
 			typ = "int" // the problem is int, not the [4]
 		}
-		if err := Write(buf, BigEndian, tv.Field(i).Interface()); err == nil {
+		if err := binary.Write(buf, binary.BigEndian, tv.Field(i).Interface()); err == nil {
 			t.Errorf("WriteT.%v: have err == nil, want non-nil", tv.Field(i).Type())
 		} else if !strings.Contains(err.Error(), typ) {
 			t.Errorf("WriteT: have err == %q, want it to mention %s", err, typ)
@@ -268,13 +269,13 @@ type BlankFieldsProbe struct {
 func TestBlankFields(t *testing.T) {
 	buf := new(bytes.Buffer)
 	b1 := BlankFields{A: 1234567890, B: 2.718281828, C: 42}
-	if err := Write(buf, LittleEndian, &b1); err != nil {
+	if err := binary.Write(buf, binary.LittleEndian, &b1); err != nil {
 		t.Error(err)
 	}
 
 	// zero values must have been written for blank fields
 	var p BlankFieldsProbe
-	if err := Read(buf, LittleEndian, &p); err != nil {
+	if err := binary.Read(buf, binary.LittleEndian, &p); err != nil {
 		t.Error(err)
 	}
 
@@ -284,13 +285,13 @@ func TestBlankFields(t *testing.T) {
 	}
 
 	// write p and see if we can probe only some fields
-	if err := Write(buf, LittleEndian, &p); err != nil {
+	if err := binary.Write(buf, binary.LittleEndian, &p); err != nil {
 		t.Error(err)
 	}
 
 	// read should ignore blank fields in b2
 	var b2 BlankFields
-	if err := Read(buf, LittleEndian, &b2); err != nil {
+	if err := binary.Read(buf, binary.LittleEndian, &b2); err != nil {
 		t.Error(err)
 	}
 	if b1.A != b2.A || b1.B != b2.B || b1.C != b2.C {
@@ -300,11 +301,11 @@ func TestBlankFields(t *testing.T) {
 
 func TestSizeStructCache(t *testing.T) {
 	// Reset the cache, otherwise multiple test runs fail.
-	structSize = sync.Map{}
+	*binary.Internal.StructSize = sync.Map{}
 
 	count := func() int {
 		var i int
-		structSize.Range(func(_, _ interface{}) bool {
+		binary.Internal.StructSize.Range(func(_, _ interface{}) bool {
 			i++
 			return true
 		})
@@ -340,7 +341,7 @@ func TestSizeStructCache(t *testing.T) {
 	}
 
 	for _, tc := range testcases {
-		if Size(tc.val) == -1 {
+		if binary.Size(tc.val) == -1 {
 			t.Fatalf("Can't get the size of %T", tc.val)
 		}
 
@@ -361,7 +362,7 @@ type Unexported struct {
 func TestUnexportedRead(t *testing.T) {
 	var buf bytes.Buffer
 	u1 := Unexported{a: 1}
-	if err := Write(&buf, LittleEndian, &u1); err != nil {
+	if err := binary.Write(&buf, binary.LittleEndian, &u1); err != nil {
 		t.Fatal(err)
 	}
 
@@ -371,13 +372,13 @@ func TestUnexportedRead(t *testing.T) {
 		}
 	}()
 	var u2 Unexported
-	Read(&buf, LittleEndian, &u2)
+	binary.Read(&buf, binary.LittleEndian, &u2)
 }
 
 func TestReadErrorMsg(t *testing.T) {
 	var buf bytes.Buffer
 	read := func(data interface{}) {
-		err := Read(&buf, LittleEndian, data)
+		err := binary.Read(&buf, binary.LittleEndian, data)
 		want := "binary.Read: invalid type " + reflect.TypeOf(data).String()
 		if err == nil {
 			t.Errorf("%T: got no error; want %q", data, want)
@@ -415,11 +416,11 @@ func TestReadTruncated(t *testing.T) {
 			errWant = io.ErrUnexpectedEOF
 		}
 
-		if err := Read(strings.NewReader(data[:i]), LittleEndian, &b1); err != errWant {
-			t.Errorf("Read(%d) with slice: got %v, want %v", i, err, errWant)
+		if err := binary.Read(strings.NewReader(data[:i]), binary.LittleEndian, &b1); err != errWant {
+			t.Errorf("binary.Read(%d) with slice: got %v, want %v", i, err, errWant)
 		}
-		if err := Read(strings.NewReader(data[:i]), LittleEndian, &b2); err != errWant {
-			t.Errorf("Read(%d) with struct: got %v, want %v", i, err, errWant)
+		if err := binary.Read(strings.NewReader(data[:i]), binary.LittleEndian, &b2); err != errWant {
+			t.Errorf("binary.Read(%d) with struct: got %v, want %v", i, err, errWant)
 		}
 	}
 }
@@ -429,7 +430,7 @@ func testUint64SmallSliceLengthPanics() (panicked bool) {
 		panicked = recover() != nil
 	}()
 	b := [8]byte{1, 2, 3, 4, 5, 6, 7, 8}
-	LittleEndian.Uint64(b[:4])
+	binary.LittleEndian.Uint64(b[:4])
 	return false
 }
 
@@ -438,25 +439,25 @@ func testPutUint64SmallSliceLengthPanics() (panicked bool) {
 		panicked = recover() != nil
 	}()
 	b := [8]byte{}
-	LittleEndian.PutUint64(b[:4], 0x0102030405060708)
+	binary.LittleEndian.PutUint64(b[:4], 0x0102030405060708)
 	return false
 }
 
 func TestEarlyBoundsChecks(t *testing.T) {
 	if testUint64SmallSliceLengthPanics() != true {
-		t.Errorf("binary.LittleEndian.Uint64 expected to panic for small slices, but didn't")
+		t.Errorf("binary.binary.LittleEndian.Uint64 expected to panic for small slices, but didn't")
 	}
 	if testPutUint64SmallSliceLengthPanics() != true {
-		t.Errorf("binary.LittleEndian.PutUint64 expected to panic for small slices, but didn't")
+		t.Errorf("binary.binary.LittleEndian.PutUint64 expected to panic for small slices, but didn't")
 	}
 }
 
 func TestReadInvalidDestination(t *testing.T) {
-	testReadInvalidDestination(t, BigEndian)
-	testReadInvalidDestination(t, LittleEndian)
+	testReadInvalidDestination(t, binary.BigEndian)
+	testReadInvalidDestination(t, binary.LittleEndian)
 }
 
-func testReadInvalidDestination(t *testing.T, order ByteOrder) {
+func testReadInvalidDestination(t *testing.T, order binary.ByteOrder) {
 	destinations := []interface{}{
 		int8(0),
 		int16(0),
@@ -472,7 +473,7 @@ func testReadInvalidDestination(t *testing.T, order ByteOrder) {
 	}
 
 	for _, dst := range destinations {
-		err := Read(bytes.NewReader([]byte{1, 2, 3, 4, 5, 6, 7, 8}), order, dst)
+		err := binary.Read(bytes.NewReader([]byte{1, 2, 3, 4, 5, 6, 7, 8}), order, dst)
 		want := fmt.Sprintf("binary.Read: invalid type %T", dst)
 		if err == nil || err.Error() != want {
 			t.Fatalf("for type %T: got %q; want %q", dst, err, want)
@@ -498,20 +499,20 @@ func BenchmarkReadSlice1000Int32s(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		bsr.remain = buf
-		Read(bsr, BigEndian, slice)
+		binary.Read(bsr, binary.BigEndian, slice)
 	}
 }
 
 func BenchmarkReadStruct(b *testing.B) {
 	bsr := &byteSliceReader{}
 	var buf bytes.Buffer
-	Write(&buf, BigEndian, &s)
-	b.SetBytes(int64(dataSize(reflect.ValueOf(s))))
+	binary.Write(&buf, binary.BigEndian, &s)
+	b.SetBytes(int64(binary.Internal.DataSize(reflect.ValueOf(s))))
 	t := s
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		bsr.remain = buf.Bytes()
-		Read(bsr, BigEndian, &t)
+		binary.Read(bsr, binary.BigEndian, &t)
 	}
 	b.StopTimer()
 	if b.N > 0 && !reflect.DeepEqual(s, t) {
@@ -520,10 +521,10 @@ func BenchmarkReadStruct(b *testing.B) {
 }
 
 func BenchmarkWriteStruct(b *testing.B) {
-	b.SetBytes(int64(Size(&s)))
+	b.SetBytes(int64(binary.Size(&s)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Write(io.Discard, BigEndian, &s)
+		binary.Write(io.Discard, binary.BigEndian, &s)
 	}
 }
 
@@ -535,14 +536,14 @@ func BenchmarkReadInts(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		bsr.remain = big
-		Read(r, BigEndian, &ls.Int8)
-		Read(r, BigEndian, &ls.Int16)
-		Read(r, BigEndian, &ls.Int32)
-		Read(r, BigEndian, &ls.Int64)
-		Read(r, BigEndian, &ls.Uint8)
-		Read(r, BigEndian, &ls.Uint16)
-		Read(r, BigEndian, &ls.Uint32)
-		Read(r, BigEndian, &ls.Uint64)
+		binary.Read(r, binary.BigEndian, &ls.Int8)
+		binary.Read(r, binary.BigEndian, &ls.Int16)
+		binary.Read(r, binary.BigEndian, &ls.Int32)
+		binary.Read(r, binary.BigEndian, &ls.Int64)
+		binary.Read(r, binary.BigEndian, &ls.Uint8)
+		binary.Read(r, binary.BigEndian, &ls.Uint16)
+		binary.Read(r, binary.BigEndian, &ls.Uint32)
+		binary.Read(r, binary.BigEndian, &ls.Uint64)
 	}
 	b.StopTimer()
 	want := s
@@ -565,14 +566,14 @@ func BenchmarkWriteInts(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
-		Write(w, BigEndian, s.Int8)
-		Write(w, BigEndian, s.Int16)
-		Write(w, BigEndian, s.Int32)
-		Write(w, BigEndian, s.Int64)
-		Write(w, BigEndian, s.Uint8)
-		Write(w, BigEndian, s.Uint16)
-		Write(w, BigEndian, s.Uint32)
-		Write(w, BigEndian, s.Uint64)
+		binary.Write(w, binary.BigEndian, s.Int8)
+		binary.Write(w, binary.BigEndian, s.Int16)
+		binary.Write(w, binary.BigEndian, s.Int32)
+		binary.Write(w, binary.BigEndian, s.Int64)
+		binary.Write(w, binary.BigEndian, s.Uint8)
+		binary.Write(w, binary.BigEndian, s.Uint16)
+		binary.Write(w, binary.BigEndian, s.Uint32)
+		binary.Write(w, binary.BigEndian, s.Uint64)
 	}
 	b.StopTimer()
 	if b.N > 0 && !bytes.Equal(buf.Bytes(), big[:30]) {
@@ -588,7 +589,7 @@ func BenchmarkWriteSlice1000Int32s(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
-		Write(w, BigEndian, slice)
+		binary.Write(w, binary.BigEndian, slice)
 	}
 	b.StopTimer()
 }
@@ -596,41 +597,41 @@ func BenchmarkWriteSlice1000Int32s(b *testing.B) {
 func BenchmarkPutUint16(b *testing.B) {
 	b.SetBytes(2)
 	for i := 0; i < b.N; i++ {
-		BigEndian.PutUint16(putbuf[:], uint16(i))
+		binary.BigEndian.PutUint16(putbuf[:], uint16(i))
 	}
 }
 
 func BenchmarkPutUint32(b *testing.B) {
 	b.SetBytes(4)
 	for i := 0; i < b.N; i++ {
-		BigEndian.PutUint32(putbuf[:], uint32(i))
+		binary.BigEndian.PutUint32(putbuf[:], uint32(i))
 	}
 }
 
 func BenchmarkPutUint64(b *testing.B) {
 	b.SetBytes(8)
 	for i := 0; i < b.N; i++ {
-		BigEndian.PutUint64(putbuf[:], uint64(i))
+		binary.BigEndian.PutUint64(putbuf[:], uint64(i))
 	}
 }
 func BenchmarkLittleEndianPutUint16(b *testing.B) {
 	b.SetBytes(2)
 	for i := 0; i < b.N; i++ {
-		LittleEndian.PutUint16(putbuf[:], uint16(i))
+		binary.LittleEndian.PutUint16(putbuf[:], uint16(i))
 	}
 }
 
 func BenchmarkLittleEndianPutUint32(b *testing.B) {
 	b.SetBytes(4)
 	for i := 0; i < b.N; i++ {
-		LittleEndian.PutUint32(putbuf[:], uint32(i))
+		binary.LittleEndian.PutUint32(putbuf[:], uint32(i))
 	}
 }
 
 func BenchmarkLittleEndianPutUint64(b *testing.B) {
 	b.SetBytes(8)
 	for i := 0; i < b.N; i++ {
-		LittleEndian.PutUint64(putbuf[:], uint64(i))
+		binary.LittleEndian.PutUint64(putbuf[:], uint64(i))
 	}
 }
 
@@ -642,8 +643,8 @@ func BenchmarkReadFloats(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		bsr.remain = big[30:]
-		Read(r, BigEndian, &ls.Float32)
-		Read(r, BigEndian, &ls.Float64)
+		binary.Read(r, binary.BigEndian, &ls.Float32)
+		binary.Read(r, binary.BigEndian, &ls.Float64)
 	}
 	b.StopTimer()
 	want := s
@@ -672,8 +673,8 @@ func BenchmarkWriteFloats(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
-		Write(w, BigEndian, s.Float32)
-		Write(w, BigEndian, s.Float64)
+		binary.Write(w, binary.BigEndian, s.Float32)
+		binary.Write(w, binary.BigEndian, s.Float64)
 	}
 	b.StopTimer()
 	if b.N > 0 && !bytes.Equal(buf.Bytes(), big[30:30+4+8]) {
@@ -689,7 +690,7 @@ func BenchmarkReadSlice1000Float32s(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		bsr.remain = buf
-		Read(bsr, BigEndian, slice)
+		binary.Read(bsr, binary.BigEndian, slice)
 	}
 }
 
@@ -701,7 +702,7 @@ func BenchmarkWriteSlice1000Float32s(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
-		Write(w, BigEndian, slice)
+		binary.Write(w, binary.BigEndian, slice)
 	}
 	b.StopTimer()
 }
@@ -714,7 +715,7 @@ func BenchmarkReadSlice1000Uint8s(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		bsr.remain = buf
-		Read(bsr, BigEndian, slice)
+		binary.Read(bsr, binary.BigEndian, slice)
 	}
 }
 
@@ -726,6 +727,6 @@ func BenchmarkWriteSlice1000Uint8s(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
-		Write(w, BigEndian, slice)
+		binary.Write(w, binary.BigEndian, slice)
 	}
 }

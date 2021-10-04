@@ -2,66 +2,67 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package binary
+package binary_test
 
 import (
 	"bytes"
+	"encoding/binary"
 	"io"
 	"math"
 	"testing"
 )
 
 func testConstant(t *testing.T, w uint, max int) {
-	buf := make([]byte, MaxVarintLen64)
-	n := PutUvarint(buf, 1<<w-1)
+	buf := make([]byte, binary.MaxVarintLen64)
+	n := binary.PutUvarint(buf, 1<<w-1)
 	if n != max {
 		t.Errorf("MaxVarintLen%d = %d; want %d", w, max, n)
 	}
 }
 
 func TestConstants(t *testing.T) {
-	testConstant(t, 16, MaxVarintLen16)
-	testConstant(t, 32, MaxVarintLen32)
-	testConstant(t, 64, MaxVarintLen64)
+	testConstant(t, 16, binary.MaxVarintLen16)
+	testConstant(t, 32, binary.MaxVarintLen32)
+	testConstant(t, 64, binary.MaxVarintLen64)
 }
 
 func testVarint(t *testing.T, x int64) {
-	buf := make([]byte, MaxVarintLen64)
-	n := PutVarint(buf, x)
-	y, m := Varint(buf[0:n])
+	buf := make([]byte, binary.MaxVarintLen64)
+	n := binary.PutVarint(buf, x)
+	y, m := binary.Varint(buf[0:n])
 	if x != y {
-		t.Errorf("Varint(%d): got %d", x, y)
+		t.Errorf("binary.Varint(%d): got %d", x, y)
 	}
 	if n != m {
-		t.Errorf("Varint(%d): got n = %d; want %d", x, m, n)
+		t.Errorf("binary.Varint(%d): got n = %d; want %d", x, m, n)
 	}
 
-	y, err := ReadVarint(bytes.NewReader(buf))
+	y, err := binary.ReadVarint(bytes.NewReader(buf))
 	if err != nil {
-		t.Errorf("ReadVarint(%d): %s", x, err)
+		t.Errorf("binary.ReadVarint(%d): %s", x, err)
 	}
 	if x != y {
-		t.Errorf("ReadVarint(%d): got %d", x, y)
+		t.Errorf("binary.ReadVarint(%d): got %d", x, y)
 	}
 }
 
 func testUvarint(t *testing.T, x uint64) {
-	buf := make([]byte, MaxVarintLen64)
-	n := PutUvarint(buf, x)
-	y, m := Uvarint(buf[0:n])
+	buf := make([]byte, binary.MaxVarintLen64)
+	n := binary.PutUvarint(buf, x)
+	y, m := binary.Uvarint(buf[0:n])
 	if x != y {
-		t.Errorf("Uvarint(%d): got %d", x, y)
+		t.Errorf("binary.Uvarint(%d): got %d", x, y)
 	}
 	if n != m {
-		t.Errorf("Uvarint(%d): got n = %d; want %d", x, m, n)
+		t.Errorf("binary.Uvarint(%d): got n = %d; want %d", x, m, n)
 	}
 
-	y, err := ReadUvarint(bytes.NewReader(buf))
+	y, err := binary.ReadUvarint(bytes.NewReader(buf))
 	if err != nil {
-		t.Errorf("ReadUvarint(%d): %s", x, err)
+		t.Errorf("binary.ReadUvarint(%d): %s", x, err)
 	}
 	if x != y {
-		t.Errorf("ReadUvarint(%d): got %d", x, y)
+		t.Errorf("binary.ReadUvarint(%d): got %d", x, y)
 	}
 }
 
@@ -110,19 +111,19 @@ func TestBufferTooSmall(t *testing.T) {
 	buf := []byte{0x80, 0x80, 0x80, 0x80}
 	for i := 0; i <= len(buf); i++ {
 		buf := buf[0:i]
-		x, n := Uvarint(buf)
+		x, n := binary.Uvarint(buf)
 		if x != 0 || n != 0 {
-			t.Errorf("Uvarint(%v): got x = %d, n = %d", buf, x, n)
+			t.Errorf("binary.Uvarint(%v): got x = %d, n = %d", buf, x, n)
 		}
 
-		x, err := ReadUvarint(bytes.NewReader(buf))
+		x, err := binary.ReadUvarint(bytes.NewReader(buf))
 		if x != 0 || err != io.EOF {
-			t.Errorf("ReadUvarint(%v): got x = %d, err = %s", buf, x, err)
+			t.Errorf("binary.ReadUvarint(%v): got x = %d, err = %s", buf, x, err)
 		}
 	}
 }
 
-// Ensure that we catch overflows of bytes going past MaxVarintLen64.
+// Ensure that we catch overflows of bytes going past binary.MaxVarintLen64.
 // See issue https://golang.org/issues/41185
 func TestBufferTooBigWithOverflow(t *testing.T) {
 	tests := []struct {
@@ -151,7 +152,7 @@ func TestBufferTooBigWithOverflow(t *testing.T) {
 			wantN:     10,
 		},
 		{
-			name:      "invalid: with more than MaxVarintLen64 bytes",
+			name:      "invalid: with more than binary.MaxVarintLen64 bytes",
 			in:        []byte{0xd7, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01},
 			wantN:     -11,
 			wantValue: 0,
@@ -167,7 +168,7 @@ func TestBufferTooBigWithOverflow(t *testing.T) {
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			value, n := Uvarint(tt.in)
+			value, n := binary.Uvarint(tt.in)
 			if g, w := n, tt.wantN; g != w {
 				t.Errorf("bytes returned=%d, want=%d", g, w)
 			}
@@ -179,53 +180,53 @@ func TestBufferTooBigWithOverflow(t *testing.T) {
 }
 
 func testOverflow(t *testing.T, buf []byte, x0 uint64, n0 int, err0 error) {
-	x, n := Uvarint(buf)
+	x, n := binary.Uvarint(buf)
 	if x != 0 || n != n0 {
-		t.Errorf("Uvarint(% X): got x = %d, n = %d; want 0, %d", buf, x, n, n0)
+		t.Errorf("binary.Uvarint(% X): got x = %d, n = %d; want 0, %d", buf, x, n, n0)
 	}
 
 	r := bytes.NewReader(buf)
 	len := r.Len()
-	x, err := ReadUvarint(r)
+	x, err := binary.ReadUvarint(r)
 	if x != x0 || err != err0 {
-		t.Errorf("ReadUvarint(%v): got x = %d, err = %s; want %d, %s", buf, x, err, x0, err0)
+		t.Errorf("binary.ReadUvarint(%v): got x = %d, err = %s; want %d, %s", buf, x, err, x0, err0)
 	}
-	if read := len - r.Len(); read > MaxVarintLen64 {
-		t.Errorf("ReadUvarint(%v): read more than MaxVarintLen64 bytes, got %d", buf, read)
+	if read := len - r.Len(); read > binary.MaxVarintLen64 {
+		t.Errorf("binary.ReadUvarint(%v): read more than binary.MaxVarintLen64 bytes, got %d", buf, read)
 	}
 }
 
 func TestOverflow(t *testing.T) {
-	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x2}, 0, -10, overflow)
-	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x1, 0, 0}, 0, -11, overflow)
-	testOverflow(t, []byte{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}, 1<<64-1, -11, overflow) // 11 bytes, should overflow
+	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x2}, 0, -10, binary.Internal.Overflow)
+	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x1, 0, 0}, 0, -11, binary.Internal.Overflow)
+	testOverflow(t, []byte{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}, 1<<64-1, -11, binary.Internal.Overflow) // 11 bytes, should binary.Internal.Overflow
 }
 
 func TestNonCanonicalZero(t *testing.T) {
 	buf := []byte{0x80, 0x80, 0x80, 0}
-	x, n := Uvarint(buf)
+	x, n := binary.Uvarint(buf)
 	if x != 0 || n != 4 {
-		t.Errorf("Uvarint(%v): got x = %d, n = %d; want 0, 4", buf, x, n)
+		t.Errorf("binary.Uvarint(%v): got x = %d, n = %d; want 0, 4", buf, x, n)
 
 	}
 }
 
 func BenchmarkPutUvarint32(b *testing.B) {
-	buf := make([]byte, MaxVarintLen32)
+	buf := make([]byte, binary.MaxVarintLen32)
 	b.SetBytes(4)
 	for i := 0; i < b.N; i++ {
-		for j := uint(0); j < MaxVarintLen32; j++ {
-			PutUvarint(buf, 1<<(j*7))
+		for j := uint(0); j < binary.MaxVarintLen32; j++ {
+			binary.PutUvarint(buf, 1<<(j*7))
 		}
 	}
 }
 
 func BenchmarkPutUvarint64(b *testing.B) {
-	buf := make([]byte, MaxVarintLen64)
+	buf := make([]byte, binary.MaxVarintLen64)
 	b.SetBytes(8)
 	for i := 0; i < b.N; i++ {
-		for j := uint(0); j < MaxVarintLen64; j++ {
-			PutUvarint(buf, 1<<(j*7))
+		for j := uint(0); j < binary.MaxVarintLen64; j++ {
+			binary.PutUvarint(buf, 1<<(j*7))
 		}
 	}
 }
