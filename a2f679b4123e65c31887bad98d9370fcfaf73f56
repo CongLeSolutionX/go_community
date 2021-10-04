@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1218b0a_e6888279",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-04T21:43:45Z",
+      "side": 1,
+      "message": "Better to have the same rule for slices and structs I think: otherwise, what do we do with a slice of structs or struct of slices?\n\nIf we do choose to make structs mutable, that\u0027s terribly difficult to implement. We\u0027ll just need some recursive deep copy function.\n\nI\u0027d lean toward not allowing mutation in either case though. Do we know of examples where it\u0027s useful?",
+      "parentUuid": "3a502647_5c49821c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "a2f679b4123e65c31887bad98d9370fcfaf73f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "50f39648_fbf94774",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
