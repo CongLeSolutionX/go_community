@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8488cceb_9d227171",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-05T19:39:23Z",
+      "side": 1,
+      "message": "On a slight tangent, there\u0027s definitely something confusing about the availability of *W opcodes.\nFor instance, there\u0027s ADD but no ADDW. But there are both MUL and MULW. Are these actually distinctions in the instruction set? If the *W operations are real, what do they do the upper 32 bits of the destination?\n\nPossibly the answer here is to introduce ADDW opcodes, even if they are identical to ADD at the machine level. But maybe as Cherry said, relying on the width of the result type is enough.",
+      "parentUuid": "d23fef6d_617b409c",
+      "revId": "5df4f83dc884a51f8153350710a6daa5fdd4bc2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9346074c_5de88923",
         "filename": "test/codegen/rotate.go",
         "patchSetId": 1
