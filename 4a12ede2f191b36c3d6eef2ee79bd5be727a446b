@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40f5d32c_eab0f595",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-10-05T09:15:36Z",
+      "side": 1,
+      "message": "I agree\n\nhttps://sourceware.org/git/?p\u003dbinutils-gdb.git;a\u003dtree;h\u003d2e3375ff221182bf4a70ec293e72f3a23bd5746f;hb\u003d237df3fa4a1d939e6fd1af0c3e5029a25a137310\n\nmatches the error exactly. Unfortunately I could not reproduce any other error messages that I see in gcc code.\n\nIt appears that external name can be set to anything. As long as the name has \u0027.\u0027 character in it. (most Go symbol names has . in them, so that is why they work). Alternatively, if I use \u0027.\u0027, \u0027_\u0027 or \u0027@\u0027 as first character that works too.\n\nAnyway I am not sure, if I can help here more. Maybe you can put reference to\n\nhttps://sourceware.org/git/?p\u003dbinutils-gdb.git;a\u003dtree;h\u003d2e3375ff221182bf4a70ec293e72f3a23bd5746f;hb\u003d237df3fa4a1d939e6fd1af0c3e5029a25a137310\n\nin src/cmd/link/internal/ld/pe.go in your new TODO comment, and leave it for future generations to figure this out. It would be nice if we can see different error message from gcc invocation before we add reference to the code.\n\nLet me know, if I can try something else.",
+      "parentUuid": "8c9c985d_aa519f1e",
+      "range": {
+        "startLine": 19,
+        "startChar": 18,
+        "endLine": 23,
+        "endChar": 127
+      },
+      "revId": "4a12ede2f191b36c3d6eef2ee79bd5be727a446b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d99c98c8_1f14b057",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -169,6 +193,23 @@
       "writtenOn": "2021-09-25T02:21:25Z",
       "side": 1,
       "message": "This change looks reasonable in the circumstances. Unfortunately I have no explanation of why we doing this. Because we have no source of the program that fails here.\n\nIf you asking why I reverted adding _ in front of external symbols in CL 35076 - I did it to stop programs that use these symbols from breaking. Here (from what I gather) you have no choice but to change at least some symbols. If you ask my opinion, I would only change the minimum required.\n\nAlex",
+      "revId": "4a12ede2f191b36c3d6eef2ee79bd5be727a446b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d14428bd_8db6bfbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-10-05T09:15:36Z",
+      "side": 1,
+      "message": "Sorry I took time to reply. Unfortunately I could not come up with any good suggestions.\n\nAlex",
       "revId": "4a12ede2f191b36c3d6eef2ee79bd5be727a446b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
