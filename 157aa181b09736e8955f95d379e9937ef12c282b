@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fc182155_24668fd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-05T05:52:28Z",
+      "side": 1,
+      "message": "Hi Cherry, the original CL mentions this https://go-review.googlesource.com/c/go/+/328289 hence we felt we should also add it for consistency",
+      "parentUuid": "7715d386_f04c8615",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 5
+      },
+      "revId": "157aa181b09736e8955f95d379e9937ef12c282b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e000f1f8_793071af",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -120,6 +144,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f10a79df_6c143771",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-05T05:52:28Z",
+      "side": 1,
+      "message": "Thanks for observing this! have made the change",
+      "parentUuid": "ec3feb16_a6c5a918",
+      "range": {
+        "startLine": 1474,
+        "startChar": 19,
+        "endLine": 1474,
+        "endChar": 22
+      },
+      "revId": "157aa181b09736e8955f95d379e9937ef12c282b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f7a2803_874ae044",
@@ -150,6 +198,30 @@
       "writtenOn": "2021-10-04T21:57:56Z",
       "side": 1,
       "message": "arg0\u003daddr, arg1\u003dmemory.",
+      "range": {
+        "startLine": 341,
+        "startChar": 74,
+        "endLine": 341,
+        "endChar": 88
+      },
+      "revId": "157aa181b09736e8955f95d379e9937ef12c282b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d5f8076_b0701a97",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-05T05:52:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b59e09c_98bb82b6",
       "range": {
         "startLine": 341,
         "startChar": 74,
