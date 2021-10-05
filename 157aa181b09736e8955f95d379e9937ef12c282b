@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6fa2b3f0_cf26704c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-05T06:11:10Z",
+      "side": 1,
+      "message": "Moreover, the Makefile only indicates how to build these benchmarks, if it had these flags, we would not need to mention it separately.",
+      "parentUuid": "fc182155_24668fd9",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 5
+      },
+      "revId": "157aa181b09736e8955f95d379e9937ef12c282b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e000f1f8_793071af",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
