@@ -159,16 +159,6 @@ type _ interface {
 	~rune
 }
 
-// Interface type lists may contain each type at most once.
-// (If there are multiple lists, we assume the author intended
-// for them to be all in a single list, and we report the error
-// as well.)
-type _ interface {
-	~int|~int /* ERROR overlapping terms ~int */
-	~int|int /* ERROR overlapping terms int */
-	int|int /* ERROR overlapping terms int */
-}
-
 type _ interface {
 	~struct{f int} | ~struct{g int} | ~struct /* ERROR overlapping terms */ {f int}
 }
