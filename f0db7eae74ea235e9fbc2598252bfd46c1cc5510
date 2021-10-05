@@ -69,6 +69,24 @@
       "parentUuid": "bd61e882_68002772",
       "revId": "f0db7eae74ea235e9fbc2598252bfd46c1cc5510",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33fb05b6_b208c0ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-05T18:00:12Z",
+      "side": 1,
+      "message": "One option might be to move the compile-time assertion from the package proper to its test. That would at least avoid breaking tools that attempt to parse and type-check the `runtime` package using the wrong definitions.\n\nThat said, I\u0027m not sure that there really are that many cases that break. IIRC the x/text test that started failing uses x/tools/go/loader, and probably so do the various broken things in x/tools — so you might be able to get everything working by updating one or two packages in x/tools and then bumping a dependency in x/text.",
+      "parentUuid": "866ac5a0_090a16f2",
+      "revId": "f0db7eae74ea235e9fbc2598252bfd46c1cc5510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
