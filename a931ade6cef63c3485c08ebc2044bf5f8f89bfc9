@@ -57,6 +57,29 @@
       },
       "revId": "a931ade6cef63c3485c08ebc2044bf5f8f89bfc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9ad046_7f1d844c",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-05T15:54:48Z",
+      "side": 1,
+      "message": "Only one of them could ever happen. I think the first one cannot happen, as LoweredAtomicLoad8 returns two values.\n\nAlso, in PPC64Ops.go we should have comments about what the op returns, like https://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/ssa/gen/AMD64Ops.go;l\u003d855",
+      "range": {
+        "startLine": 1022,
+        "startChar": 0,
+        "endLine": 1023,
+        "endChar": 52
+      },
+      "revId": "a931ade6cef63c3485c08ebc2044bf5f8f89bfc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
