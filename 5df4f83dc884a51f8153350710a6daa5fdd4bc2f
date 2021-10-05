@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ffa5db2_5d965475",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-05T19:47:03Z",
+      "side": 1,
+      "message": "I think the *W instructions always zero the upper 32 bits of the result.\n\nYes, we could add ADDW opcode if that helps. It could optimize int64(uint32(a+b))  to one instruction. (The cost is probably adding a bunch of rules like constant folding of ADDW.)",
+      "parentUuid": "8488cceb_9d227171",
+      "revId": "5df4f83dc884a51f8153350710a6daa5fdd4bc2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9346074c_5de88923",
         "filename": "test/codegen/rotate.go",
         "patchSetId": 1
