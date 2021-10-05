@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52c18b60_55e35008",
+        "filename": "src/cmd/compile/internal/amd64/versions_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-05T16:33:43Z",
+      "side": 1,
+      "message": "Does the make.bash override still set the environment variable?\nIn any case, I\u0027ll add a note.",
+      "parentUuid": "b8f740d9_e46e8b10",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 2
+      },
+      "revId": "7b8af1868ed9778ec68e40e6fd065219b83c43f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb8dbab9_69cdc949",
@@ -103,6 +127,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d8ccbb6_cc4610ad",
+        "filename": "src/cmd/compile/internal/amd64/versions_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-05T16:33:43Z",
+      "side": 1,
+      "message": "objdump uses spaces \"4c 29 e8\" whereas go tool objdump doesn\u0027t \"4c29e8\". I\u0027d like to support both.\n\nHow about (len(parts[2]) - strings.Count(parts[2], \" \")) / 2",
+      "parentUuid": "bb8dbab9_69cdc949",
+      "range": {
+        "startLine": 130,
+        "startChar": 7,
+        "endLine": 130,
+        "endChar": 53
+      },
+      "revId": "7b8af1868ed9778ec68e40e6fd065219b83c43f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "985dfc29_1004538f",
@@ -116,6 +164,30 @@
       "writtenOn": "2021-10-04T20:00:02Z",
       "side": 1,
       "message": "Is \"2\" here short for \"to\"? If so, maybe just write it out?\n\nI read it as the opcodes for \"feature 2\" at first, thinking it was related to \"v2\".",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 19
+      },
+      "revId": "7b8af1868ed9778ec68e40e6fd065219b83c43f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d333e8f_6166b587",
+        "filename": "src/cmd/compile/internal/amd64/versions_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-05T16:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "985dfc29_1004538f",
       "range": {
         "startLine": 205,
         "startChar": 4,
