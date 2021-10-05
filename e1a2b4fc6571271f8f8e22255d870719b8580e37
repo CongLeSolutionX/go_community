@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd498bcd_56ca8400",
+        "filename": "src/crypto/sha256/sha256block_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 52588
+      },
+      "writtenOn": "2021-10-05T17:57:50Z",
+      "side": 1,
+      "message": "It might be true now, it might not be true in the future. Its easier just to check. Its also possible for the user to request not to use any SSE4.1 instructions and it would be odd if we do not honor that.",
+      "parentUuid": "90ba63b1_48f57efc",
+      "range": {
+        "startLine": 1077,
+        "startChar": 1,
+        "endLine": 1077,
+        "endChar": 8
+      },
+      "revId": "e1a2b4fc6571271f8f8e22255d870719b8580e37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de56bed9_92146579",
