@@ -185,6 +185,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b34e7e25_da8aec36",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-05T05:53:03Z",
+      "side": 1,
+      "message": "have made the change, thanks!",
+      "parentUuid": "7f7a2803_874ae044",
+      "revId": "157aa181b09736e8955f95d379e9937ef12c282b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b59e09c_98bb82b6",
