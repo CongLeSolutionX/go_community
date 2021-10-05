@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17306ffa_239f56dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-05T16:22:16Z",
+      "side": 1,
+      "message": "\u003e Do we know of examples where it\u0027s useful?\n\nI was thinking about functions in the bytes package as an example, but after looking at those, I guess they all return a new []byte rather than alter the provided []byte.\n\nYou\u0027ve convinced me! Another argument to be made is that it\u0027s simpler to say now that fuzz targets can\u0027t alter the underlying data, since we can always loosen this restriction later down the line if we come up with a good way to handle it. It\u0027s a lot harder (and would probably break backwards compatibility) if we wanted to add the requirement later on.\n\nI\u0027m going to leave this CL open if we want to re-visit in the future, but will remove y\u0027all from the reviewer line.",
+      "parentUuid": "f1218b0a_e6888279",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "a2f679b4123e65c31887bad98d9370fcfaf73f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "50f39648_fbf94774",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
