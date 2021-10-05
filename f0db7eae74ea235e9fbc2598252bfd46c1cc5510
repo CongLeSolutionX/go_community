@@ -51,6 +51,24 @@
       "message": "Thank you both. Michael, do you plan to make a similar change to the go/types test as you did for cmd/api, or does this signal a need for a different approach to the padding and assertions? For example, I\u0027d sketched an alternative that embeds each current struct in a new type that resizes itself, which might eliminate the need for a separate assertion -- but I didn\u0027t go that way because it required code changes when constructing sigevent values.\n\nAnd, are there different habits I should use when running the trybots against changes like this? And again, thank you.",
       "revId": "f0db7eae74ea235e9fbc2598252bfd46c1cc5510",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "866ac5a0_090a16f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-10-05T17:25:14Z",
+      "side": 1,
+      "message": "Unfortunately I think there may be too many cases to easily fix them all promptly. Some aren\u0027t even tests. e.g., the gorename tool can\u0027t handle this. Tools like that likely need discussion to decide on the correct behavior. (Should gorename use the SizesOf the GOARCH env variable? Probably, but maybe there are other thoughts.)\n\nFor now, I suppose you should go back to the old form, or perhaps just put this in a normal test case rather than a compile-time assertion.\n\n\u003e And, are there different habits I should use when running the trybots against changes like this? And again, thank you.\n\nYou can use TRY\u003d\u003cbuilder\u003e to force certain tests to run, but I think what you did was fine. I had no reason to believe this simple assertion would break so many things.",
+      "parentUuid": "bd61e882_68002772",
+      "revId": "f0db7eae74ea235e9fbc2598252bfd46c1cc5510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
