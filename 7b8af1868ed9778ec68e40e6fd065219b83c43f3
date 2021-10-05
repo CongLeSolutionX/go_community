@@ -104,6 +104,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e335f57_9958e408",
+        "filename": "src/cmd/compile/internal/amd64/versions_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-05T18:21:46Z",
+      "side": 1,
+      "message": "\u003e Does the make.bash override still set the environment variable?\n\ncmd/go will explicitly set the environment variable when invoking cmd/compile, etc. if not already set by the user, but not when running the test binaries.",
+      "parentUuid": "52c18b60_55e35008",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 2
+      },
+      "revId": "7b8af1868ed9778ec68e40e6fd065219b83c43f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb8dbab9_69cdc949",
@@ -141,6 +165,30 @@
       "side": 1,
       "message": "objdump uses spaces \"4c 29 e8\" whereas go tool objdump doesn\u0027t \"4c29e8\". I\u0027d like to support both.\n\nHow about (len(parts[2]) - strings.Count(parts[2], \" \")) / 2",
       "parentUuid": "bb8dbab9_69cdc949",
+      "range": {
+        "startLine": 130,
+        "startChar": 7,
+        "endLine": 130,
+        "endChar": 53
+      },
+      "revId": "7b8af1868ed9778ec68e40e6fd065219b83c43f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17a69de3_22383e1e",
+        "filename": "src/cmd/compile/internal/amd64/versions_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-05T18:21:46Z",
+      "side": 1,
+      "message": "Ah, I see. Yeah, either way seems good then.",
+      "parentUuid": "0d8ccbb6_cc4610ad",
       "range": {
         "startLine": 130,
         "startChar": 7,
