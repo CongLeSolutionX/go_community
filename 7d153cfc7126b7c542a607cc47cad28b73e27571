@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "783860ea_2bd809e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-05T21:21:05Z",
+      "side": 1,
+      "message": "I was definitely confused by this at first, because the mentioned methods *do* inline. It\u0027s the *callers* of those methods that potentially don\u0027t inline.  (The test in this CL makes that clear.)\nMaybe update the title and description a bit to clear that up.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "7d153cfc7126b7c542a607cc47cad28b73e27571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4dcff802_3e9a9e99",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -51,6 +74,40 @@
       "writtenOn": "2021-10-05T20:04:44Z",
       "side": 1,
       "message": "ping",
+      "revId": "7d153cfc7126b7c542a607cc47cad28b73e27571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e91a28bc_808e3584",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-05T21:21:05Z",
+      "side": 1,
+      "message": "These are pretty cheap only on architectures that have unaligned loads (and that have the rewrite rules implemented to take advantage of that).\n\nSo maybe disable this change for archs which can\u0027t do unaligned? I think only 386,amd64,arm64,ppc64,s390x combine byte loads to larger unaligned loads currently.",
+      "revId": "7d153cfc7126b7c542a607cc47cad28b73e27571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec3038c_6f338154",
+        "filename": "test/inline.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-05T21:21:05Z",
+      "side": 1,
+      "message": "Mention issue number.",
       "revId": "7d153cfc7126b7c542a607cc47cad28b73e27571",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
