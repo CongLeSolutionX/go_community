@@ -70,6 +70,24 @@
       "message": "Could we also verify using -n or -x that in module mode, -D is not passed to the compiler?",
       "revId": "e514b9df369ff14fba48e8f72175cf1d6d8e145d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2c33461_e45c9a32",
+        "filename": "src/cmd/go/testdata/script/mod_build_trimpath_issue48557.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "982a7b2b_05a2dc32",
+      "revId": "e514b9df369ff14fba48e8f72175cf1d6d8e145d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
