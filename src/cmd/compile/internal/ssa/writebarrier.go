@@ -44,6 +44,12 @@ func needwb(v *Value, zeroes map[ID]ZeroRegion) bool {
 			return false
 		}
 	}
+	if v.Op == OpStore && IsReadOnlyGlobalAddr(v.Args[1]) && IsCoverageCounter(v.Args[0]) {
+		// Copying data from readonly memory into a coverage counter doesn't need a write barrier,
+		// since the only pointer values we'll ever write to a counter data structure are
+		// addresses of RODATA syms.
+		return false
+	}
 	if v.Op == OpStore && IsGlobalAddr(v.Args[1]) {
 		// Storing pointers to non-heap locations into zeroed memory doesn't need a write barrier.
 		ptr := v.Args[0]
@@ -633,6 +639,12 @@ func IsNewObject(v *Value) (mem *Value, ok bool) {
 		return nil, false
 	}
 	return mem, true
+}
+
+// IsCoverageCounter reports whether v is known to be an address of a
+// coverage counter symbol.
+func IsCoverageCounter(v *Value) bool {
+	return v.Op == OpAddr && v.Aux != nil && v.Aux.(*obj.LSym).Type == objabi.SCOVERAGE_COUNTER
 }
 
 // IsSanitizerSafeAddr reports whether v is known to be an address
