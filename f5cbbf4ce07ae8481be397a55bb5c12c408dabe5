@@ -16,6 +16,24 @@
       "message": "Seems like this is supposed to prevent the problem.  Why doesn\u0027t it work?",
       "revId": "f5cbbf4ce07ae8481be397a55bb5c12c408dabe5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26a32153_9639c0df",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4721,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2021-10-05T02:10:03Z",
+      "side": 1,
+      "message": "I think part of why this stanza didn\u0027t work in go1.14.7 (where I saw #48782) was that it wasn\u0027t combined with CL 253758. That change landed for Go 1.16 as a follow-up to CL 240003 (as you know).\n\nI think that go1.14.7 had a very small race window, that CL 240003 made it large, and that CL 253758 may have closed it completely. I missed the contribution that CL 253758 made to this story when reading through the go1.14.7 source and comparing it with how the code is today. Thanks for reviewing, I\u0027ll bring this back to the issue tracker.",
+      "parentUuid": "f404c67b_afb16456",
+      "revId": "f5cbbf4ce07ae8481be397a55bb5c12c408dabe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
