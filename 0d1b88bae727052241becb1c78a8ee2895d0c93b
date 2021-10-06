@@ -248,6 +248,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "896bf37f_dd517337",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-06T20:44:33Z",
+      "side": 1,
+      "message": "When is this called before Init? I\u0027d like to dig into that if you can get a stack trace — to my knowledge modload.Replacement really shouldn\u0027t ever be called before LoadModFile, so there could be a deeper broken invariant here.",
+      "parentUuid": "a6c08f49_e1f5de3b",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d285bfd5_4a9ce1f0",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 2
