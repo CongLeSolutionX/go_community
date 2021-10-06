@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "343af6d1_bde4c392",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-06T00:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "783860ea_2bd809e3",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "7d153cfc7126b7c542a607cc47cad28b73e27571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dcff802_3e9a9e99",
@@ -95,6 +119,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af7856b8_de314139",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-06T00:36:53Z",
+      "side": 1,
+      "message": "Done. PTAL--I touched a fair few places making this happen.",
+      "parentUuid": "e91a28bc_808e3584",
+      "revId": "7d153cfc7126b7c542a607cc47cad28b73e27571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aec3038c_6f338154",
@@ -108,6 +150,24 @@
       "writtenOn": "2021-10-05T21:21:05Z",
       "side": 1,
       "message": "Mention issue number.",
+      "revId": "7d153cfc7126b7c542a607cc47cad28b73e27571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "257ff646_3d859016",
+        "filename": "test/inline.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-06T00:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec3038c_6f338154",
       "revId": "7d153cfc7126b7c542a607cc47cad28b73e27571",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
