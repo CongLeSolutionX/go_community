@@ -88,6 +88,24 @@
       "message": "\"Cut cuts\"",
       "revId": "9605e30c7a7e1b6adc45fc6bb8e6ec843e64bb74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23996af0_4589eb28",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-06T15:52:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8aa5a9f3_aef723bc",
+      "revId": "9605e30c7a7e1b6adc45fc6bb8e6ec843e64bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
