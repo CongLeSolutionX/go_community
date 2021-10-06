@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3fc717f_d1531790",
+        "filename": "misc/cgo/testcshared/cshared_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-06T15:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c0da302_2d8f6d70",
+      "revId": "895aef216f431c195929561c82ef6ba3128125aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e97c02b0_772ec0c6",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-09-24T20:49:11Z",
       "side": 1,
       "message": "This isn\u0027t going to compile.  This line needs to be deleted.  The trybots don\u0027t compile this code.",
+      "revId": "895aef216f431c195929561c82ef6ba3128125aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cb9e812_a5e963e2",
+        "filename": "misc/ios/go_ios_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-06T15:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e97c02b0_772ec0c6",
       "revId": "895aef216f431c195929561c82ef6ba3128125aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
