@@ -72,6 +72,24 @@
       "message": "trybot failure is unrelated flake",
       "revId": "0a22ab3e836330832d90726aa2b0e6e6c5d812df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6734026_d648dd06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-06T20:46:15Z",
+      "side": 1,
+      "message": "Test failure is a https://github.com/golang/go/issues/46474. Followed up there.",
+      "parentUuid": "2ae802b5_e53f4296",
+      "revId": "0a22ab3e836330832d90726aa2b0e6e6c5d812df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
