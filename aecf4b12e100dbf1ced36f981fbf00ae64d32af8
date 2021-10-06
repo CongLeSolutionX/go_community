@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce3f1216_57f91e32",
+        "filename": "src/cmd/compile/internal/types2/testdata/check/typeinst2.go2",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-06T17:39:04Z",
+      "side": 0,
+      "message": "I\u0027m not sure this entire block needs to be removed. It looks like you could just update the comment.",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 1
+      },
+      "revId": "aecf4b12e100dbf1ced36f981fbf00ae64d32af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
