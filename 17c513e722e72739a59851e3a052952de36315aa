@@ -16,6 +16,23 @@
       "message": "This broke the linux-amd64-noopt builder:\nhttps://build.golang.org/log/c3a04f6d4cbef9780c4e82726f719525f1d9e1d9",
       "revId": "17c513e722e72739a59851e3a052952de36315aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50d3e165_9d2e359b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-06T21:07:32Z",
+      "side": 1,
+      "message": "There\u0027s a fix already out for review: https://go-review.googlesource.com/c/go/+/354353",
+      "revId": "17c513e722e72739a59851e3a052952de36315aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
