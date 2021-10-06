@@ -380,6 +380,13 @@ func (f *F) Fuzz(ff interface{}) {
 		if e.Name != "" {
 			testName = fmt.Sprintf("%s/%s", testName, e.Name)
 		}
+		if f.isFuzzing() {
+			// Don't preserve subtest names while fuzzing. If fn calls T.Run,
+			// there will be a very large number of subtests with duplicate names,
+			// which will use a large amount of memory. The subtest names aren't
+			// useful since there's no way to re-run them deterministically.
+			f.testContext.match.reset()
+		}
 
 		// Record the stack trace at the point of this call so that if the subtest
 		// function - which runs in a separate stack - is marked as a helper, we can
