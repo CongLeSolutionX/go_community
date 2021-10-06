@@ -160,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ebfe7e_021f7025",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-06T17:44:17Z",
+      "side": 1,
+      "message": "OK, I understand the use of \"\" now as meaning the local package path, so I see how LinkString() can work and have moved to using that.  Since only the linker does the final substitution of \"\", we do need to do an extra explicit substitution in ReadImports() so we get the right names for imported functions/methods.",
+      "parentUuid": "4aabc056_dbe1dc0b",
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4159f3a7_b7955efb",
@@ -173,6 +191,30 @@
       "writtenOn": "2021-10-04T21:59:55Z",
       "side": 1,
       "message": "As discussed, I think this is wrong: pkg.Path should already be the translated path.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "62a7eda48f9f969b46e30f0868b52de1e41a3019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76b9b824_e3548624",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-06T17:44:17Z",
+      "side": 1,
+      "message": "Thanks, yes, no need to do any translation related to vendoring.",
+      "parentUuid": "4159f3a7_b7955efb",
       "range": {
         "startLine": 188,
         "startChar": 0,
