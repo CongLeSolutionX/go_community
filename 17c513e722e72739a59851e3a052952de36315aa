@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "027d8060_1da2d3be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-06T20:53:16Z",
+      "side": 1,
+      "message": "This broke the linux-amd64-noopt builder:\nhttps://build.golang.org/log/c3a04f6d4cbef9780c4e82726f719525f1d9e1d9",
+      "revId": "17c513e722e72739a59851e3a052952de36315aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
