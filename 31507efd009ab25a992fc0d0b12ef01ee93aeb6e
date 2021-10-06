@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "04a138e6_87393291",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-06T19:13:21Z",
+      "side": 1,
+      "message": "de-duplication",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "31507efd009ab25a992fc0d0b12ef01ee93aeb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "efbb4c0c_010cb027",
@@ -14,6 +37,24 @@
       "writtenOn": "2021-10-06T18:30:43Z",
       "side": 1,
       "message": "Keith/Cherry/Ian:  Let me know if you have any comments/problems with this change to types.(*Type).LinkString().  It all works fine to make LinkString() omit all spaces (and use \"#\" when needed to separate a field name from its type).  This helps us avoid having spaces in function/method instantiation names.\n\nIf we don\u0027t want to change LinkString(), I\u0027m happy to create a separate function instead that is the same as LinkString() in every way, except that it omits spaces.  I\u0027m also open to leaving in the space between field names and types, rather than using \"#\".\n\nPlease add any comments/issues -- I\u0027ll check this in tomorrow afternoon if no one has an issue with it.\n\n",
+      "revId": "31507efd009ab25a992fc0d0b12ef01ee93aeb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d012b240_f3658aea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-06T19:13:21Z",
+      "side": 1,
+      "message": "This looks good to me. Thanks.",
+      "parentUuid": "efbb4c0c_010cb027",
       "revId": "31507efd009ab25a992fc0d0b12ef01ee93aeb6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
