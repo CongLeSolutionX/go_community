@@ -106,6 +106,24 @@
       "message": "That means you need to reserve the module name \"exe\" and need to document that reservation somewhere.",
       "revId": "b1bd3cd6a5df45d29793c4ca6f12bd5d856c8457",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b467a291_48f1f0f8",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-06T00:20:06Z",
+      "side": 1,
+      "message": "Changed to \"file\" to make it a little more clear. This doesn\u0027t mean literally exe or file: the arguments to \u0027go version\u0027 are names of files or directories to check.",
+      "parentUuid": "b2dbe674_a80df4e8",
+      "revId": "b1bd3cd6a5df45d29793c4ca6f12bd5d856c8457",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
