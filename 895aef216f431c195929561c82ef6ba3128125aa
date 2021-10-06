@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5925e955_61ea8175",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-06T15:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f0c7df9_afa18554",
+      "revId": "895aef216f431c195929561c82ef6ba3128125aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4739e113_9b25f407",
@@ -102,6 +120,42 @@
       "writtenOn": "2021-09-24T23:13:37Z",
       "side": 1,
       "message": "May as well just get rid of this benchmark or move it to strings, it\u0027s not serving any useful purpose here.",
+      "revId": "895aef216f431c195929561c82ef6ba3128125aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d68a50b_ae73874b",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2065,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-06T15:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4739e113_9b25f407",
+      "revId": "895aef216f431c195929561c82ef6ba3128125aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a31776ed_563d29bf",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2065,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-06T15:26:32Z",
+      "side": 1,
+      "message": "Done. (Deleted.)",
+      "parentUuid": "4739e113_9b25f407",
       "revId": "895aef216f431c195929561c82ef6ba3128125aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
