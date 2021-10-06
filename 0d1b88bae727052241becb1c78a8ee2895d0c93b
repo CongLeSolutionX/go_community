@@ -159,6 +159,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5271c05_bbe2b52d",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T18:43:12Z",
+      "side": 1,
+      "message": "I moved the last block of Init to LoadModFile, and it seems to work! I\u0027m just a little wary of doing these things because it\u0027s hard to reason about who\u0027s using what when (of course, that\u0027s the very problem at the center of all this).",
+      "parentUuid": "6b36101f_dc7e3839",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b01bea55_eac66b4c",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 2
@@ -206,6 +224,24 @@
       "side": 1,
       "message": "I\u0027m surprised this would be called before Init. How does that happen? Init should be before almost anything else.\n\nIf MainModuleSet can\u0027t be created first, it would be better to do the nil pointer check on the caller side. Calling a method on nil is usually a mistake. It\u0027s way too easy to forget to add the check to a method or to forget which methods allow nil and which don\u0027t. It makes small changes riskier than they need to be.",
       "parentUuid": "e63ef3f3_317ab95b",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6c08f49_e1f5de3b",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T18:43:12Z",
+      "side": 1,
+      "message": "okay, moved the checks to callers.",
+      "parentUuid": "6ec2590b_0c1b0a39",
       "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -359,6 +395,24 @@
       "side": 1,
       "message": "Maybe an interface or a new type. Conceptually, a single go.mod and go.work + workspace modules provide a set of requirements, replacements, and exclusions that determine how the rest of the system works. The rest of the system doesn\u0027t need to know where those things came from.\n\nProbably out of scope for this CL though.",
       "parentUuid": "a6a49873_41f15f91",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7aff2fc_1d4e37ac",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T18:43:12Z",
+      "side": 1,
+      "message": "okay",
+      "parentUuid": "87f929ca_f03b5ff6",
       "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
