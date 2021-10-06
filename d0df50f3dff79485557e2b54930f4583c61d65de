@@ -16,6 +16,24 @@
       "message": "This change seems fine, but please also add a regression test in cmd/go/testdata/script to demonstrate that it achieves the intended effect.\n\n(Specifically, I would want to verify that the commands are logged to stderr, while the graph itself goes to stdout — otherwise, I don\u0027t see how this could be particularly usable.)",
       "revId": "d0df50f3dff79485557e2b54930f4583c61d65de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d9d291f_411cd58e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2021-10-06T13:26:45Z",
+      "side": 1,
+      "message": "I still don\u0027t see the effect of this -x in the mod_graph_x.txt.\nTesting on the contents of stderr is necessary.",
+      "parentUuid": "c8543b6c_d61d5558",
+      "revId": "d0df50f3dff79485557e2b54930f4583c61d65de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
