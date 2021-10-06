@@ -177,29 +177,30 @@ var runtimeDecls = [...]struct {
 	{"float64touint32", funcTag, 131},
 	{"int64tofloat64", funcTag, 132},
 	{"uint64tofloat64", funcTag, 133},
-	{"uint32tofloat64", funcTag, 134},
-	{"complex128div", funcTag, 135},
-	{"getcallerpc", funcTag, 136},
-	{"getcallersp", funcTag, 136},
+	{"uint64tofloat32", funcTag, 135},
+	{"uint32tofloat64", funcTag, 136},
+	{"complex128div", funcTag, 137},
+	{"getcallerpc", funcTag, 138},
+	{"getcallersp", funcTag, 138},
 	{"racefuncenter", funcTag, 31},
 	{"racefuncexit", funcTag, 9},
 	{"raceread", funcTag, 31},
 	{"racewrite", funcTag, 31},
-	{"racereadrange", funcTag, 137},
-	{"racewriterange", funcTag, 137},
-	{"msanread", funcTag, 137},
-	{"msanwrite", funcTag, 137},
-	{"msanmove", funcTag, 138},
-	{"checkptrAlignment", funcTag, 139},
-	{"checkptrArithmetic", funcTag, 141},
-	{"libfuzzerTraceCmp1", funcTag, 142},
-	{"libfuzzerTraceCmp2", funcTag, 143},
-	{"libfuzzerTraceCmp4", funcTag, 144},
-	{"libfuzzerTraceCmp8", funcTag, 145},
-	{"libfuzzerTraceConstCmp1", funcTag, 142},
-	{"libfuzzerTraceConstCmp2", funcTag, 143},
-	{"libfuzzerTraceConstCmp4", funcTag, 144},
-	{"libfuzzerTraceConstCmp8", funcTag, 145},
+	{"racereadrange", funcTag, 139},
+	{"racewriterange", funcTag, 139},
+	{"msanread", funcTag, 139},
+	{"msanwrite", funcTag, 139},
+	{"msanmove", funcTag, 140},
+	{"checkptrAlignment", funcTag, 141},
+	{"checkptrArithmetic", funcTag, 143},
+	{"libfuzzerTraceCmp1", funcTag, 144},
+	{"libfuzzerTraceCmp2", funcTag, 145},
+	{"libfuzzerTraceCmp4", funcTag, 146},
+	{"libfuzzerTraceCmp8", funcTag, 147},
+	{"libfuzzerTraceConstCmp1", funcTag, 144},
+	{"libfuzzerTraceConstCmp2", funcTag, 145},
+	{"libfuzzerTraceConstCmp4", funcTag, 146},
+	{"libfuzzerTraceConstCmp8", funcTag, 147},
 	{"x86HasPOPCNT", varTag, 6},
 	{"x86HasSSE41", varTag, 6},
 	{"x86HasFMA", varTag, 6},
@@ -222,7 +223,7 @@ func params(tlist ...*types.Type) []*types.Field {
 }
 
 func runtimeTypes() []*types.Type {
-	var typs [146]*types.Type
+	var typs [148]*types.Type
 	typs[0] = types.ByteType
 	typs[1] = types.NewPtr(typs[0])
 	typs[2] = types.Types[types.TANY]
@@ -357,17 +358,19 @@ func runtimeTypes() []*types.Type {
 	typs[131] = newSig(params(typs[20]), params(typs[62]))
 	typs[132] = newSig(params(typs[22]), params(typs[20]))
 	typs[133] = newSig(params(typs[24]), params(typs[20]))
-	typs[134] = newSig(params(typs[62]), params(typs[20]))
-	typs[135] = newSig(params(typs[26], typs[26]), params(typs[26]))
-	typs[136] = newSig(nil, params(typs[5]))
-	typs[137] = newSig(params(typs[5], typs[5]), nil)
-	typs[138] = newSig(params(typs[5], typs[5], typs[5]), nil)
-	typs[139] = newSig(params(typs[7], typs[1], typs[5]), nil)
-	typs[140] = types.NewSlice(typs[7])
-	typs[141] = newSig(params(typs[7], typs[140]), nil)
-	typs[142] = newSig(params(typs[66], typs[66]), nil)
-	typs[143] = newSig(params(typs[60], typs[60]), nil)
-	typs[144] = newSig(params(typs[62], typs[62]), nil)
-	typs[145] = newSig(params(typs[24], typs[24]), nil)
+	typs[134] = types.Types[types.TFLOAT32]
+	typs[135] = newSig(params(typs[24]), params(typs[134]))
+	typs[136] = newSig(params(typs[62]), params(typs[20]))
+	typs[137] = newSig(params(typs[26], typs[26]), params(typs[26]))
+	typs[138] = newSig(nil, params(typs[5]))
+	typs[139] = newSig(params(typs[5], typs[5]), nil)
+	typs[140] = newSig(params(typs[5], typs[5], typs[5]), nil)
+	typs[141] = newSig(params(typs[7], typs[1], typs[5]), nil)
+	typs[142] = types.NewSlice(typs[7])
+	typs[143] = newSig(params(typs[7], typs[142]), nil)
+	typs[144] = newSig(params(typs[66], typs[66]), nil)
+	typs[145] = newSig(params(typs[60], typs[60]), nil)
+	typs[146] = newSig(params(typs[62], typs[62]), nil)
+	typs[147] = newSig(params(typs[24], typs[24]), nil)
 	return typs[:]
 }
