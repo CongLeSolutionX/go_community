@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28f5f080_24ad9157",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T01:24:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed69c306_8163c321",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd3c39e5_62a804f8",
@@ -99,6 +123,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04e3c756_7813fb37",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T01:24:01Z",
+      "side": 1,
+      "message": "I\u0027d like to, but there\u0027s a \"gap\" between when we determine modRoots (in Init) and when we load them (in LoadModfile) and since Init is called in so many different places, it\u0027s hard to tell what\u0027s available when. So we have to stash away at least something away from when we parse the mod file so it\u0027s available when we call LoadModFile.\n\nMaybe we can specify that those values are not to be accessed, and then pass them into makeMainModules?",
+      "parentUuid": "4abc3d1c_f4b7ecfe",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b01bea55_eac66b4c",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 2
@@ -110,6 +152,24 @@
       "writtenOn": "2021-10-04T18:19:19Z",
       "side": 1,
       "message": "Why is the nil check needed? Some methods have it, others don\u0027t. I assume this is for command-line-arguments? Could we make MainModuleSet have a useful zero value instead?",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e63ef3f3_317ab95b",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T01:24:01Z",
+      "side": 1,
+      "message": "The MainModuleSet exists for command-line-arguments, but the function is called before modload.Init. Alternatively, we can check on the caller side if we\u0027ve done modload.Init?",
+      "parentUuid": "b01bea55_eac66b4c",
       "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -131,6 +191,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aa79d13_3de86a3d",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T01:24:01Z",
+      "side": 1,
+      "message": "Won\u0027t the map access be treated as single value unless it\u0027s explicitly assigned?",
+      "parentUuid": "d285bfd5_4a9ce1f0",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab7c9eae_4cf0ded0",
@@ -144,6 +222,30 @@
       "writtenOn": "2021-10-04T18:19:19Z",
       "side": 1,
       "message": "Can we recommend a specific command? \u0027go mod editwork -replace\u003dsomething\u0027?",
+      "range": {
+        "startLine": 968,
+        "startChar": 68,
+        "endLine": 968,
+        "endChar": 125
+      },
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f77c881_72b0438a",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T01:24:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab7c9eae_4cf0ded0",
       "range": {
         "startLine": 968,
         "startChar": 68,
@@ -173,6 +275,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a6a49873_41f15f91",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T01:24:01Z",
+      "side": 1,
+      "message": "Hm, one of the reasons I think it makes sense for it not to be is that sometimes we want to call it with the workfile\u0027s replacements (line 342 in this patch set) and sometimes with the mod file\u0027s replacements. I don\u0027t know if there\u0027s an interface that fits well so we have a single type to key both the workspace and individual modules?",
+      "parentUuid": "5833767a_ee09c1b3",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bbbfffb3_d7c1aa40",
         "filename": "src/cmd/go/internal/modload/modfile.go",
         "patchSetId": 2
@@ -184,6 +304,24 @@
       "writtenOn": "2021-10-04T18:19:19Z",
       "side": 1,
       "message": "Is it no longer an error if a single go.mod contains conflicting replacements?",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012048b8_c1ea9710",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-06T01:24:01Z",
+      "side": 1,
+      "message": "Ah, good catch! I restored the error from the original version of this code.",
+      "parentUuid": "bbbfffb3_d7c1aa40",
       "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
