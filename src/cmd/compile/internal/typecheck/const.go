@@ -325,8 +325,7 @@ func toint(v constant.Value) constant.Value {
 	}
 
 	// Prevent follow-on errors.
-	// TODO(mdempsky): Use constant.MakeUnknown() instead.
-	return constant.MakeInt64(1)
+	return constant.MakeUnknown()
 }
 
 // overflow reports whether constant value v is too large
