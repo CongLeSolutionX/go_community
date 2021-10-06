@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf046c3a_20e04e8d",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-06T15:26:32Z",
+      "side": 1,
+      "message": "Thanks. Changed to \u0027Cut slices\u0027.",
+      "parentUuid": "86164d9e_91212477",
+      "revId": "9605e30c7a7e1b6adc45fc6bb8e6ec843e64bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8aa5a9f3_aef723bc",
