@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "edb00104_5fa4cc8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-07T13:17:29Z",
+      "side": 1,
+      "message": "Explain the AIX comment -- does this apply to AIX at all?",
+      "revId": "1cff98a77e8cdc3d85c38d842625b5aa92292765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2685502_4a20ea7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-07T13:17:29Z",
+      "side": 1,
+      "message": "This paragraph confuses me.\n- What call relocations do you mean? In call instructions or in other places like PLTs? And what about calls to non-local functions? Are you saying they will have a local function entry point too?\n- I don\u0027t know what you are referring to when you say \"this is assumed to be 8 bytes in go\".\n- I don\u0027t know what is being accounted for when you say external symbols already account for this. And I assume you are just referring to external functions and not all external symbols (but not sure.)",
+      "revId": "1cff98a77e8cdc3d85c38d842625b5aa92292765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cae3bf9_f9137b67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-07T13:17:29Z",
+      "side": 1,
+      "message": "It concerns me to see PPC instead of PPC64 because that makes it seem like you mean ppc32.",
+      "revId": "1cff98a77e8cdc3d85c38d842625b5aa92292765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "52ffd37a_6a6d48d5",
