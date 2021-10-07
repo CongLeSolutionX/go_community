@@ -6609,3 +6609,28 @@ func testQuerySemicolon(t *testing.T, query string, wantX string, allowSemicolon
 		}
 	}
 }
+
+// Issue 48642: close accepted connection
+func TestServerCloseAccepted(t *testing.T) {
+	closed := 0
+	conn := &rwTestConn{
+		closeFunc: func() error {
+			closed++
+			return nil
+		},
+	}
+	ln := &oneConnListener{conn: conn}
+	var srv Server
+	// Use ConnContext to close server after connection is accepted but before it is tracked
+	srv.ConnContext = func(ctx context.Context, c net.Conn) context.Context {
+		srv.Close()
+		return ctx
+	}
+	got := srv.Serve(ln)
+	if got != ErrServerClosed {
+		t.Errorf("Serve err = %v; want ErrServerClosed", got)
+	}
+	if closed != 1 {
+		t.Errorf("Connection expected to be closed")
+	}
+}
