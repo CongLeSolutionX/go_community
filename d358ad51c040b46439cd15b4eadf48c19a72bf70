@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65af768d_5878e88f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-07T20:02:00Z",
+      "side": 1,
+      "message": "Done. I just wanted to make it clear that [override] is a placeholder and not a literal.",
+      "parentUuid": "22eed635_60c2839c",
+      "range": {
+        "startLine": 969,
+        "startChar": 115,
+        "endLine": 969,
+        "endChar": 137
+      },
+      "revId": "d358ad51c040b46439cd15b4eadf48c19a72bf70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c789b12_73ddd86f",
@@ -74,6 +98,24 @@
       "writtenOn": "2021-10-06T20:44:33Z",
       "side": 1,
       "message": "Will this be confusing / ambiguous if the same directory contains both a go.work file and a go.mod file?",
+      "revId": "d358ad51c040b46439cd15b4eadf48c19a72bf70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "563a1989_47269cfa",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-07T20:02:00Z",
+      "side": 1,
+      "message": "I\u0027m now going to return the file itself, so we can distinguish on the caller side where it\u0027s from. We mostly only care about the directory, but this\u0027ll make it less likely we drop something on the floor.",
+      "parentUuid": "3c789b12_73ddd86f",
       "revId": "d358ad51c040b46439cd15b4eadf48c19a72bf70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -95,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f01c1939_4d07e523",
+        "filename": "src/cmd/go/testdata/script/work_replace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-07T20:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fa6cd9a_842ef25f",
+      "revId": "d358ad51c040b46439cd15b4eadf48c19a72bf70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95831f25_57c580eb",
@@ -108,6 +168,30 @@
       "writtenOn": "2021-10-06T20:44:33Z",
       "side": 1,
       "message": "(nit) For errors that suggest some command to resolve a problem, I like for the same test to then run the suggested command and demonstrate that the problem is resolved.\n\n(I\u0027ve written too many buggy suggestion-errors, and that way it\u0027s easier to notice if we change the actual command without updating the error text or vice-versa.)",
+      "range": {
+        "startLine": 5,
+        "startChar": 90,
+        "endLine": 5,
+        "endChar": 149
+      },
+      "revId": "d358ad51c040b46439cd15b4eadf48c19a72bf70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f01efed_58dcee99",
+        "filename": "src/cmd/go/testdata/script/work_replace_conflict.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-07T20:02:00Z",
+      "side": 1,
+      "message": "yup, this was a buggy suggestion-error!\nthanks!\n\nfixed!!",
+      "parentUuid": "95831f25_57c580eb",
       "range": {
         "startLine": 5,
         "startChar": 90,

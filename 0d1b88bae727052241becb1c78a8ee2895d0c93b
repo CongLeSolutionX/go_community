@@ -266,6 +266,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3a84267_80fea996",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-10-07T20:02:00Z",
+      "side": 1,
+      "message": "Here\u0027s one trace into modload.lookupRepo, which calls highestReplaced:\n\n      cmd/go/internal/modload.lookupRepo({0xc000028038, 0x1a}, {0x7ff7bfeff954, 0x11})\n            \t/Users/matloob/devgo/src/cmd/go/internal/modload/query.go:1000 +0x199 fp\u003d0xc0000d4b88 sp\u003d0xc0000d4b18 pc\u003d0x13e0a19\n            cmd/go/internal/modload.queryProxy({0x1678040, 0xc0000000e8}, {0xc000028038, 0x1a}, {0x7ff7bfeff954, 0x7ff7bfeff954}, {0x7ff7bfeff966, 0x0}, {0x1597054, 0x4}, ...)\n            \t/Users/matloob/devgo/src/cmd/go/internal/modload/query.go:125 +0x50b fp\u003d0xc0000d4dc8 sp\u003d0xc0000d4b88 pc\u003d0x13d9a2b\n            cmd/go/internal/modload.QueryPattern.func4.1({0x1678040, 0xc0000000e8}, {0x7ff7bfeff954, 0x11})\n            \t/Users/matloob/devgo/src/cmd/go/internal/modload/query.go:656 +0x216 fp\u003d0xc0000d4f20 sp\u003d0xc0000d4dc8 pc\u003d0x13de2f6\n            cmd/go/internal/modload.queryPrefixModules.func1({0x7ff7bfeff954, 0x0}, 0xc000224000)\n            \t/Users/matloob/devgo/src/cmd/go/internal/modload/query.go:752 +0x63 fp\u003d0xc0000d4fb8 sp\u003d0xc0000d4f20 pc\u003d0x13dfc63\n            cmd/go/internal/modload.queryPrefixModules.func3()\n            \t/Users/matloob/devgo/src/cmd/go/internal/modload/query.go:754 +0x32 fp\u003d0xc0000d4fe0 sp\u003d0xc0000d4fb8 pc\u003d0x13dfbd2\n            runtime.goexit()\n            \t/Users/matloob/devgo/src/runtime/asm_amd64.s:1446 +0x1 fp\u003d0xc0000d4fe8 sp\u003d0xc0000d4fe0 pc\u003d0x1064721\n            created by cmd/go/internal/modload.queryPrefixModules\n            \t/Users/matloob/devgo/src/cmd/go/internal/modload/query.go:751 +0x912",
+      "parentUuid": "896bf37f_dd517337",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d285bfd5_4a9ce1f0",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 2
