@@ -81,6 +81,7 @@ var _ TB = (*F)(nil)
 type corpusEntry = struct {
 	Parent     string
 	Name       string
+	Path       string
 	Data       []byte
 	Values     []interface{}
 	Generation int
@@ -470,7 +471,10 @@ func (f *F) Fuzz(ff interface{}) {
 		// Fuzzing is not enabled, or will be done later. Only run the seed
 		// corpus now.
 		for _, e := range f.corpus {
-			run(e)
+			name := fmt.Sprintf("%s/%s", f.name, e.Name)
+			if _, ok, _ := f.testContext.match.fullName(nil, name); ok {
+				run(e)
+			}
 		}
 	}
 }
