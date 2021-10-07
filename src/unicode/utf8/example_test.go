@@ -214,3 +214,13 @@ func ExampleValidString() {
 	// true
 	// false
 }
+
+func ExampleAppendRune() {
+	buf1 := AppendRune(nil, 0x10000)
+	buf2 := AppendRune("init", 0x10000)
+	fmt.Println(string(buf1))
+	fmt.Println(string(buf2))
+	// Output:
+	// 𐀀
+	// init𐀀
+}
