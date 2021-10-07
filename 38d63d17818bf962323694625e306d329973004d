@@ -16,6 +16,87 @@
       "message": "👋 Hello,\n\nIdk if it is rude to assign your own reviewers or not. Apologizes if so. \n\nThanks!",
       "revId": "38d63d17818bf962323694625e306d329973004d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9762129a_fe98aeb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-07T18:20:08Z",
+      "side": 1,
+      "message": "Not at all. We have a bot that auto-assigns reviewers after a few minutes based on the package, but it looks like we neglected to give it assignees for this package. Sorry about that! Sent CL 354649 to fix it.",
+      "parentUuid": "28b2d142_5c4d295a",
+      "revId": "38d63d17818bf962323694625e306d329973004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18a23d50_7cd0336a",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-07T18:20:08Z",
+      "side": 1,
+      "message": "Rather than making this a separate transformation, I\u0027d suggest moving this into minimizeBytes. For many functions, the distinction between []byte and string is just whether the underlying data are mutable or constant. For both, I think it\u0027s preferable if the text is human-readable.",
+      "revId": "38d63d17818bf962323694625e306d329973004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f7613ab_49c62234",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-07T18:20:08Z",
+      "side": 1,
+      "message": "This allocates an extra string, but it also adds more work to the loop, converting invalid sequences to the unicode replacement character 0xFFFD. There\u0027s also some danger below in replacing multi-byte characters with single byte characters without removing the trailing bytes.\n\nI think this can be simplified by looping over v and replacing sequences outside the printable ASCII range with a replacement ASCII character like \u0027?\u0027. v very likely does not contain valid UTF-8, so just look for sequences of bytes with the high bit set and bytes less than 32.",
+      "range": {
+        "startLine": 89,
+        "startChar": 19,
+        "endLine": 89,
+        "endChar": 28
+      },
+      "revId": "38d63d17818bf962323694625e306d329973004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b0b07a7_dbcf6b27",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-07T18:20:08Z",
+      "side": 1,
+      "message": "Nit: use character literals like \u00270\u0027 instead of numbers, here and below.",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 24
+      },
+      "revId": "38d63d17818bf962323694625e306d329973004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
