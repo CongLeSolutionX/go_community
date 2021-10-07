@@ -153,6 +153,30 @@
       },
       "revId": "2813c8c63d0efecbfc256c636f8602febd09da47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19a60438_6d29d4f7",
+        "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-07T21:23:45Z",
+      "side": 1,
+      "message": "go/parser is not yet updated for #48424, just cmd/compile/internal/syntax. I can do that tomorrow.",
+      "parentUuid": "22478a1f_8d61187d",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "2813c8c63d0efecbfc256c636f8602febd09da47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
