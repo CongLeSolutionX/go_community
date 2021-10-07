@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75e8bdb9_4fe739cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54069
+      },
+      "writtenOn": "2021-10-07T05:36:14Z",
+      "side": 1,
+      "message": "On my previous change I made a mistake in the IsSpace example, sorry.",
+      "revId": "9ed0b8c9f5909cbf6fbf17b5160e5eb057ef4417",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
