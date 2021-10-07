@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6067d51c_0477d38e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-07T20:49:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5e817d0_35913453",
+      "revId": "7ac942d09b972a7011e758c9a8ef57bbe6a560d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1ccb7ed_fcf18a53",
@@ -74,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8ebb90a_a858395c",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3041,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-07T20:49:12Z",
+      "side": 1,
+      "message": "newConn seems to be exported and I am not sure we can change it",
+      "parentUuid": "0fa221f7_37eea5f0",
+      "revId": "7ac942d09b972a7011e758c9a8ef57bbe6a560d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d70e16c_fb9fd55a",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -85,6 +121,24 @@
       "writtenOn": "2021-10-07T19:47:30Z",
       "side": 1,
       "message": "Return an error (ErrServerClosed) instead of a bool. Clearer than remembering what the bool means.",
+      "revId": "7ac942d09b972a7011e758c9a8ef57bbe6a560d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f897f55c_4cf4a7cd",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3119,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-07T20:49:12Z",
+      "side": 1,
+      "message": "This is similar to trackListener.\n\nIt could return error but then at the call site:\n- if we propagate it - its not clear without looking here that err is ErrServerClosed\n- if return ErrServerClosed it is not clear what kind of error was ignored",
+      "parentUuid": "0d70e16c_fb9fd55a",
       "revId": "7ac942d09b972a7011e758c9a8ef57bbe6a560d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

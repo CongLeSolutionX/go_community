@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34174a83_cac5fb07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-07T20:49:12Z",
+      "side": 1,
+      "message": "I have updated commit message, rebased on top of latest master and force pushed to my github fork branch. Its my first gerrit experience, e.g. I do not see commit message has changed but I see it update here https://github.com/golang/go/pull/48753/commits",
+      "revId": "4030d85ffbd1fc81eb453fafcc077edc7fdca912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
