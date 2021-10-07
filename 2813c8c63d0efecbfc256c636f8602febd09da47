@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1a620d2_8c344d8e",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-07T22:24:31Z",
+      "side": 1,
+      "message": "Ack.  I\u0027ll save cleanups for a different CL.",
+      "parentUuid": "1468f0d5_a9878030",
+      "range": {
+        "startLine": 801,
+        "startChar": 22,
+        "endLine": 801,
+        "endChar": 25
+      },
+      "revId": "2813c8c63d0efecbfc256c636f8602febd09da47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18419beb_3cd09d70",
