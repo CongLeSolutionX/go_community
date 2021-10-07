@@ -40,6 +40,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1468f0d5_a9878030",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-07T21:19:57Z",
+      "side": 1,
+      "message": "this is not your code, but this can be simplified to\n\nbuf.WriteString(obj.Name())",
+      "range": {
+        "startLine": 801,
+        "startChar": 22,
+        "endLine": 801,
+        "endChar": 25
+      },
+      "revId": "2813c8c63d0efecbfc256c636f8602febd09da47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18419beb_3cd09d70",
+        "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-07T21:19:57Z",
+      "side": 1,
+      "message": "We probably should not expose internals of the implementation here and print _ rather than 0_ . I\u0027ll have a look to see where we leak this.",
+      "range": {
+        "startLine": 2,
+        "startChar": 21,
+        "endLine": 2,
+        "endChar": 23
+      },
+      "revId": "2813c8c63d0efecbfc256c636f8602febd09da47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68486d13_a407fad5",
         "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
         "patchSetId": 1
@@ -74,6 +120,30 @@
       "writtenOn": "2021-10-07T21:18:12Z",
       "side": 1,
       "message": "Good point.  Added type parameters for named types.\n\nAnd, yes, this doesn\u0027t parse:\n\n    func CloneSlice[S ~[]T, T any](s S) S {\n\treturn append(S(nil), s...)\n    }\n\nDo we need to update go/parser?",
+      "parentUuid": "68486d13_a407fad5",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "2813c8c63d0efecbfc256c636f8602febd09da47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22478a1f_8d61187d",
+        "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-07T21:19:57Z",
+      "side": 1,
+      "message": "agreed",
       "parentUuid": "68486d13_a407fad5",
       "range": {
         "startLine": 4,
