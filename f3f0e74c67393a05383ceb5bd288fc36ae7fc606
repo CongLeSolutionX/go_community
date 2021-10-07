@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fca0744_24da4d4f",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-07T19:01:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c0904c5_3ab48c73",
+      "revId": "f3f0e74c67393a05383ceb5bd288fc36ae7fc606",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7c09c38_e942fbb3",
@@ -87,6 +105,24 @@
       "writtenOn": "2021-10-06T23:54:02Z",
       "side": 1,
       "message": "This isn\u0027t what I expected.  I expected that before the loop we would have\n\nif w, ok :\u003d b.wr.(io.ReaderFrom); ok {\n    if err :\u003d b.Flush(); err !\u003d nil {\n        return 0, err\n    }\n    n, err \u003d w.ReadFrom(r)\n    b.err \u003d err\n    return n, err\n}\n\nand then not change anything in the loop.  Is there some advantage to doing some reads to fill the buffer before we call ReadFrom?",
+      "revId": "f3f0e74c67393a05383ceb5bd288fc36ae7fc606",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "967eb405_6159008b",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-07T19:01:38Z",
+      "side": 1,
+      "message": "Consider the case where we write one byte with Write, and copy one byte with ReadFrom. Filling the buffer before switching to ReadFrom ensures that we make a single 2-byte write to the underlying Writer.\n\nMy assumption is that it is more important to maximize the size of writes (since that\u0027s the entire purpose of a buffered writer) than to minimize the number of reads.\n\nTo put it another way: The approach I have here preserves the property that every write to the underlying writer save the last is for the full buffer size.",
+      "parentUuid": "b7c09c38_e942fbb3",
       "revId": "f3f0e74c67393a05383ceb5bd288fc36ae7fc606",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
