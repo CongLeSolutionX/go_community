@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0232eaf5_3fe30440",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-10-07T09:22:04Z",
+      "side": 1,
+      "message": "unicode: use IsSpace not IsUpper in IsSpace example test",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "7afc943ec87450a5b1bb3176249a9e12afcb00c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be72cb0b_fd2b735e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-10-07T09:22:04Z",
+      "side": 1,
+      "message": "Thank you for this change, Pedro! Please update the commit subject, but otherwise LGTM.",
+      "revId": "7afc943ec87450a5b1bb3176249a9e12afcb00c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
