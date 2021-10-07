@@ -800,12 +800,18 @@ func (w *Walker) writeType(buf *bytes.Buffer, typ types.Type) {
 		}
 		buf.WriteString(typ.Obj().Name())
 
+	case *types.TypeParam:
+		buf.WriteString(typ.Obj().Name())
+
 	default:
 		panic(fmt.Sprintf("unknown type %T", typ))
 	}
 }
 
 func (w *Walker) writeSignature(buf *bytes.Buffer, sig *types.Signature) {
+	if tparams := sig.TypeParams(); tparams != nil {
+		w.writeTypeParams(buf, tparams)
+	}
 	w.writeParams(buf, sig.Params(), sig.Variadic())
 	switch res := sig.Results(); res.Len() {
 	case 0:
@@ -817,6 +823,21 @@ func (w *Walker) writeSignature(buf *bytes.Buffer, sig *types.Signature) {
 		buf.WriteByte(' ')
 		w.writeParams(buf, res, false)
 	}
+}
+
+func (w *Walker) writeTypeParams(buf *bytes.Buffer, tparams *types.TypeParamList) {
+	buf.WriteByte('[')
+	c := tparams.Len()
+	for i := 0; i < c; i++ {
+		if i > 0 {
+			buf.WriteString(", ")
+		}
+		tp := tparams.At(i)
+		buf.WriteString(tp.Obj().Name())
+		buf.WriteByte(' ')
+		w.writeType(buf, tp.Constraint())
+	}
+	buf.WriteByte(']')
 }
 
 func (w *Walker) writeParams(buf *bytes.Buffer, t *types.Tuple, variadic bool) {
@@ -872,6 +893,12 @@ func (w *Walker) emitObj(obj types.Object) {
 
 func (w *Walker) emitType(obj *types.TypeName) {
 	name := obj.Name()
+	if tparams := obj.Type().(*types.Named).TypeParams(); tparams != nil {
+		var buf bytes.Buffer
+		buf.WriteString(name)
+		w.writeTypeParams(&buf, tparams)
+		name = buf.String()
+	}
 	typ := obj.Type()
 	if obj.IsAlias() {
 		w.emitf("type %s = %s", name, w.typeString(typ))
@@ -995,7 +1022,13 @@ func (w *Walker) emitMethod(m *types.Selection) {
 			log.Fatalf("exported method with unexported receiver base type: %s", m)
 		}
 	}
-	w.emitf("method (%s) %s%s", w.typeString(recv), m.Obj().Name(), w.signatureString(sig))
+	tps := ""
+	if rtp := sig.RecvTypeParams(); rtp != nil {
+		var buf bytes.Buffer
+		w.writeTypeParams(&buf, rtp)
+		tps = buf.String()
+	}
+	w.emitf("method (%s%s) %s%s", w.typeString(recv), tps, m.Obj().Name(), w.signatureString(sig))
 }
 
 func (w *Walker) emitf(format string, args ...interface{}) {
