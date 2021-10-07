@@ -16,6 +16,24 @@
       "message": "This test is broken on the softfloat builder:\nhttps://build.golang.org/log/9d014e9b211148299826600400d1d20d44eae24e",
       "revId": "2043b3b47b3ca76d8ce44f05a77e48d2291b6fc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1287f689_f119458b",
+        "filename": "src/runtime/float_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-07T20:32:30Z",
+      "side": 1,
+      "message": "Fix for softfloat in CL 354613",
+      "parentUuid": "a335eca2_fdf7f782",
+      "revId": "2043b3b47b3ca76d8ce44f05a77e48d2291b6fc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
