@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b69242ab_42d6dea0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-07T18:48:25Z",
+      "side": 1,
+      "message": "At the very least I found it pretty surprising: I ran `go tool dist test -list` to try to figure out what to run to reproduce the failure; the only thing it turned up was `test:0_1`, and `go tool dist test test:0_1` passed.",
+      "parentUuid": "6ec10bfb_477971ad",
+      "revId": "22212528e03476e958c6e81a44d34f4a8c17742e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2a4105a6_b7e38fa7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
