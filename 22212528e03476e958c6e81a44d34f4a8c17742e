@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ec10bfb_477971ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-07T18:36:13Z",
+      "side": 1,
+      "message": "We used to always run run.go w/ both -G\u003d0 and -G\u003d3, up until we switched the default. Since switching the default to -G\u003d3, we only test -G\u003d0 on longtest. We can change this logic if it\u0027s causing problems.",
+      "parentUuid": "7df24823_a90b3dcf",
+      "revId": "22212528e03476e958c6e81a44d34f4a8c17742e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2a4105a6_b7e38fa7",
