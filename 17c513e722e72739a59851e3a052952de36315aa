@@ -33,6 +33,23 @@
       "message": "There\u0027s a fix already out for review: https://go-review.googlesource.com/c/go/+/354353",
       "revId": "17c513e722e72739a59851e3a052952de36315aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa942414_4557615b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-07T00:20:43Z",
+      "side": 1,
+      "message": "This CL seem to have broken the amd64 noopt build.",
+      "revId": "17c513e722e72739a59851e3a052952de36315aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
