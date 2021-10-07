@@ -109,6 +109,24 @@
       "message": "The case that would be bad here is if the exact a/b is barely above the halfway point between two float32s. The div64 would then round to exactly halfway between the two float32s, and the f64-\u003ef32 conversion then rounds down to even.\n\n\"barely\" is hard here, as we need a/b to be less than half a float64 epsilon away from a float32 halfway point, when a and b are float32s. Not sure if that is possible.",
       "revId": "c0359762184f50c168ff74e8cea83a0c95b5cf48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b47000f2_218a76d6",
+        "filename": "src/runtime/softfloat64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-07T21:22:38Z",
+      "side": 1,
+      "message": "This reference: https://blog.mozilla.org/javascript/2013/11/07/efficient-float32-arithmetic-in-javascript/\nclaims that there\u0027s no double-rounding problem with divide.",
+      "parentUuid": "9321ea36_83c8c5ae",
+      "revId": "c0359762184f50c168ff74e8cea83a0c95b5cf48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
