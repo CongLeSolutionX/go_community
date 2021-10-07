@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "67b76358_4629add9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-07T20:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04a138e6_87393291",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "31507efd009ab25a992fc0d0b12ef01ee93aeb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "efbb4c0c_010cb027",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -82,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9155fb31_dc666478",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-07T20:57:00Z",
+      "side": 1,
+      "message": "OK, nice, I see we use pkg.Prefix in types.pkgqual(), so yes, I should use that here.  And I substituted using the extra dot to avoid the ambiguity that you mentioned.",
+      "parentUuid": "d6f4f5de_29aba66a",
+      "range": {
+        "startLine": 199,
+        "startChar": 36,
+        "endLine": 199,
+        "endChar": 44
+      },
+      "revId": "31507efd009ab25a992fc0d0b12ef01ee93aeb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1dffdcf7_80a1e7d3",
@@ -95,6 +143,24 @@
       "writtenOn": "2021-10-06T20:28:42Z",
       "side": 1,
       "message": "As discussed earlier, I\u0027d also lean towards keeping this as a space. I\u0027m for pruning out unneeded spaces to trim binary size, but I think it\u0027s nice to keep things valid Go syntax. We\u0027ve had spaces in linker symbols for a while now, and we\u0027ve not run into issues with them yet.",
+      "revId": "31507efd009ab25a992fc0d0b12ef01ee93aeb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d788ec8b_e4b45e2a",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-07T20:57:00Z",
+      "side": 1,
+      "message": "I think I\u0027m going to stay with using \u0027#\u0027 just to try it out, for now, and get feedback from the dlv folks.  We can easily change this back anytime in the next few weeks if we find that have a space seems better for some reason.",
+      "parentUuid": "1dffdcf7_80a1e7d3",
       "revId": "31507efd009ab25a992fc0d0b12ef01ee93aeb6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
