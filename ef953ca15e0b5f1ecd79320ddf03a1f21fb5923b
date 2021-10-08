@@ -148,6 +148,24 @@
       "parentUuid": "1d03ae04_389b549e",
       "revId": "ef953ca15e0b5f1ecd79320ddf03a1f21fb5923b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2660ea9f_948d82b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-08T21:07:01Z",
+      "side": 1,
+      "message": "Fixed in this patchset.",
+      "parentUuid": "5979a69b_d1496519",
+      "revId": "ef953ca15e0b5f1ecd79320ddf03a1f21fb5923b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
