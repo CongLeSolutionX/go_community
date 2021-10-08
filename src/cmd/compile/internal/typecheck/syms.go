@@ -83,6 +83,30 @@ func InitRuntime() {
 	}
 }
 
+func InitCoverage(pkg *types.Pkg) {
+	typs := coverageTypes()
+	for _, d := range &coverageDecls {
+		sym := pkg.Lookup(d.name)
+		typ := typs[d.typ]
+		switch d.tag {
+		case funcTag:
+			importfunc(src.NoXPos, sym, typ)
+		case varTag:
+			importvar(src.NoXPos, sym, typ)
+		default:
+			base.Fatalf("unhandled declaration tag %v", d.tag)
+		}
+	}
+}
+
+func LookupCoverage(pkg *types.Pkg, name string) *ir.Name {
+	sym := pkg.Lookup(name)
+	if sym == nil {
+		base.Fatalf("LookupCoverageFcn: can't find runtime/coverage.%s", name)
+	}
+	return ir.AsNode(sym.Def).(*ir.Name)
+}
+
 // LookupRuntimeFunc looks up Go function name in package runtime. This function
 // must follow the internal calling convention.
 func LookupRuntimeFunc(name string) *obj.LSym {
@@ -99,4 +123,11 @@ func LookupRuntimeVar(name string) *obj.LSym {
 // LookupRuntimeABI looks up a name in package runtime using the given ABI.
 func LookupRuntimeABI(name string, abi obj.ABI) *obj.LSym {
 	return base.PkgLinksym("runtime", name, abi)
+}
+
+// LookupCoverageFunc looks up Go function name in package
+// runtime/coverage. This function must follow the internal calling
+// convention.
+func LookupCoverageFunc(name string) *obj.LSym {
+	return base.PkgLinksym("coverage", name, obj.ABIInternal)
 }

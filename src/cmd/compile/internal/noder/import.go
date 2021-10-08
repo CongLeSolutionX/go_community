@@ -58,7 +58,7 @@ func (m *gcimports) ImportFrom(path, srcDir string, mode types2.ImportMode) (*ty
 		panic("mode must be 0")
 	}
 
-	_, pkg, err := readImportFile(path, typecheck.Target, m.ctxt, m.packages)
+	_, pkg, err := ReadImportFile(path, typecheck.Target, m.ctxt, m.packages)
 	return pkg, err
 }
 
@@ -180,10 +180,10 @@ func resolveImportPath(path string) (string, error) {
 	return path, nil
 }
 
-// readImportFile reads the import file for the given package path and
+// ReadImportFile reads the import file for the given package path and
 // returns its types.Pkg representation. If packages is non-nil, the
 // types2.Package representation is also returned.
-func readImportFile(path string, target *ir.Package, env *types2.Context, packages map[string]*types2.Package) (pkg1 *types.Pkg, pkg2 *types2.Package, err error) {
+func ReadImportFile(path string, target *ir.Package, env *types2.Context, packages map[string]*types2.Package) (pkg1 *types.Pkg, pkg2 *types2.Package, err error) {
 	path, err = resolveImportPath(path)
 	if err != nil {
 		return
