@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6304beb8_8a28e843",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2207,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Partially done. I\u0027ve changed this so that VCS info is stamped if the main package is in a main module, and both that module and the working directory are in the same repository. If those conditions aren\u0027t satisfied, VCS is skipped (no error).\n\nI don\u0027t think we should accommodate more than that. Modules and repositories don\u0027t necessarily correspond: you could have multiple repositories in a module, especially with Git submodules. If someone really is building out of multiple local repositories, I think our recommendation should be to use regular module requirements to get clean version information.",
+      "parentUuid": "d7ba580e_03ca6a84",
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "604e157c_c78a32ea",
@@ -106,6 +124,24 @@
       "writtenOn": "2021-10-07T21:10:54Z",
       "side": 1,
       "message": "If the vcs status command fails, I would prefer that we fail the build instead of silently omitting the debug information.\n\nOtherwise it seems much to easy to accidentally release an unstamped binary by, for example, running on a machine on which the user has forgotten to install or configure the VCS tool.\n\n(They can always bypass the error with `-buildvcs\u003dfalse` if they really don\u0027t care about the VCS metadata.)",
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8ce37d_832d254a",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2273,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "604e157c_c78a32ea",
       "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -127,6 +163,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94165f5d_f06c419c",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffe17744_41683cba",
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b672aebc_83708ec8",
@@ -140,6 +194,30 @@
       "writtenOn": "2021-10-07T21:10:54Z",
       "side": 1,
       "message": "How does this differ from the existing FromDir function? (And are there cases considered in that function that we also need to consider here, or does the lack of srcRoot make things simpler?)",
+      "range": {
+        "startLine": 822,
+        "startChar": 0,
+        "endLine": 827,
+        "endChar": 32
+      },
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "171b136b_449a784a",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Embarrassed to say I missed the existence of this function, even though I should have known it existed from GOPATH get. Not thinking clearly.\n\nFromDir was pretty specific to GOPATH get, but I\u0027ve adapted it to work here and pulled out some GOPATH specific code.",
+      "parentUuid": "b672aebc_83708ec8",
       "range": {
         "startLine": 822,
         "startChar": 0,
@@ -173,6 +251,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f11d76d0_de6d6189",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Deleted",
+      "parentUuid": "f512e420_dedae39c",
+      "range": {
+        "startLine": 841,
+        "startChar": 0,
+        "endLine": 845,
+        "endChar": 3
+      },
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50cc6277_c0d45300",
@@ -186,6 +288,24 @@
       "writtenOn": "2021-10-07T21:10:54Z",
       "side": 1,
       "message": "filepath.FromSlash, or perhaps filepath.Clean (if we want to accept both slashes and backslashes)?\n\n(Or are both of those unsuitable? If so, a comment would be helpful.)",
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1aafe4b_be151512",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50cc6277_c0d45300",
       "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -207,6 +327,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e06adc8e_20d8dee8",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Yeah, I looked for it in os/exec and internal/execabs but was disappointed.\n\nI had a misconception that the lookup was done with PATH in the new process\u0027s environment rather than the parent process. It surprised me this was even needed.",
+      "parentUuid": "8d12b558_b74d7757",
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a9d2638_ce490ced",
@@ -224,6 +362,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d26ed5fc_bc749013",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a9d2638_ce490ced",
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f295b45_ce747eea",
@@ -237,6 +393,30 @@
       "writtenOn": "2021-10-07T21:10:54Z",
       "side": 1,
       "message": "I feel like there\u0027s gotta be a more efficient way to do this than statting every possible extension in each directory. 😅\n\n(Maybe `os.ReadDir(dir)` and then stat only the files with matching names? Or leave a TODO and I\u0027ll follow up.)",
+      "range": {
+        "startLine": 1181,
+        "startChar": 0,
+        "endLine": 1186,
+        "endChar": 4
+      },
+      "revId": "84529dc848d69de4282b92cead6ed7d678c31e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "057ded78_46b59028",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-08T22:05:31Z",
+      "side": 1,
+      "message": "Done, also handled case insensitve matches.\n\nBut we actually do stat each extension in each directory on Windows. It costs a lot because of antivirus. See golang.org/issue/36768.",
+      "parentUuid": "8f295b45_ce747eea",
       "range": {
         "startLine": 1181,
         "startChar": 0,
