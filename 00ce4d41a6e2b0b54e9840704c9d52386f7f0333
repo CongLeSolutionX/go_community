@@ -16,6 +16,23 @@
       "message": "Thank you for your advice, I rewrite the example, please CR again.",
       "revId": "00ce4d41a6e2b0b54e9840704c9d52386f7f0333",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb7051b1_ba70f42e",
+        "filename": "src/embed/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-08T18:03:44Z",
+      "side": 1,
+      "message": "I think we should consider providing the example code with no Output statement, so that the example is not actually run.\n\nIf we really really want to run the example, we can\u0027t assume that port 8080 is available; we have to pick a port.  And sleeping for a second to wait for the server to start up is not going to be reliable in practice; we need to instead call net.Listen and http.Server.Serve, and let the http.Get calls start after the net.Listen completes.",
+      "revId": "00ce4d41a6e2b0b54e9840704c9d52386f7f0333",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
