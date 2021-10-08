@@ -109,6 +109,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "019e148d_578451ad",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-08T15:09:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d015d9_0146c9ca",
+      "revId": "5b398bd5ddf611cc4422a2c62c8bf46e83dc1f35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40363eb7_df19f649",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-08T15:09:30Z",
+      "side": 1,
+      "message": "Going to go ahead and do this and a few other small refactors of name/path in a follow-up CL since I ended up needing to make a number of changes. I think it\u0027ll be easier to review that way.",
+      "parentUuid": "28d015d9_0146c9ca",
+      "revId": "5b398bd5ddf611cc4422a2c62c8bf46e83dc1f35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d56cd07_f9d470e5",
@@ -122,6 +158,42 @@
       "writtenOn": "2021-10-07T23:48:09Z",
       "side": 1,
       "message": "Optional: maybe now this should accept a *CorpusEntry, and it should set e.Path instead of returning the name.",
+      "revId": "5b398bd5ddf611cc4422a2c62c8bf46e83dc1f35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "861a917d_07c48114",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-08T15:09:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d56cd07_f9d470e5",
+      "revId": "5b398bd5ddf611cc4422a2c62c8bf46e83dc1f35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e54da36_17e8a714",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-08T15:09:30Z",
+      "side": 1,
+      "message": "Will do this in the follow-up CL too.",
+      "parentUuid": "5d56cd07_f9d470e5",
       "revId": "5b398bd5ddf611cc4422a2c62c8bf46e83dc1f35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
