@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "828377b1_905db2f9",
+        "filename": "src/strings/clone_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-10-08T16:26:47Z",
+      "side": 1,
+      "message": "stringSink is already declared as a global variable in strings_test.go.\n\nAs Ian already asked: Why make this change? What is not working in the current code?",
+      "revId": "0a8c341e6b4a05f9893a110d861498f209d05fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
