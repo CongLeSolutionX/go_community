@@ -373,7 +373,7 @@ func (p *noder) importDecl(imp *syntax.ImportDecl) {
 		p.checkUnused(pragma)
 	}
 
-	ipkg := importfile(imp)
+	ipkg := Importfile(imp)
 	if ipkg == nil {
 		if base.Errors() == 0 {
 			base.Fatalf("phase error in import")
