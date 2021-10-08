@@ -7,6 +7,7 @@ package coverage
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/noder"
 	"cmd/compile/internal/staticinit"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -570,6 +571,26 @@ func (d *symbolWriteSeeker) Seek(offset int64, whence int) (int64, error) {
 	panic("bad")
 }
 
+// importRuntimeCoveragePackage forces an import of the
+// runtime/coverage package, so that we can refer to routines in it.
+//
+// FIXME: this seems less than ideal (since it requires reaching into
+// the noder package to expose noder.ReadImportFile); perhaps there is
+// a cleaner way to handle this. One possibility would be to
+// predeclare the various routines (via the typecheck "builtin"
+// mechanism) and go that route instead.
+func importRuntimeCoveragePackage() *types.Pkg {
+	path := "runtime/coverage"
+	pkg, _, err := noder.ReadImportFile(path, typecheck.Target, nil, nil)
+	if pkg == nil && err == nil {
+		err = fmt.Errorf("noder.ReadImportFile(%s) returned nil but no error", path)
+	}
+	if err != nil {
+		panic(fmt.Sprintf("importing runtime/coverage: %v", err))
+	}
+	return pkg
+}
+
 // FinishPackage is called once we've visited all of the functions
 // in the package; it finalizes the meta-data symbol for the package.
 func FinishPackage() {
@@ -643,4 +664,28 @@ func FinishPackage() {
 	// early in the init since it's possible that instrumented function
 	// bodies (with counter updates) might be inlined into init.
 	initfn.Body.Prepend(assign)
+
+	// If we are building the "main" package, then make a call into
+	// the runtime to register the function 'runtime/coverage.onExitHook'
+	// as a function that needs to be invoked when os.Exit() is called, e.g.
+	//
+	//     runOnNonZeroExit := true
+	//     runtime.addExitHook(coverage.onExitHook, runOnNonZeroExit)
+	//     coverage.initHook()
+	//
+	if base.Ctxt.Pkgpath == "main" {
+		pk := importRuntimeCoveragePackage()
+		typecheck.InitCoverage(pk)
+		if !base.Flag.DisableCovHooks {
+			regf := typecheck.LookupRuntime("addExitHook")
+			hookf := typecheck.LookupCoverage(pk, "onExitHook")
+			initf := typecheck.LookupCoverage(pk, "initHook")
+			args := []ir.Node{hookf, ir.NewBool(true)}
+			callx := typecheck.Call(pos, regf, args, false)
+			initfn.Body.Append(callx)
+			args = []ir.Node{}
+			callx = typecheck.Call(pos, initf, args, false)
+			initfn.Body.Append(callx)
+		}
+	}
 }

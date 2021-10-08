@@ -113,6 +113,7 @@ type CmdFlags struct {
 	MutexProfile       string       "help:\"write mutex profile to `file`\""
 	NoLocalImports     bool         "help:\"reject local (relative) imports\""
 	NewCov             bool         "help:\"turn on new coverage inst.\""
+	DisableCovHooks    bool         "help:\"disable normal coverage hooks for main packge (used only by 'go test -cover').\""
 	Pack               bool         "help:\"write to file.a instead of file.o\""
 	Race               bool         "help:\"enable race detector\""
 	Shared             *bool        "help:\"generate code that can be linked into a shared library\"" // &Ctxt.Flag_shared, set below
