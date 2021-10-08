@@ -268,6 +268,7 @@ func main() {
 	if atomic.Load(&panicking) != 0 {
 		gopark(nil, nil, waitReasonPanicWait, traceEvGoStop, 1)
 	}
+	runExitHooks(0)
 
 	exit(0)
 	for {
@@ -278,10 +279,11 @@ func main() {
 
 // os_beforeExit is called from os.Exit(0).
 //go:linkname os_beforeExit os.runtime_beforeExit
-func os_beforeExit() {
-	if raceenabled {
+func os_beforeExit(exitCode int) {
+	if exitCode == 0 && raceenabled {
 		racefini()
 	}
+	runExitHooks(exitCode)
 }
 
 // start forcegc helper goroutine
