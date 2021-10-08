@@ -127,6 +127,24 @@
       "parentUuid": "9321ea36_83c8c5ae",
       "revId": "c0359762184f50c168ff74e8cea83a0c95b5cf48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aafbb450_64a61a64",
+        "filename": "src/runtime/softfloat64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-10-08T17:22:21Z",
+      "side": 1,
+      "message": "I had to deal with 32/64/80 issues implementing Java strictfp on 386/387, and somehow division never made the list of problems, so maybe the claim is correct.  I am of course trying to figuring out how to break it, with multiplication it was not hard.",
+      "parentUuid": "b47000f2_218a76d6",
+      "revId": "c0359762184f50c168ff74e8cea83a0c95b5cf48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
