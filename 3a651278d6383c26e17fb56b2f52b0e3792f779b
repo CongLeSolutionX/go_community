@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c98800_e1c0f6e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-08T18:24:43Z",
+      "side": 1,
+      "message": "I don\u0027t think we should do this.\n\nThe debug logs here are extremely opaque and seem designed for use by someone debugging the net/http package itself. For someone doing that, changing the const by hand is trivial.",
+      "revId": "3a651278d6383c26e17fb56b2f52b0e3792f779b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
