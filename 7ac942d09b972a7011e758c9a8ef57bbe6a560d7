@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ac245a3_f504b293",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3041,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-08T17:12:30Z",
+      "side": 1,
+      "message": "newConn isn\u0027t exported; if it was, it\u0027d be named NewConn.\n\nThe bit in export_test.go lets tests in the http_test package access unexported bits of the http package. It effectively exports some symbols strictly for use by tests in the net/http directory.\n\nIn the case of newConn, there\u0027s only one test which uses it. If we change its signature, we do need to update that test, but that\u0027s all:\nhttps://go.googlesource.com/go/+/99c1b249b1ffe3b36c5c95572f4497be86b5d727/src/net/http/serve_test.go#4336\n\nAnyway, what you have is fine.",
+      "parentUuid": "a8ebb90a_a858395c",
+      "revId": "7ac942d09b972a7011e758c9a8ef57bbe6a560d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d70e16c_fb9fd55a",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -139,6 +157,24 @@
       "side": 1,
       "message": "This is similar to trackListener.\n\nIt could return error but then at the call site:\n- if we propagate it - its not clear without looking here that err is ErrServerClosed\n- if return ErrServerClosed it is not clear what kind of error was ignored",
       "parentUuid": "0d70e16c_fb9fd55a",
+      "revId": "7ac942d09b972a7011e758c9a8ef57bbe6a560d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7af8294_e0eb6a30",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3119,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-08T17:12:30Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "f897f55c_4cf4a7cd",
       "revId": "7ac942d09b972a7011e758c9a8ef57bbe6a560d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
