@@ -12,7 +12,9 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/noder"
 	"cmd/compile/internal/staticinit"
+	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
@@ -543,6 +545,20 @@ func (d *symbolWriteSeeker) Seek(offset int64, whence int) (int64, error) {
 	panic("bad")
 }
 
+// importRuntimeCoveragePackage forces an import of the
+// runtime/coverage package, so that we can refer to routines in it.
+// NB: is there a cleaner way to do this?
+func importRuntimeCoveragePackage() *types.Pkg {
+	stringLiteral := syntax.BasicLit{
+		Value: "\"runtime/coverage\"",
+		Kind:  syntax.StringLit,
+	}
+	impDecl := syntax.ImportDecl{
+		Path: &stringLiteral,
+	}
+	return noder.Importfile(&impDecl)
+}
+
 // FinishPackage is called once we've visited all of the functions
 // in the package; it finalizes the meta-data symbol for the package.
 func FinishPackage() {
@@ -599,4 +615,26 @@ func FinishPackage() {
 
 	// Tack the call onto the end of our init function.
 	initfn.Body.Append(assign)
+
+	// If we are building the "main" package, then make a call into
+	// the runtime to register the function 'runtime/coverage.onExitHook'
+	// as a function that needs to be invoked when os.Exit() is called, e.g.
+	//
+	//     runOnNonZeroExit := true
+	//     runtime.addExitHook(coverage.onExitHook, runOnNonZeroExit)
+	//     coverage.Init()
+	//
+	if base.Ctxt.Pkgpath == "main" {
+		pk := importRuntimeCoveragePackage()
+		typecheck.InitCoverage(pk)
+		regf := typecheck.LookupRuntime("addExitHook")
+		hookf := typecheck.LookupCoverage(pk, "onExitHook")
+		initf := typecheck.LookupCoverage(pk, "initHook")
+		args := []ir.Node{hookf, ir.NewBool(true)}
+		callx := typecheck.Call(pos, regf, args, false)
+		initfn.Body.Append(callx)
+		args = []ir.Node{}
+		callx = typecheck.Call(pos, initf, args, false)
+		initfn.Body.Append(callx)
+	}
 }
