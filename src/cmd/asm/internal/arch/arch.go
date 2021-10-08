@@ -171,6 +171,9 @@ func archX86(linkArch *obj.LinkArch) *Arch {
 	instructions["JS"] = x86.AJMI   /* alternate */
 	instructions["JZ"] = x86.AJEQ   /* alternate */
 	instructions["MASKMOVDQU"] = x86.AMASKMOVOU
+	instructions["MOVBELL"] = x86.AMOVBEL
+	instructions["MOVBEQQ"] = x86.AMOVBEQ
+	instructions["MOVBEWW"] = x86.AMOVBEW
 	instructions["MOVD"] = x86.AMOVQ
 	instructions["MOVDQ2Q"] = x86.AMOVQ
 	instructions["MOVNTDQ"] = x86.AMOVNTO
