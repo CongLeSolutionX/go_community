@@ -53,6 +53,24 @@
       "message": "If they both share the same backing array, then can\u0027t this just be\n\n   target.Palette \u003d source.Palette\n   \nand then you don\u0027t need to rely on that specific property. (although I guess you\u0027re relying on the palette values being equivalent anyway...)",
       "revId": "534eff977b4095e34f86fd0fdb840aa073a51607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd81030a_e1c1ee0e",
+        "filename": "src/image/png/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2021-10-08T00:51:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a32e2034_435a3bf5",
+      "revId": "534eff977b4095e34f86fd0fdb840aa073a51607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
