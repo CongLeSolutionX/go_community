@@ -187,7 +187,7 @@ func resolveImportPath(path string) (string, error) {
 	return path, nil
 }
 
-func importfile(decl *syntax.ImportDecl) *types.Pkg {
+func Importfile(decl *syntax.ImportDecl) *types.Pkg {
 	path, err := parseImportPath(decl.Path)
 	if err != nil {
 		base.Errorf("%s", err)
