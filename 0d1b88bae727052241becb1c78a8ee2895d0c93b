@@ -282,6 +282,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a25618_79adcfc1",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-08T21:40:38Z",
+      "side": 1,
+      "message": "I tracked this down to cmd/go/internal/work.installOutsideModule. I think the proper fix is to have the modload.Query* functions ensure that the go.mod and/or go.work file(s) have been loaded.\n\nThat also revealed an API defect in modload.Replacement, for which I will mail a separate fix (and then call the yak barber). 😩",
+      "parentUuid": "c3a84267_80fea996",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d285bfd5_4a9ce1f0",
