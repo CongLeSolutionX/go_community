@@ -605,7 +605,7 @@ func FinishPackage() {
 
 	// Call helper to finish up.
 	hash := md5.Sum(mdsym.P)
-	mdlen := (len(mdsym.P))
+	mdlen := len(mdsym.P)
 	cmode := coverage.CtrModeSet // dummy
 	registerMeta(mdname, initfn, hash, mdlen, pkgIdVar, cmode)
 }

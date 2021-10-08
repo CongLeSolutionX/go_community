@@ -7,10 +7,8 @@ package coverage
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/noder"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
-	"fmt"
 	"internal/coverage"
 	"strconv"
 	"strings"
@@ -175,26 +173,4 @@ func registerMeta(mdname *ir.Name, initfn *ir.Func, hash [16]byte, mdlen int, pk
 			initfn.Body.Append(callx)
 		}
 	}
-}
-
-// importRuntimeCoveragePackage forces an import of the
-// runtime/coverage package, so that we can refer to routines in it.
-//
-// FIXME: this seems less than ideal (since it requires reaching into
-// the noder package to expose noder.ReadImportFile); perhaps there is
-// a cleaner way to handle this. One possibility would be to
-// predeclare the various routines (via the typecheck "builtin"
-// mechanism) and go that route instead.  My attempt at this resulted
-// in problems, however (".onExitHook·f: relocation target .onExitHook
-// not defined").
-func importRuntimeCoveragePackage() *types.Pkg {
-	path := "runtime/coverage"
-	pkg, _, err := noder.ReadImportFile(path, typecheck.Target, nil, nil)
-	if pkg == nil && err == nil {
-		err = fmt.Errorf("noder.ReadImportFile(%s) returned nil but no error", path)
-	}
-	if err != nil {
-		panic(fmt.Sprintf("importing runtime/coverage: %v", err))
-	}
-	return pkg
 }
