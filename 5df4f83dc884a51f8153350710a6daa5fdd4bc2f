@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5359a621_0d62aad7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2021-10-09T07:33:21Z",
+      "side": 1,
+      "message": "Done, thank you~",
+      "parentUuid": "7175abba_90a28ab0",
+      "revId": "5df4f83dc884a51f8153350710a6daa5fdd4bc2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b74bf627_679e32d4",
@@ -110,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "922e983d_38b68eee",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2021-10-09T07:33:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure which one is better, for now I add some conditions to check the value\u0027s size as Cherry said.\n\nThanks for your comments~",
+      "parentUuid": "1ffa5db2_5d965475",
+      "revId": "5df4f83dc884a51f8153350710a6daa5fdd4bc2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9346074c_5de88923",
         "filename": "test/codegen/rotate.go",
         "patchSetId": 1
@@ -121,6 +157,30 @@
       "writtenOn": "2021-09-29T15:20:35Z",
       "side": 1,
       "message": "Put these in a new function.",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 2
+      },
+      "revId": "5df4f83dc884a51f8153350710a6daa5fdd4bc2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e217f04_442b8692",
+        "filename": "test/codegen/rotate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2021-10-09T07:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9346074c_5de88923",
       "range": {
         "startLine": 251,
         "startChar": 0,
