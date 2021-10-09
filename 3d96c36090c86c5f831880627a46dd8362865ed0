@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21434f83_372373b1",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-09T17:16:51Z",
+      "side": 1,
+      "message": "This rule needs a size restriction also, right?",
+      "range": {
+        "startLine": 1608,
+        "startChar": 45,
+        "endLine": 1608,
+        "endChar": 47
+      },
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "350e2209_032fe7a4",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1673,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-09T17:16:51Z",
+      "side": 1,
+      "message": "I\u0027ma bit worried about these rules. They don\u0027t generate the right top 32 bits.\n\nNormally, we expect that users of these ops will not use the top 32 bits. But I can imagine situations where they would.\n\nFor instance, can we have this rule?\n\n(MOVDstore ptr (MOVWUreg x:(ORWshiftRO ...)) mem) -\u003e (MOVDstore ptr x mem)\n\nIt seems to be ok, because ORW zeroes the top 32 bits already, so the MOVWUreg is unnecessary. But then we\u0027re depending on the top bits of ORWshiftRO.\n\nSo I think we need to decide how we interpret *W operations. One way is to say *W operations always zero the top 32 bits (which they do, right?), in which case the rule I just described works, and some of the rules in this CL don\u0027t. The other way is to say *W operations leave the top 32 bits undefined, in which case the rule I described doesn\u0027t work, and the rules in this CL do.\n\nWe do assert that when 4-byte types are stored in a register, the top bytes are junk. So we at least need a type size restriction in these rules.\n\nMy rule would really have to be:\n\n(MOVDstore ptr (MOVWUreg x:(ORWshiftRO \u003ct\u003e ...)) mem) \u0026\u0026 t.Size() \u003d\u003d 8 -\u003e (MOVDstore ptr x mem)\n\nor just perhaps:\n\n(MOVWUreg (ORWshiftRO ...)) -\u003e (ORWshiftRO \u003cuint64\u003e ...)\n\nTo ensure that the ORWshiftRO was generating all 8 bytes. But I worry that might be error-prone.\n\n(I think this is a general problem across architectures for sub-word operations, not just arm64 and not just this CL.)",
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff2ddf5f_4e8606d5",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1689,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-09T17:16:51Z",
+      "side": 1,
+      "message": "This should be TSTW?",
+      "range": {
+        "startLine": 1689,
+        "startChar": 40,
+        "endLine": 1689,
+        "endChar": 43
+      },
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39152a38_541321e2",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-09T17:16:51Z",
+      "side": 1,
+      "message": "TSTW",
+      "range": {
+        "startLine": 1746,
+        "startChar": 40,
+        "endLine": 1746,
+        "endChar": 43
+      },
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60e3cea1_30fabb39",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1756,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-09T17:16:51Z",
+      "side": 1,
+      "message": "This is the kind of difficulty you get into with making the semantics of the operations dependent on the types. If we said that *W ops with 32-bit type leave the upper 32 bits undefined, but *W ops with 64-bit type zero the upper 32 bits, then this rule doesn\u0027t work. If the outer ANDW is 64-bit, but the inner RORW is 32-bit, then we can\u0027t just have y as a result, we need (MOVWUreg y).",
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "908f4787_1a07cca8",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-09T17:16:51Z",
+      "side": 1,
+      "message": "It seems weird to me that we have W versions of RO, but no W versions of LL/RL/RA.\n(There doesn\u0027t really need to be a W version of LL, because the non-W version of LL computes the same low 32 bits, but that\u0027s not the case for RL and RA.)\n\nIs there a specific application that these rules would speed up? If so, then maybe we can go forward with this CL. But I\u0027d rather not unless we decide that speeding up uint32 operations on a 64-bit machine is worth it. In that case, we should do all of them, and figure out the right way to think about the upper 32 bits.",
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
