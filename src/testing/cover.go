@@ -8,6 +8,7 @@ package testing
 
 import (
 	"fmt"
+	"internal/goexperiment"
 	"os"
 	"sync/atomic"
 )
@@ -64,8 +65,9 @@ func Coverage() float64 {
 // RegisterCover records the coverage data accumulators for the tests.
 // NOTE: This function is internal to the testing infrastructure and may change.
 // It is not covered (yet) by the Go 1 compatibility guidelines.
-func RegisterCover(c Cover) {
+func RegisterCover(c Cover) (**string, **string) {
 	cover = c
+	return &coverProfile, &gocoverdir
 }
 
 // mustBeNil checks the error and, if present, reports it and exits.
@@ -78,6 +80,9 @@ func mustBeNil(err error) {
 
 // coverReport reports the coverage percentage and writes a coverage profile if requested.
 func coverReport() {
+	if goexperiment.CoverageRedesign {
+		return
+	}
 	var f *os.File
 	var err error
 	if *coverProfile != "" {
@@ -109,7 +114,7 @@ func coverReport() {
 		}
 	}
 	if total == 0 {
-		fmt.Println("coverage: [no statements]")
+		fmt.Println("coverage: [no xx statements]")
 		return
 	}
 	fmt.Printf("coverage: %.1f%% of statements%s\n", 100*float64(active)/float64(total), cover.CoveredPackages)
