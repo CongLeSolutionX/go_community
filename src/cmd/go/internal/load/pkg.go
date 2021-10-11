@@ -2415,6 +2415,9 @@ func LinkerDeps(p *Package) []string {
 	if cfg.BuildMSan {
 		deps = append(deps, "runtime/msan")
 	}
+	if cfg.BuildCoverage {
+		deps = append(deps, "runtime/coverage")
+	}
 
 	return deps
 }

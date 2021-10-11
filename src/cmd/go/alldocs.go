@@ -121,6 +121,8 @@
 // 		Supported only on linux/amd64, linux/arm64
 // 		and only with Clang/LLVM as the host C compiler.
 // 		On linux/arm64, pie build mode will be used.
+// 	-coverage
+// 		enable cover coverage instrumentation.
 // 	-v
 // 		print the names of packages as they are compiled.
 // 	-work
