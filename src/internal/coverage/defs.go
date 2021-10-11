@@ -75,6 +75,18 @@ const (
 	CtrModeAtomic              // "atomic" mode
 )
 
+func (cm CounterMode) String() string {
+	switch cm {
+	case CtrModeSet:
+		return "set"
+	case CtrModeCounter:
+		return "counter"
+	case CtrModeAtomic:
+		return "atomic"
+	}
+	return "<invalid>"
+}
+
 const MetaFilePref = "covmeta"
 
 // A counter data file is composed of a file header, offsets section,
