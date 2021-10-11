@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"go/build"
 	exec "internal/execabs"
+	"internal/goexperiment"
 	"io"
 	"io/fs"
 	"os"
@@ -525,12 +526,11 @@ See the documentation of the testing package for more information.
 }
 
 var (
-	testBench        string                            // -bench flag
-	testC            bool                              // -c flag
-	testCover        bool                              // -cover flag
-	testCoverMode    string                            // -covermode flag
-	testCoverPaths   []string                          // -coverpkg flag
-	testCoverPkgs    []*load.Package                   // -coverpkg flag
+	testBench        string          // -bench flag
+	testC            bool            // -c flag
+	testCoverPaths   []string        // -coverpkg flag
+	testCoverPkgs    []*load.Package // -coverpkg flag
+	testCoverPkModes []string
 	testCoverProfile string                            // -coverprofile flag
 	testFuzz         string                            // -fuzz flag
 	testJSON         bool                              // -json flag
@@ -815,6 +815,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		// Select for coverage all dependencies matching the testCoverPaths patterns.
 		for _, p := range load.TestPackageList(ctx, pkgOpts, pkgs) {
 			haveMatch := false
+			cmode := ""
 			for i := range testCoverPaths {
 				if match[i](p) {
 					matched[i] = true
@@ -832,7 +833,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 			// sync/atomic when using atomic coverage mode.
 			// Atomic coverage mode uses sync/atomic, so
 			// we can't also do coverage on it.
-			if testCoverMode == "atomic" && p.Standard && p.ImportPath == "sync/atomic" {
+			if cfg.BuildCoverMode == "atomic" && p.Standard && p.ImportPath == "sync/atomic" {
 				continue
 			}
 
@@ -841,11 +842,12 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 			// packages. It will cause the race detector
 			// to be invoked before it has been initialized.
 			if cfg.BuildRace && p.Standard && (p.ImportPath == "runtime" || strings.HasPrefix(p.ImportPath, "runtime/internal")) {
-				continue
+				cmode = "regonly"
 			}
 
 			if haveMatch {
 				testCoverPkgs = append(testCoverPkgs, p)
+				testCoverPkModes = append(testCoverPkModes, cmode)
 			}
 		}
 
@@ -857,18 +859,22 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		}
 
 		// Mark all the coverage packages for rebuilding with coverage.
-		for _, p := range testCoverPkgs {
+		for k, p := range testCoverPkgs {
 			// There is nothing to cover in package unsafe; it comes from the compiler.
 			if p.ImportPath == "unsafe" {
 				continue
 			}
-			p.Internal.CoverMode = testCoverMode
+			cmode := cfg.BuildCoverMode
+			if testCoverPkModes[k] != "" {
+				cmode = testCoverPkModes[k]
+			}
+			p.Internal.CoverMode = cmode
 			var coverFiles []string
 			coverFiles = append(coverFiles, p.GoFiles...)
 			coverFiles = append(coverFiles, p.CgoFiles...)
 			coverFiles = append(coverFiles, p.TestGoFiles...)
 			p.Internal.CoverVars = declareCoverVars(p, coverFiles...)
-			if testCover && testCoverMode == "atomic" {
+			if cfg.BuildCoverMode == "atomic" {
 				ensureImport(p, "sync/atomic")
 			}
 		}
@@ -912,7 +918,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 	// Prepare build + run + print actions for all packages being tested.
 	for _, p := range pkgs {
 		// sync/atomic import is inserted by the cover tool. See #18486
-		if testCover && testCoverMode == "atomic" {
+		if cfg.BuildCover && cfg.BuildCoverMode == "atomic" {
 			ensureImport(p, "sync/atomic")
 		}
 
@@ -997,10 +1003,10 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 	//	ptest - package + test files
 	//	pxtest - package of external test files
 	var cover *load.TestCover
-	if testCover {
+	if cfg.BuildCover {
 		cover = &load.TestCover{
-			Mode:     testCoverMode,
-			Local:    testCover && testCoverPaths == nil,
+			Mode:     cfg.BuildCoverMode,
+			Local:    testCoverPaths == nil,
 			Pkgs:     testCoverPkgs,
 			Paths:    testCoverPaths,
 			DeclVars: declareCoverVars,
@@ -1040,6 +1046,7 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 
 	pmain.Dir = testDir
 	pmain.Internal.OmitDebug = !testC && !testNeedBinary()
+	pmain.Internal.DisableCovHooks = true
 
 	if !cfg.BuildN {
 		// writeTestmain writes _testmain.go,
@@ -1189,6 +1196,9 @@ func isTestFile(file string) bool {
 // declareCoverVars attaches the required cover variables names
 // to the files, to be used when annotating the files.
 func declareCoverVars(p *load.Package, files ...string) map[string]*load.CoverVar {
+	if goexperiment.CoverageRedesign {
+		return nil
+	}
 	coverVars := make(map[string]*load.CoverVar)
 	coverIndex := 0
 	// We create the cover counters as new top-level variables in the package.
@@ -1343,6 +1353,14 @@ func (c *runCache) builderRunTest(b *work.Builder, ctx context.Context, a *work.
 				args[i] = "-test.coverprofile=" + a.Objdir + "_cover_.out"
 			}
 		}
+	}
+
+	if a.Package.Internal.CoverMode != "" {
+		gcd := filepath.Join(a.Objdir, "gocoverdir")
+		if err := b.Mkdir(gcd); err != nil {
+			base.Fatalf("failed to created temporary dir: %v", err)
+		}
+		args = append(args, "-test.gocoverdir="+gcd)
 	}
 
 	if cfg.BuildN || cfg.BuildX {
@@ -1828,7 +1846,7 @@ func (c *runCache) saveOutput(a *work.Action) {
 // coveragePercentage returns the coverage results (if enabled) for the
 // test. It uncovers the data by scanning the output from the test run.
 func coveragePercentage(out []byte) string {
-	if !testCover {
+	if !cfg.BuildCover {
 		return ""
 	}
 	// The string looks like
