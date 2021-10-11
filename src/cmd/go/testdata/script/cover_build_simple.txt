@@ -1,0 +1,39 @@
+# This test checks basic "go build -cover" functionality.
+[short] skip
+
+# Skip if new coverage is not enabled.
+[!GOEXPERIMENT:newcoveragedesign] skip
+
+# Build for coverage.
+go build -o example.exe -cover example
+
+# First execute without GOCOVERDIR set...
+exec ./example.exe
+stderr '^warning: GOCOVERDIR not set, no coverage data emitted'
+go tool covdata dump -i=/tmp/empty -emitperc
+stdout '^coverage: \[no statements\]'
+
+# ... then with GOCOVERDIR set.
+env GOCOVERDIR=data
+exec ./example.exe
+! stderr '^warning: GOCOVERDIR not set, no coverage data emitted'
+go tool covdata dump -i=data -emitperc
+stdout  'coverage:.*[1-9][0-9.]+%'
+
+-- go.mod --
+module example
+
+go 1.18
+-- example.go --
+package main
+
+func main() {}
+-- sub/sub.go --
+package main
+
+func main() {
+  println("hi")
+}
+     
+-- data/README.txt --
+Output dir.
