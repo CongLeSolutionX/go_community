@@ -26,7 +26,7 @@ import (
 	"cmd/go/internal/load"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/work"
-	"cmd/internal/str"
+	"cmd/internal/quoted"
 )
 
 var CmdEnv = &base.Command{
@@ -467,7 +467,7 @@ func checkEnvWrite(key, val string) error {
 		if val == "" {
 			break
 		}
-		args, err := str.SplitQuotedFields(val)
+		args, err := quoted.Split(val)
 		if err != nil {
 			return fmt.Errorf("invalid %s: %v", key, err)
 		}
