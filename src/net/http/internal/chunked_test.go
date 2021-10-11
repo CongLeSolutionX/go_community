@@ -211,3 +211,11 @@ func TestChunkReadPartial(t *testing.T) {
 	}
 
 }
+
+// Issue 48861: ChunkedReader should report incomplete chunks
+func TestIncompleteChunk(t *testing.T) {
+	r := NewChunkedReader(strings.NewReader("5\r\nabcd"))
+	if _, err := io.ReadAll(r); err != io.ErrUnexpectedEOF {
+		t.Fatalf("expected io.ErrUnexpectedEOF, got %v", err)
+	}
+}
