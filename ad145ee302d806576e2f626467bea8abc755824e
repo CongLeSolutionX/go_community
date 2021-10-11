@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d6576fb_a602b82c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-11T01:13:18Z",
+      "side": 1,
+      "message": "It is OK, I will support mips64.",
+      "parentUuid": "49063304_5f6b6d00",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "ad145ee302d806576e2f626467bea8abc755824e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "feb20f1d_4ad0bde3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
