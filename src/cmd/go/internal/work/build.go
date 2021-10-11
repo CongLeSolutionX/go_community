@@ -7,6 +7,7 @@ package work
 import (
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"go/build"
 	"os"
@@ -23,6 +24,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/search"
 	"cmd/go/internal/trace"
+	"internal/goexperiment"
 )
 
 var CmdBuild = &base.Command{
@@ -81,6 +83,9 @@ and test commands:
 		Supported only on linux/arm64, linux/amd64.
 		Supported only on linux/amd64 or linux/arm64 and only with GCC 7 and higher
 		or Clang/LLVM 9 and higher.
+	-cover
+		enable code coverage instrumentation (requires
+		that GOEXPERIMENT=coverageredesign be set)
 	-v
 		print the names of packages as they are compiled.
 	-work
@@ -303,6 +308,11 @@ func AddBuildFlags(cmd *base.Command, mask BuildFlagMask) {
 	cmd.Flag.BoolVar(&cfg.BuildRace, "race", false, "")
 	cmd.Flag.BoolVar(&cfg.BuildMSan, "msan", false, "")
 	cmd.Flag.BoolVar(&cfg.BuildASan, "asan", false, "")
+	if goexperiment.CoverageRedesign {
+		cmd.Flag.BoolVar(&cfg.BuildCover, "cover", false, "")
+		cmd.Flag.Var(CoverFlag{(*CoverModeFlag)(&cfg.BuildCoverMode)}, "covermode", "")
+		cmd.Flag.Var(CoverFlag{CommaListFlag{&cfg.BuildCoverPkg}}, "coverpkg", "")
+	}
 	cmd.Flag.Var((*tagsFlag)(&cfg.BuildContext.BuildTags), "tags", "")
 	cmd.Flag.Var((*base.StringsFlag)(&cfg.BuildToolexec), "toolexec", "")
 	cmd.Flag.BoolVar(&cfg.BuildTrimpath, "trimpath", false, "")
@@ -443,6 +453,10 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 	// Special case -o /dev/null by not writing at all.
 	if cfg.BuildO == os.DevNull {
 		cfg.BuildO = ""
+	}
+
+	if goexperiment.CoverageRedesign && cfg.BuildCover {
+		load.PrepareForCoverageBuild(pkgs)
 	}
 
 	if cfg.BuildO != "" {
@@ -674,6 +688,10 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
+	if goexperiment.CoverageRedesign && cfg.BuildCover {
+		load.PrepareForCoverageBuild(pkgs)
+	}
+
 	InstallPackages(ctx, args, pkgs)
 }
 
@@ -853,4 +871,45 @@ func FindExecCmd() []string {
 		ExecCmd = []string{path}
 	}
 	return ExecCmd
+}
+
+// A coverFlag is a flag.Value that also implies -cover.
+type CoverFlag struct{ V flag.Value }
+
+func (f CoverFlag) String() string { return f.V.String() }
+
+func (f CoverFlag) Set(value string) error {
+	if err := f.V.Set(value); err != nil {
+		return err
+	}
+	cfg.BuildCover = true
+	return nil
+}
+
+type CoverModeFlag string
+
+func (f *CoverModeFlag) String() string { return string(*f) }
+func (f *CoverModeFlag) Set(value string) error {
+	switch value {
+	case "", "set", "count", "atomic":
+		*f = CoverModeFlag(value)
+		cfg.BuildCoverMode = value
+		return nil
+	default:
+		return errors.New(`valid modes are "set", "count", or "atomic"`)
+	}
+}
+
+// A CommaListFlag is a flag.Value representing a comma-separated list.
+type CommaListFlag struct{ Vals *[]string }
+
+func (f CommaListFlag) String() string { return strings.Join(*f.Vals, ",") }
+
+func (f CommaListFlag) Set(value string) error {
+	if value == "" {
+		*f.Vals = nil
+	} else {
+		*f.Vals = strings.Split(value, ",")
+	}
+	return nil
 }

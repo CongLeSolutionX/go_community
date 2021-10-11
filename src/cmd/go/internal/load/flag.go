@@ -63,7 +63,7 @@ func (f *PerPackageFlag) set(v, cwd string) error {
 			return fmt.Errorf("parameter may not start with quote character %c", v[0])
 		}
 		pattern := strings.TrimSpace(v[:i])
-		match = MatchPackage(pattern, cwd)
+		match = MatchPackage(pattern, cwd, false)
 		v = v[i+1:]
 	}
 	flags, err := quoted.Split(v)
