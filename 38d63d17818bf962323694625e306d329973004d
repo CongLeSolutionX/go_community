@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7360ad6a_4996c01c",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-11T20:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18a23d50_7cd0336a",
+      "revId": "38d63d17818bf962323694625e306d329973004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f7613ab_49c62234",
@@ -76,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85933f17_9d40f354",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-11T20:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f7613ab_49c62234",
+      "range": {
+        "startLine": 89,
+        "startChar": 19,
+        "endLine": 89,
+        "endChar": 28
+      },
+      "revId": "38d63d17818bf962323694625e306d329973004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b0b07a7_dbcf6b27",
@@ -89,6 +131,30 @@
       "writtenOn": "2021-10-07T18:20:08Z",
       "side": 1,
       "message": "Nit: use character literals like \u00270\u0027 instead of numbers, here and below.",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 24
+      },
+      "revId": "38d63d17818bf962323694625e306d329973004d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b800dd_ec309c02",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-11T20:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b0b07a7_dbcf6b27",
       "range": {
         "startLine": 98,
         "startChar": 17,
