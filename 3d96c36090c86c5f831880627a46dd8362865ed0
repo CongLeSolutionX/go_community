@@ -185,6 +185,24 @@
       "message": "It seems weird to me that we have W versions of RO, but no W versions of LL/RL/RA.\n(There doesn\u0027t really need to be a W version of LL, because the non-W version of LL computes the same low 32 bits, but that\u0027s not the case for RL and RA.)\n\nIs there a specific application that these rules would speed up? If so, then maybe we can go forward with this CL. But I\u0027d rather not unless we decide that speeding up uint32 operations on a 64-bit machine is worth it. In that case, we should do all of them, and figure out the right way to think about the upper 32 bits.",
       "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a9ca32_3103307e",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2021-10-11T14:56:15Z",
+      "side": 1,
+      "message": "For RL and RA, we can zero extend or sign extend the value to make sure they do the same behavior for 32/64 bit value. But for ROR and RORW, we can not achieve this consistency between 64-bit and 32-bit forms. So we need RORW here.\n\nI think maybe the code I motioned in the commit message is a good case for \u0027the application that these rules can speed up\u0027, right? 😂",
+      "parentUuid": "908f4787_1a07cca8",
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
