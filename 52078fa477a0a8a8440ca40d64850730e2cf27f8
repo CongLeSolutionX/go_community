@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e31b22_505f6c9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-11T22:51:31Z",
+      "side": 1,
+      "message": "This test file doesn\u0027t appear to exist. Did you mean to \u0027git add\u0027 it?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "52078fa477a0a8a8440ca40d64850730e2cf27f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
