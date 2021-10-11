@@ -140,6 +140,12 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 	if strings.HasPrefix(RuntimeVersion, "go1") && !strings.Contains(os.Args[0], "go_bootstrap") {
 		defaultGcFlags = append(defaultGcFlags, "-goversion", RuntimeVersion)
 	}
+	if p.Internal.CoverMode != "" && cfg.Experiment.CoverageRedesign && p.Internal.TestmainGo == nil {
+		defaultGcFlags = append(defaultGcFlags, "-coveragecfg="+objdir+"coveragecfg")
+	}
+	if p.Internal.DisableCovHooks {
+		defaultGcFlags = append(defaultGcFlags, "-disablecovhooks")
+	}
 	if symabis != "" {
 		defaultGcFlags = append(defaultGcFlags, "-symabis", symabis)
 	}
