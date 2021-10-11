@@ -15,12 +15,16 @@ import (
 // StringList flattens its arguments into a single []string.
 // Each argument in args must have type string or []string.
 func StringList(args ...interface{}) []string {
-	var x []string
+	return flatten[string](args...)
+}
+
+func flatten[T any](args ...interface{}) []T {
+	var x []T
 	for _, arg := range args {
 		switch arg := arg.(type) {
-		case []string:
+		case []T:
 			x = append(x, arg...)
-		case string:
+		case T:
 			x = append(x, arg)
 		default:
 			panic("stringList: invalid argument of type " + fmt.Sprintf("%T", arg))
@@ -87,7 +91,12 @@ func FoldDup(list []string) (string, string) {
 }
 
 // Contains reports whether x contains s.
+// TODO(rsc): Replace uses with slices.Contains.
 func Contains(x []string, s string) bool {
+	return contains(x, s)
+}
+
+func contains[T comparable](x []T, s T) bool {
 	for _, t := range x {
 		if t == s {
 			return true
@@ -97,15 +106,20 @@ func Contains(x []string, s string) bool {
 }
 
 // Uniq removes consecutive duplicate strings from ss.
+// TODO(rsc): Replace uses with compact.
 func Uniq(ss *[]string) {
-	if len(*ss) <= 1 {
-		return
+	*ss = compact(*ss)
+}
+
+func compact[T comparable](x []T) []T {
+	if len(x) <= 1 {
+		return x
 	}
-	uniq := (*ss)[:1]
-	for _, s := range *ss {
+	uniq := x[:1]
+	for _, s := range x {
 		if s != uniq[len(uniq)-1] {
 			uniq = append(uniq, s)
 		}
 	}
-	*ss = uniq
+	return uniq
 }
