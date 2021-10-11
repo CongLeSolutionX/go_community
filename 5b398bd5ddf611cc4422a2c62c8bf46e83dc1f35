@@ -163,6 +163,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14ce098c_cd674a3f",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-11T20:51:47Z",
+      "side": 1,
+      "message": "Same CL is fine. Looks good!",
+      "parentUuid": "a65ee365_97098e21",
+      "revId": "5b398bd5ddf611cc4422a2c62c8bf46e83dc1f35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d56cd07_f9d470e5",
