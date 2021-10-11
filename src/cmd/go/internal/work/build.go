@@ -78,6 +78,8 @@ and test commands:
 	-asan
 		enable interoperation with address sanitizer.
 		Supported only on linux/arm64, linux/amd64.
+	-coverage
+		enable cover coverage instrumentation.
 	-v
 		print the names of packages as they are compiled.
 	-work
@@ -310,6 +312,7 @@ func AddBuildFlags(cmd *base.Command, mask BuildFlagMask) {
 	cmd.Flag.BoolVar(&cfg.BuildRace, "race", false, "")
 	cmd.Flag.BoolVar(&cfg.BuildMSan, "msan", false, "")
 	cmd.Flag.BoolVar(&cfg.BuildASan, "asan", false, "")
+	cmd.Flag.BoolVar(&cfg.BuildCoverage, "coverage", false, "")
 	cmd.Flag.Var((*tagsFlag)(&cfg.BuildContext.BuildTags), "tags", "")
 	cmd.Flag.Var((*base.StringsFlag)(&cfg.BuildToolexec), "toolexec", "")
 	cmd.Flag.BoolVar(&cfg.BuildTrimpath, "trimpath", false, "")

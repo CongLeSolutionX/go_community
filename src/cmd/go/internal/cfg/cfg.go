@@ -36,6 +36,7 @@ var (
 	BuildLinkshared        bool                    // -linkshared flag
 	BuildMSan              bool                    // -msan flag
 	BuildASan              bool                    // -asan flag
+	BuildCoverage          bool                    // -coverage flag
 	BuildN                 bool                    // -n flag
 	BuildO                 string                  // -o flag
 	BuildP                 = runtime.GOMAXPROCS(0) // -p flag

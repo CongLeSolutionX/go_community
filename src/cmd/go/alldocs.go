@@ -124,6 +124,8 @@
 // 	-asan
 // 		enable interoperation with address sanitizer.
 // 		Supported only on linux/arm64, linux/amd64.
+// 	-coverage
+// 		enable cover coverage instrumentation.
 // 	-v
 // 		print the names of packages as they are compiled.
 // 	-work
