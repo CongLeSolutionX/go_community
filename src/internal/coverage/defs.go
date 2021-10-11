@@ -143,7 +143,7 @@ type CounterFlavor uint8
 const (
 	// "Raw" representation: all values (pkg ID, func ID, num counters,
 	// and counters themselves) are stored as uint32's.
-	CtrRaw = iota + 1
+	CtrRaw CounterFlavor = iota + 1
 
 	// "ULeb" representation: all values (pkg ID, func ID, num counters,
 	// and counters themselves) are stored with ULEB128 encoding.
