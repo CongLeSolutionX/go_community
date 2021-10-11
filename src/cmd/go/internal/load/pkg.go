@@ -207,6 +207,7 @@ type PackageInternal struct {
 	LocalPrefix       string               // interpret ./ and ../ imports relative to this prefix
 	ExeName           string               // desired name for temporary executable
 	FuzzInstrument    bool                 // package should be instrumented for fuzzing
+	CovInstrument     bool                 // package should be instrumented for coverage
 	CoverMode         string               // preprocess Go source files with the coverage tool in this mode
 	CoverVars         map[string]*CoverVar // variables created by coverage analysis
 	OmitDebug         bool                 // tell linker not to write debug information
@@ -1875,6 +1876,8 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		p.Error.setPos(p.Internal.Build.EmbedPatternPos[embedErr.Pattern])
 	}
 
+	p.Internal.CovInstrument = cfg.BuildCoverage
+
 	// Check for case-insensitive collision of input files.
 	// To avoid problems on case-insensitive files, we reject any package
 	// where two different input files have equal names under a case-insensitive
@@ -2424,6 +2427,10 @@ func LinkerDeps(p *Package) []string {
 	// Using address sanitizer forces an import of runtime/asan.
 	if cfg.BuildASan {
 		deps = append(deps, "runtime/asan")
+	}
+	// Building for coverage forces an import of runtime/coverage.
+	if cfg.BuildCoverage {
+		deps = append(deps, "runtime/coverage")
 	}
 
 	return deps
