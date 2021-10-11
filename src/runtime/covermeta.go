@@ -11,6 +11,9 @@ import "unsafe"
 // the symbol itself, "len" is the length of the sym in bytes, and
 // "hash" is an md5sum for the sym computed by the compiler.
 type covMetaBlob struct {
+	// Important: any changes to this struct should also be made in
+	// the runtime/coverage/emit.go, since that code expects a
+	// specific format here.
 	p       *byte
 	len     uint32
 	hash    [16]byte
@@ -88,4 +91,12 @@ func addCovMeta(p unsafe.Pointer, dlen uint32, hash [16]byte, pkpath string, pki
 
 	// ID zero is reserved as invalid.
 	return uint32(slot + 1)
+}
+
+func getCovMetaList() []covMetaBlob {
+	return covMeta.metaList
+}
+
+func getCovPkgMap() map[int]int {
+	return covMeta.pkgMap
 }
