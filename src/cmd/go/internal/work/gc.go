@@ -32,6 +32,7 @@ const trimPathGoRootFinal string = "$GOROOT"
 var runtimePackages = map[string]struct{}{
 	"internal/abi":            struct{}{},
 	"internal/bytealg":        struct{}{},
+	"internal/coverage/rtcov": struct{}{},
 	"internal/cpu":            struct{}{},
 	"internal/goarch":         struct{}{},
 	"internal/goos":           struct{}{},
