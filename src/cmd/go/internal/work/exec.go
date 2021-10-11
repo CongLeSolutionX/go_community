@@ -9,9 +9,12 @@ package work
 import (
 	"bytes"
 	"context"
+	"crypto/sha256"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"internal/coverage"
+	"internal/goexperiment"
 	"internal/lazyregexp"
 	"io"
 	"io/fs"
@@ -306,6 +309,9 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 	}
 	if p.Internal.BuildInfo != "" {
 		fmt.Fprintf(h, "modinfo %q\n", p.Internal.BuildInfo)
+	}
+	if p.Internal.DisableCovHooks {
+		fmt.Fprintf(h, "disablecovhooks\n")
 	}
 
 	// Configuration specific to compiler toolchain.
@@ -630,6 +636,8 @@ OverlayLoop:
 
 	// If we're doing coverage, preprocess the .go files and put them in the work directory
 	if a.Package.Internal.CoverMode != "" {
+		outfiles := []string{}
+		infiles := []string{}
 		for i, file := range str.StringList(gofiles, cgofiles) {
 			var sourceFile string
 			var coverFile string
@@ -646,18 +654,52 @@ OverlayLoop:
 				key = file
 			}
 			coverFile = strings.TrimSuffix(coverFile, ".go") + ".cover.go"
-			cover := a.Package.Internal.CoverVars[key]
-			if cover == nil || base.IsTestFile(file) {
+			var coverVar string
+			if !goexperiment.CoverageRedesign {
+				cover := a.Package.Internal.CoverVars[key]
+				if cover != nil {
+					coverVar = cover.Var
+				}
+			} else {
+				coverVar = "yes"
+			}
+			if coverVar == "" || base.IsTestFile(file) {
 				// Not covering this file.
 				continue
 			}
-			if err := b.cover(a, coverFile, sourceFile, cover.Var); err != nil {
-				return err
+			if !goexperiment.CoverageRedesign {
+				if err := b.cover(a, coverFile, sourceFile, coverVar); err != nil {
+					return err
+				}
+			} else {
+				infiles = append(infiles, sourceFile)
+				outfiles = append(outfiles, coverFile)
 			}
 			if i < len(gofiles) {
 				gofiles[i] = coverFile
 			} else {
 				cgofiles[i-len(gofiles)] = coverFile
+			}
+		}
+		if goexperiment.CoverageRedesign {
+			if len(infiles) != 0 {
+				sum := sha256.Sum256([]byte(a.Package.ImportPath))
+				coverVar := fmt.Sprintf("goCover_%x_", sum[:6])
+				mode := a.Package.Internal.CoverMode
+				regonly := false
+				if mode == "regonly" {
+					mode = "set"
+					regonly = true
+				} else if mode == "" {
+					panic("covermode should be set at this point")
+				}
+				pkgcfg := a.Objdir + "pkgcfg.txt"
+				b.writeCoverPkgCfg(a, pkgcfg, regonly)
+				if err := b.cover2(a, pkgcfg, infiles, outfiles, coverVar, mode); err != nil {
+					return err
+				}
+			} else {
+				p.Internal.CoverMode = ""
 			}
 		}
 	}
@@ -1895,6 +1937,68 @@ func (b *Builder) cover(a *Action, dst, src string, varName string) error {
 		"-var", varName,
 		"-o", dst,
 		src)
+}
+
+// cover2 runs, in effect,
+//
+//	go tool cover -pkgcfg=<config file> -mode=b.coverMode -var="varName" -o <outfiles> <infiles>
+func (b *Builder) cover2(a *Action, pkgcfg string, infiles, outfiles []string, varName string, mode string) error {
+	args := []string{base.Tool("cover"),
+		"-pkgcfg", pkgcfg,
+		"-mode", mode,
+		"-var", varName,
+		"-o", strings.Join(outfiles, string(os.PathListSeparator)),
+	}
+	args = append(args, infiles...)
+	return b.run(a, a.Objdir, "cover "+a.Package.ImportPath, nil,
+		cfg.BuildToolexec, args)
+}
+
+func (b *Builder) writeCoverPkgCfg(a *Action, file string, regonly bool) error {
+	pkclass := getCoverPackageClassification(a.Package)
+	p := a.Package
+	coverCfg := a.Objdir + "coveragecfg"
+	pcfg := coverage.CoverPkgConfig{
+		PkgPath:           p.ImportPath,
+		PkgName:           p.Name,
+		PkgClassification: pkclass,
+		RegOnly:           regonly,
+		// Note: coverage granularity is currently hard-wired to
+		// 'perblock'; there isn't a way using "go build -cover" or "go
+		// test -cover" to select it. This may change in the future
+		// depending on user demand.
+		Granularity: "perblock",
+		OutConfig:   coverCfg,
+	}
+	if a.Package.Module != nil {
+		pcfg.ModulePath = a.Package.Module.Path
+	}
+	if os.Getenv("THANM_DEBUG") != "" {
+		mp := "<nilmodule>"
+		if a.Package.Module != nil {
+			mp = a.Package.Module.Path
+		}
+		fmt.Fprintf(os.Stderr, "=-= pkg %s modulepath=%s class=%s\n",
+			a.Package.ImportPath, mp, pkclass)
+	}
+	data, err := json.Marshal(pcfg)
+	if err != nil {
+		return err
+	}
+	return b.writeFile(file, data)
+}
+
+func getCoverPackageClassification(p *load.Package) string {
+	if p.Standard {
+		return "stdlib" // coverage.PkgStdlib
+	}
+	if p.Module == nil {
+		return "none" // coverage.PkgNonMod
+	}
+	if p.Module.Main {
+		return "mainmod" // coverage.PkgMainMod
+	}
+	return "depmod" // coverage.PkgDepMod
 }
 
 var objectMagic = [][]byte{
