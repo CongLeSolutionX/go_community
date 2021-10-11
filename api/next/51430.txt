@@ -1,0 +1,1 @@
+pkg testing, func RegisterCover(Cover) (**string, **string) #51430
