@@ -220,6 +220,7 @@ type PackageInternal struct {
 	LocalPrefix       string               // interpret ./ and ../ imports relative to this prefix
 	ExeName           string               // desired name for temporary executable
 	FuzzInstrument    bool                 // package should be instrumented for fuzzing
+	DisableCovHooks   bool                 // disable cov hooks (for "go test")
 	CoverMode         string               // preprocess Go source files with the coverage tool in this mode
 	CoverVars         map[string]*CoverVar // variables created by coverage analysis
 	OmitDebug         bool                 // tell linker not to write debug information
@@ -1846,9 +1847,14 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		}
 
 		// The linker loads implicit dependencies.
-		if p.Name == "main" && !p.Internal.ForceLibrary {
-			for _, dep := range LinkerDeps(p) {
-				addImport(dep, false)
+		if p.Name == "main" {
+			if !p.Internal.ForceLibrary {
+				for _, dep := range LinkerDeps(p) {
+					addImport(dep, false)
+				}
+			}
+			if cfg.BuildCover {
+				addImport("runtime/coverage", true)
 			}
 		}
 	}
@@ -2496,6 +2502,10 @@ func LinkerDeps(p *Package) []string {
 	if cfg.BuildASan {
 		deps = append(deps, "runtime/asan")
 	}
+	// Building for coverage forces an import of runtime/coverage.
+	if cfg.BuildCover {
+		deps = append(deps, "runtime/coverage")
+	}
 
 	return deps
 }
@@ -3121,4 +3131,55 @@ func PackagesAndErrorsOutsideModule(ctx context.Context, opts PackageOpts, args 
 		}
 	}
 	return pkgs, nil
+}
+
+// PrepareForCoverageBuild is a helper invoked for "go install -cover"
+// and "go build -cover"; it walks through the packages being built
+// (and dependencies) and marks them for coverage instrumentation
+// when appropriate, and adding dependencies where needed.
+func PrepareForCoverageBuild(pkgs []*Package) {
+	ensureImport := func(p *Package, pkg string) {
+		for _, d := range p.Internal.Imports {
+			if d.Name == pkg {
+				return
+			}
+		}
+		st := &ImportStack{}
+		p1 := LoadImportWithFlags(pkg, p.Dir, p, st, nil, 0)
+		if p1.Error != nil {
+			base.Fatalf("load %s: %v", pkg, p1.Error)
+		}
+		p.Internal.Imports = append(p.Internal.Imports, p1)
+	}
+
+	// Visit the packages being built or installed, along with all
+	// of their dependencies, and mark them to be instrumented.
+	for _, p := range PackageList(pkgs) {
+		if p.ImportPath == "unsafe" {
+			continue
+		}
+
+		cmode := cfg.BuildCoverMode
+
+		// Silently ignore attempts to run coverage on
+		// sync/atomic when using atomic coverage mode.
+		// Atomic coverage mode uses sync/atomic, so
+		// we can't also do coverage on it.
+		if cmode == "atomic" && p.Standard && p.ImportPath == "sync/atomic" {
+			cmode = ""
+		}
+
+		// If using the race detector, silently ignore
+		// attempts to run coverage on the runtime
+		// packages. It will cause the race detector
+		// to be invoked before it has been initialized.
+		if cfg.BuildRace && p.Standard && (p.ImportPath == "runtime" || strings.HasPrefix(p.ImportPath, "runtime/internal")) {
+			cmode = "regonly"
+		}
+
+		p.Internal.CoverMode = cmode
+		if cmode == "atomic" {
+			ensureImport(p, "sync/atomic")
+		}
+	}
 }
