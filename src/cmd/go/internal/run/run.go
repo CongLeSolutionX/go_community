@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"go/build"
+	"internal/goexperiment"
 	"os"
 	"path"
 	"path/filepath"
@@ -141,6 +142,10 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 	}
 	cmdArgs := args[i:]
 	load.CheckPackageErrors([]*load.Package{p})
+
+	if goexperiment.CoverageRedesign && cfg.BuildCover {
+		load.PrepareForCoverageBuild([]*load.Package{p})
+	}
 
 	p.Internal.OmitDebug = true
 	p.Target = "" // must build - not up to date
