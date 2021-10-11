@@ -1,0 +1,142 @@
+# This test checks more of the "go build -cover" functionality,
+# specifically which packages get selected when building.
+
+[short] skip
+
+# Skip if new coverage is not enabled.
+[!GOEXPERIMENT:coverageredesign] skip
+
+#-------------------------------------------
+
+# Build for coverage.
+go build -mod=mod -o $WORK/modex.exe -cover modex/main
+
+# Execute.
+mkdir $WORK/covdata
+env GOCOVERDIR=$WORK/covdata
+exec $WORK/modex.exe 
+
+# Examine the result. 
+go tool covdata percent -i=$WORK/covdata
+stdout 'coverage: 100.0% of statements'
+
+# By default we want to see packages resident in the module covered,
+# but not dependencies.
+go tool covdata textfmt -i=$WORK/covdata -o=$WORK/covdata/out.txt
+grep 'mode: set' $WORK/covdata/out.txt
+grep 'modex/main/main.go:' $WORK/covdata/out.txt
+grep 'modex/sub/sub.go:' $WORK/covdata/out.txt
+! grep 'rsc.io' $WORK/covdata/out.txt
+
+rm $WORK/covdata
+rm $WORK/modex.exe
+
+#-------------------------------------------
+
+# Repeat the process above but with -coverpkg=mod.main
+
+go build -mod=mod -coverpkg=mod.main -o $WORK/modex.exe -cover modex/main
+
+# Execute.
+mkdir $WORK/covdata
+env GOCOVERDIR=$WORK/covdata
+exec $WORK/modex.exe 
+
+# Examine the result. 
+go tool covdata percent -i=$WORK/covdata
+stdout 'coverage: 100.0% of statements'
+
+# By default we want to see packages resident in the module covered,
+# but not dependencies.
+go tool covdata textfmt -i=$WORK/covdata -o=$WORK/covdata/out.txt
+grep 'mode: set' $WORK/covdata/out.txt
+grep 'modex/main/main.go:' $WORK/covdata/out.txt
+grep 'modex/sub/sub.go:' $WORK/covdata/out.txt
+! grep 'rsc.io' $WORK/covdata/out.txt
+
+rm $WORK/covdata
+rm $WORK/modex.exe
+
+#-------------------------------------------
+
+# Repeat the build but with -coverpkg=mod.deps
+
+go build -mod=mod -coverpkg=mod.deps -o $WORK/modex.exe -cover modex/main
+
+# Execute.
+mkdir $WORK/covdata
+env GOCOVERDIR=$WORK/covdata
+exec $WORK/modex.exe 
+
+# Examine the result. 
+go tool covdata percent -i=$WORK/covdata
+stdout  'coverage:.*[1-9][0-9.]+%'
+
+# Now we want to see dependencies, but not stdlib.
+# but not dependencies.
+go tool covdata textfmt -i=$WORK/covdata -o=$WORK/covdata/out.txt
+grep 'mode: set' $WORK/covdata/out.txt
+grep 'modex/main/main.go:' $WORK/covdata/out.txt
+grep 'modex/sub/sub.go:' $WORK/covdata/out.txt
+grep 'rsc.io' $WORK/covdata/out.txt
+! grep 'bufio/bufio.go:' $WORK/covdata/out.txt
+
+rm $WORK/covdata
+rm $WORK/modex.exe
+
+#-------------------------------------------
+
+# Repeat the build but with -coverpkg=all
+
+go build -mod=mod -coverpkg=all -o $WORK/modex.exe -cover modex/main
+
+# Execute.
+mkdir $WORK/covdata
+env GOCOVERDIR=$WORK/covdata
+exec $WORK/modex.exe 
+
+# Examine the result. 
+go tool covdata percent -i=$WORK/covdata
+stdout  'coverage:.*[1-9][0-9.]+%'
+
+# The whole enchilada.
+go tool covdata textfmt -i=$WORK/covdata -o=$WORK/covdata/out.txt
+grep 'mode: set' $WORK/covdata/out.txt
+grep 'modex/main/main.go:' $WORK/covdata/out.txt
+grep 'modex/sub/sub.go:' $WORK/covdata/out.txt
+grep 'rsc.io' $WORK/covdata/out.txt
+grep 'bufio/bufio.go:' $WORK/covdata/out.txt
+
+#-------------------------------------------
+# end of test cmds, start of harness and related files.
+
+-- go.mod --
+module modex
+
+go 1.20
+
+require rsc.io/quote/v3 v3.0.0
+
+-- main/main.go --
+package main
+
+import (
+	"fmt"
+	"modex/sub"
+
+	"rsc.io/quote"
+)
+
+func main() {
+	fmt.Println(quote.Go(), sub.F())
+}
+
+-- sub/sub.go --
+
+package sub
+
+func F() int {
+	return 42
+}
+     
+
