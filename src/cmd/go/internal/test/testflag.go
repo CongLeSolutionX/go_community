@@ -12,6 +12,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"internal/goexperiment"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -34,9 +35,14 @@ func init() {
 	cf.BoolVar(&cfg.BuildI, "i", false, "")
 	cf.StringVar(&testO, "o", "", "")
 
-	cf.BoolVar(&testCover, "cover", false, "")
-	cf.Var(coverFlag{(*coverModeFlag)(&testCoverMode)}, "covermode", "")
-	cf.Var(coverFlag{commaListFlag{&testCoverPaths}}, "coverpkg", "")
+	if !goexperiment.CoverageRedesign {
+		// When coverageredesign is enabled, -cover and -covermode
+		// are build flags and not just test flags, so if the
+		// experiment is disabled, make them test flags.
+		cf.BoolVar(&cfg.BuildCover, "cover", false, "")
+		cf.Var(work.CoverFlag{V: (*work.CoverModeFlag)(&cfg.BuildCoverMode)}, "covermode", "")
+		cf.Var(work.CoverFlag{V: work.CommaListFlag{Vals: &cfg.BuildCoverPkg}}, "coverpkg", "")
+	}
 
 	cf.Var((*base.StringsFlag)(&work.ExecCmd), "exec", "")
 	cf.BoolVar(&testJSON, "json", false, "")
@@ -52,7 +58,7 @@ func init() {
 	cf.StringVar(&testBlockProfile, "blockprofile", "", "")
 	cf.String("blockprofilerate", "", "")
 	cf.Int("count", 0, "")
-	cf.Var(coverFlag{stringFlag{&testCoverProfile}}, "coverprofile", "")
+	cf.Var(work.CoverFlag{V: stringFlag{&testCoverProfile}}, "coverprofile", "")
 	cf.String("cpu", "", "")
 	cf.StringVar(&testCPUProfile, "cpuprofile", "", "")
 	cf.Bool("failfast", false, "")
@@ -76,46 +82,6 @@ func init() {
 	for name := range passFlagToTest {
 		cf.Var(cf.Lookup(name).Value, "test."+name, "")
 	}
-}
-
-// A coverFlag is a flag.Value that also implies -cover.
-type coverFlag struct{ v flag.Value }
-
-func (f coverFlag) String() string { return f.v.String() }
-
-func (f coverFlag) Set(value string) error {
-	if err := f.v.Set(value); err != nil {
-		return err
-	}
-	testCover = true
-	return nil
-}
-
-type coverModeFlag string
-
-func (f *coverModeFlag) String() string { return string(*f) }
-func (f *coverModeFlag) Set(value string) error {
-	switch value {
-	case "", "set", "count", "atomic":
-		*f = coverModeFlag(value)
-		return nil
-	default:
-		return errors.New(`valid modes are "set", "count", or "atomic"`)
-	}
-}
-
-// A commaListFlag is a flag.Value representing a comma-separated list.
-type commaListFlag struct{ vals *[]string }
-
-func (f commaListFlag) String() string { return strings.Join(*f.vals, ",") }
-
-func (f commaListFlag) Set(value string) error {
-	if value == "" {
-		*f.vals = nil
-	} else {
-		*f.vals = strings.Split(value, ",")
-	}
-	return nil
 }
 
 // A stringFlag is a flag.Value representing a single string.
@@ -455,18 +421,6 @@ helpLoop:
 			testHelp = true
 			break helpLoop
 		}
-	}
-
-	// Ensure that -race and -covermode are compatible.
-	if testCoverMode == "" {
-		testCoverMode = "set"
-		if cfg.BuildRace {
-			// Default coverage mode is atomic when -race is set.
-			testCoverMode = "atomic"
-		}
-	}
-	if cfg.BuildRace && testCoverMode != "atomic" {
-		base.Fatalf(`-covermode must be "atomic", not %q, when -race is enabled`, testCoverMode)
 	}
 
 	// Forward any unparsed arguments (following --args) to the test binary.

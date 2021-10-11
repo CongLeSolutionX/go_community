@@ -11,8 +11,12 @@ import (
 	"cmd/go/internal/search"
 )
 
-// MatchPackage(pattern, cwd)(p) reports whether package p matches pattern in the working directory cwd.
-func MatchPackage(pattern, cwd string) func(*Package) bool {
+// MatchPackage(pattern, cwd)(p) reports whether package p matches
+// pattern in the working directory cwd. If 'allowModSelect' is set,
+// the pattern string can also include pseudo-packages "mod.main"
+// (selects all packages in the main module) and "mod.deps" (selects
+// all packages in main module and dependencies listed in go.mod).
+func MatchPackage(pattern, cwd string, allowModSelect bool) func(*Package) bool {
 	switch {
 	case search.IsRelativePath(pattern):
 		// Split pattern into leading pattern-free directory path
@@ -42,6 +46,14 @@ func MatchPackage(pattern, cwd string) func(*Package) bool {
 				return false
 			}
 			return matchPath(rel)
+		}
+	case allowModSelect && pattern == "mod.main":
+		return func(p *Package) bool {
+			return !p.Standard && p.Module != nil && p.Module.Main
+		}
+	case allowModSelect && pattern == "mod.deps":
+		return func(p *Package) bool {
+			return !p.Standard && p.Module != nil
 		}
 	case pattern == "all":
 		return func(p *Package) bool { return true }
