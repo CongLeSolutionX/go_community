@@ -8,6 +8,7 @@ package load
 import (
 	"bytes"
 	"context"
+	"crypto/sha256"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -220,6 +221,7 @@ type PackageInternal struct {
 	LocalPrefix       string               // interpret ./ and ../ imports relative to this prefix
 	ExeName           string               // desired name for temporary executable
 	FuzzInstrument    bool                 // package should be instrumented for fuzzing
+	DisableCovHooks   bool                 // disable cov hooks (for "go test")
 	CoverMode         string               // preprocess Go source files with the coverage tool in this mode
 	CoverVars         map[string]*CoverVar // variables created by coverage analysis
 	OmitDebug         bool                 // tell linker not to write debug information
@@ -1874,9 +1876,11 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		}
 
 		// The linker loads implicit dependencies.
-		if p.Name == "main" && !p.Internal.ForceLibrary {
-			for _, dep := range LinkerDeps(p) {
-				addImport(dep, false)
+		if p.Name == "main" {
+			if !p.Internal.ForceLibrary {
+				for _, dep := range LinkerDeps(p) {
+					addImport(dep, false)
+				}
 			}
 		}
 	}
@@ -2555,6 +2559,10 @@ func LinkerDeps(p *Package) []string {
 	if cfg.BuildASan {
 		deps = append(deps, "runtime/asan")
 	}
+	// Building for coverage forces an import of runtime/coverage.
+	if cfg.BuildCover {
+		deps = append(deps, "runtime/coverage")
+	}
 
 	return deps
 }
@@ -3191,4 +3199,232 @@ func PackagesAndErrorsOutsideModule(ctx context.Context, opts PackageOpts, args 
 		}
 	}
 	return pkgs, nil
+}
+
+// EnsureImport ensures that package p imports the named package.
+func EnsureImport(p *Package, pkg string) {
+	for _, d := range p.Internal.Imports {
+		if d.Name == pkg {
+			return
+		}
+	}
+
+	p1 := LoadImportWithFlags(pkg, p.Dir, p, &ImportStack{}, nil, 0)
+	if p1.Error != nil {
+		base.Fatalf("load %s: %v", pkg, p1.Error)
+	}
+
+	p.Internal.Imports = append(p.Internal.Imports, p1)
+}
+
+// PrepareForCoverageBuild is a helper invoked for "go install -cover"
+// and "go build -cover"; it walks through the packages being built
+// (and dependencies) and marks them for coverage instrumentation
+// when appropriate, and adding dependencies where needed.
+func PrepareForCoverageBuild(pkgs []*Package) {
+	var match []func(*Package) bool
+
+	buildingFromGoMod := false
+	for _, p := range pkgs {
+		if p.Module != nil {
+			buildingFromGoMod = true
+			break
+		}
+	}
+
+	matchMainMod := func(p *Package) bool {
+		return !p.Standard && p.Module != nil && p.Module.Main
+	}
+
+	// The set of packages instrumented by default varies depending
+	// on options and the nature of the build. If "-coverpkg" has been
+	// set, then match packages below using that value; if we're
+	// building with a module in effect, then default to packages
+	// in the main module. Otherwise, for "go run ..." and "go build ...",
+	// instrument the code provided on the command line.
+	switch {
+	case cfg.BuildCoverPkg != nil:
+		// Special cases for mod.main and mod.deps.
+		if len(cfg.BuildCoverPkg) == 1 {
+			switch cfg.BuildCoverPkg[0] {
+			case "mod.main":
+				// This selector only makes sense if a module
+				// is being used.
+				if !buildingFromGoMod {
+					base.Fatalf("-coverpkg selection of 'mod.main' not possible, no go.mod found")
+				}
+				match = []func(*Package) bool{matchMainMod}
+			case "mod.deps":
+				// This selector only makes sense if a module
+				// is being used.
+				if !buildingFromGoMod {
+					base.Fatalf("-coverpkg selection of 'mod.deps' not possible, no go.mod found")
+				}
+				matchWithDeps := func(p *Package) bool {
+					return !p.Standard && p.Module != nil
+				}
+				match = []func(*Package) bool{matchWithDeps}
+			}
+		}
+		if match == nil {
+			match = make([]func(*Package) bool, len(cfg.BuildCoverPkg))
+			for i := range cfg.BuildCoverPkg {
+				match[i] = MatchPackage(cfg.BuildCoverPkg[i], base.Cwd())
+			}
+		}
+	case buildingFromGoMod:
+		// Default is main module.
+		match = []func(*Package) bool{matchMainMod}
+	default:
+		// These matchers below are intended to handle the cases of:
+		//
+		// 1. "go run ..." and "go build ..."
+		// 2. building in gopath mode with GO111MODULE=off
+		//
+		// In case 2 above, the assumption here is that (in the
+		// absence of a -coverpkg flag) we want to add coverage
+		// instrumentation to the main package and all of its
+		// non-stdlib dependencies.
+		matchMain := func(p *Package) bool { return p.Internal.CmdlineFiles }
+		matchModOff := func(p *Package) bool {
+			return p.Module == nil && !p.Standard
+		}
+		match = []func(*Package) bool{matchMain, matchModOff}
+	}
+
+	// Visit the packages being built or installed, along with all
+	// of their dependencies, and mark them to be instrumented,
+	// taking into account the value of -coverpkg.
+	SelectCoverPackages(PackageList(pkgs), match, true)
+}
+
+func SelectCoverPackages(roots []*Package, match []func(*Package) bool, includeMain bool) []*Package {
+	covered := []*Package{}
+	matched := make([]bool, len(match))
+	for _, p := range roots {
+		haveMatch := false
+		for i := range match {
+			if match[i](p) {
+				matched[i] = true
+				haveMatch = true
+			}
+		}
+		if !haveMatch {
+			continue
+		}
+
+		// There is nothing to cover in package unsafe; it comes from
+		// the compiler.
+		if p.ImportPath == "unsafe" {
+			continue
+		}
+
+		// A package which only has test files can't be imported as a
+		// dependency, nor can it be instrumented for coverage.
+		if len(p.GoFiles)+len(p.CgoFiles) == 0 {
+			continue
+		}
+
+		// Silently ignore attempts to run coverage on sync/atomic
+		// when using atomic coverage mode. Atomic coverage mode uses
+		// sync/atomic, so we can't also do coverage on it.
+		if cfg.BuildCoverMode == "atomic" && p.Standard && p.ImportPath == "sync/atomic" {
+			continue
+		}
+
+		// If using the race detector, silently ignore attempts to run
+		// coverage on the runtime packages. It will cause the race
+		// detector to be invoked before it has been initialized. Note
+		// the use of "regonly" instead of just ignoring the package
+		// completely-- we do this due to the requirements of the
+		// package ID numbering scheme. See the comment in
+		// $GOROOT/src/internal/coverage/pkid.go dealing with
+		// hard-coding of runtime package IDs.
+		cmode := cfg.BuildCoverMode
+		if cfg.BuildRace && p.Standard && (p.ImportPath == "runtime" || strings.HasPrefix(p.ImportPath, "runtime/internal")) {
+			cmode = "regonly"
+		}
+
+		// If -coverpkg is in effect and for some reason we don't want
+		// coverage data for the main package, make sure that we at
+		// least process it for registration hooks.
+		if includeMain && p.Name == "main" && !haveMatch {
+			haveMatch = true
+			cmode = "regonly"
+		}
+
+		// Mark package for instrumentation.
+		p.Internal.CoverMode = cmode
+		covered = append(covered, p)
+
+		// Force import of sync/atomic into package if atomic mode.
+		if cfg.BuildCoverMode == "atomic" {
+			EnsureImport(p, "sync/atomic")
+		}
+
+		// Generate covervars if using legacy coverage design.
+		if !cfg.Experiment.CoverageRedesign {
+			var coverFiles []string
+			coverFiles = append(coverFiles, p.GoFiles...)
+			coverFiles = append(coverFiles, p.CgoFiles...)
+			coverFiles = append(coverFiles, p.TestGoFiles...)
+			p.Internal.CoverVars = DeclareCoverVars(p, coverFiles...)
+		}
+	}
+
+	// Warn about -coverpkg arguments that are not actually used.
+	for i := range cfg.BuildCoverPkg {
+		if !matched[i] {
+			fmt.Fprintf(os.Stderr, "warning: no packages being tested depend on matches for pattern %s\n", cfg.BuildCoverPkg[i])
+		}
+	}
+
+	return covered
+}
+
+// isTestFile reports whether the source file is a set of tests and
+// should therefore be excluded from coverage analysis when
+// running "go test -cover".
+func isTestFile(file string) bool {
+	// We don't cover tests, only the code they test.
+	return strings.HasSuffix(file, "_test.go")
+}
+
+// declareCoverVars attaches the required cover variables names
+// to the files, to be used when annotating the files. This
+// function only called when using legacy coverage test/build
+// (e.g. GOEXPERIMENT=coverageredesign is off).
+func DeclareCoverVars(p *Package, files ...string) map[string]*CoverVar {
+	coverVars := make(map[string]*CoverVar)
+	coverIndex := 0
+	// We create the cover counters as new top-level variables in the package.
+	// We need to avoid collisions with user variables (GoCover_0 is unlikely but still)
+	// and more importantly with dot imports of other covered packages,
+	// so we append 12 hex digits from the SHA-256 of the import path.
+	// The point is only to avoid accidents, not to defeat users determined to
+	// break things.
+	sum := sha256.Sum256([]byte(p.ImportPath))
+	h := fmt.Sprintf("%x", sum[:6])
+	for _, file := range files {
+		if isTestFile(file) {
+			continue
+		}
+		// For a package that is "local" (imported via ./ import or command line, outside GOPATH),
+		// we record the full path to the file name.
+		// Otherwise we record the import path, then a forward slash, then the file name.
+		// This makes profiles within GOPATH file system-independent.
+		// These names appear in the cmd/cover HTML interface.
+		var longFile string
+		if p.Internal.Local {
+			longFile = filepath.Join(p.Dir, file)
+		} else {
+			longFile = path.Join(p.ImportPath, file)
+		}
+		coverVars[file] = &CoverVar{
+			File: longFile,
+			Var:  fmt.Sprintf("GoCover_%d_%x", coverIndex, h),
+		}
+		coverIndex++
+	}
+	return coverVars
 }
