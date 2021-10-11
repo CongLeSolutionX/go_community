@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "784e415f_4ff71454",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2021-10-11T06:58:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether it\u0027s necessary because the rules about RORW and RORWconst already check the size of y.\n\nYou can check the rules about RORW and RORWconst.\n\nIf it\u0027s necessary I will add it in the next patch, thank you~",
+      "parentUuid": "21434f83_372373b1",
+      "range": {
+        "startLine": 1608,
+        "startChar": 45,
+        "endLine": 1608,
+        "endChar": 47
+      },
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "350e2209_032fe7a4",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 2
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96133a34_5d6a49e2",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1673,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2021-10-11T06:58:20Z",
+      "side": 1,
+      "message": "At first, the ORRW will do the operation between two 32-bit values(by using 32-bit form registers w*, which is a half of x*) with the top 32-bit cleared and generate a 32-bit value in the arm64. For example, if we have an assemble code like:\n\n\u0027orr     w0, w1, w2\u0027\n\nIn this case, the top 32-bit of x0,x1,x2 will be cleared.\n\nSo I think the question here is the size of \u0027x\u0027 and the const.\n\nI notice that MOVDconst will be always a 64-bit value, so the rules will be wrong if c has values in the top 32-bit.\n\nIf we can have some ops like MOVWconst(32-bit const), it can be solved by replacing MOVDconst with MOVWconst and adding a value check of x.\nOr I can just remove these rules for now until we really need it.",
+      "parentUuid": "350e2209_032fe7a4",
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff2ddf5f_4e8606d5",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 2
@@ -54,6 +96,30 @@
       "writtenOn": "2021-10-09T17:16:51Z",
       "side": 1,
       "message": "This should be TSTW?",
+      "range": {
+        "startLine": 1689,
+        "startChar": 40,
+        "endLine": 1689,
+        "endChar": 43
+      },
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0faf46b6_aa62bdfb",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1689,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2021-10-11T06:58:20Z",
+      "side": 1,
+      "message": "Yes, I will update in the next patch.\n\nThank you~",
+      "parentUuid": "ff2ddf5f_4e8606d5",
       "range": {
         "startLine": 1689,
         "startChar": 40,
