@@ -22,3 +22,12 @@ type CovMetaBlob struct {
 	PkgID       int
 	CounterMode uint8 // coverage.CounterMode
 }
+
+// CovCounterBlob is a container for encapsulating a counter section
+// (BSS variable) for an instrumented Go module. Here "counters"
+// points to the counter payload and "len" is the number of uint32
+// entries in the section.
+type CovCounterBlob struct {
+	Counters *uint32
+	Len      uint64
+}
