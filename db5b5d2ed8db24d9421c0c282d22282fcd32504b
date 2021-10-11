@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d69328f_450b2184",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-11T22:23:30Z",
+      "side": 1,
+      "message": "Replaced the isFuzzing method with a flag in testContext that\u0027s only set at construction. I think that\u0027s more readable. This changes panic behavior: we\u0027ll no longer recover from panics when running fuzz tests, which I think is actually what we intended.\n\nThis branch should only be taken when running the fuzz engine. It should not be taken while running targets as unit tests, though I don\u0027t necessarily think there\u0027s harm in that; mostly I think fuzz tests should have similar behavior to regular tests.\n\nI think *isFuzzWorker and f.testContext.isFuzzing are equivalent here. isFuzzing would be true for both coordinator and workers, but the coordinator never calls run.",
+      "parentUuid": "8792d6ba_ffc9401d",
+      "range": {
+        "startLine": 383,
+        "startChar": 5,
+        "endLine": 383,
+        "endChar": 18
+      },
+      "revId": "db5b5d2ed8db24d9421c0c282d22282fcd32504b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef9d8d8b_23540e24",
@@ -74,6 +98,24 @@
       "writtenOn": "2021-10-07T19:14:35Z",
       "side": 1,
       "message": "Do we also need to clear the buffered test output here?",
+      "revId": "db5b5d2ed8db24d9421c0c282d22282fcd32504b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2528f97_11082f04",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-11T22:23:30Z",
+      "side": 1,
+      "message": "There are a few open issues for duplicate and redundant output, so we probably need to suppress it somewhere. I don\u0027t think this is the right place though. At this point, there is no T yet (and we don\u0027t have reference to the T for previous runs), so we could only flush f.output. f.output should only contain bytes from F.Log, and we shouldn\u0027t suppress those (actually they should be printed before now).",
+      "parentUuid": "ef9d8d8b_23540e24",
       "revId": "db5b5d2ed8db24d9421c0c282d22282fcd32504b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5749f98_f3195477",
+        "filename": "src/testing/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-11T22:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "247a25fe_354c10a5",
+      "range": {
+        "startLine": 88,
+        "startChar": 18,
+        "endLine": 88,
+        "endChar": 23
+      },
+      "revId": "db5b5d2ed8db24d9421c0c282d22282fcd32504b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edad39b9_e99f475c",
@@ -114,6 +180,30 @@
       "writtenOn": "2021-10-07T19:14:35Z",
       "side": 1,
       "message": "I think this is still true even when fuzzing..?\n\nWe should only be resetting the map in between top-level invocations of the Fuzz callback on the fuzz worker — as far as the test is concerned it\u0027s as if it were a separate test run.",
+      "range": {
+        "startLine": 790,
+        "startChar": 14,
+        "endLine": 790,
+        "endChar": 36
+      },
+      "revId": "db5b5d2ed8db24d9421c0c282d22282fcd32504b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e70283b_c56753f9",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-11T22:23:30Z",
+      "side": 1,
+      "message": "Reverted, since this is true for subtests started with T.Run within the fuzz target.\n\n(I still think of individual runs as being separate subtests, though they technically aren\u0027t. They each get a separate T and most of the T methods (except Parallel) behave normally.",
+      "parentUuid": "edad39b9_e99f475c",
       "range": {
         "startLine": 790,
         "startChar": 14,
