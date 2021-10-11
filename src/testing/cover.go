@@ -8,6 +8,7 @@ package testing
 
 import (
 	"fmt"
+	"internal/goexperiment"
 	"os"
 	"sync/atomic"
 )
@@ -78,6 +79,9 @@ func mustBeNil(err error) {
 
 // coverReport reports the coverage percentage and writes a coverage profile if requested.
 func coverReport() {
+	if goexperiment.CoverageRedesign {
+		return
+	}
 	var f *os.File
 	var err error
 	if *coverProfile != "" {
