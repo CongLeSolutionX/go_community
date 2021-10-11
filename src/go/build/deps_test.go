@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2022 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -70,8 +70,8 @@ var depsRules = `
 	# No dependencies allowed for any of these packages.
 	NONE
 	< constraints, container/list, container/ring,
-	  internal/cfg, internal/cpu, internal/coverage,
-	  internal/coverage/uleb128, internal/coverage/rtcov, internal/goarch,
+	  internal/cfg, internal/coverage, internal/coverage/rtcov,
+	  internal/coverage/uleb128, internal/cpu, internal/goarch,
 	  internal/goexperiment, internal/goos,
 	  internal/goversion, internal/nettrace,
 	  unicode/utf8, unicode/utf16, unicode,
@@ -589,6 +589,11 @@ var depsRules = `
     FMT, encoding/binary, internal/coverage, io, os,
     crypto/md5, internal/coverage/stringtab
     < internal/coverage/decodemeta;
+
+    FMT, bufio, crypto/md5, encoding/binary, runtime/debug,
+    internal/coverage, internal/coverage/encodemeta, os, path/filepath,
+    internal/coverage/encodecounter, reflect, time, unsafe
+    < runtime/coverage;
 `
 
 // listStdPkgs returns the same list of packages as "go list std".
