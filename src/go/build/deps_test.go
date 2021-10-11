@@ -70,8 +70,8 @@ var depsRules = `
 	# No dependencies allowed for any of these packages.
 	NONE
 	< constraints, container/list, container/ring,
-	  internal/cfg, internal/cpu, internal/coverage,
-	  internal/coverage/uleb128, internal/goarch,
+	  internal/cfg, internal/coverage, internal/coverage/uleb128,
+      internal/cpu,  internal/goarch,
 	  internal/goexperiment, internal/goos,
 	  internal/goversion, internal/nettrace,
 	  unicode/utf8, unicode/utf16, unicode,
@@ -571,7 +571,7 @@ var depsRules = `
     < internal/coverage/encodemeta;
 
     FMT, bufio, encoding/binary, internal/coverage,
-    internal/coverage/stringtab, os, unsafe
+    internal/coverage/stringtab, internal/coverage/slicewriter, os, unsafe
     < internal/coverage/encodecounter;
 
     FMT, encoding/binary, internal/coverage, io, os,
@@ -581,6 +581,11 @@ var depsRules = `
     FMT, encoding/binary, internal/coverage, io, os,
     crypto/md5, internal/coverage/stringtab
     < internal/coverage/decodemeta;
+
+    FMT, bufio, crypto/md5, encoding/binary, runtime/debug,
+    internal/coverage, internal/coverage/encodemeta, os, path/filepath,
+    internal/coverage/encodecounter, reflect, time, unsafe
+    < runtime/coverage;
 `
 
 // listStdPkgs returns the same list of packages as "go list std".
