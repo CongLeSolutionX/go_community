@@ -87,6 +87,24 @@
       "message": "Please move this down just above line 440,\nso that the initialization of r is next to the use of r.\nRight now the setup of flag has gotten stuck in the middle.",
       "revId": "8b30f1c7e5efb6e200aed51878b9bc7c76a90ba9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8074a21_f546a8a7",
+        "filename": "src/regexp/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 38590
+      },
+      "writtenOn": "2021-10-11T17:21:03Z",
+      "side": 1,
+      "message": "The call to newLazyFlag uses r so I can\u0027t move it after that.\nI\u0027ll move the r1 initialization up to here so they\u0027re together.",
+      "parentUuid": "01117b05_cd46ba85",
+      "revId": "8b30f1c7e5efb6e200aed51878b9bc7c76a90ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
