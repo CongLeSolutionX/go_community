@@ -372,6 +372,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"internal/goexperiment"
 	"internal/race"
 	"io"
 	"math/rand"
@@ -420,6 +421,7 @@ func Init() {
 	chatty = flag.Bool("test.v", false, "verbose: print additional output")
 	count = flag.Uint("test.count", 1, "run tests and benchmarks `n` times")
 	coverProfile = flag.String("test.coverprofile", "", "write a coverage profile to `file`")
+	gocoverdir = flag.String("test.gocoverdir", "", "write coverage intermediate files to this directory")
 	matchList = flag.String("test.list", "", "list tests, examples, and benchmarks matching `regexp` then exit")
 	match = flag.String("test.run", "", "run only tests and examples matching `regexp`")
 	memProfile = flag.String("test.memprofile", "", "write an allocation profile to `file`")
@@ -449,6 +451,7 @@ var (
 	chatty               *bool
 	count                *uint
 	coverProfile         *string
+	gocoverdir           *string
 	matchList            *string
 	match                *string
 	memProfile           *string
@@ -576,6 +579,9 @@ func Short() bool {
 // values are "set", "count", or "atomic". The return value will be
 // empty if test coverage is not enabled.
 func CoverMode() string {
+	if goexperiment.CoverageRedesign {
+		return cover2.mode
+	}
 	return cover.Mode
 }
 
@@ -1928,8 +1934,12 @@ func (m *M) before() {
 	if *mutexProfile != "" && *mutexProfileFraction >= 0 {
 		runtime.SetMutexProfileFraction(*mutexProfileFraction)
 	}
-	if *coverProfile != "" && cover.Mode == "" {
+	if *coverProfile != "" && CoverMode() == "" {
 		fmt.Fprintf(os.Stderr, "testing: cannot use -test.coverprofile because test binary was not built with coverage enabled\n")
+		os.Exit(2)
+	}
+	if *gocoverdir != "" && CoverMode() == "" {
+		fmt.Fprintf(os.Stderr, "testing: cannot use -test.gocoverdir because test binary was not built with coverage enabled\n")
 		os.Exit(2)
 	}
 	if *testlog != "" {
@@ -2025,7 +2035,7 @@ func (m *M) writeProfiles() {
 		}
 		f.Close()
 	}
-	if cover.Mode != "" {
+	if CoverMode() != "" {
 		coverReport()
 	}
 }
