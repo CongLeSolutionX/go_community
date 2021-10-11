@@ -140,6 +140,9 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 	if strings.HasPrefix(runtimeVersion, "go1") && !strings.Contains(os.Args[0], "go_bootstrap") {
 		defaultGcFlags = append(defaultGcFlags, "-goversion", runtimeVersion)
 	}
+	if p.Internal.CovInstrument {
+		defaultGcFlags = append(defaultGcFlags, "-newcov")
+	}
 	if symabis != "" {
 		defaultGcFlags = append(defaultGcFlags, "-symabis", symabis)
 	}
