@@ -302,6 +302,10 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 			fmt.Fprintf(h, "fuzz %q\n", fuzzFlags)
 		}
 	}
+	if p.Internal.CovInstrument {
+		// FIXME: fold covermode into this.
+		fmt.Fprintf(h, "cov\n")
+	}
 	fmt.Fprintf(h, "modinfo %q\n", p.Internal.BuildInfo)
 
 	// Configuration specific to compiler toolchain.
