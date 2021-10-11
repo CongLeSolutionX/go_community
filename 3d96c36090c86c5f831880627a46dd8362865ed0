@@ -203,6 +203,24 @@
       "parentUuid": "908f4787_1a07cca8",
       "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "187247f2_162abdd8",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-11T18:48:59Z",
+      "side": 1,
+      "message": "I guess my question is - did this performance issue come up in a program someone was writing for some other task, or did it only come up because you wrote a piece of code to deliberately demonstrate the problem?",
+      "parentUuid": "15a9ca32_3103307e",
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
