@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b799640d_e7705fc6",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 0,
+      "message": "Why change this? Undo.",
+      "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

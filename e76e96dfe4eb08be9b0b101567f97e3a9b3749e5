@@ -310,6 +310,115 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0fbf1d14_48f8ee82",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "Maybe move this comment to the definition of this function at line 271. So it is clearer what this function does.",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49916f61_d5decc28",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "\"the imported function\"?",
+      "range": {
+        "startLine": 286,
+        "startChar": 52,
+        "endLine": 286,
+        "endChar": 62
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5d5511e_cd5d7617",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "Nit: remove \"$GOROOT/src/\"",
+      "range": {
+        "startLine": 287,
+        "startChar": 55,
+        "endLine": 287,
+        "endChar": 67
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f27784_2f17b3e8",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "Either spell fully as \"stack pointer\", or you can just say SP.",
+      "range": {
+        "startLine": 519,
+        "startChar": 34,
+        "endLine": 519,
+        "endChar": 37
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cfcf756_0a899fd8",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "I think we don\u0027t use markdown in comments. Just use a blank line for separation.",
+      "range": {
+        "startLine": 521,
+        "startChar": 6,
+        "endLine": 521,
+        "endChar": 9
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ab7046d_c59e2401",
         "filename": "src/cmd/compile/internal/syntax/syntax.go",
         "patchSetId": 2
@@ -326,6 +435,92 @@
         "startChar": 0,
         "endLine": 61,
         "endChar": 1
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29c23fd1_076054e1",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "It may be good to have some comment on the definition, especially as this package is for all architectures.",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58cd6120_f3e9446e",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "This is no longer dwsyms. Maybe rename this variable.",
+      "range": {
+        "startLine": 739,
+        "startChar": 2,
+        "endLine": 739,
+        "endChar": 8
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e3a07b2_8b8dde93",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "Why this is necessary?",
+      "range": {
+        "startLine": 81,
+        "startChar": 42,
+        "endLine": 81,
+        "endChar": 71
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81d3883e_a7a86038",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "Same here. Maybe rename.",
+      "range": {
+        "startLine": 395,
+        "startChar": 1,
+        "endLine": 395,
+        "endChar": 7
       },
       "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -356,6 +551,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1713df2_cf7cbbdd",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1652,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "There is only one. It doesn\u0027t \"collect\".",
+      "range": {
+        "startLine": 1652,
+        "startChar": 24,
+        "endLine": 1652,
+        "endChar": 32
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d1af70e_8c39ef59",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "Just \"WasmImportSym\".",
+      "range": {
+        "startLine": 1657,
+        "startChar": 17,
+        "endLine": 1657,
+        "endChar": 37
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ded1ace0_257a7b53",
         "filename": "src/cmd/link/internal/wasm/asm.go",
         "patchSetId": 2
@@ -373,6 +614,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24c92f3c_5843f0a2",
+        "filename": "src/syscall/js/func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "Undo.",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "abad6140_db42c7cf",
         "filename": "src/syscall/js/js.go",
         "patchSetId": 2
@@ -384,6 +642,24 @@
       "writtenOn": "2021-10-04T19:23:54Z",
       "side": 1,
       "message": "Do we want these \"//go:noescape\" directives or should they be implicit? (I haven\u0027t thought about it at all just asking because they\u0027re being added here and below.)",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35f3cbb6_bdcf5275",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-11T22:43:24Z",
+      "side": 1,
+      "message": "This (and below) was not marked noescape. This CL does not change the escape character, so I don\u0027t think we want to change it here. Maybe it could be noescape, but not in this CL.",
+      "parentUuid": "abad6140_db42c7cf",
       "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
