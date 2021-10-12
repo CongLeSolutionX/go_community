@@ -52,6 +52,24 @@
       "parentUuid": "daf88033_a18b1dd7",
       "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebfa9e92_a6537530",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T15:32:19Z",
+      "side": 0,
+      "message": "Ok thank you for the clarification on the desired usage.  I will make a change here.",
+      "parentUuid": "399380c7_55cf29eb",
+      "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
