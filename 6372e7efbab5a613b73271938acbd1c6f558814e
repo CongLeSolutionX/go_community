@@ -142,6 +142,30 @@
       },
       "revId": "6372e7efbab5a613b73271938acbd1c6f558814e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc5beda_24dcdbfe",
+        "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-12T16:31:49Z",
+      "side": 1,
+      "message": "Ah, we commented concurrently.\n\n\u003e That is, this tool is not a strict API checker.  It\u0027s a check that nobody makes an unexpected change to the standard library.\n\nInteresting. I think it\u0027s probably OK to change type parameter names for the sake of readability. For example, we\u0027ll likely want to change receiver type parameters to or from \u0027_\u0027, at some point in the future. Including them in cmd/api might cause noise, but I see your point and could be convinced otherwise. Let me know what you think about the CL above.",
+      "parentUuid": "cd04a3d9_c966e65d",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "6372e7efbab5a613b73271938acbd1c6f558814e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
