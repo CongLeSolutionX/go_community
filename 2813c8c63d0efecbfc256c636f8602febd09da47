@@ -108,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "293bfe1f_dcc5f153",
+        "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-12T03:04:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18419beb_3cd09d70",
+      "range": {
+        "startLine": 2,
+        "startChar": 21,
+        "endLine": 2,
+        "endChar": 23
+      },
+      "revId": "2813c8c63d0efecbfc256c636f8602febd09da47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68486d13_a407fad5",
@@ -217,6 +241,30 @@
       "side": 1,
       "message": "yes, the go/parser and go/types don\u0027t understand this yet",
       "parentUuid": "22478a1f_8d61187d",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "2813c8c63d0efecbfc256c636f8602febd09da47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e67378_b289a884",
+        "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-12T03:04:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71b6c0c9_78d72c0b",
       "range": {
         "startLine": 4,
         "startChar": 0,
