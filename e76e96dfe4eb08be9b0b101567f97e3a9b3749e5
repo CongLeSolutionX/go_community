@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f80a7ce_49584356",
+        "filename": "src/cmd/compile/internal/ir/func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "e9e302c6_91ccde8b",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b21a988_b79a9ba1",
         "filename": "src/cmd/compile/internal/noder/noder.go",
         "patchSetId": 2
@@ -193,6 +211,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "8b21a988_b79a9ba1",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab680d80_8cad12dc",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "b0e38f3a_567faf56",
       "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -293,6 +329,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9dd4bf8e_c67fb3d7",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1689,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "5f0da864_2d3e14b8",
+      "range": {
+        "startLine": 1688,
+        "startChar": 0,
+        "endLine": 1689,
+        "endChar": 15
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ecac4c3_23ca42c0",
         "filename": "src/cmd/compile/internal/ssagen/abi.go",
         "patchSetId": 2
@@ -304,6 +364,24 @@
       "writtenOn": "2021-10-04T19:23:54Z",
       "side": 1,
       "message": "Is this necessary? If so, add a comment explaining why; if not, remove. (Normally, we calculate size on demand; but that\u0027s not safe concurrently.)",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "040d33b3_89a60f73",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "no, this was a relic of a rebase, unfortunately.  I have removed it, and I also moved the `ABIConfig` stuff below to the `setupTextLSym()` function to clean up how the `ABIParamResultInfo` is used, and fix support for functions with unnamed parameters.",
+      "parentUuid": "0ecac4c3_23ca42c0",
       "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -327,6 +405,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b451356_713f976a",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "0fbf1d14_48f8ee82",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49916f61_d5decc28",
         "filename": "src/cmd/compile/internal/ssagen/abi.go",
         "patchSetId": 2
@@ -338,6 +434,30 @@
       "writtenOn": "2021-10-11T22:43:24Z",
       "side": 1,
       "message": "\"the imported function\"?",
+      "range": {
+        "startLine": 286,
+        "startChar": 52,
+        "endLine": 286,
+        "endChar": 62
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6558d56_cd39746f",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "reworded the comment block altogether, and used the wording `imported WASM functions`",
+      "parentUuid": "49916f61_d5decc28",
       "range": {
         "startLine": 286,
         "startChar": 52,
@@ -373,6 +493,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25cfaf6c_912ea9e9",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "b5d5511e_cd5d7617",
+      "range": {
+        "startLine": 287,
+        "startChar": 55,
+        "endLine": 287,
+        "endChar": 67
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45f27784_2f17b3e8",
         "filename": "src/cmd/compile/internal/ssagen/abi.go",
         "patchSetId": 2
@@ -384,6 +528,30 @@
       "writtenOn": "2021-10-11T22:43:24Z",
       "side": 1,
       "message": "Either spell fully as \"stack pointer\", or you can just say SP.",
+      "range": {
+        "startLine": 519,
+        "startChar": 34,
+        "endLine": 519,
+        "endChar": 37
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72c76578_a39741dc",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "45f27784_2f17b3e8",
       "range": {
         "startLine": 519,
         "startChar": 34,
@@ -419,6 +587,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8424bc36_abcefe0c",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "modified to use godoc conventions for preformatted code",
+      "parentUuid": "8cfcf756_0a899fd8",
+      "range": {
+        "startLine": 521,
+        "startChar": 6,
+        "endLine": 521,
+        "endChar": 9
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ab7046d_c59e2401",
         "filename": "src/cmd/compile/internal/syntax/syntax.go",
         "patchSetId": 2
@@ -430,6 +622,30 @@
       "writtenOn": "2021-10-04T19:23:54Z",
       "side": 1,
       "message": "//line is the only pragma that\u0027s supported directly by package syntax; everything else needs to be handled via the pragma handler.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 1
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "574aade5_ce5563a3",
+        "filename": "src/cmd/compile/internal/syntax/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "this has been moved to the ir package",
+      "parentUuid": "2ab7046d_c59e2401",
       "range": {
         "startLine": 57,
         "startChar": 0,
@@ -459,6 +675,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fba564a1_8bed0541",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "29c23fd1_076054e1",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58cd6120_f3e9446e",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 2
@@ -470,6 +704,30 @@
       "writtenOn": "2021-10-11T22:43:24Z",
       "side": 1,
       "message": "This is no longer dwsyms. Maybe rename this variable.",
+      "range": {
+        "startLine": 739,
+        "startChar": 2,
+        "endLine": 739,
+        "endChar": 8
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de4055e7_f2e10f6e",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "kept variable name, but changed what the for loop ranges over",
+      "parentUuid": "58cd6120_f3e9446e",
       "range": {
         "startLine": 739,
         "startChar": 2,
@@ -505,6 +763,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec783f6f_f4746c08",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "it seems that it is not.  Removed.",
+      "parentUuid": "1e3a07b2_8b8dde93",
+      "range": {
+        "startLine": 81,
+        "startChar": 42,
+        "endLine": 81,
+        "endChar": 71
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81d3883e_a7a86038",
         "filename": "src/cmd/internal/obj/sym.go",
         "patchSetId": 2
@@ -516,6 +798,30 @@
       "writtenOn": "2021-10-11T22:43:24Z",
       "side": 1,
       "message": "Same here. Maybe rename.",
+      "range": {
+        "startLine": 395,
+        "startChar": 1,
+        "endLine": 395,
+        "endChar": 7
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07ae20ce_1ca665e0",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "kept variable name, but changed what the for loop ranges over",
+      "parentUuid": "81d3883e_a7a86038",
       "range": {
         "startLine": 395,
         "startChar": 1,
@@ -551,6 +857,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d8ff1a9_cf8efdde",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "dd02bcd7_c6f34173",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 15
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1713df2_cf7cbbdd",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
@@ -562,6 +892,30 @@
       "writtenOn": "2021-10-11T22:43:24Z",
       "side": 1,
       "message": "There is only one. It doesn\u0027t \"collect\".",
+      "range": {
+        "startLine": 1652,
+        "startChar": 24,
+        "endLine": 1652,
+        "endChar": 32
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8076fd80_4b89ba8e",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1652,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "fixed!",
+      "parentUuid": "c1713df2_cf7cbbdd",
       "range": {
         "startLine": 1652,
         "startChar": 24,
@@ -597,6 +951,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "247ce747_50a512cc",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "4d1af70e_8c39ef59",
+      "range": {
+        "startLine": 1657,
+        "startChar": 17,
+        "endLine": 1657,
+        "endChar": 37
+      },
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ded1ace0_257a7b53",
         "filename": "src/cmd/link/internal/wasm/asm.go",
         "patchSetId": 2
@@ -614,6 +992,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94bc8884_8727fec9",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "reworked a bit to make use of `bytes.Reader`",
+      "parentUuid": "ded1ace0_257a7b53",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24c92f3c_5843f0a2",
         "filename": "src/syscall/js/func.go",
         "patchSetId": 2
@@ -625,6 +1021,24 @@
       "writtenOn": "2021-10-11T22:43:24Z",
       "side": 1,
       "message": "Undo.",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e816f0fb_acd0fec4",
+        "filename": "src/syscall/js/func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "please see comment in `runtime/lock_js.go`",
+      "parentUuid": "24c92f3c_5843f0a2",
       "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -666,6 +1080,42 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "80c6e541_e782240c",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "35f3cbb6_bdcf5275",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4877cb8d_3866c881",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "removed!",
+      "parentUuid": "35f3cbb6_bdcf5275",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1636643b_21bb6f76",
         "filename": "src/syscall/js/js_test.go",
         "patchSetId": 2
@@ -700,6 +1150,24 @@
       "writtenOn": "2021-10-04T19:23:54Z",
       "side": 1,
       "message": "nit: follow the got/want pattern used below",
+      "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "782e1162_e52e3849",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "376a7494_1fb0659a",
       "revId": "e76e96dfe4eb08be9b0b101567f97e3a9b3749e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

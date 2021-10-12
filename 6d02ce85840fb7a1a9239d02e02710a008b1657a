@@ -16,6 +16,24 @@
       "message": "Why change this? Undo.",
       "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daf88033_a18b1dd7",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T03:32:55Z",
+      "side": 0,
+      "message": "There appears to have been a change that broke this.  This cannot compile for js/wasm target without these changes due to the requirement to import \"unsafe\".  Leaving this unchanged for now, since it appears that the docs support the usage with the changes: https://pkg.go.dev/cmd/compile",
+      "parentUuid": "b799640d_e7705fc6",
+      "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
