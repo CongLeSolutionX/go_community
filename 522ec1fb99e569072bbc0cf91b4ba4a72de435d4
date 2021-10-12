@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8df8a8c_bfc01e9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10420
+      },
+      "writtenOn": "2021-10-12T16:05:10Z",
+      "side": 1,
+      "message": "sorted go:build pragma alphabetically",
+      "revId": "522ec1fb99e569072bbc0cf91b4ba4a72de435d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
