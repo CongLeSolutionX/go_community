@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1241da3_5aa58407",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1673,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2021-10-12T04:46:55Z",
+      "side": 1,
+      "message": "\u003e So I think we need to decide how we interpret *W operations. One way is to say *W \u003e operations always zero the top 32 bits (which they do, right?)\n\u003e\nI am inclined to this interpretation. Because it is consistent with the instruction behavior of the arm architecture, we can simply translate the *W operations into the 32-bit format arm instruction (this\u0027s what we\u0027re doing now). If we use the second interpretation, the *W operation can also be code generated into 64-bit arm instruction. Then when generating a 32-bit return value, we have to deal with the upper 32 bits of the return value properly.",
+      "parentUuid": "96133a34_5d6a49e2",
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff2ddf5f_4e8606d5",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 2
