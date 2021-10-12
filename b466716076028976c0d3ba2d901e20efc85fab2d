@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4830b3d0_6d62a5d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-10-12T16:11:43Z",
+      "side": 1,
+      "message": "Suggestion for solving this without unsafe and without unaligned accesses. ",
+      "revId": "b466716076028976c0d3ba2d901e20efc85fab2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17fd9bf4_d0f777ac",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-10-12T16:11:43Z",
+      "side": 1,
+      "message": "Those might be unaligned accesses, which are very slow on some architectures. It is also not endian safe.\n\nBut you can manually unroll the byte by byte reading and the architectures that can so this will combine loads and stores for you.\n\nSee for example https://github.com/golang/go/blob/36a265a625a8320fea93aad62da4003b2cc54f72/src/encoding/binary/binary.go#L82 how do approach that without unsafe.",
+      "revId": "b466716076028976c0d3ba2d901e20efc85fab2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
