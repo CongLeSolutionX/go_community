@@ -88,6 +88,24 @@
       "parentUuid": "ebfa9e92_a6537530",
       "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24123c40_3fd8480e",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T16:34:39Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3607a311_a5187e1b",
+      "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
