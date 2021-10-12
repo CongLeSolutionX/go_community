@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f94786db_40a845b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "Fixes #38248. And put this to the end.",
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "903a592b_10e81bac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "CL 290112. Use CL number instead.",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29253de2_724ef5ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "No need to mention rebase.",
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ae027e3_91ed7dd6",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "Typo.",
+      "range": {
+        "startLine": 266,
+        "startChar": 71,
+        "endLine": 266,
+        "endChar": 76
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec57c6af_4ecd1540",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "This needs a comment explaining that this is the offset of Go\u0027s stack based ABI. The Wasm ABI doesn\u0027t use offsets.",
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba56a4bf_85db8886",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "Maybe CallWasmImport.",
+      "range": {
+        "startLine": 135,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 13
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd64445_274515a5",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "I wonder if it is simpler to do the code generation in cmd/compile/internal/wasm package. There you can access the function\u0027s type, then you may not need to pass the fields and offsets around.",
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee568639_20dc63cf",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this.",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 79
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aff178f0_94f827eb",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "Why? This needs some comment.",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 17
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0189e638_a0158e65",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "Also here.",
+      "range": {
+        "startLine": 226,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 17
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "733f7ae9_2b87adb7",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "You probably want to add a read methods to the WasmImport type next to the write function there. It is better to put them together. Also, don\u0027t use binary.Read. Use LittleEndian.Uint32/Uint64 directly.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 1
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f81b955c_d7d442df",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "No backticks in comments. Thanks.",
+      "range": {
+        "startLine": 179,
+        "startChar": 40,
+        "endLine": 179,
+        "endChar": 46
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b15b86b4_82467e20",
+        "filename": "src/syscall/js/func.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "Undo?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 1
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f1b8ba_0096fd32",
+        "filename": "src/syscall/js/js_js.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T22:33:57Z",
+      "side": 1,
+      "message": "It looks like we probably want to allow bodyless functions marked with wasmimport even with -complete (as we do with linkname). You already have changes in the compiler. Is that not enough?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
