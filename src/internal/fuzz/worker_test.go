@@ -51,18 +51,16 @@ func BenchmarkWorkerFuzzOverhead(b *testing.B) {
 	}()
 
 	initialVal := []interface{}{make([]byte, 32)}
-	encodedVals := marshalCorpusFile(initialVal...)
-	mem.setValue(encodedVals)
+	data := marshalCorpusFile(initialVal...)
 
 	ws.memMu <- mem
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		ws.m = newMutator()
-		mem.setValue(encodedVals)
 		mem.header().count = 0
 
-		ws.fuzz(context.Background(), fuzzArgs{Limit: 1})
+		ws.fuzz(context.Background(), fuzzArgs{Data: data, Limit: 1})
 	}
 }
 
@@ -93,10 +91,11 @@ func BenchmarkWorkerFuzz(b *testing.B) {
 	entry.Data = marshalCorpusFile(entry.Values...)
 	for i := int64(0); i < int64(b.N); {
 		args := fuzzArgs{
+			Data:    entry.Data,
 			Limit:   int64(b.N) - i,
 			Timeout: workerFuzzDuration,
 		}
-		_, resp, err := w.client.fuzz(context.Background(), entry, args)
+		resp, err := w.client.fuzz(context.Background(), args)
 		if err != nil {
 			b.Fatal(err)
 		}

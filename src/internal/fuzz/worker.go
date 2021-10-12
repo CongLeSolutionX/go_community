@@ -5,7 +5,6 @@
 package fuzz
 
 import (
-	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/json"
@@ -35,8 +34,8 @@ const (
 	workerExitCode = 70
 
 	// workerSharedMemSize is the maximum size of the shared memory file used to
-	// communicate with workers. This limits the size of fuzz inputs.
-	workerSharedMemSize = 100 << 20 // 100 MB
+	// communicate with workers.
+	workerSharedMemSize = 1 << 20 // 1 MB
 )
 
 // worker manages a worker process running a test binary. The worker object
@@ -148,14 +147,17 @@ func (w *worker) coordinate(ctx context.Context) error {
 		case input := <-w.coordinator.inputC:
 			// Received input from coordinator.
 			args := fuzzArgs{
+				Path:         input.entry.Path,
+				Data:         input.entry.Data,
 				Limit:        input.limit,
 				Timeout:      input.timeout,
 				Warmup:       input.warmup,
 				CoverageData: input.coverageData,
 			}
-			entry, resp, err := w.client.fuzz(ctx, input.entry, args)
+			resp, commErr := w.client.fuzz(ctx, args)
+			entry, entryErr := w.client.reconstructEntryAfterFuzz(input.entry, input.warmup)
 			canMinimize := true
-			if err != nil {
+			if commErr != nil {
 				// Error communicating with worker.
 				w.stop()
 				if ctx.Err() != nil {
@@ -165,7 +167,7 @@ func (w *worker) coordinate(ctx context.Context) error {
 				if w.interrupted {
 					// Communication error before we stopped the worker.
 					// Report an error, but don't record a crasher.
-					return fmt.Errorf("communicating with fuzzing process: %v", err)
+					return fmt.Errorf("communicating with fuzzing process: %v", commErr)
 				}
 				if w.waitErr == nil || isInterruptError(w.waitErr) {
 					// Worker stopped, either by exiting with status 0 or after being
@@ -189,6 +191,10 @@ func (w *worker) coordinate(ctx context.Context) error {
 				resp.Err = fmt.Sprintf("fuzzing process terminated unexpectedly: %v", w.waitErr)
 				canMinimize = false
 			}
+			if entryErr != nil {
+				return entryErr
+			}
+
 			result := fuzzResult{
 				limit:         input.limit,
 				count:         resp.Count,
@@ -531,9 +537,16 @@ type minimizeResponse struct {
 	Count int64
 }
 
-// fuzzArgs contains arguments to workerServer.fuzz. The value to fuzz is
-// passed in shared memory.
+// fuzzArgs contains arguments to workerServer.fuzz.
 type fuzzArgs struct {
+	// Path is the path to a file containing a marshalled entry to fuzz
+	// (from CorpusEntry.Name). Either Path or Data (or both) must be set.
+	Path string
+
+	// Data is the marshalled entry to fuzz (from CorpusEntry.Data).
+	// Either File or Data (or both) must be set.
+	Data []byte
+
 	// Timeout is the time to spend fuzzing, not including starting or
 	// cleaning up.
 	Timeout time.Duration
@@ -686,7 +699,16 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 		panic(fmt.Sprintf("mem.header().count %d already exceeds args.Limit %d", mem.header().count, args.Limit))
 	}
 
-	vals, err := unmarshalCorpusFile(mem.valueCopy())
+	data := args.Data
+	if data == nil {
+		var err error
+		data, err = os.ReadFile(args.Path)
+		if err != nil {
+			// TODO: create a mechanism to return internal errors instead of panicking
+			panic(fmt.Sprintf("reading corpus file for fuzzing: %v", err))
+		}
+	}
+	vals, err := unmarshalCorpusFile(data)
 	if err != nil {
 		panic(err)
 	}
@@ -1045,66 +1067,65 @@ func (wc *workerClient) minimize(ctx context.Context, entryIn CorpusEntry, args 
 }
 
 // fuzz tells the worker to call the fuzz method. See workerServer.fuzz.
-func (wc *workerClient) fuzz(ctx context.Context, entryIn CorpusEntry, args fuzzArgs) (entryOut CorpusEntry, resp fuzzResponse, err error) {
+func (wc *workerClient) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzResponse, err error) {
 	wc.mu.Lock()
 	defer wc.mu.Unlock()
 
 	mem, ok := <-wc.memMu
 	if !ok {
-		return CorpusEntry{}, fuzzResponse{}, errSharedMemClosed
+		return fuzzResponse{}, errSharedMemClosed
 	}
 	mem.header().count = 0
-	inp, err := CorpusEntryData(entryIn)
-	if err != nil {
-		return CorpusEntry{}, fuzzResponse{}, err
-	}
-	mem.setValue(inp)
 	wc.memMu <- mem
 
 	c := call{Fuzz: &args}
 	callErr := wc.callLocked(ctx, c, &resp)
 	mem, ok = <-wc.memMu
 	if !ok {
-		return CorpusEntry{}, fuzzResponse{}, errSharedMemClosed
+		return fuzzResponse{}, errSharedMemClosed
 	}
 	defer func() { wc.memMu <- mem }()
 	resp.Count = mem.header().count
 
-	if !bytes.Equal(inp, mem.valueRef()) {
-		panic("workerServer.fuzz modified input")
-	}
-	needEntryOut := callErr != nil || resp.Err != "" ||
-		(!args.Warmup && resp.CoverageData != nil)
-	if needEntryOut {
-		valuesOut, err := unmarshalCorpusFile(inp)
-		if err != nil {
-			panic(fmt.Sprintf("unmarshaling fuzz input value after call: %v", err))
-		}
-		wc.m.r.restore(mem.header().randState, mem.header().randInc)
-		if !args.Warmup {
-			// Only mutate the valuesOut if fuzzing actually occurred.
-			for i := int64(0); i < mem.header().count; i++ {
-				wc.m.mutate(valuesOut, cap(mem.valueRef()))
+	return resp, callErr
+}
+
+func (wc *workerClient) reconstructEntryAfterFuzz(entryIn CorpusEntry, warmup bool) (entryOut CorpusEntry, err error) {
+	wc.mu.Lock()
+	defer wc.mu.Unlock()
+
+	values := entryIn.Values
+	if values == nil {
+		data := entryIn.Data
+		if data == nil {
+			data, err = os.ReadFile(entryIn.Path)
+			if err != nil {
+				return CorpusEntry{}, fmt.Errorf("re-reading entry from corpus after fuzzing: %w", err)
 			}
 		}
-		dataOut := marshalCorpusFile(valuesOut...)
-
-		h := sha256.Sum256(dataOut)
-		name := fmt.Sprintf("%x", h[:4])
-		entryOut = CorpusEntry{
-			Parent:     entryIn.Path,
-			Path:       name,
-			Data:       dataOut,
-			Generation: entryIn.Generation + 1,
-		}
-		if args.Warmup {
-			// The bytes weren't mutated, so if entryIn was a seed corpus value,
-			// then entryOut is too.
-			entryOut.IsSeed = entryIn.IsSeed
+		values, err = unmarshalCorpusFile(data)
+		if err != nil {
+			return CorpusEntry{}, fmt.Errorf("re-reading entry from corpus after fuzzing: %w", err)
 		}
 	}
 
-	return entryOut, resp, callErr
+	mem := <-wc.memMu
+	defer func() { wc.memMu <- mem }()
+	wc.m.r.restore(mem.header().randState, mem.header().randInc)
+	if !warmup {
+		// Only mutate the values if fuzzing actually occurred.
+		for i := int64(0); i < mem.header().count; i++ {
+			wc.m.mutate(values, cap(mem.valueRef()))
+		}
+	}
+	entryOut = CorpusEntry{
+		Parent:     entryIn.Path,
+		Data:       marshalCorpusFile(values...),
+		Values:     values,
+		Generation: entryIn.Generation + 1,
+		IsSeed:     warmup && entryIn.IsSeed,
+	}
+	return entryOut, nil
 }
 
 // ping tells the worker to call the ping method. See workerServer.ping.
