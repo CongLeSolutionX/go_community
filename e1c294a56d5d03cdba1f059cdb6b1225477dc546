@@ -16,6 +16,24 @@
       "message": "With this old comment, it was easier to follow that we\u0027re doing the first write here. Now that it begins talking about GIF encoding, that\u0027s less clear. Maybe this  comment should begin with something like\n\n  // This is the first write; send a clear code.\n  // https://....",
       "revId": "e1c294a56d5d03cdba1f059cdb6b1225477dc546",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a39ec533_535a66f4",
+        "filename": "src/compress/lzw/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2021-10-12T08:11:56Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "ef47189f_52aa3f36",
+      "revId": "e1c294a56d5d03cdba1f059cdb6b1225477dc546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
