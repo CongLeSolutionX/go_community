@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec4cc26_2c71fef4",
+        "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-12T14:42:22Z",
+      "side": 1,
+      "message": "Hmm, we shouldn\u0027t depend on the actual type parameter name.\n\nShould we generate synthetic placeholder names for type parameters and receiver type parameters?",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "6372e7efbab5a613b73271938acbd1c6f558814e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
