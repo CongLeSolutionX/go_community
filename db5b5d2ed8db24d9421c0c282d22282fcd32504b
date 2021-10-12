@@ -85,6 +85,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22be590_d1f7a68c",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-12T19:17:50Z",
+      "side": 1,
+      "message": "\u003e This changes panic behavior: we\u0027ll no longer recover from panics when running fuzz tests, which I think is actually what we intended.\n\nWhen running fuzz tests as a unit test, or when fuzzing? (We need to nail down our verbiage lol)\n\nSounds fine to not recover from a panic when running them with runFuzzTargets, as long as that matches the behavior of a normal unit test.",
+      "parentUuid": "9d69328f_450b2184",
+      "range": {
+        "startLine": 383,
+        "startChar": 5,
+        "endLine": 383,
+        "endChar": 18
+      },
+      "revId": "db5b5d2ed8db24d9421c0c282d22282fcd32504b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef9d8d8b_23540e24",
