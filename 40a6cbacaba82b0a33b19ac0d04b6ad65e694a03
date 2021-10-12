@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f489cb_1072d841",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-12T16:31:44Z",
+      "side": 1,
+      "message": "not sure on protocol here for resolving threads, but from what I can find it looks like resolving is on me?  I\u0027ll go ahead and mark all that I have addressed as resolved.",
+      "revId": "40a6cbacaba82b0a33b19ac0d04b6ad65e694a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
