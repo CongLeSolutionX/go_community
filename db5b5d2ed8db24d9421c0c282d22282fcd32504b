@@ -109,6 +109,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6660dfa_84b497cc",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-12T20:20:38Z",
+      "side": 1,
+      "message": "(Seriously +1 about terminology)\n\nWhen running fuzz tests as unit tests, we will no longer recover from panic. Regular unit tests work that way, too, because the process could be in a bad state (e.g., mutex remains locked).\n\nWhen running fuzz tests through the fuzz engine, we will still recover from panic. At least for now.",
+      "parentUuid": "d22be590_d1f7a68c",
+      "range": {
+        "startLine": 383,
+        "startChar": 5,
+        "endLine": 383,
+        "endChar": 18
+      },
+      "revId": "db5b5d2ed8db24d9421c0c282d22282fcd32504b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef9d8d8b_23540e24",
