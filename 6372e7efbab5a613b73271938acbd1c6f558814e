@@ -70,6 +70,30 @@
       },
       "revId": "6372e7efbab5a613b73271938acbd1c6f558814e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c6a0eba_781c9f23",
+        "filename": "src/cmd/api/testdata/src/pkg/p4/golden.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-12T15:33:43Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve got it working. Will send a CL soon.\n\nThe trick is making all the substitution work, which requires creating several fake types to instantiate.",
+      "parentUuid": "629508a7_848de900",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "6372e7efbab5a613b73271938acbd1c6f558814e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
