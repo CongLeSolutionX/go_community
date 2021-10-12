@@ -17,7 +17,10 @@
 // crypto/rand package.
 package rand
 
-import "sync"
+import (
+	"sync"
+	"unsafe"
+)
 
 // A Source represents a source of uniformly-distributed
 // pseudo-random int64 values in the range [0, 1<<63).
@@ -268,7 +271,40 @@ func read(p []byte, src Source, readVal *int64, readPos *int8) (n int, err error
 	pos := *readPos
 	val := *readVal
 	rng, _ := src.(*rngSource)
-	for n = 0; n < len(p); n++ {
+
+	l := len(p)
+	// Consume remaining bytes in val.
+	if pos != 0 {
+		for n = 0; pos != 0 && n < len(p); n++ {
+			p[n] = byte(val)
+			val >>= 8
+			pos--
+		}
+		l -= n
+	}
+
+	// Generates 56-bytes([7]uint64) random data in each loop if possible.
+	for l >= 56 {
+		var tmp [56]byte
+		for i := 0; i < 8; i++ {
+			if rng != nil {
+				val = rng.Int63()
+			} else {
+				val = src.Int63()
+			}
+			*(*uint64)(unsafe.Pointer(&tmp[i*7])) = uint64(val)
+		}
+		start := (len(p) - l) / 8
+		up := p[n:]
+		uint64p := *(*[]uint64)(unsafe.Pointer(&up))
+		uint64tmp := *(*[7]uint64)(unsafe.Pointer(&tmp))
+		for i := 0; i < 7; i++ {
+			uint64p[start+i] = uint64tmp[i]
+		}
+		l -= 56
+	}
+
+	for n = len(p) - l; n < len(p); n++ {
 		if pos == 0 {
 			if rng != nil {
 				val = rng.Int63()

@@ -683,3 +683,12 @@ func BenchmarkRead1000(b *testing.B) {
 		r.Read(buf)
 	}
 }
+
+func BenchmarkRead10000(b *testing.B) {
+	r := New(NewSource(1))
+	buf := make([]byte, 10000)
+	b.ResetTimer()
+	for n := b.N; n > 0; n-- {
+		r.Read(buf)
+	}
+}
