@@ -34,6 +34,24 @@
       "parentUuid": "b799640d_e7705fc6",
       "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "399380c7_55cf29eb",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-12T14:21:23Z",
+      "side": 0,
+      "message": "\u003e This cannot compile for js/wasm target without these changes due to the requirement to import \"unsafe\".\n\nI\u0027m not sure I understand this. Why? I don\u0027t expect the wasmimport change affect this. If this is affected, I think we want to understand why.\n\nIn general, we try to use linkname to \"push\" a function from the defining package to the target package wherever possible, instead of the other way. Thanks.",
+      "parentUuid": "daf88033_a18b1dd7",
+      "revId": "6d02ce85840fb7a1a9239d02e02710a008b1657a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
