@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a24464f1_56cfb70e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-12T06:44:40Z",
+      "side": 1,
+      "message": "Hi Cherry,\n\nI rebased the code and changed the code to support both mips64 and mips64le arch.\nThen I opened a issue https://github.com/golang/go/issues/48917 to access mips64 builder machine. I will update message when I tested on mips64 machine.\n\nThanks!",
+      "parentUuid": "3d6576fb_a602b82c",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "ad145ee302d806576e2f626467bea8abc755824e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "feb20f1d_4ad0bde3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
