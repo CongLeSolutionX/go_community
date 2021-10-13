@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f463a9fc_e81105c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-13T12:42:38Z",
+      "side": 1,
+      "message": "Modified comment, pls let me know if it looks fine now, thanks!",
+      "parentUuid": "357c6845_d9016bbb",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be6dff0b_f286d4d1",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-13T12:23:04Z",
       "side": 1,
       "message": "This should say Power9 or above (because it is also enabled for Power10) and also something like it should have been enabled before.",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04076716_b2950508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-13T12:42:38Z",
+      "side": 1,
+      "message": "Modified comment, pls let me know if it looks fine now, thanks!",
+      "parentUuid": "be6dff0b_f286d4d1",
       "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d959e9_f1bec881",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-13T12:42:38Z",
+      "side": 1,
+      "message": "Modified comment, pls let me know if it looks fine now, thanks!",
+      "parentUuid": "7b7d0d0f_67b8adf2",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53339015_1dafa16e",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7422afc_658a5b85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-13T12:42:38Z",
+      "side": 1,
+      "message": "Thanks for point this out, verified and retained only those tests that invoke bytealg.Index()",
+      "parentUuid": "53339015_1dafa16e",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0380bc9_46f88f1f",
@@ -82,6 +154,24 @@
       "writtenOn": "2021-10-13T12:23:04Z",
       "side": 1,
       "message": "Omit extra space.",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc961eff_48de9870",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-13T12:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0380bc9_46f88f1f",
       "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
