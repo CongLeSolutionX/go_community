@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "357c6845_d9016bbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-13T12:23:04Z",
+      "side": 1,
+      "message": "I think it would be clearer to identify the functions and not the files. And I would say something like \"enable register ABI for bytes.Index and bytes.Count on ppc64x.",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be6dff0b_f286d4d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-13T12:23:04Z",
+      "side": 1,
+      "message": "This should say Power9 or above (because it is also enabled for Power10) and also something like it should have been enabled before.",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b7d0d0f_67b8adf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-13T12:23:04Z",
+      "side": 1,
+      "message": "I would say \u0027to avoid incorrectly crossing a page\u0027. It was not really a pagefault that caused the problem.",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53339015_1dafa16e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-13T12:23:04Z",
+      "side": 1,
+      "message": "These numbers don\u0027t look right.\nFor one thing, the Index function is not the same as IndexByte so you shouldn\u0027t have seen a big improvement there. The improvement for the regabi should show up in the small sizes for Index.",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0380bc9_46f88f1f",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-13T12:23:04Z",
+      "side": 1,
+      "message": "Omit extra space.",
+      "revId": "129e485eb1ea6889f8f99d06b44b38eb866f15b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
