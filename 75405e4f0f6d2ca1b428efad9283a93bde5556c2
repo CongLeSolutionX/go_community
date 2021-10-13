@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a96a155_47e9b6f3",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2287,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-13T00:04:28Z",
+      "side": 1,
+      "message": "Hmm, good point. vcs.FromDir usually returns an error for one repo inside another, but not for git-within-git (because submodules). Also with workspaces, it\u0027s entirely possible the current directory, main package, and main module containing it are in different repositories.\n\nAdded more checks below and a test.",
+      "parentUuid": "6eaadfc4_62604d22",
+      "range": {
+        "startLine": 2287,
+        "startChar": 45,
+        "endLine": 2287,
+        "endChar": 89
+      },
+      "revId": "75405e4f0f6d2ca1b428efad9283a93bde5556c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "281f76f1_d9dc4453",
@@ -97,6 +121,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f851e57_b505fba0",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-13T00:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "281f76f1_d9dc4453",
+      "revId": "75405e4f0f6d2ca1b428efad9283a93bde5556c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fbd1cb3_1fa84671",
@@ -110,6 +152,24 @@
       "writtenOn": "2021-10-12T21:14:36Z",
       "side": 1,
       "message": "The encoding of these values assumes that they do not contain certain characters (\\t or \\n). The specific constraints should probably be documented here, and perhaps verified somewhere (perhaps via an error-return from a MarshalBinary method?).",
+      "revId": "75405e4f0f6d2ca1b428efad9283a93bde5556c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eff2c71f_ac2d90a9",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-13T00:04:28Z",
+      "side": 1,
+      "message": "Documented here and added a panic in String.\n\nTabs and newlines are the two control characters used in ParseBuildInfo. I hesitate to make it any stricter since compiler and linker flags like -X may go in here, and they can contain arbitrary text. I don\u0027t want to quote them either since they may already be quoted in a format understood by str.SplitQuotedFields, and it\u0027s not safe to call that multiple times.\n\nAbout MarshalBinary: is there a reason to use that over String (or MarshalText?). I don\u0027t want to import \"encoding\" here, but I guess that wouldn\u0027t be needed for BuildInfo to satisfy encoding.TextMarshaler and TextUnmarshaler.",
+      "parentUuid": "6fbd1cb3_1fa84671",
       "revId": "75405e4f0f6d2ca1b428efad9283a93bde5556c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
