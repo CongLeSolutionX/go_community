@@ -262,10 +262,10 @@ func TestMinimizeInput(t *testing.T) {
 	}
 }
 
-// TestMinimizeInputCoverageError checks that if we're minimizing an interesting
-// input (one that we don't expect to cause an error), and the fuzz function
-// returns an error, minimizing fails, and we return the error quickly.
-func TestMinimizeInputCoverageError(t *testing.T) {
+// TestMinimizeFlaky checks that if we're minimizing an interesting
+// input and a flaky failure occurs, that minimization was not indicated
+// to be successful, and the error isn't returned (since it's flaky).
+func TestMinimizeFlaky(t *testing.T) {
 	errOhNo := errors.New("ohno")
 	ws := &workerServer{fuzzFn: func(e CorpusEntry) error {
 		return errOhNo
@@ -277,7 +277,7 @@ func TestMinimizeInputCoverageError(t *testing.T) {
 	if success {
 		t.Error("unexpected success")
 	}
-	if err != errOhNo {
+	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
 	if count != 1 {
