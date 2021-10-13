@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63f95e2b_e53a42d2",
+        "filename": "src/math/big/arith_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-10-13T17:23:30Z",
+      "side": 0,
+      "message": "I believe this interpunct is still necessary.",
+      "range": {
+        "startLine": 382,
+        "startChar": 9,
+        "endLine": 382,
+        "endChar": 10
+      },
+      "revId": "f687831e4cfa06d19533d47ae93c0451bd1ca688",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
