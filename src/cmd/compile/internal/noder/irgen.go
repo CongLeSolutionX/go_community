@@ -148,6 +148,9 @@ type irgen struct {
 	// laterFuncs records tasks that need to run after all declarations
 	// are processed.
 	laterFuncs []func()
+	// haveEmbed indicates whether the current node belongs to file that
+	// imports "embed" package.
+	haveEmbed bool
 
 	// exprStmtOK indicates whether it's safe to generate expressions or
 	// statements yet.
@@ -255,8 +258,8 @@ Outer:
 	types.ResumeCheckSize()
 
 	// 3. Process all remaining declarations.
-	for _, declList := range declLists {
-		g.decls((*ir.Nodes)(&g.target.Decls), declList)
+	for i, declList := range declLists {
+		g.decls((*ir.Nodes)(&g.target.Decls), declList, noders[i].importedEmbed)
 	}
 	g.exprStmtOK = true
 

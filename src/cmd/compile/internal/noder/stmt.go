@@ -47,7 +47,7 @@ func (g *irgen) stmt(stmt syntax.Stmt) ir.Node {
 		return n
 	case *syntax.DeclStmt:
 		n := ir.NewBlockStmt(g.pos(stmt), nil)
-		g.decls(&n.List, stmt.DeclList)
+		g.decls(&n.List, stmt.DeclList, g.haveEmbed)
 		return n
 
 	case *syntax.AssignStmt:
