@@ -255,8 +255,8 @@ Outer:
 	types.ResumeCheckSize()
 
 	// 3. Process all remaining declarations.
-	for _, declList := range declLists {
-		g.decls((*ir.Nodes)(&g.target.Decls), declList)
+	for i, declList := range declLists {
+		g.decls((*ir.Nodes)(&g.target.Decls), declList, noders[i].importedEmbed)
 	}
 	g.exprStmtOK = true
 
