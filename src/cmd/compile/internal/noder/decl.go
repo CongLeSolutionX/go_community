@@ -18,20 +18,20 @@ import (
 // TODO(mdempsky): Skip blank declarations? Probably only safe
 // for declarations without pragmas.
 
-func (g *irgen) decls(res *ir.Nodes, decls []syntax.Decl) {
+func (g *irgen) decls(res *ir.Nodes, decls []syntax.Decl, importedEmbed bool) {
 	for _, decl := range decls {
 		switch decl := decl.(type) {
 		case *syntax.ConstDecl:
 			g.constDecl(res, decl)
 		case *syntax.FuncDecl:
-			g.funcDecl(res, decl)
+			g.funcDecl(res, decl, importedEmbed)
 		case *syntax.TypeDecl:
 			if ir.CurFunc == nil {
 				continue // already handled in irgen.generate
 			}
 			g.typeDecl(res, decl)
 		case *syntax.VarDecl:
-			g.varDecl(res, decl)
+			g.varDecl(res, decl, importedEmbed)
 		default:
 			g.unhandled("declaration", decl)
 		}
@@ -85,7 +85,7 @@ func (g *irgen) constDecl(out *ir.Nodes, decl *syntax.ConstDecl) {
 	}
 }
 
-func (g *irgen) funcDecl(out *ir.Nodes, decl *syntax.FuncDecl) {
+func (g *irgen) funcDecl(out *ir.Nodes, decl *syntax.FuncDecl, importedEmbed bool) {
 	// Set g.curDecl to the function name, as context for the type params declared
 	// during types2-to-types1 translation if this is a generic function.
 	g.curDecl = decl.Name.Value
@@ -150,7 +150,7 @@ func (g *irgen) funcDecl(out *ir.Nodes, decl *syntax.FuncDecl) {
 		}
 
 		out.Append(fn)
-	})
+	}, importedEmbed)
 }
 
 func (g *irgen) typeDecl(out *ir.Nodes, decl *syntax.TypeDecl) {
@@ -232,7 +232,7 @@ func (g *irgen) typeDecl(out *ir.Nodes, decl *syntax.TypeDecl) {
 	out.Append(ir.NewDecl(g.pos(decl), ir.ODCLTYPE, name))
 }
 
-func (g *irgen) varDecl(out *ir.Nodes, decl *syntax.VarDecl) {
+func (g *irgen) varDecl(out *ir.Nodes, decl *syntax.VarDecl, importedEmbed bool) {
 	pos := g.pos(decl)
 	names := make([]*ir.Name, len(decl.NameList))
 	for i, name := range decl.NameList {
@@ -241,8 +241,7 @@ func (g *irgen) varDecl(out *ir.Nodes, decl *syntax.VarDecl) {
 
 	if decl.Pragma != nil {
 		pragma := decl.Pragma.(*pragmas)
-		// TODO(mdempsky): Plumb noder.importedEmbed through to here.
-		varEmbed(g.makeXPos, names[0], decl, pragma, true)
+		varEmbed(g.makeXPos, names[0], decl, pragma, importedEmbed)
 		g.reportUnused(pragma)
 	}
 
@@ -296,7 +295,7 @@ func (g *irgen) varDecl(out *ir.Nodes, decl *syntax.VarDecl) {
 	if ir.CurFunc != nil {
 		do()
 	} else {
-		g.later(do)
+		g.later(do, importedEmbed)
 	}
 }
 
