@@ -135,6 +135,11 @@ type instInfo struct {
 	dictInfo *dictInfo
 }
 
+type laterFunc struct {
+	fn        func()
+	haveEmbed bool
+}
+
 type irgen struct {
 	target *ir.Package
 	self   *types2.Package
@@ -147,7 +152,10 @@ type irgen struct {
 
 	// laterFuncs records tasks that need to run after all declarations
 	// are processed.
-	laterFuncs []func()
+	laterFuncs []*laterFunc
+	// haveEmbed indicates whether the current node belongs to file that
+	// imports "embed" package.
+	haveEmbed bool
 
 	// exprStmtOK indicates whether it's safe to generate expressions or
 	// statements yet.
@@ -178,8 +186,8 @@ type irgen struct {
 	curDecl string
 }
 
-func (g *irgen) later(fn func()) {
-	g.laterFuncs = append(g.laterFuncs, fn)
+func (g *irgen) later(lf *laterFunc) {
+	g.laterFuncs = append(g.laterFuncs, lf)
 }
 
 type delayInfo struct {
@@ -255,17 +263,18 @@ Outer:
 	types.ResumeCheckSize()
 
 	// 3. Process all remaining declarations.
-	for _, declList := range declLists {
-		g.decls((*ir.Nodes)(&g.target.Decls), declList)
+	for i, declList := range declLists {
+		g.decls((*ir.Nodes)(&g.target.Decls), declList, noders[i].importedEmbed)
 	}
 	g.exprStmtOK = true
 
 	// 4. Run any "later" tasks. Avoid using 'range' so that tasks can
 	// recursively queue further tasks. (Not currently utilized though.)
 	for len(g.laterFuncs) > 0 {
-		fn := g.laterFuncs[0]
+		lf := g.laterFuncs[0]
 		g.laterFuncs = g.laterFuncs[1:]
-		fn()
+		g.haveEmbed = lf.haveEmbed
+		lf.fn()
 	}
 
 	if base.Flag.W > 1 {
