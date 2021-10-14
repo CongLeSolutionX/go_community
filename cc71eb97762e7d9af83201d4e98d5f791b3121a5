@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f0a7a44_4c2345e6",
+        "filename": "src/net/http/internal/chunked.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-14T20:13:26Z",
+      "side": 1,
+      "message": "I think there\u0027s a problem here as well: If we try to read the end of chunk marker and hit EOF, this will eventually result in Read returning EOF.\n\nThis should exit the loop if io.ReadFull returns an error.",
+      "revId": "cc71eb97762e7d9af83201d4e98d5f791b3121a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
