@@ -53,6 +53,24 @@
       "message": "Make the comment a full sentence:\n\n// Don\u0027t include the value in the error, because it may be sensitive.\n\nOr just leave the comment out. (Although it\u0027s probably worth keeping, to avoid someone inadvertently reintroducing the value in the future.)",
       "revId": "a3b84fb9b274842430fffb463ad6133ca2d6af16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "409404b6_1fc3df65",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-14T22:03:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37463a1f_fc6bf95f",
+      "revId": "a3b84fb9b274842430fffb463ad6133ca2d6af16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
