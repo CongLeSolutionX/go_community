@@ -525,7 +525,8 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 			for _, v := range vv {
 				if !httpguts.ValidHeaderFieldValue(v) {
 					req.closeBody()
-					return nil, fmt.Errorf("net/http: invalid header field value %q for key %v", v, k)
+					// omit potentially sensitive value
+					return nil, fmt.Errorf("net/http: invalid header field value for %q", k)
 				}
 			}
 		}
