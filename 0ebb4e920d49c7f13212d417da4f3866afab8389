@@ -85,6 +85,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19d94389_3086d550",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-14T20:32:38Z",
+      "side": 1,
+      "message": "SGTM for now.",
+      "parentUuid": "1ddf5f8d_c85d0671",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 430,
+        "endChar": 53
+      },
+      "revId": "0ebb4e920d49c7f13212d417da4f3866afab8389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e251d495_9291593b",
