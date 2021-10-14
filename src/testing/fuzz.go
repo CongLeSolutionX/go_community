@@ -5,6 +5,7 @@
 package testing
 
 import (
+	"bytes"
 	"errors"
 	"flag"
 	"fmt"
@@ -405,6 +406,10 @@ func (f *F) Fuzz(ff interface{}) {
 			},
 			context: f.testContext,
 		}
+		var buf bytes.Buffer
+		if *isFuzzWorker {
+			t.parent.w = &buf
+		}
 		t.w = indenter{&t.common}
 		if t.chatty != nil {
 			// TODO(#48132): adjust this to work with test2json.
@@ -427,7 +432,7 @@ func (f *F) Fuzz(ff interface{}) {
 		<-t.signal
 		f.inFuzzFn = false
 		if t.Failed() {
-			return errors.New(string(f.output))
+			return errors.New(buf.String())
 		}
 		return nil
 	}
