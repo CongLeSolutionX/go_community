@@ -22,6 +22,30 @@
       },
       "revId": "2091bd3f26e5143bd050833b3558893e1bc34625",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81fc02a1_ff91da13",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-10-14T15:55:34Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d24b0b64_d27c1505",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 110,
+        "endChar": 66
+      },
+      "revId": "2091bd3f26e5143bd050833b3558893e1bc34625",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

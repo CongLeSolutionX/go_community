@@ -115,6 +115,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a75a780c_c315f741",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-10-14T15:55:34Z",
+      "side": 1,
+      "message": "Sorry, but I consider \"loong\" (transliteration of Chinese character 龙/龍) to not be an acronym of any sort, therefore all-capitalized \"LOONG\" is inconsistent with all the other entries here, which are coincidentally all acronyms.\n\nI think we\u0027d want to follow whatever upstream maintainers suggest.",
+      "parentUuid": "7f4fff60_42fd2fbc",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 8
+      },
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52b60177_ae1a18a5",
         "filename": "src/cmd/internal/sys/arch.go",
         "patchSetId": 3
