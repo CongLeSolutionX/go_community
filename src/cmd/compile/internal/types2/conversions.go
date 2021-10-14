@@ -84,6 +84,39 @@ func (check *Checker) conversion(x *operand, T Type) {
 // The check parameter may be nil if convertibleTo is invoked through an
 // exported API call, i.e., when all methods have been type-checked.
 func (x *operand) convertibleTo(check *Checker, T Type) bool {
+	// TODO(gri) consider passing under(x.typ), under(T) into convertibleToImpl (optimization)
+	Vp, _ := under(x.typ).(*TypeParam)
+	Tp, _ := under(T).(*TypeParam)
+
+	// generic cases
+	// (generic operands cannot be constants, so we can ignore x.val)
+	switch {
+	case Vp != nil && Tp != nil:
+		x := *x // don't modify outer x
+		return Vp.underIs(func(V Type) bool {
+			x.typ = V
+			return Tp.underIs(func(T Type) bool {
+				return x.convertibleTo(check, T)
+			})
+		})
+	case Vp != nil:
+		x := *x // don't modify outer x
+		return Vp.underIs(func(V Type) bool {
+			x.typ = V
+			return x.convertibleTo(check, T)
+		})
+	case Tp != nil:
+		return Tp.underIs(func(T Type) bool {
+			return x.convertibleTo(check, T)
+		})
+	}
+
+	// non-generic case
+	return x.convertibleToImpl(check, T)
+}
+
+// convertibleToImpl should only be called by convertibleTo
+func (x *operand) convertibleToImpl(check *Checker, T Type) bool {
 	// "x is assignable to T"
 	if ok, _ := x.assignableTo(check, T, nil); ok {
 		return true
@@ -93,6 +126,8 @@ func (x *operand) convertibleTo(check *Checker, T Type) bool {
 	V := x.typ
 	Vu := under(V)
 	Tu := under(T)
+	// check.dump("V = %s, Vu = %s", V, Vu)
+	// check.dump("T = %s, Tu = %s", T, Tu)
 	if IdenticalIgnoreTags(Vu, Tu) {
 		return true
 	}
@@ -183,6 +218,19 @@ func isBytesOrRunes(typ Type) bool {
 	if s := asSlice(typ); s != nil {
 		t := asBasic(s.elem)
 		return t != nil && (t.kind == Byte || t.kind == Rune)
+	}
+	return false
+}
+
+func under2Is(t1, t2 Type, f func(t1, t2 Type) bool) bool {
+	p1 := asTypeParam(t1)
+	p2 := asTypeParam(t2)
+	switch {
+	case p1 != nil && p2 != nil:
+	case p1 != nil:
+	case p2 != nil:
+	default:
+		return f(under(t1), under(t2))
 	}
 	return false
 }

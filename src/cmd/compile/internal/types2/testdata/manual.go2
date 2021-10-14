@@ -6,3 +6,24 @@
 // without source arguments. Use for one-off debugging.
 
 package p
+
+func convert1[Dst ~int, Src ~int](x Src) Dst            { return Dst(x) }
+func convert2[Dst ~string, Src ~int](x Src) Dst         { return Dst(x) }
+func convert3[Dst ~string, Src ~string](x Src) Dst      { return Dst(x) }
+//func convert4[Dst ~int|~string, Src ~int](x Src) Dst    { return Dst(x) }
+//func convert5[Dst ~string, Src ~int|~string](x Src) Dst { return Dst(x) }
+func convert6[Dst ~string, Src ~byte](x Src) Dst        { return Dst(x) }
+func convert7[Dst ~string, Src ~rune](x Src) Dst        { return Dst(x) }
+
+func convert8[Dst ~int|~int64, Src ~float32|~float64](x Src) Dst { return Dst(x) }
+
+type C interface {
+	struct{ b1, b2 string }
+}
+
+func f[A C]() A {
+	return A{
+		b1: "a",
+		b2: "b",
+	}
+}
