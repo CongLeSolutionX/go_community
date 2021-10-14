@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b2acafb_aa3cbb34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T21:39:05Z",
+      "side": 1,
+      "message": "I think this is a correct translation of the cryptogams algo. I\u0027ve verified against the output of \"./ppc/aesp8-ppc.pl powerpc64le\"\n\nLikewise, I think macro names would avoid the need for the verbose commentary on each op. It should be a fairly mechanical translation based on what the perl script does (which admittedly is not entirely obvious at first glance, noting a few minor cases where the perl script does some minor rewriting of arguments).",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "020832f6_69a327f9",
@@ -43,6 +60,97 @@
         "endLine": 546,
         "endChar": 47
       },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68a3b07a_d6b1605c",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T21:39:05Z",
+      "side": 1,
+      "message": "I recommend a small comment here noting we omit the 8x unrolled code.",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "577c99e1_009e2514",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T21:39:05Z",
+      "side": 1,
+      "message": "This should probably be 0 or $0. This gets parsed as an address, and we just grab the offset. We could benefit from a BDNZ/BDZ mnemonic.",
+      "range": {
+        "startLine": 675,
+        "startChar": 14,
+        "endLine": 675,
+        "endChar": 16
+      },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a31152b2_08b85e5e",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T21:39:05Z",
+      "side": 1,
+      "message": "It might good to insert a PCALIGN 16 here too.",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7548dd33_4bdeb578",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T21:39:05Z",
+      "side": 1,
+      "message": "This avoids loading bytes beyond dst+len if r4 is aligned since lvx ignores the lower 4 address bits.",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "150cf16e_6a260ccd",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T21:39:05Z",
+      "side": 1,
+      "message": "I don\u0027t think these are needed.",
       "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
