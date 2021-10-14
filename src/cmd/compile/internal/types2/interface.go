@@ -169,10 +169,13 @@ func (check *Checker) interfaceType(ityp *Interface, iface *syntax.InterfaceType
 	// must be used before delayed funcs are processed (see issue #48234).
 	// TODO(rfindley): clean up use of *Checker with computeInterfaceTypeSet
 	ityp.check = check
-	check.later(func() {
+	a := check.later(func() {
 		computeInterfaceTypeSet(check, iface.Pos(), ityp)
 		ityp.check = nil
 	})
+	if debug {
+		a.setDesc(iface, "compute type set for %s", ityp)
+	}
 }
 
 func flattenUnion(list []syntax.Expr, x syntax.Expr) []syntax.Expr {

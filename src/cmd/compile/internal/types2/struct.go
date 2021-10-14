@@ -133,7 +133,7 @@ func (check *Checker) structType(styp *Struct, e *syntax.StructType) {
 			// (via under(t)) a possibly incomplete type.
 			embeddedTyp := typ // for closure below
 			embeddedPos := pos
-			check.later(func() {
+			a := check.later(func() {
 				t, isPtr := deref(embeddedTyp)
 				switch t := under(t).(type) {
 				case *Basic:
@@ -155,6 +155,9 @@ func (check *Checker) structType(styp *Struct, e *syntax.StructType) {
 					}
 				}
 			})
+			if debug {
+				a.setDesc(embeddedPos, "check embedded type %s", embeddedTyp)
+			}
 		}
 	}
 
