@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f72fe8c9_ef679412",
+        "filename": "src/net/http/internal/chunked.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-14T22:00:14Z",
+      "side": 1,
+      "message": "Just break out unconditionally if err !\u003d nil; there\u0027s no reason to issue another read. (And this avoids confusing behavior if the underlying Reader returns an error followed by a non-error return.)\n\n_, cr.err \u003d io.ReadFull(cr.r, cr.buf[:2])\nif cr.err !\u003d nil {\n  break\n}\n\nAnd then rather than checking for io.EOF in two places, we can combine the checks into one at the end of this function.",
+      "revId": "be6d7f2989cba80da889167fef4146761efc3162",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
