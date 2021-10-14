@@ -34,6 +34,24 @@
       "parentUuid": "d5cc9919_5788ca18",
       "revId": "01114046701632b16201ba5d7d3798c9d21b23dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "610a5762_8647b888",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-14T06:32:18Z",
+      "side": 1,
+      "message": "The changes in golang.org/x/sys repo have been submited. URL is https://go-review.googlesource.com/c/sys/+/355550.\nI will vendored back into the main Go repo.\n\nThanks!",
+      "parentUuid": "3de06655_3df7ff2d",
+      "revId": "01114046701632b16201ba5d7d3798c9d21b23dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
