@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "020832f6_69a327f9",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T16:46:46Z",
+      "side": 1,
+      "message": "I think copying the names from the cryptogams implementation would make this much easier to verify the porting.",
+      "range": {
+        "startLine": 538,
+        "startChar": 17,
+        "endLine": 538,
+        "endChar": 19
+      },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b23c97f_6add93c7",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T16:46:46Z",
+      "side": 1,
+      "message": "This can be safely removed if the check is kept in the go code.\n\nLikewise, it might be worth putting a note about the vrsave manipulation which isn\u0027t copied from cryptogams. (It seems kind of useless given it is \"not rigorously applied\" throughout any code I\u0027ve read).",
+      "range": {
+        "startLine": 545,
+        "startChar": 1,
+        "endLine": 546,
+        "endChar": 47
+      },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9325dde8_84b68e39",
+        "filename": "src/crypto/aes/cbc_ppc64le.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-14T16:46:46Z",
+      "side": 1,
+      "message": "Is this check needed? it is also done in the assembly.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 7
+      },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
