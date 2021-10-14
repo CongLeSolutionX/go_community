@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f4fff60_42fd2fbc",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-14T12:07:05Z",
+      "side": 1,
+      "message": "I am so sorry that I let you make a mistake on my words. There is no edit war. I think the constant name is used widely and the defination of this constant is very important. We should follow programming specifications and change it into correct status by once.",
+      "parentUuid": "654aebda_3ff559fb",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 8
+      },
+      "revId": "99ad1b88163433afef137b6307d31e18675311eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52b60177_ae1a18a5",
         "filename": "src/cmd/internal/sys/arch.go",
         "patchSetId": 3
