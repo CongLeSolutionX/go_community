@@ -108,6 +108,24 @@
       "parentUuid": "778e58b0_97b0a4bd",
       "revId": "96781ac976743307196dc5ed41371f5271b08fef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d07f5d13_431d8e42",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-15T16:45:41Z",
+      "side": 1,
+      "message": "Yeah I like that better. Done.",
+      "parentUuid": "f57afaa2_f046c122",
+      "revId": "96781ac976743307196dc5ed41371f5271b08fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
