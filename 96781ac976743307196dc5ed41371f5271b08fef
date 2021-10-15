@@ -90,6 +90,24 @@
       "parentUuid": "3641f070_f7c18030",
       "revId": "96781ac976743307196dc5ed41371f5271b08fef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f57afaa2_f046c122",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-15T16:19:32Z",
+      "side": 1,
+      "message": "Ahh, I see — we return the error regardless of how `run` is called, but its contents are ignored if we aren\u0027t running as a fuzz worker.\n\nIn that case, it might be a little clearer to explicitly pass in the buffer:\n\n\trun :\u003d func(captureOut io.Writer, e corpusEntry) (ok bool) {\n\t\t…\n\t\tif captureOut !\u003d nil {\n\t\t\t// …\n\t\t\tt.parent.w \u003d captureOut\n\t\t}\n\t\t…\n\t\treturn !t.Failed()\n\t}\n\nThat would keep the three coupled details (use of the returned error, output redirection, and the isFuzzWorker flag) all together on the caller side of the run function.",
+      "parentUuid": "778e58b0_97b0a4bd",
+      "revId": "96781ac976743307196dc5ed41371f5271b08fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
