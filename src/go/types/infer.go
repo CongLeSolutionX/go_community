@@ -40,6 +40,9 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 
 	// There must be at least one type parameter, and no more type arguments than type parameters.
 	n := len(tparams)
+	if n == 0 || len(targs) > n {
+		panic(check.sprintf("%v: tparams: %d, targs: %d", posn.Pos(), n, len(targs)))
+	}
 	assert(n > 0 && len(targs) <= n)
 
 	// Function parameters and arguments must match in number.

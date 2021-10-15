@@ -437,6 +437,9 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 			//           in the same package if one of them is nested in a function.
 			//           Extremely unlikely but we need an always correct solution.
 			if x.obj.pkg == y.obj.pkg && x.obj.name == y.obj.name {
+				if len(xargs) != len(yargs) {
+					panic(fmt.Sprintf("xargs: %d, yargs: %d", len(xargs), len(yargs)))
+				}
 				assert(len(xargs) == len(yargs))
 				for i, x := range xargs {
 					if !u.nify(x, yargs[i], p) {
