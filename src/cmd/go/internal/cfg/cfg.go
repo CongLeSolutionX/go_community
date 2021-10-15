@@ -135,13 +135,28 @@ func defaultContext() build.Context {
 	return ctxt
 }
 
+// hostPlatform returns the native OS and architecture of the Go toolchain.
+//
+// When built as the testgo binary, we assume the platform of the real 'go'
+// binary rather than the testgo binary to avoid the need to rebuild everything
+// using a cross-compiled toolchain when testing cmd/go.
+func hostPlatform() (hostOS, hostArch string) {
+
+	return hostOS, hostArch
+}
+
 func init() {
-	SetGOROOT(findGOROOT())
+	SetGOROOT(findGOROOT(), false)
 	BuildToolchainCompiler = func() string { return "missing-compiler" }
 	BuildToolchainLinker = func() string { return "missing-linker" }
 }
 
-func SetGOROOT(goroot string) {
+// SetGOROOT sets GOROOT and associated variables to the given values.
+//
+// If isTestGo is set, ToolDir is set based on the TESTGO_GOHOSTOS and
+// TESTGO_GOHOSTARCH environment variables instead of runtime.GOOS and
+// runtime.GOARCH.
+func SetGOROOT(goroot string, isTestGo bool) {
 	BuildContext.GOROOT = goroot
 
 	GOROOT = goroot
@@ -156,13 +171,23 @@ func SetGOROOT(goroot string) {
 	}
 	GOROOT_FINAL = findGOROOT_FINAL(goroot)
 
-	if runtime.Compiler != "gccgo" && goroot != "" {
-		// Note that we must use runtime.GOOS and runtime.GOARCH here,
+	hostOS, hostArch := runtime.GOOS, runtime.GOARCH
+	if isTestGo {
+		if testOS := os.Getenv("TESTGO_GOHOSTOS"); testOS != "" {
+			hostOS = testOS
+		}
+		if testArch := os.Getenv("TESTGO_GOHOSTARCH"); testArch != "" {
+			hostArch = testArch
+		}
+	}
+
+	if runtime.Compiler != "gccgo" {
+		// Note that we must use the host OS and arch here,
 		// as the tool directory does not move based on environment
 		// variables. This matches the initialization of ToolDir in
-		// go/build, except for using BuildContext.GOROOT rather than
+		// go/build, except for using ctxt.GOROOT rather than
 		// runtime.GOROOT.
-		build.ToolDir = filepath.Join(goroot, "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+		build.ToolDir = filepath.Join(goroot, "pkg/tool/"+hostOS+"_"+hostArch)
 	}
 }
 
