@@ -78,6 +78,30 @@
       },
       "revId": "4ab9697712bce20bfeadce626f65b178b42b0365",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91d79a7c_a667d1f8",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-15T17:57:51Z",
+      "side": 1,
+      "message": "Ah, yeah I guess we can 😊\nJust seemed more clear this way.",
+      "parentUuid": "dc2dc289_5b714871",
+      "range": {
+        "startLine": 494,
+        "startChar": 8,
+        "endLine": 494,
+        "endChar": 11
+      },
+      "revId": "4ab9697712bce20bfeadce626f65b178b42b0365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
