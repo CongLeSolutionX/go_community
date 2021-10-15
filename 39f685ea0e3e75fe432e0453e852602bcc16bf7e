@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63c61efb_b8e775d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-10-15T01:48:10Z",
+      "side": 1,
+      "message": "Should be \"runtime: ...\", since when the change does not touch any \"cmd/compile\" code.\n\nAlso, I think it\u0027s better if the description is more descriptive. \"some defer bugs\" seems not too meaningful, as I see it only changes one behavior of \"addOneOpenDeferFrame\". Maybe:\n\nruntime: do not add open defer frame above started one",
+      "revId": "39f685ea0e3e75fe432e0453e852602bcc16bf7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38efc381_f9478944",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
