@@ -108,11 +108,12 @@ type Checker struct {
 	dotImportMap  map[dotImportKey]*PkgName // maps dot-imported objects to the package they were dot-imported through
 	recvTParamMap map[*ast.Ident]*TypeParam // maps blank receiver type parameters to their type
 
-	firstErr error                 // first error encountered
-	methods  map[*TypeName][]*Func // maps package scope type names to associated non-blank (non-interface) methods
-	untyped  map[ast.Expr]exprInfo // map of expressions without final type
-	delayed  []func()              // stack of delayed action segments; segments are processed in FIFO order
-	objPath  []Object              // path of object dependencies during type inference (for cycle reporting)
+	firstErr   error                 // first error encountered
+	methods    map[*TypeName][]*Func // maps package scope type names to associated non-blank (non-interface) methods
+	untyped    map[ast.Expr]exprInfo // map of expressions without final type
+	delayed    []func()              // stack of delayed action segments; segments are processed in FIFO order
+	objPath    []Object              // path of object dependencies during type inference (for cycle reporting)
+	namedTypes []*Named              // named types created during type checking, for final validation.
 
 	// context within which the current object is type-checked
 	// (valid only for the duration of type-checking a specific object)
@@ -269,6 +270,8 @@ func (check *Checker) checkFiles(files []*ast.File) (err error) {
 
 	check.processDelayed(0) // incl. all functions
 
+	check.expandNamedTypes()
+
 	check.initOrder()
 
 	if !check.conf.DisableUnusedImportCheck {
@@ -285,6 +288,7 @@ func (check *Checker) checkFiles(files []*ast.File) (err error) {
 	check.pkgPathMap = nil
 	check.seenPkgMap = nil
 	check.recvTParamMap = nil
+	check.namedTypes = nil
 
 	// TODO(rFindley) There's more memory we should release at this point.
 
@@ -304,6 +308,29 @@ func (check *Checker) processDelayed(top int) {
 	}
 	assert(top <= len(check.delayed)) // stack must not have shrunk
 	check.delayed = check.delayed[:top]
+}
+
+func (check *Checker) expandNamedTypes() {
+	// Similar to processDelayed, we allow for check.namedTypes to grow here as
+	// it is a bug in the type-checking pass if any named types escape
+	// unexpanded.
+	//
+	// The call to under() may expand n, which in turn may instantiate types in
+	// its underlying. However, before those new instances are resolved, their
+	// origin should be fully expanded, and therefore the resulting underlying
+	// should not be named, and the infinite expansion can terminate.
+	for i := 0; i < len(check.namedTypes); i++ {
+		n := check.namedTypes[i]
+		switch n.underlying.(type) {
+		case nil:
+			if n.resolver == nil {
+				panic("nil underlying")
+			}
+		case *Named:
+			n.under()
+		}
+		n.check = nil
+	}
 }
 
 func (check *Checker) record(x *operand) {
