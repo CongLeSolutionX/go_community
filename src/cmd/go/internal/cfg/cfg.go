@@ -70,13 +70,14 @@ func defaultContext() build.Context {
 	ctxt.JoinPath = filepath.Join // back door to say "do not use go command"
 
 	ctxt.GOROOT = findGOROOT()
+	hostOS, hostArch := hostPlatform()
 	if runtime.Compiler != "gccgo" {
-		// Note that we must use runtime.GOOS and runtime.GOARCH here,
+		// Note that we must use the host OS and arch here,
 		// as the tool directory does not move based on environment
 		// variables. This matches the initialization of ToolDir in
 		// go/build, except for using ctxt.GOROOT rather than
 		// runtime.GOROOT.
-		build.ToolDir = filepath.Join(ctxt.GOROOT, "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+		build.ToolDir = filepath.Join(ctxt.GOROOT, "pkg/tool/"+hostOS+"_"+hostArch)
 	}
 
 	ctxt.GOPATH = envOr("GOPATH", gopath(ctxt))
@@ -130,6 +131,26 @@ func defaultContext() build.Context {
 	}
 
 	return ctxt
+}
+
+// hostPlatform returns the native OS and architecture of the Go toolchain.
+//
+// When built as the testgo binary, we assume the platform of the real 'go'
+// binary rather than the testgo binary to avoid the need to rebuild everything
+// using a cross-compiled toolchain when testing cmd/go.
+func hostPlatform() (hostOS, hostArch string) {
+	hostOS, hostArch = runtime.GOOS, runtime.GOARCH
+
+	if isTestGo {
+		if testOS := os.Getenv("TESTGO_GOHOSTOS"); testOS != "" {
+			hostOS = testOS
+		}
+		if testArch := os.Getenv("TESTGO_GOHOSTARCH"); testArch != "" {
+			hostArch = testArch
+		}
+	}
+
+	return hostOS, hostArch
 }
 
 func init() {
