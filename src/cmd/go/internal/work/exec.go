@@ -255,7 +255,7 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 	if p.Module != nil {
 		fmt.Fprintf(h, "go %s\n", p.Module.GoVersion)
 	}
-	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.Goos, cfg.Goarch)
+	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.GOOS, cfg.GOARCH)
 	fmt.Fprintf(h, "import %q\n", p.ImportPath)
 	fmt.Fprintf(h, "omitdebug %v standard %v local %v prefix %q\n", p.Internal.OmitDebug, p.Standard, p.Internal.Local, p.Internal.LocalPrefix)
 	if cfg.BuildTrimpath {
@@ -833,9 +833,9 @@ OverlayLoop:
 	// Copy .h files named for goos or goarch or goos_goarch
 	// to names using GOOS and GOARCH.
 	// For example, defs_linux_amd64.h becomes defs_GOOS_GOARCH.h.
-	_goos_goarch := "_" + cfg.Goos + "_" + cfg.Goarch
-	_goos := "_" + cfg.Goos
-	_goarch := "_" + cfg.Goarch
+	_goos_goarch := "_" + cfg.GOOS + "_" + cfg.GOARCH
+	_goos := "_" + cfg.GOOS
+	_goarch := "_" + cfg.GOARCH
 	for _, file := range a.Package.HFiles {
 		name, ext := fileExtSplit(file)
 		switch {
@@ -878,7 +878,7 @@ OverlayLoop:
 	// This lets us set the SHF_EXCLUDE flag.
 	// This is read by readGccgoArchive in cmd/internal/buildid/buildid.go.
 	if a.buildID != "" && cfg.BuildToolchainName == "gccgo" {
-		switch cfg.Goos {
+		switch cfg.GOOS {
 		case "aix", "android", "dragonfly", "freebsd", "illumos", "linux", "netbsd", "openbsd", "solaris":
 			asmfile, err := b.gccgoBuildIDFile(a)
 			if err != nil {
@@ -1251,7 +1251,7 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
 
 	// Toolchain-independent configuration.
 	fmt.Fprintf(h, "link\n")
-	fmt.Fprintf(h, "buildmode %s goos %s goarch %s\n", cfg.BuildBuildmode, cfg.Goos, cfg.Goarch)
+	fmt.Fprintf(h, "buildmode %s goos %s goarch %s\n", cfg.BuildBuildmode, cfg.GOOS, cfg.GOARCH)
 	fmt.Fprintf(h, "import %q\n", p.ImportPath)
 	fmt.Fprintf(h, "omitdebug %v standard %v local %v prefix %q\n", p.Internal.OmitDebug, p.Standard, p.Internal.Local, p.Internal.LocalPrefix)
 	if cfg.BuildTrimpath {
@@ -1550,7 +1550,7 @@ func (b *Builder) linkSharedActionID(a *Action) cache.ActionID {
 
 	// Toolchain-independent configuration.
 	fmt.Fprintf(h, "linkShared\n")
-	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.Goos, cfg.Goarch)
+	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.GOOS, cfg.GOARCH)
 
 	// Toolchain-dependent configuration, shared with b.linkActionID.
 	b.printLinkerConfig(h, nil)
@@ -1813,7 +1813,7 @@ func (b *Builder) copyFile(dst, src string, perm fs.FileMode, force bool) error 
 	}
 
 	// On Windows, remove lingering ~ file from last attempt.
-	if base.ToolIsWindows {
+	if runtime.GOOS == "windows" {
 		if _, err := os.Stat(dst + "~"); err == nil {
 			os.Remove(dst + "~")
 		}
@@ -1821,7 +1821,7 @@ func (b *Builder) copyFile(dst, src string, perm fs.FileMode, force bool) error 
 
 	mayberemovefile(dst)
 	df, err := os.OpenFile(dst, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm)
-	if err != nil && base.ToolIsWindows {
+	if err != nil && runtime.GOOS == "windows" {
 		// Windows does not allow deletion of a binary file
 		// while it is executing. Try to move it out of the way.
 		// If the move fails, which is likely, we'll try again the
@@ -2477,12 +2477,12 @@ func (b *Builder) gfortranCmd(incdir, workdir string) []string {
 
 // ccExe returns the CC compiler setting without all the extra flags we add implicitly.
 func (b *Builder) ccExe() []string {
-	return envList("CC", cfg.DefaultCC(cfg.Goos, cfg.Goarch))
+	return envList("CC", cfg.DefaultCC(cfg.GOOS, cfg.GOARCH))
 }
 
 // cxxExe returns the CXX compiler setting without all the extra flags we add implicitly.
 func (b *Builder) cxxExe() []string {
-	return envList("CXX", cfg.DefaultCXX(cfg.Goos, cfg.Goarch))
+	return envList("CXX", cfg.DefaultCXX(cfg.GOOS, cfg.GOARCH))
 }
 
 // fcExe returns the FC compiler setting without all the extra flags we add implicitly.
@@ -2497,14 +2497,14 @@ func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []strin
 
 	// Definitely want -fPIC but on Windows gcc complains
 	// "-fPIC ignored for target (all code is position independent)"
-	if cfg.Goos != "windows" {
+	if cfg.GOOS != "windows" {
 		a = append(a, "-fPIC")
 	}
 	a = append(a, b.gccArchArgs()...)
 	// gcc-4.5 and beyond require explicit "-pthread" flag
 	// for multithreading with pthread library.
 	if cfg.BuildContext.CgoEnabled {
-		switch cfg.Goos {
+		switch cfg.GOOS {
 		case "windows":
 			a = append(a, "-mthreads")
 		default:
@@ -2512,7 +2512,7 @@ func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []strin
 		}
 	}
 
-	if cfg.Goos == "aix" {
+	if cfg.GOOS == "aix" {
 		// mcmodel=large must always be enabled to allow large TOC.
 		a = append(a, "-mcmodel=large")
 	}
@@ -2554,7 +2554,7 @@ func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []strin
 	// On OS X, some of the compilers behave as if -fno-common
 	// is always set, and the Mach-O linker in 6l/8l assumes this.
 	// See https://golang.org/issue/3253.
-	if cfg.Goos == "darwin" || cfg.Goos == "ios" {
+	if cfg.GOOS == "darwin" || cfg.GOOS == "ios" {
 		a = append(a, "-fno-common")
 	}
 
@@ -2647,16 +2647,16 @@ func (b *Builder) gccSupportsFlag(compiler []string, flag string) bool {
 
 // gccArchArgs returns arguments to pass to gcc based on the architecture.
 func (b *Builder) gccArchArgs() []string {
-	switch cfg.Goarch {
+	switch cfg.GOARCH {
 	case "386":
 		return []string{"-m32"}
 	case "amd64":
-		if cfg.Goos == "darwin" {
+		if cfg.GOOS == "darwin" {
 			return []string{"-arch", "x86_64", "-m64"}
 		}
 		return []string{"-m64"}
 	case "arm64":
-		if cfg.Goos == "darwin" {
+		if cfg.GOOS == "darwin" {
 			return []string{"-arch", "arm64"}
 		}
 	case "arm":
@@ -2680,7 +2680,7 @@ func (b *Builder) gccArchArgs() []string {
 	case "loong64":
 		return []string{"-mabi=lp64d"}
 	case "ppc64":
-		if cfg.Goos == "aix" {
+		if cfg.GOOS == "aix" {
 			return []string{"-maix64"}
 		}
 	}
@@ -3047,7 +3047,7 @@ func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe
 	dynobj := objdir + "_cgo_.o"
 
 	ldflags := cgoLDFLAGS
-	if (cfg.Goarch == "arm" && cfg.Goos == "linux") || cfg.Goos == "android" {
+	if (cfg.GOARCH == "arm" && cfg.GOOS == "linux") || cfg.GOOS == "android" {
 		if !str.Contains(ldflags, "-no-pie") {
 			// we need to use -pie for Linux/ARM to get accurate imported sym (added in https://golang.org/cl/5989058)
 			// this seems to be outdated, but we don't want to break existing builds depending on this (Issue 45940)
@@ -3340,7 +3340,7 @@ func (b *Builder) swigOne(a *Action, p *load.Package, file, objdir string, pcCFL
 // do, but only on systems likely to support it, which is to say,
 // systems that normally use gold or the GNU linker.
 func (b *Builder) disableBuildID(ldflags []string) []string {
-	switch cfg.Goos {
+	switch cfg.GOOS {
 	case "android", "dragonfly", "linux", "netbsd":
 		ldflags = append(ldflags, "-Wl,--build-id=none")
 	}

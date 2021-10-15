@@ -24,8 +24,8 @@ import (
 
 // Global build parameters (used during package load)
 var (
-	Goos   = envOr("GOOS", build.Default.GOOS)
-	Goarch = envOr("GOARCH", build.Default.GOARCH)
+	GOOS   = envOr("GOOS", build.Default.GOOS)
+	GOARCH = envOr("GOARCH", build.Default.GOARCH)
 
 	ExeSuffix = exeSuffix()
 
@@ -36,7 +36,24 @@ var (
 )
 
 func exeSuffix() string {
-	if Goos == "windows" {
+	if GOOS == "windows" {
+		return ".exe"
+	}
+	return ""
+}
+
+// Configuration for tools installed to GOROOT/bin.
+// Normally these match runtime.GOOS and runtime.GOARCH,
+// but when testing a cross-compiled cmd/go they will
+// indicate the GOOS and GOARCH of the installed cmd/go
+// rather than the test binary.
+var (
+	InstalledGOOS   string
+	InstalledGOARCH string
+)
+
+func HostExeSuffix() string {
+	if runtime.GOOS == "windows" {
 		return ".exe"
 	}
 	return ""
@@ -90,8 +107,8 @@ func defaultContext() build.Context {
 	// Override defaults computed in go/build with defaults
 	// from go environment configuration file, if known.
 	ctxt.GOPATH = envOr("GOPATH", gopath(ctxt))
-	ctxt.GOOS = Goos
-	ctxt.GOARCH = Goarch
+	ctxt.GOOS = GOOS
+	ctxt.GOARCH = GOARCH
 
 	// ToolTags are based on GOEXPERIMENT, which we will parse and
 	// initialize later.
@@ -136,12 +153,17 @@ func defaultContext() build.Context {
 }
 
 func init() {
-	SetGOROOT(findGOROOT())
+	SetGOROOT(findGOROOT(), false)
 	BuildToolchainCompiler = func() string { return "missing-compiler" }
 	BuildToolchainLinker = func() string { return "missing-linker" }
 }
 
-func SetGOROOT(goroot string) {
+// SetGOROOT sets GOROOT and associated variables to the given values.
+//
+// If isTestGo is set, ToolDir is set based on the TESTGO_GOHOSTOS and
+// TESTGO_GOHOSTARCH environment variables instead of runtime.GOOS and
+// runtime.GOARCH.
+func SetGOROOT(goroot string, isTestGo bool) {
 	BuildContext.GOROOT = goroot
 
 	GOROOT = goroot
@@ -156,13 +178,33 @@ func SetGOROOT(goroot string) {
 	}
 	GOROOT_FINAL = findGOROOT_FINAL(goroot)
 
-	if runtime.Compiler != "gccgo" && goroot != "" {
-		// Note that we must use runtime.GOOS and runtime.GOARCH here,
-		// as the tool directory does not move based on environment
-		// variables. This matches the initialization of ToolDir in
-		// go/build, except for using BuildContext.GOROOT rather than
-		// runtime.GOROOT.
-		build.ToolDir = filepath.Join(goroot, "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+	InstalledGOOS = runtime.GOOS
+	InstalledGOARCH = runtime.GOARCH
+	if isTestGo {
+		if testOS := os.Getenv("TESTGO_GOHOSTOS"); testOS != "" {
+			InstalledGOOS = testOS
+		}
+		if testArch := os.Getenv("TESTGO_GOHOSTARCH"); testArch != "" {
+			InstalledGOARCH = testArch
+		}
+	}
+
+	if runtime.Compiler != "gccgo" {
+		if goroot == "" {
+			build.ToolDir = ""
+		} else {
+			// Note that we must use the installed OS and arch here: the tool
+			// directory does not move based on environment variables, and even if we
+			// are testing a cross-compiled cmd/go all of the installed packages and
+			// tools would have been built using the native compiler and linker (and
+			// would spuriously appear stale if we used a cross-compiled compiler and
+			// linker).
+			//
+			// This matches the initialization of ToolDir in go/build, except for
+			// using ctxt.GOROOT and the installed GOOS and GOARCH rather than the
+			// GOROOT, GOOS, and GOARCH reported by the runtime package.
+			build.ToolDir = filepath.Join(GOROOTpkg, "tool", InstalledGOOS+"_"+InstalledGOARCH)
+		}
 	}
 }
 
@@ -179,7 +221,7 @@ var (
 )
 
 func init() {
-	Experiment, ExperimentErr = buildcfg.ParseGOEXPERIMENT(Goos, Goarch, RawGOEXPERIMENT)
+	Experiment, ExperimentErr = buildcfg.ParseGOEXPERIMENT(GOOS, GOARCH, RawGOEXPERIMENT)
 	if ExperimentErr != nil {
 		return
 	}
@@ -328,7 +370,7 @@ var SumdbDir = gopathDir("pkg/sumdb")
 // If the current architecture has no GOARCH-specific variable,
 // GetArchEnv returns empty key and value.
 func GetArchEnv() (key, val string) {
-	switch Goarch {
+	switch GOARCH {
 	case "arm":
 		return "GOARM", GOARM
 	case "386":

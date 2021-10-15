@@ -69,7 +69,7 @@ func MkEnv() []cfg.EnvVar {
 	envFile, _ := cfg.EnvFile()
 	env := []cfg.EnvVar{
 		{Name: "GO111MODULE", Value: cfg.Getenv("GO111MODULE")},
-		{Name: "GOARCH", Value: cfg.Goarch},
+		{Name: "GOARCH", Value: cfg.GOARCH},
 		{Name: "GOBIN", Value: cfg.GOBIN},
 		{Name: "GOCACHE", Value: cache.DefaultDir()},
 		{Name: "GOENV", Value: envFile},
@@ -89,14 +89,14 @@ func MkEnv() []cfg.EnvVar {
 		{Name: "GOMODCACHE", Value: cfg.GOMODCACHE},
 		{Name: "GONOPROXY", Value: cfg.GONOPROXY},
 		{Name: "GONOSUMDB", Value: cfg.GONOSUMDB},
-		{Name: "GOOS", Value: cfg.Goos},
+		{Name: "GOOS", Value: cfg.GOOS},
 		{Name: "GOPATH", Value: cfg.BuildContext.GOPATH},
 		{Name: "GOPRIVATE", Value: cfg.GOPRIVATE},
 		{Name: "GOPROXY", Value: cfg.GOPROXY},
 		{Name: "GOROOT", Value: cfg.GOROOT},
 		{Name: "GOSUMDB", Value: cfg.GOSUMDB},
 		{Name: "GOTMPDIR", Value: cfg.Getenv("GOTMPDIR")},
-		{Name: "GOTOOLDIR", Value: base.ToolDir},
+		{Name: "GOTOOLDIR", Value: build.ToolDir},
 		{Name: "GOVCS", Value: cfg.GOVCS},
 		{Name: "GOVERSION", Value: runtime.Version()},
 	}
@@ -114,11 +114,11 @@ func MkEnv() []cfg.EnvVar {
 
 	cc := cfg.Getenv("CC")
 	if cc == "" {
-		cc = cfg.DefaultCC(cfg.Goos, cfg.Goarch)
+		cc = cfg.DefaultCC(cfg.GOOS, cfg.GOARCH)
 	}
 	cxx := cfg.Getenv("CXX")
 	if cxx == "" {
-		cxx = cfg.DefaultCXX(cfg.Goos, cfg.Goarch)
+		cxx = cfg.DefaultCXX(cfg.GOOS, cfg.GOARCH)
 	}
 	env = append(env, cfg.EnvVar{Name: "AR", Value: envOr("AR", "ar")})
 	env = append(env, cfg.EnvVar{Name: "CC", Value: cc})
@@ -384,8 +384,8 @@ func checkBuildConfig(add map[string]string, del map[string]bool) error {
 		return cur, false
 	}
 
-	goos, okGOOS := get("GOOS", cfg.Goos, build.Default.GOOS)
-	goarch, okGOARCH := get("GOARCH", cfg.Goarch, build.Default.GOARCH)
+	goos, okGOOS := get("GOOS", cfg.GOOS, build.Default.GOOS)
+	goarch, okGOARCH := get("GOARCH", cfg.GOARCH, build.Default.GOARCH)
 	if okGOOS || okGOARCH {
 		if err := work.CheckGOOSARCHPair(goos, goarch); err != nil {
 			return err

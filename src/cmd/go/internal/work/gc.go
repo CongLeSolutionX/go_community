@@ -134,7 +134,7 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 	if a.buildID != "" {
 		defaultGcFlags = append(defaultGcFlags, "-buildid", a.buildID)
 	}
-	if p.Internal.OmitDebug || cfg.Goos == "plan9" || cfg.Goarch == "wasm" {
+	if p.Internal.OmitDebug || cfg.GOOS == "plan9" || cfg.GOARCH == "wasm" {
 		defaultGcFlags = append(defaultGcFlags, "-dwarf=false")
 	}
 	if strings.HasPrefix(RuntimeVersion, "go1") && !strings.Contains(os.Args[0], "go_bootstrap") {
@@ -366,8 +366,8 @@ func asmArgs(a *Action, p *load.Package) []any {
 	// Add -I pkg/GOOS_GOARCH so #include "textflag.h" works in .s files.
 	inc := filepath.Join(cfg.GOROOT, "pkg", "include")
 	pkgpath := pkgPath(a)
-	args := []any{cfg.BuildToolexec, base.Tool("asm"), "-p", pkgpath, "-trimpath", a.trimpath(), "-I", a.Objdir, "-I", inc, "-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch, forcedAsmflags, p.Internal.Asmflags}
-	if p.ImportPath == "runtime" && cfg.Goarch == "386" {
+	args := []any{cfg.BuildToolexec, base.Tool("asm"), "-p", pkgpath, "-trimpath", a.trimpath(), "-I", a.Objdir, "-I", inc, "-D", "GOOS_" + cfg.GOOS, "-D", "GOARCH_" + cfg.GOARCH, forcedAsmflags, p.Internal.Asmflags}
+	if p.ImportPath == "runtime" && cfg.GOARCH == "386" {
 		for _, arg := range forcedAsmflags {
 			if arg == "-dynlink" {
 				args = append(args, "-D=GOBUILDMODE_shared=1")
@@ -378,22 +378,22 @@ func asmArgs(a *Action, p *load.Package) []any {
 		args = append(args, "-compiling-runtime")
 	}
 
-	if cfg.Goarch == "386" {
+	if cfg.GOARCH == "386" {
 		// Define GO386_value from cfg.GO386.
 		args = append(args, "-D", "GO386_"+cfg.GO386)
 	}
 
-	if cfg.Goarch == "amd64" {
+	if cfg.GOARCH == "amd64" {
 		// Define GOAMD64_value from cfg.GOAMD64.
 		args = append(args, "-D", "GOAMD64_"+cfg.GOAMD64)
 	}
 
-	if cfg.Goarch == "mips" || cfg.Goarch == "mipsle" {
+	if cfg.GOARCH == "mips" || cfg.GOARCH == "mipsle" {
 		// Define GOMIPS_value from cfg.GOMIPS.
 		args = append(args, "-D", "GOMIPS_"+cfg.GOMIPS)
 	}
 
-	if cfg.Goarch == "mips64" || cfg.Goarch == "mips64le" {
+	if cfg.GOARCH == "mips64" || cfg.GOARCH == "mips64le" {
 		// Define GOMIPS64_value from cfg.GOMIPS64.
 		args = append(args, "-D", "GOMIPS64_"+cfg.GOMIPS64)
 	}
@@ -636,7 +636,7 @@ func (gcToolchain) ld(b *Builder, root *Action, out, importcfg, mainpkg string) 
 		// linker's build id, which will cause our build id to not
 		// match the next time the tool is built.
 		// Rely on the external build id instead.
-		if !sys.MustLinkExternal(cfg.Goos, cfg.Goarch) {
+		if !sys.MustLinkExternal(cfg.GOOS, cfg.GOARCH) {
 			ldflags = append(ldflags, "-X=cmd/internal/objabi.buildID="+root.buildID)
 		}
 	}
@@ -647,9 +647,9 @@ func (gcToolchain) ld(b *Builder, root *Action, out, importcfg, mainpkg string) 
 	// Else, use the CC environment variable and defaultCC as fallback.
 	var compiler []string
 	if cxx {
-		compiler = envList("CXX", cfg.DefaultCXX(cfg.Goos, cfg.Goarch))
+		compiler = envList("CXX", cfg.DefaultCXX(cfg.GOOS, cfg.GOARCH))
 	} else {
-		compiler = envList("CC", cfg.DefaultCC(cfg.Goos, cfg.Goarch))
+		compiler = envList("CC", cfg.DefaultCC(cfg.GOOS, cfg.GOARCH))
 	}
 	ldflags = append(ldflags, "-buildmode="+ldBuildmode)
 	if root.buildID != "" {
@@ -672,7 +672,7 @@ func (gcToolchain) ld(b *Builder, root *Action, out, importcfg, mainpkg string) 
 	// On Windows, DLL file name is recorded in PE file
 	// export section, so do like on OS X.
 	dir := "."
-	if (cfg.Goos == "darwin" || cfg.Goos == "windows") && cfg.BuildBuildmode == "c-shared" {
+	if (cfg.GOOS == "darwin" || cfg.GOOS == "windows") && cfg.BuildBuildmode == "c-shared" {
 		dir, out = filepath.Split(out)
 	}
 
@@ -700,9 +700,9 @@ func (gcToolchain) ldShared(b *Builder, root *Action, toplevelactions []*Action,
 	// Else, use the CC environment variable and defaultCC as fallback.
 	var compiler []string
 	if cxx {
-		compiler = envList("CXX", cfg.DefaultCXX(cfg.Goos, cfg.Goarch))
+		compiler = envList("CXX", cfg.DefaultCXX(cfg.GOOS, cfg.GOARCH))
 	} else {
-		compiler = envList("CC", cfg.DefaultCC(cfg.Goos, cfg.Goarch))
+		compiler = envList("CC", cfg.DefaultCC(cfg.GOOS, cfg.GOARCH))
 	}
 	ldflags, err := setextld(ldflags, compiler)
 	if err != nil {

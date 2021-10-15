@@ -205,7 +205,7 @@ func (tools gccgoToolchain) asm(b *Builder, a *Action, sfiles []string) ([]strin
 		ofile := a.Objdir + base[:len(base)-len(".s")] + ".o"
 		ofiles = append(ofiles, ofile)
 		sfile, _ = fsys.OverlayPath(mkAbs(p.Dir, sfile))
-		defs := []string{"-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch}
+		defs := []string{"-D", "GOOS_" + cfg.GOOS, "-D", "GOARCH_" + cfg.GOARCH}
 		if pkgpath := tools.gccgoCleanPkgpath(b, p); pkgpath != "" {
 			defs = append(defs, `-D`, `GOPKGPATH=`+pkgpath)
 		}
@@ -238,7 +238,7 @@ func (tools gccgoToolchain) pack(b *Builder, a *Action, afile string, ofiles []s
 		absOfiles = append(absOfiles, mkAbs(objdir, f))
 	}
 	var arArgs []string
-	if cfg.Goos == "aix" && cfg.Goarch == "ppc64" {
+	if cfg.GOOS == "aix" && cfg.GOARCH == "ppc64" {
 		// AIX puts both 32-bit and 64-bit objects in the same archive.
 		// Tell the AIX "ar" command to only care about 64-bit objects.
 		arArgs = []string{"-X64"}
@@ -298,7 +298,7 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 	}
 
 	var arArgs []string
-	if cfg.Goos == "aix" && cfg.Goarch == "ppc64" {
+	if cfg.GOOS == "aix" && cfg.GOARCH == "ppc64" {
 		// AIX puts both 32-bit and 64-bit objects in the same archive.
 		// Tell the AIX "ar" command to only care about 64-bit objects.
 		arArgs = []string{"-X64"}
@@ -420,7 +420,7 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 
 	wholeArchive := []string{"-Wl,--whole-archive"}
 	noWholeArchive := []string{"-Wl,--no-whole-archive"}
-	if cfg.Goos == "aix" {
+	if cfg.GOOS == "aix" {
 		wholeArchive = nil
 		noWholeArchive = nil
 	}
@@ -433,21 +433,21 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 	if root.Package != nil {
 		ldflags = append(ldflags, root.Package.CgoLDFLAGS...)
 	}
-	if cfg.Goos != "aix" {
+	if cfg.GOOS != "aix" {
 		ldflags = str.StringList("-Wl,-(", ldflags, "-Wl,-)")
 	}
 
 	if root.buildID != "" {
 		// On systems that normally use gold or the GNU linker,
 		// use the --build-id option to write a GNU build ID note.
-		switch cfg.Goos {
+		switch cfg.GOOS {
 		case "android", "dragonfly", "linux", "netbsd":
 			ldflags = append(ldflags, fmt.Sprintf("-Wl,--build-id=0x%x", root.buildID))
 		}
 	}
 
 	var rLibPath string
-	if cfg.Goos == "aix" {
+	if cfg.GOOS == "aix" {
 		rLibPath = "-Wl,-blibpath="
 	} else {
 		rLibPath = "-Wl,-rpath="
@@ -466,7 +466,7 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 	goLibBegin := str.StringList(wholeArchive, "-lgolibbegin", noWholeArchive)
 	switch buildmode {
 	case "exe":
-		if usesCgo && cfg.Goos == "linux" {
+		if usesCgo && cfg.GOOS == "linux" {
 			ldflags = append(ldflags, "-Wl,-E")
 		}
 
@@ -506,7 +506,7 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 		ldflags = append(ldflags, "-lgo", "-lgcc_s", "-lgcc", "-lc", "-lgcc")
 
 	case "shared":
-		if cfg.Goos != "aix" {
+		if cfg.GOOS != "aix" {
 			ldflags = append(ldflags, "-zdefs")
 		}
 		ldflags = append(ldflags, "-shared", "-nostdlib", "-lgo", "-lgcc_s", "-lgcc", "-lc")
@@ -561,12 +561,12 @@ func (tools gccgoToolchain) cc(b *Builder, a *Action, ofile, cfile string) error
 	p := a.Package
 	inc := filepath.Join(cfg.GOROOT, "pkg", "include")
 	cfile = mkAbs(p.Dir, cfile)
-	defs := []string{"-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch}
+	defs := []string{"-D", "GOOS_" + cfg.GOOS, "-D", "GOARCH_" + cfg.GOARCH}
 	defs = append(defs, b.gccArchArgs()...)
 	if pkgpath := tools.gccgoCleanPkgpath(b, p); pkgpath != "" {
 		defs = append(defs, `-D`, `GOPKGPATH="`+pkgpath+`"`)
 	}
-	compiler := envList("CC", cfg.DefaultCC(cfg.Goos, cfg.Goarch))
+	compiler := envList("CC", cfg.DefaultCC(cfg.GOOS, cfg.GOARCH))
 	if b.gccSupportsFlag(compiler, "-fsplit-stack") {
 		defs = append(defs, "-fsplit-stack")
 	}

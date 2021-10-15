@@ -787,7 +787,7 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 			if err == nil {
 				m := fi.Mode()
 				if m.IsRegular() {
-					if m&0111 != 0 || cfg.Goos == "windows" { // windows never sets executable bit
+					if m&0111 != 0 || cfg.GOOS == "windows" { // windows never sets executable bit
 						os.Remove(targ)
 					}
 				}
@@ -844,10 +844,10 @@ func FindExecCmd() []string {
 		return ExecCmd
 	}
 	ExecCmd = []string{} // avoid work the second time
-	if cfg.Goos == runtime.GOOS && cfg.Goarch == runtime.GOARCH {
+	if cfg.GOOS == runtime.GOOS && cfg.GOARCH == runtime.GOARCH {
 		return ExecCmd
 	}
-	path, err := exec.LookPath(fmt.Sprintf("go_%s_%s_exec", cfg.Goos, cfg.Goarch))
+	path, err := exec.LookPath(fmt.Sprintf("go_%s_%s_exec", cfg.GOOS, cfg.GOARCH))
 	if err == nil {
 		ExecCmd = []string{path}
 	}

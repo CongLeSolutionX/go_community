@@ -667,8 +667,8 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		base.Fatalf("cannot use -o flag with multiple packages")
 	}
 	if testFuzz != "" {
-		if !sys.FuzzSupported(cfg.Goos, cfg.Goarch) {
-			base.Fatalf("-fuzz flag is not supported on %s/%s", cfg.Goos, cfg.Goarch)
+		if !sys.FuzzSupported(cfg.GOOS, cfg.GOARCH) {
+			base.Fatalf("-fuzz flag is not supported on %s/%s", cfg.GOOS, cfg.GOARCH)
 		}
 		if len(pkgs) != 1 {
 			base.Fatalf("cannot use -fuzz flag with multiple packages")
@@ -1055,7 +1055,7 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 
 	a := b.LinkAction(work.ModeBuild, work.ModeBuild, pmain)
 	a.Target = testDir + testBinary + cfg.ExeSuffix
-	if cfg.Goos == "windows" {
+	if cfg.GOOS == "windows" {
 		// There are many reserved words on Windows that,
 		// if used in the name of an executable, cause Windows
 		// to try to ask for extra permissions.

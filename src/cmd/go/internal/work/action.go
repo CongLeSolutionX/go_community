@@ -293,7 +293,7 @@ func (b *Builder) Init() {
 		}
 	}
 
-	if err := CheckGOOSARCHPair(cfg.Goos, cfg.Goarch); err != nil {
+	if err := CheckGOOSARCHPair(cfg.GOOS, cfg.GOARCH); err != nil {
 		fmt.Fprintf(os.Stderr, "go: %v\n", err)
 		base.SetExitStatus(2)
 		base.Exit()
@@ -539,7 +539,7 @@ func (b *Builder) LinkAction(mode, depMode BuildMode, p *load.Package) *Action {
 		name := "a.out"
 		if p.Internal.ExeName != "" {
 			name = p.Internal.ExeName
-		} else if (cfg.Goos == "darwin" || cfg.Goos == "windows") && cfg.BuildBuildmode == "c-shared" && p.Target != "" {
+		} else if (cfg.GOOS == "darwin" || cfg.GOOS == "windows") && cfg.BuildBuildmode == "c-shared" && p.Target != "" {
 			// On OS X, the linker output name gets recorded in the
 			// shared library's LC_ID_DYLIB load command.
 			// The code invoking the linker knows to pass only the final
@@ -790,7 +790,7 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 				}
 			}
 			add(a1, "runtime/cgo", false)
-			if cfg.Goarch == "arm" {
+			if cfg.GOARCH == "arm" {
 				add(a1, "math", false)
 			}
 
