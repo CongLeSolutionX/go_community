@@ -72,6 +72,24 @@
       "message": "Is it possible to reach this line when isFuzzWorker is false? In that case, buf will be empty.\n\n(I guess if that happened before this CL, f.output would be empty too — so this is not a regression.)",
       "revId": "96781ac976743307196dc5ed41371f5271b08fef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "778e58b0_97b0a4bd",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-15T15:50:20Z",
+      "side": 1,
+      "message": "Yes it\u0027s possible. It would happen in the case of `go test` without fuzzing (e.g. running a fuzz target as a unit test). That\u0027s line 492. But in that case t.parent.w will just be Stdout. So when t.flushToParent is called, the output will get flushed to Stdout like we want. The error message here will be empty, but that\u0027s fine. We always dropped that error message on the floor anyway.\n\nIt\u0027s not possible when fuzzing. Only the worker calls run()\n\nWe could certainly change the code to always write to a buffer, then in line 492 we could write the error message to Stdout, but that\u0027s not really necessary.",
+      "parentUuid": "3641f070_f7c18030",
+      "revId": "96781ac976743307196dc5ed41371f5271b08fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
