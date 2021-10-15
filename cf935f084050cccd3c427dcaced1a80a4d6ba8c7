@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7edf3c94_8c655ecb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2021-10-15T17:35:00Z",
+      "side": 1,
+      "message": "Hey Katie, this is the shared memory CL I was talking about a couple days ago. It\u0027s very much incomplete though, so feel free to ignore.",
+      "revId": "cf935f084050cccd3c427dcaced1a80a4d6ba8c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
