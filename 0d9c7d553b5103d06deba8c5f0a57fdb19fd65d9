@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa4c7398_fbdcfcd8",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-10-15T13:59:56Z",
+      "side": 1,
+      "message": "although it\u0027s not done everywhere, we try to explain any new additions of go:nosplit. can you write a bit about why this should be go:nosplit?\n\nnote that in Go 1.17 and at tip, setsig doesn\u0027t actually get to funcPC and efaceOf, AFAICT, but there may be another sensitive context in which it\u0027s used. I\u0027m not sure.",
+      "revId": "0d9c7d553b5103d06deba8c5f0a57fdb19fd65d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
