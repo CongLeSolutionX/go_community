@@ -72,7 +72,7 @@ func BuildInit() {
 // instrumentation is added. 'go test -fuzz' still works without coverage,
 // but it generates random inputs without guidance, so it's much less effective.
 func fuzzInstrumentFlags() []string {
-	if !sys.FuzzInstrumented(cfg.Goos, cfg.Goarch) {
+	if !sys.FuzzInstrumented(cfg.GOOS, cfg.GOARCH) {
 		return nil
 	}
 	return []string{"-d=libfuzzer"}
@@ -97,18 +97,18 @@ func instrumentInit() {
 		base.SetExitStatus(2)
 		base.Exit()
 	}
-	if cfg.BuildMSan && !sys.MSanSupported(cfg.Goos, cfg.Goarch) {
-		fmt.Fprintf(os.Stderr, "-msan is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+	if cfg.BuildMSan && !sys.MSanSupported(cfg.GOOS, cfg.GOARCH) {
+		fmt.Fprintf(os.Stderr, "-msan is not supported on %s/%s\n", cfg.GOOS, cfg.GOARCH)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
-	if cfg.BuildRace && !sys.RaceDetectorSupported(cfg.Goos, cfg.Goarch) {
-		fmt.Fprintf(os.Stderr, "-race is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+	if cfg.BuildRace && !sys.RaceDetectorSupported(cfg.GOOS, cfg.GOARCH) {
+		fmt.Fprintf(os.Stderr, "-race is not supported on %s/%s\n", cfg.GOOS, cfg.GOARCH)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
-	if cfg.BuildASan && !sys.ASanSupported(cfg.Goos, cfg.Goarch) {
-		fmt.Fprintf(os.Stderr, "-asan is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+	if cfg.BuildASan && !sys.ASanSupported(cfg.GOOS, cfg.GOARCH) {
+		fmt.Fprintf(os.Stderr, "-asan is not supported on %s/%s\n", cfg.GOOS, cfg.GOARCH)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
@@ -130,7 +130,7 @@ func instrumentInit() {
 		mode = "msan"
 		// MSAN does not support non-PIE binaries on ARM64.
 		// See issue #33712 for details.
-		if cfg.Goos == "linux" && cfg.Goarch == "arm64" && cfg.BuildBuildmode == "default" {
+		if cfg.GOOS == "linux" && cfg.GOARCH == "arm64" && cfg.BuildBuildmode == "default" {
 			cfg.BuildBuildmode = "pie"
 		}
 	}
@@ -140,7 +140,7 @@ func instrumentInit() {
 	modeFlag := "-" + mode
 
 	if !cfg.BuildContext.CgoEnabled {
-		if runtime.GOOS != cfg.Goos || runtime.GOARCH != cfg.Goarch {
+		if runtime.GOOS != cfg.GOOS || runtime.GOARCH != cfg.GOARCH {
 			fmt.Fprintf(os.Stderr, "go: %s requires cgo\n", modeFlag)
 		} else {
 			fmt.Fprintf(os.Stderr, "go: %s requires cgo; enable cgo by setting CGO_ENABLED=1\n", modeFlag)
@@ -175,9 +175,9 @@ func buildModeInit() {
 		if gccgo {
 			codegenArg = "-fPIC"
 		} else {
-			switch cfg.Goos {
+			switch cfg.GOOS {
 			case "darwin", "ios":
-				switch cfg.Goarch {
+				switch cfg.GOARCH {
 				case "arm64":
 					codegenArg = "-shared"
 				}
@@ -196,7 +196,7 @@ func buildModeInit() {
 		if gccgo {
 			codegenArg = "-fPIC"
 		} else {
-			switch cfg.Goos {
+			switch cfg.GOOS {
 			case "linux", "android", "freebsd":
 				codegenArg = "-shared"
 			case "windows":
@@ -206,7 +206,7 @@ func buildModeInit() {
 		}
 		ldBuildmode = "c-shared"
 	case "default":
-		switch cfg.Goos {
+		switch cfg.GOOS {
 		case "android":
 			codegenArg = "-shared"
 			ldBuildmode = "pie"
@@ -220,7 +220,7 @@ func buildModeInit() {
 			codegenArg = "-shared"
 			ldBuildmode = "pie"
 		case "darwin":
-			switch cfg.Goarch {
+			switch cfg.GOARCH {
 			case "arm64":
 				codegenArg = "-shared"
 			}
@@ -247,7 +247,7 @@ func buildModeInit() {
 		if gccgo {
 			codegenArg = "-fPIE"
 		} else {
-			switch cfg.Goos {
+			switch cfg.GOOS {
 			case "aix", "windows":
 			default:
 				codegenArg = "-shared"
@@ -278,13 +278,13 @@ func buildModeInit() {
 		base.Fatalf("buildmode=%s not supported", cfg.BuildBuildmode)
 	}
 
-	if !sys.BuildModeSupported(cfg.BuildToolchainName, cfg.BuildBuildmode, cfg.Goos, cfg.Goarch) {
-		base.Fatalf("-buildmode=%s not supported on %s/%s\n", cfg.BuildBuildmode, cfg.Goos, cfg.Goarch)
+	if !sys.BuildModeSupported(cfg.BuildToolchainName, cfg.BuildBuildmode, cfg.GOOS, cfg.GOARCH) {
+		base.Fatalf("-buildmode=%s not supported on %s/%s\n", cfg.BuildBuildmode, cfg.GOOS, cfg.GOARCH)
 	}
 
 	if cfg.BuildLinkshared {
-		if !sys.BuildModeSupported(cfg.BuildToolchainName, "shared", cfg.Goos, cfg.Goarch) {
-			base.Fatalf("-linkshared not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+		if !sys.BuildModeSupported(cfg.BuildToolchainName, "shared", cfg.GOOS, cfg.GOARCH) {
+			base.Fatalf("-linkshared not supported on %s/%s\n", cfg.GOOS, cfg.GOARCH)
 		}
 		if gccgo {
 			codegenArg = "-fPIC"
