@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92c212ed_2ffea5ae",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2575,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-16T16:02:57Z",
+      "side": 1,
+      "message": "I think it is better to simply disable default handling and have a single Handler, see https://go-review.googlesource.com/c/go/+/356410/",
+      "revId": "a69304a0b6379f2aa3330cb68751bbd8449300c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
