@@ -52,6 +52,24 @@
       "parentUuid": "0b7a9dbf_0902f572",
       "revId": "be6d7f2989cba80da889167fef4146761efc3162",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f5cd789_3ab53648",
+        "filename": "src/net/http/internal/chunked.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-16T01:08:32Z",
+      "side": 1,
+      "message": "Ah, you\u0027re right that cr.err can legitimately be io.EOF.\n\nStill, I think we should break out of the loop here when err!\u003dnil (after converting io.EOF to io.ErrUnexpectedEOF), rather than proceeding to issue another Read.",
+      "parentUuid": "34309cc5_7d186185",
+      "revId": "be6d7f2989cba80da889167fef4146761efc3162",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
