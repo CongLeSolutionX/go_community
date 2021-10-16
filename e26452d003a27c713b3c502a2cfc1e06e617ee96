@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83cd3ccd_c13605b1",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3373,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-16T22:56:56Z",
+      "side": 1,
+      "message": "Great point, thank you.\n\n\"For incoming server requests, the context is canceled when the client\u0027s connection closes, the request is canceled (with HTTP/2), or when the ServeHTTP method returns.\"\n-- https://pkg.go.dev/net/http#Request.Context\n\nI think \"http: Request canceled\" makes more sense.\n\nI\u0027m unsure if it\u0027s possible to hit the 3rd condition (when the ServeHTTP method returns) at this point -- perhaps if there is a goroutine that tries to write after ServeHTTP returns.\n\nIf that is the case, maybe it would be nice to have a 3rd error message, though it looks like it would require a much more substantial change.",
+      "parentUuid": "3abe056e_f1a3e763",
+      "revId": "e26452d003a27c713b3c502a2cfc1e06e617ee96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "72f7de6d_48ac7caa",
         "filename": "src/net/http/server.go",
         "patchSetId": 2
