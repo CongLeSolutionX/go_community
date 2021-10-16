@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18635046_4afa5c2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-16T18:06:08Z",
+      "side": 1,
+      "message": "Added some thoughts, note that I am not a maintainer",
+      "revId": "e26452d003a27c713b3c502a2cfc1e06e617ee96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3abe056e_f1a3e763",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3373,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-16T18:06:08Z",
+      "side": 1,
+      "message": "Is it only possible if client hung up or also due to some other reason? I.e. should the error be more generic like `var ErrRequestCanceled \u003d errors.New(\"http: Request canceled\")`?",
+      "revId": "e26452d003a27c713b3c502a2cfc1e06e617ee96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72f7de6d_48ac7caa",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3386,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-16T18:06:08Z",
+      "side": 1,
+      "message": "Could also be `err error` set to either ErrHandlerTimeout or ErrClientHangup instead of two flags",
+      "revId": "e26452d003a27c713b3c502a2cfc1e06e617ee96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
