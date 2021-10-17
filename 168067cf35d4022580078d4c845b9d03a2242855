@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16c43b55_9e062da9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-10-17T11:40:19Z",
+      "side": 1,
+      "message": "This subject needs to me more descriptive. Please make it:\n\nnet/url: fix broken RFC 3986 links\n\nThe URLs for RFC 3986 have been changed from:\n\n    http://tools.ietf.org/html/rfc3986\n    \nto:\n\n    https://datatracker.ietf.org/doc/html/rfc3986",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "168067cf35d4022580078d4c845b9d03a2242855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "584d5380_4eb7ddf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-10-17T11:40:19Z",
+      "side": 1,
+      "message": "net/url: fix stale RFC 3986 links\n\nThe URLs for RFC 3986 have been changed from:\n\n  http://tools.ietf.org/html/rfc3986\n\nto:\n\n  https://datatracker.ietf.org/doc/html/rfc3986",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "168067cf35d4022580078d4c845b9d03a2242855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96245712_44622379",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-10-17T11:40:19Z",
+      "side": 1,
+      "message": "Thank you for this change Jiahua. I\u0027ve added some suggestions\nto make it more descriptive, please take a look.",
+      "revId": "168067cf35d4022580078d4c845b9d03a2242855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
