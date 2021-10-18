@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9d6209c_92d4bd38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54394
+      },
+      "writtenOn": "2021-10-18T08:59:27Z",
+      "side": 1,
+      "message": "When setig is called in a child process, func efaceOf may do a stack growth.\nTherefore, efaceOf be go:nosplit is necessary.",
+      "revId": "0d9c7d553b5103d06deba8c5f0a57fdb19fd65d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa4c7398_fbdcfcd8",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 1
