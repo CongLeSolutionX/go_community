@@ -1463,7 +1463,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		if T == Typ[Invalid] {
 			goto Error
 		}
-		check.typeAssertion(posFor(x), x, xtyp, T)
+		check.typeAssertion(e, x, xtyp, T, "type assertion")
 		x.mode = commaok
 		x.typ = T
 
@@ -1605,26 +1605,27 @@ func keyVal(x constant.Value) interface{} {
 }
 
 // typeAssertion checks that x.(T) is legal; xtyp must be the type of x.
-func (check *Checker) typeAssertion(pos syntax.Pos, x *operand, xtyp *Interface, T Type) {
+func (check *Checker) typeAssertion(e syntax.Expr, x *operand, xtyp *Interface, T Type, context string) {
 	method, wrongType := check.assertableTo(xtyp, T)
 	if method == nil {
 		return
 	}
+
 	var msg string
 	if wrongType != nil {
 		if Identical(method.typ, wrongType.typ) {
-			msg = fmt.Sprintf("missing method %s (%s has pointer receiver)", method.name, method.name)
+			msg = fmt.Sprintf("missing method %s: %s has pointer receiver", method.name, method.name)
 		} else {
-			msg = fmt.Sprintf("wrong type for method %s (have %s, want %s)", method.name, wrongType.typ, method.typ)
+			msg = fmt.Sprintf("wrong type for method %s: have %s, want %s", method.name, wrongType.typ, method.typ)
 		}
 	} else {
 		msg = "missing method " + method.name
 	}
-	if check.conf.CompilerErrorMessages {
-		check.errorf(pos, "impossible type assertion: %s (%s)", x, msg)
-	} else {
-		check.errorf(pos, "%s cannot have dynamic type %s (%s)", x, T, msg)
-	}
+
+	var err error_
+	err.errorf(e.Pos(), "impossible %s: %s", context, e)
+	err.errorf(nopos, "%s does not implement %s (%s)", T, x.typ, msg)
+	check.report(&err)
 }
 
 // expr typechecks expression e and initializes x with the expression value.
