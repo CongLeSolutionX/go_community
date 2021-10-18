@@ -154,8 +154,12 @@ func (p *pageAlloc) allocToCache() pageCache {
 		}
 	}
 
-	// Set the bits as allocated and clear the scavenged bits.
-	p.allocRange(c.base, pageCachePages)
+	// Set the page bits as allocated and clear the scavenged bits, but
+	// be careful to only set and clear the relevant bits.
+	chunk := p.chunkOf(chunkIndex(c.base))
+	cpi := chunkPageIndex(c.base)
+	chunk.allocPages64(cpi, c.cache)
+	chunk.scavenged.clearBlock64(cpi /* free and scavenged */, c.cache&c.scav)
 
 	// Update as an allocation, but note that it's not contiguous.
 	p.update(c.base, pageCachePages, false, true)
