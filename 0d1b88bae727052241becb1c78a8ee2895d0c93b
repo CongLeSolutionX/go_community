@@ -504,6 +504,24 @@
       "parentUuid": "bbbfffb3_d7c1aa40",
       "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "835bb1be_677c406b",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-18T20:56:25Z",
+      "side": 1,
+      "message": "(resolved)",
+      "parentUuid": "012048b8_c1ea9710",
+      "revId": "0d1b88bae727052241becb1c78a8ee2895d0c93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
