@@ -113,6 +113,30 @@
       },
       "revId": "3a51064951b5beb3848f4f70e153761e3e55322d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf2ce9e6_7a0a0ce7",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_minimize_interesting.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-18T15:46:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c057eabe_49cdbfb5",
+      "range": {
+        "startLine": 21,
+        "startChar": 31,
+        "endLine": 21,
+        "endChar": 74
+      },
+      "revId": "3a51064951b5beb3848f4f70e153761e3e55322d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
