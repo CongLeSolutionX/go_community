@@ -275,6 +275,24 @@
       "parentUuid": "7d9f5185_64cc8e89",
       "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8031ea4_c6bd63d9",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2021-10-19T01:29:12Z",
+      "side": 1,
+      "message": "Ok, I decide to abandon this patch.\n\nThanks for your comments.",
+      "parentUuid": "6e82cf0d_58062e55",
+      "revId": "3d96c36090c86c5f831880627a46dd8362865ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
