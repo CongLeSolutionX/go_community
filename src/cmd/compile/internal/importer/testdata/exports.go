@@ -86,3 +86,6 @@ func F4() float32 { return 0 }
 func F5(a, b, c int, u, v, w struct{ x, y T1 }, more ...interface{}) (p, q, r chan<- T10)
 
 func (p *T1) M1()
+
+
+func G[T ~int]() {}

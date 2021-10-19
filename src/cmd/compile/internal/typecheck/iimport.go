@@ -409,7 +409,12 @@ func (r *importReader) doDecl(sym *types.Sym) *ir.Name {
 		nname.SetType(t)
 		t.SetNod(nname)
 
-		t.SetBound(r.typ())
+		typ := r.typ()
+		if typ.Kind() != types.TINTER {
+			embeddeds := []*types.Field{types.NewField(src.NoXPos, nil, typ)}
+			typ = types.NewInterface(r.currPkg, embeddeds, true)
+		}
+		t.SetBound(typ)
 		return nname
 
 	case 'V':
@@ -815,7 +820,7 @@ func (r *importReader) typ1() *types.Type {
 			return types.Types[types.TINTER]
 		}
 
-		t := types.NewInterface(r.currPkg, append(embeddeds, methods...))
+		t := types.NewInterface(r.currPkg, append(embeddeds, methods...), false) // TODO
 
 		// Ensure we expand the interface in the frontend (#25055).
 		types.CheckSize(t)
