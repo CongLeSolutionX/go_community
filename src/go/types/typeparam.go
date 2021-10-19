@@ -43,6 +43,7 @@ func (check *Checker) newTypeParam(obj *TypeName, constraint Type) *TypeParam {
 		check.nextID++
 		id = check.nextID
 	}
+	// TODO: update to support implicit constraints?
 	typ := &TypeParam{check: check, id: id, obj: obj, index: -1, bound: constraint}
 	if obj.typ == nil {
 		obj.typ = typ
@@ -69,7 +70,14 @@ func (t *TypeParam) SetConstraint(bound Type) {
 	if bound == nil {
 		panic("nil constraint")
 	}
-	t.bound = bound
+	if _, ok := bound.Underlying().(*Interface); ok || bound == Typ[Invalid] {
+		// Common case: not an implicit interface.
+		t.bound = bound
+		return
+	}
+	iface := NewInterfaceType(nil, []Type{bound})
+	iface.implicit = true
+	t.bound = iface
 }
 
 func (t *TypeParam) Underlying() Type { return t }
