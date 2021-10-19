@@ -90,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67805c2b_b4e4e494",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-19T17:48:54Z",
+      "side": 1,
+      "message": "Correct - some RVC instructions use three bit (prime) register encodings, which map to X8 through X15 for integer instructions and F8 through F15 for floating point instructions (and other registers cannot be used). For more details see table 16.2 on page 99 of:\n\n  https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMFDQC-and-Priv-v1.11/riscv-privileged-20190608.pdf",
+      "parentUuid": "973980fd_1013d350",
+      "range": {
+        "startLine": 734,
+        "startChar": 8,
+        "endLine": 734,
+        "endChar": 16
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bbaa427a_b6a81bf8",
         "filename": "src/cmd/compile/abi-internal.md",
         "patchSetId": 1
