@@ -126,6 +126,30 @@
       },
       "revId": "cdc8fbb07df719babf50f5c8616cc5442f3d0fbe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6404f2ed_14f736be",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2492,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-10-19T15:02:36Z",
+      "side": 1,
+      "message": "AFAICT, \"code\" holds a pointer value, but \"code\" is a uintptr, thus it\u0027s invisible to stack copying and garbage collector, so converting it to unsafe.Pointer is considered invalid.\n\nWith the indirection version, we\u0027re ok because \"\u0026code\" give us pointer semantic.",
+      "parentUuid": "65a02c07_385ac51a",
+      "range": {
+        "startLine": 2492,
+        "startChar": 10,
+        "endLine": 2492,
+        "endChar": 51
+      },
+      "revId": "cdc8fbb07df719babf50f5c8616cc5442f3d0fbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
