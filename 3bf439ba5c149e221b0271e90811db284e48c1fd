@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c3c8460_b4e0773b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-19T12:08:05Z",
+      "side": 1,
+      "message": "Thanks for this - are you working on register ABI conversion? If so, we might want to raise an issue for tracking purposes.",
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e76eb960_9db8e39d",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-19T12:08:05Z",
+      "side": 1,
+      "message": "arm64 defines 16 registers for both integer and floating-point - I suggest we do the same for riscv64. Also, we should likely define this based on RVC (compressed) register encoding such that we can benefit from this later on. This would likely mean:\n\nX8 - X15 (compressed), X16 - X19, X21 - X25\n\nIt would also be possible to move the context pointer from X20 to another register if we wanted to have a contiguous range.",
+      "range": {
+        "startLine": 731,
+        "startChar": 30,
+        "endLine": 731,
+        "endChar": 38
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b78010b4_a68f116f",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-19T12:08:05Z",
+      "side": 1,
+      "message": "Similar here - F8 through F15 are RVC so we should use these first, so something like:\n\nF8 - F15, F0 - F7",
+      "range": {
+        "startLine": 734,
+        "startChar": 8,
+        "endLine": 734,
+        "endChar": 16
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbaa427a_b6a81bf8",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-19T12:08:05Z",
+      "side": 1,
+      "message": "X3 is currently used as a general purpose register for Go, however the plan is to reserve it as it is marked as the Global Pointer (GP) in the ABI:\n\n  https://go-review.googlesource.com/c/go/+/351859",
+      "range": {
+        "startLine": 744,
+        "startChar": 2,
+        "endLine": 744,
+        "endChar": 42
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd8d6768_f6315fcd",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-19T12:08:05Z",
+      "side": 1,
+      "message": "Missing space after \u0027TLS\u0027.",
+      "range": {
+        "startLine": 745,
+        "startChar": 8,
+        "endLine": 745,
+        "endChar": 18
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c7e1f39_ac1d8454",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-19T12:08:05Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is currently the case - we likely have 8 byte alignment. This is something that we should also fix in order to make RVC instructions more effective.",
+      "range": {
+        "startLine": 755,
+        "startChar": 41,
+        "endLine": 755,
+        "endChar": 67
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
