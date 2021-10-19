@@ -561,7 +561,11 @@ func (p *iexporter) doDecl(n *ir.Name) {
 			// A typeparam has a name, and has a type bound rather
 			// than an underlying type.
 			w.pos(n.Pos())
-			w.typ(n.Type().Bound())
+			typ := n.Type().Bound()
+			if typ.IsImplicit() {
+				typ = typ.Methods().Index(0).Type
+			}
+			w.typ(typ)
 			break
 		}
 

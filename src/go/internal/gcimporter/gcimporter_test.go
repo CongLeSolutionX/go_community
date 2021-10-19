@@ -246,7 +246,7 @@ func sanitizeObjectString(s string) string {
 	return string(runes)
 }
 
-func checkFile(t *testing.T, filename string, src []byte) *types.Package {
+func checkFile(t *testing.T, filename string, src interface{}) *types.Package {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, filename, src, 0)
 	if err != nil {
@@ -688,6 +688,7 @@ func TestIssue20046(t *testing.T) {
 		t.Fatalf("V.M not found (index = %v, indirect = %v)", index, indirect)
 	}
 }
+
 func TestIssue25301(t *testing.T) {
 	skipSpecialPlatforms(t)
 
@@ -720,6 +721,29 @@ func TestIssue25596(t *testing.T) {
 	}
 
 	compileAndImportPkg(t, "issue25596")
+}
+
+func TestImportGenerics(t *testing.T) {
+	importedPkg := compileAndImportPkg(t, "generics")
+	checkedPkg := checkFile(t, filepath.Join("testdata", "generics.go"), nil)
+
+	seen := make(map[string]bool)
+	for _, name := range checkedPkg.Scope().Names() {
+		seen[name] = true
+		imported := importedPkg.Scope().Lookup(name)
+		checked := checkedPkg.Scope().Lookup(name)
+
+		got := sanitizeObjectString(types.ObjectString(imported, types.RelativeTo(importedPkg)))
+		want := sanitizeObjectString(types.ObjectString(checked, types.RelativeTo(checkedPkg)))
+		if got != want {
+			t.Errorf("importedPkg.Lookup(%q) = %s, want %s", name, got, want)
+		}
+	}
+	for _, name := range importedPkg.Scope().Names() {
+		if !seen[name] && token.IsExported(name) {
+			t.Errorf("imported extra name %q", name)
+		}
+	}
 }
 
 func importPkg(t *testing.T, path, srcDir string) *types.Package {
