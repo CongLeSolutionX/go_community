@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4f6a65ce_a5e9a608",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-19T13:28:09Z",
+      "side": 1,
+      "message": "Put the separator length condition fix to avoid crossing page boundary and calling p9 version of indexbody into this CL as both are fixes - https://go-review.googlesource.com/c/go/+/356849",
+      "parentUuid": "436d2f6a_c07d38b9",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "0842902ad8c6041bf5b2776f041fa88a274bff30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "473f4f8b_14a91dcb",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -119,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2384c456_ca4e23b8",
+        "filename": "src/internal/bytealg/count_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-19T13:28:09Z",
+      "side": 1,
+      "message": "Thanks for noticing this! Added comments",
+      "parentUuid": "d509f28e_dee6d6e9",
+      "revId": "0842902ad8c6041bf5b2776f041fa88a274bff30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50d9f27c_6c30ce35",
@@ -136,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e58d96b4_8b66ff0e",
+        "filename": "src/internal/bytealg/count_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-19T13:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d9f27c_6c30ce35",
+      "revId": "0842902ad8c6041bf5b2776f041fa88a274bff30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96baae31_9a31660b",
@@ -149,6 +209,24 @@
       "writtenOn": "2021-10-18T21:10:13Z",
       "side": 1,
       "message": "Same here. Also remove the blank line (line 53).",
+      "revId": "0842902ad8c6041bf5b2776f041fa88a274bff30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99a1c311_aa16d6cd",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-19T13:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96baae31_9a31660b",
       "revId": "0842902ad8c6041bf5b2776f041fa88a274bff30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
