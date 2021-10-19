@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2cc5ce9_af614691",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-19T11:46:30Z",
+      "side": 1,
+      "message": "FYI This CL flaky breaks on amd64 longest/i386 longest/riscv64.\n```greplogs -E TestCPUProfileMultithreadMagnitude -dashboard``` shows 19 failures.",
+      "revId": "8cfd8c3db8e32fed0cf61371335d87a47a4738c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
