@@ -22,6 +22,30 @@
       },
       "revId": "f480364e62a720f07643a9c1e622b20f2c3dba9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8864ddf7_2831e924",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-19T11:41:44Z",
+      "side": 1,
+      "message": "Sorry. The above URL is wrong, right one as following:\nhttps://go-review.googlesource.com/c/tools/+/356089",
+      "parentUuid": "ff2a520b_3da2b1cf",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "f480364e62a720f07643a9c1e622b20f2c3dba9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
