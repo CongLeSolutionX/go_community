@@ -95,6 +95,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a82dcc5_17b535f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-19T23:20:48Z",
+      "side": 1,
+      "message": "Hmm, the unified builder can\u0027t import the constraints package properly.\n\nYou man need to skip if GO_BUILDER_NAME is linux-amd64-unified.",
+      "parentUuid": "ba1d2d89_7db01eae",
+      "revId": "2a65ace40ad5b58dc9fb8f9b574e3f8b38f4f69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7eed0357_c8849716",
         "filename": "src/cmd/compile/internal/types2/conversions.go",
         "patchSetId": 3
