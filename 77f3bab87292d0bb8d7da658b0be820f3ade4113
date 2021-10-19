@@ -70,6 +70,24 @@
       "message": "Matthew, didn\u0027t we wind up solving this some other way? It seems there may still be some related issue.",
       "revId": "77f3bab87292d0bb8d7da658b0be820f3ade4113",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "132b5dca_c6699ef5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-19T18:30:13Z",
+      "side": 1,
+      "message": "IIRC, the issue here is that if GOROOT_BOOTSTRAP has any default-on experiments, then setting GOEXPERIMENT\u003dnone actually causes us to disable those experiments, which could put us into a less-supported configuration (e.g., disabling regabi).",
+      "parentUuid": "968d4d9e_1f699621",
+      "revId": "77f3bab87292d0bb8d7da658b0be820f3ade4113",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
