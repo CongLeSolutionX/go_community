@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d22b0d9_ba40fb0b",
+        "filename": "src/internal/bytealg/count_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-19T14:37:09Z",
+      "side": 1,
+      "message": "Still good to mention the meaning of those even if they are already in the right place, something like https://cs.opensource.google/go/go/+/master:src/internal/bytealg/compare_ppc64x.s;l\u003d12\n\nAlso other functions. Thanks.",
+      "range": {
+        "startLine": 13,
+        "startChar": 48,
+        "endLine": 13,
+        "endChar": 96
+      },
+      "revId": "762bccf47b2e47b27d4fe89d641f7dc46d625f1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
