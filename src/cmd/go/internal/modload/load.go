@@ -1004,7 +1004,11 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 	}
 
 	var err error
-	ld.requirements, err = convertPruning(ctx, ld.requirements, pruningForGoVersion(ld.GoVersion))
+	desiredPruning := pruningForGoVersion(ld.GoVersion)
+	if ld.requirements.pruning == workspace {
+		desiredPruning = workspace
+	}
+	ld.requirements, err = convertPruning(ctx, ld.requirements, desiredPruning)
 	if err != nil {
 		ld.errorf("go: %v\n", err)
 	}
@@ -1243,6 +1247,13 @@ func (ld *loader) updateRequirements(ctx context.Context) (changed bool, err err
 		}
 		for _, dep := range pkg.imports {
 			if !dep.fromExternalModule() {
+				continue
+			}
+
+			if inWorkspaceMode() {
+				// In workspace mode / workspace pruning mode, the roots are the main modules
+				// rather than the main module's direct dependencies. The check below on the selected
+				// roots does not apply.
 				continue
 			}
 
