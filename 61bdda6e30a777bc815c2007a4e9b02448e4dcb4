@@ -86,6 +86,24 @@
       "parentUuid": "1ad2f8c5_5459d817",
       "revId": "61bdda6e30a777bc815c2007a4e9b02448e4dcb4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48869aab_f641362d",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2247,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2021-10-19T12:26:36Z",
+      "side": 1,
+      "message": "Thanks. Done",
+      "parentUuid": "0a157b7e_e024393f",
+      "revId": "61bdda6e30a777bc815c2007a4e9b02448e4dcb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
