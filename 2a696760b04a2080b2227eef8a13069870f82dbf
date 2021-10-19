@@ -70,6 +70,103 @@
       "message": "Austin, David, Michael? Could you please review the patch again?",
       "revId": "2a696760b04a2080b2227eef8a13069870f82dbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da3ac662_3f43de37",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T15:33:31Z",
+      "side": 1,
+      "message": "This part of the comment is a bit confusing because there is no \"localSize\" here and \"size\" doesn\u0027t come from Pin.",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 50
+      },
+      "revId": "2a696760b04a2080b2227eef8a13069870f82dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d911c823_e1f40d88",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T15:33:31Z",
+      "side": 1,
+      "message": "Given that you\u0027re generating a random permutation now, is it still useful to add in pid?\n\n(Minor: if you don\u0027t add in pid, it may make sense to clean up some of the casts. E.g., cast size to uint32 and leave rndp.position as a uint32.)",
+      "range": {
+        "startLine": 224,
+        "startChar": 28,
+        "endLine": 224,
+        "endChar": 31
+      },
+      "revId": "2a696760b04a2080b2227eef8a13069870f82dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c77b50c_df012ad6",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T15:33:31Z",
+      "side": 1,
+      "message": "\"is changed\" isn\u0027t quite right here. Perhaps\n\n// The number of Ps has changed, so reinitialize the random order over the Ps.\n// We allocate a new randomOrder so we can atomically swap it for the current order.",
+      "revId": "2a696760b04a2080b2227eef8a13069870f82dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0294aa63_0dc707c0",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T15:33:31Z",
+      "side": 1,
+      "message": "It looks like writes are *both* atomic and serialized by allPoolsMu.",
+      "revId": "2a696760b04a2080b2227eef8a13069870f82dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e07dadd3_e2d77227",
+        "filename": "src/sync/pool_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T15:33:31Z",
+      "side": 1,
+      "message": "countStarved\n\nAlso, it would be nice to have a comment explaining the formula here.",
+      "revId": "2a696760b04a2080b2227eef8a13069870f82dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
