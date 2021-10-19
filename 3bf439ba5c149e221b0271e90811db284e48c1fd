@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "973980fd_1013d350",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-19T14:33:40Z",
+      "side": 1,
+      "message": "Does it have shorter encoding for F8-F15 than F0-F7? Seems a bit weird.\n\nIf we do this, mention the reason in Rationale section.",
+      "parentUuid": "b78010b4_a68f116f",
+      "range": {
+        "startLine": 734,
+        "startChar": 8,
+        "endLine": 734,
+        "endChar": 16
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bbaa427a_b6a81bf8",
         "filename": "src/cmd/compile/abi-internal.md",
         "patchSetId": 1
@@ -77,6 +101,30 @@
       "writtenOn": "2021-10-19T12:08:05Z",
       "side": 1,
       "message": "X3 is currently used as a general purpose register for Go, however the plan is to reserve it as it is marked as the Global Pointer (GP) in the ABI:\n\n  https://go-review.googlesource.com/c/go/+/351859",
+      "range": {
+        "startLine": 744,
+        "startChar": 2,
+        "endLine": 744,
+        "endChar": 42
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "886a1ccd_dd7ca8ef",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-19T14:33:40Z",
+      "side": 1,
+      "message": "Either way, I don\u0027t think we need a specific register for \"function address on indirect calls\".  Any integer register could do.",
+      "parentUuid": "bbaa427a_b6a81bf8",
       "range": {
         "startLine": 744,
         "startChar": 2,
@@ -129,6 +177,46 @@
         "endLine": 755,
         "endChar": 67
       },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba0b73a3_d287b9f5",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-19T14:33:40Z",
+      "side": 1,
+      "message": "I don\u0027t think we use frame pointers on RISCV64 (at least for now).",
+      "range": {
+        "startLine": 764,
+        "startChar": 6,
+        "endLine": 764,
+        "endChar": 28
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0433f5ad_8aa13e4a",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-19T14:33:40Z",
+      "side": 1,
+      "message": "Add a blank line here.",
       "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
