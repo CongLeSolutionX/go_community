@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "669e17f8_f2f64de4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-19T11:45:48Z",
+      "side": 1,
+      "message": "We have submitted a CL on sys repo to support loong64, PTAL.\nhttps://go-review.googlesource.com/c/sys/+/355550\nI will vendor it back after the CL merged. This CL only submmit the changes to support loong64.",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "8cb075f663449dde67ee09478e952661bb8c1973",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
