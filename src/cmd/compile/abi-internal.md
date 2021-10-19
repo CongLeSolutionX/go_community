@@ -726,6 +726,54 @@ The floating point status and control register (FPSCR) is initialized
 to 0 by the kernel at startup of the Go program and not changed by
 the Go generated code.
 
+### riscv64 architecture
+
+The riscv64 architecture uses X8 – X23 for integer arguments
+and results.
+
+It uses F8 – F23 for floating-point arguments and results.
+
+Special-purpose registers used within Go generated code and Go
+assembly code are as follows:
+
+| Register | Call meaning | Return meaning | Body meaning |
+| --- | --- | --- | --- |
+| X0  | Zero value | Same | Same |
+| X1  | Link register | Link register | Scratch |
+| X2  | Stack pointer | Same | Same |
+| X4  | TLS (thread pointer) | TLS | Scratch |
+| X24,X25 | Scratch | Scratch | Used by duffcopy, duffzero |
+| X26 | Closure context pointer | Scratch | Scratch |
+| X27 | Current goroutine | Same | Same |
+| X31 | Scratch | Scratch | Scratch |
+
+*Rationale*: These register meanings are compatible with Go’s
+stack-based calling convention. Context register X20 will change to X26,
+duffcopy, duffzero register will change to X24, X25 before this register ABI been adopted.
+X8 – X15, F8 – F15 is used for compressed instruction (RVC) which will benefit code size in the future.
+
+#### Stack layout
+
+The stack pointer, X2, grows down and is aligned to 8 bytes.
+
+A function's stack frame, after the frame is created, is laid out as
+follows:
+
+    +------------------------------+
+    | ... locals ...               |
+    | ... outgoing arguments ...   |
+    | return PC                    | ← X2 points to
+    +------------------------------+ ↓ lower addresses
+
+The "return PC" is loaded to the link register, X1, as part of the
+riscv64 `CALL` operation.
+
+#### Flags
+
+The riscv64 has Zicsr extension for control and status register (CSR) and
+treated as scratch register.
+All bits in CSR are system flags and are not modified by Go.
+
 ## Future directions
 
 ### Spill path improvements
