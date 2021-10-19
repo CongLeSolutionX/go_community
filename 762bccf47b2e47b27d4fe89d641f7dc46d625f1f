@@ -22,6 +22,30 @@
       },
       "revId": "762bccf47b2e47b27d4fe89d641f7dc46d625f1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4258516_4b854ba0",
+        "filename": "src/internal/bytealg/count_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-19T15:04:00Z",
+      "side": 1,
+      "message": "Hi Cherry, made the comment explicit, thanks for the reference link! pls let me know if it looks ok now",
+      "parentUuid": "9d22b0d9_ba40fb0b",
+      "range": {
+        "startLine": 13,
+        "startChar": 48,
+        "endLine": 13,
+        "endChar": 96
+      },
+      "revId": "762bccf47b2e47b27d4fe89d641f7dc46d625f1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
