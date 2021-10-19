@@ -38,11 +38,14 @@ type Requirements struct {
 	// If pruned, the graph includes only the root modules, the explicit
 	// requirements of those root modules, and the transitive requirements of only
 	// the root modules that do not support pruning.
+	//
+	// If workspace, the graph includes only the workspace modules, and the
+	// transitive requirements of the workspace modules that do not support pruning.
 	pruning modPruning
 
-	// rootModules is the set of module versions explicitly required by the main
-	// modules, sorted and capped to length. It may contain duplicates, and may
-	// contain multiple versions for a given module path.
+	// rootModules is the set of root modules of the graph. They are the set
+	// of main modules in workspace mode, and the main module's direct requirements
+	// outside workspace mode.
 	rootModules    []module.Version
 	maxRootVersion map[string]string
 
@@ -99,6 +102,15 @@ var requirements *Requirements
 // If vendoring is in effect, the caller must invoke initVendor on the returned
 // *Requirements before any other method.
 func newRequirements(pruning modPruning, rootModules []module.Version, direct map[string]bool) *Requirements {
+	if pruning == workspace {
+		return &Requirements{
+			pruning:        pruning,
+			rootModules:    capVersionSlice(rootModules),
+			maxRootVersion: nil,
+			direct:         direct,
+		}
+	}
+
 	for i, m := range rootModules {
 		if m.Version == "" && MainModules.Contains(m.Path) {
 			panic(fmt.Sprintf("newRequirements called with untrimmed build list: rootModules[%v] is a main module", i))
@@ -291,13 +303,8 @@ func readModGraph(ctx context.Context, pruning modPruning, roots []module.Versio
 			g: mvs.NewGraph(cmpVersion, MainModules.Versions()),
 		}
 	)
-	for _, m := range MainModules.Versions() {
-		// Require all roots from all main modules.
-		_ = TODOWorkspaces("This flattens a level of the module graph, adding the dependencies " +
-			"of all main modules to a single requirements struct, and losing the information of which " +
-			"main module required which requirement. Rework the requirements struct and change this" +
-			"to reflect the structure of the main modules.")
-		mg.g.Require(m, roots)
+	if pruning != workspace {
+		mg.g.Require(MainModules.mustGetSingleMainModule(), roots)
 	}
 
 	var (
@@ -352,9 +359,13 @@ func readModGraph(ctx context.Context, pruning modPruning, roots []module.Versio
 			// are sufficient to build the packages it contains. We must load its full
 			// transitive dependency graph to be sure that we see all relevant
 			// dependencies.
-			if pruning == unpruned || summary.pruning == unpruned {
+			if pruning != pruned || summary.pruning == unpruned {
+				nextPruning := summary.pruning
+				if pruning == unpruned {
+					nextPruning = unpruned
+				}
 				for _, r := range summary.require {
-					enqueue(r, unpruned)
+					enqueue(r, nextPruning)
 				}
 			}
 		})
