@@ -335,6 +335,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb6f29cf_42052f35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-10-19T17:09:17Z",
+      "side": 1,
+      "message": "ideally, yes. I have to check the status of the iOS builders and see if I can actually debug what\u0027s wrong. it would be unfortunate to have to have this wait.",
+      "parentUuid": "348b66e5_a1cf0839",
+      "revId": "1651fc68fb103078b5b848a58ed3bcfab3e9f5b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49eb0e62_4c7b8e57",
