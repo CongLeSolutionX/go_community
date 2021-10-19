@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38f13ee9_7ec96c50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T17:43:48Z",
+      "side": 1,
+      "message": "I find it somewhat concerning that I can no longer make much sense of the panic implementation. :(",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "177aaf47_da5815de",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T17:43:48Z",
+      "side": 1,
+      "message": "addOneOpenDeferFrame doesn\u0027t add frames. Do you mean a defer record?",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33491d37_4ab593f8",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T17:43:48Z",
+      "side": 1,
+      "message": "It would be nice to avoid \"lower\"/\"below\"/\"above\"/etc because the conventions around these terms are really unclear.",
+      "range": {
+        "startLine": 572,
+        "startChar": 42,
+        "endLine": 572,
+        "endChar": 47
+      },
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7578e8a_9b2b8340",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T17:43:48Z",
+      "side": 1,
+      "message": "I think this first sentence needs to be conditional on something. If it literally *only* adds a frame lower than a started open defer, then how do you get the very first open defer?",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e437f8b_50358166",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T17:43:48Z",
+      "side": 1,
+      "message": "Add \"//\" so the doc comment is all together.",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c349abb3_99eb8d42",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T17:43:48Z",
+      "side": 1,
+      "message": "up",
+      "range": {
+        "startLine": 624,
+        "startChar": 30,
+        "endLine": 624,
+        "endChar": 32
+      },
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d87f16d7_b668e328",
+        "filename": "test/fixedbugs/issue48898.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T17:43:48Z",
+      "side": 1,
+      "message": "Is this line actually relevant?",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
