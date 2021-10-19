@@ -16,6 +16,24 @@
       "message": "Also here. And the index functions. Thanks.",
       "revId": "6e7a48d7abd6f39e2fcc17029646a9697d21cd0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd853373_1ca16645",
+        "filename": "src/internal/bytealg/count_ppc64x.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2021-10-19T15:30:20Z",
+      "side": 1,
+      "message": "Hi Cherry, made changes in all other places in count and index functions. Pls review! Thanks!",
+      "parentUuid": "86db7012_51256202",
+      "revId": "6e7a48d7abd6f39e2fcc17029646a9697d21cd0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
