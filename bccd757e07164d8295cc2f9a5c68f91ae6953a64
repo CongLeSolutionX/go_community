@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f84fe78c_acb6546b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T15:51:53Z",
+      "side": 1,
+      "message": "The go1 benchmarks aren\u0027t great for this because they\u0027re all single-threaded anyway (regardless of -cpu\u003d1).\n\nMichael Knyszek, maybe worth running sweet on this?",
+      "revId": "bccd757e07164d8295cc2f9a5c68f91ae6953a64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2972bbfe_038121fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T15:51:53Z",
+      "side": 1,
+      "message": "I don\u0027t really understand how -cpu\u003d1 is relevant here. For one, isn\u0027t this the *least* interesting case for this change? On the flip side, the fact that it shows effects (albeit mostly small) across several benchmarks suggests to me that something else may be going on here, unless this is entirely from the kernel constantly migrating the single active thread between sockets.",
+      "revId": "bccd757e07164d8295cc2f9a5c68f91ae6953a64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "975f1ad7_c55fb407",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-19T15:51:53Z",
+      "side": 1,
+      "message": "This comment should explain exactly what data it\u0027s important to separate. Also, I would just call this \"false sharing\" rather than HITM.",
+      "revId": "bccd757e07164d8295cc2f9a5c68f91ae6953a64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
