@@ -70,6 +70,24 @@
       "message": "Does this doc need to be updated to reflect the new behavior, or is that for another CL?",
       "revId": "74f20d331fe9729b96516440ea8073c9e7681a69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edc2bc15_0d8a23da",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-20T19:39:15Z",
+      "side": 1,
+      "message": "Done.\n\n(Also added a release note; thanks for the reminder!)",
+      "parentUuid": "30f413b2_b6d5ec2a",
+      "revId": "74f20d331fe9729b96516440ea8073c9e7681a69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
