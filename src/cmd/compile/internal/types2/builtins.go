@@ -325,25 +325,14 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Copy:
 		// copy(x, y []T) int
-		var dst Type
-		if t := asSlice(x.typ); t != nil {
-			dst = t.elem
-		}
+		dst := sliceElem(x.typ, false)
 
 		var y operand
 		arg(&y, 1)
 		if y.mode == invalid {
 			return
 		}
-		var src Type
-		switch t := optype(y.typ).(type) {
-		case *Basic:
-			if isString(y.typ) {
-				src = universeByte
-			}
-		case *Slice:
-			src = t.elem
-		}
+		src := sliceElem(y.typ, true)
 
 		if dst == nil || src == nil {
 			check.errorf(x, invalidArg+"copy expects slice arguments; found %s and %s", x, &y)
@@ -772,6 +761,34 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 	}
 
 	return true
+}
+
+// sliceElem returns the element type if typ is a slice or a type parameter
+// constrained by slices; otherwise the result is nil. If stringOk is set,
+// typ may also be a string type (or a type parameter also constrained by
+// string types).
+func sliceElem(typ Type, stringOk bool) Type {
+	var elem Type
+	if underIs(typ, func(u Type) bool {
+		var e Type
+		switch t := u.(type) {
+		case *Basic:
+			if stringOk && isString(t) {
+				e = Typ[Byte]
+			}
+		case *Slice:
+			e = t.elem
+		}
+		if e == nil || elem != nil && !Identical(elem, e) {
+			return false
+		}
+		// elem == nil || Identical(elem, e)
+		elem = e
+		return true
+	}) {
+		return elem
+	}
+	return nil
 }
 
 // hasVarSize reports if the size of type t is variable due to type parameters.
