@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9bdc903f_28b06e1e",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-20T14:16:05Z",
+      "side": 1,
+      "message": "I think we may want to minimize the use of the aliases. Two naming conventions are more confusing than helpful.\n\nThat said, it is okay to choose whatever argument register order you like.\n\nYeah, I think it is okay to change the context register if necessary.",
+      "parentUuid": "e97aa1ca_0f662bb4",
+      "range": {
+        "startLine": 731,
+        "startChar": 30,
+        "endLine": 731,
+        "endChar": 38
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b78010b4_a68f116f",
         "filename": "src/cmd/compile/abi-internal.md",
         "patchSetId": 1
