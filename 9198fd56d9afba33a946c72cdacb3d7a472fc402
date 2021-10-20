@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce94324d_c06ea564",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-20T20:12:27Z",
+      "side": 1,
+      "message": "@Cherry, what are your thoughts on this?\n\nShould we be marking this symbol as having a local entry point offset? I didn\u0027t see any way to do this today. Maybe I overlooked it. External objects work around this by adjust the relocation addend when converting into go relocation.",
+      "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
