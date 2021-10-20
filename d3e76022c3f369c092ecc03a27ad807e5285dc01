@@ -57,6 +57,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a40c181_90226454",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-20T03:08:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "773b80f4_43d96e05",
+      "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2208d051_5ee114e9",
@@ -74,6 +92,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd38591_f706b97c",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3310,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-20T03:08:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2208d051_5ee114e9",
+      "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1753c4a3_6f3bf86a",
@@ -87,6 +123,24 @@
       "writtenOn": "2021-10-20T00:52:03Z",
       "side": 1,
       "message": "This should handle the case where the context returns some other error as well. (This shouldn\u0027t happen in practice, but don\u0027t rely on that.)",
+      "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8649808f_89178900",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3376,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-20T03:08:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1753c4a3_6f3bf86a",
       "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -122,6 +176,24 @@
       "side": 1,
       "message": "Thanks for the feedback!\n\nIt looks like under normal circumstances, without TimeoutHandler, _no_ errors are returned.\n\nProof: https://gist.github.com/cgetzen/6b9dbf62151c8343f9e80a5ddba5c3c9\noutput:\n```\ndemoHandler: context canceled\n9 \u003cnil\u003e\n```\n\nI think returning a non-exported error will remove the ability to do something like:\n```\nerrors.Is(e, http.ErrRequestCanceled)\n```\n\nTo stay in line with your suggestion, I\u0027m going to return ctx.Err().\nLMK if this should be adjusted to return no error.",
       "parentUuid": "75172fb4_afa61bb3",
+      "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9da9f3e6_41137f65",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3377,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-20T03:08:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5905962_c1f1ea2b",
       "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
