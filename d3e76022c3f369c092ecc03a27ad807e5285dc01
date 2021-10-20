@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2208d051_5ee114e9",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3310,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-20T00:52:03Z",
+      "side": 1,
+      "message": "Don\u0027t capitalize Request: \"http: request canceled\".\n\n\"Handler\" is capitalized in ErrHandlerTimeout because its referring to the type \"http.Request\" (which is capitalized); \"request\" here is referring to the HTTP request, not a symbol.",
+      "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1753c4a3_6f3bf86a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3376,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-20T00:52:03Z",
+      "side": 1,
+      "message": "This should handle the case where the context returns some other error as well. (This shouldn\u0027t happen in practice, but don\u0027t rely on that.)",
+      "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75172fb4_afa61bb3",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3377,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-10-20T00:52:03Z",
+      "side": 1,
+      "message": "I don\u0027t think we should introduce a new exported error for this case.\n\nIf there\u0027s an error that\u0027s usually returned from w.Write after the request has been canceled, then that\u0027s probably the right thing to return. Failing that, I\u0027d return either errors.New(\"http: request canceled\") or ctx.Err().",
+      "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
