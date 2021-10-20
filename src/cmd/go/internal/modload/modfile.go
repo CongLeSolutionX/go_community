@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -587,6 +588,8 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 			return nil, module.VersionError(actual, &sumMissingError{suggestion: suggestion})
 		}
 	}
+	log.Println("in " +
+		"workspace mode")
 	summary, err := rawGoModSummary(actual)
 	if err != nil {
 		return nil, err
@@ -653,6 +656,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 // rawGoModSummary cannot be used on the Target module.
 
 func rawGoModSummary(m module.Version) (*modFileSummary, error) {
+	log.Print("in rawGoModDummary for", m.Path)
 	if m.Path == "" && MainModules.Contains(m.Path) {
 		panic("internal error: rawGoModSummary called on the Target module")
 	}
@@ -717,11 +721,16 @@ var rawGoModSummaryCache par.Cache // module.Version → rawGoModSummary result
 // Unlike rawGoModSummary, rawGoModData does not cache its results in memory.
 // Use rawGoModSummary instead unless you specifically need these bytes.
 func rawGoModData(m module.Version) (name string, data []byte, err error) {
+	log.Println("in rawGioModData for", m)
 	if m.Version == "" {
 		// m is a replacement module with only a file path.
+
 		dir := m.Path
 		if !filepath.IsAbs(dir) {
 			dir = filepath.Join(replaceRelativeTo(), dir)
+			if inWorkspaceMode() && MainModules.Contains(m.Path) {
+				dir = MainModules.ModRoot(m)
+			}
 		}
 		name = filepath.Join(dir, "go.mod")
 		if gomodActual, ok := fsys.OverlayPath(name); ok {

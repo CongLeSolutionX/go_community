@@ -11,6 +11,7 @@ import (
 	"cmd/go/internal/par"
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"reflect"
 	"runtime"
@@ -103,12 +104,18 @@ var requirements *Requirements
 // *Requirements before any other method.
 func newRequirements(pruning modPruning, rootModules []module.Version, direct map[string]bool) *Requirements {
 	if pruning == workspace {
+		log.Print("pruning is workspace in newRequirements")
 		return &Requirements{
 			pruning:        pruning,
 			rootModules:    capVersionSlice(rootModules),
 			maxRootVersion: nil,
 			direct:         direct,
 		}
+	}
+
+	if inWorkspaceMode() && pruning != workspace {
+		debug.PrintStack()
+		base.Fatalf("pruning is not workspace in newRequirements. inWorkspaceMode is %v", inWorkspaceMode())
 	}
 
 	for i, m := range rootModules {
@@ -231,6 +238,8 @@ func (rs *Requirements) hasRedundantRoot() bool {
 // If the requirements of any relevant module fail to load, Graph also
 // returns a non-nil error of type *mvs.BuildListError.
 func (rs *Requirements) Graph(ctx context.Context) (*ModuleGraph, error) {
+	log.Print("requirements.Graph called. rs.rootModules is", rs.rootModules, " rs.pruning is ", rs.pruning)
+	debug.PrintStack()
 	rs.graphOnce.Do(func() {
 		mg, mgErr := readModGraph(ctx, rs.pruning, rs.rootModules)
 		rs.graph.Store(cachedGraph{mg, mgErr})
@@ -273,6 +282,7 @@ var readModGraphDebugOnce sync.Once
 // Unlike LoadModGraph, readModGraph does not attempt to diagnose or update
 // inconsistent roots.
 func readModGraph(ctx context.Context, pruning modPruning, roots []module.Version) (*ModuleGraph, error) {
+	log.Println("READ MOD GRAPH HAS BEEN CALLED. PRUNING IS ", pruning, " AND ROOTS ARE ", roots)
 	if pruning == pruned {
 		// Enable diagnostics for lazy module loading
 		// (https://golang.org/ref/mod#lazy-loading) only if the module graph is
@@ -304,6 +314,9 @@ func readModGraph(ctx context.Context, pruning modPruning, roots []module.Versio
 		}
 	)
 	if pruning != workspace {
+		if inWorkspaceMode() {
+			panic("pruning is not workspace in workspace mode")
+		}
 		mg.g.Require(MainModules.mustGetSingleMainModule(), roots)
 	}
 
@@ -587,7 +600,7 @@ func tidyRoots(ctx context.Context, rs *Requirements, pkgs []*loadPkg) (*Require
 }
 
 func updateRoots(ctx context.Context, direct map[string]bool, rs *Requirements, pkgs []*loadPkg, add []module.Version, rootsImported bool) (*Requirements, error) {
-	if rs.pruning == unpruned {
+	if rs.pruning != unpruned {
 		return updateUnprunedRoots(ctx, direct, rs, add)
 	}
 	return updatePrunedRoots(ctx, direct, rs, pkgs, add, rootsImported)
@@ -1167,7 +1180,6 @@ func updateUnprunedRoots(ctx context.Context, direct map[string]bool, rs *Requir
 		}
 	}
 
-	// TODO(matloob): Make roots into a map.
 	var roots []module.Version
 	for _, mainModule := range MainModules.Versions() {
 		min, err := mvs.Req(mainModule, rootPaths, &mvsReqs{roots: keep})
@@ -1193,6 +1205,8 @@ func updateUnprunedRoots(ctx context.Context, direct map[string]bool, rs *Requir
 func convertPruning(ctx context.Context, rs *Requirements, pruning modPruning) (*Requirements, error) {
 	if rs.pruning == pruning {
 		return rs, nil
+	} else if rs.pruning == workspace || pruning == workspace {
+		panic("attempthing to convert to/from workspace pruning and another pruning type")
 	}
 
 	if pruning == unpruned {

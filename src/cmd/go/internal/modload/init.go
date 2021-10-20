@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"go/build"
 	"internal/lazyregexp"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -704,7 +705,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 		}
 	}
 
-	if MainModules.Index(mainModule).goVersionV == "" {
+	if MainModules.Index(mainModule).goVersionV == "" && rs.pruning != workspace {
 		// TODO(#45551): Do something more principled instead of checking
 		// cfg.CmdName directly here.
 		if cfg.BuildMod == "mod" && cfg.CmdName != "mod graph" && cfg.CmdName != "mod why" {
@@ -995,6 +996,7 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 		roots = make([]module.Version, len(MainModules.Versions()))
 		copy(roots, MainModules.Versions())
 	} else {
+		log.Print("else branch, workfilePath is ", workFilePath)
 		pruning = pruningForGoVersion(MainModules.GoVersion())
 		if len(modFiles) != 1 {
 			panic(fmt.Errorf("requirementsFromModFiles called with %v modfiles outside workspace mode", len(modFiles)))
@@ -1019,6 +1021,7 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 		}
 	}
 	module.Sort(roots)
+	log.Print(" this is requirementsfrommodfiles inWorkspaceMode is ", inWorkspaceMode(), " pruning is ", pruning)
 	rs := newRequirements(pruning, roots, direct)
 	return rs
 }

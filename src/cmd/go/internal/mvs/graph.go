@@ -6,6 +6,7 @@ package mvs
 
 import (
 	"fmt"
+	"log"
 
 	"golang.org/x/mod/module"
 )
@@ -55,6 +56,9 @@ func NewGraph(cmp func(v1, v2 string) int, roots []module.Version) *Graph {
 // If any of the modules in reqs has the same path as g's target,
 // the target must have higher precedence than the version in req.
 func (g *Graph) Require(m module.Version, reqs []module.Version) {
+	log.Printf("about to add requirements from %v to %v\n", m, reqs)
+	log.Print("isRoot is ", g.isRoot)
+
 	// To help catch disconnected-graph bugs, enforce that all required versions
 	// are actually reachable from the roots (and therefore should affect the
 	// selected versions of the modules they name).

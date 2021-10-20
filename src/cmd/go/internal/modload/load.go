@@ -1004,7 +1004,11 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 	}
 
 	var err error
-	ld.requirements, err = convertPruning(ctx, ld.requirements, pruningForGoVersion(ld.GoVersion))
+	desiredPruning := pruningForGoVersion(ld.GoVersion)
+	if ld.requirements.pruning == workspace {
+		desiredPruning = workspace
+	}
+	ld.requirements, err = convertPruning(ctx, ld.requirements, desiredPruning)
 	if err != nil {
 		ld.errorf("go: %v\n", err)
 	}
