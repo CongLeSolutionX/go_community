@@ -325,33 +325,22 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Copy:
 		// copy(x, y []T) int
-		var dst Type
-		if t := asSlice(x.typ); t != nil {
-			dst = t.elem
-		}
+		dst, _ := singleUnder(x.typ, false).(*Slice)
 
 		var y operand
 		arg(&y, 1)
 		if y.mode == invalid {
 			return
 		}
-		var src Type
-		switch t := optype(y.typ).(type) {
-		case *Basic:
-			if isString(y.typ) {
-				src = universeByte
-			}
-		case *Slice:
-			src = t.elem
-		}
+		src, _ := singleUnder(y.typ, true).(*Slice)
 
 		if dst == nil || src == nil {
 			check.errorf(x, invalidArg+"copy expects slice arguments; found %s and %s", x, &y)
 			return
 		}
 
-		if !Identical(dst, src) {
-			check.errorf(x, invalidArg+"arguments to copy %s and %s have different element types %s and %s", x, &y, dst, src)
+		if !Identical(dst.elem, src.elem) {
+			check.errorf(x, invalidArg+"arguments to copy %s and %s have different element types %s and %s", x, &y, dst.elem, src.elem)
 			return
 		}
 
@@ -772,6 +761,30 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 	}
 
 	return true
+}
+
+// If typ is a type parameter, single under returns the single underlying
+// type of all types in the corresponding type constraint if if exists, or
+// nil if if doesn't exist. If typ is not a type parameter, singleUnder
+// just returns the underlying type.
+// If stringOk is set, []byte and string types are considered "identical".
+// In this case, if successful, the result is always []byte.
+func singleUnder(typ Type, stringOk bool) Type {
+	var su Type
+	if underIs(typ, func(u Type) bool {
+		if stringOk && isString(u) {
+			u = NewSlice(universeByte)
+		}
+		if su != nil && !Identical(su, u) {
+			return false
+		}
+		// su == nil || Identical(su, u)
+		su = u
+		return true
+	}) {
+		return su
+	}
+	return nil
 }
 
 // hasVarSize reports if the size of type t is variable due to type parameters.
