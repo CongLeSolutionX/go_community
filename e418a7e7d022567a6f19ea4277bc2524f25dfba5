@@ -16,6 +16,24 @@
       "message": "I\u0027m a little worried about the gap between theory and practice here.  In theory this CL is absolutely a good idea, but in practice I am not so sure.  Do we have any actual applications that benefit from this, or bugs that need fixing?\n\nPlaying with benchmarks (50-250 repetitions, because of noise), it seems like this CL works best for GOMAXPROCS\u003dsmall; at 12 and 16, I saw no consistent benefit, but it looked good at GOMAXPROCS\u003d3 (this, on 12-p hardware I can touch, using perflock, and not much happening otherwise):\n\nbenchstat -geomean Pool3-old.results Pool3-new.results\nname \\ time/op      Pool3-old    Pool3-new    delta\nPool-3              4.61ns ± 3%  4.71ns ± 1%  +2.31%  (p\u003d0.000 n\u003d43+47)\nPoolOverflow-3      1.04µs ± 1%  1.04µs ± 0%    ~     (p\u003d0.069 n\u003d47+46)\nPoolStarvation-3    6.87µs ±11%  6.46µs ± 5%  -5.97%  (p\u003d0.000 n\u003d50+49)\nPoolSTW-3           10.6µs ± 3%  10.6µs ± 5%    ~     (p\u003d0.796 n\u003d45+46)\nPoolExpensiveNew-3  1.81ms ±12%  1.78ms ±10%    ~     (p\u003d0.111 n\u003d50+50)\n[Geo mean]          3.63µs       3.60µs       -1.02%\n\nname \\ p50-ns/STW   Pool3-old    Pool3-new    delta\nPoolSTW-3            10.3k ± 3%   10.3k ± 3%    ~     (p\u003d0.786 n\u003d50+46)\n\nname \\ p95-ns/STW   Pool3-old    Pool3-new    delta\nPoolSTW-3            12.6k ± 2%   12.7k ± 9%    ~     (p\u003d0.729 n\u003d45+45)\n\nOTOH, limiting a 16-p cloud machine to 2 processors, it appeared slower, not faster:\n\nbenchstat -geomean Pool2-old.results Pool2-new.results\nname \\ time/op      Pool2-old    Pool2-new    delta\nPool-2              8.70ns ± 1%  8.95ns ± 1%  +2.82%  (p\u003d0.000 n\u003d48+48)\nPoolOverflow-2      2.11µs ± 1%  2.12µs ± 1%    ~     (p\u003d0.628 n\u003d46+46)\nPoolStarvation-2    7.07µs ±13%  7.00µs ±15%    ~     (p\u003d0.205 n\u003d50+50)\nPoolSTW-2           25.1µs ±16%  26.7µs ±16%  +6.27%  (p\u003d0.000 n\u003d50+50)\nPoolExpensiveNew-2  1.86ms ±15%  1.82ms ±10%    ~     (p\u003d0.227 n\u003d50+50)\n[Geo mean]          5.71µs       5.78µs       +1.22%\n\nname \\ p50-ns/STW   Pool2-old    Pool2-new    delta\nPoolSTW-2            24.1k ±11%   25.7k ±15%  +6.62%  (p\u003d0.000 n\u003d48+50)\n\nname \\ p95-ns/STW   Pool2-old    Pool2-new    delta\nPoolSTW-2            32.3k ±15%   34.2k ±18%  +6.06%  (p\u003d0.000 n\u003d49+50)\n",
       "revId": "e418a7e7d022567a6f19ea4277bc2524f25dfba5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f2915a_6c1075f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 47743
+      },
+      "writtenOn": "2021-10-20T18:19:06Z",
+      "side": 1,
+      "message": "I see. I think the problem is PoolStarvation benchmark:\n```\n\tcount :\u003d 100\n\tcountStarved :\u003d count - (count / runtime.GOMAXPROCS(0)) // here is the problem\n```\n\nThe bigger GOMAXPROCS, the smaller `count - countStarved` difference, and as a result the weaker starvation.\nI think I should replace `countStarved` calculation by `countStarved :\u003d count - 33%`.\n\nAbout machines with 2 CPUs: we need to add NUMA awareness (do not steal from Ps of other CPUs). But right Go don\u0027t have this ability and scheduler in proc.go probably have the same issue in this case.",
+      "parentUuid": "2a30784a_f78712db",
+      "revId": "e418a7e7d022567a6f19ea4277bc2524f25dfba5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
