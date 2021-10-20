@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e665e2d9_cfd2ea86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-20T20:23:34Z",
+      "side": 1,
+      "message": "I reworked the toc relocation handling code used by AIX to work with linux.\n\nAIX uses the larger code model (toc-indirect), and also has an optimization to elide toc-indirect accesses if the target symbol is in the same link unit.",
+      "parentUuid": "edb00104_5fa4cc8f",
+      "revId": "1cff98a77e8cdc3d85c38d842625b5aa92292765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2685502_4a20ea7c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-07T13:17:29Z",
       "side": 1,
       "message": "This paragraph confuses me.\n- What call relocations do you mean? In call instructions or in other places like PLTs? And what about calls to non-local functions? Are you saying they will have a local function entry point too?\n- I don\u0027t know what you are referring to when you say \"this is assumed to be 8 bytes in go\".\n- I don\u0027t know what is being accounted for when you say external symbols already account for this. And I assume you are just referring to external functions and not all external symbols (but not sure.)",
+      "revId": "1cff98a77e8cdc3d85c38d842625b5aa92292765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6625148f_cc970c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-20T20:23:34Z",
+      "side": 1,
+      "message": "These are the elf R_PPC64_REL24 or go R_CALLPOWER relocations. The addends are adjusted on import to account for the local call entry offset noted in the elf symbol.\n\nWe need to do something similar when linking the go code. There is no equivalent to a local entry offset in go objects that I could find. When compiling go code for shared linking, we append a 2 instruction header to regenerate the TOC based on r12, but the symbol isn\u0027t marked as having a local entry.",
+      "parentUuid": "b2685502_4a20ea7c",
       "revId": "1cff98a77e8cdc3d85c38d842625b5aa92292765",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
