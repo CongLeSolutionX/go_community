@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e9f3899_691c0d25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-20T06:52:12Z",
+      "side": 1,
+      "message": "I\u0027m happy to talk directly for a bit to explain what is happening for defers, both open-coded and non-open-coded.  This CL is only changing things very slightly, in order to make the behavior on when open-coded entries are added and removed be fully consistent in all cases.  I can also add a summary comment at the beginning of the file on how open defer entries are added/removed from the defer chain.",
+      "parentUuid": "38f13ee9_7ec96c50",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "177aaf47_da5815de",
         "filename": "src/runtime/panic.go",
         "patchSetId": 2
@@ -58,6 +76,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f99e128a_4312c530",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-20T06:52:12Z",
+      "side": 1,
+      "message": "Yes, I mean a defer entry (record) that represents all the open-coded defers for a particular stack frame.  Changed to say open defer entries (not frames) where appropriate.  Thanks for pointing that out.",
+      "parentUuid": "177aaf47_da5815de",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5901a5bf_ac5209df",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-20T06:52:12Z",
+      "side": 1,
+      "message": "OK, I tried to make it clear from the start, that addOneOpenDeferFrame is scanning frames in gentraceback order, which is from innermost to outer frames.  Is that clearer?",
+      "parentUuid": "33491d37_4ab593f8",
+      "range": {
+        "startLine": 572,
+        "startChar": 42,
+        "endLine": 572,
+        "endChar": 47
+      },
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7578e8a_9b2b8340",
@@ -75,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1897c856_f9e2059c",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-20T06:52:12Z",
+      "side": 1,
+      "message": "I rewrote the sentence to indicate that we stop scanning frames if we encounter an in-progress open defer entry (and may not have added an entry).  The basic scanning behavior is described in the first paragraph, and I tweaked that text a bit as well.\n\nBasically, we are trying to add a single open defer entry corresponding to a stack frame with open defers as we scan the stack frames from inner to outer, but we will stop if we run into a frame with an in-progress defer entry already.",
+      "parentUuid": "b7578e8a_9b2b8340",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e437f8b_50358166",
@@ -88,6 +166,24 @@
       "writtenOn": "2021-10-19T17:43:48Z",
       "side": 1,
       "message": "Add \"//\" so the doc comment is all together.",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff3ad6c4_96cd2424",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-20T06:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e437f8b_50358166",
       "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -115,6 +211,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7125590_a5b16fa5",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-20T06:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c349abb3_99eb8d42",
+      "range": {
+        "startLine": 624,
+        "startChar": 30,
+        "endLine": 624,
+        "endChar": 32
+      },
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b95028b_56217f35",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-20T06:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c349abb3_99eb8d42",
+      "range": {
+        "startLine": 624,
+        "startChar": 30,
+        "endLine": 624,
+        "endChar": 32
+      },
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d87f16d7_b668e328",
@@ -128,6 +272,24 @@
       "writtenOn": "2021-10-19T17:43:48Z",
       "side": 1,
       "message": "Is this line actually relevant?",
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37e6d7d_066c1e37",
+        "filename": "test/fixedbugs/issue48898.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-20T06:52:12Z",
+      "side": 1,
+      "message": "Yes, the original bug (#48898) doesn\u0027t happen without this line.",
+      "parentUuid": "d87f16d7_b668e328",
       "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
