@@ -16,6 +16,7 @@ import (
 	"cmd/go/internal/modload"
 
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 var cmdDownload = &base.Command{
@@ -87,13 +88,8 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	// Check whether modules are enabled and whether we're in a module.
 	modload.ForceUseModules = true
 	modload.ExplicitWriteGoMod = true
-	if !modload.HasModRoot() && len(args) == 0 {
-		base.Fatalf("go: no modules specified (see 'go help mod download')")
-	}
 	haveExplicitArgs := len(args) > 0
-	if !haveExplicitArgs {
-		args = []string{"all"}
-	}
+
 	if modload.HasModRoot() {
 		modload.LoadModFile(ctx) // to fill MainModules
 
@@ -102,14 +98,55 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		}
 		mainModule := modload.MainModules.Versions()[0]
 
-		targetAtUpgrade := mainModule.Path + "@upgrade"
-		targetAtPatch := mainModule.Path + "@patch"
-		for _, arg := range args {
-			switch arg {
-			case mainModule.Path, targetAtUpgrade, targetAtPatch:
-				os.Stderr.WriteString("go: skipping download of " + arg + " that resolves to the main module\n")
+		if haveExplicitArgs {
+			targetAtUpgrade := mainModule.Path + "@upgrade"
+			targetAtPatch := mainModule.Path + "@patch"
+			for _, arg := range args {
+				switch arg {
+				case mainModule.Path, targetAtUpgrade, targetAtPatch:
+					os.Stderr.WriteString("go: skipping download of " + arg + " that resolves to the main module\n")
+				}
+			}
+		} else {
+			modFile := modload.MainModules.ModFile(mainModule)
+			if modFile.Go == nil || semver.Compare("v"+modFile.Go.Version, modload.ExplicitIndirectVersionV) < 0 {
+				if len(modFile.Require) > 0 {
+					args = []string{"all"}
+				}
+			} else {
+				// As of Go 1.17, the go.mod file explicitly requires every module
+				// that provides any package imported by the main module.
+				// 'go mod download' is typically run before testing packages in the
+				// main module, so by default we shouldn't download the others
+				// (which are presumed irrelevant to the packages in the main module).
+				// See https://golang.org/issue/44435.
+				//
+				// However, we also need to load the full module graph, to ensure that
+				// we have downloaded enough of the module graph to run 'go list all',
+				// 'go mod graph', and similar commands.
+				_ = modload.LoadModGraph(ctx, "")
+
+				for _, m := range modFile.Require {
+					r, _ := modload.Replacement(m.Mod)
+					if r.Path == "" {
+						args = append(args, m.Mod.String())
+					} else if r.Version == "" {
+						// r specifies a file path, so we cannot download it.
+					} else {
+						args = append(args, r.String())
+					}
+				}
 			}
 		}
+	}
+
+	if len(args) == 0 {
+		if modload.HasModRoot() {
+			os.Stderr.WriteString("go: no module dependencies to download\n")
+		} else {
+			base.Errorf("go: no modules specified (see 'go help mod download')")
+		}
+		base.Exit()
 	}
 
 	downloadModule := func(m *moduleJSON) {

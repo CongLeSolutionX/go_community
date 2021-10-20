@@ -128,6 +128,42 @@ rm go.sum
 go mod download all
 cmp go.mod.update go.mod
 grep '^rsc.io/sampler v1.3.0 ' go.sum
+
+# https://golang.org/issue/44435: At go 1.17 or higher, 'go mod download'
+# (without arguments) should only download the modules explicitly required in
+# the go.mod file, not (presumed-irrelevant) transitive dependencies.
+#
+# If the go.mod file is inconsistent, the version downloaded should be the
+# one from the go.mod file, not the selected version from the broader graph.
+# (If the go.mod file is inconsistent, the build can only succeed with the
+# default -mod=readonly if lazy loading prevents the graph from being loaded —
+# and in that case it will use the explicit version.)
+
+rm go.sum
+cp go.mod.orig go.mod
+go mod edit -go=1.17
+go clean -modcache
+go mod download
+
+go list -e -m all
+stdout '^rsc.io/quote v1.5.2$'
+exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
+stdout '^rsc.io/sampler v1.3.0$'
+exists $GOPATH/pkg/mod/cache/download/rsc.io/sampler/@v/v1.2.1.zip
+! exists $GOPATH/pkg/mod/cache/download/rsc.io/sampler/@v/v1.3.0.zip
+stdout '^golang\.org/x/text v0.0.0-20170915032832-14c0d48ead0c$'
+! exists $GOPATH/pkg/mod/cache/download/golang.org/x/text/@v/v0.0.0-20170915032832-14c0d48ead0c.zip
+
+# However, 'go mod download all' continues to download the selected version
+# of every module reported by 'go list -m all'.
+
+go clean -modcache
+go mod download all
+exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
+! exists $GOPATH/pkg/mod/cache/download/rsc.io/sampler/@v/v1.2.1.zip
+exists $GOPATH/pkg/mod/cache/download/rsc.io/sampler/@v/v1.3.0.zip
+exists $GOPATH/pkg/mod/cache/download/golang.org/x/text/@v/v0.0.0-20170915032832-14c0d48ead0c.zip
+
 cd ..
 
 # allow go mod download without go.mod
@@ -168,3 +204,10 @@ require (
 golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 rsc.io/quote v1.5.2/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
 rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+-- narrow/go.mod.orig --
+module m
+
+go 1.17
+
+require rsc.io/quote v1.5.2
+-- narrow/go.sum.narrow --
