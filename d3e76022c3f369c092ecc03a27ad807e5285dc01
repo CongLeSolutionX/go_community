@@ -106,6 +106,24 @@
       "message": "I don\u0027t think we should introduce a new exported error for this case.\n\nIf there\u0027s an error that\u0027s usually returned from w.Write after the request has been canceled, then that\u0027s probably the right thing to return. Failing that, I\u0027d return either errors.New(\"http: request canceled\") or ctx.Err().",
       "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5905962_c1f1ea2b",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3377,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-20T01:56:29Z",
+      "side": 1,
+      "message": "Thanks for the feedback!\n\nIt looks like under normal circumstances, without TimeoutHandler, _no_ errors are returned.\n\nProof: https://gist.github.com/cgetzen/6b9dbf62151c8343f9e80a5ddba5c3c9\noutput:\n```\ndemoHandler: context canceled\n9 \u003cnil\u003e\n```\n\nI think returning a non-exported error will remove the ability to do something like:\n```\nerrors.Is(e, http.ErrRequestCanceled)\n```\n\nTo stay in line with your suggestion, I\u0027m going to return ctx.Err().\nLMK if this should be adjusted to return no error.",
+      "parentUuid": "75172fb4_afa61bb3",
+      "revId": "d3e76022c3f369c092ecc03a27ad807e5285dc01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
