@@ -70,6 +70,24 @@
       "message": "This is for little endian or big endian, or both? I think we currently don\u0027t support cgo on big endian PPC64 and it uses ELFv1 ABI. Or is this preparing for that? Thanks.\n",
       "revId": "50e2434385d9600b2e79bd7be4ccc4906a117cdb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9705b102_6df87cd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-20T19:58:52Z",
+      "side": 1,
+      "message": "I should clarify the commit messager further. This is only used with ppc64le when linking external object files which make a plt call. This code is inherently ppc64 elfv2 specific.\n\nThe BE support is limited to static pure go code. I don\u0027t think we will support internal linking with external ppc64 objects due to the hassle of function descriptors.",
+      "parentUuid": "3223179a_27b2836d",
+      "revId": "50e2434385d9600b2e79bd7be4ccc4906a117cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
