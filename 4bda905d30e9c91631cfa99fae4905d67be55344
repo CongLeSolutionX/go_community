@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eba8f4c7_bfa1dfb9",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af0ce041_b2a04347",
+      "range": {
+        "startLine": 734,
+        "startChar": 8,
+        "endLine": 734,
+        "endChar": 25
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad9a8ba6_797cb48b",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-21T14:09:13Z",
       "side": 1,
       "message": "Maybe mention that the closure context register was X20 and we\u0027ll change  it.",
+      "range": {
+        "startLine": 749,
+        "startChar": 13,
+        "endLine": 750,
+        "endChar": 31
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51ad3078_0fa268c3",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad9a8ba6_797cb48b",
       "range": {
         "startLine": 749,
         "startChar": 13,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de002459_7daa0059",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb2404e1_2e70cf26",
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1983ef5a_23b55d93",
@@ -87,6 +153,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d257a28e_30463b7c",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1983ef5a_23b55d93",
+      "range": {
+        "startLine": 770,
+        "startChar": 55,
+        "endLine": 770,
+        "endChar": 62
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0736d35_00cb4d41",
@@ -100,6 +190,30 @@
       "writtenOn": "2021-10-21T14:09:13Z",
       "side": 1,
       "message": "I\u0027m confused here.\n- Does the hardware specification require 16-byte alignment? Does any machine and/or OS enforce that?\n- Does that change with whether compressed instructions are used? I didn\u0027t read the doc but that would sound weird to me.",
+      "range": {
+        "startLine": 770,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 81
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87d7d270_7ce88294",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T15:11:29Z",
+      "side": 1,
+      "message": "Sorry, I\u0027ve misled by out date psabi doc:\nhttps://riscv.org/wp-content/uploads/2015/01/riscv-calling.pdf\n \nThe latest doc is here.\nhttps://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-elf.adoc#tag_riscv_stack_align-4-uleb128value\n\nI quote here \"Tag_RISCV_strict_align records the N-byte stack alignment for this object. The default value is 16 for RV32I or RV64I, and 4 for RV32E.\"\n\nNeither documents says stack can be aligned to 8/4 bytes.",
+      "parentUuid": "d0736d35_00cb4d41",
       "range": {
         "startLine": 770,
         "startChar": 0,
