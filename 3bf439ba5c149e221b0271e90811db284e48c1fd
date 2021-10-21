@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8291e65a_a800e3d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T03:48:46Z",
+      "side": 1,
+      "message": "#40724 is the tracker of all register ABI. Should we open another one?",
+      "parentUuid": "4c3c8460_b4e0773b",
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e76eb960_9db8e39d",
         "filename": "src/cmd/compile/abi-internal.md",
         "patchSetId": 1
@@ -79,6 +97,30 @@
       "side": 1,
       "message": "I think we may want to minimize the use of the aliases. Two naming conventions are more confusing than helpful.\n\nThat said, it is okay to choose whatever argument register order you like.\n\nYeah, I think it is okay to change the context register if necessary.",
       "parentUuid": "e97aa1ca_0f662bb4",
+      "range": {
+        "startLine": 731,
+        "startChar": 30,
+        "endLine": 731,
+        "endChar": 38
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e7d242_63d81cd3",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T03:48:46Z",
+      "side": 1,
+      "message": "@joel It\u0027s about \u003c 1% impact while the number of argument registers is over 13 (Appendix Register Usage Analysis).\n\nSo everyone agrees on contiguous range from X8-X23 (16 registers) and change context register to X26?",
+      "parentUuid": "e76eb960_9db8e39d",
       "range": {
         "startLine": 731,
         "startChar": 30,
@@ -160,6 +202,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cefc6719_d3f64be0",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T03:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67805c2b_b4e4e494",
+      "range": {
+        "startLine": 734,
+        "startChar": 8,
+        "endLine": 734,
+        "endChar": 16
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbaa427a_b6a81bf8",
@@ -207,6 +273,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3106e467_dcf1e35e",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T03:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "886a1ccd_dd7ca8ef",
+      "range": {
+        "startLine": 744,
+        "startChar": 2,
+        "endLine": 744,
+        "endChar": 42
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd8d6768_f6315fcd",
@@ -220,6 +310,30 @@
       "writtenOn": "2021-10-19T12:08:05Z",
       "side": 1,
       "message": "Missing space after \u0027TLS\u0027.",
+      "range": {
+        "startLine": 745,
+        "startChar": 8,
+        "endLine": 745,
+        "endChar": 18
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbaed2f8_34955534",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T03:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd8d6768_f6315fcd",
       "range": {
         "startLine": 745,
         "startChar": 8,
@@ -253,6 +367,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "132fdcea_5d07c168",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T03:48:46Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "1c7e1f39_ac1d8454",
+      "range": {
+        "startLine": 755,
+        "startChar": 41,
+        "endLine": 755,
+        "endChar": 67
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba0b73a3_d287b9f5",
@@ -276,6 +414,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae12293e_bf6a62a8",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T03:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba0b73a3_d287b9f5",
+      "range": {
+        "startLine": 764,
+        "startChar": 6,
+        "endLine": 764,
+        "endChar": 28
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0433f5ad_8aa13e4a",
@@ -289,6 +451,24 @@
       "writtenOn": "2021-10-19T14:33:40Z",
       "side": 1,
       "message": "Add a blank line here.",
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b3408dd_781c076b",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-21T03:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0433f5ad_8aa13e4a",
       "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
