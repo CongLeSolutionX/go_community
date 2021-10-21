@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "03cee1ce_70edf958",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-21T15:43:10Z",
+      "side": 1,
+      "message": "That actually makes more sense (F8 is FA0) and if we follow Michael\u0027s suggestion for the integer registers, we should the same sequence here (for the same reason).\n\n(this also seems to still be F0 - F15).",
+      "parentUuid": "eba8f4c7_bfa1dfb9",
+      "range": {
+        "startLine": 734,
+        "startChar": 8,
+        "endLine": 734,
+        "endChar": 25
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad9a8ba6_797cb48b",
         "filename": "src/cmd/compile/abi-internal.md",
         "patchSetId": 3
@@ -214,6 +238,30 @@
       "side": 1,
       "message": "Sorry, I\u0027ve misled by out date psabi doc:\nhttps://riscv.org/wp-content/uploads/2015/01/riscv-calling.pdf\n \nThe latest doc is here.\nhttps://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-elf.adoc#tag_riscv_stack_align-4-uleb128value\n\nI quote here \"Tag_RISCV_strict_align records the N-byte stack alignment for this object. The default value is 16 for RV32I or RV64I, and 4 for RV32E.\"\n\nNeither documents says stack can be aligned to 8/4 bytes.",
       "parentUuid": "d0736d35_00cb4d41",
+      "range": {
+        "startLine": 770,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 81
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e1a36a4_99b60a9d",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-10-21T15:43:10Z",
+      "side": 1,
+      "message": "I\u0027m fairly certain that the Go compiler only currently performs 8 byte stack alignment (and not 16 byte as the RISCV ABI suggests). AFAIK there is no hardware or kernel that enforces 16 byte alignment.\n\nRe compressed instructions, there are several that specifically work with SP with 16 byte alignment, which Go cannot currently always use since it only does 8 byte alignment. As such, the current SP alignment is 8 byte, however we should change that to 16 byte to benefit from more compressed instructions.",
+      "parentUuid": "87d7d270_7ce88294",
       "range": {
         "startLine": 770,
         "startChar": 0,
