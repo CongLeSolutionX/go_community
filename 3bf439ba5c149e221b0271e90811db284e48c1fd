@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2eed7278_4f887203",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-21T14:09:13Z",
+      "side": 1,
+      "message": "Using that issue is fine.",
+      "parentUuid": "8291e65a_a800e3d3",
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e76eb960_9db8e39d",
         "filename": "src/cmd/compile/abi-internal.md",
         "patchSetId": 1
@@ -121,6 +139,30 @@
       "side": 1,
       "message": "@joel It\u0027s about \u003c 1% impact while the number of argument registers is over 13 (Appendix Register Usage Analysis).\n\nSo everyone agrees on contiguous range from X8-X23 (16 registers) and change context register to X26?",
       "parentUuid": "e76eb960_9db8e39d",
+      "range": {
+        "startLine": 731,
+        "startChar": 30,
+        "endLine": 731,
+        "endChar": 38
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14477b5b_4fdc0835",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-21T14:09:13Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "a7e7d242_63d81cd3",
       "range": {
         "startLine": 731,
         "startChar": 30,
