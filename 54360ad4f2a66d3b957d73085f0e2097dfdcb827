@@ -178,6 +178,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "faf5817d_0f678289",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T03:01:21Z",
+      "side": 1,
+      "message": "(and if the relevant default is already in the jump table, you can use that as the index instead of adding a final entry)",
+      "parentUuid": "14c89721_72f889e2",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d37c32d_744a5b80",
         "filename": "src/cmd/compile/internal/ssa/jumptable.go",
         "patchSetId": 2
