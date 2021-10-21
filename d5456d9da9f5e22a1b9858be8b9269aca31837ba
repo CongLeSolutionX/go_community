@@ -127,6 +127,24 @@
       "parentUuid": "838f6775_d7710360",
       "revId": "d5456d9da9f5e22a1b9858be8b9269aca31837ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f044c29a_46881ed8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-10-21T18:26:35Z",
+      "side": 1,
+      "message": "Ah, I see. I missed the trybot failure comment.\n\nFor now, the lazy API is only provided by types2 and only used by unified IR, so I think extending unified IR to explicitly pass the implicit bit sounds reasonable and least invasive. Maybe something to revisit if/when we want to extend it to go/types though.",
+      "parentUuid": "ac3803e0_6411fe38",
+      "revId": "d5456d9da9f5e22a1b9858be8b9269aca31837ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
