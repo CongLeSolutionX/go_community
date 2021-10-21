@@ -33,6 +33,69 @@
       "message": "👀 Just a very gentle poke. I would love to get this in before code freeze 😊",
       "revId": "dcb3f6c803b2e4939805dec8db0644eebca75712",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01f7b0c0_0b1d5af7",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-21T21:26:10Z",
+      "side": 1,
+      "message": "I like Russ\u0027s idea for this. I\u0027m nervous to add too much complexity without sufficient research about how effective these minimization strategies will be. For example, I don\u0027t think we have to sub an \u0027A\u0027 only if it\u0027s uppercase to start with, or an \u0027a\u0027 only if it\u0027s lowercase to start with, etc.\n\nHowever, I think making it more human-readable/simplified is still a good idea.\n\nHow about for now, we replace every character, regardless of whether or not it was previously human-readable, into a character from a subset of \"012789ABCXYZabcxyz !\"#$%\u0026\u0027()*+,.\"\n\nYou can keep your existing loop over the range of v, and add a nested loop over the range of \"012789ABCXYZabcxyz !\"#$%\u0026\u0027()*+,.\", trying each character until one passes the try() function, then moving to the next index of v.",
+      "revId": "dcb3f6c803b2e4939805dec8db0644eebca75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffb0ae88_e07f2988",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-21T21:26:10Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to allocate a new candidate every time. This is going to slow down minimization a lot. And since the size is never changing, I think this can work by dropping candidate altogether, and just updating v directly. If the candidate passes, then we\u0027re good. If it fails, then just revert that one byte.\n\ne.g.\n\n\tfor i, b :\u003d range v {\n\t\tif shouldStop() {\n\t\t\treturn\n\t\t}\n\t\tv[i] \u003d \u00270\u0027\n\t\tif !try(v) {\n\t\t\t// Unsuccessful, so revert v[i] back to the original value\n\t\t\tv[i] \u003d b\n\t\t}\n\t}",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 0
+      },
+      "revId": "dcb3f6c803b2e4939805dec8db0644eebca75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3fd439d_8ec253d6",
+        "filename": "src/internal/fuzz/minimize_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-21T21:26:10Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "dcb3f6c803b2e4939805dec8db0644eebca75712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
