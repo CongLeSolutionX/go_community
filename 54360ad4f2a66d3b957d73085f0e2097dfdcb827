@@ -57,6 +57,431 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31223c01_acdb9b4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "nice. the assembler piece of this is much easier than i expected.\n\nthis is a first round of comments. let me know for the next round whether you\u0027re interested in a +2 to try to get it in for 1.18. (it\u0027s pretty close now.)",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ab3517f_2bdf58ef",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 2249,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "maybe put next to other block lowering, like line 212. might even be nice to put block optimizations in their own files, to make these long rules files easier to follow (separately).\n\nit\u0027s a bit unfortunate to make the sym twice. it\u0027s tempting to reach into the LEAQ to extract the sym when we need it.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f22f42d5_d947f00b",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "suggest switching control[0] and control[1] so that control[0] is idx regardless of whether the jump table is lowered or not.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "016cde00_433dafcc",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "have you done some printf to find out what other kinds of values tend to reside in b2+? my experience working on short-circuit is that many of them are easy to handle.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d02666c_7ee1ff3d",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "it\u0027s a bit unfortunate to have a bunch of code to generate this search code and then also a bunch of code to detect it. it does let us generate a jump table for (fairly specific) code that isn\u0027t a switch, but it feels like we\u0027re doing a lot more work than necessary.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67af0c31_77f4466b",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "have you tested that it handles \"integer range\" switches like\n\nswitch x {\ncase 1,2,3,4:\n  // ...\ncase 5,6,7:\n  // ...\n}\n\nthose integer range switches generate different code.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c89721_72f889e2",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "it might be preferable to include the default as the final entry in the jump table.\n\nidx :\u003d switch_exp - min(constants)\nif idx \u003e 0 || idx \u003e max(constants)-min(constants) {\n  idx \u003d len(jumptable)\n}\njump to table[idx]\n\nideally that\u0027d compile to a conditional move followed by a jump, without any intervening branches. it might also provide a cleaner handling of multiple defaults.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d37c32d_744a5b80",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "switched_on_value\n\nbut see comments below about how to name this",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3704feb_a55f8304",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "explain why. e.g. add that we are searching for treelike structures as in the graph above.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "881e7ad7_c51fb0a4",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "consider adding a check for c.Block !\u003d b. it\u0027s redundant now, but it\u0027ll be nice to have if/when we accept other values.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dde1e9de_741a0e34",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "switch c.Op\n\nstrings get decomposed into length and pointer, starting with length, so this might just work for the top level search for strings. it\u0027d be interesting to check.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f5a2bca_71967812",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "i think this would be clearer without the nested ifs, e.g.\n\nif x.Op \u003d\u003d OpConst64 {\n  x, y \u003d y, x\n}\nif y.Op !\u003d OpConst64 {\n  // Neither x nor y is const.\n  continue\n}\nif x.Op \u003d\u003d OpConst64 {\n  // Both x and y are const.\n  // Can\u0027t handle ...\n  continue\n}\n\nbut do we even have const/const comparisons at this point? i\u0027d expect previous rewrite passes to optimize those away.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7781fd28_04596660",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "value is overloaded in this context. i don\u0027t have any great ideas. maybe exp for \"switch expression\"?",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ed5649a_9ffc351e",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "consider moving this check (lines 86-93) earlier, since it is cheap. and it would put all the cfg checks together.\n\ni\u0027ve been bitten one too many times by ascii cfgs not matching the cfg-checking code; it\u0027s nice to have it all in one place so you can stare at it hard and convince yourself that the code actually enforces the pretty graphs. (i haven\u0027t managed to do that yet in this particular case, although it looks fine on a first pass. not sure about possible cycles.)",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8d6a25e_1cfb7316",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "are there cases in which there are intervening BlockPlains? (thinking about other possible equivalent cfgs that look superficially different.)",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde6faec_4a3663e4",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "say why. it\u0027s not obvious to me, given the compression of parent links that we do next.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07ecefec_f4807745",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "switch c.Op",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f406d10_b7ac55ff",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "say why",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c501c48_3435d0f9",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "as above. and maybe refactor some of this out into a helper function.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daf73720_c27cc7f8",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "does this do the right thing if there are cycles?\n\nshould we detect cycles in groups and remove such groups?",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87ae17cb_a55de250",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "duplicate of line comment on next line; delete one of them",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e3b74c3_a4c93108",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "if you combine getConst and getVal into a single method that returns two values (const, val), you can use it above as well when checking for suitability. naming it is hard, though. optional.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bc50031_d00276e7",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "\"choice variable\" -- let\u0027s find a consistent terminology and use it, and introduce it during the top level docs. choice variable seems fine, although it doesn\u0027t lend itself to short variable names. (switch expression? jump expression?)",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03929015_79762bc8",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "ctrl :\u003d b.ControlValue(0) and use it below",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a350486_5478aed4",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "there are two factors: width and depth (max possible number of comparisons). it\u0027s not obvious to me which matters more. but 4 is such a low cutoff that in practice it\u0027s probably irrelevant.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75b64be8_ff1121e1",
@@ -70,6 +495,261 @@
       "writtenOn": "2021-10-20T22:10:11Z",
       "side": 1,
       "message": "Might be interesting, if splitting those groups can help. Maybe add a Todo?",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c42fec7f_075e819a",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "one way to pick a number is to do whatever empirically minimizes total executable size over a range of executables.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "959ce360_751282cc",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "another reason to chunk out cyclical groups at some point above",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22772ce3_10e02df0",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "this is fine for now, but we\u0027ll end up having to rework this if we start to do other clever things like masking off bits. at some point (not necessarily now), it\u0027d be nice to refactor some of this from one big function into a smaller named data types (groups) with methods (exit).",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7327b7c_5906d21d",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "default1, to match default2? or defaultMin and defaultMax? or defaultLo and defaultHi?",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2e05346_d2c0e95e",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "depending on exactly what phase we are at, one of these args could easily be a copy of the other instead of strictly identical.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec5a6cc_2b41dee6",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "optional suggestion: split this loop into two. in the first part (above), build a list of groups we want to process. in the second part, process only those. that\u0027ll likely make future refactoring easier.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ba27505_b14c4c35",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "i had a hard time parsing this. i think you want to remove the trailing period here and s/We/we/ on the next line.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c3854d0_158b9a20",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "many such trivial bounds check removals are handled during rewrite rules. and if these relevant ones are not, we should add them there, which will be useful for other reasons as well.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a079dda_3d391af8",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "a before/after ascii cfg chart here would be nice",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c8f774_e32468a6",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "i don\u0027t remember offhand. is base.Ctxt.Lookup concurrency-safe?",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51ca829a_16162f84",
+        "filename": "src/cmd/compile/internal/ssa/rewriteAMD64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "is the newly grouped+sorted imports because of a change to gofmt? or because you hit save and goimports/gopls rewrote it? if the former, can we re-generate all the architectures in a separate cl?",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec00bb8c_fb531d46",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7021,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "naive question: how does using absolute jump addresses compare to storing offsets and using PC-relative jumps?",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d62f7f4_89054aa8",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "short doc here please",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2be77aef_a3bd4c72",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2235,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "seems like it could. may as well start with it there.",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "923879e7_77a4109c",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2238,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-21T02:59:57Z",
+      "side": 1,
+      "message": "add a few words, like\n\n// The ith jumptable entry points to offset p.Pc in the function symbol s.",
       "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
