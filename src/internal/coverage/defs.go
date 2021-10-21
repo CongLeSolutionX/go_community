@@ -223,6 +223,20 @@ const (
 	PkgNonMod  // package not in go.mod
 )
 
+func (pc PkgClassification) String() string {
+	switch pc {
+	case PkgStdlib:
+		return "stdlib"
+	case PkgDepMod:
+		return "depmod"
+	case PkgMainMod:
+		return "mainmod"
+	case PkgNonMod:
+		return "depmod"
+	}
+	return "<invalid>"
+}
+
 // NB: the "counters" object we generate for each instrumented function
 // can be thought of as a struct of the following form:
 //
