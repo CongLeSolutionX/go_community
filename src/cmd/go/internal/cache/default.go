@@ -5,13 +5,12 @@
 package cache
 
 import (
+	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
 	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
-
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
 )
 
 // Default returns the default cache to use, or nil if no cache should be used.
@@ -30,6 +29,7 @@ var (
 // README as a courtesy to explain where it came from.
 const cacheREADME = `This directory holds cached build artifacts from the Go build system.
 Run "go clean -cache" if the directory is getting too large.
+Run "go clean -fuzzcache" to clean the fuzzing test cache.
 See golang.org to learn more about Go.
 `
 
