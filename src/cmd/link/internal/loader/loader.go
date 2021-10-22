@@ -2592,7 +2592,7 @@ type ErrorReporter struct {
 //
 func (reporter *ErrorReporter) Errorf(s Sym, format string, args ...interface{}) {
 	if s != 0 && reporter.ldr.SymName(s) != "" {
-		format = reporter.ldr.SymName(s) + ": " + format
+		format = strings.Replace(reporter.ldr.SymName(s), "%", "%%", -1) + ": " + format
 	} else {
 		format = fmt.Sprintf("sym %d: %s", s, format)
 	}
