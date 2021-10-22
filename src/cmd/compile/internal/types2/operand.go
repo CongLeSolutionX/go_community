@@ -237,12 +237,74 @@ func (x *operand) setConst(k syntax.LitKind, lit string) {
 func (x *operand) isNil() bool { return x.mode == nilvalue }
 
 // assignableTo reports whether x is assignable to a variable of type T. If the
-// result is false and a non-nil reason is provided, it may be set to a more
+// result is false and a non-nil cause is provided, it may be set to a more
 // detailed explanation of the failure (result != ""). The returned error code
 // is only valid if the (first) result is false. The check parameter may be nil
 // if assignableTo is invoked through an exported API call, i.e., when all
 // methods have been type-checked.
-func (x *operand) assignableTo(check *Checker, T Type, reason *string) (bool, errorCode) {
+func (x *operand) assignableTo(check *Checker, T Type, cause *string) (ok bool, code errorCode) {
+	if Identical(x.typ, T) {
+		return true, 0
+	}
+
+	Vp, _ := under(x.typ).(*TypeParam)
+	Tp, _ := under(T).(*TypeParam)
+
+	errorf := func(format string, args ...interface{}) {
+		if check != nil && cause != nil {
+			msg := check.sprintf(format, args...)
+			if *cause != "" {
+				msg += "\n\t" + *cause
+			}
+			*cause = msg
+		}
+	}
+
+	// generic operands cannot be constants, so we can ignore x.val
+	switch {
+	case Vp != nil && Tp != nil:
+		x := *x // don't clobber outer x
+		ok = Vp.is(func(V *term) bool {
+			x.typ = V.typ
+			return Tp.is(func(T *term) bool {
+				ok, code = x.assignableToImpl(check, T.typ, cause)
+				if !ok {
+					errorf("cannot assign %s (in %s) to %s (in %s)", V.typ, Vp, T.typ, Tp)
+					return false
+				}
+				return true
+			})
+		})
+	case Vp != nil:
+		x := *x // don't clobber outer x
+		ok = Vp.is(func(V *term) bool {
+			x.typ = V.typ
+			ok, code = x.assignableToImpl(check, T, cause)
+			if !ok {
+				errorf("cannot assign %s (in %s) to %s", V.typ, Vp, T)
+				return false
+			}
+			return true
+		})
+	case Tp != nil:
+		x := *x // don't clobber outer x
+		ok = Tp.is(func(T *term) bool {
+			ok, code = x.assignableToImpl(check, T.typ, cause)
+			if !ok {
+				errorf("cannot assign %s to %s (in %s)", x.typ, T.typ, Tp)
+				return false
+			}
+			return true
+		})
+	default:
+		ok, code = x.assignableToImpl(check, T, cause)
+	}
+
+	return
+}
+
+// assignableToImpl should only be called by assignableTo
+func (x *operand) assignableToImpl(check *Checker, T Type, reason *string) (bool, errorCode) {
 	if x.mode == invalid || T == Typ[Invalid] {
 		return true, 0 // avoid spurious errors
 	}
@@ -260,8 +322,8 @@ func (x *operand) assignableTo(check *Checker, T Type, reason *string) (bool, er
 		return true, 0
 	}
 
-	Vu := optype(V)
-	Tu := optype(T)
+	Vu := under(V)
+	Tu := under(T)
 
 	if debugAssignableTo && check != nil {
 		check.dump("Vu = %s", Vu)
