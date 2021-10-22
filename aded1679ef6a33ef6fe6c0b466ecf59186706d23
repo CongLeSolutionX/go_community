@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f74dff47_a9403150",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3368,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-22T15:25:30Z",
+      "side": 0,
+      "message": "As a note there is a feature request to have custom error handler https://github.com/golang/go/issues/22821",
+      "range": {
+        "startLine": 3367,
+        "startChar": 2,
+        "endLine": 3368,
+        "endChar": 34
+      },
+      "revId": "aded1679ef6a33ef6fe6c0b466ecf59186706d23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
