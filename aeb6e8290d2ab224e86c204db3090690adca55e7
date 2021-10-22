@@ -107,6 +107,30 @@
       },
       "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d42a1a00_ba0b83ec",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3292,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-22T20:28:14Z",
+      "side": 1,
+      "message": "Yep, that\u0027s my intention. Without being able to distinguish between client hangups and timeouts, monitoring becomes difficult.",
+      "parentUuid": "dcd85467_dbe14672",
+      "range": {
+        "startLine": 3291,
+        "startChar": 3,
+        "endLine": 3292,
+        "endChar": 21
+      },
+      "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
