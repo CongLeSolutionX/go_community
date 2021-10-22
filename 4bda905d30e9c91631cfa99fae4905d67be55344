@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "565786d4_62df9ebe",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-22T02:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03cee1ce_70edf958",
+      "range": {
+        "startLine": 734,
+        "startChar": 8,
+        "endLine": 734,
+        "endChar": 25
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad9a8ba6_797cb48b",
@@ -262,6 +286,30 @@
       "side": 1,
       "message": "I\u0027m fairly certain that the Go compiler only currently performs 8 byte stack alignment (and not 16 byte as the RISCV ABI suggests). AFAIK there is no hardware or kernel that enforces 16 byte alignment.\n\nRe compressed instructions, there are several that specifically work with SP with 16 byte alignment, which Go cannot currently always use since it only does 8 byte alignment. As such, the current SP alignment is 8 byte, however we should change that to 16 byte to benefit from more compressed instructions.",
       "parentUuid": "87d7d270_7ce88294",
+      "range": {
+        "startLine": 770,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 81
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e7631dc_f085cb1a",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-22T02:59:36Z",
+      "side": 1,
+      "message": "OK, That we need to change SP alignment to 16 bytes before riscv ABI internal implement same as context register change do? Should I add this in the rational section?",
+      "parentUuid": "4e1a36a4_99b60a9d",
       "range": {
         "startLine": 770,
         "startChar": 0,
