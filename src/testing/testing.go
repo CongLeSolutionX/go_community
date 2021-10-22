@@ -741,6 +741,7 @@ type TB interface {
 	Failed() bool
 	Fatal(args ...interface{})
 	Fatalf(format string, args ...interface{})
+	Meta(key, value string)
 	Helper()
 	Log(args ...interface{})
 	Logf(format string, args ...interface{})
@@ -952,6 +953,25 @@ func (c *common) Skipf(format string, args ...interface{}) {
 	c.checkFuzzFn("Skipf")
 	c.log(fmt.Sprintf(format, args...))
 	c.SkipNow()
+}
+
+// Meta allows your test to emit metadata which may be parsed by test2json.
+//
+// `key` must have a non-zero length and may not contain ":". Violating this
+// will report the error with Failf. Both `key` and `value` are trimmed of
+// whitespace.
+//
+// Only outputs in verbose mode.
+func (c *common) Meta(key, value string) {
+	c.checkFuzzFn("Meta")
+	if len(key) == 0 || strings.ContainsRune(key, ':') {
+		c.Fatalf("TB.Meta called with invalid key: %q", key)
+	}
+
+	if c.chatty != nil {
+		c.chatty.Updatef(c.name, "--- META: %s: %s: %s\n",
+			c.name, strings.TrimSpace(key), strings.TrimSpace(value))
+	}
 }
 
 // SkipNow marks the test as having been skipped and stops its execution

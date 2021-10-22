@@ -1,0 +1,21 @@
+{"Action":"run","Test":"metadata emission"}
+{"Action":"output","Test":"metadata emission","Output":"=== RUN   metadata emission\n"}
+{"Action":"output","Test":"metadata emission","Output":"    sub_test.go:123: t before\n"}
+{"Action":"meta","Test":"metadata emission","Meta":{"Key":"somekey","Value":"somevalue"}}
+{"Action":"output","Test":"metadata emission","Output":"--- META: metadata emission: somekey: somevalue\n"}
+{"Action":"run","Test":"metadata emission/sub"}
+{"Action":"output","Test":"metadata emission/sub","Output":"=== RUN   metadata emission/sub\n"}
+{"Action":"output","Test":"metadata emission/sub","Output":"    sub_test.go:123: t2 before\n"}
+{"Action":"meta","Test":"metadata emission/sub","Meta":{"Key":"otherkey","Value":"othervalue"}}
+{"Action":"output","Test":"metadata emission/sub","Output":"--- META: metadata emission/sub: otherkey: othervalue\n"}
+{"Action":"output","Test":"metadata emission/sub","Output":"    sub_test.go:123: t2 after\n"}
+{"Action":"cont","Test":"metadata emission"}
+{"Action":"output","Test":"metadata emission","Output":"=== CONT  metadata emission\n"}
+{"Action":"output","Test":"metadata emission","Output":"    sub_test.go:123: t after\n"}
+{"Action":"meta","Test":"metadata emission/sub","Meta":{"Key":"lingering","Value":"things"}}
+{"Action":"output","Test":"metadata emission","Output":"--- META: metadata emission/sub: lingering: things\n"}
+{"Action":"cont","Test":"metadata emission"}
+{"Action":"output","Test":"metadata emission","Output":"=== CONT  metadata emission\n"}
+{"Action":"output","Test":"metadata emission","Output":"    sub_test.go:123: bottom\n"}
+{"Action":"output","Test":"metadata emission","Output":"--- PASS: metadata emission (N.00s)\n"}
+{"Action":"output","Test":"metadata emission/sub","Output":"    --- PASS: metadata emission/sub (0.00s)\n"}

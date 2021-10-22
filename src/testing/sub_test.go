@@ -473,6 +473,40 @@ func TestTRun(t *T) {
 				t2.FailNow()
 			})
 		},
+	}, {
+		// Tests and subtests can emit metadata
+		desc:   "metadata emission",
+		ok:     true,
+		chatty: true,
+		output: `
+=== RUN   metadata emission
+    sub_test.go:NNN: t before
+--- META: metadata emission: somekey: somevalue
+=== RUN   metadata emission/sub
+    sub_test.go:NNN: t2 before
+--- META: metadata emission/sub: otherkey: othervalue
+    sub_test.go:NNN: t2 after
+=== CONT  metadata emission
+    sub_test.go:NNN: t after
+--- META: metadata emission/sub: lingering: things
+=== CONT  metadata emission
+    sub_test.go:NNN: bottom
+--- PASS: metadata emission (N.NNs)
+    --- PASS: metadata emission/sub (N.NNs)`,
+		f: func(t *T) {
+			t.Log("t before")
+			t.Meta("somekey", "somevalue")
+			var sneaky *T
+			t.Run("sub", func(t2 *T) {
+				t2.Log("t2 before")
+				t2.Meta("otherkey", "othervalue")
+				t2.Log("t2 after")
+				sneaky = t2
+			})
+			t.Log("t after")
+			sneaky.Meta("lingering", "things")
+			t.Log("bottom")
+		},
 	}}
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *T) {

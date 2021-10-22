@@ -32,12 +32,16 @@
 // corresponding to the Go struct:
 //
 //	type TestEvent struct {
-//		Time    time.Time // encodes as an RFC3339-format string
-//		Action  string
-//		Package string
-//		Test    string
-//		Elapsed float64 // seconds
-//		Output  string
+//		Time     time.Time // encodes as an RFC3339-format string
+//		Action   string
+//		Package  string
+//		Test     string
+//		Elapsed  float64 // seconds
+//		Output   string
+//		Meta     struct {
+//			Key string
+//			Value string
+//		}
 //	}
 //
 // The Time field holds the time the event happened.
@@ -48,6 +52,7 @@
 //	run    - the test has started running
 //	pause  - the test has been paused
 //	cont   - the test has continued running
+//	meta   - the test emitted JSON metadata
 //	pass   - the test passed
 //	bench  - the benchmark printed log output but did not fail
 //	fail   - the test or benchmark failed
@@ -72,6 +77,9 @@
 // into valid UTF-8 by use of replacement characters. With that one exception,
 // the concatenation of the Output fields of all output events is the exact
 // output of the test execution.
+//
+// The Meta fields will be set for Action == "meta" and will include the
+// test-supplied key and value (when using e.g. t.Meta()).
 //
 // When a benchmark runs, it typically produces a single line of output
 // giving timing results. That line is reported in an event with Action == "output"

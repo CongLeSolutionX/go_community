@@ -44,8 +44,7 @@ func TestGolden(t *testing.T) {
 			c.Close()
 
 			if *update {
-				js := strings.TrimSuffix(file, ".test") + ".json"
-				t.Logf("rewriting %s", js)
+				js, _ := filepath.Abs(strings.TrimSuffix(file, ".test") + ".json")
 				if err := ioutil.WriteFile(js, buf.Bytes(), 0666); err != nil {
 					t.Fatal(err)
 				}

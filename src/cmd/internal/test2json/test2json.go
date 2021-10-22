@@ -27,6 +27,11 @@ const (
 	Timestamp Mode = 1 << iota // include Time in events
 )
 
+type metadata struct {
+	Key   string
+	Value string
+}
+
 // event is the JSON struct we emit.
 type event struct {
 	Time    *time.Time `json:",omitempty"`
@@ -35,6 +40,7 @@ type event struct {
 	Test    string     `json:",omitempty"`
 	Elapsed *float64   `json:",omitempty"`
 	Output  *textBytes `json:",omitempty"`
+	Meta    *metadata  `json:",omitempty"`
 }
 
 // textBytes is a hack to get JSON to emit a []byte as a string
@@ -160,6 +166,10 @@ var (
 		[]byte("--- BENCH: "),
 	}
 
+	meta = [][]byte{
+		[]byte("--- META: "),
+	}
+
 	fourSpace = []byte("    ")
 
 	skipLinePrefix = []byte("?   \t")
@@ -202,15 +212,51 @@ func (c *Converter) handleInputLine(line []byte) {
 		}
 	}
 	if !ok {
-		// "--- PASS: "
-		// "--- FAIL: "
-		// "--- SKIP: "
-		// "--- BENCH: "
-		// but possibly indented.
+		// If we didn't hit an "update" above, all the other possibilities are
+		// possibly indented, so parse the indent now.
 		for bytes.HasPrefix(line, fourSpace) {
 			line = line[4:]
 			indent++
 		}
+	}
+	if !ok {
+		// "--- META: testName: key: value"
+		for _, magic := range meta {
+			if bytes.HasPrefix(line, magic) {
+				e := &event{Action: "meta"}
+				line = line[len(magic):]
+
+				i := bytes.IndexByte(line, ':')
+				if i < 0 {
+					// malformed line; treat as output
+					break
+				}
+				testName, line := line[:i], line[i+1:]
+				line = bytes.TrimSpace(line)
+
+				i = bytes.IndexByte(line, ':')
+				if i < 0 {
+					// malformed line; treat as output
+					break
+				}
+				key, line := line[:i], line[i+1:]
+				line = bytes.TrimSpace(line)
+
+				e.Test = string(testName)
+				e.Meta = &metadata{string(key), string(line)}
+				// directly emit the event; metadata should be interleaved with other
+				// output and data.
+				c.writeEvent(e)
+				c.output.write(origLine)
+				return
+			}
+		}
+	}
+	if !ok {
+		// "--- PASS: "
+		// "--- FAIL: "
+		// "--- SKIP: "
+		// "--- BENCH: "
 		for _, magic := range reports {
 			if bytes.HasPrefix(line, magic) {
 				actionColon = true
@@ -248,7 +294,7 @@ func (c *Converter) handleInputLine(line []byte) {
 	name := strings.TrimSpace(string(line[i:]))
 
 	e := &event{Action: action}
-	if line[0] == '-' { // PASS or FAIL report
+	if line[0] == '-' { // 'reports' or 'meta'
 		// Parse out elapsed time.
 		if i := strings.Index(name, " ("); i >= 0 {
 			if strings.HasSuffix(name, "s)") {

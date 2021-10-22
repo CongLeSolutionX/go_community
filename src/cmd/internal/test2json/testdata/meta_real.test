@@ -1,0 +1,14 @@
+=== RUN   metadata emission
+    sub_test.go:123: t before
+--- META: metadata emission: somekey: somevalue
+=== RUN   metadata emission/sub
+    sub_test.go:123: t2 before
+--- META: metadata emission/sub: otherkey: othervalue
+    sub_test.go:123: t2 after
+=== CONT  metadata emission
+    sub_test.go:123: t after
+--- META: metadata emission/sub: lingering: things
+=== CONT  metadata emission
+    sub_test.go:123: bottom
+--- PASS: metadata emission (N.00s)
+    --- PASS: metadata emission/sub (0.00s)
