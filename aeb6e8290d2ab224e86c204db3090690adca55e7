@@ -59,6 +59,30 @@
       },
       "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06de1ab3_9829b40f",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3292,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-22T19:46:15Z",
+      "side": 1,
+      "message": "Nice catch.\nSetting the err to ErrHandlerTimeout wouldn\u0027t solve my original problem: being able to distinguish between hang ups and true timeouts in handler code.\n\nHow does this look?\n\"After such a timeout, writes by h to its ResponseWriter will return ErrHandlerTimeout, unless the request has been canceled as described in https://pkg.go.dev/net/http#Request.Context\"",
+      "parentUuid": "cd5ba0eb_6316f9c4",
+      "range": {
+        "startLine": 3291,
+        "startChar": 3,
+        "endLine": 3292,
+        "endChar": 21
+      },
+      "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
