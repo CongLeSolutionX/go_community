@@ -73,6 +73,132 @@
       "parentUuid": "2b291c23_996b67fb",
       "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e5a54e1_ba586250",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-22T21:01:29Z",
+      "side": 1,
+      "message": "LGTM but there\u0027s a question if we just should use the global debug flag instead of passing a debug argument through, everywhere. We (well, I) also want to see the subscripts in debug/trace output.",
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65e642fd_efd8c1bc",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-22T21:01:29Z",
+      "side": 1,
+      "message": "do we really want to pass this in? (and hardwire at call sites?)\n\nWhy not leave away this argument and use the global debug flag here?",
+      "range": {
+        "startLine": 69,
+        "startChar": 48,
+        "endLine": 69,
+        "endChar": 53
+      },
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d97a76f_b415ef28",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-22T21:01:29Z",
+      "side": 1,
+      "message": "If you make the suggested change for typeString, this just becomes\n\ntypeString(a, qf, debug)",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29226730_9988460c",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-22T21:01:29Z",
+      "side": 1,
+      "message": "if !debug or swap branches",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5907b9ce_042d1296",
+        "filename": "src/go/types/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-22T21:01:29Z",
+      "side": 1,
+      "message": "make this lower-case typeString that takes a debug argument and then TypeString just calls typeString with a no-debug arg",
+      "range": {
+        "startLine": 52,
+        "startChar": 5,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d47ff18_6344c16d",
+        "filename": "src/go/types/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-22T21:01:29Z",
+      "side": 1,
+      "message": "a bit more straight-forward:\n\nw.string(t.obj.name)\nif ... {\n   w.string(subscript(t.id))\n}",
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
