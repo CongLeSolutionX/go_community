@@ -83,6 +83,30 @@
       },
       "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd85467_dbe14672",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3292,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2021-10-22T20:14:12Z",
+      "side": 1,
+      "message": "Do I get it right that you would like to observe different write error (which would be context.Canceled) in the Handler?",
+      "parentUuid": "06de1ab3_9829b40f",
+      "range": {
+        "startLine": 3291,
+        "startChar": 3,
+        "endLine": 3292,
+        "endChar": 21
+      },
+      "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
