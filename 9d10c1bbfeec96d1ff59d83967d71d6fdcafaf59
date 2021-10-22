@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e4df078_a73a5752",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-22T17:32:19Z",
+      "side": 1,
+      "message": "If you don\u0027t want to use PPC64 then Power should be capitalized.",
+      "parentUuid": "165ed9fe_25474848",
+      "revId": "9d10c1bbfeec96d1ff59d83967d71d6fdcafaf59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34779f22_da130c99",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 2
