@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b08f97_77d8d0f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-22T21:51:23Z",
+      "side": 1,
+      "message": "This CL now has a merge conflict and needs to be rebased.",
+      "revId": "ae758ffed960929a41946e5d388c5603e8d883c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
