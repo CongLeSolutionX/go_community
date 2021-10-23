@@ -131,8 +131,17 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		}
 
 		contentLength := int64(0)
-		if cl, err := strconv.ParseInt(header.Get("Content-Length"), 10, 64); err == nil {
-			contentLength = cl
+		clHeader := header.Get("Content-Length")
+		switch {
+		case clHeader != "":
+			if cl, err := strconv.ParseInt(clHeader, 10, 64); err == nil {
+				contentLength = cl
+			}
+		case header.Get("Transfer-Encoding") == "chunked":
+			// If the response is a chunked stream, set the
+			// Content-Length header to -1.
+			// See https://github.com/golang/go/issues/49108
+			contentLength = int64(-1)
 		}
 
 		b := result.Get("body")
