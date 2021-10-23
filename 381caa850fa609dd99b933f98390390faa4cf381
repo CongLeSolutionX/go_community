@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2965b931_137c4132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-23T20:48:05Z",
+      "side": 1,
+      "message": "I think we need the shape package to be something that isn\u0027t a real package (_shape could be a real package name, I think).\n\nOr maybe we could just declare \"shape\" to be a stdlib package, and reserve it that way? Maybe even have a stub package with nothing in it. Something to think about.",
+      "parentUuid": "bf2a10b6_bb600c8d",
+      "revId": "381caa850fa609dd99b933f98390390faa4cf381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e614d984_c9a601e3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -68,6 +86,24 @@
       "writtenOn": "2021-10-22T19:13:58Z",
       "side": 1,
       "message": "Maybe add a comment here that sym names may now have % because of use of LinkString() for instantiations?",
+      "revId": "381caa850fa609dd99b933f98390390faa4cf381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e2b055f_836aa27c",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2595,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-23T20:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0de3ba99_381e7ccc",
       "revId": "381caa850fa609dd99b933f98390390faa4cf381",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
