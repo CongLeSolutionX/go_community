@@ -155,6 +155,30 @@
       },
       "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1679289_05cae247",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3292,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-10-23T19:07:22Z",
+      "side": 1,
+      "message": "That\u0027s a great point!\n\nUnfortunately the context that the business logic Handler gets and the context that TimeoutHandler get aren\u0027t necessarily the same -- middleware can modify the context.\n\nI\u0027m sure there are plenty of ways to solve that -- such as re-ordering middleware -- but I\u0027d love to instead focus on the merits/drawbacks of this PR: Throwing an ErrHandlerTimeout before the timeout has elapsed doesn\u0027t align with the spirit of the error message IMO.\n\nI want to make sure that your concerns around timeout being dependent on request context are addressed. I think the original implementation calls context.WithTimeout on the request\u0027s context instead of creating a new context so that TimeoutHandler doesn\u0027t have to proxy events between the two contexts. An alternate implementation could do this, but I don\u0027t see any benefits w.r.t dealing with timeouts (unless we need to catch a timeout after the context has been canceled).\n\nI\u0027m not sure if this completely addresses your concern around relying on the request\u0027s context, but I\u0027m happy to continue talking about it -- maybe we could get Damien\u0027s input as a maintainer.",
+      "parentUuid": "ff0a8f31_0644d92a",
+      "range": {
+        "startLine": 3291,
+        "startChar": 3,
+        "endLine": 3292,
+        "endChar": 21
+      },
+      "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
