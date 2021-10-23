@@ -124,6 +124,30 @@
       },
       "revId": "ae902ed089ac1290db14fc707ca8ab7c0dbd5df0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a077641a_eed8db29",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-23T16:16:29Z",
+      "side": 1,
+      "message": "It may not be used elsewhere and I thought about inlining. But it\u0027s nicer at the call site and by having them next to each other it\u0027s easy to see how they are different.",
+      "parentUuid": "6ae37457_ad908022",
+      "range": {
+        "startLine": 775,
+        "startChar": 0,
+        "endLine": 777,
+        "endChar": 3
+      },
+      "revId": "ae902ed089ac1290db14fc707ca8ab7c0dbd5df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
