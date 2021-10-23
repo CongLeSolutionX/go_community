@@ -135,8 +135,10 @@ func (check *Checker) verify(pos syntax.Pos, tparams []*TypeParam, targs []Type)
 // TODO(gri) This should be a method of interfaces or type sets.
 func (check *Checker) satisfies(pos syntax.Pos, targ Type, tpar *TypeParam, smap substMap) error {
 	iface := tpar.iface()
+
+	// every type argument satisfies interface{}
 	if iface.Empty() {
-		return nil // no type bound
+		return nil
 	}
 
 	// TODO(rfindley): it would be great if users could pass in a qualifier here,
@@ -148,6 +150,11 @@ func (check *Checker) satisfies(pos syntax.Pos, targ Type, tpar *TypeParam, smap
 	}
 	errorf := func(format string, args ...interface{}) error {
 		return errors.New(sprintf(qf, format, args...))
+	}
+
+	// no type argument satisfies the empty type set
+	if iface.typeSet().IsEmpty() {
+		return errorf("%s cannot be satisfied (empty type set)", tpar.bound)
 	}
 
 	// The type parameter bound is parameterized with the same type parameters
