@@ -107,6 +107,30 @@
       },
       "revId": "8b751674fa58cf36b8b2c1f9a6300ecba32f9cff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c52cffce_6331f5a2",
+        "filename": "src/cmd/compile/internal/ssa/fuse_branchredirect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-10-23T17:40:26Z",
+      "side": 1,
+      "message": "Ah right, I thought that you use \"n :\u003d len(b.Preds)\", but it\u0027s \"n :\u003d len(v.Args)\".",
+      "parentUuid": "ef7b0f7d_df45be3d",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 83,
+        "endChar": 27
+      },
+      "revId": "8b751674fa58cf36b8b2c1f9a6300ecba32f9cff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
