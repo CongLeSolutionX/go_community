@@ -117,6 +117,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1999a036_b14faaa4",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-23T13:05:32Z",
+      "side": 1,
+      "message": "This is a low-level function. The number of call sites should be small and stable.\n\nTypeString is part of the go/types API, and on principle I don\u0027t think the debug flag should mutate the API (tests will fail, for one, unless we are careful to strip subscripts from test assertions).",
+      "parentUuid": "65e642fd_efd8c1bc",
+      "range": {
+        "startLine": 69,
+        "startChar": 48,
+        "endLine": 69,
+        "endChar": 53
+      },
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4d97a76f_b415ef28",
         "filename": "src/go/types/errors.go",
         "patchSetId": 1
@@ -161,6 +185,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28b0fd09_cc85c293",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-23T13:05:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "4d97a76f_b415ef28",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb4d5d6f_ee75d1ec",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-23T13:05:32Z",
+      "side": 1,
+      "message": "Oh wow, quite an oversight! Surprising that no tests failed.",
+      "parentUuid": "29226730_9988460c",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5907b9ce_042d1296",
@@ -184,6 +256,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65d09d80_db202824",
+        "filename": "src/go/types/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-23T13:05:32Z",
+      "side": 1,
+      "message": "Good suggestion. Done.",
+      "parentUuid": "5907b9ce_042d1296",
+      "range": {
+        "startLine": 52,
+        "startChar": 5,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d47ff18_6344c16d",
@@ -197,6 +293,24 @@
       "writtenOn": "2021-10-22T21:01:29Z",
       "side": 1,
       "message": "a bit more straight-forward:\n\nw.string(t.obj.name)\nif ... {\n   w.string(subscript(t.id))\n}",
+      "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11aa1163_ea979919",
+        "filename": "src/go/types/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-23T13:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d47ff18_6344c16d",
       "revId": "f19f3788ea7b11b97f24b80432ef5d48da475801",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
