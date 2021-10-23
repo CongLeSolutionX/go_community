@@ -70,6 +70,24 @@
       "message": "(Damien, can I get a +1 Trust at least, if not a review?)\n",
       "revId": "5d33fb6f03a5fd99f640ed5afd99fbd280db17ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d559076f_4e5899cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 48639
+      },
+      "writtenOn": "2021-10-23T19:44:47Z",
+      "side": 1,
+      "message": "Yes, I was able to test this. I created a go http server that streamed some chunked responses using the HTTP flusher, and I wrote a wasm client that requested the stream and checked that the Content-Length was -1 in the response. I also confirmed that it was 0 on Go 1.17.",
+      "parentUuid": "b40ab6da_a0dc586f",
+      "revId": "5d33fb6f03a5fd99f640ed5afd99fbd280db17ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
