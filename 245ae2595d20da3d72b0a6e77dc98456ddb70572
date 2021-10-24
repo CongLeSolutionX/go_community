@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc88219c_07519c02",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-24T03:06:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6be77b59_d9bf9ec9",
+      "revId": "245ae2595d20da3d72b0a6e77dc98456ddb70572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd2b4c9f_3104415a",
@@ -108,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1252af05_c2d29705",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-24T03:06:30Z",
+      "side": 1,
+      "message": "I put them reasonably late, but before lowering as they are a generic pass.\nI added one edge to passOrder.",
+      "parentUuid": "fd2b4c9f_3104415a",
+      "revId": "245ae2595d20da3d72b0a6e77dc98456ddb70572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee3864aa_2bb7fcc5",
@@ -121,6 +157,24 @@
       "writtenOn": "2021-10-21T02:59:57Z",
       "side": 1,
       "message": "if you doc Aux before control[0], then the parenthetical can go with control[0] and will be easier to follow",
+      "revId": "245ae2595d20da3d72b0a6e77dc98456ddb70572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ba73df7_39521b42",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-24T03:06:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee3864aa_2bb7fcc5",
       "revId": "245ae2595d20da3d72b0a6e77dc98456ddb70572",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
