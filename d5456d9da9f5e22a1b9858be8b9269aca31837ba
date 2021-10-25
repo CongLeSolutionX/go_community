@@ -145,6 +145,24 @@
       "parentUuid": "ac3803e0_6411fe38",
       "revId": "d5456d9da9f5e22a1b9858be8b9269aca31837ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b61c6114_a552dd82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-25T17:16:09Z",
+      "side": 1,
+      "message": "Obsolete. We should be able to update the unified reader now, by setting the implicit bit explicitly.",
+      "parentUuid": "dd0995fc_cb5a13e5",
+      "revId": "d5456d9da9f5e22a1b9858be8b9269aca31837ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
