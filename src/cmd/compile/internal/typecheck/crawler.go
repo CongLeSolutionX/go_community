@@ -197,12 +197,12 @@ func (p *crawler) markInlBody(n *ir.Name) {
 		t := n.Type()
 		if t != nil {
 			if t.HasTParam() || t.IsFullyInstantiated() {
-				// Ensure that we call markType() on any base generic type
+				// Ensure that we call markEmbed() on any base generic type
 				// that is written to the export file (even if not explicitly
-				// marked for export), so we will call markInlBody on its
-				// methods, and the methods will be available for
+				// marked for export), so we will call markInlBody on all of
+				// its methods, and the methods will be available for
 				// instantiation if needed.
-				p.markType(t)
+				p.markEmbed(t)
 			}
 			if base.Debug.Unified == 0 {
 				// If a method of un-exported type is promoted and accessible by
