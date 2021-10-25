@@ -34,6 +34,24 @@
       "parentUuid": "61fa4559_1d3b203c",
       "revId": "801e3efe6e1a200f99526f891777ebc40b998ec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5097be9c_13437466",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 52588
+      },
+      "writtenOn": "2021-10-25T13:16:01Z",
+      "side": 1,
+      "message": "I think if there is no loong64 hardware without floating point support there is no need to add and maintain softfloat. Adding it means more testing and builders needed as well as potential bugs needing to be fixed. Its also seems easier to add an option later than removing one if its clear its not used/needed.",
+      "parentUuid": "4303f4bb_0374bb77",
+      "revId": "801e3efe6e1a200f99526f891777ebc40b998ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
