@@ -174,6 +174,1434 @@
       "message": "Getting CLAs out of the way first...\n",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29cfb9f6_faa9f51c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Overall looks very good. Sorry for so many tiny comments.\n",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "936f585f_11c2e3a7",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Please s/os/net, os/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b008fb7_50fae16b",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Is strconv needed here if you have internal/itoa available?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e34e7746_69b548dc",
+        "filename": "src/internal/intern/intern.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Can this be deleted?\nThe env var should be renamed if not.\nMaybe look for a key\u003dvalue pair in GODEBUG?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38e43f55_816d429b",
+        "filename": "src/internal/intern/intern.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Nit but the parens around unsafe.Pointer are unnecessary (looks like C).",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "191bf78b_2856a6ad",
+        "filename": "src/net/netip/mask6.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Instead of a 2kB table, I think this can be replaced by:\n\n    func mask6(i int) uint128 {\n        return uint128{^(^uint64(0)\u003e\u003ei), ^uint64(0)\u003c\u003c(128-i)}\n    }\n\n(Took a little while to work out those expressions! https://play.golang.org/p/JIgP1snbggD)\n\nOr mask6 could be deleted entirely and those expressions could be\nused in uint128.bitsClearedFrom.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f47a8a_f479f7ee",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/contains/defines/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0da50801_eb01d82b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/contains/defines/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "245de91a_36b2ffb7",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/Go\u0027s //",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "370f2926_c87f05a0",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/the netip.//",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61423686_db4496b6",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Can probably delete this sentence.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a6bc8c1_48a30558",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/are/is/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed36b093_0fecbcd9",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/,/./\nDelete next lines and replace with\n\n// An IPv6-mapped IPv4 address is left as an IPv6 address.\n// (Use Unmap to convert them if needed.)",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a7c6a1f_cedefafc",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "AddrFromSlice parses the 4- or 16-byte byte slice as an IPv4 or IPv6 address.\nNote that a net.IP can be passed directly as the []byte argument.\nIf slice\u0027s length is not 4 or 16, AddrFromSlice returns Addr{}, false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bab9357b_4d136404",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/std/slice/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b3757dc_759ca209",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// IsValid reports whether the Addr is an initialized address (not the zero Addr).\n// Note that \"0.0.0.0\" and \"::\" are both valid values.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f985e064_0888a27e",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "128 for IPv6, 32 for IPv4, and 0 for the zero Addr.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b346dc9_01939882",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// Note that IPv4-mapped IPv6 addresses are considered IPv6 addresses\n// and therefore have bit length 128.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "646a2943_a85a9c7b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/\u003d\u003d/ \u003d\u003d /",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5298ef14_c78d88ab",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/IP.//",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39037e40_b39af415",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "This test doesn\u0027t scope the f1,f2 inside the if, but the hi1,hi2 and lo1,lo2 tests do, and then the za, zb tests don\u0027t again. Pick one?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "679ef011_d200f9a3",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/The returned.*// and following lines, replacing with:\n\nThe slice will be nil if ip is the zero Addr.\nThe zone is the empty string if there is no zone.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0d5f3df_010856b1",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/stdIP/slice/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1427e3d0_6de60c25",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Should probably be \"Is4In6\" with capital In, no?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99da27a2_59856fad",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/, regardless of its type/ unmodified/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2d74a39_1ba9cc4a",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// address, WithZone is a no-op and returns ip unchanged.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41f30fa7_95863323",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/noZone/withoutZone/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "914091ea_be378cbb",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// If ip is the zero Addr, IsLinkLocalUnicast returns false.\n\n(\"it\" is unclear.)\nOr maybe you don\u0027t need that sentence at all?\nWould anyone expect the zero Addr to be a link-local unicast address?\nSame for the ones below.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8697194_d0319ce3",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// If ip is the zero Addr, IsLoopback returns false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a002a8_ff33ff0d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// If ip is the zero Addr, IsMulticast returns false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeae184c_69e5fa54",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// If ip is the zero Addr or an IPv4 address, IsInterfaceLocalMulticast returns false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e1d4be_dbaeca2f",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "If ip is the zero Addr, IsLinkLocalMulticast returns false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1fe625f_0b48ec62",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// It returns false for the zero Addr.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3af9d48a_7eee5692",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/the stdlib\u0027s/package net\u0027s/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e59e495_2d2e6f05",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/the standard library\u0027s //",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a38a5b7_f57d19ac",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/Addr zero value/zero Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a867fb26_27b902e2",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// Prefix keeps only the top b bits of IP, producing a Prefix\n// of the specified length. \n// If ip is a zero Addr, Prefix always returns a zero Prefix and a nil error. \n// Otherwise, if bits is less than zero or greater than ip.BitLen(),\n// Prefix returns an error.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcd6797e_28e5069a",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "It\u0027s odd to me that MustParseIP(\"1.2.3.4\").Prefix(24).IP() \u003d\u003d \"1.2.3.0\"\nbut MustParsePrefix(\"1.2.3.4/24\").IP() \u003d\u003d \"1.2.3.4\".\nIs that really right?\nShould Prefix skip the masking here and let callers use Masked?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b1bd38d_4bc9d1c5",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/bits/b/ (for doc comment)",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e3c655_8e1c798c",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Check for bits \u003c 0 here?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e6fec10_57db48f6",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/16 byte/16-byte/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14678376_b16a12a9",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/4 byte/4-byte/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79825a56_571b96a6",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/IP zero value/zero Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91f91db1_11085ea8",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/value/Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56221941_3fb562c8",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/IP/address/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "566a1773_4a4881ba",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/IP zero value/zero Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d05e249_7e139bef",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/zero value/zero Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3313143e_dd4ac8f9",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/the Go standard library\u0027s/package net\u0027s/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c93214ac_6c455584",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "I agree with IPv4-mapped 127.0.0.1 not formatting as \"127.0.0.1\", but the code here formats it as \"::ffff:7f00:1\". I think it should format as \"::ffff:127.0.0.1\", per RFC 5952 section 5. That will make people who do see a behavior change much less confused.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6ee4a2_059d967b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/zero/invalid/ to match doc comment",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8212123_8f42c815",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "FWIW I\u0027m fine with ::ffff:127.0.0.1 not using the dotted decimal in this case.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b8f1a7a_fcb48c3f",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/value/Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcf9a922_6e26be6e",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Delete (it doesn\u0027t, as it shouldn\u0027t). But add\n\n// If text is empty, UnmarshalText sets *ip to the zero Addr and returns no error.\n\nor maybe\n\n.... in a form accepted by ParseAddr or generated by MarshalText.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fff90378_83bfd0de",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "*ip \u003d Addr{}\nreturn nil",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d4a18c_262d60bc",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "add\n// It returns a zero-length slice for the zero Addr,\n// the 4-byte form for an IPv4 address,\n// and the 16-byte form with zone appended for an IPv6 address.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3090c58_ea5ee8f1",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "add\n// It expects data in the form generated by MarshalBinary.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a36c83_005f6d34",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "*ip \u003d Addr{}\nreturn nil",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06f01a42_c4f25b05",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// It doesn\u0027t do any name resolution: both the address and the port must be numeric.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c732e696_85ae020b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/zero value/zero Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3097fd8d_e77b7fe0",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "... in a form generated by MarshalText or accepted by ParseAddrPort.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39fe3ad5_7226372f",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Delete \"It returns ...\"",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9af2c7c8_de94ba54",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a544328f_12300e12",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "*p \u003d AddrPort{}\nreturn nil",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1dfa47e_b1ff1b2c",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/255/-1/?\nIt would be more clearly invalid in the API.\nThe implementation can still store 255\nand use int(int8(p.bits)) in the Bits method.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33b808f3_276df987",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "add\n// Note that if p is the zero Prefix, then p.IsValid() \u003d\u003d false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4b4a581_39b7d44c",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "this becomes int8(p.bits) \u003e\u003d 0",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12c97468_401126fa",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "See note on Addr.Prefix about the inconsistency between this and IP.Prefix.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e81e95d_9e1e3faf",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "with all but the high p.Bits() bits of p.IP() masked off.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecd81f7b_17634b1b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/overlap at all/contain any IP addresses in common/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fb92516_60d1d658",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Not sure this needs to be said, but as worded it\u0027s confusing. Delete?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2917304d_2fada66d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "return p.Masked() \u003d\u003d o.Masked()",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f03b502_2b0dcd41",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1328,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "// p.ip is non-nil, ...",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08bd935f_54e34e37",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "... accepted by ParsePrefix or generated by MarshalText.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f6e355a_6c6ff3ed",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c57fd2e3_2ae720f3",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "*p \u003d Prefix{}\nreturn nil",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "653a6c18_dc5764af",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Delete.\n(Let\u0027s just not distinguish zero and invalid.)",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f867e62_27818afb",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Is this used? (Not in this file at least.)",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "197a28c9_00a70d3c",
+        "filename": "src/net/netip/netip_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Delete",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "328f33b1_f8214adc",
+        "filename": "src/net/netip/uint128.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Seems like it would be more efficient essentially always to use [2]uint64 here.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82c10079_e8555ff8",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/converted to fit/truncated/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05b072c_bf21bd42",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/converted to fit/truncated/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b74eb0c1_f8d44cf1",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "Seems OK to return nil.\nUDPAddrOfIPPort seems wrong though.\nUDPAddrFromAddrPort?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9face01_a47ef5d6",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/ap/addr/\n\n(to match the others)",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9cd035a_5dddfe6a",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-25T16:07:19Z",
+      "side": 1,
+      "message": "s/ap/addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
