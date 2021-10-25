@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b3457af_77054233",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-25T15:52:35Z",
+      "side": 1,
+      "message": "That\u0027s how it is in the git history, but in the git metadata and in the commit message\u0027s DCO Signed-Off-By line. (I didn\u0027t type these by hand.)\n\nSee e.g. https://github.com/inetaf/netaddr/commit/900fa71d6f3e1c9b74e62f549c79b34e8114821f",
+      "parentUuid": "dc2f9e90_2bb72f7c",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29c2e058_8afd1e7c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-25T14:29:02Z",
       "side": 1,
       "message": "I can\u0027t find a CLA for this email address.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2783ee41_98dbdf76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-25T15:52:35Z",
+      "side": 1,
+      "message": "Oh, this user made a single commit to fix a typo in the README that wasn\u0027t included in this PR.\n\nI guess I screwed up my creation of this list.\n\nhttps://github.com/inetaf/netaddr/issues/181 was our tracking issue to verify the CLA compliance for everybody but then maybe I spaced it and just dit a \"git log\" for this commit message.\n\nWill fix.",
+      "parentUuid": "29c2e058_8afd1e7c",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
