@@ -73,6 +73,17 @@ var (
 	gopath   string
 )
 
+// EnterModule resets MainModules and requirements to refer to just this one module.
+
+func EnterModule(ctx context.Context, enterModroot string) {
+	MainModules = nil // reset MainModules
+	requirements = nil
+	workFilePath = "" // Force module mode
+
+	modRoots = []string{enterModroot}
+	LoadModFile(ctx)
+}
+
 // Variable set in InitWorkfile
 var (
 	// Set to the path to the go.work file, or "" if workspace mode is disabled.
@@ -968,7 +979,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 			for _, r := range modFiles[i].Replace {
 				if replacedByWorkFile[r.Old.Path] {
 					continue
-				} else if prev, ok := replacements[r.Old]; ok && !curModuleReplaces[r.Old] {
+				} else if prev, ok := replacements[r.Old]; ok && !curModuleReplaces[r.Old] && prev != r.New {
 					base.Fatalf("go: conflicting replacements for %v:\n\t%v\n\t%v\nuse \"go mod editwork -replace %v=[override]\" to resolve", r.Old, prev, r.New, r.Old)
 				}
 				curModuleReplaces[r.Old] = true
@@ -1040,7 +1051,7 @@ func setDefaultBuildMod() {
 	// to modload functions instead of relying on an implicit setting
 	// based on command name.
 	switch cfg.CmdName {
-	case "get", "mod download", "mod init", "mod tidy":
+	case "get", "mod download", "mod init", "mod tidy", "work sync":
 		// These commands are intended to update go.mod and go.sum.
 		cfg.BuildMod = "mod"
 		return
