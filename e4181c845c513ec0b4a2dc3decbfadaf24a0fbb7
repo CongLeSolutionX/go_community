@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a29e3a39_5729d011",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2021-10-25T03:53:48Z",
+      "side": 1,
+      "message": "It\u0027s not clear why this is needed, even if it were possible.",
+      "revId": "e4181c845c513ec0b4a2dc3decbfadaf24a0fbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b6c4840_db7d847b",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2021-10-25T03:53:48Z",
+      "side": 1,
+      "message": "\"fmt\" imports \"errors\" so this introduces an import cycle.",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 8,
+        "endChar": 6
+      },
+      "revId": "e4181c845c513ec0b4a2dc3decbfadaf24a0fbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
