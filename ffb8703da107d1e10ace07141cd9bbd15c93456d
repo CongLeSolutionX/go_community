@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0490da2_b43efbc7",
+        "filename": "src/runtime/mem_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-10-25T16:21:36Z",
+      "side": 1,
+      "message": "Any particular reason you prefer mmap over mprotect here?",
+      "revId": "ffb8703da107d1e10ace07141cd9bbd15c93456d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
