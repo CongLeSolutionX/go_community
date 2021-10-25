@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b136905_cb1ab2f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-25T16:20:32Z",
+      "side": 1,
+      "message": "PTAL. I updated the commit message to include CLA details.\n\nAnd removed people who e.g. only updated the netaddr README that didn\u0027t make it into this CL at all.",
+      "revId": "11fe970ce04187a20f9744855b991bf9fb23a38f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
