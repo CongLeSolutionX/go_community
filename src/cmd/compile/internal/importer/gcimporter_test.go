@@ -6,8 +6,10 @@ package importer
 
 import (
 	"bytes"
+	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"fmt"
+	"go/token"
 	"internal/testenv"
 	"os"
 	"os/exec"
@@ -129,6 +131,33 @@ func TestImportTestdata(t *testing.T) {
 			}
 		}
 	}
+}
+
+// sanitizeObjectString removes type parameter debugging markers from an object
+// string, to normalize it for comparison.
+// TODO(rfindley): this should not be necessary.
+func sanitizeObjectString(s string) string {
+	var runes []rune
+	for _, r := range s {
+		if '₀' <= r && r < '₀'+10 {
+			continue // trim type parameter subscripts
+		}
+		runes = append(runes, r)
+	}
+	return string(runes)
+}
+
+func checkFile(t *testing.T, filename string) *types2.Package {
+	f, err := syntax.ParseFile(filename, nil, nil, syntax.AllowGenerics)
+	if err != nil {
+		t.Fatal(err)
+	}
+	config := types2.Config{}
+	pkg, err := config.Check("", []*syntax.File{f}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return pkg
 }
 
 func TestVersionHandling(t *testing.T) {
@@ -582,6 +611,29 @@ func TestIssue25596(t *testing.T) {
 	}
 
 	compileAndImportPkg(t, "issue25596")
+}
+
+func TestImportGenerics(t *testing.T) {
+	importedPkg := compileAndImportPkg(t, "generics")
+	checkedPkg := checkFile(t, filepath.Join("testdata", "generics.go"))
+
+	seen := make(map[string]bool)
+	for _, name := range checkedPkg.Scope().Names() {
+		seen[name] = true
+		imported := importedPkg.Scope().Lookup(name)
+		checked := checkedPkg.Scope().Lookup(name)
+
+		got := sanitizeObjectString(types2.ObjectString(imported, types2.RelativeTo(importedPkg)))
+		want := sanitizeObjectString(types2.ObjectString(checked, types2.RelativeTo(checkedPkg)))
+		if got != want {
+			t.Errorf("importedPkg.Lookup(%q) = %s, want %s", name, got, want)
+		}
+	}
+	for _, name := range importedPkg.Scope().Names() {
+		if !seen[name] && token.IsExported(name) {
+			t.Errorf("imported extra name %q", name)
+		}
+	}
 }
 
 func importPkg(t *testing.T, path, srcDir string) *types2.Package {
