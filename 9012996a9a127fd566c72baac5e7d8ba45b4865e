@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20c2e331_9cea5f7b",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-10-25T20:01:30Z",
+      "side": 1,
+      "message": "is \"retur\" a typo here?\n\ne.g. I wonder if this meant to say \"the returned PC\"",
+      "range": {
+        "startLine": 563,
+        "startChar": 52,
+        "endLine": 563,
+        "endChar": 57
+      },
+      "revId": "9012996a9a127fd566c72baac5e7d8ba45b4865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
