@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12deb17f_e679ebcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-25T19:25:09Z",
+      "side": 1,
+      "message": "The code might be okay, but I don\u0027t think the reasoning is correct. Here the OpSB is just a pseudo-register (which has nothing to do with R28) and should not affect code generation. What happens if you don\u0027t do this?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
