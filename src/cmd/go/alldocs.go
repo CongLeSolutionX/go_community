@@ -1379,6 +1379,7 @@
 //
 // 	edit        edit go.work from tools or scripts
 // 	init        initialize workspace file
+// 	sync        sync workspace build list to modules
 //
 // Use "go help work <command>" for more information about a command.
 //
@@ -1468,6 +1469,15 @@
 // See the workspaces design proposal at
 // https://go.googlesource.com/proposal/+/master/design/45713-workspace.md for
 // more information.
+//
+//
+// Sync workspace build list to modules
+//
+// Usage:
+//
+// 	go work sync [moddirs]
+//
+// go work sync
 //
 //
 // Compile and run Go program
