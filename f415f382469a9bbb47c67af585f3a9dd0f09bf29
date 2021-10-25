@@ -78,6 +78,30 @@
       },
       "revId": "f415f382469a9bbb47c67af585f3a9dd0f09bf29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7896b7a_660313b9",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-10-25T17:14:51Z",
+      "side": 1,
+      "message": "IMO having a single constructor for interfaces outweighs avoiding the implicit argument at call-sites. It is also cumbersome to choose between the constructors based on the value of implicit. I\u0027d prefer to leave as-is. Fortunately this is just an internal API, so we can always revisit later.",
+      "parentUuid": "7bd58167_7c0ede57",
+      "range": {
+        "startLine": 1824,
+        "startChar": 28,
+        "endLine": 1824,
+        "endChar": 59
+      },
+      "revId": "f415f382469a9bbb47c67af585f3a9dd0f09bf29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
