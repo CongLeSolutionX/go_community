@@ -21,5 +21,6 @@ not just 'go work'.
 	Commands: []*base.Command{
 		cmdEdit,
 		cmdInit,
+		cmdSync,
 	},
 }
