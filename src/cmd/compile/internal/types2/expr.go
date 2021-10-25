@@ -155,9 +155,11 @@ var op2str2 = [...]string{
 	syntax.Shl: "shift",
 }
 
+// If typ is a type parameter p with specific type terms, underIs returns the
+// result of p.underIs(f). In all other cases, underIs is the same as f(under(typ)).
 func underIs(typ Type, f func(Type) bool) bool {
 	u := under(typ)
-	if tpar, _ := u.(*TypeParam); tpar != nil {
+	if tpar, _ := u.(*TypeParam); tpar != nil && tpar.hasTerms() {
 		return tpar.underIs(f)
 	}
 	return f(u)

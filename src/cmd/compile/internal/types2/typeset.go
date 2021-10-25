@@ -101,43 +101,41 @@ func (s *_TypeSet) String() string {
 // ----------------------------------------------------------------------------
 // Implementation
 
-func (s *_TypeSet) hasTerms() bool              { return !s.terms.isEmpty() && !s.terms.isAll() }
-func (s *_TypeSet) structuralType() Type        { return s.terms.structuralType() }
-func (s *_TypeSet) includes(t Type) bool        { return s.terms.includes(t) }
+// hasTerms reports whether the type set has specific type terms.
+func (s *_TypeSet) hasTerms() bool { return !s.terms.isEmpty() && !s.terms.isAll() }
+
+// structuralType returns the single type in s if there is exactly one; otherwise the result is nil.
+func (s *_TypeSet) structuralType() Type { return s.terms.structuralType() }
+
+// includes reports whether t ∈ s.
+func (s *_TypeSet) includes(t Type) bool { return s.terms.includes(t) }
+
+// subsetOf reports whether s1 ⊆ s2.
 func (s1 *_TypeSet) subsetOf(s2 *_TypeSet) bool { return s1.terms.subsetOf(s2.terms) }
 
 // TODO(gri) TypeSet.is and TypeSet.underIs should probably also go into termlist.go
 
-var topTerm = term{false, theTop}
-
+// is calls f with the specific type terms of s and reports whether
+// all calls to f returned true. If there are no specific terms, i.e.,
+// no calls to f, the result is false.
 func (s *_TypeSet) is(f func(*term) bool) bool {
-	if len(s.terms) == 0 {
-		return false
-	}
 	for _, t := range s.terms {
-		// Terms represent the top term with a nil type.
-		// The rest of the type checker uses the top type
-		// instead. Convert.
-		// TODO(gri) investigate if we can do without this
-		if t.typ == nil {
-			t = &topTerm
-		}
-		if !f(t) {
+		// t.typ == nil => s.terms is 𝓤 => no specific type terms
+		if t.typ == nil || !f(t) {
 			return false
 		}
 	}
-	return true
+	return len(s.terms) > 0
 }
 
+// underIs calls f with the underlying types of the specific type terms
+// of s and reports whether all calls to f returned true. If there are
+// no specific terms, i.e., no calls to f, the result is false.
 func (s *_TypeSet) underIs(f func(Type) bool) bool {
-	if len(s.terms) == 0 {
-		return false
-	}
 	for _, t := range s.terms {
-		// see corresponding comment in TypeSet.is
 		u := t.typ
 		if u == nil {
-			u = theTop
+			return false // u == nil => s.terms is 𝓤 => no specific type terms
 		}
 		// t == under(t) for ~t terms
 		if !t.tilde {
@@ -150,7 +148,7 @@ func (s *_TypeSet) underIs(f func(Type) bool) bool {
 			return false
 		}
 	}
-	return true
+	return len(s.terms) > 0
 }
 
 // topTypeSet may be used as type set for the empty interface.
