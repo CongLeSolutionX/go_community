@@ -384,6 +384,10 @@ func (check *Checker) collectObjects() {
 				if d.spec.TypeParams.NumFields() != 0 && !check.allowVersion(pkg, 1, 18) {
 					check.softErrorf(d.spec.TypeParams.List[0], _Todo, "type parameters require go1.18 or later")
 				}
+				if d.spec.Assign.IsValid() && d.spec.TypeParams != nil {
+					// The parser will ensure this but we may still get an invalid AST.
+					check.error(d.spec, _Todo, "alias cannot have type parameters")
+				}
 				obj := NewTypeName(d.spec.Name.Pos(), pkg, d.spec.Name.Name, nil)
 				check.declarePkgObj(d.spec.Name, obj, &declInfo{file: fileScope, tdecl: d.spec})
 			case funcDecl:

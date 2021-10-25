@@ -612,16 +612,9 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *Named) {
 		}
 	})
 
-	alias := tdecl.Assign.IsValid()
-	if alias && tdecl.TypeParams.NumFields() != 0 {
-		// The parser will ensure this but we may still get an invalid AST.
-		// Complain and continue as regular type definition.
-		check.error(atPos(tdecl.Assign), 0, "generic type cannot be alias")
-		alias = false
-	}
-
 	// alias declaration
-	if alias {
+	// (if there are type parameters the resolver complained)
+	if tdecl.Assign.IsValid() && tdecl.TypeParams == nil {
 		if !check.allowVersion(check.pkg, 1, 9) {
 			check.errorf(atPos(tdecl.Assign), _BadDecl, "type aliases requires go1.9 or later")
 		}
