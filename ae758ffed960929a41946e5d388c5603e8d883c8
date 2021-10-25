@@ -69,6 +69,24 @@
       "parentUuid": "bf7a65de_79758c26",
       "revId": "ae758ffed960929a41946e5d388c5603e8d883c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b79ddc7_7e7851d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-10-25T09:32:24Z",
+      "side": 1,
+      "message": "Sorry, I misread the patchset. Please ignore. Thank you.",
+      "parentUuid": "ae4dd4f9_02e595e7",
+      "revId": "ae758ffed960929a41946e5d388c5603e8d883c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
