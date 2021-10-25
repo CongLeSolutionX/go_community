@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61fa4559_1d3b203c",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2021-10-25T10:47:33Z",
+      "side": 1,
+      "message": "it seems loongarch has floating-point instructions, should we add softfloat mode?",
+      "revId": "801e3efe6e1a200f99526f891777ebc40b998ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
