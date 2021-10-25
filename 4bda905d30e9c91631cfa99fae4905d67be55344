@@ -318,6 +318,30 @@
       },
       "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "237a6e1b_05f82be2",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-25T15:38:03Z",
+      "side": 1,
+      "message": "If I understand correctly I don\u0027t think we need to  change the SP alignment  right now. We\u0027re open to  change it later, but strictly speaking it is not related to register ABI.",
+      "parentUuid": "1e7631dc_f085cb1a",
+      "range": {
+        "startLine": 770,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 81
+      },
+      "revId": "4bda905d30e9c91631cfa99fae4905d67be55344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
