@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cab3e10_a1e3dd04",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2019,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-25T20:25:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6a650b_23e01764",
+      "revId": "015d07dd8b7e446e9ea8f1e060e95658f1b6a78e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c81067f_da940e58",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75c585fe_726d2e4b",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-25T20:25:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c81067f_da940e58",
+      "revId": "015d07dd8b7e446e9ea8f1e060e95658f1b6a78e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d719913e_8469eaa4",
@@ -85,6 +121,24 @@
       "writtenOn": "2021-10-25T19:43:04Z",
       "side": 1,
       "message": "Maybe mention what kind of symbol this function is expecting (the string symbol that represents the method name).",
+      "revId": "015d07dd8b7e446e9ea8f1e060e95658f1b6a78e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15df5a14_c177ce89",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-10-25T20:25:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d719913e_8469eaa4",
       "revId": "015d07dd8b7e446e9ea8f1e060e95658f1b6a78e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
