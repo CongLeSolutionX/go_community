@@ -16,6 +16,24 @@
       "message": "Please include a test.\n\nDo you have such a JPEG to add as testdata? If not, can you make one?\n\nIt\u0027d be nice to see that there\u0027s a JPEG we can load in our browser but wasn\u0027t parsed by image/jpeg before, but is after this change.\n",
       "revId": "641a8d09cdb058b64e7bf59ddbe35e9ee71df91c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a02fb901_936b8ffe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54524
+      },
+      "writtenOn": "2021-10-26T17:55:11Z",
+      "side": 1,
+      "message": "One of our users attached a sample to this issue:\nhttps://github.com/photoprism/photoprism/issues/1673\n\nDirect link: https://user-images.githubusercontent.com/493145/138864117-d5831c26-f3d6-490c-ab4a-4ba3b95ce56f.jpg\n\nOther users reported similar problems earlier this month. Could be related to a recent iOS update. Could also depend on how JPEGs are exported from an iPhone.\n\nThank you! 🙏",
+      "parentUuid": "5f0a4ad1_26dcc743",
+      "revId": "641a8d09cdb058b64e7bf59ddbe35e9ee71df91c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
