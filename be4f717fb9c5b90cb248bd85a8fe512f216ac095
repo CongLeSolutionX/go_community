@@ -22,6 +22,30 @@
       },
       "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f881f30_c6a39fd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-26T13:02:01Z",
+      "side": 1,
+      "message": "If I don\u0027t do this change, there is a link error as following:\ngo build -a -x -ldflags\u003d\u0027-tmpdir\u003d./tmp\u0027 -buildmode\u003dc-shared -o awesome.so awesome.go \u0026\u003e log\n...\n# command-line-arguments\n/go/pkg/tool/linux_mips64le/link: running gcc failed: exit status 1\ncollect2: fatal error: ld terminated with signal 10 [Bus error], core dumped\ncompilation terminated.\n/usr/bin/ld: tmp/go.o: relocation R_MIPS_HI16 against `a local symbol\u0027 can not be used when making a shared object; recompile with -fPIC\n/usr/bin/ld: BFD (GNU Binutils for Debian) 2.31.1 assertion fail ../../bfd/elfxx-mips.c:6550\n/usr/bin/ld: BFD (GNU Binutils for Debian) 2.31.1 assertion fail ../../bfd/elfxx-mips.c:6550\n\nAnd I found the symbol that has R_MIPS_HI16 relocation type.\n    ab70c:       3c170000        lui     s7,0x0\n                        ab70c: R_MIPS_HI16      reflect..stmp_162  \n                        ab70c: R_MIPS_NONE      *ABS*\n                        ab70c: R_MIPS_NONE      *ABS*\n   ab710:       02fcb82d        daddu   s7,s7,gp\n   ab714:       92e10000        lbu     at,0(s7)\n                        ab714: R_MIPS_LO16      reflect..stmp_162\n                        ab714: R_MIPS_NONE      *ABS*\n                        ab714: R_MIPS_NONE      *ABS*\n                        \nI added this change and built go tool chain again, the right relocation type is:\n   ae64c:       df970000        ld      s7,0(gp)\n                        ae64c: R_MIPS_GOT_PAGE  reflect..stmp_162\n                        ae64c: R_MIPS_NONE      *ABS*\n                        ae64c: R_MIPS_NONE      *ABS*\n   ae650:       62e10000        daddi   at,s7,0\n                        ae650: R_MIPS_GOT_OFST  reflect..stmp_162\n                        ae650: R_MIPS_NONE      *ABS*\n                        ae650: R_MIPS_NONE      *ABS*\n   ae654:       90210000        lbu     at,0(at)\n   \n \nThere may be a problem with my expression, I will fix it.",
+      "parentUuid": "12deb17f_e679ebcb",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
