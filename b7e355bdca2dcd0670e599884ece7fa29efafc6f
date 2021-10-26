@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "987ee6d0_9efa55c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-26T19:30:07Z",
+      "side": 1,
+      "message": "Can just be \"Fixes #48129\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7036806a_17046670",
@@ -14,6 +37,156 @@
       "writtenOn": "2021-10-25T21:14:50Z",
       "side": 1,
       "message": "Thank you for your reviews and helping me get some of my first functional changes into go 😊",
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6df1b153_f5a50644",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-26T19:30:07Z",
+      "side": 1,
+      "message": "Of course! Thanks so much for working on it, and for being open to feedback.",
+      "parentUuid": "7036806a_17046670",
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e2f2e5a_98dc66f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-26T19:30:07Z",
+      "side": 1,
+      "message": "A few last nits, but otherwise looks good! Thanks for your patience. Should be good to +2 after these are resolved!",
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d787466_6fdd6b5e",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-26T19:30:07Z",
+      "side": 1,
+      "message": "Unsuccessful",
+      "range": {
+        "startLine": 94,
+        "startChar": 7,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af48404_6af835c6",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-26T19:30:07Z",
+      "side": 1,
+      "message": "just \"Successful. Move onto the next byte in v.\" seems fine.\n(plus \"simplified\" is spelled wrong 😊)",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 27
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "386bd5f8_569e2f33",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-26T19:30:07Z",
+      "side": 1,
+      "message": "Perhaps instead:\n\n\t\tfor _, pc :\u003d range printableChars {\n\t\t\tv[i] \u003d pc\n\t\t\tif try(v) {\n\t\t\t\t// Successful. Move on to the next byte in v.\n\t\t\t\tbreak\n\t\t\t}\n\t\t\tv[i] \u003d b\n\t\t}\n\nI find this a bit easier to read, and removes a continue. Either way is fine though.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 3
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "483b433f_a9ba089a",
+        "filename": "src/internal/fuzz/minimize_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-26T19:30:07Z",
+      "side": 1,
+      "message": "Can you do the chars here instead? e.g. []byte{\"00\"}",
+      "range": {
+        "startLine": 60,
+        "startChar": 34,
+        "endLine": 60,
+        "endChar": 40
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ed5976f_e9c408fb",
+        "filename": "src/internal/fuzz/minimize_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-10-26T19:30:07Z",
+      "side": 1,
+      "message": "This isn\u0027t really needed anymore since you aren\u0027t doing anything special for punctuation",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 4
+      },
       "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
