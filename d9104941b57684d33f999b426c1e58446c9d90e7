@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23663095_74bb4eae",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-10-26T01:17:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dcea9d0_c72e5071",
+      "range": {
+        "startLine": 82,
+        "startChar": 61,
+        "endLine": 82,
+        "endChar": 63
+      },
+      "revId": "d9104941b57684d33f999b426c1e58446c9d90e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6109c79f_125db936",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-10-25T20:47:08Z",
       "side": 1,
       "message": "Let\u0027s just get rid of this line — we\u0027ll skip each of the sections individually anyway, and the cost of evaluating ignored script commands is negligible.",
+      "revId": "d9104941b57684d33f999b426c1e58446c9d90e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "314650e9_c7a57c06",
+        "filename": "src/cmd/go/testdata/script/install_msan_and_race_require_cgo.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-10-26T01:17:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6109c79f_125db936",
       "revId": "d9104941b57684d33f999b426c1e58446c9d90e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
