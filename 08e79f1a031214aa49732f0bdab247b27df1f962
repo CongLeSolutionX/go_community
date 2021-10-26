@@ -129,6 +129,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7653bc2d_c9c32dc4",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-10-26T07:36:08Z",
+      "side": 1,
+      "message": "The above reply is incorrect. Not adding a red zone at the start of the allocation may cause -asan to fail to detect underflows. For the following case, memory access errors can only reportes by -asan option randomly.\n\npackage main\n\n/*\n#include \u003cstdlib.h\u003e\n#include \u003cstdio.h\u003e\n\nvoid test(int *a) {\n        int *q \u003d a-1;\n        // underflow\n        *q \u003d 10;        // BOOM.\n        // We shouldn\u0027t get here; asan should stop us first.\n        printf(\"a[-1]\u003d%d\\n\", *q);\n}\n*/\nimport \"C\"\n\nfunc main() {\n        cIntSlice :\u003d []C.int{200, 201, 202, 203}\n        C.test(\u0026cIntSlice[0])\n}\n\nBecause I am not familiar with the mechanism of finalizer, I do not know if it is doable to close this check when -asan is enabled. \n\nDo you have any good suggestions? Thank you.",
+      "parentUuid": "3167edfa_01b1f305",
+      "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a69e6e8_2cb4f481",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 13
