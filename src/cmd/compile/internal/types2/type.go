@@ -21,8 +21,13 @@ type Type interface {
 // under must only be called when a type is known
 // to be fully set up.
 func under(t Type) Type {
-	if n := asNamed(t); n != nil {
-		return n.under()
+	switch t := t.(type) {
+	case *Named:
+		return t.under()
+	case *TypeParam:
+		if underIsIface {
+			return t.iface()
+		}
 	}
 	return t
 }
@@ -115,6 +120,10 @@ func asNamed(t Type) *Named {
 
 // If t is a type parameter, asTypeParam returns that type, otherwise it returns nil.
 func asTypeParam(t Type) *TypeParam {
+	if underIsIface {
+		u, _ := t.(*TypeParam)
+		return u
+	}
 	u, _ := under(t).(*TypeParam)
 	return u
 }
