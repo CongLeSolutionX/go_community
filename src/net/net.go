@@ -75,6 +75,10 @@ On Plan 9, the resolver always accesses /net/cs and /net/dns.
 
 On Windows, the resolver always uses C library functions, such as GetAddrInfo and DnsQuery.
 
+To aid debugging the source of operating system firewall dialogs
+during tests, the net package will panic upon a Listen against the
+unspecified address when GODEBUG=netpaniclistenunspecified=1 is
+specified in the environment.
 */
 package net
 
