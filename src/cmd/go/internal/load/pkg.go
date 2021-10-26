@@ -499,7 +499,7 @@ type importError struct {
 
 func ImportErrorf(path, format string, args ...interface{}) ImportPathError {
 	err := &importError{importPath: path, err: fmt.Errorf(format, args...)}
-	if errStr := err.Error(); !strings.Contains(errStr, path) {
+	if errStr := err.Error(); !strings.Contains(errStr, fmt.Sprintf("%q", path)) {
 		panic(fmt.Sprintf("path %q not in error %q", path, errStr))
 	}
 	return err
