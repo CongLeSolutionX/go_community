@@ -154,14 +154,18 @@ func splice(out int, in int, max int, flags int) (int, error) {
 	return int(n), err
 }
 
-type splicePipe struct {
+type splicePipeNature struct {
 	rfd  int
 	wfd  int
 	data int
+}
+
+type splicePipe struct {
+	splicePipeNature
 
 	// We want to use a finalizer, so ensure that the size is
 	// large enough to not use the tiny allocator.
-	_ [24 - 3*unsafe.Sizeof(int(0))]byte
+	_ [24 - unsafe.Sizeof(splicePipeNature{})%24]byte
 }
 
 // splicePipePool caches pipes to avoid high-frequency construction and destruction of pipe buffers.
@@ -222,7 +226,7 @@ func newPipe() (sp *splicePipe) {
 		return nil
 	}
 
-	sp = &splicePipe{rfd: fds[0], wfd: fds[1]}
+	sp = &splicePipe{splicePipeNature: splicePipeNature{rfd: fds[0], wfd: fds[1]}}
 
 	if p == nil {
 		p = new(bool)
