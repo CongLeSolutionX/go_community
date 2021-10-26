@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34cd1e24_98b3bf58",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-26T15:49:39Z",
+      "side": 1,
+      "message": "This check seems too strict: it requires that path be quoted, but in most errors the path is not enclosed in any kind of quotation marks.\n\nBut this doesn\u0027t seem like an appropriate use of ImportErrorf in the first place: the ImportPathError interface attaches the error to the imported package, but a syntactically-invalid import path is clearly an error at the importer / caller side. (The fault lies with whoever requested the package, not with the requested package itself.)\n\nSo I think we should fix this on the caller side,¹ by avoiding the call to ImportErrorf and using a different error type instead.\n\n¹https://github.com/golang/go/blob/49fda9e4f5cd3a05fd5fa0b3a2047a9d24873bd6/src/cmd/go/internal/load/pkg.go#L1851",
+      "range": {
+        "startLine": 502,
+        "startChar": 53,
+        "endLine": 502,
+        "endChar": 76
+      },
+      "revId": "f45748144bf744b9fb160d056ac82746176bf2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
