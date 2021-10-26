@@ -71,6 +71,24 @@
       "parentUuid": "e0ec8c9a_d45825b0",
       "revId": "87a41fbaf592db56cdec559b34109858618778fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e247a8c_658598c0",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-26T19:59:57Z",
+      "side": 1,
+      "message": "I see no reason that this should be related to the cache size.\n\nBryan\u0027s points are good but I\u0027ll move forward with this change pending other work.",
+      "parentUuid": "899e0457_1de01f86",
+      "revId": "87a41fbaf592db56cdec559b34109858618778fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
