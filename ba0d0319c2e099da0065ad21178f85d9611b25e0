@@ -387,6 +387,30 @@
       },
       "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63c27dc7_b47a27f3",
+        "filename": "src/syscall/js/js_js.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 53843
+      },
+      "writtenOn": "2021-10-26T01:46:21Z",
+      "side": 1,
+      "message": "this is not for the wasmimport directive this is for the linkname directive.  I have to keep an assembly file here even after the CallImport assembly was removed, because otherwise we hit an error for missing body for the linked function.\n\nPlease see this issue: https://github.com/golang/go/issues/15006",
+      "parentUuid": "b5f1b8ba_0096fd32",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
