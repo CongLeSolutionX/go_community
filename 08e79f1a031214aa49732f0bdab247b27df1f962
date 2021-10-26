@@ -147,6 +147,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5cea1ce8_efe6dfb2",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2021-10-26T22:55:54Z",
+      "side": 1,
+      "message": "I would wonder if you could update the \"pointer not at beginning of allocated block\" check in SetFinalizer to allow it to proceed when asan is enabled if \u0027uintptr(e.data)\u0027 matches \u0027base\u0027 after adjusting for the size of the leading redzone? If so, one approach might be to compute the size of the leading redzone from \u0027ot.elem.size\u0027. Or maybe there is another way. There are at least some hints that the rest of the finalizer mechanisms might be OK pointing at an inner byte of the allocated object.\n\nhttps://github.com/golang/go/blob/80be4a4f90836a33ab5b3d09c6f529de8ee628ea/src/runtime/mfinal.go#L379-L384\n\nThat said, this is just a quick comment and a good chance it might not be correct. \n\nAs such, you might want some advice from Ian or others before trying that.",
+      "parentUuid": "7653bc2d_c9c32dc4",
+      "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a69e6e8_2cb4f481",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 13
