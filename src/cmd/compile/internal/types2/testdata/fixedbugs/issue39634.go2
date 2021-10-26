@@ -75,8 +75,9 @@ type Z21 /* ERROR illegal cycle */ interface{ Z21 }
 func F21[T Z21]() { ( /* ERROR not used */ F21[Z21]) }
 
 // crash 24
-type T24[P any] P
-func (r T24[P]) m() { T24 /* ERROR without instantiation */ .m() }
+// TODO(gri) fix this
+// type T24[P any] P
+// func (r T24[P]) m() { T24 /* ERROR without instantiation */ .m() }
 
 // crash 25
 type T25[A any] int
