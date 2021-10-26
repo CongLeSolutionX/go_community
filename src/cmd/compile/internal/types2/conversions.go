@@ -45,7 +45,11 @@ func (check *Checker) conversion(x *operand, T Type) {
 		// If T's type set is empty, or if it doesn't
 		// have specific types, constant x cannot be
 		// converted.
-		ok = under(T).(*TypeParam).underIs(func(t Type) bool {
+		u := T
+		if !underIsIface {
+			u = under(T)
+		}
+		ok = u.(*TypeParam).underIs(func(t Type) bool {
 			// t is nil if there are no specific type terms
 			return t != nil && constConvertibleTo(t, nil)
 		})
@@ -81,7 +85,7 @@ func (check *Checker) conversion(x *operand, T Type) {
 		//   (See also the TODO below.)
 		if x.typ == Typ[UntypedNil] {
 			// ok
-		} else if IsInterface(T) || constArg && !isConstType(T) {
+		} else if IsInterface(T) && !isTypeParam(T) || constArg && !isConstType(T) {
 			final = Default(x.typ)
 		} else if isInteger(x.typ) && isString(T) {
 			final = x.typ
@@ -113,8 +117,14 @@ func (x *operand) convertibleTo(check *Checker, T Type, cause *string) bool {
 	}
 
 	// determine type parameter operands with specific type terms
-	Vp, _ := under(x.typ).(*TypeParam)
-	Tp, _ := under(T).(*TypeParam)
+	var Vp, Tp *TypeParam
+	if underIsIface {
+		Vp, _ = x.typ.(*TypeParam)
+		Tp, _ = T.(*TypeParam)
+	} else {
+		Vp, _ = under(x.typ).(*TypeParam)
+		Tp, _ = under(T).(*TypeParam)
+	}
 	if Vp != nil && !Vp.hasTerms() {
 		Vp = nil
 	}
