@@ -99,7 +99,84 @@ func (check *Checker) indexExpr(x *operand, e *syntax.IndexExpr) (isFuncInst boo
 		x.expr = e
 		return false
 
+	case *Interface:
+		if underIsIface && isTypeParam(x.typ) {
+			// TODO(gri) report detailed failure cause for better error messages
+			var tkey, telem Type // tkey != nil if we have maps
+			if typ.typeSet().underIs(func(u Type) bool {
+				var key, elem Type
+				alen := int64(-1) // valid if >= 0
+				switch t := u.(type) {
+				case *Basic:
+					if !isString(t) {
+						return false
+					}
+					elem = universeByte
+				case *Array:
+					elem = t.elem
+					alen = t.len
+				case *Pointer:
+					a, _ := under(t.base).(*Array)
+					if a == nil {
+						return false
+					}
+					elem = a.elem
+					alen = a.len
+				case *Slice:
+					elem = t.elem
+				case *Map:
+					key = t.key
+					elem = t.elem
+				default:
+					return false
+				}
+				assert(elem != nil)
+				if telem == nil {
+					// first type
+					tkey, telem = key, elem
+					length = alen
+				} else {
+					// all map keys must be identical (incl. all nil)
+					if !Identical(key, tkey) {
+						return false
+					}
+					// all element types must be identical
+					if !Identical(elem, telem) {
+						return false
+					}
+					tkey, telem = key, elem
+					// track the minimal length for arrays
+					if alen >= 0 && alen < length {
+						length = alen
+					}
+				}
+				return true
+			}) {
+				// For maps, the index expression must be assignable to the map key type.
+				if tkey != nil {
+					index := check.singleIndex(e)
+					if index == nil {
+						x.mode = invalid
+						return false
+					}
+					var key operand
+					check.expr(&key, index)
+					check.assignment(&key, tkey, "map index")
+					// ok to continue even if indexing failed - map element type is known
+					x.mode = mapindex
+					x.typ = telem
+					x.expr = e
+					return false
+				}
+
+				// no maps
+				valid = true
+				x.mode = variable
+				x.typ = telem
+			}
+		}
 	case *TypeParam:
+		assert(!underIsIface)
 		// TODO(gri) report detailed failure cause for better error messages
 		var tkey, telem Type // tkey != nil if we have maps
 		if typ.underIs(func(u Type) bool {
