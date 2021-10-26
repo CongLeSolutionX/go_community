@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef238ffe_e54fba92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T19:48:51Z",
+      "side": 1,
+      "message": "Nit: The standard trailer is \"Co-authored-by\". See e.g. https://docs.github.com/en/github/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors",
+      "revId": "99d8868a54f2f6fa33926975ba9c4f77385e3a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9d6710d5_3ec7c67a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
