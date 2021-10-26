@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdec41e5_4f6b404c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T20:12:53Z",
+      "side": 1,
+      "message": "Might also add a \u0027const go118UseJumpTables \u003d true\u0027 early exit to the jumptable pass, since this is happening fairly late in the cycle.",
+      "revId": "25ec16d46d9a1c9fb243114d6196ecc680e7d91b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ff7a48d_0fe67966",
