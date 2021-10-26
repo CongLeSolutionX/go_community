@@ -6,6 +6,8 @@ package types2
 
 import "sync/atomic"
 
+const tparamIsIface = true
+
 // Note: This is a uint32 rather than a uint64 because the
 // respective 64 bit atomic instructions are not available
 // on all platforms.
@@ -69,8 +71,14 @@ func (t *TypeParam) SetConstraint(bound Type) {
 	t.bound = bound
 }
 
-func (t *TypeParam) Underlying() Type { return t }
-func (t *TypeParam) String() string   { return TypeString(t, nil) }
+func (t *TypeParam) Underlying() Type {
+	if tparamIsIface {
+		return t.iface()
+	}
+	return t
+}
+
+func (t *TypeParam) String() string { return TypeString(t, nil) }
 
 // ----------------------------------------------------------------------------
 // Implementation
@@ -88,8 +96,13 @@ func (t *TypeParam) iface() *Interface {
 			return &emptyInterface
 		}
 	case *Interface:
+		if tparamIsIface && isTypeParam(bound) {
+			// error is reported in Checker.collectTypeParams
+			return &emptyInterface
+		}
 		ityp = u
 	case *TypeParam:
+		assert(!tparamIsIface)
 		// error is reported in Checker.collectTypeParams
 		return &emptyInterface
 	}

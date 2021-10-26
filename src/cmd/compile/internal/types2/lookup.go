@@ -6,6 +6,8 @@
 
 package types2
 
+import "fmt"
+
 // Internal use of LookupFieldOrMethod: If the obj result is a method
 // associated with a concrete (non-interface) type, the method's signature
 // may not be fully set up. Call Checker.objDecl(obj, nil) before accessing
@@ -137,8 +139,12 @@ func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 				// continue with underlying type, but only if it's not a type parameter
 				// TODO(gri) is this what we want to do for type parameters? (spec question)
 				typ = named.under()
-				if asTypeParam(typ) != nil {
-					continue
+				if !tparamIsIface {
+					if asTypeParam(typ) != nil {
+						continue
+					}
+				} else if isTypeParam(typ) {
+					panic(fmt.Sprintf("under(%s) is type parameter %s", named, typ))
 				}
 			}
 
