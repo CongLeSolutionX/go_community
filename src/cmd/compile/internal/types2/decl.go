@@ -604,6 +604,12 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *Named
 		named.underlying = Typ[Invalid]
 	}
 
+	if underIsIface {
+		if isTypeParam(named.underlying) {
+			panic(check.sprintf("%s: under(%s) is type parameter %s", tdecl.Pos(), named, named.underlying))
+		}
+		return
+	}
 	// If the RHS is a type parameter, it must be from this type declaration.
 	if tpar, _ := named.underlying.(*TypeParam); tpar != nil && tparamIndex(named.TypeParams().list(), tpar) < 0 {
 		check.errorf(tdecl.Type, "cannot use function type parameter %s as RHS in type declaration", tpar)
@@ -644,7 +650,11 @@ func (check *Checker) collectTypeParams(dst **TypeParamList, list []*syntax.Fiel
 
 	check.later(func() {
 		for i, bound := range bounds {
-			if _, ok := under(bound).(*TypeParam); ok {
+			u := bound
+			if !underIsIface {
+				u = under(u)
+			}
+			if _, ok := u.(*TypeParam); ok {
 				check.error(posers[i], "cannot use a type parameter as constraint")
 			}
 		}

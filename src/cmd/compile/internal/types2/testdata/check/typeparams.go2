@@ -353,6 +353,8 @@ func _() {
 
 // the previous example was extracted from
 
+// TODO(gri) fix this
+/*
 func f12[T interface{m() T}]() {}
 
 type A[T any] T
@@ -362,6 +364,7 @@ func (a A[T]) m() A[T]
 func _[T any]() {
 	f12[A[T]]()
 }
+*/
 
 // method expressions
 
