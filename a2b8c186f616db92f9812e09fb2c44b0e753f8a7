@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd4b9818_4a768bc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-26T15:15:30Z",
+      "side": 1,
+      "message": "Yes, thanks Dmitri for the fix!\n",
+      "revId": "a2b8c186f616db92f9812e09fb2c44b0e753f8a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
