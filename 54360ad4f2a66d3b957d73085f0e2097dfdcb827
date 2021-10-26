@@ -214,6 +214,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b320ef7f_f2c5a237",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T20:11:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b036a403_b9bd8cfe",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67af0c31_77f4466b",
@@ -245,6 +263,24 @@
       "side": 1,
       "message": "Good point, I don\u0027t think that gets handled correctly at the moment. walk generates uint64(x-c) \u003c\u003d d for those kinds of cases.\n\n(It\u0027s *correct*, but the jump table isn\u0027t generated in that case.)\n\nI\u0027ll see if I can handle those in a followup CL. Definitely the kind of case this optimization should handle.",
       "parentUuid": "67af0c31_77f4466b",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0879da6_105143af",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T20:11:32Z",
+      "side": 1,
+      "message": "Yep, although only if d - c is small, otherwise we replace a single comparison with a large jump table. (This is, incidentally, part of what I meant when I commented that the heuristic to use a jump table should depend not just on the density of the cases and the width of the jump table but also the depth, i.e. the max number of comparisons required to implement without the jump table.)\n\nAnyway, leaving for a follow-up seems fine.",
+      "parentUuid": "d23e27ee_cc6bc449",
       "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -298,6 +334,24 @@
       "side": 1,
       "message": "I worry that the \"not any of the cases\" branch would be very predictable (hence the unlikely annotation I used on it) and thus not better than a conditional move.",
       "parentUuid": "faf5817d_0f678289",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0466e03e_2991b2c8",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T20:11:32Z",
+      "side": 1,
+      "message": "The branch predictor is a global resource; even perfectly predictable branches have costs, even though those costs are non-local. Unless it causes a local performance regression, I\u0027d strongly favor using a CMOV.\n\nCertainly OK either way as a follow-up, though, if you\u0027d like to get this in.",
+      "parentUuid": "897eb2ea_45331afa",
       "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -723,6 +777,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8cb68c45_f1e46464",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T20:11:32Z",
+      "side": 1,
+      "message": "Add a short comment to that effect? And maybe a TODO?",
+      "parentUuid": "73edda30_e35ecd36",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87ae17cb_a55de250",
         "filename": "src/cmd/compile/internal/ssa/jumptable.go",
         "patchSetId": 2
@@ -996,6 +1068,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "22772ce3_10e02df0",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a1d4425_5ab09ec4",
+        "filename": "src/cmd/compile/internal/ssa/jumptable.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T20:11:32Z",
+      "side": 1,
+      "message": "(In particular, the thing I\u0027d be most excited to see in a follow-up is probably masking off some bits of the type hash and using a jump table for small type switches.)",
+      "parentUuid": "8404869b_3a20e690",
       "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1297,6 +1387,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01814c6_f49b3c3b",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7021,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T20:11:32Z",
+      "side": 1,
+      "message": "Yeah, I was thinking of gcc\u0027s approach. I was mainly curious how you\u0027d decided; I agree that there\u0027s no obvious correct approach.",
+      "parentUuid": "81fd646d_6eac5e7c",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d62f7f4_89054aa8",
@@ -1363,6 +1471,24 @@
       "side": 1,
       "message": "The thing I worry about is that jump tables for other archs might want different layout, e.g. deltas from the current PC, or start of function, instead of absolute addresses.\nIn other words, if the instructions to use the table are built in amd64/ssa.go, then the code to build the table should probably also be arch-specific.\n\nBut I\u0027m not sure if that\u0027s worrying about a future that isn\u0027t a real problem.",
       "parentUuid": "2be77aef_a3bd4c72",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65a1dea7_30f3725c",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2235,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-26T20:11:32Z",
+      "side": 1,
+      "message": "I\u0027d rather start naively idealistic and then have to refactor as we encounter issues with other architectures than pessimize from the start. But that\u0027s probably as much a personality characteristic as a technical judgement. :)",
+      "parentUuid": "d2335375_0800e4c7",
       "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
