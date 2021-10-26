@@ -78,7 +78,7 @@ func parseUnion(check *Checker, tlist []syntax.Expr) Type {
 			u := under(t.typ)
 			f, _ := u.(*Interface)
 			if t.tilde {
-				if f != nil {
+				if f != nil && !isTypeParam(t.typ) {
 					check.errorf(tlist[i], "invalid use of ~ (%s is an interface)", t.typ)
 					continue // don't report another error for t
 				}
