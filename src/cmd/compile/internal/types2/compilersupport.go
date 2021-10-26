@@ -21,6 +21,10 @@ func AsSignature(t Type) *Signature {
 
 // If t is a type parameter, AsTypeParam returns that type, otherwise it returns nil.
 func AsTypeParam(t Type) *TypeParam {
+	if tparamIsIface {
+		u, _ := t.(*TypeParam)
+		return u
+	}
 	u, _ := t.Underlying().(*TypeParam)
 	return u
 }

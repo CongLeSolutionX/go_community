@@ -144,22 +144,24 @@ func (check *Checker) typ(e syntax.Expr) Type {
 func (check *Checker) varType(e syntax.Expr) Type {
 	typ := check.definedType(e, nil)
 
-	// We don't want to call under() (via toInterface) or complete interfaces while we
-	// are in the middle of type-checking parameter declarations that might belong to
-	// interface methods. Delay this check to the end of type-checking.
-	check.later(func() {
-		if t, _ := under(typ).(*Interface); t != nil {
-			pos := syntax.StartPos(e)
-			tset := computeInterfaceTypeSet(check, pos, t) // TODO(gri) is this the correct position?
-			if !tset.IsMethodSet() {
-				if tset.comparable {
-					check.softErrorf(pos, "interface is (or embeds) comparable")
-				} else {
-					check.softErrorf(pos, "interface contains type constraints")
+	if !tparamIsIface || !isTypeParam(typ) {
+		// We don't want to call under() (via toInterface) or complete interfaces while we
+		// are in the middle of type-checking parameter declarations that might belong to
+		// interface methods. Delay this check to the end of type-checking.
+		check.later(func() {
+			if t, _ := under(typ).(*Interface); t != nil {
+				pos := syntax.StartPos(e)
+				tset := computeInterfaceTypeSet(check, pos, t) // TODO(gri) is this the correct position?
+				if !tset.IsMethodSet() {
+					if tset.comparable {
+						check.softErrorf(pos, "interface is (or embeds) comparable")
+					} else {
+						check.softErrorf(pos, "interface contains type constraints")
+					}
 				}
 			}
-		}
-	})
+		})
+	}
 
 	return typ
 }
