@@ -71,6 +71,24 @@
       "parentUuid": "4909f84e_0c730db4",
       "revId": "57b7d9553fca95a22948ad2b3bb57c32a2b50db0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3b8e368_d51cdba7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-26T23:37:41Z",
+      "side": 1,
+      "message": "All CLs require two reviewers (per https://golang.org/doc/contribute#votes) but you shouldn\u0027t need to do anything; there are people who routinely review CLs with +2 to add a Trust+1.",
+      "parentUuid": "b58a577c_e0ee868a",
+      "revId": "57b7d9553fca95a22948ad2b3bb57c32a2b50db0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
