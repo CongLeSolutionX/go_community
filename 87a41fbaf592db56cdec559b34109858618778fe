@@ -53,6 +53,24 @@
       "message": "I wonder if it would be better to align this to 64 (L1 cache line size).",
       "revId": "87a41fbaf592db56cdec559b34109858618778fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899e0457_1de01f86",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-26T19:34:17Z",
+      "side": 1,
+      "message": "Going in the other direction, I wonder if the subtle interaction with the tiny-allocator implies that we should use something other than finalizers to clear the pipe pool.\n\nAt least in theory, finalizers are run in proportion to the program\u0027s allocation rate, whereas we ought to close unused pipes in proportion to the program\u0027s rate of FD use. A high rate of allocation does not necessarily imply a high rate of FD use, and a high rate of FD use may correspond to only a modest rate of allocation.\n(Suppose that the program has a large, mostly-static heap but allocates FDs frequently for, say, rotating logs.)\n\nI wonder if it would be preferable to, say, use an explicit LIFO cache with timers (instead of finalizers) to evict unused descriptors.\n\nBarring that, perhaps we should change the test to check that creating O(N) descriptors leaks only O(1) of them, instead of the current test that requires that we leak exactly 0 descriptors. (Given the defined finalizer semantics, no matter what size we use for padding here there will always be some risk that the runtime will not actually run the finalizers promptly or even at all.)",
+      "parentUuid": "e0ec8c9a_d45825b0",
+      "revId": "87a41fbaf592db56cdec559b34109858618778fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
