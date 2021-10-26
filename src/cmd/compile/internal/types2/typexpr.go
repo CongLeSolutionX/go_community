@@ -144,9 +144,14 @@ func (check *Checker) typ(e syntax.Expr) Type {
 func (check *Checker) varType(e syntax.Expr) Type {
 	typ := check.definedType(e, nil)
 
-	// We don't want to call under() (via toInterface) or complete interfaces while we
-	// are in the middle of type-checking parameter declarations that might belong to
-	// interface methods. Delay this check to the end of type-checking.
+	// If we have a type parameter there's nothing to do
+	if isTypeParam(typ) {
+		return typ
+	}
+
+	// We don't want to call under() or complete interfaces while we are in
+	// the middle of type-checking parameter declarations that might belong
+	// to interface methods. Delay this check to the end of type-checking.
 	check.later(func() {
 		if t, _ := under(typ).(*Interface); t != nil {
 			pos := syntax.StartPos(e)
@@ -356,7 +361,7 @@ func (check *Checker) typInternal(e0 syntax.Expr, def *Named) (T Type) {
 		check.later(func() {
 			if !Comparable(typ.key) {
 				var why string
-				if asTypeParam(typ.key) != nil {
+				if isTypeParam(typ.key) {
 					why = " (missing comparable constraint)"
 				}
 				check.errorf(e.Key, "invalid map key type %s%s", typ.key, why)
