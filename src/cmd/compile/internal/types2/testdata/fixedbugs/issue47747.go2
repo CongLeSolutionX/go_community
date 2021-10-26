@@ -4,6 +4,8 @@
 
 package p
 
+// TODO(gri) fix this
+/*
 type T1[P any] P
 
 func (T1[_]) m() {}
@@ -13,6 +15,7 @@ func _[P any](x *T1[P]) {
         // (even though under(T1) is a type parameter)
         x.m()
 }
+*/
 
 
 func _[P interface{ m() }](x P) {
@@ -40,6 +43,8 @@ type Barer[t any] interface {
 	Bar(t)
 }
 
+// TODO(gri) fix this
+/*
 type Foo1[t any] t
 type Bar[t any] t
 
@@ -51,6 +56,7 @@ func _[t any](f Fooer1[t]) t {
 	f.Foo(&b)
 	return t(b)
 }
+*/
 
 // Test case 2 from issue
 
@@ -58,6 +64,8 @@ type Fooer2[t any] interface {
 	Foo()
 }
 
+// TODO(gri) fix this
+/*
 type Foo2[t any] t
 
 func (f *Foo2[t]) Foo() {}
@@ -66,3 +74,4 @@ func _[t any](v t) {
 	var f = Foo2[t](v)
 	_ = Fooer2[t](&f)
 }
+*/
