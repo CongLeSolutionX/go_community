@@ -8,6 +8,7 @@ package net
 
 import (
 	"context"
+	"internal/godebug"
 	"io"
 	"os"
 	"syscall"
@@ -165,9 +166,23 @@ func (ln *TCPListener) file() (*os.File, error) {
 }
 
 func (sl *sysListener) listenTCP(ctx context.Context, laddr *TCPAddr) (*TCPListener, error) {
+	panicOnUnspecListen(laddr.IP)
 	fd, err := internetSocket(ctx, sl.network, laddr, nil, syscall.SOCK_STREAM, 0, "listen", sl.ListenConfig.Control)
 	if err != nil {
 		return nil, err
 	}
 	return &TCPListener{fd: fd, lc: sl.ListenConfig}, nil
+}
+
+var shouldPanicOnUnspecListen = godebug.Get("netpaniclistenunspecified") == "1"
+
+// ppanicOnUnspecListen panics if ip is an unspecified address and
+// GODEBUG=netpaniclistenunspecified=1 is set.
+//
+// This exists to aid in finding tests that listen on ":N" and cause
+// OS firewall dialogs to pop up.
+func panicOnUnspecListen(ip IP) {
+	if shouldPanicOnUnspecListen && ip.IsUnspecified() {
+		panic("unspecified listen address with GODEBUG=netpaniclistenunspecified=1")
+	}
 }
