@@ -15,14 +15,12 @@ package p
 //         x.m()
 // }
 
-
 func _[P interface{ m() }](x P) {
         x.m()
         // (&x).m doesn't exist because &x is of type *P
         // and pointers to type parameters don't have methods
         (&x).m /* ERROR \*P has no field or method m */ ()
 }
-
 
 type T2 interface{ m() }
 
