@@ -76,6 +76,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6da98ddf_4c946c82",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-10-26T06:06:50Z",
+      "side": 1,
+      "message": "Good suggestion! Done. Thank you.",
+      "parentUuid": "594c79b2_1aa29e11",
+      "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfa1598d_513074ae",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 13
@@ -93,6 +111,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3167edfa_01b1f305",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-10-26T06:06:50Z",
+      "side": 1,
+      "message": "If we add a red zone at the start of the allocation, the runtime.SetFinalizer will report error \"runtime.SetFinalizer: pointer not at beginning of allocated block\". So the implementation adds a red zone at the end of the allocation istead of adding it at the start of the allocation like clang does, but it can also detect overflows or underflows. Thank you.",
+      "parentUuid": "dfa1598d_513074ae",
+      "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a69e6e8_2cb4f481",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 13
@@ -104,6 +140,24 @@
       "writtenOn": "2021-10-25T22:57:30Z",
       "side": 1,
       "message": "Remove unrelated whitespace change.",
+      "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2c3a966_d44f9bde",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-10-26T06:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a69e6e8_2cb4f481",
       "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
