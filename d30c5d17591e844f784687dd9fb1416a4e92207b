@@ -70,6 +70,24 @@
       "message": "Since this is an unusual formatting for a lone variable, it might benefit from a comment. Maybe even add an issue number for the associated gofrontend bug.",
       "revId": "d30c5d17591e844f784687dd9fb1416a4e92207b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11dad6e6_4b43efb1",
+        "filename": "src/embed/internal/embedtest/embed_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-26T19:01:20Z",
+      "side": 1,
+      "message": "Thanks, I just expanded the var block to cover both variables.\n\n(There isn\u0027t an open issue for this.)",
+      "parentUuid": "f9fdf806_ca13f94c",
+      "revId": "d30c5d17591e844f784687dd9fb1416a4e92207b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
