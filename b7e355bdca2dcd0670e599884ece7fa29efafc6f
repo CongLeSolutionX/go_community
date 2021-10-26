@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "daf7dc18_fe5742e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-26T19:44:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "987ee6d0_9efa55c6",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7036806a_17046670",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -76,6 +100,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f44c4e3c_3704e99d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-26T19:44:48Z",
+      "side": 1,
+      "message": "Nits complete!",
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d787466_6fdd6b5e",
@@ -99,6 +140,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4161f2a_36907063",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-26T19:44:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d787466_6fdd6b5e",
+      "range": {
+        "startLine": 94,
+        "startChar": 7,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7af48404_6af835c6",
@@ -112,6 +177,30 @@
       "writtenOn": "2021-10-26T19:30:07Z",
       "side": 1,
       "message": "just \"Successful. Move onto the next byte in v.\" seems fine.\n(plus \"simplified\" is spelled wrong 😊)",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 27
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfbccf42_5527bf63",
+        "filename": "src/internal/fuzz/minimize.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-26T19:44:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af48404_6af835c6",
       "range": {
         "startLine": 98,
         "startChar": 6,
@@ -168,6 +257,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fab9e21e_b38063ee",
+        "filename": "src/internal/fuzz/minimize_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-26T19:44:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "483b433f_a9ba089a",
+      "range": {
+        "startLine": 60,
+        "startChar": 34,
+        "endLine": 60,
+        "endChar": 40
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ed5976f_e9c408fb",
@@ -181,6 +294,30 @@
       "writtenOn": "2021-10-26T19:30:07Z",
       "side": 1,
       "message": "This isn\u0027t really needed anymore since you aren\u0027t doing anything special for punctuation",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 4
+      },
+      "revId": "b7e355bdca2dcd0670e599884ece7fa29efafc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a8b5be0_531920bd",
+        "filename": "src/internal/fuzz/minimize_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-10-26T19:44:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ed5976f_e9c408fb",
       "range": {
         "startLine": 132,
         "startChar": 0,
