@@ -108,6 +108,24 @@
       "message": "Should I add \"[release-branch.go1.17]\" as the prefix of the title?",
       "revId": "82ffafa08670a822701e8fb0cc6a0bc8cc932553",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "671674cf_a90521e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-26T01:34:08Z",
+      "side": 1,
+      "message": "Yes, please, as described at https://golang.org/wiki/MinorReleases.  Thanks.",
+      "parentUuid": "4a747f8f_f6f7cfc5",
+      "revId": "82ffafa08670a822701e8fb0cc6a0bc8cc932553",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
