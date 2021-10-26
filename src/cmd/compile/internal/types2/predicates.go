@@ -50,7 +50,12 @@ func allBasic(t Type, info BasicInfo) bool {
 	switch u := under(t).(type) {
 	case *Basic:
 		return u.info&info != 0
+	case *Interface:
+		if underIsIface && isTypeParam(t) {
+			return u.typeSet().is(func(t *term) bool { return t != nil && isBasic(t.typ, info) })
+		}
 	case *TypeParam:
+		assert(!underIsIface)
 		return u.is(func(t *term) bool { return t != nil && isBasic(t.typ, info) })
 	}
 	return false
@@ -89,6 +94,10 @@ func IsInterface(t Type) bool {
 
 // isTypeParam reports whether t is a type parameter.
 func isTypeParam(t Type) bool {
+	if underIsIface {
+		_, ok := t.(*TypeParam)
+		return ok
+	}
 	_, ok := under(t).(*TypeParam)
 	return ok
 }
@@ -121,7 +130,7 @@ func comparable(T Type, seen map[Type]bool) bool {
 		// assume invalid types to be comparable
 		// to avoid follow-up errors
 		return t.kind != UntypedNil
-	case *Pointer, *Interface, *Chan:
+	case *Pointer, *Chan:
 		return true
 	case *Struct:
 		for _, f := range t.fields {
@@ -132,7 +141,13 @@ func comparable(T Type, seen map[Type]bool) bool {
 		return true
 	case *Array:
 		return comparable(t.elem, seen)
+	case *Interface:
+		if underIsIface && isTypeParam(T) {
+			return t.IsComparable()
+		}
+		return true
 	case *TypeParam:
+		assert(!underIsIface)
 		return t.iface().IsComparable()
 	}
 	return false
@@ -143,9 +158,15 @@ func hasNil(t Type) bool {
 	switch u := under(t).(type) {
 	case *Basic:
 		return u.kind == UnsafePointer
-	case *Slice, *Pointer, *Signature, *Interface, *Map, *Chan:
+	case *Slice, *Pointer, *Signature, *Map, *Chan:
+		return true
+	case *Interface:
+		if underIsIface && isTypeParam(t) {
+			return u.typeSet().underIs(hasNil)
+		}
 		return true
 	case *TypeParam:
+		assert(!underIsIface)
 		return u.underIs(hasNil)
 	}
 	return false
