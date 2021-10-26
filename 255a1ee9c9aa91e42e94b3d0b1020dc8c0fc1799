@@ -16,6 +16,24 @@
       "message": "Thanks for the CLs. Since we are very close to 1.18 release freeze, do you plan to get everything in go 1.18? If not, we\u0027ll probably wait for 1.19. I think it may be \n better not to  submit part of the work  in 1.18 but not  actually finishing/enabling register ABI. Thanks.",
       "revId": "255a1ee9c9aa91e42e94b3d0b1020dc8c0fc1799",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4896117d_ebcec6b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-26T01:55:13Z",
+      "side": 1,
+      "message": "Sure, I will submit the rest of CLs before 1.19 but it may be delayed since it\u0027s just a part time job.",
+      "parentUuid": "bc4611aa_c2be2092",
+      "revId": "255a1ee9c9aa91e42e94b3d0b1020dc8c0fc1799",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
