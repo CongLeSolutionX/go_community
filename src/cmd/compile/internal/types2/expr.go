@@ -160,6 +160,13 @@ var op2str2 = [...]string{
 // If typ is a type parameter, underIs returns the result of typ.underIs(f).
 // Otherwise, underIs returns the result of f(under(typ)).
 func underIs(typ Type, f func(Type) bool) bool {
+	if underIsIface {
+		if tpar, _ := typ.(*TypeParam); tpar != nil {
+			return tpar.underIs(f)
+		}
+		return f(under(typ))
+	}
+
 	u := under(typ)
 	if tpar, _ := u.(*TypeParam); tpar != nil {
 		return tpar.underIs(f)
@@ -743,6 +750,7 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 			return nil, nil, _InvalidUntypedConversion
 		}
 	case *TypeParam:
+		assert(!underIsIface)
 		ok := t.underIs(func(t Type) bool {
 			target, _, _ := check.implicitTypeAndValue(x, t)
 			return target != nil
@@ -751,6 +759,16 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 			return nil, nil, _InvalidUntypedConversion
 		}
 	case *Interface:
+		if underIsIface && isTypeParam(target) {
+			ok := t.typeSet().underIs(func(t Type) bool {
+				target, _, _ := check.implicitTypeAndValue(x, t)
+				return target != nil
+			})
+			if !ok {
+				return nil, nil, _InvalidUntypedConversion
+			}
+			break
+		}
 		// Update operand types to the default type rather than the target
 		// (interface) type: values must have concrete dynamic types.
 		// Untyped nil was handled upfront.
@@ -990,8 +1008,9 @@ func (check *Checker) binary(x *operand, e syntax.Expr, lhs, rhs syntax.Expr, op
 		return
 	}
 
+	// TODO(gri) make this more efficient
 	canMix := func(x, y *operand) bool {
-		if IsInterface(x.typ) || IsInterface(y.typ) {
+		if IsInterface(x.typ) && !isTypeParam(x.typ) || IsInterface(y.typ) && !isTypeParam(y.typ) {
 			return true
 		}
 		if isBoolean(x.typ) != isBoolean(y.typ) {
@@ -1249,7 +1268,10 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		case hint != nil:
 			// no composite literal type present - use hint (element type of enclosing type)
 			typ = hint
-			base, _ = deref(under(typ)) // *T implies &T{}
+			base = typ
+			if !underIsIface || !isTypeParam(typ) {
+				base, _ = deref(under(typ)) // *T implies &T{}
+			}
 
 		default:
 			// TODO(gri) provide better error messages depending on context
@@ -1458,7 +1480,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 			goto Error
 		}
 		xtyp, _ := under(x.typ).(*Interface)
-		if xtyp == nil {
+		if xtyp == nil || underIsIface && isTypeParam(x.typ) {
 			check.errorf(x, "%s is not an interface type", x)
 			goto Error
 		}
