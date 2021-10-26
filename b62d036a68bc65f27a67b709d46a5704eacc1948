@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "206f57a4_152696b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2783ee41_98dbdf76",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8d11ac3_b78b9483",
@@ -106,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "921eadbc_52e081df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8d11ac3_b78b9483",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe8055c8_af103e6d",
@@ -119,6 +155,24 @@
       "writtenOn": "2021-10-25T14:29:02Z",
       "side": 1,
       "message": "I can\u0027t find a CLA for this email address.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42cfd754_2273ea10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe8055c8_af103e6d",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -246,6 +300,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f21d33a5_15f0ca35",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "936f585f_11c2e3a7",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b008fb7_50fae16b",
@@ -259,6 +331,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Is strconv needed here if you have internal/itoa available?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a35c91c8_618f801b",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "It\u0027s mostly strconv.Quote for error messages. But also strconv.AppendInt, strconv.ParseUint, strconv.AppendUint.\n\nEnough to be annoying to rewrite it all, unless we want more internal packages.",
+      "parentUuid": "8b008fb7_50fae16b",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -280,6 +370,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fba8a940_b8cc7e41",
+        "filename": "src/internal/intern/intern.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done. Added an internal/godebug package while I was at it, as the haphazard GODEBUG \"parsing\" everywhere was getting to me. I unified net, net/http, and this package for now to all use the same parsing.",
+      "parentUuid": "e34e7746_69b548dc",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38e43f55_816d429b",
@@ -293,6 +401,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Nit but the parens around unsafe.Pointer are unnecessary (looks like C).",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "449370c7_621fd6ce",
+        "filename": "src/internal/intern/intern.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38e43f55_816d429b",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -314,6 +440,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb1601ce_3d70bc9c",
+        "filename": "src/net/netip/mask6.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Nice! We golfed that a number of times back and forth, so nice to see more progress.\n\nDone.",
+      "parentUuid": "191bf78b_2856a6ad",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49f47a8a_f479f7ee",
@@ -327,6 +471,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/contains/defines/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e76746_ce0a993b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49f47a8a_f479f7ee",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -348,6 +510,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fabb35e_5f481eaf",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0da50801_eb01d82b",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "245de91a_36b2ffb7",
@@ -361,6 +541,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/Go\u0027s //",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1312e86c_2251b31c",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "245de91a_36b2ffb7",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -382,6 +580,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d3ff7a4_8edf3430",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "370f2926_c87f05a0",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61423686_db4496b6",
@@ -395,6 +611,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Can probably delete this sentence.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "737d9d82_b650a5d9",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61423686_db4496b6",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -416,6 +650,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e143c86_f52be2fc",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done. It used to be two fields.",
+      "parentUuid": "6a6bc8c1_48a30558",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed36b093_0fecbcd9",
@@ -429,6 +681,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/,/./\nDelete next lines and replace with\n\n// An IPv6-mapped IPv4 address is left as an IPv6 address.\n// (Use Unmap to convert them if needed.)",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a530837_9236c2c4",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed36b093_0fecbcd9",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -450,6 +720,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "424b5d9c_8ee40592",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7c6a1f_cedefafc",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bab9357b_4d136404",
@@ -463,6 +751,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/std/slice/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3952ae44_dbc08ff1",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bab9357b_4d136404",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -484,6 +790,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "074db0b4_4c7f3fae",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b3757dc_759ca209",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f985e064_0888a27e",
@@ -497,6 +821,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "128 for IPv6, 32 for IPv4, and 0 for the zero Addr.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02104912_3e85e628",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f985e064_0888a27e",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -518,6 +860,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22db1705_a519d184",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b346dc9_01939882",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "646a2943_a85a9c7b",
@@ -531,6 +891,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/\u003d\u003d/ \u003d\u003d /",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a146a18_cc187aa5",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done. But FWIW, I\u0027d just copied the text verbatim from https://pkg.go.dev/bytes#Compare which also doesn\u0027t have spaces around it.",
+      "parentUuid": "646a2943_a85a9c7b",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -552,6 +930,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7e614de_563b6bde",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5298ef14_c78d88ab",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39037e40_b39af415",
@@ -565,6 +961,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "This test doesn\u0027t scope the f1,f2 inside the if, but the hi1,hi2 and lo1,lo2 tests do, and then the za, zb tests don\u0027t again. Pick one?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb67ce69_67151073",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39037e40_b39af415",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -586,6 +1000,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d177aed_5b335468",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "679ef011_d200f9a3",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0d5f3df_010856b1",
@@ -599,6 +1031,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/stdIP/slice/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14beb938_381efb61",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0d5f3df_010856b1",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -620,6 +1070,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f40b892_f70b4cdc",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1427e3d0_6de60c25",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99da27a2_59856fad",
@@ -633,6 +1101,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/, regardless of its type/ unmodified/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad93ae7_e0fa88f4",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99da27a2_59856fad",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -654,6 +1140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e555d4a_3aa161f3",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2d74a39_1ba9cc4a",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41f30fa7_95863323",
@@ -667,6 +1171,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/noZone/withoutZone/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a889e86_545c1920",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41f30fa7_95863323",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -688,6 +1210,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9982bb5_19824668",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Removed. I think we got overzealous in the documentation pass that added clarification of the behavior on zero values for everything.",
+      "parentUuid": "914091ea_be378cbb",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8697194_d0319ce3",
@@ -701,6 +1241,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "// If ip is the zero Addr, IsLoopback returns false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "834af2d2_c7b74b6b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Deleted instead.",
+      "parentUuid": "e8697194_d0319ce3",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -722,6 +1280,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0fa26af_224227b9",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82a002a8_ff33ff0d",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aeae184c_69e5fa54",
@@ -735,6 +1311,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "// If ip is the zero Addr or an IPv4 address, IsInterfaceLocalMulticast returns false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c21363b_d7700a3a",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeae184c_69e5fa54",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -756,6 +1350,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48a474dc_7e583496",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8e1d4be_dbaeca2f",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1fe625f_0b48ec62",
@@ -769,6 +1381,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "// It returns false for the zero Addr.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34fc40f3_0ad49fbf",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1fe625f_0b48ec62",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -790,6 +1420,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ada3512_3d9bdae5",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af9d48a_7eee5692",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e59e495_2d2e6f05",
@@ -807,6 +1455,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9871a6f0_0b81442d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e59e495_2d2e6f05",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a38a5b7_f57d19ac",
@@ -820,6 +1486,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/Addr zero value/zero Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a08d0089_a4d48c17",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a38a5b7_f57d19ac",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -860,6 +1544,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e97a2108_26e55ab3",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "I suppose we could do that instead.\n\nMasked came later. But really, a prefix with non-zero host bits (non-Masked form) is quite rare. If people want to construct them, they can use PrefixFrom, which I\u0027ll at least document now that it doesn\u0027t do the masking. (It was obvious that it couldn\u0027t before when Prefix had exported fields and didn\u0027t have a constructor)",
+      "parentUuid": "bcd6797e_28e5069a",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b1bd38d_4bc9d1c5",
         "filename": "src/net/netip/netip.go",
         "patchSetId": 7
@@ -871,6 +1573,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/bits/b/ (for doc comment)",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a6d8697_6909f0a1",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b1bd38d_4bc9d1c5",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -892,6 +1612,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0067f5f_fabd0c6d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15e3c655_8e1c798c",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e6fec10_57db48f6",
@@ -905,6 +1643,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/16 byte/16-byte/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d38f29b_3116dfb0",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e6fec10_57db48f6",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -926,6 +1682,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be96b2ef_e5cb8cb0",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14678376_b16a12a9",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79825a56_571b96a6",
@@ -939,6 +1713,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/IP zero value/zero Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c74d3550_933c0bfc",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79825a56_571b96a6",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -960,6 +1752,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d04b222f_fe2f517e",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91f91db1_11085ea8",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56221941_3fb562c8",
@@ -973,6 +1783,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/IP/address/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc76de8d_e97299d0",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56221941_3fb562c8",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -994,6 +1822,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed4762ab_04ab803d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "566a1773_4a4881ba",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d05e249_7e139bef",
@@ -1011,6 +1857,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d944c255_8b936cb5",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d05e249_7e139bef",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3313143e_dd4ac8f9",
@@ -1024,6 +1888,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/the Go standard library\u0027s/package net\u0027s/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad819eb0_7a36f4cd",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3313143e_dd4ac8f9",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1064,6 +1946,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8215a17d_2adb5404",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d6ee4a2_059d967b",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b8212123_8f42c815",
         "filename": "src/net/netip/netip.go",
         "patchSetId": 7
@@ -1096,6 +1996,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e78f7fe_85cf9447",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b8f1a7a_fcb48c3f",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcf9a922_6e26be6e",
@@ -1109,6 +2027,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Delete (it doesn\u0027t, as it shouldn\u0027t). But add\n\n// If text is empty, UnmarshalText sets *ip to the zero Addr and returns no error.\n\nor maybe\n\n.... in a form accepted by ParseAddr or generated by MarshalText.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a48b518_ce6bd384",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcf9a922_6e26be6e",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1130,6 +2066,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43bd186d_05af9256",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fff90378_83bfd0de",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50d4a18c_262d60bc",
@@ -1143,6 +2097,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "add\n// It returns a zero-length slice for the zero Addr,\n// the 4-byte form for an IPv4 address,\n// and the 16-byte form with zone appended for an IPv6 address.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a24c6b_3c8bdaad",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d4a18c_262d60bc",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1164,6 +2136,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "154522a4_deffb3fe",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3090c58_ea5ee8f1",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6a36c83_005f6d34",
@@ -1177,6 +2167,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "*ip \u003d Addr{}\nreturn nil",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a80a6c9_be0ade42",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6a36c83_005f6d34",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1198,6 +2206,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e337dc34_a382e5f2",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06f01a42_c4f25b05",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c732e696_85ae020b",
@@ -1211,6 +2237,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/zero value/zero Addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adf7b25e_257aa596",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c732e696_85ae020b",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1232,6 +2276,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6b4fa60_2cc7a9e9",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3097fd8d_e77b7fe0",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39fe3ad5_7226372f",
@@ -1245,6 +2307,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Delete \"It returns ...\"",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b17fdbab_2200341d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39fe3ad5_7226372f",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1266,6 +2346,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a7aaa96_058be8b9",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af2c7c8_de94ba54",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a544328f_12300e12",
@@ -1279,6 +2377,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "*p \u003d AddrPort{}\nreturn nil",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dd1938f_7b8d82f5",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a544328f_12300e12",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1300,6 +2416,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc403deb_c654d1da",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1dfa47e_b1ff1b2c",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33b808f3_276df987",
@@ -1313,6 +2447,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "add\n// Note that if p is the zero Prefix, then p.IsValid() \u003d\u003d false.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c933818c_93612c48",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33b808f3_276df987",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1336,6 +2488,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afe6fa60_4236e78f",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "That would be a behavior change. The check as written makes IsValid report false for 8.8.8.8/33, even though 88::88/33 is valid.",
+      "parentUuid": "d4b4a581_39b7d44c",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12c97468_401126fa",
         "filename": "src/net/netip/netip.go",
         "patchSetId": 7
@@ -1347,6 +2517,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "See note on Addr.Prefix about the inconsistency between this and IP.Prefix.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09bf688f_9b629546",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "I added docs on PrefixFrom instead for now.",
+      "parentUuid": "12c97468_401126fa",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1368,6 +2556,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79e9448a_a6ded2df",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e81e95d_9e1e3faf",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecd81f7b_17634b1b",
@@ -1385,6 +2591,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70def5e0_a8241300",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecd81f7b_17634b1b",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fb92516_60d1d658",
@@ -1398,6 +2622,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Not sure this needs to be said, but as worded it\u0027s confusing. Delete?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d00e3594_d8bef17c",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fb92516_60d1d658",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1421,6 +2663,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66e73b1b_5021281d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "That fails tests.",
+      "parentUuid": "2917304d_2fada66d",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f03b502_2b0dcd41",
         "filename": "src/net/netip/netip.go",
         "patchSetId": 7
@@ -1432,6 +2692,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "// p.ip is non-nil, ...",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02e91ddb_2702e1c6",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1328,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f03b502_2b0dcd41",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1453,6 +2731,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f82ebe28_87d5f37d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08bd935f_54e34e37",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f6e355a_6c6ff3ed",
@@ -1466,6 +2762,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Delete.",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "148e0bd0_2a991728",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f6e355a_6c6ff3ed",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1487,6 +2801,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e508f7f4_79b80502",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c57fd2e3_2ae720f3",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "653a6c18_dc5764af",
@@ -1500,6 +2832,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Delete.\n(Let\u0027s just not distinguish zero and invalid.)",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d6ffb7_28c3b52d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "653a6c18_dc5764af",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1521,6 +2871,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0dfd4e9_5fc929b8",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Guess not. Deleted.\n\nUsed by API that wasn\u0027t included.",
+      "parentUuid": "3f867e62_27818afb",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "197a28c9_00a70d3c",
@@ -1534,6 +2902,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Delete",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9e0cfa1_962107be",
+        "filename": "src/net/netip/netip_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "197a28c9_00a70d3c",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1573,6 +2959,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00efaf62_729a076e",
+        "filename": "src/net/netip/uint128.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d362f647_76c1583c",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82c10079_e8555ff8",
@@ -1586,6 +2990,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/converted to fit/truncated/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bb49f30_e788f85b",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Ha, the obvious word was right there and somehow I missed it. Fixed.",
+      "parentUuid": "82c10079_e8555ff8",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1607,6 +3029,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24cfd11d_d197f4e5",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d05b072c_bf21bd42",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b74eb0c1_f8d44cf1",
@@ -1620,6 +3060,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "Seems OK to return nil.\nUDPAddrOfIPPort seems wrong though.\nUDPAddrFromAddrPort?",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5067cf90_e6a798a8",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b74eb0c1_f8d44cf1",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1641,6 +3099,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf94695f_1b4095b7",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "\"addr\" isn\u0027t a good name for an AddrPort, especially in the net package, because it\u0027s not a net.Addr. And to get the IP address out of it, you call addr.Addr(), which stutters and also isn\u0027t a net.Addr.\n\nBut done.",
+      "parentUuid": "b9face01_a47ef5d6",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9cd035a_5dddfe6a",
@@ -1654,6 +3130,24 @@
       "writtenOn": "2021-10-25T16:07:19Z",
       "side": 1,
       "message": "s/ap/addr/",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d6377f8_03b7f2a4",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T05:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9cd035a_5dddfe6a",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
