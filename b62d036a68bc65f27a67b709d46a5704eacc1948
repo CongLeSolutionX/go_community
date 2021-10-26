@@ -2436,6 +2436,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24347b11_ad9de845",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T15:41:18Z",
+      "side": 1,
+      "message": "But a /128 prefix is valid (and common), yet:\n\n\tvar b uint8 \u003d 128\n\tfmt.Println(int(int8(uint8(b))))\n\n... is -128.\n\nSo can\u0027t use:\n\n    func (p Prefix) Bits() int { return int(int8(p.bits)) }",
+      "parentUuid": "dc403deb_c654d1da",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33b808f3_276df987",
         "filename": "src/net/netip/netip.go",
         "patchSetId": 7
