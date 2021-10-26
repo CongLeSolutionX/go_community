@@ -92,6 +92,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9fb9ed3_68d38605",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-26T23:08:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6da98ddf_4c946c82",
+      "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfa1598d_513074ae",
@@ -158,6 +176,24 @@
       "writtenOn": "2021-10-26T22:55:54Z",
       "side": 1,
       "message": "I would wonder if you could update the \"pointer not at beginning of allocated block\" check in SetFinalizer to allow it to proceed when asan is enabled if \u0027uintptr(e.data)\u0027 matches \u0027base\u0027 after adjusting for the size of the leading redzone? If so, one approach might be to compute the size of the leading redzone from \u0027ot.elem.size\u0027. Or maybe there is another way. There are at least some hints that the rest of the finalizer mechanisms might be OK pointing at an inner byte of the allocated object.\n\nhttps://github.com/golang/go/blob/80be4a4f90836a33ab5b3d09c6f529de8ee628ea/src/runtime/mfinal.go#L379-L384\n\nThat said, this is just a quick comment and a good chance it might not be correct. \n\nAs such, you might want some advice from Ian or others before trying that.",
+      "parentUuid": "7653bc2d_c9c32dc4",
+      "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d18d3ff_11e153a6",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-26T23:08:45Z",
+      "side": 1,
+      "message": "The finalizer code in mfinal.go just calls findObject on the pointer that it is passed and verifies that the base of the object is the pointer that it was given.  In practice I think it would be fine to, if asan is enabled, skip the check, and then use base instead of e.data.",
       "parentUuid": "7653bc2d_c9c32dc4",
       "revId": "08e79f1a031214aa49732f0bdab247b27df1f962",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
