@@ -52,6 +52,24 @@
       "parentUuid": "4303f4bb_0374bb77",
       "revId": "801e3efe6e1a200f99526f891777ebc40b998ec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eb1236d_7d00c087",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-26T12:33:57Z",
+      "side": 1,
+      "message": "Per the LoongArch reference manual，the support for floating-point instructions is optional. So I think that we can keep the softfloat mode for loong64.\n\nThe related content on floating-point in LoongArch reference manual:\nGenerally speaking, it recommends that implementing both basic integer instructions and basic floating-point instructions at the same time. However, for some embedded applications that are cost-sensitive and have extremely low floating-point processing performance requirements, the architecture specification also allows not to implement basic floating-point instructions, or only implement single-precision floating-point numbers and word integers in basic floating-point instructions. Whether the implementation of basic floating-point instructions includes instructions for operating double-precision floating-point numbers and double-word integers has nothing to do with whether the architecture is LA32 or LA64.\n\nhttps://github.com/loongson/LoongArch-Documentation/blob/main/docs/LoongArch-Vol1-EN/basic-floating-point-instructions.adoc",
+      "parentUuid": "5097be9c_13437466",
+      "revId": "801e3efe6e1a200f99526f891777ebc40b998ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
