@@ -268,6 +268,11 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 		var terms termlist
 		switch u := under(typ).(type) {
 		case *Interface:
+			if tparamIsIface && isTypeParam(typ) {
+				// Embedding stand-alone type parameters is not permitted.
+				// Union parsing reports a (delayed) error, so we can ignore this entry.
+				continue
+			}
 			tset := computeInterfaceTypeSet(check, pos, u)
 			// If typ is local, an error was already reported where typ is specified/defined.
 			if check != nil && check.isImportedConstraint(typ) && !check.allowVersion(check.pkg, 1, 18) {
@@ -367,6 +372,11 @@ func computeUnionTypeSet(check *Checker, pos syntax.Pos, utyp *Union) *_TypeSet 
 		var terms termlist
 		switch u := under(t.typ).(type) {
 		case *Interface:
+			if tparamIsIface && isTypeParam(t.typ) {
+				// A stand-alone type parameters is not permitted as union term.
+				// Union parsing reports a (delayed) error, so we can ignore this entry.
+				continue
+			}
 			terms = computeInterfaceTypeSet(check, pos, u).terms
 		default:
 			if t.typ == Typ[Invalid] {
