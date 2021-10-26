@@ -647,7 +647,11 @@ func (check *Checker) collectTypeParams(dst **TypeParamList, list []*syntax.Fiel
 
 	check.later(func() {
 		for i, bound := range bounds {
-			if _, ok := under(bound).(*TypeParam); ok {
+			u := bound
+			if !underIsIface {
+				u = under(u)
+			}
+			if _, ok := u.(*TypeParam); ok {
 				check.error(posers[i], "cannot use a type parameter as constraint")
 			}
 		}

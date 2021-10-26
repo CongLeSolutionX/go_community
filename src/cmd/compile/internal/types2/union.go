@@ -78,7 +78,7 @@ func parseUnion(check *Checker, tlist []syntax.Expr) Type {
 			u := under(t.typ)
 			f, _ := u.(*Interface)
 			if t.tilde {
-				if f != nil {
+				if f != nil && !isTypeParam(t.typ) {
 					check.errorf(tlist[i], "invalid use of ~ (%s is an interface)", t.typ)
 					continue // don't report another error for t
 				}
@@ -119,11 +119,18 @@ func parseTilde(check *Checker, x syntax.Expr) (tilde bool, typ Type) {
 	// Note: If an underlying type cannot be a type parameter, the call to
 	//       under() will not be needed and then we don't need to delay this
 	//       check to later and could return Typ[Invalid] instead.
-	check.later(func() {
-		if _, ok := under(typ).(*TypeParam); ok {
+	if underIsIface {
+		if isTypeParam(typ) {
 			check.error(x, "cannot embed a type parameter")
+			typ = Typ[Invalid]
 		}
-	})
+	} else {
+		check.later(func() {
+			if _, ok := under(typ).(*TypeParam); ok {
+				check.error(x, "cannot embed a type parameter")
+			}
+		})
+	}
 	return
 }
 
