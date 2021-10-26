@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f0a4ad1_26dcc743",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-26T15:09:41Z",
+      "side": 1,
+      "message": "Please include a test.\n\nDo you have such a JPEG to add as testdata? If not, can you make one?\n\nIt\u0027d be nice to see that there\u0027s a JPEG we can load in our browser but wasn\u0027t parsed by image/jpeg before, but is after this change.\n",
+      "revId": "641a8d09cdb058b64e7bf59ddbe35e9ee71df91c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
