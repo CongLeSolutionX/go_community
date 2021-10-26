@@ -615,11 +615,23 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *Named
 		named.underlying = Typ[Invalid]
 	}
 
+	if tparamIsIface {
+		// Disallow a lone type parameter as the RHS of a type declaration (issue #45639).
+		// Note that we don't need this restriction anymore of we switch to tparamIsIface.
+		// This code is only here for compatibility.
+		if _, ok := rhs.(*TypeParam); ok {
+			check.error(tdecl.Type, "cannot use a type parameter as RHS in type declaration")
+			named.underlying = Typ[Invalid]
+		}
+		return
+	}
+
 	// Disallow a lone type parameter as the RHS of a type declaration (issue #45639).
 	// We can look directly at named.underlying because even if it is still a *Named
 	// type (underlying not fully resolved yet) it cannot become a type parameter due
 	// to this very restriction.
-	if tpar, _ := named.underlying.(*TypeParam); tpar != nil {
+	if _, ok := named.underlying.(*TypeParam); ok {
+		assert(!tparamIsIface)
 		check.error(tdecl.Type, "cannot use a type parameter as RHS in type declaration")
 		named.underlying = Typ[Invalid]
 	}
@@ -671,7 +683,11 @@ func (check *Checker) collectTypeParams(dst **TypeParamList, list []*syntax.Fiel
 
 	check.later(func() {
 		for i, bound := range bounds {
-			if _, ok := under(bound).(*TypeParam); ok {
+			u := bound
+			if !tparamIsIface {
+				u = under(u)
+			}
+			if _, ok := u.(*TypeParam); ok {
 				check.error(posers[i], "cannot use a type parameter as constraint")
 			}
 		}

@@ -48,7 +48,11 @@ func (check *Checker) conversion(x *operand, T Type) {
 		// If T's type set is empty, or if it doesn't
 		// have specific types, constant x cannot be
 		// converted.
-		ok = under(T).(*TypeParam).underIs(func(u Type) bool {
+		u := T
+		if !tparamIsIface {
+			u = under(T)
+		}
+		ok = u.(*TypeParam).underIs(func(u Type) bool {
 			// t is nil if there are no specific type terms
 			if u == nil {
 				cause = check.sprintf("%s does not contain specific types", T)
@@ -92,7 +96,7 @@ func (check *Checker) conversion(x *operand, T Type) {
 		//   (See also the TODO below.)
 		if x.typ == Typ[UntypedNil] {
 			// ok
-		} else if IsInterface(T) || constArg && !isConstType(T) {
+		} else if IsInterface(T) && !isTypeParam(T) || constArg && !isConstType(T) {
 			final = Default(x.typ)
 		} else if isInteger(x.typ) && allString(T) {
 			final = x.typ
@@ -123,19 +127,37 @@ func (x *operand) convertibleTo(check *Checker, T Type, cause *string) bool {
 		return true
 	}
 
-	// "V and T have identical underlying types if tags are ignored"
+	// "V and T have identical underlying types if tags are ignored
+	// and V and T are not type parameters"
 	V := x.typ
 	Vu := under(V)
 	Tu := under(T)
-	if IdenticalIgnoreTags(Vu, Tu) {
+	var Vp, Tp *TypeParam
+	if tparamIsIface {
+		Vp, _ = V.(*TypeParam)
+		Tp, _ = T.(*TypeParam)
+	} else {
+		Vp, _ = Vu.(*TypeParam)
+		Tp, _ = Tu.(*TypeParam)
+	}
+	if IdenticalIgnoreTags(Vu, Tu) && Vp == nil && Tp == nil {
 		return true
 	}
 
 	// "V and T are unnamed pointer types and their pointer base types
-	// have identical underlying types if tags are ignored"
+	// have identical underlying types if tags are ignored
+	// and their pointer base types are not type parameters"
 	if V, ok := V.(*Pointer); ok {
 		if T, ok := T.(*Pointer); ok {
-			if IdenticalIgnoreTags(under(V.base), under(T.base)) {
+			var Vb, Tb *TypeParam
+			if tparamIsIface {
+				Vb, _ = V.base.(*TypeParam)
+				Tb, _ = T.base.(*TypeParam)
+			} else {
+				Vb, _ = under(V.base).(*TypeParam)
+				Tb, _ = under(T.base).(*TypeParam)
+			}
+			if IdenticalIgnoreTags(under(V.base), under(T.base)) && Vb == nil && Tb == nil {
 				return true
 			}
 		}
@@ -194,8 +216,6 @@ func (x *operand) convertibleTo(check *Checker, T Type, cause *string) bool {
 	}
 
 	// optimization: if we don't have type parameters, we're done
-	Vp, _ := Vu.(*TypeParam)
-	Tp, _ := Tu.(*TypeParam)
 	if Vp == nil && Tp == nil {
 		return false
 	}
