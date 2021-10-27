@@ -118,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c671db1b_507597ae",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-27T19:54:57Z",
+      "side": 1,
+      "message": "This is clearer, thanks.",
+      "parentUuid": "5901a5bf_ac5209df",
+      "range": {
+        "startLine": 572,
+        "startChar": 42,
+        "endLine": 572,
+        "endChar": 47
+      },
+      "revId": "7b8e6d9f59af549cc4e0572a154b540028d8f352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7578e8a_9b2b8340",

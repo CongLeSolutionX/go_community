@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc3f352_9bc1be08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-27T19:54:57Z",
+      "side": 1,
+      "message": "I didn\u0027t see this invariant spelled out in the comments in the code. It seems worth adding to, probably, addOneOpenDeferFrame.",
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4b5aab90_23e79df7",
@@ -14,6 +31,92 @@
       "writtenOn": "2021-10-20T06:52:12Z",
       "side": 1,
       "message": "Thanks for taking a look!  Let me know if anything else I can make clearer, or if it\u0027s useful to talk directly.\n",
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cf3fdcc_4437f2a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-27T19:54:57Z",
+      "side": 1,
+      "message": "Also adding MK and MP because I feel like it might be useful to have another set of eyes on this code given how squirrely it is.",
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b84cf29e_04053e6a",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-27T19:54:57Z",
+      "side": 1,
+      "message": "Given the newly enforced invariant, it seems like this statement should be stronger, and perhaps this is where you should explain the invariant.",
+      "range": {
+        "startLine": 572,
+        "startChar": 3,
+        "endLine": 572,
+        "endChar": 34
+      },
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "596c06bd_42e2c89b",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-27T19:54:57Z",
+      "side": 1,
+      "message": "\"a (not in-progress) open-coded _defer record\", just to make it more clear that this isn\u0027t incompatible with the previous paragraph?",
+      "range": {
+        "startLine": 579,
+        "startChar": 65,
+        "endLine": 579,
+        "endChar": 85
+      },
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eeae91e_b01eda59",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-10-27T19:54:57Z",
+      "side": 1,
+      "message": "This phrasing implies that it would be okay if we did keep going, it\u0027s just not necessary. My understand is that that would actually violate the invariant, in which case this statement should be stronger.",
+      "range": {
+        "startLine": 622,
+        "startChar": 29,
+        "endLine": 623,
+        "endChar": 16
+      },
       "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
