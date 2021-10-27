@@ -125,6 +125,24 @@
       "parentUuid": "d9823977_822f3f36",
       "revId": "87a41fbaf592db56cdec559b34109858618778fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32376f84_8ab6f372",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-10-27T02:58:21Z",
+      "side": 1,
+      "message": "time.AfterFunc sounds like a doable option.",
+      "parentUuid": "a0e3605f_8906a933",
+      "revId": "87a41fbaf592db56cdec559b34109858618778fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
