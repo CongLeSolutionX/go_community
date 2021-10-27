@@ -613,6 +613,8 @@ func TestSegv(t *testing.T) {
 	switch runtime.GOOS {
 	case "plan9", "windows":
 		t.Skipf("no signals on %s", runtime.GOOS)
+	case "darwin", "illumos", "solaris":
+		t.Skipf("runtime crashes generating traceback on %s. See issue 49182.", runtime.GOOS);
 	}
 
 	for _, test := range []string{"Segv", "SegvInCgo"} {
