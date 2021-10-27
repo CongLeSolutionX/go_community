@@ -70,6 +70,24 @@
       "message": "Can you remove the comment about markGeneric is similar to markType.  It\u0027s not really very similar, since it doesn\u0027t descend into the type at all like markType.  So, I would just replace the first sentence with something like: \"markGeneric takes an instantiated type or a base generic type t, and marks all the methods of the base generic type of t\".",
       "revId": "27d400f05abdae09e0491d6a400000d7e445fbc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "324750ba_61118126",
+        "filename": "src/cmd/compile/internal/typecheck/crawler.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-10-27T04:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79c7a967_c9201d96",
+      "revId": "27d400f05abdae09e0491d6a400000d7e445fbc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
