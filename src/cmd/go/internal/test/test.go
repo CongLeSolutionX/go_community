@@ -31,10 +31,12 @@ import (
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/search"
+	"cmd/go/internal/str"
 	"cmd/go/internal/trace"
 	"cmd/go/internal/work"
-	"cmd/go/internal/str"
 	"cmd/internal/test2json"
+
+	"golang.org/x/mod/module"
 )
 
 // Break init loop.
@@ -247,11 +249,12 @@ control the execution of any test:
 
 	-fuzz regexp
 	    Run the fuzz target matching the regular expression. When specified,
-	    the command line argument must match exactly one package, and regexp
-	    must match exactly one fuzz target within that package. After tests,
-	    benchmarks, seed corpora of other fuzz targets, and examples have
-	    completed, the matching target will be fuzzed. See the Fuzzing section
-	    of the testing package documentation for details.
+	    the command line argument must match exactly one package within the
+	    main module, and regexp must match exactly one fuzz target within
+	    that package. After tests, benchmarks, seed corpora of other fuzz
+	    targets, and examples have completed, the matching target will be
+	    fuzzed. See the Fuzzing section of the testing package documentation
+	    for details.
 
 	-fuzztime t
 	    Run enough iterations of the fuzz test to take t, specified as a
@@ -651,8 +654,32 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 	if testO != "" && len(pkgs) != 1 {
 		base.Fatalf("cannot use -o flag with multiple packages")
 	}
-	if testFuzz != "" && len(pkgs) != 1 {
-		base.Fatalf("cannot use -fuzz flag with multiple packages")
+	if testFuzz != "" {
+		if len(pkgs) != 1 {
+			base.Fatalf("cannot use -fuzz flag with multiple packages")
+		}
+
+		// Reject the '-fuzz' flag if the package is outside the main module.
+		// Otherwise, if fuzzing identifies a failure it could corrupt checksums in
+		// the module cache (or permanently alter the behavior of std tests for all
+		// users) by writing the failing input to the package's testdata directory.
+		// (See https://golang.org/issue/48495 and test_fuzz_modcache.txt.)
+		mainMods := modload.MainModules
+		if m := pkgs[0].Module; m != nil && m.Path != "" {
+			if !mainMods.Contains(m.Path) {
+				base.Fatalf("cannot use -fuzz flag on package outside the main module")
+			}
+		} else if pkgs[0].Standard && modload.Enabled() {
+			if strings.HasPrefix(pkgs[0].ImportPath, "cmd/") {
+				if !mainMods.Contains("cmd") || !mainMods.InGorootSrc(module.Version{Path: "cmd"}) {
+					base.Fatalf("cannot use -fuzz flag on package outside the main module")
+				}
+			} else {
+				if !mainMods.Contains("std") || !mainMods.InGorootSrc(module.Version{Path: "std"}) {
+					base.Fatalf("cannot use -fuzz flag on package outside the main module")
+				}
+			}
+		}
 	}
 	if testProfile() != "" && len(pkgs) != 1 {
 		base.Fatalf("cannot use %s flag with multiple packages", testProfile())
