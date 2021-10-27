@@ -77,15 +77,6 @@ func parseUnion(check *Checker, tlist []syntax.Expr) Type {
 
 			x := tlist[i]
 			pos := syntax.StartPos(x)
-			// We may not know the position of x if it was a typechecker-
-			// introduced ~T term for a type list entry T. Use the position
-			// of T instead.
-			// TODO(gri) remove this test once we don't support type lists anymore
-			if !pos.IsKnown() {
-				if op, _ := x.(*syntax.Operation); op != nil {
-					pos = syntax.StartPos(op.X)
-				}
-			}
 
 			u := under(t.typ)
 			f, _ := u.(*Interface)
