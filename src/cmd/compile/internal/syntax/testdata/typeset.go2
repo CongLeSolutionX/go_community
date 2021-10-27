@@ -44,7 +44,18 @@ type (
         _[_ ~t|struct{}] t
         _[_ t|~struct{}] t
         _[_ ~t|~struct{}] t
+
+        // TODO(gri) fix this (issue #49175)
+        // _[_ []t]t
+        _[_ ~[]t]t
 )
+
+// test cases for issue #49174
+func _[_ t]() {}
+func _[_ []t]() {}
+func _[_ []t | t]() {}
+func _[_ t | []t]() {}
+func _[_ []t | []t]() {}
 
 // Single-expression type parameter lists and those that don't start
 // with a (type parameter) name are considered array sizes.
