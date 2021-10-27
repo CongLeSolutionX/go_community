@@ -132,6 +132,7 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 			if x.mode != invalid {
 				if t := asInterface(T); t != nil {
 					if !t.IsMethodSet() {
+						// TODO(gri): remove the phrase "type list" from this error.
 						check.errorf(call, "cannot use interface %s in conversion (contains type list or is comparable)", T)
 						break
 					}
