@@ -46,6 +46,30 @@
       },
       "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d034b4b8_e7f4d1ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-27T13:09:28Z",
+      "side": 1,
+      "message": "Hi，\n\nFrom the above relocation type error, it can be seen that the relocation type corresponding to the static code is incorrectly used in the assembly process. The assembly process relies on the cmd/compile to generate correct assembly code. Since we modified the MIPS64.rule file and only affected the lower pass to rewrite the SSA, I compared the values that related stmp_162 value nearby the lower pass. It is found that the rule (X) is applied, resulting in symbol merging. \n\nThe original values (before lower pass):\nv3 (?) \u003d SB \u003cuintptr\u003e\n...\nv6 (?) \u003d Addr \u003c*uint8\u003e {\"\"..stmp_162} v3\n...\nv1 (?) \u003d InitMem \u003cmem\u003e\nv7 (+1285) \u003d Load \u003cuint8\u003e v6 v1\n\nThe rule (X):\n(MOVBUload [off1] {sym1} (MOVVaddr [off2] {sym2} ptr) mem) \u0026\u0026 canMergeSym(sym1,sym2) \u0026\u0026 is32Bit(int64(off1)+int64(off2)) \u003d\u003e (MOVBUload [off1+int32(off2)] {mergeSym(sym1,sym2)} ptr mem)                   \n\nThe merge results (after lower pass):\nMOVBUload \u003cuint8\u003e {\"\"..stmp_162} v3 v1\n\nThe generated assembly code is as follows(genssa phase):\nv7 00004 (+1285) MOVBU \"\"..stmp_162(SB), R1                  (Y)\n\nOn the other hand, I added the modification to MIPS64.rule of this CL, and analyzed the values that related stmp_162 value nearby the lower pass. It is found that the rule (X) is not applied, and there is no folding of offset and merging of symbols. The final generated assembly code is as follows:\nv57 00004 (+1285) MOVV $\"\"..stmp_162(SB), R1\nv7 00005 (1285) MOVBU (R1), R1\n\nThe stmp_162 variable should be a ADDR type global variable accoring to the decription of v6. Then I substitute the above assembly code into the assembler implementation. There are three findings:\n(1) In shared mode, assembly does not support the loading ADDR type global variables with opcode named MOVBU, the generated assembly code (Y) is not right for assembler.\n(2) The code in which the symbol merging occurs with applying the rule (X) will use case 51 in asmout function to generate machine code, and use relocation type R_ ADDRMIPSU/R_ ADDRMIPS.\n(3) In shared mode, global variable access must use GOT. When the assembler rewrites the assembly code for ADDR type, only MOVV type instructions are rewritten at present. The information that stmp_162 is ADDR type is lost caused by rewrite in lower pass.\n\nTherefore, I think the reasons for adding this CL are as following:\nIn the shared mode, GOT must be used to access global variables. To use GOT, the assembly code needs to be rewritten to use GOT in the assembler. To simplify the implementation of assembler and prevent information loss caused by rewrite in lower pass. We need to limit the rewrite that related to GOT. The limit condition is: \n(ptr.Op !\u003d OpSB || !config.ctxt.Flag_shared)\n\nThanks!",
+      "parentUuid": "5f881f30_c6a39fd8",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
