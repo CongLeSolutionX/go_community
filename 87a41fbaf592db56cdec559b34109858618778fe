@@ -89,6 +89,24 @@
       "parentUuid": "899e0457_1de01f86",
       "revId": "87a41fbaf592db56cdec559b34109858618778fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9823977_822f3f36",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-10-27T01:07:01Z",
+      "side": 1,
+      "message": "A LIFO cache with timers seems to be another feasible solution, it is like a Redis key with expiry time, although we will need more extra works to accomplish it compared to the current solution with finalizers.\n\nAlthough, there will be always an endless goroutine if we go with any other solutions but runtime finalizer.\n\nI guess I can spend some time making a new (or say experimental) implementation after this CL, thanks Bryan\u0027s insightful thoughts.",
+      "parentUuid": "5e247a8c_658598c0",
+      "revId": "87a41fbaf592db56cdec559b34109858618778fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
