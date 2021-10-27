@@ -175,6 +175,23 @@
       "message": "Sorry to bother you again, can anyone review and merge the PR, because it will be the next freezing period in November, Thank you very much!",
       "revId": "58e9a0ba009fda38f421b382d253d8f418992347",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ee44b9_04ba81cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-10-27T20:10:11Z",
+      "side": 1,
+      "message": "Well, I tried hitting submit, and gerrit replies \"internal server error\". As a shot in the dark, could you try rebasing? Thanks.",
+      "revId": "58e9a0ba009fda38f421b382d253d8f418992347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
