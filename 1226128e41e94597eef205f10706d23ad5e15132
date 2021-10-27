@@ -180,6 +180,24 @@
       "message": "This is kind of an unintended side-effect of markEmbed. At least, it\u0027s not clear to me that \"mark any methods that might be accessible via embedding\" and \"mark all methods\" are the same. We should be explicit about that in the doc comment for markEmbed. Or introduce a markAllMethods that does nothing but call markEmbed, just to document our intention.\n\nIs there any problem with the early-out in markEmbed for named pointer types? Does that prevent marking types that we need to export?",
       "revId": "1226128e41e94597eef205f10706d23ad5e15132",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4f27026_58b2b5cd",
+        "filename": "src/cmd/compile/internal/typecheck/crawler.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-10-27T02:32:58Z",
+      "side": 1,
+      "message": "\u003e Is there any problem with the early-out in markEmbed for named pointer types? Does that prevent marking types that we need to export?\n\nAh right, that should be problem. Then I think introduce a \"p.markGeneric\" method is more concise.",
+      "parentUuid": "bfcc3744_4dbbf97e",
+      "revId": "1226128e41e94597eef205f10706d23ad5e15132",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
