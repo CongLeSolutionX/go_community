@@ -80,15 +80,6 @@ func parseUnion(check *Checker, tlist []ast.Expr) Type {
 
 			x := tlist[i]
 			pos := x.Pos()
-			// We may not know the position of x if it was a typechecker-
-			// introduced ~T term for a type list entry T. Use the position
-			// of T instead.
-			// TODO(rfindley) remove this test once we don't support type lists anymore
-			if !pos.IsValid() {
-				if op, _ := x.(*ast.UnaryExpr); op != nil {
-					pos = op.X.Pos()
-				}
-			}
 
 			u := under(t.typ)
 			f, _ := u.(*Interface)
