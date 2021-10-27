@@ -63,6 +63,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "286ce048_05c0d006",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-27T20:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa3e897b_5cc62004",
+      "range": {
+        "startLine": 289,
+        "startChar": 34,
+        "endLine": 289,
+        "endChar": 46
+      },
+      "revId": "68ea2d9b1ddc53dc4668c7eefa3ce08f437ceaee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "09e3429b_36953aa9",
         "filename": "src/cmd/compile/internal/types2/operand.go",
         "patchSetId": 10
@@ -74,6 +98,30 @@
       "writtenOn": "2021-10-27T03:08:11Z",
       "side": 1,
       "message": "So we\u0027d allow assignments of literal channels to variables of type parameter type, provided each specific type satisfies the above?",
+      "range": {
+        "startLine": 312,
+        "startChar": 1,
+        "endLine": 312,
+        "endChar": 75
+      },
+      "revId": "68ea2d9b1ddc53dc4668c7eefa3ce08f437ceaee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f04c57d9_38013c7b",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-27T20:20:39Z",
+      "side": 1,
+      "message": "Removed this TODO. This is about channel assignments. If a type parameter has a specific channel type constraint it is handled below. Otherwise it cannot be a channel.",
+      "parentUuid": "09e3429b_36953aa9",
       "range": {
         "startLine": 312,
         "startChar": 1,
@@ -97,6 +145,30 @@
       "writtenOn": "2021-10-27T03:08:11Z",
       "side": 1,
       "message": "Add\n\n_ SendChan \u003d c\n_ RecvChan \u003d c\n\nFor symmetry?",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 59
+      },
+      "revId": "68ea2d9b1ddc53dc4668c7eefa3ce08f437ceaee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b22de371_2c6a4fa4",
+        "filename": "src/cmd/compile/internal/types2/testdata/spec/assignability.go2",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-27T20:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "644dc813_550e2cdb",
       "range": {
         "startLine": 95,
         "startChar": 0,
