@@ -116,6 +116,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c541eab6_13225e3f",
+        "filename": "src/cmd/fix/buildtag.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-10-27T23:30:57Z",
+      "side": 1,
+      "message": "Given that these were uploaded in 2020, I think they can stay.",
+      "parentUuid": "e18c2fb1_384b9555",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "33759ce9624ed550611ccf4ad1b73cccce8e714b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e8925f7_c1039ccb",
