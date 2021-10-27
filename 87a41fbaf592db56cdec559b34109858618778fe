@@ -107,6 +107,24 @@
       "parentUuid": "5e247a8c_658598c0",
       "revId": "87a41fbaf592db56cdec559b34109858618778fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0e3605f_8906a933",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-27T02:08:28Z",
+      "side": 1,
+      "message": "I definitely don\u0027t think we want to have a permanent goroutine running for this.  But we could, for example, use time.AfterFunc.",
+      "parentUuid": "d9823977_822f3f36",
+      "revId": "87a41fbaf592db56cdec559b34109858618778fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
