@@ -53,6 +53,24 @@
       "message": "My system doesn\u0027t report these dialogs so I have no sense of how useful this is.",
       "revId": "573970133bd1ed3018221eb0f93c27fd3db507d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ca99f0e_9151d73f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-27T15:21:34Z",
+      "side": 1,
+      "message": "Well, do you object? 😊\n\nOr are you just saying your support is conditional on understanding (or personally feeling) its utility?",
+      "parentUuid": "3404f9db_3d026bdc",
+      "revId": "573970133bd1ed3018221eb0f93c27fd3db507d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
