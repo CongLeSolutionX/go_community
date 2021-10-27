@@ -161,6 +161,24 @@
       "parentUuid": "32376f84_8ab6f372",
       "revId": "87a41fbaf592db56cdec559b34109858618778fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5750bb2b_a51f53d2",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2021-10-27T03:09:44Z",
+      "side": 1,
+      "message": "\u003e BTW, shall move forward with this CL before starting any works on our previous thoughts?\n\nBTW, shall we move forward with this CL before starting any works on our previous thoughts?",
+      "parentUuid": "0cd9022d_fc127f81",
+      "revId": "87a41fbaf592db56cdec559b34109858618778fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
