@@ -384,7 +384,8 @@ func RemoveAll(dir string) error {
 	return robustio.RemoveAll(dir)
 }
 
-var GoSumFile string // path to go.sum; set by package modload
+var GoSumFile string             // path to go.sum; set by package modload
+var WorkspaceGoSumFiles []string // path to module go.sums in workspace; set by package modload
 
 type modSum struct {
 	mod module.Version
@@ -394,6 +395,7 @@ type modSum struct {
 var goSum struct {
 	mu        sync.Mutex
 	m         map[module.Version][]string // content of go.sum file
+	w         map[module.Version][]string // contents of go.sum files in the workspace
 	status    map[modSum]modSumStatus     // state of sums in m
 	overwrite bool                        // if true, overwrite go.sum without incorporating its contents
 	enabled   bool                        // whether to use go.sum at all
@@ -417,23 +419,39 @@ func initGoSum() (bool, error) {
 
 	goSum.m = make(map[module.Version][]string)
 	goSum.status = make(map[modSum]modSumStatus)
+	if len(WorkspaceGoSumFiles) > 0 {
+		goSum.w = make(map[module.Version][]string)
+	}
+
+	for _, f := range WorkspaceGoSumFiles {
+		_, err := readGoSumFile(goSum.w, f)
+		if err != nil {
+			return false, err
+		}
+	}
+
+	enabled, err := readGoSumFile(goSum.m, GoSumFile)
+	goSum.enabled = enabled
+	return enabled, err
+}
+
+func readGoSumFile(dst map[module.Version][]string, file string) (bool, error) {
 	var (
 		data []byte
 		err  error
 	)
-	if actualSumFile, ok := fsys.OverlayPath(GoSumFile); ok {
+	if actualSumFile, ok := fsys.OverlayPath(file); ok {
 		// Don't lock go.sum if it's part of the overlay.
 		// On Plan 9, locking requires chmod, and we don't want to modify any file
 		// in the overlay. See #44700.
 		data, err = os.ReadFile(actualSumFile)
 	} else {
-		data, err = lockedfile.Read(GoSumFile)
+		data, err = lockedfile.Read(file)
 	}
 	if err != nil && !os.IsNotExist(err) {
 		return false, err
 	}
-	goSum.enabled = true
-	readGoSum(goSum.m, GoSumFile, data)
+	readGoSum(dst, file, data)
 
 	return true, nil
 }
@@ -484,6 +502,14 @@ func HaveSum(mod module.Version) bool {
 	inited, err := initGoSum()
 	if err != nil || !inited {
 		return false
+	}
+	for _, h := range goSum.w[mod] {
+		if !strings.HasPrefix(h, "h1:") {
+			continue
+		}
+		if !goSum.status[modSum{mod, h}].dirty {
+			return true
+		}
 	}
 	for _, h := range goSum.m[mod] {
 		if !strings.HasPrefix(h, "h1:") {
@@ -603,6 +629,15 @@ func checkModSum(mod module.Version, h string) error {
 // goSum.mu must be locked.
 func haveModSumLocked(mod module.Version, h string) bool {
 	for _, vh := range goSum.m[mod] {
+		if h == vh {
+			return true
+		}
+		if strings.HasPrefix(vh, "h1:") {
+			base.Fatalf("verifying %s@%s: checksum mismatch\n\tdownloaded: %v\n\tgo.sum:     %v"+goSumMismatch, mod.Path, mod.Version, h, vh)
+		}
+	}
+	// Also check workspace sums.
+	for _, vh := range goSum.w[mod] {
 		if h == vh {
 			return true
 		}
@@ -749,7 +784,7 @@ Outer:
 			goSum.m = make(map[module.Version][]string, len(goSum.m))
 			readGoSum(goSum.m, GoSumFile, data)
 			for ms, st := range goSum.status {
-				if st.used {
+				if st.used && !sumInWorkspaceModulesLocked(ms.mod) {
 					addModSumLocked(ms.mod, ms.sum)
 				}
 			}
@@ -767,7 +802,7 @@ Outer:
 			sort.Strings(list)
 			for _, h := range list {
 				st := goSum.status[modSum{m, h}]
-				if !st.dirty || (st.used && keep[m]) {
+				if !st.dirty || (st.used && keep[m]) && !sumInWorkspaceModulesLocked(m) {
 					fmt.Fprintf(&buf, "%s %s %s\n", m.Path, m.Version, h)
 				}
 			}
@@ -782,6 +817,11 @@ Outer:
 	goSum.status = make(map[modSum]modSumStatus)
 	goSum.overwrite = false
 	return nil
+}
+
+func sumInWorkspaceModulesLocked(m module.Version) bool {
+	_, ok := goSum.w[m]
+	return ok
 }
 
 // TrimGoSum trims go.sum to contain only the modules needed for reproducible
