@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f0e3cfb_a66e6001",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "My understanding is that the asmfmt tool should be used to format asm files and that is what I used.",
+      "parentUuid": "c3b73be6_02ccc576",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "020832f6_69a327f9",
@@ -102,6 +120,30 @@
       "writtenOn": "2021-10-14T16:46:46Z",
       "side": 1,
       "message": "I think copying the names from the cryptogams implementation would make this much easier to verify the porting.",
+      "range": {
+        "startLine": 538,
+        "startChar": 17,
+        "endLine": 538,
+        "endChar": 19
+      },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "573e7ee2_6d78a78a",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "020832f6_69a327f9",
       "range": {
         "startLine": 538,
         "startChar": 17,
@@ -135,6 +177,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61634f9a_905cde0a",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "I don\u0027t want to remove this check, in case this function is called from somewhere else. It is a minor check in a huge function.",
+      "parentUuid": "7b23c97f_6add93c7",
+      "range": {
+        "startLine": 545,
+        "startChar": 1,
+        "endLine": 546,
+        "endChar": 47
+      },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68a3b07a_d6b1605c",
@@ -148,6 +214,24 @@
       "writtenOn": "2021-10-14T21:39:05Z",
       "side": 1,
       "message": "I recommend a small comment here noting we omit the 8x unrolled code.",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03fe76d0_bcce3161",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "I put the comment up front.",
+      "parentUuid": "68a3b07a_d6b1605c",
       "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -175,6 +259,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc3675f5_7a1e80d4",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "577c99e1_009e2514",
+      "range": {
+        "startLine": 675,
+        "startChar": 14,
+        "endLine": 675,
+        "endChar": 16
+      },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a31152b2_08b85e5e",
@@ -188,6 +296,24 @@
       "writtenOn": "2021-10-14T21:39:05Z",
       "side": 1,
       "message": "It might good to insert a PCALIGN 16 here too.",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36f6257c_ec883cf0",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a31152b2_08b85e5e",
       "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -209,6 +335,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ebdab6_3f953bf9",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7548dd33_4bdeb578",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "150cf16e_6a260ccd",
@@ -226,6 +370,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42061bab_c9aa09a8",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "150cf16e_6a260ccd",
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9325dde8_84b68e39",
@@ -239,6 +401,30 @@
       "writtenOn": "2021-10-14T16:46:46Z",
       "side": 1,
       "message": "Is this check needed? it is also done in the assembly.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 7
+      },
+      "revId": "7dc0874b52fb5504da4e3de65bea3673d574d026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f865de54_b67194dd",
+        "filename": "src/crypto/aes/cbc_ppc64le.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-10-28T16:48:48Z",
+      "side": 1,
+      "message": "I want to leave it in the asm code, but avoid the call if the len is zero.",
+      "parentUuid": "9325dde8_84b68e39",
       "range": {
         "startLine": 57,
         "startChar": 0,
