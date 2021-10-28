@@ -48,7 +48,7 @@ var FramePointerEnabled = GOARCH == "amd64" || GOARCH == "arm64"
 func ParseGOEXPERIMENT(goos, goarch, goexp string) (flags, baseline goexperiment.Flags, err error) {
 	regabiSupported := false
 	switch goarch {
-	case "amd64", "arm64", "ppc64le", "ppc64":
+	case "amd64", "arm64", "ppc64le", "ppc64", "riscv64":
 		regabiSupported = true
 	}
 
@@ -115,7 +115,7 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (flags, baseline goexperiment
 		flags.RegabiReflect = true
 		flags.RegabiArgs = true
 	}
-	// regabi is only supported on amd64, arm64, ppc64 and ppc64le.
+	// regabi is only supported on amd64, arm64, ppc64, ppc64le and riscv64
 	if !regabiSupported {
 		flags.RegabiReflect = false
 		flags.RegabiArgs = false
