@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef7f54f5_03130db1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-10-28T04:09:02Z",
+      "side": 1,
+      "message": "Nit: could just say \"linux/mips64x\" IIUC.",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "84a959d949b811a6c73a6a35ea65125cbca84131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58c73c7_05479d89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-10-28T04:09:02Z",
+      "side": 1,
+      "message": "Grammatical nit: \"... caused by rewriting in the lowering pass, we need to avoid rewriting GOT-related values.\" (if my understanding is correct; I can\u0027t quite make sense of that)",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "84a959d949b811a6c73a6a35ea65125cbca84131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "719925bf_23dd677a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-10-28T04:09:02Z",
+      "side": 1,
+      "message": "Nit: is this fact-stating sentence necessary after your detailed explanation above? The addition described by this sentence should be self-explanatory in the code changes.",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 62
+      },
+      "revId": "84a959d949b811a6c73a6a35ea65125cbca84131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
