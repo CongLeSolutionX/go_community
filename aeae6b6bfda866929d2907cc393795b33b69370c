@@ -16,6 +16,46 @@
       "message": "For 1.19",
       "revId": "aeae6b6bfda866929d2907cc393795b33b69370c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f91474c0_e7d2d0a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-28T20:55:55Z",
+      "side": 1,
+      "message": "R\u003dgo1.19\n",
+      "revId": "aeae6b6bfda866929d2907cc393795b33b69370c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce1e1629_383044c7",
+        "filename": "src/internal/buildcfg/exp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-28T20:55:55Z",
+      "side": 1,
+      "message": "I think this will make register ABI on by default on RISCV64, whereas we haven\u0027t ready at this point. Let\u0027s not change here, only below.",
+      "range": {
+        "startLine": 51,
+        "startChar": 44,
+        "endLine": 51,
+        "endChar": 53
+      },
+      "revId": "aeae6b6bfda866929d2907cc393795b33b69370c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
