@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f6d5bd63_360ca3d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-28T22:08:54Z",
+      "side": 1,
+      "message": "Done.  Added an extra sentence to the 2nd paragraph of addOneOpenDeferFrame.",
+      "parentUuid": "bbc3f352_9bc1be08",
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4b5aab90_23e79df7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -93,6 +111,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39ed0bf7_e4459673",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-28T22:08:54Z",
+      "side": 1,
+      "message": "Yes, changed \"doesn\u0027t need to (and shouldn\u0027t)\" to \"does not\".  And the new sentence about the invariant is added immediately after this sentence.",
+      "parentUuid": "b84cf29e_04053e6a",
+      "range": {
+        "startLine": 572,
+        "startChar": 3,
+        "endLine": 572,
+        "endChar": 34
+      },
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "596c06bd_42e2c89b",
@@ -106,6 +148,30 @@
       "writtenOn": "2021-10-27T19:54:57Z",
       "side": 1,
       "message": "\"a (not in-progress) open-coded _defer record\", just to make it more clear that this isn\u0027t incompatible with the previous paragraph?",
+      "range": {
+        "startLine": 579,
+        "startChar": 65,
+        "endLine": 579,
+        "endChar": 85
+      },
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "255a496e_f2b7a1a3",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-28T22:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "596c06bd_42e2c89b",
       "range": {
         "startLine": 579,
         "startChar": 65,
@@ -139,6 +205,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4531757e_fb810f80",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-28T22:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eeae91e_b01eda59",
+      "range": {
+        "startLine": 622,
+        "startChar": 29,
+        "endLine": 623,
+        "endChar": 16
+      },
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56a6c9b9_f9151f23",
@@ -152,6 +242,30 @@
       "writtenOn": "2021-10-28T17:15:35Z",
       "side": 1,
       "message": "consider lifting this part into the comment for the whole function. the comment for the function does a good job of explaining what the function does, but the why is said more implicitly than explicitly (i.e. it doesn\u0027t need to go further up the stack than the in-progress open defer, because it\u0027ll get added later if necessary; but the comment is missing *why* it\u0027s structured this way). I think this goes hand-in-hand with Austin\u0027s comment about explaining the invariant, but this parallel is key to making sure that the defer list is properly cleaned up.",
+      "range": {
+        "startLine": 625,
+        "startChar": 25,
+        "endLine": 628,
+        "endChar": 34
+      },
+      "revId": "e9e924c7e7105c88d2118acb563c3e8f1e96816d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a08bfba_27af681d",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-28T22:08:54Z",
+      "side": 1,
+      "message": "OK, yes, I put most of the detail in the header comment, and added a reference to the header comment here.",
+      "parentUuid": "56a6c9b9_f9151f23",
       "range": {
         "startLine": 625,
         "startChar": 25,
