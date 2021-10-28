@@ -476,5 +476,9 @@ func init() {
 		gpregmask:       gpMask,
 		fpregmask:       fpMask,
 		framepointerreg: -1, // not used
+		// Integer parameters passed in register A0-A7 followed by S0-S7
+		ParamIntRegNames: "X10 X11 X12 X13 X14 X15 X16 X17 X8 X9 X18 X19 X20 X21 X22 X23",
+		// Float parameters passed in register FA0-FA7 followed by FS0-FS7
+		ParamFloatRegNames: "F10 F11 F12 F13 F14 F15 F16 F17 F8 F9 F18 F19 F20 F21 F22 F23",
 	})
 }
