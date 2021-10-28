@@ -22,5 +22,6 @@ not just 'go work'.
 		cmdEdit,
 		cmdInit,
 		cmdSync,
+		cmdUse,
 	},
 }
