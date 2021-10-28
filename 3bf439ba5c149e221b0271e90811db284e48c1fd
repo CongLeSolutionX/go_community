@@ -265,6 +265,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e030dba_4c107e4d",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-28T21:07:18Z",
+      "side": 1,
+      "message": "I think we want to mention the order explicitly if it is not the natural numerical order. One should be able to read this doc to understand the ABI, not part of the compiler source code.\n\nThere should be a way to make non-Go tools to use numerical register naming (like reg-names\u003dnumeric for MIPS objdump). I always have that flag set. So numerical order shouldn\u0027t be a problem and there is no need to stick to the ELF ABI.\n\nThat said, if you really want to choose that order, that is fine.",
+      "parentUuid": "b959c1eb_22e5bdc1",
+      "range": {
+        "startLine": 731,
+        "startChar": 30,
+        "endLine": 731,
+        "endChar": 38
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b78010b4_a68f116f",
         "filename": "src/cmd/compile/abi-internal.md",
         "patchSetId": 1

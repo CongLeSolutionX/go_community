@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "644525a7_40a36ce4",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-28T21:07:18Z",
+      "side": 1,
+      "message": "Remove trailing whitespace.",
+      "range": {
+        "startLine": 771,
+        "startChar": 88,
+        "endLine": 771,
+        "endChar": 89
+      },
+      "revId": "003f81c53e090bcc53750bc18f41f48b87faa907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "923230b5_457beead",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-28T21:07:18Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to mention that. Nowhere else mentions 16 byte alignment for RISCV64 in this doc.",
+      "range": {
+        "startLine": 771,
+        "startChar": 0,
+        "endLine": 772,
+        "endChar": 54
+      },
+      "revId": "003f81c53e090bcc53750bc18f41f48b87faa907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aedc1a8c_b3b8da70",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-28T21:07:18Z",
+      "side": 1,
+      "message": "Typo.",
+      "range": {
+        "startLine": 772,
+        "startChar": 0,
+        "endLine": 772,
+        "endChar": 8
+      },
+      "revId": "003f81c53e090bcc53750bc18f41f48b87faa907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
