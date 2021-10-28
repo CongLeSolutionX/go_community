@@ -467,14 +467,16 @@ func init() {
 	}
 
 	archs = append(archs, arch{
-		name:            "RISCV64",
-		pkg:             "cmd/internal/obj/riscv",
-		genfile:         "../../riscv64/ssa.go",
-		ops:             RISCV64ops,
-		blocks:          RISCV64blocks,
-		regnames:        regNamesRISCV64,
-		gpregmask:       gpMask,
-		fpregmask:       fpMask,
-		framepointerreg: -1, // not used
+		name:               "RISCV64",
+		pkg:                "cmd/internal/obj/riscv",
+		genfile:            "../../riscv64/ssa.go",
+		ops:                RISCV64ops,
+		blocks:             RISCV64blocks,
+		regnames:           regNamesRISCV64,
+		ParamIntRegNames:   "X10 X11 X12 X13 X14 X15 X16 X17 X8 X9 X18 X19 X20 X21 X22 X23",
+		ParamFloatRegNames: "F10 F11 F12 F13 F14 F15 F16 F17 F8 F9 F18 F19 F20 F21 F22 F23",
+		gpregmask:          gpMask,
+		fpregmask:          fpMask,
+		framepointerreg:    -1, // not used
 	})
 }
