@@ -81,6 +81,14 @@
 //
 // The difference is that ‘image/*’ embeds ‘image/.tempfile’ while ‘image’ does not.
 //
+// If a pattern begins with the prefix ‘all:’, then the rule for walking directories is changed
+// to include those files beginning with ‘.’ or ‘_’. So to write an example exactly equivalent
+// to the first, we can use:
+//
+//	// content holds our static web server content.
+//	//go:embed all:image all:template html/index.html
+//	var content embed.FS
+//
 // The //go:embed directive can be used with both exported and unexported variables,
 // depending on whether the package wants to make the data available to other packages.
 // It can only be used with variables at package scope, not with local variables.
