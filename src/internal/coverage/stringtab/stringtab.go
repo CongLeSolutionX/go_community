@@ -32,9 +32,20 @@ func (stw *Writer) Nentries() uint32 {
 	return uint32(len(stw.strs))
 }
 
+// Freeze sends a signal to the writer that no more additions are
+// allowed, only lookups of existing strings (if a lookup triggers
+// addition, a panic will result). Useful as a mechanism for
+// "finalizing" a string table prior to writing it out.
+func (stw *Writer) Freeze() {
+	stw.frozen = true
+}
+
 func (stw *Writer) Lookup(s string) uint32 {
 	if idx, ok := stw.stab[s]; ok {
 		return idx
+	}
+	if stw.frozen {
+		panic("internal error: string table previously frozen")
 	}
 	idx := uint32(len(stw.strs))
 	stw.stab[s] = idx
