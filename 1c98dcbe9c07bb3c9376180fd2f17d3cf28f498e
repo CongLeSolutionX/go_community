@@ -16,6 +16,23 @@
       "message": "Temporary -2 until proposal is formally accepted.",
       "revId": "1c98dcbe9c07bb3c9376180fd2f17d3cf28f498e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33e601ad_415ae2e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2021-10-28T07:53:31Z",
+      "side": 1,
+      "message": "Proposal is accepted. No rush, just putting this in the right attention set.",
+      "revId": "1c98dcbe9c07bb3c9376180fd2f17d3cf28f498e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
