@@ -89,6 +89,24 @@
       "message": "@Cherry, what are your thoughts on this?\n\nShould we be marking this symbol as having a local entry point offset? I didn\u0027t see any way to do this today. Maybe I overlooked it. External objects work around this by adjust the relocation addend when converting into go relocation.",
       "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80898289_7dcfd791",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-28T21:44:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure what do you mean by \"a local entry point offset\". Do these functions have the two instructions at the entry or not? Maybe you could use the \"LOCAL\" attribute ( https://cs.opensource.google/go/go/+/master:src/cmd/internal/obj/link.go;l\u003d675 ) ?\n\nAlso, we probably should only add 8 if the the original offset is 0?",
+      "parentUuid": "ce94324d_c06ea564",
+      "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
