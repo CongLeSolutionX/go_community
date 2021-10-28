@@ -545,6 +545,13 @@ var depsRules = `
     encoding/binary, internal/unsafeheader, unsafe
     < internal/coverage/slicereader;
 
+    FMT, bufio, encoding/binary, internal/coverage,
+    internal/coverage/stringtab, os, unsafe
+    < internal/coverage/encodecounter;
+
+    encoding/binary, internal/coverage, io, os
+    < internal/coverage/decodecounter;
+
     FMT, encoding/binary, internal/coverage, io, os,
     crypto/md5, internal/coverage/slicereader
     < internal/coverage/decodemeta;
