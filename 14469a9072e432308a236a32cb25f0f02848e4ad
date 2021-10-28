@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "141c4ab0_15edbce5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-28T01:00:10Z",
+      "side": 1,
+      "message": "Maybe add a test for this case as well:\n\ntype t [t[0]]t\n\nThis is not a valid array length because t[0] cannot be constant. We\u0027re narrowly saved here by the language because t[0] could be a string index (where the string t is a constant), but even a string index with constant string and constant index remains non-constant...\n\nmaybe change desc to:\n\n... aren\u0027t valid array lengths because these expressions are never constant.",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "14469a9072e432308a236a32cb25f0f02848e4ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e378d43_0c9ef4f1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
