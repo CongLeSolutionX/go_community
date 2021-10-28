@@ -1927,6 +1927,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cac13b2_2777cc1a",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-28T18:41:58Z",
+      "side": 1,
+      "message": "Done, with docs + tests.\n\nTalked to a few others who worked on the package and they agree.",
+      "parentUuid": "c93214ac_6c455584",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d6ee4a2_059d967b",
