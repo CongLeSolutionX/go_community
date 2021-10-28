@@ -107,6 +107,24 @@
       "parentUuid": "ce94324d_c06ea564",
       "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06077526_6089c9fe",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-28T23:24:14Z",
+      "side": 1,
+      "message": "A second entry point for direct calls to a function which the linker knows share the same TOC pointer. This is always true today. It is also explained a little here too: https://cs.opensource.google/go/go/+/master:src/cmd/link/internal/ld/symtab.go;l\u003d140 . The local attribute doesn\u0027t seem quite right for this.\n\nAs for the checking the addend, yes. Though, a non-zero addend when resolving a go generated PIC R_CALLPOWER seems suspect.",
+      "parentUuid": "80898289_7dcfd791",
+      "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

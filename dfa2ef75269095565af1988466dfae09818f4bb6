@@ -147,6 +147,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff9352b9_8ee2a400",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-28T23:24:14Z",
+      "side": 1,
+      "message": "I suspect that is an artifact of how the .TOC. symbol is created. It should probably be typed differently when internal linking.\n\nThough, leaving it untyped causes the linker to complain it is undefined. The .TOC. symbol doesn\u0027t seem to fit under the existing SymKind. I am not sure what (if any of the existing) SymKind value it should be typed as when internal linking.",
+      "parentUuid": "b56ea729_998c06c8",
+      "revId": "dfa2ef75269095565af1988466dfae09818f4bb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26e56270_3b55c552",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 3
