@@ -1562,6 +1562,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "573ea03d_76b0267d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-10-28T18:43:10Z",
+      "side": 1,
+      "message": "I talked to a few others who worked on this package and they all agree that the Prefix method doing the masking is the common case and desired and making the weirdo ones with the constructor (now documented) is fine.",
+      "parentUuid": "e97a2108_26e55ab3",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b1bd38d_4bc9d1c5",
         "filename": "src/net/netip/netip.go",
         "patchSetId": 7
