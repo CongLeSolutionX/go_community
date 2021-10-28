@@ -32,9 +32,16 @@ func (stw *Writer) Nentries() uint32 {
 	return uint32(len(stw.strs))
 }
 
+func (stw *Writer) Freeze() {
+	stw.frozen = true
+}
+
 func (stw *Writer) Lookup(s string) uint32 {
 	if idx, ok := stw.stab[s]; ok {
 		return idx
+	}
+	if stw.frozen {
+		panic("internal error: string table previously frozen")
 	}
 	idx := uint32(len(stw.strs))
 	stw.stab[s] = idx
