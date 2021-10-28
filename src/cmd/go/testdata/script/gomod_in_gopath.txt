@@ -1,0 +1,11 @@
+# hello world
+go run hello2.go
+stderr 'hello world'
+! stdout .
+
+-- hello2.go --
+package main
+func main() { println("hello world") }
+
+-- $GOPATH/go.mod --
+module GOPATH
