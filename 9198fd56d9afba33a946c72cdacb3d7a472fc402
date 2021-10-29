@@ -143,6 +143,24 @@
       "parentUuid": "06077526_6089c9fe",
       "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beceb23e_3e2419e9",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-10-29T16:49:38Z",
+      "side": 1,
+      "message": "For the moment, this seems like the most sensible solution. Adding a new attribute seems like a heavy handed solution for these two outlier functions. It looks memory intensive to wire up another attribute through the linker to catch these outliers.\n\nMaybe I should consolidate the list of functions which do not have distinct local entry offset when built as PIC.",
+      "parentUuid": "22271497_afeb851c",
+      "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
