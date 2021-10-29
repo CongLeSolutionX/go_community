@@ -1,0 +1,51 @@
+# https://golang.org/issue/27628: -toolexec output should not be cached.
+
+[short] skip
+
+go build -o tool.exe ./tool
+
+env TOOLEXEC_PRINT='Hello, stderr!'
+go build -toolexec=./tool.exe ./pkg
+stderr '^# golang\.org/issue/27628/pkg\nHello, stderr!'
+
+	# This used to re-print the stderr output from above,
+	# even though -toolexec isn't even set.
+go build ./pkg
+! stderr .
+
+-- go.mod --
+module golang.org/issue/27628
+
+go 1.18
+-- tool/tool.go --
+package main
+
+import (
+	"errors"
+	"fmt"
+	"os"
+	"os/exec"
+)
+
+func main() {
+	if s := os.Getenv("TOOLEXEC_PRINT"); s != "" {
+		fmt.Fprintln(os.Stderr, s)
+	}
+	if len(os.Args) < 2 {
+		fmt.Fprintf(os.Stderr, "usage: $v COMMAND\n", os.Args[0])
+		os.Exit(2)
+	}
+
+	cmd := exec.Command(os.Args[1], os.Args[2:]...)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		if ee := (*exec.ExitError)(nil); errors.As(err, &ee) && ee.Exited() {
+			os.Exit(ee.ExitCode())
+		}
+		os.Exit(1)
+	}
+}
+-- pkg/pkg.go --
+package pkg
