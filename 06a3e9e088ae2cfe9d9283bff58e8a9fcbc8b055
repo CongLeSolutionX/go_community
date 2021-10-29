@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "878513b7_6cb55f92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2021-10-29T15:11:56Z",
+      "side": 1,
+      "message": "Grammatical nit: \"rewriting\"; also \"ssa values\"? (because you used \"are\" afterwards.) Also I believe you should make the \"To simplify ...\" and \"We need to ...\" parts *one sentence*, otherwise the first sentence wouldn\u0027t have a verb.",
+      "range": {
+        "startLine": 13,
+        "startChar": 33,
+        "endLine": 13,
+        "endChar": 57
+      },
+      "revId": "06a3e9e088ae2cfe9d9283bff58e8a9fcbc8b055",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
