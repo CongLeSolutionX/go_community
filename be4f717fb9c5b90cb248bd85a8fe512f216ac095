@@ -118,6 +118,30 @@
       },
       "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7728da8_e481a54a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-29T11:06:05Z",
+      "side": 1,
+      "message": "Sorry. Here ADDR type global variable, what I want to say is a global variable with prog.Type \u003d\u003d obj.TYPE_ADDR (look like $sym(SB)).\nI\u0027m developing the code. I\u0027ll reply to you as soon as possible.",
+      "parentUuid": "1f2950e3_f9d87aca",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

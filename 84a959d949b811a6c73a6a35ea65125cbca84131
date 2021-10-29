@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb423cf8_0efbcb2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-29T11:06:05Z",
+      "side": 1,
+      "message": "see https://go-review.googlesource.com/108475",
+      "parentUuid": "ef7f54f5_03130db1",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "84a959d949b811a6c73a6a35ea65125cbca84131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f58c73c7_05479d89",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e43dc8f1_eb6dd6c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-29T11:06:05Z",
+      "side": 1,
+      "message": "That \"rewriting\" is OK. Thank you!",
+      "parentUuid": "f58c73c7_05479d89",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "84a959d949b811a6c73a6a35ea65125cbca84131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "719925bf_23dd677a",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-10-28T04:09:02Z",
       "side": 1,
       "message": "Nit: is this fact-stating sentence necessary after your detailed explanation above? The addition described by this sentence should be self-explanatory in the code changes.",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 62
+      },
+      "revId": "84a959d949b811a6c73a6a35ea65125cbca84131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0514a9df_3c98a0e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-10-29T11:06:05Z",
+      "side": 1,
+      "message": "OK, I will delete this. Thank you!",
+      "parentUuid": "719925bf_23dd677a",
       "range": {
         "startLine": 14,
         "startChar": 8,
