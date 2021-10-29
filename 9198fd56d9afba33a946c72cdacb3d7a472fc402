@@ -161,6 +161,24 @@
       "parentUuid": "22271497_afeb851c",
       "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b111bfd0_7f928064",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-10-29T19:36:46Z",
+      "side": 1,
+      "message": "Thanks. Yeah, this is fine for now.\n\nThinking from another direction: would it work if we just remove this special case and always add the two instructions? If in all cases we\u0027ll add 8 to the call target, that might work. (Not in this CL.)",
+      "parentUuid": "beceb23e_3e2419e9",
+      "revId": "9198fd56d9afba33a946c72cdacb3d7a472fc402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
