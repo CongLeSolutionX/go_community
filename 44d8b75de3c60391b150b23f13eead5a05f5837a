@@ -16,6 +16,23 @@
       "message": "Ping kardianos.",
       "revId": "44d8b75de3c60391b150b23f13eead5a05f5837a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55fb79ee_f1c45b3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10205
+      },
+      "writtenOn": "2021-10-29T22:34:15Z",
+      "side": 1,
+      "message": "Any chance we can get this merged before the 1.18 release freeze in just 2 days?",
+      "revId": "44d8b75de3c60391b150b23f13eead5a05f5837a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
