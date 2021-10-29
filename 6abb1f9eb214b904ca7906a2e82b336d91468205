@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb19e75_8de042bd",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 1,
+      "message": "Yep, the lowest limb is the first one because it\u0027s little endian.",
+      "parentUuid": "d2c9ca43_bc1d2212",
+      "range": {
+        "startLine": 179,
+        "startChar": 55,
+        "endLine": 179,
+        "endChar": 66
+      },
+      "revId": "6abb1f9eb214b904ca7906a2e82b336d91468205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b84019f9_3c45f56d",
@@ -74,6 +98,30 @@
       "writtenOn": "2021-10-28T15:27:18Z",
       "side": 1,
       "message": "it doesn\u0027t look like the value of tmp changed at all. any reason the for loop was \"for i :\u003d 0; i \u003c 15; i++\" before and now it can be \"for i :\u003d range tmp\"?",
+      "range": {
+        "startLine": 217,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 19
+      },
+      "revId": "6abb1f9eb214b904ca7906a2e82b336d91468205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d718968_6c9d6366",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 1,
+      "message": "The two are equivalent if len(tmp) \u003d\u003d 15. Which it is, and we can check by scrolling up to line 199. But what the code wants to do is set all of tmp to zero, so the new form is easier to review, and doesn\u0027t risk getting out of sync with the length of tmp.\n\n(It\u0027s also faster because it gets pattern-matched by the compiler and turned into a memset to zero.)",
+      "parentUuid": "b84019f9_3c45f56d",
       "range": {
         "startLine": 217,
         "startChar": 16,
@@ -107,6 +155,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a8af74e_b6d748d3",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 1,
+      "message": "No, I believe it\u0027s a way to mark code, like `out` is in Markdown. Adam used and still uses it, and I had just kept it from the previous comment. Removed now.",
+      "parentUuid": "72e5a29b_8ddcfebd",
+      "range": {
+        "startLine": 282,
+        "startChar": 9,
+        "endLine": 282,
+        "endChar": 17
+      },
+      "revId": "6abb1f9eb214b904ca7906a2e82b336d91468205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cff8e03_5e80be6b",
@@ -120,6 +192,30 @@
       "writtenOn": "2021-10-28T15:27:18Z",
       "side": 1,
       "message": "do you mean \"went/will go\"?",
+      "range": {
+        "startLine": 321,
+        "startChar": 36,
+        "endLine": 321,
+        "endChar": 43
+      },
+      "revId": "6abb1f9eb214b904ca7906a2e82b336d91468205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b175d9_dfb29887",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 1,
+      "message": "Reworded, it took me a bit to understand what I was saying.",
+      "parentUuid": "7cff8e03_5e80be6b",
       "range": {
         "startLine": 321,
         "startChar": 36,
@@ -153,6 +249,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a202fd4_4309b3f3",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 1,
+      "message": "I\u0027m afraid I can\u0027t do a better job in a function comment than the Wikipedia page does. The reference is there to take the reader from \"wait why would in**(2**224 - 2**96 - 1) be the inverse of in?!??!\" to learning about Fermat\u0027s little theorem. The previous comment was still a bit obscure, but the in**(p-2) intermediate step should bridge the gap between what\u0027s in the Wikipedia page and what we are doing here.",
+      "parentUuid": "bfa759a3_565b256d",
+      "range": {
+        "startLine": 330,
+        "startChar": 48,
+        "endLine": 330,
+        "endChar": 71
+      },
+      "revId": "6abb1f9eb214b904ca7906a2e82b336d91468205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f852ad9_b754f518",
@@ -166,6 +286,30 @@
       "writtenOn": "2021-10-28T15:27:18Z",
       "side": 1,
       "message": "what does this mean?",
+      "range": {
+        "startLine": 465,
+        "startChar": 44,
+        "endLine": 465,
+        "endChar": 59
+      },
+      "revId": "6abb1f9eb214b904ca7906a2e82b336d91468205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25f4f595_ff05dbb7",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 1,
+      "message": "Most significant bit, which in two\u0027s complement indicates a negative number. Expanded the acronym.",
+      "parentUuid": "2f852ad9_b754f518",
       "range": {
         "startLine": 465,
         "startChar": 44,
@@ -199,6 +343,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f3a5d41_8ae9e2fb",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 1,
+      "message": "That would not be constant time. CPUs optimize branches (the instructions used to implement if statements) by predicting them and you can tell from that and from cache behavior if a path or the other is taken.",
+      "parentUuid": "b299cc8a_bc5b9aa9",
+      "range": {
+        "startLine": 468,
+        "startChar": 0,
+        "endLine": 468,
+        "endChar": 71
+      },
+      "revId": "6abb1f9eb214b904ca7906a2e82b336d91468205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb3b42a0_1a7770ae",
@@ -212,6 +380,30 @@
       "writtenOn": "2021-10-28T15:27:18Z",
       "side": 1,
       "message": "not sure, but it might be useful to add \"shift must be at most 4 bits higher than a multiple of 8\"?",
+      "range": {
+        "startLine": 676,
+        "startChar": 9,
+        "endLine": 676,
+        "endChar": 35
+      },
+      "revId": "6abb1f9eb214b904ca7906a2e82b336d91468205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b09cc95_7553bf5d",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 1,
+      "message": "Wouldn\u0027t hurt, but generally I believe test failures and internal error panics don\u0027t need to communicate much, because triaging them and fixing will involve looking at the source anyway (unlike say, an error we return from crypto/tls, which most developers will stare at in isolation).\n\nIn this case for example, if this panic was reached we\u0027d grep for it, and immediately see the if condition and the function comment.",
+      "parentUuid": "eb3b42a0_1a7770ae",
       "range": {
         "startLine": 676,
         "startChar": 9,

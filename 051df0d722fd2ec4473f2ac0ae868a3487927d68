@@ -22,6 +22,30 @@
       },
       "revId": "051df0d722fd2ec4473f2ac0ae868a3487927d68",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0462f397_cf610878",
+        "filename": "src/crypto/elliptic/p224.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-10-29T22:01:14Z",
+      "side": 0,
+      "message": "It was reflecting the operation of the function, which was wrong: p224Contract specifically reduces its input to the minimal representation. The minimal representation of 0 is 0, not p. We don\u0027t need to check for p after calling p224Contract. I am not sure why this function was doing that. The code below is also changed now to just check against 0.",
+      "parentUuid": "234ab12e_19316cec",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 34
+      },
+      "revId": "051df0d722fd2ec4473f2ac0ae868a3487927d68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
