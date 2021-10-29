@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5b87fa8_9a1db215",
+        "filename": "test/typeparam/issue48538.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-29T20:31:39Z",
+      "side": 1,
+      "message": "Done.  Improved the wording a bit.",
+      "parentUuid": "4f92a6a0_5e2e0c57",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "fb836ac06d078afcc419531716df5baedb838b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fb35167_0220433a",
@@ -127,6 +151,24 @@
       "writtenOn": "2021-10-28T03:45:47Z",
       "side": 1,
       "message": "make this a ~struct{ b1, b2 string }",
+      "revId": "fb836ac06d078afcc419531716df5baedb838b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f48ac798_f9eb16d6",
+        "filename": "test/typeparam/issue48538.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-29T20:31:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fb35167_0220433a",
       "revId": "fb836ac06d078afcc419531716df5baedb838b5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -154,6 +196,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9155667_3641f752",
+        "filename": "test/typeparam/issue48538.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-29T20:31:39Z",
+      "side": 1,
+      "message": "Made a separate f2 function where I used \u0027~struct {b1, b2 string }\u0027 directly, rather than C",
+      "parentUuid": "3e1d2818_5173a3e6",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "fb836ac06d078afcc419531716df5baedb838b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1751f5ff_0e1f2880",
@@ -167,6 +233,24 @@
       "writtenOn": "2021-10-28T03:45:47Z",
       "side": 1,
       "message": "maybe\n\ns/D/map[string]string | S/ and get rid of D",
+      "revId": "fb836ac06d078afcc419531716df5baedb838b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68e40063_7e506ab6",
+        "filename": "test/typeparam/issue48538.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-10-29T20:31:39Z",
+      "side": 1,
+      "message": "Again, for the sake of more testing, made separate functions where I put the type in directly, or used S, rather than D.",
+      "parentUuid": "1751f5ff_0e1f2880",
       "revId": "fb836ac06d078afcc419531716df5baedb838b5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
