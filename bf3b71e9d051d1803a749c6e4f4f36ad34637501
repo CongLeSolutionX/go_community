@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb040e7b_81817a74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-10-29T18:53:28Z",
+      "side": 1,
+      "message": "LGTM module Jonathan\u0027s comment.",
+      "revId": "bf3b71e9d051d1803a749c6e4f4f36ad34637501",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19b25e7c_c19582e1",
