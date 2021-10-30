@@ -35,7 +35,6 @@ var (
 func initP256Arch() {
 	p256 = p256CurveFast{p256Params}
 	initTable()
-	return
 }
 
 func (curve p256CurveFast) Params() *CurveParams {
@@ -74,7 +73,6 @@ func p256MovCond(res, a, b *p256Point, cond int)
 //go:noescape
 func p256Select(point *p256Point, table []p256Point, idx int)
 
-//
 //go:noescape
 func p256SelectBase(point *p256Point, table []p256Point, idx int)
 
@@ -86,12 +84,9 @@ func p256SelectBase(point *p256Point, table []p256Point, idx int)
 //go:noescape
 func p256PointAddAffineAsm(res, in1, in2 *p256Point, sign, sel, zero int)
 
-// Point add
-//
 //go:noescape
 func p256PointAddAsm(res, in1, in2 *p256Point) int
 
-//
 //go:noescape
 func p256PointDoubleAsm(res, in *p256Point)
 
@@ -342,7 +337,6 @@ func boothW7(in uint) (int, int) {
 }
 
 func initTable() {
-
 	p256PreFast = new([37][64]p256Point)
 
 	// TODO: For big endian, these slices should be in reverse byte order,
@@ -354,7 +348,6 @@ func initTable() {
 			0x25, 0xf3, 0x21, 0xdd, 0x88, 0x86, 0xe8, 0xd2, 0x85, 0x5d, 0x88, 0x25, 0x18, 0xff, 0x71, 0x85}, //(p256.y*2^256)%p
 		z: [32]byte{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
 			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00}, //(p256.z*2^256)%p
-
 	}
 
 	t1 := new(p256Point)
