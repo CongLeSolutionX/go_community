@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7566898f_789b84b2",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-30T09:52:27Z",
+      "side": 1,
+      "message": "Yeah. I\u0027ll send other CL to enable it once it won\u0027t break trybots.",
+      "parentUuid": "cc94ed6b_81006f17",
+      "revId": "fbd0561a9fb49965129ce8a892daf964f5043b71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edf946a6_ddda38b9",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-10-28T09:59:15Z",
       "side": 1,
       "message": "Might be worth a comment here explaining the reason for the strange order. Something like:\n\n// Integer parameters are passed in registers A0-A7 followed by S0-S7.\n\nAnd something similar for the floating point arguments.",
+      "revId": "fbd0561a9fb49965129ce8a892daf964f5043b71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c7b05a1_782c03ee",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-10-30T09:52:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edf946a6_ddda38b9",
       "revId": "fbd0561a9fb49965129ce8a892daf964f5043b71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
