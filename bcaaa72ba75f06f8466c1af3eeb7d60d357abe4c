@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbb0b2f4_886665ec",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-30T22:55:11Z",
+      "side": 1,
+      "message": "That is fine. We just reach the case w/o generics which handles all types.",
+      "parentUuid": "e5714401_e576413d",
+      "range": {
+        "startLine": 589,
+        "startChar": 4,
+        "endLine": 589,
+        "endChar": 22
+      },
+      "revId": "bcaaa72ba75f06f8466c1af3eeb7d60d357abe4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bded35bb_0ef9dd92",
@@ -93,6 +117,30 @@
       "writtenOn": "2021-10-30T22:48:07Z",
       "side": 1,
       "message": "This should be \u0027index\u0027: the point is that \u0027x[\u0027 is never the start of a valid array length.",
+      "range": {
+        "startLine": 603,
+        "startChar": 6,
+        "endLine": 603,
+        "endChar": 11
+      },
+      "revId": "bcaaa72ba75f06f8466c1af3eeb7d60d357abe4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "923a8e25_1eb7b6ec",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-30T22:55:11Z",
+      "side": 1,
+      "message": "will fix.",
+      "parentUuid": "bded35bb_0ef9dd92",
       "range": {
         "startLine": 603,
         "startChar": 6,
