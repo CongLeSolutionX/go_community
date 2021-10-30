@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "321672d1_ec207099",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-30T22:50:34Z",
+      "side": 1,
+      "message": "Now that I\u0027ve ported this code, I think this can be simplified a bit. Up to you if you want to do it. See CL 360135 for comparison.",
+      "revId": "a5a423e0e809e451b06771eb6a7b95cc9255f9fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50af06f1_ee23f97d",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2582,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-30T22:50:34Z",
+      "side": 1,
+      "message": "break or else, not both",
+      "range": {
+        "startLine": 2582,
+        "startChar": 4,
+        "endLine": 2582,
+        "endChar": 9
+      },
+      "revId": "a5a423e0e809e451b06771eb6a7b95cc9255f9fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6446ba1_99ed9bc7",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2584,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-30T22:50:34Z",
+      "side": 1,
+      "message": "empty line",
+      "revId": "a5a423e0e809e451b06771eb6a7b95cc9255f9fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d74d7cde_40c95c0d",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2589,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-30T22:50:34Z",
+      "side": 1,
+      "message": "If you just call parseBinaryExpr here you can avoid changing all calls to parseExpr.",
+      "revId": "a5a423e0e809e451b06771eb6a7b95cc9255f9fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
