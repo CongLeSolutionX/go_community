@@ -22,7 +22,15 @@ type P521Element struct {
 	// [0x0 ~> 0x400000000000000], [0x0 ~> 0x400000000000000], [0x0 ~> 0x400000000000000],
 	// [0x0 ~> 0x400000000000000], [0x0 ~> 0x400000000000000], [0x0 ~> 0x400000000000000],
 	// [0x0 ~> 0x400000000000000], [0x0 ~> 0x400000000000000], [0x0 ~> 0x200000000000000]
-	x [9]uint64
+	x p521TightFieldElement
+}
+
+// xl returns a reference to the underlying element as a loose element. The
+// return value can be used as an input to a fiat function because the bounds of
+// p521TightFieldElement are strictly tighter than p521LooseFieldElement. If it
+// is used as an output, though, it MUST be followed by a p521Carry call.
+func (e *P521Element) xl() *p521LooseFieldElement {
+	return (*p521LooseFieldElement)(&e.x)
 }
 
 // One sets e = 1, and returns e.
@@ -89,121 +97,33 @@ func invertEndianness(v []byte) {
 
 // Add sets e = t1 + t2, and returns e.
 func (e *P521Element) Add(t1, t2 *P521Element) *P521Element {
-	p521Add(&e.x, &t1.x, &t2.x)
-	p521Carry(&e.x, &e.x)
+	p521Add(e.xl(), &t1.x, &t2.x)
+	p521Carry(&e.x, e.xl())
 	return e
 }
 
 // Sub sets e = t1 - t2, and returns e.
 func (e *P521Element) Sub(t1, t2 *P521Element) *P521Element {
-	p521Sub(&e.x, &t1.x, &t2.x)
-	p521Carry(&e.x, &e.x)
+	p521Sub(e.xl(), &t1.x, &t2.x)
+	p521Carry(&e.x, e.xl())
 	return e
 }
 
 // Mul sets e = t1 * t2, and returns e.
 func (e *P521Element) Mul(t1, t2 *P521Element) *P521Element {
-	p521CarryMul(&e.x, &t1.x, &t2.x)
+	p521CarryMul(&e.x, t1.xl(), t2.xl())
 	return e
 }
 
 // Square sets e = t * t, and returns e.
 func (e *P521Element) Square(t *P521Element) *P521Element {
-	p521CarrySquare(&e.x, &t.x)
+	p521CarrySquare(&e.x, t.xl())
 	return e
 }
 
-// Select sets e to a if cond == 1, and to b if cond == 0.
+// Select sets v to a if cond == 1, and to b if cond == 0.
 func (v *P521Element) Select(a, b *P521Element, cond int) *P521Element {
-	p521Selectznz(&v.x, p521Uint1(cond), &b.x, &a.x)
+	p521Selectznz((*[9]uint64)(&v.x), p521Uint1(cond),
+		(*[9]uint64)(&b.x), (*[9]uint64)(&a.x))
 	return v
-}
-
-// Invert sets e = 1/t, and returns e.
-//
-// If t == 0, Invert returns e = 0.
-func (e *P521Element) Invert(t *P521Element) *P521Element {
-	// Inversion is implemented as exponentiation with exponent p − 2.
-	// The sequence of multiplications and squarings was generated with
-	// github.com/mmcloughlin/addchain v0.2.0.
-
-	var t1, t2 = new(P521Element), new(P521Element)
-
-	// _10 = 2 * 1
-	t1.Square(t)
-
-	// _11 = 1 + _10
-	t1.Mul(t, t1)
-
-	// _1100 = _11 << 2
-	t2.Square(t1)
-	t2.Square(t2)
-
-	// _1111 = _11 + _1100
-	t1.Mul(t1, t2)
-
-	// _11110000 = _1111 << 4
-	t2.Square(t1)
-	for i := 0; i < 3; i++ {
-		t2.Square(t2)
-	}
-
-	// _11111111 = _1111 + _11110000
-	t1.Mul(t1, t2)
-
-	// x16 = _11111111<<8 + _11111111
-	t2.Square(t1)
-	for i := 0; i < 7; i++ {
-		t2.Square(t2)
-	}
-	t1.Mul(t1, t2)
-
-	// x32 = x16<<16 + x16
-	t2.Square(t1)
-	for i := 0; i < 15; i++ {
-		t2.Square(t2)
-	}
-	t1.Mul(t1, t2)
-
-	// x64 = x32<<32 + x32
-	t2.Square(t1)
-	for i := 0; i < 31; i++ {
-		t2.Square(t2)
-	}
-	t1.Mul(t1, t2)
-
-	// x65 = 2*x64 + 1
-	t2.Square(t1)
-	t2.Mul(t2, t)
-
-	// x129 = x65<<64 + x64
-	for i := 0; i < 64; i++ {
-		t2.Square(t2)
-	}
-	t1.Mul(t1, t2)
-
-	// x130 = 2*x129 + 1
-	t2.Square(t1)
-	t2.Mul(t2, t)
-
-	// x259 = x130<<129 + x129
-	for i := 0; i < 129; i++ {
-		t2.Square(t2)
-	}
-	t1.Mul(t1, t2)
-
-	// x260 = 2*x259 + 1
-	t2.Square(t1)
-	t2.Mul(t2, t)
-
-	// x519 = x260<<259 + x259
-	for i := 0; i < 259; i++ {
-		t2.Square(t2)
-	}
-	t1.Mul(t1, t2)
-
-	// return x519<<2 + 1
-	t1.Square(t1)
-	t1.Square(t1)
-	return e.Mul(t1, t)
 }
