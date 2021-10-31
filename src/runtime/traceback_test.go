@@ -202,7 +202,6 @@ func testTracebackArgs2(a bool, b struct {
 }
 
 //go:noinline
-//go:registerparams
 func testTracebackArgs3(x [3]byte, a, b, c int, y [3]byte) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a < 0 {
