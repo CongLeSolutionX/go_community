@@ -126,6 +126,30 @@
       },
       "revId": "95ab630068d41984aff02bd9eeac97e2001de3ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e26a6b0_3b7f35d3",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-10-31T01:19:43Z",
+      "side": 1,
+      "message": "Good point, though. We have an accepted proposal for type parameters in alias declarations (issue #46477) so we should just collect the \"\u003d\" and leave the complaining to the type checker.\n\nDone.",
+      "parentUuid": "6bf1b849_14ae8a14",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 627,
+        "endChar": 5
+      },
+      "revId": "95ab630068d41984aff02bd9eeac97e2001de3ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
