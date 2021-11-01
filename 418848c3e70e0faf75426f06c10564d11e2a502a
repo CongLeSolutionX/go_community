@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ccd626_8451b180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7276
+      },
+      "writtenOn": "2021-11-01T06:43:03Z",
+      "side": 1,
+      "message": "For posterity\u0027s sake, mention the changes to arithmetic on invalid points (returning a random point).",
+      "revId": "418848c3e70e0faf75426f06c10564d11e2a502a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "654d3c97_50630b4b",
+        "filename": "src/crypto/elliptic/internal/fiat/generate.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 7276
+      },
+      "writtenOn": "2021-11-01T06:43:03Z",
+      "side": 1,
+      "message": "Naming this method SetOne would make it more clear that it modifies the receiver.",
+      "revId": "418848c3e70e0faf75426f06c10564d11e2a502a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a61fa19_40f5f939",
+        "filename": "src/crypto/elliptic/internal/fiat/generate.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 7276
+      },
+      "writtenOn": "2021-11-01T06:43:03Z",
+      "side": 1,
+      "message": "It\u0027s encoded as a big-endian integer, right?",
+      "revId": "418848c3e70e0faf75426f06c10564d11e2a502a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd6047f3_083ce365",
+        "filename": "src/crypto/elliptic/internal/fiat/generate.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 7276
+      },
+      "writtenOn": "2021-11-01T06:43:03Z",
+      "side": 1,
+      "message": "For casual readers (e.g., somebody learning cryptography), a comment explaining the relationship between -1 and the curve\u0027s prime would be helpful. In particular, it would explain the range loop in SetBytes.",
+      "revId": "418848c3e70e0faf75426f06c10564d11e2a502a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
