@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "27075244_dbc7dd4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-11-01T14:39:15Z",
+      "side": 1,
+      "message": "I emailed yastebov.alex@gmail.com and got a bounce.\nI emailed yastrebov.alex@gmail.com to confirm that they wrote the commit in question.\nCC\u0027ed you on both.\nAssuming yastrebov.alex@gmail.com did write it, let\u0027s fix the address here.",
+      "parentUuid": "11739a46_7e37ec2a",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29c2e058_8afd1e7c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -212,6 +230,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be5b5280_9e262897",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-11-01T14:39:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55d0986f_071c934b",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "105c8eeb_29fa73f1",
@@ -349,6 +385,24 @@
       "side": 1,
       "message": "It\u0027s mostly strconv.Quote for error messages. But also strconv.AppendInt, strconv.ParseUint, strconv.AppendUint.\n\nEnough to be annoying to rewrite it all, unless we want more internal packages.",
       "parentUuid": "8b008fb7_50fae16b",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02d680f4_63d28d16",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-11-01T14:39:15Z",
+      "side": 1,
+      "message": "Hmm. The whole reason internal/itoa exists is to avoid net pulling in strconv, so it would be unfortunate (or at least inconsistent) to pull it in this way.\n\nLooks like the new things strconv pulls in are math and math/bits, though, which seem fine. I feel like strconv used to pull in unicode but I guess not anymore. OK.",
+      "parentUuid": "a35c91c8_618f801b",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1578,6 +1632,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10f2cc72_0cfb4d01",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-11-01T14:39:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a867fb26_27b902e2",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fcbfbc5_30e32efe",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-11-01T14:39:15Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "573ea03d_76b0267d",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b1bd38d_4bc9d1c5",
@@ -2576,6 +2666,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "868f70da_76a88e9b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-11-01T14:39:15Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "afe6fa60_4236e78f",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12c97468_401126fa",
@@ -2747,6 +2855,24 @@
       "side": 1,
       "message": "That fails tests.",
       "parentUuid": "2917304d_2fada66d",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3f5ed7f_55835542",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-11-01T14:39:15Z",
+      "side": 1,
+      "message": "It seems like if you can\u0027t write p.Masked() \u003d\u003d o.Masked() here,\nthen something is at least incomplete in the logic above.\n\nI didn\u0027t check out the code and run it, but it looks like the reason it fails is that two different prefixes with invalid bit counts would match using p.Masked() \u003d\u003d o.Masked() but would return an error leading to a false in the longer code that\u0027s here.  \n\nIt would be clearer if this code handled the error cases explicitly,\nwhich would be to make the top part of the function be:\n\n\tif !p.IsValid() || !o.IsValid() {\n\t\treturn false\n\t}\n\tif p \u003d\u003d o {\n\t\treturn true\n\t}\n\tif p.bits \u003c 0 || o.bits \u003c 0 {\n\t\treturn false\n\t}\n\nThen p.Masked() \u003d\u003d o.Masked() should work.\n\nBut at that point I think there\u0027s another oddity: the p \u003d\u003d o check means\n(1.2.3.4/33).Overlaps(1.2.3.4/33) is true, but \n(1.2.3.4/33).Overlaps(1.2.3.4/34) is false.\nIt\u0027s hard to claim there is a difference in whether these\n\"contain any IP addresses in common\".\n\nIt seems like maybe the p \u003d\u003d o check should be moved down\nafter the bits \u003c 0 check.",
+      "parentUuid": "66e73b1b_5021281d",
       "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
