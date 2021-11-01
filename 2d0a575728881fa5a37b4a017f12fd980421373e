@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71ddda71_087f25fa",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-01T22:39:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "24715ee7_42d61d39",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 2
+      },
+      "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d9a42d2_959158ed",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-01T21:30:12Z",
       "side": 1,
       "message": "Linux/PPC64LE ? \"PPC64\" doesn\u0027t distinguish Linux and AIX, and AIX doesn\u0027t use ELF.",
+      "range": {
+        "startLine": 646,
+        "startChar": 62,
+        "endLine": 646,
+        "endChar": 67
+      },
+      "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c89e24a_d09b884c",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-01T22:39:10Z",
+      "side": 1,
+      "message": "I think the TOC concepts are shared by all PPC ABIs. Lacking a canonical AIX ABI document, I can\u0027t really say for sure.\n\nAnyhow, This can be wordsmithed better.",
+      "parentUuid": "1d9a42d2_959158ed",
       "range": {
         "startLine": 646,
         "startChar": 62,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a5dc7a0_b4da9de1",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-01T22:39:10Z",
+      "side": 1,
+      "message": "I don\u0027t think so in this case. The fixed bits in the opcode are always listed in decimal by the ISA documentation. IMO, it makes it a little easier to cross-reference.",
+      "parentUuid": "2b416d29_bc1822cb",
+      "range": {
+        "startLine": 998,
+        "startChar": 26,
+        "endLine": 998,
+        "endChar": 29
+      },
+      "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c2671b4_62dc05bf",
@@ -83,6 +155,24 @@
       "writtenOn": "2021-11-01T21:30:12Z",
       "side": 1,
       "message": "Maybe  add some  comment. It\u0027s hard to understand what this does.",
+      "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "176230db_6f166bc7",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-01T22:39:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9c2671b4_62dc05bf",
       "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -110,6 +200,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10a03d54_8d2469ec",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-01T22:39:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7ebae271_59b250be",
+      "range": {
+        "startLine": 1011,
+        "startChar": 15,
+        "endLine": 1011,
+        "endChar": 18
+      },
+      "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab99b32a_24012134",
@@ -123,6 +237,30 @@
       "writtenOn": "2021-11-01T21:30:12Z",
       "side": 1,
       "message": "TLS_LE ?",
+      "range": {
+        "startLine": 1015,
+        "startChar": 8,
+        "endLine": 1015,
+        "endChar": 14
+      },
+      "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9f4326d_8c2ee360",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-01T22:39:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ab99b32a_24012134",
       "range": {
         "startLine": 1015,
         "startChar": 8,
