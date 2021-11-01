@@ -164,6 +164,30 @@
       },
       "revId": "c01d6d7160338657f8f0aa0c00684868145500f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74697a9b_04b3568f",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 53338
+      },
+      "writtenOn": "2021-11-01T23:27:05Z",
+      "side": 1,
+      "message": "Hi Katie, made changes locally \u0026 rebased the branch onto master (saw the tribot failure suggested doing so, perhaps will help).\n\nCurious what\u0027s best for you though as I\u0027m not familiar with your folks workflow; should I push these changes to Github \u0026 let them flow upstream to you? Or perhaps I should push directly to this CL/Branch with go.googlesource.com/go as my origin?\n\nThanks.",
+      "parentUuid": "d358ebe3_569e9b5c",
+      "range": {
+        "startLine": 804,
+        "startChar": 0,
+        "endLine": 806,
+        "endChar": 41
+      },
+      "revId": "c01d6d7160338657f8f0aa0c00684868145500f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
