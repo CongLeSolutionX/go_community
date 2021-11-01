@@ -515,3 +515,25 @@ func BenchmarkWriteToReadFromUDP(b *testing.B) {
 		}
 	}
 }
+
+func BenchmarkWriteToReadFromUDPAddrPort(b *testing.B) {
+	conn, err := ListenUDP("udp4", &UDPAddr{IP: IPv4(127, 0, 0, 1)})
+	if err != nil {
+		b.Fatal(err)
+	}
+	laddr := conn.LocalAddr()
+	addr := laddr.(*UDPAddr).AddrPort()
+	buf := make([]byte, 8)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		_, err := conn.WriteToUDPAddrPort(buf, addr)
+		if err != nil {
+			b.Fatal(err)
+		}
+		_, _, err = conn.ReadFromUDP(buf) // TODO: create and use ReadFromUDPAddrPort
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
