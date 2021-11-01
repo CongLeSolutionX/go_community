@@ -29,6 +29,24 @@ func (c *UDPConn) readFrom(b []byte, addr *UDPAddr) (int, *UDPAddr, error) {
 	return n, addr, nil
 }
 
+func (c *UDPConn) readFromAddrPort(b []byte) (int, netip.AddrPort, error) {
+	buf := make([]byte, udpHeaderSize+len(b))
+	m, err := c.fd.Read(buf)
+	if err != nil {
+		return 0, netip.AddrPort{}, err
+	}
+	if m < udpHeaderSize {
+		return 0, netip.AddrPort{}, errors.New("short read reading UDP header")
+	}
+	buf = buf[:m]
+
+	h, buf := unmarshalUDPHeader(buf)
+	n := copy(b, buf)
+	ip, _ := netip.AddrFromSlice(h.raddr)
+	addr := netip.AddrPortFrom(ip, h.rport)
+	return n, addr, nil
+}
+
 func (c *UDPConn) readMsg(b, oob []byte) (n, oobn, flags int, addr netip.AddrPort, err error) {
 	return 0, 0, 0, netip.AddrPort{}, syscall.EPLAN9
 }

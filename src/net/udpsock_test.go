@@ -531,7 +531,7 @@ func BenchmarkWriteToReadFromUDPAddrPort(b *testing.B) {
 		if err != nil {
 			b.Fatal(err)
 		}
-		_, _, err = conn.ReadFromUDP(buf) // TODO: create and use ReadFromUDPAddrPort
+		_, _, err = conn.ReadFromUDPAddrPort(buf)
 		if err != nil {
 			b.Fatal(err)
 		}
