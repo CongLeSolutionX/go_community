@@ -111,6 +111,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1740aa7_e02b3a10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-01T16:55:18Z",
+      "side": 1,
+      "message": "We could disable it in the misc-compile-openbsd builder.\n\nBut that also means we now cannot cross compile for openbsd/mips64, which seems unfortunate. What is the situation for that port currently? Does a cross-compiled pure-Go program run? If it runs okay today, it would unfortunate to remove that. If it doesn\u0027t run, it would be fine to remove.",
+      "parentUuid": "fd2baa36_64b4b4fa",
+      "revId": "c9712ee27b0873039b00ccca2891867776b076cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a8801f6_5b115484",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 1
