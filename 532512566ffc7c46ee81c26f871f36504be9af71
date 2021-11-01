@@ -218,6 +218,24 @@
       "parentUuid": "d726b322_df301563",
       "revId": "532512566ffc7c46ee81c26f871f36504be9af71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d39f7a_2d6669ff",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2021-11-01T18:41:44Z",
+      "side": 1,
+      "message": "Yup, it was just curiosity. Nevertheless, I don\u0027t think we should be using Altivec loads/stores from POWER8 and beyond. We could just use VSX and get rid of the 16-byte alignment from lvx/stvx.",
+      "parentUuid": "5b1b7130_a4680cb5",
+      "revId": "532512566ffc7c46ee81c26f871f36504be9af71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
