@@ -84,16 +84,19 @@ func TestFcntlFlock(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Open failed: %v", err)
 		}
-		defer syscall.Close(fd)
 		if err := syscall.Ftruncate(fd, 1<<20); err != nil {
 			t.Fatalf("Ftruncate(1<<20) failed: %v", err)
 		}
 		if err := syscall.FcntlFlock(uintptr(fd), syscall.F_SETLK, &flock); err != nil {
 			t.Fatalf("FcntlFlock(F_SETLK) failed: %v", err)
 		}
+		// f takes ownership of fd, so avoid using fd after this point.
+		f := os.NewFile(uintptr(fd), name)
+		defer f.Close()
+
 		cmd := exec.Command(os.Args[0], "-test.run=^TestFcntlFlock$")
 		cmd.Env = append(os.Environ(), "GO_WANT_HELPER_PROCESS=1")
-		cmd.ExtraFiles = []*os.File{os.NewFile(uintptr(fd), name)}
+		cmd.ExtraFiles = []*os.File{f}
 		out, err := cmd.CombinedOutput()
 		if len(out) > 0 || err != nil {
 			t.Fatalf("child process: %q, %v", out, err)
@@ -149,7 +152,6 @@ func TestPassFD(t *testing.T) {
 		if aixVer < "7200" || (aixVer == "7200" && tl < 2) {
 			t.Skip("skipped on AIX versions previous to 7.2 TL 2")
 		}
-
 	}
 
 	tempDir := t.TempDir()
@@ -158,6 +160,7 @@ func TestPassFD(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Socketpair: %v", err)
 	}
+
 	writeFile := os.NewFile(uintptr(fds[0]), "child-writes")
 	readFile := os.NewFile(uintptr(fds[1]), "parent-reads")
 	defer writeFile.Close()
@@ -266,6 +269,12 @@ func passFDChild() {
 		fmt.Printf("WriteMsgUnix = %d, %d; want 1, %d", n, oobn, len(rights))
 		return
 	}
+
+	// f must be kept alive because above we passed a raw file descriptor
+	// from it to our parent. If a GC runs and the finalizer for f executes,
+	// then that can cause WriteMsgUnix (which requires out-of-band FDs to
+	// be valid), as well as operations in the parent, to fail.
+	runtime.KeepAlive(f)
 }
 
 // TestUnixRightsRoundtrip tests that UnixRights, ParseSocketControlMessage,
