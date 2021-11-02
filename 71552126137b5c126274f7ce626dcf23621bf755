@@ -53,6 +53,24 @@
       "message": "Maybe also mention the variadic case for unsafeUintptr. I think it is needed for correctness.",
       "revId": "71552126137b5c126274f7ce626dcf23621bf755",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faa0d490_c783c4d7",
+        "filename": "src/cmd/compile/internal/escape/call.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-11-02T15:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27cf3cfe_2d79a954",
+      "revId": "71552126137b5c126274f7ce626dcf23621bf755",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
