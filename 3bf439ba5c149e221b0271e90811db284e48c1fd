@@ -335,6 +335,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a167b46c_8f252e5b",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-11-02T13:36:35Z",
+      "side": 1,
+      "message": "I\u0027ve updated the document, PTAL.",
+      "parentUuid": "96c8bd9b_7b349a0e",
+      "range": {
+        "startLine": 731,
+        "startChar": 30,
+        "endLine": 731,
+        "endChar": 38
+      },
+      "revId": "3bf439ba5c149e221b0271e90811db284e48c1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b78010b4_a68f116f",
