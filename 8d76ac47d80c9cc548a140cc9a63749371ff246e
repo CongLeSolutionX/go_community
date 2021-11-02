@@ -69,6 +69,23 @@
       "message": "Sorry, there are some problems with my previous description. I used the update.bash script to compile zoneinfo.zip before, and then use syscall.Setenv(\"ZONEINFO\",\"/path/to/zoneinfo.zip\") to set zoneinfo, and get the summer saving It is always displayed incorrectly, for example: \"2021-03-15 01:59:00\" is supposed to be the daylight saving time, but the returned result is false. However, it is possible to use the updated update.bash script after the change. Get the correct result.\nHowever, at present, if you don\u0027t use syscall.Setenv(\"ZONEINFO\",\"/path/to/zoneinfo.zip\") to set zoneinfo, you can get the correct result.",
       "revId": "8d76ac47d80c9cc548a140cc9a63749371ff246e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea44653d_587016f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54608
+      },
+      "writtenOn": "2021-11-02T08:39:04Z",
+      "side": 1,
+      "message": "My idea is to provide users with a script that compiles tzdata consistent with the system zoneinfo.",
+      "revId": "8d76ac47d80c9cc548a140cc9a63749371ff246e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
