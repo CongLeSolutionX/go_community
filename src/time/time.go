@@ -1433,17 +1433,23 @@ func Date(year int, month Month, day, hour, min, sec, nsec int, loc *Location) T
 
 	unix := int64(abs) + (absoluteToInternal + internalToUnix)
 
-	// Look for zone offset for t, so we can adjust to UTC.
-	// The lookup function expects UTC, so we pass t in the
+	// Look for zone offset for expected time, so we can adjust to UTC.
+	// The lookup function expects UTC, so first we pass "unix" in the
 	// hope that it will not be too close to a zone transition,
 	// and then adjust if it is.
 	_, offset, start, end, _ := loc.lookup(unix)
 	if offset != 0 {
-		switch utc := unix - int64(offset); {
-		case utc < start:
-			_, offset, _, _, _ = loc.lookup(start - 1)
-		case utc >= end:
-			_, offset, _, _, _ = loc.lookup(end)
+		utc := unix - int64(offset)
+		// if the value of "unix" and "utc" is in the same range of zoneTrans.
+		// it is no matter to look up the offset by passing which one. But if they are
+		// in different range, we can look up the truly offset by passing "utc".
+		// For example,
+		// unix = t1+1 (not a really Unix time,containing timezone offset).
+		// And there is a zoneTrans zt1 started in t1(Unix time).
+		// We will get offset1 of zt1 by above "lookup(t1+1)", but actually,t1+1-offset1 is in zt0.
+		// So, we can get correctly offset0 of zt0 by "lookup(t1+1-offset1)".
+		if utc < start || utc >= end {
+			_, offset, _, _, _ = loc.lookup(utc)
 		}
 		unix -= int64(offset)
 	}
