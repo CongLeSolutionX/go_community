@@ -165,6 +165,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5477843_a562e859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-11-02T16:33:57Z",
+      "side": 1,
+      "message": "Only OpenBSD versions 6.9 and 7.0 are currently supported (hence 6.8 and earlier are unsupported).\n\nInteresting - so you\u0027re suggesting that in internal linking mode, we specifically handle cgo_import_dynamic via some form of trampoline and appropriate external relocations?",
+      "parentUuid": "9b377847_fda0ff20",
+      "revId": "c9712ee27b0873039b00ccca2891867776b076cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a8801f6_5b115484",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 1
