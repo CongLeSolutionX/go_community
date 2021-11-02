@@ -129,6 +129,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69d98f63_5fca686e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2021-11-02T15:17:35Z",
+      "side": 1,
+      "message": "The current situation is that openbsd/mips64 is largely broken on OpenBSD 6.9 onwards - we can generate a cross-compiled pure-Go program, which will run if the resulting binary is statically linked. If it is not pure-Go and dynamically linked then it will only run on OpenBSD 6.8 and earlier since it uses direct syscalls.\n\nIn order to complete the removal of direct syscalls, we need to be able to use cgo_import_dynamic. It is unfortunate to move to not being able to cross-compile, however that would require being able to internally link cgo on mips64 (which I took a shot at that some time back, but did not get very far).\n\nAs things currently stand we could:\n\n(1) Move to non-cross compiled externally linked binaries.\n(2) Linger with the current state until we get internal cgo linking for mips64.\n(3) Abandon and remove the port.",
+      "parentUuid": "b1740aa7_e02b3a10",
+      "revId": "c9712ee27b0873039b00ccca2891867776b076cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a8801f6_5b115484",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 1
