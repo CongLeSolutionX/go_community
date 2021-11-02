@@ -1439,11 +1439,11 @@ func Date(year int, month Month, day, hour, min, sec, nsec int, loc *Location) T
 	// and then adjust if it is.
 	_, offset, start, end, _ := loc.lookup(unix)
 	if offset != 0 {
-		switch utc := unix - int64(offset); {
-		case utc < start:
-			_, offset, _, _, _ = loc.lookup(start - 1)
-		case utc >= end:
-			_, offset, _, _, _ = loc.lookup(end)
+		utc := unix - int64(offset)
+		if utc < start || utc >= end {
+			// If utc is out of range of start to end, or start is omega,
+			// the utc should be past in the lookup function to adjust the offset.
+			_, offset, _, _, _ = loc.lookup(utc)
 		}
 		unix -= int64(offset)
 	}
