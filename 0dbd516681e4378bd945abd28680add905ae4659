@@ -71,6 +71,24 @@
       "parentUuid": "30130ec1_3deef020",
       "revId": "0dbd516681e4378bd945abd28680add905ae4659",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef9ecf1b_1f769ae5",
+        "filename": "misc/cgo/testsanitizers/testdata/asan2_fail.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-02T05:35:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a354f1c_edb48e74",
+      "revId": "0dbd516681e4378bd945abd28680add905ae4659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
