@@ -147,6 +147,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b377847_fda0ff20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-02T15:35:24Z",
+      "side": 1,
+      "message": "How is the usage of OpenBSD 6.9 vs. earlier versions? If most people are on 6.9+, I think it is fine to drop the pure-Go case, then.\n\nIt might not need full cgo internal linking, which requires understanding and handling C object files. It may be possible to just handle cgo_import_dynamic. I think for the latter we may just need to generate a special type of call.",
+      "parentUuid": "69d98f63_5fca686e",
+      "revId": "c9712ee27b0873039b00ccca2891867776b076cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a8801f6_5b115484",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 1
