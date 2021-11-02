@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b227f761_8d55a456",
+        "filename": "misc/cgo/testsanitizers/asan_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-02T14:39:12Z",
+      "side": 1,
+      "message": "This step is failing on two of the builders due to C compile errors. (Filed as #49287.)",
+      "revId": "3ee426aefa519b0b2f814a834f5026481c187946",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
