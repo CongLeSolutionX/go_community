@@ -70,6 +70,24 @@
       "message": "is there a particular reason for the order dst, src instead of src, dst?\nin any case, maybe put them on one line (dst, src int) as they as a pair define the edge",
       "revId": "cf07805ebf70d1e79c1ea9356ff38d01e016e196",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a6b4de_d299eab7",
+        "filename": "src/go/types/mono.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-11-02T19:42:37Z",
+      "side": 1,
+      "message": "Generally, I tend to go with dst before src just because it matches assignment (\"dst \u003d src\") and builtins like \"append\" and \"copy\", so it\u0027s easier for me to remember. I don\u0027t feel strongly if there\u0027s a prevailing local convention for the other way around though.\n\nMerged into a single line.",
+      "parentUuid": "32abc263_28234bd7",
+      "revId": "cf07805ebf70d1e79c1ea9356ff38d01e016e196",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
