@@ -1440,6 +1440,8 @@ func Date(year int, month Month, day, hour, min, sec, nsec int, loc *Location) T
 	_, offset, start, end, _ := loc.lookup(unix)
 	if offset != 0 {
 		switch utc := unix - int64(offset); {
+		case start == omega:
+			_, offset, _, _, _ = loc.lookup(utc)
 		case utc < start:
 			_, offset, _, _, _ = loc.lookup(start - 1)
 		case utc >= end:
