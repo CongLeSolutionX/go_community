@@ -179,6 +179,47 @@
       },
       "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20fba80a_197dec48",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3292,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-11-02T00:49:11Z",
+      "side": 1,
+      "message": "I don\u0027t quite follow the problem.\n\nIs the concern that the documentation should state that writes to the ResponseWriter will return some other error if the request context becomes done for some reason other than the TimeoutHandler timeout expiring? (e.g., request canceled, or some middleware layer adding its own timeout or cancelation.)\n\nI don\u0027t think it\u0027s necessary to specify that case in detail. I also think that it\u0027s fine for some middleware-introduced timeout to be mapped to ErrHandlerTimeout.",
+      "parentUuid": "d1679289_05cae247",
+      "range": {
+        "startLine": 3291,
+        "startChar": 3,
+        "endLine": 3292,
+        "endChar": 21
+      },
+      "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2333776e_32bf6fd3",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3373,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-11-02T00:49:11Z",
+      "side": 1,
+      "message": "Previously, this would respond with StatusServiceUnavailable if the request context became done for any reason. Now, it does so only on timeout.\n\nIn the normal case, the handler will be canceled only if the request has been lost, in which case the response code is irrelevant, but it\u0027s conceivable that some middleware layer will create a context and cancel it. I think this handler should always set the status code here, although maybe only include a body in the case of an actual timeout.",
+      "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
