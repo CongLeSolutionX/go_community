@@ -16,6 +16,24 @@
       "message": "Why?  What problem does this solve?",
       "revId": "8d76ac47d80c9cc548a140cc9a63749371ff246e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a795ece1_cf6b1b37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54608
+      },
+      "writtenOn": "2021-11-02T05:44:45Z",
+      "side": 1,
+      "message": "The result of the previous script compilation is inaccurate for daylight saving time.\n\nTherefore, I refer to the compilation process of the tzdata package and recompile to obtain the accurate daylight saving time.",
+      "parentUuid": "208dabd1_7b495098",
+      "revId": "8d76ac47d80c9cc548a140cc9a63749371ff246e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
