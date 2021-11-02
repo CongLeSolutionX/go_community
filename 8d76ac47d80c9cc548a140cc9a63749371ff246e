@@ -86,6 +86,24 @@
       "message": "My idea is to provide users with a script that compiles tzdata consistent with the system zoneinfo.",
       "revId": "8d76ac47d80c9cc548a140cc9a63749371ff246e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1d7cf37_76583ee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-02T19:28:27Z",
+      "side": 1,
+      "message": "Can you show me a program that gets the wrong results today and gets the right results after this change?  Thanks.",
+      "parentUuid": "06c43e68_05384013",
+      "revId": "8d76ac47d80c9cc548a140cc9a63749371ff246e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
