@@ -2895,6 +2895,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6f0a33c_142b0075",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-11-02T01:09:04Z",
+      "side": 1,
+      "message": "Thanks for the specific cases. The problem is of course that the masking needs to be to minBits. \n\nI was confusing Prefix.IsValid (checks everything) with AddrPort.IsValid (only checks IP).\n\nAll good. Sorry for the back and forth.",
+      "parentUuid": "37fa665e_c7ee9e79",
+      "revId": "b62d036a68bc65f27a67b709d46a5704eacc1948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f03b502_2b0dcd41",
