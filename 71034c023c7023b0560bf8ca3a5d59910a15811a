@@ -70,6 +70,24 @@
       "message": "Do you think you will have to change the finalizer handling before the release freeze on November 1?  I think we can also proceed without it.",
       "revId": "71034c023c7023b0560bf8ca3a5d59910a15811a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34be8a68_2f2f907b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-11-02T01:42:36Z",
+      "side": 1,
+      "message": "\u003e Do you think you will have to change the finalizer handling before the release freeze on November 1?  \n\nSorry for late reply. I was taking leave the other day, and I just come back to work today. Last week I tried to change the finalizer, but it will cause GC issues. I spent some time looking into the root cause, but still no progress.\n\n\u003e I think we can also proceed without it.\n\nI agree. I will change it later. Thank you.",
+      "parentUuid": "b68d5cc5_b209be32",
+      "revId": "71034c023c7023b0560bf8ca3a5d59910a15811a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
