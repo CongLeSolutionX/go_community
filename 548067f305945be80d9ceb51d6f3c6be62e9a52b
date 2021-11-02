@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "752abd24_f3a26400",
+        "filename": "src/time/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1445,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-11-02T17:54:14Z",
+      "side": 1,
+      "message": "\"passed in\" instead of \"past in\"",
+      "revId": "548067f305945be80d9ceb51d6f3c6be62e9a52b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2f7acf0_acec6069",
+        "filename": "src/time/time_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1644,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2021-11-02T17:54:14Z",
+      "side": 1,
+      "message": "how about \"The UTC time was 14 September...\"",
+      "revId": "548067f305945be80d9ceb51d6f3c6be62e9a52b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
