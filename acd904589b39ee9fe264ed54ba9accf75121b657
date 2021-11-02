@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "149c1a6d_6844ca9a",
+        "filename": "src/time/time.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1444,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-02T18:50:22Z",
+      "side": 1,
+      "message": "I don\u0027t understand the reference to omega here.  We aren\u0027t checking against omega.\n\ns/past/passed/\n\nThe comment says what the code does, but it doesn\u0027t say why.  I don\u0027t think this comment helps explain the code.",
+      "revId": "acd904589b39ee9fe264ed54ba9accf75121b657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "046d24b9_4b15a89d",
+        "filename": "src/time/time_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-02T18:50:22Z",
+      "side": 1,
+      "message": "Check the error result.\n\nThis test should probably use ForceZipFileForTesting.",
+      "revId": "acd904589b39ee9fe264ed54ba9accf75121b657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5be6cbf_1672f691",
+        "filename": "src/time/time_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1638,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-02T18:50:22Z",
+      "side": 1,
+      "message": "If I understand the comment correctly, this time does not exist.  The Date function does not promise to return any particular result in this case.  I\u0027m not sure we should test this case, or, if we do, we should permit different results.",
+      "revId": "acd904589b39ee9fe264ed54ba9accf75121b657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87891d8b_8604dd4c",
+        "filename": "src/time/time_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-02T18:50:22Z",
+      "side": 1,
+      "message": "I think this time is ambiguous, so again I\u0027m not sure we should test it.",
+      "revId": "acd904589b39ee9fe264ed54ba9accf75121b657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
