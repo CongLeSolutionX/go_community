@@ -333,7 +333,13 @@ func (e *escape) rewriteArgument(argp *ir.Node, init *ir.Nodes, call ir.Node, fn
 		}
 	}
 
-	// Peel away any slice lits.
+	// Peel away any slice literals for better escape analyze
+	// them. For example:
+	//
+	//     go F([]int{a, b})
+	//
+	// If F doesn't escape its arguments, then the slice can
+	// be allocated on the new goroutine's stack.
 	if arg := *argp; arg.Op() == ir.OSLICELIT {
 		list := arg.(*ir.CompLitExpr).List
 		for i := range list {
