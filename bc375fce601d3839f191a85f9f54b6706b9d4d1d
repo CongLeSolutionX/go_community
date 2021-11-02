@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6d2a046_7a7a09d1",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-02T16:50:26Z",
+      "side": 1,
+      "message": "Misspelling. I think you can just drop these two words.",
+      "range": {
+        "startLine": 753,
+        "startChar": 35,
+        "endLine": 753,
+        "endChar": 50
+      },
+      "revId": "bc375fce601d3839f191a85f9f54b6706b9d4d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97c930e2_6f420d92",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-02T16:50:26Z",
+      "side": 1,
+      "message": "I think we can drop this part. I don\u0027t think it matters to tools. Tools need to understand both Xn names and An/Sn names anyway. I\u0027m also not sure if it is  much  easier to understand -- maybe a little, but not much. It can also be confusing, as it may appear to be  the C ABI but it is actually not.",
+      "revId": "bc375fce601d3839f191a85f9f54b6706b9d4d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
