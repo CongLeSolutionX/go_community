@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd80abb3_f02c64a7",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-02T06:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56859c95_f4fcbe5c",
+      "revId": "fe8cb06afa4cbe6e66204f9cf2dfd409ebfae08d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49d3b757_1837b1d6",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c95736a_cfc9762e",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-02T06:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49d3b757_1837b1d6",
+      "revId": "fe8cb06afa4cbe6e66204f9cf2dfd409ebfae08d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37cda3ba_6476cb61",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-11-02T05:34:05Z",
       "side": 1,
       "message": "s/send a receive/send and receive/",
+      "revId": "fe8cb06afa4cbe6e66204f9cf2dfd409ebfae08d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dafef438_0b39795b",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-02T06:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37cda3ba_6476cb61",
       "revId": "fe8cb06afa4cbe6e66204f9cf2dfd409ebfae08d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
