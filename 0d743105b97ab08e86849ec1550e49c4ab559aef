@@ -53,6 +53,24 @@
       "message": "This seems fine but the release freeze just started.",
       "revId": "0d743105b97ab08e86849ec1550e49c4ab559aef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c500b614_27a3a417",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-02T05:14:26Z",
+      "side": 1,
+      "message": "This is just residual cleanup from after the netip change that went in earlier today. That change added internal/godebug and updated most of the GODEBUG callers but it missed some.\n\nNot a huge deal, but it would be nice to have the conversion finished.",
+      "parentUuid": "74cc3731_46c0e42f",
+      "revId": "0d743105b97ab08e86849ec1550e49c4ab559aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
