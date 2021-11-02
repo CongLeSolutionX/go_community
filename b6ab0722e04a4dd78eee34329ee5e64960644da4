@@ -78,6 +78,30 @@
       },
       "revId": "b6ab0722e04a4dd78eee34329ee5e64960644da4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86ded874_1e84eba5",
+        "filename": "src/cmd/compile/internal/types2/index.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-02T16:11:43Z",
+      "side": 1,
+      "message": "reworded",
+      "parentUuid": "5cf5be0a_ec1d60ff",
+      "range": {
+        "startLine": 109,
+        "startChar": 21,
+        "endLine": 109,
+        "endChar": 52
+      },
+      "revId": "b6ab0722e04a4dd78eee34329ee5e64960644da4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
