@@ -805,51 +805,11 @@ func (sa *SockaddrUnix) sockaddr() (unsafe.Pointer, int32, error) {
 	return unsafe.Pointer(&sa.raw), sl, nil
 }
 
+// implemented in internal/syscall/posix, see func AsSockaddr
+func anyToSockaddr(rsa *RawSockaddrAny) (Sockaddr, error)
+
 func (rsa *RawSockaddrAny) Sockaddr() (Sockaddr, error) {
-	switch rsa.Addr.Family {
-	case AF_UNIX:
-		pp := (*RawSockaddrUnix)(unsafe.Pointer(rsa))
-		sa := new(SockaddrUnix)
-		if pp.Path[0] == 0 {
-			// "Abstract" Unix domain socket.
-			// Rewrite leading NUL as @ for textual display.
-			// (This is the standard convention.)
-			// Not friendly to overwrite in place,
-			// but the callers below don't care.
-			pp.Path[0] = '@'
-		}
-
-		// Assume path ends at NUL.
-		// This is not technically the Linux semantics for
-		// abstract Unix domain sockets--they are supposed
-		// to be uninterpreted fixed-size binary blobs--but
-		// everyone uses this convention.
-		n := 0
-		for n < len(pp.Path) && pp.Path[n] != 0 {
-			n++
-		}
-		bytes := (*[len(pp.Path)]byte)(unsafe.Pointer(&pp.Path[0]))[0:n:n]
-		sa.Name = string(bytes)
-		return sa, nil
-
-	case AF_INET:
-		pp := (*RawSockaddrInet4)(unsafe.Pointer(rsa))
-		sa := new(SockaddrInet4)
-		p := (*[2]byte)(unsafe.Pointer(&pp.Port))
-		sa.Port = int(p[0])<<8 + int(p[1])
-		sa.Addr = pp.Addr
-		return sa, nil
-
-	case AF_INET6:
-		pp := (*RawSockaddrInet6)(unsafe.Pointer(rsa))
-		sa := new(SockaddrInet6)
-		p := (*[2]byte)(unsafe.Pointer(&pp.Port))
-		sa.Port = int(p[0])<<8 + int(p[1])
-		sa.ZoneId = pp.Scope_id
-		sa.Addr = pp.Addr
-		return sa, nil
-	}
-	return nil, EAFNOSUPPORT
+	return anyToSockaddr(rsa)
 }
 
 func Socket(domain, typ, proto int) (fd Handle, err error) {

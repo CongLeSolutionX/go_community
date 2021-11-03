@@ -408,50 +408,8 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	return n, nil
 }
 
-func (sa *RawSockaddrUnix) getLen() (int, error) {
-	// Some versions of AIX have a bug in getsockname (see IV78655).
-	// We can't rely on sa.Len being set correctly.
-	n := SizeofSockaddrUnix - 3 // subtract leading Family, Len, terminating NUL.
-	for i := 0; i < n; i++ {
-		if sa.Path[i] == 0 {
-			n = i
-			break
-		}
-	}
-	return n, nil
-}
-
-func anyToSockaddr(rsa *RawSockaddrAny) (Sockaddr, error) {
-	switch rsa.Addr.Family {
-	case AF_UNIX:
-		pp := (*RawSockaddrUnix)(unsafe.Pointer(rsa))
-		sa := new(SockaddrUnix)
-		n, err := pp.getLen()
-		if err != nil {
-			return nil, err
-		}
-		bytes := (*[len(pp.Path)]byte)(unsafe.Pointer(&pp.Path[0]))
-		sa.Name = string(bytes[0:n])
-		return sa, nil
-
-	case AF_INET:
-		pp := (*RawSockaddrInet4)(unsafe.Pointer(rsa))
-		sa := new(SockaddrInet4)
-		p := (*[2]byte)(unsafe.Pointer(&pp.Port))
-		sa.Port = int(p[0])<<8 + int(p[1])
-		sa.Addr = pp.Addr
-		return sa, nil
-
-	case AF_INET6:
-		pp := (*RawSockaddrInet6)(unsafe.Pointer(rsa))
-		sa := new(SockaddrInet6)
-		p := (*[2]byte)(unsafe.Pointer(&pp.Port))
-		sa.Port = int(p[0])<<8 + int(p[1])
-		sa.Addr = pp.Addr
-		return sa, nil
-	}
-	return nil, EAFNOSUPPORT
-}
+// implemented in internal/syscall/posix, see func AsSockaddr
+func anyToSockaddr(rsa *RawSockaddrAny) (Sockaddr, error)
 
 type SockaddrDatalink struct {
 	Len    uint8
