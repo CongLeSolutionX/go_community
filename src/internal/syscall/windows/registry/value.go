@@ -361,7 +361,7 @@ loopItems:
 				buf = make([]uint16, l)
 				continue
 			}
-			if err == _ERROR_NO_MORE_ITEMS {
+			if err == syscall.ERROR_NO_MORE_ITEMS {
 				break loopItems
 			}
 			return names, err
