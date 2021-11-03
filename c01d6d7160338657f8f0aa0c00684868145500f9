@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ff0b562_2daa2e98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 53338
+      },
+      "writtenOn": "2021-11-03T00:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8ad1438_62f35e01",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "c01d6d7160338657f8f0aa0c00684868145500f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bcef672_f9d3112f",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0589f684_4efb68a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 53338
+      },
+      "writtenOn": "2021-11-03T00:40:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4bcef672_f9d3112f",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "c01d6d7160338657f8f0aa0c00684868145500f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30609e2c_7397f799",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-01T15:29:22Z",
       "side": 1,
       "message": "This line can be removed",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 85
+      },
+      "revId": "c01d6d7160338657f8f0aa0c00684868145500f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa61d7af_a5d2fa14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 53338
+      },
+      "writtenOn": "2021-11-03T00:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30609e2c_7397f799",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -204,6 +276,30 @@
       "side": 1,
       "message": "Since this started as GitHub pull request please just update the GitHub pull request.  The bot will sync the changes into Gerritt.  Thanks.",
       "parentUuid": "74697a9b_04b3568f",
+      "range": {
+        "startLine": 804,
+        "startChar": 0,
+        "endLine": 806,
+        "endChar": 41
+      },
+      "revId": "c01d6d7160338657f8f0aa0c00684868145500f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67d2059_d9eee56c",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 53338
+      },
+      "writtenOn": "2021-11-03T00:40:53Z",
+      "side": 1,
+      "message": "cool, thanks.",
+      "parentUuid": "c589c981_a4394957",
       "range": {
         "startLine": 804,
         "startChar": 0,
