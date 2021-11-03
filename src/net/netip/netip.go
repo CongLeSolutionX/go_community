@@ -151,38 +151,46 @@ func (err parseAddrError) Error() string {
 	return "ParseAddr(" + q(err.in) + "): " + err.msg
 }
 
-// parseIPv4 parses s as an IPv4 address (in form "192.168.0.1").
-func parseIPv4(s string) (ip Addr, err error) {
+func parseToIPv4(s string) ([4]uint8, error) {
 	var fields [4]uint8
 	var val, pos int
 	for i := 0; i < len(s); i++ {
 		if s[i] >= '0' && s[i] <= '9' {
 			val = val*10 + int(s[i]) - '0'
 			if val > 255 {
-				return Addr{}, parseAddrError{in: s, msg: "IPv4 field has value >255"}
+				return [4]uint8{}, parseAddrError{in: s, msg: "IPv4 field has value >255"}
 			}
 		} else if s[i] == '.' {
 			// .1.2.3
 			// 1.2.3.
 			// 1..2.3
 			if i == 0 || i == len(s)-1 || s[i-1] == '.' {
-				return Addr{}, parseAddrError{in: s, msg: "IPv4 field must have at least one digit", at: s[i:]}
+				return [4]uint8{}, parseAddrError{in: s, msg: "IPv4 field must have at least one digit", at: s[i:]}
 			}
 			// 1.2.3.4.5
 			if pos == 3 {
-				return Addr{}, parseAddrError{in: s, msg: "IPv4 address too long"}
+				return [4]uint8{}, parseAddrError{in: s, msg: "IPv4 address too long"}
 			}
 			fields[pos] = uint8(val)
 			pos++
 			val = 0
 		} else {
-			return Addr{}, parseAddrError{in: s, msg: "unexpected character", at: s[i:]}
+			return [4]uint8{}, parseAddrError{in: s, msg: "unexpected character", at: s[i:]}
 		}
 	}
 	if pos < 3 {
-		return Addr{}, parseAddrError{in: s, msg: "IPv4 address too short"}
+		return [4]uint8{}, parseAddrError{in: s, msg: "IPv4 address too short"}
 	}
 	fields[3] = uint8(val)
+	return fields, nil
+}
+
+// parseIPv4 parses s as an IPv4 address (in form "192.168.0.1").
+func parseIPv4(s string) (ip Addr, err error) {
+	fields, err := parseToIPv4(s)
+	if err != nil {
+		return Addr{}, err
+	}
 	return AddrFrom4(fields), nil
 }
 
@@ -255,17 +263,14 @@ func parseIPv6(in string) (Addr, error) {
 				// Not enough room.
 				return Addr{}, parseAddrError{in: in, msg: "too many hex fields to fit an embedded IPv4 at the end of the address", at: s}
 			}
-			// TODO: could make this a bit faster by having a helper
-			// that parses to a [4]byte, and have both parseIPv4 and
-			// parseIPv6 use it.
-			ip4, err := parseIPv4(s)
+			ip4, err := parseToIPv4(s)
 			if err != nil {
 				return Addr{}, parseAddrError{in: in, msg: err.Error(), at: s}
 			}
-			ip[i] = ip4.v4(0)
-			ip[i+1] = ip4.v4(1)
-			ip[i+2] = ip4.v4(2)
-			ip[i+3] = ip4.v4(3)
+			ip[i] = ip4[0]
+			ip[i+1] = ip4[1]
+			ip[i+2] = ip4[2]
+			ip[i+3] = ip4[3]
 			s = ""
 			i += 4
 			break
