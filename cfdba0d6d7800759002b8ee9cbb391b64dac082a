@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6125a34_87d8dbcd",
+        "filename": "src/time/time.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-03T23:50:43Z",
+      "side": 1,
+      "message": "No need to quote unix here.  I think it\u0027s clear, and we don\u0027t usually quote variable names in these comments.",
+      "revId": "cfdba0d6d7800759002b8ee9cbb391b64dac082a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48176464_1eca7812",
+        "filename": "src/time/time.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1443,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-03T23:50:43Z",
+      "side": 1,
+      "message": "If utc is valid for the time zone we found, then we have the right offset.  If not, we get the correct offset by looking up utc in the location.",
+      "revId": "cfdba0d6d7800759002b8ee9cbb391b64dac082a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
