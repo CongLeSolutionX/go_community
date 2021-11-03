@@ -65,7 +65,7 @@ func init() {
 	unaryOpPredicates = opPredicates{
 		syntax.Add: isNumeric,
 		syntax.Sub: isNumeric,
-		syntax.Xor: isInteger,
+		syntax.Xor: allInteger,
 		syntax.Not: allBoolean,
 	}
 }
@@ -833,7 +833,7 @@ func (check *Checker) shift(x, y *operand, e syntax.Expr, op syntax.Operator) {
 		xval = constant.ToInt(x.val)
 	}
 
-	if isInteger(x.typ) || isUntyped(x.typ) && xval != nil && xval.Kind() == constant.Int {
+	if allInteger(x.typ) || isUntyped(x.typ) && xval != nil && xval.Kind() == constant.Int {
 		// The lhs is of integer type or an untyped constant representable
 		// as an integer. Nothing to do.
 	} else {
@@ -864,7 +864,7 @@ func (check *Checker) shift(x, y *operand, e syntax.Expr, op syntax.Operator) {
 			x.mode = invalid
 			return
 		}
-	} else if !isInteger(y.typ) {
+	} else if !allInteger(y.typ) {
 		check.errorf(y, invalidOp+"shift count %s must be integer", y)
 		x.mode = invalid
 		return
@@ -939,7 +939,7 @@ func (check *Checker) shift(x, y *operand, e syntax.Expr, op syntax.Operator) {
 	}
 
 	// non-constant shift - lhs must be an integer
-	if !isInteger(x.typ) {
+	if !allInteger(x.typ) {
 		check.errorf(x, invalidOp+"shifted operand %s must be integer", x)
 		x.mode = invalid
 		return
@@ -957,12 +957,12 @@ func init() {
 		syntax.Sub: isNumeric,
 		syntax.Mul: isNumeric,
 		syntax.Div: isNumeric,
-		syntax.Rem: isInteger,
+		syntax.Rem: allInteger,
 
-		syntax.And:    isInteger,
-		syntax.Or:     isInteger,
-		syntax.Xor:    isInteger,
-		syntax.AndNot: isInteger,
+		syntax.And:    allInteger,
+		syntax.Or:     allInteger,
+		syntax.Xor:    allInteger,
+		syntax.AndNot: allInteger,
 
 		syntax.AndAnd: allBoolean,
 		syntax.OrOr:   allBoolean,
@@ -1047,7 +1047,7 @@ func (check *Checker) binary(x *operand, e syntax.Expr, lhs, rhs syntax.Expr, op
 
 	if op == syntax.Div || op == syntax.Rem {
 		// check for zero divisor
-		if (x.mode == constant_ || isInteger(x.typ)) && y.mode == constant_ && constant.Sign(y.val) == 0 {
+		if (x.mode == constant_ || allInteger(x.typ)) && y.mode == constant_ && constant.Sign(y.val) == 0 {
 			check.error(&y, invalidOp+"division by zero")
 			x.mode = invalid
 			return
