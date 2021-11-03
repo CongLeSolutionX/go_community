@@ -32,6 +32,7 @@ func isGeneric(typ Type) bool {
 func isBoolean(t Type) bool  { return isBasic(t, IsBoolean) }
 func isInteger(t Type) bool  { return isBasic(t, IsInteger) }
 func isUnsigned(t Type) bool { return isBasic(t, IsUnsigned) }
+func isFloat(t Type) bool    { return isBasic(t, IsFloat) }
 
 // isBasic reports whether under(t) is a basic type with the specified info.
 // If t is a type parameter the result is false; i.e.,
@@ -51,7 +52,6 @@ func allInteger(t Type) bool  { return allBasic(t, IsInteger) }
 func allUnsigned(t Type) bool { return allBasic(t, IsUnsigned) }
 
 // TODO(gri) rename to allX as needed
-func isFloat(typ Type) bool   { return allBasic(typ, IsFloat) }
 func isComplex(typ Type) bool { return allBasic(typ, IsComplex) }
 func isNumeric(typ Type) bool { return allBasic(typ, IsNumeric) }
 func isString(typ Type) bool  { return allBasic(typ, IsString) }
@@ -70,7 +70,7 @@ func allBasic(t Type, info BasicInfo) bool {
 	return false
 }
 
-// Note that if typ is a type parameter, allInteger(typ) || isFloat(typ) does not
+// Note that if typ is a type parameter, allInteger(typ) || allFloat(typ) does not
 // produce the expected result because a type set that contains both an integer
 // and a floating-point type is neither (all) integers, nor (all) floats.
 // Use isIntegerOrFloat instead.
