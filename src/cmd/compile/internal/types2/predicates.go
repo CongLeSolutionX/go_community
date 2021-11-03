@@ -29,8 +29,9 @@ func isGeneric(typ Type) bool {
 // If t is a type parameter the result is false; i.e.,
 // these predicates don't look inside a type parameter.
 
-func isBoolean(t Type) bool { return isBasic(t, IsBoolean) }
-func isInteger(t Type) bool { return isBasic(t, IsInteger) }
+func isBoolean(t Type) bool  { return isBasic(t, IsBoolean) }
+func isInteger(t Type) bool  { return isBasic(t, IsInteger) }
+func isUnsigned(t Type) bool { return isBasic(t, IsUnsigned) }
 
 // isBasic reports whether under(t) is a basic type with the specified info.
 // If t is a type parameter the result is false; i.e.,
@@ -45,15 +46,15 @@ func isBasic(t Type, info BasicInfo) bool {
 // for all specified types of the type parameter's type set.
 // allX is an optimized version of isX(structure(t)).
 
-func allBoolean(t Type) bool { return allBasic(t, IsBoolean) }
-func allInteger(t Type) bool { return allBasic(t, IsInteger) }
+func allBoolean(t Type) bool  { return allBasic(t, IsBoolean) }
+func allInteger(t Type) bool  { return allBasic(t, IsInteger) }
+func allUnsigned(t Type) bool { return allBasic(t, IsUnsigned) }
 
 // TODO(gri) rename to allX as needed
-func isUnsigned(typ Type) bool { return allBasic(typ, IsUnsigned) }
-func isFloat(typ Type) bool    { return allBasic(typ, IsFloat) }
-func isComplex(typ Type) bool  { return allBasic(typ, IsComplex) }
-func isNumeric(typ Type) bool  { return allBasic(typ, IsNumeric) }
-func isString(typ Type) bool   { return allBasic(typ, IsString) }
+func isFloat(typ Type) bool   { return allBasic(typ, IsFloat) }
+func isComplex(typ Type) bool { return allBasic(typ, IsComplex) }
+func isNumeric(typ Type) bool { return allBasic(typ, IsNumeric) }
+func isString(typ Type) bool  { return allBasic(typ, IsString) }
 
 // isBasic reports whether under(t) is a basic type with the specified info.
 // If t is a type parameter, the result is true if isBasic(t, info) is true
