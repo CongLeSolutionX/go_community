@@ -35,6 +35,7 @@ func isUnsigned(t Type) bool { return isBasic(t, IsUnsigned) }
 func isFloat(t Type) bool    { return isBasic(t, IsFloat) }
 func isComplex(t Type) bool  { return isBasic(t, IsComplex) }
 func isNumeric(t Type) bool  { return isBasic(t, IsNumeric) }
+func isString(t Type) bool   { return isBasic(t, IsString) }
 
 // isBasic reports whether under(t) is a basic type with the specified info.
 // If t is a type parameter the result is false; i.e.,
@@ -53,9 +54,7 @@ func allBoolean(t Type) bool  { return allBasic(t, IsBoolean) }
 func allInteger(t Type) bool  { return allBasic(t, IsInteger) }
 func allUnsigned(t Type) bool { return allBasic(t, IsUnsigned) }
 func allNumeric(t Type) bool  { return allBasic(t, IsNumeric) }
-
-// TODO(gri) rename to allX as needed
-func isString(typ Type) bool { return allBasic(typ, IsString) }
+func allString(t Type) bool   { return allBasic(t, IsString) }
 
 // isBasic reports whether under(t) is a basic type with the specified info.
 // If t is a type parameter, the result is true if isBasic(t, info) is true
@@ -77,7 +76,7 @@ func allBasic(t Type, info BasicInfo) bool {
 // Use isIntegerOrFloat instead.
 func isIntegerOrFloat(typ Type) bool { return allBasic(typ, IsInteger|IsFloat) }
 
-// isNumericOrString is the equivalent of isIntegerOrFloat for allNumeric(typ) || isString(typ).
+// isNumericOrString is the equivalent of isIntegerOrFloat for allNumeric(typ) || allString(typ).
 func isNumericOrString(typ Type) bool { return allBasic(typ, IsNumeric|IsString) }
 
 // isTyped reports whether typ is typed; i.e., not an untyped
