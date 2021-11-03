@@ -262,10 +262,9 @@ func parseIPv6(in string) (Addr, error) {
 			if err != nil {
 				return Addr{}, parseAddrError{in: in, msg: err.Error(), at: s}
 			}
-			ip[i] = ip4.v4(0)
-			ip[i+1] = ip4.v4(1)
-			ip[i+2] = ip4.v4(2)
-			ip[i+3] = ip4.v4(3)
+			a4 := ip4.As4()
+			copy(ip[i:], a4[:])
+
 			s = ""
 			i += 4
 			break
