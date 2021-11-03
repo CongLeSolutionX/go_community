@@ -953,7 +953,7 @@ var binaryOpPredicates opPredicates
 func init() {
 	// Setting binaryOpPredicates in init avoids declaration cycles.
 	binaryOpPredicates = opPredicates{
-		syntax.Add: isNumericOrString,
+		syntax.Add: allNumericOrString,
 		syntax.Sub: allNumeric,
 		syntax.Mul: allNumeric,
 		syntax.Div: allNumeric,
