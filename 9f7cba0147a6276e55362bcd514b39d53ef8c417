@@ -53,6 +53,23 @@
       "message": "Unless there are strong performance numbers backing this up (I don\u0027t see any numbers), then I\u0027m inclined to not do this, as it doesn\u0027t make the code prettier.\n\n",
       "revId": "9f7cba0147a6276e55362bcd514b39d53ef8c417",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34e9a0aa_c38a3e9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-03T21:19:02Z",
+      "side": 1,
+      "message": "Also, did you try using As4() instead of v(0), v(1), v(2), v(3)? That might provide the same win with much less code change.\n",
+      "revId": "9f7cba0147a6276e55362bcd514b39d53ef8c417",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
