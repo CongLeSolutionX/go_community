@@ -33,6 +33,7 @@ func isBoolean(t Type) bool  { return isBasic(t, IsBoolean) }
 func isInteger(t Type) bool  { return isBasic(t, IsInteger) }
 func isUnsigned(t Type) bool { return isBasic(t, IsUnsigned) }
 func isFloat(t Type) bool    { return isBasic(t, IsFloat) }
+func isComplex(t Type) bool  { return isBasic(t, IsComplex) }
 
 // isBasic reports whether under(t) is a basic type with the specified info.
 // If t is a type parameter the result is false; i.e.,
@@ -52,7 +53,6 @@ func allInteger(t Type) bool  { return allBasic(t, IsInteger) }
 func allUnsigned(t Type) bool { return allBasic(t, IsUnsigned) }
 
 // TODO(gri) rename to allX as needed
-func isComplex(typ Type) bool { return allBasic(typ, IsComplex) }
 func isNumeric(typ Type) bool { return allBasic(typ, IsNumeric) }
 func isString(typ Type) bool  { return allBasic(typ, IsString) }
 
