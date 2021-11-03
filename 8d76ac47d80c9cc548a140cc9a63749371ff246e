@@ -104,6 +104,23 @@
       "parentUuid": "06c43e68_05384013",
       "revId": "8d76ac47d80c9cc548a140cc9a63749371ff246e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc67613d_6f9f5477",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54608
+      },
+      "writtenOn": "2021-11-03T01:56:45Z",
+      "side": 1,
+      "message": "It turns out that I was wrong. Go time zone is currently working normally, and I closed the pull request.",
+      "revId": "8d76ac47d80c9cc548a140cc9a63749371ff246e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
