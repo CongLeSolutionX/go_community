@@ -56,6 +56,7 @@ func allInteger(t Type) bool         { return allBasic(t, IsInteger) }
 func allUnsigned(t Type) bool        { return allBasic(t, IsUnsigned) }
 func allNumeric(t Type) bool         { return allBasic(t, IsNumeric) }
 func allString(t Type) bool          { return allBasic(t, IsString) }
+func allOrdered(t Type) bool         { return allBasic(t, IsOrdered) }
 func allNumericOrString(t Type) bool { return allBasic(t, IsNumeric|IsString) }
 
 // isBasic reports whether under(t) is a basic type with the specified info.
@@ -86,8 +87,6 @@ func isTyped(typ Type) bool {
 func isUntyped(typ Type) bool {
 	return !isTyped(typ)
 }
-
-func isOrdered(typ Type) bool { return allBasic(typ, IsOrdered) }
 
 func isConstType(typ Type) bool {
 	// Type parameters are never const types.
