@@ -297,7 +297,7 @@ func Recvfrom(fd int, p []byte, flags int) (n int, from Sockaddr, err error) {
 	return
 }
 
-func RecvfromInet4(fd int, p []byte, flags int, from *SockaddrInet4) (n int, err error) {
+func recvfromInet4(fd int, p []byte, flags int, from *SockaddrInet4) (n int, err error) {
 	var rsa RawSockaddrAny
 	var socklen _Socklen = SizeofSockaddrAny
 	if n, err = recvfrom(fd, p, flags, &rsa, &socklen); err != nil {
@@ -310,7 +310,7 @@ func RecvfromInet4(fd int, p []byte, flags int, from *SockaddrInet4) (n int, err
 	return
 }
 
-func RecvfromInet6(fd int, p []byte, flags int, from *SockaddrInet6) (n int, err error) {
+func recvfromInet6(fd int, p []byte, flags int, from *SockaddrInet6) (n int, err error) {
 	var rsa RawSockaddrAny
 	var socklen _Socklen = SizeofSockaddrAny
 	if n, err = recvfrom(fd, p, flags, &rsa, &socklen); err != nil {
