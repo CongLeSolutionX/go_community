@@ -556,7 +556,7 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 		check.simpleStmt(s.Init)
 		var x operand
 		check.expr(&x, s.Cond)
-		if x.mode != invalid && !isBoolean(x.typ) {
+		if x.mode != invalid && !allBoolean(x.typ) {
 			check.error(s.Cond, "non-boolean condition in if statement")
 		}
 		check.stmt(inner, s.Then)
@@ -645,7 +645,7 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 		if s.Cond != nil {
 			var x operand
 			check.expr(&x, s.Cond)
-			if x.mode != invalid && !isBoolean(x.typ) {
+			if x.mode != invalid && !allBoolean(x.typ) {
 				check.error(s.Cond, "non-boolean condition in for statement")
 			}
 		}

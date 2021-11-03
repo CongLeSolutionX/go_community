@@ -66,7 +66,7 @@ func init() {
 		syntax.Add: isNumeric,
 		syntax.Sub: isNumeric,
 		syntax.Xor: isInteger,
-		syntax.Not: isBoolean,
+		syntax.Not: allBoolean,
 	}
 }
 
@@ -710,10 +710,10 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		return nil, nil, _InvalidUntypedConversion
 	}
 
-	switch t := under(target).(type) {
+	switch u := under(target).(type) {
 	case *Basic:
 		if x.mode == constant_ {
-			v, code := check.representation(x, t)
+			v, code := check.representation(x, u)
 			if code != 0 {
 				return nil, nil, code
 			}
@@ -744,7 +744,7 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		}
 	case *TypeParam:
 		// TODO(gri) review this code - doesn't look quite right
-		ok := t.underIs(func(t Type) bool {
+		ok := u.underIs(func(t Type) bool {
 			target, _, _ := check.implicitTypeAndValue(x, t)
 			return target != nil
 		})
@@ -755,7 +755,7 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		// Update operand types to the default type rather than the target
 		// (interface) type: values must have concrete dynamic types.
 		// Untyped nil was handled upfront.
-		if !t.Empty() {
+		if !u.Empty() {
 			return nil, nil, _InvalidUntypedConversion // cannot assign untyped values to non-empty interfaces
 		}
 		return Default(x.typ), nil, 0 // default type for nil is nil
@@ -964,8 +964,8 @@ func init() {
 		syntax.Xor:    isInteger,
 		syntax.AndNot: isInteger,
 
-		syntax.AndAnd: isBoolean,
-		syntax.OrOr:   isBoolean,
+		syntax.AndAnd: allBoolean,
+		syntax.OrOr:   allBoolean,
 	}
 }
 
@@ -995,7 +995,7 @@ func (check *Checker) binary(x *operand, e syntax.Expr, lhs, rhs syntax.Expr, op
 		if IsInterface(x.typ) || IsInterface(y.typ) {
 			return true
 		}
-		if isBoolean(x.typ) != isBoolean(y.typ) {
+		if allBoolean(x.typ) != allBoolean(y.typ) {
 			return false
 		}
 		if isString(x.typ) != isString(y.typ) {
