@@ -63,8 +63,8 @@ var unaryOpPredicates opPredicates
 func init() {
 	// Setting unaryOpPredicates in init avoids declaration cycles.
 	unaryOpPredicates = opPredicates{
-		syntax.Add: isNumeric,
-		syntax.Sub: isNumeric,
+		syntax.Add: allNumeric,
+		syntax.Sub: allNumeric,
 		syntax.Xor: allInteger,
 		syntax.Not: allBoolean,
 	}
@@ -954,9 +954,9 @@ func init() {
 	// Setting binaryOpPredicates in init avoids declaration cycles.
 	binaryOpPredicates = opPredicates{
 		syntax.Add: isNumericOrString,
-		syntax.Sub: isNumeric,
-		syntax.Mul: isNumeric,
-		syntax.Div: isNumeric,
+		syntax.Sub: allNumeric,
+		syntax.Mul: allNumeric,
+		syntax.Div: allNumeric,
 		syntax.Rem: allInteger,
 
 		syntax.And:    allInteger,
