@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3acde0f_b2f66152",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-04T21:38:13Z",
+      "side": 1,
+      "message": "\"Fixes #47088\"",
+      "revId": "427ff905a00b1a1ba4a1705d337beec69a727b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26727f54_b31f2cf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-04T21:38:13Z",
+      "side": 1,
+      "message": "The code links in this commit message are probably not needed — if we need to explain the new behavior of the code, that explanation should mostly be in code comments (alongside the code) rather than in the commit message (which requires much more digging to find).",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "427ff905a00b1a1ba4a1705d337beec69a727b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "97c95532_6b1d09d0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
