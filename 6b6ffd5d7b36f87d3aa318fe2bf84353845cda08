@@ -93,6 +93,30 @@
       },
       "revId": "6b6ffd5d7b36f87d3aa318fe2bf84353845cda08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "619f3964_3983806d",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2021-11-04T15:01:28Z",
+      "side": 1,
+      "message": "Oh thanks!",
+      "parentUuid": "9a1f400d_115747f7",
+      "range": {
+        "startLine": 568,
+        "startChar": 4,
+        "endLine": 568,
+        "endChar": 15
+      },
+      "revId": "6b6ffd5d7b36f87d3aa318fe2bf84353845cda08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
