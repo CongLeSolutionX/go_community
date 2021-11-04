@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d25dba2d_54fb1332",
+        "filename": "src/net/netip/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-04T21:36:18Z",
+      "side": 1,
+      "message": "This one is an error, right?  Let\u0027s check it.  Thanks.",
+      "revId": "65a5ba6e81239291e9b4c053a2bc98baea1e7312",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
