@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7851cd89_184bf586",
+        "filename": "src/cmd/go/testdata/script/mod_download.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-04T19:05:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf1319a8_3f7bd1fb",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 76
+      },
+      "revId": "a689542f1fa039f620aa10678685854b7176a6d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "335ad014_8b37f73a",
@@ -93,6 +117,30 @@
       "writtenOn": "2021-11-04T18:23:04Z",
       "side": 1,
       "message": "These files appear to be unused.",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 26
+      },
+      "revId": "a689542f1fa039f620aa10678685854b7176a6d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a789d9dc_43424d32",
+        "filename": "src/cmd/go/testdata/script/mod_download.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-04T19:05:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "335ad014_8b37f73a",
       "range": {
         "startLine": 215,
         "startChar": 0,

@@ -109,6 +109,24 @@
       "parentUuid": "d1d06818_d79d9758",
       "revId": "31ec8f3f7587d9be34d0dd276ffdb252ba2f4fb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1498bf_a8f9398a",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-04T19:05:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e38b59c2_c40eb285",
+      "revId": "31ec8f3f7587d9be34d0dd276ffdb252ba2f4fb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
