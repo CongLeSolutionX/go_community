@@ -91,6 +91,24 @@
       "message": "Potentially a nit (forgive my drive-by 😊), but I think if I hadn\u0027t known that a tidy 1.17 module implies that all code that could be needed to build/test the module is already explicitly required (the first sentence), I may have read \"to also download source code for transitive dependencies\" to mean that I need to change how I call download to get the same behavior (when in fact, I don\u0027t). Maybe it\u0027s worth clarifying, or repeating what 1.17 implies for context?",
       "revId": "31ec8f3f7587d9be34d0dd276ffdb252ba2f4fb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e38b59c2_c40eb285",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-04T18:30:27Z",
+      "side": 1,
+      "message": "yeah i think a short phrase here would be useful?",
+      "parentUuid": "d1d06818_d79d9758",
+      "revId": "31ec8f3f7587d9be34d0dd276ffdb252ba2f4fb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
