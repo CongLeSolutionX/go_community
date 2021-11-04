@@ -45,6 +45,23 @@
       },
       "revId": "dd226ba700471653be5a5e5daa0775f0e2da38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f17413bc_1aafed9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-04T17:45:35Z",
+      "side": 1,
+      "message": "Seems like a reasonable approach, one thought\nabout unexpected panics:\n\n\u003e This doesn\u0027t handle every possible scenario,\n\u003e but improves the one we can control. For example,\n\u003e if the worker panics for some reason, we have no\n\u003e way of knowing whether the panic occurred in an\n\u003e expected way (while executing the fuzz target) or\n\u003e due to an internal error in the worker.\n\nThe test runner has some concept of when we are\ninside the fuzz function, vs. when we aren\u0027t,\nfor the workers at least. Could this be utilized\nto decide whether a panic was an actual crash vs.\nsomething going wrong inside the callers code?",
+      "revId": "dd226ba700471653be5a5e5daa0775f0e2da38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
