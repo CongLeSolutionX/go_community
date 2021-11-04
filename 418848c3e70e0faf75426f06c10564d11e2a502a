@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "751d4229_82adf511",
+        "filename": "src/crypto/elliptic/elliptic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 30038
+      },
+      "writtenOn": "2021-11-04T21:44:29Z",
+      "side": 1,
+      "message": "what is this referring to?",
+      "range": {
+        "startLine": 442,
+        "startChar": 53,
+        "endLine": 442,
+        "endChar": 78
+      },
+      "revId": "418848c3e70e0faf75426f06c10564d11e2a502a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "654d3c97_50630b4b",
         "filename": "src/crypto/elliptic/internal/fiat/generate.go",
         "patchSetId": 7
@@ -65,6 +88,23 @@
       "writtenOn": "2021-11-01T06:43:03Z",
       "side": 1,
       "message": "For casual readers (e.g., somebody learning cryptography), a comment explaining the relationship between -1 and the curve\u0027s prime would be helpful. In particular, it would explain the range loop in SetBytes.",
+      "revId": "418848c3e70e0faf75426f06c10564d11e2a502a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85f28068_fb7c3e07",
+        "filename": "src/crypto/elliptic/internal/fiat/p224.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 30038
+      },
+      "writtenOn": "2021-11-04T21:44:29Z",
+      "side": 1,
+      "message": "should a license header be added to the code generator?",
       "revId": "418848c3e70e0faf75426f06c10564d11e2a502a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
