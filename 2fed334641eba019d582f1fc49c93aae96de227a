@@ -34,6 +34,29 @@
       "message": "Maybe wait with the review. I should add a test.",
       "revId": "2fed334641eba019d582f1fc49c93aae96de227a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba9c8bd3_33c814b7",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-04T20:12:42Z",
+      "side": 1,
+      "message": "What about\n\ntype T \u003d func(int)",
+      "range": {
+        "startLine": 518,
+        "startChar": 0,
+        "endLine": 521,
+        "endChar": 9
+      },
+      "revId": "2fed334641eba019d582f1fc49c93aae96de227a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
