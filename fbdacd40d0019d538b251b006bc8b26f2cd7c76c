@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eaf5c1d_a5b0d012",
+        "filename": "src/net/netip/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-11-04T16:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad93b0c6_5a333fc9",
+      "revId": "fbdacd40d0019d538b251b006bc8b26f2cd7c76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaae90ef_e720f093",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-03T22:16:46Z",
       "side": 1,
       "message": "An example should show good code, so\n\n    ip, err :\u003d netip.AddrFromSlice(b16)\n    if err !\u003d nil {\n        log.Fatal(err)\n    }\n\nSimilarly below.",
+      "revId": "fbdacd40d0019d538b251b006bc8b26f2cd7c76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0706df71_2e4e9dfe",
+        "filename": "src/net/netip/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-11-04T16:42:28Z",
+      "side": 1,
+      "message": "The second value is an `ok` not an `err`. I ignored it because I thought it wasn\u0027t that interesting, but I agree that it _looks_ like I am throwing away an error. I changed the example so that it prints out the `ok` value as well.",
+      "parentUuid": "aaae90ef_e720f093",
       "revId": "fbdacd40d0019d538b251b006bc8b26f2cd7c76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
