@@ -142,6 +142,30 @@
       },
       "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76c2fde8_182baa64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-11-04T13:09:13Z",
+      "side": 1,
+      "message": "\u003e The problem is that the assembly backend (your next CL) seems not correctly rewriting a load from global variable to use GOT. I didn\u0027t look into your next CL to see why it doesn\u0027t, but it seems not. It probably should. In the end there can be user-written assembly code that loads from a global variable and we should handle that correctly. I.e. the assembler should be able to rewrite\n\n\u003e MOVBU x(SB), R1\n\n\u003e to something like\n\n\u003e MOVV x@GOT(SB), Rtmp;  MOVBU (Rtmp), R1\n\nI have changed the code (rewriteToUseGot \u0026 asmout function) in my next CL(cmd/internal). The code rewritting is OK now.\n\n\u003e I can see why these rules are beneficial: If there are a sequence of such loads/stores in nearby addresses, we only want to load the address from GOT once instead of every time. But again, the reasoning here doesn\u0027t sound right. Thanks.\n\nYes, you are right. I changed the next CL(cmd/internal) and it can work normally without modifying the rules. \n\nThanks, I have done the work, PTAL.",
+      "parentUuid": "c7728da8_e481a54a",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "be4f717fb9c5b90cb248bd85a8fe512f216ac095",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
