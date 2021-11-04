@@ -72,6 +72,24 @@
       "message": "Especially since this function is right next to the definition of importReaderFor(), I think it would be good to avoid the extra allocation of the importReader that will often result, and change this to:\n\n    if fn.Inl.Body !\u003d nil {\n       return true\n    }\n     _, ok :\u003d inlineImporter[fn.Nname.Sym()]\n     return ok",
       "revId": "0dcc2d01146e725980b310363de1bbe63d58388d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fc70d9a_3a0ac3c3",
+        "filename": "src/cmd/compile/internal/typecheck/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-11-04T23:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e147e6bb_d7892111",
+      "revId": "0dcc2d01146e725980b310363de1bbe63d58388d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
