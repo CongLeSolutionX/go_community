@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2d5e381_7e10cc63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-04T18:06:37Z",
+      "side": 1,
+      "message": "Can you add some benchmark numbers in the commit message?\n",
+      "revId": "86e9f1ad080f31ff4a771267747b7f9b0f5022be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff6d532_f41bbde3",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-04T18:06:37Z",
+      "side": 1,
+      "message": "use copy(ip[i:], a4[:]) ?",
+      "revId": "86e9f1ad080f31ff4a771267747b7f9b0f5022be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
