@@ -8,6 +8,7 @@ package types
 
 import (
 	"bytes"
+	"fmt"
 	"go/token"
 	"strconv"
 	"unicode/utf8"
@@ -71,20 +72,21 @@ func WriteSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier) {
 }
 
 type typeWriter struct {
-	buf   *bytes.Buffer
-	seen  map[Type]bool
-	qf    Qualifier
-	ctxt  *Context // if non-nil, we are type hashing
-	debug bool     // if true, write debug annotations
+	buf        *bytes.Buffer
+	seen       map[Type]bool
+	qf         Qualifier
+	ctxt       *Context            // if non-nil, we are type hashing
+	tparamMask map[*TypeParam]bool // local type parameters
+	debug      bool                // if true, write debug annotations
 }
 
 func newTypeWriter(buf *bytes.Buffer, qf Qualifier) *typeWriter {
-	return &typeWriter{buf, make(map[Type]bool), qf, nil, false}
+	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, false}
 }
 
 func newTypeHasher(buf *bytes.Buffer, ctxt *Context) *typeWriter {
 	assert(ctxt != nil)
-	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, false}
+	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false}
 }
 
 func (w *typeWriter) byte(b byte) {
@@ -209,22 +211,49 @@ func (w *typeWriter) typ(typ Type) {
 		}
 		w.string("interface{")
 		first := true
-		for _, m := range t.methods {
-			if !first {
-				w.byte(';')
+		if w.ctxt != nil {
+			for _, m := range t.typeSet().methods {
+				if !first {
+					w.byte(';')
+				}
+				first = false
+				w.string(m.name)
+				w.signature(m.typ.(*Signature))
 			}
-			first = false
-			w.string(m.name)
-			w.signature(m.typ.(*Signature))
-		}
-		for _, typ := range t.embeddeds {
-			if !first {
-				w.byte(';')
+			switch {
+			case t.typeSet().terms.isAll():
+			case t.typeSet().terms.isEmpty():
+				w.string(t.typeSet().terms.String())
+			default:
+				var terms []*Term
+				for _, term := range t.typeSet().terms {
+					terms = append(terms, NewTerm(term.tilde, term.typ))
+				}
+				union := NewUnion(terms)
+				if !first {
+					w.byte(';')
+				}
+				w.typ(union)
 			}
-			first = false
-			w.typ(typ)
+			w.byte('}')
+		} else {
+			for _, m := range t.methods {
+				if !first {
+					w.byte(';')
+				}
+				first = false
+				w.string(m.name)
+				w.signature(m.typ.(*Signature))
+			}
+			for _, typ := range t.embeddeds {
+				if !first {
+					w.byte(';')
+				}
+				first = false
+				w.typ(typ)
+			}
+			w.byte('}')
 		}
-		w.byte('}')
 
 	case *Map:
 		w.string("map[")
@@ -274,9 +303,14 @@ func (w *typeWriter) typ(typ Type) {
 			w.error("unnamed type parameter")
 			break
 		}
-		w.string(t.obj.name)
-		if w.debug || w.ctxt != nil {
-			w.string(subscript(t.id))
+		if w.ctxt != nil && w.tparamMask[t] {
+			// TODO: explain.
+			w.string(fmt.Sprintf("$%d", t.index))
+		} else {
+			w.string(t.obj.name)
+			if w.debug || w.ctxt != nil {
+				w.string(subscript(t.id))
+			}
 		}
 
 	default:
@@ -377,8 +411,22 @@ func (w *typeWriter) tuple(tup *Tuple, variadic bool) {
 	w.byte(')')
 }
 
+func tparamMask(list *TypeParamList) map[*TypeParam]bool {
+	mask := make(map[*TypeParam]bool)
+	for i := 0; i < list.Len(); i++ {
+		mask[list.At(i)] = true
+	}
+	return mask
+}
+
 func (w *typeWriter) signature(sig *Signature) {
 	if sig.TypeParams().Len() != 0 {
+		if w.ctxt != nil {
+			w.tparamMask = tparamMask(sig.TypeParams())
+			defer func() {
+				w.tparamMask = nil
+			}()
+		}
 		w.tParamList(sig.TypeParams().list())
 	}
 
