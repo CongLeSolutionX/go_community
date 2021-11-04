@@ -244,6 +244,24 @@
       "message": "Previously, this would respond with StatusServiceUnavailable if the request context became done for any reason. Now, it does so only on timeout.\n\nIn the normal case, the handler will be canceled only if the request has been lost, in which case the response code is irrelevant, but it\u0027s conceivable that some middleware layer will create a context and cancel it. I think this handler should always set the status code here, although maybe only include a body in the case of an actual timeout.",
       "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e922a38_08a34c06",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3373,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-11-04T16:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2333776e_32bf6fd3",
+      "revId": "aeb6e8290d2ab224e86c204db3090690adca55e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
