@@ -5075,6 +5075,15 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		for _, p := range params.InParams() { // includes receiver for interface calls
 			ACArgs = append(ACArgs, p.Type)
 		}
+
+		if s.curBlock.ID == s.f.Entry.ID && s.hasOpenDefers {
+			b := s.endBlock()
+			b.Kind = ssa.BlockPlain
+			curb := s.f.NewBlock(ssa.BlockPlain)
+			b.AddEdgeTo(curb)
+			s.startBlock(curb)
+		}
+
 		for i, n := range args {
 			callArgs = append(callArgs, s.putArg(n, t.Params().Field(i).Type))
 		}
