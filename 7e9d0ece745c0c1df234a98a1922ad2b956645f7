@@ -160,6 +160,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c24cece8_89d66191",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-05T19:52:18Z",
+      "side": 1,
+      "message": "Chaoqun -- it looks like you\u0027re \"new\" here, probably don\u0027t have submit rights yet.  If you could fix that comment, one of us can submit.\nIf you want to replace the test with the non-generic one in the issue (not in typeparam), even better.\n(https://github.com/golang/go/issues/49282#issuecomment-962116393 )\n\nThanks for the fix.\n",
+      "revId": "7e9d0ece745c0c1df234a98a1922ad2b956645f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59a86636_e2c6b138",
