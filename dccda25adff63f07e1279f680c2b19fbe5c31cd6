@@ -70,6 +70,23 @@
       "message": "I’m afk for the next couple of hours, but feos the long term fix here is to skip the test on plan9 and the nippy builders, if that’s faster. sorry about typos, gerrit in mobile is utterly unusable. ",
       "revId": "dccda25adff63f07e1279f680c2b19fbe5c31cd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82d96d4b_0df8a50a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-05T15:19:40Z",
+      "side": 1,
+      "message": "Sent https://go-review.googlesource.com/c/go/+/361634 instead to disable it on some.",
+      "revId": "dccda25adff63f07e1279f680c2b19fbe5c31cd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
