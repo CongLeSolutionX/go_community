@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "01fa8a5d_a854df0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-11-05T20:39:16Z",
+      "side": 1,
+      "message": "Confirmed fixed.",
+      "parentUuid": "78dfa9a1_93ce8d28",
+      "revId": "7e5a896694a731853a5cd66ec23b838f2f503fd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "45d713e2_17267e6d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -145,6 +163,30 @@
       "side": 1,
       "message": "Once I can run the tests all the way through, I\u0027ll see how much time they take. It\u0027s actually not substantially slower to run with the maymorestack hooks, so I\u0027m not too worried about the timeout. (I made these longtest-only tests mostly because it\u0027s just that many more tests to run.)",
       "parentUuid": "69703efa_80460942",
+      "range": {
+        "startLine": 574,
+        "startChar": 48,
+        "endLine": 574,
+        "endChar": 51
+      },
+      "revId": "7e5a896694a731853a5cd66ec23b838f2f503fd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0158dc7_8230397c",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-11-05T20:39:16Z",
+      "side": 1,
+      "message": "mayMoreStackMove actually makes it about twice as slow, so I\u0027ve doubled this to 600.",
+      "parentUuid": "7a45ea1d_f33a85b8",
       "range": {
         "startLine": 574,
         "startChar": 48,
