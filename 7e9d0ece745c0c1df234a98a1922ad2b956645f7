@@ -143,6 +143,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7879dd3c_c3692171",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-05T19:43:04Z",
+      "side": 1,
+      "message": "LGTM.  I\u0027ll ask somebody else for a Trust vote, don\u0027t think I\u0027m supposed to do both.",
+      "revId": "7e9d0ece745c0c1df234a98a1922ad2b956645f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59a86636_e2c6b138",
@@ -156,6 +173,30 @@
       "writtenOn": "2021-11-05T19:06:35Z",
       "side": 1,
       "message": "This needs a comment explaining why this is here, at least mention the bug number(#49282).",
+      "range": {
+        "startLine": 5079,
+        "startChar": 2,
+        "endLine": 5079,
+        "endChar": 54
+      },
+      "revId": "7e9d0ece745c0c1df234a98a1922ad2b956645f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dbb44d2_a2cb3216",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5079,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-05T19:43:04Z",
+      "side": 1,
+      "message": "I think the improved comment might say\n\n// split the entry block if there are open defers, because later calls to openDeferSave may cause a mismatch between the mem for an OpDereference and the call site which uses it.  See #49282.",
+      "parentUuid": "59a86636_e2c6b138",
       "range": {
         "startLine": 5079,
         "startChar": 2,
