@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0caa97b9_fb7f4925",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2021-11-05T19:16:35Z",
+      "side": 1,
+      "message": "This is a breaking change and/or addition of new API. Such changes need to go through the proposal process. The closest related issue is https://github.com/golang/go/issues/11939\n\nThere\u0027s been some work that Daniel Marti and I have been doing for a future proposal to overhaul JSON. In our current prototype, we are experimenting with the idea of an `omitzero` tag to omit any Go struct field that is the zero value according to `reflect.Value.IsZero`.",
+      "revId": "4d5acbc7e8607a0a27a0d664a6fe6c9315bff515",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
