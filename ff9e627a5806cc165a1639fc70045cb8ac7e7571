@@ -72,6 +72,24 @@
       "message": "Based on the other test we had failing, we also need a similar check in crawler.go:markInlBody() to fix that test:\n\nchange:\n\nif fn.Inl \u003d\u003d nil {\n        return\n}\n\nto:\n\nif !HaveInlineBody(fn) {\n        return\n}\n\nOtherwise, looks good.\n\n",
       "revId": "ff9e627a5806cc165a1639fc70045cb8ac7e7571",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d7863c0_df3ed6d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-11-05T06:29:24Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "a6b47d65_bd468d99",
+      "revId": "ff9e627a5806cc165a1639fc70045cb8ac7e7571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
