@@ -16,6 +16,24 @@
       "message": "This one is an error, right?  Let\u0027s check it.  Thanks.",
       "revId": "65a5ba6e81239291e9b4c053a2bc98baea1e7312",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13584530_dcb586bd",
+        "filename": "src/net/netip/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 53514
+      },
+      "writtenOn": "2021-11-05T15:34:29Z",
+      "side": 1,
+      "message": "😊 oops, yes, you are correct.",
+      "parentUuid": "d25dba2d_54fb1332",
+      "revId": "65a5ba6e81239291e9b4c053a2bc98baea1e7312",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
