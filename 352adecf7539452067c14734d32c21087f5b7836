@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d37f77a_877287e5",
+        "filename": "src/crypto/aes/cbc_ppc64le.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-11-05T19:19:59Z",
+      "side": 1,
+      "message": "Yes, I followed how this was done on s390x. In crypto/aes/cbc_ppc64le.go there is a function called CryptBlocks and in crypto/cipher/cbc.go there is a generic implementation of that function. cryptBlocksChain is implementing what is in the for loop found in crypto/cipher/cbc.go CryptBlocks.\n\nWithin the loop in CryptBlocks in cbc.go there are calls to the aes Encrypt or Decrypt functions which already have asm implementations for ppc64le. The instructions in the inner loop in cryptBlocksChain Loop_cbc_enc and Loop_cbc_dec are the same as Loop_enc and Loop_dec to do the Encrypt/Decrypt functions. The outer asm loop is implementing the rest of the for loop, as well as loading and storing the values as vector registers.",
+      "parentUuid": "56f657d2_45ac0b29",
+      "revId": "352adecf7539452067c14734d32c21087f5b7836",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e170347_54b05d9c",
         "filename": "src/crypto/cipher/cbc.go",
         "patchSetId": 10
@@ -144,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2dce4db2_509fbc0f",
+        "filename": "src/crypto/cipher/cbc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-11-05T19:19:59Z",
+      "side": 1,
+      "message": "These were only needed for the fuzz test. The name is now fixed so it is not exported.",
+      "parentUuid": "5e170347_54b05d9c",
+      "revId": "352adecf7539452067c14734d32c21087f5b7836",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2acb8446_f38955ba",
         "filename": "src/crypto/cipher/cbc.go",
         "patchSetId": 10
@@ -155,6 +191,24 @@
       "writtenOn": "2021-11-05T16:11:43Z",
       "side": 1,
       "message": "Also here.",
+      "revId": "352adecf7539452067c14734d32c21087f5b7836",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1135b0e_bcc19782",
+        "filename": "src/crypto/cipher/cbc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-11-05T19:19:59Z",
+      "side": 1,
+      "message": "Same.",
+      "parentUuid": "2acb8446_f38955ba",
       "revId": "352adecf7539452067c14734d32c21087f5b7836",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
