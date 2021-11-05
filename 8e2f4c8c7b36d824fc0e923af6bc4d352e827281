@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1f1ba02_63068c24",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2288,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-11-05T16:39:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "899b8a0f_7d4f2737",
+      "revId": "8e2f4c8c7b36d824fc0e923af6bc4d352e827281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd0fef22_2a3920bb",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-04T16:59:30Z",
       "side": 1,
       "message": "This isn\u0027t testing the same thing that it did before. The test previously tested a single server and TimeoutHandler handling two requests, one which succeeds and one which times out. Now it tests two separate servers and handlers, and wouldn\u0027t detect the bug (https://golang.org/issue/9162) the test was created to exercise.\n\nI think I\u0027d test this by having NewTestTimeoutHandler take a Context rather than a timeout, and then provide a Context implementation that can be told to return a DeadlineExceeded on demand.",
+      "revId": "8e2f4c8c7b36d824fc0e923af6bc4d352e827281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "966b1ba6_457cc670",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2459,
+      "author": {
+        "id": 54373
+      },
+      "writtenOn": "2021-11-05T16:39:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd0fef22_2a3920bb",
       "revId": "8e2f4c8c7b36d824fc0e923af6bc4d352e827281",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
