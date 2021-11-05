@@ -53,6 +53,24 @@
       "message": "I think you mean that macOS might have rejected a chain because the leaf has EKU X,Y, and EKU X doesn\u0027t nest, but we only care about EKU Y, so we could have been fine with it?",
       "revId": "5a90cc9b9488b3dee441b5d59d3fc96ad8e3d74b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd362e62_4b67df1f",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-05T22:15:54Z",
+      "side": 1,
+      "message": "Yeah this comment was a bit confusing so I\u0027ve just axed it. I\u0027ve also switched to just using the existing chain nesting logic, no point reinventing the wheel.",
+      "parentUuid": "8a763d84_27994185",
+      "revId": "5a90cc9b9488b3dee441b5d59d3fc96ad8e3d74b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
