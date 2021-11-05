@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d60f4ee_e9415e6f",
+        "filename": "src/net/netip/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-05T15:40:41Z",
+      "side": 1,
+      "message": "I\u0027d just inline this variable into the next line",
+      "revId": "cc7f3336ec26b7c51483e2a03158e3fe7ba1fdc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "867e29fc_06aa500b",
+        "filename": "src/net/netip/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-05T15:40:41Z",
+      "side": 1,
+      "message": "not sure this example adds any clarity of the docs which says exactly this.",
+      "revId": "cc7f3336ec26b7c51483e2a03158e3fe7ba1fdc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44dfb37b_5cf7fa75",
+        "filename": "src/net/netip/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-05T15:40:41Z",
+      "side": 1,
+      "message": "err has to be nil here if you log.Fatal\u0027ed just above.\n\nLikewise below.\n\nHow about you skip the log.Fatals?",
+      "revId": "cc7f3336ec26b7c51483e2a03158e3fe7ba1fdc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c787f30b_92cd2680",
+        "filename": "src/net/netip/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-05T15:40:41Z",
+      "side": 1,
+      "message": "no need for variables here. Just write it in on the WithZone lines.\n\nAlso, I\u0027d drop the % sign. That adds unnecessary confusion.",
+      "revId": "cc7f3336ec26b7c51483e2a03158e3fe7ba1fdc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
