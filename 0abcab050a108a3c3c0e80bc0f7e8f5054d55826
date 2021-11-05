@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e74c98d8_c6a9c6c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-05T22:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8bb3da8_fa6c54c2",
+      "revId": "0abcab050a108a3c3c0e80bc0f7e8f5054d55826",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c312fd8_003bb15b",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "150f47eb_0c6b4e8b",
+        "filename": "src/crypto/x509/internal/macos/security.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-05T22:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8916ea56_2f9e808f",
+      "revId": "0abcab050a108a3c3c0e80bc0f7e8f5054d55826",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d5733d5_81220027",
@@ -85,6 +121,24 @@
       "writtenOn": "2021-11-05T20:43:00Z",
       "side": 1,
       "message": "Same, does this need a release defer?",
+      "revId": "0abcab050a108a3c3c0e80bc0f7e8f5054d55826",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dd1e0ef_51908018",
+        "filename": "src/crypto/x509/internal/macos/security.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-05T22:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d5733d5_81220027",
       "revId": "0abcab050a108a3c3c0e80bc0f7e8f5054d55826",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50d3cb61_869d27a9",
+        "filename": "src/crypto/x509/internal/macos/security.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-05T22:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6a61f41_0bb0164c",
+      "revId": "0abcab050a108a3c3c0e80bc0f7e8f5054d55826",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8e8824e_ec84a5aa",
@@ -123,6 +195,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16922441_30c0a7c1",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-05T22:01:22Z",
+      "side": 1,
+      "message": "Name constraints are enforced my the macOS API.",
+      "parentUuid": "d8e8824e_ec84a5aa",
+      "revId": "0abcab050a108a3c3c0e80bc0f7e8f5054d55826",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3367107b_47b3de04",
@@ -136,6 +226,24 @@
       "writtenOn": "2021-11-05T20:43:00Z",
       "side": 1,
       "message": "Yes, opts.KeyUsages is a security sensitive surface, they need to be enforced.",
+      "revId": "0abcab050a108a3c3c0e80bc0f7e8f5054d55826",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4343a728_ea7296a6",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-05T22:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3367107b_47b3de04",
       "revId": "0abcab050a108a3c3c0e80bc0f7e8f5054d55826",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

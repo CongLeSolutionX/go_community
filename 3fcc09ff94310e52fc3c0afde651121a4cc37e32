@@ -16,6 +16,24 @@
       "message": "Releasing the reference before returning it?",
       "revId": "3fcc09ff94310e52fc3c0afde651121a4cc37e32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "595be180_50abc27d",
+        "filename": "src/crypto/x509/internal/macos/corefoundation.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-05T22:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca8f0f05_9c8281fd",
+      "revId": "3fcc09ff94310e52fc3c0afde651121a4cc37e32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
