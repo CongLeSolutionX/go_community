@@ -73,6 +73,24 @@
       "parentUuid": "cc260e56_6e2e326c",
       "revId": "0ba07e192a3fa18eafaa8a2121b8c549a3bcda01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cca3db22_e680e6d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-11-05T04:05:15Z",
+      "side": 1,
+      "message": "I’m ok with that, but instead of skipping the whole test, skip the package. See stmt_lines_test.go:89. And do file a bug. David Chase is the person to cc",
+      "parentUuid": "de860800_8f78ddb8",
+      "revId": "0ba07e192a3fa18eafaa8a2121b8c549a3bcda01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
