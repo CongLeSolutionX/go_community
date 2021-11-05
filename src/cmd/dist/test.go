@@ -544,6 +544,41 @@ func (t *tester) registerTests() {
 		})
 	}
 
+	// morestack tests.
+	if !t.compileOnly && short() == "false" {
+		// hooks is the set of maymorestack hooks to test with.
+		hooks := []string{"mayMoreStackPreempt", "mayMoreStackMove"}
+		// pkgs is the set of test packages to run.
+		pkgs := []string{"runtime", "reflect", "sync"}
+		// hookPkgs is the set of package patterns to apply
+		// the maymorestack hook to.
+		hookPkgs := []string{"runtime/...", "reflect", "sync"}
+		for _, hook := range hooks {
+			// Construct the build flags to use the
+			// maymorestack hook in the compiler and
+			// assembler.
+			var goFlags []string
+			for _, flag := range []string{"-gcflags", "-asmflags"} {
+				for _, hookPkg := range hookPkgs {
+					goFlags = append(goFlags, flag+"="+hookPkg+"=-d=maymorestack=runtime."+hook)
+				}
+			}
+
+			for _, pkg := range pkgs {
+				pkg := pkg
+				testName := hook + ":" + pkg
+				t.tests = append(t.tests, distTest{
+					name:    testName,
+					heading: "maymorestack=" + hook,
+					fn: func(dt *distTest) error {
+						t.addCmd(dt, "src", t.goTest(), t.timeout(300), goFlags, pkg, "-short")
+						return nil
+					},
+				})
+			}
+		}
+	}
+
 	// This test needs its stdout/stderr to be terminals, so we don't run it from cmd/go's tests.
 	// See issue 18153.
 	if goos == "linux" {
