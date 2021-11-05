@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be71e051_db8763a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2021-11-05T17:13:00Z",
+      "side": 1,
+      "message": "Thanks, Brad. We should probably also skip this test when run under the race detector. (See also https://github.com/golang/go/issues/36477)",
+      "revId": "a0d661ab0ff896abe45d6d4e79cb71df233c5319",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
