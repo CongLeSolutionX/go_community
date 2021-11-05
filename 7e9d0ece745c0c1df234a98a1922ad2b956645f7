@@ -105,6 +105,24 @@
       "parentUuid": "06889314_1862f9cf",
       "revId": "7e9d0ece745c0c1df234a98a1922ad2b956645f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28663596_1ef985d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54613
+      },
+      "writtenOn": "2021-11-05T18:27:52Z",
+      "side": 1,
+      "message": "Since there is float64touint converting arg in the LECall arg list，when processing that convert value it will change the entry block from plain kind block to a control kind block and also add a phi value in that “after” block，so the mem args before and after of that float arg will be splited into different blocks，and unfortunately there is a openDefer which will insert VarDef/VarLive into entry block for keeping some values alive，that VarDef/VarLive sneak into those mem args sequence without maintain dependencies. It‘s not easy to fix the mem dependencies after that happens but start a new block before processing the LECall args is cheaper.",
+      "parentUuid": "57b65a23_dc1da809",
+      "revId": "7e9d0ece745c0c1df234a98a1922ad2b956645f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
