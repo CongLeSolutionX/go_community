@@ -1260,6 +1260,10 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 
 		switch utyp := structure(base).(type) {
 		case *Struct:
+			if !utyp.complete {
+				check.errorf(e, "illegal cycle in declaration of %s", base)
+				goto Error
+			}
 			if len(e.ElemList) == 0 {
 				break
 			}
