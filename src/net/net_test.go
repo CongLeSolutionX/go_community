@@ -607,3 +607,31 @@ func TestErrors(t *testing.T) {
 		t.Fatal("ErrClosed does not implement Error")
 	}
 }
+
+func TestReadWriteMsgUDPAddrPort(t *testing.T) {
+	if runtime.GOOS == "js" {
+		t.Skip("skipping on GOOS=js")
+	}
+	conn, err := ListenUDP("udp4", &UDPAddr{IP: IPv4(127, 0, 0, 1)})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer conn.Close()
+	addr := conn.LocalAddr()
+	addrPort := addr.(*UDPAddr).AddrPort()
+	const message = "some message"
+
+	_, _, err = conn.WriteMsgUDPAddrPort([]byte(message), nil, addrPort)
+	if err != nil {
+		t.Fatal(err)
+	}
+	buf := make([]byte, len(message)*2)
+	n, _, _, _, err := conn.ReadMsgUDPAddrPort(buf, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	buf = buf[:n]
+	if string(buf) != message {
+		t.Errorf("got %q (%v); want %q", buf, n, message)
+	}
+}
