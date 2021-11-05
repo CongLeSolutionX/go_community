@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "548964f6_434d2711",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-11-05T16:50:53Z",
+      "side": 1,
+      "message": "This failure is unrelated (golang.org/issue/49388), but unfortunately caused dist to stop before trying to run the new tests.",
+      "parentUuid": "5df5a2aa_fcc68558",
+      "revId": "7e5a896694a731853a5cd66ec23b838f2f503fd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69703efa_80460942",
