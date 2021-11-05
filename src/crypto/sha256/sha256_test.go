@@ -8,6 +8,7 @@ package sha256
 
 import (
 	"bytes"
+	"crypto/internal/boring"
 	"crypto/rand"
 	"encoding"
 	"fmt"
@@ -15,8 +16,6 @@ import (
 	"io"
 	"testing"
 )
-
-import "crypto/internal/boring"
 
 type sha256Test struct {
 	out       string
@@ -291,6 +290,24 @@ func TestLargeHashes(t *testing.T) {
 		if fmt.Sprintf("%x", sum) != test.sum {
 			t.Errorf("test %d sum mismatch: expect %s got %x", i, test.sum, sum)
 		}
+	}
+}
+
+func TestAllocations(t *testing.T) {
+	var expectedAllocs int
+	if boring.Enabled {
+		expectedAllocs = 2
+	}
+	in := []byte("hello, world!")
+	out := make([]byte, 0, Size)
+	h := New()
+	n := int(testing.AllocsPerRun(10, func() {
+		h.Reset()
+		h.Write(in)
+		out = h.Sum(out[:0])
+	}))
+	if n != expectedAllocs {
+		t.Errorf("allocs = %d, want %d", n, expectedAllocs)
 	}
 }
 
