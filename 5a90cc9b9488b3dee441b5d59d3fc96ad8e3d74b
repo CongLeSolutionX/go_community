@@ -71,6 +71,24 @@
       "parentUuid": "8a763d84_27994185",
       "revId": "5a90cc9b9488b3dee441b5d59d3fc96ad8e3d74b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07918cc2_3133044a",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-11-05T22:22:43Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "dd362e62_4b67df1f",
+      "revId": "5a90cc9b9488b3dee441b5d59d3fc96ad8e3d74b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
