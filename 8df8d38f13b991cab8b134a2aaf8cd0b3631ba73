@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56bf893e_80ddfaf3",
+        "filename": "src/net/udpsock_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-05T15:49:39Z",
+      "side": 1,
+      "message": "I\u0027ll file a bug about that.",
+      "parentUuid": "126b8908_dfde17a7",
+      "revId": "8df8d38f13b991cab8b134a2aaf8cd0b3631ba73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "033a6339_ce0e67c4",
         "filename": "src/net/udpsock_test.go",
         "patchSetId": 1
@@ -68,6 +86,24 @@
       "writtenOn": "2021-11-05T15:44:52Z",
       "side": 1,
       "message": "I\u0027m a bit wary of adding builder-specific skips — won\u0027t the test also fail when users run it with the same flags?\n\n(What is the purpose of the noopt builder if not to allow users to build and test with optimizations disabled?)",
+      "revId": "8df8d38f13b991cab8b134a2aaf8cd0b3631ba73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01b9849a_77b06165",
+        "filename": "src/net/udpsock_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-11-05T15:49:39Z",
+      "side": 1,
+      "message": "Will they be running this test with those flags? I doubt it. If they\u0027re doing it at all, they\u0027re debugging the compiler and not yet at \"go test std\"\n\nWe skip alloc tests on the noopt builder in a number of other places.",
+      "parentUuid": "033a6339_ce0e67c4",
       "revId": "8df8d38f13b991cab8b134a2aaf8cd0b3631ba73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
