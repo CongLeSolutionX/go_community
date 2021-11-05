@@ -227,6 +227,7 @@ var errZeroParam = errors.New("zero parameter")
 func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err error) {
 	randutil.MaybeReadByte(rand)
 
+<<<<<<< HEAD   (dc2658 [dev.boringcrypto] misc/boring: add new releases to RELEASES)
 	if boring.Enabled && rand == boring.RandReader {
 		b, err := boringPrivateKey(priv)
 		if err != nil {
@@ -242,6 +243,10 @@ func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err err
 		entropylen = 32
 	}
 	entropy := make([]byte, entropylen)
+=======
+	// Get 256 bits of entropy from rand.
+	entropy := make([]byte, 32)
+>>>>>>> BRANCH (0a5ca2 crypto/ecdsa: draw a fixed amount of entropy while signing)
 	_, err = io.ReadFull(rand, entropy)
 	if err != nil {
 		return
