@@ -72,6 +72,47 @@
       "message": "Ping. Is this still viable for 1.18?",
       "revId": "b639e0bf60fb0084ccd214ea5420e6c7980f8fc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf021475_e471539b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T00:14:35Z",
+      "side": 1,
+      "message": "LGTM mostly. I think we can get this in for 1.18. Thanks.",
+      "parentUuid": "15012c6e_38118d74",
+      "revId": "b639e0bf60fb0084ccd214ea5420e6c7980f8fc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a870a0c8_bc4dbcc2",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T00:14:35Z",
+      "side": 1,
+      "message": "Typo. TLS instead of RLS.",
+      "range": {
+        "startLine": 1001,
+        "startChar": 18,
+        "endLine": 1001,
+        "endChar": 29
+      },
+      "revId": "b639e0bf60fb0084ccd214ea5420e6c7980f8fc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

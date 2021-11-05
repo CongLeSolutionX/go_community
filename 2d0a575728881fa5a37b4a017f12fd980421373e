@@ -142,6 +142,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db238358_e8983b2f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T00:14:35Z",
+      "side": 1,
+      "message": "Okay, if the manual use decimal then it is fine.",
+      "parentUuid": "2a5dc7a0_b4da9de1",
+      "range": {
+        "startLine": 998,
+        "startChar": 26,
+        "endLine": 998,
+        "endChar": 29
+      },
+      "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c2671b4_62dc05bf",
@@ -173,6 +197,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "9c2671b4_62dc05bf",
+      "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f6394c0_cec39803",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T00:14:35Z",
+      "side": 1,
+      "message": "I think the comment should mention what this is rewriting, like, rewriting ADD Ra, Rb, Rc to ADD Ra, R13, Rc. However, this should already be R13 https://cs.opensource.google/go/go/+/master:src/cmd/internal/obj/ppc64/asm9.go;l\u003d3553 , so it shouldn\u0027t need rewriting. You could check if it is actually R13, or just return val unchanged.",
+      "parentUuid": "176230db_6f166bc7",
       "revId": "2d0a575728881fa5a37b4a017f12fd980421373e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
