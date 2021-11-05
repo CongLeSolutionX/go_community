@@ -89,6 +89,74 @@
       "message": "Could I get some feedback on whether I can get this change approved?",
       "revId": "352adecf7539452067c14734d32c21087f5b7836",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0375a49_d78dbf62",
+        "filename": "src/crypto/aes/asm_ppc64le.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T16:11:43Z",
+      "side": 1,
+      "message": "This CL contains a large amount of reformatting of existing code and also a good amount of new code. To make it is easier to review it would be good to separate the two.",
+      "revId": "352adecf7539452067c14734d32c21087f5b7836",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56f657d2_45ac0b29",
+        "filename": "src/crypto/aes/cbc_ppc64le.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T16:11:43Z",
+      "side": 1,
+      "message": "Is there a non-assembly reference implementation of this function? Without it I have no idea what this function is supposed to do and it would be hard to review  the assembly code.",
+      "revId": "352adecf7539452067c14734d32c21087f5b7836",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e170347_54b05d9c",
+        "filename": "src/crypto/cipher/cbc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T16:11:43Z",
+      "side": 1,
+      "message": "This is adding new exported function, which is an API change. I think that needs to go through the proposal process.",
+      "revId": "352adecf7539452067c14734d32c21087f5b7836",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2acb8446_f38955ba",
+        "filename": "src/crypto/cipher/cbc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T16:11:43Z",
+      "side": 1,
+      "message": "Also here.",
+      "revId": "352adecf7539452067c14734d32c21087f5b7836",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
