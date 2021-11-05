@@ -544,6 +544,48 @@ func (t *tester) registerTests() {
 		})
 	}
 
+	// morestack tests. We only run these on in long-test mode
+	// (with GO_TEST_SHORT=false) because the runtime test is
+	// already quite long and mayMoreStackMove makes it about
+	// twice as slow.
+	if !t.compileOnly && short() == "false" {
+		// hooks is the set of maymorestack hooks to test with.
+		hooks := []string{"mayMoreStackPreempt", "mayMoreStackMove"}
+		// pkgs is the set of test packages to run.
+		pkgs := []string{"runtime", "reflect", "sync"}
+		// hookPkgs is the set of package patterns to apply
+		// the maymorestack hook to.
+		hookPkgs := []string{"runtime/...", "reflect", "sync"}
+		for _, hook := range hooks {
+			// Construct the build flags to use the
+			// maymorestack hook in the compiler and
+			// assembler. We pass this via the GOFLAGS
+			// environment variable so that it applies to
+			// both the test itself and to binaries built
+			// by the test.
+			goFlags := ""
+			for _, flag := range []string{"-gcflags", "-asmflags"} {
+				for _, hookPkg := range hookPkgs {
+					goFlags += flag + "=" + hookPkg + "=-d=maymorestack=runtime." + hook + " "
+				}
+			}
+
+			for _, pkg := range pkgs {
+				pkg := pkg
+				testName := hook + ":" + pkg
+				t.tests = append(t.tests, distTest{
+					name:    testName,
+					heading: "maymorestack=" + hook,
+					fn: func(dt *distTest) error {
+						cmd := t.addCmd(dt, "src", t.goTest(), t.timeout(600), pkg, "-short")
+						setEnv(cmd, "GOFLAGS", goFlags)
+						return nil
+					},
+				})
+			}
+		}
+	}
+
 	// This test needs its stdout/stderr to be terminals, so we don't run it from cmd/go's tests.
 	// See issue 18153.
 	if goos == "linux" {
