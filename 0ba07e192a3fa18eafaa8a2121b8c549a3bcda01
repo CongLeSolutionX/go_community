@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "002ad8bb_f019e10e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-11-05T04:41:01Z",
+      "side": 1,
+      "message": "They are good numbers \u003d)\n\n    name                                  old alloc/op   new alloc/op   delta\n    pkg:crypto/elliptic goos:darwin goarch:arm64\n    ScalarBaseMult/P384-8                   1.73MB ± 2%    0.00MB ± 0%  -99.97%  (p\u003d0.000 n\u003d8+10)\n    ScalarMult/P384-8                       1.72MB ± 3%    0.00MB ± 0%  -99.95%  (p\u003d0.000 n\u003d9+10)\n    MarshalUnmarshal/P384/Uncompressed-8    1.25kB ± 0%    0.62kB ± 0%  -50.68%  (p\u003d0.000 n\u003d10+10)\n    MarshalUnmarshal/P384/Compressed-8      1.25kB ± 0%    0.62kB ± 0%  -50.68%  (p\u003d0.000 n\u003d10+10)\n    pkg:crypto/ecdsa goos:darwin goarch:arm64\n    Sign/P384-8                             1.75MB ± 0%    0.01MB ± 0%  -99.65%  (p\u003d0.000 n\u003d10+10)\n    Verify/P384-8                           3.50MB ± 2%    0.00MB ± 0%  -99.89%  (p\u003d0.000 n\u003d10+8)\n    GenerateKey/P384-8                      1.74MB ± 0%    0.00MB ± 0%  -99.95%  (p\u003d0.000 n\u003d9+10)\n\n    name                                  old allocs/op  new allocs/op  delta\n    pkg:crypto/elliptic goos:darwin goarch:arm64\n    ScalarBaseMult/P384-8                    14.3k ± 2%      0.0k ± 0%  -99.94%  (p\u003d0.000 n\u003d8+10)\n    ScalarMult/P384-8                        14.2k ± 3%      0.0k ± 0%  -99.90%  (p\u003d0.000 n\u003d9+10)\n    MarshalUnmarshal/P384/Uncompressed-8      13.0 ± 0%      10.0 ± 0%  -23.08%  (p\u003d0.000 n\u003d10+10)\n    MarshalUnmarshal/P384/Compressed-8        13.0 ± 0%      10.0 ± 0%  -23.08%  (p\u003d0.000 n\u003d10+10)\n    pkg:crypto/ecdsa goos:darwin goarch:arm64\n    Sign/P384-8                              14.4k ± 0%      0.1k ± 0%  -99.51%  (p\u003d0.000 n\u003d10+10)\n    Verify/P384-8                            28.9k ± 2%      0.1k ± 0%  -99.77%  (p\u003d0.000 n\u003d10+8)\n    GenerateKey/P384-8                       14.4k ± 0%      0.0k ± 0%  -99.89%  (p\u003d0.000 n\u003d9+10)",
+      "parentUuid": "47af0246_5e8d8f6a",
+      "revId": "0ba07e192a3fa18eafaa8a2121b8c549a3bcda01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe81af4a_47619249",
@@ -106,6 +124,24 @@
       "side": 1,
       "message": "I’m ok with that, but instead of skipping the whole test, skip the package. See stmt_lines_test.go:89. And do file a bug. David Chase is the person to cc",
       "parentUuid": "de860800_8f78ddb8",
+      "revId": "0ba07e192a3fa18eafaa8a2121b8c549a3bcda01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dc55571_3edf48fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-11-05T04:41:01Z",
+      "side": 1,
+      "message": "Done, thank you!",
+      "parentUuid": "cca3db22_e680e6d9",
       "revId": "0ba07e192a3fa18eafaa8a2121b8c549a3bcda01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
