@@ -23,7 +23,7 @@ func TestSizeof(t *testing.T) {
 		{Basic{}, 16, 32},
 		{Array{}, 16, 24},
 		{Slice{}, 8, 16},
-		{Struct{}, 24, 48},
+		{Struct{}, 28, 56},
 		{Pointer{}, 8, 16},
 		{Tuple{}, 12, 24},
 		{Signature{}, 28, 56},
