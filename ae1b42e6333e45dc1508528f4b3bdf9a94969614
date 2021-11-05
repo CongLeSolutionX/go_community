@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8707a6_7e0bffc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-05T14:13:43Z",
+      "side": 1,
+      "message": "TRY\u003dnetbsd-arm64-bsiegert",
+      "revId": "ae1b42e6333e45dc1508528f4b3bdf9a94969614",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
