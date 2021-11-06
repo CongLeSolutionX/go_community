@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fd0ee04_ef853e20",
+        "filename": "src/cmd/compile/internal/types2/object_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-06T00:36:38Z",
+      "side": 1,
+      "message": "We import . for most other external tests, why not do that here and minimize the diff?\n\nI generally prefer import . for x-tests; a nice middle ground.",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "b7b71d0eee367af8e04d6fa0a82c744ec696007f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
