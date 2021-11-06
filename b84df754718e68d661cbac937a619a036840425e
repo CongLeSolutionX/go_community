@@ -125,6 +125,24 @@
       "parentUuid": "8a5ec0d9_819f21fd",
       "revId": "b84df754718e68d661cbac937a619a036840425e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a96f00ff_aa178d25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-06T12:50:11Z",
+      "side": 1,
+      "message": "This should have had at least a Darwin SlowBot — most of the Darwin builders (which run a few tests for iOS cross-compilation) are now broken.\n\nReally, though, we shouldn\u0027t be merging iOS-specific changes at all without an iOS builder up and running.",
+      "parentUuid": "47a3bfe7_78c7fee9",
+      "revId": "b84df754718e68d661cbac937a619a036840425e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
