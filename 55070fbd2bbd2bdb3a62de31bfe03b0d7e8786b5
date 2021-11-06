@@ -78,6 +78,30 @@
       },
       "revId": "55070fbd2bbd2bdb3a62de31bfe03b0d7e8786b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a9bfd0f_6530e404",
+        "filename": "src/cmd/compile/internal/types2/conversions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-06T21:56:44Z",
+      "side": 1,
+      "message": "Fair enough but this is literally the comment that we used to have in the compiler (or that you get when you use -G\u003d0). I think for now we should preserve that behavior as people are used to that. Fine to come up with a better solution down the road.",
+      "parentUuid": "c8c5d85d_c0bbbe72",
+      "range": {
+        "startLine": 187,
+        "startChar": 52,
+        "endLine": 187,
+        "endChar": 65
+      },
+      "revId": "55070fbd2bbd2bdb3a62de31bfe03b0d7e8786b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
