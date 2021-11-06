@@ -78,6 +78,30 @@
       },
       "revId": "4a98fe31b0bae86ed690829a2245ef2c62111141",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0897ebf_9fe37982",
+        "filename": "src/cmd/compile/internal/types2/testdata/fixedbugs/issue49276.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-06T19:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "212d08f8_da873d63",
+      "range": {
+        "startLine": 5,
+        "startChar": 8,
+        "endLine": 5,
+        "endChar": 9
+      },
+      "revId": "4a98fe31b0bae86ed690829a2245ef2c62111141",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
