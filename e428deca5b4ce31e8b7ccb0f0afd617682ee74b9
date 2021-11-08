@@ -53,6 +53,24 @@
       "message": "(optional)\n\nSince we expect this goroutine to eventually always hit a failure in Write, I\u0027d be inclined to ditch the hard-coded upper bound and use exponential backoff. That way if this test fails to provoke the expected error on the builders we get a goroutine dump (showing what the net/http goroutines are up to) instead of just a failure message.",
       "revId": "e428deca5b4ce31e8b7ccb0f0afd617682ee74b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c121faa1_7a8baa36",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2530,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-11-08T21:28:32Z",
+      "side": 1,
+      "message": "I don\u0027t think a goroutine dump will really be useful here. I think I\u0027ll stick with what I\u0027ve got for now; we\u0027re really just sleeping to give other goroutines a chance to schedule, so if this takes a non-trivial amount of time to return an error something is probably going wrong that more time will not fix.",
+      "parentUuid": "b521e09f_ea711451",
+      "revId": "e428deca5b4ce31e8b7ccb0f0afd617682ee74b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
