@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be70e522_23f76aac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2021-11-08T10:43:31Z",
+      "side": 1,
+      "message": "The macos builders breakage has been reported at #49435 (just\na note, so that a CL fixing the issue can reference #49435 to close it).",
+      "revId": "b74f2efc47bbfcc4aa301ebda1033948d8b6b63e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
