@@ -100,6 +100,30 @@
       },
       "revId": "09876462cd7fb9fe1b49930f8df9a572a0649513",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b09c7a_5d6b0ef0",
+        "filename": "src/internal/fmtsort/sort_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-11-08T16:32:15Z",
+      "side": 1,
+      "message": "Yeah, I mean something like uintptr(reflect.ValueOf(cs[i]).UnsafePointer()), since when that\u0027s the preferable way.",
+      "parentUuid": "22c1b4d5_f5630da8",
+      "range": {
+        "startLine": 199,
+        "startChar": 32,
+        "endLine": 199,
+        "endChar": 39
+      },
+      "revId": "09876462cd7fb9fe1b49930f8df9a572a0649513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
