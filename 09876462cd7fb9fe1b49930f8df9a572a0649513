@@ -40,6 +40,30 @@
       },
       "revId": "09876462cd7fb9fe1b49930f8df9a572a0649513",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22c1b4d5_f5630da8",
+        "filename": "src/internal/fmtsort/sort_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-11-08T16:27:46Z",
+      "side": 1,
+      "message": "We can\u0027t use \u003c on unsafe.Pointers, unfortunately.",
+      "parentUuid": "1d5cc482_f0f24f9f",
+      "range": {
+        "startLine": 199,
+        "startChar": 32,
+        "endLine": 199,
+        "endChar": 39
+      },
+      "revId": "09876462cd7fb9fe1b49930f8df9a572a0649513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
