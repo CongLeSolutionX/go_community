@@ -16,6 +16,23 @@
       "message": "I created proposal here to simplify this function and/or future functions like it.  \n\nThis proposal is for Rsh() and Lsh() operators for byte slices.  The pull request is included in the link below:\n\nhttps://github.com/golang/go/pull/43550",
       "revId": "a82dd084a45976596fd0d68c4ebafa51be0d2f64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05dc4c04_0d08bf53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49460
+      },
+      "writtenOn": "2021-11-08T14:39:03Z",
+      "side": 1,
+      "message": "I was able to gain access to a s390x system through a university and compile this code and verify that this is indeed functioning.  I guess I have an outstanding question:\n\n1. If there is a TODO, then didn\u0027t the author imply that something should be done to fix this issue?\n2. If you are strongly suggesting to leave this code as is, shouldn\u0027t this not be a TODO marked item?",
+      "revId": "a82dd084a45976596fd0d68c4ebafa51be0d2f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
