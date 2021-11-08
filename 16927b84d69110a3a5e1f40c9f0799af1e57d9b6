@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e3beca_1c7e5eeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-08T21:53:37Z",
+      "side": 1,
+      "message": "Please make this a regular CL description.  Don\u0027t describe the CL as a rollback of a rollback.  That is hard to understand when reading logs.  In the comment you can explain that this is a roll forward.  Thanks.",
+      "revId": "16927b84d69110a3a5e1f40c9f0799af1e57d9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ee43f57f_21214c16",
