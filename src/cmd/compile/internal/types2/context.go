@@ -39,6 +39,10 @@ func (ctxt *Context) TypeHash(typ Type, targs []Type) string {
 	var buf bytes.Buffer
 
 	h := newTypeHasher(&buf, ctxt)
+	// Caution: don't use asNamed here. TypeHash may be called for unexpanded
+	// types (for example when instantiating X[T] in `type X[T X[T]] ...`). We
+	// don't need anything other than name and type arguments below, which do not
+	// require expansion.
 	if named, _ := typ.(*Named); named != nil && len(targs) > 0 {
 		// Don't use WriteType because we need to use the provided targs
 		// and not any targs that might already be with the *Named type.
