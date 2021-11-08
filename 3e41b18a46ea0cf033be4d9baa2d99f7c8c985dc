@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "860f06a2_d91f73da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-11-08T17:12:08Z",
+      "side": 1,
+      "message": "This CL breaks longtest builders. I sent CL 361963 to fix it.",
+      "revId": "3e41b18a46ea0cf033be4d9baa2d99f7c8c985dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
