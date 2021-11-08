@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f787bd16_ce9ed373",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 54716
+      },
+      "writtenOn": "2021-11-08T14:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "635576c2_aecbde43",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 125
+      },
+      "revId": "184ce3aafdaab1bbbd6236d68ed167d8dba3af6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1da44a93_79b45770",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -115,6 +139,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "706628c0_663d3737",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54716
+      },
+      "writtenOn": "2021-11-08T14:31:53Z",
+      "side": 1,
+      "message": "Yeah, the kind of fix, writing test for which is harder than the actual fix",
+      "parentUuid": "1da44a93_79b45770",
+      "revId": "184ce3aafdaab1bbbd6236d68ed167d8dba3af6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b228752_8e9feaad",
@@ -128,6 +170,30 @@
       "writtenOn": "2021-11-08T13:09:09Z",
       "side": 1,
       "message": "Could you comment why you choose these times? Why are they added together like this?",
+      "range": {
+        "startLine": 3961,
+        "startChar": 0,
+        "endLine": 3961,
+        "endChar": 65
+      },
+      "revId": "184ce3aafdaab1bbbd6236d68ed167d8dba3af6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "631de474_30dc0cc2",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3961,
+      "author": {
+        "id": 54716
+      },
+      "writtenOn": "2021-11-08T14:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b228752_8e9feaad",
       "range": {
         "startLine": 3961,
         "startChar": 0,
