@@ -21,6 +21,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aee8199b_830e6319",
+        "filename": "src/internal/fmtsort/sort_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-08T16:29:10Z",
+      "side": 1,
+      "message": "Nothing strictly guarantees that these channel pointers won\u0027t change over time, although since this test is within the standard library we can always fix it if and when the runtime is changed to actually move dynamically-allocated channels.\n\nMaybe add a TODO(#46787) to pin these values in place for the duration of the test?",
+      "revId": "09876462cd7fb9fe1b49930f8df9a572a0649513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d5cc482_f0f24f9f",
         "filename": "src/internal/fmtsort/sort_test.go",
         "patchSetId": 1
