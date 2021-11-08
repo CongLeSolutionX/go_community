@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "886c91d2_d0ad0bc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2021-11-08T18:10:47Z",
+      "side": 1,
+      "message": "I think the root cause can be https://github.com/golang/go/issues/49439",
+      "revId": "6569e7c12e2e77d0511c6ce4a833a06bd1ee7a5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
