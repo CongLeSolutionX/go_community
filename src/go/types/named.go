@@ -7,6 +7,7 @@ package types
 import (
 	"go/token"
 	"sync"
+	"sync/atomic"
 )
 
 // A Named represents a named (defined) type.
@@ -24,7 +25,15 @@ type Named struct {
 	// resolver may be provided to lazily resolve type parameters, underlying, and methods.
 	resolver func(*Context, *Named) (tparams *TypeParamList, underlying Type, methods []*Func)
 	once     sync.Once // ensures that tparams, underlying, and methods are resolved before accessing
+
+	state int32
 }
+
+const (
+	unresolved = iota
+	resolving
+	resolved
+)
 
 // NewNamed returns a new named type for the given type name, underlying type, and associated methods.
 // If the given type name obj doesn't have a type yet, its type is set to the returned named type.
@@ -37,22 +46,33 @@ func NewNamed(obj *TypeName, underlying Type, methods []*Func) *Named {
 }
 
 func (t *Named) resolve(ctxt *Context) *Named {
+	if !atomic.CompareAndSwapInt32(&t.state, unresolved, resolving) {
+		v := atomic.LoadInt32(&t.state)
+		if v == resolving {
+			panic("recursive resolution")
+		}
+		return t
+	}
+	defer func() {
+		t.resolver = nil
+		if !atomic.CompareAndSwapInt32(&t.state, resolving, resolved) {
+			panic("invalid state")
+		}
+	}()
 	if t.resolver == nil {
 		return t
 	}
-
-	t.once.Do(func() {
-		// TODO(mdempsky): Since we're passing t to the resolver anyway
-		// (necessary because types2 expects the receiver type for methods
-		// on defined interface types to be the Named rather than the
-		// underlying Interface), maybe it should just handle calling
-		// SetTypeParams, SetUnderlying, and AddMethod instead?  Those
-		// methods would need to support reentrant calls though. It would
-		// also make the API more future-proof towards further extensions
-		// (like SetTypeParams).
-		t.tparams, t.underlying, t.methods = t.resolver(ctxt, t)
-		t.fromRHS = t.underlying // for cycle detection
-	})
+	// TODO(mdempsky): Since we're passing t to the resolver anyway
+	// (necessary because types2 expects the receiver type for methods
+	// on defined interface types to be the Named rather than the
+	// underlying Interface), maybe it should just handle calling
+	// SetTypeParams, SetUnderlying, and AddMethod instead?  Those
+	// methods would need to support reentrant calls though. It would
+	// also make the API more future-proof towards further extensions
+	// (like SetTypeParams).
+	t.tparams, t.underlying, t.methods = t.resolver(ctxt, t)
+	// TODO(rfindley): is this necessary?
+	t.fromRHS = t.underlying // for cycle detection
 	return t
 }
 

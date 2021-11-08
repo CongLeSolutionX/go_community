@@ -7,3 +7,5 @@
 
 package p
 
+// type X[T any, PT X[T]] interface{}
+

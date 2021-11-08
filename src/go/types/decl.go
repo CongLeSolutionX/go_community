@@ -229,11 +229,17 @@ func (check *Checker) cycle(obj Object) (isCycle bool) {
 	cycle := check.objPath[start:]
 	nval := 0 // number of (constant or variable) values in the cycle
 	ndef := 0 // number of type definitions in the cycle
+	// ntpar := 0 // number of type parameters in the cycle
 	for _, obj := range cycle {
 		switch obj := obj.(type) {
 		case *Const, *Var:
 			nval++
 		case *TypeName:
+			if tpar, _ := obj.Type().(*TypeParam); tpar != nil {
+				panic(check.sprintf("%v: type parameter in cycle", obj.Pos()))
+				// ntpar++
+				// break
+			}
 			// Determine if the type name is an alias or not. For
 			// package-level objects, use the object map which
 			// provides syntactic information (which doesn't rely
@@ -683,7 +689,10 @@ func (check *Checker) collectTypeParams(dst **TypeParamList, list *ast.FieldList
 	for _, f := range list.List {
 		// TODO(rfindley) we should be able to rely on f.Type != nil at this point
 		if f.Type != nil {
+			obj := check.lookup(f.Names[0].Name)
+			check.push(obj)
 			bound := check.bound(f.Type)
+			check.pop()
 			bounds = append(bounds, bound)
 			posns = append(posns, f.Type)
 			for i := range f.Names {
