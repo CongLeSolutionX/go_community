@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa85ee9b_cc709d8d",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-08T20:25:23Z",
+      "side": 1,
+      "message": "I\u0027m wondering if the key is here instead: We can\u0027t use a type who\u0027s type parameter\u0027s type bounds are not yet set. Perhaps we need to mark the type parameters as not being complete yet. If we use a type that is generic and has its type parameters not yet set, we error. Seems more direct. Not sure if it excludes more cases.",
+      "range": {
+        "startLine": 684,
+        "startChar": 16,
+        "endLine": 684,
+        "endChar": 19
+      },
+      "revId": "c7936c2b73aca556f858495cb34fac67820d2a68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
