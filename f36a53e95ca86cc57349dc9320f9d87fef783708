@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eccd9709_44da8c17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-08T19:36:52Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1:\n\u003e \n\u003e Could please also port this to x/tools ( golang.org/x/tools/go/internal/gccgoimporter ), in a separate CL?\n\nHi Clement,\n\nWondering if you have had a chance to work on Robert\u0027s suggestion -- I see that the lack of support in x/tools is now being flagged in issue https://github.com/golang/go/issues/49445. I looked for a CL of this sort but wasn\u0027t able to find anything.\n\nThanks, Than\n",
+      "revId": "f36a53e95ca86cc57349dc9320f9d87fef783708",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
