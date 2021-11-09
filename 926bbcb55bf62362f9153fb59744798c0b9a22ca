@@ -82,6 +82,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18eda55c_9bc4b3b2",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-09T04:48:04Z",
+      "side": 1,
+      "message": "Your example works fine (and I added it to the issue test).\nBut I am actually not 100% sure why. Investigating.",
+      "parentUuid": "1e40a442_834a356d",
+      "range": {
+        "startLine": 240,
+        "startChar": 32,
+        "endLine": 240,
+        "endChar": 50
+      },
+      "revId": "926bbcb55bf62362f9153fb59744798c0b9a22ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "260e5eca_000e8e20",
         "filename": "src/cmd/compile/internal/types2/decl.go",
         "patchSetId": 2
@@ -105,6 +129,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b55bce8_ae02fc48",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-09T04:48:04Z",
+      "side": 1,
+      "message": "done via a separate preceding CL",
+      "parentUuid": "260e5eca_000e8e20",
+      "range": {
+        "startLine": 272,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 13
+      },
+      "revId": "926bbcb55bf62362f9153fb59744798c0b9a22ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ef0cef9_2d4c4c47",
         "filename": "src/cmd/compile/internal/types2/decl.go",
         "patchSetId": 2
@@ -116,6 +164,30 @@
       "writtenOn": "2021-11-09T02:03:05Z",
       "side": 1,
       "message": "I wonder if we should output a specific error message in the case of this new category of invalid cycle.",
+      "range": {
+        "startLine": 298,
+        "startChar": 7,
+        "endLine": 298,
+        "endChar": 17
+      },
+      "revId": "926bbcb55bf62362f9153fb59744798c0b9a22ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f2df9dd_c7cad9bd",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-09T04:48:04Z",
+      "side": 1,
+      "message": "I don\u0027t think this is a new kind of cycle. We already recognize the cycle but ignore it as valid. The only thing we change is that we decide that these are not valid cycles. So I think this error is fine; and the printed path is fine, too.",
+      "parentUuid": "3ef0cef9_2d4c4c47",
       "range": {
         "startLine": 298,
         "startChar": 7,
