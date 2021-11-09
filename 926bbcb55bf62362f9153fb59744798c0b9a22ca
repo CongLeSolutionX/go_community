@@ -128,6 +128,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abf6b086_677317e3",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-09T21:48:40Z",
+      "side": 1,
+      "message": "Update, per our discussion: it\u0027s not coincidence, but rather due to the way our declaration context works.\n\nSo I think this is correct.",
+      "parentUuid": "cc989179_72992e5a",
+      "range": {
+        "startLine": 240,
+        "startChar": 32,
+        "endLine": 240,
+        "endChar": 50
+      },
+      "revId": "926bbcb55bf62362f9153fb59744798c0b9a22ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "260e5eca_000e8e20",
@@ -175,6 +199,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd5e7f8d_84151831",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-09T21:48:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7b55bce8_ae02fc48",
+      "range": {
+        "startLine": 272,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 13
+      },
+      "revId": "926bbcb55bf62362f9153fb59744798c0b9a22ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ef0cef9_2d4c4c47",
@@ -212,6 +260,30 @@
       "side": 1,
       "message": "I don\u0027t think this is a new kind of cycle. We already recognize the cycle but ignore it as valid. The only thing we change is that we decide that these are not valid cycles. So I think this error is fine; and the printed path is fine, too.",
       "parentUuid": "3ef0cef9_2d4c4c47",
+      "range": {
+        "startLine": 298,
+        "startChar": 7,
+        "endLine": 298,
+        "endChar": 17
+      },
+      "revId": "926bbcb55bf62362f9153fb59744798c0b9a22ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac8ba1c5_0c72d278",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-09T21:48:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5f2df9dd_c7cad9bd",
       "range": {
         "startLine": 298,
         "startChar": 7,
