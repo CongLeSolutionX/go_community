@@ -88,6 +88,24 @@
       "parentUuid": "a491788d_d677660f",
       "revId": "3e43f7ef771d0ca97e474efba0e3e69a3237f85f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3ef2dc0_cfa28b98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-09T16:57:49Z",
+      "side": 1,
+      "message": "And here is a test for it: https://go-review.googlesource.com/c/go/+/362714\n\nI have verified that\n- it fails without this CL\n- it passes with this CL",
+      "parentUuid": "8a35c47f_558d8843",
+      "revId": "3e43f7ef771d0ca97e474efba0e3e69a3237f85f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
