@@ -106,6 +106,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc989179_72992e5a",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-09T04:59:59Z",
+      "side": 1,
+      "message": "Actually, it works by coincidence. This solution is not obviously correct, and quite possibly incorrect. Will revise.",
+      "parentUuid": "18eda55c_9bc4b3b2",
+      "range": {
+        "startLine": 240,
+        "startChar": 32,
+        "endLine": 240,
+        "endChar": 50
+      },
+      "revId": "926bbcb55bf62362f9153fb59744798c0b9a22ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "260e5eca_000e8e20",
         "filename": "src/cmd/compile/internal/types2/decl.go",
         "patchSetId": 2
