@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d9c053c_ed0faf6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-09T22:03:37Z",
+      "side": 1,
+      "message": "Please remove all this text as explained in the instructions.",
+      "revId": "7946a40b3c5a624d7ca752ae33a14d1de4df97bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a10f2c95_38b4315c",
@@ -85,6 +102,24 @@
       "side": 1,
       "message": "type foo struct {\n\n}\n\nfunc(f foo) func1() {}\nfunc(f foo) func2() {}\nfunc(f foo) func3() {}\n\ntype bar interface {\n\tfunc1()\n\tfunc2()\n\tfunc3()\n\tfunc4()\n}\n\nfunc example() bar {\n\treturn foo{}\n}\n\nIn the function where the change occurs, judging whether a type implements an interface is by linear scanning of their respective methods.\nIn the above example, if the number of struct methods is significantly less than the number of interface methods, it can be considered that the interface has not been implemented. In most real-life scenarios, this change does not bring much benefit, but it does improve the efficiency of this code.",
       "parentUuid": "01c4a828_7762403a",
+      "revId": "7946a40b3c5a624d7ca752ae33a14d1de4df97bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7b4fa59_d56d4d47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-09T22:03:37Z",
+      "side": 1,
+      "message": "Thanks.  I\u0027m wondering whether you have an example from real code where it matters.  I agree that it is possible to construct examples where it makes a difference, but does anybody actually write code like that?",
+      "parentUuid": "6180ccd7_5e2323c2",
       "revId": "7946a40b3c5a624d7ca752ae33a14d1de4df97bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
