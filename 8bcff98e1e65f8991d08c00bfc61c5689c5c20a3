@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c13ce2_0aac97a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-09T21:21:35Z",
+      "side": 1,
+      "message": "Just for the record, this will need to be reviewed by someone more familiar with cmd/compile than I am.  And it will probably have to wait for the 1.19 release.",
+      "revId": "8bcff98e1e65f8991d08c00bfc61c5689c5c20a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
