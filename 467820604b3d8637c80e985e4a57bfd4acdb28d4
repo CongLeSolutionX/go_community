@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e5c94c2_46d9a042",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-09T22:12:38Z",
+      "side": 1,
+      "message": "We don\u0027t use Markdown syntax like backquotes in commit messages.  We also wrap lines at about 80 columns.",
+      "revId": "467820604b3d8637c80e985e4a57bfd4acdb28d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47df8b77_67b4d0f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-09T22:12:38Z",
+      "side": 1,
+      "message": "A change like this should have a test if possible.",
+      "revId": "467820604b3d8637c80e985e4a57bfd4acdb28d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
