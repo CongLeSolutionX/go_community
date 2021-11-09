@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edae85a5_c1f6e503",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-09T21:46:17Z",
+      "side": 1,
+      "message": "Seems like we should say the same thing for Stable.",
+      "revId": "583f00a65bd0adad8e90bb44a8e16cd7af26d94c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
