@@ -1,0 +1,16 @@
+// Copyright 2021 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+type pointerToT[T any, PT pointerToT[T, PT]] interface{
+	*T
+}
+
+func F[T any, PT pointerToT[T, PT]](n, nn PT) {
+}
+
+func WrapF[A any, PA pointerToT[A, PA]](n, nn PA) {
+	F(/* ERROR PT does not match .* */n, nn)
+}
