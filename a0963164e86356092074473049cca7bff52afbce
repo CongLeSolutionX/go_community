@@ -16,6 +16,24 @@
       "message": "FYI I found another bug similar to this. Given that I found 2 quickly it\u0027s likely that there are actually n \u003e 2 bugs like this one. I think there needs to be some more systematic approach to checking that the stenciler always produces line numbers that are *inside* the function that\u0027s being stenciled.",
       "revId": "a0963164e86356092074473049cca7bff52afbce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "542cca1d_4d1a0cd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-10T14:10:55Z",
+      "side": 1,
+      "message": "That would take a hair longer to write, but would use tools we\u0027ve used in the past.",
+      "parentUuid": "c28fd33e_ce9d1067",
+      "revId": "a0963164e86356092074473049cca7bff52afbce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
