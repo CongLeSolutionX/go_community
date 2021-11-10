@@ -6,6 +6,11 @@
 
 package types2
 
+import (
+	"fmt"
+	"strings"
+)
+
 // Internal use of LookupFieldOrMethod: If the obj result is a method
 // associated with a concrete (non-interface) type, the method's signature
 // may not be fully set up. Call Checker.objDecl(obj, nil) before accessing
@@ -403,6 +408,63 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 	}
 
 	return
+}
+
+// missingMethodReason returns a string giving the reason for a missing method m,
+// where m is missing from V, but required by T. It prepends the situation string and
+// puts the more detailed reason in parentheses. If non-nil, wrongType is a method
+// with the same name, but wrong type.
+func (check *Checker) missingMethodReason(situation string, V, T Type, m, wrongType *Func) string {
+	var r string
+	var mname string
+	if check.conf.CompilerErrorMessages {
+		mname = m.Name() + " method"
+	} else {
+		mname = "method " + m.Name()
+	}
+	if wrongType != nil {
+		if Identical(m.typ, wrongType.typ) {
+			if m.Name() == wrongType.Name() {
+				r = fmt.Sprintf("%s (%s has pointer receiver)", situation, mname)
+			} else {
+				r = fmt.Sprintf("%s (missing %s)\n\t\thave %s^^%s\n\t\twant %s^^%s",
+					situation, mname, wrongType.Name(), wrongType.typ, m.Name(), m.typ)
+			}
+		} else {
+			if check.conf.CompilerErrorMessages {
+				r = fmt.Sprintf("%s (wrong type for %s)\n\t\thave %s^^%s\n\t\twant %s^^%s",
+					situation, mname, wrongType.Name(), wrongType.typ, m.Name(), m.typ)
+			} else {
+				// Compatibility code for types2-only messages.
+				r = fmt.Sprintf("%s (wrong type for %s: have %s, want %s)",
+					situation, mname, wrongType.typ, m.typ)
+			}
+		}
+		// This is a hack to print the function type without the leading
+		// 'func' keyword in the have/want printouts. We can change to have
+		// an extra formatting option for types2.Type that doesn't print out
+		// 'func'.
+		r = strings.Replace(r, "^^func", "", -1)
+	} else if di, _ := under(T).(*Interface); di != nil {
+		if isPtrToInterface(V) {
+			r = fmt.Sprintf("%s (%s is pointer to interface, not interface)", situation, V)
+		}
+	} else if isPtrToInterface(T) {
+		r = fmt.Sprintf("%s (%s is pointer to interface, not interface)", situation, T)
+	}
+	if r == "" {
+		r = fmt.Sprintf("%s (missing %s)", situation, mname)
+	}
+	return r
+}
+
+func isPtrToInterface(T Type) bool {
+	if p, _ := under(T).(*Pointer); p != nil {
+		if i, _ := under(p.Elem()).(*Interface); i != nil {
+			return true
+		}
+	}
+	return false
 }
 
 // assertableTo reports whether a value of type V can be asserted to have type T.
