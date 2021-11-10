@@ -73,6 +73,16 @@ func TestInstantiateEquality(t *testing.T) {
 			"F2", []Type{Typ[Int]},
 			false,
 		},
+		{
+			"package funcequality; func F1[P any](x int) {}; func F2[Q any](x int) {}",
+			"F1", []Type{Typ[Int]},
+			"F2", []Type{Typ[Int]},
+		},
+		{
+			"package funcsymmetry; func F1[P any](x P) {}; func F2[Q any](x Q) {}",
+			"F1", []Type{Typ[Int]},
+			"F2", []Type{Typ[Int]},
+		},
 	}
 
 	for _, test := range tests {
