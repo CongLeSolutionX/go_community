@@ -16,6 +16,24 @@
       "message": "ping! can someone to review this CL",
       "revId": "1b548dc3095d052ba1394318e243daae5b9b19bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3287f549_bf044343",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-10T06:07:12Z",
+      "side": 1,
+      "message": "Please do not ping us. This CL was only uploaded today. There\u0027s an open issue so we will see the CL when we handle the issue.\n\nWe will get to it when we get to it. Thanks.",
+      "parentUuid": "4bc22ed6_ebc0b5d5",
+      "revId": "1b548dc3095d052ba1394318e243daae5b9b19bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
