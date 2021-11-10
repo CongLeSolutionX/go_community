@@ -373,29 +373,28 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 		if y, ok := y.(*Named); ok {
 			xargs := x.TypeArgs().list()
 			yargs := y.TypeArgs().list()
+			if debug {
+				sanityCheckNamedType(x)
+				sanityCheckNamedType(y)
+
+				// Origin types should map bijectively to their type names.
+				assert((x.orig == y.orig) == (x.orig.obj == y.orig.obj))
+			}
 
 			if len(xargs) != len(yargs) {
 				return false
 			}
 
-			if len(xargs) > 0 {
-				// Instances are identical if their original type and type arguments
-				// are identical.
-				if !Identical(x.orig, y.orig) {
+			for i, xa := range xargs {
+				if !Identical(xa, yargs[i]) {
 					return false
 				}
-				for i, xa := range xargs {
-					if !Identical(xa, yargs[i]) {
-						return false
-					}
-				}
-				return true
 			}
 
 			// TODO(gri) Why is x == y not sufficient? And if it is,
 			//           we can just return false here because x == y
 			//           is caught in the very beginning of this function.
-			return x.obj == y.obj
+			return x.orig.obj == y.orig.obj
 		}
 
 	case *TypeParam:
@@ -409,6 +408,14 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 	}
 
 	return false
+}
+
+// sanityCheckNamedType verifies invariants of n.
+func sanityCheckNamedType(n *Named) {
+	assert(n.orig == n.orig.orig)
+	if n.TypeArgs().Len() == 0 {
+		assert(n == n.orig)
+	}
 }
 
 // identicalInstance reports if two type instantiations are identical.
