@@ -31,11 +31,11 @@ func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body
 
 	// save/restore current context and setup function context
 	// (and use 0 indentation at function start)
-	defer func(ctxt context, indent int) {
-		check.context = ctxt
+	defer func(ctxt objContext, indent int) {
+		check.objContext = ctxt
 		check.indent = indent
-	}(check.context, check.indent)
-	check.context = context{
+	}(check.objContext, check.indent)
+	check.objContext = objContext{
 		decl:  decl,
 		scope: sig.scope,
 		iota:  iota,
