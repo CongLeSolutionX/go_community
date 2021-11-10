@@ -1718,7 +1718,10 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 	sect := state.allocateNamedSectionAndAssignSyms(&Segdata, ".noptrdata", sym.SNOPTRDATA, sym.SDATA, 06)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.noptrdata", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.enoptrdata", 0), sect)
-
+	if ctxt.BuildMode == BuildModePlugin {
+		/* itabaddr */
+		sect = state.allocateNamedSectionAndAssignSyms(&Segdata, ".itabaddr", sym.SITABADDR, sym.SDATA, 06)
+	}
 	hasinitarr := ctxt.linkShared
 
 	/* shared library initializer */

@@ -1286,6 +1286,8 @@ func (ctxt *Link) doelf() {
 	shstrtab.Addstring("")
 	shstrtab.Addstring(".text")
 	shstrtab.Addstring(".noptrdata")
+	shstrtab.Addstring(".itabaddr")
+	shstrtab.Addstring(".rela.itabaddr")
 	shstrtab.Addstring(".data")
 	shstrtab.Addstring(".bss")
 	shstrtab.Addstring(".noptrbss")
