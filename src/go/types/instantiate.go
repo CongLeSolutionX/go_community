@@ -60,7 +60,7 @@ func (check *Checker) instance(pos token.Pos, typ Type, targs []Type, ctxt *Cont
 			h = ctxt.typeHash(t, targs)
 			// typ may already have been instantiated with identical type arguments. In
 			// that case, re-use the existing instance.
-			if named := ctxt.typeForHash(h, nil); named != nil {
+			if named := ctxt.instance(h, t, targs); named != nil {
 				return named
 			}
 		}
