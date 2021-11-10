@@ -1192,6 +1192,15 @@ func (l *Loader) IsItab(i Sym) bool {
 	return r.Sym(li).IsItab()
 }
 
+// Returns whether this symbol is an itabaddr symbol.
+func (l *Loader) IsItabAddr(i Sym) bool {
+	if l.IsExternal(i) {
+		return false
+	}
+	r, li := l.toLocal(i)
+	return r.Sym(li).IsItabAddr()
+}
+
 // Returns whether this symbol is a dictionary symbol.
 func (l *Loader) IsDict(i Sym) bool {
 	if l.IsExternal(i) {

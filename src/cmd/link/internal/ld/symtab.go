@@ -500,6 +500,11 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		setCarrierSym(t, s.Sym())
 		return s.Sym()
 	}
+	var symitabaddr loader.Sym
+	if ctxt.BuildMode == BuildModePlugin {
+		symitabaddr = groupSym("runtime.itabaddr", sym.SITABADDR)
+	}
+
 	var (
 		symgostring = groupSym("go.string.*", sym.SGOSTRING)
 		symgofunc   = groupSym("go.func.*", sym.SGOFUNC)
@@ -528,12 +533,15 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		if !ctxt.IsExternal() && ldr.IsFileLocal(s) && !ldr.IsFromAssembly(s) && ldr.SymPkg(s) != "" {
 			ldr.SetAttrNotInSymbolTable(s, true)
 		}
-		if !ldr.AttrReachable(s) || ldr.AttrSpecial(s) || (ldr.SymType(s) != sym.SRODATA && ldr.SymType(s) != sym.SGOFUNC) {
+		if !ldr.AttrReachable(s) || ldr.AttrSpecial(s) || ldr.SymType(s) != sym.SRODATA && ldr.SymType(s) != sym.SGOFUNC && !ldr.IsItabAddr(s) {
 			continue
 		}
-
 		name := ldr.SymName(s)
 		switch {
+		case ldr.IsItabAddr(s) && symitabaddr != 0:
+			symGroupType[s] = sym.SITABADDR
+			ldr.SetAttrNotInSymbolTable(s, true)
+			ldr.SetCarrierSym(s, symitabaddr)
 		case strings.HasPrefix(name, "go.string."):
 			symGroupType[s] = sym.SGOSTRING
 			ldr.SetAttrNotInSymbolTable(s, true)
@@ -707,6 +715,9 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	moduledata.AddUint(ctxt.Arch, ntypelinks)
 	// The itablinks slice
 	itablinkSym := ldr.Lookup("runtime.itablink", 0)
+	if ctxt.BuildMode == BuildModePlugin {
+		itablinkSym = ldr.Lookup("runtime.itabaddr", 0)
+	}
 	nitablinks := uint64(ldr.SymSize(itablinkSym)) / uint64(ctxt.Arch.PtrSize)
 	moduledata.AddAddr(ctxt.Arch, itablinkSym)
 	moduledata.AddUint(ctxt.Arch, nitablinks)
