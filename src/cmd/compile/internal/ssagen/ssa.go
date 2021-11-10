@@ -3913,13 +3913,17 @@ func InitTables() {
 			},
 			all...)
 	}
+	mulUintptrIntrinsicBuilder := func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+		if s.config.PtrSize == 4 {
+			return s.newValue2(ssa.OpMul32uover, types.NewTuple(types.Types[types.TUINT], types.Types[types.TUINT]), args[0], args[1])
+		}
+		return s.newValue2(ssa.OpMul64uover, types.NewTuple(types.Types[types.TUINT], types.Types[types.TUINT]), args[0], args[1])
+	}
 	addF("runtime/internal/math", "MulUintptr",
-		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
-			if s.config.PtrSize == 4 {
-				return s.newValue2(ssa.OpMul32uover, types.NewTuple(types.Types[types.TUINT], types.Types[types.TUINT]), args[0], args[1])
-			}
-			return s.newValue2(ssa.OpMul64uover, types.NewTuple(types.Types[types.TUINT], types.Types[types.TUINT]), args[0], args[1])
-		},
+		mulUintptrIntrinsicBuilder,
+		sys.AMD64, sys.I386, sys.MIPS64, sys.RISCV64)
+	addF("runtime", "mulUintptr",
+		mulUintptrIntrinsicBuilder,
 		sys.AMD64, sys.I386, sys.MIPS64, sys.RISCV64)
 	add("runtime", "KeepAlive",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
