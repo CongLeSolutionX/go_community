@@ -18,15 +18,21 @@ import (
 // It is safe for concurrent use.
 type Context struct {
 	mu      sync.Mutex
-	typeMap map[string][]*Named // type hash -> instances
-	nextID  int                 // next unique ID
-	seen    map[*Named]int      // assigned unique IDs
+	typeMap map[string][]entry // type hash -> instances
+	nextID  int                // next unique ID
+	seen    map[*Named]int     // assigned unique IDs
+}
+
+type entry struct {
+	targs    []Type
+	orig     Type
+	instance Type
 }
 
 // NewContext creates a new Context.
 func NewContext() *Context {
 	return &Context{
-		typeMap: make(map[string][]*Named),
+		typeMap: make(map[string][]entry),
 		seen:    make(map[*Named]int),
 	}
 }
@@ -60,16 +66,16 @@ func (ctxt *Context) typeHash(typ Type, targs []Type) string {
 
 // instance returns an existing instantiation of orig with targs, if it exists.
 // Otherwise, it returns nil.
-func (ctxt *Context) instance(h string, orig *Named, targs []Type) *Named {
+func (ctxt *Context) instance(h string, orig Type, targs []Type) Type {
 	if existing := ctxt.typeMap[h]; len(existing) > 0 {
 		for _, e := range existing {
-			if identicalInstance(orig, targs, e.orig, e.TypeArgs().list()) {
-				return e
+			if identicalInstance2(orig, targs, e.orig, e.targs) {
+				return e.instance
 			}
 			if debug {
 				// While debugging or fuzzing, we want to know if non-identical types
 				// have the same hash.
-				panic(fmt.Sprintf("non-identical instances: orig: %s, targs: %v and %s", orig, targs, e))
+				panic(fmt.Sprintf("non-identical instances: orig: %s, targs: %v and %s", orig, targs, e.instance))
 			}
 		}
 	}
@@ -80,28 +86,32 @@ func (ctxt *Context) instance(h string, orig *Named, targs []Type) *Named {
 // If an identical type is found with the type hash h, the previously seen type
 // is returned. Otherwise, n is returned, and recorded in the Context for the
 // hash h.
-func (ctxt *Context) typeForHash(h string, n *Named) *Named {
-	assert(n != nil)
+func (ctxt *Context) typeForHash(h string, orig Type, targs []Type, inst Type) Type {
+	assert(inst != nil)
 
 	ctxt.mu.Lock()
 	defer ctxt.mu.Unlock()
 
 	if existing := ctxt.typeMap[h]; len(existing) > 0 {
 		for _, e := range existing {
-			if n == nil || Identical(n, e) {
-				return e
+			if inst == nil || Identical(inst, e.instance) {
+				return e.instance
 			}
-			if debug && n != nil {
-				panic(fmt.Sprintf("%s and %s are not identical", n, e))
+			if debug && inst != nil {
+				panic(fmt.Sprintf("%s and %s are not identical", inst, e.instance))
 			}
 		}
 	}
 
-	if n != nil {
-		ctxt.typeMap[h] = append(ctxt.typeMap[h], n)
+	if inst != nil {
+		ctxt.typeMap[h] = append(ctxt.typeMap[h], entry{
+			orig:     orig,
+			targs:    targs,
+			instance: inst,
+		})
 	}
 
-	return n
+	return inst
 }
 
 // idForType returns a unique ID for the pointer n.

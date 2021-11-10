@@ -393,6 +393,31 @@ func identicalInstance(xorig *Named, xargs []Type, yorig *Named, yargs []Type) b
 	return xorig.obj == yorig.obj
 }
 
+func identicalInstance2(xorig Type, xargs []Type, yorig Type, yargs []Type) bool {
+	if len(xargs) != len(yargs) {
+		return false
+	}
+
+	if len(xargs) > 0 {
+		// Instances are identical if their original type and type arguments
+		// are identical.
+		if !Identical(xorig, yorig) {
+			return false
+		}
+		for i, xa := range xargs {
+			if !Identical(xa, yargs[i]) {
+				return false
+			}
+		}
+		return true
+	}
+
+	// TODO(gri) Why is x == y not sufficient? And if it is,
+	//           we can just return false here because x == y
+	//           is caught in the very beginning of this function.
+	return Identical(xorig, yorig)
+}
+
 func identicalTParams(x, y []*TypeParam, cmpTags bool, p *ifacePair) bool {
 	if len(x) != len(y) {
 		return false
