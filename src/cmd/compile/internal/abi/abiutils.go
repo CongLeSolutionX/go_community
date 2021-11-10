@@ -723,9 +723,11 @@ func setup() {
 			types.NewField(nxp, fname("cap"), ui),
 		})
 		types.CalcStructSize(synthSlice)
+		bp := types.NewPtr(types.Types[types.TUINT8])
+		it := types.Types[types.TINT]
 		synthString = types.NewStruct(types.NoPkg, []*types.Field{
-			types.NewField(nxp, fname("data"), unsp),
-			types.NewField(nxp, fname("len"), ui),
+			types.NewField(nxp, fname("data"), bp),
+			types.NewField(nxp, fname("len"), it),
 		})
 		types.CalcStructSize(synthString)
 		synthIface = types.NewStruct(types.NoPkg, []*types.Field{
