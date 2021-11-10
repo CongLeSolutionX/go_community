@@ -41,8 +41,8 @@ type exprInfo struct {
 	val   constant.Value // constant value; or nil (if not a constant)
 }
 
-// A context represents the context within which an object is type-checked.
-type context struct {
+// A objContext represents the objContext within which an object is type-checked.
+type objContext struct {
 	decl          *declInfo              // package-level declaration whose init expression/function body is checked
 	scope         *Scope                 // top-most scope for lookups
 	pos           token.Pos              // if valid, identifiers are looked up as if at position pos (used by Eval)
@@ -56,7 +56,7 @@ type context struct {
 }
 
 // lookup looks up name in the current context and returns the matching object, or nil.
-func (ctxt *context) lookup(name string) Object {
+func (ctxt *objContext) lookup(name string) Object {
 	_, obj := ctxt.scope.LookupParent(name, ctxt.pos)
 	return obj
 }
@@ -142,7 +142,7 @@ type Checker struct {
 
 	// context within which the current object is type-checked
 	// (valid only for the duration of type-checking a specific object)
-	context
+	objContext
 
 	// debugging
 	indent int // indentation for tracing
