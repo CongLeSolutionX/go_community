@@ -8,6 +8,7 @@ package types
 
 import (
 	"bytes"
+	"fmt"
 	"go/token"
 	"strconv"
 	"unicode/utf8"
@@ -71,20 +72,21 @@ func WriteSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier) {
 }
 
 type typeWriter struct {
-	buf   *bytes.Buffer
-	seen  map[Type]bool
-	qf    Qualifier
-	ctxt  *Context // if non-nil, we are type hashing
-	debug bool     // if true, write debug annotations
+	buf        *bytes.Buffer
+	seen       map[Type]bool
+	qf         Qualifier
+	ctxt       *Context            // if non-nil, we are type hashing
+	tparamMask map[*TypeParam]bool // local type parameters
+	debug      bool                // if true, write debug annotations
 }
 
 func newTypeWriter(buf *bytes.Buffer, qf Qualifier) *typeWriter {
-	return &typeWriter{buf, make(map[Type]bool), qf, nil, false}
+	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, false}
 }
 
 func newTypeHasher(buf *bytes.Buffer, ctxt *Context) *typeWriter {
 	assert(ctxt != nil)
-	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, false}
+	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false}
 }
 
 func (w *typeWriter) byte(b byte) {
@@ -274,9 +276,16 @@ func (w *typeWriter) typ(typ Type) {
 			w.error("unnamed type parameter")
 			break
 		}
-		w.string(t.obj.name)
-		if w.debug || w.ctxt != nil {
-			w.string(subscript(t.id))
+		if w.tparamMask[t] {
+			// The names of type parameters that are declared by the type being
+			// hashed are not part of the type identity. Replace them with a
+			// placeholder indicating their index.
+			w.string(fmt.Sprintf("$%d", t.index))
+		} else {
+			w.string(t.obj.name)
+			if w.debug || w.ctxt != nil {
+				w.string(subscript(t.id))
+			}
 		}
 
 	default:
@@ -377,8 +386,22 @@ func (w *typeWriter) tuple(tup *Tuple, variadic bool) {
 	w.byte(')')
 }
 
+func tparamMask(list *TypeParamList) map[*TypeParam]bool {
+	mask := make(map[*TypeParam]bool)
+	for i := 0; i < list.Len(); i++ {
+		mask[list.At(i)] = true
+	}
+	return mask
+}
+
 func (w *typeWriter) signature(sig *Signature) {
 	if sig.TypeParams().Len() != 0 {
+		if w.ctxt != nil {
+			w.tparamMask = tparamMask(sig.TypeParams())
+			defer func() {
+				w.tparamMask = nil
+			}()
+		}
 		w.tParamList(sig.TypeParams().list())
 	}
 
