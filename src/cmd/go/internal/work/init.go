@@ -252,6 +252,7 @@ func buildModeInit() {
 		}
 		cfg.ExeSuffix = ".so"
 		ldBuildmode = "plugin"
+		forcedGcflags = append(forcedGcflags, "-itabaddrtab", "-typeaddrtab")
 	default:
 		base.Fatalf("buildmode=%s not supported", cfg.BuildBuildmode)
 	}
