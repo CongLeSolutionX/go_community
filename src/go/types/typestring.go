@@ -211,20 +211,24 @@ func (w *typeWriter) typ(typ Type) {
 		}
 		w.string("interface{")
 		first := true
-		for _, m := range t.methods {
-			if !first {
-				w.byte(';')
+		if w.ctxt != nil {
+			w.typeSet(t.typeSet())
+		} else {
+			for _, m := range t.methods {
+				if !first {
+					w.byte(';')
+				}
+				first = false
+				w.string(m.name)
+				w.signature(m.typ.(*Signature))
 			}
-			first = false
-			w.string(m.name)
-			w.signature(m.typ.(*Signature))
-		}
-		for _, typ := range t.embeddeds {
-			if !first {
-				w.byte(';')
+			for _, typ := range t.embeddeds {
+				if !first {
+					w.byte(';')
+				}
+				first = false
+				w.typ(typ)
 			}
-			first = false
-			w.typ(typ)
 		}
 		w.byte('}')
 
@@ -292,6 +296,35 @@ func (w *typeWriter) typ(typ Type) {
 		// For externally defined implementations of Type.
 		// Note: In this case cycles won't be caught.
 		w.string(t.String())
+	}
+}
+
+// typeSet writes a canonical hash for an interface type set.
+func (w *typeWriter) typeSet(s *_TypeSet) {
+	assert(w.ctxt != nil)
+	first := true
+	for _, m := range s.methods {
+		if !first {
+			w.byte(';')
+		}
+		first = false
+		w.string(m.name)
+		w.signature(m.typ.(*Signature))
+	}
+	switch {
+	case s.terms.isAll():
+	case s.terms.isEmpty():
+		w.string(s.terms.String())
+	default:
+		var terms []*Term
+		for _, term := range s.terms {
+			terms = append(terms, NewTerm(term.tilde, term.typ))
+		}
+		union := NewUnion(terms)
+		if !first {
+			w.byte(';')
+		}
+		w.typ(union)
 	}
 }
 

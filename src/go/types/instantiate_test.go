@@ -5,12 +5,14 @@
 package types_test
 
 import (
+	"go/token"
 	. "go/types"
 	"strings"
 	"testing"
 )
 
 func TestInstantiateEquality(t *testing.T) {
+	emptySignature := NewSignatureType(nil, nil, nil, nil, nil, false)
 	tests := []struct {
 		src    string
 		name1  string
@@ -29,6 +31,21 @@ func TestInstantiateEquality(t *testing.T) {
 			"T", []Type{NewSlice(Typ[Int])},
 		},
 		{
+			// interface{interface{...}} is equivalent to interface{...}
+			"package equivalentinterfaces; type T[P any] int",
+			"T", []Type{
+				NewInterfaceType([]*Func{NewFunc(token.NoPos, nil, "M", emptySignature)}, nil),
+			},
+			"T", []Type{
+				NewInterfaceType(
+					nil,
+					[]Type{
+						NewInterfaceType([]*Func{NewFunc(token.NoPos, nil, "M", emptySignature)}, nil),
+					},
+				),
+			},
+		},
+		{
 			"package basicfunc; func F[P any]() {}",
 			"F", []Type{Typ[Int]},
 			"F", []Type{Typ[Int]},
@@ -44,7 +61,7 @@ func TestInstantiateEquality(t *testing.T) {
 			"F", []Type{Typ[Int]},
 		},
 		{
-			"package funcequality; func F1[P any](x int) {}; func F2[P any](x int) {}",
+			`package funcequality; func F1[P any](x int) string { return "" }; func F2[P any](x int) string { return "" }`,
 			"F1", []Type{Typ[Int]},
 			"F2", []Type{Typ[Int]},
 		},
