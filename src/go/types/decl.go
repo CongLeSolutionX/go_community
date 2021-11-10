@@ -178,10 +178,10 @@ func (check *Checker) objDecl(obj Object, def *Named) {
 	}
 
 	// save/restore current context and setup object context
-	defer func(ctxt context) {
-		check.context = ctxt
-	}(check.context)
-	check.context = context{
+	defer func(ctxt objContext) {
+		check.objContext = ctxt
+	}(check.objContext)
+	check.objContext = objContext{
 		scope: d.file,
 	}
 
@@ -239,7 +239,7 @@ loop:
 			// If we reach a generic type that is part of a cycle
 			// and we are in a type parameter list, we have a cycle
 			// through a type parameter list, which is invalid.
-			if check.context.inTParamList && isGeneric(obj.typ) {
+			if check.objContext.inTParamList && isGeneric(obj.typ) {
 				tparCycle = true
 				break loop
 			}
