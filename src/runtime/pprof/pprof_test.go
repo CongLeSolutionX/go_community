@@ -114,6 +114,10 @@ func TestCPUProfileMultithreaded(t *testing.T) {
 func TestCPUProfileMultithreadMagnitude(t *testing.T) {
 	if runtime.GOOS != "linux" {
 		t.Skip("issue 35057 is only confirmed on Linux")
+	} else {
+		// Linux [5.9,5.16) has a kernel bug that can break CPU timers
+		// on newly created threads, breaking our CPU accounting.
+		testenv.SkipFlaky(t, 49065)
 	}
 
 	// Run a workload in a single goroutine, then run copies of the same
