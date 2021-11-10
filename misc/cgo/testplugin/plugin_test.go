@@ -293,3 +293,9 @@ func TestIssue44956(t *testing.T) {
 	goCmd(t, "build", "-o", "issue44956.exe", "./issue44956/main.go")
 	run(t, "./issue44956.exe")
 }
+
+func TestIssue48532(t *testing.T) {
+	goCmd(t, "build", "-buildmode=plugin", "-o", "issue48532.so", "./issue48532/plugin.go")
+	goCmd(t, "build", "-o", "issue48532.exe", "./issue48532/main.go")
+	run(t, "./issue48532.exe")
+}
