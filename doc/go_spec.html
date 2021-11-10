@@ -1,8 +1,17 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of Oct 15, 2021",
+	"Subtitle": "Version of Nov 10, 2021",
 	"Path": "/ref/spec"
 }-->
+
+<h2>Draft Go 1.18 Specification - Work in Progress </h2>
+
+<p>
+<strong>
+For the pre-Go1.18 spec see
+<a href="/doc/go1.17_spec.html">The Go Programming Language Specification</a>.
+</strong>
+</p>
 
 <h2 id="Introduction">Introduction</h2>
 
@@ -266,7 +275,7 @@ The following character sequences represent <a href="#Operators">operators</a>
 *    ^     *=    ^=     &lt;-    &gt;     &gt;=    {    }
 /    &lt;&lt;    /=    &lt;&lt;=    ++    =     :=    ,    ;
 %    &gt;&gt;    %=    &gt;&gt;=    --    !     ...   .    :
-     &amp;^          &amp;^=
+     &amp;^          &amp;^=          ~
 </pre>
 
 <h3 id="Integer_literals">Integer literals</h3>
@@ -1236,23 +1245,33 @@ func(n int) func(p *T)
 <h3 id="Interface_types">Interface types</h3>
 
 <p>
-An interface type specifies a <a href="#Method_sets">method set</a> called its <i>interface</i>.
-A variable of interface type can store a value of any type with a method set
-that is any superset of the interface. Such a type is said to
-<i>implement the interface</i>.
+An interface type defines a <i>type set</i>.
+A variable of interface type can store a value of any type that is in the type
+set of the interface. Such a type is said to <i>implement the interface</i>.
 The value of an uninitialized variable of interface type is <code>nil</code>.
 </p>
 
 <pre class="ebnf">
-InterfaceType      = "interface" "{" { ( MethodSpec | InterfaceTypeName ) ";" } "}" .
-MethodSpec         = MethodName Signature .
-MethodName         = identifier .
-InterfaceTypeName  = TypeName .
+InterfaceType  = "interface" "{" { InterfaceElem ";" } "}" .
+InterfaceElem  = MethodElem | TypeElem .
+MethodElem     = MethodName Signature .
+MethodName     = identifier .
+TypeElem       = TypeTerm { "|" TypeTerm } .
+TypeTerm       = [ "~" ] Type .
 </pre>
 
 <p>
-An interface type may specify methods <i>explicitly</i> through method specifications,
-or it may <i>embed</i> methods of other interfaces through interface type names.
+An interface type is specified by a list of <i>interface elements</i>.
+An interface element is either a method or a type element,
+where a type element is a union of one or more type terms.
+A type term specifies a single type, or a set of types.
+</p>
+
+<p>
+In its most basic form an interface specifies a (possibly empty) list of methods.
+The type set specified by such an interface is the set of types which implement all of
+those methods, and the corresponding <a href="#Method_sets">method set</a> consists
+exactly of the methods specified by the interface.
 </p>
 
 <pre>
@@ -1297,14 +1316,18 @@ then the <code>File</code> interface is implemented by both <code>S1</code> and
 </p>
 
 <p>
-A type implements any interface comprising any subset of its methods
-and may therefore implement several distinct interfaces. For
-instance, all types implement the <i>empty interface</i>:
+Every type that is a member of the type set of an interface implements that interface.
+Any given type may implement several distinct interfaces.
+For instance, all types implement the <i>empty interface</i>:
 </p>
 
 <pre>
 interface{}
 </pre>
+
+<p>
+For convenience, the predeclared type <code>any</code> is an alias for the empty interface.
+</p>
 
 <p>
 Similarly, consider this interface specification,
@@ -1334,12 +1357,16 @@ as the <code>File</code> interface.
 </p>
 
 <p>
-An interface <code>T</code> may use a (possibly qualified) interface type
-name <code>E</code> in place of a method specification. This is called
+In a slightly more general form
+an interface <code>T</code> may use a (possibly qualified) interface type
+name <code>E</code> as an interface element. This is called
 <i>embedding</i> interface <code>E</code> in <code>T</code>.
-The <a href="#Method_sets">method set</a> of <code>T</code> is the <i>union</i>
-of the method sets of <code>T</code>’s explicitly declared methods and of
-<code>T</code>’s embedded interfaces.
+The type set of <code>T</code> is the <i>intersection</i> of the type sets
+defined by <code>T</code>'s explicitly declared methods and the type sets
+of <code>T</code>’s embedded interfaces.
+In other words, the type set of <code>T</code> is the set of all types that implement all the
+explicitly declared methods of <code>T</code> and also all the methods of
+<code>E</code>.
 </p>
 
 <pre>
@@ -1360,6 +1387,8 @@ type ReadWriter interface {
 }
 </pre>
 
+<!-- TODO reprase this paragraph in terms of type sets -->
+
 <p>
 A <i>union</i> of method sets contains the (exported and non-exported)
 methods of each method set exactly once, and methods with the
@@ -1373,6 +1402,129 @@ type ReadCloser interface {
 	Close()  // illegal: signatures of Reader.Close and Close are different
 }
 </pre>
+
+<p>
+Finally, in their most general form, interface elements may be arbitrary types,
+or type expressions denoting sets of types.
+There are two kinds of type expressions: tilde terms of the form <code>~T</code> and
+<i>unions</i> of terms <code>T1 | T2 | … Tn</code>.
+Together with method specifications, these elements enable the precise
+specification of an interface's type set as follows:
+</p>
+
+<ul>
+	<li>The type set of the empty interface is the set of all types.
+	</li>
+
+	<li>The type set of a non-empty interface is the intersection of the type sets
+		of its interface elements.
+	</li>
+
+	<li>The type set of a method specification is the set of types
+		whose method sets include that method.
+	</li>
+
+	<li>The type set of a non-interface type is the set consisting
+		of just that type.
+	</li>
+
+	<li>The type set of a term of the form <code>~T</code>
+		is the set of types whose underlying type is <code>T</code>.
+	</li>
+
+	<li>The type set of a <i>union</i> of terms <code>T1 | T2 | … Tn</code>
+		is the union of the type sets of the terms.
+	</li>
+</ul>
+
+<pre>
+// An interface representing all types with underlying type int.
+interface {
+	~int
+}
+</pre>
+
+<p>
+In a term of the form <code>~T</code>, the underlying type of <code>T</code>
+must be itself, and <code>T</code> cannot be an interface or a type parameter.
+</p>
+
+<pre>
+type MyInt int
+
+interface {
+	~[]byte  // the underlying type of []byte is itself
+	~MyInt   // illegal: the underlying type of MyInt is not MyInt
+	~error   // illegal: error is an interface
+}
+</pre>
+
+<p>
+Union expressions denote unions of type sets:
+</p>
+
+<pre>
+// The Floats interface represents all floating-point types.
+type Floats interface {
+	~float32 | ~float64
+}
+
+// The FloatStringer interface represents all floating-point types with a String method.
+type FloatStringer interface {
+	Floats
+	String() string
+}
+</pre>
+
+<p>
+In a union expression, a term cannot be a type parameter, and the type sets of all
+non-interface terms must be pairwise disjoint (the pairwise intersection of the type sets must be empty).
+Given a type parameter <code>P</code>:
+</p>
+
+<pre>
+interface {
+	P                 // illegal: the term P is a type parameter
+	int | P           // illegal: the term P is a type parameter
+	~int | MyInt      // illegal: the type sets for ~int and MyInt are not disjoint (~int includes MyInt)
+	float32 | Floats  // overlapping type sets but Floats is an interface
+}
+</pre>
+
+<p>
+Implementation restriction:
+A union expression with more than one term cannot contain interface types
+with non-empty method sets.
+</p>
+
+<pre>
+type interface {
+	error                    // ordinary embedding (single-term union)
+	~string | FloatStringer  // illegal: FloatStringer has a non-empty method set
+}
+</pre>
+
+<p>
+Interfaces whose type sets are restricted by types (not just methods) may only be used
+as type parameter constraints, or to define other interfaces used as constraints. They
+cannot be the types of values or variables, or components of other, non-interface types.
+</p>
+
+<pre>
+var x Floats                     // illegal: Floats is restricted by float32 and float64
+
+var x interface{} = Floats(nil)  // illegal
+
+type Floatish struct {
+	f Floats                 // illegal
+}
+</pre>
+
+<!-- TODO The rule below needs to be generalized to interface elements.
+	  It should be factored out and generalized to other types
+	  such as arrays and structs which are currently missing such a
+	  rule. See also #5069.
+-->
 
 <p>
 An interface type <code>T</code> may not embed itself
@@ -1393,6 +1545,7 @@ type Bad2 interface {
 	Bad1
 }
 </pre>
+
 
 <h3 id="Map_types">Map types</h3>
 
