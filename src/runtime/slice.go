@@ -117,6 +117,10 @@ func makeslice64(et *_type, len64, cap64 int64) unsafe.Pointer {
 	return makeslice(et, len, cap)
 }
 
+func mulUintptr(a, b uintptr) (uintptr, bool) {
+	return math.MulUintptr(a, b)
+}
+
 func unsafeslice(et *_type, ptr unsafe.Pointer, len int) {
 	if len < 0 {
 		panicunsafeslicelen()
@@ -125,7 +129,7 @@ func unsafeslice(et *_type, ptr unsafe.Pointer, len int) {
 	mem, overflow := math.MulUintptr(et.size, uintptr(len))
 	if overflow || mem > -uintptr(ptr) {
 		if ptr == nil {
-			panic(errorString("unsafe.Slice: ptr is nil and len is not zero"))
+			panicunsafesliceptrnil()
 		}
 		panicunsafeslicelen()
 	}
@@ -151,6 +155,10 @@ func unsafeslicecheckptr(et *_type, ptr unsafe.Pointer, len64 int64) {
 
 func panicunsafeslicelen() {
 	panic(errorString("unsafe.Slice: len out of range"))
+}
+
+func panicunsafesliceptrnil() {
+	panic(errorString("unsafe.Slice: ptr is nil and len is not zero"))
 }
 
 // growslice handles slice growth during append.
