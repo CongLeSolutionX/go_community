@@ -902,7 +902,8 @@ type Link struct {
 	InParallel    bool // parallel backend phase in effect
 	UseBASEntries bool // use Base Address Selection Entries in location lists and PC ranges
 	IsAsm         bool // is the source assembly language, which may contain surprising idioms (e.g., call tables)
-
+	ItabAddrTab   bool // load itab address from itab address table
+	TypeAddrTab   bool // load type address from type address table
 	// state for writing objects
 	Text []*LSym
 	Data []*LSym
