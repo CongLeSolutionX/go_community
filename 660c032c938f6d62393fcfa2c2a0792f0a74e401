@@ -34,6 +34,24 @@
       "message": "Slice header is also often represented as { *uint8, int, int }. Interface header has more varieties. Do we want to change them as well?",
       "revId": "660c032c938f6d62393fcfa2c2a0792f0a74e401",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a25ccf50_f8b5eb80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-10T20:58:42Z",
+      "side": 1,
+      "message": "Good point. I\u0027ll look into changing the slice header similarly (will see if I can write a testcase that triggers the same problem as in the bug but for slices).",
+      "parentUuid": "c24b50fa_5f463831",
+      "revId": "660c032c938f6d62393fcfa2c2a0792f0a74e401",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
