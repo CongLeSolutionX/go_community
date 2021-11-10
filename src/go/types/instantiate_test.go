@@ -11,40 +11,89 @@ import (
 )
 
 func TestInstantiateEquality(t *testing.T) {
-	const src = genericPkg + "p; type T[P any] int"
-
-	pkg, err := pkgFor(".", src, nil)
-	if err != nil {
-		t.Fatal(err)
+	tests := []struct {
+		src    string
+		name1  string
+		targs1 []Type
+		name2  string
+		targs2 []Type
+	}{
+		{
+			"package basictype; type T[P any] int",
+			"T", []Type{Typ[Int]},
+			"T", []Type{Typ[Int]},
+		},
+		{
+			"package typeslice; type T[P any] int",
+			"T", []Type{NewSlice(Typ[Int])},
+			"T", []Type{NewSlice(Typ[Int])},
+		},
+		{
+			"package basicfunc; func F[P any]() {}",
+			"F", []Type{Typ[Int]},
+			"F", []Type{Typ[Int]},
+		},
+		{
+			"package funcslice; func F[P any]() {}",
+			"F", []Type{NewSlice(Typ[Int])},
+			"F", []Type{NewSlice(Typ[Int])},
+		},
+		{
+			"package funcwithparams; func F[P any](x string) float64 { return 0 }",
+			"F", []Type{Typ[Int]},
+			"F", []Type{Typ[Int]},
+		},
+		// TODO: re-enable these once they work.
+		// {
+		// 	"package funcequality; func F1[P any](x int) {}; func F2[P any](x int) {}",
+		// 	"F1", []Type{Typ[Int]},
+		// 	"F2", []Type{Typ[Int]},
+		// },
+		// {
+		// 	"package funcsymmetry; func F1[P any](x P) {}; func F2[P any](x P) {}",
+		// 	"F1", []Type{Typ[Int]},
+		// 	"F2", []Type{Typ[Int]},
+		// },
 	}
 
-	T := pkg.Scope().Lookup("T").Type().(*Named)
+	for _, test := range tests {
+		pkg, err := pkgForMode(".", test.src, nil, 0)
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	// Instantiating the same type twice should result in pointer-equivalent
-	// instances.
-	ctxt := NewContext()
-	res1, err := Instantiate(ctxt, T, []Type{Typ[Int]}, false)
-	if err != nil {
-		t.Fatal(err)
-	}
-	res2, err := Instantiate(ctxt, T, []Type{Typ[Int]}, false)
-	if err != nil {
-		t.Fatal(err)
-	}
+		t.Run(pkg.Name(), func(t *testing.T) {
+			// Instantiating the same type twice should result in pointer-equivalent
+			// instances.
+			ctxt := NewContext()
 
-	if res1 != res2 {
-		t.Errorf("first instance (%s) not pointer-equivalent to second instance (%s)", res1, res2)
+			T1 := pkg.Scope().Lookup(test.name1).Type()
+			res1, err := Instantiate(ctxt, T1, test.targs1, false)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			T2 := pkg.Scope().Lookup(test.name2).Type()
+			res2, err := Instantiate(ctxt, T2, test.targs2, false)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if res1 != res2 {
+				t.Errorf("first instance (%s) not pointer-equivalent to second instance (%s)", res1, res2)
+			}
+		})
 	}
 }
 
 func TestInstantiateNonEquality(t *testing.T) {
-	const src = genericPkg + "p; type T[P any] int"
+	const src = "package p; type T[P any] int"
 
-	pkg1, err := pkgFor(".", src, nil)
+	pkg1, err := pkgForMode(".", src, nil, 0)
 	if err != nil {
 		t.Fatal(err)
 	}
-	pkg2, err := pkgFor(".", src, nil)
+	pkg2, err := pkgForMode(".", src, nil, 0)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +122,7 @@ func TestInstantiateNonEquality(t *testing.T) {
 }
 
 func TestMethodInstantiation(t *testing.T) {
-	const prefix = genericPkg + `p
+	const prefix = `package p
 
 type T[P any] struct{}
 
@@ -95,7 +144,7 @@ var X T[int]
 
 	for _, test := range tests {
 		src := prefix + test.decl
-		pkg, err := pkgFor(".", src, nil)
+		pkg, err := pkgForMode(".", src, nil, 0)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -112,7 +161,7 @@ var X T[int]
 }
 
 func TestImmutableSignatures(t *testing.T) {
-	const src = genericPkg + `p
+	const src = `package p
 
 type T[P any] struct{}
 
@@ -120,7 +169,7 @@ func (T[P]) m() {}
 
 var _ T[int]
 `
-	pkg, err := pkgFor(".", src, nil)
+	pkg, err := pkgForMode(".", src, nil, 0)
 	if err != nil {
 		t.Fatal(err)
 	}
