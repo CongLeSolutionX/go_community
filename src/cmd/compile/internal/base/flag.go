@@ -114,8 +114,9 @@ type CmdFlags struct {
 	NoLocalImports     bool         "help:\"reject local (relative) imports\""
 	Pack               bool         "help:\"write to file.a instead of file.o\""
 	Race               bool         "help:\"enable race detector\""
-	Shared             *bool        "help:\"generate code that can be linked into a shared library\"" // &Ctxt.Flag_shared, set below
-	SmallFrames        bool         "help:\"reduce the size limit for stack allocated objects\""      // small stacks, to diagnose GC latency; see golang.org/issue/27732
+	Shared             *bool        "help:\"generate code that can be linked into a shared library\""              // &Ctxt.Flag_shared, set below
+	ItabAddrTab        *bool        "help:\"generate code that load address of itabs from an itab address table\"" // &Ctxt.ItabAddrTab, set below
+	SmallFrames        bool         "help:\"reduce the size limit for stack allocated objects\""                   // small stacks, to diagnose GC latency; see golang.org/issue/27732
 	Spectre            string       "help:\"enable spectre mitigations in `list` (all, index, ret)\""
 	Std                bool         "help:\"compiling standard library\""
 	SymABIs            string       "help:\"read symbol ABIs from `file`\""
@@ -160,6 +161,7 @@ func ParseFlags() {
 	Flag.ImportMap = addImportMap
 	Flag.LinkShared = &Ctxt.Flag_linkshared
 	Flag.Shared = &Ctxt.Flag_shared
+	Flag.ItabAddrTab = &Ctxt.ItabAddrTab
 	Flag.WB = true
 
 	Debug.InlFuncsWithClosures = 1
