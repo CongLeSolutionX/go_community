@@ -53,17 +53,17 @@ func Instantiate(ctxt *Context, typ Type, targs []Type, validate bool) (Type, er
 // typ and arguments targs. For Named types the resulting instance will be
 // unexpanded.
 func (check *Checker) instance(pos token.Pos, orig Type, targs []Type, ctxt *Context) Type {
+	var h string
+	if ctxt != nil {
+		h = ctxt.typeHash(orig, targs)
+		// typ may already have been instantiated with identical type arguments. In
+		// that case, re-use the existing instance.
+		if inst := ctxt.lookup(h, orig, targs); inst != nil {
+			return inst
+		}
+	}
 	switch orig := orig.(type) {
 	case *Named:
-		var h string
-		if ctxt != nil {
-			h = ctxt.typeHash(orig, targs)
-			// typ may already have been instantiated with identical type arguments. In
-			// that case, re-use the existing instance.
-			if named := ctxt.lookup(h, orig, targs); named != nil {
-				return named
-			}
-		}
 		tname := NewTypeName(pos, orig.obj.pkg, orig.obj.name, nil)
 		named := check.newNamed(tname, orig, nil, nil, nil) // underlying, tparams, and methods are set when named is resolved
 		named.targs = NewTypeList(targs)
