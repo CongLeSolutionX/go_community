@@ -73,6 +73,57 @@
       "parentUuid": "d1ca5ebc_5783ac6d",
       "revId": "54699078deae07fea9a430207e02b9d4addaab16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae7bdc3b_bd738a6b",
+        "filename": "src/go/types/instantiate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-11T05:25:27Z",
+      "side": 1,
+      "message": "should we use different type parameter names to test that the names don\u0027t matter?",
+      "revId": "54699078deae07fea9a430207e02b9d4addaab16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0409624b_06aa4357",
+        "filename": "src/go/types/typestring.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-11T05:25:27Z",
+      "side": 1,
+      "message": "Just store the type parameters and then use tparamIndex (in unify.go) to look up the a type parameter. Saves the map creation.",
+      "revId": "54699078deae07fea9a430207e02b9d4addaab16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5f37aa0_14f0725e",
+        "filename": "src/go/types/typestring.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-11T05:25:27Z",
+      "side": 1,
+      "message": "not needed, see comment above",
+      "revId": "54699078deae07fea9a430207e02b9d4addaab16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
