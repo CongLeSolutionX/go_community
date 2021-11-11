@@ -96,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71bfdc4c_c1e30408",
+        "filename": "src/runtime/debug/garbage_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-11-11T20:19:42Z",
+      "side": 1,
+      "message": "yeah, 1 MiB is small enough that the background scavenger has a pretty high chance of doing all the work.\n\nupdated the commit message.",
+      "parentUuid": "03934470_277c6c1f",
+      "range": {
+        "startLine": 98,
+        "startChar": 7,
+        "endLine": 98,
+        "endChar": 15
+      },
+      "revId": "80fde0f416f46ed835f147a9f0b1f2f6e3d39fad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8083dd1_cd910399",
@@ -109,6 +133,30 @@
       "writtenOn": "2021-11-11T19:23:54Z",
       "side": 1,
       "message": "and by \"free\" here you mean the FreeOSMemory() call? I might just say FreeOSMemory to be unambiguous.",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 8
+      },
+      "revId": "80fde0f416f46ed835f147a9f0b1f2f6e3d39fad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ff621ed_b29c8e29",
+        "filename": "src/runtime/debug/garbage_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-11-11T20:19:42Z",
+      "side": 1,
+      "message": "ah yeah, good point. fixed.",
+      "parentUuid": "a8083dd1_cd910399",
       "range": {
         "startLine": 126,
         "startChar": 4,
