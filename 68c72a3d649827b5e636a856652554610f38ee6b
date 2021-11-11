@@ -99,6 +99,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a48167_da428833",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-11T18:05:19Z",
+      "side": 1,
+      "message": "Moved to the skeleton of the long form doc.",
+      "parentUuid": "92ddf1b9_0c41e780",
+      "range": {
+        "startLine": 34,
+        "startChar": 41,
+        "endLine": 34,
+        "endChar": 83
+      },
+      "revId": "68c72a3d649827b5e636a856652554610f38ee6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0fd9baf_3462a16e",
@@ -116,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe8818c_e4f7ad28",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-11T18:05:19Z",
+      "side": 1,
+      "message": "cmdUse -\u003e runUse -\u003e useR -\u003e cmdUse\n\n # cmd/go/internal/workcmd\n src/cmd/go/internal/workcmd/use.go:28:5: initialization loop for cmdUse\n\t/Users/matloob/devgo/src/cmd/go/internal/workcmd/use.go:28:5: cmdUse refers to\n\t/Users/matloob/devgo/src/cmd/go/internal/workcmd/use.go:47:6: runUse refers to\n\t/Users/matloob/devgo/src/cmd/go/internal/workcmd/use.go:38:5: useR refers to\n\t/Users/matloob/devgo/src/cmd/go/internal/workcmd/use.go:28:5: cmdUse",
+      "parentUuid": "a0fd9baf_3462a16e",
+      "revId": "68c72a3d649827b5e636a856652554610f38ee6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5b62f0f_b3f123ef",
@@ -129,6 +171,24 @@
       "writtenOn": "2021-11-02T18:47:28Z",
       "side": 1,
       "message": "I wonder if there are cases where an absolute path would be clearer. (Maybe we should use a path with the same absoluteness as what the user passed on the command line?)",
+      "revId": "68c72a3d649827b5e636a856652554610f38ee6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f9dcb98_e8896294",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-11T18:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5b62f0f_b3f123ef",
       "revId": "68c72a3d649827b5e636a856652554610f38ee6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -156,6 +216,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f96719d4_b6124ef6",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-11T18:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf1a0272_a27d1651",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "68c72a3d649827b5e636a856652554610f38ee6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c12a3bc_2fa5c6a7",
@@ -169,6 +253,30 @@
       "writtenOn": "2021-11-02T18:47:28Z",
       "side": 1,
       "message": "I wouldn\u0027t bother with lockedfile here — the original reason for using it for `go.mod` files was to avoid conflicts between implicit edits in `-mod\u003dmod` mode, but AFAICT there are no such implicit edits for go.work files, and locking in the working directory can cause other issues (see #48572).",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "68c72a3d649827b5e636a856652554610f38ee6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "294d61e2_8b812800",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-11T18:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c12a3bc_2fa5c6a7",
       "range": {
         "startLine": 119,
         "startChar": 0,
