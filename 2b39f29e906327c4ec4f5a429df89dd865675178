@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "678ecbd8_9a60d12e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-11T05:48:16Z",
+      "side": 1,
+      "message": "Also marking +2 so you can make progress. Canonicalize term order in this or a subsequent CL. (Or convince me that I am wrong.)",
+      "revId": "2b39f29e906327c4ec4f5a429df89dd865675178",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "480fedd2_15a5510c",
