@@ -53,6 +53,7 @@
 #define SYS_epoll_pwait		281
 #define SYS_epoll_create1	291
 #define SYS_pipe2		293
+#define SYS_epoll_pwait2	441
 
 TEXT runtime·exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
@@ -697,6 +698,18 @@ TEXT runtime·epollwait(SB),NOSPLIT,$0
 	MOVL	$SYS_epoll_pwait, AX
 	SYSCALL
 	MOVL	AX, ret+24(FP)
+	RET
+
+// int32 runtime·epollwait2(int32 epfd, EpollEvent *ev, int32 nev, Timespec* timeout);
+TEXT runtime·epollwait2(SB),NOSPLIT,$0
+	MOVL	epfd+0(FP), DI
+	MOVQ	ev+8(FP), SI
+	MOVL	nev+16(FP), DX
+	MOVQ	timeout+24(FP), R10
+	MOVQ	$0, R8
+	MOVL	$SYS_epoll_pwait2, AX
+	SYSCALL
+	MOVL	AX, ret+32(FP)
 	RET
 
 // void runtime·closeonexec(int32 fd);

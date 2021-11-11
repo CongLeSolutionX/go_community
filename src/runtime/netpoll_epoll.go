@@ -19,10 +19,16 @@ func epollctl(epfd, op, fd int32, ev *epollevent) int32
 
 //go:noescape
 func epollwait(epfd int32, ev *epollevent, nev, timeout int32) int32
+
+//go:noescape
+func epollwait2(epfd int32, ev *epollevent, nev int32, timeout *timespec) int32
+
 func closeonexec(fd int32)
 
 var (
 	epfd int32 = -1 // epoll descriptor
+
+	haveEpollWait2 bool
 
 	netpollBreakRd, netpollBreakWr uintptr // for netpollBreak
 
@@ -55,6 +61,18 @@ func netpollinit() {
 	}
 	netpollBreakRd = uintptr(r)
 	netpollBreakWr = uintptr(w)
+
+	var events [1]epollevent
+	var ts timespec
+	n := epollwait2(epfd, &events[0], 1, &ts)
+	if n == 0 {
+		haveEpollWait2 = true
+	} else if n != -_ENOSYS {
+		// It shouldn't be possible to get events yet (n > 0), nor
+		// should we get other errors.
+		println("runtime: epollwait2 probe returned", n)
+		throw("runtime: epollwait2 probe failed")
+	}
 }
 
 func netpollIsPollDescriptor(fd uintptr) bool {
@@ -107,23 +125,45 @@ func netpoll(delay int64) gList {
 	if epfd == -1 {
 		return gList{}
 	}
+
+	// An arbitrary cap on how long to wait for a timer.
+	// 1e15 ns == ~11.5 days.
+	const maxTimeoutNs = 1e15
+
 	var waitms int32
-	if delay < 0 {
-		waitms = -1
-	} else if delay == 0 {
-		waitms = 0
-	} else if delay < 1e6 {
-		waitms = 1
-	} else if delay < 1e15 {
-		waitms = int32(delay / 1e6)
+	var ts timespec
+	var timeout *timespec
+	if haveEpollWait2 {
+		if delay > maxTimeoutNs {
+			delay = maxTimeoutNs
+		}
+		if delay >= 0 {
+			ts.setNsec(delay)
+			timeout = &ts
+		}
 	} else {
-		// An arbitrary cap on how long to wait for a timer.
-		// 1e9 ms == ~11.5 days.
-		waitms = 1e9
+		if delay < 0 {
+			waitms = -1
+		} else if delay == 0 {
+			waitms = 0
+		} else if delay < 1e6 {
+			waitms = 1
+		} else if delay < maxTimeoutNs {
+			waitms = int32(delay / 1e6)
+		} else {
+			// An arbitrary cap on how long to wait for a timer.
+			// 1e9 ms == ~11.5 days.
+			waitms = maxTimeoutNs / 1e6
+		}
 	}
 	var events [128]epollevent
 retry:
-	n := epollwait(epfd, &events[0], int32(len(events)), waitms)
+	var n int32
+	if haveEpollWait2 {
+		n = epollwait2(epfd, &events[0], int32(len(events)), timeout)
+	} else {
+		n = epollwait(epfd, &events[0], int32(len(events)), waitms)
+	}
 	if n < 0 {
 		if n != -_EINTR {
 			println("runtime: epollwait on fd", epfd, "failed with", -n)
