@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fe38e12_0cb16cc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-11T04:50:31Z",
+      "side": 1,
+      "message": "Thanks, but this isn\u0027t sufficiently better than the current code, and we want to avoid code churn, so let\u0027s not do this.\n\nFor future reference, please run all changes through gofmt before uploading them, and please follow the directions for the change description.",
+      "revId": "beced534c4fed1697dd8eb4364d15cce0bcd9549",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
