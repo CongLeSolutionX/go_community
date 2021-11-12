@@ -104,6 +104,24 @@
       "message": "Please remove the enclosing ()\u0027s here from all the strings and instead have them in the format strings that use the result if missingMethodReason. That makes this result more flexible in use (we can add the ()\u0027s if we like, or leave them away). It also make the call site format strings clearer because now they end in:\n\n\"... (%s)\"\n\nwhich makes it more obvious that we (probably) don\u0027t expect an empty string.",
       "revId": "26dc3d9a3d08aff8e373deefc6df12379e279308",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dfd4255_6ec6b6d3",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T20:31:02Z",
+      "side": 1,
+      "message": "The problem is that the have/want following lines are not enclosed in parens (e.g. see line 431).  That\u0027s the way it is in the Go 1.17 messages (e.g see the Go 1.17 messages in the issue description).  I think that probably makes sense - seems a bit weird to have parens enclose multiple indented lines.  I would lean somewhat to stay with as is, but if you really want to put the parens around the have/want lines, then I\u0027ll do that.  Just re-confirm if that\u0027s what you want.",
+      "parentUuid": "39a31901_cedb7bd9",
+      "revId": "26dc3d9a3d08aff8e373deefc6df12379e279308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
