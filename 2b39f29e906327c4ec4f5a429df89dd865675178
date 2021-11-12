@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f03a9f01_4f98bdb2",
+        "filename": "src/go/types/typestring.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-12T18:17:13Z",
+      "side": 1,
+      "message": "Err, I missed this comment, but may submit anyway to save on rebases (depending on your LGTM earlier in the stack.\n\nI\u0027ll catch this in a follow-up.",
+      "parentUuid": "480fedd2_15a5510c",
+      "revId": "2b39f29e906327c4ec4f5a429df89dd865675178",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba218a6e_9875e6e4",
         "filename": "src/go/types/typestring.go",
         "patchSetId": 4
@@ -85,6 +103,24 @@
       "writtenOn": "2021-11-11T05:34:49Z",
       "side": 1,
       "message": "terms are not sorted, and NewUnion doesn\u0027t sort them either, so int|string and string|int are not identical\n\nmaybe print terms into strings, sort the strings and then print the union from the strings rather than calling typ",
+      "revId": "2b39f29e906327c4ec4f5a429df89dd865675178",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f7a80ad_e1ff8094",
+        "filename": "src/go/types/typestring.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-12T18:17:13Z",
+      "side": 1,
+      "message": "Good catch. Done, and added a test case that would have failed.",
+      "parentUuid": "ba218a6e_9875e6e4",
       "revId": "2b39f29e906327c4ec4f5a429df89dd865675178",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
