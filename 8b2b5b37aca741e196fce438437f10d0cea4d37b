@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3277f913_80d158bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-11-12T12:09:14Z",
+      "side": 1,
+      "message": "Minor nit, I’d add in the commit message what caused the mistake which was a redefinition/shadowing of released in an inner scope.",
+      "revId": "8b2b5b37aca741e196fce438437f10d0cea4d37b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2ec22f0_23f870d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-11-12T12:09:14Z",
+      "side": 1,
+      "message": "Thank you Michael K. Just a drive by comment. Howdy Michael P!",
+      "revId": "8b2b5b37aca741e196fce438437f10d0cea4d37b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
