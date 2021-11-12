@@ -72,6 +72,24 @@
       "message": "(nit) Rather that tracking the `last` index explicitly, I think this would be a bit clearer as a slice:\n\n\tbuf :\u003d make([]byte, 0, len(uname.Release))\n\tfor _, b :\u003d range uname.Release {\n\t\tif b \u003d\u003d 0 {\n\t\t\tbreak\n\t\t}\n\t\tbuf \u003d append(buf, byte(b))\n\t}\n\trl :\u003d string(buf)\n\n(That also eliminates the hard-coded length, although that\u0027s admittedly unlikely to break.)",
       "revId": "23613885c4b2729c71e05918079ca83dbe2cc1ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0807db7f_fceb9e77",
+        "filename": "src/runtime/pprof/uname_linux_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-12T18:12:09Z",
+      "side": 1,
+      "message": "Done.\n\n(If we could change syscall.Utsname I\u0027d hope we would have already done so. It is one of my most hated types in std.)",
+      "parentUuid": "11eda8b6_7e1e7d3d",
+      "revId": "23613885c4b2729c71e05918079ca83dbe2cc1ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
