@@ -72,6 +72,24 @@
       "message": "When could this fail? It should always panic, right?",
       "revId": "111883b9f0d3a1be1c18f08fc18ed025e4960a13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1f5df5b_10e94d9a",
+        "filename": "test/recover4.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-12T15:57:42Z",
+      "side": 1,
+      "message": "Okay, you explained in the CL description.",
+      "parentUuid": "18c6c19e_9652a632",
+      "revId": "111883b9f0d3a1be1c18f08fc18ed025e4960a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
