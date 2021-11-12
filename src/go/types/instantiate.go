@@ -13,40 +13,51 @@ import (
 	"go/token"
 )
 
-// Instantiate instantiates the type typ with the given type arguments targs.
-// typ must be a *Named or a *Signature type, and its number of type parameters
-// must match the number of provided type arguments. The result is a new,
-// instantiated (not parameterized) type of the same kind (either a *Named or a
-// *Signature). Any methods attached to a *Named are simply copied; they are
-// not instantiated.
+// Instantiate instantiates the type origin with the given type arguments
+// targs. origin must be a *Named or a *Signature type. If the resulting error
+// is nil, the resulting Type is a new, instantiated (not parameterized) type
+// of the same kind (either a *Named or a *Signature). Methods attached to a
+// *Named type are also instantiated, and associated with a new *Func that has
+// the same position as the original method, but nil function scope.
 //
-// If ctxt is non-nil, it may be used to de-dupe the instance against previous
-// instances with the same identity.
+// If ctxt is non-nil, it may be used to de-duplicate the instance against
+// previous instances with the same identity. As a special case, generic
+// *Signature origin types are only considered identical if they are pointer
+// equivalent, so that instantiating distinct (but possibly identical)
+// signatures will yield different instances.
 //
-// If verify is set and constraint satisfaction fails, the returned error may
-// wrap an *ArgumentError indicating which type argument did not satisfy its
-// corresponding type parameter constraint, and why.
+// If validate is true, the instantiation is checked for correctness. An error
+// is returned if the number of type arguments does not match the number of
+// origin's type parameter. Type arguments are also verified to satisfy their
+// corresponding type parameter constraint. If verification fails, the
+// resulting error may wrap an *ArgumentError indicating which type argument
+// did not satisfy its corresponding type parameter constraint, and why.
 //
-// TODO(rfindley): change this function to also return an error if lengths of
-// tparams and targs do not match.
-func Instantiate(ctxt *Context, typ Type, targs []Type, validate bool) (Type, error) {
-	inst := (*Checker)(nil).instance(token.NoPos, typ, targs, ctxt)
-
-	var err error
+// If validate is false, Instantiate is guaranteed not to return an error,
+// though it may panic.  Type arguments are not verified to satisfy their
+// corresponding constraint, and the number of type arguments is not
+// pre-validated to be correct. For *Signature types, this means Instantiate
+// will immediately panic given an incorrect number of type arguments. For
+// *Named types, a panic may occur later inside the *Named API.
+func Instantiate(ctxt *Context, origin Type, targs []Type, validate bool) (Type, error) {
 	if validate {
 		var tparams []*TypeParam
-		switch t := typ.(type) {
+		switch t := origin.(type) {
 		case *Named:
 			tparams = t.TypeParams().list()
 		case *Signature:
 			tparams = t.TypeParams().list()
 		}
+		if len(tparams) != len(targs) {
+			return nil, fmt.Errorf("%s has %d type parameters, got %d type arguments", origin, len(tparams), len(targs))
+		}
 		if i, err := (*Checker)(nil).verify(token.NoPos, tparams, targs); err != nil {
-			return inst, &ArgumentError{i, err}
+			return nil, &ArgumentError{i, err}
 		}
 	}
 
-	return inst, err
+	inst := (*Checker)(nil).instance(token.NoPos, origin, targs, ctxt)
+	return inst, nil
 }
 
 // instance creates a type or function instance using the given original type
