@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "540d629f_3f7289cb",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-12T19:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "916a8c6c_14dd8844",
+      "revId": "62567f2ea49da65b635dd512b53e8e78fd47a05a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "562144e0_bbed53eb",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-11-12T18:26:23Z",
       "side": 1,
       "message": "The buggy timer handling is also only present in x86 kernels (386 and amd64). Does it make sense to limit the SkipFlaky call to only those architectures?\n\n(The flakes on riscv64, WSL, and ppc64 have a different shape.)",
+      "revId": "62567f2ea49da65b635dd512b53e8e78fd47a05a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84147d06_f6b5fc25",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-12T19:43:48Z",
+      "side": 1,
+      "message": "Done.\n\nFun fact, this is coming to arm64 too (https://github.com/torvalds/linux/commit/a68773bd32d9b9dea62be99c06502567532f652f), but that appears to be 5.16 only, which should also get the fix.",
+      "parentUuid": "562144e0_bbed53eb",
       "revId": "62567f2ea49da65b635dd512b53e8e78fd47a05a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
