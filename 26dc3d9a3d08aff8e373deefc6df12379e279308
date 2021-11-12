@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "458dd4eb_b49f6934",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1629,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T23:06:45Z",
+      "side": 1,
+      "message": "As mentioned below, I\u0027ll leave as is for now, since the want/have lines are not enclosed in parens.  We can easily change later.",
+      "parentUuid": "dca2d1f4_75863046",
+      "revId": "26dc3d9a3d08aff8e373deefc6df12379e279308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39a31901_cedb7bd9",
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "Hm. I\u0027m not sure I fully understand. By leaving the parens away in the function, aren\u0027t you completely free to put the parens at the call site or leave them?\n\n(Also, we can always adjust later - if this is complicated somehow, leave as is.)",
       "parentUuid": "7dfd4255_6ec6b6d3",
+      "revId": "26dc3d9a3d08aff8e373deefc6df12379e279308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e6932d_b1f37ce2",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T23:06:45Z",
+      "side": 1,
+      "message": "The problem is that part of the detailed reason is in parentheses, and part is not.  The first part is in parens, but if there is any have/want information, that is not in parentheses, as in:\n\n(wrong type for M method)\n\t\thave M(string)\n\t\twant M(int)\n\nI\u0027m going to leave things as is for now, we can easily adjust later.",
+      "parentUuid": "e3dc9a30_f6740252",
       "revId": "26dc3d9a3d08aff8e373deefc6df12379e279308",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
