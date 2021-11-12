@@ -102,6 +102,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4654de3b_fc67acce",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-12T22:37:21Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "031e576a_6a15cffa",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 18
+      },
+      "revId": "8d28401513f29d0152caeb31f950b46c2ce7dc00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd8350b3_e245209f",
@@ -139,6 +163,30 @@
       "side": 1,
       "message": "this simplified further",
       "parentUuid": "dd8350b3_e245209f",
+      "range": {
+        "startLine": 821,
+        "startChar": 0,
+        "endLine": 824,
+        "endChar": 3
+      },
+      "revId": "8d28401513f29d0152caeb31f950b46c2ce7dc00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26fcd373_c79c4956",
+        "filename": "src/cmd/compile/internal/types2/builtins.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-12T22:37:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4736d5ab_c96d0efb",
       "range": {
         "startLine": 821,
         "startChar": 0,
@@ -421,6 +469,30 @@
       "side": 1,
       "message": "Added comment for now.",
       "parentUuid": "be3f409a_0101b134",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 42
+      },
+      "revId": "8d28401513f29d0152caeb31f950b46c2ce7dc00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac60f023_18c39431",
+        "filename": "src/cmd/compile/internal/types2/index.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-12T22:37:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b4c5a2ef_c1bd343b",
       "range": {
         "startLine": 103,
         "startChar": 2,
