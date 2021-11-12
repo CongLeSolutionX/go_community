@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2167ce22_6487367b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:48:09Z",
+      "side": 1,
+      "message": "LGTM. Mostly comments on comments.",
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ced72c37_ad8aa35f",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:48:09Z",
+      "side": 1,
+      "message": "should this be s/origin/orig/ to match prevalent use ?",
+      "range": {
+        "startLine": 16,
+        "startChar": 37,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cafd805_76b63373",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:48:09Z",
+      "side": 1,
+      "message": "If there is no error, the result type is a ...",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f92f65d1_7a201022",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:48:09Z",
+      "side": 1,
+      "message": "Shorter paragraph:\n\nIf validate is set, Instantiate verifies that the number of type arguments and parameters match, and that the type arguments satisfy their corresponding type\nconstraints. If verification fails, ...",
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bf5cbca_187c9279",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:48:09Z",
+      "side": 1,
+      "message": "Shorter paragraph:\n\nIf validate is not set, Instantiate does not verify the type argument count or whether the type arguments satisfy their constraints. Instantiate is guaranteed\nto not return an error, but it may panic. Specifically, for *Signature types,\nInstantiate will panic immediately if the type argument count is incorrect; for\n*Named types, a panic ...",
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d2d91c6_26042090",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:48:09Z",
+      "side": 1,
+      "message": "nit: I\u0027d swap this:\n\nlen(targs) !\u003d len(tparams)\n\n(we test test the targs against the \"given\" tparams), and also swap in the error message to match the usual got, want pattern:\n\n\"got %s type arguments but %s has %d type parameters\"",
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
