@@ -122,6 +122,24 @@
       "parentUuid": "39a31901_cedb7bd9",
       "revId": "26dc3d9a3d08aff8e373deefc6df12379e279308",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3dc9a30_f6740252",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T21:00:37Z",
+      "side": 1,
+      "message": "Hm. I\u0027m not sure I fully understand. By leaving the parens away in the function, aren\u0027t you completely free to put the parens at the call site or leave them?\n\n(Also, we can always adjust later - if this is complicated somehow, leave as is.)",
+      "parentUuid": "7dfd4255_6ec6b6d3",
+      "revId": "26dc3d9a3d08aff8e373deefc6df12379e279308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
