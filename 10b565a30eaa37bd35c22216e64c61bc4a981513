@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d341ff5e_422405f9",
+        "filename": "src/go/types/context.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-12T19:18:05Z",
+      "side": 1,
+      "message": "The change was precisely because of prepending the unique identifier for the origin pointer identity. We can\u0027t use this for non-generic types anymore. Better to have a different function called typeHash.",
+      "parentUuid": "9ed345a5_165d353f",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 15
+      },
+      "revId": "10b565a30eaa37bd35c22216e64c61bc4a981513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d98e102b_1db7932a",
@@ -112,6 +136,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bd63093_e87ebd0c",
+        "filename": "src/go/types/context.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-12T19:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d98e102b_1db7932a",
+      "revId": "10b565a30eaa37bd35c22216e64c61bc4a981513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d2887e6_55cc441d",
@@ -125,6 +167,30 @@
       "writtenOn": "2021-11-12T19:12:11Z",
       "side": 1,
       "message": "s/the pointer n/type t/",
+      "range": {
+        "startLine": 114,
+        "startChar": 33,
+        "endLine": 114,
+        "endChar": 46
+      },
+      "revId": "10b565a30eaa37bd35c22216e64c61bc4a981513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd9e4a9_6c44b648",
+        "filename": "src/go/types/context.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-12T19:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d2887e6_55cc441d",
       "range": {
         "startLine": 114,
         "startChar": 33,
