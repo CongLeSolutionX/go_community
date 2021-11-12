@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2907b4bf_44de7664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "doesn\u0027t quite make sense semantically - maybe just:\n\nmatch Go 1.17 compiler errors more closely",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d7b2a2b_900e3ebd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "nit: ... to be more like Go 1.17 compiler errors.",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203dabe3_1c71a77e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "nit: ... different name that only differs in case.",
+      "range": {
+        "startLine": 25,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "493a961b_0412e64f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -51,6 +114,309 @@
       "writtenOn": "2021-11-11T23:23:01Z",
       "side": 1,
       "message": "There\u0027s some more work to do, but this gets most of #48471 (fixes all the cases listed in the issue, and adds several more - see test/fixedbugs/issue48471.go)\n\nThere is definitely no rush on code review, can certainly wait until next week or later.  I separated out the code to print out almost-matching methods with the wrong case in a following CL in the stack, since it affects a common routine (lookupFieldOrMethod), so you may want it done a different way.\n",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d86bd69a_524fd4ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "Thanks, looks good. Some nits, some spelling suggestions, and some coding suggestions. +2 so you can make progress.",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc4d9241_ab656caa",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "s/situation/context/\n\n(see comment below)",
+      "range": {
+        "startLine": 414,
+        "startChar": 65,
+        "endLine": 414,
+        "endChar": 74
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "612c9399_b1bb7ed1",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "It looks like this function always (?) prepends the situation string. If thats the case, it seems simpler to never pass in the situation string and just do the concatenation at the call site via the format string.",
+      "range": {
+        "startLine": 414,
+        "startChar": 52,
+        "endLine": 414,
+        "endChar": 60
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fcb4d7a_072fc684",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": ".. but wrong type.\n\nIt\u0027s not just any wrong type, isn\u0027t it? It\u0027s just that the receiver is a pointer receiver (hence the error \"has pointer receiver\").\n\nShould be clear about this.",
+      "range": {
+        "startLine": 416,
+        "startChar": 33,
+        "endLine": 416,
+        "endChar": 37
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "724ccd8b_a2ecaebe",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "s/situation/context/\n\nto match the style used elsewhere (see e.g., Checker.assignment)",
+      "range": {
+        "startLine": 417,
+        "startChar": 42,
+        "endLine": 417,
+        "endChar": 51
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2e66a91_990873c9",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "no need for this comment",
+      "range": {
+        "startLine": 438,
+        "startChar": 19,
+        "endLine": 438,
+        "endChar": 20
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02c6c9f5_63767028",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "Is this important for matching errors? If not, I\u0027d print the func.",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4661a8cd_06858c09",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "simpler:\n\n} else if IsInterface(T) {",
+      "range": {
+        "startLine": 448,
+        "startChar": 16,
+        "endLine": 448,
+        "endChar": 17
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f61ca1c1_4b02ce46",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "s/isPtrToInterface/isInterfacePtr/\n\n(matching the style we use for: derefStructPtr)",
+      "range": {
+        "startLine": 461,
+        "startChar": 5,
+        "endLine": 461,
+        "endChar": 21
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13d6e4c3_4124dff1",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "replace with\n\np, _ :\u003d under(T).(*Pointer)\nreturn p !\u003d nil \u0026\u0026 IsInterface(p.elem)",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2ad2c2f_099b18b4",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "since missingMethodReason is always prepending the situation, can\u0027t this be:\n\ndetail :\u003d check.missingMethodReason(x.typ, T, m, wrongType)\n*reason \u003d check.sprintf(\"%s does not implement %s (%s)\", x.typ, T, detail)\n\ni.e., missingMethodReason only provides the detail?",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa513b0a_6f3e14be",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "no need for this comment - it\u0027s clear from the check.conf.CompilerErrorMessages",
+      "range": {
+        "startLine": 298,
+        "startChar": 30,
+        "endLine": 298,
+        "endChar": 36
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa989e20_15a71b83",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "grammar?\n\nmaybe:\n\n// Provide extra details for the compiler when T is not an interface.",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a103c03_3505d5de",
+        "filename": "src/cmd/compile/internal/types2/testdata/check/expr3.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "I only just changed this from \"method m\" to \"m method\" (https://go-review.googlesource.com/c/go/+/356512), and now this is switching it back. Is this needed to make it easier on other tests?",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dbf318e_351bfa9f",
+        "filename": "test/ddd1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T05:53:11Z",
+      "side": 1,
+      "message": "I prefer to leave as is because \"...\" is an actual Go token, while the three-dot-rune is not, making it clear that this is not Go code but an abbreviation.",
       "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
