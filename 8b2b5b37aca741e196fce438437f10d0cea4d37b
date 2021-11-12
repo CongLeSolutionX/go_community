@@ -69,6 +69,29 @@
       "message": "Thank you Michael K. Just a drive by comment. Howdy Michael P!",
       "revId": "8b2b5b37aca741e196fce438437f10d0cea4d37b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c6cbc1c_d5cc04e7",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-12T21:13:07Z",
+      "side": 1,
+      "message": "It isn\u0027t clear to me why this isn\u0027t released+r (the sum of all released memory this generation). But I\u0027m also having trouble recalling when gen changes w.r.t. bgscavenge.",
+      "range": {
+        "startLine": 330,
+        "startChar": 51,
+        "endLine": 330,
+        "endChar": 52
+      },
+      "revId": "8b2b5b37aca741e196fce438437f10d0cea4d37b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
