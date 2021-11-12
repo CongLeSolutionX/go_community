@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a68fec7_bb6ad129",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2907b4bf_44de7664",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d7b2a2b_900e3ebd",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9764ff2a_4673446a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d7b2a2b_900e3ebd",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "203dabe3_1c71a77e",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-11-12T05:53:11Z",
       "side": 1,
       "message": "nit: ... different name that only differs in case.",
+      "range": {
+        "startLine": 25,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "077f0410_81b78a27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "203dabe3_1c71a77e",
       "range": {
         "startLine": 25,
         "startChar": 41,
@@ -181,6 +247,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e75f913b_4914c6aa",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Removed, as suggested above.",
+      "parentUuid": "cc4d9241_ab656caa",
+      "range": {
+        "startLine": 414,
+        "startChar": 65,
+        "endLine": 414,
+        "endChar": 74
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bcb3bb1_4f09dac9",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Good suggestion, moved to the callers. Done.",
+      "parentUuid": "612c9399_b1bb7ed1",
+      "range": {
+        "startLine": 414,
+        "startChar": 52,
+        "endLine": 414,
+        "endChar": 60
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9fcb4d7a_072fc684",
@@ -194,6 +308,30 @@
       "writtenOn": "2021-11-12T05:53:11Z",
       "side": 1,
       "message": ".. but wrong type.\n\nIt\u0027s not just any wrong type, isn\u0027t it? It\u0027s just that the receiver is a pointer receiver (hence the error \"has pointer receiver\").\n\nShould be clear about this.",
+      "range": {
+        "startLine": 416,
+        "startChar": 33,
+        "endLine": 416,
+        "endChar": 37
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f73a5c47_713d866d",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Yes, clarified this, and will update in the next CL where the the method could also different just by case.",
+      "parentUuid": "9fcb4d7a_072fc684",
       "range": {
         "startLine": 416,
         "startChar": 33,
@@ -227,6 +365,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8a9b6fe_26769f51",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Removed, as suggested above.",
+      "parentUuid": "724ccd8b_a2ecaebe",
+      "range": {
+        "startLine": 417,
+        "startChar": 42,
+        "endLine": 417,
+        "endChar": 51
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2e66a91_990873c9",
@@ -240,6 +402,30 @@
       "writtenOn": "2021-11-12T05:53:11Z",
       "side": 1,
       "message": "no need for this comment",
+      "range": {
+        "startLine": 438,
+        "startChar": 19,
+        "endLine": 438,
+        "endChar": 20
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "178c4406_b409f8b3",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2e66a91_990873c9",
       "range": {
         "startLine": 438,
         "startChar": 19,
@@ -267,6 +453,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d6d202_d9af38ec",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "It\u0027s needed to print out:\n\n   have M(int)\n   want m(int)\n   \nOtherwise, we would print:\n\n   have M func(int)\n   want m func(int)\n\nSo, I think we want this, both because it is nicer and compatible with Go 1.17.",
+      "parentUuid": "02c6c9f5_63767028",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4661a8cd_06858c09",
@@ -280,6 +484,30 @@
       "writtenOn": "2021-11-12T05:53:11Z",
       "side": 1,
       "message": "simpler:\n\n} else if IsInterface(T) {",
+      "range": {
+        "startLine": 448,
+        "startChar": 16,
+        "endLine": 448,
+        "endChar": 17
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ab3e7bf_59b3b345",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4661a8cd_06858c09",
       "range": {
         "startLine": 448,
         "startChar": 16,
@@ -313,6 +541,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64c87c42_c379d30a",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f61ca1c1_4b02ce46",
+      "range": {
+        "startLine": 461,
+        "startChar": 5,
+        "endLine": 461,
+        "endChar": 21
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13d6e4c3_4124dff1",
@@ -330,6 +582,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f1b285_10eb1630",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13d6e4c3_4124dff1",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2ad2c2f_099b18b4",
@@ -343,6 +613,24 @@
       "writtenOn": "2021-11-12T05:53:11Z",
       "side": 1,
       "message": "since missingMethodReason is always prepending the situation, can\u0027t this be:\n\ndetail :\u003d check.missingMethodReason(x.typ, T, m, wrongType)\n*reason \u003d check.sprintf(\"%s does not implement %s (%s)\", x.typ, T, detail)\n\ni.e., missingMethodReason only provides the detail?",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30aa9831_63ed3925",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Yes, thanks, changed to not passing in the situation/context to missingMethodReason().",
+      "parentUuid": "a2ad2c2f_099b18b4",
       "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -370,6 +658,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4b464c4_b13e3616",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa513b0a_6f3e14be",
+      "range": {
+        "startLine": 298,
+        "startChar": 30,
+        "endLine": 298,
+        "endChar": 36
+      },
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa989e20_15a71b83",
@@ -383,6 +695,24 @@
       "writtenOn": "2021-11-12T05:53:11Z",
       "side": 1,
       "message": "grammar?\n\nmaybe:\n\n// Provide extra details for the compiler when T is not an interface.",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20feece8_6cf8a582",
+        "filename": "src/cmd/compile/internal/types2/operand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "Yes, that was badly worded...  Fixed.",
+      "parentUuid": "fa989e20_15a71b83",
       "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -404,6 +734,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a53498_7fd1347d",
+        "filename": "src/cmd/compile/internal/types2/testdata/check/expr3.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "It makes the compatibility code simpler if we keep consistent, and use \"method m\" everywhere for types2 (non-compiler) messages, and \"m method\" everywhere for the compiler messages.  Not sure why you switched from \"method m\" to \"m method\" in that previous change only in a few places, but not all places.\n\nOf course, as you said, we will eventually try to converge the types2 non-compiler and compiler messages.",
+      "parentUuid": "3a103c03_3505d5de",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dbf318e_351bfa9f",
@@ -417,6 +765,24 @@
       "writtenOn": "2021-11-12T05:53:11Z",
       "side": 1,
       "message": "I prefer to leave as is because \"...\" is an actual Go token, while the three-dot-rune is not, making it clear that this is not Go code but an abbreviation.",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19a6148d_929aba10",
+        "filename": "test/ddd1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-12T19:06:50Z",
+      "side": 1,
+      "message": "OK, acknowledged.  Removed the potential TODO comment.",
+      "parentUuid": "4dbf318e_351bfa9f",
       "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
