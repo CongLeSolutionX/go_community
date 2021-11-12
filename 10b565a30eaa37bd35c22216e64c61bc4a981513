@@ -119,6 +119,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f269ed1_b986644e",
+        "filename": "src/go/types/context.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:21:05Z",
+      "side": 1,
+      "message": "Hm. That should be made clearer in the comment. The sentence:\n\nIf targs is not empty, typ is printed as if it were instantiated with targs.\n\nis confusing; it implies that this is a meaningful function when targs is empty.",
+      "parentUuid": "d341ff5e_422405f9",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 15
+      },
+      "revId": "10b565a30eaa37bd35c22216e64c61bc4a981513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d98e102b_1db7932a",
