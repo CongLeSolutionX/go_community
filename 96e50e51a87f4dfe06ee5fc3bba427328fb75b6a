@@ -471,6 +471,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "909c09ad_310ea8a5",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:59:48Z",
+      "side": 1,
+      "message": "sounds good",
+      "parentUuid": "b8d6d202_d9af38ec",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4661a8cd_06858c09",
@@ -748,6 +766,24 @@
       "side": 1,
       "message": "It makes the compatibility code simpler if we keep consistent, and use \"method m\" everywhere for types2 (non-compiler) messages, and \"m method\" everywhere for the compiler messages.  Not sure why you switched from \"method m\" to \"m method\" in that previous change only in a few places, but not all places.\n\nOf course, as you said, we will eventually try to converge the types2 non-compiler and compiler messages.",
       "parentUuid": "3a103c03_3505d5de",
+      "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36b510ca_81ddf908",
+        "filename": "src/cmd/compile/internal/types2/testdata/check/expr3.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-12T19:59:48Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "45a53498_7fd1347d",
       "revId": "96e50e51a87f4dfe06ee5fc3bba427328fb75b6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
