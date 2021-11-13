@@ -309,9 +309,9 @@ func (check *Checker) sliceExpr(x *operand, e *syntax.SliceExpr) {
 L:
 	for i, x := range ind[:len(ind)-1] {
 		if x > 0 {
-			for _, y := range ind[i+1:] {
-				if y >= 0 && x > y {
-					check.errorf(e, "invalid slice indices: %d > %d", x, y)
+			for j, y := range ind[i+1:] {
+				if y >= 0 && y < x {
+					check.errorf(e.Index[i+1+j], "invalid slice indices: %d < %d", y, x)
 					break L // only report one error, ok to continue
 				}
 			}
