@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02ddd080_d41e8797",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-13T00:34:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ced72c37_ad8aa35f",
+      "range": {
+        "startLine": 16,
+        "startChar": 37,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cafd805_76b63373",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-12T19:48:09Z",
       "side": 1,
       "message": "If there is no error, the result type is a ...",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aea0c0d_aa71a080",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-13T00:34:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cafd805_76b63373",
       "range": {
         "startLine": 17,
         "startChar": 56,
@@ -81,6 +129,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d2bd05c_46e8e99e",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-13T00:34:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f92f65d1_7a201022",
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0bf5cbca_187c9279",
@@ -98,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa1bc344_808157f4",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-13T00:34:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bf5cbca_187c9279",
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d2d91c6_26042090",
@@ -111,6 +195,24 @@
       "writtenOn": "2021-11-12T19:48:09Z",
       "side": 1,
       "message": "nit: I\u0027d swap this:\n\nlen(targs) !\u003d len(tparams)\n\n(we test test the targs against the \"given\" tparams), and also swap in the error message to match the usual got, want pattern:\n\n\"got %s type arguments but %s has %d type parameters\"",
+      "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e8ce5c7_17bd3ff9",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-13T00:34:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d2d91c6_26042090",
       "revId": "496354e03df856be33ab7e95fdc1257ad999e6ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
