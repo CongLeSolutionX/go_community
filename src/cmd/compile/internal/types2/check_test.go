@@ -93,9 +93,29 @@ func asGoVersion(s string) string {
 	return ""
 }
 
+// isUnifiedBuilder reports whether we are executing on a go builder
+// that uses unified export data.
+func isUnifiedBuilder() bool {
+	return os.Getenv("GO_BUILDER_NAME") == "linux-amd64-unified"
+}
+
+// excludedForUnifiedBuild lists files that cannot be tested when
+// using the unified build.
+var excludedForUnifiedBuild = map[string]bool{
+	"issue47818.go2": true,
+}
+
 func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 	if len(filenames) == 0 {
 		t.Fatal("no source files")
+	}
+
+	if isUnifiedBuilder() {
+		for _, f := range filenames {
+			if excludedForUnifiedBuild[filepath.Base(f)] {
+				t.Skipf("%s cannot be tested with unified build", f)
+			}
+		}
 	}
 
 	var mode syntax.Mode
