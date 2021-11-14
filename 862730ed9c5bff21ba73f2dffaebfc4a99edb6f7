@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30c5329c_a49aad9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-11-14T12:52:59Z",
+      "side": 1,
+      "message": "Thank you Emmanuel! Good catches, didn\u0027t properly think about compatibility, hopefully it\u0027s better now ^^",
+      "parentUuid": "2eb5e4cd_79d4b884",
+      "revId": "862730ed9c5bff21ba73f2dffaebfc4a99edb6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0bd96d2c_000406e9",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a4dcf9a_4e9a49b9",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-11-14T12:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bd96d2c_000406e9",
+      "revId": "862730ed9c5bff21ba73f2dffaebfc4a99edb6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61bef277_5791c56e",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-11-14T00:14:51Z",
       "side": 1,
       "message": "Lots of hardcoding with \"/\" yet you are using filepath.Join, each part should be passed into filepath.Join:\n\n        touch(t, filepath.Join(td, \"dir\", \"foo1\"))\n\ttouch(t, filepath.Join(td, \"dir\", \"foo2\"))\n\ttouch(t, filepath.Join(td, \"dir\", \"subdir\", \"foo3\"))\n\ttouch(t, filepath.Join(td, \"dir\", \"foo4\"))\n\ttouch(t, filepath.Join(td, \"dir2\", \"bar\"))\n\ttouch(t, filepath.Join(td, \"last\"))",
+      "range": {
+        "startLine": 647,
+        "startChar": 0,
+        "endLine": 653,
+        "endChar": 36
+      },
+      "revId": "862730ed9c5bff21ba73f2dffaebfc4a99edb6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "449b2e60_7f9eee80",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-11-14T12:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61bef277_5791c56e",
       "range": {
         "startLine": 647,
         "startChar": 0,
@@ -81,6 +141,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b72df49_6c3dcc69",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-11-14T12:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbb11b8f_d407fcad",
+      "range": {
+        "startLine": 676,
+        "startChar": 2,
+        "endLine": 679,
+        "endChar": 3
+      },
+      "revId": "862730ed9c5bff21ba73f2dffaebfc4a99edb6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3baef761_b51d833e",
@@ -98,6 +182,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "077b9182_e49ac912",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-11-14T12:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3baef761_b51d833e",
+      "revId": "862730ed9c5bff21ba73f2dffaebfc4a99edb6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6800a3a5_6ede6986",
@@ -111,6 +213,24 @@
       "writtenOn": "2021-11-14T00:14:51Z",
       "side": 1,
       "message": "Did you mean to use root?",
+      "revId": "862730ed9c5bff21ba73f2dffaebfc4a99edb6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a119ad3_5d9505af",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2021-11-14T12:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6800a3a5_6ede6986",
       "revId": "862730ed9c5bff21ba73f2dffaebfc4a99edb6f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
