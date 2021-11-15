@@ -76,6 +76,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed062efb_c6f7ca27",
+        "filename": "src/cmd/link/internal/dwtest/dwtest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-15T22:01:50Z",
+      "side": 1,
+      "message": "Maybe \"type\"? (This is copied code, but maybe just update it.)",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "6455e3dbffe91032ae20c979bc72d1dd0a4302b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc07ee1c_9abc70d5",
+        "filename": "src/cmd/link/internal/dwtest/dwtest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-15T22:01:50Z",
+      "side": 1,
+      "message": "DIEs ?",
+      "range": {
+        "startLine": 72,
+        "startChar": 19,
+        "endLine": 72,
+        "endChar": 23
+      },
+      "revId": "6455e3dbffe91032ae20c979bc72d1dd0a4302b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bcb4d6a_e4a2b86a",
+        "filename": "src/cmd/link/internal/dwtest/dwtest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-15T22:01:50Z",
+      "side": 1,
+      "message": "fmt.Errorf ?\n\nOr maybe just panic. The callers don\u0027t seem to check the error anyway.",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 24
+      },
+      "revId": "6455e3dbffe91032ae20c979bc72d1dd0a4302b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5315cdc7_6c545732",
         "filename": "src/cmd/link/internal/dwtest/dwtest.go",
         "patchSetId": 2
@@ -92,6 +161,29 @@
         "startChar": 3,
         "endLine": 167,
         "endChar": 14
+      },
+      "revId": "6455e3dbffe91032ae20c979bc72d1dd0a4302b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbcf324c_14c34689",
+        "filename": "src/cmd/link/internal/dwtest/dwtest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-15T22:01:50Z",
+      "side": 1,
+      "message": "This seems the only place where it takes a testing.T. Since it returns an error now, probably just drop the parameter.",
+      "range": {
+        "startLine": 168,
+        "startChar": 28,
+        "endLine": 168,
+        "endChar": 40
       },
       "revId": "6455e3dbffe91032ae20c979bc72d1dd0a4302b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
