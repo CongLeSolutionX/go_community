@@ -29,41 +29,35 @@ import (
 	"time"
 )
 
-// haveUnexpectedFDs is set at init time to report whether any
-// file descriptors were open at program start.
-var haveUnexpectedFDs bool
-
-// unfinalizedFiles holds files that should not be finalized,
-// because that would close the associated file descriptor,
-// which we don't want to do.
-var unfinalizedFiles []*os.File
+// mayHaveUnexpectedFDs is set at init time to report whether any
+// file descriptors may have been open at program start.
+var mayHaveUnexpectedFDs bool
 
 func init() {
 	if os.Getenv("GO_WANT_HELPER_PROCESS") == "1" {
-		return
-	}
-	if runtime.GOOS == "windows" {
 		return
 	}
 	for fd := uintptr(3); fd <= 100; fd++ {
 		if poll.IsPollDescriptor(fd) {
 			continue
 		}
+
 		// We have no good portable way to check whether an FD is open.
-		// We use NewFile to create a *os.File, which lets us
-		// know whether it is open, but then we have to cope with
-		// the finalizer on the *os.File.
-		f := os.NewFile(fd, "")
-		if _, err := f.Stat(); err != nil {
-			// Close the file to clear the finalizer.
-			// We expect the Close to fail.
-			f.Close()
-		} else {
-			fmt.Printf("fd %d open at test start\n", fd)
-			haveUnexpectedFDs = true
-			// Use a global variable to avoid running
-			// the finalizer, which would close the FD.
-			unfinalizedFiles = append(unfinalizedFiles, f)
+		// Most OSes provide a simple filesystem path to inspect open
+		// FDs, which we test on OSes we are aware of.
+		var filename string
+		switch runtime.GOOS {
+		case "darwin", "freebsd":
+			filename = fmt.Sprintf("/dev/fd/%d", fd)
+		case "linux", "netbsd", "solaris":
+			filename = fmt.Sprintf("/proc/self/fd/%d", fd)
+		default:
+			mayHaveUnexpectedFDs = true
+			return
+		}
+
+		if _, err := os.Lstat(filename); err == nil {
+			mayHaveUnexpectedFDs = true
 		}
 	}
 }
@@ -582,11 +576,11 @@ func TestExtraFilesFDShuffle(t *testing.T) {
 }
 
 func TestExtraFiles(t *testing.T) {
-	if haveUnexpectedFDs {
+	if mayHaveUnexpectedFDs {
 		// The point of this test is to make sure that any
 		// descriptors we open are marked close-on-exec.
-		// If haveUnexpectedFDs is true then there were other
-		// descriptors open when we started the test,
+		// If mayHaveUnexpectedFDs is true then there may have
+		// been other descriptors open when we started the test,
 		// so those descriptors are clearly not close-on-exec,
 		// and they will confuse the test. We could modify
 		// the test to expect those descriptors to remain open,
