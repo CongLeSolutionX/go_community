@@ -116,6 +116,30 @@
       },
       "revId": "8b2b5b37aca741e196fce438437f10d0cea4d37b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4266c72_2e85625c",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-15T16:49:12Z",
+      "side": 1,
+      "message": "Doh, for some reason I read this as atomic.Store, not Add.",
+      "parentUuid": "c81a85e0_5f01419f",
+      "range": {
+        "startLine": 330,
+        "startChar": 51,
+        "endLine": 330,
+        "endChar": 52
+      },
+      "revId": "8b2b5b37aca741e196fce438437f10d0cea4d37b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
