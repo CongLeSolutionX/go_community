@@ -92,6 +92,30 @@
       },
       "revId": "8b2b5b37aca741e196fce438437f10d0cea4d37b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c81a85e0_5f01419f",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-11-15T15:44:44Z",
+      "side": 1,
+      "message": "pages.scav.released is just for the scavtrace output, and it gets reset every scavenge generation which is either:\n1) last span is swept\n2) debug.FreeOSMemory is called\n\nI think the accumulation here is correct, just like the accumulation into released? maybe I\u0027m missing something?",
+      "parentUuid": "1c6cbc1c_d5cc04e7",
+      "range": {
+        "startLine": 330,
+        "startChar": 51,
+        "endLine": 330,
+        "endChar": 52
+      },
+      "revId": "8b2b5b37aca741e196fce438437f10d0cea4d37b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
