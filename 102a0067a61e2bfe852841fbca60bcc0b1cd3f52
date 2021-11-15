@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a038e86_e128f13a",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-15T21:49:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bcd49b8_97711a00",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 48
+      },
+      "revId": "102a0067a61e2bfe852841fbca60bcc0b1cd3f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d92f8b4d_b16831a9",
@@ -97,6 +121,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aa79492_7b4545c2",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-15T21:49:25Z",
+      "side": 1,
+      "message": "OK, you\u0027ve convinced me to be more complete. Now we just directly perform the equivalent of fstat(2) on every FD to see if it is valid.\n\n(openbsd wasn\u0027t here because its /dev/fd seems to be a \"global\" set of \"file descriptors\" available to any process (on the builders it has ~20 entries regardless of how many FDs the process has open)).",
+      "parentUuid": "d92f8b4d_b16831a9",
+      "revId": "102a0067a61e2bfe852841fbca60bcc0b1cd3f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c7f19bf_987e77b5",
@@ -110,6 +152,30 @@
       "writtenOn": "2021-11-15T19:54:00Z",
       "side": 1,
       "message": "s/was/may have been/",
+      "range": {
+        "startLine": 594,
+        "startChar": 37,
+        "endLine": 594,
+        "endChar": 40
+      },
+      "revId": "102a0067a61e2bfe852841fbca60bcc0b1cd3f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52bc1f11_4a8df988",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-15T21:49:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1c7f19bf_987e77b5",
       "range": {
         "startLine": 594,
         "startChar": 37,
