@@ -564,6 +564,8 @@ type fuzzResponse struct {
 
 	// Count is the number of values tested.
 	Count int64
+	// Depth is the number of mutations applied to the base input.
+	Depth int64
 
 	// CoverageData is set if the value in shared memory expands coverage
 	// and therefore may be interesting to the coordinator.
@@ -661,6 +663,17 @@ func (ws *workerServer) serve(ctx context.Context) error {
 	}
 }
 
+// chainedMutations is how many mutations are applied before the worker
+// resets the input to it's original state.
+// NOTE: this number was picked without much thought. It is low enough that
+// it seems to create a significant diversity in mutated inputs. We may want
+// to consider looking into this more closely once we have a proper performance
+// testing framework. Another option is to randomly pick the number of chained
+// mutations on each invocation of the workerServer.fuzz method (this appears to
+// be what libFuzzer does, although there seems to be no documentation which
+// explains why this choice was made.)
+const chainedMutations = 5
+
 // fuzz runs the test function on random variations of the input value in shared
 // memory for a limited duration or number of iterations.
 //
@@ -692,6 +705,7 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	ws.m.r.save(&mem.header().randState, &mem.header().randInc)
 	defer func() {
 		resp.Count = mem.header().count
+		resp.Depth = resp.Count % chainedMutations
 		ws.memMu <- mem
 	}()
 	if args.Limit > 0 && mem.header().count >= args.Limit {
@@ -699,11 +713,13 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 		return resp
 	}
 
-	vals, err := unmarshalCorpusFile(mem.valueCopy())
+	originalVals, err := unmarshalCorpusFile(mem.valueCopy())
 	if err != nil {
 		resp.InternalErr = err.Error()
 		return resp
 	}
+	vals := make([]interface{}, len(originalVals))
+	copy(vals, originalVals)
 
 	shouldStop := func() bool {
 		return args.Limit > 0 && mem.header().count >= args.Limit
@@ -742,9 +758,13 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 		select {
 		case <-ctx.Done():
 			return resp
-
 		default:
+			if mem.header().count%chainedMutations == 0 {
+				copy(vals, originalVals)
+				ws.m.r.save(&mem.header().randState, &mem.header().randInc)
+			}
 			ws.m.mutate(vals, cap(mem.valueRef()))
+
 			entry := CorpusEntry{Values: vals}
 			dur, cov, errMsg := fuzzOnce(entry)
 			if errMsg != "" {
@@ -1079,7 +1099,6 @@ func (wc *workerClient) fuzz(ctx context.Context, entryIn CorpusEntry, args fuzz
 		return CorpusEntry{}, fuzzResponse{}, true, errSharedMemClosed
 	}
 	defer func() { wc.memMu <- mem }()
-	resp.Count = mem.header().count
 
 	if !bytes.Equal(inp, mem.valueRef()) {
 		return CorpusEntry{}, fuzzResponse{}, true, errors.New("workerServer.fuzz modified input")
@@ -1094,7 +1113,12 @@ func (wc *workerClient) fuzz(ctx context.Context, entryIn CorpusEntry, args fuzz
 		wc.m.r.restore(mem.header().randState, mem.header().randInc)
 		if !args.Warmup {
 			// Only mutate the valuesOut if fuzzing actually occurred.
-			for i := int64(0); i < resp.Count; i++ {
+			if callErr != nil {
+				// If the worker terminated we need to reconstruct the
+				// mutation depth from the count in the header
+				resp.Depth = mem.header().count % chainedMutations
+			}
+			for i := int64(0); i < resp.Depth; i++ {
 				wc.m.mutate(valuesOut, cap(mem.valueRef()))
 			}
 		}
