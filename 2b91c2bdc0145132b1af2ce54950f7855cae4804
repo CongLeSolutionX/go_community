@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b3b3cb0_0a960ad9",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-16T21:07:13Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this line, just the one below.",
+      "revId": "2b91c2bdc0145132b1af2ce54950f7855cae4804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
