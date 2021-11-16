@@ -72,6 +72,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17b5683d_40113e86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-16T23:13:37Z",
+      "side": 1,
+      "message": "@Cherry, is this still OK for 1.18?",
+      "revId": "ec57cfafebb0731363ea760f498554e67cf0a215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "949ddd4e_6bc1a413",
