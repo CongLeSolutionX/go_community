@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "781d3cd8_957f0e46",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-16T23:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9427ca9_aab85459",
+      "revId": "6b7c3c2a3a81c5bb00aa9ff3482b06b303af42a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20010e02_ec7992fd",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-10T09:26:21Z",
       "side": 1,
       "message": "Stable sorts data in ascending order as determined by the Less method,\nwhile keeping the original order of equal elements.",
+      "revId": "6b7c3c2a3a81c5bb00aa9ff3482b06b303af42a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2389b70a_16dc5cf1",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-16T23:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20010e02_ec7992fd",
       "revId": "6b7c3c2a3a81c5bb00aa9ff3482b06b303af42a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
