@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0c1f849_cb0e91f9",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment. \n\nI\u0027d prefer to keep the source code as a comment in the test source, since that way you have the function being compiled and expected results in the same place.",
+      "parentUuid": "be9e90e7_0ed5102c",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 2
+      },
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b69ca75_283e512f",
@@ -97,6 +121,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13956eca_411058ae",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "Ok, so noted. Will remove the setting.",
+      "parentUuid": "0b69ca75_283e512f",
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12d78fc3_d402463d",
@@ -110,6 +152,24 @@
       "writtenOn": "2021-11-15T21:45:56Z",
       "side": 1,
       "message": "(not sure) You might not need this verbosity guard at all. (Generally stderr / stdout for test binaries is hidden if they pass, and if the test fails it doesn\u0027t seem like a lot of noise.)",
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74b278a9_d02612bd",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "I would prefer to keep this. I dislike \"noisy\" tests that unconditionally dump trace output even when things are doing fine.",
+      "parentUuid": "12d78fc3_d402463d",
       "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -133,6 +193,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39c30242_b8e0d98d",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "Backoff and retry: this sounds like the sort of thing that should be in internal/testenv.  Can you share pointers to any similar existing code? Thanks.",
+      "parentUuid": "ea06e13c_b60185fc",
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a46e332b_8e6e87ec",
         "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
         "patchSetId": 3
@@ -144,6 +222,24 @@
       "writtenOn": "2021-11-15T21:18:34Z",
       "side": 1,
       "message": "I suggest deferring this until it is needed by some individual test, and then guarding it with a sync.Once.\n\n(If all of the individual tests are skipped — for example, because the don\u0027t match the `-run` regular expression — then we also shouldn\u0027t pay the latency of building the harness binary.)",
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d72eef8b_77fc01af",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "Hmm, ok. I guess it is possible that at some point in the future there maybe tests in this file that don\u0027t need the harness, so using a sync.once makes sense. I\u0027ll code that up.",
+      "parentUuid": "a46e332b_8e6e87ec",
       "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -161,6 +257,30 @@
       "writtenOn": "2021-11-15T21:18:34Z",
       "side": 1,
       "message": "Since this test downloads and builds dependencies from the network, I would also skipping this test when testenv.HasExternalNetwork is true. (Otherwise, if the user runs `go test -short cmd` it will be run, and perhaps take a long time...)",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 1
+      },
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "803dba87_3664cf84",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "afbfed8e_8fd5f47d",
       "range": {
         "startLine": 142,
         "startChar": 0,
@@ -194,6 +314,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28751066_f6e25e21",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "Good point. I\u0027ll fix that up.",
+      "parentUuid": "03a4de37_36a83b74",
+      "range": {
+        "startLine": 170,
+        "startChar": 24,
+        "endLine": 170,
+        "endChar": 31
+      },
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d28ffae3_1cbfaee2",
@@ -211,6 +355,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5496a857_fb2f9c51",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment.  For a test to work on a particular OS/ARCH pair, that pair has to be supported by Delve. Then for a given ARCH we need support for it in the harness.",
+      "parentUuid": "d28ffae3_1cbfaee2",
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3962efd2_eda35f38",
@@ -224,6 +386,30 @@
       "writtenOn": "2021-11-15T21:45:56Z",
       "side": 1,
       "message": "(nit) No need to pass the test name to helpers or repeat it in failure messages.\n\n(The test log will already include the test name before the output lines, and either way the callee can retrieve it by calling t.Name.)",
+      "range": {
+        "startLine": 238,
+        "startChar": 22,
+        "endLine": 238,
+        "endChar": 48
+      },
+      "revId": "22895a25623364aa0c2e5e0779ea0ddcc4e9adda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c03107d8_124a4f5b",
+        "filename": "src/cmd/link/internal/dwtest/dwloc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-16T21:28:15Z",
+      "side": 1,
+      "message": "OK, I have fixed this up.",
+      "parentUuid": "3962efd2_eda35f38",
       "range": {
         "startLine": 238,
         "startChar": 22,
