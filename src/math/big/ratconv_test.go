@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"reflect"
 	"strconv"
 	"strings"
 	"testing"
@@ -201,6 +202,15 @@ func TestRatSetString(t *testing.T) {
 				t.Errorf("#%d SetString(%q) got %p want nil", i, test.in, x)
 			}
 		}
+	}
+}
+
+func TestRatSetString_0(t *testing.T) {
+	got, _ := new(Rat).SetString("0") // Or set from Unmarshal{Text,JSON}.
+	want := new(Rat).SetInt64(0)
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %#+v, want %#+v", got, want)
 	}
 }
 
