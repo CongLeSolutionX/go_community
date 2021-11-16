@@ -76,6 +76,30 @@
       },
       "revId": "ff2b1e099b540c6522d38388e30d21d2d812d835",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "210a4ce2_db9aa884",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2021-11-16T17:03:54Z",
+      "side": 1,
+      "message": "Yeah, I was experimenting with randomizing the number of chained mutations, in which case the worker needs to include that information since the coordinator doesn\u0027t know how many the worker did, but for now it\u0027s probably fine to just hard code it and do away with this extra field.\n\nSide note: we communicate the count twice, we set it in the fuzzResponse in the worker, and then overwrite it in the coordinator using the count in the shared memory header. We should really just do this once.",
+      "parentUuid": "b8aa2e84_db71aca4",
+      "range": {
+        "startLine": 1119,
+        "startChar": 4,
+        "endLine": 1119,
+        "endChar": 54
+      },
+      "revId": "ff2b1e099b540c6522d38388e30d21d2d812d835",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
