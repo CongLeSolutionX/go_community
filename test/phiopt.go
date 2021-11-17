@@ -107,7 +107,7 @@ func f7and(a bool, b bool) bool {
 //go:noinline
 func f8(s string) (string, bool) {
 	neg := false
-	if s[0] == '-' {    // ERROR "converted OpPhi to Copy$"
+	if s[0] == '-' { // ERROR "converted OpPhi to Copy$"
 		neg = true
 		s = s[1:]
 	}
@@ -119,7 +119,7 @@ var d int
 //go:noinline
 func f9(a, b int) bool {
 	c := false
-	if a < 0 {          // ERROR "converted OpPhi to Copy$"
+	if a < 0 { // ERROR "converted OpPhi to Copy$"
 		if b < 0 {
 			d = d + 1
 		}

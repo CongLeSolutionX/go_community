@@ -205,7 +205,7 @@ func readFloat(s string) (mantissa uint64, exp int, neg, trunc, hex bool, i int,
 	dp := 0
 loop:
 	for ; i < len(s); i++ {
-		switch c := s[i]; true {
+		switch c := s[i]; {
 		case c == '_':
 			underscores = true
 			continue
