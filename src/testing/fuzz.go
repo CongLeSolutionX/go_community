@@ -427,8 +427,7 @@ func (r fuzzResult) String() string {
 	if r.Error == nil {
 		return s
 	}
-	s = fmt.Sprintf("%s", r.Error.Error())
-	return s
+	return r.Error.Error()
 }
 
 // fuzzCrashError is satisfied by a failing input detected while fuzzing.
