@@ -125,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "297f36ca_aa3c445a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-17T17:52:33Z",
+      "side": 1,
+      "message": "Agreed about keeping things in sync. Done in this CL.\n\nPTAL, because the types2 changes were not a direct copy (due to being out of sync).",
+      "parentUuid": "cdf44800_cef8bb6d",
+      "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "699f7b98_39dfe2e4",
@@ -138,6 +156,24 @@
       "writtenOn": "2021-11-17T16:26:46Z",
       "side": 1,
       "message": "Should this be done in lookupFieldOrMethod instead? If not, we should probably document what we expect from lookupFieldOrMethod.",
+      "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3a1c6db_35cae653",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-17T17:52:33Z",
+      "side": 1,
+      "message": "It can\u0027t be done there because we don\u0027t have check (and I don\u0027t think it\u0027s worth changing that).\n\nDocumented this at lookupFieldOrMethod.",
+      "parentUuid": "699f7b98_39dfe2e4",
       "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
