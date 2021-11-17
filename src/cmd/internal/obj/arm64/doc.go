@@ -286,11 +286,114 @@ Examples:
 Register with arrangement and register with arrangement and index.
 
 Examples:
-
 	VADD V5.H8, V18.H8, V9.H8                     <=>    add v9.8h, v18.8h, v5.8h
 	VLD1 (R2), [V21.B16]                          <=>    ld1 {v21.16b}, [x2]
-	VST1.P V9.S[1], (R16)(R21)                    <=>    st1 {v9.s}[1], [x16], x28
+	ST1.P V9.S[1], (R16)(R21)                     <=>    st1 {v9.s}[1], [x16], x21
 	VST1.P [V13.H8, V14.H8, V15.H8], (R3)(R14)    <=>    st1 {v13.8h-v15.8h}, [x3], x14
 	VST1.P [V14.D1, V15.D1], (R7)(R23)            <=>    st1 {v14.1d, v15.1d}, [x7], x23
+
+The following mapping rules are specific to the SVE instructions.
+
+Note that VL in the SVE instructions is the current vector register size in bits, which is a
+multiple of 128 from 128 to 2048, inclusive. VL is required in the assembly codes. The pattern VL*imm
+follows the idea in ARM Architecture Reference Manual, which provides better understanding
+of the instructions.
+
+
+#Mnemonics mapping rules
+
+1. If one of the operands is scalable vector register Zn, add a "Z" prefix to opcode.
+
+Examples:
+	ZANDVB <Zn>.<T>, <Pg>, <Vd>               <=>    andv <Bd>, <Pg>, <Zn>.<T>
+	ZANDVS <Zn>.<T>, <Pg>, <Vd>               <=>    andv <Sd>, <Pg>, <Zn>.<T>
+	ZCLASTAW  <Zm>.<T>, <Rdn>, <Pg>, <Rdn>    <=>    clasta <Wdn>, <Pg>, <Wdn>, <Zm>.<T>
+	ZREV  <Zn>.<T>, <Zd>.<T>                  <=>    rev <Zd>.<T>, <Zn>.<T>
+
+2. If the operands only contain basic registers and scalable predicate registers Pn or only contain scalable
+predicate registers Pn, add a "P" prefix to opcode.
+
+Examples:
+	PDECP <Pg>.<T>, <Rdn>                    <=>    decp <Xdn>, <Pg>.<T>
+	PBICS  <Pm>.B, <Pn>.B, <Pg>/Z, <Pd>.B    <=>    bics <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+	PREV <Pn>.<T>, <Pd>.<T>                  <=>    rev <Pd>.<T>, <Pn>.<T>
+
+3. Name the opcode of Load/Store vector register instruction as ZMOV, and name the opcode of
+Load/Store predicate register instruction as PMOV.
+
+Example:
+	ZMOV <Zt>, (VL*imm)(Rn|RSP)    <=>    str <Zt>, [<Xn|SP>{, #<imm>, mul vl}]
+	PMOV (VL*imm)(Rn|RSP), <Pt>    <=>    ldr <Pt>, [<Xn|SP>{, #<imm>, mul vl}]
+
+4. Special Cases.
+
+(1). For WHILELE, WHILELO, WHILELS and WHILELT instructions, only the width of the basic register is
+added as the suffix of the opcode.
+
+Examples:
+	WHILELE <Rm>, <Rn>, <Pd>.<T>     <=>    whilele <Pd>.<T>, <Xn>, <Xm>
+	WHILELO <Rm>, <Rn>, <Pd>.<T>     <=>    whilelo <Pd>.<T>, <Xn>, <Xm>
+	WHILELSW <Rm>, <Rn>, <Pd>.<T>    <=>    whilels <Pd>.<T>, <Wn>, <Wm>
+	WHILELTW <Rm>, <Rn>, <Pd>.<T>    <=>    whilelt <Pd>.<T>, <Wn>, <Wm>
+
+(2). For instructions like PTRUE, PFALSE and PNEXT, whose opcodes start with "P", keep the opcode unchanged.
+
+Examples:
+	PTEST <Pn>.B, <Pg>    <=>    ptest <Pg>, <Pn>.B
+	PFALSE <Pd>.B         <=>    pfalse <Pd>.B
+
+#Argument mapping rules
+
+1. Name the zeroing predicate <Pg>/Z as <Pg>.Z, and name the merging predication <Pg>/M as <Pg>.M.
+
+2. Treat the optional pattern specifier <pattern> as a separate operand. The <pattern> is the optional pattern specifier, defaulting to ALL. It can be POW2, VL1, VL2, VL3, VL4, VL6, VL7, VL8, VL16, VL32, VL64, VL128, VL256, MUL4, MUL3 or ALL. 
+
+The gnu argument "<Xdn>{, <pattern>{, mul #<imm>}}" mapping to go syntax is "{{$<imm>, }<pattern>, }<Rdn>".
+
+Examples:
+	INCB $3, VL4, R1          <=>    incb x1, vl4, mul #3
+	INCH VL1, R1              <=>    inch x1, vl1
+	INCH $2, ALL, R1          <=>    inch x1, all, mul #2
+	INCB R1                   <=>    incb, x1
+	ZUQDECD $12, VL1, Z2.D    <=>    uqdecd z2.d, vl1, mul #12
+	PTRUE VL1, P1.B           <=>    ptrue p1.b, vl1
+	PTRUE P1.B                <=>    ptrue p1.b
+
+3. Addressing mode.
+
+(1). Scalar plus immediate: (VL*imm)(Rn|RSP).
+
+Examples:
+	ZLD1D (VL*imm)(Rn|RSP), <Pg>.Z, <Zt>.D    <=>    ld1d { <Zt>.D }, <Pg>/Z, [<Xn|SP>{, #<imm>, mul vl}]
+	ZST1W <Zt>.D, <Pg>, (VL*imm)(Rn|RSP)      <=>    st1w { <Zt>.<T> }, <Pg>, [<Xn|SP>{, #<imm>, mul vl}]
+
+(2). Scalar plus vector, e.g., (<Zm>.D)(Rn|RSP), (<Zm>.S.<mod>)(Rn|RSP), (<Zm>.D<<3)(Rn|RSP) and (<Zm>.D.<mod><<3)(Rn|RSP), the <mod> can be UXTW and SXTW.
+
+Examples:
+	ZST1D <Zt>.D, <Pg>, (<Zm>.D<<3)(Rn|RSP)         <=>    st1d { <Zt>.D }, <Pg>, [<Xn|SP>, <Zm>.D, lsl #3]
+	ZST1D <Zt>.D, <Pg>, (<Zm>.D.UXTW<<3)(Rn|RSP)    <=>    st1d { <Zt>.D }, <Pg>, [<Xn|SP>, <Zm>.D, uxtw #3]
+	ZLD1B (<Zm.D>.UXTW)(Rn|RSP), <Pg>.Z, <Zt>.D     <=>    ld1b { <Zt>.D }, <Pg>/Z, [<Xn|SP>, <Zm>.D, uxtw]
+	ZLD1B (<Zm.D>)(Rn|RSP), <Pg>.Z, <Zt>.D          <=>    ld1b { <Zt>.D }, <Pg>/Z, [<Xn|SP>, <Zm>.D]
+
+(3). Vector plus immediate: imm(<Zn>.D) and imm(<Zn>.S)
+
+Examples:
+	ZLD1B imm(Zn.S), <Pg>.Z, <Zt>.S    <=>    ld1b {<Zt>.S}, <Pg>/Z, [<Zn>.S{, #<imm>}]
+	ZST1H <Zt>.D, <Pg>, imm(<Zn>.D)    <=>    st1h { <Zt>.D }, <Pg>, [<Zn>.D{, #<imm>}]
+
+(4). Scalable vector plus scalable vector with extension: (<Zm>.T<<<amount>)(<Zn>.T), (<Zm>.D.SXTW<<<amount>)(<Zn>.D) and (<Zm>.D.UXTW<<<amout>)(<Zn>.D).
+
+Examples:
+	ZADR (Z1.S)(Z2.S), Z3.S            <=>    adr z3.s, [z2.s, z1.s]
+	ZADR (Z1.S<<2)(Z2.S), Z3.S         <=>    adr z3.s, [z2.s, z1.s, lsl #2]
+	ZADR (Z1.D<<1)(Z2.D), Z3.D         <=>    adr z3.d, [z2.d, z1.d, lsl #1]
+	ZADR (Z1.D.UXTW)(Z2.D), Z3.D       <=>    adr z3.d, [z2.d, z1.d, uxtw]
+	ZADR (Z1.D.SXTW<<1)(Z2.D), Z3.D    <=>    adr z3.d, [z2.d, z1.d, sxtw #1]
+
+(5). Scalable vector plus scalar: (Rm)(<Zn>.D) and (Rm)(<Zn>.S).
+
+Examples:
+	ZLDNT1B (Rm)(<Zn>.D), <Pg>.Z, <Zt>.D    <=>    ldnt1b {<Zt>.D}, <Pg>/Z, [<Zn>.D{, <Xm>}]
+	ZSTNT1H <Zt>.S, <Pg>, (Rm)(<Zn>.S)      <=>    stnt1h { <Zt>.S }, <Pg>, [<Zn>.S{, <Xm>}]
 */
 package arm64
