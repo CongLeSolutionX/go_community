@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "778261b4_71b85945",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 27381
+      },
+      "writtenOn": "2021-11-17T05:48:23Z",
+      "side": 1,
+      "message": "Some other places use the same way and I just try to keep them consistent.",
+      "parentUuid": "d91cc383_67ce042f",
+      "revId": "96285999ec0364676a036e8b3138ebd8cc7b053d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f83779de_747f6896",
         "filename": "src/text/tabwriter/tabwriter.go",
         "patchSetId": 1
