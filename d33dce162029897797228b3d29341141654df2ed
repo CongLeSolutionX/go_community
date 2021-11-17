@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "277f5096_36c4f011",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-17T21:06:33Z",
+      "side": 1,
+      "message": "CL merged into CL 362999. PTAL there.",
+      "revId": "d33dce162029897797228b3d29341141654df2ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "653a3eee_b0a4f64d",
@@ -70,6 +87,24 @@
       "writtenOn": "2021-11-13T00:07:11Z",
       "side": 1,
       "message": "This seems circular.  This is the first time we\u0027ve mentioned a \"receiver.\"",
+      "revId": "d33dce162029897797228b3d29341141654df2ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80473377_0076de6e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-17T21:06:33Z",
+      "side": 1,
+      "message": "This is not a definition of what a method set it, it\u0027s an explanation of what a method set means. The definition is below.\n\nSlightly rephrased and reformatted.",
+      "parentUuid": "653a3eee_b0a4f64d",
       "revId": "d33dce162029897797228b3d29341141654df2ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -91,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bbc2f89_a24db117",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-17T21:06:33Z",
+      "side": 1,
+      "message": "I think the interface section doesn\u0027t conflict with this anymore.",
+      "parentUuid": "037e6a10_3d349792",
+      "revId": "d33dce162029897797228b3d29341141654df2ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45aa6d99_07923950",
@@ -104,6 +157,24 @@
       "writtenOn": "2021-11-13T00:07:11Z",
       "side": 1,
       "message": "I think this is now the first time the spec mentions a \"defined type\".  It should probably link to \"Type definitions.\"",
+      "revId": "d33dce162029897797228b3d29341141654df2ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cc9c5ca_76a67f29",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-17T21:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45aa6d99_07923950",
       "revId": "d33dce162029897797228b3d29341141654df2ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
