@@ -128,8 +128,7 @@ func cos(x float64) float64 {
 		PI4C = 2.69515142907905952645e-15 // 0x3ce8469898cc5170,
 	)
 	// special cases
-	switch {
-	case IsNaN(x) || IsInf(x, 0):
+	if IsNaN(x) || IsInf(x, 0) {
 		return NaN()
 	}
 
