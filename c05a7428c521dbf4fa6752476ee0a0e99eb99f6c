@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a57bb45_9f29273c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-17T21:37:32Z",
+      "side": 1,
+      "message": "Thanks, waiting for 1.19.",
+      "revId": "c05a7428c521dbf4fa6752476ee0a0e99eb99f6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
