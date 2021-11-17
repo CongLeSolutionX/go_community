@@ -127,6 +127,24 @@
       "parentUuid": "dd301512_d665eca6",
       "revId": "21f12407ac980a1da232f5839851f08b99874dba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c522864_95540045",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-17T18:13:41Z",
+      "side": 1,
+      "message": "Think I found it: see the next patch set in the preceding CL. It was rather more complicated than a missing check, because we handle untyped nil quite differently.\n\nI expect the x/tools Trybot may still fail, in which case I\u0027ll fix.",
+      "parentUuid": "f92c7354_ac89a3f1",
+      "revId": "21f12407ac980a1da232f5839851f08b99874dba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
