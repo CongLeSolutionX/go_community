@@ -16,6 +16,24 @@
       "message": "You don\u0027t need to change this line, just the one below.",
       "revId": "2b91c2bdc0145132b1af2ce54950f7855cae4804",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb57b7ce_c8a35e27",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 54403
+      },
+      "writtenOn": "2021-11-17T10:22:41Z",
+      "side": 1,
+      "message": "Sorry, but then it will be impossible to reuse ctx.Done() value later in WaitWrite err clause?",
+      "parentUuid": "2b3b3cb0_0a960ad9",
+      "revId": "2b91c2bdc0145132b1af2ce54950f7855cae4804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
