@@ -161,7 +161,7 @@ func (d *tparamsList) index(typ Type) int {
 // If tpar is a type parameter in list, tparamIndex returns the type parameter index.
 // Otherwise, the result is < 0. tpar must not be nil.
 func tparamIndex(list []*TypeParam, tpar *TypeParam) int {
-	if i := tpar.index; i < len(list) && list[i] == tpar {
+	if i := tpar.index; 0 <= i && i < len(list) && list[i] == tpar {
 		return i
 	}
 	return -1
