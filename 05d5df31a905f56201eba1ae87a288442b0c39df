@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccbdf70c_1e49296a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-17T16:26:19Z",
+      "side": 1,
+      "message": "By convention, we mark \u0027Fixed\u0027 with the first CL. We have a separate mechanism (a huge document) that tracks ports.\n\nIn this case, I expect the fix will be ported quickly, since types2 is now caught up to go/types.",
+      "parentUuid": "8f396359_1a42487e",
+      "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52a2b153_b9c804f5",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-11-17T16:20:57Z",
       "side": 1,
       "message": "Looks good, thanks for fixing that bug!\n\nYou\u0027re probably on top of it, but just in case:  the port for https://go-review.googlesource.com/c/go/+/363437 is not in this stack, even though my first (bigger) change to improve the compiler error messages is in the stack.  You may want to add that to the stack too (or maybe you\u0027re purposely leaving it out?).",
+      "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ae42309_d24b2c46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-17T16:26:19Z",
+      "side": 1,
+      "message": "Yep, we\u0027ve got that CL tracked!",
+      "parentUuid": "3cdab7d5_3c9b141b",
       "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
