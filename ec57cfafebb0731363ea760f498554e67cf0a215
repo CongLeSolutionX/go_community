@@ -114,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5888a627_39bcf2ed",
+        "filename": "src/crypto/cipher/fuzz_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-11-17T13:57:25Z",
+      "side": 1,
+      "message": "I think that should be decided by those who support those targets.",
+      "parentUuid": "949ddd4e_6bc1a413",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "ec57cfafebb0731363ea760f498554e67cf0a215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a265341_f60329ae",
         "filename": "src/crypto/cipher/fuzz_test.go",
         "patchSetId": 13
@@ -125,6 +149,30 @@
       "writtenOn": "2021-11-11T16:16:42Z",
       "side": 1,
       "message": "This should also indicate it was the encryption which failed. Similarly for the decryption below.",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 26
+      },
+      "revId": "ec57cfafebb0731363ea760f498554e67cf0a215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4913214_73a5fc48",
+        "filename": "src/crypto/cipher/fuzz_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2021-11-17T13:57:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0a265341_f60329ae",
       "range": {
         "startLine": 72,
         "startChar": 14,
