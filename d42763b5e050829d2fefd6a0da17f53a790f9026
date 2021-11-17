@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a917bf83_6f0882e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2021-11-17T14:56:17Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure who can be dded to Reviewers here.\nhttps://dev.golang.org/owners states Russ Cox, but I have a hunch that it\u0027s outdated. I\u0027ll figure this out after the development freeze, I guess.",
+      "revId": "d42763b5e050829d2fefd6a0da17f53a790f9026",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
