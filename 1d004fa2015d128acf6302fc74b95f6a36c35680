@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0a14645_518a8b17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2021-11-17T12:17:35Z",
+      "side": 1,
+      "message": "Thanks for fixing that up, forgot about the G\u003d0 case. Appreciate it.",
+      "revId": "1d004fa2015d128acf6302fc74b95f6a36c35680",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
