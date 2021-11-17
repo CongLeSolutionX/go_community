@@ -34,6 +34,24 @@
       "parentUuid": "2b3b3cb0_0a960ad9",
       "revId": "2b91c2bdc0145132b1af2ce54950f7855cae4804",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cadc06d1_68fc285b",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-17T21:40:38Z",
+      "side": 1,
+      "message": "Oh, sorry, you\u0027re right.  I misread the code.",
+      "parentUuid": "fb57b7ce_c8a35e27",
+      "revId": "2b91c2bdc0145132b1af2ce54950f7855cae4804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
