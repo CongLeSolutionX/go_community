@@ -106,6 +106,40 @@
       "parentUuid": "3cdab7d5_3c9b141b",
       "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdf44800_cef8bb6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-17T16:26:46Z",
+      "side": 1,
+      "message": "Also, can you do the same fix in types2 in this CL so it actually fixes the bug for the compiler?\n\n(Once we\u0027re done with the ports, I think we need to start making changes in sync in go/types and types2 to avoid further large discrepancies, at least while we\u0027re in the freeze. It still can be 2 separate CLs for ease of making the change and reviewing, but we should keep in lock-step.)",
+      "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "699f7b98_39dfe2e4",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-17T16:26:46Z",
+      "side": 1,
+      "message": "Should this be done in lookupFieldOrMethod instead? If not, we should probably document what we expect from lookupFieldOrMethod.",
+      "revId": "05d5df31a905f56201eba1ae87a288442b0c39df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
