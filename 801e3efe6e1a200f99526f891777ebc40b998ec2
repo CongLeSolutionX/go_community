@@ -70,6 +70,24 @@
       "parentUuid": "5097be9c_13437466",
       "revId": "801e3efe6e1a200f99526f891777ebc40b998ec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c47feed_cc4707ee",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2021-11-18T13:03:21Z",
+      "side": 1,
+      "message": "I launched an internal discussion again and reached an agreement to delete softfloat. Thanks!\nDone! PTAL",
+      "parentUuid": "1eb1236d_7d00c087",
+      "revId": "801e3efe6e1a200f99526f891777ebc40b998ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
