@@ -53,6 +53,47 @@
       "message": "Doesn\u0027t this slow down \"go test\" slightly in those situations? Before, we could compile \"foo\" concurrently to \"foo [foo.test]\", but now they must be compiled in sequence, one after the other.\n\nIdeally, I would imagine that we would continue to compile both packages concurrently, and only show errors from \"foo [foo.test]\" if \"foo\" had zero errors. I\u0027m not sure how difficult that would be to do in the internals of cmd/go, though.",
       "revId": "81d9b7a0a9b5231794c2a1f2b53b59cb0383cdf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cb2da73_f5a6f749",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-18T21:21:30Z",
+      "side": 1,
+      "message": "This can theoretically slow down the build, but probably not by much (especially if the package itself is already cached) — and it saves some doomed work (and thus CPU heat and battery) if the build fails.",
+      "parentUuid": "2565fccf_e019e84b",
+      "revId": "81d9b7a0a9b5231794c2a1f2b53b59cb0383cdf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a4ef31d_b126c445",
+        "filename": "src/cmd/go/testdata/script/build_single_error.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-18T21:21:30Z",
+      "side": 1,
+      "message": "This flag should probably emit to $WORK/graph instead of /tmp/graph (to avoid races, and to avoid spurious output if /tmp itself or /tmp/graph in particular is not writable, such as on Windows).\n\nOr, can it be dropped entirely?",
+      "range": {
+        "startLine": 2,
+        "startChar": 10,
+        "endLine": 2,
+        "endChar": 39
+      },
+      "revId": "81d9b7a0a9b5231794c2a1f2b53b59cb0383cdf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
