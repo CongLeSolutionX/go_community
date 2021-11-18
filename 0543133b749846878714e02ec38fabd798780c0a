@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78e71538_28abfed7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2021-11-18T11:08:51Z",
+      "side": 1,
+      "message": "Commercial hardware with SVE feature support may be released next year. Considering that users will want to add SVE assembly support for optimization, we hope to predefine the assembly syntax so that users can have clear and consistent patterns. Thank you.",
+      "revId": "0543133b749846878714e02ec38fabd798780c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
