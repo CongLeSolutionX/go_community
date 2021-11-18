@@ -34,6 +34,24 @@
       "message": "nit: use reflect.StringHeader instead?",
       "revId": "833e43575c56de3d6619cea9b2c61fe24ca6f5fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c87649b2_c6708bf5",
+        "filename": "test/fixedbugs/issue8606b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-11-18T00:28:54Z",
+      "side": 1,
+      "message": "It has the annoying uintptr instead of a real pointer as its data field.\nWeren\u0027t we going to an an unsafe.StringHeader or something at some point?",
+      "parentUuid": "0060c8c8_71ee219a",
+      "revId": "833e43575c56de3d6619cea9b2c61fe24ca6f5fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
