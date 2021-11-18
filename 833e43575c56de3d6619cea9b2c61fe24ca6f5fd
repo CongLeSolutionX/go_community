@@ -52,6 +52,24 @@
       "parentUuid": "0060c8c8_71ee219a",
       "revId": "833e43575c56de3d6619cea9b2c61fe24ca6f5fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fcaf410_106621cc",
+        "filename": "test/fixedbugs/issue8606b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-11-18T00:32:23Z",
+      "side": 1,
+      "message": "\u003e It has the annoying uintptr instead of a real pointer as its data field.\n\nTrue, but `xxx.Data \u003d uintptr(unsafe.Pointer(\u0026b[0]))` should work fine.\n\n\u003e Weren\u0027t we going to an an unsafe.StringHeader or something at some point?\n\nProposal #19367 was trimmed down to just the unsafe.Slice builtin function.",
+      "parentUuid": "c87649b2_c6708bf5",
+      "revId": "833e43575c56de3d6619cea9b2c61fe24ca6f5fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
