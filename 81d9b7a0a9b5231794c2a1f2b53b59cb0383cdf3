@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "857ecec6_03b6e52e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-11-18T21:25:55Z",
+      "side": 1,
+      "message": "Fair point. I guess one can argue either way, and what this CL does is better in terms of not duplicating output by design.",
+      "parentUuid": "2cb2da73_f5a6f749",
+      "revId": "81d9b7a0a9b5231794c2a1f2b53b59cb0383cdf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a4ef31d_b126c445",
