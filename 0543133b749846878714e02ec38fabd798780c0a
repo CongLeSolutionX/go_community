@@ -16,6 +16,132 @@
       "message": "Commercial hardware with SVE feature support may be released next year. Considering that users will want to add SVE assembly support for optimization, we hope to predefine the assembly syntax so that users can have clear and consistent patterns. Thank you.",
       "revId": "0543133b749846878714e02ec38fabd798780c0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f7f88f9_ee5e8aac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-18T16:53:56Z",
+      "side": 1,
+      "message": "The syntax looks okay overall. Thanks.\n\nR\u003dgo1.19",
+      "revId": "0543133b749846878714e02ec38fabd798780c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "691c4131_ebb16a59",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-18T16:53:56Z",
+      "side": 1,
+      "message": "Remove quotes, just use words. Most of this doc doesn\u0027t quote things like this.",
+      "range": {
+        "startLine": 293,
+        "startChar": 22,
+        "endLine": 293,
+        "endChar": 50
+      },
+      "revId": "0543133b749846878714e02ec38fabd798780c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7db44e24_c344a885",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-18T16:53:56Z",
+      "side": 1,
+      "message": "Is this literally \"VL\"? What does it stand for? Maybe it needs an explanation somewhere.",
+      "range": {
+        "startLine": 297,
+        "startChar": 16,
+        "endLine": 297,
+        "endChar": 18
+      },
+      "revId": "0543133b749846878714e02ec38fabd798780c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "004e49ec_c7cb61ec",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-18T16:53:56Z",
+      "side": 1,
+      "message": "What is a pattern? What does it look like?",
+      "range": {
+        "startLine": 322,
+        "startChar": 41,
+        "endLine": 322,
+        "endChar": 50
+      },
+      "revId": "0543133b749846878714e02ec38fabd798780c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c1d9380_2df4e7ff",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-18T16:53:56Z",
+      "side": 1,
+      "message": "Does all the A plus B below mean a memory location at address A+B, or just plainly adding two numbers? The syntax below makes sense if it is a memory location.",
+      "revId": "0543133b749846878714e02ec38fabd798780c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "231c9347_e521dd76",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-18T16:53:56Z",
+      "side": 1,
+      "message": "In this doc GNU syntax usually use lowercase. Can this be lowercase? Also MUL in a few other places.",
+      "range": {
+        "startLine": 347,
+        "startChar": 100,
+        "endLine": 347,
+        "endChar": 103
+      },
+      "revId": "0543133b749846878714e02ec38fabd798780c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
