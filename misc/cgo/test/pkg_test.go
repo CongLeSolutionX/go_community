@@ -5,6 +5,8 @@
 package cgotest
 
 import (
+	"bufio"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -59,10 +61,32 @@ func TestCrossPackageTests(t *testing.T) {
 	}
 	cmd.Dir = modRoot
 	cmd.Env = append(os.Environ(), "GOPATH="+GOPATH, "PWD="+cmd.Dir)
-	out, err := cmd.CombinedOutput()
-	if err == nil {
-		t.Logf("%s:\n%s", strings.Join(cmd.Args, " "), out)
+
+	// Display output as it arrives when running verbosely to simplify debugging.
+	if testing.Verbose() {
+		t.Logf("%s:\n", strings.Join(cmd.Args, " "))
+		rdrfunc := func(rdr io.ReadCloser, err error) {
+			if err != nil {
+				t.Fatalf("Failed to open pipe %v", err)
+				return
+			}
+			defer rdr.Close()
+			for s := bufio.NewScanner(rdr); s.Scan(); {
+				t.Logf("%s\n", s.Text())
+			}
+		}
+		go rdrfunc(cmd.StdoutPipe())
+		go rdrfunc(cmd.StderrPipe())
+		err = cmd.Run()
+		if err != nil {
+			t.Fatalf("%s: %s\n", strings.Join(cmd.Args, " "), err)
+		}
 	} else {
-		t.Fatalf("%s: %s\n%s", strings.Join(cmd.Args, " "), err, out)
+		out, err := cmd.CombinedOutput()
+		if err == nil {
+			t.Logf("%s:\n%s", strings.Join(cmd.Args, " "), out)
+		} else {
+			t.Fatalf("%s: %s\n%s", strings.Join(cmd.Args, " "), err, out)
+		}
 	}
 }
