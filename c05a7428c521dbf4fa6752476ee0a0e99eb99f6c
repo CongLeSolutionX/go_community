@@ -70,6 +70,24 @@
       "message": "Don\u0027t change this. The switch mirrors the structure of sin below, and the \"special cases\" comment makes less sense attached to an if than to a switch.",
       "revId": "c05a7428c521dbf4fa6752476ee0a0e99eb99f6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ebbd4a7_d931a569",
+        "filename": "src/math/sin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 27381
+      },
+      "writtenOn": "2021-11-19T02:53:17Z",
+      "side": 1,
+      "message": "It uses if clause in asinh. Should I change them all to switch?",
+      "parentUuid": "737058c6_20f9f94e",
+      "revId": "c05a7428c521dbf4fa6752476ee0a0e99eb99f6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
