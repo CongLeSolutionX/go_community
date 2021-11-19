@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure what you mean by \"if called by nil\".  If you mean that you have a value whose type is reflect.Type and whose value is nil, and you call the Kind method, that it will panic, that is true of many of the methods in reflect.Type.  It does not need to be specially called out in the documentation of the Kind method.",
       "revId": "689f564830937bd99737601c754af1c010c652ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "652bc069_a1547bc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53264
+      },
+      "writtenOn": "2021-11-19T06:40:51Z",
+      "side": 1,
+      "message": "Yes, I mean a variable whose Type is nil, then call the Type.Kind() will panic.\nThe doc can be updated as \"If called by nil Type, will panic.\".\nBecause Kind method is called with high frequency, it would be more clear if noted in the doc.\n\nHope you agree on this, thanks.",
+      "parentUuid": "f6957447_2ba00e91",
+      "revId": "689f564830937bd99737601c754af1c010c652ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
