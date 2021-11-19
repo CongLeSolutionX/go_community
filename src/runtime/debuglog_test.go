@@ -34,6 +34,7 @@ import (
 )
 
 func skipDebugLog(t *testing.T) {
+	t.Skip("debug log in use")
 	if !runtime.DlogEnabled {
 		t.Skip("debug log disabled (rebuild with -tags debuglog)")
 	}

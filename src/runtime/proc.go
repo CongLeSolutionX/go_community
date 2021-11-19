@@ -5768,11 +5768,13 @@ func updateTimerPMask(pp *p) {
 	// Looks like there are no timers, however another P may transiently
 	// decrement numTimers when handling a timerModified timer in
 	// checkTimers. We must take timersLock to serialize with these changes.
+	getg().m.loglocks++
 	lock(&pp.timersLock)
 	if atomic.Load(&pp.numTimers) == 0 {
 		timerpMask.clear(pp.id)
 	}
 	unlock(&pp.timersLock)
+	getg().m.loglocks--
 }
 
 // pidleput puts p to on the _Pidle list.

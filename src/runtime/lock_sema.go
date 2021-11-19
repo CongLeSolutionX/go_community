@@ -45,6 +45,15 @@ func lock2(l *mutex) {
 
 	// Speculative grab for lock.
 	if atomic.Casuintptr(&l.key, 0, locked) {
+		if gp.m.loglocks > 0 {
+			d := dlog()
+			if d != nil {
+				d.s("lock2 cas")
+				d.p(&l.key)
+				d.s(" -> locked")
+				d.end()
+			}
+		}
 		return
 	}
 	semacreate(gp.m)
@@ -58,9 +67,29 @@ func lock2(l *mutex) {
 Loop:
 	for i := 0; ; i++ {
 		v := atomic.Loaduintptr(&l.key)
+		if gp.m.loglocks > 0 {
+			d := dlog()
+			if d != nil {
+				d.s("lock2 load")
+				d.p(&l.key)
+				d.s(" -> ")
+				d.hex(uint64(v))
+				d.end()
+			}
+		}
 		if v&locked == 0 {
 			// Unlocked. Try to lock.
 			if atomic.Casuintptr(&l.key, v, v|locked) {
+				if gp.m.loglocks > 0 {
+					d := dlog()
+					if d != nil {
+						d.s("lock2 cas")
+						d.p(&l.key)
+						d.s(" -> ")
+						d.hex(uint64(v|locked))
+						d.end()
+					}
+				}
 				return
 			}
 			i = 0
@@ -77,9 +106,29 @@ Loop:
 			for {
 				gp.m.nextwaitm = muintptr(v &^ locked)
 				if atomic.Casuintptr(&l.key, v, uintptr(unsafe.Pointer(gp.m))|locked) {
+					if gp.m.loglocks > 0 {
+						d := dlog()
+						if d != nil {
+							d.s("lock2 cas")
+							d.p(&l.key)
+							d.s(" -> ")
+							d.hex(uint64(uintptr(unsafe.Pointer(gp.m))|locked))
+							d.end()
+						}
+					}
 					break
 				}
 				v = atomic.Loaduintptr(&l.key)
+				if gp.m.loglocks > 0 {
+					d := dlog()
+					if d != nil {
+						d.s("lock2 reload")
+						d.p(&l.key)
+						d.s(" -> ")
+						d.hex(uint64(v))
+						d.end()
+					}
+				}
 				if v&locked == 0 {
 					continue Loop
 				}
@@ -101,18 +150,63 @@ func unlock(l *mutex) {
 // We might not be holding a p in this code.
 func unlock2(l *mutex) {
 	gp := getg()
+
+	if gp.m.locks-1 < 0 {
+		println("lock count", gp.m.locks)
+		throw("runtime·unlock: lock count")
+	}
+
 	var mp *m
 	for {
 		v := atomic.Loaduintptr(&l.key)
+		if gp.m.loglocks > 0 {
+			d := dlog()
+			if d != nil {
+				d.s("unlock2 load")
+				d.p(&l.key)
+				d.s(" -> ")
+				d.hex(uint64(v))
+				d.end()
+			}
+		}
 		if v == locked {
 			if atomic.Casuintptr(&l.key, locked, 0) {
+				if gp.m.loglocks > 0 {
+					d := dlog()
+					if d != nil {
+						d.s("unlock2 cas")
+						d.p(&l.key)
+						d.s(" -> 0")
+						d.end()
+					}
+				}
 				break
 			}
 		} else {
 			// Other M's are waiting for the lock.
 			// Dequeue an M.
 			mp = muintptr(v &^ locked).ptr()
+			if mp == nil {
+				d := dlog()
+				if d != nil {
+					d.s("unlock2 crashing")
+					d.end()
+				}
+				println("nil mp in lock word", v, "key", &l.key)
+				println("gp", gp, "gp.m", gp.m, "gp.m.locks", gp.m.locks)
+				throw("bad unlock2 waiter")
+			}
 			if atomic.Casuintptr(&l.key, v, uintptr(mp.nextwaitm)) {
+				if gp.m.loglocks > 0 {
+					d := dlog()
+					if d != nil {
+						d.s("unlock2 cas")
+						d.p(&l.key)
+						d.s(" ->")
+						d.hex(uint64(mp.nextwaitm))
+						d.end()
+					}
+				}
 				// Dequeued an M.  Wake it.
 				semawakeup(mp)
 				break
