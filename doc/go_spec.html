@@ -829,6 +829,18 @@ underlying type of its <a href="#Type_constraints">type constraint</a>, which
 is always an interface.
 </p>
 
+<h3 id="Structural_types">Structural types</h3>
+
+<p>
+A type <code>T</code> may have a <i>structural type</i>: Except for type
+parameters, the structural type of <code>T</code> is identical to its
+<a href="#Underlying_types">underlying type</a> which always exists.
+If <code>T</code> is a <a href="#Type_parameters">type parameter</a>,
+it has a structural type if 
+its structural type <code>U</code> exists if <code>U</code> is the
+underlying 
+</p>
+
 <pre>
 type (
 	A1 = string
@@ -1268,7 +1280,6 @@ func(a, b int, z float64, opt ...interface{}) (success bool)
 func(int, int, float64) (float64, *[]int)
 func(n int) func(p *T)
 </pre>
-
 
 <h3 id="Interface_types">Interface types</h3>
 
@@ -1836,7 +1847,6 @@ created by distinct <a href="#Type_definitions">type definitions</a>;
 are different because <code>B0</code> is different from <code>[]string</code>.
 </p>
 
-
 <h3 id="Assignability">Assignability</h3>
 
 <p>
@@ -1928,6 +1938,22 @@ x                   T           x is not representable by a value of T because
 1e1000              float64     1e1000 overflows to IEEE +Inf after rounding
 </pre>
 
+<h3 id="Structure_of_interfaces">Structure of interfaces</h3>
+
+<p>
+An interface <code>T</code> is called <i>structural</i> if
+</p>
+
+<ul>
+<li>
+there is a single type which is the underlying type of all types in the type set of
+<code>T</code>; or
+</li>
+<li>
+the type set of <code>T</code> contains only channel types with identical element
+types, and all directed channels have the same direction.
+</li>
+</ul>
 
 <h2 id="Blocks">Blocks</h2>
 
