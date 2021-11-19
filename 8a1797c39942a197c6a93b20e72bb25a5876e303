@@ -63,6 +63,54 @@
       },
       "revId": "8a1797c39942a197c6a93b20e72bb25a5876e303",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4f42060_5088b085",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-11-19T21:29:44Z",
+      "side": 1,
+      "message": "fixed.",
+      "parentUuid": "724d300e_7e0f05f8",
+      "range": {
+        "startLine": 256,
+        "startChar": 1,
+        "endLine": 256,
+        "endChar": 4
+      },
+      "revId": "8a1797c39942a197c6a93b20e72bb25a5876e303",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d3a0e4_f3c78ae9",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-11-19T21:29:44Z",
+      "side": 1,
+      "message": "SGTM!",
+      "parentUuid": "e115c89c_9874e7c1",
+      "range": {
+        "startLine": 256,
+        "startChar": 50,
+        "endLine": 256,
+        "endChar": 63
+      },
+      "revId": "8a1797c39942a197c6a93b20e72bb25a5876e303",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
