@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dddd9fc7_dca218ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2021-11-19T10:59:04Z",
+      "side": 1,
+      "message": "Added a few more cases for the auto-close test since it can have different nextToken values.\n\nRemoved \"TODO add error testing\" since this CL adds uncovered error path tests.",
+      "revId": "40ad9d35e0102d0698cca06402a86ee261751683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
