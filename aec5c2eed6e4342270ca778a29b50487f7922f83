@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "528f09c2_36369716",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-19T23:10:59Z",
+      "side": 1,
+      "message": "This should be /pkg/strings/#Trim since this entry is about the strings package.\n\nThere is also an existing open CL 363840 that set out to document these changes, so if that CL is rebased, it can take care of fixing this.",
+      "range": {
+        "startLine": 398,
+        "startChar": 20,
+        "endLine": 398,
+        "endChar": 25
+      },
+      "revId": "aec5c2eed6e4342270ca778a29b50487f7922f83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
