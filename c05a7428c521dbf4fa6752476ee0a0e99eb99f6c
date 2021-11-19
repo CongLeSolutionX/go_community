@@ -106,6 +106,24 @@
       "parentUuid": "5ebbd4a7_d931a569",
       "revId": "c05a7428c521dbf4fa6752476ee0a0e99eb99f6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb36180_c081fc6d",
+        "filename": "src/math/sin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 27381
+      },
+      "writtenOn": "2021-11-19T07:55:23Z",
+      "side": 1,
+      "message": "Do I need to revert the change here?",
+      "parentUuid": "f05b4e36_de4833bb",
+      "revId": "c05a7428c521dbf4fa6752476ee0a0e99eb99f6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
