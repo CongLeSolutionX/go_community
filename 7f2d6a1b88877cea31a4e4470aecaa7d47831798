@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c70ec7c1_83feff34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-19T20:59:15Z",
+      "side": 1,
+      "message": "oops, file got dropped from cl",
+      "parentUuid": "1cf4fbf2_479feccb",
+      "revId": "7f2d6a1b88877cea31a4e4470aecaa7d47831798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6f9424f0_141a73b5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -104,6 +122,24 @@
       "writtenOn": "2021-11-18T21:04:19Z",
       "side": 1,
       "message": "Maybe add a TODO(#49228) to remove this special-case?",
+      "revId": "7f2d6a1b88877cea31a4e4470aecaa7d47831798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0191eac3_e099dcb9",
+        "filename": "src/cmd/go/internal/workcmd/sync.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-19T20:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0eadd97_3c8fbe37",
       "revId": "7f2d6a1b88877cea31a4e4470aecaa7d47831798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
