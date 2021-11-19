@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c31d1fc6_02ee3004",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-19T15:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22420765_2d3c2003",
+      "revId": "a5063e976eb23b281d8bf33a043f19656b7cf319",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2efabdc_2459c2be",
@@ -156,6 +174,24 @@
       "writtenOn": "2021-11-18T22:37:50Z",
       "side": 1,
       "message": "Move t.Logf.",
+      "revId": "a5063e976eb23b281d8bf33a043f19656b7cf319",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2cd2da7_48432ee7",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-19T15:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2efabdc_2459c2be",
       "revId": "a5063e976eb23b281d8bf33a043f19656b7cf319",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -177,6 +213,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac35e423_a39affa0",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-19T15:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cdb4b88_48ab3fda",
+      "revId": "a5063e976eb23b281d8bf33a043f19656b7cf319",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eece654d_fa5ba5ff",
@@ -190,6 +244,24 @@
       "writtenOn": "2021-11-18T22:37:50Z",
       "side": 1,
       "message": "I wonder if it would make sense to do this loop once, with a small duration, before the main loop.  Right now the first time through the main loop the time is going to count a bunch of Write calls, so I expect that it will often exceed minDynamicTimeout on a slow machine.  And after the first time through the main loop we don\u0027t need a loop here at all.",
+      "revId": "a5063e976eb23b281d8bf33a043f19656b7cf319",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8dde1a3_7f0e88d1",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-19T15:21:49Z",
+      "side": 1,
+      "message": "Good point, but then we would have to pick a good initial \"small duration\", which I think is basically the same logic as increasing the timeout in general.\n\nAnd even if we do spend time filling the buffer ahead of time I don\u0027t think the net.Conn API guarantees that the buffer is actually full as of the first non-nil error. (Empirically it does not.) So we still need to loop the Write call on each iteration, too.\n\nUpdated the loop to accumulate into n, and relaxed the timing check to only fail the test when n \u003d\u003d 0. (Also cleaned up the failure messages a bit and tightened the timing slop to 10% of the deadline.)",
+      "parentUuid": "eece654d_fa5ba5ff",
       "revId": "a5063e976eb23b281d8bf33a043f19656b7cf319",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
