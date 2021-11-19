@@ -88,6 +88,24 @@
       "message": "Without brackets?",
       "revId": "44ac9ab4a86b6a12b6075b69aa768ef2fe69abd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76710c8f_b8202d55",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_minimize.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-19T18:03:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b159181_85748871",
+      "revId": "44ac9ab4a86b6a12b6075b69aa768ef2fe69abd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
