@@ -5,6 +5,7 @@
 package cgotest
 
 import (
+	"bufio"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -59,10 +60,28 @@ func TestCrossPackageTests(t *testing.T) {
 	}
 	cmd.Dir = modRoot
 	cmd.Env = append(os.Environ(), "GOPATH="+GOPATH, "PWD="+cmd.Dir)
-	out, err := cmd.CombinedOutput()
-	if err == nil {
-		t.Logf("%s:\n%s", strings.Join(cmd.Args, " "), out)
+
+	// Display stdout as it arrives when running verbosely to simplify debugging.
+	if testing.Verbose() {
+		t.Logf("%s:\n", strings.Join(cmd.Args, " "))
+		out, _ := cmd.StdoutPipe()
+		go func() {
+			s := bufio.NewScanner(out)
+			for s.Scan() {
+				t.Logf("stdin: %s\n", s.Text())
+			}
+			out.Close()
+		}()
+		err = cmd.Run()
+		if err != nil {
+			t.Fatalf("%s: %s\n", strings.Join(cmd.Args, " "), err)
+		}
 	} else {
-		t.Fatalf("%s: %s\n%s", strings.Join(cmd.Args, " "), err, out)
+		out, err := cmd.CombinedOutput()
+		if err == nil {
+			t.Logf("%s:\n%s", strings.Join(cmd.Args, " "), out)
+		} else {
+			t.Fatalf("%s: %s\n%s", strings.Join(cmd.Args, " "), err, out)
+		}
 	}
 }

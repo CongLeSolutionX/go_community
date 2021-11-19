@@ -46,6 +46,9 @@ func test9400(t *testing.T) {
 		big[i] = pattern
 	}
 
+	// Reduce the chances of a GC related deadlock when spinning in uninterruptable ASM below #49695.
+	runtime.GC()
+
 	// Temporarily rewind the stack and trigger SIGSETXID
 	issue9400.RewindAndSetgid()
 
