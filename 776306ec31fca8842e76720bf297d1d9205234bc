@@ -70,6 +70,41 @@
       "message": "Testing addrtaken might be tricky. I could see\n\nvar x ...\np :\u003d \u0026x\nx \u003d 5\n*p \u003d 7\nif x \u003d\u003d 5 { panic }\n\nWhere the \u0026x happens in some generic context, perhaps?\n",
       "revId": "776306ec31fca8842e76720bf297d1d9205234bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65d48026_344232fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-19T00:05:50Z",
+      "side": 1,
+      "message": "OK, thanks.  I don\u0027t think that will be able to get such a useful test for slices/arrays in the right context, so I\u0027ll just stay with the tests I have now.",
+      "parentUuid": "0a67ad93_420218ab",
+      "revId": "776306ec31fca8842e76720bf297d1d9205234bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5b4ccfd_543c1b28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-19T00:05:50Z",
+      "side": 1,
+      "message": "Thanks for the review!\n",
+      "revId": "776306ec31fca8842e76720bf297d1d9205234bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
