@@ -4023,6 +4023,81 @@ within <code>Greeting</code>, <code>who</code> will have the same value as <code
 with the same underlying array.
 </p>
 
+<h3 id="Instantiations">Instantiations</h3>
+
+<p>
+A parameterized function or type is <i>instantiated</i> by substituting type arguments
+for the type parameters.
+Instantiation proceeds in two phases:
+</p>
+
+<ol>
+<li>
+Each type argument is substituted for its corresponding type parameter in the parameterized
+declaration.
+This substitution happens across the entire function signature or type declaration,
+including the type parameter list itself and any types in that list.
+</li>
+
+<li>
+After substitution, each type argument must <a href="#Interface_types">implement</a>
+the corresponding (instantiated, if necessary) type parameter <a href="#Type_parameter_lists">constraint</a>,
+otherwise instantiation fails.
+</li>
+</ol>
+
+<p>
+Instantiating a type results in a new non-parameterized <a href="#Types">named type</a>;
+instantiating a function produces a new non-parameterized function.
+</p>
+
+<pre>
+type parameter list    type arguments    after substitution
+
+[P any]                int               [int any]
+[S ~[]E, E any]        []int, int        [[]int ~[]int, int any]
+[P io.Writer]          string            [string io.Writer]         // illegal: string doesn't implement io.Writer
+</pre>
+
+<p>
+Type arguments may be provided explicitly, or they may be partially or completely
+<a href="#Type_inference">inferred</a>.
+A partially provided type argument list cannot be empty; there must be at least the
+first argument.
+</p>
+
+<pre>
+type T[P1 ~int, P2 ~[]P1] struct{ … }
+
+T[]            // illegal: at least the first type argument must be present, even if it could be inferred
+T[int]         // argument for P1 explicitly provided, argument for P2 inferred
+T[int, []int]  // both arguments explicitly provided
+</pre>
+
+<p>
+A partial type argument list specifies a prefix of the full list of type arguments, leaving
+the remaining arguments to be inferred. Losely speaking, type arguments may be omitted from
+"right to left".
+</p>
+
+<p>
+Parameterized types, and parameterized functions that are not <a href="#Calls">called</a>,
+require a type argument list for instantiation; if the list is partial, all
+remaining type arguments must be inferrable.
+Parameterized functions which are called may provide a (possibly partial) type
+argument list, or may omit it entirely, if the omitted type arguments are
+inferrable from the ordinary (non-type) function arguments.
+</p>
+
+<pre>
+func min[T constraints.Ordered](x, y T) T { … }
+
+f := min                   // illegal: min must be instantiated when used
+minInt := min[int]         // minInt has type func(x, y int) int
+a := minInt(2, 3)          // a has value 2 of type int
+b := min[float64](2.0, 3)  // b has value 2.0 of type float64
+c := min(b, -1)            // c has value -1.0 of type float64
+</pre>
 
 <h3 id="Operators">Operators</h3>
 
