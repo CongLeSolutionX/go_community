@@ -70,6 +70,24 @@
       "message": "It\u0027s not immediately clear from this definition whether this is OK:\n\n    func F[T any]() {\n        var T int\n        _ \u003d T\n    }\n\nThe scope of a function parameter is the function body, so it\u0027s not OK to write this kind of thing if T is a regular parameter.  But the scope of a type parameter is not just the function body, so arguably the function body is a subblock, and in the above code the local variable T shadows the type parameter T.  We probably don\u0027t want that, but that needs to be clarified here.",
       "revId": "6af338396201890477f223f945110cf2cd2bf216",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "852fe07f_df810f94",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 2022,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-20T01:38:50Z",
+      "side": 1,
+      "message": "This is not permitted. Rephrased.",
+      "parentUuid": "4119afa8_79aec60e",
+      "revId": "6af338396201890477f223f945110cf2cd2bf216",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
