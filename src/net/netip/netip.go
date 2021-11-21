@@ -682,7 +682,7 @@ const (
 func (ip Addr) As16() (a16 [16]byte) {
 	bePutUint64(a16[:8], ip.addr.hi)
 	bePutUint64(a16[8:], ip.addr.lo)
-	return a16
+	return
 }
 
 // As4 returns an IPv4 or IPv4-in-IPv6 address in its 4-byte representation.
@@ -691,7 +691,7 @@ func (ip Addr) As16() (a16 [16]byte) {
 func (ip Addr) As4() (a4 [4]byte) {
 	if ip.z == z4 || ip.Is4In6() {
 		bePutUint32(a4[:], uint32(ip.addr.lo))
-		return a4
+		return
 	}
 	if ip.z == z0 {
 		panic("As4 called on IP zero value")
