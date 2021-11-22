@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15276d73_fa8e124d",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-22T16:25:13Z",
+      "side": 1,
+      "message": "Empirically this is either too strict or too short. 😩\n\nhttps://storage.googleapis.com/go-build-log/1e637cd3/openbsd-amd64-68_3585d3e7.log",
+      "revId": "5e774b0f5c9e9d5a0dab94620d2e0030226148c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
