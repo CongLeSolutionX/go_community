@@ -22,6 +22,30 @@
       },
       "revId": "cd0bf3896677583074d33af0b9e538f237db5394",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f0c234f_020ee886",
+        "filename": "src/cmd/go/internal/workcmd/work.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2021-11-22T20:38:38Z",
+      "side": 1,
+      "message": "hm, how about \u0027local modules\u0027?. Sent https://go-review.googlesource.com/c/go/+/366314",
+      "parentUuid": "dc21bcf7_cbcd2358",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 29
+      },
+      "revId": "cd0bf3896677583074d33af0b9e538f237db5394",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
