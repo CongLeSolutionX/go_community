@@ -45,6 +45,15 @@ proposal</a>.
       or methods. We hope to provide support for this feature in Go 1.19.
     </li>
   </ul>
+  <ul>
+    <li><!-- issue 48018, 48974, 49068, 48711 -->
+      There are some very unlikely generic functions (or methods) that can create nested
+      generic types to an arbitrary depth.  The Go compiler does not support these so-called
+      non-monomorphizable functions, but it does detect them and provide a compile-time error.
+      For an example, see issue <a href="https://github.com/golang/go/issues/48018">#48018</a>.
+      We do not necessarily intend to support these kinds of functions in a future release.
+    </li>
+  </ul>
 </p>
 
 <h2 id="ports">Ports</h2>
