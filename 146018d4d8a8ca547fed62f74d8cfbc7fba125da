@@ -70,6 +70,24 @@
       "message": "(nit) Since this test compiles and links a test binary (and linking is relatively slow), let\u0027s skip this test in short mode:\n\n[short] skip  # links and runs a test binary",
       "revId": "146018d4d8a8ca547fed62f74d8cfbc7fba125da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b94529b1_a1fb208d",
+        "filename": "src/cmd/go/testdata/script/test_issue45477.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2021-11-22T20:51:31Z",
+      "side": 1,
+      "message": "This was addressed, I think.",
+      "parentUuid": "10f8429c_b605cdde",
+      "revId": "146018d4d8a8ca547fed62f74d8cfbc7fba125da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
