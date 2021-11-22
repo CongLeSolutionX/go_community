@@ -104,6 +104,23 @@
       "message": "I also feel that this doesn\u0027t need to be in the release notes. The generics proposal for one explicitly disallows some of these instantiations. Maybe we even end up specifying exact rules in the spec.\n\nIn any case, this is not a regression, or change from earlier behavior. We have all kinds of limitations around generics and we don\u0027t mention them in the release notes.",
       "revId": "8d580e01059f2478270d507f4550ce3c912d77d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6afb03_d6693684",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-22T20:26:04Z",
+      "side": 1,
+      "message": "OK, sounds good, I\u0027ll abandon this CL.  I do think it is possible we may want to mention something in the spec.  Even if it is fairly broad, similar to what Ian said - we want to allow for a pure stenciling implementation, so implementations are free to give a compile-time error for functions that are not mono-morphizable.\n",
+      "revId": "8d580e01059f2478270d507f4550ce3c912d77d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
