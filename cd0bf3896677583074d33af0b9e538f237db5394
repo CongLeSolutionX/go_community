@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc21bcf7_cbcd2358",
+        "filename": "src/cmd/go/internal/workcmd/work.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-22T19:55:11Z",
+      "side": 1,
+      "message": "This part is intriguing, because we do allow some builds from local code without a module. (IIRC, we allow `go build .` and `go test .` to succeed as long as they don\u0027t import anything outside of the standard library..?)",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 29
+      },
+      "revId": "cd0bf3896677583074d33af0b9e538f237db5394",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
