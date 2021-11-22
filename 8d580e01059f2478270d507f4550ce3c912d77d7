@@ -33,6 +33,24 @@
       "message": "It\u0027s not obvious to me that we need a release note about this.  It seems to me that these programs are invalid.  So the release note amounts to saying \"the compiler does not accept invalid programs\", which is definitely a good thing, but I don\u0027t know why it needs to be in the release notes.\n\nBut maybe I\u0027m missing something.",
       "revId": "8d580e01059f2478270d507f4550ce3c912d77d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c4aadc1_16aa0a6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2021-11-22T19:06:59Z",
+      "side": 1,
+      "message": "Yeah, I agree with Ian.",
+      "parentUuid": "a31fd396_46f04503",
+      "revId": "8d580e01059f2478270d507f4550ce3c912d77d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
