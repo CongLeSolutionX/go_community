@@ -51,6 +51,24 @@
       "parentUuid": "a31fd396_46f04503",
       "revId": "8d580e01059f2478270d507f4550ce3c912d77d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b3a229_c3d72fc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-22T19:07:47Z",
+      "side": 1,
+      "message": "As far as I know, the current updated spec doesn\u0027t mention non-monomorphizable functions or exclude them in any way (but Robert, correct me if I\u0027m wrong or if you intend to add that to the spec).  They are generally valid (though not necessarily useful).  We could likely support them if we had some support for run-time instantiations and dictionaries in the implementation, but we don\u0027t, so we don\u0027t allow them.\n\nIt may still be the case that this isn\u0027t worth a release note, though.",
+      "parentUuid": "a31fd396_46f04503",
+      "revId": "8d580e01059f2478270d507f4550ce3c912d77d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
