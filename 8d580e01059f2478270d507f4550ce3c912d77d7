@@ -69,6 +69,24 @@
       "parentUuid": "a31fd396_46f04503",
       "revId": "8d580e01059f2478270d507f4550ce3c912d77d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "215f4a4b_70cd7a23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-22T19:13:23Z",
+      "side": 1,
+      "message": "My feeling is that the generics support in Go must permit an implementation that does pure monomorphization.  The fact that an implementation using dictionaries could perhaps support non-monomorphizable functions doesn\u0027t negate that.\n\nBut I\u0027m happy to hear other opinions.",
+      "parentUuid": "53b3a229_c3d72fc6",
+      "revId": "8d580e01059f2478270d507f4550ce3c912d77d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
