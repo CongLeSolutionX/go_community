@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f10d655f_7bfb4267",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T21:14:16Z",
+      "side": 0,
+      "message": "These 2 blank lines were intentional: they allow the person filling in the template to place the cursor in the middle line, type \"Yes.\" and be left with a blank line below. (Hopefully removing the need to press the Enter key once or twice.)\n\nDo you think it\u0027s helpful to remove them, or better to keep?",
+      "revId": "0f64c21d90c7017df4f199a5852d60d4b474c03c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

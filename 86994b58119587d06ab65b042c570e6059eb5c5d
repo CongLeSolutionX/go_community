@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b420a77b_43f6518c",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T21:14:16Z",
+      "side": 1,
+      "message": "The previous HTML was inlined so that it would take up less vertical space, since the most important part was what users enter under the \u0027$ go env\u0027 line.\n\nWhat\u0027s the motivation for making this change?",
+      "revId": "86994b58119587d06ab65b042c570e6059eb5c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "281e647d_7ad3169f",
+        "filename": ".github/ISSUE_TEMPLATE/config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T21:14:16Z",
+      "side": 1,
+      "message": "Let\u0027s use the go.dev/wiki shortlink here:\n\n    https://go.dev/wiki/Questions",
+      "range": {
+        "startLine": 5,
+        "startChar": 9,
+        "endLine": 5,
+        "endChar": 52
+      },
+      "revId": "86994b58119587d06ab65b042c570e6059eb5c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23fd6f33_8a1d5875",
+        "filename": ".github/ISSUE_TEMPLATE/config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T21:14:16Z",
+      "side": 1,
+      "message": "s/golang.org/go.dev/",
+      "range": {
+        "startLine": 8,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 27
+      },
+      "revId": "86994b58119587d06ab65b042c570e6059eb5c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "308bf846_89d79fbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T21:14:16Z",
+      "side": 1,
+      "message": "Thanks for sending this CL.\n\nI left some initial comments/questions.\n\nI\u0027ve also asked pkgsite and gopls owners to take a look at those sections.",
+      "revId": "86994b58119587d06ab65b042c570e6059eb5c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
