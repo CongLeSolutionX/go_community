@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2466a3cb_dcadf723",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-23T20:06:44Z",
+      "side": 1,
+      "message": "I\u0027ve updated https://github.com/seankhliao/testrepo-666/issues/new/choose to match the change I\u0027ve uploaded here.\n\nI reordered the Go2 template to group related questions together.\nI\u0027m less sure about some of the other templates.\n",
+      "revId": "a65bbb5d2e8d68fcfdf2ee0586a5a3345899c209",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
