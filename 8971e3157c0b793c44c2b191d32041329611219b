@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fba2538d_aa879e52",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T23:00:35Z",
+      "side": 1,
+      "message": "I wonder if \"affected/package: \" would read better, to avoid having just one of the two words be abbreviated.\n\nIt\u0027s hard to be sure it\u0027d be better, so I don\u0027t feel strongly about this, and happy if it\u0027s left as is. Up to you.",
+      "range": {
+        "startLine": 4,
+        "startChar": 8,
+        "endLine": 4,
+        "endChar": 20
+      },
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94b9a57f_f3b3defd",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T23:00:35Z",
+      "side": 1,
+      "message": "Let\u0027s not automatically add NeedsInvestigation label in this CL, so that newly filed untriaged issues continue to go through the https://go.dev/wiki/Gardening#triage-new-bugs process. That gives an opportunity to do a few basic checks (critical problem? empty issue? question? correct subject format? package that exists? known dup?) before adding NeedsInvestigation to indicate it looks okay.\n\n(We can consider adjusting this further later on.)",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ec21e29_26df1ba1",
+        "filename": ".github/ISSUE_TEMPLATE/02-pkgsite-removal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T23:00:35Z",
+      "side": 1,
+      "message": "The single-space indentation here looks a bit inconsistent. Maybe remove it?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08c48b40_394f0ff7",
+        "filename": ".github/ISSUE_TEMPLATE/02-pkgsite-removal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T23:00:35Z",
+      "side": 1,
+      "message": "As of CL 365094, this redirects to pkg.go.dev/about. Maybe update this to the redirect target here (i.e., add \"pkg.\" after https://).",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f1b3385_f572ed7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T23:00:35Z",
+      "side": 1,
+      "message": "Thanks. I primarily reviewed the 00-bug.md template, other than a few minor comments, it looks good. I looked over the rest, and didn\u0027t spot problems.\n\nAdding a few more people to give them a chance to look this over.",
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

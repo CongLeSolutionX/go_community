@@ -34,6 +34,41 @@
       "parentUuid": "f10d655f_7bfb4267",
       "revId": "0f64c21d90c7017df4f199a5852d60d4b474c03c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91493fca_68b6e12a",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T23:00:35Z",
+      "side": 0,
+      "message": "I see, thanks.\n\nThose issue forms is something we can consider later on, but in this change let\u0027s focus on adding multiple fixed templates with fewer additional changes.",
+      "parentUuid": "f7841cb8_7d0f3939",
+      "revId": "0f64c21d90c7017df4f199a5852d60d4b474c03c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a862f8c3_1806ca6d",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T23:00:35Z",
+      "side": 0,
+      "message": "Please also revert the blank line here, and few lines above.",
+      "revId": "0f64c21d90c7017df4f199a5852d60d4b474c03c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

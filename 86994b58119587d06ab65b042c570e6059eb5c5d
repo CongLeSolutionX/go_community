@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93bf0e97_627c6ce0",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-23T23:00:35Z",
+      "side": 1,
+      "message": "I see, makes sense. Sounds good to not make changes to it now.",
+      "parentUuid": "c710a5b2_b15be1ee",
+      "revId": "86994b58119587d06ab65b042c570e6059eb5c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "281e647d_7ad3169f",
