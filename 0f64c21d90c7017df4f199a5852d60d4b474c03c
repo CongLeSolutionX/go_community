@@ -16,6 +16,24 @@
       "message": "I am not sure this is the right rule as there could be a package on the top level of a vanity domain. \n\nAFAIR what makes e.g. go.shape special is not their package path, but that their package name can contain a dot. That is impossible for any other Go package.\n\nCould you confirm or reject this theory?",
       "revId": "0f64c21d90c7017df4f199a5852d60d4b474c03c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01e03a2c_c245cb86",
+        "filename": "src/cmd/compile/internal/types/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-11-23T21:12:57Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this has to do with vanity domains. Could you show an example that would fail?\nYou are correct that the package name cannot normally contain a dot.\nAre you suggesting that we look for a dot in p.Name instead of p.Path?",
+      "parentUuid": "158c8068_19543a11",
+      "revId": "0f64c21d90c7017df4f199a5852d60d4b474c03c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
