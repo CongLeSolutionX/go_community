@@ -81,14 +81,14 @@ func runStreamSyslog(l net.Listener, done chan<- string, wg *sync.WaitGroup) {
 	}
 }
 
-func startServer(n, la string, done chan<- string) (addr string, sock io.Closer, wg *sync.WaitGroup) {
+func startServer(tempDir, n, la string, done chan<- string) (addr string, sock io.Closer, wg *sync.WaitGroup) {
 	if n == "udp" || n == "tcp" {
 		la = "127.0.0.1:0"
 	} else {
 		// unix and unixgram: choose an address if none given
 		if la == "" {
 			// use os.CreateTemp to get a name that is unique
-			f, err := os.CreateTemp("", "syslogtest")
+			f, err := os.CreateTemp(tempDir, "syslogtest")
 			if err != nil {
 				log.Fatal("TempFile: ", err)
 			}
@@ -129,6 +129,8 @@ func startServer(n, la string, done chan<- string) (addr string, sock io.Closer,
 
 func TestWithSimulated(t *testing.T) {
 	t.Parallel()
+	tempDir := t.TempDir()
+
 	msg := "Test 123"
 	var transport []string
 	for _, n := range []string{"unix", "unixgram", "udp", "tcp"} {
@@ -139,7 +141,7 @@ func TestWithSimulated(t *testing.T) {
 
 	for _, tr := range transport {
 		done := make(chan string)
-		addr, sock, srvWG := startServer(tr, "", done)
+		addr, sock, srvWG := startServer(tempDir, tr, "", done)
 		defer srvWG.Wait()
 		defer sock.Close()
 		if tr == "unix" || tr == "unixgram" {
@@ -163,9 +165,10 @@ func TestFlap(t *testing.T) {
 	if !testableNetwork(net) {
 		t.Skipf("skipping on %s/%s; 'unix' is not supported", runtime.GOOS, runtime.GOARCH)
 	}
+	tempDir := t.TempDir()
 
 	done := make(chan string)
-	addr, sock, srvWG := startServer(net, "", done)
+	addr, sock, srvWG := startServer(tempDir, net, "", done)
 	defer srvWG.Wait()
 	defer os.Remove(addr)
 	defer sock.Close()
@@ -182,7 +185,7 @@ func TestFlap(t *testing.T) {
 	check(t, msg, <-done, net)
 
 	// restart the server
-	_, sock2, srvWG2 := startServer(net, addr, done)
+	_, sock2, srvWG2 := startServer(tempDir, net, addr, done)
 	defer srvWG2.Wait()
 	defer sock2.Close()
 
@@ -282,6 +285,8 @@ func check(t *testing.T, in, out, transport string) {
 
 func TestWrite(t *testing.T) {
 	t.Parallel()
+	tempDir := t.TempDir()
+
 	tests := []struct {
 		pri Priority
 		pre string
@@ -299,7 +304,7 @@ func TestWrite(t *testing.T) {
 	} else {
 		for _, test := range tests {
 			done := make(chan string)
-			addr, sock, srvWG := startServer("udp", "", done)
+			addr, sock, srvWG := startServer(tempDir, "udp", "", done)
 			defer srvWG.Wait()
 			defer sock.Close()
 			l, err := Dial("udp", addr, test.pri, test.pre)
@@ -323,7 +328,7 @@ func TestWrite(t *testing.T) {
 }
 
 func TestConcurrentWrite(t *testing.T) {
-	addr, sock, srvWG := startServer("udp", "", make(chan string, 1))
+	addr, sock, srvWG := startServer("", "udp", "", make(chan string, 1))
 	defer srvWG.Wait()
 	defer sock.Close()
 	w, err := Dial("udp", addr, LOG_USER|LOG_ERR, "how's it going?")
@@ -346,6 +351,8 @@ func TestConcurrentWrite(t *testing.T) {
 }
 
 func TestConcurrentReconnect(t *testing.T) {
+	tempDir := t.TempDir()
+
 	crashy = true
 	defer func() { crashy = false }()
 
@@ -359,7 +366,7 @@ func TestConcurrentReconnect(t *testing.T) {
 		}
 	}
 	done := make(chan string, N*M)
-	addr, sock, srvWG := startServer(net, "", done)
+	addr, sock, srvWG := startServer(tempDir, net, "", done)
 	if net == "unix" {
 		defer os.Remove(addr)
 	}
