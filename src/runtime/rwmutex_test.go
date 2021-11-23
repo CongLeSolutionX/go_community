@@ -11,6 +11,7 @@ package runtime_test
 
 import (
 	"fmt"
+	"runtime"
 	. "runtime"
 	"runtime/debug"
 	"sync/atomic"
@@ -55,6 +56,9 @@ func TestParallelRWMutexReaders(t *testing.T) {
 	// since the goroutines can't be stopped/preempted.
 	// Disable GC for this test (see issue #10958).
 	defer debug.SetGCPercent(debug.SetGCPercent(-1))
+	// Finish any in-progress GCs and get ourselves to a clean slate.
+	runtime.GC()
+
 	doTestParallelReaders(1)
 	doTestParallelReaders(3)
 	doTestParallelReaders(4)
