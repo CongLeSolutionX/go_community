@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da0c3960_b5a869a0",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2021-11-23T23:42:28Z",
+      "side": 1,
+      "message": "Issues with the Go language server\n\n(To be consistent with the pkg.go.dev issue template)\n\nQ. Do feature requests \u0026 proposals about gopls belong here, not the proposal template?",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 32
+      },
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2feac0c_71a8e45d",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2021-11-23T23:42:28Z",
+      "side": 1,
+      "message": "cc rfindley@\n\nWhat do you think about using `go version -m \u003cpath/to/gopls\u003e` instead? `go version -m` provides the version of Go used to compile go, and `gopls version` doesn\u0027t.",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da2f4a92_6c1fd461",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2021-11-23T23:42:28Z",
+      "side": 1,
+      "message": "#### go version\n\n(Some part of gopls behavior depends on `go` and `go version` provides the platform info too, so it is useful)",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94e9aa14_071b6008",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2021-11-23T23:42:28Z",
+      "side": 1,
+      "message": "Thanks a lot! Adding rfindley@ gopls TL",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
