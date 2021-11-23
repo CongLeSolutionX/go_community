@@ -161,7 +161,10 @@ func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr, ctrlFn func(st
 	// 1) the one returned by the connect method, if any; or
 	// 2) the one from Getpeername, if it succeeds; or
 	// 3) the one passed to us as the raddr parameter.
-	lsa, _ = syscall.Getsockname(fd.pfd.Sysfd)
+	lsa, err = syscall.Getsockname(fd.pfd.Sysfd)
+	if err != nil {
+		return os.NewSyscallError("getsockname", err)
+	}
 	if crsa != nil {
 		fd.setAddr(fd.addrFunc()(lsa), fd.addrFunc()(crsa))
 	} else if rsa, _ = syscall.Getpeername(fd.pfd.Sysfd); rsa != nil {
