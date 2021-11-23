@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c710a5b2_b15be1ee",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-23T21:33:17Z",
+      "side": 1,
+      "message": "I\u0027m a bit unsure about this part, I agree inlining it takes up less vertical space, but it\u0027s harder for humans to parse when trying to understand how it will render.\nI\u0027ve reverted it to inline.",
+      "parentUuid": "b420a77b_43f6518c",
+      "revId": "86994b58119587d06ab65b042c570e6059eb5c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "281e647d_7ad3169f",
         "filename": ".github/ISSUE_TEMPLATE/config.yml",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2021-11-23T21:14:16Z",
       "side": 1,
       "message": "Let\u0027s use the go.dev/wiki shortlink here:\n\n    https://go.dev/wiki/Questions",
+      "range": {
+        "startLine": 5,
+        "startChar": 9,
+        "endLine": 5,
+        "endChar": 52
+      },
+      "revId": "86994b58119587d06ab65b042c570e6059eb5c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d43aeef7_acb8007d",
+        "filename": ".github/ISSUE_TEMPLATE/config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-23T21:33:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "281e647d_7ad3169f",
       "range": {
         "startLine": 5,
         "startChar": 9,
@@ -54,6 +96,30 @@
       "writtenOn": "2021-11-23T21:14:16Z",
       "side": 1,
       "message": "s/golang.org/go.dev/",
+      "range": {
+        "startLine": 8,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 27
+      },
+      "revId": "86994b58119587d06ab65b042c570e6059eb5c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e504e35b_1f03eaaa",
+        "filename": ".github/ISSUE_TEMPLATE/config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-23T21:33:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23fd6f33_8a1d5875",
       "range": {
         "startLine": 8,
         "startChar": 17,
