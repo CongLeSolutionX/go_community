@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "164faba5_c25c56ec",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 4055,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-23T20:25:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb53724b_220bea19",
+      "revId": "edd283059d2bf184b8651204f90263756ddade4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7830c3ce_211f09de",
@@ -85,6 +103,24 @@
       "writtenOn": "2021-11-23T18:55:46Z",
       "side": 1,
       "message": "Losely -\u003e Loosely",
+      "revId": "edd283059d2bf184b8651204f90263756ddade4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51f4a780_21e6be21",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 4090,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-23T20:25:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7830c3ce_211f09de",
       "revId": "edd283059d2bf184b8651204f90263756ddade4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
