@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb133e50_9dd16002",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-23T23:14:43Z",
+      "side": 1,
+      "message": "I\u0027ve changed it to the longer name",
+      "parentUuid": "fba2538d_aa879e52",
+      "range": {
+        "startLine": 4,
+        "startChar": 8,
+        "endLine": 4,
+        "endChar": 20
+      },
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94b9a57f_f3b3defd",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-23T23:00:35Z",
       "side": 1,
       "message": "Let\u0027s not automatically add NeedsInvestigation label in this CL, so that newly filed untriaged issues continue to go through the https://go.dev/wiki/Gardening#triage-new-bugs process. That gives an opportunity to do a few basic checks (critical problem? empty issue? question? correct subject format? package that exists? known dup?) before adding NeedsInvestigation to indicate it looks okay.\n\n(We can consider adjusting this further later on.)",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96905590_85075598",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-23T23:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94b9a57f_f3b3defd",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1660282c_5d5ac1f0",
+        "filename": ".github/ISSUE_TEMPLATE/02-pkgsite-removal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-23T23:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ec21e29_26df1ba1",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08c48b40_394f0ff7",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-11-23T23:00:35Z",
       "side": 1,
       "message": "As of CL 365094, this redirects to pkg.go.dev/about. Maybe update this to the redirect target here (i.e., add \"pkg.\" after https://).",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "8971e3157c0b793c44c2b191d32041329611219b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c7dc5a9_d04fab60",
+        "filename": ".github/ISSUE_TEMPLATE/02-pkgsite-removal.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-23T23:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08c48b40_394f0ff7",
       "range": {
         "startLine": 32,
         "startChar": 4,
