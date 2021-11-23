@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "139c69f1_a5da22b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-23T19:42:01Z",
+      "side": 1,
+      "message": "Nit: add a space after \"CL\", so Gerrit can turn that into a link.",
+      "range": {
+        "startLine": 13,
+        "startChar": 29,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "6d086fcc848e1f182a11f9ed44af0512f1e942bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "08329ad5_eacf3b9b",
@@ -14,6 +37,23 @@
       "writtenOn": "2021-11-23T19:20:29Z",
       "side": 1,
       "message": "TRY\u003dwindows-arm\n\nI haven\u0027t tested this, and we should wait until the new builder comes alive to do anything here. But this is a rough attempt at rebasing Austin\u0027s old patch from https://go-review.googlesource.com/c/go/+/207961/ .",
+      "revId": "6d086fcc848e1f182a11f9ed44af0512f1e942bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c7fbc7_7f48e63a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-23T19:42:01Z",
+      "side": 1,
+      "message": "The code LGTM, supposing the builder is happy.",
       "revId": "6d086fcc848e1f182a11f9ed44af0512f1e942bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
