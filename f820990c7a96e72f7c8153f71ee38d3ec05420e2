@@ -70,6 +70,24 @@
       "message": "We can actually now remove the return and just do:\n  return “”\nand also remove the declaration of s.\n\nor even better:\n  if err :\u003d r.Error; err !\u003d nil {\n     return err.Error()\n  }\n  return “”",
       "revId": "f820990c7a96e72f7c8153f71ee38d3ec05420e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b61c6695_5e9315d3",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 27381
+      },
+      "writtenOn": "2021-11-23T03:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e92b7f5_e2dfccd1",
+      "revId": "f820990c7a96e72f7c8153f71ee38d3ec05420e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
