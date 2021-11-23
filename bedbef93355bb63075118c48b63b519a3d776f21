@@ -70,6 +70,24 @@
       "message": "Not for this change (unless you want to), but I\u0027m wondering if we should put any of these implementation-dependent rules are written down anywhere, possible here at the definition of Pkg/Path.  It seems like what I\u0027ve heard is:\n\n  - any user path (not stdlib) must have a . in it, either because it\u0027s relative to current directory or because it has a host name in it\n  - any user path that has a . which is not at the beginning must be a host name, and so must have slashes in it too.\n\nMaybe those aren\u0027t right, but just wondering if we can document somewhere.",
       "revId": "bedbef93355bb63075118c48b63b519a3d776f21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdae0bf2_4ffc3843",
+        "filename": "src/cmd/compile/internal/types/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-11-23T19:30:50Z",
+      "side": 1,
+      "message": "They do sound right, but I\u0027m not entirely sure this is the right place to document that. Maybe in cmd/internal/objabi/path.go? Not sure that would be any better.",
+      "parentUuid": "e087227a_d6c185d7",
+      "revId": "bedbef93355bb63075118c48b63b519a3d776f21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
