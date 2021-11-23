@@ -87,6 +87,24 @@
       "message": "Forgot to add this one, first time around:\n\nSince you explicitly mention substituting the type params across only the entire function signature in phase one, don\u0027t you need a final phase that substitutes across the function body as well?  Or should you just change the phase one description to do the substitution across the whole function body immediately?  (I\u0027m guessing you are originally doing the substitution only across the function signature, because you first want to check if things are even valid in phase two.)\n\nAlso, maybe obvious (so you can leave out), but you could mention that the substitution in the function body includes any anonymous functions (closures) contained within the original generic function.",
       "revId": "721050d62760a436067eb9fafceb65eec8b0f82e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "807bbcb6_07a29568",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 4102,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-23T20:42:19Z",
+      "side": 1,
+      "message": "Good point. I was only thinking of type-checking. But instantiation really applies to the entire function. Updated.\n\n(And I thing we can leave closures out.)",
+      "parentUuid": "f1bbae1f_f2f31a23",
+      "revId": "721050d62760a436067eb9fafceb65eec8b0f82e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
