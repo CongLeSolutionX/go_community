@@ -73,6 +73,24 @@
       "parentUuid": "e300eef9_05ca6e09",
       "revId": "af2c83b141eebd9b198b70d33ca5b1799e7bd571",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63ced29a_8926af8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-11-23T22:16:51Z",
+      "side": 1,
+      "message": "I wonder if this is a name-length limitation. The size of `sockaddr_un.sun_path` is implementation-defined, but \"/tmp/workdir-host-solaris-oracle-amd64-oraclerel/tmp/syslogtest3299036295\" is only 74 characters (shorter than the typical minimum of 104).",
+      "parentUuid": "a0fe8278_73c0b444",
+      "revId": "af2c83b141eebd9b198b70d33ca5b1799e7bd571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
