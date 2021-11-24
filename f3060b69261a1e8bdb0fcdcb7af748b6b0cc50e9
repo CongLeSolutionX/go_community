@@ -456,6 +456,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbb7494b_e1185ad1",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-24T16:39:54Z",
+      "side": 1,
+      "message": "00-bug hides `go env` output in a collapsed details section, it\u0027s easier to see the version on its own.\nIt also covers all other issues where the reporter may feel `go env` is not relevant and just skip the section entirely",
+      "parentUuid": "988a7367_e4789c2e",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "94e9aa14_071b6008",
