@@ -73,6 +73,23 @@
       "message": "Thanks a lot! Adding rfindley@ gopls TL",
       "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf96ad6e_3664ad63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2021-11-24T13:28:33Z",
+      "side": 1,
+      "message": "LGTM for pkgsite templates.",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
