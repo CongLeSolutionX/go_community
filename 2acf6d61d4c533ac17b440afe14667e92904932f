@@ -72,6 +72,24 @@
       "message": "What if there are no specific types?  The wording here suggests that in that case x is representable by T, but that doesn\u0027t sound right.",
       "revId": "2acf6d61d4c533ac17b440afe14667e92904932f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bb29fda_a0706a23",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 1907,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-24T01:58:12Z",
+      "side": 1,
+      "message": "rephrased and simplified",
+      "parentUuid": "8dc5663b_090c4124",
+      "revId": "2acf6d61d4c533ac17b440afe14667e92904932f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
