@@ -16,6 +16,41 @@
       "message": "I suggest https://golang.org/s/proposal-process.",
       "revId": "a80e8788bc52bca156bd03b6c7191742ae9aba76",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b90f241d_9e7d98fa",
+        "filename": ".github/ISSUE_TEMPLATE/10-proposal.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-24T21:33:25Z",
+      "side": 1,
+      "message": "Ian, if you\u0027re okay with it, it can be https://go.dev/s/proposal-process to start using the new website domain (of course the old link will also always work, but it involves an extra redirect).",
+      "parentUuid": "c83256f5_9a0a8bee",
+      "revId": "a80e8788bc52bca156bd03b6c7191742ae9aba76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a7fadef_6ef0d98d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-24T21:33:25Z",
+      "side": 1,
+      "message": "Thanks for addressing the review comments this has received so far Sean. With Thanksgiving Day in the US coming up tomorrow and many people being away, I think we should avoid submitting this for now, but can continue here next week.",
+      "revId": "a80e8788bc52bca156bd03b6c7191742ae9aba76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
