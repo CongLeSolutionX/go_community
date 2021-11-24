@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0ca830f4_b665602a",
+        "filename": ".github/ISSUE_TEMPLATE/01-pkgsite.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-24T16:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f7f77fd_9feda65a",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 8
+      },
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ff1ab5a9_d24081e9",
         "filename": ".github/ISSUE_TEMPLATE/01-pkgsite.md",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-24T15:38:44Z",
       "side": 1,
       "message": "Optional: this is probably fine, but if we want to stick to more well known websites, the following also works:\nhttps://www.google.com/search?q\u003dwhat+is+my+user+agent",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "decb9aed_622c0e55",
+        "filename": ".github/ISSUE_TEMPLATE/01-pkgsite.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-24T16:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff1ab5a9_d24081e9",
       "range": {
         "startLine": 20,
         "startChar": 8,
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-24T15:38:44Z",
       "side": 1,
       "message": "Let\u0027s start with a single template that will span more than just bugs.\n\nHow about \"Gopls bugs or feature requests\", so that \"Gopls\" is left-aligned, making it easier to scan top-to-bottom.\n\nI can be convinced otherwise, but if we go that route, we should probably do the same for pkgsite.",
+      "range": {
+        "startLine": 2,
+        "startChar": 6,
+        "endLine": 2,
+        "endChar": 10
+      },
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a2586eb_0fd60e5e",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-24T16:11:44Z",
+      "side": 1,
+      "message": "I did it for both, though now some of the about lines feel a bit repetitive?",
+      "parentUuid": "fb91ff23_17a1c09c",
       "range": {
         "startLine": 2,
         "startChar": 6,
@@ -107,6 +179,30 @@
       "side": 1,
       "message": "Yes, feature requests for gopls should currently use the gopls template: they do not go through the proposal committee.\n\nWe could theoretically use multiple gopls templates, but for now lets start with one.",
       "parentUuid": "da0c3960_b5a869a0",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 32
+      },
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18625ee8_ecc36c4a",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-24T16:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53561a1c_5588ea90",
       "range": {
         "startLine": 3,
         "startChar": 7,
@@ -193,6 +289,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c311deac_9a6b75d4",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-24T16:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83a25111_c6102e07",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da2f4a92_6c1fd461",
@@ -242,6 +362,24 @@
       "side": 1,
       "message": "https://golang.org/issue/49783 mentions only the go version used to compile gopls. We need the go version used in runtime too.",
       "parentUuid": "872bcff9_6043439e",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bef47fac_ae985d18",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2021-11-24T16:11:44Z",
+      "side": 1,
+      "message": "I added `go env` instead, which includes the version information (under GOVERSION) and should also give information on the workspace config",
+      "parentUuid": "36ee762f_19a63ce6",
       "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
