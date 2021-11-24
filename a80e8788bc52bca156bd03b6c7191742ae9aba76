@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c83256f5_9a0a8bee",
+        "filename": ".github/ISSUE_TEMPLATE/10-proposal.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-24T21:19:14Z",
+      "side": 1,
+      "message": "I suggest https://golang.org/s/proposal-process.",
+      "revId": "a80e8788bc52bca156bd03b6c7191742ae9aba76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
