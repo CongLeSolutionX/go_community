@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb12ff9c_f354323e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-11-24T23:27:20Z",
+      "side": 1,
+      "message": "While the arm64 patch works fine, this one generates binaries that spin indefinitely on one thread early in start. I\u0027ll attach a debugger tomorrow and figure out what\u0027s up and fix it, but Austin - if you have any intuition here, I\u0027m all ears.",
+      "revId": "24235e2b11ed974c3b012ce384823818aa99e633",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
