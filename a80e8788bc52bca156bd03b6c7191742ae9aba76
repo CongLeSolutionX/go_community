@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ead9dc9_3caf34ca",
+        "filename": ".github/ISSUE_TEMPLATE/10-proposal.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-11-24T21:43:51Z",
+      "side": 1,
+      "message": "Oh, sure, that\u0027s fine too.  Thanks.",
+      "parentUuid": "b90f241d_9e7d98fa",
+      "revId": "a80e8788bc52bca156bd03b6c7191742ae9aba76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a7fadef_6ef0d98d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
