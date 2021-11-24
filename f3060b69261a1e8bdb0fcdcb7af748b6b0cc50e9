@@ -284,6 +284,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "463cf84b_0059b3e6",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2021-11-24T16:30:17Z",
+      "side": 1,
+      "message": "Ah, sorry to cause confusion. Yes, I meant go version used to compile gopls.",
+      "parentUuid": "98eb80a0_e8ac38b7",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83a25111_c6102e07",
@@ -416,6 +434,24 @@
       "side": 1,
       "message": "\u003e https://golang.org/issue/49783 mentions only the go version used to compile gopls. We need the go version used in runtime too.\n\nModulo weird linking, shouldn\u0027t these be the same (and the output of runtime.Version()) -- runtime.Version just outputs buildVersion? Maybe my mental model for this is incorrect.",
       "parentUuid": "36ee762f_19a63ce6",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "988a7367_e4789c2e",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2021-11-24T16:30:17Z",
+      "side": 1,
+      "message": "Thanks Sean. Good to know go env includes GOVERSION (why do we still need to ask users to include `go version` in 00-bug.md?)\n\nRob, I meant this by \u0027runtime\u0027 - sorry again for causing confusion. \n  Output of `runtime.Version` or buildVersion from gopls -\u003e go version used to compile gopls.\n  Output of `go version` or `go env GOVERSION` -\u003e go version invoked by gopls (",
+      "parentUuid": "9faa1ba6_7bdd1d89",
       "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
