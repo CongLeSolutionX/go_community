@@ -268,6 +268,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98eb80a0_e8ac38b7",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-24T16:15:18Z",
+      "side": 1,
+      "message": "\u003e My observation so far is the bootstrap Go version matters - formatting, go/types,\n\nBy bootstrap Go version I mean the version of Go used to build Go, not the version of Go used to build gopls. E.g. Go 1.4. You said \"the version of Go used to compile go\", and I thought you meant \"used to compile gopls\", because the version of Go used to compile Go should not affect gopls at all.",
+      "parentUuid": "9572dfc2_9873b0f1",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83a25111_c6102e07",
         "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
         "patchSetId": 4
@@ -379,6 +397,24 @@
       "writtenOn": "2021-11-24T16:11:44Z",
       "side": 1,
       "message": "I added `go env` instead, which includes the version information (under GOVERSION) and should also give information on the workspace config",
+      "parentUuid": "36ee762f_19a63ce6",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9faa1ba6_7bdd1d89",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-24T16:15:18Z",
+      "side": 1,
+      "message": "\u003e https://golang.org/issue/49783 mentions only the go version used to compile gopls. We need the go version used in runtime too.\n\nModulo weird linking, shouldn\u0027t these be the same (and the output of runtime.Version()) -- runtime.Version just outputs buildVersion? Maybe my mental model for this is incorrect.",
       "parentUuid": "36ee762f_19a63ce6",
       "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
