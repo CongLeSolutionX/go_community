@@ -34,6 +34,24 @@
       "parentUuid": "158c8068_19543a11",
       "revId": "0f64c21d90c7017df4f199a5852d60d4b474c03c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77cf4ca2_19b1e1c8",
+        "filename": "src/cmd/compile/internal/types/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2021-11-24T00:04:16Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure what this has to do with vanity domains. Could you show an example that would fail?\n\nuseful.package.tld would currently be a valid package path for a package named \"useful\". But I am currently not aware of any package that uses this feature of Go.\n\n\u003e You are correct that the package name cannot normally contain a dot.\n\u003e Are you suggesting that we look for a dot in p.Name instead of p.Path?\n\nYes, that was what I was trying to suggest.",
+      "parentUuid": "01e03a2c_c245cb86",
+      "revId": "0f64c21d90c7017df4f199a5852d60d4b474c03c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
