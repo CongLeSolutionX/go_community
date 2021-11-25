@@ -16,6 +16,24 @@
       "message": "When I run\n\ngo doc builtin\n\nor\n\ngo tool doc bultin\n\nit works fine: I see lower-case symbols. How do you reproduce the problem?",
       "revId": "0da42d6dc54ab40fe2de0443e6b26b25319b5689",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6423bf9_da8563f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54949
+      },
+      "writtenOn": "2021-11-25T21:27:56Z",
+      "side": 1,
+      "message": "The problem is that\n\ngo doc builtin\n\nand\n\ngo tool doc builtin\n\nshow two entries for the functions \"cap\", \"copy\" and \"len\". One entry at the beginning of the summary, next to the other functions, and another entry under the type int.\n\nYou can find all the details, including what I think is the root cause of the bug, in #49796.",
+      "parentUuid": "07284c5e_5120f766",
+      "revId": "0da42d6dc54ab40fe2de0443e6b26b25319b5689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
