@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07284c5e_5120f766",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2021-11-25T20:26:06Z",
+      "side": 1,
+      "message": "When I run\n\ngo doc builtin\n\nor\n\ngo tool doc bultin\n\nit works fine: I see lower-case symbols. How do you reproduce the problem?",
+      "revId": "0da42d6dc54ab40fe2de0443e6b26b25319b5689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
