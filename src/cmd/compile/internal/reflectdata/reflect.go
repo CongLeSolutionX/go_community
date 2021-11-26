@@ -1411,6 +1411,9 @@ func WriteBasicTypes() {
 		if base.Flag.ASan {
 			dimportpath(types.NewPkg("runtime/asan", ""))
 		}
+		if base.Flag.DelaySan != 0 {
+			dimportpath(types.NewPkg("runtime/delaysan", ""))
+		}
 
 		dimportpath(types.NewPkg("main", ""))
 	}
