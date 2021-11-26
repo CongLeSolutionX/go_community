@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a6e9673_7233556b",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-11-26T01:52:17Z",
+      "side": 1,
+      "message": "Please sort the registers in numerical order for better overview.",
+      "range": {
+        "startLine": 159,
+        "startChar": 1,
+        "endLine": 159,
+        "endChar": 17
+      },
+      "revId": "3ccf86f772b6b275b3c54d68baf9ad1cd0fe430e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "571de421_4d6de208",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-11-26T01:52:17Z",
+      "side": 1,
+      "message": "According to psABI document https://loongson.github.io/LoongArch-Documentation/LoongArch-ELF-ABI-EN.pdf\n\nR4 is the \"argument registers\" I think it\u0027s OK to use R20 for future ABIinternal.",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 52
+      },
+      "revId": "3ccf86f772b6b275b3c54d68baf9ad1cd0fe430e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae5fa348_f0b7b070",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-11-26T01:52:17Z",
+      "side": 1,
+      "message": "R22 is used by frame pointer in psABI not G which is different.",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 34
+      },
+      "revId": "3ccf86f772b6b275b3c54d68baf9ad1cd0fe430e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "630ce14c_1dfbbfe4",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-11-26T01:52:17Z",
+      "side": 1,
+      "message": "I can\u0027t find any refs in the document that this register is used by linker.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 40
+      },
+      "revId": "3ccf86f772b6b275b3c54d68baf9ad1cd0fe430e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
