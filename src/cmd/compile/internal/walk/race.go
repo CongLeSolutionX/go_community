@@ -12,7 +12,13 @@ import (
 )
 
 func instrument(fn *ir.Func) {
-	if fn.Pragma&ir.Norace != 0 || (fn.Linksym() != nil && fn.Linksym().ABIWrapper()) {
+	// delaysan applies even if go:norace
+	if (fn.Pragma&ir.Norace != 0 && !base.Flag.DelaySan) || (fn.Linksym() != nil && fn.Linksym().ABIWrapper()) {
+		return
+	}
+
+	if base.Flag.DelaySan && ir.FuncName(fn) == "delay" && base.Ctxt.Pkgpath == "runtime" {
+		// don't delay the delay function
 		return
 	}
 

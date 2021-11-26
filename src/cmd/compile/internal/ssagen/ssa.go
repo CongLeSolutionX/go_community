@@ -100,6 +100,7 @@ func InitConfig() {
 	ir.Syms.Deferproc = typecheck.LookupRuntimeFunc("deferproc")
 	ir.Syms.DeferprocStack = typecheck.LookupRuntimeFunc("deferprocStack")
 	ir.Syms.Deferreturn = typecheck.LookupRuntimeFunc("deferreturn")
+	ir.Syms.Delay = typecheck.LookupRuntimeFunc("delay")
 	ir.Syms.Duffcopy = typecheck.LookupRuntimeFunc("duffcopy")
 	ir.Syms.Duffzero = typecheck.LookupRuntimeFunc("duffzero")
 	ir.Syms.GCWriteBarrier = typecheck.LookupRuntimeFunc("gcWriteBarrier")
@@ -1285,6 +1286,16 @@ func (s *state) instrumentMove(t *types.Type, dst, src *ssa.Value) {
 	}
 }
 
+func (s *state) instrumentDelay(t *types.Type, addr *ssa.Value) {
+	if !s.curfn.InstrumentBody() || !base.Flag.DelaySan {
+		return
+	}
+	if ssa.IsSanitizerSafeAddr(addr) {
+		return
+	}
+	s.rtcall(ir.Syms.Delay, true, nil) // no args yet, just a delay
+}
+
 func (s *state) instrument2(t *types.Type, addr, addr2 *ssa.Value, kind instrumentKind) {
 	if !s.curfn.InstrumentBody() {
 		return
@@ -1306,7 +1317,9 @@ func (s *state) instrument2(t *types.Type, addr, addr2 *ssa.Value, kind instrume
 		panic("instrument2: non-nil addr2 for non-move instrumentation")
 	}
 
-	if base.Flag.MSan {
+	if base.Flag.DelaySan {
+		return
+	} else if base.Flag.MSan {
 		switch kind {
 		case instrumentRead:
 			fn = ir.Syms.Msanread
@@ -1368,7 +1381,9 @@ func (s *state) instrument2(t *types.Type, addr, addr2 *ssa.Value, kind instrume
 
 func (s *state) load(t *types.Type, src *ssa.Value) *ssa.Value {
 	s.instrumentFields(t, src, instrumentRead)
-	return s.rawLoad(t, src)
+	ret := s.rawLoad(t, src)
+	s.instrumentDelay(t, src)
+	return ret
 }
 
 func (s *state) rawLoad(t *types.Type, src *ssa.Value) *ssa.Value {
@@ -5312,7 +5327,7 @@ func (s *state) addr(n ir.Node) *ssa.Value {
 		if v.Op != ssa.OpLoad {
 			s.Fatalf("dottype of non-load")
 		}
-		if v.Args[1] != s.mem() {
+		if v.Args[1] != s.mem() && !base.Flag.DelaySan {
 			s.Fatalf("memory no longer live from dottype load")
 		}
 		return v.Args[0]
