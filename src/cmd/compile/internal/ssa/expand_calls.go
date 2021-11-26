@@ -1097,7 +1097,7 @@ func (x *expandState) rewriteArgs(v *Value, firstArg int) {
 		aType := aux.TypeOfArg(auxI)
 		if len(aRegs) == 0 && a.Op == OpDereference {
 			aOffset := aux.OffsetOfArg(auxI)
-			if a.MemoryArg() != m0 {
+			if a.MemoryArg() != m0 && !base.Flag.DelaySan { // check is not 100% necessary, for delaysan we want that delay call between load and use
 				x.f.Fatalf("Op...LECall and OpDereference have mismatched mem, %s and %s", v.LongString(), a.LongString())
 			}
 			if v.Op == OpTailLECall {
