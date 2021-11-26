@@ -21,6 +21,7 @@ var Syms struct {
 	Deferproc         *obj.LSym
 	DeferprocStack    *obj.LSym
 	Deferreturn       *obj.LSym
+	Delay             *obj.LSym
 	Duffcopy          *obj.LSym
 	Duffzero          *obj.LSym
 	GCWriteBarrier    *obj.LSym
