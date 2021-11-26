@@ -106,6 +106,41 @@
       "message": "TRY\u003dopenbsd-386-70-n1,openbsd-amd64-70,openbsd-arm64-jsing",
       "revId": "b3c6253becd38d2b70523932bc48526e0c6ba3f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c7070a3_9970d38a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-11-26T15:04:35Z",
+      "side": 1,
+      "message": "TRY\u003dopenbsd-386-70-n1,openbsd-amd64-70,openbsd-arm64-jsing",
+      "revId": "b3c6253becd38d2b70523932bc48526e0c6ba3f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f30b477_3aa31e2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-11-26T15:04:35Z",
+      "side": 1,
+      "message": "Looking at the build dashboard, both failing builder currently look fairly unstable.\n\nRe-running on openbsd-amd64-70-n1 instead of openbsd-amd64-70 which looks less flaky. openbsd-386-70 seems to be in the default set of builders, so I guess this will still fail.",
+      "parentUuid": "f3fcfea0_a2df5c95",
+      "revId": "b3c6253becd38d2b70523932bc48526e0c6ba3f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
