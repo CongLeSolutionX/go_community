@@ -236,7 +236,7 @@ CheckFlags:
 		// except for known commonly used flags.
 		// If the user knows better, they can manually add their own -c to the gcflags.
 		switch flag {
-		case "-N", "-l", "-S", "-B", "-C", "-I", "-shared":
+		case "-N", "-l", "-S", "-B", "-C", "-I", "-shared", "-delaysan":
 			// OK
 		default:
 			canDashC = false
