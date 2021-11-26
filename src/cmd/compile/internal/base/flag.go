@@ -92,6 +92,7 @@ type CmdFlags struct {
 	Complete           bool         "help:\"compiling complete package (no C or assembly)\""
 	ClobberDead        bool         "help:\"clobber dead stack slots (for debugging)\""
 	ClobberDeadReg     bool         "help:\"clobber dead registers (for debugging)\""
+	DelaySan           bool         "help:\"insert delays around loads and stores to help debug runtime races\""
 	Dwarf              bool         "help:\"generate DWARF symbols\""
 	DwarfBASEntries    *bool        "help:\"use base address selection entries in DWARF\""                        // &Ctxt.UseBASEntries, set below
 	DwarfLocationLists *bool        "help:\"add location lists to DWARF in optimized mode\""                      // &Ctxt.Flag_locationlists, set below
@@ -229,6 +230,8 @@ func ParseFlags() {
 		log.Fatal("cannot use both -race and -asan")
 	case Flag.MSan && Flag.ASan:
 		log.Fatal("cannot use both -msan and -asan")
+	case Flag.DelaySan && (Flag.MSan || Flag.ASan || Flag.Race):
+		log.Fatal("delaysan and other sanitizers are untested, probably don't work")
 	}
 	if Flag.Race || Flag.MSan || Flag.ASan {
 		// -race, -msan and -asan imply -d=checkptr for now.

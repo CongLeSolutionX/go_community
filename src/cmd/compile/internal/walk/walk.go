@@ -46,7 +46,7 @@ func Walk(fn *ir.Func) {
 		ir.DumpList(s, ir.CurFunc.Body)
 	}
 
-	if base.Flag.Cfg.Instrumenting {
+	if base.Flag.Cfg.Instrumenting || base.Flag.DelaySan {
 		instrument(fn)
 	}
 
