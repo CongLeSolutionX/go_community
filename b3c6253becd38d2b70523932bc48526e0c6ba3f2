@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8f97f3_5db2d867",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-11-26T08:33:55Z",
+      "side": 1,
+      "message": "TRY\u003dopenbsd-386-70,openbsd-amd64-70,openbsd-arm64-jsing",
+      "revId": "b3c6253becd38d2b70523932bc48526e0c6ba3f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
