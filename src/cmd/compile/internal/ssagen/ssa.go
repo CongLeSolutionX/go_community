@@ -100,6 +100,7 @@ func InitConfig() {
 	ir.Syms.Deferproc = typecheck.LookupRuntimeFunc("deferproc")
 	ir.Syms.DeferprocStack = typecheck.LookupRuntimeFunc("deferprocStack")
 	ir.Syms.Deferreturn = typecheck.LookupRuntimeFunc("deferreturn")
+	ir.Syms.Delay = typecheck.LookupRuntimeFunc("delay")
 	ir.Syms.Duffcopy = typecheck.LookupRuntimeFunc("duffcopy")
 	ir.Syms.Duffzero = typecheck.LookupRuntimeFunc("duffzero")
 	ir.Syms.GCWriteBarrier = typecheck.LookupRuntimeFunc("gcWriteBarrier")
@@ -1285,6 +1286,22 @@ func (s *state) instrumentMove(t *types.Type, dst, src *ssa.Value) {
 	}
 }
 
+func (s *state) instrumentDelay(t *types.Type, addr *ssa.Value, kind instrumentKind) {
+	if !s.f.DebugTest {
+		return
+	}
+	if !s.curfn.InstrumentBody() || base.Flag.DelaySan == 0 {
+		return
+	}
+	if base.Flag.DelaySan&(1<<kind) == 0 {
+		return
+	}
+	if ssa.IsSanitizerSafeAddr(addr) {
+		return
+	}
+	s.rtcall(ir.Syms.Delay, true, nil) // no args yet, just a delay
+}
+
 func (s *state) instrument2(t *types.Type, addr, addr2 *ssa.Value, kind instrumentKind) {
 	if !s.curfn.InstrumentBody() {
 		return
@@ -1306,7 +1323,9 @@ func (s *state) instrument2(t *types.Type, addr, addr2 *ssa.Value, kind instrume
 		panic("instrument2: non-nil addr2 for non-move instrumentation")
 	}
 
-	if base.Flag.MSan {
+	if base.Flag.DelaySan != 0 {
+		return
+	} else if base.Flag.MSan {
 		switch kind {
 		case instrumentRead:
 			fn = ir.Syms.Msanread
@@ -1368,7 +1387,9 @@ func (s *state) instrument2(t *types.Type, addr, addr2 *ssa.Value, kind instrume
 
 func (s *state) load(t *types.Type, src *ssa.Value) *ssa.Value {
 	s.instrumentFields(t, src, instrumentRead)
-	return s.rawLoad(t, src)
+	ret := s.rawLoad(t, src)
+	s.instrumentDelay(t, src, instrumentRead)
+	return ret
 }
 
 func (s *state) rawLoad(t *types.Type, src *ssa.Value) *ssa.Value {
@@ -1384,6 +1405,8 @@ func (s *state) zero(t *types.Type, dst *ssa.Value) {
 	store := s.newValue2I(ssa.OpZero, types.TypeMem, t.Size(), dst, s.mem())
 	store.Aux = t
 	s.vars[memVar] = store
+	s.instrumentDelay(t, dst, instrumentWrite)
+
 }
 
 func (s *state) move(t *types.Type, dst, src *ssa.Value) {
@@ -1391,6 +1414,7 @@ func (s *state) move(t *types.Type, dst, src *ssa.Value) {
 	store := s.newValue3I(ssa.OpMove, types.TypeMem, t.Size(), dst, src, s.mem())
 	store.Aux = t
 	s.vars[memVar] = store
+	s.instrumentDelay(t, dst, instrumentWrite)
 }
 
 // stmtList converts the statement list n to SSA and adds it to s.
@@ -5312,7 +5336,7 @@ func (s *state) addr(n ir.Node) *ssa.Value {
 		if v.Op != ssa.OpLoad {
 			s.Fatalf("dottype of non-load")
 		}
-		if v.Args[1] != s.mem() {
+		if v.Args[1] != s.mem() && base.Flag.DelaySan == 0 {
 			s.Fatalf("memory no longer live from dottype load")
 		}
 		return v.Args[0]
@@ -5633,6 +5657,7 @@ func (s *state) storeType(t *types.Type, left, right *ssa.Value, skip skipMask, 
 	if skip == 0 && (!t.HasPointers() || ssa.IsStackAddr(left)) {
 		// Known to not have write barrier. Store the whole type.
 		s.vars[memVar] = s.newValue3Apos(ssa.OpStore, types.TypeMem, t, left, right, s.mem(), leftIsStmt)
+		s.instrumentDelay(t, left, instrumentWrite)
 		return
 	}
 
@@ -5645,6 +5670,7 @@ func (s *state) storeType(t *types.Type, left, right *ssa.Value, skip skipMask, 
 	if skip&skipPtr == 0 && t.HasPointers() {
 		s.storeTypePtrs(t, left, right)
 	}
+	s.instrumentDelay(t, left, instrumentWrite)
 }
 
 // do *left = right for all scalar (non-pointer) parts of t.
