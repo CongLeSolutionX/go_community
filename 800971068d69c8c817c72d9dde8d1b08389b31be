@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea7bcba5_94bf0acc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-11-26T22:25:22Z",
+      "side": 1,
+      "message": "Hi Michael, I\u0027ve updated CL 351751 [1] to not be flaky when using the -short flag. This was done by allowing the testCPUProfile() func to re-run it with a longer duration if it fails. Locally I\u0027m able to run the short tests 1000 times without failure:\n\ngo test -run\u003dTestLabelSystemstack -count\u003d1000 -short -v runtime/pprof\n\n\nPTAL and let me know what you think. Thanks :)\n\n[1] https://go-review.googlesource.com/c/go/+/351751/",
+      "revId": "800971068d69c8c817c72d9dde8d1b08389b31be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
