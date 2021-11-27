@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f71a569c_1b851d76",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 3973,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-27T17:54:11Z",
+      "side": 1,
+      "message": "Should you add \"or used as a function value\" here?",
+      "revId": "a3b8f627c258f34325d2284ce636f8d4fb103331",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
