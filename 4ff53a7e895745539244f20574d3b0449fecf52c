@@ -53,6 +53,23 @@
       "message": "Thank you Takuma. LGTM!",
       "revId": "4ff53a7e895745539244f20574d3b0449fecf52c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d82db4df_0fafa58a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2021-11-27T23:02:41Z",
+      "side": 1,
+      "message": "I made some edits on the Github PR to make the commit subject and content more succinct. Thank you though for the work on it.",
+      "revId": "4ff53a7e895745539244f20574d3b0449fecf52c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
