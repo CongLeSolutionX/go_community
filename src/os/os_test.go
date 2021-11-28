@@ -2281,6 +2281,10 @@ func testKillProcess(t *testing.T, processKiller func(p *Process)) {
 	}
 
 	defer func() {
+		if ps := cmd.ProcessState; ps == nil {
+			// Process is gone and Kill succeeded
+			return
+		}
 		if err := cmd.Wait(); err == nil {
 			t.Errorf("Test process succeeded, but expected to fail")
 		}

@@ -5,7 +5,6 @@
 package os
 
 import (
-	"errors"
 	"internal/syscall/windows"
 	"runtime"
 	"sync/atomic"
@@ -15,19 +14,16 @@ import (
 
 func (p *Process) wait() (ps *ProcessState, err error) {
 	handle := atomic.LoadUintptr(&p.handle)
-	s, e := syscall.WaitForSingleObject(syscall.Handle(handle), syscall.INFINITE)
-	switch s {
-	case syscall.WAIT_OBJECT_0:
-		break
-	case syscall.WAIT_FAILED:
-		return nil, NewSyscallError("WaitForSingleObject", e)
-	default:
-		return nil, errors.New("os: unexpected result from WaitForSingleObject")
-	}
 	var ec uint32
-	e = syscall.GetExitCodeProcess(syscall.Handle(handle), &ec)
-	if e != nil {
-		return nil, NewSyscallError("GetExitCodeProcess", e)
+	var e error
+	const STILL_ACTIVE uint32 = 259
+	for ec == STILL_ACTIVE {
+		// TODO When Kill() was used, GetExitCodeProcess() does not set ec to exit status 1
+		e = syscall.GetExitCodeProcess(syscall.Handle(handle), &ec)
+		if e != nil {
+			return nil, NewSyscallError("GetExitCodeProcess", e)
+		}
+		time.Sleep(5 * time.Millisecond)
 	}
 	var u syscall.Rusage
 	e = syscall.GetProcessTimes(syscall.Handle(handle), &u.CreationTime, &u.ExitTime, &u.KernelTime, &u.UserTime)
@@ -35,13 +31,10 @@ func (p *Process) wait() (ps *ProcessState, err error) {
 		return nil, NewSyscallError("GetProcessTimes", e)
 	}
 	p.setDone()
-	// NOTE(brainman): It seems that sometimes process is not dead
-	// when WaitForSingleObject returns. But we do not know any
-	// other way to wait for it. Sleeping for a while seems to do
-	// the trick sometimes.
-	// See https://golang.org/issue/25965 for details.
-	defer time.Sleep(5 * time.Millisecond)
-	defer p.Release()
+	defer func () { e = p.Release() }()
+	if e != nil {
+		return nil, NewSyscallError("Release", e)
+	}
 	return &ProcessState{p.Pid, syscall.WaitStatus{ExitCode: ec}, &u}, nil
 }
 
