@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification - Go 1.18 Draft (incomplete)",
-	"Subtitle": "Version of Nov 24, 2021",
+	"Subtitle": "Version of Nov 29, 2021",
 	"Path": "/ref/spec"
 }-->
 
@@ -1971,7 +1971,7 @@ x                   T           x is not representable by a value of T because
 
 <p>
 An interface specification which contains <a href="#Interface_types">type elements</a>
-that are not interface types defines a (possibly empty) set of <i>specific types</i>.
+defines a (possibly empty) set of <i>specific types</i>.
 Loosely speaking, these are the types <code>T</code> that appear in the
 interface definition in terms of the form <code>T</code>, <code>~T</code>,
 or in unions of such terms.
@@ -1986,10 +1986,7 @@ More precisely, for a given interface, the set of specific types is defined as f
 	</li>
 
 	<li>The set of specific types of a non-empty interface is the intersection
-		of the specific types of its interface elements.
-	</li>
-
-	<li>The set of specific types of a method specification is the empty set.
+		of the specific types of its type elements.
 	</li>
 
 	<li>The set of specific types of a non-interface type term <code>T</code>
@@ -2004,6 +2001,8 @@ More precisely, for a given interface, the set of specific types is defined as f
 
 <p>
 If the set of specific types is empty, the interface has <i>no specific types</i>.
+An interface may have specific types even if its <a href="#Interface_types">type set</a>
+is empty.
 </p>
 
 <p>
@@ -2019,6 +2018,8 @@ interface{ int }               // int
 interface{ ~string }           // string
 interface{ int|~string }       // int, string
 interface{ Celsius|Kelvin }    // Celsius, Kelvin
+interface{ int; m() }          // int (but type set is empty because string has no method m)
+interface{ int; any }          // no specific types (intersection is empty)
 interface{ int; string }       // no specific types (intersection is empty)
 </pre>
 
@@ -3980,7 +3981,8 @@ pt.Scale(3.5)     // method call with receiver pt
 
 <p>
 If <code>f</code> denotes a parameterized function, it must be
-<a href="#Instantiations">instantiated</a> before it can be called.
+<a href="#Instantiations">instantiated</a> before it can be called
+or used as a function value.
 </p>
 
 <p>
@@ -4807,7 +4809,7 @@ Only <code>V</code> is a type parameter and a value of each
 specific type of <code>V</code> can be converted to <code>T</code>.
 </li>
 <li>
-Only <code>T</code> is a type parameter and <code>x</code> can can be converted to each
+Only <code>T</code> is a type parameter and <code>x</code> can be converted to each
 specific type of <code>T</code>.
 </li>
 </ul>
