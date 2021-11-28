@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58fe2ef5_0246d257",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 3717,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-28T23:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f46e09_ad2c9733",
+      "revId": "a074a79c90d979e4ccbf046044ddaab785a21042",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "421521cd_cd02ed60",
