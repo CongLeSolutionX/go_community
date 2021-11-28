@@ -16,6 +16,24 @@
       "message": "\"can can\" -\u003e \"can\"",
       "revId": "ce2a20af467c8dfa10874abc4b45af413e2b1954",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48a0ee02_a6769eb9",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 4714,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-28T22:20:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bb4af77_1dfef3f1",
+      "revId": "ce2a20af467c8dfa10874abc4b45af413e2b1954",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
