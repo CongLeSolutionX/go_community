@@ -87,6 +87,24 @@
       "message": "Mind changing cmd/compile/internal/importer and go/internal/gcimporter as well?",
       "revId": "7f36b3d35be1d37e6f2a1ff74b02a9ddae5970f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9f49dba_8179f991",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-11-29T20:54:01Z",
+      "side": 1,
+      "message": "Oops, thanks, not sure how I got distracted enough to suddenly forgot about those...  Done",
+      "parentUuid": "64317711_a1855ed7",
+      "revId": "7f36b3d35be1d37e6f2a1ff74b02a9ddae5970f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
