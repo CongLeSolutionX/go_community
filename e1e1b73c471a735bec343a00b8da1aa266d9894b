@@ -16,6 +16,24 @@
       "message": "This line isn\u0027t needed in a Go commit, please remove.",
       "revId": "e1e1b73c471a735bec343a00b8da1aa266d9894b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4477e954_ba2d7d07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2021-11-29T16:09:23Z",
+      "side": 1,
+      "message": "Bah! So sorry. I apparently pressed submit before Gerrit had shown this comment.\n\nI sent a huge series to LKML this morning and my fingers `git commit -s`\u0027d by accident.",
+      "parentUuid": "32f8e740_b96f4ba0",
+      "revId": "e1e1b73c471a735bec343a00b8da1aa266d9894b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
