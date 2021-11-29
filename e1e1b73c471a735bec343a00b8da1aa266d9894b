@@ -34,6 +34,24 @@
       "parentUuid": "32f8e740_b96f4ba0",
       "revId": "e1e1b73c471a735bec343a00b8da1aa266d9894b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "533a6c76_8d02d85b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-11-29T16:14:15Z",
+      "side": 1,
+      "message": "It\u0027s okay, they\u0027re not necessary since CLA compliance is enforced by the Gerrit server, but otherwise not a big deal aside from possible confusion.\n\nI wonder if git-codereview can be improved to catch these.",
+      "parentUuid": "4477e954_ba2d7d07",
+      "revId": "e1e1b73c471a735bec343a00b8da1aa266d9894b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
