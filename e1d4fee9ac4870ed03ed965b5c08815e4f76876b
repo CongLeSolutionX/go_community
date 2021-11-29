@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c03b34bf_65003587",
+        "filename": "misc/cgo/test/pkg_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-29T23:08:27Z",
+      "side": 1,
+      "message": "Reading the os/exec documentation closely, this is apparently an incorrect usage of pipes too. The documentation isn\u0027t very clear about what happens at any step when an error does happen. (i.e what is state of the pipes if Start or Wait fails, or one pipe creation returns an error, etc).\n\nUltimately, the benefit of this change is dubious. It just help me identify the hanging test without having to wait around until the test timed out. I am backing out this change.",
+      "parentUuid": "c4dca068_a457c3bb",
+      "revId": "e1d4fee9ac4870ed03ed965b5c08815e4f76876b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "049a2bd1_8761d9ea",
@@ -106,6 +124,24 @@
       "writtenOn": "2021-11-29T20:33:36Z",
       "side": 1,
       "message": "Check s.Err after the loop.",
+      "revId": "e1d4fee9ac4870ed03ed965b5c08815e4f76876b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ff13d17_af6e2aa8",
+        "filename": "misc/cgo/test/pkg_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2021-11-29T23:08:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "049a2bd1_8761d9ea",
       "revId": "e1d4fee9ac4870ed03ed965b5c08815e4f76876b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
