@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "687d294d_b944b3f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-11-29T18:39:58Z",
+      "side": 1,
+      "message": "Do you have a benchmark? The benchmark code doesn\u0027t need to be part of the CL, but a change which purports to improve performance should quantify the improvement.",
+      "revId": "8dafb3fec75e3d6fb1bb636270eab096b55465f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "060f21e2_18ef11b7",
+        "filename": "src/net/http/status.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-11-29T18:39:58Z",
+      "side": 1,
+      "message": "Drop the section comments. This switch is strictly mapping from integers to strings, and adding additional semantic comments just confuses it.",
+      "revId": "8dafb3fec75e3d6fb1bb636270eab096b55465f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5395bcab_772e068b",
+        "filename": "src/net/http/status.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-11-29T18:39:58Z",
+      "side": 1,
+      "message": "No spaces between clauses; this is already twice as long as the map version, no need to make it even longer.",
+      "revId": "8dafb3fec75e3d6fb1bb636270eab096b55465f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
