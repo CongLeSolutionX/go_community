@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb6e24d5_91344ea1",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 3730,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-29T17:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7a97af_88fb9623",
+      "revId": "693d7ef63b22ba4819374dd26b5d3b3949f282ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84f6017f_8c577568",
@@ -87,6 +105,24 @@
       "writtenOn": "2021-11-29T02:03:33Z",
       "side": 1,
       "message": "Do we need to say anything here?",
+      "revId": "693d7ef63b22ba4819374dd26b5d3b3949f282ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c7493d9_4e357d35",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 6514,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-29T17:14:14Z",
+      "side": 1,
+      "message": "I\u0027d leave it for now: If we have a type parameter we don\u0027t have a string constant. We also don\u0027t have an array (or pointer to an array).\n\nIt depends a bit on how we handle \"x is an array\" in upcoming CLs: does it include type parameters with a structural type of array or not. We can revisit as needed.",
+      "parentUuid": "84f6017f_8c577568",
       "revId": "693d7ef63b22ba4819374dd26b5d3b3949f282ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

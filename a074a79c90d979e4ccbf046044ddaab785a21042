@@ -88,6 +88,24 @@
       "message": "This phrasing similarly sounds weird, I would say:\n\nIf the argument to len or cap has a type which is a type parameter P\n\nor\n\nIf the argument to len or cap has a type P which is a type parameter",
       "revId": "a074a79c90d979e4ccbf046044ddaab785a21042",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9336373e_c8e5cbbb",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 6535,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-11-29T17:14:14Z",
+      "side": 1,
+      "message": "rephrased",
+      "parentUuid": "421521cd_cd02ed60",
+      "revId": "a074a79c90d979e4ccbf046044ddaab785a21042",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
