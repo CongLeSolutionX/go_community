@@ -436,8 +436,8 @@ func ConvertibleTo(V, T Type) bool {
 
 // Implements reports whether type V implements interface T.
 func Implements(V Type, T *Interface) bool {
-	f, _ := MissingMethod(V, T, true)
-	return f == nil
+	err := (*Checker)(nil).implements(V, T, nil)
+	return err == nil
 }
 
 // Identical reports whether x and y are identical types.
