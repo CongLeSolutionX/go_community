@@ -24,7 +24,7 @@ type TypeParam struct {
 	id    uint64    // unique id, for debugging only
 	obj   *TypeName // corresponding type name
 	index int       // type parameter index in source order, starting at 0
-	bound Type      // any type, but eventually an *Interface for correct programs (see TypeParam.iface)
+	bound Type      // any type, but eventually underlying is *Interface for correct programs (see TypeParam.iface)
 }
 
 // NewTypeParam returns a new TypeParam. Type parameters may be set on a Named
@@ -70,6 +70,7 @@ func (t *TypeParam) SetConstraint(bound Type) {
 		panic("nil constraint")
 	}
 	t.bound = bound
+	t.iface() // ensure that bound is wrapped.
 }
 
 func (t *TypeParam) Underlying() Type {
