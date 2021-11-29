@@ -89,6 +89,24 @@
       "message": "just\n\nreturn (*Checker)(nil).implements(V, T, nil) \u003d\u003d nil",
       "revId": "0340ac570138f37ca0eaeb3e3f8fca47ef07d501",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d530352_2c296253",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-11-29T22:24:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ef183c6_65121d19",
+      "revId": "0340ac570138f37ca0eaeb3e3f8fca47ef07d501",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
