@@ -76,6 +76,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8a80935_90cfea18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-11-29T18:53:16Z",
+      "side": 1,
+      "message": "I think this failure is unrelated, but I\u0027m unable to confirm.\n\nOn my local VM (Linux ubuntu 5.11.0-40-generic #44~20.04.2-Ubuntu SMP Tue Oct 26 18:07:44 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux) I can execute the failing test many times without an issue:\n\n$ ./bin/go test -count 10 -run \u0027TestSIGPROF\u0027 ./misc/cgo/testcarchive/*.go\nok  \tcommand-line-arguments\t9.064s\n\nBut when trying to execute all testcarchive tests together I\u0027m getting the error shown below:\n\n$ ./bin/go test -v ./misc/cgo/testcarchive/*.go\n...\n\u003d\u003d\u003d CONT  TestPreemption\n    carchive_test.go:975: test program timed out\n    carchive_test.go:982: \n    carchive_test.go:983: signal: killed\n--- FAIL: TestPreemption (60.87s)\n\nMaybe we can run the bots again?",
+      "parentUuid": "e2f77119_13bb50dc",
+      "revId": "800971068d69c8c817c72d9dde8d1b08389b31be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "792d8495_867e492d",
         "filename": "src/runtime/pprof/pprof_test.go",
         "patchSetId": 2
@@ -87,6 +105,24 @@
       "writtenOn": "2021-11-27T19:43:55Z",
       "side": 1,
       "message": "I think this will be clearer if written as\n\n    if matches !\u003d nil \u0026\u0026 !matches(t, p) {\n        ok \u003d false\n    }",
+      "revId": "800971068d69c8c817c72d9dde8d1b08389b31be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd9ed3a3_9bc4684b",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-11-29T18:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "792d8495_867e492d",
       "revId": "800971068d69c8c817c72d9dde8d1b08389b31be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -104,6 +140,24 @@
       "writtenOn": "2021-11-27T19:43:55Z",
       "side": 1,
       "message": "We shouldn\u0027t just return here.  We should report all the problems.",
+      "revId": "800971068d69c8c817c72d9dde8d1b08389b31be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f139a29d_60e85d25",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2021-11-29T18:53:16Z",
+      "side": 1,
+      "message": "Fixed. Sorry, this change was made by accident when moving the code around.",
+      "parentUuid": "683a7661_6dc836a1",
       "revId": "800971068d69c8c817c72d9dde8d1b08389b31be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
