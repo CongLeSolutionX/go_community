@@ -51,6 +51,23 @@
       "message": "This patch fixes #49709 on my device, and agrees with the output \"go tool cgo -godefs\" when run with the Linux headers from my device.\n\nJoel, because the issue hasn\u0027t reproduced on your machine and because you wrote the original struct definition, I\u0027m especially interested to confirm that this all makes sense from your perspective, and that I haven\u0027t gotten a strange device with a strange kernel (and the strange headers to match).\n\nThanks!",
       "revId": "da71e1f8a80464d83dc5494ccc341f2d0a102363",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deb86a8e_14a46a4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-30T01:07:08Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "da71e1f8a80464d83dc5494ccc341f2d0a102363",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
