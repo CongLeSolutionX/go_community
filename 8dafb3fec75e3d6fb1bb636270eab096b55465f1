@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e932d73f_ebeeb0a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54993
+      },
+      "writtenOn": "2021-11-30T08:14:36Z",
+      "side": 1,
+      "message": "When the code integer parameter is known at build-time (which is almost always for this specific function), the compiler is able to optimize out the function call entirely (i.e. on x86 ASM everything is reduced to a single LEA instruction pointing directly to the string literal in the data sector of the binary executable), making the function perform as fast as it would if you\u0027d hard code the string values in place every time.\n\nIf you\u0027d prefer I can try benchmarking this later too, I came across this when comparing the binaries from a C program I ported into Go.",
+      "parentUuid": "687d294d_b944b3f1",
+      "revId": "8dafb3fec75e3d6fb1bb636270eab096b55465f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "060f21e2_18ef11b7",
