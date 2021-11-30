@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f99dbd_bd0690f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2021-11-30T17:52:00Z",
+      "side": 1,
+      "message": "I don\u0027t think the assumption that StatusText is usually called with a constant parameter holds; of the six non-test calls to StatusText in net/http, none have a constant input.\n\nBenchmarked looking up known statuses (entry in the switch stable) vs. unknown ones (random numbers, returns 0); as expected the switch does perform better:\n\nname                  old time/op  new time/op  delta\nStatusText-12         19.3ns ±19%  11.5ns ± 4%  -40.50%  (p\u003d0.000 n\u003d8+7)\nStatusTextUnknown-12  12.8ns ± 4%   4.1ns ± 1%  -68.26%  (p\u003d0.001 n\u003d8+6)",
+      "parentUuid": "e932d73f_ebeeb0a5",
+      "revId": "8dafb3fec75e3d6fb1bb636270eab096b55465f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "060f21e2_18ef11b7",
