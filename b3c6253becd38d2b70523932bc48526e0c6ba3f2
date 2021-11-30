@@ -195,6 +195,24 @@
       "message": "(nit)\n\nThe issue to which testenv.SkipFlaky refers should be left open (and probably tagged “help wanted” and milestoned to Backlog or Unplanned), since the Skip is suppressing the test for what we believe to be a real bug.",
       "revId": "b3c6253becd38d2b70523932bc48526e0c6ba3f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da847d83_043b534e",
+        "filename": "src/runtime/crash_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-11-30T22:22:03Z",
+      "side": 1,
+      "message": "Thanks. Changed testenv.SkipFlaky to reference #49725 and leave it open (i.e. s/Fixes/Updates/ in the commit message).",
+      "parentUuid": "6abae67c_fee9ab59",
+      "revId": "b3c6253becd38d2b70523932bc48526e0c6ba3f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
