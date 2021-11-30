@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "139c69b1_dfe41a12",
+        "filename": "src/net/http/status.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 54993
+      },
+      "writtenOn": "2021-11-30T08:08:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "060f21e2_18ef11b7",
+      "revId": "8dafb3fec75e3d6fb1bb636270eab096b55465f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5395bcab_772e068b",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-29T18:39:58Z",
       "side": 1,
       "message": "No spaces between clauses; this is already twice as long as the map version, no need to make it even longer.",
+      "revId": "8dafb3fec75e3d6fb1bb636270eab096b55465f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dca618c_0db0851e",
+        "filename": "src/net/http/status.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 54993
+      },
+      "writtenOn": "2021-11-30T08:08:24Z",
+      "side": 1,
+      "message": "Done. Thanks! This does look way better indeed (~25% less code).",
+      "parentUuid": "5395bcab_772e068b",
       "revId": "8dafb3fec75e3d6fb1bb636270eab096b55465f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
