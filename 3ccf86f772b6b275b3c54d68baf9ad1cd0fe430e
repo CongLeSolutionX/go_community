@@ -119,6 +119,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae7ada2c_7361340b",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-30T15:08:40Z",
+      "side": 1,
+      "message": "The ELF ABI is irrelevant. The Go ABI does not need to use \"argument registers\" in ELF ABI as argument registers. The only thing matters is that is some register is reserved by the system or by the external linker (if any), we should avoid that. \"Argument registers\" are clearly not.",
+      "parentUuid": "d40d40e7_7e0d7f40",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 52
+      },
+      "revId": "3ccf86f772b6b275b3c54d68baf9ad1cd0fe430e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae5fa348_f0b7b070",
