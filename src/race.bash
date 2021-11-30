@@ -29,6 +29,10 @@ if [ ! -f make.bash ]; then
 	echo 'race.bash must be run from $GOROOT/src' 1>&2
 	exit 1
 fi
+
+# XXX for testing
+export MallocNanoZone=1
+
 . ./make.bash --no-banner
 go install -race std
 go tool dist test -race
