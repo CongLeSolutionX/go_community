@@ -561,16 +561,14 @@ func allGsSnapshot() []*g {
 	return allgs[:len(allgs):len(allgs)]
 }
 
-// atomicAllG returns &allgs[0] and len(allgs) for use with atomicAllGIndex.
-func atomicAllG() (**g, uintptr) {
+// atomicAllGsSnapshot returns a snapshot of the slice of all Gs.
+//
+// Unlike allGsSnapshot, this can be used at any time.
+func atomicAllGsSnapshot() (snapshot []*g) {
 	length := atomic.Loaduintptr(&allglen)
-	ptr := (**g)(atomic.Loadp(unsafe.Pointer(&allgptr)))
-	return ptr, length
-}
-
-// atomicAllGIndex returns ptr[i] with the allgptr returned from atomicAllG.
-func atomicAllGIndex(ptr **g, i uintptr) *g {
-	return *(**g)(add(unsafe.Pointer(ptr), i*goarch.PtrSize))
+	ptr := atomic.Loadp(unsafe.Pointer(&allgptr))
+	*(*slice)(unsafe.Pointer(&snapshot)) = slice{ptr, int(length), int(length)}
+	return
 }
 
 // forEachG calls fn on every G from allgs.
@@ -589,12 +587,9 @@ func forEachG(fn func(gp *g)) {
 // forEachGRace avoids locking, but does not exclude addition of new Gs during
 // execution, which may be missed.
 func forEachGRace(fn func(gp *g)) {
-	ptr, length := atomicAllG()
-	for i := uintptr(0); i < length; i++ {
-		gp := atomicAllGIndex(ptr, i)
+	for _, gp := range atomicAllGsSnapshot() {
 		fn(gp)
 	}
-	return
 }
 
 const (
