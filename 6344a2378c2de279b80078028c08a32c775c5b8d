@@ -16,6 +16,24 @@
       "message": "Maybe we should say a little able how it improved the format. Also, since all stack traces are arguably from the runtime, I think we don\u0027t need to say that.\n\nGo 1.17 generally improved the formatting of arguments in stack traces, but could print inaccurate values for arguments passed in registers.\n\n?",
       "revId": "6344a2378c2de279b80078028c08a32c775c5b8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d91a70_fd3469dd",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-01T21:42:13Z",
+      "side": 1,
+      "message": "Done. Your wording looks good.",
+      "parentUuid": "34276aef_2a3831b0",
+      "revId": "6344a2378c2de279b80078028c08a32c775c5b8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
