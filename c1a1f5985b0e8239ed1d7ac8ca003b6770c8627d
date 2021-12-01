@@ -33,6 +33,23 @@
       "message": "Is there any interest in this? I guess it might be too late now for 1.18, but otherwise for 1.19? ",
       "revId": "c1a1f5985b0e8239ed1d7ac8ca003b6770c8627d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df7f0ad5_94b51147",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20251
+      },
+      "writtenOn": "2021-12-01T22:33:43Z",
+      "side": 1,
+      "message": "I\u0027m not a Go maintainer, so I have no authority here.\n\nI would like to see this move forward, but I note that this implementation here looks a lot more repetitive than the existing assembly versions.  Could this be condensed using a pattern like the SHA256ROUND0/1(...) macros?  That might make it more appealing and consistent with the Go Assembly Policy.",
+      "revId": "c1a1f5985b0e8239ed1d7ac8ca003b6770c8627d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
