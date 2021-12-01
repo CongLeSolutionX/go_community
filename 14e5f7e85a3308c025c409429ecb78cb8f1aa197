@@ -70,6 +70,24 @@
       "message": "If you\u0027re going to edit this line might as well remove the incorrect comma too.",
       "revId": "14e5f7e85a3308c025c409429ecb78cb8f1aa197",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e38c82e_4d50c8f0",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-01T15:18:34Z",
+      "side": 1,
+      "message": "Not sure which comma you\u0027re referring to — I don\u0027t see one in this paragraph that is obviously incorrect. 😅",
+      "parentUuid": "48ad9d99_fe3a321e",
+      "revId": "14e5f7e85a3308c025c409429ecb78cb8f1aa197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
