@@ -12,7 +12,6 @@ package net
 import (
 	"os"
 	"testing"
-	"time"
 )
 
 // The full stack test cases for IPConn have been moved to the
@@ -38,6 +37,8 @@ var packetConnTests = []struct {
 }
 
 func TestPacketConn(t *testing.T) {
+	t.Parallel()
+
 	closer := func(c PacketConn, net, addr1, addr2 string) {
 		c.Close()
 		switch net {
@@ -60,9 +61,6 @@ func TestPacketConn(t *testing.T) {
 		}
 		defer closer(c1, tt.net, tt.addr1, tt.addr2)
 		c1.LocalAddr()
-		c1.SetDeadline(time.Now().Add(500 * time.Millisecond))
-		c1.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
-		c1.SetWriteDeadline(time.Now().Add(500 * time.Millisecond))
 
 		c2, err := ListenPacket(tt.net, tt.addr2)
 		if err != nil {
@@ -70,9 +68,6 @@ func TestPacketConn(t *testing.T) {
 		}
 		defer closer(c2, tt.net, tt.addr1, tt.addr2)
 		c2.LocalAddr()
-		c2.SetDeadline(time.Now().Add(500 * time.Millisecond))
-		c2.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
-		c2.SetWriteDeadline(time.Now().Add(500 * time.Millisecond))
 		rb2 := make([]byte, 128)
 
 		if _, err := c1.WriteTo(wb, c2.LocalAddr()); err != nil {
@@ -92,6 +87,8 @@ func TestPacketConn(t *testing.T) {
 }
 
 func TestConnAndPacketConn(t *testing.T) {
+	t.Parallel()
+
 	closer := func(c PacketConn, net, addr1, addr2 string) {
 		c.Close()
 		switch net {
@@ -115,9 +112,6 @@ func TestConnAndPacketConn(t *testing.T) {
 		}
 		defer closer(c1, tt.net, tt.addr1, tt.addr2)
 		c1.LocalAddr()
-		c1.SetDeadline(time.Now().Add(500 * time.Millisecond))
-		c1.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
-		c1.SetWriteDeadline(time.Now().Add(500 * time.Millisecond))
 
 		c2, err := Dial(tt.net, c1.LocalAddr().String())
 		if err != nil {
@@ -126,9 +120,6 @@ func TestConnAndPacketConn(t *testing.T) {
 		defer c2.Close()
 		c2.LocalAddr()
 		c2.RemoteAddr()
-		c2.SetDeadline(time.Now().Add(500 * time.Millisecond))
-		c2.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
-		c2.SetWriteDeadline(time.Now().Add(500 * time.Millisecond))
 
 		if _, err := c2.Write(wb); err != nil {
 			t.Fatal(err)
