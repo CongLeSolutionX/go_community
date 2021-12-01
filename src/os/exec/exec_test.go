@@ -977,15 +977,23 @@ func TestContextCancel(t *testing.T) {
 
 	// Calling cancel should have killed the process, so writes
 	// should now fail.  Give the process a little while to die.
-	start := time.Now()
+	delay := 1 * time.Millisecond
 	for {
 		if _, err := io.WriteString(stdin, "echo"); err != nil {
 			break
 		}
-		if time.Since(start) > time.Minute {
-			t.Fatal("canceling context did not stop program")
+
+		// Don't check the timeout here: if this test fails, to terminate the
+		// process, we want to let it run until the test terminates so that we get
+		// useful goroutine dumps.
+
+		// Back off exponentially (up to 1-second sleeps) to give the OS time to
+		// terminate the process.
+		delay *= 2
+		if delay > 1*time.Second {
+			delay = 1 * time.Second
 		}
-		time.Sleep(time.Millisecond)
+		time.Sleep(delay)
 	}
 
 	if err := c.Wait(); err == nil {
