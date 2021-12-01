@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca26f848_9a2986b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-01T16:49:16Z",
+      "side": 1,
+      "message": "märkroot",
+      "parentUuid": "a72ea83b_65db2ac6",
+      "range": {
+        "startLine": 36,
+        "startChar": 33,
+        "endLine": 36,
+        "endChar": 42
+      },
+      "revId": "18512a57d7ac89a330b929d81a0ea9ad5f255a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "108e6996_9c858cca",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-12-01T15:52:39Z",
       "side": 1,
       "message": "Also fix #43824 ?",
+      "revId": "18512a57d7ac89a330b929d81a0ea9ad5f255a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7e53eac_d97a0a39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-01T16:49:16Z",
+      "side": 1,
+      "message": "Done (probably we should have just merged those issues...)",
+      "parentUuid": "108e6996_9c858cca",
       "revId": "18512a57d7ac89a330b929d81a0ea9ad5f255a4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -108,6 +150,30 @@
       "writtenOn": "2021-12-01T15:18:11Z",
       "side": 1,
       "message": "\"or allglock is held\"?",
+      "range": {
+        "startLine": 556,
+        "startChar": 12,
+        "endLine": 556,
+        "endChar": 32
+      },
+      "revId": "18512a57d7ac89a330b929d81a0ea9ad5f255a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e888a16_62e38830",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-01T16:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e11a6b6e_61fc84f9",
       "range": {
         "startLine": 556,
         "startChar": 12,
