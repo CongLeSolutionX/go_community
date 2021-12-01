@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d9d3591_3e3f4f73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-01T16:03:49Z",
+      "side": 1,
+      "message": "Dmitry commented on the LLVM patch \"This looks fine as a hot fix.\"\n\nOn LLVM tip Dmitry already landed the new TSAN runtime, so the patch won\u0027t land there. So this is a workaround for 1.18 in our repo. Thanks.",
+      "revId": "3ba27cda917f88e051711b60645d3ea0e5522cf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
