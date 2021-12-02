@@ -196,6 +196,24 @@
       "message": "I\u0027m OK with this but it should not be necessary.  By default GCC and clang do not warn about -Wno-xxx options whether they recognize xxx or not.  That is specifically to avoid this kind of problem, where you want to disable a warning for some version of the compiler and still compile with different versions.",
       "revId": "3802c4cf5d7ec6f7f19bdcec3523082a53eea14e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40bcd909_074599ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-02T21:41:35Z",
+      "side": 1,
+      "message": "https://clang.llvm.org/docs/DiagnosticsReference.html#wunknown-warning-option claims that -Wunknown-warning-option is the default.\n\nIt isn\u0027t clear to me from that page whether -Wunknown-warning-option applies to the \"-Wno-\" forms as well.",
+      "parentUuid": "5ec44974_f229ad59",
+      "revId": "3802c4cf5d7ec6f7f19bdcec3523082a53eea14e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
