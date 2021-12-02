@@ -50,6 +50,24 @@
       "message": "I\u0027m not a Go maintainer, so I have no authority here.\n\nI would like to see this move forward, but I note that this implementation here looks a lot more repetitive than the existing assembly versions.  Could this be condensed using a pattern like the SHA256ROUND0/1(...) macros?  That might make it more appealing and consistent with the Go Assembly Policy.",
       "revId": "c1a1f5985b0e8239ed1d7ac8ca003b6770c8627d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82976b0f_c70c141d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54123
+      },
+      "writtenOn": "2021-12-02T12:40:54Z",
+      "side": 1,
+      "message": "I have thought about that and also read the policy, but in the end I did opt for the current setup.\n\nIt\u0027s mainly because it directly follows the documentation at https://software.intel.com/content/www/us/en/develop/articles/intel-sha-extensions.html and makes it at least imho easier follow the algorithm based on that documentation. \n\nIf maintainers here disagree though, I can look at how to refactor it. But at least personally I found the current code easier to follow than the indirections in the AVX2 implementation (but that one would be a lot more complex and elaborate if it was written out so the trade off I think is different there).",
+      "parentUuid": "df7f0ad5_94b51147",
+      "revId": "c1a1f5985b0e8239ed1d7ac8ca003b6770c8627d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
