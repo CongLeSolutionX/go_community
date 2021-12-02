@@ -214,6 +214,24 @@
       "parentUuid": "5ec44974_f229ad59",
       "revId": "3802c4cf5d7ec6f7f19bdcec3523082a53eea14e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9abb2ef_edf6f89b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-02T22:47:34Z",
+      "side": 1,
+      "message": "Whoops, you\u0027re right, I guess it\u0027s only the default for GCC.\n\nThat said I note that cgo explicitly passes -Wno-unknown-warning-option when using clang.  So I\u0027m still confused about this.  Is the issue that cmd/go/internal/work/exec.go doesn\u0027t pass it in (*Builder).ccompile?",
+      "parentUuid": "40bcd909_074599ef",
+      "revId": "3802c4cf5d7ec6f7f19bdcec3523082a53eea14e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
