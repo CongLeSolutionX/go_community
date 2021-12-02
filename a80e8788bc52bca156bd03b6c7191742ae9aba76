@@ -87,6 +87,24 @@
       "message": "Thanks for addressing the review comments this has received so far Sean. With Thanksgiving Day in the US coming up tomorrow and many people being away, I think we should avoid submitting this for now, but can continue here next week.",
       "revId": "a80e8788bc52bca156bd03b6c7191742ae9aba76",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df89bb36_fde77941",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-12-02T18:24:41Z",
+      "side": 1,
+      "message": "There\u0027s just one more thread to resolve, then can submit.",
+      "parentUuid": "1a7fadef_6ef0d98d",
+      "revId": "a80e8788bc52bca156bd03b6c7191742ae9aba76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

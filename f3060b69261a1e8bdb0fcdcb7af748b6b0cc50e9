@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9997fe78_3edf1cae",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-12-02T18:24:41Z",
+      "side": 1,
+      "message": "Rob, does that sound good and can we consider this thread resolved, or would you like further changes before we submit this?",
+      "parentUuid": "8a2586eb_0fd60e5e",
+      "range": {
+        "startLine": 2,
+        "startChar": 6,
+        "endLine": 2,
+        "endChar": 10
+      },
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da0c3960_b5a869a0",
         "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
         "patchSetId": 4
@@ -470,6 +494,24 @@
       "side": 1,
       "message": "00-bug hides `go env` output in a collapsed details section, it\u0027s easier to see the version on its own.\nIt also covers all other issues where the reporter may feel `go env` is not relevant and just skip the section entirely",
       "parentUuid": "988a7367_e4789c2e",
+      "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "855baa76_41586943",
+        "filename": ".github/ISSUE_TEMPLATE/03-gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-12-02T18:24:41Z",
+      "side": 1,
+      "message": "To me it looks like this thread is resolved by adding go env and followup questions answered, so marking it as such.\nHana, Rob, please comment if you\u0027d like more changes here before this is submitted.",
+      "parentUuid": "dbb7494b_e1185ad1",
       "revId": "f3060b69261a1e8bdb0fcdcb7af748b6b0cc50e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
