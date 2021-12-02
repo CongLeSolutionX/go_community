@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ec62955e_45d15e71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-02T22:52:39Z",
+      "side": 1,
+      "message": "Done. Yeah, there is a separate issue for the new TSAN. I was thinking the environment variable workaround for 1.17. But that could be a separate issue as well.",
+      "parentUuid": "919d36ee_61fb9afe",
+      "revId": "3ba27cda917f88e051711b60645d3ea0e5522cf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0d9d3591_3e3f4f73",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -102,6 +120,24 @@
       "writtenOn": "2021-12-02T01:52:28Z",
       "side": 1,
       "message": "Just double checking that the Go commit in fact did not change.",
+      "revId": "3ba27cda917f88e051711b60645d3ea0e5522cf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca13ddb0_e25b28fc",
+        "filename": "src/runtime/race/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-02T22:52:39Z",
+      "side": 1,
+      "message": "It doesn\u0027t need the Go toolchain to build the syso. I think the Go commit is just which one it is tested with (running race.bash). I changed to the one I actually used.",
+      "parentUuid": "40f6607c_fe6d6f83",
       "revId": "3ba27cda917f88e051711b60645d3ea0e5522cf8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
