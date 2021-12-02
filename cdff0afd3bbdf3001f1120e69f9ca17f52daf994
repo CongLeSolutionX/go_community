@@ -53,6 +53,24 @@
       "message": "LGTM.  Seems like a good default behavior for now.  Do you think we should add a separate experiment for the smaller heap?",
       "revId": "cdff0afd3bbdf3001f1120e69f9ca17f52daf994",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d9bdca3_6668159b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-12-02T04:09:29Z",
+      "side": 1,
+      "message": "following your advice, I broke it out into a goexperiment.",
+      "parentUuid": "9c6ea4a3_d844833e",
+      "revId": "cdff0afd3bbdf3001f1120e69f9ca17f52daf994",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
