@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01dc8cd_a1e356ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-12-02T22:45:51Z",
+      "side": 1,
+      "message": "Revert the change to make sure the ppc errors match for issue49814.go\n",
+      "revId": "cf4ba9149bc0999e55a8cf8524ce915c6878827b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
