@@ -93,29 +93,23 @@ func TestPragcgo(t *testing.T) {
 	var nopos syntax.Pos
 	for _, tt := range tests {
 
-		p.err = make(chan syntax.Error)
-		gotch := make(chan [][]string, 1)
-		go func() {
-			p.pragcgobuf = nil
-			p.pragcgo(nopos, tt.in)
-			if p.pragcgobuf != nil {
-				gotch <- p.pragcgobuf
-			}
-		}()
+		p.pragcgobuf = nil
+		p.pragcgo(nopos, tt.in)
 
-		select {
-		case e := <-p.err:
+		if len(p.err) != 0 {
+			e := p.err[0]
 			want := tt.want[0]
 			if e.Error() != want {
 				t.Errorf("pragcgo(%q) = %q; want %q", tt.in, e, want)
 				continue
 			}
-		case got := <-gotch:
-			want := [][]string{tt.want}
-			if !reflect.DeepEqual(got, want) {
-				t.Errorf("pragcgo(%q) = %q; want %q", tt.in, got, want)
-				continue
-			}
+		}
+
+		got := p.pragcgobuf
+		want := [][]string{tt.want}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("pragcgo(%q) = %q; want %q", tt.in, got, want)
+			continue
 		}
 
 	}
