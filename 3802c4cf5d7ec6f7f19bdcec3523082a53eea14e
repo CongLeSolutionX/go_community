@@ -232,6 +232,24 @@
       "parentUuid": "40bcd909_074599ef",
       "revId": "3802c4cf5d7ec6f7f19bdcec3523082a53eea14e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1856d15_8fdd9170",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-03T04:22:49Z",
+      "side": 1,
+      "message": "I\u0027m really not sure. It seems like the clang version in #49913 is very old (and unlikely to actually be the appropriate clang for that version of macOS), but I would still rather remove the unnecessary flag on the grounds of cleanliness.\n\n(Clearly we\u0027re not going to find a set of flags that work with everyone\u0027s macOS C toolchain, because what we\u0027ve seen in issue reports is a remarkable diversity of broken macOS C toolchain configurations. 😅)\n\nThat said, I think this can wait for the 1.19 window to open.",
+      "parentUuid": "b9abb2ef_edf6f89b",
+      "revId": "3802c4cf5d7ec6f7f19bdcec3523082a53eea14e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
