@@ -71,6 +71,24 @@
       "parentUuid": "d9ef6708_636702bf",
       "revId": "82733bda44ae1af9137f7b29e6e6a3975205fb32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e8822a4_e7113992",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-03T22:11:51Z",
+      "side": 1,
+      "message": "Updated to use the passed-in address instead if getsockname fails. I\u0027m not sure whether that will be sufficient for this case.",
+      "parentUuid": "f97dce62_293c2ee0",
+      "revId": "82733bda44ae1af9137f7b29e6e6a3975205fb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
