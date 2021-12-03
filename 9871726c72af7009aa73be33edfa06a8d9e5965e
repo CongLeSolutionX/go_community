@@ -34,6 +34,24 @@
       "parentUuid": "d7581186_0b6b5c38",
       "revId": "9871726c72af7009aa73be33edfa06a8d9e5965e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cddad7f2_d72e08f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-03T21:26:48Z",
+      "side": 1,
+      "message": "Sigh. Right after posting this comment I looked at the CL more closely and realized I had misinterpreted what type of \"test\" this was adding, but I forgot to actually submit my draft reply saying that a release note wasn\u0027t necessary.\n\nAnyway, I agree.",
+      "parentUuid": "d7581186_0b6b5c38",
+      "revId": "9871726c72af7009aa73be33edfa06a8d9e5965e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
