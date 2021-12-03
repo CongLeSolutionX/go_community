@@ -16,6 +16,24 @@
       "message": "Actually, this fix was cherry-picked into 1.17. Not sure if we need a release note now for it.\n",
       "revId": "c6a8f8f3b2f7ce6e71e6109c977652316d438675",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1399eebf_955d072d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-03T21:27:53Z",
+      "side": 1,
+      "message": "I agree. I\u0027m fine with leaving this out.",
+      "parentUuid": "aedcb04d_f2becb53",
+      "revId": "c6a8f8f3b2f7ce6e71e6109c977652316d438675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
