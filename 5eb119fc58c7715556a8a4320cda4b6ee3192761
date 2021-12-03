@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "889a2f43_4a9f139d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-03T01:47:54Z",
+      "side": 1,
+      "message": "all: add space after // in comments",
+      "revId": "5eb119fc58c7715556a8a4320cda4b6ee3192761",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "645536af_90d3ed1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-03T01:47:54Z",
+      "side": 1,
+      "message": "Omit this, it just repeats the topic.",
+      "revId": "5eb119fc58c7715556a8a4320cda4b6ee3192761",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
