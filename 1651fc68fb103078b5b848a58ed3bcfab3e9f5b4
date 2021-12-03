@@ -423,6 +423,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f46b9b49_7e11fb81",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-12-03T22:53:01Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "f2770f77_f7a03e1a",
+      "revId": "1651fc68fb103078b5b848a58ed3bcfab3e9f5b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97261125_d4f8ec50",
@@ -436,6 +454,24 @@
       "writtenOn": "2021-09-13T16:31:02Z",
       "side": 1,
       "message": "This doesn\u0027t explain why we don\u0027t just go to the full 48 bits.",
+      "revId": "1651fc68fb103078b5b848a58ed3bcfab3e9f5b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c78f01_7b08334b",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-12-03T22:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97261125_d4f8ec50",
       "revId": "1651fc68fb103078b5b848a58ed3bcfab3e9f5b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -477,6 +513,30 @@
       "side": 1,
       "message": "yes, that\u0027s correct. some tests make very large reservations to test logic on boundaries in higher parts of the summary structure. I should just be more explicit about that.",
       "parentUuid": "67956b9c_7a82cd03",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "1651fc68fb103078b5b848a58ed3bcfab3e9f5b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "856f2871_1656d11a",
+        "filename": "src/runtime/mpagealloc_64bit.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-12-03T22:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da3cb02b_7e5aa56a",
       "range": {
         "startLine": 21,
         "startChar": 14,
