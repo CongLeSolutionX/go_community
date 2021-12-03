@@ -53,6 +53,24 @@
       "message": "Note that we also ignore the error from getsockname in (*netFD).accept, newFileFD, (*netFD).listenStream, and (*netFD).listenDatagram.\n\nAs far as I can tell ignoring the error from getsockname dates back to commit 5d2ee9d90afc8277d20a1f40056caa047fae695b from before the open source release.  That was when the use of Getsockname was introduced.  So ever since the start we have always treated Getsockname as optional, and used an empty address when it failed.\n\nThe trybot failure suggests that this may be a reasonable choice: that there are some odd cases where it may fail.",
       "revId": "82733bda44ae1af9137f7b29e6e6a3975205fb32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f97dce62_293c2ee0",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-03T22:09:56Z",
+      "side": 1,
+      "message": "\u003e Note that we also ignore the error from getsockname in (*netFD).accept, newFileFD, (*netFD).listenStream, and (*netFD).listenDatagram.\n\u003e\n\u003e As far as I can tell ignoring the error from getsockname dates back to commit 5d2ee9d90afc8277d20a1f40056caa047fae695b from before the open source release.  That was when the use of Getsockname was introduced.  So ever since the start we have always treated Getsockname as optional, and used an empty address when it failed.\n\nWe do not use an empty address when Getsockname fails — we use a nil address, and nothing in the documentation for the net.Conn interface mentions anything about LocalAddr or RemoteAddr being optional (nillable OR empty).\n\nSo at the very least, it seems that we need to update the net.Conn interface documentation, and then I think the test fix is straightforward — but I worry how many other existing call sites are assuming that LocalAddr always returns a non-nil Addr!",
+      "parentUuid": "d9ef6708_636702bf",
+      "revId": "82733bda44ae1af9137f7b29e6e6a3975205fb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
