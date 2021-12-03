@@ -39,38 +39,55 @@ func LoadPackage(filenames []string) {
 		mode |= syntax.AllowGenerics
 	}
 
-	// Limit the number of simultaneously open files.
-	sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
-
 	noders := make([]*noder, len(filenames))
-	for i, filename := range filenames {
-		p := noder{
-			err:         make(chan syntax.Error),
-			trackScopes: base.Flag.Dwarf,
-		}
-		noders[i] = &p
+	// Limit the number of simultaneously open files/goroutines.
+	ws := runtime.GOMAXPROCS(0) + 10
+	if len(filenames) < ws {
+		ws = len(filenames)
+	}
 
-		filename := filename
-		go func() {
-			sem <- struct{}{}
-			defer func() { <-sem }()
-			defer close(p.err)
+	in := make(chan int)
+	defer close(in)
+	out := make(chan struct{})
+	defer close(out)
+
+	worker := func() {
+		for i := range in {
+			p := &noder{
+				trackScopes: base.Flag.Dwarf,
+			}
+			filename := filenames[i]
+			// noders order must be as filenames
+			noders[i] = p
 			fbase := syntax.NewFileBase(filename)
-
 			f, err := os.Open(filename)
 			if err != nil {
 				p.error(syntax.Error{Msg: err.Error()})
-				return
+				out <- struct{}{}
+				continue
 			}
-			defer f.Close()
+			// errors are tracked via p.error
+			p.file, _ = syntax.Parse(fbase, f, p.error, p.pragma, mode)
+			f.Close()
+			out <- struct{}{}
+		}
+	}
 
-			p.file, _ = syntax.Parse(fbase, f, p.error, p.pragma, mode) // errors are tracked via p.error
-		}()
+	for i := 0; i < ws; i++ {
+		go worker()
+	}
+	go func() {
+		for i := range filenames {
+			in <- i
+		}
+	}()
+	for range filenames {
+		<-out
 	}
 
 	var lines uint
 	for _, p := range noders {
-		for e := range p.err {
+		for _, e := range p.err {
 			p.errorAt(e.Pos, "%s", e.Msg)
 		}
 		if p.file == nil {
@@ -215,7 +232,7 @@ type noder struct {
 	file           *syntax.File
 	linknames      []linkname
 	pragcgobuf     [][]string
-	err            chan syntax.Error
+	err            []syntax.Error
 	importedUnsafe bool
 	importedEmbed  bool
 	trackScopes    bool
@@ -1565,7 +1582,7 @@ func (p *noder) setlineno(n syntax.Node) {
 
 // error is called concurrently if files are parsed concurrently.
 func (p *noder) error(err error) {
-	p.err <- err.(syntax.Error)
+	p.err = append(p.err, err.(syntax.Error))
 }
 
 // pragmas that are allowed in the std lib, but don't have
