@@ -16,6 +16,24 @@
       "message": "Does this need a release note because it\u0027s a backward-incompatible change?",
       "revId": "9871726c72af7009aa73be33edfa06a8d9e5965e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "337a9b55_ced3837a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-03T19:43:56Z",
+      "side": 1,
+      "message": "The behavior changed in 1.17, so we\u0027re kind of late.\nThe 1.17 release notes were updated already: https://go.dev/doc/go1.17#minor_library_changes , see the last paragraph in the reflect section.",
+      "parentUuid": "d7581186_0b6b5c38",
+      "revId": "9871726c72af7009aa73be33edfa06a8d9e5965e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
