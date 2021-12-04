@@ -41,6 +41,7 @@ var X86 struct {
 	HasSSSE3     bool
 	HasSSE41     bool
 	HasSSE42     bool
+	LLCSize      uint32 // Size of the last level cache.
 	_            CacheLinePad
 }
 
