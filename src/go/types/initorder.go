@@ -5,8 +5,10 @@
 package types
 
 import (
+	"bytes"
 	"container/heap"
 	"fmt"
+	"sort"
 )
 
 // initOrder computes the Info.InitOrder for package variables.
@@ -17,7 +19,7 @@ func (check *Checker) initOrder() {
 
 	// Compute the object dependency graph and initialize
 	// a priority queue with the list of graph nodes.
-	pq := nodeQueue(dependencyGraph(check.objMap))
+	pq := nodeQueue(dependencyGraph2(check.objMap))
 	heap.Init(&pq)
 
 	const debug = false
@@ -184,6 +186,12 @@ type graphNode struct {
 	ndeps      int        // number of outstanding dependencies before this object can be initialized
 }
 
+// cost returns the cost of contracting this edge, which involves copying each
+// predecessor to each successor (and vice-versa).
+func (n *graphNode) cost() int {
+	return len(n.pred) * len(n.succ)
+}
+
 type nodeSet map[*graphNode]bool
 
 func (s *nodeSet) add(p *graphNode) {
@@ -191,6 +199,119 @@ func (s *nodeSet) add(p *graphNode) {
 		*s = make(nodeSet)
 	}
 	(*s)[p] = true
+}
+
+func (s nodeSet) String() string {
+	var buf bytes.Buffer
+	buf.WriteRune('{')
+	var keys []string
+	for n := range s {
+		keys = append(keys, n.obj.Name())
+	}
+	sort.Strings(keys)
+	for i, k := range keys {
+		if i > 0 {
+			buf.WriteString(", ")
+		}
+		buf.WriteString(k)
+	}
+	buf.WriteRune('}')
+	return buf.String()
+}
+
+// dependencyGraph2 is like dependencyGraph, but sorts functions by cost before
+// contracting them in the graph. As contracted function edges get recursively
+// re-written, it is significantly faster to start with functions that have few
+// predecessors or successors.
+//
+// TODO(rfindley): remove dependencyGraph in a follow-up CL.
+func dependencyGraph2(objMap map[Object]*declInfo) []*graphNode {
+	M := make(map[dependency]*graphNode)
+
+	var G, funcG []*graphNode // separate non-functions and functions
+
+	for obj := range objMap {
+		// only consider nodes that may be an initialization dependency
+		if obj, _ := obj.(dependency); obj != nil {
+			n := &graphNode{obj: obj}
+			M[obj] = n
+			if _, ok := obj.(*Func); ok {
+				funcG = append(funcG, n)
+			} else {
+				G = append(G, n)
+			}
+		}
+	}
+
+	// Compute edges for graph G. We need to include all nodes, even isolated
+	// ones, because they still need to be scheduled for initialization in
+	// correct order relative to other nodes.
+	for _, n := range G {
+		for d := range objMap[n.obj].deps {
+			if d, _ := d.(dependency); d != nil {
+				d := M[d]
+				d.pred.add(n)
+				n.succ.add(d)
+			}
+		}
+	}
+
+	// Repeat for functions, ignoring self-cycles as they would need to be
+	// contracted below anyway.
+	for _, n := range funcG {
+		for d := range objMap[n.obj].deps {
+			if d, _ := d.(dependency); d != nil && d != n.obj { // ignore self-cycles
+				d := M[d]
+				d.pred.add(n)
+				n.succ.add(d)
+			}
+		}
+	}
+
+	// Contract function edges. Note that because we recursively copy
+	// predecessors and successors throughout the function graph, the cost of
+	// contracting a function at position X is proportional to cost *
+	// (len(funcG)-X). Therefore, we should contract high-cost functions last.
+	sort.Slice(funcG, func(i, j int) bool {
+		return funcG[i].cost() < funcG[j].cost()
+	})
+	for _, n := range funcG {
+		for d := range n.succ {
+			for p := range n.pred {
+				p.succ.add(d)
+				d.pred.add(p)
+			}
+			delete(d.pred, n) // remove edge to n
+		}
+		for p := range n.pred {
+			delete(p.succ, n) // remove edge to n
+		}
+	}
+
+	// fill in index and ndeps fields
+	for i, n := range G {
+		n.index = i
+		n.ndeps = len(n.succ)
+	}
+
+	if debug {
+		// Compare with the original algorithm for correctness.
+		orig := dependencyGraph(objMap)
+		if len(orig) != len(G) {
+			panic(fmt.Sprintf("len(dependencyGraph) = %d, len(dependencyGraph2) = %d", len(orig), len(G)))
+		}
+		for _, g1 := range orig {
+			g2 := M[g1.obj]
+			if g2 == nil {
+				panic(fmt.Sprintf("missing %s", g1.obj.Name()))
+			}
+			if g1.ndeps != g2.ndeps {
+				panic(fmt.Sprintf("g1[%s].succ = %s, g2[%s].succ = %s", g1.obj.Name(), g1.succ, g2.obj.Name(), g2.succ))
+			}
+		}
+	}
+
+	return G
 }
 
 // dependencyGraph computes the object dependency graph from the given objMap,
