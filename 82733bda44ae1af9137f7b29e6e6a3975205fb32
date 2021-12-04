@@ -89,6 +89,24 @@
       "parentUuid": "f97dce62_293c2ee0",
       "revId": "82733bda44ae1af9137f7b29e6e6a3975205fb32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03a021d7_e5452cf5",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-04T01:56:12Z",
+      "side": 1,
+      "message": "This isn\u0027t what I see the current code doing.  Do I misunderstand?",
+      "parentUuid": "5e8822a4_e7113992",
+      "revId": "82733bda44ae1af9137f7b29e6e6a3975205fb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
