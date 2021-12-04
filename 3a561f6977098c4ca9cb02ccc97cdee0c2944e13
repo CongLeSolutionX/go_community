@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2668862e_403e6466",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-12-04T04:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61b3baec_1fef03a2",
+      "revId": "3a561f6977098c4ca9cb02ccc97cdee0c2944e13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db4f2b00_feb50bcf",
@@ -85,6 +103,24 @@
       "writtenOn": "2021-12-04T03:40:29Z",
       "side": 1,
       "message": "s/functiond/functions/\n\nBut it might be clearer to say \"Parameterized functions and types can be instantiated by following them with a list of type arguments in square brackets.\n\nAfter all, index expressions do not permit multiple indexes.",
+      "revId": "3a561f6977098c4ca9cb02ccc97cdee0c2944e13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a59ed2e_e2f6ae25",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-12-04T04:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db4f2b00_feb50bcf",
       "revId": "3a561f6977098c4ca9cb02ccc97cdee0c2944e13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
