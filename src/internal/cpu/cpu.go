@@ -42,6 +42,8 @@ var X86 struct {
 	HasSSE41     bool
 	HasSSE42     bool
 	_            CacheLinePad
+	LLCSize      uint32
+	_            CacheLinePad
 }
 
 // The booleans in ARM contain the correspondingly named cpu feature bit.

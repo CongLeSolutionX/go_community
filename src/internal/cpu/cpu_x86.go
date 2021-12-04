@@ -121,6 +121,20 @@ func doinit() {
 
 	_, _, _, edxExt1 := cpuid(0x80000001, 0)
 	X86.HasRDTSCP = isSet(edxExt1, cpuid_RDTSCP)
+
+	// Setting llc cache size
+	llcSize := uint32(0)
+	cacheType := uint32(0)
+	for nxtecx := uint32(0); ; nxtecx++ {
+		eax4, ebx4, ecx4, _ := cpuid(4, nxtecx)
+		cacheType = extractBits(eax4, 0, 4)
+		if cacheType == 0 {
+			break
+		}
+		cacheSize := (extractBits(ebx4, 22, 31) + 1) * (extractBits(ebx4, 12, 21) + 1) * (extractBits(ebx4, 0, 11) + 1) * (ecx4 + 1)
+		llcSize = cacheSize
+	}
+	X86.LLCSize = llcSize
 }
 
 func isSet(hwc uint32, value uint32) bool {
@@ -170,4 +184,11 @@ func appendBytes(b []byte, args ...uint32) []byte {
 			byte((arg >> 24)))
 	}
 	return b
+}
+
+func extractBits(arg uint32, l int, r int) uint32 {
+	if l > r {
+		return 0
+	}
+	return (arg >> l) & ((1 << (r - l + 1)) - 1)
 }
