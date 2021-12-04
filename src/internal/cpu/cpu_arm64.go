@@ -31,6 +31,7 @@ func getisar0() uint64
 
 func getMIDR() uint64
 
+// Extract value of data between the given start and end (including).
 func extractBits(data uint64, start, end uint) uint {
 	return (uint)(data>>start) & ((1 << (end - start + 1)) - 1)
 }

@@ -85,10 +85,9 @@ loop_preheader_avx2:
 	VPXOR X0, X0, X0
 	// For smaller sizes MOVNTDQ may be faster or slower depending on hardware.
 	// For larger sizes it is always faster, even on dual Xeons with 30M cache.
-	// TODO take into account actual LLC size. E. g. glibc uses LLC size/2.
-	CMPQ    BX, $0x2000000
-	JAE	loop_preheader_avx2_huge
-
+	MOVLQZX	internal∕cpu·LLCSize(SB), CX
+	CMPQ    BX, CX
+	JAE     loop_preheader_avx2_huge
 loop_avx2:
 	VMOVDQU	Y0, 0(DI)
 	VMOVDQU	Y0, 32(DI)

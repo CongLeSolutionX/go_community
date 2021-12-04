@@ -17,6 +17,14 @@ func xgetbv() (eax, edx uint32)
 // getGOAMD64level is implemented in cpu_x86.s. Returns number in [1,4].
 func getGOAMD64level() int32
 
+type vendor int
+
+const (
+	Unknown vendor = iota
+	Intel
+	AMD
+)
+
 const (
 	// edx bits
 	cpuid_SSE2 = 1 << 26
@@ -45,7 +53,18 @@ const (
 	cpuid_RDTSCP = 1 << 27
 )
 
+var cpuVendor vendor
+var maxFunctionInformation uint32
 var maxExtendedFunctionInformation uint32
+
+func getVendor(ebx, ecx, edx uint32) vendor {
+	if ebx == 0x756E6547 && ecx == 0x6C65746E && edx == 0x49656E69 {
+		return Intel
+	} else if ebx == 0x68747541 && ecx == 0x444D4163 && edx == 0x69746E65 {
+		return AMD
+	}
+	return Unknown
+}
 
 func doinit() {
 	options = []option{
@@ -78,9 +97,11 @@ func doinit() {
 			option{Name: "fma", Feature: &X86.HasFMA})
 	}
 
-	maxID, _, _, _ := cpuid(0, 0)
+	var ebx0, ecx0, edx0 uint32
+	maxFunctionInformation, ebx0, ecx0, edx0 = cpuid(0, 0)
+	cpuVendor = getVendor(ebx0, ecx0, edx0)
 
-	if maxID < 1 {
+	if maxFunctionInformation < 1 {
 		return
 	}
 
@@ -116,8 +137,9 @@ func doinit() {
 	}
 
 	X86.HasAVX = isSet(ecx1, cpuid_AVX) && osSupportsAVX
+	LLCSize = getCacheInfo().l3Size
 
-	if maxID < 7 {
+	if maxFunctionInformation < 7 {
 		return
 	}
 
@@ -129,10 +151,7 @@ func doinit() {
 	X86.HasADX = isSet(ebx7, cpuid_ADX)
 	X86.HasSHA = isSet(ebx7, cpuid_SHA)
 
-	var maxExtendedInformation uint32
-	maxExtendedInformation, _, _, _ = cpuid(0x80000000, 0)
-
-	if maxExtendedInformation < 0x80000001 {
+	if maxExtendedFunctionInformation < 0x80000001 {
 		return
 	}
 

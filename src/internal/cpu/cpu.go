@@ -19,6 +19,12 @@ type CacheLinePad struct{ _ [CacheLinePadSize]byte }
 // so we use the constant per GOARCH CacheLinePadSize as an approximation.
 var CacheLineSize uintptr = CacheLinePadSize
 
+// LLCSize is the CPU's last level cache size (in bytes).
+// x86 is the only platform which has runtime detection of the real cache size.
+// For all other platforms we use the constant as an approximation. The constant is
+// chosen based on average LLC size of modern CPUs.
+var LLCSize uint32 = (16 << 20) // 16mb
+
 // The booleans in X86 contain the correspondingly named cpuid feature bit.
 // HasAVX and HasAVX2 are only set if the OS does support XMM and YMM registers
 // in addition to the cpuid feature bit being set.
