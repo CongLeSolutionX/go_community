@@ -15,6 +15,12 @@ func cpuid(eaxArg, ecxArg uint32) (eax, ebx, ecx, edx uint32)
 func xgetbv() (eax, edx uint32)
 
 const (
+	vendorIntel = iota
+	vendorAMD
+	vendorOther
+)
+
+const (
 	// edx bits
 	cpuid_SSE2 = 1 << 26
 
@@ -41,7 +47,35 @@ const (
 	cpuid_RDTSCP = 1 << 27
 )
 
+var vendor uint32
+var family uint32
+var model uint32
 var maxExtendedFunctionInformation uint32
+
+func getVendor(ebx, ecx, edx uint32) uint32 {
+	if ebx == 0x756E6547 && ecx == 0x6C65746E && edx == 0x49656E69 {
+		return vendorIntel
+	} else if ebx == 0x68747541 && ecx == 0x444D4163 && edx == 0x69746E65 {
+		return vendorAMD
+	}
+
+	return vendorOther
+}
+
+func getFamily(eax1 uint32) (uint32, uint32) {
+	family := (eax1 >> 8) & 0xf
+	extended_family := (eax1 >> 20) & 0xff
+	model := (eax1 >> 4) & 0xf
+	extended_model := (eax1 >> 12) & 0xf0
+	switch family {
+	case 0xf:
+		family += extended_family
+		model += extended_model
+	case 0x6:
+		model += extended_model
+	}
+	return family, model
+}
 
 func doinit() {
 	options = []option{
@@ -62,7 +96,8 @@ func doinit() {
 		{Name: "ssse3", Feature: &X86.HasSSSE3},
 	}
 
-	maxID, _, _, _ := cpuid(0, 0)
+	maxID, ebx0, ecx0, edx0 := cpuid(0, 0)
+	vendor = getVendor(ebx0, ecx0, edx0)
 
 	if maxID < 1 {
 		return
@@ -70,7 +105,8 @@ func doinit() {
 
 	maxExtendedFunctionInformation, _, _, _ = cpuid(0x80000000, 0)
 
-	_, _, ecx1, _ := cpuid(1, 0)
+	eax1, _, ecx1, _ := cpuid(1, 0)
+	family, model = getFamily(eax1)
 
 	X86.HasSSE3 = isSet(ecx1, cpuid_SSE3)
 	X86.HasPCLMULQDQ = isSet(ecx1, cpuid_PCLMULQDQ)
@@ -100,6 +136,7 @@ func doinit() {
 	}
 
 	X86.HasAVX = isSet(ecx1, cpuid_AVX) && osSupportsAVX
+	X86.LLCSize = getLLCSize()
 
 	if maxID < 7 {
 		return
@@ -112,10 +149,7 @@ func doinit() {
 	X86.HasERMS = isSet(ebx7, cpuid_ERMS)
 	X86.HasADX = isSet(ebx7, cpuid_ADX)
 
-	var maxExtendedInformation uint32
-	maxExtendedInformation, _, _, _ = cpuid(0x80000000, 0)
-
-	if maxExtendedInformation < 0x80000001 {
+	if maxExtendedFunctionInformation < 0x80000001 {
 		return
 	}
 
