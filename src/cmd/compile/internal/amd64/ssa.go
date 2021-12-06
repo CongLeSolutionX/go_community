@@ -265,8 +265,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 
 	case ssa.OpAMD64BLSIQ, ssa.OpAMD64BLSIL,
 		ssa.OpAMD64BLSMSKQ, ssa.OpAMD64BLSMSKL,
-		ssa.OpAMD64BLSRQ, ssa.OpAMD64BLSRL,
-		ssa.OpAMD64TZCNTQ, ssa.OpAMD64TZCNTL:
+		ssa.OpAMD64BLSRQ, ssa.OpAMD64BLSRL:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[0].Reg()
@@ -1137,9 +1136,10 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.SetFrom3Reg(v.Args[0].Reg())
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
-	case ssa.OpAMD64POPCNTQ, ssa.OpAMD64POPCNTL:
+	case ssa.OpAMD64POPCNTQ, ssa.OpAMD64POPCNTL,
+		ssa.OpAMD64TZCNTQ, ssa.OpAMD64TZCNTL:
 		if v.Args[0].Reg() != v.Reg() {
-			// POPCNT on Intel has a false dependency on the destination register.
+			// POPCNT and TZCNT on Intel has a false dependency on the destination register.
 			// Xor register with itself to break the dependency.
 			p := s.Prog(x86.AXORL)
 			p.From.Type = obj.TYPE_REG
