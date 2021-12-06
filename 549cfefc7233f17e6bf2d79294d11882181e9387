@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b06cd240_fdc7c929",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2021-12-06T18:29:37Z",
+      "side": 1,
+      "message": "No specific reason for the ordering except that in the spec tokens come first. I don\u0027t think it matters much but feel free to reorder at your heart\u0027s content.",
+      "tag": "mailMessageId\u003d\u003cCAKy0tf513Fk_uW8nPH\u003d7k5Y\u003d8xEX-KsauY_4ncRSAdrY6nu8+A@mail.gmail.com\u003e",
+      "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fbea4ec_f7268d82",
