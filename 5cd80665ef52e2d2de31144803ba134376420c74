@@ -34,6 +34,46 @@
       "parentUuid": "1940a7d9_222b70f7",
       "revId": "5cd80665ef52e2d2de31144803ba134376420c74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d92ddfac_acac406d",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-06T18:41:20Z",
+      "side": 1,
+      "message": "Could you add a bit more description here? So that someone coming across this later knows the status. Something like:\n\"TZCNT problem affects pre-Skylake cpus. See discussion at https://gcc.gnu.org/bugzilla/show_bug.cgi?id\u003d62011#c7\"\n\nJust curious, any idea if there is a similar issue on AMD chips?",
+      "revId": "5cd80665ef52e2d2de31144803ba134376420c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3adca48_f2394a08",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-06T18:41:20Z",
+      "side": 1,
+      "message": "have",
+      "range": {
+        "startLine": 1142,
+        "startChar": 32,
+        "endLine": 1142,
+        "endChar": 35
+      },
+      "revId": "5cd80665ef52e2d2de31144803ba134376420c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
