@@ -89,6 +89,24 @@
       "message": "On my machine, I don\u0027t see any improvement in the time for all.bash.  If anything, the existing code may be just slightly better (old 6m58 avg, new 7m1 avg).  And I don\u0027t think this is something we want to check in during the Go 1.18 freeze.  Maybe a change for early in the Go 1.19 development cycle (if you/we are able to get more convincing numbers that it saves CPU).\n\n",
       "revId": "0eabfaf52070070d1abbe48df68330c1c3685976",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd29a9df_b0aaf27d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-12-06T02:47:59Z",
+      "side": 1,
+      "message": "Yes, You are right, This CL is slower.\n\nI\u0027ve done a forced compile bench test on internal/ssa, which is 76 files and the origin one is faster(\u003c 3%). I think the difference is this CL iterate 3 times on filenames while the original has only 2 times and most of packages has less than 10 filenames (\u003e 89%) to parse and scheduler can easily handle all of them.\n\nHere is the list (in csv):\n\ninternal/goarch, 3\ninternal/unsafeheader, 1\ninternal/goos, 2\nruntime/internal/math, 1\nruntime/internal/sys, 5\nunicode/utf8, 1\ninternal/itoa, 1\nmath/bits, 3\nencoding, 1\nunicode/utf16, 1\ninternal/goversion, 1\nunicode, 5\ninternal/race, 2\ninternal/abi, 2\nruntime/internal/atomic, 6\ninternal/goexperiment, 10\nsync/atomic, 2\ninternal/cpu, 2\ninternal/bytealg, 8\nmath, 55\nruntime, 127\ninternal/reflectlite, 3\nerrors, 2\nsync, 10\ninternal/oserror, 1\ninternal/testlog, 2\nio, 3\nsort, 5\npath, 2\nhash, 1\ncontainer/heap, 1\nmath/rand, 5\nhash/crc32, 3\nbytes, 3\ntext/tabwriter, 1\nstrings, 7\nstrconv, 14\ncrypto, 1\ngo/build/constraint, 1\nbufio, 2\nregexp/syntax, 8\nhtml, 2\nsyscall, 26\nregexp, 4\nreflect, 8\ninternal/syscall/execenv, 1\ninternal/syscall/unix, 9\ninternal/fmtsort, 1\nencoding/binary, 2\ncmd/internal/sys, 3\ncrypto/md5, 3\nencoding/base64, 1\ncrypto/sha1, 3\ncrypto/sha256, 4\ntime, 8\ncontext, 1\nio/fs, 7\ninternal/poll, 21\nos, 36\nio/ioutil, 2\ninternal/lazyregexp, 1\npath/filepath, 5\nos/exec, 3\nfmt, 5\ninternal/execabs, 1\nlog, 1\ninternal/buildcfg, 3\ncmd/internal/src, 2\nflag, 1\nruntime/debug, 4\ncmd/internal/gcprog, 1\nnet/url, 1\ncmd/internal/bio, 3\ngo/token, 3\nencoding/hex, 1\ninternal/goroot, 1\ngo/scanner, 2\nruntime/trace, 2\ntext/template/parse, 3\ncmd/internal/objabi, 15\ncompress/flate, 7\nencoding/json, 8\ngo/ast, 8\ncompress/gzip, 2\ncmd/internal/dwarf, 2\ntext/template, 6\ncmd/compile/internal/syntax, 15\ncmd/internal/goobj, 4\ngo/internal/typeparams, 2\ncmd/internal/archive, 1\ngo/doc, 7\nmath/big, 22\ngo/parser, 3\nruntime/pprof, 9\ngo/constant, 2\ngo/build, 6\ncmd/internal/obj, 16\ncmd/compile/internal/logopt, 2\ncmd/compile/internal/base, 8\ncmd/internal/obj/riscv, 5\ncmd/internal/obj/arm, 6\ncmd/compile/internal/bitvec, 1\ncmd/internal/obj/mips, 6\ncmd/internal/obj/wasm, 3\ncmd/internal/obj/ppc64, 7\ncmd/internal/obj/arm64, 8\ncmd/compile/internal/types, 14\ncmd/compile/internal/typebits, 1\ncmd/internal/obj/s390x, 9\ncmd/compile/internal/ir, 22\ncmd/compile/internal/objw, 2\ncmd/compile/internal/deadcode, 1\ncmd/compile/internal/abi, 1\ncmd/compile/internal/types2, 54\ncmd/internal/obj/x86, 9\ncmd/compile/internal/importer, 4\ncmd/compile/internal/typecheck, 17\ncmd/compile/internal/devirtualize, 1\ncmd/compile/internal/staticdata, 2\ncmd/compile/internal/inline, 1\ncmd/compile/internal/escape, 10\ncmd/compile/internal/reflectdata, 2\ncmd/compile/internal/staticinit, 1\ncmd/compile/internal/pkginit, 2\ncmd/compile/internal/ssa, 76\ncmd/compile/internal/liveness, 3\ncmd/compile/internal/ssagen, 6\ncmd/compile/internal/amd64, 3\ncmd/compile/internal/arm, 3\ncmd/compile/internal/mips, 3\ncmd/compile/internal/mips64, 3\ncmd/compile/internal/ppc64, 4\ncmd/compile/internal/arm64, 3\ncmd/compile/internal/wasm, 1\ncmd/compile/internal/riscv64, 4\ncmd/compile/internal/s390x, 3\ncmd/compile/internal/x86, 3\ncmd/compile/internal/dwarfgen, 4\ncmd/compile/internal/walk, 15\ncmd/compile/internal/noder, 31\ncmd/compile/internal/gc, 7\ncmd/compile, 3",
+      "parentUuid": "d29cf8a6_376f300d",
+      "revId": "0eabfaf52070070d1abbe48df68330c1c3685976",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
