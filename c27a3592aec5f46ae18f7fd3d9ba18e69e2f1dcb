@@ -22,6 +22,30 @@
       },
       "revId": "c27a3592aec5f46ae18f7fd3d9ba18e69e2f1dcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a444ca9_746d8749",
+        "filename": "src/runtime/mgcscavenge_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-12-06T21:37:39Z",
+      "side": 1,
+      "message": "I went with this because in some ways its a little less error prone (martisch@ pointed this out to me re: the purpose of the arch family constants; we don\u0027t have the same for GOOS but this is close). specifically, a misspelling is a compiler error instead of silently ignoring the branch.\n\nhowever it is a bit of a mismatch with the rest of the code. I can change it back -- up to you.",
+      "parentUuid": "ad98e259_50b75bd4",
+      "range": {
+        "startLine": 414,
+        "startChar": 27,
+        "endLine": 414,
+        "endChar": 42
+      },
+      "revId": "c27a3592aec5f46ae18f7fd3d9ba18e69e2f1dcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
