@@ -192,6 +192,22 @@ func getRandomData(r []byte) {
 
 func goenvs() {
 	goenvs_unix()
+
+	if raceenabled {
+		name := []byte("kern.osproductversion\x00")
+		var out [100]byte
+		sz := uintptr(len(out))
+		ret := sysctlbyname(&name[0], &out[0], &sz, nil, 0)
+		if ret == 0 && sz >= 3 && string(out[:3]) == "12." { // macOS 12.x
+			if gogetenv("MallocNanoZone") != "0" {
+				println("runtime: note: race detector enabled on macOS 12 but MallocNanoZone not set")
+				println("runtime: note: it may cause crash or memory corruption")
+				println("runtime: note: see https://golang.org/issue/49138")
+				println("runtime: note: rerun with environment variable MallocNanoZone=0")
+				exit(2)
+			}
+		}
+	}
 }
 
 // May run with m.p==nil, so write barriers are not allowed.
