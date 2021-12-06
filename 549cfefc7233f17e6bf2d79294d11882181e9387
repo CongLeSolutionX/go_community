@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fbea4ec_f7268d82",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-06T18:23:21Z",
+      "side": 1,
+      "message": "Out of curiosity, is there a reason for this ordering? I wouldn\u0027t expect ~ to be first. I would expect 1. syntax for type parameters, 2. instantiation, then maybe 3. ~, 4. interface type embedding, 5. any, 6. comparable",
+      "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
