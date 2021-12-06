@@ -196,6 +196,12 @@ func buildRunProgram(b *work.Builder, ctx context.Context, a *work.Action) error
 		}
 	}
 
-	base.RunStdin(cmdline)
+	// Work around address conflict on macOS 12 (issue 49138).
+	var env []string
+	if cfg.BuildRace && cfg.Goos == "darwin" {
+		env = []string{"MallocNanoZone=0"}
+	}
+
+	base.RunStdin(cmdline, env)
 	return nil
 }

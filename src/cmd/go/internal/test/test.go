@@ -1207,6 +1207,11 @@ func (c *runCache) builderRunTest(b *work.Builder, ctx context.Context, a *work.
 	cmd.Stdout = stdout
 	cmd.Stderr = stdout
 
+	// Work around address conflict on macOS 12 (issue 49138).
+	if cfg.BuildRace && cfg.Goos == "darwin" {
+		cmd.Env = append(cmd.Env, "MallocNanoZone=0")
+	}
+
 	// If there are any local SWIG dependencies, we want to load
 	// the shared library from the build directory.
 	if a.Package.UsesSwig() {

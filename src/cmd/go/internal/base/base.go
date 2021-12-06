@@ -169,12 +169,12 @@ func Run(cmdargs ...interface{}) {
 }
 
 // RunStdin is like run but connects Stdin.
-func RunStdin(cmdline []string) {
+func RunStdin(cmdline []string, env []string) {
 	cmd := exec.Command(cmdline[0], cmdline[1:]...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	cmd.Env = cfg.OrigEnv
+	cmd.Env = append(cfg.OrigEnv[:len(cfg.OrigEnv):len(cfg.OrigEnv)], env...)
 	StartSigHandlers()
 	if err := cmd.Run(); err != nil {
 		Errorf("%v", err)
