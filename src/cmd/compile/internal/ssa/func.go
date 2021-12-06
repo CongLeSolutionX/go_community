@@ -826,25 +826,42 @@ func (f *Func) invalidateCFG() {
 // 4) is a suffix of the environment variable
 //    fmt.Sprintf("%s%d", evname, n)
 //    provided that all such variables are nonempty for 0 <= i <= n
-// Otherwise it returns false.
+// Otherwise it returns false (*).
 // When true is returned the message
 //  "%s triggered %s\n", evname, name
 // is printed on the file named in environment variable
 //  GSHS_LOGFILE
 // or standard out if that is empty or there is an error
 // opening the file.
+// (*) IF a secondary variable GO<lower case of remainder>[NN] e.g., "GOssahash" is defined
+// then its match values replace the "false" answer in cases (3) and (4) above (with logging),
+// and the "true" answer in case 1 (silently).  I.e., it reconfigures the default behavior
+// of the compiler.  This can help with repeated searches for flaky, noisy bugs.
 func (f *Func) DebugHashMatch(evname string) bool {
 	name := f.fe.MyImportPath() + "." + f.Name
 	evhash := os.Getenv(evname)
+	lcevname := "GO" + strings.ToLower(evname[2:])
+	lcevhash := os.Getenv(lcevname)
+
 	switch evhash {
 	case "":
-		return true // default behavior with no EV is "on"
+		// true unless lcevhash is defined, and match lcevhash silently
+		return lcevhash == "" || f.debugHashMatch(lcevname, lcevhash, name, false)
 	case "y", "Y":
 		f.logDebugHashMatch(evname, name)
 		return true
 	case "n", "N":
 		return false
 	}
+
+	if f.debugHashMatch(evname, evhash, name, true) {
+		return true
+	}
+	// false unless lcevhash is defined, but print match so person debugging will notice in logs.
+	return lcevhash != "" && f.debugHashMatch(lcevname, lcevhash, name, true)
+}
+
+func (f *Func) debugHashMatch(evname, evhash, name string, log bool) bool {
 	// Check the hash of the name against a partial input hash.
 	// We use this feature to do a binary search to
 	// find a function that is incorrectly compiled.
@@ -854,7 +871,9 @@ func (f *Func) DebugHashMatch(evname string) bool {
 	}
 
 	if strings.HasSuffix(hstr, evhash) {
-		f.logDebugHashMatch(evname, name)
+		if log {
+			f.logDebugHashMatch(evname, name)
+		}
 		return true
 	}
 
@@ -867,7 +886,9 @@ func (f *Func) DebugHashMatch(evname string) bool {
 			break
 		}
 		if strings.HasSuffix(hstr, evv) {
-			f.logDebugHashMatch(ev, name)
+			if log {
+				f.logDebugHashMatch(ev, name)
+			}
 			return true
 		}
 	}
