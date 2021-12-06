@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad98e259_50b75bd4",
+        "filename": "src/runtime/mgcscavenge_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-06T21:23:31Z",
+      "side": 1,
+      "message": "(Too late for this CL) here we can just use GOOS !\u003d \"ios\", right? No need to use integer here. Also in other tests.",
+      "range": {
+        "startLine": 414,
+        "startChar": 27,
+        "endLine": 414,
+        "endChar": 42
+      },
+      "revId": "c27a3592aec5f46ae18f7fd3d9ba18e69e2f1dcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
