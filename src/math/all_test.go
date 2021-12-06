@@ -3414,7 +3414,6 @@ func BenchmarkAbs(b *testing.B) {
 		x = Abs(absPos)
 	}
 	GlobalF = x
-
 }
 
 func BenchmarkDim(b *testing.B) {
@@ -3497,6 +3496,14 @@ func BenchmarkIlogb(b *testing.B) {
 		x = Ilogb(.5)
 	}
 	GlobalI = x
+}
+
+func BenchmarkInf(b *testing.B) {
+	x := 0.0
+	for i := 0; i < b.N; i++ {
+		x = Inf(3)
+	}
+	GlobalF = x
 }
 
 func BenchmarkJ0(b *testing.B) {
@@ -3619,6 +3626,14 @@ func BenchmarkPowFrac(b *testing.B) {
 	x := 0.0
 	for i := 0; i < b.N; i++ {
 		x = Pow(2.5, 1.5)
+	}
+	GlobalF = x
+}
+
+func BenchmarkPow10(b *testing.B) {
+	x := 0.0
+	for i := 0; i < b.N; i++ {
+		x = Pow10(3)
 	}
 	GlobalF = x
 }
