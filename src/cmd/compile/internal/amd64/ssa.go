@@ -289,11 +289,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		r := v.Args[1].Reg()
 
 		// Zero extend dividend.
-		c := s.Prog(x86.AXORL)
-		c.From.Type = obj.TYPE_REG
-		c.From.Reg = x86.REG_DX
-		c.To.Type = obj.TYPE_REG
-		c.To.Reg = x86.REG_DX
+		opregreg(s, x86.AXORL, x86.REG_DX, x86.REG_DX)
 
 		// Issue divide.
 		p := s.Prog(v.Op.Asm())
@@ -363,11 +359,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 			n1.To.Reg = x86.REG_AX
 
 			// n % -1 == 0
-			n2 := s.Prog(x86.AXORL)
-			n2.From.Type = obj.TYPE_REG
-			n2.From.Reg = x86.REG_DX
-			n2.To.Type = obj.TYPE_REG
-			n2.To.Reg = x86.REG_DX
+			opregreg(s, x86.AXORL, x86.REG_DX, x86.REG_DX)
 
 			// TODO(khr): issue only the -1 fixup code we need.
 			// For instance, if only the quotient is used, no point in zeroing the remainder.
@@ -745,11 +737,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		// If flags aren't live (indicated by v.Aux == nil),
 		// then we can rewrite MOV $0, AX into XOR AX, AX.
 		if v.AuxInt == 0 && v.Aux == nil {
-			p := s.Prog(x86.AXORL)
-			p.From.Type = obj.TYPE_REG
-			p.From.Reg = x
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = x
+			opregreg(s, x86.AXORL, x, x)
 			break
 		}
 
@@ -1141,11 +1129,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		if v.Args[0].Reg() != v.Reg() {
 			// POPCNT on Intel has a false dependency on the destination register.
 			// Xor register with itself to break the dependency.
-			p := s.Prog(x86.AXORL)
-			p.From.Type = obj.TYPE_REG
-			p.From.Reg = v.Reg()
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = v.Reg()
+			opregreg(s, x86.AXORL, v.Reg(), v.Reg())
 		}
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
