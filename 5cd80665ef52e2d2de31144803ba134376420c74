@@ -16,6 +16,24 @@
       "message": "The false dependency was removed in Skylake, circa 2017. Not sure if it is worth working around at this point.\n\nIn any case I\u0027d like to see a benchmark on susceptible and non-susceptible processors.\n",
       "revId": "5cd80665ef52e2d2de31144803ba134376420c74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aab7f6f7_901bdfa4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2021-12-06T18:05:29Z",
+      "side": 1,
+      "message": "Yes, the problem is fixed, but GCC uses the fix in case of all cpus with AVX2 and higher.\n\nBenchmarks:\n\nIntel(R) Core(TM) i5-4570S CPU @ 2.90GHz (Affected)\n+---------------------+--------------+----------------------------------+\n| 0.000123170 ms/call |     12317 ms | ./tzcnt                          |\n| 0.000122880 ms/call |     12288 ms | ./tzcnt                          |\n| 0.000123190 ms/call |     12319 ms | ./tzcnt                          |\n| 0.000072140 ms/call |      7214 ms | ./tzcntfix                       |\n| 0.000071890 ms/call |      7189 ms | ./tzcntfix                       |\n| 0.000071800 ms/call |      7180 ms | ./tzcntfix                       |\n+---------------------+--------------+----------------------------------+\n\nIntel(R) Core(TM) i7-9750H CPU @ 2.60GHz (Not affected)\n+---------------------+--------------+----------------------------------+\n| 0.000061630 ms/call |      6163 ms | ./tzcnt                          |\n| 0.000061240 ms/call |      6124 ms | ./tzcnt                          |\n| 0.000061160 ms/call |      6116 ms | ./tzcnt                          |\n| 0.000061000 ms/call |      6100 ms | ./tzcntfix                       |\n| 0.000061040 ms/call |      6104 ms | ./tzcntfix                       |\n| 0.000061460 ms/call |      6146 ms | ./tzcntfix                       |\n+---------------------+--------------+----------------------------------+\n\nBenchmark runner: https://github.com/nimelehin/x86-tzcnt-dep-chain-tester",
+      "parentUuid": "1940a7d9_222b70f7",
+      "revId": "5cd80665ef52e2d2de31144803ba134376420c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
