@@ -73,6 +73,24 @@
       "parentUuid": "aff255d7_9cfc36f7",
       "revId": "f3aef92fc885a0472a9025527b209eb223052a76",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30ebc910_a105ad50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-06T21:43:30Z",
+      "side": 1,
+      "message": "We shouldn\u0027t run the runtime/race test on iOS, as it doesn\u0027t support the race detector. Perhaps it didn\u0027t pass before, as it seems we don\u0027t run the iOS builder on the 1.16 branch.",
+      "parentUuid": "4c28e2f9_3900dd63",
+      "revId": "f3aef92fc885a0472a9025527b209eb223052a76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
