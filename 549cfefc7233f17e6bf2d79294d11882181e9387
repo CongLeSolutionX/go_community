@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e29a64d_3bcba81e",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 27752
+      },
+      "writtenOn": "2021-12-07T20:30:19Z",
+      "side": 0,
+      "message": "By removing the WaitForSingleObject, you basically makes this a busy wait for an arbitrary period (well, not that busy, as there\u0027s a 5 millisecond sleep, but still). Is that necessary, can\u0027t you keep the WaitForSingleObject?",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 78
+      },
+      "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
