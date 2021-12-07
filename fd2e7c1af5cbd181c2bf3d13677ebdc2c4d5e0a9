@@ -16,6 +16,24 @@
       "message": "This is a defered call, so setting e here will not have any effect on checking e on the next statement.\nIf I read this code correctly, closing brace and call to the defered function should enclose the check for the e !\u003d nil too.",
       "revId": "fd2e7c1af5cbd181c2bf3d13677ebdc2c4d5e0a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dfe97de_af3b1e2e",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-12-07T08:12:39Z",
+      "side": 1,
+      "message": "Sorry. It is forgotten code from debugging. Using defer func() does not seem to allow returning the possible error code. It is reverted to the original line.",
+      "parentUuid": "18d1a974_46567a6b",
+      "revId": "fd2e7c1af5cbd181c2bf3d13677ebdc2c4d5e0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
