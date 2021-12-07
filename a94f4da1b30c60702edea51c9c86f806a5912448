@@ -88,6 +88,24 @@
       "parentUuid": "390b6b55_f52d8fed",
       "revId": "a94f4da1b30c60702edea51c9c86f806a5912448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be53d8f9_3e71c244",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-07T21:45:12Z",
+      "side": 1,
+      "message": "\u003e Does the test environment for those scripts have gpg available? If not, how can I add it?\n\nNo idea, but you can guard the individual test script like:\n\n[!exec:gpg] skip\n\nThat will at least allow the test to be run locally, even if it doesn\u0027t run on the Go project\u0027s builders.\n\n\u003e Also, do you want a brand new script to test this, or could I add a stage to an existing script, like version_buildvcs_git?\n\nI guess that depends on how involved the reproducer is? 😅\n\nIn general I would bias toward adding a new script, but if it fits nicely into an existing one and isn\u0027t too much extra code that\u0027s fine too.",
+      "parentUuid": "da67b5ef_df5cdb0a",
+      "revId": "a94f4da1b30c60702edea51c9c86f806a5912448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
