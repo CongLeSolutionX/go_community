@@ -106,6 +106,24 @@
       "parentUuid": "da67b5ef_df5cdb0a",
       "revId": "a94f4da1b30c60702edea51c9c86f806a5912448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c603261_14e34254",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 54938
+      },
+      "writtenOn": "2021-12-07T23:06:10Z",
+      "side": 1,
+      "message": "Not too hard to make a new script for it. I will do that because I don\u0027t want the lack of gpg to skip a test that otherwise tests a bunch of git stuff. I have some more questions about the best way to do certain things, but I can save those to go along with my next commit",
+      "parentUuid": "be53d8f9_3e71c244",
+      "revId": "a94f4da1b30c60702edea51c9c86f806a5912448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
