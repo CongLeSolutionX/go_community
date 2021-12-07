@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75769d2b_a8c47dd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-12-07T15:51:39Z",
+      "side": 1,
+      "message": "Oops, yes, s/install/download/. Thanks.",
+      "parentUuid": "83d86d61_ceb07dc1",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "a3f81c70fd05b76d6ab10f312b02975cf1a62666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3d976d1_12aee2bb",
