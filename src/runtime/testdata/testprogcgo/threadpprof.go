@@ -64,6 +64,7 @@ void runCPUHogThread(void) {
 import "C"
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"runtime"
@@ -98,7 +99,9 @@ func pprofThread() {
 		os.Exit(2)
 	}
 
-	C.runCPUHogThread()
+	pprof.Do(context.Background(), pprof.Labels("ignore", "ignore"), func(ctx context.Context) {
+		C.runCPUHogThread()
+	})
 
 	time.Sleep(1*time.Second)
 
