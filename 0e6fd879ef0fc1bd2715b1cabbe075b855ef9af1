@@ -70,6 +70,24 @@
       "message": "haven\u0027t though this through but i guess this cannot be done inside the inner loop as before? comment?",
       "revId": "0e6fd879ef0fc1bd2715b1cabbe075b855ef9af1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b9d9c72_ae91fc21",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2021-12-07T01:15:59Z",
+      "side": 1,
+      "message": "It can still be done in the inner loop, but that was inaccurate of not a bug, I think (consider if there are no pred). It also affected performance nontrivially to do the delete redundantly in the inner loop. There is some commentary in the commit message, but I can add a comment here if it would help.",
+      "parentUuid": "cc26b1d0_998c085c",
+      "revId": "0e6fd879ef0fc1bd2715b1cabbe075b855ef9af1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
