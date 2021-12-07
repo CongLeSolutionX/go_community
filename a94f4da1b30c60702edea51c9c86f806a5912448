@@ -70,6 +70,24 @@
       "message": "Is it feasible to add an integration test for this, perhaps in cmd/go/testdata/script (see the README there for syntax)?",
       "revId": "a94f4da1b30c60702edea51c9c86f806a5912448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da67b5ef_df5cdb0a",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 54938
+      },
+      "writtenOn": "2021-12-07T21:37:28Z",
+      "side": 1,
+      "message": "Does the test environment for those scripts have gpg available? If not, how can I add it? Also, do you want a brand new script to test this, or could I add a stage to an existing script, like version_buildvcs_git?",
+      "parentUuid": "390b6b55_f52d8fed",
+      "revId": "a94f4da1b30c60702edea51c9c86f806a5912448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
