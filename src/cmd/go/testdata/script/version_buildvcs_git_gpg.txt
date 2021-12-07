@@ -1,0 +1,49 @@
+# This test checks that VCS information is stamped into Go binaries even when
+# the current commit is signed and the use has configured git to display commit
+# signatures. 
+
+[!exec:git] skip
+[!exec:gpg] skip
+[short] skip
+env GOBIN=$GOPATH/bin
+env GNUPGHOME=$WORK/.gpupg
+mkdir $GNUPGHOME
+chmod 0700 $GNUPGHOME
+
+# Create GPG key
+exec gpg --batch --passphrase '' --quick-generate-key gopher@golang.org
+exec sh -c 'gpg --list-secret-keys --with-colons gopher@golang.org | awk -F : ''/^sec/{print $5}'' '
+cp stdout keyid.txt
+
+# Initialize repo
+cd repo/
+exec git init
+exec git config user.email gopher@golang.org
+exec git config user.name 'J.R. Gopher'
+exec sh -c 'git config --add user.signingKey $(< ../keyid.txt)'
+exec git config --add log.showSignature true
+
+# Create signed commit
+cd a
+exec git add -A
+exec git commit -m 'initial commit' --gpg-sign
+exec git log
+
+# Verify commit signature does not interfere with versioning
+go install
+go version -m $GOBIN/a
+stdout '^\tbuild\tgitrevision\t'
+stdout '^\tbuild\tgitcommittime\t'
+stdout '^\tbuild\tgituncommitted\tfalse$'
+
+-- repo/README --
+Far out in the uncharted backwaters of the unfashionable end of the western
+spiral arm of the Galaxy lies a small, unregarded yellow sun.
+-- repo/a/go.mod --
+module example.com/a
+
+go 1.18
+-- repo/a/a.go --
+package main
+
+func main() {}
