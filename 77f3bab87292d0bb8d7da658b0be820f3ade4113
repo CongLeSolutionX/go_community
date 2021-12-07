@@ -88,6 +88,23 @@
       "parentUuid": "968d4d9e_1f699621",
       "revId": "77f3bab87292d0bb8d7da658b0be820f3ade4113",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c32ef7a_5df2ecf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2021-12-07T20:29:21Z",
+      "side": 1,
+      "message": "Would this fix #50029? If so, should we try to get it (or a similar fix) in for Go 1.18?\n",
+      "revId": "77f3bab87292d0bb8d7da658b0be820f3ade4113",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
