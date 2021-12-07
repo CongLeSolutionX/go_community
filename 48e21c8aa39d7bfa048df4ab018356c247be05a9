@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f92fdb92_a430107c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-07T17:55:28Z",
+      "side": 1,
+      "message": "Can you link to the Microsoft documentation here?\n\nHaving to do a busy loop seems like a bad idea for Go.  We should avoid that if at all possible.",
+      "revId": "48e21c8aa39d7bfa048df4ab018356c247be05a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a3fba918_b0a8ec26",
