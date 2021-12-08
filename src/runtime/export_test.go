@@ -23,6 +23,8 @@ var F32to64 = f32to64
 var Fcmp64 = fcmp64
 var Fintto64 = fintto64
 var F64toint = f64toint
+var Delay = delay
+var DelayN = delayN
 
 var Entersyscall = entersyscall
 var Exitsyscall = exitsyscall

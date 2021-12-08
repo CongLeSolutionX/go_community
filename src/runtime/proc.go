@@ -951,7 +951,7 @@ func castogscanstatus(gp *g, oldval, newval uint32) bool {
 // casgstatus will loop if the g->atomicstatus is in a Gscan status until the routine that
 // put it in the Gscan state is finished.
 //go:nosplit
-func casgstatus(gp *g, oldval, newval uint32) {
+func casgstatus(gp *g, oldval, newval uint32) uint32 {
 	if (oldval&_Gscan != 0) || (newval&_Gscan != 0) || oldval == newval {
 		systemstack(func() {
 			print("runtime: casgstatus: oldval=", hex(oldval), " newval=", hex(newval), "\n")
@@ -965,6 +965,7 @@ func casgstatus(gp *g, oldval, newval uint32) {
 	// See https://golang.org/cl/21503 for justification of the yield delay.
 	const yieldDelay = 5 * 1000
 	var nextYield int64
+	var anyWaits uint32
 
 	// loop if gp->atomicstatus is in a scan state giving
 	// GC time to finish and change the state to oldval.
@@ -983,6 +984,7 @@ func casgstatus(gp *g, oldval, newval uint32) {
 			osyield()
 			nextYield = nanotime() + yieldDelay/2
 		}
+		anyWaits++
 	}
 
 	// Handle tracking for scheduling latencies.
@@ -990,6 +992,7 @@ func casgstatus(gp *g, oldval, newval uint32) {
 		// Track every 8th time a goroutine transitions out of running.
 		if gp.trackingSeq%gTrackingPeriod == 0 {
 			gp.tracking = true
+			anyWaits += 0x1000
 		}
 		gp.trackingSeq++
 	}
@@ -1015,7 +1018,9 @@ func casgstatus(gp *g, oldval, newval uint32) {
 			sched.timeToRun.record(gp.runnableTime)
 			gp.runnableTime = 0
 		}
+		anyWaits += 0x8000
 	}
+	return anyWaits
 }
 
 // casgstatus(gp, oldstatus, Gcopystack), assuming oldstatus is Gwaiting or Grunnable.
@@ -2036,7 +2041,10 @@ func oneNewExtraM() {
 	gp.sched.sp -= 4 * goarch.PtrSize // extra space in case of reads slightly beyond frame
 	gp.sched.lr = 0
 	gp.sched.g = guintptr(unsafe.Pointer(gp))
-	gp.syscallpc = gp.sched.pc
+	gp.syscallpc = 0x55555
+	if gp.sched.sp != 0 {
+		gp.syscallpc = gp.sched.pc
+	}
 	gp.syscallsp = gp.sched.sp
 	gp.stktopsp = gp.sched.sp
 	// malg returns status as _Gidle. Change to _Gdead before
@@ -3789,7 +3797,32 @@ func reentersyscall(pc, sp uintptr) {
 	save(pc, sp)
 	_g_.syscallsp = sp
 	_g_.syscallpc = pc
-	casgstatus(_g_, _Grunning, _Gsyscall)
+	anyWaits := casgstatus(_g_, _Grunning, _Gsyscall)
+	observedPC := _g_.syscallpc
+	gscspp := &_g_.syscallsp
+	observedSP := *gscspp
+	if observedSP != sp {
+		delay()
+		delay()
+		delay()
+		delay()
+		delay()
+		delay()
+		delay()
+		delay()
+		delay()
+		delay()
+		observedSP2 := *gscspp
+		observedPC2 := _g_.syscallpc
+		systemstack(func() {
+			print("entersyscall unpossible inequality ", hex(_g_.syscallsp),
+				"( was ", hex(observedSP), " then ", hex(observedSP2), ") !=", hex(sp), " and addr, addr = ",
+				hex(uintptr(unsafe.Pointer(gscspp))), ", ", hex(uintptr(unsafe.Pointer(&_g_.syscallsp))),
+				" and parameter, early observed, later observed PC was ", hex(pc), ", ", hex(observedPC), ", ", hex(observedPC2),
+				", anyWaits = ", hex(anyWaits), "\n")
+			throw("entersyscall")
+		})
+	}
 	if _g_.syscallsp < _g_.stack.lo || _g_.stack.hi < _g_.syscallsp {
 		systemstack(func() {
 			print("entersyscall inconsistent ", hex(_g_.syscallsp), " [", hex(_g_.stack.lo), ",", hex(_g_.stack.hi), "]\n")
@@ -3885,7 +3918,10 @@ func entersyscallblock() {
 	sp := getcallersp()
 	save(pc, sp)
 	_g_.syscallsp = _g_.sched.sp
-	_g_.syscallpc = _g_.sched.pc
+	_g_.syscallpc = 0x77777
+	if _g_.sched.sp != 0 {
+		_g_.syscallpc = _g_.sched.pc
+	}
 	if _g_.syscallsp < _g_.stack.lo || _g_.stack.hi < _g_.syscallsp {
 		sp1 := sp
 		sp2 := _g_.sched.sp
@@ -3956,6 +3992,7 @@ func exitsyscall() {
 		// Garbage collector isn't running (since we are),
 		// so okay to clear syscallsp.
 		_g_.syscallsp = 0
+		_g_.syscallpc = 0x12345
 		_g_.m.locks--
 		if _g_.preempt {
 			// restore the preemption request in case we've cleared it in newstack
@@ -4000,6 +4037,7 @@ func exitsyscall() {
 	// we don't know for sure that the garbage collector
 	// is not running.
 	_g_.syscallsp = 0
+	_g_.syscallpc = 0x54321
 	_g_.m.p.ptr().syscalltick++
 	_g_.throwsplit = false
 }
