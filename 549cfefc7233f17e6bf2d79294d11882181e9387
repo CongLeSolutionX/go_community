@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d076397_5120367a",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-12-08T08:19:05Z",
+      "side": 0,
+      "message": "From the documentation of waitforsingleobject: \u0027If this handle is closed while the wait is still pending, the function\u0027s behavior is undefined\u0027. It seems to indicate that concurrent waits might have unexpected behavior.\n\nThe sleep time occurs only if the wait is longer than the first call to GetExitCode(). When Wait() is for safety, it will not add a delay. When Wait() is actually waiting for processing, a few ticks will pass.",
+      "parentUuid": "0e29a64d_3bcba81e",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 78
+      },
+      "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66972192_5677498f",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-12-08T07:54:38Z",
       "side": 0,
       "message": "The purpose of this 5 ms sleep is to be able to delete executable file of the process that has just exited.\n\nhttps://github.com/golang/go/issues/25965#issuecomment-398694625\n\nIt was particularly important because Go command does a lot of process file deletion. And we constantly had random / unexplained \"Access Denied\" errors when deleting files.\n\nAs far as I remember (that was long ago) I tried everything (including STILL_ACTIVE trick) to avoid this waiting. I did not succeed.",
+      "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6bc819f_151af85a",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-12-08T08:19:05Z",
+      "side": 0,
+      "message": "My tests are on my ordinary Windows 10 21H1 laptop seem all successful. Considering the high level of contention on the disk, it seems to be a relevant design. I did not investigate which change occurred in the last years.",
+      "parentUuid": "66972192_5677498f",
       "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "aabc8648_8cb23662",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-12-08T08:19:05Z",
+      "side": 1,
+      "message": "Why waitforsingleobject is removed: https://docs.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject\nWhy using a loop on STILL_ACTIVE: https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess\nOverview of terminating a process: https://docs.microsoft.com/en-us/windows/win32/procthread/terminating-a-process",
+      "parentUuid": "f92fdb92_a430107c",
+      "revId": "48e21c8aa39d7bfa048df4ab018356c247be05a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a3fba918_b0a8ec26",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -31,6 +49,23 @@
       "writtenOn": "2021-12-07T08:12:39Z",
       "side": 1,
       "message": "Code is removed as the TODO which is also irrelevant from my tests.\nThanks for the review,",
+      "revId": "48e21c8aa39d7bfa048df4ab018356c247be05a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ee73e0_315d6d0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2021-12-08T08:19:05Z",
+      "side": 1,
+      "message": "Thanks for the reviews and comments.\n\nThe benchmark suggested in #31895 runs three times faster on my laptop without errors. The proposed CL originates from the mentioned readings of the Microsoft documentation.\n\nFile access seems to have been the main cause of adding the 5 ms. delay. As os.Remove() has been updated a few times in the last cycles, some concurrent problem might have been removed incidentally.\n",
       "revId": "48e21c8aa39d7bfa048df4ab018356c247be05a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
