@@ -22,6 +22,23 @@
       },
       "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66972192_5677498f",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2021-12-08T07:54:38Z",
+      "side": 0,
+      "message": "The purpose of this 5 ms sleep is to be able to delete executable file of the process that has just exited.\n\nhttps://github.com/golang/go/issues/25965#issuecomment-398694625\n\nIt was particularly important because Go command does a lot of process file deletion. And we constantly had random / unexplained \"Access Denied\" errors when deleting files.\n\nAs far as I remember (that was long ago) I tried everything (including STILL_ACTIVE trick) to avoid this waiting. I did not succeed.",
+      "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
