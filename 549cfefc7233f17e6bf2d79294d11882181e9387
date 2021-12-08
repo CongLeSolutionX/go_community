@@ -81,6 +81,24 @@
       "parentUuid": "66972192_5677498f",
       "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ba57622_6c3b6d08",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-08T20:02:16Z",
+      "side": 0,
+      "message": "The failures on the Go dashboard over the past year have been exclusively on the `windows-amd64-2012` builder (see #50051). I wonder if this is a kernel bug on that specific version that has subsequently been fixed.",
+      "parentUuid": "e6bc819f_151af85a",
+      "revId": "549cfefc7233f17e6bf2d79294d11882181e9387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
