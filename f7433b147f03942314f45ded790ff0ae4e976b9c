@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7857e6ad_a1cc63eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-08T17:15:24Z",
+      "side": 1,
+      "message": "Ping. We\u0027re trying to wrap up the release notes, so it would be good to get this reviewed and submitted.",
+      "revId": "f7433b147f03942314f45ded790ff0ae4e976b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
