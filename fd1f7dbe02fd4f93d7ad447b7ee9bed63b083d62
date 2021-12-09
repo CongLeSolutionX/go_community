@@ -63,6 +63,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "677d8364_9558a048",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-09T22:10:51Z",
+      "side": 1,
+      "message": "Interesting, I didn\u0027t know about t.Deadline.\n\nI\u0027m torn on whether I want to switch this to t.Deadline or not... The test timeout is generally quite long, and all of the runtime test binaries should certainly exit quite quickly. Using t.Deadline would mean I just have to wait around a really long time to find out that the test hung a long time ago.\n\nI could set the timeout to the lower of the deadline or, say, 1 minute, to handle the case where we\u0027re getting close to the test deadline. But that has the disadvantage that if we are close to the deadline, it might kill the subprocess *too* quickly, which I think would be more confusing than letting go test kill the test.",
+      "parentUuid": "67eab42f_dd593a93",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 3
+      },
+      "revId": "fd1f7dbe02fd4f93d7ad447b7ee9bed63b083d62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "152e353f_0b1c9770",
         "filename": "src/internal/testenv/testenv.go",
         "patchSetId": 1
@@ -74,6 +98,24 @@
       "writtenOn": "2021-12-09T20:34:49Z",
       "side": 1,
       "message": "This leaks a timer in the typical case, and also isn\u0027t synchronous: this goroutine may still be running (and may be in a call to p.Signal) arbitrarily long after the done channel is closed.\n\nInstead, you can use an explicit send or receive as the synchronization point:\n\n\ttimerExit :\u003d make(chan bool)\n\t\n\t…\n\n\ttimer :\u003d time.NewTimer(d)\n\tselect {\n\tcase timerExit \u003c- true:\n\t\ttimer.Stop()\n\tcase \u003c-timer.C:\n\t\tp.Signal(Sigquit)\n\t\ttimerExit \u003c- true\n\t}\n\n\t…\n\t\n\terr :\u003d cmd.Wait()\n\tif err !\u003d nil {\n\t\tt.Logf(\"%s exit status: %v\", args, err)\n\t}\n\t\u003c-timerExit",
+      "revId": "fd1f7dbe02fd4f93d7ad447b7ee9bed63b083d62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d85ce97_9295dd14",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-09T22:10:51Z",
+      "side": 1,
+      "message": "I\u0027ve got a new version of golang.org/cl/370705 that is more careful to clean up goroutines and avoid leaking timers. Take a look at that CL? I\u0027m not sure I want to slowly approach a better version of RunWithTimeout versus doing the one-shot rewrite I did.",
+      "parentUuid": "152e353f_0b1c9770",
       "revId": "fd1f7dbe02fd4f93d7ad447b7ee9bed63b083d62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -91,6 +133,30 @@
       "writtenOn": "2021-12-09T20:34:49Z",
       "side": 1,
       "message": "In a lot of other use-cases, we generally want to send SIGQUIT, followed by a grace period to dump goroutines, followed by SIGKILL if that doesn\u0027t work (e.g. in case the runtime of the subprocess is wedged).\n\nThe code to do that in cmd/go is here:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/go/script_test.go;l\u003d1234-1293;drc\u003d189b4a2f428be7264db76e5275c96d98b847383b\n\nIt\u0027s basically a drop-in replacement for cmd.Wait. There are also several copies of that function floating around in the x/ repos. 😅\n\nMaybe we could factor that out somewhere in internal/ too? There are several cases in various tests where we want to run a command with a timeout, but still want to distinguish stdout and stderr.",
+      "range": {
+        "startLine": 345,
+        "startChar": 0,
+        "endLine": 349,
+        "endChar": 3
+      },
+      "revId": "fd1f7dbe02fd4f93d7ad447b7ee9bed63b083d62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e44d01_3bc90e62",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-09T22:10:51Z",
+      "side": 1,
+      "message": "I add a backstop SIGKILL in golang.org/cl/370702.",
+      "parentUuid": "6d8e72a5_c70e6a2d",
       "range": {
         "startLine": 345,
         "startChar": 0,
