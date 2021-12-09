@@ -87,6 +87,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "188c914e_9e58e53b",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-09T22:49:56Z",
+      "side": 1,
+      "message": "\u003e I\u0027m torn on whether I want to switch this to t.Deadline or not... The test timeout is generally quite long, and all of the runtime test binaries should certainly exit quite quickly. Using t.Deadline would mean I just have to wait around a really long time to find out that the test hung a long time ago.\n\nThat\u0027s true, but OTOH if you have a specific test and you know that it hangs quickly, you can set a very short deadline for it to iterate much more quickly without needing to muck with code changes.",
+      "parentUuid": "677d8364_9558a048",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 3
+      },
+      "revId": "fd1f7dbe02fd4f93d7ad447b7ee9bed63b083d62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "152e353f_0b1c9770",
         "filename": "src/internal/testenv/testenv.go",
         "patchSetId": 1
@@ -116,6 +140,24 @@
       "side": 1,
       "message": "I\u0027ve got a new version of golang.org/cl/370705 that is more careful to clean up goroutines and avoid leaking timers. Take a look at that CL? I\u0027m not sure I want to slowly approach a better version of RunWithTimeout versus doing the one-shot rewrite I did.",
       "parentUuid": "152e353f_0b1c9770",
+      "revId": "fd1f7dbe02fd4f93d7ad447b7ee9bed63b083d62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef01ec51_4e874b12",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-09T22:49:56Z",
+      "side": 1,
+      "message": "I\u0027m kind of out of bandwidth for the day, but I\u0027ll take a look at that one tomorrow morning.",
+      "parentUuid": "1d85ce97_9295dd14",
       "revId": "fd1f7dbe02fd4f93d7ad447b7ee9bed63b083d62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
