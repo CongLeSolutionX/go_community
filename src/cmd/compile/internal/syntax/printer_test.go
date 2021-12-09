@@ -62,6 +62,23 @@ var stringTests = []string{
 	"package p; type _[A, B, C interface{m()}] struct{}",
 	"package p; type _[T any, A, B, C interface{m()}, X, Y, Z interface{~int}] struct{}",
 
+	"package p; type _[P *T,] struct{}",
+	"package p; type _[P *T, _ any] struct{}",
+	// TODO(gri) adjust test harness because these are correctly printed without the (unneeded) parentheses.
+	// "package p; type _[P (T),] struct{}",
+	// "package p; type _[P (T), _ any] struct{}",
+
+	"package p; type _[P *struct{}] struct{}",
+	"package p; type _[P **struct{}] struct{}",
+	// TODO(gri) adjust test harness because these are correctly printed without the (unneeded) comma or parentheses.
+	// "package p; type _[P ([]int)] struct{}",
+	// "package p; type _[P ([]int),] struct{}",
+
+	// array type declarations
+	"package p; type _ [P * T]struct{}",
+	"package p; type _ [P * *T]struct{}",
+	"package p; type _ [P * T - T]struct{}",
+
 	// generic function declarations
 	"package p; func _[T any]()",
 	"package p; func _[A, B, C interface{m()}]()",
