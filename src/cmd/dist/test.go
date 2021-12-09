@@ -182,6 +182,10 @@ func (t *tester) run() {
 		if err != nil {
 			fatalf("failed to parse $GO_TEST_TIMEOUT_SCALE = %q as integer: %v", s, err)
 		}
+	} else if t.timeoutScale != 1 {
+		// Export the computed timeout scale to the
+		// environment so tests can consult it.
+		os.Setenv("GO_TEST_TIMEOUT_SCALE", strconv.Itoa(t.timeoutScale))
 	}
 
 	if t.runRxStr != "" {
