@@ -11,10 +11,10 @@
 package testenv
 
 import (
-	"bytes"
 	"errors"
 	"flag"
 	"internal/cfg"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -311,51 +311,124 @@ func SkipIfShortAndSlow(t testing.TB) {
 
 // RunWithTimeout runs cmd and returns its combined output. If the
 // subprocess exits with a non-zero status, it will log that status
-// and return a non-nil error, but this is not considered fatal.
+// and return a non-nil error, but this is not considered fatal. If
+// the subprocess times out, it will call t.Fatal with its captured
+// output.
 func RunWithTimeout(t testing.TB, cmd *exec.Cmd) ([]byte, error) {
 	args := cmd.Args
 	if args == nil {
 		args = []string{cmd.Path}
 	}
 
-	var b bytes.Buffer
-	cmd.Stdout = &b
-	cmd.Stderr = &b
+	// Create a pipe. We don't use a bytes.Buffer directly because
+	// we may need to cut this off before sub-sub-processes are
+	// done writing to stdout/stderr. The pipe gives us a clean
+	// circuit breaker.
+	r, w, err := os.Pipe()
+	if err != nil {
+		t.Fatalf("creating subprocess pipe: %v", err)
+	}
+	defer w.Close()
+	cmd.Stdout = w
+	cmd.Stderr = w
+
+	// Start the process.
 	if err := cmd.Start(); err != nil {
 		t.Fatalf("starting %s: %v", args, err)
 	}
 
-	// If the process doesn't complete within 1 minute,
-	// assume it is hanging and kill it to get a stack trace.
-	p := cmd.Process
-	done := make(chan bool)
+	// Capture stdout/stderr in a way we can synchronously stop.
+	var bmu sync.Mutex
+	b := make([]byte, 0)
+	readDone := make(chan bool)
 	go func() {
-		scale := 1
-		if s := os.Getenv("GO_TEST_TIMEOUT_SCALE"); s != "" {
-			if sc, err := strconv.Atoi(s); err == nil {
-				scale = sc
+		buf := make([]byte, 512)
+		for {
+			n, err := r.Read(buf)
+			if n > 0 {
+				bmu.Lock()
+				// The command can exit while sub-processes
+				// are still writing to stdout. If this
+				// happened, stop writing to the output
+				// stream.
+				if b == nil {
+					break
+				}
+				b = append(b, buf[:n]...)
+				bmu.Unlock()
+			}
+			if err != nil {
+				if err != io.EOF {
+					t.Logf("reading from subprocess: %v", err)
+				}
+				break
 			}
 		}
-
-		select {
-		case <-done:
-		case <-time.After(time.Duration(scale) * time.Minute):
-			p.Signal(Sigquit)
-			// If SIGQUIT doesn't do it after a little
-			// while, kill the process.
-			select {
-			case <-done:
-			case <-time.After(30 * time.Second):
-				p.Signal(os.Kill)
-			}
-		}
+		r.Close()
+		close(readDone)
 	}()
 
-	err := cmd.Wait()
-	if err != nil {
-		t.Logf("%s exit status: %v", args, err)
-	}
-	close(done)
+	// Wait for the process to exit.
+	done := make(chan error)
+	go func() {
+		err := cmd.Wait()
+		if err != nil {
+			done <- err
+		}
+		close(done)
+	}()
 
-	return b.Bytes(), err
+	// If the process doesn't complete within 1 minute,
+	// assume it is hanging and kill it to get a stack trace.
+	scale := 1
+	if s := os.Getenv("GO_TEST_TIMEOUT_SCALE"); s != "" {
+		if sc, err := strconv.Atoi(s); err == nil {
+			scale = sc
+		}
+	}
+
+	timeout := false
+	var procErr error
+	select {
+	case procErr = <-done:
+	case <-time.After(time.Duration(scale) * time.Minute):
+		timeout = true
+		cmd.Process.Signal(Sigquit)
+		// If SIGQUIT doesn't do it after a little
+		// while, kill the process.
+		select {
+		case <-done:
+		case <-time.After(30 * time.Second):
+			cmd.Process.Signal(os.Kill)
+			<-done
+		}
+	}
+
+	// Wait a little bit for the stdout/stderr reader to catch up.
+	// Don't wait too long because there could still be
+	// subprocesses writing to the stdout pipe. But we need to
+	// wait a little because even if there aren't, the pipe is
+	// asynchronous so we could still be reading output from it.
+	// Usually we won't have to wait at all.
+	select {
+	case <-readDone:
+	case <-time.After(1 * time.Second):
+	}
+
+	// Cut off stdout/stderr and capture the output.
+	bmu.Lock()
+	output := b
+	b = nil
+	bmu.Unlock()
+
+	// If the subprocess timed out, fail now.
+	if timeout {
+		t.Fatalf("%s timed out with output:\n%s", args, string(output))
+	}
+	// Warn on non-zero exit status.
+	if procErr != nil {
+		t.Logf("%s exit status: %v", args, procErr)
+	}
+
+	return output, procErr
 }
