@@ -11,10 +11,10 @@
 package testenv
 
 import (
-	"bytes"
 	"errors"
 	"flag"
 	"internal/cfg"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -311,56 +311,132 @@ func SkipIfShortAndSlow(t testing.TB) {
 
 // RunWithTimeout runs cmd and returns its combined output. If the
 // subprocess exits with a non-zero status, it will log that status
-// and return a non-nil error, but this is not considered fatal.
-func RunWithTimeout(t testing.TB, cmd *exec.Cmd) ([]byte, error) {
+// and the command's output and return a non-nil error (the caller may
+// want to call t.FailNow). If the subprocess times out, it will call
+// t.Fatal with its captured output.
+func RunWithTimeout(t *testing.T, cmd *exec.Cmd) ([]byte, error) {
 	args := cmd.Args
 	if args == nil {
 		args = []string{cmd.Path}
 	}
 
-	var b bytes.Buffer
-	cmd.Stdout = &b
-	cmd.Stderr = &b
+	// Create a pipe. We don't use a bytes.Buffer directly because
+	// we may need to cut this off before sub-sub-processes are
+	// done writing to stdout/stderr. The pipe gives us a clean
+	// circuit breaker.
+	r, w, err := os.Pipe()
+	if err != nil {
+		t.Fatalf("creating subprocess pipe: %v", err)
+	}
+	defer w.Close()
+	cmd.Stdout = w
+	cmd.Stderr = w
+
+	// Start the process.
 	if err := cmd.Start(); err != nil {
 		t.Fatalf("starting %s: %v", args, err)
 	}
 
-	// If the process doesn't complete within 1 minute,
-	// assume it is hanging and kill it to get a stack trace.
-	p := cmd.Process
-	done := make(chan bool)
+	// Capture stdout/stderr in a way we can synchronously stop.
+	b := make([]byte, 0)
+	readDone := make(chan bool)
 	go func() {
-		scale := 1
-		// This GOARCH/GOOS test is copied from cmd/dist/test.go.
-		// TODO(iant): Have cmd/dist update the environment variable.
-		if runtime.GOARCH == "arm" || runtime.GOOS == "windows" {
-			scale = 2
-		}
-		if s := os.Getenv("GO_TEST_TIMEOUT_SCALE"); s != "" {
-			if sc, err := strconv.Atoi(s); err == nil {
-				scale = sc
+		buf := make([]byte, 512)
+		for {
+			n, err := r.Read(buf)
+			if n > 0 {
+				b = append(b, buf[:n]...)
+			}
+			if err != nil {
+				// We expect EOF if the subprocess
+				// exited cleanly or ErrClosed if we
+				// force closed r.
+				if err != io.EOF && !errors.Is(err, os.ErrClosed) {
+					t.Logf("reading from subprocess: %v", err)
+				}
+				break
 			}
 		}
-
-		select {
-		case <-done:
-		case <-time.After(time.Duration(scale) * time.Minute):
-			p.Signal(Sigquit)
-			// If SIGQUIT doesn't do it after a little
-			// while, kill the process.
-			select {
-			case <-done:
-			case <-time.After(time.Duration(scale) * 30 * time.Second):
-				p.Signal(os.Kill)
-			}
-		}
+		r.Close()
+		close(readDone)
 	}()
 
-	err := cmd.Wait()
-	if err != nil {
-		t.Logf("%s exit status: %v", args, err)
-	}
-	close(done)
+	// Wait for the process to exit.
+	done := make(chan error)
+	go func() {
+		err := cmd.Wait()
+		if err != nil {
+			done <- err
+		}
+		close(done)
+	}()
 
-	return b.Bytes(), err
+	// Compute the timeout based on the remaining time until the
+	// test process is killed.
+	gracePeriod := 30 * time.Second
+	timeout := 5 * time.Minute
+	if deadline, ok := t.Deadline(); ok {
+		// Reserve two grace periods. After the timeout, we'll
+		// send a SIGQUIT and wait one grace period for the
+		// subprocess to produce useful debug output and exit
+		// before sending a SIGKILL, allowing one more grace
+		// period for the test process to clean up before it's
+		// killed.
+		timeout := time.Until(deadline)
+		timeout -= 2 * gracePeriod
+		if min := 1 * time.Second; timeout < min {
+			timeout = min
+		}
+	}
+
+	var procErr error
+	timedout := false
+	timer := time.NewTimer(timeout)
+	select {
+	case procErr = <-done:
+		timer.Stop()
+	case <-timer.C:
+		timedout = true
+		cmd.Process.Signal(Sigquit)
+		// If SIGQUIT doesn't do it after a little
+		// while, kill the process.
+		timer.Reset(gracePeriod)
+		select {
+		case <-done:
+			timer.Stop()
+		case <-timer.C:
+			cmd.Process.Signal(os.Kill)
+			// Join the waiter goroutine.
+			<-done
+		}
+	}
+
+	// Wait a little bit for the stdout/stderr reader to catch up.
+	// Don't wait too long because there could still be
+	// subprocesses writing to the stdout pipe. But we need to
+	// wait a little because even if there aren't, the pipe is
+	// asynchronous so we could still be reading output from it.
+	// Usually we won't have to wait at all.
+	timer = time.NewTimer(1 * time.Second)
+	select {
+	case <-readDone:
+		timer.Stop()
+	case <-timer.C:
+		// Force it to shut down and clean up the reader.
+		r.Close()
+		// Join the reader goroutine.
+		<-readDone
+	}
+	// At this point, b will not be written to.
+
+	// If the subprocess timed out, fail now.
+	if timedout {
+		t.Fatalf("%s timed out after %s with output:\n%s", args, timeout, string(b))
+	}
+	// Warn on non-zero exit status.
+	if procErr != nil {
+		t.Logf("%s exit status: %v\noutput:\n%s", args, procErr, string(b))
+	}
+
+	return b, procErr
 }
