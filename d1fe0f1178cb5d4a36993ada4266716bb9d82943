@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6cd90fc_cdac44db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-09T20:41:20Z",
+      "side": 1,
+      "message": "Process groups would give us a way to kill the whole process tree (at least as long as nothing starts its own process group), but have the downside that now we\u0027re responsible for all job control of that process group. E.g., if someone Ctrl-C\u0027s the test, the test has to catch that signal and forward it to the process group. I\u0027ve done this before and even in really constrained environments where you know everything the binary is doing, it\u0027s just really awful. It just gets worse in an environment where parallel tests could be creating multiple subprocess trees that you have to manage.\n\n(PID namespaces let you do this cleanly, but are of course totally non-portable.)",
+      "parentUuid": "95904bd9_1b89a563",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 18,
+        "endChar": 44
+      },
+      "revId": "d1fe0f1178cb5d4a36993ada4266716bb9d82943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d8d09c2_16335d51",
@@ -91,6 +115,30 @@
       "writtenOn": "2021-12-09T19:40:11Z",
       "side": 1,
       "message": "should there be an unlock here?",
+      "range": {
+        "startLine": 355,
+        "startChar": 5,
+        "endLine": 355,
+        "endChar": 10
+      },
+      "revId": "d1fe0f1178cb5d4a36993ada4266716bb9d82943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d90149a_27fc03f5",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-09T20:41:20Z",
+      "side": 1,
+      "message": "Ah, yes. Technically this won\u0027t harm anything, but that\u0027s too subtle.",
+      "parentUuid": "978f4760_8f65e609",
       "range": {
         "startLine": 355,
         "startChar": 5,
