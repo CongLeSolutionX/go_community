@@ -331,11 +331,6 @@ func RunWithTimeout(t testing.TB, cmd *exec.Cmd) ([]byte, error) {
 	done := make(chan bool)
 	go func() {
 		scale := 1
-		// This GOARCH/GOOS test is copied from cmd/dist/test.go.
-		// TODO(iant): Have cmd/dist update the environment variable.
-		if runtime.GOARCH == "arm" || runtime.GOOS == "windows" {
-			scale = 2
-		}
 		if s := os.Getenv("GO_TEST_TIMEOUT_SCALE"); s != "" {
 			if sc, err := strconv.Atoi(s); err == nil {
 				scale = sc
