@@ -4,7 +4,10 @@
 
 package net
 
-import "syscall"
+import (
+	"errors"
+	"syscall"
+)
 
 var (
 	errTimedout       = syscall.ETIMEDOUT
@@ -16,4 +19,8 @@ var (
 func isPlatformError(err error) bool {
 	_, ok := err.(syscall.Errno)
 	return ok
+}
+
+func isENOBUFS(err error) bool {
+	return errors.Is(err, syscall.ENOBUFS)
 }
