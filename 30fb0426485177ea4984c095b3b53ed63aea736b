@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ae5a2ae_9d6eb0a4",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2021-12-10T04:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8edf04b_4e2870e0",
+      "revId": "30fb0426485177ea4984c095b3b53ed63aea736b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8df9f38_93bed5ca",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-12-09T20:33:25Z",
       "side": 1,
       "message": "Should have a space between ` and ≡.",
+      "revId": "30fb0426485177ea4984c095b3b53ed63aea736b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1adfba2_407223b2",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2021-12-10T04:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8df9f38_93bed5ca",
       "revId": "30fb0426485177ea4984c095b3b53ed63aea736b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
