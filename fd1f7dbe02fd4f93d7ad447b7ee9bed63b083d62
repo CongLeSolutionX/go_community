@@ -133,6 +133,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4172b772_e1d10aa2",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-10T22:27:46Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to leave this one as a straight copy. 👍",
+      "parentUuid": "3c770c0f_a86805ab",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 3
+      },
+      "revId": "fd1f7dbe02fd4f93d7ad447b7ee9bed63b083d62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "152e353f_0b1c9770",
