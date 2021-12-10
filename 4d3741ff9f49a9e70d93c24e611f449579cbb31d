@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1c25694_f260c799",
+        "filename": "src/cmd/go/testdata/script/version_buildvcs_git_gpg.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-10T18:58:50Z",
+      "side": 1,
+      "message": "This command line alone would require three `exec` constraints (for `sh`, `gpg`, and `awk`). 😅\n\nGenerally if we need to postprocess or generate things in script tests we write a small Go program in the same script, which we can then execute using `go run` without the need for other utilities.\n\n(For example, see https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/build_trimpath_cgo.txt.)",
+      "parentUuid": "33e4f8ac_49124b4b",
+      "revId": "4d3741ff9f49a9e70d93c24e611f449579cbb31d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "28e1cf9b_c049b974",
         "filename": "src/cmd/go/testdata/script/version_buildvcs_git_gpg.txt",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2021-12-10T18:38:25Z",
       "side": 1,
       "message": "Does this scripting language support storing command output in a variable so I don\u0027t have to shell out in this situation?",
+      "revId": "4d3741ff9f49a9e70d93c24e611f449579cbb31d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c7a3002_92af2cf0",
+        "filename": "src/cmd/go/testdata/script/version_buildvcs_git_gpg.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-10T18:58:50Z",
+      "side": 1,
+      "message": "Not sure about a variable, but you can definitely copy it to a file. (For example: https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/test_race_install_cgo.txt;l\u003d8-11;drc\u003d9bc52686da81b515cf3ad654dfb1a536fabceafa)",
+      "parentUuid": "28e1cf9b_c049b974",
       "revId": "4d3741ff9f49a9e70d93c24e611f449579cbb31d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
