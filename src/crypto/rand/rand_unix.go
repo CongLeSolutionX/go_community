@@ -37,6 +37,49 @@ type reader struct {
 // urandom-style randomness.
 var altGetRandom func([]byte) (ok bool)
 
+// batched returns a function that calls f to populate a []byte by chunking it
+// into subslices of, at most, readMax bytes, buffering min(readMax, 4096)
+// bytes at a time.
+func batched(f func([]byte) bool, readMax int) func([]byte) bool {
+	bufferSize := 4096
+	if bufferSize > readMax {
+		bufferSize = readMax
+	}
+	fullBuffer := make([]byte, bufferSize)
+	var buf []byte
+	return func(out []byte) bool {
+		// First we copy any amount remaining in the buffer.
+		n := copy(out, buf)
+		out, buf = out[n:], buf[n:]
+
+		// Then, if we're requesting more than the buffer size,
+		// generate directly into the buffer, chunked by readMax.
+		for len(out) >= len(fullBuffer) {
+			read := len(out)
+			if read > readMax {
+				read = readMax
+			}
+			if !f(out[:read]) {
+				return false
+			}
+			out = out[read:]
+		}
+
+		// If there's a partial block left over, fill the buffer,
+		// and copy in the remainder.
+		if len(out) > 0 {
+			buf = fullBuffer[:]
+			if !f(buf) {
+				return false
+			}
+			n = copy(out, buf)
+			out, buf = out[n:], buf[n:]
+		}
+
+		return true
+	}
+}
+
 func warnBlocked() {
 	println("crypto/rand: blocked for 60 seconds waiting to read random data from the kernel")
 }
@@ -48,11 +91,11 @@ func (r *reader) Read(b []byte) (n int, err error) {
 		t := time.AfterFunc(time.Minute, warnBlocked)
 		defer t.Stop()
 	}
+	r.mu.Lock()
+	defer r.mu.Unlock()
 	if altGetRandom != nil && altGetRandom(b) {
 		return len(b), nil
 	}
-	r.mu.Lock()
-	defer r.mu.Unlock()
 	if r.f == nil {
 		f, err := os.Open(urandomDevice)
 		if err != nil {
