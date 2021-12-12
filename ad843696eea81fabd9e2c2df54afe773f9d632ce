@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f20f81d_abfc9ab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2021-12-12T14:37:57Z",
+      "side": 1,
+      "message": "TRY\u003dfreebsd-386-11_2,freebsd-386-11_4,freebsd-386-12_2,freebsd-386-13_0,freebsd-amd64-11_2,freebsd-amd64-11_4,freebsd-amd64-12_2,freebsd-amd64-13_0,freebsd-amd64-race,freebsd-arm64-dmgk",
+      "revId": "ad843696eea81fabd9e2c2df54afe773f9d632ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
