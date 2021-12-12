@@ -51,6 +51,24 @@
       "message": "Merging since https://go-review.googlesource.com/c/go/+/371114 was also merged for the same type of problem.",
       "revId": "70d523b9ea3ce8ab210adfe79c32bb2b9b6cd42d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6238d67_15996c03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2021-12-12T16:06:51Z",
+      "side": 1,
+      "message": "Once trybots pass!",
+      "parentUuid": "a2a9554e_e3c91d92",
+      "revId": "70d523b9ea3ce8ab210adfe79c32bb2b9b6cd42d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
