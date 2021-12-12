@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "814486e2_08045504",
+        "filename": "src/net/netip/netip_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2021-12-12T15:55:59Z",
+      "side": 0,
+      "message": "This no longer round trips due to the corrected 4-in-6 behavior, so removed.",
+      "revId": "56817040d53187abcd568af0eea27cc21379c0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
